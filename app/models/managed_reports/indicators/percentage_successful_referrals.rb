@@ -71,7 +71,7 @@ class ManagedReports::Indicators::PercentageSuccessfulReferrals < ManagedReports
           #{join_statuses_values}
           #{join_searchable_scope_query}
           #{join_reporting_locations}
-          #{join_services}
+          #{join_services(params['service_type'])}
           WHERE data @? '$.services_section ? (@.service_status_referred == true)'
         ),
         referred_services AS (
@@ -120,7 +120,7 @@ class ManagedReports::Indicators::PercentageSuccessfulReferrals < ManagedReports
     end
 
     # rubocop:disable Metrics/MethodLength
-    def join_services
+    def join_services(service_type_param = nil)
       ActiveRecord::Base.sanitize_sql_for_conditions(
         [
           %(
@@ -131,7 +131,9 @@ class ManagedReports::Indicators::PercentageSuccessfulReferrals < ManagedReports
                 services_section->>'service_implemented' AS service_implemented,
                 services_section->>'unique_id' AS service_unique_id
               FROM JSONB_ARRAY_ELEMENTS(data->'services_section') AS services_section
-              WHERE services_section @? '$[*] ? (@.service_status_referred == true)'
+              WHERE services_section @? '$[*]
+                ? (@.service_status_referred == true)
+                #{filter_service_type(service_type_param&.value)&.prepend('? ')}'
             ) AS services
            ),
           { format: Report::DATE_TIME_FORMAT }
@@ -139,6 +141,12 @@ class ManagedReports::Indicators::PercentageSuccessfulReferrals < ManagedReports
       )
     end
     # rubocop:enable Metrics/MethodLength
+
+    def filter_service_type(service_type)
+      return unless service_type.present?
+
+      ActiveRecord::Base.sanitize_sql_for_conditions(['(@.service_type == "%s")', service_type])
+    end
 
     # rubocop:disable Metrics/MethodLength
     def join_referrals(date_param)

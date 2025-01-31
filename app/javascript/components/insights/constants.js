@@ -761,7 +761,12 @@ export const INSIGHTS_CONFIG = {
         display_name: REPORTING_LOCATIONS_DISPLAY_NAME,
         option_strings_source: LOOKUPS.reporting_locations
       },
-
+      {
+        name: SERVICES,
+        type: SELECT_FIELD,
+        display_name: SERVICES_DISPLAY_NAME,
+        option_strings_source: LOOKUPS.service_type
+      },
       {
         name: DATE,
         display_name: FILTER_BY_DATE_DISPLAY_NAME,

@@ -184,7 +184,9 @@ class ManagedReport < ValueObject
         description: 'managed_reports.process_quality_successful_referrals.description',
         subreports: %w[process_quality_successful_referrals],
         permitted_filters: [
-          :grouped_by, :by, :location, { status: {}, service_response_day_time: {}, referral_created_at: {} }
+          :grouped_by, :by, :location, :service_type, {
+            status: {}, service_response_day_time: {}, referral_created_at: {}
+          }
         ],
         module_id: 'primeromodule-pcm' # TODO: What to do?
       ),
