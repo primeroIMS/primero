@@ -24,8 +24,23 @@ import handleSuccess from "./handle-success";
 import FetchError from "./fetch-error";
 import getCSRFToken from "./get-csrf-token";
 
+let abortFollowingRequest = false;
+
 const fetchSinglePayload = async (action, store, options) => {
   const controller = new AbortController();
+
+  if (action.type === 'user/LOGOUT') {
+    abortFollowingRequest = true;
+  }
+
+  if (['user/LOGIN', 'connectivity/SERVER_STATUS'].includes(action.type)) {
+    abortFollowingRequest = false
+  }
+
+  console.log('abortFollowingRequest', abortFollowingRequest, action)
+  if (abortFollowingRequest && action.type !== 'user/LOGOUT') {
+    return false;
+  }
 
   setTimeout(() => {
     controller.abort();
@@ -101,6 +116,8 @@ const fetchSinglePayload = async (action, store, options) => {
         fetchStatus({ store, type }, "FAILURE", json);
 
         if (status === 401) {
+          abortFollowingRequest = true
+
           if (action.type === userActions.FETCH_USER_DATA) {
             throw new Error(window.I18n.t("error_message.error_401"));
           }

@@ -23,10 +23,11 @@ class Api::V2::TokensController < Devise::SessionsController
   end
 
   def create
+    warden.logout(resource_name) if !current_user_match_params? && user_name_param.present?
+
     if Rails.configuration.x.idp.use_identity_provider
       create_idp
     else
-      sign_out unless current_user_match_params?
       super
     end
   end
@@ -39,6 +40,11 @@ class Api::V2::TokensController < Devise::SessionsController
     else
       fail_to_authorize!(auth_options)
     end
+  end
+
+  def destroy
+    session[:expires_at] = 30.minutes.ago
+    super
   end
 
   def fail_to_authorize!(opts)
@@ -70,7 +76,11 @@ class Api::V2::TokensController < Devise::SessionsController
     IdpTokenStrategy.token_from_header(request.headers)
   end
 
+  def user_name_param
+    sign_in_params[resource_class.authentication_keys.first]
+  end
+
   def current_user_match_params?
-    current_user.user_name == params[:user][:user_name] if current_user.present?
+    current_user.user_name == user_name_param
   end
 end
