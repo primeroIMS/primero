@@ -63,7 +63,7 @@ class PrimeroModule < ApplicationRecord
     :user_group_filter, :use_webhooks_for, :use_webhook_sync_for, :consent_form,
     :list_filters, :list_headers, :primary_age_range, :approval_forms_to_alert,
     :approvals_labels_i18n, :changes_field_to_form, :search_and_create_workflow,
-    :violation_type_field, :creation_field_map
+    :violation_type_field, :creation_field_map, :data_protection_case_create_field_names
   )
 
   localize_jsonb_properties %i[approvals_labels]
