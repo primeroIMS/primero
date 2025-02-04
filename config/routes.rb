@@ -107,6 +107,7 @@ Rails.application.routes.draw do
           get :'refer-to', to: 'users_transitions#refer_to'
           post :'password-reset-request', to: 'password_reset#password_reset_request'
           post :'password-reset', to: 'password_reset#password_reset'
+          get :export, to: 'users#export'
         end
       end
       resources :identity_providers, only: [:index]
@@ -124,6 +125,7 @@ Rails.application.routes.draw do
         end
       end
       resources :bulk_exports, as: :exports, path: :exports, only: %i[index show create destroy]
+      resources :usage_reports
       get 'alerts', to: 'alerts#bulk_index'
       resources :agencies
       resources :webhooks

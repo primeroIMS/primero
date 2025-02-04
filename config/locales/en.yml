@@ -135,6 +135,14 @@ en:
     include_hidden: Include hidden forms and fields?
     file_name: Create your own file name (Optional)
     success_message: Successfully generated the export file
+  usage_report:
+    label: Export System KPIs
+    file_name: Create your own file name
+    success_message: Successfully generated the export file
+    from_date_required: Please select a From date
+    to_date_required: Please select a To date
+    filename_required: Please select a Filename
+    to_smaller_than_from: To date should not be smaller than From date
   buttons:
     accept: Accept
     add: Add
@@ -2502,6 +2510,7 @@ en:
       write: Write
       activity_log: Activity Log
       remove_alert: Remove Alert
+      usage_report: Usage Report
     resource:
       kpi:
         actions:
@@ -2610,6 +2619,13 @@ en:
         explanation: Filterable list of all actions performed in the system. Does not
           include any identifiable information on Cases, Incidents, or Tracing Requests.
         label: Audit Log
+      usage_report:
+        actions:
+          read:
+            explanation: User can generate a XLS file export.
+            label: View
+        explanation: User can generate a XLS file export.
+        label: Usage Log
       case:
         actions:
           add_note:
@@ -4188,6 +4204,7 @@ en:
       users: Users
       roles: Roles
       code_of_conduct: Code of Conduct
+      usage_reports: Usage Reports
     title: Settings
   system_settings:
     label: System Settings

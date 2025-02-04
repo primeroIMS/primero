@@ -5,6 +5,7 @@
 # Users CRUD API
 class Api::V2::UsersController < ApplicationApiController
   include Api::V2::Concerns::Pagination
+  include Api::V2::Concerns::Export
   include Api::V2::Concerns::JsonValidateParams
 
   before_action :load_user, only: %i[show update destroy]

@@ -9,7 +9,7 @@ import actions from "./actions";
 export const saveExport = (body, message, actionLabel) => ({
   type: actions.EXPORT,
   api: {
-    path: "exports",
+    path: "usage_reports",
     method: "POST",
     body,
     successCallback: [
@@ -22,7 +22,7 @@ export const saveExport = (body, message, actionLabel) => ({
             key: generate.messageKey(message)
           },
           actionLabel,
-          actionUrl: "/exports"
+          actionUrl: "/usage_reports"
         }
       },
       {
