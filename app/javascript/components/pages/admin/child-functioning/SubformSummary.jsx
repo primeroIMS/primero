@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import childFunctioningSummaryData from './childFunctioningSummaryData';
 
 const formatKey = (key) =>
@@ -12,29 +13,26 @@ const formatValue = (key, value) => {
       return `${value.replace("_", " to ")} years`;
     if (value.includes("_"))
       return value.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
-    if (!isNaN(Date.parse(value))) return new Date(value).toLocaleDateString();
+    if (!Number.isNaN(Date.parse(value))) return new Date(value).toLocaleDateString();  // Fixed here
     return value;
   }
   return value; // Handle non-string values
 };
 
 const SubformSummary = ({ latestValue }) => {
-  
   if (!latestValue) return null;
-  // Track already displayed keys to prevent duplicates
+
   const displayedKeys = new Set();
   return (
     <>
-      {latestValue.cfm_start !== "" ?<h3>Summary</h3>:null}
+      {latestValue.cfm_start && <h3>Summary</h3>}
       {childFunctioningSummaryData.map((field) => {
         const key = typeof field.key === "function" ? field.key(latestValue) : field.key;
-
-        if (!key || displayedKeys.has(key)) return null; // Skip invalid keys or already displayed keys
+        if (!key || displayedKeys.has(key)) return null;
 
         const value = latestValue[key];
-        if (!value || value === "N/A" || value === "") return null; // Skip invalid values
+        if (!value || value === "N/A" || value === "") return null;
 
-        // Mark the key as displayed
         displayedKeys.add(key);
         return (
           <div key={key} style={{ marginBottom: "8px" }}>
@@ -44,6 +42,18 @@ const SubformSummary = ({ latestValue }) => {
       })}
     </>
   );
+};
+
+SubformSummary.displayName = 'SubformSummary';  // Added display name
+
+SubformSummary.propTypes = {
+  latestValue: PropTypes.shape({
+    cfm_start: PropTypes.string
+  }),
+};
+
+SubformSummary.defaultProps = {
+  latestValue: null,
 };
 
 export default SubformSummary;
