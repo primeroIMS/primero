@@ -16,7 +16,7 @@ import { isFamilyDetailSubform, isFamilyMemberSubform, isViolationSubform } from
 import { GuidingQuestions } from "../../components";
 
 import { isEmptyOrAllDestroyed, isTracesSubform } from "./utils";
-
+import SubformSummary from "../../../../pages/admin/child-functioning/SubformSummary"
 function Component({
   arrayHelpers,
   field,
@@ -109,9 +109,15 @@ function Component({
       <GuidingQuestions label={i18n.t("buttons.guidance")} text={guidingQuestions[i18n.locale]} />
     </div>
   );
-
+  const latestValue = orderedValues === undefined ? null : orderedValues[orderedValues.length - 1]
   return (
     <div className={css.fieldArray} data-testid="subform-field-array">
+
+      {/* Conditionally Render Child Functioning Subform Summary */}
+      {title === 'Child Functioning Subform' && (
+        <SubformSummary latestValue={latestValue} />
+      )}
+
       <div className={cssContainer}>
         {!renderAsAccordion && (
           <div data-testid="subForm-header">
