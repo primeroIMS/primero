@@ -202,7 +202,7 @@ class ManagedReport < ValueObject
         id: 'case_characteristics',
         name: 'managed_reports.case_characteristics.name',
         description: 'managed_reports.case_characteristics.description',
-        subreports: %w[case_protection_risk case_risk_level case_duration clients_disability],
+        subreports: %w[case_protection_risk case_risk_level case_duration clients_disability case_safety_plan],
         permitted_filters: [
           :grouped_by, :by, :location, { status: {}, registration_date: {}, date_closure: {} }
         ],
