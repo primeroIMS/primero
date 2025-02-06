@@ -23,6 +23,7 @@ class Api::V2::TokensController < Devise::SessionsController
   end
 
   def create
+    # TODO: This may no longer be needed once we change to store session in the database will need to test
     warden.logout(resource_name) if !current_user_match_params? && user_name_param.present?
 
     if Rails.configuration.x.idp.use_identity_provider
@@ -42,6 +43,7 @@ class Api::V2::TokensController < Devise::SessionsController
     end
   end
 
+  # TODO: This will no longer be needed once we change to store session in the database
   def destroy
     session[:expires_at] = 30.minutes.ago
     super
