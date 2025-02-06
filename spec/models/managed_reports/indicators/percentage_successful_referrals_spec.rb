@@ -55,11 +55,13 @@ describe ManagedReports::Indicators::PercentageSuccessfulReferrals do
           unique_id: '1c9df758-d1d8-11ef-99e2-18c04db5c362',
           service_status_referred: true,
           service_implemented: 'not_implemented',
+          service_type: 'type1',
           service_response_day_time: '2021-10-06T10:05:08.350Z'
         },
         {
           unique_id: 'a31b5062-d1da-11ef-835d-18c04db5c362',
           service_implemented: 'not_implemented',
+          service_type: 'type2',
           service_response_day_time: '2021-10-07T08:05:08.350Z'
         }
       ]
@@ -78,12 +80,15 @@ describe ManagedReports::Indicators::PercentageSuccessfulReferrals do
           unique_id: '1046df62-d1db-11ef-b87d-18c04db5c362',
           service_implemented: 'implemented',
           service_status_referred: true,
-          service_response_day_time: '2021-10-09T11:35:08.350Z'
+          service_type: 'type1',
+          service_response_day_time: '2021-10-09T11:35:08.350Z',
+          service_implemented_day_time: '2021-10-12T08:05:08.350Z'
         },
         {
           unique_id: '21adebae-d1d8-11ef-ab62-18c04db5c362',
           service_status_referred: true,
           service_implemented: 'not_implemented',
+          service_type: 'type2',
           service_response_day_time: '2021-10-10T10:05:08.350Z'
         }
       ]
@@ -102,12 +107,15 @@ describe ManagedReports::Indicators::PercentageSuccessfulReferrals do
           unique_id: '22278df6-d1d8-11ef-967f-18c04db5c362',
           service_status_referred: true,
           service_implemented: 'implemented',
-          service_response_day_time: '2021-11-08T09:05:08.350Z'
+          service_type: 'type1',
+          service_response_day_time: '2021-11-08T09:05:08.350Z',
+          service_implemented_day_time: '2021-11-15T08:05:08.350Z'
         },
         {
           unique_id: '9d1c264e-d1dc-11ef-b92a-18c04db5c362',
           service_status_referred: true,
           service_implemented: 'not_implemented',
+          service_type: 'type3',
           service_response_day_time: '2021-11-09T12:35:08.350Z'
         }
       ]
@@ -126,17 +134,20 @@ describe ManagedReports::Indicators::PercentageSuccessfulReferrals do
           unique_id: '227fccd2-d1d8-11ef-bdf0-18c04db5c362',
           service_status_referred: true,
           service_implemented: 'not_implemented',
+          service_type: 'type3',
           service_response_day_time: '2021-10-09T08:15:08.350Z'
         },
         {
           unique_id: 'c4aaa866-d1dc-11ef-a3d6-18c04db5c362',
           service_implemented: 'not_implemented',
+          service_type: 'type3',
           service_response_day_time: '2021-10-10T12:35:08.350Z'
         },
         {
           unique_id: 'ccad48b6-d1dc-11ef-bf85-18c04db5c362',
           service_status_referred: true,
           service_implemented: 'not_implemented',
+          service_type: 'type2',
           service_response_day_time: '2021-10-11T08:35:08.350Z'
         }
       ]
@@ -237,7 +248,7 @@ describe ManagedReports::Indicators::PercentageSuccessfulReferrals do
   end
 
   before do
-    clean_data(Alert, Lookup, UserGroup, User, Agency, Role, Referral, Child)
+    clean_data(SearchableValue, SearchableDatetime, Alert, Lookup, UserGroup, User, Agency, Role, Referral, Child)
     referral1
     referral2
     referral3
@@ -248,7 +259,7 @@ describe ManagedReports::Indicators::PercentageSuccessfulReferrals do
   end
 
   after do
-    clean_data(Alert, Lookup, UserGroup, User, Agency, Role, Referral, Child)
+    clean_data(SearchableValue, SearchableDatetime, Alert, Lookup, UserGroup, User, Agency, Role, Referral, Child)
   end
 
   it 'returns data for average_cases_per_case_worker indicator' do
@@ -258,6 +269,19 @@ describe ManagedReports::Indicators::PercentageSuccessfulReferrals do
       [
         { id: 'implemented', male: 40.0, total: 28.57 },
         { id: 'not_implemented', female: 100.0, male: 60.0, total: 71.43 }
+      ]
+    )
+  end
+
+  it 'filters data for average_cases_per_case_worker indicator by service_type' do
+    report_data = ManagedReports::Indicators::PercentageSuccessfulReferrals.build(
+      nil, 'service_type' => SearchFilters::Value.new(field_name: 'service_type', value: 'type1')
+    ).data
+
+    expect(report_data).to match_array(
+      [
+        { id: 'implemented', male: 66.67, total: 66.67 },
+        { id: 'not_implemented', male: 33.33, total: 33.33 }
       ]
     )
   end
