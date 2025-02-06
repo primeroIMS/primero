@@ -37,21 +37,24 @@ module ManagedReports::SqlQueryHelpers
       end
     end
 
-    def searchable_equal_value_multiple(param, map_to = nil)
+    # rubocop:disable Metrics/MethodLength
+    def searchable_equal_value_multiple(param, table_name = 'searchable_values', map_to = nil)
       return unless param.present?
 
       field_name = map_to || param.field_name
+      table_alias = quoted_table_name(table_name)
 
       if param.respond_to?(:value)
         return ActiveRecord::Base.sanitize_sql_for_conditions(
-          ['(searchable_values.field_name = ? AND searchable_values.value = ?)', field_name, param.value]
+          ["(#{table_alias}.field_name = ? AND #{table_alias}.value = ?)", field_name, param.value]
         )
       end
 
       ActiveRecord::Base.sanitize_sql_for_conditions(
-        ['(searchable_values.field_name = ? AND searchable_values.value IN (?))', field_name, param.values]
+        ["(#{table_alias}.field_name = ? AND #{table_alias}.value IN (?))", field_name, param.values]
       )
     end
+    # rubocop:enable Metrics/MethodLength
 
     def equal_value_nested_query(param, _nested_field, table_name = nil, map_to = nil)
       return unless param.present?
@@ -158,16 +161,17 @@ module ManagedReports::SqlQueryHelpers
       )
     end
 
-    def searchable_date_range_query(param)
+    def searchable_date_range_query(param, table_name = 'searchable_datetimes')
       return unless param.present?
 
+      table_alias = quoted_table_name(table_name)
       ActiveRecord::Base.sanitize_sql_for_conditions(
         [
           %(
             (
-              searchable_datetimes.field_name = :field_name AND
-              searchable_datetimes.value >= to_timestamp(:from, :date_format) AND
-              searchable_datetimes.value <= (to_timestamp(:to, :date_format) + interval '1 day' - interval '1 second')
+              #{table_alias}.field_name = :field_name AND
+              #{table_alias}.value >= to_timestamp(:from, :date_format) AND
+              #{table_alias}.value <= (to_timestamp(:to, :date_format) + interval '1 day' - interval '1 second')
             )
           ), { field_name: param.field_name, from: param.from, to: param.to, date_format: Report::DATE_FORMAT }
         ]
@@ -210,16 +214,15 @@ module ManagedReports::SqlQueryHelpers
     end
 
     def quoted_query(table_name, column_name)
-      return ActiveRecord::Base.connection.quote_column_name(column_name) if table_name.blank?
+      return ActiveRecord::Base.sanitize_sql_for_conditions(['%s', column_name]) if table_name.blank?
 
-      quoted_column_name = column_name.present? ? ActiveRecord::Base.connection.quote_column_name(column_name) : nil
-      [quoted_table_name(table_name), quoted_column_name].compact.join('.')
+      ActiveRecord::Base.sanitize_sql_for_conditions(['%s.%s', table_name, column_name])
     end
 
     def quoted_table_name(table_name)
       return unless table_name.present?
 
-      ActiveRecord::Base.connection.quote_table_name(table_name)
+      ActiveRecord::Base.sanitize_sql_for_conditions(['%s', table_name])
     end
 
     def grouped_year_query(date_param, table_name = nil, hash_field = 'data', map_to = nil)
