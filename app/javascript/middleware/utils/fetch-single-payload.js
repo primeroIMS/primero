@@ -29,16 +29,15 @@ let abortFollowingRequest = false;
 const fetchSinglePayload = async (action, store, options) => {
   const controller = new AbortController();
 
-  if (action.type === 'user/LOGOUT') {
+  if (action.type === "user/LOGOUT") {
     abortFollowingRequest = true;
   }
 
-  if (['user/LOGIN', 'connectivity/SERVER_STATUS'].includes(action.type)) {
-    abortFollowingRequest = false
+  if (["user/LOGIN", "connectivity/SERVER_STATUS"].includes(action.type)) {
+    abortFollowingRequest = false;
   }
 
-  console.log('abortFollowingRequest', abortFollowingRequest, action)
-  if (abortFollowingRequest && action.type !== 'user/LOGOUT') {
+  if (abortFollowingRequest && action.type !== "user/LOGOUT") {
     return false;
   }
 
@@ -116,7 +115,7 @@ const fetchSinglePayload = async (action, store, options) => {
         fetchStatus({ store, type }, "FAILURE", json);
 
         if (status === 401) {
-          abortFollowingRequest = true
+          abortFollowingRequest = true;
 
           if (action.type === userActions.FETCH_USER_DATA) {
             throw new Error(window.I18n.t("error_message.error_401"));

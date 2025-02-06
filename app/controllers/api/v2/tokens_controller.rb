@@ -81,6 +81,6 @@ class Api::V2::TokensController < Devise::SessionsController
   end
 
   def current_user_match_params?
-    current_user.user_name == user_name_param
+    current_user&.user_name == user_name_param
   end
 end
