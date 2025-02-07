@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { SwapVert } from "@material-ui/icons";
+import { SwapVert } from "@mui/icons-material";
 import { useI18n } from "../../../i18n";
 import { PageHeading, PageContent } from "../../../page";
 import UsageReport from "./export/component";

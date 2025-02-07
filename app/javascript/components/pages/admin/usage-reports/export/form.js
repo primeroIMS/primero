@@ -2,7 +2,7 @@
 
 import { fromJS } from "immutable";
 
-import { FieldRecord, FormSectionRecord, TEXT_FIELD,DATE_FIELD,DATE_PICKER } from "../../../../../components/form";
+import { FieldRecord, FormSectionRecord, TEXT_FIELD,DATE_FIELD} from "../../../../../components/form";
 
 export const form = i18n => {
   return fromJS([
@@ -12,12 +12,12 @@ export const form = i18n => {
         FieldRecord({
           display_name: i18n.t("key_performance_indicators.date_range_dialog.from")+"*",
           name: "From",
-          type: DATE_PICKER          
+          type: DATE_FIELD          
         }),
         FieldRecord({
           display_name: i18n.t("key_performance_indicators.date_range_dialog.to")+"*",
           name: "To",         
-          type: DATE_PICKER        
+          type: DATE_FIELD        
         }),
         FieldRecord({
           name: "file_name",

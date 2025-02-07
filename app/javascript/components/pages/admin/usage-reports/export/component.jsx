@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import css from "./styles.css";
+import css from "./style.css";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
@@ -38,11 +38,10 @@ const Component = ({ close, i18n, open, pending, setPending }) => {
         export_format: "xlsx",
         record_type: "user",
         file_name: fileName,
-        selectedFromDate: getData.From,
-        selectedToDate: getData.To
+        selected_from_date: getData.From,
+        selected_to_date: getData.To
       };
       const data = { ...defaultBody };
-      setPending(true);
       setValidationError("");
       dispatch(
         saveExport(
