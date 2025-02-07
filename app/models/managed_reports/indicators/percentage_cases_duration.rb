@@ -5,6 +5,8 @@
 # An indicator that returns % of cases by duration
 # rubocop:disable Metrics/ClassLength
 class ManagedReports::Indicators::PercentageCasesDuration < ManagedReports::SqlReportIndicator
+  include ManagedReports::PercentageIndicator
+
   DATE_PARAM_CONFIG = {
     'date_closure' => { table_name: 'closure_dates' },
     'registration_date' => { table_name: 'registration_dates' }
@@ -158,60 +160,15 @@ class ManagedReports::Indicators::PercentageCasesDuration < ManagedReports::SqlR
 
     alias super_build_results build_results
     def build_results(results, params = {})
-      results_array = results.to_a
-      results_with_percentages = if results_array.any? { |result| result.key?('group_id') }
-                                   in_percentages_by_group(results_array)
-                                 else
-                                   in_percentages(results_array)
-                                 end
-
-      super_build_results(results_with_percentages, params)
+      super_build_results(results_in_percentages(results.to_a), params)
     end
 
-    def in_percentages_by_group(results)
-      total_by_fields = calculate_total_by_fields(%w[sex duration_range], results)
-      total_by_group = calculate_total_by_group(results)
-
-      results.map do |result|
-        total_records_in_group = total_by_group[result['group_id']]
-        result_in_percentages(result, total_by_fields, total_records_in_group).merge('group_id' => result['group_id'])
-      end
+    def fields
+      %w[sex duration_range]
     end
 
-    def in_percentages(results)
-      total_by_fields = calculate_total_by_fields(%w[sex duration_range], results)
-      total_records = BigDecimal(results.sum { |result| result['count'] })
-      results.map { |result| result_in_percentages(result, total_by_fields, total_records) }
-    end
-
-    def result_in_percentages(result, total_by_fields, total_records)
-      total_sex = total_by_fields[result_group_key(result, 'sex')]
-      total_duration = total_by_fields[result_group_key(result, 'duration_range')]
-      {
-        'name' => result['duration_range'],
-        'key' => result['sex'],
-        'sum' => ((result['count'] * 100) / total_sex).round(2),
-        'total' => ((total_duration * 100) / total_records).round(2)
-      }
-    end
-
-    def calculate_total_by_fields(fields, results)
-      fields.reduce({}) do |memo, field|
-        grouped_results = results.group_by { |result| result_group_key(result, field) }
-        memo.merge(
-          grouped_results.transform_values { |values| BigDecimal(values.sum { |value| value['count'] }) }
-        )
-      end
-    end
-
-    def calculate_total_by_group(results)
-      results.group_by { |result| result['group_id'] }.transform_values do |values|
-        BigDecimal(values.sum { |value| value['count'] })
-      end
-    end
-
-    def result_group_key(result, field)
-      [result['group_id'], result[field]].join('-')
+    def result_map
+      { 'key' => 'sex', 'name' => 'duration_range' }
     end
   end
 end
