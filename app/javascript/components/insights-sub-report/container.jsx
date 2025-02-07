@@ -104,7 +104,7 @@ function Component() {
   const incompleteDataLabel = i18n.t("managed_reports.incomplete_data");
 
   const translateId = valueID => {
-    if (isNil(valueID)) {
+    if (isNil(valueID) || valueID === "incomplete_data") {
       return incompleteDataLabel;
     }
 
