@@ -20,11 +20,7 @@ class ManagedReports::Indicators::PercentageCasesSafetyPlan < ManagedReports::Sq
         WITH disability_cases AS (
           SELECT
             #{date_query&.+(' AS group_id,')}
-            CASE
-              WHEN data->>'begin_safety_plan_prompt' = 'true'
-              THEN 'safety_plan_completed'
-              ELSE 'safety_plan_not_completed'
-            END AS safety_plan,
+            data->>'begin_safety_plan_prompt' AS safety_plan,
             data->>'sex' AS sex
           FROM cases
           #{join_searchable_next_steps}
@@ -105,7 +101,36 @@ class ManagedReports::Indicators::PercentageCasesSafetyPlan < ManagedReports::Sq
 
     alias super_build_results build_results
     def build_results(results, params = {})
-      super_build_results(results_in_percentages(results.to_a), params)
+      result_array = write_safety_plan_completion(results.to_a)
+      super_build_results(results_in_percentages(result_array), params)
+    end
+
+    def write_safety_plan_completion(results)
+      results.each_with_object([]) do |result, memo|
+        if result['safety_plan'] == 'true'
+          memo << result.merge('safety_plan' => 'safety_plan_completed')
+        else
+          recalculate_safety_plan_not_completed(memo, result)
+        end
+      end
+    end
+
+    def recalculate_safety_plan_not_completed(results, current)
+      safety_plan_not_completed = find_safety_plan_not_completed(results, current)
+      if safety_plan_not_completed.present?
+        safety_plan_not_completed['count'] += current['count']
+      else
+        results << current.merge('safety_plan' => 'safety_plan_not_completed')
+      end
+    end
+
+    def find_safety_plan_not_completed(results, opts)
+      results.find do |elem|
+        same_elem = elem['safety_plan'] == 'safety_plan_not_completed' && elem['sex'] == opts['sex']
+        next same_elem unless opts.key?('group_id')
+
+        opts['group_id'] == elem['group_id'] && same_elem
+      end
     end
 
     def fields

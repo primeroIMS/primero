@@ -65,7 +65,6 @@ describe ManagedReports::Indicators::PercentageCasesSafetyPlan do
 
   before do
     clean_data(SearchableValue, SearchableDatetime, Alert, Lookup, UserGroup, User, Agency, Role, Child)
-    DateTime.stub(:now).and_return(Time.utc(2022, 2, 15, 14, 5, 0))
     child1
     child2
     child3
@@ -180,10 +179,12 @@ describe ManagedReports::Indicators::PercentageCasesSafetyPlan do
             },
             {
               group_id: '2021-10-03 - 2021-10-09',
-              data: [
-                { id: 'safety_plan_completed', male: 50.0, total: 33.33 },
-                { id: 'safety_plan_not_completed', female: 100.0, male: 50.0, total: 66.67 }
-              ]
+              data: match_array(
+                [
+                  { id: 'safety_plan_completed', male: 50.0, total: 33.33 },
+                  { id: 'safety_plan_not_completed', female: 100.0, male: 50.0, total: 66.67 }
+                ]
+              )
             },
             {
               group_id: '2021-10-10 - 2021-10-16',
