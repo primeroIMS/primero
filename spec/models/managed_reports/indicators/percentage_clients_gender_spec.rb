@@ -4,13 +4,14 @@
 
 require 'rails_helper'
 
-describe ManagedReports::Indicators::PercentageCasesDuration do
+describe ManagedReports::Indicators::PercentageClientsGender do
   let(:child1) do
     Child.create!(
       data: {
         sex: 'male',
         registration_date: '2021-10-05',
         status: 'open',
+        gender: 'gender_1',
         next_steps: ['a_continue_protection_assessment']
       }
     )
@@ -21,8 +22,8 @@ describe ManagedReports::Indicators::PercentageCasesDuration do
       data: {
         sex: 'male',
         registration_date: '2021-10-08',
-        date_closure: '2021-11-08',
-        status: 'closed',
+        status: 'open',
+        gender: 'gender_3',
         next_steps: ['a_continue_protection_assessment']
       }
     )
@@ -45,6 +46,7 @@ describe ManagedReports::Indicators::PercentageCasesDuration do
         sex: 'female',
         registration_date: '2021-11-12',
         next_steps: ['a_continue_protection_assessment'],
+        gender: 'gender_2',
         status: 'open'
       }
     )
@@ -55,9 +57,9 @@ describe ManagedReports::Indicators::PercentageCasesDuration do
       data: {
         sex: 'female',
         registration_date: '2021-10-09',
-        date_closure: '2021-12-12',
         next_steps: ['a_continue_protection_assessment'],
-        status: 'closed'
+        gender: 'gender_3',
+        status: 'open'
       }
     )
   end
@@ -76,13 +78,15 @@ describe ManagedReports::Indicators::PercentageCasesDuration do
     clean_data(SearchableValue, SearchableDatetime, Alert, Lookup, UserGroup, User, Agency, Role, Child)
   end
 
-  it 'returns data for percentage_cases_duration indicator' do
-    report_data = ManagedReports::Indicators::PercentageCasesDuration.build(nil, {}).data
+  it 'returns data for percentage_clients_gender indicator' do
+    report_data = ManagedReports::Indicators::PercentageClientsGender.build(nil, {}).data
 
     expect(report_data).to match_array(
       [
-        { id: '1_3_months', female: 50.0, male: 33.33, total: 40.0 },
-        { id: '3_6_months', female: 50.0, male: 66.67, total: 60.0 }
+        { id: 'gender_1', total: 20.0 },
+        { id: 'gender_2', total: 20.0 },
+        { id: 'gender_3', total: 40.0 },
+        { id: 'incomplete_data', total: 20.0 }
       ]
     )
   end
@@ -90,7 +94,7 @@ describe ManagedReports::Indicators::PercentageCasesDuration do
   describe 'grouped by' do
     context 'when is year' do
       it 'should return results grouped by year' do
-        data = ManagedReports::Indicators::PercentageCasesDuration.build(
+        data = ManagedReports::Indicators::PercentageClientsGender.build(
           nil,
           {
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'year'),
@@ -108,8 +112,10 @@ describe ManagedReports::Indicators::PercentageCasesDuration do
               group_id: 2021,
               data: match_array(
                 [
-                  { id: '1_3_months', female: 50.0, male: 33.33, total: 40.0 },
-                  { id: '3_6_months', female: 50.0, male: 66.67, total: 60.0 }
+                  { id: 'gender_1', total: 20.0 },
+                  { id: 'gender_2', total: 20.0 },
+                  { id: 'gender_3', total: 40.0 },
+                  { id: 'incomplete_data', total: 20.0 }
                 ]
               )
             }
@@ -120,7 +126,7 @@ describe ManagedReports::Indicators::PercentageCasesDuration do
 
     context 'when is month' do
       it 'should return results grouped by month' do
-        data = ManagedReports::Indicators::PercentageCasesDuration.build(
+        data = ManagedReports::Indicators::PercentageClientsGender.build(
           nil,
           {
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'month'),
@@ -138,14 +144,19 @@ describe ManagedReports::Indicators::PercentageCasesDuration do
               group_id: '2021-10',
               data: match_array(
                 [
-                  { id: '1_3_months', female: 100.0, male: 50.0, total: 66.67 },
-                  { id: '3_6_months', male: 50.0, total: 33.33 }
+                  { id: 'gender_1', total: 33.33 },
+                  { id: 'gender_3', total: 66.67 }
                 ]
               )
             },
             {
               group_id: '2021-11',
-              data: match_array([{ id: '3_6_months', female: 100.0, male: 100.0, total: 100.0 }])
+              data: match_array(
+                [
+                  { id: 'gender_2', total: 50.0 },
+                  { id: 'incomplete_data', total: 50.0 }
+                ]
+              )
             }
           ]
         )
@@ -154,7 +165,7 @@ describe ManagedReports::Indicators::PercentageCasesDuration do
 
     context 'when is week' do
       it 'should return results grouped by week' do
-        data = ManagedReports::Indicators::PercentageCasesDuration.build(
+        data = ManagedReports::Indicators::PercentageClientsGender.build(
           nil,
           {
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'week'),
@@ -175,8 +186,8 @@ describe ManagedReports::Indicators::PercentageCasesDuration do
             {
               group_id: '2021-10-03 - 2021-10-09',
               data: [
-                { id: '1_3_months', male: 50.0, female: 100.0, total: 66.67 },
-                { id: '3_6_months', male: 50.0, total: 33.33 }
+                { id: 'gender_1', total: 33.33 },
+                { id: 'gender_3', total: 66.67 }
               ]
             },
             {
