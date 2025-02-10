@@ -2379,6 +2379,7 @@ en:
         case_risk_level: Cases by risk level
         case_duration: Cases by duration
         clients_disability: Clients with a disability
+        case_safety_plan: Cases with a safety plan
       description: Percentage of cases with each protection risk within gender and timeframe cohorts
       name: Case Characteristics
       filter_options:
@@ -2389,11 +2390,15 @@ en:
         percentage_cases_risk_level: '% of cases by risk level'
         percentage_cases_duration: '% of cases by duration'
         percentage_clients_with_disability: '% of clients that have a disability'
+        percentage_cases_safety_plan: '% of cases with a finalized safety plan'
       percentage_cases_duration:
         1_month: <1 month
         1_3_months: 1-3 months
         3_6_months: 3-6 months
         over_6_months: over 6 months
+      percentage_cases_safety_plan:
+        safety_plan_completed: '% Safety Plan completed'
+        safety_plan_not_completed: '% Safety Plan not completed'
   messages:
     alert_items: You have %{items} items of note.
     alerts_for:
