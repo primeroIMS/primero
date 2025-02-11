@@ -31,7 +31,7 @@ class UserGroup < ApplicationRecord
     end
 
     def list(user, opts = {})
-      user_groups = opts[:managed] ? user.permitted_user_groups : UserGroup.all
+      user_groups = opts[:managed] ? user.permitted_user_groups : UserGroup.includes(:agencies).all
       user_groups = user_groups.where(disabled: opts[:disabled]) if opts[:disabled].present?
       if opts[:agency_unique_ids].present?
         user_groups = user_groups.distinct.joins(:agencies).where(agencies: { unique_id: opts[:agency_unique_ids] })
