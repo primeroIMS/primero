@@ -87,19 +87,29 @@ describe ManagedReports::Indicators::AverageCasesPerCaseWorker do
 
   let(:child4) do
     child4 = Child.new_with_user(
-      user3,
+      user2,
       { sex: 'female', next_steps: ['a_continue_protection_assessment'], registration_date: '2021-10-08' }
     )
     child4.save!
     child4
   end
 
+  let(:child5) do
+    child5 = Child.new_with_user(
+      user3,
+      { sex: 'female', next_steps: ['a_continue_protection_assessment'], registration_date: '2021-11-08' }
+    )
+    child5.save!
+    child5
+  end
+
   before do
-    clean_data(Lookup, UserGroup, User, Agency, Role, Child)
+    clean_data(SearchableValue, SearchableDatetime, Lookup, UserGroup, User, Agency, Role, Child)
     child1
     child2
     child3
     child4
+    child5
   end
 
   it 'returns data for average_cases_per_case_worker indicator' do
@@ -107,7 +117,7 @@ describe ManagedReports::Indicators::AverageCasesPerCaseWorker do
 
     expect(report_data).to match_array(
       [
-        { id: 'average_cases_per_case_worker', female: 1, male: 1.5, total: 1.33 }
+        { id: 'average_cases_per_case_worker', female: 0.67, male: 1, total: 1.67 }
       ]
     )
   end
@@ -132,7 +142,7 @@ describe ManagedReports::Indicators::AverageCasesPerCaseWorker do
             {
               group_id: 2021,
               data: [
-                { id: 'average_cases_per_case_worker', female: 1, male: 1.5, total: 1.33 }
+                { id: 'average_cases_per_case_worker', female: 0.67, male: 1, total: 1.67 }
               ]
             }
           ]
@@ -158,11 +168,11 @@ describe ManagedReports::Indicators::AverageCasesPerCaseWorker do
           [
             {
               group_id: '2021-10',
-              data: [{ id: 'average_cases_per_case_worker', female: 1, male: 1, total: 1 }]
+              data: [{ id: 'average_cases_per_case_worker', female: 0.5, male: 1, total: 1.5 }]
             },
             {
               group_id: '2021-11',
-              data: [{ id: 'average_cases_per_case_worker', male: 1, total: 1 }]
+              data: [{ id: 'average_cases_per_case_worker', female: 0.5, male: 0.5, total: 1 }]
             }
           ]
         )
@@ -191,7 +201,7 @@ describe ManagedReports::Indicators::AverageCasesPerCaseWorker do
             },
             {
               group_id: '2021-10-03 - 2021-10-09',
-              data: [{ id: 'average_cases_per_case_worker', female: 1, male: 1, total: 1 }]
+              data: [{ id: 'average_cases_per_case_worker', female: 0.5, male: 1, total: 1.5 }]
             },
             {
               group_id: '2021-10-10 - 2021-10-16',

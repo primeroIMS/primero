@@ -4,6 +4,7 @@
 
 # An indicator that returns the average cases per case worker
 class ManagedReports::Indicators::AverageCasesPerCaseWorker < ManagedReports::SqlReportIndicator
+  # rubocop:disable Metrics/ClassLength
   class << self
     def id
       'average_cases_per_case_worker'
@@ -22,10 +23,10 @@ class ManagedReports::Indicators::AverageCasesPerCaseWorker < ManagedReports::Sq
             data->>'owned_by' AS owned_by,
             data->>'sex' AS sex
           FROM cases
+          #{join_next_steps}
           #{join_searchable_statuses(params['status'])}
           #{join_searchable_datetimes(date_param)}
           #{join_searchable_scope(current_user)}
-          WHERE cases.data @? '$[*] ? (@.next_steps == "a_continue_protection_assessment")'
         )
         SELECT
          #{group_id&.+(',')}
@@ -76,6 +77,18 @@ class ManagedReports::Indicators::AverageCasesPerCaseWorker < ManagedReports::Sq
       )
     end
 
+    def join_next_steps
+      %(
+        INNER JOIN (
+          SELECT DISTINCT(record_id)
+          FROM searchable_values
+          WHERE searchable_values.record_type = 'Child'
+          AND searchable_values.field_name = 'next_steps'
+          AND searchable_values.value = 'a_continue_protection_assessment'
+        ) AS next_steps_ids ON next_steps_ids.record_id = cases.id
+      )
+    end
+
     alias super_build_results build_results
     def build_results(results, params = {})
       super_build_results(results_in_average(results.to_a), params)
@@ -114,11 +127,10 @@ class ManagedReports::Indicators::AverageCasesPerCaseWorker < ManagedReports::Sq
       key = group.first
       values = group.last
       total_records_by_field = BigDecimal(values['count'])
-      total_users_by_field = BigDecimal(values['owned_by'].size)
       {
         'name' => 'average_cases_per_case_worker',
         'key' => key,
-        'sum' => (total_records_by_field / total_users_by_field).round(2),
+        'sum' => (total_records_by_field / total_users).round(2),
         'total' => (total_records / total_users).round(2)
       }
     end
@@ -128,7 +140,7 @@ class ManagedReports::Indicators::AverageCasesPerCaseWorker < ManagedReports::Sq
     end
 
     def calculate_total_users(values)
-      BigDecimal(values.sum { |value| value['owned_by'].size })
+      BigDecimal(values.map { |value| value['owned_by'] }.flatten.uniq.size)
     end
 
     def group_results_by_field(field, results)
@@ -146,10 +158,10 @@ class ManagedReports::Indicators::AverageCasesPerCaseWorker < ManagedReports::Sq
     def aggregate_values(result, current)
       count = current&.dig('count') || 0
       owned_by = current&.dig('owned_by') || []
-      {
-        'count' => count + result['count'],
-        'owned_by' => (owned_by + [result['owned_by']]).uniq
-      }
+      owned_by << result['owned_by'] if owned_by.exclude?(result['owned_by'])
+
+      { 'count' => count + result['count'], 'owned_by' => owned_by }
     end
   end
+  # rubocop:enable Metrics/ClassLength
 end
