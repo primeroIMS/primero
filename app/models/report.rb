@@ -188,7 +188,7 @@ class Report < ApplicationRecord
   end
 
   def primary_age_ranges
-    SystemSettings.primary_age_ranges(PrimeroModule.primary_age_range(module_id))
+    PrimeroModule.age_ranges(module_id) || SystemSettings.primary_age_ranges
   end
 
   def build_numeric_field_query(field)
