@@ -3,6 +3,7 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 # Configures the behavior of a module of Primero
+# rubocop:disable Metrics/ClassLength
 class PrimeroModule < ApplicationRecord
   include LocalizableJsonProperty
   include ConfigurationRecord
@@ -178,3 +179,4 @@ class PrimeroModule < ApplicationRecord
     self.form_sections = form_sections | subforms
   end
 end
+# rubocop:enable Metrics/ClassLength

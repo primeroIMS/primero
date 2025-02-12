@@ -50,6 +50,7 @@ describe("Application - Reducers", () => {
       modules: [
         {
           unique_id: "primeromodule-cp",
+          age_ranges: null,
           approvals_labels: null,
           primary_age_range: null,
           field_map: [],
@@ -68,6 +69,7 @@ describe("Application - Reducers", () => {
         },
         {
           unique_id: "primeromodule-gbv",
+          age_ranges: null,
           approvals_labels: null,
           primary_age_range: null,
           field_map: [],
