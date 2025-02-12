@@ -5,6 +5,7 @@
 # API endpoint for generating exports, in bulk or for individual records
 class Api::V2::UsageReportsController < ApplicationApiController
   def create
+    authorize! :create, UsageReport
     @export = ExportService.build(export_params, current_user)
     @export.mark_started!
     ExportService.enqueue(@export, export_params[:password],

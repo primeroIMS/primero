@@ -2,7 +2,7 @@
 
 # Export forms to an Excel file (.xlsx)
 # rubocop:disable Metrics/ClassLength
-class Exporters::UsageReportExporter < Exporters::BaseExporter
+class Exporters::UsageReportExporter < Exporters::ExcelExporter
   attr_accessor :file_name, :workbook, :errors, :worksheets
 
   class << self
@@ -62,24 +62,24 @@ class Exporters::UsageReportExporter < Exporters::BaseExporter
   end
 
   def get_common_keys(module_id, start_date, end_date)
-    ['', UsageReport.total_records(module_id, Child).count, UsageReport.open_cases(module_id).count,
-     UsageReport.closed_cases(module_id).count,
-     UsageReport.new_records_quarter(module_id, start_date, end_date, Child).count,
-     UsageReport.closed_cases_quarter(module_id, start_date, end_date).count,
-     UsageReport.total_services(module_id).count, UsageReport.total_records(module_id, Incident).count,
-     UsageReport.new_records_quarter(module_id, start_date, end_date, Incident).count]
+    ['', UsageReport.get_total_records(module_id, Child), UsageReport.get_open_cases(module_id),
+     UsageReport.get_closed_cases(module_id),
+     UsageReport.get_new_records_quarter(module_id, start_date, end_date, Child),
+     UsageReport.get_closed_cases_quarter(module_id, start_date, end_date),
+     UsageReport.get_total_services(module_id), UsageReport.get_total_records(module_id, Incident),
+     UsageReport.get_new_records_quarter(module_id, start_date, end_date, Incident)]
   end
 
   def module_content(module_id, start_date, end_date, modul_name)
     common_keys = get_common_keys(module_id, start_date, end_date)
     case modul_name
     when 'MRM'
-      ['', UsageReport.total_records(module_id, Incident).count,
-       UsageReport.new_records_quarter(module_id, start_date, end_date, Incident).count]
+      ['', UsageReport.get_total_records(module_id, Incident),
+       UsageReport.get_new_records_quarter(module_id, start_date, end_date, Incident)]
     when 'GBV'
       common_keys
     else
-      common_keys + [UsageReport.total_followup(module_id).count]
+      common_keys + [UsageReport.get_total_followup(module_id)]
     end
   end
 
@@ -139,9 +139,9 @@ class Exporters::UsageReportExporter < Exporters::BaseExporter
 
   def module_tabs(module_id, modul_name)
     if modul_name == 'MRM'
-      [modul_name, UsageReport.total_records(module_id, Incident).count.positive? ? ' Yes' : ' No']
+      [modul_name, UsageReport.get_total_records(module_id, Incident).positive? ? ' Yes' : ' No']
     else
-      [modul_name, UsageReport.total_records(module_id, Child).count.positive? ? ' Yes' : ' No']
+      [modul_name, UsageReport.get_total_records(module_id, Child).positive? ? ' Yes' : ' No']
     end
   end
 
@@ -152,10 +152,10 @@ class Exporters::UsageReportExporter < Exporters::BaseExporter
   def user_content(start_date, end_date)
     data = UsageReport.all_agencies.map do |agency|
       [agency.unique_id,
-       UsageReport.all_users(agency).count,
-       UsageReport.active_users(agency).count,
-       UsageReport.disabled_users(agency).count,
-       UsageReport.new_quarter_users(agency, start_date, end_date).count]
+       UsageReport.get_all_users(agency),
+       UsageReport.get_active_users(agency),
+       UsageReport.get_disabled_users(agency),
+       UsageReport.get_new_quarter_users(agency, start_date, end_date)]
     end
     data.transpose
   end

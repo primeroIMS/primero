@@ -125,7 +125,7 @@ Rails.application.routes.draw do
         end
       end
       resources :bulk_exports, as: :exports, path: :exports, only: %i[index show create destroy]
-      resources :usage_reports
+      resources :usage_reports, only: [:create]
       get 'alerts', to: 'alerts#bulk_index'
       resources :agencies
       resources :webhooks
