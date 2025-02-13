@@ -13,7 +13,8 @@ describe ManagedReports::Indicators::TotalProtectionManagementCases do
         sex: 'male',
         next_steps: ['a_continue_protection_assessment'],
         registration_date: '2021-10-05',
-        status: 'closed'
+        status: 'closed',
+        consent_reporting: true
       }
     )
     Child.create!(
@@ -21,7 +22,8 @@ describe ManagedReports::Indicators::TotalProtectionManagementCases do
         sex: 'male',
         next_steps: ['a_continue_protection_assessment'],
         registration_date: '2021-10-08',
-        status: 'closed'
+        status: 'closed',
+        consent_reporting: true
       }
     )
     Child.create!(
@@ -49,6 +51,22 @@ describe ManagedReports::Indicators::TotalProtectionManagementCases do
         { id: 'closed', male: 2, total: 2 }
       ]
     )
+  end
+
+  context 'when consent_reporting is visible' do
+    before do
+      ManagedReports::SearchableFilterService.stub(:consent_reporting_visible?).and_return(true)
+    end
+
+    it 'returns data for those records where the consent was provided' do
+      report_data = ManagedReports::Indicators::TotalProtectionManagementCases.build(nil, {}).data
+
+      expect(report_data).to match_array(
+        [
+          { id: 'closed', male: 2, total: 2 }
+        ]
+      )
+    end
   end
 
   describe 'grouped by' do

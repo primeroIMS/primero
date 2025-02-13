@@ -2,7 +2,7 @@
 
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-# An indicator that returns the implemented referrald
+# An indicator that returns the implemented referrals
 class ManagedReports::Indicators::ImplementedSuccessfulReferrals < ManagedReports::SqlReportIndicator
   class << self
     def id
@@ -27,11 +27,12 @@ class ManagedReports::Indicators::ImplementedSuccessfulReferrals < ManagedReport
               service_implemented,
               data->>'sex' AS sex,
               data->>'owned_by_location' AS owned_by_location,
-              id AS case_id
+              cases.id AS case_id
             FROM cases
-            #{join_searchable_scope(current_user)}
-            #{join_statuses(params['status'])}
-            #{join_reporting_locations(params['location'])}
+            #{ManagedReports::SearchableFilterService.filter_scope(current_user)}
+            #{ManagedReports::SearchableFilterService.filter_values(params['status'])}
+            #{ManagedReports::SearchableFilterService.filter_reporting_location(params['location'])}
+            #{ManagedReports::SearchableFilterService.filter_consent_reporting}
             #{join_services(params['service_type'])}
             #{date_range_query(date_param, 'services', nil, 'service_implemented_day_time')&.prepend('WHERE ')}
         )
@@ -79,44 +80,6 @@ class ManagedReports::Indicators::ImplementedSuccessfulReferrals < ManagedReport
       return unless service_type.present?
 
       ActiveRecord::Base.sanitize_sql_for_conditions(['(@.service_type == "%s")', service_type])
-    end
-
-    def join_searchable_scope(current_user)
-      scope_query = searchable_user_scope_query(current_user)
-      return unless scope_query.present?
-
-      %(
-        INNER JOIN (
-          SELECT DISTINCT(record_id)
-          FROM searchable_values
-          WHERE searchable_values.record_type = 'Child'
-          AND #{scope_query}
-        ) AS scope_ids ON scope_ids.record_id = cases.id
-      )
-    end
-
-    def join_statuses(status_param)
-      status_query = searchable_equal_value_multiple(status_param)
-      return unless status_query.present?
-
-      %(
-        INNER JOIN (
-          SELECT record_id
-          FROM searchable_values
-          WHERE searchable_values.record_type = 'Child'
-          AND #{status_query}
-        ) AS statuses ON statuses.record_id = cases.id
-      )
-    end
-
-    def join_reporting_locations(location_param)
-      reporting_location_query = searchable_reporting_location_query(location_param, 'Child', 'owned_by_location')
-      return unless reporting_location_query.present?
-
-      %(
-        INNER JOIN (#{reporting_location_query}) AS location_record_ids
-        ON location_record_ids.record_id = cases.id
-      )
     end
 
     def grouped_service_implemented_day_time(grouped_by, date_param)

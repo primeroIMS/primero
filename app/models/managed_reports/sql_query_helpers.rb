@@ -37,25 +37,6 @@ module ManagedReports::SqlQueryHelpers
       end
     end
 
-    # rubocop:disable Metrics/MethodLength
-    def searchable_equal_value_multiple(param, table_name = 'searchable_values', map_to = nil)
-      return unless param.present?
-
-      field_name = map_to || param.field_name
-      table_alias = quoted_table_name(table_name)
-
-      if param.respond_to?(:value)
-        return ActiveRecord::Base.sanitize_sql_for_conditions(
-          ["(#{table_alias}.field_name = ? AND #{table_alias}.value = ?)", field_name, param.value]
-        )
-      end
-
-      ActiveRecord::Base.sanitize_sql_for_conditions(
-        ["(#{table_alias}.field_name = ? AND #{table_alias}.value IN (?))", field_name, param.values]
-      )
-    end
-    # rubocop:enable Metrics/MethodLength
-
     def equal_value_nested_query(param, _nested_field, table_name = nil, map_to = nil)
       return unless param.present?
 
@@ -98,38 +79,6 @@ module ManagedReports::SqlQueryHelpers
     end
     # rubocop:enable Metrics/MethodLength
 
-    # rubocop:disable Metrics/MethodLength
-    def searchable_reporting_location_query(param, record_type = 'Child', map_to = nil)
-      return unless param.present?
-
-      field_name = map_to || param.field_name
-
-      ActiveRecord::Base.sanitize_sql_for_conditions(
-        [
-          %(
-              (
-                SELECT
-                  record_id
-                FROM searchable_values
-                INNER JOIN (
-                  SELECT
-                    descendants.location_code
-                  FROM locations
-                  INNER JOIN locations AS descendants
-                  ON locations.admin_level <= descendants.admin_level
-                  AND locations.hierarchy_path @> descendants.hierarchy_path
-                  WHERE locations.location_code = :location_code
-                ) AS reporting_locations ON reporting_locations.location_code = searchable_values.value
-                WHERE searchable_values.record_type = :record_type
-	              AND searchable_values.field_name = :field_name
-              )
-          ),
-          { record_type:, field_name:, location_code: param.value }
-        ]
-      )
-    end
-    # rubocop:enable Metrics/MethodLength
-
     def in_value_query(param, table_name = nil, _hash_field = 'data', map_to = nil)
       return unless param.present?
 
@@ -157,23 +106,6 @@ module ManagedReports::SqlQueryHelpers
               to_timestamp(:to, :date_format) + interval '1 day' - interval '1 second'
             )
           ), { from: param.from, to: param.to, date_format: Report::DATE_FORMAT }
-        ]
-      )
-    end
-
-    def searchable_date_range_query(param, table_name = 'searchable_datetimes')
-      return unless param.present?
-
-      table_alias = quoted_table_name(table_name)
-      ActiveRecord::Base.sanitize_sql_for_conditions(
-        [
-          %(
-            (
-              #{table_alias}.field_name = :field_name AND
-              #{table_alias}.value >= to_timestamp(:from, :date_format) AND
-              #{table_alias}.value <= (to_timestamp(:to, :date_format) + interval '1 day' - interval '1 second')
-            )
-          ), { field_name: param.field_name, from: param.from, to: param.to, date_format: Report::DATE_FORMAT }
         ]
       )
     end

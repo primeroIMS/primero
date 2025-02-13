@@ -23,11 +23,12 @@ class ManagedReports::Indicators::PercentageClientsWithDisability < ManagedRepor
             COALESCE(data->>'disability_status_yes_no', 'false') AS disability_status,
             data->>'sex' AS sex
           FROM cases
-          #{join_searchable_next_steps}
-          #{join_searchable_datetimes(date_param)}
-          #{join_searchable_statuses(params['status'])}
-          #{join_reporting_locations(params['location'])}
-          #{join_searchable_scope(current_user)}
+          #{ManagedReports::SearchableFilterService.filter_next_steps}
+          #{ManagedReports::SearchableFilterService.filter_datetimes(date_param)}
+          #{ManagedReports::SearchableFilterService.filter_values(params['status'])}
+          #{ManagedReports::SearchableFilterService.filter_reporting_location(params['location'])}
+          #{ManagedReports::SearchableFilterService.filter_scope(current_user)}
+          #{ManagedReports::SearchableFilterService.filter_consent_reporting}
         )
         SELECT
           #{group_id&.+(',')}
@@ -39,65 +40,6 @@ class ManagedReports::Indicators::PercentageClientsWithDisability < ManagedRepor
       )
     end
     # rubocop:enable Metrics/MethodLength
-
-    def join_searchable_next_steps
-      %(
-        INNER JOIN (
-          SELECT DISTINCT(record_id) FROM searchable_values
-          WHERE searchable_values.record_type = 'Child'
-          AND searchable_values.field_name = 'next_steps'
-          AND searchable_values.value = 'a_continue_protection_assessment'
-        ) AS next_steps
-        ON next_steps.record_id = cases.id
-      )
-    end
-
-    def join_searchable_datetimes(date_param)
-      return unless date_param.present?
-
-      %(
-        INNER JOIN searchable_datetimes searchable_datetimes
-        ON next_steps.record_id = searchable_datetimes.record_id
-        AND searchable_datetimes.record_type = 'Child'
-        #{searchable_date_range_query(date_param)&.prepend('AND ')}
-      )
-    end
-
-    def join_searchable_statuses(status_param)
-      status_query = searchable_equal_value_multiple(status_param)
-      return unless status_query.present?
-
-      %(
-        INNER JOIN (
-          SELECT record_id FROM searchable_values
-          WHERE searchable_values.record_type = 'Child'
-          AND #{status_query}
-        ) AS statuses ON statuses.record_id = next_steps.record_id
-      )
-    end
-
-    def join_searchable_scope(current_user)
-      scope_query = searchable_user_scope_query(current_user)
-      return unless scope_query.present?
-
-      %(
-        INNER JOIN (
-          SELECT DISTINCT(record_id) FROM searchable_values
-          WHERE searchable_values.record_type = 'Child'
-          AND #{scope_query}
-        ) AS scope_ids ON scope_ids.record_id = next_steps.record_id
-      )
-    end
-
-    def join_reporting_locations(location_param)
-      reporting_location_query = searchable_reporting_location_query(location_param, 'Child', 'owned_by_location')
-      return unless reporting_location_query.present?
-
-      %(
-        INNER JOIN (#{reporting_location_query}) AS location_record_ids
-        ON location_record_ids.record_id = next_steps.record_id
-      )
-    end
 
     alias super_build_results build_results
     def build_results(results, params = {})

@@ -16,22 +16,24 @@ class ManagedReports::Indicators::PercentageCasesRiskLevel < ManagedReports::Sql
       date_param = filter_date(params)
       date_query = grouped_date_query(params['grouped_by'], date_param, 'searchable_datetimes', nil, 'value')
       group_id = date_query.present? ? 'group_id' : nil
+      filter_opts = { table_name: 'sex_values', field_name: 'record_id' }
+      next_step = 'a_continue_protection_assessment'
 
       %(
         WITH protection_assessment_cases AS (
           SELECT
             #{date_query&.+(' AS group_id,')}
-            next_steps.record_id,
+            sex_values.record_id,
             sex_values.value AS sex
-          FROM searchable_values AS next_steps
-          #{join_searchable_sex_values}
-          #{join_searchable_datetimes(date_param)}
-          #{join_searchable_statuses(params['status'])}
-          #{join_reporting_locations(params['location'])}
-          #{join_searchable_scope(current_user)}
-          WHERE next_steps.record_type = 'Child'
-          AND next_steps.field_name = 'next_steps'
-          AND next_steps.value = 'a_continue_protection_assessment'
+          FROM searchable_values AS sex_values
+          #{ManagedReports::SearchableFilterService.filter_datetimes(date_param, filter_opts)}
+          #{ManagedReports::SearchableFilterService.filter_values(params['status'], filter_opts)}
+          #{ManagedReports::SearchableFilterService.filter_reporting_location(params['location'], filter_opts)}
+          #{ManagedReports::SearchableFilterService.filter_scope(current_user, filter_opts)}
+          #{ManagedReports::SearchableFilterService.filter_next_steps(next_step, filter_opts)}
+          #{ManagedReports::SearchableFilterService.filter_consent_reporting(filter_opts)}
+          WHERE sex_values.record_type = 'Child'
+          AND sex_values.field_name = 'sex'
         ),
         total_cases_by_groups AS (
           SELECT
@@ -87,62 +89,5 @@ class ManagedReports::Indicators::PercentageCasesRiskLevel < ManagedReports::Sql
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/CyclomaticComplexity
-
-    def join_searchable_datetimes(date_param)
-      return unless date_param.present?
-
-      %(
-        INNER JOIN searchable_datetimes searchable_datetimes
-        ON next_steps.record_id = searchable_datetimes.record_id
-        AND searchable_datetimes.record_type = 'Child'
-        #{searchable_date_range_query(date_param)&.prepend('AND ')}
-      )
-    end
-
-    def join_searchable_statuses(status_param)
-      status_query = searchable_equal_value_multiple(status_param)
-      return unless status_query.present?
-
-      %(
-        INNER JOIN (
-          SELECT record_id FROM searchable_values
-          WHERE searchable_values.record_type = 'Child'
-          AND #{status_query}
-        ) AS statuses ON statuses.record_id = next_steps.record_id
-      )
-    end
-
-    def join_searchable_sex_values
-      %(
-        INNER JOIN searchable_values AS sex_values
-        ON sex_values.record_id = next_steps.record_id
-        AND sex_values.record_type = 'Child'
-        AND sex_values.field_name = 'sex'
-      )
-    end
-
-    def join_searchable_scope(current_user)
-      scope_query = searchable_user_scope_query(current_user)
-      return unless scope_query.present?
-
-      %(
-        INNER JOIN (
-          SELECT DISTINCT(record_id)
-          FROM searchable_values
-          WHERE searchable_values.record_type = 'Child'
-          AND #{scope_query}
-        ) AS scope_ids ON scope_ids.record_id = next_steps.record_id
-      )
-    end
-
-    def join_reporting_locations(location_param)
-      reporting_location_query = searchable_reporting_location_query(location_param, 'Child', 'owned_by_location')
-      return unless reporting_location_query.present?
-
-      %(
-        INNER JOIN (#{reporting_location_query}) AS location_record_ids
-        ON location_record_ids.record_id = next_steps.record_id
-      )
-    end
   end
 end
