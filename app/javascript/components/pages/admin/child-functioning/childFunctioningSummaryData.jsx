@@ -1,4 +1,5 @@
 const childFunctioningSummaryData = [
+  { label: "Date", key: "date_fa81c1a"},
   { label: "Are you ready to start the Child Functioning Module", key: "cfm_start" },
   { label: "Age", key: "cfm_age" },
   { label: "Vision wear glass", key: (latestValue) => `cfm_${latestValue?.cfm_age}_vision_wears_glasses` },

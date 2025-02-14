@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { toServerDateFormat } from "../../../../libs";
 import childFunctioningSummaryData from './childFunctioningSummaryData';
 
 const formatKey = (key) =>
@@ -13,7 +14,10 @@ const formatValue = (key, value) => {
       return `${value.replace("_", " to ")} years`;
     if (value.includes("_"))
       return value.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
-    if (!Number.isNaN(Date.parse(value))) return new Date(value).toLocaleDateString();  // Fixed here
+    const parsedDate = new Date(value);
+    if (!Number.isNaN(parsedDate.getTime())) {
+      return toServerDateFormat(parsedDate, { includeTime: false });
+    }
     return value;
   }
   return value; // Handle non-string values
