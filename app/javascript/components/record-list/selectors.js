@@ -19,7 +19,7 @@ export const getAppliedFilters = (state, namespace) =>
 export const getAppliedFiltersAsQueryString = (state, namespace) => {
   const filters = filtersToQueryString(getAppliedFilters(state, namespace));
 
-  return new URLSearchParams(filters).toString();
+  return filters;
 };
 
 export const getLoading = (state, namespace) => state.getIn(getNamespacePath(namespace).concat("loading"), false);
