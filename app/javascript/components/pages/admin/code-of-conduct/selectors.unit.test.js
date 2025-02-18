@@ -2,11 +2,13 @@
 
 import { fromJS } from "immutable";
 
-import { getCodeOfConduct, getLoadingCodeOfConduct } from "./selectors";
+import { getCodeOfConduct, getFetchErrorsCodeOfConduct, getLoadingCodeOfConduct } from "./selectors";
 
 const codeOfConduct = fromJS({ id: 1, title: "Some Title", content: "Some Content" });
 
-const stateWithHeaders = fromJS({ records: { codeOfConduct: { data: codeOfConduct }, loading: false } });
+const fetchErrors = fromJS([{ status: 404, message: "Not Found" }]);
+
+const stateWithHeaders = fromJS({ records: { codeOfConduct: { loading: true, data: codeOfConduct, fetchErrors } } });
 
 describe("pages/admin/<CodeOfConduct />- Selectors", () => {
   describe("getCodeOfConduct", () => {
@@ -21,7 +23,15 @@ describe("pages/admin/<CodeOfConduct />- Selectors", () => {
     it("should return loading", () => {
       const loading = getLoadingCodeOfConduct(stateWithHeaders);
 
-      expect(loading).to.be.false;
+      expect(loading).to.be.true;
+    });
+  });
+
+  describe("getFetchErrorsCodeOfConduct", () => {
+    it("should return the errors", () => {
+      const currentFetchErrors = getFetchErrorsCodeOfConduct(stateWithHeaders);
+
+      expect(currentFetchErrors).to.deep.equals(fetchErrors);
     });
   });
 });
