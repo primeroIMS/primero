@@ -35,7 +35,8 @@ function Component({
   formClassName,
   registerFields = [],
   resetAfterSubmit = false,
-  errorMessage = null
+  errorMessage = null,
+  warningMessage
 }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -108,6 +109,7 @@ function Component({
       onSubmit,
       submitAllFields,
       submitAlways,
+      message:warningMessage,
       ...(errorMessage && { message: errorMessage })
     });
   };
@@ -149,7 +151,8 @@ Component.propTypes = {
   submitAlways: PropTypes.bool,
   useCancelPrompt: PropTypes.bool,
   useFormMode: PropTypes.oneOf(["onSubmit", "onBlur"]),
-  validations: PropTypes.object
+  validations: PropTypes.object,
+  warningMessage: PropTypes.string
 };
 
 export default Component;

@@ -150,6 +150,7 @@ export const RESOURCES = {
   systems: "systems",
   tracing_requests: "tracing_requests",
   user_groups: "user_groups",
+  usage_reports: "usage_reports",
   users: "users",
   webhooks: "webhooks"
 };
@@ -166,6 +167,7 @@ export const ADMIN_RESOURCES = [
   RESOURCES.forms,
   RESOURCES.metadata,
   RESOURCES.audit_logs,
+  RESOURCES.usage_reports,
   RESOURCES.webhooks
 ];
 
@@ -222,6 +224,8 @@ export const CREATE_INCIDENT = [...MANAGE, ACTIONS.INCIDENT_FROM_CASE];
 export const ADD_SERVICE = [...MANAGE, ACTIONS.SERVICES_SECTION_FROM_CASE];
 
 export const SHOW_AUDIT_LOGS = [...MANAGE, ACTIONS.READ];
+
+export const SHOW_USAGE_REPORTS = [...MANAGE, ACTIONS.READ];
 
 export const REFER_FROM_SERVICE = [...MANAGE, ACTIONS.REFERRAL, ACTIONS.REFERRAL_FROM_SERVICE];
 

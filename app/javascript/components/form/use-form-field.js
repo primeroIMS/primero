@@ -40,8 +40,10 @@ import {
   DOCUMENT_FIELD,
   LINK_FIELD,
   PHOTO_RECORD_FIELD,
-  AUDIO_RECORD_FIELD
+  AUDIO_RECORD_FIELD,
+  DATE_PICKER
 } from "./constants";
+import DatePicker  from "./fields/date-picker";
 
 export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
   const {
@@ -232,6 +234,8 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
         return HiddenInput;
       case LINK_FIELD:
         return LinkField;
+      case DATE_PICKER:
+        return DatePicker;
       default:
         return TextInput;
     }

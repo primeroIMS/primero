@@ -5,6 +5,7 @@ import {
   MANAGE,
   RESOURCES,
   SHOW_AUDIT_LOGS,
+  SHOW_USAGE_REPORTS,
   RECORD_RESOURCES,
   READ_RECORDS,
   READ_REPORTS,
@@ -137,6 +138,7 @@ const RECORD_PATH = {
   users: "users",
   activity_log: "activity_log",
   registry_records: "registry_records",
+  usage_reports: "usage_reports",
   webpush_config: "webpush/config"
 };
 
@@ -215,7 +217,8 @@ const ROUTES = {
   password_reset_request: "/password_reset_request",
   registry_records: "/registry_records",
   subscriptions: "/webpush/subscriptions",
-  subscriptions_current: "/webpush/subscriptions/current"
+  subscriptions_current: "/webpush/subscriptions/current",
+  usage_reports: "/admin/usage_reports"
 };
 
 const PERMITTED_URL = [
@@ -353,6 +356,12 @@ const ADMIN_NAV = [
     label: "settings.navigation.audit_logs",
     permission: SHOW_AUDIT_LOGS,
     recordType: RESOURCES.audit_logs
+  },
+  {
+    to: "/usage_reports",
+    label: "settings.navigation.usage_reports",
+    permission: SHOW_USAGE_REPORTS,
+    recordType: RESOURCES.usage_reports
   }
 ];
 
