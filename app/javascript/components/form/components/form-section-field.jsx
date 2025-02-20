@@ -1,7 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import PropTypes from "prop-types";
-import { cx } from "@emotion/css";
+import clsx from "clsx";
 
 import { ConditionalWrapper } from "../../../libs";
 import useFormField from "../use-form-field";
@@ -10,7 +9,7 @@ import formComponent from "../utils/form-component";
 
 import css from "./styles.css";
 
-function FormSectionField({ checkErrors, field, formMethods, formMode, disableUnderline = false }) {
+function FormSectionField({ checkErrors, field, formMethods, formMode, disableUnderline }) {
   const { errors } = formMethods;
   const {
     Field,
@@ -24,7 +23,7 @@ function FormSectionField({ checkErrors, field, formMethods, formMode, disableUn
     optionSelector
   } = useFormField(field, { checkErrors, errors, formMode, disableUnderline });
 
-  const classes = cx(css.field, {
+  const classes = clsx(css.field, {
     [css.readonly]: formMode.isShow
   });
 
@@ -58,6 +57,10 @@ function FormSectionField({ checkErrors, field, formMethods, formMode, disableUn
 }
 
 FormSectionField.displayName = "FormSectionField";
+
+FormSectionField.defaultProps = {
+  disableUnderline: false
+};
 
 FormSectionField.propTypes = {
   checkErrors: PropTypes.object,

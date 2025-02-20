@@ -11,13 +11,15 @@ export const form = i18n => {
       fields: [
         FieldRecord({
           display_name: `${i18n.t("key_performance_indicators.date_range_dialog.from")}*`,
-          name: "From",
-          type: DATE_FIELD
+          name: "fromDate",
+          type: DATE_FIELD,
+          allowFullWidth: false
         }),
         FieldRecord({
           display_name: `${i18n.t("key_performance_indicators.date_range_dialog.to")}*`,
-          name: "To",
-          type: DATE_FIELD
+          name: "toDate",
+          type: DATE_FIELD,
+          allowFullWidth: false
         }),
         FieldRecord({
           name: "file_name",

@@ -1,5 +1,4 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import get from "lodash/get";
 import { useMemo } from "react";
 
@@ -40,10 +39,8 @@ import {
   DOCUMENT_FIELD,
   LINK_FIELD,
   PHOTO_RECORD_FIELD,
-  AUDIO_RECORD_FIELD,
-  DATE_PICKER
+  AUDIO_RECORD_FIELD
 } from "./constants";
-import DatePicker from "./fields/date-picker";
 
 export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
   const {
@@ -106,7 +103,8 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
     showDeleteAction,
     showDisableOption,
     maxOptionsAllowed,
-    optionFieldName
+    optionFieldName,
+    allowFullWidth
   } = field;
 
   const i18n = useI18n();
@@ -153,7 +151,7 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
     disabled: inputDisabled,
     error: inputError,
     format: dateFormat,
-    fullWidth: true,
+    fullWidth: allowFullWidth !== undefined ? allowFullWidth : true,
     helperText: inputHelperTxt,
     label: inputLabel,
     name,
@@ -234,8 +232,6 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
         return HiddenInput;
       case LINK_FIELD:
         return LinkField;
-      case DATE_PICKER:
-        return DatePicker;
       default:
         return TextInput;
     }

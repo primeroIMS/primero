@@ -91,7 +91,8 @@ export const FieldRecord = Record({
   type: "",
   visible: null,
   watchedInputs: null,
-  wrapWithComponent: null
+  wrapWithComponent: null,
+  allowFullWidth: true
 });
 
 export const FormSectionRecord = Record({

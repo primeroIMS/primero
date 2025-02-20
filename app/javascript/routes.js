@@ -62,7 +62,7 @@ import Login, { IdpLogin } from "./components/login";
 import Logout from "./components/logout";
 import PasswordResetRequest from "./components/login/components/password-reset-form";
 import { ROUTES, MODES, RECORD_PATH } from "./config";
-import UsageReports from "./components/pages/admin/usage-reports/container";
+import UsageReports from "./components/pages/admin/usage-reports";
 
 const recordPaths = [
   RECORD_PATH.cases,

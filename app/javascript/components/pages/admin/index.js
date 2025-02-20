@@ -19,4 +19,4 @@ export { default as ConfigurationsList } from "./configurations-list";
 export { default as ConfigurationsForm } from "./configurations-form";
 export { default as LocationsList } from "./locations-list";
 export { default as CodeOfConduct } from "./code-of-conduct";
-export { default as UsageReports } from "./usage-reports/container";
+export { default as UsageReports } from "./usage-reports";

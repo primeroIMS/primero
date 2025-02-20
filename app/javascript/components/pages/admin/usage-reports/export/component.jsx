@@ -2,11 +2,11 @@
 
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { useState } from "react";
+import { object, string, date } from "yup";
 
 import ActionDialog from "../../../../action-dialog";
 import Form from "../../../../form";
-import { saveUsageExport } from "../../../../record-actions/exports/action-creators";
+import { saveExport } from "../../../../record-actions/exports/action-creators";
 import { formatFileName } from "../../../../record-actions/exports/utils";
 
 import { NAME, FORM_ID } from "./constants";
@@ -18,46 +18,52 @@ function Component({ close, i18n, open, pending, setPending }) {
   const dialogPending = typeof pending === "object" ? pending.get("pending") : pending;
   const message = undefined;
 
-  // Grouping useState variables together
-  const [validationError, setValidationError] = useState("");
+  const validationSchema = object({
+    fromDate: date()
+      .transform(
+        originalValue => (originalValue === "" ? null : originalValue) // transform empty string to null
+      )
+      .required("From Date is required")
+      .typeError("From Date must be a valid date"),
+    toDate: date()
+      .transform(
+        originalValue => (originalValue === "" ? null : originalValue) // transform empty string to null
+      )
+      .required("To Date is required")
+      .typeError("To Date must be a valid date") // catch invalid date format
+      .test("is-after", "To Date must be greater than From Date", function validateToDate(value) {
+        const { fromDate } = this.parent;
+
+        return !fromDate || value > fromDate;
+      }),
+    file_name: string().required("File name is required")
+  });
 
   // Form submission
   const onSubmit = getData => {
-    // Check if any of the required fields are null
-    if (!getData.From) {
-      setValidationError(i18n.t("usage_report.from_date_required"));
-    } else if (!getData.To) {
-      setValidationError(i18n.t("usage_report.to_date_required"));
-    } else if (!getData.file_name) {
-      setValidationError(i18n.t("usage_report.filename_required"));
-    } else if (getData.From > getData.To) {
-      setValidationError(i18n.t("usage_report.to_smaller_than_from"));
-    } else {
-      const fileName = formatFileName(getData.file_name, "xlsx");
-      const defaultBody = {
-        export_format: "xlsx",
-        record_type: "usage_report",
-        file_name: fileName,
-        selected_from_date: getData.From,
-        selected_to_date: getData.To
-      };
-      const data = { ...defaultBody };
+    const fileName = formatFileName(getData.file_name, "xlsx");
+    const defaultBody = {
+      export_format: "xlsx",
+      record_type: "user",
+      file_name: fileName,
+      selectedFromDate: new Date(getData.From),
+      selectedToDate: new Date(getData.To)
+    };
+    const data = { ...defaultBody };
 
-      setValidationError("");
-      dispatch(
-        saveUsageExport(
-          { data },
-          i18n.t(message || "exports.queueing", {
-            file_name: fileName ? `: ${fileName}.` : "."
-          }),
-          i18n.t("exports.go_to_exports")
-        )
-      );
-    }
+    setPending(true);
+    dispatch(
+      saveExport(
+        { data },
+        i18n.t(message || "exports.queueing", {
+          file_name: fileName ? `: ${fileName}.` : "."
+        }),
+        i18n.t("exports.go_to_exports")
+      )
+    );
   };
 
   const handleCustomClose = () => {
-    setValidationError("");
     close();
   };
 
@@ -73,9 +79,17 @@ function Component({ close, i18n, open, pending, setPending }) {
       confirmButtonLabel={i18n.t("buttons.export")}
       pending={dialogPending}
       omitCloseAfterSuccess
+      fullWidth={false}
     >
-      <Form useCancelPrompt formID={FORM_ID} mode="new" formSections={form(i18n)} onSubmit={onSubmit} />
-      {validationError === "" ? null : <p className={css.dateWarning}>{validationError}</p>}
+      <Form
+        useCancelPrompt
+        formID={FORM_ID}
+        mode="new"
+        formSections={form(i18n)}
+        onSubmit={onSubmit}
+        formClassName={`${css["usage-reports-form"]}`}
+        validations={validationSchema}
+      />
     </ActionDialog>
   );
 }
