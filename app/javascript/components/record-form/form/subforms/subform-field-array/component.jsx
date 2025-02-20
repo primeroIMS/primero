@@ -14,9 +14,9 @@ import { VIOLATIONS_ASSOCIATIONS_FORM } from "../../../../../config";
 import css from "../styles.css";
 import { isFamilyDetailSubform, isFamilyMemberSubform, isViolationSubform } from "../../utils";
 import { GuidingQuestions } from "../../components";
-
+import orderBy from "lodash/orderBy";
 import { isEmptyOrAllDestroyed, isTracesSubform } from "./utils";
-
+import SubformSummary from "../../../../pages/admin/child-functioning/SubformSummary"
 function Component({
   arrayHelpers,
   field,
@@ -76,6 +76,8 @@ function Component({
     }
   }, [index]);
 
+  const sortedRecordsByDateDesc = orderBy(orderedValues, [(v) => new Date(v["date_fa81c1a"])], ["desc"]);
+
   const renderEmptyData = isEmptyOrAllDestroyed(orderedValues) ? (
     <SubformEmptyData subformName={title} />
   ) : (
@@ -83,7 +85,7 @@ function Component({
       <SubformFields
         arrayHelpers={arrayHelpers}
         field={field}
-        values={orderedValues}
+        values={title === 'Child Functioning Subform' ? sortedRecordsByDateDesc : orderedValues}
         locale={i18n.locale}
         mode={mode}
         setOpen={setOpenDialog}
@@ -109,9 +111,16 @@ function Component({
       <GuidingQuestions label={i18n.t("buttons.guidance")} text={guidingQuestions[i18n.locale]} />
     </div>
   );
-
+  
+  const getlatestValue = (arr) => arr?.[0] ?? null;
+  const latestValue = getlatestValue(sortedRecordsByDateDesc);
   return (
     <div className={css.fieldArray} data-testid="subform-field-array">
+
+      {/* Conditionally Render Child Functioning Subform Summary */}
+      {title === 'Child Functioning Subform' && (
+        <SubformSummary latestValue={latestValue} />
+      )}
       <div className={cssContainer}>
         {!renderAsAccordion && (
           <div data-testid="subForm-header">
@@ -156,7 +165,7 @@ function Component({
         mode={mode}
         selectedValue={selectedValue}
         open={open}
-        orderedValues={orderedValues}
+        orderedValues={title === 'Child Functioning Subform' ? sortedRecordsByDateDesc : orderedValues}
         recordModuleID={recordModuleID}
         recordType={recordType}
         setOpen={setOpenDialog}
