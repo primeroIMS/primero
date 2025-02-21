@@ -2323,11 +2323,11 @@ en:
         improved_wellbeing_after_support: '% of clients with improved psychosocial wellbeing'
         less_impacted_after_support: '% less impacted by protection risks'
       improved_wellbeing_after_support:
-        improve_by_at_least_3_points: '% Improved by at least 3 points'
-        not_improve_by_at_least_3_points: '% Did not improve by at least 3 points'
+        improve_by_at_least_3_points: 'Improved by at least 3 points'
+        not_improve_by_at_least_3_points: 'Did not improve by at least 3 points'
       less_impacted_after_support:
-        clients_report_less_impacted: '% of clients who report being less impacted'
-        clients_report_equally_or_more_severely_impacted: '% of clients who report being equally or more severely impacted'
+        clients_report_less_impacted: 'Reported being less impacted'
+        clients_report_equally_or_more_severely_impacted: 'Reported being equally or more severely impacted'
     process_quality_total_cases:
       reports:
         process_quality_total_cases: 'Total protection case management clients'
@@ -2360,8 +2360,8 @@ en:
         case_status: Case Status
       sub_reports:
         percentage_successful_referrals: '% of successful referrals'
-      implemented: '% successful'
-      not_implemented: '% non successful'
+      implemented: 'Successful'
+      not_implemented: 'Non-Successful'
     process_quality_implemented_referrals:
       reports:
         process_quality_implemented_referrals: 'Successful referrals by date implemented'
@@ -2399,8 +2399,8 @@ en:
         3_6_months: 3-6 months
         over_6_months: over 6 months
       percentage_cases_safety_plan:
-        safety_plan_completed: '% Safety Plan completed'
-        safety_plan_not_completed: '% Safety Plan not completed'
+        safety_plan_completed: 'Safety Plan completed'
+        safety_plan_not_completed: 'Safety Plan not completed'
   messages:
     alert_items: You have %{items} items of note.
     alerts_for:
