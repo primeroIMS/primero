@@ -6,8 +6,9 @@ import { object, string, date } from "yup";
 
 import ActionDialog from "../../../../action-dialog";
 import Form from "../../../../form";
-import { saveExport } from "../../../../record-actions/exports/action-creators";
+import { saveUsageExport } from "../../../../record-actions/exports/action-creators";
 import { formatFileName } from "../../../../record-actions/exports/utils";
+import { toServerDateFormat } from "../../../../../libs";
 
 import { NAME, FORM_ID } from "./constants";
 import { form } from "./form";
@@ -44,16 +45,16 @@ function Component({ close, i18n, open, pending, setPending }) {
     const fileName = formatFileName(getData.file_name, "xlsx");
     const defaultBody = {
       export_format: "xlsx",
-      record_type: "user",
+      record_type: "usage_report",
       file_name: fileName,
-      selectedFromDate: new Date(getData.From),
-      selectedToDate: new Date(getData.To)
+      selected_from_date: toServerDateFormat(getData.fromDate),
+      selected_to_date: toServerDateFormat(getData.toDate)
     };
     const data = { ...defaultBody };
 
     setPending(true);
     dispatch(
-      saveExport(
+      saveUsageExport(
         { data },
         i18n.t(message || "exports.queueing", {
           file_name: fileName ? `: ${fileName}.` : "."
