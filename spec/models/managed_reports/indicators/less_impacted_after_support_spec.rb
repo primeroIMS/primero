@@ -20,6 +20,7 @@ describe ManagedReports::Indicators::LessImpactedAfterSupport do
     Child.create!(
       data: {
         sex: 'male',
+        consent_reporting: true,
         next_steps: ['a_continue_protection_assessment'],
         registration_date: '2021-10-08',
         client_summary_worries_severity: '3',
@@ -29,6 +30,7 @@ describe ManagedReports::Indicators::LessImpactedAfterSupport do
     Child.create!(
       data: {
         sex: 'male',
+        consent_reporting: true,
         next_steps: ['a_continue_protection_assessment'],
         registration_date: '2021-11-07',
         client_summary_worries_severity: '0',
@@ -47,6 +49,7 @@ describe ManagedReports::Indicators::LessImpactedAfterSupport do
     Child.create!(
       data: {
         sex: 'female',
+        consent_reporting: true,
         next_steps: ['a_continue_protection_assessment'],
         registration_date: '2021-10-10',
         client_summary_worries_severity: 'do_not_understand_the_question',
@@ -64,6 +67,23 @@ describe ManagedReports::Indicators::LessImpactedAfterSupport do
         { id: 'clients_report_equally_or_more_severely_impacted', male: 33.33, total: 25.0 }
       ]
     )
+  end
+
+  context 'when consent_reporting is visible' do
+    before do
+      ManagedReports::SearchableFilterService.stub(:consent_reporting_visible?).and_return(true)
+    end
+
+    it 'returns data for those records where the consent was provided' do
+      report_data = ManagedReports::Indicators::LessImpactedAfterSupport.build(nil, {}).data
+
+      expect(report_data).to match_array(
+        [
+          { id: 'clients_report_less_impacted', male: 50.0, total: 50.0 },
+          { id: 'clients_report_equally_or_more_severely_impacted', male: 50.0, total: 50.0 }
+        ]
+      )
+    end
   end
 
   describe 'grouped by' do

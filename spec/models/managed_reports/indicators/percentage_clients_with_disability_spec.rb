@@ -11,7 +11,8 @@ describe ManagedReports::Indicators::PercentageClientsWithDisability do
         sex: 'male',
         registration_date: '2021-10-05',
         next_steps: ['a_continue_protection_assessment'],
-        disability_status_yes_no: 'true'
+        disability_status_yes_no: 'true',
+        consent_reporting: true
       }
     )
   end
@@ -54,7 +55,8 @@ describe ManagedReports::Indicators::PercentageClientsWithDisability do
         sex: 'female',
         registration_date: '2021-10-09',
         next_steps: ['a_continue_protection_assessment'],
-        disability_status_yes_no: 'false'
+        disability_status_yes_no: 'false',
+        consent_reporting: true
       }
     )
   end
@@ -82,6 +84,23 @@ describe ManagedReports::Indicators::PercentageClientsWithDisability do
         { id: 'incomplete_data', male: 33.33, total: 20.0 }
       ]
     )
+  end
+
+  context 'when consent_reporting is visible' do
+    before do
+      ManagedReports::SearchableFilterService.stub(:consent_reporting_visible?).and_return(true)
+    end
+
+    it 'returns data for those records where the consent was provided' do
+      report_data = ManagedReports::Indicators::PercentageClientsWithDisability.build(nil, {}).data
+
+      expect(report_data).to match_array(
+        [
+          { id: 'true', male: 100.0, total: 50.0 },
+          { id: 'false', female: 100.0, total: 50.0 }
+        ]
+      )
+    end
   end
 
   describe 'grouped by' do

@@ -11,7 +11,8 @@ describe ManagedReports::Indicators::PercentageCasesDuration do
         sex: 'male',
         registration_date: '2021-10-05',
         status: 'open',
-        next_steps: ['a_continue_protection_assessment']
+        next_steps: ['a_continue_protection_assessment'],
+        consent_reporting: true
       }
     )
   end
@@ -23,7 +24,8 @@ describe ManagedReports::Indicators::PercentageCasesDuration do
         registration_date: '2021-10-08',
         date_closure: '2021-11-08',
         status: 'closed',
-        next_steps: ['a_continue_protection_assessment']
+        next_steps: ['a_continue_protection_assessment'],
+        consent_reporting: true
       }
     )
   end
@@ -85,6 +87,23 @@ describe ManagedReports::Indicators::PercentageCasesDuration do
         { id: '3_6_months', female: 50.0, male: 66.67, total: 60.0 }
       ]
     )
+  end
+
+  context 'when consent_reporting is visible' do
+    before do
+      ManagedReports::SearchableFilterService.stub(:consent_reporting_visible?).and_return(true)
+    end
+
+    it 'returns data for those records where the consent was provided' do
+      report_data = ManagedReports::Indicators::PercentageCasesDuration.build(nil, {}).data
+
+      expect(report_data).to match_array(
+        [
+          { id: '1_3_months', male: 50.0, total: 50.0 },
+          { id: '3_6_months', male: 50.0, total: 50.0 }
+        ]
+      )
+    end
   end
 
   describe 'grouped by' do

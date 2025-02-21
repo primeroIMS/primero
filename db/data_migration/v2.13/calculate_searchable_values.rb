@@ -45,8 +45,9 @@ def update_searchable_records(searchables_to_update, save_records, batch)
   return unless searchables_to_update.size.positive?
 
   searchables_to_update.each do |searchable_type, searchable_hashes|
+    hashes_to_update = searchable_hashes.map { |searchable| searchable.except(:_destroy) }
     print_log("#{searchable_hashes.size} #{searchable_type} will be updated for batch #{batch}")
-    update_records(searchable_type.classify.constantize, searchable_hashes) if save_records
+    update_records(searchable_type.classify.constantize, hashes_to_update) if save_records
   end
 end
 

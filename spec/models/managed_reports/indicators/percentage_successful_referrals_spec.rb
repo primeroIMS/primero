@@ -75,6 +75,7 @@ describe ManagedReports::Indicators::PercentageSuccessfulReferrals do
       user1,
       sex: 'male',
       registration_date: '2021-10-08',
+      consent_reporting: true,
       services_section: [
         {
           unique_id: '1046df62-d1db-11ef-b87d-18c04db5c362',
@@ -129,6 +130,7 @@ describe ManagedReports::Indicators::PercentageSuccessfulReferrals do
       user2,
       sex: 'female',
       registration_date: '2021-10-08',
+      consent_reporting: true,
       services_section: [
         {
           unique_id: '227fccd2-d1d8-11ef-bdf0-18c04db5c362',
@@ -271,6 +273,23 @@ describe ManagedReports::Indicators::PercentageSuccessfulReferrals do
         { id: 'not_implemented', female: 100.0, male: 60.0, total: 71.43 }
       ]
     )
+  end
+
+  context 'when consent_reporting is visible' do
+    before do
+      ManagedReports::SearchableFilterService.stub(:consent_reporting_visible?).and_return(true)
+    end
+
+    it 'returns data for those records where the consent was provided' do
+      report_data = ManagedReports::Indicators::PercentageSuccessfulReferrals.build(nil, {}).data
+
+      expect(report_data).to match_array(
+        [
+          { id: 'implemented', male: 50.0, total: 25.0 },
+          { id: 'not_implemented', female: 100.0, male: 50.0, total: 75.0 }
+        ]
+      )
+    end
   end
 
   it 'filters data for average_cases_per_case_worker indicator by service_type' do

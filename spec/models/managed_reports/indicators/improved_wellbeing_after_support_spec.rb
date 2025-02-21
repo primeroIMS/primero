@@ -13,6 +13,7 @@ describe ManagedReports::Indicators::ImprovedWellbeingAfterSupport do
         sex: 'male',
         next_steps: ['a_continue_protection_assessment'],
         registration_date: '2021-10-05',
+        consent_reporting: true,
         psychsocial_assessment_score_most_recent: 15,
         psychsocial_assessment_score_initial: 10
       }
@@ -22,6 +23,7 @@ describe ManagedReports::Indicators::ImprovedWellbeingAfterSupport do
         sex: 'male',
         next_steps: ['a_continue_protection_assessment'],
         registration_date: '2021-10-08',
+        consent_reporting: true,
         psychsocial_assessment_score_most_recent: 19,
         psychsocial_assessment_score_initial: 12
       }
@@ -31,6 +33,7 @@ describe ManagedReports::Indicators::ImprovedWellbeingAfterSupport do
         sex: 'male',
         next_steps: ['a_continue_protection_assessment'],
         registration_date: '2021-11-07',
+        consent_reporting: true,
         psychsocial_assessment_score_most_recent: 10,
         psychsocial_assessment_score_initial: 12
       }
@@ -55,6 +58,23 @@ describe ManagedReports::Indicators::ImprovedWellbeingAfterSupport do
         { id: 'not_improve_by_at_least_3_points', male: 33.33, total: 25.0 }
       ]
     )
+  end
+
+  context 'when consent_reporting is visible' do
+    before do
+      ManagedReports::SearchableFilterService.stub(:consent_reporting_visible?).and_return(true)
+    end
+
+    it 'returns data for those records where the consent was provided' do
+      report_data = ManagedReports::Indicators::ImprovedWellbeingAfterSupport.build(nil, {}).data
+
+      expect(report_data).to match_array(
+        [
+          { id: 'improve_by_at_least_3_points', male: 66.67, total: 66.67 },
+          { id: 'not_improve_by_at_least_3_points', male: 33.33, total: 33.33 }
+        ]
+      )
+    end
   end
 
   describe 'grouped by' do

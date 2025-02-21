@@ -12,7 +12,8 @@ describe ManagedReports::Indicators::PercentageCasesSafetyPlan do
         registration_date: '2021-10-05',
         status: 'open',
         next_steps: ['a_continue_protection_assessment'],
-        begin_safety_plan_prompt: true
+        begin_safety_plan_prompt: true,
+        consent_reporting: true
       }
     )
   end
@@ -23,7 +24,8 @@ describe ManagedReports::Indicators::PercentageCasesSafetyPlan do
         sex: 'male',
         registration_date: '2021-10-08',
         status: 'open',
-        next_steps: ['a_continue_protection_assessment']
+        next_steps: ['a_continue_protection_assessment'],
+        consent_reporting: true
       }
     )
   end
@@ -85,6 +87,23 @@ describe ManagedReports::Indicators::PercentageCasesSafetyPlan do
         { id: 'safety_plan_not_completed', female: 100.0, male: 33.33, total: 60.0 }
       ]
     )
+  end
+
+  context 'when consent_reporting is visible' do
+    before do
+      ManagedReports::SearchableFilterService.stub(:consent_reporting_visible?).and_return(true)
+    end
+
+    it 'returns data for those records where the consent was provided' do
+      report_data = ManagedReports::Indicators::PercentageCasesSafetyPlan.build(nil, {}).data
+
+      expect(report_data).to match_array(
+        [
+          { id: 'safety_plan_completed', male: 50.0, total: 50.0 },
+          { id: 'safety_plan_not_completed', male: 50.0, total: 50.0 }
+        ]
+      )
+    end
   end
 
   describe 'grouped by' do

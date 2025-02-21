@@ -61,7 +61,12 @@ describe ManagedReports::Indicators::AverageCasesPerCaseWorker do
   let(:child1) do
     child1 = Child.new_with_user(
       user1,
-      { sex: 'male', next_steps: ['a_continue_protection_assessment'], registration_date: '2021-10-05' }
+      {
+        sex: 'male',
+        next_steps: ['a_continue_protection_assessment'],
+        registration_date: '2021-10-05',
+        consent_reporting: true
+      }
     )
     child1.save!
     child1
@@ -70,7 +75,12 @@ describe ManagedReports::Indicators::AverageCasesPerCaseWorker do
   let(:child2) do
     child2 = Child.new_with_user(
       user2,
-      { sex: 'male', next_steps: ['a_continue_protection_assessment'], registration_date: '2021-10-08' }
+      {
+        sex: 'male',
+        next_steps: ['a_continue_protection_assessment'],
+        registration_date: '2021-10-08',
+        consent_reporting: true
+      }
     )
     child2.save!
     child2
@@ -79,7 +89,12 @@ describe ManagedReports::Indicators::AverageCasesPerCaseWorker do
   let(:child3) do
     child3 = Child.new_with_user(
       user1,
-      { sex: 'male', next_steps: ['a_continue_protection_assessment'], registration_date: '2021-11-07' }
+      {
+        sex: 'male',
+        next_steps: ['a_continue_protection_assessment'],
+        registration_date: '2021-11-07',
+        consent_reporting: true
+      }
     )
     child3.save!
     child3
@@ -120,6 +135,18 @@ describe ManagedReports::Indicators::AverageCasesPerCaseWorker do
         { id: 'average_cases_per_case_worker', female: 0.67, male: 1, total: 1.67 }
       ]
     )
+  end
+
+  context 'when consent_reporting is visible' do
+    before do
+      ManagedReports::SearchableFilterService.stub(:consent_reporting_visible?).and_return(true)
+    end
+
+    it 'returns data for those records where the consent was provided' do
+      report_data = ManagedReports::Indicators::AverageCasesPerCaseWorker.build(nil, {}).data
+
+      expect(report_data).to match_array([{ id: 'average_cases_per_case_worker', male: 1.5, total: 1.5 }])
+    end
   end
 
   describe 'grouped by' do

@@ -25,6 +25,7 @@ describe ManagedReports::Indicators::ImplementedSuccessfulReferrals do
         sex: 'male',
         module_id: 'test_module',
         registration_date: '2021-10-05',
+        consent_reporting: true,
         services_section: [
           {
             unique_id: '1c9df758-d1d8-11ef-99e2-18c04db5c362',
@@ -48,6 +49,7 @@ describe ManagedReports::Indicators::ImplementedSuccessfulReferrals do
         sex: 'male',
         module_id: 'test_module',
         registration_date: '2021-10-08',
+        consent_reporting: true,
         services_section: [
           {
             unique_id: '1046df62-d1db-11ef-b87d-18c04db5c362',
@@ -66,6 +68,7 @@ describe ManagedReports::Indicators::ImplementedSuccessfulReferrals do
         sex: 'male',
         module_id: 'test_module',
         registration_date: '2021-11-07',
+        consent_reporting: true,
         services_section: [
           {
             unique_id: '22278df6-d1d8-11ef-967f-18c04db5c362',
@@ -114,6 +117,18 @@ describe ManagedReports::Indicators::ImplementedSuccessfulReferrals do
     report_data = ManagedReports::Indicators::ImplementedSuccessfulReferrals.build(nil, {}).data
 
     expect(report_data).to match_array([{ id: 'implemented', male: 3, female: 1, total: 4 }])
+  end
+
+  context 'when consent_reporting is visible' do
+    before do
+      ManagedReports::SearchableFilterService.stub(:consent_reporting_visible?).and_return(true)
+    end
+
+    it 'returns data for those records where the consent was provided' do
+      report_data = ManagedReports::Indicators::ImplementedSuccessfulReferrals.build(nil, {}).data
+
+      expect(report_data).to match_array([{ id: 'implemented', male: 3, total: 3 }])
+    end
   end
 
   describe 'grouped by' do

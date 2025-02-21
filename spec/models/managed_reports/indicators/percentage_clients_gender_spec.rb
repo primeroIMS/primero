@@ -12,7 +12,8 @@ describe ManagedReports::Indicators::PercentageClientsGender do
         registration_date: '2021-10-05',
         status: 'open',
         gender: 'gender_1',
-        next_steps: ['a_continue_protection_assessment']
+        next_steps: ['a_continue_protection_assessment'],
+        consent_reporting: true
       }
     )
   end
@@ -59,6 +60,7 @@ describe ManagedReports::Indicators::PercentageClientsGender do
         registration_date: '2021-10-09',
         next_steps: ['a_continue_protection_assessment'],
         gender: 'gender_3',
+        consent_reporting: true,
         status: 'open'
       }
     )
@@ -89,6 +91,23 @@ describe ManagedReports::Indicators::PercentageClientsGender do
         { id: 'incomplete_data', total: 20.0 }
       ]
     )
+  end
+
+  context 'when consent_reporting is visible' do
+    before do
+      ManagedReports::SearchableFilterService.stub(:consent_reporting_visible?).and_return(true)
+    end
+
+    it 'returns data for those records where the consent was provided' do
+      report_data = ManagedReports::Indicators::PercentageClientsGender.build(nil, {}).data
+
+      expect(report_data).to match_array(
+        [
+          { id: 'gender_1', total: 50.0 },
+          { id: 'gender_3', total: 50.0 }
+        ]
+      )
+    end
   end
 
   describe 'grouped by' do

@@ -9,58 +9,23 @@ class ManagedReports::Indicators::TotalProtectionManagementCases < ManagedReport
       'total_protection_management_cases'
     end
 
-    # rubocop:disable Metrics/CyclomaticComplexity
-    # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
     def sql(current_user, params = {})
       date_param = filter_date(params)
       date_query = grouped_date_query(params['grouped_by'], date_param, 'searchable_datetimes', nil, 'value')
       group_id = date_query.present? ? 'group_id' : nil
-
-      join_searchable_datetimes = if date_param.present?
-                                    %(
-                                      INNER JOIN searchable_datetimes searchable_datetimes
-                                      ON cases.id = searchable_datetimes.record_id
-                                      AND searchable_datetimes.record_type = 'Child'
-                                    )
-                                  end
-
-      status_query = searchable_equal_value_multiple(params['status'])
-      join_statuses_values = %(
-                                INNER JOIN searchable_values
-                                ON cases.id = searchable_values.record_id
-                                AND searchable_values.record_type = 'Child'
-                                AND searchable_values.field_name = 'status'
-                              )
-
-      scope_query = searchable_user_scope_query(current_user)
-
-      join_searchable_scope_query = if scope_query.present?
-                                      %(
-                                        INNER JOIN (
-                                          SELECT
-                                            DISTINCT(record_id)
-                                          FROM searchable_values
-                                          WHERE searchable_values.record_type = 'Child'
-                                          AND #{scope_query}
-                                        ) AS scope_ids ON scope_ids.record_id = cases.id
-                                      )
-                                    end
-
       %{
         WITH protection_cases AS (
           SELECT
             #{date_query&.+(' AS group_id,')}
             data->>'sex' AS key,
-            searchable_values.value AS name
+            statuses.value AS name
           FROM cases
-          #{join_statuses_values}
-          #{join_searchable_datetimes}
-          #{join_searchable_scope_query}
-          WHERE
-            cases.data @? '$[*] ? (@.next_steps == "a_continue_protection_assessment")'
-            #{searchable_date_range_query(date_param)&.prepend('AND ')}
-            #{status_query&.prepend('AND ')}
+          #{join_statuses_values(params['status'])}
+          #{ManagedReports::SearchableFilterService.filter_scope(current_user)}
+          #{ManagedReports::SearchableFilterService.filter_datetimes(date_param)}
+          #{ManagedReports::SearchableFilterService.filter_consent_reporting}
+          #{ManagedReports::SearchableFilterService.filter_next_steps}
         )
         SELECT
           key,
@@ -73,7 +38,16 @@ class ManagedReports::Indicators::TotalProtectionManagementCases < ManagedReport
       }
     end
     # rubocop:enable Metrics/MethodLength
-    # rubocop:enable Metrics/AbcSize
-    # rubocop:enable Metrics/CyclomaticComplexity
+
+    def join_statuses_values(param)
+      return ManagedReports::SearchableFilterService.filter_values(param, { join_alias: 'statuses' }) if param.present?
+
+      %(
+        INNER JOIN searchable_values AS statuses
+        ON cases.id = statuses.record_id
+        AND statuses.field_name = 'status'
+        AND statuses.record_type = 'Child'
+      )
+    end
   end
 end

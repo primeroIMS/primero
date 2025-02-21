@@ -123,7 +123,7 @@ class Child < ApplicationRecord
         referred_users transferred_to_users protection_concerns protection_risks owned_by_location next_steps
       ],
       'searchable_numerics' => %w[age],
-      'searchable_booleans' => %w[record_state not_edited_by_owner flagged]
+      'searchable_booleans' => %w[record_state not_edited_by_owner flagged consent_reporting]
     }
   end
   # rubocop:enable Metrics/MethodLength

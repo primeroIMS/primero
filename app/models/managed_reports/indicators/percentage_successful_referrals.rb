@@ -3,7 +3,6 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 # An indicator that returns the percentage of successful referrals
-# rubocop:disable Metrics/ClassLength
 class ManagedReports::Indicators::PercentageSuccessfulReferrals < ManagedReports::SqlReportIndicator
   DATE_PARAM_CONFIG = {
     'referral_created_at' => { table_name: 'referrals', field_name: 'created_at' },
@@ -17,46 +16,10 @@ class ManagedReports::Indicators::PercentageSuccessfulReferrals < ManagedReports
 
     # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/AbcSize
-    # rubocop:disable Metrics/PerceivedComplexity
-    # rubocop:disable Metrics/CyclomaticComplexity
     def sql(current_user, params = {})
       date_param = filter_date(params)
       date_query = service_date_query(params['grouped_by'], date_param)
       group_id = date_query.present? ? 'group_id' : nil
-
-      status_query = searchable_equal_value_multiple(params['status'])
-      join_statuses_values = if status_query.present?
-                               %(
-                                  INNER JOIN (
-                                    SELECT
-                                      record_id
-                                    FROM searchable_values
-                                    WHERE searchable_values.record_type = 'Child'
-                                    AND #{status_query}
-                                  ) AS statuses ON statuses.record_id = cases.id
-                                )
-                             end
-
-      scope_query = searchable_user_scope_query(current_user)
-      join_searchable_scope_query = if scope_query.present?
-                                      %(
-                                        INNER JOIN (
-                                          SELECT
-                                            DISTINCT(record_id)
-                                          FROM searchable_values
-                                          WHERE searchable_values.record_type = 'Child'
-                                          AND #{scope_query}
-                                        ) AS scope_ids ON scope_ids.record_id = cases.id
-                                      )
-                                    end
-      reporting_location_query = searchable_reporting_location_query(params['location'], 'Child', 'owned_by_location')
-
-      join_reporting_locations = if reporting_location_query.present?
-                                   %(
-                                     INNER JOIN (#{reporting_location_query}) AS location_record_ids
-                                     ON location_record_ids.record_id = cases.id
-                                  )
-                                 end
       %(
         WITH services AS (
           SELECT
@@ -66,11 +29,12 @@ class ManagedReports::Indicators::PercentageSuccessfulReferrals < ManagedReports
             service_unique_id,
             data->>'sex' AS sex,
             data->>'owned_by_location' AS owned_by_location,
-            id AS case_id
+            cases.id AS case_id
           FROM cases
-          #{join_statuses_values}
-          #{join_searchable_scope_query}
-          #{join_reporting_locations}
+          #{ManagedReports::SearchableFilterService.filter_values(params['status'])}
+          #{ManagedReports::SearchableFilterService.filter_scope(current_user)}
+          #{ManagedReports::SearchableFilterService.filter_reporting_location(params['location'])}
+          #{ManagedReports::SearchableFilterService.filter_consent_reporting}
           #{join_services(params['service_type'])}
           WHERE data @? '$.services_section ? (@.service_status_referred == true)'
         ),
@@ -99,11 +63,9 @@ class ManagedReports::Indicators::PercentageSuccessfulReferrals < ManagedReports
         ORDER BY service_implemented
       )
     end
+
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/AbcSize
-    # rubocop:enable Metrics/PerceivedComplexity
-    # rubocop:enable Metrics/CyclomaticComplexity
-
     def service_date_query(grouped_by, date_param)
       return unless date_param&.field_name.present?
 
@@ -176,4 +138,3 @@ class ManagedReports::Indicators::PercentageSuccessfulReferrals < ManagedReports
     # rubocop:enable Metrics/MethodLength
   end
 end
-# rubocop:enable Metrics/ClassLength

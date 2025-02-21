@@ -11,7 +11,8 @@ describe ManagedReports::Indicators::PercentageCasesProtectionRisk do
         sex: 'male',
         registration_date: '2021-10-05',
         next_steps: ['a_continue_protection_assessment'],
-        protection_risks: %w[risk1 risk2]
+        protection_risks: %w[risk1 risk2],
+        consent_reporting: true
       }
     )
   end
@@ -43,7 +44,8 @@ describe ManagedReports::Indicators::PercentageCasesProtectionRisk do
         sex: 'female',
         registration_date: '2021-10-12',
         next_steps: ['a_continue_protection_assessment'],
-        protection_risks: %w[risk2]
+        protection_risks: %w[risk2],
+        consent_reporting: true
       }
     )
   end
@@ -70,6 +72,23 @@ describe ManagedReports::Indicators::PercentageCasesProtectionRisk do
         { id: 'risk3', male: 33.33, total: 25.0 }
       ]
     )
+  end
+
+  context 'when consent_reporting is visible' do
+    before do
+      ManagedReports::SearchableFilterService.stub(:consent_reporting_visible?).and_return(true)
+    end
+
+    it 'returns data for those records where the consent was provided' do
+      report_data = ManagedReports::Indicators::PercentageCasesProtectionRisk.build(nil, {}).data
+
+      expect(report_data).to match_array(
+        [
+          { id: 'risk1', male: 100.0, total: 50.0 },
+          { id: 'risk2', female: 100.0, male: 100.0, total: 100.0 }
+        ]
+      )
+    end
   end
 
   describe 'grouped by' do
