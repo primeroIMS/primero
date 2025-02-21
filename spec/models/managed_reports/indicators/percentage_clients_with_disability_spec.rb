@@ -78,7 +78,8 @@ describe ManagedReports::Indicators::PercentageClientsWithDisability do
     expect(report_data).to match_array(
       [
         { id: 'true', female: 50.0, male: 66.67, total: 60.0 },
-        { id: 'false', female: 50.0, male: 33.33, total: 40.0 }
+        { id: 'false', female: 50.0, total: 20.0 },
+        { id: 'incomplete_data', male: 33.33, total: 20.0 }
       ]
     )
   end
@@ -105,7 +106,8 @@ describe ManagedReports::Indicators::PercentageClientsWithDisability do
               data: match_array(
                 [
                   { id: 'true', female: 50.0, male: 66.67, total: 60.0 },
-                  { id: 'false', female: 50.0, male: 33.33, total: 40.0 }
+                  { id: 'false', female: 50.0, total: 20.0 },
+                  { id: 'incomplete_data', male: 33.33, total: 20.0 }
                 ]
               )
             }
@@ -135,7 +137,8 @@ describe ManagedReports::Indicators::PercentageClientsWithDisability do
               data: match_array(
                 [
                   { id: 'true', male: 50.0, total: 33.33 },
-                  { id: 'false', female: 100.0, male: 50.0, total: 66.67 }
+                  { id: 'false', female: 100.0, total: 33.33 },
+                  { id: 'incomplete_data', male: 50.0, total: 33.33 }
                 ]
               )
             },
@@ -173,7 +176,8 @@ describe ManagedReports::Indicators::PercentageClientsWithDisability do
               data: match_array(
                 [
                   { id: 'true', male: 50.0, total: 33.33 },
-                  { id: 'false', male: 50.0, female: 100.0, total: 66.67 }
+                  { id: 'false', female: 100.0, total: 33.33 },
+                  { id: 'incomplete_data', male: 50.0, total: 33.33 }
                 ]
               )
             },

@@ -20,7 +20,7 @@ class ManagedReports::Indicators::PercentageClientsWithDisability < ManagedRepor
         WITH disability_cases AS (
           SELECT
             #{date_query&.+(' AS group_id,')}
-            COALESCE(data->>'disability_status_yes_no', 'false') AS disability_status,
+            COALESCE(data->>'disability_status_yes_no', 'incomplete_data') AS disability_status,
             data->>'sex' AS sex
           FROM cases
           #{join_searchable_next_steps}
