@@ -2381,7 +2381,7 @@ en:
         clients_disability: Clients with a disability
         case_safety_plan: Cases with a safety plan
         clients_gender: Cases by gender
-      description: Percentage of cases with each protection risk within gender and timeframe cohorts
+      description: 'Key case characteristics, including % of cases by risk level, protection risks, case management duration, disability status, safety plan completion, and sex.'
       name: Case Characteristics
       filter_options:
         registration_date: Registration Date
