@@ -227,11 +227,14 @@ module ManagedReports::SqlQueryHelpers
     def module_age_range(module_id = nil)
       return nil unless module_id.present?
 
-      PrimeroModule.age_ranges(module_id&.value)
+      module_age_ranges = PrimeroModule.age_ranges(module_id&.value)
+      return module_age_ranges if module_age_ranges.present?
+
+      SystemSettings.primary_age_ranges
     end
 
     def age_ranges_query(field_name: 'age', table_name: nil, is_json_field: true, module_id: nil)
-      (module_age_range(module_id) || SystemSettings.primary_age_ranges).reduce("case \n") do |acc, range|
+      module_age_range(module_id).reduce("case \n") do |acc, range|
         column = age_range_column(field_name, table_name, is_json_field)
 
         acc + ActiveRecord::Base.sanitize_sql_for_conditions(
