@@ -315,6 +315,24 @@ en:
     case_opening_date: Case Open Date
     case_plan: Case Plan
     case_worker_code: Case Worker Code
+    child_functioning:
+      date: "Date"
+      ready_to_start_cfm: "Are you ready to start the Child Functioning Module"
+      age: "Age"
+      vision_wear_glass: "Vision wear glass"
+      difficulty_seeing_with_glasses: "Difficulty seeing with glasses"
+      child_wears_hearing_aid: "The child wears hearing aid"
+      difficulty_hearing_with_hearing_aid: "Difficulty hearing with hearing aid"
+      child_uses_equipment_or_receive_assistance_for_walking: "The child uses equipment or receive assistance for walking"
+      difficulty_walking_without_equipment: "Difficulty walking without equipment/assistance"
+      difficulty_walking_with_equipment: "Difficulty walking with equipment/assistance"
+      difficulty_picking_up_small_objects_with_hand: "Difficulty picking up small objects with hand"
+      child_have_difficulty_to_understand: "The child have difficulty to understand"
+      difficulty_to_understand_the_child: "Difficulty to understand the child"
+      child_have_difficulty_for_learning: "The child have difficulty for Learning"
+      child_have_difficulty_for_playing: "The child have difficulty for playing"
+      difficulty_for_controlling_behaviour: "Difficulty for controlling behaviour like kick,bite or hit others"
+    n_a: "N/A"
     client_code: Client Code
     clear_filter: Clear
     close_dialog: Clicking OK will change the status of this case to Closed
