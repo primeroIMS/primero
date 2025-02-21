@@ -35,6 +35,7 @@ export const FieldRecord = Record({
   subform_section_configuration: null,
   subform_section_id: null,
   subform_sort_by: "",
+  subform_summary: null,
   tally: {},
   tick_box_label: {},
   type: "",
