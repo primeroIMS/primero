@@ -32,10 +32,14 @@ function Component({ close, i18n, open, pending, setPending }) {
       )
       .required("To Date is required")
       .typeError("To Date must be a valid date") // catch invalid date format
-      .test("is-after", "To Date must be greater than From Date", function validateToDate(value) {
-        const { fromDate } = this.parent;
+      .test({
+        name: "is-after",
+        message: "To Date must be greater than From Date",
+        test: (value, context) => {
+          const { fromDate } = context.parent;
 
-        return !fromDate || value > fromDate;
+          return !fromDate || !value || value > fromDate;
+        }
       }),
     file_name: string().required("File name is required")
   });
