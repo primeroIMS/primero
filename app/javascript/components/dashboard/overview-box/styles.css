@@ -18,10 +18,6 @@
   display: grid;
   grid-template-columns: auto 1fr;
   grid-gap: var(--sp-1);
-
-  & a:nth-child(1), a:nth-child(2), a:nth-child(3), a:nth-child(4) {
-    font-weight: 600;
-  }
 }
 
 .dashboardChart {
@@ -58,6 +54,10 @@
 
 .item {
   margin-bottom: var(--sp-1);
+}
+
+.highlight {
+  font-weight: 600;
 }
 
 @media (max-width:900px) {
