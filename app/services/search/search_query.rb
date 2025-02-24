@@ -32,8 +32,11 @@ class Search::SearchQuery
     return self unless value.present?
 
     tokens = LanguageService.tokenize(value)
+    order_query = ActiveRecord::Base.sanitize_sql_for_order(
+      "#{phonetic_score_query(tokens)} #{similarity_score_query(value)}"
+    )
     @query = @query.where("phonetic_data ->'tokens' ?| array[:values]", values: tokens)
-                   .order(Arel.sql("#{phonetic_score_query(tokens)} #{similarity_score_query(value)}"))
+                   .order(Arel.sql(order_query))
     self
   end
 
@@ -71,9 +74,10 @@ class Search::SearchQuery
     return self unless sort.present?
 
     sort.each do |sort_field, direction|
-      @query = @query.order(
-        ActiveRecord::Base.sanitize_sql_for_order([Arel.sql("data->? #{order_direction(direction)}"), [sort_field]])
-      )
+      field = ActiveRecord::Base.sanitize_sql_array(['data->?', sort_field])
+      direction = order_direction(direction)
+      order_query = ActiveRecord::Base.sanitize_sql_for_order("#{field} #{direction}")
+      @query = @query.order(Arel.sql(order_query))
     end
 
     self

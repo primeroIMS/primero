@@ -55,7 +55,13 @@ function Dashboard() {
     ACTIONS.DASH_ACTION_NEEDED_NEW_REFERRALS,
     ACTIONS.DASH_ACTION_NEEDED_TRANSFER_AWAITING_ACCEPTANCE
   ]);
-  const canSeeOverviewDashboard = usePermissions(RESOURCES.dashboards, [ACTIONS.DASH_CASE_OVERVIEW]);
+  const canSeeOverviewDashboard = usePermissions(RESOURCES.dashboards, [
+    ACTIONS.DASH_CASE_OVERVIEW,
+    ACTIONS.DASH_CASE_RISK,
+    ACTIONS.DASH_GROUP_OVERVIEW,
+    ACTIONS.DASH_CASE_INCIDENT_OVERVIEW,
+    ACTIONS.DASH_NATIONAL_ADMIN_SUMMARY
+  ]);
   const canSeeWorkflowDashboard = usePermissions(RESOURCES.dashboards, [ACTIONS.DASH_WORKFLOW]);
 
   useEffect(() => {
