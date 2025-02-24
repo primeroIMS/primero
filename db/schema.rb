@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_12_05_000000) do
+ActiveRecord::Schema.define(version: 2025_02_21_221206) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -253,6 +253,7 @@ ActiveRecord::Schema.define(version: 2024_12_05_000000) do
     t.index ["name"], name: "index_fields_on_name"
     t.index ["subform_summary"], name: "index_fields_on_subform_summary", using: :gin
     t.index ["type"], name: "index_fields_on_type"
+    t.index ["updated_at"], name: "index_fields_on_updated_at"
   end
 
   create_table "flags", id: :serial, force: :cascade do |t|
@@ -524,6 +525,24 @@ ActiveRecord::Schema.define(version: 2024_12_05_000000) do
     t.index ["user_id"], name: "index_saved_searches_on_user_id"
   end
 
+  create_table "searchable_booleans", force: :cascade do |t|
+    t.string "record_type"
+    t.uuid "record_id"
+    t.string "field_name"
+    t.boolean "value"
+    t.index ["field_name", "record_id", "record_type", "value"], name: "searchable_booleans_idx"
+    t.index ["record_type", "record_id"], name: "index_searchable_booleans_on_record"
+  end
+
+  create_table "searchable_datetimes", force: :cascade do |t|
+    t.string "record_type"
+    t.uuid "record_id"
+    t.string "field_name"
+    t.datetime "value"
+    t.index ["field_name", "record_id", "record_type", "value"], name: "searchable_datetimes_idx"
+    t.index ["record_type", "record_id"], name: "index_searchable_datetimes_on_record"
+  end
+
   create_table "searchable_identifiers", force: :cascade do |t|
     t.string "record_type"
     t.uuid "record_id"
@@ -531,6 +550,34 @@ ActiveRecord::Schema.define(version: 2024_12_05_000000) do
     t.string "value"
     t.index ["record_type", "record_id"], name: "index_searchable_identifiers_on_record"
     t.index ["value"], name: "searchable_identifiers_value_idx", opclass: :gin_trgm_ops, using: :gin
+  end
+
+  create_table "searchable_numerics", force: :cascade do |t|
+    t.string "record_type"
+    t.uuid "record_id"
+    t.string "field_name"
+    t.integer "value"
+    t.index ["field_name", "record_id", "record_type", "value"], name: "searchable_numerics_idx"
+    t.index ["record_type", "record_id"], name: "index_searchable_numerics_on_record"
+  end
+
+  create_table "searchable_values", force: :cascade do |t|
+    t.string "record_type"
+    t.uuid "record_id"
+    t.string "field_name"
+    t.string "value"
+    t.index ["field_name", "record_id", "record_type", "value"], name: "searchable_values_idx"
+    t.index ["record_type", "record_id"], name: "index_searchable_values_on_record"
+  end
+
+  create_table "sessions", force: :cascade do |t|
+    t.string "session_id", null: false
+    t.jsonb "data", default: {}
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["data"], name: "index_sessions_on_data", using: :gin
+    t.index ["session_id"], name: "index_sessions_on_session_id", unique: true
+    t.index ["updated_at"], name: "index_sessions_on_updated_at"
   end
 
   create_table "sources", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -625,6 +672,7 @@ ActiveRecord::Schema.define(version: 2024_12_05_000000) do
     t.string "transitioned_to_user_agency"
     t.string "transitioned_to_user_groups", array: true
     t.string "authorized_role_unique_id"
+    t.boolean "allow_case_creation", default: false, null: false
     t.index ["authorized_role_unique_id"], name: "index_transitions_on_authorized_role_unique_id"
     t.index ["id", "type"], name: "index_transitions_on_id_and_type"
     t.index ["record_type", "record_id"], name: "index_transitions_on_record_type_and_record_id"

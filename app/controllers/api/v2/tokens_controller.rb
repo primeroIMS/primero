@@ -9,6 +9,7 @@ class Api::V2::TokensController < Devise::SessionsController
   respond_to :json
 
   before_action :write_audit_log, only: [:respond_to_on_destroy]
+  before_action :signout_user_sessions
 
   # This method overrides the deprecated ActionController::MimeResponds#respond_with
   # that Devise unfortunately still uses. We are overriding it to return a JSON object
@@ -67,5 +68,9 @@ class Api::V2::TokensController < Devise::SessionsController
 
   def current_token
     IdpTokenStrategy.token_from_header(request.headers)
+  end
+
+  def signout_user_sessions
+    Session.find_by_user_id(current_user.id).delete_all if current_user.present?
   end
 end
