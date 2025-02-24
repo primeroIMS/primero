@@ -19,7 +19,7 @@ const paramQueryString = (key, value) => {
     }, "");
   }
 
-  return `${key}=${value}`;
+  return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
 };
 
 export default filters =>

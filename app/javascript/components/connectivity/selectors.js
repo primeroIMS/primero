@@ -30,3 +30,5 @@ export const getQueueData = state => state.getIn([NAMESPACE, "queueData"], fromJ
 export const hasQueueData = state => !getQueueData(state).isEmpty();
 
 export const selectUserToggleOffline = state => state.getIn([NAMESPACE, "fieldMode"], false);
+
+export const selectPendingUserLogin = state => state.getIn([NAMESPACE, "pendingUserLogin"], false);
