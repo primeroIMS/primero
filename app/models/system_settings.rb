@@ -81,7 +81,7 @@ class SystemSettings < ApplicationRecord
   end
 
   def reporting_location_config=(config)
-    super(reporting_location_config.to_h.merge(config&.to_h))
+    super((reporting_location_config || {}).to_h.merge(config&.to_h))
   end
 
   def incident_reporting_location_config
