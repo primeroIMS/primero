@@ -18,7 +18,8 @@ import {
   selectNetworkStatus,
   selectServerStatusRetries,
   selectQueueStatus,
-  selectUserToggleOffline
+  selectUserToggleOffline,
+  selectPendingUserLogin
 } from "./selectors";
 import { checkServerStatus, setQueueData, setQueueStatus } from "./action-creators";
 import { CHECK_SERVER_INTERVAL, CHECK_SERVER_RETRY_INTERVAL } from "./constants";
@@ -34,6 +35,7 @@ const useConnectivityStatus = () => {
   const currentDialog = useMemoizedSelector(state => selectDialog(state));
   const serverStatusRetries = useMemoizedSelector(state => selectServerStatusRetries(state));
   const browserStatus = useMemoizedSelector(state => selectBrowserStatus(state));
+  const pendingUserLogin = useMemoizedSelector(state => selectPendingUserLogin(state));
 
   const fetchQueue = async () => {
     const queueData = await DB.getAll(DB_STORES.OFFLINE_REQUESTS);
@@ -105,7 +107,7 @@ const useConnectivityStatus = () => {
   }, [online, queueStatus]);
 
   useEffect(() => {
-    const ready = online && authenticated && queueStatus === QUEUE_READY;
+    const ready = online && authenticated && queueStatus === QUEUE_READY && !pendingUserLogin;
 
     const startQueue = async () => {
       Queue.ready = ready;
@@ -121,7 +123,7 @@ const useConnectivityStatus = () => {
     };
 
     startQueue();
-  }, [online, authenticated, queueStatus]);
+  }, [online, authenticated, queueStatus, pendingUserLogin]);
 
   useEffect(() => {
     setConnectionListeners();

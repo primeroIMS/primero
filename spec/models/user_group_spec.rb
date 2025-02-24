@@ -30,5 +30,12 @@ describe UserGroup do
       expect(user_groups.size).to eq(3)
       expect(user_groups.pluck(:unique_id)).to match_array(%w[group_1 group_2 group_3])
     end
+
+    it 'when agency filter is not set' do
+      user_groups = UserGroup.list(nil)
+
+      expect(user_groups.size).to eq(3)
+      expect(user_groups.map(&:unique_id)).to match_array(%w[group_1 group_2 group_3])
+    end
   end
 end
