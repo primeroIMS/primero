@@ -34,7 +34,8 @@ function Component({ loadingIndicator, userPermissions }) {
         options: {
           items: filterIndicatorsByKey(permittedSharedWithMe(sharedWithMe, userPermissions), sharedWithMeIndicators),
           sumTitle: i18n.t("dashboard.dash_shared_with_me"),
-          withTotal: false
+          withTotal: false,
+          highlights: ["shared_with_me_new_referrals"]
         }
       }
     ]);

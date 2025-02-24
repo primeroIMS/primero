@@ -45,6 +45,7 @@ function Component({ loadingIndicator }) {
     actions: ACTIONS.DASH_CASE_INCIDENT_OVERVIEW,
     options: {
       items: caseIncidentOverview,
+      highlights: ["new_or_updated", "with_new_incidents"],
       sumTitle: i18n.t("dashboard.dash_case_incident_overview"),
       withTotal: false
     }

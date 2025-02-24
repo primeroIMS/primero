@@ -16,10 +16,11 @@ import { ROUTES } from "../../../../config";
 import LoadingIndicator from "../../../loading-indicator";
 import Permission, { MANAGE, RESOURCES } from "../../../permissions";
 import { useMemoizedSelector } from "../../../../libs";
+import { enqueueSnackbar, SNACKBAR_VARIANTS } from "../../../notifier";
 
 import { NAME, FORM_ID } from "./constants";
 import { form, validations } from "./form";
-import { getCodeOfConduct, getLoadingCodeOfConduct } from "./selectors";
+import { getCodeOfConduct, getFetchErrorsCodeOfConduct, getLoadingCodeOfConduct } from "./selectors";
 import { fetchCodeOfConduct, saveCodeOfConduct } from "./action-creators";
 
 function Component({ mode }) {
@@ -29,6 +30,7 @@ function Component({ mode }) {
   const { pathname } = useLocation();
   const dispatch = useDispatch();
 
+  const fetchErrors = useMemoizedSelector(state => getFetchErrorsCodeOfConduct(state));
   const codeOfConduct = useMemoizedSelector(state => getCodeOfConduct(state));
   const loadingCodeOfConduct = useMemoizedSelector(state => getLoadingCodeOfConduct(state));
 
@@ -74,6 +76,20 @@ function Component({ mode }) {
   useEffect(() => {
     dispatch(fetchCodeOfConduct());
   }, []);
+
+  useEffect(() => {
+    const messages = fetchErrors.reduce((acc, error) => {
+      if (error.get("status") === 404) {
+        return acc;
+      }
+
+      return acc.concat(error.get("message"));
+    }, []);
+
+    if (messages.length) {
+      dispatch(enqueueSnackbar(messages.join(", "), { variant: SNACKBAR_VARIANTS.error }));
+    }
+  }, [fetchErrors]);
 
   return (
     <Permission resources={RESOURCES.codes_of_conduct} actions={MANAGE} redirect>
