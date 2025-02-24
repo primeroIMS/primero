@@ -11,7 +11,8 @@ export const fetchCodeOfConduct = () => ({
   type: actions.FETCH_CODE_OF_CONDUCT,
   api: {
     path: RECORD_PATH.codes_of_conduct,
-    method: "GET"
+    method: "GET",
+    failureCallback: []
   }
 });
 
