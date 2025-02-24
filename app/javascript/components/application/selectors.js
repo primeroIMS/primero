@@ -118,17 +118,19 @@ export const getSystemPermissions = state => state.getIn([NAMESPACE, PERMISSIONS
 export const getResourceActions = (state, resource) =>
   getSystemPermissions(state).getIn([RESOURCE_ACTIONS, resource], fromJS([]));
 
-export const getAgeRanges = (state, name = "primero") => state.getIn([NAMESPACE, "ageRanges", name], fromJS([]));
-
-export const getPrimaryAgeRange = state => {
-  const systemAgeRanges = state.getIn([NAMESPACE, "primaryAgeRange"], "primero");
+export const getAgeRanges = (state, name = "primero") => {
   const userModules = selectUserModules(state);
+  const ageRange = state.getIn([NAMESPACE, "ageRanges", name], fromJS([]));
 
   if (userModules.size === 1) {
-    return userModules.first()?.primary_age_range || systemAgeRanges;
+    return userModules.first()?.age_range || ageRange;
   }
 
-  return systemAgeRanges;
+  return ageRange;
+};
+
+export const getPrimaryAgeRange = state => {
+  return state.getIn([NAMESPACE, "primaryAgeRange"], "primero");
 };
 
 export const getPrimaryAgeRanges = state => getAgeRanges(state, getPrimaryAgeRange(state));

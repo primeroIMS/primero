@@ -703,8 +703,14 @@ class Filter < ValueObject
     end.inject(&:merge)
   end
 
-  def age_options(_opts = {})
-    self.options = SystemSettings.primary_age_ranges.map do |age_range|
+  def user_age_range(user)
+    PrimeroModule.age_ranges(user.modules.first.unique_id) if user.modules.size == 1
+  end
+
+  def age_options(opts = {})
+    age_ranges = user_age_range(opts[:user]) || SystemSettings.primary_age_ranges
+
+    self.options = age_ranges.map do |age_range|
       { id: age_range.to_s, display_name: age_range.to_s }
     end
   end
