@@ -6,6 +6,7 @@ source 'https://rubygems.org'
 ruby '3.3.5'
 
 gem 'activerecord-nulldb-adapter'      # Running Rake tasks at build time before DB is set up. TODO: Still needed?
+gem 'activerecord-session_store', '~> 2.0'
 gem 'aws-sdk-s3',          '~> 1.130', # Access and manage Amazon S3 storage (with ActiveStorage).
     require: false
 gem 'azure-storage-blob',  '~> 1.1',   # Access and manage Microsoft Azure Storage Blob Services (with ActiveStorage).
@@ -42,18 +43,17 @@ gem 'rubyzip',             '~> 2.3',   # Zip and encrypt exported files
 gem 'spreadsheet',         '~> 1.3'    # Read XLS spreadsheets for imports (not XLSX!). TODO: Different gem? Reconsider?
 # Note: if upgrading Sunspot, update the corresponding version of Solr on the Docker image
 # Current Solr version is 5.3.1
-gem 'activerecord-session_store', '~> 2.0'
-gem 'sunspot_rails', '~> 2.6', # Rails ODM bindings to Solr
+gem 'sunspot_rails',       '~> 2.6',    # Rails ODM bindings to Solr
     require: false
-gem 'sunspot_solr', '~> 2.6', # Ruby bindings to Solr
+gem 'sunspot_solr',        '~> 2.6',    # Ruby bindings to Solr
     require: false
-gem 'text', '~> 1.3' # Phonetic Search Algorithms
-gem 'twitter_cldr', '~> 4.4' # Localization for dates, money. TODO: Is this still used?
-gem 'tzinfo-data', '~> 1.2023' # Timezone Data for TZInfo
-gem 'uri', '~> 0.12' # CVE-2023-36617: ReDoS vulnerability in URI
-gem 'web-push', '~> 3.0'
-gem 'will_paginate', '~> 4.0' # Paginates ActiveRecord models  TODO: This can be refactored away.
-gem 'write_xlsx', '~> 1.11' # Exports XLSX
+gem 'text',                '~> 1.3'    # Phonetic Search Algorithms
+gem 'twitter_cldr',        '~> 4.4'    # Localization for dates, money. TODO: Is this still used?
+gem 'tzinfo-data',         '~> 1.2023' # Timezone Data for TZInfo
+gem 'uri',                 '~> 0.12'   # CVE-2023-36617: ReDoS vulnerability in URI
+gem 'web-push',            '~> 3.0'
+gem 'will_paginate',       '~> 4.0'    # Paginates ActiveRecord models  TODO: This can be refactored away.
+gem 'write_xlsx',          '~> 1.11'   # Exports XLSX
 
 group :development, :test do
   gem 'bundler-audit',              '~> 0.9'
