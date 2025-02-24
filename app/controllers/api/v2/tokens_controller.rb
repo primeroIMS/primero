@@ -9,7 +9,8 @@ class Api::V2::TokensController < Devise::SessionsController
   respond_to :json
 
   before_action :write_audit_log, only: [:respond_to_on_destroy]
-  before_action :signout_user_sessions
+  before_action :signout_user_sessions, only: %i[create destroy]
+  after_action :store_ip_and_user_agent, only: %i[create]
 
   # This method overrides the deprecated ActionController::MimeResponds#respond_with
   # that Devise unfortunately still uses. We are overriding it to return a JSON object
@@ -72,5 +73,10 @@ class Api::V2::TokensController < Devise::SessionsController
 
   def signout_user_sessions
     Session.find_by_user_id(current_user.id).delete_all if current_user.present?
+  end
+
+  def store_ip_and_user_agent
+    session[:ip_address] ||= request.remote_ip
+    session[:user_agent] ||= request.user_agent
   end
 end
