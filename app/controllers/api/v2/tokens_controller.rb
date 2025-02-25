@@ -72,7 +72,7 @@ class Api::V2::TokensController < Devise::SessionsController
   end
 
   def signout_user_sessions
-    Session.find_by_user_id(current_user.id).delete_all if current_user.present?
+    Session.list_by_user_id(current_user.id).delete_all if current_user.present?
   end
 
   def store_ip_and_user_agent
