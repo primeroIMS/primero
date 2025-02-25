@@ -3,6 +3,7 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 # Configures the behavior of a module of Primero
+# rubocop:disable Metrics/ClassLength
 class PrimeroModule < ApplicationRecord
   include LocalizableJsonProperty
   include ConfigurationRecord
@@ -61,9 +62,10 @@ class PrimeroModule < ApplicationRecord
     :workflow_status_indicator, :agency_code_indicator, :use_workflow_service_implemented,
     :use_workflow_case_plan, :use_workflow_assessment, :reporting_location_filter,
     :user_group_filter, :use_webhooks_for, :use_webhook_sync_for, :consent_form,
-    :list_filters, :list_headers, :primary_age_range, :approval_forms_to_alert,
+    :list_filters, :list_headers, :approval_forms_to_alert,
     :approvals_labels_i18n, :changes_field_to_form, :search_and_create_workflow,
-    :violation_type_field, :creation_field_map, :data_protection_case_create_field_names
+    :violation_type_field, :creation_field_map, :data_protection_case_create_field_names,
+    :age_ranges
   )
 
   localize_jsonb_properties %i[approvals_labels]
@@ -119,8 +121,14 @@ class PrimeroModule < ApplicationRecord
     all.pluck(:unique_id)
   end
 
-  def self.primary_age_range(module_id)
-    find_by(unique_id: module_id)&.primary_age_range
+  def self.age_ranges(module_id)
+    ranges = find_by(unique_id: module_id)&.age_ranges
+    return [] unless ranges.present?
+
+    ranges&.map do |age_range|
+      min, max = age_range.split('..').map(&:to_i)
+      AgeRange.new(min, max)
+    end
   end
 
   def form_section_unique_ids
@@ -171,3 +179,4 @@ class PrimeroModule < ApplicationRecord
     self.form_sections = form_sections | subforms
   end
 end
+# rubocop:enable Metrics/ClassLength

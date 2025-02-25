@@ -39,7 +39,7 @@ class ManagedReports::Indicators::FieldByAgeSex < ManagedReports::SqlReportIndic
           with #{id}_by_sex_and_age as (
             select
               data->> 'sex' as name,
-              #{age_ranges_query} as key,
+              #{age_ranges_query(module_id: params['module_id'])} as key,
               #{grouped_date_query(params['grouped_by'], filter_date(params))&.concat(' as group_id,')}
               count(*) as sum
             from cases
