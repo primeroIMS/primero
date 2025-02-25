@@ -20,4 +20,8 @@ class HealthController < ApplicationController
     response.set_header('Retry-After', RETRY_AFTER)
     head :service_unavailable
   end
+
+  def use_csrf_protection?
+    false
+  end
 end

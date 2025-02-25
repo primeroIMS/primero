@@ -14,6 +14,8 @@ module CsrfProtection
   private
 
   def set_csrf_cookie
+    return unless use_csrf_protection?
+
     cookies['CSRF-TOKEN'] = {
       path: '/',
       secure: Rails.env.production?,
