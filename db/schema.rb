@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_12_19_000000) do
+ActiveRecord::Schema.define(version: 2025_02_28_000006) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -530,7 +530,7 @@ ActiveRecord::Schema.define(version: 2024_12_19_000000) do
     t.uuid "record_id"
     t.string "field_name"
     t.boolean "value"
-    t.index ["field_name", "record_id", "record_type", "value"], name: "searchable_booleans_unique_idx", unique: true
+    t.index ["field_name", "record_id", "record_type", "value"], name: "searchable_booleans_idx"
     t.index ["record_type", "record_id"], name: "index_searchable_booleans_on_record"
   end
 
@@ -539,7 +539,7 @@ ActiveRecord::Schema.define(version: 2024_12_19_000000) do
     t.uuid "record_id"
     t.string "field_name"
     t.datetime "value"
-    t.index ["field_name", "record_id", "record_type", "value"], name: "searchable_datetimes_unique_idx", unique: true
+    t.index ["field_name", "record_id", "record_type", "value"], name: "searchable_datetimes_idx"
     t.index ["record_type", "record_id"], name: "index_searchable_datetimes_on_record"
   end
 
@@ -557,7 +557,7 @@ ActiveRecord::Schema.define(version: 2024_12_19_000000) do
     t.uuid "record_id"
     t.string "field_name"
     t.integer "value"
-    t.index ["field_name", "record_id", "record_type", "value"], name: "searchable_numerics_unique_idx", unique: true
+    t.index ["field_name", "record_id", "record_type", "value"], name: "searchable_numerics_idx"
     t.index ["record_type", "record_id"], name: "index_searchable_numerics_on_record"
   end
 
@@ -566,7 +566,7 @@ ActiveRecord::Schema.define(version: 2024_12_19_000000) do
     t.uuid "record_id"
     t.string "field_name"
     t.string "value"
-    t.index ["field_name", "record_id", "record_type", "value"], name: "searchable_values_unique_idx", unique: true
+    t.index ["field_name", "record_id", "record_type", "value"], name: "searchable_values_idx"
     t.index ["record_type", "record_id"], name: "index_searchable_values_on_record"
   end
 
