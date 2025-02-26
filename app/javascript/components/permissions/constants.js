@@ -149,6 +149,7 @@ export const RESOURCES = {
   roles: "roles",
   systems: "systems",
   tracing_requests: "tracing_requests",
+  usage_reports: "usage_reports",
   user_groups: "user_groups",
   users: "users",
   webhooks: "webhooks"
@@ -166,7 +167,8 @@ export const ADMIN_RESOURCES = [
   RESOURCES.forms,
   RESOURCES.metadata,
   RESOURCES.audit_logs,
-  RESOURCES.webhooks
+  RESOURCES.webhooks,
+  RESOURCES.usage_reports
 ];
 
 export const SEARCH_OTHERS = [...MANAGE, ACTIONS.SEARCH_OWNED_BY_OTHERS];
@@ -226,6 +228,8 @@ export const SHOW_AUDIT_LOGS = [...MANAGE, ACTIONS.READ];
 export const REFER_FROM_SERVICE = [...MANAGE, ACTIONS.REFERRAL, ACTIONS.REFERRAL_FROM_SERVICE];
 
 export const ACTIVITY_LOGS = [...MANAGE, ACTIONS.TRANSFER];
+
+export const SHOW_USAGE_REPORTS = [...MANAGE, ACTIONS.READ];
 
 export const REQUEST_APPROVAL = [
   ...MANAGE,

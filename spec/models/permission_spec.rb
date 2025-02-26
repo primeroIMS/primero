@@ -16,7 +16,7 @@ describe Permission do
                   Permission::AGENCY, Permission::WEBHOOK, Permission::METADATA, Permission::SYSTEM, Permission::REPORT,
                   Permission::MANAGED_REPORT, Permission::DASHBOARD, Permission::AUDIT_LOG,
                   Permission::MATCHING_CONFIGURATION, Permission::DUPLICATE, Permission::CODE_OF_CONDUCT,
-                  Permission::ACTIVITY_LOG]
+                  Permission::ACTIVITY_LOG, Permission::USAGE_REPORT]
       expect(Permission.resources).to match_array(expected)
     end
   end

@@ -162,6 +162,7 @@ describe("Verifying config constant", () => {
       "roles",
       "systems",
       "tracing_requests",
+      "usage_reports",
       "user_groups",
       "users",
       "webhooks"

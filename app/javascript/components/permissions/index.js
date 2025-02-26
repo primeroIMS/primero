@@ -52,7 +52,8 @@ export {
   VIEW_KPIS,
   WRITE_RECORDS,
   WRITE_REGISTRY_RECORD,
-  REMOVE_ALERT
+  REMOVE_ALERT,
+  SHOW_USAGE_REPORTS
 } from "./constants";
 
 export { checkPermissions } from "./utils";

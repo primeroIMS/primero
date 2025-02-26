@@ -31,3 +31,29 @@ export const saveExport = (body, message, actionLabel) => ({
     ]
   }
 });
+
+export const saveUsageExport = (body, message, actionLabel) => ({
+  type: actions.EXPORT,
+  api: {
+    path: "usage_reports",
+    method: "POST",
+    body,
+    successCallback: [
+      {
+        action: ENQUEUE_SNACKBAR,
+        payload: {
+          message,
+          options: {
+            variant: "success",
+            key: generate.messageKey(message)
+          },
+          actionLabel,
+          actionUrl: "/usage_reports"
+        }
+      },
+      {
+        action: CLEAR_DIALOG
+      }
+    ]
+  }
+});

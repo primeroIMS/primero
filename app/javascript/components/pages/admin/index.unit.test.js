@@ -25,7 +25,8 @@ describe("pages/admin - index", () => {
       "UserGroupsForm",
       "UserGroupsList",
       "UsersForm",
-      "UsersList"
+      "UsersList",
+      "UsageReports"
     ].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];
