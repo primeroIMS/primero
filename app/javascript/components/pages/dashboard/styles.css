@@ -11,6 +11,7 @@
 .flexFlow {
   display: flex;
   flex-flow: column;
+  gap: var(--sp-1);
 }
 
 .flexGrow {
