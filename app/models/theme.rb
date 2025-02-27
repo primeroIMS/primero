@@ -91,7 +91,7 @@ class Theme < ApplicationRecord
 
   def t(key, locale)
     data.dig(key, locale) || data.dig(key, I18n.default_locale.to_s) ||
-             DEFAULT_THEME.dig(key, I18n.default_locale.to_s) || ''
+      DEFAULT_THEME.dig(key, I18n.default_locale.to_s) || ''
   end
 
   def get(key, default_value = '')
