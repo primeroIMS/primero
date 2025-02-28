@@ -31,7 +31,7 @@ const renderFormFields = (
   return form.fields.map(field => {
     const tags = getOptionStringsTags(field, values);
     const fieldProps = {
-      field: field.set("disabled", !isNil(field.subform_summary)),
+      field: !isNil(field.subform_summary) ? field.set("disabled", true) : field,
       form,
       mode,
       recordType,
