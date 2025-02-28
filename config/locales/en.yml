@@ -4593,7 +4593,7 @@ en:
       subject: 'Welcome to %{system}!'
       subject_instructions: '%{system} Login Instructions'
       greeting: 'Welcome to %{system}!'
-      body_native: "%{greeting}! We are creating a %{role_name} account for you. You will receive a separate email to set up your password shortly. Once logged in please go to your user profile to find your username. You will find your user profile in the left navigation of Primero."
+      body_native: "%{greeting} We are creating a %{role_name} account for you. You will receive a separate email to set up your password shortly. Once logged in please go to your user profile to find your username. You will find your user profile in the left navigation of Primero."
       body_native2: "You can watch this %{instructional_video} if you need additional guidance."
       instructional_video: instructional video
       additional_support: 'Please contact your %{admin_email} if you need additional support.'
@@ -4677,6 +4677,6 @@ en:
     email_disclaimer_pre: DO NOT REPLY TO THIS EMAIL
     email_welcome_greeting: Welcome to the Primero team
     email_welcome_closing: Welcome to the Primero Community
-    email_closing: At your service
+    email_closing: At your service,
     email_signature: Primero team
     email_admin_name: System Administrator
