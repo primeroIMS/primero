@@ -9,7 +9,7 @@ return unless HealthCheckService.database_accessible? && ActiveRecord::Base.conn
 
 Rails.logger.info('Setting up PeriodicJobs')
 
-jobs = %w[ArchiveBulkExports RecalculateAge]
+jobs = %w[ArchiveBulkExports RecalculateAge SessionExpiry]
 jobs << OptimizeSolr.to_s if Rails.configuration.solr_enabled
 
 jobs.each do |job_name|
