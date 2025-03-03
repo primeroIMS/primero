@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { toServerDateFormat } from "../../libs";
 import { useI18n } from "../i18n";
 
-import childFunctioningSummaryData from "./childFunctioningSummaryData";
+import childFunctioningSummaryData from "./child-functioning-summary-data";
 
 const formatKey = key => key.replace(/_/g, " ").replace(/\b\w/g, char => char.toUpperCase());
 
@@ -39,11 +39,9 @@ function Component({ values = null }) {
         const key = typeof field.key === "function" ? field.key(values) : field.key;
 
         if (!key || displayedKeys.has(key)) return null;
-
         const value = values[key];
 
         if (!value || value === i18n.t("cases.child_functioning.n_a") || value === "") return null;
-
         displayedKeys.add(key);
 
         return (
@@ -56,16 +54,12 @@ function Component({ values = null }) {
   );
 }
 
-Component.displayName = "SubformSummary"; // Added display name
+Component.displayName = "ChildFunctioningSummary"; // Added display name
 
 Component.propTypes = {
   values: PropTypes.shape({
     cfm_start: PropTypes.string
   })
 };
-
-// Component.defaultProps = {
-//   values: null,
-// };
 
 export default Component;

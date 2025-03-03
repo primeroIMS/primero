@@ -5,7 +5,6 @@ import PropTypes from "prop-types";
 import { getIn } from "formik";
 import { cx } from "@emotion/css";
 import { List } from "@mui/material";
-import orderBy from "lodash/orderBy";
 
 import SubformFields from "../subform-fields";
 import SubformEmptyData from "../subform-empty-data";
@@ -15,7 +14,7 @@ import { VIOLATIONS_ASSOCIATIONS_FORM } from "../../../../../config";
 import css from "../styles.css";
 import { isFamilyDetailSubform, isFamilyMemberSubform, isViolationSubform } from "../../utils";
 import { GuidingQuestions } from "../../components";
-import SubformSummary from "../../../../child-functioning";
+import ChildFunctioningSummary from "../../../../child-functioning-summary";
 
 import { isEmptyOrAllDestroyed, isTracesSubform } from "./utils";
 
@@ -44,7 +43,8 @@ function Component({
     name,
     subform_section_configuration: subformSectionConfiguration,
     disabled: isDisabled,
-    guiding_questions: guidingQuestions
+    guiding_questions: guidingQuestions,
+    subform_section_id: subformSectionId
   } = field;
   // eslint-disable-next-line camelcase
   const displayConditions = subformSectionConfiguration?.display_conditions;
@@ -77,7 +77,6 @@ function Component({
       setSelectedValue(orderedValues[index]);
     }
   }, [index]);
-  const sortedRecordsByDateDesc = orderBy(orderedValues, [v => new Date(v.date_cfm_start)], ["desc"]);
 
   const renderEmptyData = isEmptyOrAllDestroyed(orderedValues) ? (
     <SubformEmptyData subformName={title} />
@@ -86,7 +85,7 @@ function Component({
       <SubformFields
         arrayHelpers={arrayHelpers}
         field={field}
-        values={title === "Child Functioning Subform" ? sortedRecordsByDateDesc : orderedValues}
+        values={orderedValues}
         locale={i18n.locale}
         mode={mode}
         setOpen={setOpenDialog}
@@ -114,12 +113,14 @@ function Component({
   );
 
   const getlatestValue = arr => arr?.[0] ?? null;
-  const latestValue = getlatestValue(sortedRecordsByDateDesc);
+  const latestValue = getlatestValue(orderedValues);
 
   return (
     <div className={css.fieldArray} data-testid="subform-field-array">
       {/* Conditionally Render Child Functioning Subform Summary */}
-      {title === "Child Functioning Subform" && <SubformSummary values={latestValue} />}
+      {subformSectionId.unique_id === "child_functioning_subform_section" && (
+        <ChildFunctioningSummary values={latestValue} />
+      )}
       <div className={cssContainer}>
         {!renderAsAccordion && (
           <div data-testid="subForm-header">
@@ -164,7 +165,7 @@ function Component({
         mode={mode}
         selectedValue={selectedValue}
         open={open}
-        orderedValues={title === "Child Functioning Subform" ? sortedRecordsByDateDesc : orderedValues}
+        orderedValues={orderedValues}
         recordModuleID={recordModuleID}
         recordType={recordType}
         setOpen={setOpenDialog}
