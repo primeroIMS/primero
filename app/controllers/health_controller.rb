@@ -22,6 +22,6 @@ class HealthController < ApplicationController
   end
 
   def use_csrf_protection?
-    false
+    super && params[:session] == 'true'
   end
 end
