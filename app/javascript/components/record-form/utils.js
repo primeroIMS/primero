@@ -243,9 +243,12 @@ export const sortSubformValues = (record, formMap) => {
       const { subform_section_configuration: subformSectionConfiguration } = subform;
       const displayConditions = subformSectionConfiguration?.display_conditions;
       const subformSortBy = subformSectionConfiguration?.subform_sort_by;
+      const subformSortByDirection = subformSectionConfiguration
+        ? subformSectionConfiguration.subform_sort_by_direction
+        : "asc";
 
       const values = valuesWithHiddenAttribute(storedValues, displayConditions);
-      const orderedValues = subformSortBy ? orderBy(values, [subformSortBy], ["asc"]) : values;
+      const orderedValues = subformSortBy ? orderBy(values, [subformSortBy], [subformSortByDirection]) : values;
 
       return { ...acc, [subform.name]: orderedValues };
     }

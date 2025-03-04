@@ -35,7 +35,7 @@ class Field < ApplicationRecord
 
   attr_reader :options
 
-  store_accessor :subform_section_configuration, :subform_sort_by, :subform_group_by
+  store_accessor :subform_section_configuration, :subform_sort_by, :subform_group_by, :subform_sort_by_direction
 
   # Since Rails 5 belongs_to acts as a validate_presence_of.
   # This relation will be optional because the scoped association in FormSection will fail otherwise.
@@ -76,7 +76,7 @@ class Field < ApplicationRecord
       'subform_group_by', 'required', 'date_validation', 'date_include_time', 'matchable',
       { 'subform_section_configuration' => {} }, { 'tally' => [:id, { display_text: {} }] }, { 'calculation' => {} },
       'display_conditions_record', { 'display_conditions_record' => {} }, 'display_conditions_subform',
-      { 'display_conditions_subform' => {} }
+      { 'display_conditions_subform' => {} }, 'subform_sort_by_direction'
     ]
   end
   # rubocop:enable Metrics/MethodLength
