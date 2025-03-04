@@ -361,7 +361,7 @@ en:
       depression_how_often: "Depression how often"
       yes: "Yes"
       no: "No"
-    n_a: "N/A"
+      n_a: "N/A"
     client_code: Client Code
     clear_filter: Clear
     close_dialog: Clicking OK will change the status of this case to Closed

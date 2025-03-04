@@ -7,13 +7,13 @@ import childFunctioningSummaryData from "./child-functioning-summary-data";
 
 const formatKey = key => key.replace(/_/g, " ").replace(/\b\w/g, char => char.toUpperCase());
 
-const formatValue = (key, value) => {
+const formatValue = (key, value, i18n) => {
   if (typeof value === "boolean") {
-    return value ? "Yes" : "No";
+    return value ? i18n.t("cases.child_functioning.true") : i18n.t("cases.child_functioning.false");
   }
   if (typeof value === "string") {
-    if (value === "true") return "Yes";
-    if (value === "false") return "No";
+    if (value === "true") return i18n.t("cases.child_functioning.true");
+    if (value === "false") return i18n.t("cases.child_functioning.false");
     if (key.includes("age") && value.includes("_")) return `${value.replace("_", " to ")} years`;
     if (value.includes("_")) return value.replace(/_/g, " ").replace(/\b\w/g, char => char.toUpperCase());
 
@@ -50,7 +50,7 @@ function Component({ values = null }) {
 
         return (
           <div key={key} style={{ marginBottom: "8px" }}>
-            <strong>{formatKey(i18n.t(field.label))}:</strong> {formatValue(key, value)}
+            <strong>{formatKey(i18n.t(field.label))}:</strong> {formatValue(key, value, i18n)}
           </div>
         );
       })}

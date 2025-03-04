@@ -27,7 +27,7 @@ const childFunctioningSummaryData = [
     key: latestValue => `cfm_${latestValue?.cfm_age}_mobility_display`
   },
   {
-    label: "cases.child_functioning.child_functioning.child_uses_equipment_or_receive_assistance_for_walking",
+    label: "cases.child_functioning.child_uses_equipment_or_receive_assistance_for_walking",
     key: latestValue => `cfm_${latestValue?.cfm_age}_mobility_uses_equipment`
   },
   {
@@ -103,7 +103,7 @@ const childFunctioningSummaryData = [
     key: latestValue => `cfm_${latestValue?.cfm_age}_playing_display`
   },
   {
-    label: "cases.child_functioning.child_functioning.child_have_difficulty_for_playing",
+    label: "cases.child_functioning.child_have_difficulty_for_playing",
     key: latestValue => `cfm_${latestValue?.cfm_age}_playing_difficulty`
   },
   {
