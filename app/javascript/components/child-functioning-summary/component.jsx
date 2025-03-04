@@ -8,11 +8,15 @@ import childFunctioningSummaryData from "./child-functioning-summary-data";
 const formatKey = key => key.replace(/_/g, " ").replace(/\b\w/g, char => char.toUpperCase());
 
 const formatValue = (key, value) => {
+  if (typeof value === "boolean") {
+    return value ? "Yes" : "No";
+  }
   if (typeof value === "string") {
     if (value === "true") return "Yes";
     if (value === "false") return "No";
     if (key.includes("age") && value.includes("_")) return `${value.replace("_", " to ")} years`;
     if (value.includes("_")) return value.replace(/_/g, " ").replace(/\b\w/g, char => char.toUpperCase());
+
     const parsedDate = new Date(value);
 
     if (!Number.isNaN(parsedDate.getTime())) {
@@ -22,7 +26,7 @@ const formatValue = (key, value) => {
     return value;
   }
 
-  return value; // Handle non-string values
+  return value; // Handle other data types (numbers, etc.)
 };
 
 function Component({ values = null }) {
