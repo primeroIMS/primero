@@ -22,7 +22,7 @@ class ManagedReports::SubReports::ProcessQualityTotalCases < ManagedReports::Sub
 
   def indicators_subcolumns
     {
-      ManagedReports::Indicators::TotalProtectionManagementCases.id => 'lookup-gender'
+      ManagedReports::Indicators::TotalProtectionManagementCases.id => 'lookup-gender-identity'
     }.freeze
   end
 end

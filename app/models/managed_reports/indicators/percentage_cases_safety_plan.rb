@@ -21,7 +21,7 @@ class ManagedReports::Indicators::PercentageCasesSafetyPlan < ManagedReports::Sq
           SELECT
             #{date_query&.+(' AS group_id,')}
             data->>'begin_safety_plan_prompt' AS safety_plan,
-            data->>'sex' AS sex
+            COALESCE(data->>'gender', 'incomplete_data') AS gender
           FROM cases
           #{ManagedReports::SearchableFilterService.filter_next_steps}
           #{ManagedReports::SearchableFilterService.filter_datetimes(date_param)}
@@ -33,10 +33,10 @@ class ManagedReports::Indicators::PercentageCasesSafetyPlan < ManagedReports::Sq
         SELECT
           #{group_id&.+(',')}
           safety_plan,
-          sex,
+          gender,
           COUNT(*)
         FROM disability_cases
-        GROUP BY #{group_id&.+(',')} safety_plan, sex
+        GROUP BY #{group_id&.+(',')} safety_plan, gender
       )
     end
     # rubocop:enable Metrics/MethodLength
@@ -68,7 +68,7 @@ class ManagedReports::Indicators::PercentageCasesSafetyPlan < ManagedReports::Sq
 
     def find_safety_plan_not_completed(results, opts)
       results.find do |elem|
-        same_elem = elem['safety_plan'] == 'safety_plan_not_completed' && elem['sex'] == opts['sex']
+        same_elem = elem['safety_plan'] == 'safety_plan_not_completed' && elem['gender'] == opts['gender']
         next same_elem unless opts.key?('group_id')
 
         opts['group_id'] == elem['group_id'] && same_elem
@@ -76,11 +76,11 @@ class ManagedReports::Indicators::PercentageCasesSafetyPlan < ManagedReports::Sq
     end
 
     def fields
-      %w[sex safety_plan]
+      %w[gender safety_plan]
     end
 
     def result_map
-      { 'key' => 'sex', 'name' => 'safety_plan' }
+      { 'key' => 'gender', 'name' => 'safety_plan' }
     end
   end
 end

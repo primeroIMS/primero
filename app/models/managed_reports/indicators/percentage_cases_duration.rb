@@ -18,8 +18,7 @@ class ManagedReports::Indicators::PercentageCasesDuration < ManagedReports::SqlR
       searchable_datetime_alias = date_param&.field_name == 'date_closure' ? 'closure_dates' : 'registration_dates'
       date_query = grouped_date_query(params['grouped_by'], date_param, searchable_datetime_alias, nil, 'value')
       group_id = date_query.present? ? 'group_id' : nil
-      filter_opts = { table_name: 'sex_values', field_name: 'record_id' }
-      status_filter_opts = filter_opts.merge(join_alias: 'statuses')
+      status_filter_opts = { join_alias: 'statuses' }
       next_step = 'a_continue_protection_assessment'
 
       %(
@@ -27,23 +26,22 @@ class ManagedReports::Indicators::PercentageCasesDuration < ManagedReports::SqlR
           SELECT
             #{date_query&.+(' AS group_id,')}
             next_steps.record_id,
-            sex_values.value AS sex,
+            cases.id AS id,
+            COALESCE(data->>'gender', 'incomplete_data') AS gender,
             #{duration_days_query}
-          FROM searchable_values AS sex_values
+          FROM cases
           #{join_searchable_closure_dates(date_param)}
           #{join_searchable_registration_date(date_param)}
           #{join_statuses(params['status'], status_filter_opts)}
-          #{ManagedReports::SearchableFilterService.filter_next_steps(next_step, filter_opts)}
-          #{ManagedReports::SearchableFilterService.filter_reporting_location(params['location'], filter_opts)}
-          #{ManagedReports::SearchableFilterService.filter_scope(current_user, filter_opts)}
-          #{ManagedReports::SearchableFilterService.filter_consent_reporting(filter_opts)}
-          WHERE sex_values.record_type = 'Child'
-          AND sex_values.field_name = 'sex'
+          #{ManagedReports::SearchableFilterService.filter_next_steps(next_step)}
+          #{ManagedReports::SearchableFilterService.filter_reporting_location(params['location'])}
+          #{ManagedReports::SearchableFilterService.filter_scope(current_user)}
+          #{ManagedReports::SearchableFilterService.filter_consent_reporting}
         ),
         cases_with_duration_range AS (
           SELECT
             #{group_id&.+(',')}
-            sex,
+            gender,
             CASE
               WHEN duration_days <= 30 THEN '1_month'
               WHEN duration_days > 30 AND duration_days <= 90 THEN '1_3_months'
@@ -54,11 +52,11 @@ class ManagedReports::Indicators::PercentageCasesDuration < ManagedReports::SqlR
         )
         SELECT
           #{group_id&.+(',')}
-          sex,
+          gender,
           duration_range,
           COUNT(*) AS count
         FROM cases_with_duration_range
-        GROUP BY #{group_id&.+(',')} sex, duration_range
+        GROUP BY #{group_id&.+(',')} gender, duration_range
       )
     end
     # rubocop:enable Metrics/MethodLength
@@ -86,7 +84,7 @@ class ManagedReports::Indicators::PercentageCasesDuration < ManagedReports::SqlR
 
       %(
         LEFT JOIN (#{join_query}) AS closure_dates
-        ON closure_dates.record_id = sex_values.record_id
+        ON closure_dates.record_id = cases.id
         AND closure_dates.record_type = 'Child'
       )
     end
@@ -97,7 +95,7 @@ class ManagedReports::Indicators::PercentageCasesDuration < ManagedReports::SqlR
 
       %(
         INNER JOIN (#{join_query}) AS registration_dates
-        ON registration_dates.record_id = sex_values.record_id
+        ON registration_dates.record_id = cases.id
         AND registration_dates.record_type = 'Child'
       )
     end
@@ -107,7 +105,7 @@ class ManagedReports::Indicators::PercentageCasesDuration < ManagedReports::SqlR
 
       %(
         INNER JOIN searchable_values AS statuses
-        ON sex_values.record_id = statuses.record_id
+        ON cases.id = statuses.record_id
         AND statuses.field_name = 'status'
         AND statuses.record_type = 'Child'
       )
@@ -125,11 +123,11 @@ class ManagedReports::Indicators::PercentageCasesDuration < ManagedReports::SqlR
     end
 
     def fields
-      %w[sex duration_range]
+      %w[gender duration_range]
     end
 
     def result_map
-      { 'key' => 'sex', 'name' => 'duration_range' }
+      { 'key' => 'gender', 'name' => 'duration_range' }
     end
   end
 end

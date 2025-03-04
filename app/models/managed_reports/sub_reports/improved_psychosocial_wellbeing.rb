@@ -25,13 +25,7 @@ class ManagedReports::SubReports::ImprovedPsychosocialWellbeing < ManagedReports
 
   def indicators_subcolumns
     {
-      ManagedReports::Indicators::ImprovedWellbeingAfterSupport.id => 'lookup-gender'
-    }
-  end
-
-  def lookups
-    {
-      ManagedReports::Indicators::ImprovedWellbeingAfterSupport.id => 'lookup-gender'
+      ManagedReports::Indicators::ImprovedWellbeingAfterSupport.id => 'lookup-gender-identity'
     }
   end
 

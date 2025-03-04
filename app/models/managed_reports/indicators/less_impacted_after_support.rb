@@ -28,7 +28,7 @@ class ManagedReports::Indicators::LessImpactedAfterSupport < ManagedReports::Sql
             THEN 'clients_report_less_impacted'
             ELSE 'clients_report_equally_or_more_severely_impacted'
             END AS impact_range,
-            data->>'sex' AS sex
+            COALESCE(data->>'gender', 'incomplete_data') AS gender
           FROM cases
           #{ManagedReports::SearchableFilterService.filter_values(params['status'])}
           #{ManagedReports::SearchableFilterService.filter_datetimes(date_param)}
@@ -44,10 +44,10 @@ class ManagedReports::Indicators::LessImpactedAfterSupport < ManagedReports::Sql
         SELECT
           #{group_id&.+(', ')}
           impact_range,
-          sex,
+          gender,
           COUNT(*)
         FROM impacted_ranges
-        GROUP BY #{group_id&.+(',')} impact_range, sex
+        GROUP BY #{group_id&.+(',')} impact_range, gender
       }
     end
     # rubocop:enable Metrics/MethodLength
@@ -58,11 +58,11 @@ class ManagedReports::Indicators::LessImpactedAfterSupport < ManagedReports::Sql
     end
 
     def fields
-      %w[sex impact_range]
+      %w[gender impact_range]
     end
 
     def result_map
-      { 'key' => 'sex', 'name' => 'impact_range' }
+      { 'key' => 'gender', 'name' => 'impact_range' }
     end
   end
 end

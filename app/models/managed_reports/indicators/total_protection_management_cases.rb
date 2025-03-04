@@ -18,7 +18,7 @@ class ManagedReports::Indicators::TotalProtectionManagementCases < ManagedReport
         WITH protection_cases AS (
           SELECT
             #{date_query&.+(' AS group_id,')}
-            data->>'sex' AS key,
+            COALESCE(data->>'gender', 'incomplete_data') AS key,
             statuses.value AS name
           FROM cases
           #{join_statuses_values(params['status'])}

@@ -20,7 +20,7 @@ class ManagedReports::Indicators::AverageCasesPerCaseWorker < ManagedReports::Sq
           SELECT
             #{date_query&.+(' AS group_id,')}
             data->>'owned_by' AS owned_by,
-            data->>'sex' AS sex
+            COALESCE(data->>'gender', 'incomplete_data') AS gender
           FROM cases
           #{ManagedReports::SearchableFilterService.filter_values(params['status'])}
           #{ManagedReports::SearchableFilterService.filter_datetimes(date_param)}
@@ -31,10 +31,10 @@ class ManagedReports::Indicators::AverageCasesPerCaseWorker < ManagedReports::Sq
         SELECT
          #{group_id&.+(',')}
          owned_by,
-         sex,
+         gender,
          COUNT(*)
         FROM protection_cases
-        GROUP BY #{group_id&.+(',')} owned_by, sex
+        GROUP BY #{group_id&.+(',')} owned_by, gender
       }
     end
     # rubocop:enable Metrics/MethodLength
@@ -51,7 +51,7 @@ class ManagedReports::Indicators::AverageCasesPerCaseWorker < ManagedReports::Sq
     end
 
     def in_average_by_group(results)
-      grouped_results = group_results_by_field('sex', results)
+      grouped_results = group_results_by_field('gender', results)
       grouped_results.each_with_object([]) do |(group_id, groups), memo|
         values = groups.values.flatten
         total_records = calculate_total_records(values)
@@ -63,7 +63,7 @@ class ManagedReports::Indicators::AverageCasesPerCaseWorker < ManagedReports::Sq
     end
 
     def in_average(results)
-      grouped_results = group_results_by_field('sex', results)
+      grouped_results = group_results_by_field('gender', results)
       values = grouped_results.values.flatten
       total_records = calculate_total_records(values)
       total_users = calculate_total_users(values)
