@@ -13,6 +13,47 @@ clientsClaim();
 skipWaiting();
 cleanupOutdatedCaches();
 
+let abortControllers = [];
+
+class AbortableNetworkOnly extends NetworkOnly {
+  constructor(options = {}) {
+    super(options);
+    this._networkTimeoutSeconds = options.networkTimeoutSeconds || 5;
+  }
+
+  async handle({ event, request }) {
+    if (!(request instanceof Request)) {
+      throw new Error("Expected 'request' to be an instance of Request.");
+    }
+
+    const isLogoutAction = request.method === "DELETE" && request.url.endsWith("/tokens");
+
+    if (isLogoutAction) {
+      abortControllers.forEach(abortController => {
+        abortController.abort("logging_out");
+      });
+      abortControllers = [];
+    }
+
+    const controller = new AbortController();
+
+    if (!isLogoutAction) abortControllers.push(controller);
+
+    const timeoutId = setTimeout(() => controller.abort("timeout"), this._networkTimeoutSeconds * 1000);
+
+    try {
+      const modifiedRequest = new Request(request, { signal: controller.signal });
+      const response = await super.handle({ event, request: modifiedRequest });
+
+      clearTimeout(timeoutId);
+
+      return response;
+    } catch (error) {
+      throw new Error("Request aborted or failed", { cause: "network" });
+    }
+  }
+}
+
 const METHODS = {
   GET: "GET",
   PATCH: "PATCH",
@@ -88,7 +129,13 @@ registerRoute(
 
 // Api Endpoints
 Object.values(METHODS).forEach(method => {
-  registerRoute(/\/api\/.*/, new NetworkOnly(), method);
+  registerRoute(
+    /\/api\/.*/,
+    new AbortableNetworkOnly({
+      networkTimeoutSeconds: 50
+    }),
+    method
+  );
 });
 
 const manifest = self.__WB_MANIFEST.map(entry => {
