@@ -14,8 +14,8 @@ module Indicators
     end
 
     def write_stats_for_indicator(indicator_filters, user_query_scope, _managed_user_names = [])
-      indicator_query = query(indicator_filters, user_query_scope)
-      { name => { 'count' => indicator_query.size, 'query' => stat_query_strings(name, indicator_filters) } }
+      result = query(indicator_filters, user_query_scope).result
+      { name => { 'count' => result.total, 'query' => stat_query_strings(name, indicator_filters) } }
     end
 
     def filters(user)

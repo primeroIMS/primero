@@ -22,8 +22,8 @@ module Indicators
     )
 
     def query(indicator_filters, user_query_scope)
-      indicator_query = super(indicator_filters, user_query_scope)
-      indicator_query.select(select_pivots).group(pivot_field_names.join(', '))
+      result_query = super(indicator_filters, user_query_scope).result.records
+      result_query.select(select_pivots).group(pivot_field_names.join(', '))
     end
 
     def select_pivots

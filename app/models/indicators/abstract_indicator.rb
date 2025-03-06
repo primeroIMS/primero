@@ -47,7 +47,7 @@ module Indicators
     end
 
     def query(indicator_filters, user_query_scope)
-      Search::SearchQuery.new(record_model).with_filters(indicator_filters).with_scope(user_query_scope).result.records
+      Search::SearchQuery.new(record_model).with_filters(indicator_filters).with_scope(user_query_scope)
     end
 
     protected
