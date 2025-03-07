@@ -1,8 +1,12 @@
+# frozen_string_literal: true
+
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 class AddSessionsTable < ActiveRecord::Migration[6.1]
   def change
     create_table :sessions do |t|
       t.string :session_id, null: false
       t.jsonb :data, default: {}
+      t.boolean :expired, null: false, default: false
       t.timestamps
     end
 

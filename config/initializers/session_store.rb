@@ -2,6 +2,9 @@
 
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
+Rails.application.reloader.to_prepare do
+  ActionDispatch::Session::ActiveRecordStore.session_class = Session
+end
 native_session_timeout = ActiveRecord::Type::Integer.new.cast(ENV.fetch('PRIMERO_NATIVE_SESSION_TIMEOUT', nil)) || 60
 Rails.application.config.native_session_timeout = native_session_timeout
 

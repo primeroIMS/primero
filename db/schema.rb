@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_02_21_221206) do
+ActiveRecord::Schema.define(version: 2025_02_21_221207) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -538,6 +538,7 @@ ActiveRecord::Schema.define(version: 2025_02_21_221206) do
     t.jsonb "data", default: {}
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "expired", default: false, null: false
     t.index ["data"], name: "index_sessions_on_data", using: :gin
     t.index ["session_id"], name: "index_sessions_on_session_id", unique: true
     t.index ["updated_at"], name: "index_sessions_on_updated_at"

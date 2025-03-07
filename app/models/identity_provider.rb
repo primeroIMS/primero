@@ -48,6 +48,10 @@ class IdentityProvider < ApplicationRecord
       # If we can't fetch a valid JWKS from a url then so be it.
       []
     end
+
+    def mode_enabled?
+      Rails.configuration.x.idp.use_identity_provider
+    end
   end
 
   def identity_sync_connector
