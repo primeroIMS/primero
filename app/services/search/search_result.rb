@@ -7,15 +7,16 @@ class Search::SearchResult
   DEFAULT_PER_PAGE = 10
   DEFAULT_PAGE = 1
 
-  attr_accessor :total
-
   def initialize(query)
     @query = query
-    self.total = @query.count
   end
 
   def records
     @query
+  end
+
+  def total
+    @total ||= @query.size
   end
 
   def paginate(pagination)
@@ -25,6 +26,7 @@ class Search::SearchResult
     page = pagination[:page] || DEFAULT_PAGE
     offset = (page - 1) * per
 
+    @total = @query.size
     @query = @query.limit(per).offset(offset)
 
     self
