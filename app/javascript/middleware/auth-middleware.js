@@ -33,6 +33,10 @@ const authMiddleware = store => next => action => {
   const useIdentityProvider = state.getIn(USE_IDENTITY_PROVIDER_PATH, false);
 
   if (routeChanged && location === ROUTES.logout) {
+    if (!isAuthenticated && action.payload.isFirstRendering) {
+      return next(action);
+    }
+
     startSignout(store, true);
 
     if (!online) {
