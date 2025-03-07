@@ -49,6 +49,13 @@ GEM
       activesupport (= 6.1.7.10)
     activerecord-nulldb-adapter (0.9.0)
       activerecord (>= 5.2.0, < 7.1)
+    activerecord-session_store (2.1.0)
+      actionpack (>= 6.1)
+      activerecord (>= 6.1)
+      cgi (>= 0.3.6)
+      multi_json (~> 1.11, >= 1.11.2)
+      rack (>= 2.0.8, < 4)
+      railties (>= 6.1)
     activestorage (6.1.7.10)
       actionpack (= 6.1.7.10)
       activejob (= 6.1.7.10)
@@ -103,6 +110,7 @@ GEM
     byebug (11.1.3)
     camertron-eprun (1.1.1)
     cancancan (3.5.0)
+    cgi (0.4.1)
     ci_reporter (2.1.0)
       builder (>= 2.1.2)
       rexml
@@ -438,6 +446,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord-nulldb-adapter
+  activerecord-session_store (~> 2.0)
   aws-sdk-s3 (~> 1.130)
   azure-storage-blob (~> 1.1)
   brakeman

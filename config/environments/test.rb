@@ -31,7 +31,6 @@ Rails.application.configure do
   # config.static_cache_control = "public, max-age=3600"
 
   config.eager_load = false
-  config.logger = Logger.new(config.paths['log'].first, 1, 50.megabytes)
   config.log_level = :debug
 
   # Store uploaded files on the local file system (see config/storage.yml for options)

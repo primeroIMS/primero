@@ -255,9 +255,18 @@ If you use a different shell, for example zsh, you will need to add these to the
 
 To make sure that your system has been configured correctly, and to establish a baseline of the unit tests passing on your environment, it is a good idea to run the unit tests before making any changes to the Primero code. This may take a few minutes. On a VM with 4GB of RAM, it will take approximately 5 minutes to run the tests.
 
+Ruby/Rails unit tests:
+
 ```shell
 rspec spec
 ```
+
+Javascript/NPM unit tests:
+```shell
+npm run test
+npm run test:components
+```
+
 
 There should be no failures in the unit tests on a clean clone from the `develop` branch or main branch.
 # Running Primero Locally
