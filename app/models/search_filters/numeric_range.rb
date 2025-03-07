@@ -18,6 +18,10 @@ class SearchFilters::NumericRange < SearchFilters::SearchFilter
     ActiveRecord::Base.sanitize_sql_for_conditions(['@ >= %s', from])
   end
 
+  def searchable_query(record_type)
+    SearchableNumeric.where(field_name:, record_type:).where('value >= :from AND value <= :to', from:, to:).to_sql
+  end
+
   def to_h
     {
       type: 'numeric_range',

@@ -18,6 +18,10 @@ class SearchFilters::ValueList < SearchFilters::SearchFilter
     end.join(' || ')
   end
 
+  def searchable_query(record_type)
+    SearchableValue.where(field_name:, value: values, record_type:).to_sql
+  end
+
   def as_location_filter(record_class)
     return self unless location_field_filter?(record_class)
 

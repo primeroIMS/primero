@@ -17,6 +17,10 @@ class SearchFilters::BooleanList < SearchFilters::ValueList
     )
   end
 
+  def searchable_query(record_type)
+    SearchableBoolean.where(field_name:, value: values, record_type:).to_sql
+  end
+
   def json_path_value
     values.map do |value|
       ActiveRecord::Base.sanitize_sql_for_conditions(['@ == %s || @ == "%s"', value, value])

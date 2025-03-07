@@ -22,6 +22,14 @@ class SearchFilters::DateValue < SearchFilters::Value
   end
   # rubocop:enable Metrics/MethodLength
 
+  def searchable_query(record_type)
+    SearchableDatetime.where(
+      field_name:, record_type:
+    ).where(
+      'value = to_timestamp(:value, :date_format)', value: value.iso8601, date_format:
+    ).to_sql
+  end
+
   def date_format
     date_include_time? ? Report::DATE_TIME_FORMAT : Report::DATE_FORMAT
   end

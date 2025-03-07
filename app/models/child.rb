@@ -121,9 +121,12 @@ class Child < ApplicationRecord
         sex workflow risk_level status associated_user_groups associated_user_agencies associated_user_names
         last_updated_by approval_status_case_plan approval_status_assessment approval_status_closure
         referred_users transferred_to_users protection_concerns protection_risks owned_by_location next_steps
+        owned_by
       ],
       'searchable_numerics' => %w[age],
-      'searchable_booleans' => %w[record_state not_edited_by_owner flagged consent_reporting]
+      'searchable_booleans' => %w[
+        record_state not_edited_by_owner flagged consent_reporting transfer_status referred_users_present
+      ]
     }
   end
   # rubocop:enable Metrics/MethodLength

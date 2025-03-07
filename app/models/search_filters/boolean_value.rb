@@ -10,6 +10,10 @@ class SearchFilters::BooleanValue < SearchFilters::Value
     "(#{json_path_query} OR #{ActiveRecord::Base.sanitize_sql_for_conditions(['(data->>? IS NULL)', field_name])})"
   end
 
+  def searchable_query(record_type)
+    SearchableBoolean.where(field_name:, value:, record_type:).to_sql
+  end
+
   def json_path_value
     ActiveRecord::Base.sanitize_sql_for_conditions(['@ == %s || @ == "%s"', value, value])
   end

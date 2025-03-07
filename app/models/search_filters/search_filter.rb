@@ -38,6 +38,27 @@ class SearchFilters::SearchFilter < ValueObject
     ActiveRecord::Base.sanitize_sql_for_conditions(['@ %s %s', operator, value])
   end
 
+  def searchable_query(record_type)
+    return SearchableValue.where(field_name:, value:, record_type:).to_sql unless not_filter
+
+    SearchableValue.where(field_name:, record_type:).where.not(value:).to_sql
+  end
+
+  def searchable_join_query(record_type)
+    %(
+      INNER JOIN (#{searchable_query(record_type)}) AS #{searchable_join_alias}
+      ON #{searchable_join_alias}.record_id = #{record_table_name(record_type)}.id
+    )
+  end
+
+  def record_table_name(record_type)
+    record_type.constantize.table_name
+  end
+
+  def searchable_join_alias
+    ActiveRecord::Base.sanitize_sql_for_conditions(['%s', field_name.pluralize])
+  end
+
   def to_json(_obj)
     to_h.to_json
   end

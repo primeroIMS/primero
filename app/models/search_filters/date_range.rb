@@ -67,6 +67,16 @@ class SearchFilters::DateRange < SearchFilters::SearchFilter
     SearchFilters::DateValue.new(field_name:, value: from, operator: '>=').query
   end
 
+  def searchable_query(record_type)
+    SearchableDatetime.where(
+      field_name:, record_type:
+    ).where(
+      'value >= to_timestamp(:from, :date_format)', from: from.iso8601, date_format:
+    ).where(
+      'value <= to_timestamp(:to, :date_format)', to: to.iso8601, date_format:
+    ).to_sql
+  end
+
   def this_quarter?
     return false unless from.present? && to.present?
 

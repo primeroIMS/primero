@@ -20,6 +20,13 @@ module Normalizeable
     before_save :save_normalized_data
   end
 
+  # ClassMethods
+  module ClassMethods
+    def normalized_field_name?(field_name)
+      normalized_field_names.values.flatten.include?(field_name)
+    end
+  end
+
   def save_normalized_data
     return unless searchable_fields_changed?
 

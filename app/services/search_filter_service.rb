@@ -128,6 +128,6 @@ class SearchFilterService
   end
 
   def filterable_id_fields
-    @filterable_id_fields = FILTERABLE_MODELS.map(&:filterable_id_fields).flatten
+    @filterable_id_fields ||= FILTERABLE_MODELS.map(&:filterable_id_fields).flatten
   end
 end
