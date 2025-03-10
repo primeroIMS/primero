@@ -28,7 +28,7 @@ gem 'jwt',                 '~> 2.8'    # Ruby JWT library used to authenticate 3
 gem 'matrix',              '~> 0.4'    # No longer part of Ruby 3.2 core. Must be included explicitly
 gem 'minipack',            '~> 0.3'    # An alternative to Webpacker. TODO: Is this still needed? In prod?
 gem 'net-http-persistent', '~> 4.0'    # Thread safe persistent HTTP connections, optional Faraday dependency
-gem 'nokogiri',            '~> 1.16'   # Security assertion on implicit dependency.
+gem 'nokogiri',            '~> 1.18'   # Security assertion on implicit dependency.
 gem 'pg',                  '~> 1.5'    # Ruby PostgreSQL binding
 gem 'prawn',               '~> 2.4'    # PDF generation
 gem 'prawn-table',         '~> 0.2'    # PDF generation
@@ -50,7 +50,7 @@ gem 'sunspot_solr',        '~> 2.6',    # Ruby bindings to Solr
 gem 'text',                '~> 1.3'    # Phonetic Search Algorithms
 gem 'twitter_cldr',        '~> 4.4'    # Localization for dates, money. TODO: Is this still used?
 gem 'tzinfo-data',         '~> 1.2023' # Timezone Data for TZInfo
-gem 'uri',                 '~> 0.12'   # CVE-2023-36617: ReDoS vulnerability in URI
+gem 'uri',                 '~> 0.13'   # CVE-2025-27221
 gem 'web-push',            '~> 3.0'
 gem 'will_paginate',       '~> 4.0'    # Paginates ActiveRecord models  TODO: This can be refactored away.
 gem 'write_xlsx',          '~> 1.11'   # Exports XLSX
