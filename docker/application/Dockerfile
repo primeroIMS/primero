@@ -105,7 +105,7 @@ FROM ${BUILD_REGISTRY}ruby:${RUBY_VERSION}-alpine3.20
 
 ENV BUILD_PACKAGES=bash
 ENV RUNTIME_PACKAGES="libpq gettext libintl imagemagick libsodium-dev p7zip tini"
-ENV SECURITY_UPDATED_PACKAGES="libexpat=2.6.4-r0 curl=8.12.1-r0 musl=1.2.5-r1 musl-utils=1.2.5-r1 libxml2=2.12.7-r1 openssl=3.3.3-r0 "
+ENV SECURITY_UPDATED_PACKAGES="libexpat=2.6.4-r0 curl=8.12.1-r0 musl=1.2.5-r1 musl-utils=1.2.5-r1 libxml2=2.12.7-r2 openssl=3.3.3-r0 "
 
 ARG APP_UID
 ARG APP_GID
