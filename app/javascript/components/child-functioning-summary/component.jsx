@@ -9,11 +9,11 @@ const formatKey = key => key.replace(/_/g, " ").replace(/\b\w/g, char => char.to
 
 const formatValue = (key, value, i18n) => {
   if (typeof value === "boolean") {
-    return value ? i18n.t("cases.child_functioning.true") : i18n.t("cases.child_functioning.false");
+    return value ? i18n.t("cases.child_functioning.cfm_yes") : i18n.t("cases.child_functioning.cfm_no");
   }
   if (typeof value === "string") {
-    if (value === "true") return i18n.t("cases.child_functioning.true");
-    if (value === "false") return i18n.t("cases.child_functioning.false");
+    if (value === "true") return i18n.t("cases.child_functioning.cfm_yes");
+    if (value === "false") return i18n.t("cases.child_functioning.cfm_no");
     if (key.includes("age") && value.includes("_")) return `${value.replace("_", " to ")} years`;
     if (value.includes("_")) return value.replace(/_/g, " ").replace(/\b\w/g, char => char.toUpperCase());
 

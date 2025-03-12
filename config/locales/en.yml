@@ -359,8 +359,8 @@ en:
       anxiety_how_often: "Anxiety how often"
       depression_display_section: "Depression display section"
       depression_how_often: "Depression how often"
-      yes: "Yes"
-      no: "No"
+      cfm_yes: "Yes"
+      cfm_no: "No"
       n_a: "N/A"
     client_code: Client Code
     clear_filter: Clear
