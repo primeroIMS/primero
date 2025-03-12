@@ -1,22 +1,22 @@
 <%# Copyright (c) 2014 - 2023 UNICEF. All rights reserved. %>
 
-<%= @email_greeting %>
-===============================================
-
 <% if @email_body.is_a?(String) %>
-  <%= @email_body %>
+<%= @email_body %>
+
+<%= I18n.t('user.welcome_email.body_native2',
+  instructional_video: "#{I18n.t('user.welcome_email.instructional_video', locale: @user.locale)} (#{url_for(@theme.get('email_instructional_video'))})",
+  locale: @user.locale
+) %>
+<%= @theme.t('email_welcome_closing', @user.locale) %>
 <% else %>
-  <%= @email_body[:header] %>
-  <%= @email_body[:step1] %>
-  <%= @email_body[:step2] %>
-  <%= @email_body[:step3] %>
-  <% if @email_body[:otp].present? %>
-    <%= @email_body[:otp] %>
-  <% end %>
-  <% if @email_body[:step4].present? %>
-    <%= @email_body[:step4] %>
-  <% end %>
-  <% if @email_body[:footer].present? %>
-    <%= @email_body[:footer] %>
-  <% end %>
+<%= @email_body[:header] %>
+
+<%= @email_body[:step1] %>
+
+<%= @email_body[:step2] %>
+
+<%= I18n.t('user.welcome_email.additional_support',
+  admin_email: @system_admin&.email ? "#{I18n.t('email.system_admin')} (#{@system_admin&.email})" : I18n.t('email.system_admin'),
+  locale: @user.locale
+)  %>
 <% end %>

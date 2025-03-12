@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 export { default } from "./container";
-export { getAppliedFilters, getListHeaders, getMetadata } from "./selectors";
+export { getAppliedFilters, getMetadata } from "./selectors";
 export { buildTableColumns } from "./utils";
 export {
   RECORDS_FAILURE,

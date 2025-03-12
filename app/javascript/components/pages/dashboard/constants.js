@@ -15,6 +15,9 @@ export const DASHBOARD_NAMES = Object.freeze({
   APPROVALS_GBV_CLOSURE: "dashboard.approvals_gbv_closure",
   CASE_INCIDENT_OVERVIEW: "dashboard.dash_case_incident_overview",
   CASE_OVERVIEW: "dashboard.case_overview",
+  ACTION_NEEDED_NEW_UPDATED: "dashboard.action_needed_new_updated",
+  ACTION_NEEDED_NEW_REFERRALS: "dashboard.action_needed_new_referrals",
+  ACTION_NEEDED_NEW_TRANSFER_AWAITING_ACCEPTANCE: "dashboard.action_needed_transfer_awaiting_acceptance",
   CASE_RISK: "dashboard.case_risk",
   CASES_TO_ASSIGN: "dashboard.dash_cases_to_assign",
   CASES_BY_SOCIAL_WORKER: "dashboard.dash_cases_by_social_worker",
@@ -64,7 +67,8 @@ export const PROTECTION_CONCERNS_ORDER_NAMES = Object.freeze([
 
 export const DASHBOARD_TYPES = Object.freeze({
   BADGED_INDICATOR: "badged_indicator",
-  OVERVIEW_BOX: "overview_box"
+  OVERVIEW_BOX: "overview_box",
+  TOTAL_BOX: "total_box"
 });
 
 export const DASHBOARD_FLAGS_SORT_ORDER = "desc";
@@ -75,3 +79,5 @@ export const RISK_LEVELS = Object.freeze({
   HIGH: "high",
   LOW: "low"
 });
+
+export const MAX_VISIBLE_DASHBOARDS = 2;

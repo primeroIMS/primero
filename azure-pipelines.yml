@@ -15,11 +15,14 @@ variables:
   # Container registry service connection established during pipeline creation
   vmImageName: 'Ubuntu-22.04'
   latestBranch: main
+  buildAgentPool: 'primerox-azdo-agentpool'
+  containerRegistry : 'crpmxsandbox.azurecr.io'
+  dockerRegistryServiceConnection : 'a2adf74e-9412-47bd-baaa-c7e8b5ff34d9'
 
 jobs:
   - job: Test
     displayName: 'Run tests'
-    pool: primerox-azdo-a-ms
+    pool: $(buildAgentPool)
     steps:
       - bash: ./bin/install_local_test_solr.sh
       - bash: |
@@ -68,8 +71,7 @@ jobs:
   - job: Build
     displayName: 'Build and push'
     dependsOn: Test
-    pool:
-      vmImage: $(vmImageName)
+    pool: $(buildAgentPool)
     steps:
       - bash: echo "##vso[task.setvariable variable=tag]$(docker/git-to-docker-tag.sh ${BUILD_SOURCEBRANCH} ${BUILD_SOURCEVERSION})"
       - bash: echo "##vso[task.setvariable variable=dash_el]$([[ ${BUILD_SOURCEBRANCH} == *${LATESTBRANCH} ]] && echo '-l')"

@@ -81,7 +81,7 @@ class SystemSettings < ApplicationRecord
   end
 
   def reporting_location_config=(config)
-    super(config.to_h)
+    super((reporting_location_config || {}).to_h.merge(config&.to_h))
   end
 
   def incident_reporting_location_config
@@ -177,10 +177,10 @@ class SystemSettings < ApplicationRecord
       SystemSettings.first.update(config_update_lock: false)
     end
 
-    def primary_age_ranges
+    def primary_age_ranges(primary_range = nil)
       sys = SystemSettings.current
-      primary_range = sys&.primary_age_range
-      sys&.age_ranges&.[](primary_range) || AgeRange::DEFAULT_AGE_RANGES
+      selected_primary_range = primary_range || sys&.primary_age_range
+      sys&.age_ranges&.[](selected_primary_range) || AgeRange::DEFAULT_AGE_RANGES
     end
   end
 end

@@ -13,9 +13,10 @@ import {
   RECORD_INFORMATION_GROUP,
   RECORD_OWNER,
   REFERRAL,
+  SERVICES_SUBFORM_FIELD,
   TRANSFERS_ASSIGNMENTS
 } from "../../config";
-import { FieldRecord, SEPARATOR, TEXT_FIELD } from "../form";
+import { FieldRecord, SEPARATOR, SUBFORM_SECTION, TEXT_FIELD } from "../form";
 
 import * as R from "./records";
 import * as selectors from "./selectors";
@@ -487,6 +488,7 @@ describe("<RecordForm /> - Selectors", () => {
             showIf: null,
             show_on_minify_form: true,
             subform_section_id: null,
+            subform_summary: null,
             subform_sort_by: "",
             type: "text_field",
             visible: true,
@@ -573,6 +575,7 @@ describe("<RecordForm /> - Selectors", () => {
             showIf: null,
             show_on_minify_form: true,
             subform_section_id: null,
+            subform_summary: null,
             subform_sort_by: "",
             type: "text_field",
             visible: true,
@@ -1398,6 +1401,161 @@ describe("<RecordForm /> - Selectors", () => {
       expect(
         selectors.getPermittedForms(stateWithForms, { recordType: "case", recordId: "0002", isEditOrShow: true })
       ).to.deep.equals(permittedForms);
+    });
+  });
+
+  describe("getIsServicesForm", () => {
+    const state = fromJS({
+      forms: {
+        formSections: mapEntriesToRecord(
+          {
+            1: {
+              id: 1,
+              unique_id: "services",
+              name: Map({ en: "Services" }),
+              visible: true,
+              is_first_tab: true,
+              order: 10,
+              order_form_group: 1,
+              parent_form: "case",
+              editable: true,
+              module_ids: List(["primeromodule-cp"]),
+              form_group_id: "group_1",
+              form_group_name: Map({ en: "Group 1" }),
+              fields: [1],
+              is_nested: null
+            },
+            2: {
+              id: 2,
+              unique_id: "basic_identity",
+              name: Map({ en: "Basic Identity" }),
+              visible: true,
+              is_first_tab: true,
+              order: 20,
+              order_form_group: 1,
+              parent_form: "case",
+              editable: true,
+              module_ids: List(["primeromodule-cp"]),
+              form_group_id: "group_1",
+              form_group_name: Map({ en: "Group 1" }),
+              fields: [],
+              is_nested: null
+            }
+          },
+          R.FormSectionRecord
+        ),
+        fields: mapEntriesToRecord(
+          {
+            1: {
+              name: SERVICES_SUBFORM_FIELD,
+              display_name: {
+                en: "Services Subform Section",
+                fr: "",
+                ar: "",
+                so: "",
+                es: ""
+              },
+              type: SUBFORM_SECTION
+            }
+          },
+          R.FieldRecord
+        )
+      }
+    });
+
+    it("returns true if the form contains a services_section subform", () => {
+      expect(selectors.getIsServicesForm(state, { recordType: "case", formName: "services" })).to.be.true;
+    });
+
+    it("returns false if the form contains a services_section subform", () => {
+      expect(selectors.getIsServicesForm(state, { recordType: "case", formName: "basic_identity" })).to.be.false;
+    });
+  });
+
+  describe("getSubFormForFieldName", () => {
+    const state = fromJS({
+      forms: {
+        formSections: mapEntriesToRecord(
+          {
+            1: {
+              id: 1,
+              unique_id: "services",
+              name: Map({ en: "Services" }),
+              visible: true,
+              is_first_tab: true,
+              order: 10,
+              order_form_group: 1,
+              parent_form: "case",
+              editable: true,
+              module_ids: List(["primeromodule-cp"]),
+              form_group_id: "group_1",
+              form_group_name: Map({ en: "Group 1" }),
+              fields: [1],
+              is_nested: null
+            },
+            2: {
+              id: 2,
+              unique_id: "basic_identity",
+              name: Map({ en: "Basic Identity" }),
+              visible: true,
+              is_first_tab: true,
+              order: 20,
+              order_form_group: 1,
+              parent_form: "case",
+              editable: true,
+              module_ids: List(["primeromodule-cp"]),
+              form_group_id: "group_1",
+              form_group_name: Map({ en: "Group 1" }),
+              fields: [],
+              is_nested: null
+            },
+            3: {
+              id: 3,
+              unique_id: "nested_services",
+              name: Map({ en: "Nested Services" }),
+              visible: true,
+              is_first_tab: true,
+              order: 10,
+              order_form_group: 1,
+              parent_form: "case",
+              editable: true,
+              module_ids: List(["primeromodule-cp"]),
+              form_group_id: "group_1",
+              form_group_name: Map({ en: "Group 1" }),
+              fields: [1],
+              is_nested: null
+            }
+          },
+          R.FormSectionRecord
+        ),
+        fields: mapEntriesToRecord(
+          {
+            1: {
+              name: SERVICES_SUBFORM_FIELD,
+              display_name: {
+                en: "Services Subform Section",
+                fr: "",
+                ar: "",
+                so: "",
+                es: ""
+              },
+              type: SUBFORM_SECTION,
+              subform_section_id: 3
+            }
+          },
+          R.FieldRecord
+        )
+      }
+    });
+
+    it("returns the subform associated to the field name", () => {
+      const subform = selectors.getSubFormForFieldName(state, {
+        recordType: "case",
+        fieldName: SERVICES_SUBFORM_FIELD
+      });
+
+      expect(subform.id).to.equals(3);
+      expect(subform.unique_id).to.equals("nested_services");
     });
   });
 });

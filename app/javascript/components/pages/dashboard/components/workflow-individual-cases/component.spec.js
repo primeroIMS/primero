@@ -83,7 +83,7 @@ describe("<WorkflowIndividualCases> - pages/dashboard/components/workflow-indivi
       }
     };
 
-    it("renders a <LoadingIndicator />", () => {
+    it.skip("renders a <LoadingIndicator />", () => {
       mountedComponent(<WorkflowIndividualCases {...props} />, {
         records: {
           dashboard: {

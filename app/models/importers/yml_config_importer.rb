@@ -6,12 +6,25 @@
 class Importers::YmlConfigImporter < ValueObject
   attr_accessor :file_name, :class_to_import, :locale, :errors, :failures
 
+  IMPORTABLE_CLASSES = %w[FormSection Lookup Theme].freeze
+
   def initialize(opts = {})
-    if opts[:file_name].present?
-      opts[:class_to_import] = opts[:file_name].downcase.include?('lookup') ? 'Lookup' : 'FormSection'
-    end
+    opts[:class_to_import] = selected_import_class(opts[:file_name]) if opts[:file_name].present?
     opts.merge!(errors: [], failures: [])
     super(opts)
+  end
+
+  # TODO: Refactor when other classes are needed for import
+  def selected_import_class(filename = '')
+    filename_str = filename.downcase
+
+    if filename_str.include?('system')
+      %w[Theme]
+    elsif filename_str.include?('lookup')
+      'Lookup'
+    else
+      'FormSection'
+    end
   end
 
   def import
@@ -51,10 +64,23 @@ class Importers::YmlConfigImporter < ValueObject
     locale
   end
 
+  def import_class(model_class, config)
+    return unless IMPORTABLE_CLASSES.include?(model_class)
+
+    send("import_#{model_class.underscore}", locale, config)
+  end
+
   def process_config_data(config_data)
     config_data.each_value do |config|
       config = strip_hash_values!(config)
-      send("import_#{class_to_import.underscore}", locale, config) if %w[FormSection Lookup].include?(class_to_import)
+
+      if class_to_import.is_a?(Array)
+        class_to_import.each do |model_class|
+          import_class(model_class, config)
+        end
+      else
+        import_class(class_to_import, config)
+      end
     end
   end
 
@@ -84,6 +110,21 @@ class Importers::YmlConfigImporter < ValueObject
       lookup.save!
     end
   end
+
+  # rubocop:disable Metrics/AbcSize
+  def import_theme(locale, config)
+    theme = Theme.current
+
+    config['theme'].each do |key, value|
+      theme.data[key] = {} unless theme.data[key].present?
+      theme.data[key][locale.to_s] = value
+    end
+
+    Rails.logger.info 'Updating theme'
+    theme.bypass_logos = true
+    theme.save!
+  end
+  # rubocop:enable Metrics/AbcSize
 
   def strip_hash_values!(hash)
     hash.each_value do |value|

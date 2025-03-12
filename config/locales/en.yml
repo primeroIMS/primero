@@ -315,6 +315,7 @@ en:
     case_opening_date: Case Open Date
     case_plan: Case Plan
     case_worker_code: Case Worker Code
+    client_code: Client Code
     clear_filter: Clear
     close_dialog: Clicking OK will change the status of this case to Closed
     close_dialog_title: Close Case
@@ -355,6 +356,7 @@ en:
       closure: Closure
       current_location: Current Location
       date: Date
+      disability_status: Disability Status
       displacement_status: Displacement Status
       district: District
       duplicate: Duplicate
@@ -363,6 +365,7 @@ en:
       flag: Flagged
       flag_label: Flagged?
       gbv_closure: GBV Closure
+      gender: Gender
       high: High
       low: Low
       male: Male
@@ -378,12 +381,14 @@ en:
       photo_label: Has Photo?
       protection_concerns: Protection Concerns
       protection_status: Protection Status
+      protection_risks: Protection Risks
       record_state: Record State
       referred_cases: Cases referred to me
       registration_date: Registration Date
       risk_level: Risk Level
       sex: Sex
       social_worker: Field/Case/Social Worker
+      sogiesc_self_identifying: Client identifies as part of the SOGIESC community?
       status: Status
       transferred: Transferred
       type_of_risk: Type of Risk
@@ -391,13 +396,17 @@ en:
       user_group: User Group
       workflow: Cases by Workflow
       include_disabled: Include disabled
+      safety_plan_needed: Is a safety plan needed for this case?
+      mhpss_suicidal_thoughts_last_month_most_recent: In the past month, have you had serious thoughts or plans to end your own life?
     flag_summary: Flag summary
     full_name: Full Name
     gbv_closure: GBV Closure
+    gender: Gender
     hide_name: Hide Name
     hide_name_error: An error ocurred when saving your changes. Please try again.
     id: ID#
     label: Cases
+    location_current: Location
     my_filters: My Filters
     name: Name
     notes_dialog_title: Add Notes
@@ -610,6 +619,7 @@ en:
       new_this_week: New this Week
       referrals: Referrals
       transfers: Transfers
+      cases: Cases
     approval_action_plan_approved: Approved
     approval_action_plan_pending: Pending
     approval_action_plan_pending_group: Action Plan
@@ -707,7 +717,7 @@ en:
     dash_shared_from_my_team: Shared From My Team
     dash_shared_with_me: Shared With Me
     dash_shared_with_my_team: Shared With My Team
-    dash_shared_with_my_team_overview: Shared with my Team (Overview)
+    dash_shared_with_my_team_overview: Shared with my Team
     dash_shared_with_others: Shared With Others
     dash_national_admin_summary: Administrator Summary
     dash_violations_category_verification_status: Total number of Incidents per verification status
@@ -810,15 +820,15 @@ en:
     shared_from_my_team_pending_transfers: Pending Transfers
     shared_from_my_team_referrals: Referrals
     shared_from_my_team_rejected_transfers: Rejected Transfers
-    shared_with_me_new_referrals: New Referrals
-    shared_with_me_total_referrals: Total Referrals
-    shared_with_me_transfers_awaiting_acceptance: Transfers Awaiting Acceptance
-    shared_with_my_team_pending_transfers_overview: Transfers Awaiting Acceptance
+    shared_with_me_new_referrals: New
+    shared_with_me_total_referrals: Total
+    shared_with_me_transfers_awaiting_acceptance: Awaiting Acceptance
+    shared_with_my_team_pending_transfers_overview: Awaiting Acceptance
     shared_with_my_team_pending_transfers: Pending Transfers
     shared_with_my_team_referrals: Referrals
-    shared_with_others_pending_transfers: Pending Transfers
-    shared_with_others_referrals: Referrals
-    shared_with_others_rejected_transfers: Rejected Transfers
+    shared_with_others_pending_transfers: Pending
+    shared_with_others_referrals: Total
+    shared_with_others_rejected_transfers: Rejected
     status_of_cases: Status of Cases
     system_user: System
     total: Total
@@ -848,23 +858,22 @@ en:
   email_notification:
     assign: '%{user} has assigned the following %{record_type} to you: %{record_id}.'
     assign_subject: '%{record_type}: %{id} - Assigned to you'
-    approval_request: 'The user %{user} is requesting approval for %{approval_type} on case %{case_id}.'
+    approval_request: '%{user} is requesting a %{approval_type} approval on case (%{case_id}). Please log in your account to review.'
     approval_request_subject: 'Case: %{id} - Approval Request'
-    approval_response: '%{user} has %{status} the request for approval for %{approval_type} for case %{case_id}.'
+    approval_response: '%{user} has %{status} your request for %{approval_type} approval on case (%{case_id}). Please log in to your account to review.'
     approval_response_subject: 'Case: %{id} - Approval Response'
     referral: '%{user} from %{agency} has referred the following %{record_type} to you: %{record_id} for %{service_type}.'
     transfer: '%{user} has transferred the following %{record_type} to you: %{record_id}.'
     transfer_request_subject: Transfer request for one of your cases
-    transfer_subject: '%{record_type}: %{id} - Transfer'
-    referral_subject: '%{record_type}: %{id} - Referral'
+    transfer_subject: '%{record_type}: %{id} - Transfer Request'
+    referral_subject: '%{record_type}: %{id} - Referral Request'
     transfer_request: 'Primero user %{user} from %{agency} is requesting that you transfer ownership of this %{record_type} record %{record_id} so that they can provide %{record_type} management services for the individual in their area. If this transfer is acceptable to you, please click on the %{record_type} ID link in this email to open the %{record_type} in Primero and initiate the transfer.'
     approval_request_html: 'The user <strong>%{user}</strong> is requesting approval for <strong> %{approval_type}</strong> on case <strong>%{case_id}</strong>.'
     approval_response_html: '<strong>%{user}</strong> has <strong>%{status}</strong> the request for approval for <strong>%{approval_type}</strong> for case <strong>%{case_id}</strong>.'
-    referral_html: '<strong>%{user}</strong> from %{agency} has referred the following %{record_type} to you: <strong>%{record_id}</strong> for %{service_type}.'
-    transfer_html: '<strong>%{user}</strong> has transferred the following %{record_type} to you: <strong>%{record_id}</strong>.'
-    assign_html: '<strong>%{user}</strong> has assigned the following %{record_type} to you: <strong>%{record_id}</strong>.'
-    transfer_request_html: 'Primero user <strong>%{user}</strong> from %{agency} is requesting that you transfer ownership of this %{record_type} record <strong>%{record_id}</strong> so that they can provide %{record_type} management services for the individual in their area. If this transfer is acceptable to you, please click on the %{record_type} ID link in this email to open the %{record_type} in Primero and initiate the transfer.'
-    transfer_request_notes_html: 'Notes from the individual making the request: %{request_transfer_notes}'
+    referral_html: 'You have received a referral for %{record_type} (${record_id}) for  %{service_type} from %{user} from %{agency}. Please %{login_url} to your account to review.'
+    transfer_html: 'You have received a transfer for %{record_type} (${record_id}) from %{user} from %{agency}. Please %{login_url} into your account to review.'
+    assign_html: You have been assigned a new %{record_type} (${record_id}) from %{user}. Please %{login_url} to your account to review.
+    transfer_request_html: 'You have received a transfer request for %{record_type} ${record_id} from %{user} from %{agency}. The individual making the request has included a transfer note: %{request_transfer_notes}. If this transfer is acceptable to you, please log in to access Primero to initiate the transfer.'
     alert: '%{record_type} %{id} - %{form_name} has been updated. Please log in to Primero to review the changes.'
     alert_subject: '%{record_type}: %{id} - %{form_name} Updated'
   webpush_notification:
@@ -1465,6 +1474,7 @@ en:
     fr: Français
     hu: Magyar
     id: Bahasa
+    it: Italiano
     km: ភាសាខ្មែរ
     ku: کوردی
     ku-IQ: کوردی (بادینی)
@@ -2946,6 +2956,11 @@ en:
               if they also have the "Search for case records owned by other users"
               permission.
             label: Add Service provision to another user's case
+          service_own_entries_only:
+            explanation: Users with this permission, when accessing a Case which has been referred to them,
+              will see only entries in the Services subform for which they have been selected as the service provider.
+              This is typically used for Service Provider roles.
+            label: Access only my own Services subform entries
           sync_external:
             explanation: Ability to sync a Record with an external information management system
             label: Sync with an external information management system
@@ -4457,28 +4472,28 @@ en:
     services: Services
     welcome_email:
       subject: 'Welcome to %{system}!'
+      subject_instructions: '%{system} Login Instructions'
       greeting: 'Welcome to %{system}!'
-      body_native: 'You have been added as a %{role_name}. Please contact %{admin_full_name} (%{admin_email}) for follow up instructions to get started working with %{host}.'
+      body_native: "%{greeting} We are creating a %{role_name} account for you. You will receive a separate email to set up your password shortly. Once logged in please go to your user profile to find your username. You will find your user profile in the left navigation of Primero."
+      body_native2: "You can watch this %{instructional_video} if you need additional guidance."
+      instructional_video: instructional video
+      additional_support: 'Please contact your %{admin_email} if you need additional support.'
       sso:
         body: 'You have been added as a %{role_name}.'
-        step1: 'Go to %{host} and click %{identity_provider}.'
-        step2: 'Login with your %{identity_provider} account %{user_name}.'
-        step3: 'Use the same password you always use for your %{identity_provider} account.'
-        footer: 'Please contact %{admin_full_name} (%{admin_email}) for further details.'
+        step1: 'Welcome to %{system}! To log in, go to %{system} and select your organization %{identity_provider} to log in with single-sign on. Use the same password you always use for your %{identity_provider} account.'
+        step2: 'Note: You will not be able to reset your password in %{product_name} and will only be able to reset your password through your %{identity_provider} account.'
       otp:
         body: 'You have been added as a %{role_name}.'
-        step1: 'Please contact %{admin_full_name} (%{admin_email}) to receive your user name.'
-        step2: 'Go to %{host} and click "login with Primero user name.".'
-        step3: 'Login with your user name and the temporary password %{otp}.'
-        step4: 'When prompted, reset your password.'
+        step1: 'Once logged in please go to your user profile to find your username. You will find your user profile in the left navigation of %{site_title}.'
+        step2: 'Use the following to reset your password to <b>%{otp}</b>'
       url_label: Primero
       enabled_label: Send Welcome Email?
       text_label: Welcome Email Text
     password_reset:
       subject: 'Reset password instructions'
-      email_greeting: "Dear %{full_name}"
-      email_body1: "Someone made a request to set your password for %{host_href}. Click on the url below to get started:"
-      email_body2: "This link will expire in %{hours} hours and can only be used once. Please ignore this email if you did not make a password reset request or a new Primero user was not registered on your behalf. If the link above is expired, please click %{reset_request_href} to resubmit a password reset request."
+      email_body1: "A request has been made for you to change your password for %{system_name}. Use the following to reset your password: %{password_reset_link}"
+      email_body2: "This link will expire in %{hours} hours and can only be used once. Do not share your user credentials or password with anyone else."
+      email_body3: "If the link above is expired, please use %{reset_request_href} to resubmit a password reset request."
       email_body_link: here
       request_submitted: "Password reset request submitted"
       success: "Password successfuly changed"
@@ -4486,12 +4501,9 @@ en:
         reset_password_token: "Invalid password reset token"
         password_confirmation: "Passwords must match"
     onboard_email:
-      subject: "Onboarding to %{system}"
-      greeting: "Dear %{full_name},"
-      body1: "Welcome to Primero!"
-      body2: "You have been designated as the implementing administrator for %{host_href}. %{reset_notification}"
-      body2_reset_notification: "You will receive an additional email prompting you to reset your password."
-      body3: "You are responsible for ensuring secure and timely implementation. For each rollout, you should have completed the Implementation Plan with onboarding and user management strategy and information sharing protocol. You are also responsible for ensuring that a signed Terms of Use is on file for all user organizations."
+      subject: "Onboarding System Administrator to %{system}"
+      body1: "Welcome to %{system}! You have been designated as the system administrator."
+      body2: "You are responsible for this implementation of %{product_name}, including managing the users and the configuration. For this rollout, you should follow the Implementation Plan which includes the onboarding process, security protocols, user management strategy and information sharing protocol."
   user_group:
     associated_agencies: Agencies associated with this User Group
     description: Description
@@ -4536,3 +4548,16 @@ en:
     body:
       one: Do you want to allow Primero to send you notifications? Remember that you will continue to receive notifications on this device %{count} day after you log out. This is not recommended for shared devices.
       other: Do you want to allow Primero to send you notifications? Remember that you will continue to receive notifications on this device %{count} days after you log out. This is not recommended for shared devices.
+  email:
+    greeting: "Dear %{full_name}"
+    admin_closing: "To report or troubleshoot issues please contact your %{sys_admin}"
+    login: login
+    system_admin: 'System Administrator'
+    unsubscribe: 'Unsubscribe'
+    site_description: Primero is an open source software platform that helps social services, humanitarian and development workers manage protection-related data, with tools that facilitate case management, incident monitoring and family tracing and reunification.
+    email_disclaimer_pre: DO NOT REPLY TO THIS EMAIL
+    email_welcome_greeting: Welcome to the Primero team
+    email_welcome_closing: Welcome to the Primero Community
+    email_closing: At your service,
+    email_signature: Primero team
+    email_admin_name: System Administrator

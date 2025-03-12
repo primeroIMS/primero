@@ -14,6 +14,7 @@ import LoadingIndicator from "../../../../loading-indicator";
 import { getIsProcessingAttachments, getLoadingRecordState, getRecordAttachments } from "../../../../records";
 import { useMemoizedSelector } from "../../../../../libs";
 import { get } from "../../../../form/utils";
+import SubformEmptyData from "../../subforms/subform-empty-data";
 
 import { ATTACHMENT_FIELDS_INITIAL_VALUES, ATTACHMENT_TYPES, FIELD_ATTACHMENT_TYPES } from "./constants";
 import AttachmentLabel from "./attachment-label";
@@ -21,7 +22,6 @@ import DocumentField from "./document-field";
 import AttachmentField from "./attachment-field";
 import PhotoArray from "./photo-array";
 import { buildBase64URL } from "./utils";
-
 // TODO: No link to display / download upload
 function Component({ name, field, label, disabled, formik, mode, recordType, helperText }) {
   const i18n = useI18n();
@@ -136,6 +136,7 @@ function Component({ name, field, label, disabled, formik, mode, recordType, hel
             loading={Boolean(recordAttachments.size && (processing || loading))}
             hasData={!processing && !loading}
           >
+            {values.length > 0 || <SubformEmptyData subformName={label} />}
             {renderField(arrayHelpers)}
           </LoadingIndicator>
         </div>

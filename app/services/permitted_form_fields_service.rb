@@ -4,9 +4,9 @@
 
 # This service handles computing the permitted fields for a given role,
 # based on the forms associated with that role. The query is optionally cached.
-# The similarly named PermittedFieldService uses this service to compuyte the full list of permitted fields
+# The similarly named PermittedFieldService uses this service to compute the full list of permitted fields
 class PermittedFormFieldsService
-  attr_accessor :fields, :field_names, :with_cache
+  attr_accessor :with_cache
 
   PERMITTED_WRITEABLE_FIELD_TYPES = [
     Field::TEXT_FIELD, Field::TEXT_AREA, Field::RADIO_BUTTON, Field::TICK_BOX,
@@ -15,7 +15,7 @@ class PermittedFormFieldsService
     Field::SUBFORM, Field::TALLY_FIELD, Field::CALCULATED
   ].freeze
 
-  # TODO: Primero is assuming that these forms exist in the configuration. If they
+  # TODO: Primero is assuming that these forms exist in the configuration.
   PERMITTED_SUBFORMS_FOR_ACTION = {
     Permission::ADD_NOTE => 'notes_section',
     Permission::INCIDENT_DETAILS_FROM_CASE => 'incident_details',
@@ -30,17 +30,27 @@ class PermittedFormFieldsService
     self.with_cache = with_cache
   end
 
-  def rebuild_cache(roles, record_type, module_unique_id, writeable, force = false)
-    return unless force || fields.nil?
+  def generate_cache_key(roles, record_type, module_unique_id, writeable)
+    role_keys = roles.map(&:cache_key_with_version)
 
     # The assumption here is that the cache will be updated if any changes took place to Forms, or Roles
-    role_keys = roles.map(&:cache_key_with_version)
-    cache_key = "permitted_form_fields_service/#{role_keys.join('/')}/#{module_unique_id}/#{record_type}/#{writeable}"
-    self.fields = Rails.cache.fetch(cache_key, expires_in: 48.hours) do
+    "permitted_form_fields_service/#{role_keys.join('/')}/#{module_unique_id}/#{record_type}/#{writeable}"
+  end
+
+  def permitted_fields_from_cache(roles, record_type, module_unique_id, writeable, force = false)
+    cache_key = generate_cache_key(roles, record_type, module_unique_id, writeable)
+
+    Rails.cache.fetch(cache_key, expires_in: 48.hours, force:) do
       permitted_fields_from_forms(roles, record_type, module_unique_id, writeable).to_a
     end
-    # TODO: This can be cached too
-    self.field_names = fields.map(&:name).uniq
+  end
+
+  def permitted_field_names_from_cache(roles, record_type, module_unique_id, writeable, force = false)
+    cache_key = generate_cache_key(roles, record_type, module_unique_id, writeable)
+
+    Rails.cache.fetch("#{cache_key}/names", expires_in: 48.hours, force:) do
+      permitted_fields_from_cache(roles, record_type, module_unique_id, writeable, force).map(&:name).uniq
+    end
   end
 
   def permitted_fields_from_forms(roles, record_type, module_unique_id, writeable, visible_only = false)
@@ -56,8 +66,7 @@ class PermittedFormFieldsService
 
   def permitted_fields(roles, record_type, module_unique_id, writeable)
     if with_cache?
-      rebuild_cache(roles, record_type, module_unique_id, writeable)
-      fields
+      permitted_fields_from_cache(roles, record_type, module_unique_id, writeable)
     else
       permitted_fields_from_forms(roles, record_type, module_unique_id, writeable).to_a
     end
@@ -65,8 +74,7 @@ class PermittedFormFieldsService
 
   def permitted_field_names(roles, record_type, module_unique_id, writeable)
     if with_cache?
-      rebuild_cache(roles, record_type, module_unique_id, writeable)
-      field_names
+      permitted_field_names_from_cache(roles, record_type, module_unique_id, writeable)
     else
       permitted_fields_from_forms(roles, record_type, module_unique_id, writeable).map(&:name).uniq
     end
@@ -108,7 +116,8 @@ class PermittedFormFieldsService
           form_sections_roles: { permission: permission_level },
           primero_modules: { unique_id: module_unique_id }, parent_form: record_type
         },
-        type: PERMITTED_WRITEABLE_FIELD_TYPES
+        type: PERMITTED_WRITEABLE_FIELD_TYPES,
+        subform_summary: nil
       }
     )
   end
@@ -123,11 +132,5 @@ class PermittedFormFieldsService
         form_sections: { primero_modules: { unique_id: module_unique_id }, parent_form: record_type }
       )
     )
-  end
-
-  def permitted_field_scope(record_type, module_unique_id)
-    {
-      primero_modules: { unique_id: module_unique_id }, parent_form: record_type
-    }
   end
 end

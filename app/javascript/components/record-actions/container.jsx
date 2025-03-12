@@ -11,10 +11,11 @@ import { getMetadata } from "../record-list/selectors";
 import { useApp } from "../application";
 import { usePermissions } from "../permissions";
 import Menu from "../menu";
-import { getRecordFormsByUniqueId } from "../record-form";
 import { useDialog } from "../action-dialog";
 import useMemoizedSelector from "../../libs/use-memoized-selector";
 import useIncidentFromCase from "../records/use-incident-form-case";
+import { getRecordFormsByUniqueIdWithFallback } from "../record-form/selectors";
+import { selectRecordsByIndexes } from "../records";
 
 import { INCIDENT_SUBFORM, INCIDENTS_SUBFORM_NAME } from "./add-incident/constants";
 import { SERVICES_SUBFORM, SERVICES_SUBFORM_NAME } from "./add-service/constants";
@@ -38,7 +39,15 @@ import {
 import { NAME } from "./config";
 import { isDisabledAction, buildApprovalList, buildActionList, subformExists } from "./utils";
 
-function Container({ currentPage, mode, record, recordType, selectedRecords, clearSelectedRecords, showListActions }) {
+function Container({
+  currentPage,
+  mode,
+  record,
+  recordType,
+  selectedRecords = [],
+  clearSelectedRecords,
+  showListActions
+}) {
   const i18n = useI18n();
   const { approvalsLabels } = useApp();
   const { currentDialog, dialogClose, dialogOpen, pending, setDialog, setDialogPending } = useDialog([
@@ -57,23 +66,29 @@ function Container({ currentPage, mode, record, recordType, selectedRecords, cle
     LINK_INCIDENT_TO_CASE_DIALOG
   ]);
   const { handleCreateIncident } = useIncidentFromCase({ record, mode });
+  const selectedRecordsFromList = useMemoizedSelector(state =>
+    selectRecordsByIndexes(state, recordType, selectedRecords[currentPage])
+  );
+  const primeroModule = (selectedRecordsFromList?.[0] || record)?.get("module_id");
 
   const isIdSearch = useMemoizedSelector(state => getFiltersValueByRecordType(state, recordType, ID_SEARCH) || false);
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
   const incidentForm = useMemoizedSelector(state =>
-    getRecordFormsByUniqueId(state, {
+    getRecordFormsByUniqueIdWithFallback(state, {
       checkVisible: false,
       formName: INCIDENT_SUBFORM,
-      primeroModule: MODULES.CP,
-      recordType: RECORD_TYPES[recordType]
+      primeroModule,
+      recordType: RECORD_TYPES[recordType],
+      fallbackModule: MODULES.CP
     })
   ).first();
   const serviceForm = useMemoizedSelector(state =>
-    getRecordFormsByUniqueId(state, {
+    getRecordFormsByUniqueIdWithFallback(state, {
       checkVisible: false,
       formName: SERVICES_SUBFORM,
-      primeroModule: MODULES.CP,
-      recordType: RECORD_TYPES[recordType]
+      primeroModule,
+      recordType: RECORD_TYPES[recordType],
+      fallbackModule: MODULES.CP
     })
   ).first();
 
@@ -194,7 +209,8 @@ function Container({ currentPage, mode, record, recordType, selectedRecords, cle
           selectedRowsIndex,
           setPending: setDialogPending,
           userPermissions: permittedAbilities,
-          mode
+          mode,
+          primeroModule
         })}
     </>
   );

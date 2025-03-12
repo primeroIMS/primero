@@ -7,7 +7,7 @@ class ReportingLocation < ValueObject
   DEFAULT_FIELD_KEY = 'owned_by_location'
   DEFAULT_ADMIN_LEVEL = 2
 
-  attr_accessor :field_key, :label_keys, :admin_level, :hierarchy_filter, :admin_level_map
+  attr_accessor :field_key, :label_keys, :admin_level, :record_list_admin_level, :hierarchy_filter, :admin_level_map
 
   def initialize(args = {})
     super(args)

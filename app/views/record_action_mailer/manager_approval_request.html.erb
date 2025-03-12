@@ -1,19 +1,13 @@
 <%# Copyright (c) 2014 - 2023 UNICEF. All rights reserved. %>
 
-<!DOCTYPE html>
-<html lang="<%= @approval_notification.locale %>">
-  <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
-  </head>
-  <body>
-    <p><%=
-      t(
+<p lang="<%= @approval_notification.locale %>">
+    <%=
+    t(
         'email_notification.approval_request_html',
         user: @approval_notification.user&.user_name,
         approval_type: @approval_notification.approval_type,
         case_id: link_to(@approval_notification.child&.short_id, url_for_v2(@approval_notification.child)),
         locale: @approval_notification.locale
-      ).html_safe
-    %></p>
-  </body>
-</html>
+    ).html_safe
+    %>
+</p>

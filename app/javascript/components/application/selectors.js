@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { Map, fromJS } from "immutable";
-import { isEqual, isNil, omitBy } from "lodash";
+import { List, Map, fromJS } from "immutable";
+import { isEqual, isNil, omitBy, uniqBy } from "lodash";
 import createCachedSelector from "re-reselect";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 import { memoize } from "proxy-memoize";
@@ -10,6 +10,7 @@ import displayNameHelper from "../../libs/display-name-helper";
 import { getLocale } from "../i18n/selectors";
 import { DATA_PROTECTION_FIELDS } from "../record-creation-flow/constants";
 import { currentUser } from "../user/selectors";
+import { MODULES, RECORD_TYPES_PLURAL } from "../../config";
 
 import { PERMISSIONS, RESOURCE_ACTIONS, DEMO, LIMITED } from "./constants";
 import NAMESPACE from "./namespace";
@@ -50,10 +51,34 @@ export const selectUserModules = state =>
     return userModules ? userModules.includes(m.unique_id) : false;
   });
 
-export const selectModule = (state, id) => selectUserModules(state).find(f => f.unique_id === id, null, fromJS({}));
+export const selectModule = (state, id) =>
+  selectUserModules(state).find(userModule => userModule.unique_id === id, null, fromJS({}));
 
-export const getWorkflowLabels = (state, id, recordType) =>
-  selectModule(state, id).getIn(["workflows", recordType], []);
+export const getWorkflowLabels = (state, id, recordType) => {
+  if (id) {
+    return selectModule(state, id).getIn(["workflows", recordType], []);
+  }
+
+  return uniqBy(
+    selectModules(state)
+      .reduce((prev, current) => [...prev, current.get("workflows")[recordType]], [])
+      .filter(workflow => workflow)
+      .flat(),
+    "id"
+  );
+};
+
+export const getAllWorkflowLabels = (state, recordType) => {
+  return selectUserModules(state).reduce((prev, current) => {
+    if (![MODULES.GBV, MODULES.MRM].includes(current.get("unique_id"))) {
+      prev.push([current.name, current.getIn(["workflows", recordType], [])]);
+    }
+
+    return prev;
+  }, []);
+};
+
+export const getConsentform = (state, id) => selectModule(state, id).getIn(["options", "consent_form"]);
 
 export const selectUserIdle = state => state.getIn([NAMESPACE, "userIdle"], false);
 
@@ -93,15 +118,35 @@ export const getSystemPermissions = state => state.getIn([NAMESPACE, PERMISSIONS
 export const getResourceActions = (state, resource) =>
   getSystemPermissions(state).getIn([RESOURCE_ACTIONS, resource], fromJS([]));
 
-export const getAgeRanges = (state, name = "primero") => state.getIn([NAMESPACE, "ageRanges", name], fromJS([]));
+export const getAgeRanges = (state, name = "primero") => {
+  const userModules = selectUserModules(state);
+  const ageRange = state.getIn([NAMESPACE, "ageRanges", name], fromJS([]));
 
-export const getPrimaryAgeRange = state => state.getIn([NAMESPACE, "primaryAgeRange"], "primero");
+  if (userModules.size === 1) {
+    return userModules.first()?.age_range || ageRange;
+  }
+
+  return ageRange;
+};
+
+export const getPrimaryAgeRange = state => {
+  return state.getIn([NAMESPACE, "primaryAgeRange"], "primero");
+};
 
 export const getPrimaryAgeRanges = state => getAgeRanges(state, getPrimaryAgeRange(state));
 
 export const getReportableTypes = state => state.getIn([NAMESPACE, "reportableTypes"], fromJS([]));
 
-export const approvalsLabels = state => state.getIn([NAMESPACE, "approvalsLabels"], fromJS({}));
+export const approvalsLabels = state => {
+  const systemApprovalLabels = state.getIn([NAMESPACE, "approvalsLabels"], fromJS({}));
+  const userModules = selectUserModules(state);
+
+  if (userModules.size === 1) {
+    return fromJS(userModules.first()?.approvals_labels) || systemApprovalLabels;
+  }
+
+  return systemApprovalLabels;
+};
 
 export const getApprovalsLabels = createCachedSelector(getLocale, approvalsLabels, (locale, data) => {
   const labels = data.entrySeq().reduce((acc, [key, value]) => {
@@ -147,7 +192,7 @@ export const getCodesOfConduct = state => state.getIn([NAMESPACE, "codesOfConduc
 export const getOptionFromAppModule = (state, primeroModule, option) =>
   getAppModuleByUniqueId(state, primeroModule).getIn(
     ["options", option],
-    option === DATA_PROTECTION_FIELDS ? fromJS([]) : false
+    option === DATA_PROTECTION_FIELDS ? [] : false
   );
 
 export const getCodeOfConductEnabled = state =>
@@ -222,3 +267,21 @@ export const getReferralAuthorizationRoles = state =>
 
 export const getReferralAuthorizationRolesLoading = state =>
   state.getIn([NAMESPACE, "referralAuthorizationRoles", "loading"], fromJS({}));
+
+export const getListHeaders = (state, namespace) => {
+  const listHeaders = state.getIn(["user", "listHeaders", namespace], List([]));
+
+  if (namespace === RECORD_TYPES_PLURAL.case) {
+    const moduleListHeaders = selectUserModules(state)?.reduce((prev, current) => {
+      const moduleHeaders = current.getIn(["list_headers", namespace]);
+
+      return moduleHeaders ? prev.merge(moduleHeaders) : prev;
+    }, List());
+
+    return moduleListHeaders
+      ? listHeaders.filter(header => moduleListHeaders.includes(header.get("field_name")))
+      : List();
+  }
+
+  return listHeaders;
+};

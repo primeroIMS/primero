@@ -47,15 +47,17 @@ describe RecordActionMailer, type: :mailer do
       @lookup = Lookup.create!(id: 'lookup-approval-type', unique_id: 'lookup-approval-type', name: 'approval type',
                                lookup_values_en: [{ 'id' => 'value1', 'display_text' => 'value1' }])
       role = create(:role, is_manager: true)
-      @manager1 = create(:user, role:, email: 'manager1@primero.dev', send_mail: false, user_name: 'manager1')
+      @manager1 = create(:user, role:, email: 'manager1@primero.dev', send_mail: false, user_name: 'manager1',
+                                full_name: 'manager1')
       @manager2 = create(:user, role:, email: 'manager2@primero.dev', send_mail: true, user_name: 'manager2',
-                                settings: notification_settings)
+                                settings: notification_settings, full_name: 'manager2')
       @manager3 = create(
         :user, role:, email: 'manager3@primero.dev', send_mail: true, user_name: 'manager3', locale: 'ar-LB',
-               settings: notification_settings
+               settings: notification_settings, full_name: 'manager3'
       )
       @manager4 = create(
-        :user, role:, email: 'manager4@primero.dev', send_mail: true, user_name: 'manager4', disabled: true
+        :user, role:, email: 'manager4@primero.dev', send_mail: true, user_name: 'manager4', disabled: true,
+               full_name: 'manager1'
       )
       @owner = create(:user, user_name: 'jnelson', full_name: 'Jordy Nelson', email: 'owner@primero.dev',
                              settings: notification_settings)
@@ -92,7 +94,7 @@ describe RecordActionMailer, type: :mailer do
 
       it 'renders the body' do
         expect(mail.body.encoded)
-          .to match("The user jnelson is requesting approval for Case Plan on case .*#{@child.short_id}")
+          .to match("jnelson is requesting a Case Plan approval on case .*#{@child.short_id}")
       end
     end
 
@@ -132,7 +134,7 @@ describe RecordActionMailer, type: :mailer do
 
       it 'renders the body' do
         expect(mail.body.encoded)
-          .to match("manager1 has rejected the request for approval for case plan for case.*#{@child.short_id}")
+          .to match("manager1 has rejected your request for case plan approval on case.*#{@child.short_id}")
       end
     end
 
@@ -236,7 +238,8 @@ describe RecordActionMailer, type: :mailer do
         user_name: 'user1', role: @role, user_groups: [@group1],
         email: 'uzer1@test.com', send_mail: true,
         agency:,
-        settings: notification_settings
+        settings: notification_settings,
+        full_name: 'user1'
       )
       @user1.save(validate: false)
       @group2 = UserGroup.create!(name: 'Group2')
@@ -245,7 +248,8 @@ describe RecordActionMailer, type: :mailer do
         user_groups: [@group2],
         email: 'uzer_to@test.com', send_mail: true,
         agency:,
-        settings: notification_settings
+        settings: notification_settings,
+        full_name: 'user2'
       )
       @user2.save(validate: false)
       @user3 = User.new(
@@ -254,7 +258,8 @@ describe RecordActionMailer, type: :mailer do
         email: 'ar_uzer_to@test.com', send_mail: true,
         agency:,
         locale: 'ar-LB',
-        settings: notification_settings
+        settings: notification_settings,
+        full_name: 'user3'
       )
       @user3.save(validate: false)
       @user4 = User.new(
@@ -263,11 +268,13 @@ describe RecordActionMailer, type: :mailer do
         user_groups: [@group2],
         email: 'user4@test.com',
         send_mail: false,
-        agency:
+        agency:,
+        full_name: 'user4'
       )
       @user4.save(validate: false)
       @user5 = User.new(
         user_name: 'user5', role: @role,
+        full_name: 'user5',
         user_groups: [@group2],
         email: 'user5@test.com', send_mail: true,
         agency:,
@@ -298,7 +305,7 @@ describe RecordActionMailer, type: :mailer do
       let(:mail) { RecordActionMailer.transition_notify(TransitionNotificationService.new(@referral.id)) }
 
       it 'renders the headers' do
-        expect(mail.subject).to eq("Case: #{@case.short_id} - Referral")
+        expect(mail.subject).to eq("Case: #{@case.short_id} - Referral Request")
         expect(mail.to).to eq(['uzer_to@test.com'])
       end
 
@@ -343,7 +350,7 @@ describe RecordActionMailer, type: :mailer do
       let(:mail) { RecordActionMailer.transition_notify(TransitionNotificationService.new(@transfer.id)) }
 
       it 'renders the headers' do
-        expect(mail.subject).to eq("Case: #{@case.short_id} - Transfer")
+        expect(mail.subject).to eq("Case: #{@case.short_id} - Transfer Request")
         expect(mail.to).to eq(['uzer_to@test.com'])
       end
 
@@ -437,9 +444,9 @@ describe RecordActionMailer, type: :mailer do
 
       it 'renders the body' do
         expect(mail.text_part.body.encoded)
-          .to match(
+          .to include(
             %(مستخدم بريميرو user2 من الهيئة Test Agency يطلب أن تنقل ملكية هذا السجل من نوع Case ومعرّف
-              <a href=\"https://localhost:3000/v2/cases/#{@case.id}\">#{@case.short_id}</a>
+              #{@case.short_id} \(https://localhost:3000/v2/cases/#{@case.id}\)
               بحيث يتمكنون من تقديم خدمات إدارة للشخص في منطقتهم. إذا كان التحويل مقبولا من طرفك، يرجى النقر على رابط معرف نوع السجل
               Case في هذا الايميل لفتح نوع السجل Case في بريميرو والبدء بعملية التحويل.).squish
             )
@@ -498,7 +505,7 @@ describe RecordActionMailer, type: :mailer do
   private
 
   def child_with_created_by(created_by, options = {})
-    user = User.new(user_name: created_by)
+    user = User.new(user_name: created_by, full_name: 'James Joy')
     child = Child.new_with_user user, options
     child.save && child
   end

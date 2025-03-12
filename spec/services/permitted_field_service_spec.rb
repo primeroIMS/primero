@@ -380,6 +380,77 @@ describe PermittedFieldService, search: true do
     end
   end
 
+  describe 'Permitted Fields for Custom Modules' do
+    let(:acm_form) do
+      FormSection.create!(unique_id: 'form_acm', name: 'Form ACM', parent_form: 'case', form_group_id: 'm')
+    end
+    let(:custom_module) do
+      PrimeroModule.create!(
+        primero_program: PrimeroProgram.first,
+        name: 'ACM Module',
+        unique_id: 'primeromodule-acm',
+        associated_record_types: ['case'],
+        form_sections: [acm_form]
+      )
+    end
+    let(:acm_field) do
+      Field.create!(
+        name: 'acm_field',
+        display_name: 'acm field',
+        type: Field::TEXT_FIELD,
+        form_section_id: acm_form.id
+      )
+    end
+    let(:acm_role) do
+      Role.new_with_properties(
+        name: 'Test Role 1',
+        unique_id: 'test-role-1',
+        group_permission: Permission::SELF,
+        modules: [custom_module],
+        permissions: [
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::READ, Permission::CREATE, Permission::WRITE]
+          )
+        ],
+        form_section_read_write: { acm_form.unique_id => 'rw' }
+      )
+    end
+    let(:acm_agency) do
+      Agency.create!(
+        name: 'Test Agency',
+        agency_code: 'TA',
+        services: ['Test type']
+      )
+    end
+    let(:acm_user) do
+      User.create!(
+        full_name: 'Test User 3',
+        user_name: 'test_user_3',
+        password: 'a12345632',
+        password_confirmation: 'a12345632',
+        email: 'test_user_3@localhost.com',
+        agency_id: acm_agency.id,
+        role: acm_role
+      )
+    end
+
+    before(:each) do
+      clean_data(PrimeroModule, User, Agency, Role, FormSection, Field, SystemSettings)
+      custom_module
+      acm_form
+      acm_field
+      acm_role.save!
+      acm_user
+    end
+
+    it 'returns fields if user has permission' do
+      permitted_field_names = PermittedFieldService.new(acm_user, Child).permitted_field_names
+      puts permitted_field_names
+      expect(permitted_field_names.include?('acm_field')).to be true
+    end
+  end
+
   describe 'Permitted Fields for Multiple Roles' do
     before(:each) do
       clean_data(PrimeroModule, User, Agency, Role, FormSection, Field, SystemSettings)

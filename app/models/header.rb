@@ -14,6 +14,7 @@ class Header < ValueObject
   SURVIVOR_CODE_INCIDENT = Header.new(name: 'survivor_code', field_name: 'survivor_code')
   AGE = Header.new(name: 'age', field_name: 'age', id_search: true)
   SEX = Header.new(name: 'sex', field_name: 'sex', id_search: true)
+  GENDER = Header.new(name: 'gender', field_name: 'gender', id_search: true)
   REGISTRATION_DATE = Header.new(name: 'registration_date', field_name: 'registration_date')
   CASE_OPENING_DATE = Header.new(name: 'case_opening_date', field_name: 'created_at')
   PHOTO = Header.new(name: 'photo', field_name: 'photo')
@@ -62,6 +63,8 @@ class Header < ValueObject
   FAMILY_NAME = Header.new(name: 'family_name', field_name: 'family_name')
   FAMILY_LOCATION_CURRENT = Header.new(name: 'family_location_current', field_name: 'family_location_current')
   FAMILY_REGISTRATION_DATE = Header.new(name: 'family_registration_date', field_name: 'family_registration_date')
+  CLIENT_CODE = Header.new(name: 'client_code', field_name: 'client_code')
+  LOCATION = Header.new(name: 'location_current', field_name: 'location_current')
 
   class << self
     def get_headers(user, record_type)
@@ -85,15 +88,18 @@ class Header < ValueObject
       header_list << CASE_ID_DISPLAY
       header_list << SHORT_ID
       # TODO: There's an id_search logic I'm not sure about
-      header_list << CASE_NAME if user.module?(PrimeroModule::CP) && user.can_list_case_names?
+      header_list << CASE_NAME if user.can_list_case_names?
       header_list << COMPLETE if user.can?(:sync_mobile, Child)
-      header_list << SURVIVOR_CODE if user.module?(PrimeroModule::GBV) && !user.manager?
-      header_list << AGE if user.module?(PrimeroModule::CP)
-      header_list << SEX if user.module?(PrimeroModule::CP)
-      header_list << REGISTRATION_DATE if user.module?(PrimeroModule::CP)
-      header_list << CASE_OPENING_DATE if user.module?(PrimeroModule::GBV)
-      header_list << PHOTO if user.module?(PrimeroModule::CP) && user.can?(:view_photo, Child)
+      header_list << CLIENT_CODE
+      header_list << SURVIVOR_CODE unless user.manager?
+      header_list << AGE
+      header_list << SEX
+      header_list << GENDER
+      header_list << REGISTRATION_DATE
+      header_list << CASE_OPENING_DATE
+      header_list << PHOTO if user.can?(:view_photo, Child)
       header_list << SOCIAL_WORKER if user.manager?
+      header_list << LOCATION
       header_list << ALERT_COUNT
       header_list << FLAG_COUNT
 
@@ -104,15 +110,15 @@ class Header < ValueObject
       # NOTE: If headers are updated they will also need to be updated on indexeddb.
       header_list = []
       header_list << SHORT_ID
-      header_list << DATE_OF_INCIDENT if user.module?(PrimeroModule::MRM)
-      header_list << SURVIVOR_CODE_INCIDENT if !user.manager? && user.module?(PrimeroModule::GBV)
-      header_list << DATE_OF_INTERVIEW if user.module?(PrimeroModule::GBV) || user.module?(PrimeroModule::CP)
-      header_list << GBV_DATE_OF_INCIDENT if user.module?(PrimeroModule::GBV)
-      header_list << GBV_VIOLENCE_TYPE if user.module?(PrimeroModule::GBV)
-      header_list << CP_DATE_OF_INCIDENT if user.module?(PrimeroModule::CP)
-      header_list << CP_VIOLENCE_TYPE if user.module?(PrimeroModule::CP)
-      header_list << INCIDENT_LOCATION if user.module?(PrimeroModule::MRM)
-      header_list << VIOLATIONS if user.module?(PrimeroModule::MRM)
+      header_list << DATE_OF_INCIDENT if user.mrm?
+      header_list << SURVIVOR_CODE_INCIDENT if !user.manager? && user.gbv?
+      header_list << DATE_OF_INTERVIEW unless user.mrm?
+      header_list << GBV_DATE_OF_INCIDENT if user.gbv?
+      header_list << GBV_VIOLENCE_TYPE if user.gbv?
+      header_list << CP_DATE_OF_INCIDENT unless user.gbv_only? || user.mrm_only?
+      header_list << CP_VIOLENCE_TYPE unless user.gbv_only? || user.mrm_only?
+      header_list << INCIDENT_LOCATION if user.mrm?
+      header_list << VIOLATIONS if user.mrm?
       header_list << SOCIAL_WORKER if user.manager?
       header_list << FLAG_COUNT
       header_list

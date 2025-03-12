@@ -1,10 +1,363 @@
 <%# Copyright (c) 2014 - 2023 UNICEF. All rights reserved. %>
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml"
+  xmlns:o="urn:schemas-microsoft-com:office:office" lang="<%= I18n.locale %>">
 
-<!DOCTYPE html>
-<html lang="<%= I18n.locale %>">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <style>/* Email styles need to be inline */</style>
+  <title><%= @subject %></title><!--[if !mso]><!-->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"><!--<![endif]-->
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style type="text/css">
+    #outlook a {
+      padding: 0;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+    }
+
+    table,
+    td {
+      border-collapse: collapse;
+      mso-table-lspace: 0pt;
+      mso-table-rspace: 0pt;
+    }
+
+    img {
+      border: 0;
+      height: auto;
+      line-height: 100%;
+      outline: none;
+      text-decoration: none;
+      -ms-interpolation-mode: bicubic;
+    }
+
+    p {
+      display: block;
+      margin: 13px 0;
+    }
+  </style><!--[if mso]>
+    <noscript>
+    <xml>
+    <o:OfficeDocumentSettings>
+      <o:AllowPNG/>
+      <o:PixelsPerInch>96</o:PixelsPerInch>
+    </o:OfficeDocumentSettings>
+    </xml>
+    </noscript>
+    <![endif]--><!--[if lte mso 11]>
+    <style type="text/css">
+      .mj-outlook-group-fix { width:100% !important; }
+    </style>
+    <![endif]--><!--[if !mso]><!-->
+  <style type="text/css">
+    @media only screen and (min-width:480px) {
+      .mj-column-per-100 {
+        width: 100% !important;
+        max-width: 100%;
+      }
+
+      .mj-column-per-48 {
+        width: 48% !important;
+        max-width: 48%;
+      }
+    }
+  </style>
+  <style media="screen and (min-width:480px)">
+    .moz-text-html .mj-column-per-100 {
+      width: 100% !important;
+      max-width: 100%;
+    }
+
+    .moz-text-html .mj-column-per-48 {
+      width: 48% !important;
+      max-width: 48%;
+    }
+  </style>
+  <style type="text/css">
+    @media only screen and (max-width:480px) {
+      table.mj-full-width-mobile {
+        width: 100% !important;
+      }
+
+      td.mj-full-width-mobile {
+        width: auto !important;
+      }
+    }
+  </style>
 </head>
-<body><%= yield %></body>
+<body style="word-spacing:normal;background-color:#ffffff;">
+  <div style="background-color:#ffffff;">
+    <!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" class="" role="presentation" style="width:900px;" width="900" bgcolor="#ffffff" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+    <div style="background:#ffffff;background-color:#ffffff;margin:0px auto;max-width:900px;">
+      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
+        style="background:#ffffff;background-color:#ffffff;width:100%;">
+        <tbody>
+          <tr>
+            <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
+              <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:900px;" ><![endif]-->
+              <div class="mj-column-per-100 mj-outlook-group-fix"
+                style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
+                <table border="0" cellpadding="0" cellspacing="0" role="presentation"
+                  style="background-color:#ffffff;vertical-align:top;" width="100%">
+                  <tbody>
+                    <tr>
+                      <td align="left"
+                        style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                        <table border="0" cellpadding="0" cellspacing="0" role="presentation"
+                          style="border-collapse:collapse;border-spacing:0px;">
+                          <tbody>
+                            <tr>
+                              <td style="width:150px;">
+                                <% if @theme.logo.present? %>
+                                  <%= image_tag @theme.logo,
+                                    height: 'auto',
+                                    style: 'border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:18px;',
+                                    width: '150' %>
+                                <% else %>
+                                  <img src="<%= url_to_asset('primero-logo.png') %>" height="auto" width="150" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:18px;" />
+                                <% end %>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!--[if mso | IE]></td><td class="" style="vertical-align:top;width:900px;" ><![endif]-->
+              <div class="mj-column-per-100 mj-outlook-group-fix"
+                style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
+                <table border="0" cellpadding="0" cellspacing="0" role="presentation"
+                  style="background-color:#ffffff;vertical-align:top;" width="100%">
+                  <tbody>
+                    <tr>
+                      <td align="left"
+                        style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                        <div
+                          style="font-family:-apple-system,BlinkMacSystemFont,avenir next,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif;font-size:18px;font-weight:bold;line-height:30px;text-align:left;color:#4a4a4a;">
+                          <%= t('email.greeting', locale: @locale, full_name: @user&.full_name) %>,</div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!--[if mso | IE]></td><![endif]--><!-- Email body --><!--[if mso | IE]><td class="" style="vertical-align:top;width:900px;" ><![endif]-->
+              <div class="mj-column-per-100 mj-outlook-group-fix"
+                style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
+                <table border="0" cellpadding="0" cellspacing="0" role="presentation"
+                  style="background-color:#ffffff;vertical-align:top;" width="100%">
+                  <tbody>
+                    <tr>
+                      <td align="left"
+                        style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                        <div
+                          style="font-family:-apple-system,BlinkMacSystemFont,avenir next,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif;font-size:18px;line-height:30px;text-align:left;color:#4a4a4a;">
+                          <%= yield %>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!--[if mso | IE]></td><td class="" style="vertical-align:top;width:900px;" ><![endif]-->
+              <div class="mj-column-per-100 mj-outlook-group-fix"
+                style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
+                <table border="0" cellpadding="0" cellspacing="0" role="presentation"
+                  style="background-color:#ffffff;vertical-align:top;" width="100%">
+                  <tbody>
+                    <tr>
+                      <td align="left"
+                        style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                        <div
+                          style="font-family:-apple-system,BlinkMacSystemFont,avenir next,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif;font-size:18px;line-height:30px;text-align:left;color:#4a4a4a;">
+                          <p><i><%= @theme.t('email_closing', @locale) %></i></p>
+                          <p><b><%= @theme.t('email_signature', @locale) %></b></p>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!--[if mso | IE]></td><td class="" style="vertical-align:top;width:900px;" ><![endif]-->
+              <div class="mj-column-per-100 mj-outlook-group-fix"
+                  style="direction:ltr;display:inline-block;font-size:0;text-align:left;vertical-align:top;width:100%">
+                  <table border="0" cellpadding="0" cellspacing="0" role="presentation"
+                      style="background-color:#fff;vertical-align:top" width="100%">
+                      <tbody>
+                          <tr>
+                              <td align="left"
+                                  style="font-size:0;padding:10px 25px;word-break:break-word">
+                                  <div
+                                      style="color:#000;font-family:-apple-system,BlinkMacSystemFont,avenir next,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif;font-size:15px;font-weight:700;line-height:30px;text-align:left">
+                                      <%= @theme.t('email_warning', @locale) %></div>
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div> <!--[if mso | IE]></td></tr></table><![endif]-->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!--[if mso | IE]></td></tr></table><![endif]--><!-- Help links --><!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" class="" role="presentation" style="width:900px;" width="900" bgcolor="#ffffff" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+    <div style="background:#ffffff;background-color:#ffffff;margin:0px auto;max-width:900px;">
+      <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
+        style="background:#ffffff;background-color:#ffffff;width:100%;">
+        <tbody>
+          <tr>
+            <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
+              <%= @theme.get('email_help_links', []).each do |link| %>
+              <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:432px;" ><![endif]-->
+              <div class="mj-column-per-48 mj-outlook-group-fix"
+                style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
+                <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%">
+                  <tbody>
+                    <tr>
+                      <td
+                        style="background-color:#ffffff;vertical-align:top;padding:4%;padding-bottom:0;">
+                        <table border="0" cellpadding="0" cellspacing="0" role="presentation"
+                          width="100%">
+                          <tbody>
+                            <tr>
+                              <td align="center" vertical-align="middle" class="help-btn"
+                                style="font-size:0px;padding:0;word-break:break-word;">
+                                <table border="0" cellpadding="0" cellspacing="0"
+                                  role="presentation"
+                                  style="border-collapse:separate;width:100%;line-height:100%;">
+                                  <tbody>
+                                    <tr>
+                                      <td align="center"
+                                        role="presentation"
+                                        style="border:none;border-radius:10px;cursor:auto;mso-padding-alt:2%;background:<%= @theme.get('email_help_link_background_color') %>;"
+                                        valign="middle"><a
+                                          href="<%= link[:href] %>"
+                                          style="width: 100%; display: inline-block; background: <%= @theme.get('email_help_link_background_color') %>; color: #4a4a4a; font-family: -apple-system,BlinkMacSystemFont,avenir next,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif; font-size: 18px; font-weight: normal; line-height: 30px; margin: 0; text-decoration: none; text-transform: none; padding: 2%; mso-padding-alt: 0px; border-radius: 10px;"
+                                          target="_blank">
+                                          <table width="100%">
+                                            <tr>
+                                              <td style="vertical-align: top"
+                                                width="80px"><img
+                                                  src="<%= link[:icon_url] %>"
+                                                  alt="<%= link[:name][@locale] %> icon"
+                                                  width="70px"
+                                                  height="70px"></td>
+                                              <td
+                                                style="vertical-align: top">
+                                                <h4
+                                                  style="padding: 0; margin: 0; color: <%= @theme.get('email_link_color') %>">
+                                                  <%= link[:name][@locale] %>
+                                                </h4>
+                                                <p
+                                                  style="margin-top: 0; height: 50px">
+                                                  <%= link[:description][@locale] %></p>
+                                              </td>
+                                            </tr>
+                                          </table>
+                                        </a></td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <% end %>
+              <!--[if mso | IE]></td><td class="" style="vertical-align:top;width:900px;" ><![endif]-->
+              <div class="mj-column-per-100 mj-outlook-group-fix"
+                style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
+                <table border="0" cellpadding="0" cellspacing="0" role="presentation"
+                  style="background-color:#ffffff;vertical-align:top;" width="100%">
+                  <tbody>
+                    <tr>
+                      <td align="left"
+                        style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                        <div
+                          style="font-family:-apple-system,BlinkMacSystemFont,avenir next,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif;font-size:18px;line-height:30px;text-align:left;color:#4a4a4a;">
+                          <p style="text-align: center">
+                            <%= t('email.admin_closing', locale: @locale,
+                              sys_admin: @system_admin&.email ?
+                                  mail_to(@system_admin&.email, t('email.system_admin'), style: "color: #{@theme.get('email_link_color')}") :
+                                t('email.system_admin')
+                              ).html_safe %>
+                          </p>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div><!--[if mso | IE]></td></tr></table><![endif]-->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div><!--[if mso | IE]></td></tr></table><![endif]--><!-- Footer -->
+    <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
+      style="background:<%= @theme.get('email_footer_background_color') %>;background-color:<%= @theme.get('email_footer_background_color') %>;width:100%;">
+      <tbody>
+        <tr>
+          <td><!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" class="" role="presentation" style="width:900px;" width="900" bgcolor="<%= @theme.get('email_footer_background_color') %>" ><tr><td style="line-height:0px;font-size:0px;mso-line-height-rule:exactly;"><![endif]-->
+            <div style="margin:0px auto;max-width:900px;">
+              <table align="center" border="0" cellpadding="0" cellspacing="0" role="presentation"
+                style="width:100%;">
+                <tbody>
+                  <tr>
+                    <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
+                      <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:900px;" ><![endif]-->
+                      <div class="mj-column-per-100 mj-outlook-group-fix"
+                        style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
+                        <table border="0" cellpadding="0" cellspacing="0" role="presentation"
+                          style="background-color:transparent;vertical-align:top;"
+                          width="100%">
+                          <tbody>
+                            <tr>
+                              <td align="left"
+                                style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                                <div
+                                  style="font-family:-apple-system,BlinkMacSystemFont,avenir next,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif;font-size:14px;line-height:25px;text-align:left;color:#4a4a4a;">
+                                  <b><%= @theme.t('email_disclaimer_pre', @locale) %>. </b><%= @theme.t('email_disclaimer', @locale) %></div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td align="center"
+                                style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                                <p
+                                  style="border-top:solid 2px #DBDBDB;font-size:1px;margin:0px auto;width:100%;">
+                                </p><!--[if mso | IE]><table align="center" border="0" cellpadding="0" cellspacing="0" style="border-top:solid 2px #DBDBDB;font-size:1px;margin:0px auto;width:850px;" role="presentation" width="850px" ><tr><td style="height:0;line-height:0;"> &nbsp;
+</td></tr></table><![endif]-->
+                              </td>
+                            </tr>
+                            <tr>
+                              <td align="left"
+                                style="font-size:0px;padding:10px 25px;word-break:break-word;">
+                                <div
+                                  style="font-family:-apple-system,BlinkMacSystemFont,avenir next,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif;font-size:13px;line-height:30px;text-align:left;color:#4a4a4a;">
+                                  <%= @theme.t('email_copyright', @locale) %></div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div><!--[if mso | IE]></td></tr></table><![endif]-->
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div><!--[if mso | IE]></td></tr></table><![endif]-->
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
 </html>

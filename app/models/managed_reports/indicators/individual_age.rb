@@ -17,7 +17,9 @@ class ManagedReports::Indicators::IndividualAge < ManagedReports::SqlReportIndic
 
       %{
         select
-          #{age_ranges_query('individual_age', 'individual_children', false)} as name,
+          #{age_ranges_query(field_name: 'individual_age',
+                             table_name: 'individual_children', is_json_field: false,
+                             module_id: params['module_id'])} as name,
           'total' as key,
           #{grouped_date_query(params['grouped_by'], date_filter, 'individual_children')&.concat(' as group_id,')}
           count(*) as sum
@@ -42,7 +44,8 @@ class ManagedReports::Indicators::IndividualAge < ManagedReports::SqlReportIndic
             #{equal_value_query_multiple(params['violation_type'], 'violations', 'data', 'type')&.prepend('and ')}
         ) individual_children
         group by
-          #{age_ranges_query('individual_age', 'individual_children', false)},
+          #{age_ranges_query(field_name: 'individual_age',
+                             table_name: 'individual_children', is_json_field: false, module_id: params['module_id'])},
           name,
           #{grouped_date_query(params['grouped_by'], date_filter, 'individual_children')}
         order by name

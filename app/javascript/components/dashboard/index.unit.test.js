@@ -10,16 +10,17 @@ describe("<Dashboard /> - index", () => {
   it("should have known properties", () => {
     expect(indexValues).to.be.an("object");
     [
+      "ActionMenu",
       "BadgedIndicator",
+      "DashboardChip",
       "DashboardTable",
       "DoughnutChart",
       "FlagBox",
       "LineChart",
       "OptionsBox",
       "OverviewBox",
-      "ActionMenu",
-      "DashboardChip",
-      "PieChart"
+      "PieChart",
+      "TotalBox"
     ].forEach(property => {
       expect(indexValues).to.have.property(property);
       delete indexValues[property];

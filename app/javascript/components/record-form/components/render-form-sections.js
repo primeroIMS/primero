@@ -2,6 +2,7 @@
 
 import { Fragment } from "react";
 import isEmpty from "lodash/isEmpty";
+import isNil from "lodash/isNil";
 
 import { SUBFORM_SECTION } from "../constants";
 import RecordFormAlerts from "../../record-form-alerts";
@@ -30,7 +31,7 @@ const renderFormFields = (
   return form.fields.map(field => {
     const tags = getOptionStringsTags(field, values);
     const fieldProps = {
-      field,
+      field: !isNil(field.subform_summary) ? field.set("disabled", true) : field,
       form,
       mode,
       recordType,

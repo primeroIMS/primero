@@ -19,21 +19,21 @@ import { removeBulkAssignMessages } from "../record-actions/bulk-transtions";
 import { clearPreviousRecord, setSelectedForm } from "../record-form/action-creators";
 import { enqueueSnackbar } from "../notifier";
 import { useMetadata } from "../records";
-import { useApp } from "../application";
+import { useApp, getListHeaders } from "../application";
 import { usePermissions, ACTIONS } from "../permissions";
 import PageContainer, { PageContent } from "../page";
 
 import { NAME, DEFAULT_FILTERS } from "./constants";
 import { buildTableColumns } from "./utils";
 import RecordListToolbar from "./record-list-toolbar";
-import { getListHeaders, getMetadata, getAppliedFiltersAsQueryString } from "./selectors";
+import { getMetadata, getAppliedFiltersAsQueryString } from "./selectors";
 import css from "./styles.css";
 import ViewModal from "./view-modal";
 import SortContainer from "./components/sort-container";
 import FilterContainer from "./components/filter-container";
 
 function Container({ match, location }) {
-  const { mobileDisplay } = useThemeHelper();
+  const { mobileDisplay, tabletDisplay } = useThemeHelper();
   const i18n = useI18n();
   const currentQueryString = location.search.replace("?", "");
   const { online } = useApp();
@@ -195,7 +195,7 @@ function Container({ match, location }) {
           {mobileDisplay && !phonetic && (
             <SortContainer columns={columns} recordType={recordType} applyFilters={applyFilters} />
           )}
-          <FilterContainer mobileDisplay={mobileDisplay}>
+          <FilterContainer mobileDisplay={tabletDisplay}>
             <Filters recordType={recordType} setSelectedRecords={handleSelectedRecords} metadata={metadata} />
           </FilterContainer>
         </PageContent>

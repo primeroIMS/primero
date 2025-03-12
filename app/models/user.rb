@@ -415,10 +415,10 @@ class User < ApplicationRecord
     role&.user_admin_role? && group_permission?(Permission::ADMIN_ONLY)
   end
 
-  def send_welcome_email(admin_user)
+  def send_welcome_email
     return if !emailable? || identity_provider&.sync_identity?
 
-    UserMailJob.perform_later(id, admin_user.id)
+    UserMailJob.perform_later(id)
   end
 
   def identity_sync(admin_user)
@@ -482,6 +482,18 @@ class User < ApplicationRecord
 
   def gbv?
     module?(PrimeroModule::GBV)
+  end
+
+  def gbv_only?
+    gbv? && modules.size <= 1
+  end
+
+  def mrm?
+    module?(PrimeroModule::MRM)
+  end
+
+  def mrm_only?
+    mrm? && modules.size <= 1
   end
 
   def tasks(pagination = { per_page: 100, page: 1 }, sort_order = {})
@@ -569,6 +581,10 @@ class User < ApplicationRecord
     return false if notifier.blank? || action.blank?
 
     (notifications&.[](notifier) || {}).select { |_key, value| value }.keys.include?(action)
+  end
+
+  def admin_query_scope?
+    [Permission::ALL, Permission::AGENCY, Permission::GROUP].include?(user_query_scope)
   end
 
   private

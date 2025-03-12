@@ -50,7 +50,7 @@ export const VIOLATIONS_FILTER_NAMES = Object.freeze([
   "types_of_aid_disrupted_denial"
 ]);
 
-export const PRIMARY_FILTERS = ["sex", "age", "risk_level", "approval_status_case_plan", "last_updated_at"];
+export const PRIMARY_FILTERS = ["sex", "gender", "age", "risk_level", "approval_status_case_plan", "last_updated_at"];
 
 export const DEFAULT_FILTERS = ["fields", "status", "record_state", ID_SEARCH];
 

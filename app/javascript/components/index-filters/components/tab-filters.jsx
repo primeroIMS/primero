@@ -33,11 +33,11 @@ function TabFilters({
   const filters = useMemoizedSelector(state => getFiltersByRecordType(state, recordType, filterCategory));
   const hasPrimeroModuleMRM = useMemoizedSelector(state => hasPrimeroModule(state, MODULES.MRM));
   const allPrimaryFilters = useMemo(
-    () => filters.filter(filter => PRIMARY_FILTERS.includes(filter.field_name)),
+    () => filters.filter(filter => PRIMARY_FILTERS.includes(filter.unique_id)),
     [filters]
   );
   const allDefaultFilters = useMemo(
-    () => filters.filter(filter => [...Object.keys(DEFAULT_FILTERS)].includes(filter.field_name)),
+    () => filters.filter(filter => [...Object.keys(DEFAULT_FILTERS)].includes(filter.unique_id)),
     [filters]
   );
 

@@ -187,11 +187,17 @@ class Report < ApplicationRecord
     )
   end
 
+  def primary_age_ranges
+    module_age_ranges = PrimeroModule.age_ranges(module_id)
+    return module_age_ranges if module_age_ranges.present?
+
+    SystemSettings.primary_age_ranges
+  end
+
   def build_numeric_field_query(field)
     args = { field:, record_field_name: record_field_name(field) }
-    if age_field?(field) && group_ages?
-      args = args.merge(range: SystemSettings.primary_age_ranges, abrreviate_range: true)
-    end
+
+    args = args.merge(range: primary_age_ranges, abrreviate_range: true) if age_field?(field) && group_ages?
 
     Reports::FieldQueries::NumericFieldQuery.new(args)
   end

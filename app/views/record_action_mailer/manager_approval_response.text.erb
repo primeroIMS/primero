@@ -1,13 +1,11 @@
 <%# Copyright (c) 2014 - 2023 UNICEF. All rights reserved. %>
 
-===============================================
-
 <%=
   t(
     'email_notification.approval_response',
     user: @approval_notification.manager.user_name, status: @approval_notification.approval.downcase,
     approval_type: @approval_notification.approval_type&.downcase,
-    case_id: link_to(@approval_notification.child.short_id, url_for_v2(@approval_notification.child)),
+    case_id: "#{@approval_notification&.record&.short_id} (#{url_for_v2(@approval_notification&.record)})",
     locale: @approval_notification.locale
   ).html_safe
 %>

@@ -43,6 +43,14 @@ describe Header do
       primero_program: program,
       form_sections: [form_section]
     )
+    test_module = PrimeroModule.create!(
+      unique_id: 'test',
+      name: 'TEST-MODULE',
+      description: '',
+      associated_record_types: %w[case tracing_request incident],
+      primero_program: program,
+      form_sections: [form_section]
+    )
     agency = Agency.create!(
       unique_id: 'agency_1',
       agency_code: 'agency1',
@@ -81,6 +89,10 @@ describe Header do
       name: 'Test Role 7', unique_id: 'test-role-7', is_manager: true, modules: [cp],
       permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::READ])]
     )
+    role_test_worker = Role.create!(
+      name: 'Test Role 8', unique_id: 'test-role-8', is_manager: false, modules: [test_module],
+      permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
+    )
     @user_cp_worker = User.create!(
       full_name: 'Test User 1', user_name: 'test_user_1', password: 'b12345678',
       password_confirmation: 'b12345678', email: 'test_user_1@localhost.com', agency_id: agency.id, role: role_cp_worker
@@ -110,42 +122,64 @@ describe Header do
       password_confirmation: 'b1234567', email: 'test_user_7@localhost.com',
       agency_id: agency.id, role: role_cp_manager_read_case
     )
+    @user_test_worker = User.create!(
+      full_name: 'Test User 8', user_name: 'test_user_8', password: 'b12345678',
+      password_confirmation: 'b12345678', email: 'test_user_8@localhost.com', agency_id: agency.id,
+      role: role_test_worker
+    )
   end
 
   it 'Comparing headers of Case' do
     expect(Header.get_headers(@user_cp_worker, 'case')).to eq(
       [
-        Header::CASE_ID_DISPLAY, Header::SHORT_ID, Header::CASE_NAME, Header::COMPLETE, Header::AGE, Header::SEX,
-        Header::REGISTRATION_DATE, Header::PHOTO, Header::ALERT_COUNT, Header::FLAG_COUNT
+        Header::CASE_ID_DISPLAY, Header::SHORT_ID, Header::CASE_NAME, Header::COMPLETE, Header::CLIENT_CODE,
+        Header::SURVIVOR_CODE, Header::AGE, Header::SEX, Header::GENDER,
+        Header::REGISTRATION_DATE, Header::CASE_OPENING_DATE, Header::PHOTO, Header::LOCATION, Header::ALERT_COUNT,
+        Header::FLAG_COUNT
       ]
     )
 
     expect(Header.get_headers(@user_cp_manager, 'case')).to eq(
       [
-        Header::CASE_ID_DISPLAY, Header::SHORT_ID, Header::CASE_NAME, Header::COMPLETE, Header::AGE, Header::SEX,
-        Header::REGISTRATION_DATE, Header::PHOTO,
-        Header::SOCIAL_WORKER, Header::ALERT_COUNT, Header::FLAG_COUNT
+        Header::CASE_ID_DISPLAY, Header::SHORT_ID, Header::CASE_NAME, Header::COMPLETE, Header::CLIENT_CODE,
+        Header::AGE, Header::SEX, Header::GENDER,
+        Header::REGISTRATION_DATE, Header::CASE_OPENING_DATE, Header::PHOTO,
+        Header::SOCIAL_WORKER, Header::LOCATION, Header::ALERT_COUNT, Header::FLAG_COUNT
       ]
     )
 
     expect(Header.get_headers(@user_cp_manager_read_case, 'case')).to eq(
       [
-        Header::CASE_ID_DISPLAY, Header::SHORT_ID, Header::AGE, Header::SEX, Header::REGISTRATION_DATE,
-        Header::SOCIAL_WORKER, Header::ALERT_COUNT, Header::FLAG_COUNT
+        Header::CASE_ID_DISPLAY, Header::SHORT_ID, Header::CLIENT_CODE, Header::AGE, Header::SEX, Header::GENDER,
+        Header::REGISTRATION_DATE, Header::CASE_OPENING_DATE, Header::SOCIAL_WORKER, Header::LOCATION,
+        Header::ALERT_COUNT, Header::FLAG_COUNT
       ]
     )
 
     expect(Header.get_headers(@user_gbv_worker, 'case')).to eq(
       [
-        Header::CASE_ID_DISPLAY, Header::SHORT_ID, Header::COMPLETE, Header::SURVIVOR_CODE,
-        Header::CASE_OPENING_DATE, Header::ALERT_COUNT, Header::FLAG_COUNT
+        Header::CASE_ID_DISPLAY, Header::SHORT_ID, Header::CASE_NAME, Header::COMPLETE, Header::CLIENT_CODE,
+        Header::SURVIVOR_CODE, Header::AGE, Header::SEX, Header::GENDER,
+        Header::REGISTRATION_DATE, Header::CASE_OPENING_DATE, Header::PHOTO,
+        Header::LOCATION, Header::ALERT_COUNT, Header::FLAG_COUNT
       ]
     )
 
     expect(Header.get_headers(@user_gbv_manager, 'case')).to eq(
       [
-        Header::CASE_ID_DISPLAY, Header::SHORT_ID, Header::COMPLETE, Header::CASE_OPENING_DATE,
-        Header::SOCIAL_WORKER, Header::ALERT_COUNT, Header::FLAG_COUNT
+        Header::CASE_ID_DISPLAY, Header::SHORT_ID, Header::CASE_NAME, Header::COMPLETE, Header::CLIENT_CODE,
+        Header::AGE, Header::SEX, Header::GENDER,
+        Header::REGISTRATION_DATE, Header::CASE_OPENING_DATE, Header::PHOTO, Header::SOCIAL_WORKER,
+        Header::LOCATION, Header::ALERT_COUNT, Header::FLAG_COUNT
+      ]
+    )
+
+    expect(Header.get_headers(@user_test_worker, 'case')).to eq(
+      [
+        Header::CASE_ID_DISPLAY, Header::SHORT_ID, Header::CASE_NAME, Header::COMPLETE, Header::CLIENT_CODE,
+        Header::SURVIVOR_CODE, Header::AGE, Header::SEX, Header::GENDER,
+        Header::REGISTRATION_DATE, Header::CASE_OPENING_DATE, Header::PHOTO,
+        Header::LOCATION, Header::ALERT_COUNT, Header::FLAG_COUNT
       ]
     )
   end
@@ -187,6 +221,13 @@ describe Header do
       [
         Header::SHORT_ID, Header::DATE_OF_INCIDENT, Header::INCIDENT_LOCATION,
         Header::VIOLATIONS, Header::SOCIAL_WORKER, Header::FLAG_COUNT
+      ]
+    )
+
+    expect(Header.get_headers(@user_test_worker, 'incident')).to eq(
+      [
+        Header::SHORT_ID, Header::DATE_OF_INTERVIEW, Header::CP_DATE_OF_INCIDENT,
+        Header::CP_VIOLENCE_TYPE, Header::FLAG_COUNT
       ]
     )
   end

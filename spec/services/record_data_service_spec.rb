@@ -6,6 +6,7 @@ require 'rails_helper'
 
 describe RecordDataService do
   before :each do
+    clean_data(User, Role, Child, Incident, Family, UserGroup, Agency, PrimeroModule)
     permission = Permission.new(
       resource: Permission::CASE,
       actions: [Permission::READ, Permission::WRITE, Permission::CREATE]
@@ -17,6 +18,8 @@ describe RecordDataService do
     @incident = Incident.new_with_user(@user, incident_date: Date.today, violation_category: %w[foo bar])
     @incident.save!
     allow(@record).to receive(:flag_count).and_return(2)
+    @module_cp = PrimeroModule.new(name: 'CP', associated_record_types: %w[case incident])
+    @module_cp.save(validate: false)
   end
 
   describe 'select_fields' do
@@ -307,7 +310,119 @@ describe RecordDataService do
     end
   end
 
+  describe '#select_service_section' do
+    let!(:case2) do
+      Child.create!(
+        data: {
+          name: 'Record with Services', owned_by: 'user1',
+          consent_for_services: true, disclosure_other_orgs: true,
+          services_section: [
+            {
+              unique_id: '72bf540f-75fc-473d-951a-5f271f19f0a4',
+              service_type: 'after_school_and_summer',
+              service_implemented: 'not_implemented',
+              service_response_type: 'service_provision',
+              service_status_referred: true,
+              service_response_day_time: '2024-11-19T20:56:43.000Z',
+              service_implementing_agency_individual: 'user2'
+            },
+            {
+              unique_id: '9fe0516f-a227-42d7-b30c-eb2d75994dd8',
+              service_type: 'shelter',
+              service_implemented: 'not_implemented',
+              service_response_type: 'service_provision',
+              service_status_referred: true,
+              service_response_day_time: '2024-11-19T20:57:19.000Z',
+              service_implementing_agency_individual: 'user2'
+            },
+            {
+              unique_id: 'b6947158-7800-44df-819d-2324f743ab57',
+              service_type: 'alternative_care',
+              service_implemented: 'not_implemented',
+              service_response_type: 'service_provision',
+              service_response_day_time: '2024-11-19T20:57:36.000Z',
+              service_implementing_agency_individual: 'user3'
+            }
+          ]
+        }
+      )
+    end
+
+    let!(:service_own_entries_permission) do
+      Permission.new(
+        resource: Permission::CASE,
+        actions: [
+          Permission::READ, Permission::WRITE, Permission::CREATE,
+          Permission::REFERRAL, Permission::RECEIVE_REFERRAL,
+          Permission::ASSIGN, Permission::TRANSFER,
+          Permission::RECEIVE_TRANSFER, Permission::SERVICE_OWN_ENTRIES_ONLY
+        ]
+      )
+    end
+
+    let!(:role_with_service_own_entries) do
+      Role.create!(
+        name: 'Role with SERVICE_OWN_ENTRIES_ONLY',
+        permissions: [service_own_entries_permission], modules: [@module_cp]
+      )
+    end
+
+    let!(:role_mgr_with_service_own_entries) do
+      Role.create!(
+        name: 'Role Manager with SERVICE_OWN_ENTRIES_ONLY', group_permission: Permission::GROUP,
+        permissions: [service_own_entries_permission], modules: [@module_cp]
+      )
+    end
+
+    let!(:user2) do
+      create(
+        :user, user_name: 'user2', role: role_with_service_own_entries,
+               full_name: 'Test user 2', email: 'user2@primero.dev'
+      )
+    end
+
+    let!(:user3) do
+      create(
+        :user, user_name: 'user3', role: role_mgr_with_service_own_entries,
+               full_name: 'Test user 3', email: 'user3@primero.dev'
+      )
+    end
+
+    context 'when user is record owner' do
+      it 'return all services_section' do
+        data = RecordDataService.new.select_service_section({}, case2, %w[services_section], @user)
+        expect(
+          data['services_section'].map { |service| service['unique_id'] }
+        ).to match_array(
+          case2.services_section.map { |service| service['unique_id'] }
+        )
+      end
+    end
+
+    context 'when user is referred' do
+      it 'return only services_section where the user was referred to' do
+        data = RecordDataService.new.select_service_section({}, case2, %w[services_section], user2)
+        expect(
+          data['services_section'].map { |service| service['unique_id'] }
+        ).to match_array(
+          %w[72bf540f-75fc-473d-951a-5f271f19f0a4 9fe0516f-a227-42d7-b30c-eb2d75994dd8]
+        )
+      end
+    end
+
+    context 'when user is manager' do
+      it 'return only services_section where the user was referred to' do
+        data = RecordDataService.new.select_service_section({}, case2, %w[services_section], user3)
+        expect(
+          data['services_section'].map { |service| service['unique_id'] }
+        ).to match_array(
+          case2.services_section.map { |service| service['unique_id'] }
+        )
+      end
+    end
+  end
+
   after :each do
-    clean_data(User, Role, Child, Family)
+    clean_data(User, Role, Child, Incident, Family, UserGroup, Agency, PrimeroModule)
   end
 end

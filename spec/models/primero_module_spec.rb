@@ -33,6 +33,17 @@ describe PrimeroModule do
     primero_module.unique_id.should == 'primeromodule-test-module-1234'
   end
 
+  it 'should set the default consent_form' do
+    primero_module = create(:primero_module, name: 'test module 1234')
+    expect(primero_module.consent_form).to eq(PrimeroModule::DEFAULT_CONSENT_FORM)
+  end
+
+  it 'should set the consent_form' do
+    consent_form = 'other_consent_form'
+    primero_module = create(:primero_module, name: 'test module 1234', consent_form:)
+    expect(primero_module.consent_form).to eq(consent_form)
+  end
+
   describe 'associated forms' do
     before do
       @form_section_a = FormSection.create!(unique_id: 'A', name: 'A', parent_form: 'case', form_group_id: 'm')
@@ -74,6 +85,25 @@ describe PrimeroModule do
         expected = [@form_section_a, @form_section_b, @form_module_test, @subform_module_test]
         expect(@primero_module.form_sections).to match_array(expected)
       end
+    end
+  end
+
+  describe 'record_list_filters' do
+    it 'should return default module filters array by module' do
+      @primero_module = PrimeroModule.create!(
+        unique_id: PrimeroModule::CP, name: 'Test Module', associated_record_types: ['case']
+      )
+
+      expect(@primero_module.record_list_filters[:cases]).to match_array(PrimeroModule::DEFAULT_CASE_LIST_FILTERS[PrimeroModule::CP])
+    end
+
+    it 'should return saved module filters array' do
+      @primero_module = PrimeroModule.create!(
+        unique_id: PrimeroModule::CP, name: 'Test Module 2', associated_record_types: ['case'],
+        list_filters: { cases: %w[id flagged owned_by] }
+      )
+
+      expect(@primero_module.record_list_filters[:cases]).to match_array(%w[id flagged owned_by])
     end
   end
 
