@@ -62,7 +62,7 @@ RUN set -euox pipefail \
 # Note: Deleting the Solr dev server is not strictly necessary since we don't run it
 # but its java packages are riddled with vulnerabilities that set off static security scans.
 # TODO: Get rid of this line when we get rid of Solr gems.
-RUN rm -r /usr/local/bundle/gems/sunspot_solr-2.6.0/solr/server
+RUN rm -r /usr/local/bundle/gems/sunspot_solr-2.7.1/solr/server
 
 # Run npm ci
 COPY [ "package.json", "package-lock.json", "$APP_ROOT/" ]

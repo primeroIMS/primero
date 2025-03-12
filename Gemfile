@@ -12,6 +12,9 @@ gem 'aws-sdk-s3',          '~> 1.130', # Access and manage Amazon S3 storage (wi
 gem 'azure-storage-blob',  '~> 1.1',   # Access and manage Microsoft Azure Storage Blob Services (with ActiveStorage).
     require: false
 gem 'cancancan',           '~> 3.5'    # Endpoint user authorization
+# TODO: concurrent-ruby v1.3.5 has removed the dependency on logger.
+# TODO: https://stackoverflow.com/a/79361034
+gem 'concurrent-ruby',     '1.3.4'
 gem 'csv-safe',            '~> 3.2'    # Safely export data to CSV to avoid formula injection
 gem 'daemons',             '~> 1.4.1'  # Gem to run the delayed jobs
 gem 'deep_merge',          '~> 1.2',   # Recursive merging of Hashes. Used for merging params to existing records.
