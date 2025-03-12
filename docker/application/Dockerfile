@@ -2,8 +2,8 @@
 
 # -------------------------------------------------------------------- BUILD STAGE
 ARG BUILD_REGISTRY
-ARG RUBY_VERSION=3.3.5
-FROM ${BUILD_REGISTRY}ruby:${RUBY_VERSION}-alpine3.20 AS build-env
+ARG RUBY_VERSION=3.3.7
+FROM ${BUILD_REGISTRY}ruby:${RUBY_VERSION}-alpine3.21 AS build-env
 
 ENV BUILD_PACKAGES="bash curl wget curl-dev build-base git"
 ENV PYTHON_PACKAGES="python3 py3-pip"
@@ -101,11 +101,11 @@ RUN set -euox pipefail \
 
 # -------------------------------------------------------------------- FINAL
 ARG BUILD_REGISTRY
-FROM ${BUILD_REGISTRY}ruby:${RUBY_VERSION}-alpine3.20
+FROM ${BUILD_REGISTRY}ruby:${RUBY_VERSION}-alpine3.21
 
 ENV BUILD_PACKAGES=bash
 ENV RUNTIME_PACKAGES="libpq gettext libintl imagemagick libsodium-dev p7zip tini"
-ENV SECURITY_UPDATED_PACKAGES="libexpat=2.6.4-r0 curl=8.12.1-r0 musl=1.2.5-r1 musl-utils=1.2.5-r1 libxml2=2.12.7-r2 openssl=3.3.3-r0 "
+# ENV SECURITY_UPDATED_PACKAGES="libexpat=2.6.4-r0 curl=8.12.1-r0 musl=1.2.5-r1 musl-utils=1.2.5-r1 libxml2=2.12.7-r1 openssl=3.3.3-r0 "
 
 ARG APP_UID
 ARG APP_GID
@@ -119,7 +119,7 @@ ENV RAILS_ENV=production
 # Install our packages
 RUN set -euox pipefail \
         ; apk update \
-        ; apk add --no-cache $SECURITY_UPDATED_PACKAGES \
+        # ; apk add --no-cache $SECURITY_UPDATED_PACKAGES \
         ; apk add --no-cache $BUILD_PACKAGES \
         ; apk add --no-cache $RUNTIME_PACKAGES \
         ; rm -rf /var/cache/apk/*
