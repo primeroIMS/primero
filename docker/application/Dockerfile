@@ -3,7 +3,7 @@
 # -------------------------------------------------------------------- BUILD STAGE
 ARG BUILD_REGISTRY
 ARG RUBY_VERSION=3.3.7
-FROM ${BUILD_REGISTRY}ruby:${RUBY_VERSION}-alpine3.20 AS build-env
+FROM ${BUILD_REGISTRY}ruby:${RUBY_VERSION}-alpine3.21 AS build-env
 
 ENV BUILD_PACKAGES="bash curl wget curl-dev build-base git"
 ENV PYTHON_PACKAGES="python3 py3-pip"
@@ -101,7 +101,7 @@ RUN set -euox pipefail \
 
 # -------------------------------------------------------------------- FINAL
 ARG BUILD_REGISTRY
-FROM ${BUILD_REGISTRY}ruby:${RUBY_VERSION}-alpine3.20
+FROM ${BUILD_REGISTRY}ruby:${RUBY_VERSION}-alpine3.21
 
 ENV BUILD_PACKAGES=bash
 ENV RUNTIME_PACKAGES="libpq gettext libintl imagemagick libsodium-dev p7zip tini"
