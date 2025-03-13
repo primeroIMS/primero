@@ -14,6 +14,7 @@ gem 'azure-storage-blob',  '~> 1.1',   # Access and manage Microsoft Azure Stora
 gem 'cancancan',           '~> 3.5'    # Endpoint user authorization
 # TODO: concurrent-ruby v1.3.5 has removed the dependency on logger.
 # TODO: https://stackoverflow.com/a/79361034
+# TODO: Remove this dependency when upgrading to rails 7.x
 gem 'concurrent-ruby',     '1.3.4'
 gem 'csv-safe',            '~> 3.2'    # Safely export data to CSV to avoid formula injection
 gem 'daemons',             '~> 1.4.1'  # Gem to run the delayed jobs
@@ -87,7 +88,6 @@ group :development, :test do
   gem 'rubocop',                    '~> 1.54'
   gem 'rubocop-performance',        '~> 1.18'
   gem 'ruby-lsp',                   '~> 0.17'
-#   gem 'ruby-prof',                  '~> 0.17'
   gem 'simplecov',                  '~> 0.18'
   # TODO: Latest version (1.2.5) of this conflicts with sunspot gem. Upgrade when we upgrade sunspot
   gem 'sunspot_test',               '~> 0.4', require: false
