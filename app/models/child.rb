@@ -145,7 +145,7 @@ class Child < ApplicationRecord
 
       date(:date_closure)
       %w[consent_for_tracing].each do |f|
-        boolean(f) { data[f] == true || data[f] == 'true' }
+        boolean(f) { [true, 'true'].include?(data[f]) }
       end
     end
   end

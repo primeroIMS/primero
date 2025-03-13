@@ -51,7 +51,7 @@ module Alertable
   end
 
   def remove_field_change_alerts
-    alerts_on_change.each do |_, conf_record|
+    alerts_on_change.each_value do |conf_record|
       next if conf_record.alert_strategy == AlertStrategy::ASSOCIATED_USERS
 
       remove_alert(conf_record.form_section_unique_id)

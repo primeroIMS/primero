@@ -44,7 +44,7 @@ class SearchService
 
     def selected_sort_field(record_class, sort_field)
       if record_class.sortable_text_fields.present? && record_class.sortable_text_fields.include?(sort_field.to_s)
-        "#{sort_field}_sortable".to_sym
+        :"#{sort_field}_sortable"
       else
         sort_field
       end

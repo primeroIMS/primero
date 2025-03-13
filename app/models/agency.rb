@@ -143,7 +143,7 @@ class Agency < ApplicationRecord
   private
 
   def attach_file(file_name, file_base64, file)
-    return file.purge if !file_name.present? && file_base64&.length&.zero?
+    return file.purge if !file_name.present? && file_base64&.empty?
     return unless file_name.present? && file_base64.present?
 
     decoded_attachment = Base64.decode64(file_base64)
