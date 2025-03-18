@@ -28,7 +28,7 @@ class PrimeroModule < ApplicationRecord
       approval_status_action_plan approval_status_gbv_closure protection_concerns
       protection_status urgent_protection_concern type_of_risk risk_level
       location_current reporting_location last_updated_by cases_by_date
-      record_state has_photo last_updated_at
+      record_state has_photo last_updated_at module_id
     ],
     GBV => %w[
       flagged owned_by my_cases workflow owned_by_agency_id status
@@ -65,7 +65,7 @@ class PrimeroModule < ApplicationRecord
     :list_filters, :list_headers, :approval_forms_to_alert,
     :approvals_labels_i18n, :changes_field_to_form, :search_and_create_workflow,
     :violation_type_field, :creation_field_map, :data_protection_case_create_field_names,
-    :age_ranges
+    :age_ranges, :workflow_lookup, :response_type_lookup
   )
 
   localize_jsonb_properties %i[approvals_labels]

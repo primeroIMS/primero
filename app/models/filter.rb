@@ -14,6 +14,12 @@ class Filter < ValueObject
     super(args)
   end
 
+  MODULE_ID = Filter.new(
+    name: 'cases.filter_by.module_id',
+    field_name: 'module_id',
+    type: 'multi_select'
+  )
+
   FLAGGED_CASE = Filter.new(
     name: 'cases.filter_by.flag',
     field_name: 'flagged',
@@ -37,7 +43,7 @@ class Filter < ValueObject
   )
   RECORD_OWNER = Filter.new(name: 'incidents.filter_by.record_owner', field_name: 'owned_by')
   MY_CASES = Filter.new(name: 'cases.filter_by.my_cases', field_name: 'my_cases')
-  WORKFLOW = Filter.new(name: 'cases.filter_by.workflow', field_name: 'workflow')
+  WORKFLOW = Filter.new(name: 'cases.filter_by.workflow', field_name: 'workflow', type: 'workflow')
   DATE_CASE = Filter.new(
     name: 'cases.filter_by.by_date',
     field_name: 'cases_by_date',
@@ -452,6 +458,7 @@ class Filter < ValueObject
 
     def case_filters(user)
       filters = []
+      filters << MODULE_ID if user.multiple_modules?
       filters << FLAGGED_CASE
       filters << SOCIAL_WORKER if user.manager?
       filters += [MY_CASES, WORKFLOW]
@@ -688,8 +695,25 @@ class Filter < ValueObject
   end
 
   def workflow_options(opts = {})
+    user_modules = opts[:user].modules_for_record_type(opts[:record_type]).reject do |primero_module|
+      [PrimeroModule::GBV, PrimeroModule::MRM].include?(primero_module.unique_id)
+    end
+    self.options = {}
+    user_modules.each do |user_module|
+      options[user_module.unique_id] = Child.workflow_statuses(user_module)
+    end
+
+    options
+  end
+
+  def module_id_options(opts = {})
     user_modules = opts[:user].modules_for_record_type(opts[:record_type])
-    self.options = Child.workflow_statuses(user_modules)
+    self.options = user_modules.map do |primero_module|
+      {
+        id: primero_module.unique_id,
+        display_name: primero_module.name
+      }
+    end
   end
 
   def owned_by_agency_id_options(opts = {})
@@ -704,13 +728,14 @@ class Filter < ValueObject
   end
 
   def user_age_range(user)
-    PrimeroModule.age_ranges(user.modules.first.unique_id) if user.modules.size == 1
+    module_age_range = PrimeroModule.age_ranges(user.modules.first.unique_id)
+    return module_age_range if module_age_range.present? && user.modules.size == 1
+
+    SystemSettings.primary_age_ranges
   end
 
   def age_options(opts = {})
-    age_ranges = user_age_range(opts[:user]) || SystemSettings.primary_age_ranges
-
-    self.options = age_ranges.map do |age_range|
+    self.options = user_age_range(opts[:user]).map do |age_range|
       { id: age_range.to_s, display_name: age_range.to_s }
     end
   end
@@ -890,7 +915,7 @@ class Filter < ValueObject
       approval_status_options
     elsif %w[
       owned_by workflow owned_by_agency_id age owned_by_groups cases_by_date incidents_by_date
-      registry_records_by_date individual_age families_by_date tracing_requests_by_date
+      registry_records_by_date individual_age families_by_date tracing_requests_by_date module_id
     ].include? field_name
       opts = { user:, record_type: }
       send("#{field_name}_options", opts)

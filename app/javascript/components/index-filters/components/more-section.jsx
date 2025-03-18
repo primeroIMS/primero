@@ -50,7 +50,7 @@ function MoreSection({
       return (
         <Filter
           filter={filter}
-          key={`${filter.name}-secondary-filter`}
+          key={[`${filter.name}-secondary-filter`, filter.module_id].join("-")}
           mode={mode}
           moreSectionFilters={moreSectionFilters}
           setMoreSectionFilters={setMoreSectionFilters}
