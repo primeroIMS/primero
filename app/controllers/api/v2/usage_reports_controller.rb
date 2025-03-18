@@ -4,22 +4,39 @@
 
 # API endpoint for generating usage reports
 class Api::V2::UsageReportsController < ActionController::Base
-  def create
-    authorize! :create, UsageReport
-    @export = UsageReportService.build(export_params, current_user)
-    @export.mark_started!
-    kpi_params = { 'start_date' => export_params[:selected_from_date], 'end_date' => export_params[:selected_to_date] }
-    UsageReportService.enqueue(@export, export_params[:password], kpi_params)
-    render :create
+  include Api::V2::Concerns::Export
+
+  def show
+    authorize! :show, UsageReport
+    report
   end
 
-  private
+  protected
 
-  def export_params
-    @export_params ||= params.require(:data).permit(
-      :record_type, :export_format,
-      :order, :query, :file_name, :password, :selected_from_date, :selected_to_date,
-      { custom_export_params: {} }, { filters: {} }, :match_criteria
-    )
+  def usage_report_params
+    return @usage_report_params if @usage_report_params.present?
+
+    @usage_report_params = params.permit(:from, :to, :file_name, :export_type)
+    @usage_report_params = DestringifyService.destringify(@usage_report_params)
+  end
+
+  def exporter
+    Exporters::UsageReportExporter
+  end
+
+  def report
+    @report ||= UsageReport.new(usage_report_params.slice(:from, :to)).tap(&:build)
+  end
+
+  def module_id
+    nil
+  end
+
+  def record_type
+    UsageReport
+  end
+
+  def model_class
+    UsageReport
   end
 end

@@ -11,13 +11,13 @@ class Export < ValueObject
   attr_accessor :exporter, :status, :failures, :error_messages,
                 :total, :success_total, :failure_total,
                 :record_type, :module_id, :visible, :file_name, :export_file_blob,
-                :managed_report, :opts
+                :managed_report, :hostname, :opts
 
   def run
     return no_exporter_error unless exporter
 
     exporter_instance = exporter.new(record_type:, module_id:, file_name:,
-                                     visible:, managed_report:, opts:)
+                                     visible:, managed_report:, hostname:, opts:)
     exporter_instance.export
     attach_export_file(exporter_instance.file_name)
     assign_status(exporter_instance)
