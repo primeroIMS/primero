@@ -67,7 +67,7 @@ class GBVKpiCalculationService
         # KPI related modules.
         f.field(:service_referral) == 'service_provided_by_your_agency'
       end.field(:service_type)
-      .uniq
+         .uniq
   end
 
   def action_plan_referral_statuses
