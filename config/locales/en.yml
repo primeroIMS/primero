@@ -3362,6 +3362,8 @@ en:
             explanation: The role can access their own records (cases, tracing requests,
               or incidents), and can edit their own user account.
             label: Access only my records or user
+          webhook:
+            label: Webhook
         explanation: Controls which records (Cases, Tracing Requests, or Incidents),
           the role can access. If the role has access to Users and User Groups, this
           also controls which Users and User Groups they can access. Roles with access
