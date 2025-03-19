@@ -14,6 +14,7 @@ import { VIOLATIONS_ASSOCIATIONS_FORM } from "../../../../../config";
 import css from "../styles.css";
 import { isFamilyDetailSubform, isFamilyMemberSubform, isViolationSubform } from "../../utils";
 import { GuidingQuestions } from "../../components";
+import ChildFunctioningSummary from "../../../../child-functioning-summary";
 
 import { isEmptyOrAllDestroyed, isTracesSubform } from "./utils";
 
@@ -42,7 +43,8 @@ function Component({
     name,
     subform_section_configuration: subformSectionConfiguration,
     disabled: isDisabled,
-    guiding_questions: guidingQuestions
+    guiding_questions: guidingQuestions,
+    subform_section_id: subformSectionId
   } = field;
   // eslint-disable-next-line camelcase
   const displayConditions = subformSectionConfiguration?.display_conditions;
@@ -110,8 +112,15 @@ function Component({
     </div>
   );
 
+  const getlatestValue = arr => arr?.[0] ?? null;
+  const latestValue = getlatestValue(orderedValues);
+
   return (
     <div className={css.fieldArray} data-testid="subform-field-array">
+      {/* Conditionally Render Child Functioning Subform Summary */}
+      {subformSectionId.unique_id === "child_functioning_subform_section" && (
+        <ChildFunctioningSummary values={latestValue} />
+      )}
       <div className={cssContainer}>
         {!renderAsAccordion && (
           <div data-testid="subForm-header">

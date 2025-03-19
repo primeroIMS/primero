@@ -14,7 +14,7 @@ class Api::V2::AuditLogsController < ApplicationApiController
   end
 
   def per
-    @per ||= (params[:per]&.to_i || 100)
+    @per ||= params[:per]&.to_i || 100
   end
 
   def audit_logs_params

@@ -11,7 +11,7 @@ json.display 'standalone'
 json.theme_color @theme&.colors&.[]('manifestThemeColor')
 json.icons do
   Theme::PICTORIAL_SIZES.each do |size|
-    logo = @theme.send("logo_pictorial_#{size}".to_sym)
+    logo = @theme.send(:"logo_pictorial_#{size}")
     img_src = if logo.present?
                 rails_blob_path(logo, only_path: true)
               else

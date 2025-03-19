@@ -200,7 +200,7 @@ class ManagedReport < ValueObject
 
     return unless date_filter.present?
 
-    DATE_RANGE_OPTIONS.find { |option| date_filter.send("#{option}?".to_sym) }
+    DATE_RANGE_OPTIONS.find { |option| date_filter.send(:"#{option}?") }
   end
 
   def verified_value

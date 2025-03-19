@@ -52,7 +52,7 @@ class Exporters::RubyConfigExporter
   end
 
   def export_forms
-    forms_with_subforms.each do |_, form_with_subforms|
+    forms_with_subforms.each_value do |form_with_subforms|
       export_config_objects('FormSection', form_with_subforms.map(&:configuration_hash))
     end
   end

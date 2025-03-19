@@ -24,7 +24,8 @@ module Tasks
     end
 
     def self.field_name
-      'service_appointment_date' if SystemSettings.current&.due_date_from_appointment_date
+      return 'service_appointment_date' if SystemSettings.current&.due_date_from_appointment_date
+
       'service_response_timeframe'
     end
 

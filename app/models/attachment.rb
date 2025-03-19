@@ -31,7 +31,7 @@ class Attachment < ApplicationRecord
   validates :attachment_type, presence: true, inclusion: { in: [IMAGE, AUDIO, DOCUMENT] }
   validates :file,
             file_size: { less_than_or_equal_to: MAX_SIZE },
-            file_content_type: { allow: ->(a) { a.valid_content_types } },
+            file_content_type: { allow: lambda(&:valid_content_types) },
             if: :attached?
   validate :maximum_attachments_exceeded, on: :create
 

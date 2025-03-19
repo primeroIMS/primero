@@ -78,6 +78,8 @@ export const getAllWorkflowLabels = (state, recordType) => {
   }, []);
 };
 
+export const getServicesForm = (state, id) => selectModule(state, id).getIn(["options", "services_form"]);
+
 export const getConsentform = (state, id) => selectModule(state, id).getIn(["options", "consent_form"]);
 
 export const selectUserIdle = state => state.getIn([NAMESPACE, "userIdle"], false);

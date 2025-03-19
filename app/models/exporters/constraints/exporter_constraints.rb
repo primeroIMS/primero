@@ -39,7 +39,7 @@ class Exporters::Constraints::ExporterConstraints < ValueObject
 
   def fields_to_export
     fields = forms.map(&:fields).flatten.reject(&:hide_on_view_page?).uniq(&:name)
-    fields -= (excluded_field_names&.to_a || [])
+    fields -= excluded_field_names.to_a
     return fields if options[:field_names].blank?
 
     map_fields(options, fields)
