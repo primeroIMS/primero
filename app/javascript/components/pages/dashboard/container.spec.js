@@ -74,7 +74,7 @@ describe("<Dashboard />", () => {
     });
 
     it("should render a <WorkflowIndividualCases /> component", () => {
-      expect(screen.queryAllByText("dashboard.workflow - CP")).toHaveLength(1);
+      expect(screen.queryAllByText("dashboard.workflow")).toHaveLength(1);
     });
 
     it("should render a <Approvals /> component", () => {
