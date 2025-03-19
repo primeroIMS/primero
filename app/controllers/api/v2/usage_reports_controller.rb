@@ -8,7 +8,7 @@ class Api::V2::UsageReportsController < ActionController::Base
 
   def show
     authorize! :show, UsageReport
-    report
+    @usage_report = report
   end
 
   protected

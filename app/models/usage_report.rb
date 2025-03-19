@@ -64,8 +64,8 @@ class UsageReport < ValueObject
       cases_closed: cases_closed_count(module_id),
       cases_open_this_quarter: records_open_this_quarter(Child, module_id),
       cases_closed_this_quarter: records_open_this_quarter(Child, module_id),
-      services_total: services_total(module_id),
-      followups_total: followups_total(module_id)
+      services_total: cases_subform_total(module_id, 'services_section'),
+      followups_total: cases_subform_total(module_id, 'followup_subform_section')
     }
   end
 
@@ -88,57 +88,43 @@ class UsageReport < ValueObject
     Time.new(today.year, first_month_of_quarter, 1)
   end
 
+  # TODO: Change these query methods in v2.13 to use the normalized value index
   def records(recordtype, module_id)
-    recordtype.where("data->>'module_id' = ?", module_id)
+    filter = SearchFilters::TextValue.new(field_name: 'module_id', value: module_id)
+    recordtype.where(filter.query)
   end
 
   def cases_open_count(module_id)
-    records(Child, module_id).where("data ->>'status' = ?", Record::STATUS_OPEN).count
+    filter = SearchFilters::TextValue.new(field_name: 'status', value: Record::STATUS_OPEN)
+    records(Child, module_id).where(filter.query).count
   end
 
   def cases_closed_count(module_id)
-    records(Child, module_id).where("data ->>'status' = ?", Record::STATUS_CLOSED).count
+    filter = SearchFilters::TextValue.new(field_name: 'status', value: Record::STATUS_CLOSED)
+    records(Child, module_id).where(filter.query).count
   end
 
   def records_open_this_quarter(recordtype, module_id)
-    records(recordtype, module_id).where(
-      "data->>'created_at' BETWEEN ? AND ?",
-      from, to
-    ).count
+    filter = SearchFilters::DateRange.new(field_name: 'created_at', from:, to:)
+    records(recordtype, module_id).where(filter.query).count
   end
 
   def records_closed_this_quarter(recordtype, module_id)
-    recordtype.where(
-      "data->>'date_closure' BETWEEN ? AND ?",
-      module_id, from, to
-    ).count
+    filter = SearchFilters::DateRange.new(field_name: 'date_closure', from:, to:)
+    records(recordtype, module_id).where(filter.query).count
   end
 
-  def services_total(module_id)
-    query = <<~SQL
-      SELECT SUM(svc)
-      FROM (
-        SELECT jsonb_array_length(data->'services_section') AS svc
-        FROM cases
-        WHERE data->>'module_id' = ?
-      ) subquery
-    SQL
-
-    ActiveRecord::Base.connection.exec_query(ActiveRecord::Base.send(:sanitize_sql_array, [query, module_id]))
-                      .rows.flatten.first.to_i
-  end
-
-  def followups_total(module_id)
+  def cases_subform_total(module_id, subform)
     query = <<~SQL
       SELECT COUNT(*)
       FROM (
-        SELECT jsonb_array_elements(data->'followup_subform_section') AS followup_entry
+        SELECT jsonb_array_elements(data->'#{subform}') AS subform
         FROM cases
         WHERE data->>'module_id' = ?
       ) subquery
     SQL
 
-    ActiveRecord::Base.connection.exec_query(ActiveRecord::Base.send(:sanitize_sql_array, [query, module_id]))
+    ActiveRecord::Base.connection.exec_query(ActiveRecord::Base.sanitize_sql_array([query, module_id]))
                       .rows.flatten.first.to_i
   end
 end
