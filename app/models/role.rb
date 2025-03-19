@@ -131,7 +131,7 @@ class Role < ApplicationRecord
 
   def permitted_forms(record_type = nil, visible_only = false, include_subforms = false)
     forms = form_sections.where(
-      { parent_form: record_type, visible: (visible_only || nil) }.compact.merge(is_nested: false)
+      { parent_form: record_type, visible: visible_only || nil }.compact.merge(is_nested: false)
     )
 
     return forms.order(:order) unless include_subforms

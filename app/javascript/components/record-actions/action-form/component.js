@@ -8,7 +8,7 @@ import { useI18n } from "../../i18n";
 import { constructInitialValues } from "../../record-form";
 import { ID_FIELD, MODULES, RECORD_TYPES } from "../../../config";
 import { saveRecord, selectRecordsByIndexes } from "../../records";
-import { compactValues } from "../../record-form/utils";
+import { compactBlank } from "../../record-form/utils";
 import submitForm from "../../../libs/submit-form";
 import resetForm from "../../../libs/reset-form";
 import { fetchAlerts } from "../../nav/action-creators";
@@ -97,7 +97,7 @@ function Component({
         data: {
           [subformName]: [
             {
-              ...compactValues(values, initialFormValues)
+              ...compactBlank(values, initialFormValues)
             }
           ]
         },

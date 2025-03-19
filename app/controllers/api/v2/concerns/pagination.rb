@@ -7,7 +7,7 @@ module Api::V2::Concerns::Pagination
   extend ActiveSupport::Concern
 
   def page
-    @page ||= (params[:page].try(:to_i) || 1)
+    @page ||= params[:page].try(:to_i) || 1
   end
 
   def per
@@ -31,11 +31,11 @@ module Api::V2::Concerns::Pagination
   end
 
   def order_by
-    @order_by ||= (params[:order_by] || default_sort_field)
+    @order_by ||= params[:order_by] || default_sort_field
   end
 
   def order
-    @order ||= (params[:order] || 'desc')
+    @order ||= params[:order] || 'desc'
   end
 
   def sort_order
