@@ -213,7 +213,7 @@
         <tbody>
           <tr>
             <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
-              <%= @theme.get('email_help_links', []).each do |link| %>
+              <%= @theme.get('email_help_links', []).map(&:with_indifferent_access).each do |link| %>
               <!--[if mso | IE]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:432px;" ><![endif]-->
               <div class="mj-column-per-48 mj-outlook-group-fix"
                 style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
