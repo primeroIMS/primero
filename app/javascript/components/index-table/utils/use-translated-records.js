@@ -113,10 +113,7 @@ export function useTranslatedRecords({
         const result = record.mapEntries(recordEntry => {
           const [key, value] = recordEntry;
 
-          if (
-            columnsWithLookups.map(columnWithLookup => columnWithLookup.name).includes(key) ||
-            (record.get("reporting_location_hierarchy") && key === "reporting_location_hierarchy")
-          ) {
+          if (columnsWithLookups.map(columnWithLookup => columnWithLookup.name).includes(key)) {
             const valueForOptionSource = getValueForOptionSource({
               value,
               useReportingLocations,
@@ -125,12 +122,9 @@ export function useTranslatedRecords({
               recordReportingLocationHierarchy: record.get("reporting_location_hierarchy")
             });
 
-            const optionStringsSource =
-              key === "reporting_location_hierarchy"
-                ? "ReportingLocation"
-                : columnsWithLookups
-                    .find(column => column.get("name") === key, null, fromJS({}))
-                    .get("option_strings_source");
+            const optionStringsSource = columnsWithLookups
+              .find(column => column.get("name") === key, null, fromJS({}))
+              .get("option_strings_source");
 
             const recordValue = valueFromOptionSource(
               allAgencies,
