@@ -101,7 +101,8 @@ module Workflow
       status_list << workflow_entry(WORKFLOW_REOPENED, locale, lookups, primero_module)
       workflow_assessment(status_list, locale, primero_module, lookups)
       workflow_case_plan(status_list, locale, primero_module, lookups)
-      status_list += lookups&.[](primero_module&.response_type_lookup || Workflow::LOOKUP_RESPONSE_TYPES)&.[](locale.to_s) || []
+      status_list += lookups&.[](primero_module&.response_type_lookup ||
+                                 Workflow::LOOKUP_RESPONSE_TYPES)&.[](locale.to_s) || []
       workflow_service_implemented(status_list, locale, primero_module)
       status_list << workflow_entry(WORKFLOW_CLOSED, locale, lookups, primero_module)
     end

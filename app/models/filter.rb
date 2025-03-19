@@ -456,6 +456,7 @@ class Filter < ValueObject
       }
     end
 
+    # rubocop:disable Metrics/MethodLength
     def case_filters(user)
       filters = []
       filters << MODULE_ID if user.multiple_modules?
@@ -470,7 +471,7 @@ class Filter < ValueObject
       filters
     end
 
-    def user_based_filters(user) # rubocop:disable Metrics/MethodLength
+    def user_based_filters(user)
       filters = []
       filters += approvals_filters(user)
       filters += field_based_filters(user)
@@ -487,6 +488,7 @@ class Filter < ValueObject
       filters += reporting_location_filters(user)
       filters
     end
+    # rubocop:enable Metrics/MethodLength
 
     def approvals_filters(user)
       filters = []
