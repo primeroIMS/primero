@@ -34,35 +34,36 @@ class Exporters::UsageReportExporter < ValueObject
   private
 
   def build_user_sheet
-    worksheet = workbook.add_worksheet('Users') # TODO: I18n
+    worksheet = workbook.add_worksheet(t('users'))
     adjust_column_width(worksheet)
     summary_header(worksheet)
     summary_modules(worksheet)
     users_by_agency(worksheet)
   end
 
+  # rubocop:disable Metrics/AbcSize
   def summary_header(worksheet)
-    worksheet.write(0, 0, ['Url', hostname]) # TODO: I18n
-    worksheet.write(1, 0, ['Start Date', usage_report.from]) # TODO: I18n
-    worksheet.write(2, 0, ['End Date', usage_report.to]) # TODO: I18n
-    worksheet.write(3, 0, ['Quarter', "Q#{usage_report.quarter}"]) # TODO: I18n
-    worksheet.write(4, 0, ['Total No. of Agencies', usage_report.data[:agencies_total]]) # TODO: I18n
+    worksheet.write(0, 0, [t('hostname'), hostname])
+    worksheet.write(1, 0, [t('start_date'), usage_report.from])
+    worksheet.write(2, 0, [t('end_date'), usage_report.to])
+    worksheet.write(3, 0, [t('quarter'), "Q#{usage_report.quarter}"])
+    worksheet.write(4, 0, [t('agencies_total'), usage_report.data[:agencies_total]])
   end
+  # rubocop:enable Metrics/AbcSize
 
   def summary_modules(worksheet)
     usage_report.data[:modules].each.with_index(6) do |mod, i|
-      summary = if mod[:unique_id] == PrimeroModule::MRM
-                  [mod[:name], mod[:incidents_total].positive? ? 'Yes' : ' No'] # TODO: I18n
+      present = if mod[:unique_id] == PrimeroModule::MRM
+                  mod[:incidents_total].positive?
                 else
-                  [mod[:name], mod[:cases_total].positive? ? ' Yes' : ' No'] # TODO: I18n
+                  mod[:cases_total].positive?
                 end
-      worksheet.write(i, 0, summary)
+      worksheet.write(i, 0, [mod[:name], present ? t('yes') : t('no')])
     end
   end
 
   def users_by_agency(worksheet)
-    worksheet.write(10, 0,
-                    ['Agency List', 'Total Users', 'Active Users', 'Disabled Users', 'New Users in this quarter']) # TODO: I18n
+    worksheet.write(10, 0, %w[agency_list users_total users_active users_disabled users_new].map { |s| t(s) })
     usage_report.data[:agencies].each.with_index(11) do |agency, i|
       worksheet.write(i, 0, agency.fetch_values(:unique_id, :users_total, :users_active, :users_disabled, :users_new))
     end
@@ -76,12 +77,11 @@ class Exporters::UsageReportExporter < ValueObject
   end
 
   def module_header(mod)
-    # TODO: I18n
     if mod[:unique_id] == PrimeroModule::MRM
-      [mod[:name], 'Total incidents', 'Incidents this quarter']
+      [mod[:name]] + %w[incidents_total incidents_open_this_quarter].map { |s| t(s) }
     else
-      [mod[:name], 'Total Cases', 'Open Cases', 'Closed Cases', 'Open this quarter',
-       'Closed this Quarter', 'Total Services', 'Total followups', 'Total incidents', 'Incidents this quarter']
+      [mod[:name]] + %w[cases_total cases_open cases_closed cases_open_this_quarter cases_closed_this_quarter
+                        services_total followups_total incidents_total incidents_open_this_quarter].map { |s| t(s) }
     end
   end
 
@@ -112,5 +112,9 @@ class Exporters::UsageReportExporter < ValueObject
       file_name = default_file_name
     end
     File.join(Rails.root, 'tmp', File.basename(file_name))
+  end
+
+  def t(string)
+    I18n.t("usage_report.export.#{string}", locale:)
   end
 end
