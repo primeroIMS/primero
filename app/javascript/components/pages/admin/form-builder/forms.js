@@ -90,7 +90,7 @@ export const settingsForm = ({ formMode, onManageTranslation, onEnglishTextChang
               name: MODULES_FIELD,
               type: SELECT_FIELD,
               option_strings_source: "Module",
-              multipleLimitOne: true,
+              multi_select: true,
               required: true,
               clearDependentValues: [RECORD_TYPE_FIELD, [FORM_GROUP_FIELD, []]],
               clearDependentReason: [SELECT_CHANGE_REASON.clear],

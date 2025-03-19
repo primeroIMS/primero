@@ -20,7 +20,7 @@ class Exporters::DuplicateIdCsvExporter < Exporters::ConfigurableExporter
     'child_name_last_first' => lambda do |c|
       return '' if c.name.blank?
 
-      name_array = c.name&.split(' ')
+      name_array = c.name&.split
       name_array.size > 1 ? "#{name_array.last}, #{name_array[0..-2].join(' ')}" : c.name
     end,
     'age' => ['age'],
