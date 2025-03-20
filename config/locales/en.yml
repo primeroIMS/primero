@@ -1473,6 +1473,7 @@ en:
     es-ES: Español (España)
     fr: Français
     hu: Magyar
+    hy: Armenian
     id: Bahasa
     it: Italiano
     km: ភាសាខ្មែរ
@@ -1485,10 +1486,12 @@ en:
     ne: नेपाली
     om: Oromo
     am-ET: Amharic (Ethiopia)
+    ti: Tigrinya
     tr: Türkçe
     label: Home
     language: Language
     manage_system_users: Manage Server Synchronisation Users
+    mn: Mongolian
     my: ဗမာစာ
     pl: Polski
     pt: Português
