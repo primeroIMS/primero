@@ -71,8 +71,8 @@ class UsageReport < ValueObject
 
   def build_modules_incidents(module_id)
     {
-      incidents_total: UsageReportService.get_total_records(module_id, Incident),
-      incidents_open_this_quarter: UsageReportService.get_new_records_quarter(module_id, from, to, Incident)
+      incidents_total: records(Incident, module_id).count,
+      incidents_open_this_quarter: records_open_this_quarter(Incident, module_id)
     }
   end
 

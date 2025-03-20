@@ -107,7 +107,6 @@ Rails.application.routes.draw do
           get :'refer-to', to: 'users_transitions#refer_to'
           post :'password-reset-request', to: 'password_reset#password_reset_request'
           post :'password-reset', to: 'password_reset#password_reset'
-          get :export, to: 'users#export'
         end
       end
       resources :identity_providers, only: [:index]
