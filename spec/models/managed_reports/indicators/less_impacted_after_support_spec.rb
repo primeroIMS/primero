@@ -10,7 +10,7 @@ describe ManagedReports::Indicators::LessImpactedAfterSupport do
 
     Child.create!(
       data: {
-        sex: 'male',
+        gender: 'male',
         next_steps: ['a_continue_protection_assessment'],
         registration_date: '2021-10-05',
         client_summary_worries_severity: '3',
@@ -19,7 +19,7 @@ describe ManagedReports::Indicators::LessImpactedAfterSupport do
     )
     Child.create!(
       data: {
-        sex: 'male',
+        gender: 'male',
         consent_reporting: true,
         next_steps: ['a_continue_protection_assessment'],
         registration_date: '2021-10-08',
@@ -29,7 +29,7 @@ describe ManagedReports::Indicators::LessImpactedAfterSupport do
     )
     Child.create!(
       data: {
-        sex: 'male',
+        gender: 'male',
         consent_reporting: true,
         next_steps: ['a_continue_protection_assessment'],
         registration_date: '2021-11-07',
@@ -39,7 +39,7 @@ describe ManagedReports::Indicators::LessImpactedAfterSupport do
     )
     Child.create!(
       data: {
-        sex: 'female',
+        gender: 'female',
         next_steps: ['a_continue_protection_assessment'],
         registration_date: '2021-10-08',
         client_summary_worries_severity: '3',
@@ -48,7 +48,7 @@ describe ManagedReports::Indicators::LessImpactedAfterSupport do
     )
     Child.create!(
       data: {
-        sex: 'female',
+        gender: 'female',
         consent_reporting: true,
         next_steps: ['a_continue_protection_assessment'],
         registration_date: '2021-10-10',
@@ -83,6 +83,36 @@ describe ManagedReports::Indicators::LessImpactedAfterSupport do
           { id: 'clients_report_equally_or_more_severely_impacted', male: 50.0, total: 50.0 }
         ]
       )
+    end
+  end
+
+  context 'when gender is null' do
+    before do
+      Child.create!(
+        id: 'bc691666-f940-11ef-9ac6-18c04db5c362',
+        data: {
+          consent_reporting: true,
+          next_steps: ['a_continue_protection_assessment'],
+          registration_date: '2021-10-10',
+          client_summary_worries_severity: '0',
+          closure_problems_severity: '1'
+        }
+      )
+    end
+
+    it 'returns incomplete_data for null genders' do
+      report_data = ManagedReports::Indicators::LessImpactedAfterSupport.build(nil, {}).data
+
+      expect(report_data).to match_array(
+        [
+          { id: 'clients_report_less_impacted', female: 100.0, male: 66.67, total: 60.0 },
+          { id: 'clients_report_equally_or_more_severely_impacted', male: 33.33, incomplete_data: 100.0, total: 40.0 }
+        ]
+      )
+    end
+
+    after do
+      Child.find_by(id: 'bc691666-f940-11ef-9ac6-18c04db5c362').destroy!
     end
   end
 

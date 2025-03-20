@@ -2382,7 +2382,7 @@ en:
         clients_disability: Clients with a disability
         case_safety_plan: Cases with a safety plan
         clients_gender: Cases by gender
-      description: 'Key case characteristics, including % of cases by risk level, protection risks, case management duration, disability status, safety plan completion, and sex.'
+      description: 'Key case characteristics, including % of cases by risk level, protection risks, case management duration, disability status, safety plan completion, and gender.'
       name: Case Characteristics
       filter_options:
         registration_date: Registration Date

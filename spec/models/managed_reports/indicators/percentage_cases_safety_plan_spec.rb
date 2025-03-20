@@ -8,11 +8,11 @@ describe ManagedReports::Indicators::PercentageCasesSafetyPlan do
   let(:child1) do
     Child.create!(
       data: {
-        sex: 'male',
+        gender: 'male',
         registration_date: '2021-10-05',
         status: 'open',
         next_steps: ['a_continue_protection_assessment'],
-        begin_safety_plan_prompt: true,
+        begin_safety_plan_prompt: 'true',
         consent_reporting: true
       }
     )
@@ -21,7 +21,7 @@ describe ManagedReports::Indicators::PercentageCasesSafetyPlan do
   let(:child2) do
     Child.create!(
       data: {
-        sex: 'male',
+        gender: 'male',
         registration_date: '2021-10-08',
         status: 'open',
         next_steps: ['a_continue_protection_assessment'],
@@ -33,11 +33,11 @@ describe ManagedReports::Indicators::PercentageCasesSafetyPlan do
   let(:child3) do
     Child.create!(
       data: {
-        sex: 'male',
+        gender: 'male',
         registration_date: '2021-11-07',
         status: 'open',
         next_steps: ['a_continue_protection_assessment'],
-        begin_safety_plan_prompt: true
+        begin_safety_plan_prompt: 'true'
       }
     )
   end
@@ -45,11 +45,11 @@ describe ManagedReports::Indicators::PercentageCasesSafetyPlan do
   let(:child4) do
     Child.create!(
       data: {
-        sex: 'female',
+        gender: 'female',
         registration_date: '2021-11-12',
         next_steps: ['a_continue_protection_assessment'],
         status: 'open',
-        begin_safety_plan_prompt: false
+        begin_safety_plan_prompt: 'false'
       }
     )
   end
@@ -57,7 +57,7 @@ describe ManagedReports::Indicators::PercentageCasesSafetyPlan do
   let(:child5) do
     Child.create!(
       data: {
-        sex: 'female',
+        gender: 'female',
         registration_date: '2021-10-09',
         next_steps: ['a_continue_protection_assessment'],
         status: 'open'
@@ -103,6 +103,34 @@ describe ManagedReports::Indicators::PercentageCasesSafetyPlan do
           { id: 'safety_plan_not_completed', male: 50.0, total: 50.0 }
         ]
       )
+    end
+  end
+
+  context 'when gender is null' do
+    before do
+      Child.create!(
+        id: 'bc691666-f940-11ef-9ac6-18c04db5c362',
+        data: {
+          registration_date: '2021-10-09',
+          next_steps: ['a_continue_protection_assessment'],
+          status: 'open'
+        }
+      )
+    end
+
+    it 'returns incomplete_data for null genders' do
+      report_data = ManagedReports::Indicators::PercentageCasesSafetyPlan.build(nil, {}).data
+
+      expect(report_data).to match_array(
+        [
+          { id: 'safety_plan_completed', male: 66.67, total: 33.33 },
+          { id: 'safety_plan_not_completed', female: 100.0, male: 33.33, incomplete_data: 100, total: 66.67 }
+        ]
+      )
+    end
+
+    after do
+      Child.find_by(id: 'bc691666-f940-11ef-9ac6-18c04db5c362').destroy!
     end
   end
 

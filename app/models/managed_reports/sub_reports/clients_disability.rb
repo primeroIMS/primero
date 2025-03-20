@@ -22,7 +22,7 @@ class ManagedReports::SubReports::ClientsDisability < ManagedReports::SubReport
 
   def indicators_subcolumns
     {
-      ManagedReports::Indicators::PercentageClientsWithDisability.id => 'lookup-gender'
+      ManagedReports::Indicators::PercentageClientsWithDisability.id => 'lookup-gender-identity'
     }
   end
 end

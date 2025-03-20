@@ -18,7 +18,8 @@ export default ({
   indicatorsSubcolumns,
   indicatorSubColumnKeys,
   totalText,
-  includeAllSubColumns = true
+  includeAllSubColumns = true,
+  incompleteDataLabel
 }) => {
   let lookupValues = subColumLookupValues(subColumnLookups, valueKey);
 
@@ -32,7 +33,15 @@ export default ({
     );
 
     if (missingSubColumns) {
-      lookupValues = lookupValues.concat(missingSubColumns.map(id => ({ id, display_text: id })));
+      lookupValues = lookupValues.concat(
+        missingSubColumns.map(id => {
+          if (id === "incomplete_data") {
+            return { id, display_text: incompleteDataLabel };
+          }
+
+          return { id, display_text: id };
+        })
+      );
     }
 
     if (hasTotalColumn) {

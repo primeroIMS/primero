@@ -27,7 +27,7 @@ class ManagedReports::Indicators::PercentageSuccessfulReferrals < ManagedReports
             service_response_day_time,
             service_implemented,
             service_unique_id,
-            data->>'sex' AS sex,
+            COALESCE(data->>'gender', 'incomplete_data') AS gender,
             data->>'owned_by_location' AS owned_by_location,
             cases.id AS case_id
           FROM cases
@@ -41,7 +41,7 @@ class ManagedReports::Indicators::PercentageSuccessfulReferrals < ManagedReports
         referred_services AS (
           SELECT
             #{date_query&.+(' AS group_id,')}
-            sex,
+            gender,
             service_implemented
           FROM services
           #{join_referrals(date_param)}
@@ -49,9 +49,9 @@ class ManagedReports::Indicators::PercentageSuccessfulReferrals < ManagedReports
         )
         SELECT
           #{group_id&.+(',')}
-          sex AS key,
-          service_implemented as name,
-          ROUND(COUNT(*) * 100 / SUM(COUNT(*)) OVER (PARTITION BY #{group_id&.+(',')} sex), 2) AS sum,
+          gender AS key,
+          service_implemented AS name,
+          ROUND(COUNT(*) * 100 / SUM(COUNT(*)) OVER (PARTITION BY #{group_id&.+(',')} gender), 2) AS sum,
           ROUND(
             SUM(COUNT(*)) OVER (
               PARTITION BY #{group_id&.+(',')} service_implemented
@@ -59,7 +59,7 @@ class ManagedReports::Indicators::PercentageSuccessfulReferrals < ManagedReports
            2
           ) AS total
         FROM referred_services
-        GROUP BY #{group_id&.+(',')} sex, service_implemented
+        GROUP BY #{group_id&.+(',')} gender, service_implemented
         ORDER BY service_implemented
       )
     end
