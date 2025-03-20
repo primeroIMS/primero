@@ -1,0 +1,22 @@
+it:
+  'true': 'Si'
+  'false': 'No '
+  accepted: 'Accettato '
+  cancel: 'Cancella '
+  connection_lost: 'Modalita'' offline '
+  connected: Connesso
+  no_connection: no concessione
+  cases:
+    filter_by:
+      date: data
+      district: distretto
+      duplicate: doppione
+      female: femmina
+      flag: evidenzia
+      high: alto
+      low: basso
+      male: maschio
+      open: aperto
+      other: altro
+      photo: foto
+    full_name: nome completo
