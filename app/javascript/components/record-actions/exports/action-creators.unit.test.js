@@ -16,7 +16,7 @@ describe("<RecordActions /> - exports/action-creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionCreators };
 
-    ["saveExport", "saveUsageExport"].forEach(property => {
+    ["saveExport"].forEach(property => {
       expect(creators).to.have.property(property);
       delete creators[property];
     });
