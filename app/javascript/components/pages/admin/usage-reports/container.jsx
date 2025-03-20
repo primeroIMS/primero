@@ -22,6 +22,7 @@ function Container() {
         <FormAction actionHandler={handleClickExport} text={i18n.t("buttons.export")} startIcon={<SwapVert />} />
       </PageHeading>
       <PageContent>
+        <h3>{i18n.t("usage_report.instructions")}</h3>
         <UsageReport
           i18n={i18n}
           open={dialogOpen}

@@ -3,46 +3,49 @@
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { object, string, date } from "yup";
+import { useEffect } from "react";
 
 import ActionDialog from "../../../../action-dialog";
 import Form from "../../../../form";
-import { saveUsageExport } from "../../../../record-actions/exports/action-creators";
 import { formatFileName } from "../../../../record-actions/exports/utils";
-import { toServerDateFormat } from "../../../../../libs";
+import { toServerDateFormat, useMemoizedSelector } from "../../../../../libs";
+import { clearExportedUsageReport, fetchUsageExport } from "../action-creators";
+import { getUsageReportExport } from "../selectors";
 
-import { NAME, FORM_ID } from "./constants";
+import { NAME, FORM_ID, EXPORTED_URL } from "./constants";
 import { form } from "./form";
 import css from "./style.css";
 
+const validationSchema = object({
+  fromDate: date()
+    .transform(
+      originalValue => (originalValue === "" ? null : originalValue) // transform empty string to null
+    )
+    .required("From Date is required")
+    .typeError("From Date must be a valid date"),
+  toDate: date()
+    .transform(
+      originalValue => (originalValue === "" ? null : originalValue) // transform empty string to null
+    )
+    .required("To Date is required")
+    .typeError("To Date must be a valid date") // catch invalid date format
+    .test({
+      name: "is-after",
+      message: "To Date must be greater than From Date",
+      test: (value, context) => {
+        const { fromDate } = context.parent;
+
+        return !fromDate || !value || value > fromDate;
+      }
+    }),
+  file_name: string().required("File name is required")
+});
+
 function Component({ close, i18n, open, pending, setPending }) {
+  const exportedUsageReport = useMemoizedSelector(state => getUsageReportExport(state));
+
   const dispatch = useDispatch();
   const dialogPending = typeof pending === "object" ? pending.get("pending") : pending;
-  const message = undefined;
-
-  const validationSchema = object({
-    fromDate: date()
-      .transform(
-        originalValue => (originalValue === "" ? null : originalValue) // transform empty string to null
-      )
-      .required("From Date is required")
-      .typeError("From Date must be a valid date"),
-    toDate: date()
-      .transform(
-        originalValue => (originalValue === "" ? null : originalValue) // transform empty string to null
-      )
-      .required("To Date is required")
-      .typeError("To Date must be a valid date") // catch invalid date format
-      .test({
-        name: "is-after",
-        message: "To Date must be greater than From Date",
-        test: (value, context) => {
-          const { fromDate } = context.parent;
-
-          return !fromDate || !value || value > fromDate;
-        }
-      }),
-    file_name: string().required("File name is required")
-  });
 
   // Form submission
   const onSubmit = getData => {
@@ -57,20 +60,17 @@ function Component({ close, i18n, open, pending, setPending }) {
     const data = { ...defaultBody };
 
     setPending(true);
-    dispatch(
-      saveUsageExport(
-        { data },
-        i18n.t(message || "exports.queueing", {
-          file_name: fileName ? `: ${fileName}.` : "."
-        }),
-        i18n.t("exports.go_to_exports")
-      )
-    );
+    dispatch(fetchUsageExport(data, i18n.t("exports.exported")));
   };
 
-  const handleCustomClose = () => {
-    close();
-  };
+  const handleCustomClose = () => close();
+
+  useEffect(() => {
+    if (!exportedUsageReport.isEmpty() && exportedUsageReport.get(EXPORTED_URL)) {
+      window.open(exportedUsageReport.get(EXPORTED_URL));
+      dispatch(clearExportedUsageReport());
+    }
+  }, [exportedUsageReport.get(EXPORTED_URL, "")]);
 
   return (
     <ActionDialog
