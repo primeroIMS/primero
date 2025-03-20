@@ -41,15 +41,17 @@ class Exporters::UsageReportExporter < ValueObject
     users_by_agency(worksheet)
   end
 
-  # rubocop:disable Metrics/AbcSize
   def summary_header(worksheet)
-    worksheet.write(0, 0, [t('hostname'), hostname])
-    worksheet.write(1, 0, [t('start_date'), usage_report.from])
-    worksheet.write(2, 0, [t('end_date'), usage_report.to])
-    worksheet.write(3, 0, [t('quarter'), "Q#{usage_report.quarter}"])
-    worksheet.write(4, 0, [t('agencies_total'), usage_report.data[:agencies_total]])
+    [
+      ['hostname', hostname],
+      ['start_date', usage_report.from],
+      ['end_date', usage_report.to],
+      ['quarter', "Q#{usage_report.quarter}"],
+      ['agencies_total', usage_report.data[:agencies_total]]
+    ].each_with_index do |line, i|
+      worksheet.write(i, 0, [t(line[0]), line[1]])
+    end
   end
-  # rubocop:enable Metrics/AbcSize
 
   def summary_modules(worksheet)
     usage_report.data[:modules].each.with_index(6) do |mod, i|

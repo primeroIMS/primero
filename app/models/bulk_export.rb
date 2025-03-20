@@ -5,7 +5,6 @@
 # Represents the asynchronous run of a queued export job.
 # In Primero v2, all exports are asynchronous.
 # See app/models/exporters
-# rubocop:disable Metrics/ClassLength
 class BulkExport < ApplicationRecord
   PROCESSING = 'job.status.processing' # The job is still running
   TERMINATED = 'job.status.terminated' # The job terminated due to an error
@@ -16,7 +15,6 @@ class BulkExport < ApplicationRecord
   EXPIRES = 60.seconds # Expiry for the delegated ActiveStorage url
 
   alias_attribute :export_format, :format
-  attr_accessor :selected_from_date, :selected_to_date
 
   scope :owned, ->(owner_user_name) { where(owned_by: owner_user_name) }
   belongs_to :owner, class_name: 'User', foreign_key: 'owned_by', primary_key: 'user_name'
@@ -39,29 +37,10 @@ class BulkExport < ApplicationRecord
 
   def export(password)
     process_records_in_batches(500) { |records_batch| exporter.export(records_batch) }
-    zip_export(exporter, password)
-  end
-
-  def usage_export(password, kpi_parameters)
-    usage_exporter.export(kpi_parameters['start_date'], kpi_parameters['end_date'], kpi_parameters['request'])
-    zip_export(usage_exporter, password)
-  end
-
-  def zip_export(exporter, password)
     exporter.complete
     zipped_file = ZipService.zip(stored_file_name, password)
     attach_export_file(zipped_file)
     mark_completed!
-  end
-
-  def usage_exporter
-    return @usage_exporter if @usage_exporter.present?
-
-    @usage_exporter = Exporters::UsageReportExporter.new(
-      stored_file_name,
-      { record_type:, user: owner },
-      custom_export_params&.with_indifferent_access || {}
-    )
   end
 
   def model_class
@@ -170,4 +149,3 @@ class BulkExport < ApplicationRecord
     File.delete(file)
   end
 end
-# rubocop:enable Metrics/ClassLength
