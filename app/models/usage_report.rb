@@ -64,8 +64,8 @@ class UsageReport < ValueObject
       cases_closed: cases_closed_count(module_id),
       cases_open_this_quarter: records_open_this_quarter(Child, module_id),
       cases_closed_this_quarter: records_open_this_quarter(Child, module_id),
-      services_total: cases_subform_total(module_id, 'services_section'),
-      followups_total: cases_subform_total(module_id, 'followup_subform_section')
+      services_total: cases_subform_total(module_id)['service_count'],
+      followups_total: cases_subform_total(module_id)['followups_count']
     }
   end
 
@@ -114,17 +114,26 @@ class UsageReport < ValueObject
     records(recordtype, module_id).where(filter.query).count
   end
 
-  def cases_subform_total(module_id, subform)
-    query = <<~SQL
-      SELECT COUNT(*)
+  def cases_subform_total_query
+    <<~SQL
+      SELECT
+        SUM(services) AS service_count,
+        SUM(followups) AS followups_count
       FROM (
-        SELECT jsonb_array_elements(data->'#{subform}') AS subform
+        SELECT
+          JSONB_ARRAY_LENGTH(data->'services_section') AS services,
+          JSONB_ARRAY_LENGTH(data->'followup_subform_section') AS followups
         FROM cases
         WHERE data->>'module_id' = ?
       ) subquery
     SQL
+  end
 
-    ActiveRecord::Base.connection.exec_query(ActiveRecord::Base.sanitize_sql_array([query, module_id]))
-                      .rows.flatten.first.to_i
+  def cases_subform_total(module_id)
+    return @cases_subform_total if @cases_subform_total.present?
+
+    @cases_subform_total = ActiveRecord::Base.connection.exec_query(
+      ActiveRecord::Base.sanitize_sql_array([cases_subform_total_query, module_id])
+    ).to_a.first
   end
 end
