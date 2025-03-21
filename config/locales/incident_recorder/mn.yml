@@ -1,0 +1,29 @@
+mn:
+  exports:
+    incident_recorder_xls:
+      'yes': "Тийм"
+      'no': "Үгүй"
+      gender:
+        male: "Эр"
+        female: "Эм"
+        both: "Эр ба эм"
+      age_group:
+        age: "Нас"
+        61_older: "61 ба түүнээс дээш насны"
+      age_type:
+        adult: "Насанд хүрсэн хүн"
+        minor: "Хүүхэд"
+        both: "Насанд хүрсэн хүн болон хүүхэд"
+      headers:
+        date_of_birth: "ТӨРСӨН ОГНОО"
+        sex: "ХҮЙС"
+        ethnicity: "ЯС ҮНДЭС"
+        marital_status: "ИРГЭНИЙ / ГЭРЛЭЛТИЙН БАЙДАЛ"
+        disability_type: "ХӨГЖЛИЙН БЭРХШЭЭЛТЭЙ ЭСЭХ?"
+        gbv_type: "ЖСХ-ИЙН ТӨРӨЛ"
+        service:
+          medical_referral: "ЭРҮҮЛ МЭНДИЙН / ЭМНЭЛГИЙН ҮЙЛЧИЛГЭЭ"
+          psycho_referral: "НИЙГЭМ СЭТГЭЛЗҮЙН ҮЙЛЧИЛГЭЭ"
+          legal_referral: "ХУУЛЬ ЭРХ ЗҮЙН ТУСЛАЛЦАА ҮЗҮҮЛЭХ ҮЙЛЧИЛГЭЭ"
+          protection_referral: "ХҮҮХЭД ХАМГААЛЛЫН ҮЙЛЧИЛГЭЭ / БОЛОВСРОЛЫН ҮЙЛЧИЛГЭЭ"
+        consent: "ЗӨВШӨӨРӨЛ ӨГСӨН"
