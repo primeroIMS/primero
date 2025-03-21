@@ -86,9 +86,9 @@ module Workflow
 
   # Class methods
   module ClassMethods
-    def workflow_statuses(primero_module, _lookups = nil)
-      lookups_grouped = Lookup.group_by_unique_id([LOOKUP_RESPONSE_TYPES,
-                                                   LOOKUP_WORKFLOW, primero_module&.workflow_lookup])
+    def workflow_statuses(primero_module)
+      lookups_grouped = Lookup.group_by_unique_id([primero_module.module_response_type_lookup,
+                                                   primero_module.module_workflow_lookup])
 
       I18n.available_locales.map do |locale|
         { locale => status_list(locale, primero_module, lookups_grouped) }

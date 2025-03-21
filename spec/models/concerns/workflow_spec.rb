@@ -31,7 +31,7 @@ describe Workflow do
 
   describe 'workflow_statuses' do
     it 'returns a workflow status hash list' do
-      status_list = Child.workflow_statuses(@module, @lookups)[:en]
+      status_list = Child.workflow_statuses(@module)[:en]
       expect(status_list).to include(include('id' => Workflow::WORKFLOW_NEW))
       expect(status_list).to include(include('id' => Workflow::WORKFLOW_REOPENED))
       expect(status_list).to include(include('id' => 'care_plan'))
@@ -46,7 +46,7 @@ describe Workflow do
       end
 
       it 'does not include Workflow Assessment in the status list' do
-        expect(Child.workflow_statuses(@module, @lookups)[:en]).not_to(
+        expect(Child.workflow_statuses(@module)[:en]).not_to(
           include(include('id' => Workflow::WORKFLOW_ASSESSMENT))
         )
       end
@@ -58,7 +58,7 @@ describe Workflow do
       end
 
       it 'does include Workflow Assessment in the status list' do
-        expect(Child.workflow_statuses(@module, @lookups)[:en]).to(
+        expect(Child.workflow_statuses(@module)[:en]).to(
           include(include('id' => Workflow::WORKFLOW_ASSESSMENT))
         )
       end
