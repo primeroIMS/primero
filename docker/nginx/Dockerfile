@@ -43,7 +43,7 @@ ENV GROUP_ID=${NGINX_GID}
 # If you are updating `version` or `ALPINE_VERSION`,
 # run: `docker scout cves primero/nginx:my-tag` to verify whether the versions of the security packages
 # listed in SECURITY_UPDATED_PACKAGES are still necessary.
-ENV SECURITY_UPDATED_PACKAGES="libexpat>2.6.3-r0 curl>8.12.0-r0 musl=1.2.5-r9 musl-utils=1.2.5-r9"
+ENV SECURITY_UPDATED_PACKAGES="libexpat>2.6.4-r0 curl>8.12.0-r0 musl=1.2.5-r9 musl-utils=1.2.5-r9 libxml2=2.13.4-r5 libxslt>1.1.42-r1"
 
 COPY [ "nginx/root/", "/" ]
 

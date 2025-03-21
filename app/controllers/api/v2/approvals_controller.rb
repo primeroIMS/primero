@@ -29,6 +29,6 @@ class Api::V2::ApprovalsController < Api::V2::RecordResourceController
                         else
                           'approve'
                         end
-    "#{permission_suffix}_#{params[:id]}".to_sym
+    :"#{permission_suffix}_#{params[:id]}"
   end
 end

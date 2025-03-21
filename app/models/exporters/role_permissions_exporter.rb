@@ -172,7 +172,7 @@ class Exporters::RolePermissionsExporter
     permissions = @role_permissions_array.map do |p|
       permission_entry = permission_resource.nil? ? p[permission_group.resource] : p[permission_resource]
       has_action =
-        (permission_entry && permission_entry['actions'] && (permission_entry['actions'].include? action))
+        permission_entry && permission_entry['actions'] && (permission_entry['actions'].include? action)
       get_check has_action
     end
     permission_row = ['', I18n.t("permissions.permission.#{action}", locale: @locale)] + permissions

@@ -74,12 +74,14 @@ export const getWorkflowLabels = (state, id, recordType) => {
 export const getAllWorkflowLabels = (state, recordType) => {
   return selectUserModules(state).reduce((prev, current) => {
     if (![MODULES.GBV, MODULES.MRM].includes(current.get("unique_id"))) {
-      prev.push([current.name, current.getIn(["workflows", recordType], [])]);
+      prev.push([current.name, current.getIn(["workflows", recordType], []), current.unique_id]);
     }
 
     return prev;
   }, []);
 };
+
+export const getServicesForm = (state, id) => selectModule(state, id).getIn(["options", "services_form"]);
 
 export const getConsentform = (state, id) => selectModule(state, id).getIn(["options", "consent_form"]);
 

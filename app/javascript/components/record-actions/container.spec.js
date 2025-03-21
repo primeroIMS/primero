@@ -5,6 +5,7 @@ import { OrderedMap, fromJS } from "immutable";
 import { mountedComponent, screen, fireEvent } from "../../test-utils";
 import { ACTIONS } from "../permissions";
 import { FieldRecord, FormSectionRecord } from "../record-form/records";
+import { PrimeroModuleRecord } from "../application/records";
 
 import RecordActions from "./container";
 import {
@@ -147,7 +148,8 @@ describe("<RecordActions />", () => {
             flag_count: 0,
             short_id: "b575f47",
             age: 15,
-            workflow: "new"
+            workflow: "new",
+            module_id: "primeromodule-cp"
           }
         ],
         filters: {
@@ -155,11 +157,24 @@ describe("<RecordActions />", () => {
         }
       }
     },
-    user: {
+    application: fromJS({
+      modules: [
+        PrimeroModuleRecord({
+          unique_id: "primeromodule-cp",
+          name: "Primero Module CP",
+          associated_record_types: ["case"],
+          options: {
+            services_form: "services"
+          }
+        })
+      ]
+    }),
+    user: fromJS({
       permissions: {
         cases: [ACTIONS.MANAGE, ACTIONS.EXPORT_JSON]
-      }
-    },
+      },
+      modules: ["primeromodule-cp"]
+    }),
     forms
   });
 
@@ -412,10 +427,17 @@ describe("<RecordActions />", () => {
 
       it("renders MenuItem with Add Services Provision option", () => {
         mountedComponent(
-          <RecordActions recordType="cases" mode={{ isShow: true }} showListActions />,
+          <RecordActions
+            recordType="cases"
+            currentPage={0}
+            selectedRecords={{ 0: [0] }}
+            mode={{ isShow: true }}
+            showListActions
+          />,
           fromJS({
             records: {
               cases: {
+                data: [{ module_id: "primeromodule-cp" }],
                 filters: {
                   id_search: true
                 }
@@ -424,7 +446,20 @@ describe("<RecordActions />", () => {
             user: {
               permissions: {
                 cases: [ACTIONS.MANAGE]
-              }
+              },
+              modules: ["primeromodule-cp"]
+            },
+            application: {
+              modules: [
+                PrimeroModuleRecord({
+                  unique_id: "primeromodule-cp",
+                  name: "Primero Module CP",
+                  associated_record_types: ["case"],
+                  options: {
+                    services_form: "services"
+                  }
+                })
+              ]
             },
             forms
           })
@@ -696,7 +731,8 @@ describe("<RecordActions />", () => {
               flag_count: 0,
               short_id: "b575f47",
               age: 15,
-              workflow: "new"
+              workflow: "new",
+              module_id: "primeromodule-cp"
             }
           ],
           filters: {
@@ -708,8 +744,21 @@ describe("<RecordActions />", () => {
       user: {
         permissions: {
           cases: [ACTIONS.MANAGE]
-        }
+        },
+        modules: ["primeromodule-cp"]
       },
+      application: fromJS({
+        modules: [
+          PrimeroModuleRecord({
+            unique_id: "primeromodule-cp",
+            name: "Primero Module CP",
+            associated_record_types: ["case"],
+            options: {
+              services_form: "services"
+            }
+          })
+        ]
+      }),
       forms
     });
     const propsRecordSelected = {
@@ -829,7 +878,8 @@ describe("<RecordActions />", () => {
               flag_count: 0,
               short_id: "b575f47",
               age: 15,
-              workflow: "new"
+              workflow: "new",
+              module_id: "primeromodule-cp"
             },
             {
               sex: "male",
@@ -846,7 +896,8 @@ describe("<RecordActions />", () => {
               flag_count: 0,
               short_id: "c23a5fca",
               age: 5,
-              workflow: "new"
+              workflow: "new",
+              module_id: "primeromodule-cp"
             }
           ],
           metadata: {
@@ -862,8 +913,21 @@ describe("<RecordActions />", () => {
       user: {
         permissions: {
           cases: [ACTIONS.MANAGE]
-        }
+        },
+        modules: ["primeromodule-cp"]
       },
+      application: fromJS({
+        modules: [
+          PrimeroModuleRecord({
+            unique_id: "primeromodule-cp",
+            name: "Primero Module CP",
+            associated_record_types: ["case"],
+            options: {
+              services_form: "services"
+            }
+          })
+        ]
+      }),
       forms
     });
 
@@ -934,7 +998,8 @@ describe("<RecordActions />", () => {
               flag_count: 0,
               short_id: "b575f47",
               age: 15,
-              workflow: "new"
+              workflow: "new",
+              module_id: "primeromodule-cp"
             },
             {
               sex: "male",
@@ -951,7 +1016,8 @@ describe("<RecordActions />", () => {
               flag_count: 0,
               short_id: "c23a5fca",
               age: 5,
-              workflow: "new"
+              workflow: "new",
+              module_id: "primeromodule-cp"
             },
             {
               sex: "female",
@@ -968,7 +1034,8 @@ describe("<RecordActions />", () => {
               flag_count: 0,
               short_id: "9C68741",
               age: 7,
-              workflow: "new"
+              workflow: "new",
+              module_id: "primeromodule-cp"
             }
           ],
           metadata: {
@@ -984,8 +1051,21 @@ describe("<RecordActions />", () => {
       user: {
         permissions: {
           cases: [ACTIONS.MANAGE]
-        }
+        },
+        modules: ["primeromodule-cp"]
       },
+      application: fromJS({
+        modules: [
+          PrimeroModuleRecord({
+            unique_id: "primeromodule-cp",
+            name: "Primero Module CP",
+            associated_record_types: ["case"],
+            options: {
+              services_form: "services"
+            }
+          })
+        ]
+      }),
       forms
     });
 

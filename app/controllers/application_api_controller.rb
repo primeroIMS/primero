@@ -13,8 +13,7 @@ class ApplicationApiController < ActionController::API
 
   before_action :authenticate_user!
   before_action :check_config_update_lock!
-  before_action :set_csrf_cookie, unless: -> { request_from_basic_auth? }
-
+  before_action :set_csrf_cookie, if: -> { use_csrf_protection? }
   protect_from_forgery with: :exception, if: -> { use_csrf_protection? }
 
   class << self

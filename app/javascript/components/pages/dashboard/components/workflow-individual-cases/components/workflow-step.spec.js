@@ -10,7 +10,7 @@ describe("<WorkFlowStep> - pages/dashboard/components/workflow-individual-cases/
     name: "dashboard.workflow",
     type: "indicator",
     indicators: {
-      workflow: {
+      "workflow_test-module": {
         new: {
           count: 10,
           query: ["workflow=new"]
@@ -25,7 +25,8 @@ describe("<WorkFlowStep> - pages/dashboard/components/workflow-individual-cases/
     },
     casesWorkflow,
     css: {},
-    i18n: { t: value => value }
+    i18n: { t: value => value },
+    moduleID: "test-module"
   };
 
   beforeEach(() => {

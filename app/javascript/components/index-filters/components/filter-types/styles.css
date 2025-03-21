@@ -7,6 +7,10 @@
   width: 100%;
 }
 
+.panelContent {
+  margin-top: var(--sp-2)
+}
+
 .toggleButton {
   color: var(--c-blue);
   border: 1px solid var(--c-blue);

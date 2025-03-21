@@ -31,7 +31,7 @@ module Api::V2::Concerns::Export
   def visible_param
     return nil if export_params[:visible].nil?
 
-    export_params[:visible]&.start_with?(/[yYTt]/) ? true : false
+    export_params[:visible]&.start_with?(/[yYTt]/) || false
   end
 
   def export_params

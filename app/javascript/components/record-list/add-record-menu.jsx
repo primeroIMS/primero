@@ -1,23 +1,18 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-/* eslint-disable react/no-multi-comp, react/display-name */
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import PropTypes from "prop-types";
-import { Button, Menu, MenuItem } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 
-import { RECORD_TYPES, RECORD_PATH } from "../../config";
+import { RECORD_TYPES } from "../../config";
 import { useApp } from "../application";
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
-import RecordCreationFlow from "../record-creation-flow";
-import useMemoizedSelector from "../../libs/use-memoized-selector";
-import { getOptionFromAppModule } from "../application/selectors";
 
-import CreateRecordDialog from "./create-record-dialog";
-import { SEARCH_AND_CREATE_WORKFLOW } from "./constants";
+import SearchCreateWorkflow from "./search-create-workflow";
+import ModuleMenu from "./module-menu";
 
 function AddRecordMenu({ recordType }) {
   const dispatch = useDispatch();
@@ -25,11 +20,6 @@ function AddRecordMenu({ recordType }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
   const { userModules, online } = useApp();
-
-  const searchAndCreateWorkflow = useMemoizedSelector(state =>
-    // eslint-disable-next-line camelcase
-    getOptionFromAppModule(state, userModules.first()?.unique_id, SEARCH_AND_CREATE_WORKFLOW)
-  );
 
   const showDialogOrRedirectNew = primeroModule => {
     const { unique_id: uniqueId, options } = primeroModule;
@@ -50,48 +40,14 @@ function AddRecordMenu({ recordType }) {
     }
   };
 
-  const handleModuleClick = primeroModule => {
+  const handleModuleClick = useCallback(primeroModule => {
     setAnchorEl(null);
     showDialogOrRedirectNew(primeroModule);
-  };
+  }, []);
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const handleClose = useCallback(() => setAnchorEl(null), []);
 
   const onClose = () => setModuleUniqueId(null);
-
-  const renderMenu = primeroModules => {
-    const handleOnClickMenuItem = primeroModule => () => handleModuleClick(primeroModule);
-
-    return primeroModules?.size > 1 ? (
-      <Menu data-testid="menu" anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
-        {primeroModules.map(primeroModule => {
-          return (
-            <MenuItem key={primeroModule.unique_id} component={Button} onClick={handleOnClickMenuItem(primeroModule)}>
-              {primeroModule.name}
-            </MenuItem>
-          );
-        })}
-      </Menu>
-    ) : null;
-  };
-
-  const renderDialog = uniqueId =>
-    uniqueId && <CreateRecordDialog setOpen={setOpen} open={open} recordType={recordType} moduleUniqueId={uniqueId} />;
-
-  const renderCreateRecord =
-    searchAndCreateWorkflow && recordType === RECORD_PATH.cases ? (
-      <RecordCreationFlow
-        open={Boolean(moduleUniqueId)}
-        onClose={onClose}
-        recordType={recordType}
-        // eslint-disable-next-line camelcase
-        primeroModule={userModules.first()?.unique_id}
-      />
-    ) : (
-      renderDialog(moduleUniqueId)
-    );
 
   return (
     <>
@@ -101,8 +57,23 @@ function AddRecordMenu({ recordType }) {
         type={ACTION_BUTTON_TYPES.default}
         rest={{ onClick: handleClick }}
       />
-      {renderMenu(userModules)}
-      {renderCreateRecord}
+      {userModules?.size > 1 && (
+        <ModuleMenu
+          anchorEl={anchorEl}
+          handleClose={handleClose}
+          handleModuleClick={handleModuleClick}
+          primeroModules={userModules}
+        />
+      )}
+      {moduleUniqueId && (
+        <SearchCreateWorkflow
+          open={open}
+          onClose={onClose}
+          primeroModuleUniqueId={moduleUniqueId}
+          recordType={recordType}
+          setOpen={setOpen}
+        />
+      )}
     </>
   );
 }
