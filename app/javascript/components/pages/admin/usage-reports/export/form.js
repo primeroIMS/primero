@@ -12,14 +12,12 @@ export const form = i18n => {
         FieldRecord({
           display_name: `${i18n.t("key_performance_indicators.date_range_dialog.from")}*`,
           name: "fromDate",
-          type: DATE_FIELD,
-          allowFullWidth: false
+          type: DATE_FIELD
         }),
         FieldRecord({
           display_name: `${i18n.t("key_performance_indicators.date_range_dialog.to")}*`,
           name: "toDate",
-          type: DATE_FIELD,
-          allowFullWidth: false
+          type: DATE_FIELD
         }),
         FieldRecord({
           name: "file_name",

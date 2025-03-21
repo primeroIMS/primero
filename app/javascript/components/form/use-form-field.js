@@ -103,8 +103,7 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
     showDeleteAction,
     showDisableOption,
     maxOptionsAllowed,
-    optionFieldName,
-    allowFullWidth
+    optionFieldName
   } = field;
 
   const i18n = useI18n();
@@ -151,7 +150,7 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
     disabled: inputDisabled,
     error: inputError,
     format: dateFormat,
-    fullWidth: allowFullWidth !== undefined ? allowFullWidth : true,
+    fullWidth: true,
     helperText: inputHelperTxt,
     label: inputLabel,
     name,

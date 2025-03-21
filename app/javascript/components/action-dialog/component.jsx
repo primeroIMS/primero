@@ -41,8 +41,7 @@ function ActionDialog({
   successHandler,
   fetchAction,
   fetchArgs = [],
-  fetchLoadingPath,
-  fullWidth
+  fetchLoadingPath
 }) {
   const dispatch = useDispatch();
 
@@ -138,7 +137,6 @@ function ActionDialog({
       <Dialog
         open={open}
         onClose={onCloseDialog}
-        fullWidth={typeof fullWidth === "boolean" ? fullWidth : true} // Override only if undefined
         maxWidth={maxSize || "sm"}
         aria-labelledby="action-dialog-title"
         aria-describedby="action-dialog-description"
@@ -188,7 +186,6 @@ ActionDialog.propTypes = {
   fetchAction: PropTypes.func,
   fetchArgs: PropTypes.array,
   fetchLoadingPath: PropTypes.array,
-  fullWidth: PropTypes.bool,
   hideIcon: PropTypes.bool,
   maxSize: PropTypes.string,
   omitCloseAfterSuccess: PropTypes.bool,

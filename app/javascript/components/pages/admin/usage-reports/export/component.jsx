@@ -84,7 +84,6 @@ function Component({ close, i18n, open, pending, setPending }) {
       confirmButtonLabel={i18n.t("buttons.export")}
       pending={dialogPending}
       omitCloseAfterSuccess
-      fullWidth={false}
     >
       <Form
         useCancelPrompt
