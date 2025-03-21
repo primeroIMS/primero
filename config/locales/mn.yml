@@ -1,0 +1,233 @@
+mn:
+  'true': 'Тийм'
+  'false': 'Үгүй'
+  accepted: 'Зөвшөөрөгдсөн. '
+  cancel: Цуцлах
+  connection_lost: 'Одоогоор сүлжээнд ороогүй байна. '
+  field_mode_offline: Одоогоор талбарын горимд байна.
+  connected: Холбогдсон
+  no_connection: Холболт байхгүй байна
+  clear: Арилгах
+  sandbox_ui: 'Демо '
+  description: Тайлбар
+  form: Маягт
+  minimum_reportable_fields: "Хамгийн бага мэдээлэлтэй талбар"
+  name: Нэр
+  offline: Офлайн
+  online: Онлайн
+  yes_label: 'Тийм'
+  or_label: эсвэл,
+  select_provider: Үйлчилгээ үзүүлэгчийг сонгох
+  select_language: Хэл сонгох
+  log_in_primero_idp: '%{idp_name}хэрэглэгчийн нэрээр нэвтэрнэ үү'
+  offline_submitted_changes: 'Одоогоор та сүлжээнд байхгүй байгаа учраас таны оруулсан өөрчлөлтүүд таныг сүлжээнд орсон үед идэвхжнэ. '
+  updated: Шинэчлэгдсэн.
+  actions:
+    approvals: Зөвшөөрөлүүд
+    close: Хаах
+    services_section_from_case: Үзүүлсэн үйлчилгээг нэмэх
+  agencies:
+    label: Байгууллага
+  approvals:
+    manager_comments_label: Менежерийн тайлбар
+  buttons:
+    cancel: Цуцлах
+    change_password: Нууц үг солих
+    check_status: Статус шалгах
+    create_case: Кэйс үүсгэх
+    create_new_record: Шинэ %{model} үүсгэх
+    delete: Арилгах
+    filter: Филтер ашиглах
+    filter_clear: Филтерийг арилгах
+    filter_label: 'Филтер'
+    guidance: Удирдамж
+    guiding_questions: Чиглүүлэх асуултууд
+    login: Нэвтрэх
+    logout: Гарах
+    link: Холбоос
+    new: Шинэ
+    save_and_return: Хадгалаад буцах
+    save_continue: Хадгалаад үргэлжлүүлэх
+    save_changes: Өөрчилснийг хадгалах
+    select: Сонгох
+    send: Илгээх
+    sort_by_case: Кэйсүүд
+    update: Шинэчлэх
+    view: Харах
+    view_flags_history: Түүхийг харах
+    return_to_case: Кэйс рүү буцах
+    dialog_yes: "Тийм"
+  resync_records:
+    date: Огноо
+    last_attempt: Сүүлийн оролдлого
+    create: Үүсгэх
+    update: Шинэчлэх
+    resync: Явуулах
+  case:
+    label: Кэйс
+    create_new_case: Шинэ кэйс үүсгэх
+    create_case: Кэйс үүсгэх
+    create: Үүсгэх
+    add_new: Шинийг нэмэх
+    back_to_family_details: 'Гэр бүлийн тухай дэлгэрэнгүй мэдээлэл рүү буцах '
+    back_to_case: Кэйс рүү буцах
+    back_to_results: Үр дүн рүү буцах
+    back_to_search: Хайлт руу буцах
+    results: Үр дүн
+    details: Дэлгэрэнгүй мэдээлэл
+    select: Сонгох
+    deselect: Сонгохоо болих
+    enter_id_number: Хуучин бүртгэл мэдээллийг хайхын тулд Иргэний үнэмлэхний дугаар оруулах
+    id_search_no_results: Системд %{search_query}тохирох зүйл байхгүй байна. Шинэ бүртгэл мэдээлэл үүсгэнэ үү.
+    messages:
+      update_success: '%{record_id}кэйсийн мэдээллийг амжилттай шинэчиллээ'
+      creation_success: 'Кэйсийн бүртгэл мэдээллийг амжилттай үүсгэлээ'
+      confirm_create_case: 'Та энэ хүнд зориулж кэйс үүсгэхийг хүсэж байна уу? '
+      case_referral_pending: Кэйсийг холбон зуучлах үйл ажиллагаа хүлээгдэж байна.
+      case_transfer_pending: Кэйсийг шилжүүлэх үйл ажиллагаа хүлээгдэж байна.
+      case_no_approval_request: Энэ кэйстэй холбоотой батлуулах хүсэлт байхгүй байна.
+      bulk_assign_limit: Та нэг дор 100-аас дээш кэйсийг хуваарилж болохгүй.
+      bulk_assign_limit_try_again: Та нэг дор 100-аас дээш кэйсийг хуваарилж болохгүй. 100 буюу эсвэл түүнээс цөөн кэйс сонгож, дахин оролдоно уу.
+    save: Кэйсийг хадгалах
+    save_text: 'Үргэлжлүүлэхийн өмнө Кэйс дээр хийсэн өөрчлөлтийг хадгална уу. '
+    skip_and_create: Алгасаж, шинэ кэйс үүсгэх
+    search_existing: Одоо байгаа кэйсийг хайх
+    search_helper_text: Яагаад? Давхардсан кэйс үүсгэхээс урьдчилан сэргийлэхийн тулд
+    workflow:
+      assessment: Үнэлгээ
+      case_plan: Кэйсийн төлөвлөгөө
+      closed: Хаасан
+      created_on: үүсгэсэн огноо
+      in_progress: дуусаагүй
+      new: Шинэ
+      reopened: дахин нээсэн
+      service_implemented: Үйлчилгээг хэрэгжүүлсэн
+      services_implemented: Үйлчилгээг хэрэгжүүлсэн
+  activity_log:
+    label: Үйлдлийн бүртгэл
+  cases:
+    action_plan: Арга хэмжээ авах төлөвлөгөө
+    access_denied: "Та энэ Кэйс рүү нэвтрэх эрхгүй байна."
+    age: Нас
+    agency: Агентлаг / байгууллага
+    apply_filter: Хэрэглэх
+    approval_comments: Тайлбар
+    approval_radio: Би ...-х хүсэлтэй байна
+    approval_radio_accept: Батлах
+    approval_radio_reject: Үл батлах
+    approval_select: '...-ийн маягт'
+    approved_success_action_plan: '%{approval_label} - Баталсан'
+    approved_success_assessment: '%{approval_label} - Баталсан'
+    approved_success_bia: '%{approval_label} - Баталсан'
+    approved_success_case_plan: '%{approval_label} - Баталсан'
+    approved_success_closure: '%{approval_label} - Баталсан'
+    approved_success_gbv_closure: '%{approval_label} - Баталсан'
+    assessment: Үнэлгээ
+    case_opening_date: Кэйс нээсэн огноо
+    case_plan: Кэйсийн төлөвлөгөө
+    case_worker_code: Кэйсийн ажилтны код
+    clear_filter: Арилгах
+    close_dialog_title: Кэйсийг хаах
+    close_success: Кэйсийг амжилттай хаасан
+    date_of_birth: Төрсөн огноо
+    disable_dialog: ОК дээр дарснаар энэ кэйсийн төлөв Идэвхгүй болж өөрчлөгдөнө.
+    disable_dialog_title: Кэйсийг идэвхгүй болгох
+    disable_success: Кэйсийг амжилттай идэвхгүй болголоо
+    enable_dialog: ОК дээр дарснаар энэ кэйсийн төлөв Идэвхтэй болж өөрчлөгдөнө.
+    enable_dialog_title: Кэйсийг идэвхтэй болгох
+    filter_by:
+      age_0_5: 0 - 5
+      age_12_17: 12 - 17
+      age_18_more: 18+
+      age_6_11: 6 - 11
+      age_range: Насны хүрээ
+      agency: Агентлаг / байгууллага
+      approval_status: Баталсан эсэх төлөв
+      approvals:
+        approved: Баталсан
+        pending: Хүлээгдэж буй
+        rejected: Батлахаас татгалзсан
+      closed: Хаасан
+      current_location: Одоогийн байршил
+      date: Огноо
+      district: Дүүрэг
+  dashboard:
+    new_last_week: Шинэ хэргүүд  ( өнгөрсөн долоо хоногт гарсан)
+    new_or_updated: Шинэ эсвэл шинэчлэгдсэн
+    new_referred: Шинээр холбон зуучлах үйлчилгээнүүд
+    new_service_provision: Шинээр үзүүлэх үйлчилгээ
+    new_this_week: Шинэ (энэ долоо хоногт гарсан)
+    no_action_risk: Арга хэмжээ авах шаардлагагүй
+    no_case_stats: Кейсийн статистик тоо байхгүй
+    no_caseworker_data: Кейс ажилтны талаар мэдээлэл байхгүй.
+    no_flagged_child: Дарцагтай кейс байхгүй
+    no_flagged_incident: Дарцагтай хэргийн тохиолдол байхгүй
+    no_open_incidents: Нээлттэй  хэргийн тохиодол байхгүй
+    no_overdue_activities: Хугацаа хэтэрсэн үйл ажиллагаа байхгүй
+    no_recent_activities: Ойрын үед хэрэгжүүлсэн үйл ажиллагаа байхгүй
+    no_scheduled_activities: Төлөвлөсөн үйл ажиллагаа байхгүй
+    number_of_victims: Хохирогчдын тоо
+    number_of_violations: Зөрчлийн тоо
+    number_of_violations_verified: Нотлогдсон зөрчлүүд
+    open: Нээлттэй
+    open_cases: Нээлттэй кейсүүд
+    overdue_activities: Хугацаа хэтэрсэн үйл ажиллагаанууд
+    overview: Тойм
+  fields:
+    file_upload_box:
+      no_file_selected: Файл сонгогдоогүй байна
+      recorded_audio_label: Хийгдсэн аудио бичлэг
+      select_file_button_text: Файл сонго
+    find_lookup: Хайлтын цонхыг олох
+    form_name: Маягтын нэр
+    guidance: Удирдамж
+    guiding_questions: Чиглүүлэгч асуултууд
+    help_text: Тусламжийн бичвэр
+    hide_on_view_page: Хуудас харуул
+    label: Талбарууд
+    mobile_visible: Мобайл апп
+    move_to: Зөө
+    must_be_english: Англи хэлээр оруулах ёстой.
+    name: Нэр
+    not_future_date: Ирээдүйн огноо биш байна.
+    number_not_valid: Тоон өгөгдөл оруул
+    numeric_field: Тоон талбар
+    on_collapsed_subform: Эвдэрсэн платформ дээр байна уу?
+    option_strings_add_option: Хувилбар нэмэх
+    option_strings_source: Хайлтын цонх
+    option_strings_text: Хувилбарууд
+    option_strings_text_display: Хувилбарт бичвэр
+    option_strings_text_key: Хувилбар сонгох түлхүүр
+    options_indications_lookup_values: Өмнө нь үүсгэсэн хайлтын цонх ашиглах юм уу, шинэ утга үүсгэж болно.
+    options_indications_restrictions: Та хоёуланг нь зэрэг оруулах боломжгүй.
+    options_or_lookup_warning: Хувилбар нэмэх, эсвэл Хайлтын цонхыг сонгох хоёрын аль нэгийг хийнэ үү. Хоёуланг нь зэрэг сонгож болохгүй.
+    other_documents: Бусад баримт бичиг
+    photo_upload_box: Зураг оруулах
+    predifined_lookups: Өмнө үүсгэсэн цонхыг ашигла
+    radio_button: Радиогийн товчлуур
+    remove: Арилгах
+    remove_attachment_confirmation: Энэ хавсралтыг арилгахыг та үнэхээр хүсэж байна уу?
+    required: Заавал оруулах шаардлагатай
+  incidents:
+    social_worker: Нийгмийн ажилтан
+  user:
+    welcome_email:
+      url_label: Примеро
+    password_reset:
+      subject: 'Нууц үгийг шинээр хийх зааварчилгаа'
+      email_greeting: "Эрхэм %{full_name}"
+      email_body1: "Таны %{host_href} хаягийн нууц үгийг шинээр хийх хүсэлтийг хэн нэгэн илгээсэн байна. Эхлэхийн тулд доорх холбоос дээр дарна уу."
+      email_body2: "Энэ холбоосын хугацаа %{hours}цагийн дараа дуусах бөгөөд үүнийг зөвхөн нэг удаа ашиглах боломжтой. Хэрэв та нууц үг шинээр хийх хүсэлт гаргаагүй эсвэл таны өмнөөс Primero-гийн шинэ хэрэглэгч бүртгүүлээгүй бол энэ имэйлийг хайхрахгүй орхино уу. Дээрх холбоосын хугацаа дууссан бол нууц үг шинэчлэх хүсэлтээ дахин илгээхийн тулд %{reset_request_href}дарна уу."
+      email_body_link: энд
+      request_submitted: "Нууц үг шинэчлэх хүсэлтийг илгээлээ"
+      success: "Нууц үг амжилттай солигдлоо"
+      errors:
+        password_confirmation: "Нууц үг хоорондоо тохирч байх ёстой"
+  user_group:
+    name: Нэр
+  users:
+    headers:
+      full_name: Овог нэр
+      user_name: Нэвтрэх нэр
+      position: Албан тушаал
+      agency: Агентлаг/байгууллага

@@ -159,7 +159,7 @@ describe Filter do
 
       it 'has workflow filter' do
         expect(@filters_cp[0]['cases']).to include(have_attributes(name: 'cases.filter_by.workflow',
-                                                                   field_name: 'workflow', type: 'multi_toggle'))
+                                                                   field_name: 'workflow', type: 'workflow'))
       end
 
       it 'has status filter' do
@@ -246,8 +246,8 @@ describe Filter do
     end
 
     describe 'case filters' do
-      it 'has 27 filters' do
-        expect(@filters_cp_gbv[0]['cases'].count).to eq(27)
+      it 'has 28 filters' do
+        expect(@filters_cp_gbv[0]['cases'].count).to eq(28)
       end
 
       it 'has filters' do

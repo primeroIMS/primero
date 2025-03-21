@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 2024_12_19_000000) do
+=======
+ActiveRecord::Schema.define(version: 2025_02_21_221207) do
+>>>>>>> 07f80df2eb182305306ee3ec1f4c685daa674f08
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -568,6 +572,17 @@ ActiveRecord::Schema.define(version: 2024_12_19_000000) do
     t.string "value"
     t.index ["field_name", "record_id", "record_type", "value"], name: "searchable_values_unique_idx", unique: true
     t.index ["record_type", "record_id"], name: "index_searchable_values_on_record"
+  end
+
+  create_table "sessions", force: :cascade do |t|
+    t.string "session_id", null: false
+    t.jsonb "data", default: {}
+    t.boolean "expired", default: false, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["data"], name: "index_sessions_on_data", using: :gin
+    t.index ["session_id"], name: "index_sessions_on_session_id", unique: true
+    t.index ["updated_at"], name: "index_sessions_on_updated_at"
   end
 
   create_table "sources", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

@@ -4,7 +4,9 @@ uk:
   accepted: Прийнято
   cancel: Скасувати
   connection_lost: Зараз тільки в автономному режимі
+  field_mode_offline: Зараз в режимі полей
   connected: Підключено
+  no_connection: Немає з'єднання
   clear: Очистити
   sandbox_ui: Демо
   description: Опис
@@ -12,14 +14,20 @@ uk:
   minimum_reportable_fields: "Обов'язкові звітні поля %{record_type}"
   name: Ім'я
   offline: Автономний режим
+  field_mode: "Режим полей:%{mode}"
+  field_mode_on: "Увімкнено"
+  field_mode_off: "Вимкнено"
   unavailable_offline: Недоступно в автономному режимі
   online: Онлайн
   yes_label: 'Так'
+  or_label: або
   select_provider: Вибрати надавача
   select_language: Вибрати мову
   log_in_primero_idp: увійти під іменем %{idp_name}
   offline_submitted_changes: Ви зараз в автономному режимі. Зміни будуть зафіксовані, коли інтернет-підключення буде відновлено.
   updated: Оновлено
+  go: Далі
+  select_idp_error: Будь ласка, оберіть постачальника
   sync:
     success: "Записи %{records} успішно синхронізовано."
     error:
@@ -76,6 +84,7 @@ uk:
     terms_of_use_download_button: Завантажити PDF
     terms_of_use_enabled: Показати "Умови використання"?
   approvals:
+    no_requests: Немає запитів на погодження для цього кейсу
     approved_by: 'Ухвалив/ла:'
     case_plan_type_label: Тип кейс-плана
     manager_comments_label: Коментарі менеджера
@@ -158,6 +167,7 @@ uk:
     import: Імпорт
     login: Увійти в обліковий запис
     logout: Вийти з облікового запису
+    link: Посилання
     mark_for_mobile: Позначити для мобільних пристроїв
     new: Нове
     ok: ОК
@@ -190,10 +200,24 @@ uk:
     view: Перегляд
     view_flags_history: Переглянути історію
     return_to_case: Повернутись до особової справи
+    enable_webpush: Сповіщення пристрою
+    dialog_yes: "Так"
+  resync_records:
+    id: Ідентифікатор
+    record_type: Тип запису
+    action: Дія
+    date: Дата
+    last_attempt: Остання спроба
+    create: Створити
+    update: Оновити
+    resync: Підтвердити
   case:
     label: Кейс
     create_new_case: Створити нову особову справу
+    create_case: Створити кейс
+    create: Створити
     add_new: Додати нову
+    back_to_family_details: Повернутись до інформації про сім'ю
     back_to_case: Назад до кейсу
     back_to_results: Назад до результатів
     back_to_search: Назад до пошуку
@@ -217,6 +241,14 @@ uk:
       introductory_sentence: Зазначте згоду особи на отримання послуг кейс-менеджменту й на збереження її даних у Primero.
       consent_agreements_required: Виберіть принаймні один варіант з форм згоди.
       legitimate_basis_required: Виберіть принаймні один варіант з класифікації законних підстав.
+      confirm_create_case: Ви хочете створити кейс для цієї особи?
+      case_referral_pending: Перенаправлення кейсу на розгляді
+      case_transfer_pending: Трансфер кейсу на розгляді.
+      case_no_approval_request: Немає запитів на погодження для цього кейсу
+      bulk_assign_limit: Ви не можете призначити більш ніж 100 кейсів одночасно.
+      bulk_assign_limit_try_again: Ви не можете призначити більш ніж 100 кейсів одночасно. Будь ласка, оберіть 100 або менше кейсів та спробуйте знову.
+      referral_rejected: Направлення було відхилено.
+      transfer_request_made: Для цієї справи було створено запит на трансфер.
     save: Зберегти кейс
     save_text: Спочатку збережіть зміни до кейсу.
     skip_and_create: Пропустити і створити новий кейс
@@ -224,6 +256,7 @@ uk:
     search_helper_text: Навіщо? Щоб уникати створення дублікатів кейсів.
     consent_agreements: Виберіть усі застосовні форми згоди
     legitimate_basis: Виберіть усі застосовні класифікації законних підстав
+    family_linked_subform_delete_disabled: Цей елемент підформи пов'язаний із записом про родину. Будь ласка, або видаліть цього члена сім'ї із запису про родину, або від'єднайте кейс цього члену сім'ї від запису про родину.
     workflow:
       assessment: Оцінювання
       case_plan: Кейс-план
@@ -243,6 +276,7 @@ uk:
     rejected_transfer: '%{to} відхилили трансфер %{record_type}%{record_id} від %{from}'
   cases:
     action_plan: План дій
+    access_denied: "У вас немає доступу до цього кейсу"
     age: Вік
     age_estimated: Орієнтовний вік?
     agency: Агенція
@@ -267,6 +301,7 @@ uk:
     close_dialog_title: Закрити кейс
     close_success: Успішно закритий кейс
     closure: Закриття
+    complete: Доступно в автономному режимі
     date_of_birth: Дата народження
     disable_dialog: Натиснувши ОК, ви зміните статус цього кейса на "Деактивований"
     disable_dialog_title: Деактивувати кейс
@@ -336,6 +371,7 @@ uk:
       urgent_protection_concern: Термінова проблема захисту
       user_group: Група користувача
       workflow: Кейси за робочим процесом
+      include_disabled: Включити осіб з інвалідністю
     flag_summary: Позначити підсумок
     full_name: ПІБ
     gbv_closure: Закриття ГЗН
@@ -359,6 +395,8 @@ uk:
     photos: Фотографія
     quick_view:
       tracing_message: 'Примітка: у системі є збіг із слідчим, який шукає цю дитину. Зверніться до соціального працівника цього запису для подальших дій за бажанням дитини.'
+    reassign:
+      multiple_successfully: Primero переназначає %{select_records} кейси(ів). Оновлення для всіх цих кейсів може зайняти кілька хвилин.
     referral_done: Натискання кнопки «Готово» означає, що ви завершили роботу щодо направлення, пов’язану з цим кейсом. Після того, як ви натиснете «Готово», ви більше не матимете доступу до цього запису.
     referral_done_success: Направлення готово.
     referral_accepted_header: Прийняти направлення
@@ -396,6 +434,7 @@ uk:
     save_filter: Зберегти
     selected_all_records: Обрати усі %{total_records} кейси, що відповідають цьому запиту.
     selected_records: 'Обрано 1 %{select_records} кейс(и)'
+    selected_records_assign: '%{select_records}кейси(ів) обрано'
     sex: Стать
     show_case: 'Ідентифікатор кейса: %{short_id}'
     social_worker: Соціальний працівник
@@ -432,6 +471,7 @@ uk:
     transfer_reject_reason_label: Причина відхилення
     transfer_rejected: Натискаючи кнопку «Відхилити», ви вказуєте, що наразі не готові брати на себе відповідальність за цей кейс. Будь ласка, введіть причину, по якій ви відхиляєте цей кейс; як тільки ви натиснете «Відхилити», ви більше не матимете доступу до запису цього кейсу.
     view_name: Переглянути назву
+    sort_by: Сортувати за
   change_logs:
     filters:
       form: Форма
@@ -455,6 +495,10 @@ uk:
       date_case_plan_initiated: Дата кейс-плану
       date_of_creation: Дата створення
       registration_date: Дата реєстрації
+      followup_date: Дата моніторингу
+      date_reunification: Дата возз'єднання
+      tracing_date: Дата відстеження
+      service_implemented_day_time: Дата завершення сервісу
   configurations:
     apply_label: Ви впевнені? Якщо ви подасте заявку, налаштування цієї конфігурації будуть застосовані до системи. Ви втратите всі свої поточні налаштування і не зможете їх повернути, якщо ви вже не зберегли їх в іншій конфігурації.
     apply_label_bold: Під час завантаження змін Primero буде недоступний для користувачів протягом кількох хвилин.
@@ -510,6 +554,13 @@ uk:
     all_cases: Всі кейси
     all_services_implemented: Усі послуги впроваджено
     and: 'і'
+    action_needed:
+      awaiting_acceptance: В очікуванні прийняття
+      header: Потребує дії
+      new: Нова
+      new_this_week: Нові цього тижня
+      referrals: Направлення
+      transfers: Трансфери
     approval_action_plan_approved: Ухвалено
     approval_action_plan_pending: Очікує рішення
     approval_action_plan_pending_group: План дій
@@ -635,6 +686,9 @@ uk:
     dash_shared_with_my_team_overview: Поширені з моєю командою (Загальне уявлення)
     dash_shared_with_others: Поширені з іншими
     dash_national_admin_summary: Підсумок адміністратора
+    dash_violations_category_verification_status: Загальна кількість інцидентів за верифікованим статусом
+    dash_violations_category_region: Загальна кількість верифікованих інцидентів за регіоном
+    dash_perpetrator_armed_force_group_party_names: Загальна кількість інцидентів за порушником
     date: Дата
     date_of_incident: Дата інциденту
     date_of_interview: Дата інтерв'ю
@@ -797,6 +851,31 @@ uk:
     assign_html: '<strong>%{user}</strong> призначив наступне %{record_type} на вас: <strong>%{record_id}</strong>.'
     transfer_request_html: 'Користувач Primero <strong>%{user}</strong> з %{agency} просить вас передати право власності на цей %{record_type} запис <strong>%{record_id}</strong> , щоб він міг надавати послуги з управління фізичним особам у своєму регіоні. Якщо цей переказ прийнятний для вас, натисніть посилання %{record_type} ідентифікатора в цьому електронному листі, щоб відкрити %{record_type} в Primero та розпочати передачу.'
     transfer_request_notes_html: 'Примітки особи, яка подала запит: %{request_transfer_notes}'
+    alert: '%{record_type}%{id}-%{form_name} оновлено. Будь ласка, увійдіть до Primero щоб переглянути зміни.'
+    alert_subject: '%{record_type}: %{id} - %{form_name} Оновлено'
+  webpush_notification:
+    action_label: До кейсу
+    approval_request:
+      title: Запит на погодження
+      body: Кейс у вашій команді має нерозглянутий запит на підтвердження для %{type}.
+    approval_response:
+      title: Відповідь на погодження
+      body: Один з ваших кейсів отримав відповідь на погодження.
+    assign:
+      title: Нове призначення
+      body: Ви отримали нове призначення кейсу
+    referral:
+      title: Нове направлення
+      body: Ви отримали нове направлення кейсу.
+    transfer:
+      title: Новий трансфер
+      body: Ви отримали новий трансфер кейсу.
+    alert_case:
+      title: Кейс оновлено
+      body: "%{type} оновлено по одному з ваших кейсів."
+    transfer_request:
+      title: Запит на трансфер
+      body: Ви отримали новий запит на трансфер кейсу.
   encrypt:
     export_type: Тип експорту
     file_name: Створіть свою власну назву файлу (Опціонально)
@@ -806,6 +885,8 @@ uk:
     address_fields: Ви повинні адресувати %{fields} поля в %{forms} формах
     address_form_fields: Ви повинні адресувати %{fields} поля в цій формі
     address_subform_fields: '%{subform} має %{fields} невірні поля'
+    error_401: Ви вийшли з системи. Будь ласка, увійдіть ще раз.
+    error_something_went_wrong: Щось пішло не так.
   error_page:
     not_authorized:
       server_error: Ви не маєте доступу до цієї сторінки.
@@ -814,6 +895,10 @@ uk:
       contact_admin: Якщо ви вважаєте, що опинилися тут помилково, зверніться до свого адміністратора.
       something_went_wrong: Вибачте, щось пішло не так!
   errors:
+    api:
+      internal_server: Помилка сервера
+    attachments:
+      maximum: Ви досягли максимальної кількості вкладень для одного запису.
     error_loading: Помилка завантаження запису(ів)
     models:
       agency:
@@ -858,6 +943,11 @@ uk:
         title_present: Заголовок не може бути порожнім
         content_present: Вміст не може бути порожнім
         created_by_present: Поле «Створено» не може бути пустим
+      webpush_subscription:
+        notification_url_present: notification_url не повинно бути порожнім
+        notification_url_format: notification_url повинно бути в форматі URL
+        auth_present: Auth не повинно бути порожнім
+        p256dh_present: p256dh не повинно бути порожнім
     not_found: Запису(ів) не знайдено
     try_again: Спробуйте ще
   exports:
@@ -941,6 +1031,7 @@ uk:
         subforms: 'Субформа:%{subform_name}'
         collapsed_fields: 'Згорнуті поля:%{fields}'
         country: Країни
+        linkedincidents: Пов'язані інциденти
       summary_header:
         form_group: Primero групи форм
         form: Primero форми
@@ -1066,6 +1157,8 @@ uk:
     add_existing_field: Додати існуююче поле
     add_field: Додати поле
     add_field_type: Додати%{file_type}
+    attachments:
+      maximum_attached: Максимальної кількості вкладень для одного запису (%{maximumttachmentsPerRecord}) досягнуто. Сюди входять фото, аудіо та документи. Будь ласка, видаліть якийсь файл, перш ніж додавати інший.
     audio:
       current: Поточне аудіо
     audio_upload_box: Завантажити аудіо
@@ -1113,6 +1206,7 @@ uk:
     english_text: Текст англійською мовою
     field_name: Назва поля
     field_type: Тип Поля
+    attachment_too_large: Розмір файлу не повинен перевищувати 20 Мб
     file_upload_box:
       add_document_label: Додати документ
       add_new_document_button_text: Додати інший документ
@@ -1167,6 +1261,16 @@ uk:
     show: Показати?
     show_on: Показати далі
     show_on_minify_form: Коротка форма
+    skip_logic:
+      name: Пропустити логіку?
+      record_section:
+        title: Це поле повинно бути видимим, якщо записано
+        buttons:
+          add: Додати умову запису
+      subform_section:
+        title: Це поле повинно бути видимим, якщо в підформі
+        buttons:
+          add: Додати умову підформи
     subform: Підформа
     subform_group_by: Групувати за
     subform_remove_message: Ви впевнені, що хочете видалити цю підформу?
@@ -1198,6 +1302,10 @@ uk:
     less: Менше...
     more: Більше...
     save_filters: Зберегти
+    categories:
+      violations: Порушення
+      incidents: Інциденти
+      individual_victims: Індивідуальні постраждалі
   flags:
     add_flag_tab: Додати нову позначку
     date: 'Дата:'
@@ -1265,6 +1373,8 @@ uk:
       violation: Порушення
       registry_details: Деталі реєстру
       registry_record: Запис реєстру
+      family_record: Запис про сім'ю
+      family: Запис про сім'ю
     required_field: '%{field} є обов`язковим полем'
     select_label: Вибрати
     settings: Налаштування
@@ -1285,6 +1395,26 @@ uk:
     type_label: Тип
     visibility: Видимість
     web_app: Веб застосунок
+    skip_logic:
+      name: Пропустити логіку?
+      section:
+        title: Ця форма повинна бути видимою, якщо
+        buttons:
+          add: Додати умову
+    conditions:
+      add: Додати умову
+      update: Оновити умову
+      field_name: Назва Поля
+      condition: Умова
+      empty: Умов не додано
+      type: Тип
+      types:
+        and:
+          display_text: Додати цю умову
+          name: ТА
+        or:
+          display_text: Або цю умову
+          name: АБО
   home:
     ar: العربية
     ar-IQ: العربية (العراقية)
@@ -1296,6 +1426,8 @@ uk:
     dashboard: Панель
     en: English
     es: Español
+    es-GT: Іспанська
+    es-ES: Іспанська (Іспанія)
     fr: Français
     id: Bahasa
     km: ភាសាខ្មែរ
@@ -1306,29 +1438,37 @@ uk:
     sw-KE: Kiswahili (Kenya)
     sw-TZ: Kiswahili (Tanzania)
     ne: नेपाली
+    tr: Турецька
     label: На головну
     language: Мова
     manage_system_users: Керування користувачами синхронізації сервера
     my: ဗမာစာ
+    pl: Польська
     pt: Português
     pt-BR: Português (Brasil)
     records_need_attention: Записи потребують уваги
     ru: Русский
     so: Af-Soomaali
     th: ไทย
+    uk: Українська
     users: Управління користувачами
     view_records: Переглянути записи
     welcome: Ласкаво просимо до Primero
     zh: 中文
   incident:
+    code: Код інциденту
     associated_case: "Пов'язаний кейс:"
+    link_incident_to_case: Прив'язати інцидент до кейсу
+    link_incident_to_case_success: Прив'язати інцидент(и) до кейсу
     messages:
       creation_success: Запис про інцидент успішно створено.
       creation_success_queue: Запис про інцидент успішно створено у фоновому режимі
       disabled: Інцидент вимкнено
       update_success: 'Інцидент %{record_id} успішно оновлений.'
       update_success_queue: 'Інцидент %{record_id} успішно оновлений у фоновому режимі.'
+      bulk_assign_limit_try_again: Ви не можете призначити більш ніж 100 інцидентів одночасно. Будь ласка, оберіть 100 або менше інцидентів та спробуйте знову.
     violation:
+      associated_violations: "Пов'язані порушення:"
       update_and_return: 'Оновити та повернутися до %{association}'
       save_and_return: 'Додати та повернутися до %{association}'
       pending: Очікує підтвердження
@@ -1337,11 +1477,15 @@ uk:
         killing: Вбивство дітей
         maiming: Покалічення дітей
         recruitment: Вербування та/або використання дітей
+        sexual_violence: Зґвалтування та інші форми сексуального насильства
         abduction: Викрадення
         attack_on: Напади на школу(и) та/або лікарню(і)
+        attack_on_hospitals: Напади на лікарню(і)
+        attack_on_schools: Напади на школу(и)
         military_use: Військове використання школи(іл) та/або госпіталю(ів)
         denial_humanitarian_access: Відмова у гуманітарному доступі для дітей
   incidents:
+    change_status: Змінити статус
     disable_dialog: Натиснувши ОК, ви зміните статус цього інциденту на "Деактивований"
     disable_dialog_title: Вимкнути інцидент
     disable_success: Успішно деактивований інцидент
@@ -1349,6 +1493,7 @@ uk:
     enable_dialog_title: Активувати інцидент
     enable_success: Успішно активовані інциденти.
     id: Ідентифікатор#
+    complete: Доступно в автономному режимі
     date_of_interview: Дата інтерв'ю
     date_of_incident: Дата інциденту
     incident_location: Місце події
@@ -1356,27 +1501,66 @@ uk:
     export: Експорт
     label: Інциденти
     filter_by:
+      filter_category: Категорія фільтру
       boys: Хлопці
       by_date: За датою
       children: Дитина
       girls: Дівчата
       incident_location: Місце події
+      status: Статус
       unaccompanied_separated_status: Статус захисту
       unknown: Невідомо
       verification_status: Статус підтвердження
       violence_type: Тип насильства
+      armed_force_group_party_name: Збройні сили, угрупування або інша сторона
       armed_force_group_type: Тип групи Збройних Сил
+      violations: Порушення
+      individual_violations: Окремі порушення
+      individual_age: Окремий вік
+      individual_sex: Окрема стать
+      victim_deprived_liberty_security_reasons: Позбавлена волі
+      reasons_deprivation_liberty: Які причини позбавлення волі?
+      victim_facilty_victims_held: Будь ласка, оберіть установу, в якій постраждала(і) перебувала(ли)
+      torture_punishment_while_deprivated_liberty: Чи піддавали дитину(дітей) катуванню або іншому жорстокому, нелюдському або такому, що принижує гідність, поводженню чи покаранню під час позбавлення волі?
+      verified_ghn_reported: Вкажіть GHN до якої включено цей інцидент
+      weapon_type: 'Вид зброї/використаний метод'
+      facility_impact: 'Вид і ступінь фізичного впливу'
+      facility_attack_type: 'Вид пов''язаного зі здоров''ям або освітою порушення'
+      child_role: 'Яку роль відігравала(и) дитина(діти) у збройних силах/угрупуваннях?'
+      abduction_purpose_single: 'Мета викрадення'
+      military_use_type: 'Вид військового використання'
+      types_of_aid_disrupted_denial: 'Тип допомоги/послуги, у наданні якої було відмовлено/перервано.'
+      late_verified_violations: Порушення, виявлені пізніше
+      perpetrator_category: Тип порушника
+      record_owner: Власник запису
     register_new_incident: Новий інцидент
+    reassign:
+      multiple_successfully: Primero переназначає %{select_records} інциденти(ів). Оновлення для всіх цих інцидентів може зайняти кілька хвилин. Зверніть увагу, що інциденти, які вже пов'язані з кейсами, не будуть назначені.
     selectable_date_options:
       date_of_first_report: Дата інтерв`ю
+      mrm_date_of_first_report: Дата первинного звіту члена CTFMR
+      ctfmr_verified_date: Дата рішення про верифікацію CTFMR
       incident_date_derived: Дата інциденту
     selected_records: 'Обрано %{select_records} інцидент(и/ів)'
     selected_all_records: 'Обрати усі %{total_records} інциденти, що відповідають цьому запиту.'
+    summary_mrm:
+      fields:
+        incident_total_tally:
+          label: Кількість жертв
+          boys: Хлопці
+          girls: Дівчата
+          unknown: Невідомо
+        incident_date:
+          label: Дата інциденту
+        incident_location:
+          label: Місце події
     survivor_code: Код постраждалого
     show_incident: 'Ідентифікатор інциденту %{short_id}'
     social_worker: Соціальний працівник
     violence_type: Тип насильства
     type_violence: Тип насильства
+    violation_summary: Підсумок
+    sort_by: Сортувати за
   key_performance_indicators:
     label: "Pulse/KPIs"
     case_assessment: "Оцінювання особової справи"
@@ -1575,6 +1759,8 @@ uk:
       central_warehouse: Центральний склад
       warehouse: Склад
       buyingstation: Купівельна станція
+      autonomous_region: Автономний Регіон
+      division_fr: 'Відділ'
     label: Локація
     name: Ім`я
     code: Код
@@ -1767,23 +1953,44 @@ uk:
   managed_reports:
     label: Інсайти
     total: Загальна кількість
+    violations_total: Порушення
     filter_by:
       date: Дата
       verification_status: Статус підтвердження
+      violation_type: Тип порушення
+      status: Статус
+      status_open: Відкрито
+      status_closed: Закрито
+      agency: Агенція
+      cp_incident_violence_type: Тип насильства
+    status_options:
+      open: Відкрито
+      closed: Закрито
+    referral_transfer_status_options:
+      in_progress: Очікує
+      accepted: Прийнято
+      rejected: Відхилено
+      done: Готово
     date_range:
       month: Місяць
       quarter: Квартал
       year: Рік
+      week: Тиждень
     date_range_options:
       this_quarter: Цей квартал
       last_quarter: Останній квартал
       this_month: Цей місяць
       last_month: Останній місяць
+      this_week: Цей тиждень
+      last_week: Минулий тиждень
       this_year: цей рік
       last_year: останній рік
       custom: Індивідуальний
     no_data: Для цієї статистики немає даних
     no_data_table: Для цієї статистики немає табличних даних
+    incomplete_data: Неповні дані
+    services:
+      name: Послуги
     violations:
       name: Порушення
       filter_options:
@@ -1851,6 +2058,11 @@ uk:
     reports: Звіти
     insights: Інсайти
     search: Пошук
+    phonetic_search:
+      label: Шукати по ПІБ?
+      help_text: Пошук по ПІБ тепер доступний
+    id_search:
+      title: Введіть ID кейса, щоб знайти існуючий запис.
     settings: Налаштування
     support: Підтримка
     support_menu:

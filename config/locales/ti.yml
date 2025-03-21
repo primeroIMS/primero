@@ -1,0 +1,3833 @@
+ti:
+  'true': 'እወ'
+  'false': 'ኣይኮነን'
+  accepted: ቅቡል
+  cancel: ሰርዝ
+  connection_lost: ኸዚ ኢንተርኔት የለን
+  field_mode_offline: ኸዚ ኣብ ስራሕ ኣሎ
+  connected: ምስ እንተርኔት ተራኺቡ
+  no_connection: ኢንተርኔት የለን
+  clear: ኣፅርይ
+  sandbox_ui: ' መርዓያ '
+  description: ዝርዝር መግለፂ
+  form: ቅጥዒ
+  minimum_reportable_fields: " ዝፅብፀብ ዓውዲ ቅጥዒ %{record_type}"
+  name: ሽም
+  offline: 'ኢንተርኔት የለን '
+  field_mode: "ዓውዲ ዓይነት 1%{mode}"
+  field_mode_on: "ተወሊዑ"
+  field_mode_off: "ጠፊኡ"
+  unavailable_offline: 'እንተርኔት የለን /ርክብ የለን '
+  online: 'ኣብ መስመር  ኣሎ '
+  yes_label: 'እወ'
+  or_label: ወይድማ/ወይከዓ /
+  select_provider: ኣቕራቢ ይምረፁ
+  select_language: ቋንቋ ይምረፁ
+  log_in_primero_idp: 'ብተጠቃሚ ሽም 1%{idp_name} ይእተዉ '
+  offline_submitted_changes: 'ኸዚ ካብ መስመር ወፃኢ እዮም ናብ መስመር እትንምለሱ ለውጥታትኹም ክለኣኽ እዩ '
+  updated: ተመሓይሹ
+  go: ቐፅል
+  select_idp_error: በይዝኦም መቅረቢ ይምረፁ
+  sync:
+    success: " 1%{records} መዛግብቲ ብዕዉት መንገዲ ተወሃሂዱ"
+    error:
+      create: '%{record_type} ክፍጠር ኣይከኣለን። በጃኹም ሓገዝ ይሕተቱ'
+      update: ናብ %{record_type} %{short_id}  ክመሓየሽ ኣይካኣለን። በጃኹም ንደገፍ ተወከሱ።
+  actions:
+    approvals: ምጽዳቕ
+    button: ተግባራት
+    close: ጉዳይ ዕፆ
+    description:
+      invalid: ዘይቅቡል መዝገብ
+      valid: ቅቡል መዝገብ
+    disable: ዘይሰርሕ
+    enable: ዝሰርሕ
+    incident_details_from_case: ዘጋጠሙ ክስተት ኣካትት
+    incident_from_case: ሓዱሽ ክስተት ፍጠር
+    next: ቀፃሊ
+    notes: መዘኻኸሪ የትሕዙ
+    previous: ' ቅድሚ ኸዚ ዝነበረ '
+    reopen: ዳግማይ ይኽፈቱ
+    request_approval: ንክፀድቕ ይሕተቱ
+    revoke: ዉሳነ ይመልሱ
+    save: ይመዝግቡ
+    services_from_case_creation_success: ናይ ኣገልግሎት መውሀቢ  መዝገብ ብዕዉት መንገዲ ገልግሎት ተፈጢሩ
+    services_section_from_case: 'ኣወሃህባ ኣገልግሎት ወሰኸ '
+    mark_for_offline: እንተርኔት እንትጠፍእ ምልክት ግበር
+  agencies:
+    label: ትካል
+    translations:
+      manage: ትርጉማት የማዓራርዩ
+  agency:
+    agency_logos: ኣርማ ትካል
+    code: መፍለይ ኮድ ትካል
+    description: 'መግለፂ '
+    disabled: ዘይሰርሕ
+    exclude_agency_from_lookups: እቲ ትካል ካብ ምፅራይ ፍቃድ ወፃኢ ግበሮ
+    exclude_agency_from_lookups_help: እቲ ትካል መጥቐሚ ገፅ  ዘይብሉ ምኳኑ ኣረጋግፅ(ኣብነት ናይቲ ትካል ኣርማ  እቲ  ክኢላ ዝጥቀም ምኳኑ አረጋግፅ
+    label: ትካል
+    logo_enabled: 'ናይዚ ትካል ኣርማ  ኣብ ፕርሜሮ/እስክሪን/ ኣርእይ '
+    logo_enabled_help: 'ናይዚ ትካል ኣርማ ኣብ ሲስተም ኣርእይ '
+    logo_icon: 'ንእሽተይ ዓርማ '
+    logo_icon_help: እዚ ኣርማ ኣብ ኣናእሽቱ ስክሪናት፡ ታብሌታትን ስልክታትን ይርአ ። ቅርፁ ድማ ትርብዒት ክኸውን ይግባእ
+    logo_large: ዓቢይ ኣርማ
+    logo_large_help: 'እዚ ብዓብይ እስክሪን መጠን  ከመኡውን ብፒዲኤፍ  ናብ ደገ ብዝለኣኹ ነገራት ይርአ '
+    messages:
+      created: ሓበሬታ ትካል ተመዝጊቡ ኣሎ
+      updated: ሓበሬታ ትካል ተመሓይሹ።
+    name: 'ሽም  እቲ ትካል '
+    pdf_logo_option: 'እቲ ዓርማ ብፕዲፍ መለክዕ ኣዳልዎ '
+    pdf_logo_option_help: 'መተሓሳሰቢ፡ ናይ ተጠቀምቲ ትካል ኣርማታት ብዝተፈላለየ መንገድታት ከምዝርከቡ ይፍለጥ። ስለዚ ንሶም  እቲ  ዓርማ  ንኹሎም ተጠቀምቲ  ንክረኸብዎ እንተደልዮም ጥራሕ  ኢዮም ዘለጋግፅዎ '
+    services: 'ናይ ትካል ግልጋሎታት '
+    terms_of_use: ' ናይ ኣጠቓቕማ ስምምዕነት '
+    terms_of_use_help: ፒዲአፍ ፋይላት ጥራይ እዩ ዝተፈቐደ
+    terms_of_use_download_button: ፒዲኣፍ ፋይል ኣውርድ
+    terms_of_use_enabled: 'ኣጠቃቅማ ስምምዐነት ኣርእይ '
+  approvals:
+    no_requests: ነዚ ጉዳይ ዝኸውን ሕቶ  ዝፀደቐ የለን
+    approved_by: ' ዘፅደቖ '
+    case_plan_type_label: ' ዓይነት ትልሚ ጉዳይ '
+    manager_comments_label: ርእይቶታት መካየዲ  ስራሕ
+    rejected_by: ዘይቅቡል ዝገበረ ኣካል
+    requested_by: ሓታቲ
+    requested_for_label: ንክፀድቕ ዝጠየቐ
+    requested_for_title: መፅደቒ ሕቶ 
+    response_for_label: መፅደቒ ኣካል 
+    response_for_title: ምፅዳቕ
+    action_plan: ትልሚ ስራሕ
+    gbv_closure:  ጉዳይ ፆታ ተኮር ጥቕዓት ምዕፃው 
+    status:
+      approved: ፀዲቑ
+      pending: ኣብ ከይዲ ዘሎ ጉዳይ 
+      rejected: ተቐባልነት ኣይረኸበን
+      requested: ተሓቲቱ
+  audit_log:
+    action: ተግባር
+    description: መግለፂ
+    record_owner: 'በዓል ዋና  መዝገብ '
+    timestamp: ግዜ
+    user_name: ዝፈፀመ ኣካል
+  bulk_export:
+    file_name: መዝገብ
+    record_type: ዓይነት
+    retry: እዚ ምቕያር ዘይግቡእ እዩ ። በይዞኦም መሊሶም ይሞክሩ
+    started_on: 'ተጀሚሩ '
+    status: ኩነታት
+  form_export:
+    label: ቅጥዒ ኣቀማምጣ ኣውፅእ
+    include_hidden: ዘይርኣዩ ቅጥዕታትን ዓውድታትን የካትቱ
+    file_name: ናይ ባዕልኻ ፋይል ሽም ፍጠ (Optional)
+    success_message: 'ፋይል ብዕዉት መንገዲ ተፈጢሩ '
+  buttons:
+    accept: ተቐበል
+    add: መዝግብ
+    add_another_option: ካልእ ኣማራፂ ወስኽ
+    add_note: መዘኻኸሪታት ወስኸ 
+    apply: ተግብር
+    approvals: 'መፅደቕቲ '
+    approve_action_plan: መተግበሪ ትልሚ ኣፀድቅ 
+    approve_bia: 'ናይቲ ህፃን ድሕንነትን ጥቅምን ዳህሳስ መሰረት የፅድቑ '
+    approve_case_plan: ትልሚ ኣፅድቕ
+    approve_closure: 'ምዕፃዉ ኣፅድቕ '
+    approve_gbv_closure: ምዕፃው ኣፅድቕ
+    back: ይመለሱ
+    bundle_export: ጥቕልል መዋቅር
+    bundle_import: ጥቕልል መዋቅር
+    cancel: ሰርዝ
+    change_password: መሕለፊ ቃል ይቐይሩ
+    check_status: ዘለዎ ኹነታት  የፃርዩ
+    clear_default: ውሁብ ይሰርዙ
+    clear_selection: ዝተመረፀ ይሰርዙ
+    clear: ይሰርዙ
+    close: ዕፆ
+    continue: ይቐፅሉ
+    create_case: ጉዳይ ክፈት
+    create_incident: ክስተት ይፍጠሩ
+    create_new_record: ሓድሽ 1% {model} ይፍጠሩ
+    delete: ኣጥፍእ
+    disable: ዘይሰርሕ
+    disable_photo_wall: እቲ  ስእሊ የጥፍእዎ
+    done: ተፈፂሙ
+    download: ኣውርድ
+    edit: ኣስተኻኸሎ
+    edit_subform: ንኡስ ቅጥዒ ኣርም
+    enable: ክሰርሕ ግበሮ 
+    enable_photo_wall: ስእሊ ኣዳልዉ
+    export: ኤክስፖርት ይግበሩ
+    filter: ኣፃርዮ
+    filter_clear: እቲ ዘፃረኻዮ ኣጥፍኣዮ
+    filter_label: 'ኣፃርዮ'
+    filter_restore: ናብ ዝነበረ ስርዓት መልሶ
+    find_tracing_match: ' አዛምድ '
+    flag_model: ጥቆማ 1%{model}
+    flag_records: ጥቆማ
+    flags: 'ጥቆማታት '
+    guidance: መምርሒ 
+    guiding_questions: መምርሒ ሕቶታት
+    import: ኣምፅእ
+    login: እቶ
+    logout: ውጻእ
+    link: ሊንክ
+    mark_for_mobile: ናይ ሞባይል ምልክት ግበር
+    new: ሓድሽ
+    ok: እሺ
+    print: ፕሪንት
+    reassign: መድብ
+    referral: 'ንግልጋሎት ልኣኽ '
+    referral_again: ንግልጋሎት ደጊምካ ልኣኽ 
+    reject: ኣይትቀበሎ
+    remove_referrals: ሪፈር የልዕሉ
+    reorder: እንደገና ኣዝዝ
+    request_approval: ንክፀድቕ ፍቓድ ሕተት
+    request_transfer: ዝውውር ሕተት
+    reunite: የራኽቡ
+    save: መዝግብ
+    save_and_add_service_provision: መዚግብካ  ኣወሃህባ ኣገልግሎት ወስኸ
+    save_and_return: መዝጊቦም ይመለሱ
+    save_continue: መዝጊቦም ይቐፅሉ
+    save_changes: ለውጥታት  ይመዝግቡ
+    select: ምረፅ
+    send: 'ለኣኽ '
+    sort_by_case: ጉዳያት
+    sort_by_tr: ' ሕቶታት ኣለሻ'
+    sync: ሲንክ
+    submit: የረክቡ
+    transfer: ኣተሓላልፍ
+    unflag_model: '%{model}  ምልክት ኣይትሃብ'
+    unflag_model_history: ' ሓባሪ   ታሪኽ   1%{model}'
+    unmark_for_mobile: ምልክት ሞባይል  ኣጥፍእ
+    update: ኣማሓይሽ
+    view: 'ይርኣዩ '
+    view_flags_history: 'ድሕሪ በይታ ርእ '
+    return_to_case: ይመለሱ
+    enable_webpush: መተሓሳሰቢ መሳርሒ
+    dialog_yes: "እወ"
+  resync_records:
+    id: መለለዪ መንነት
+    record_type: ዓይነት መዝገብ
+    action: ተግብር
+    date: ዕለት
+    last_attempt: ናይ መወዳእታ ፈተነ
+    create: ፍጠር
+    update: ኣዘምን
+    resync: የረክቡ
+  case:
+    label: ጉዳይ
+    create_new_case: ሓድሽ ጉዳይ ፍጣር
+    create_case: ጉዳይ ፍጠር
+    create: ፍጠር
+    add_new: ሓድሽ  ጉዳይ ምውሳኽ
+    back_to_family_details: ናብ ዝርዝር ስድራቤት ተመለስ
+    back_to_case: ናብቲ  ጉዳይ ተመለስ
+    back_to_results: ናብ ውፅኢት ተመለስ
+    back_to_search: ናብ ኣለሻ  ተመለስ
+    search_by: 'ኣለሻ ብ '
+    search_for: '1%{record_type} ኣለሻ '
+    results: ውፅኢታት
+    details: ዝርዝራት
+    select: ምረፅ
+    deselect: ኣይትመረፅ
+    enter_id_number: 'ነባር  መዝገብ ንምእላሽ  መፍለይ ቐፅሪ የእትዉ '
+    id_search_no_results: ኣብቲ ስርዓት ን“%{search_query}” ዝኾነ ምትእስሳር የለን። በጃኹም ሓድሽ መዝገብ ፍጠሩ።
+    messages:
+      disabled: 'ጉዳዩ ኣይሰርሕን '
+      update_success: 'ጉዳይ %{record_id} ተመሓይሹ።'
+      update_success_queue: 'ጉዳይ %{record_id}  ተመሓይሹ'
+      creation_success: 'ሓበሬታ ጉዳይ ተፈጢሩ'
+      creation_success_queue: 'ሓበሬታ ጉዳይ ተፈጢሩ'
+      already_matched: እዚ ሓታቲ ምስ ጉዳይካ ተዛሚዱ ኣሎ ።
+      already_matched_not_current_case: 'በኣብቲ  ስሲተም ውሽጢ  ምስቲ ዝተጠየቐ ጉዳይ ተዛማዲ  ሓበሬታ ተረኺቡ '
+      not_found_case: ' እቲ  ዝነበረ ጉዳይ ምስቲ ሓዱሽ ዝተፈጠረ ጉዳይ 1% {search_value} ኣይተዘመደን'
+      introductory_sentence: 'እቲ ህፃን መረዳእትኡ ንክምዝገብን ግልጋሎት ንክረክብን  በይዛኹም  ናይቲ ህፃና ፍቓደኝነት ሕተቱ '
+      consent_agreements_required: ካብቶም ፍቓደኛ ዝኾነሎም መማረፅታት እንተነኣሰ ሓደ መማራፂ ምረፁ
+      legitimate_basis_required: በይዝኦም ካብቶም  ሕጋዊ መሰረት ምደባታት   እንተነኣሰ ሓደ መማራፂ ምረፁ
+      confirm_create_case: ናይቲ ህፃን ጉዳይ ክትኸፍት ትደሊ ዲኻ?
+      case_referral_pending: ናይቲ ጉዳይ  ራፈራል ገና ይጽበ ዘሎ።
+      case_transfer_pending: ናይቲ ጉዳይ ዝውውር ገና ይጽበ ዘሎ።
+      case_no_approval_request: ነዚ ጉዳይ ዝኸውን ናይ ምፅዳቕ ሕቶ የለን።
+      bulk_assign_limit: ብሓደ ግዜ ልዕሊ 100 ጉዳያት  ክትምድብ ኣይትኸእልን።
+      bulk_assign_limit_try_again: ብሓደ ግዜ ልዕሊ 100 ጉዳያት ክትምድብ ኣይትኽእልን ኢኻ። በጃኹም 100 ጉዳያት ወይ ትሕቲኡ ምረጽ ድሕሪኡ እንደገና ፈትን።
+      referral_rejected: ሪፈራል ተቐባልነት ኣይረኸበን።
+      transfer_request_made: ነዚ ጉዳይ ዝውዋር ሕቶ ቐሪቡ  ኣሎ።
+    save: እቲ ጉዳይ መዝጊብካ ኣቕምጥ።
+    save_text: ቅድሚ ምቕፃልካ፡ በጃኻ ለውጥታትካ ኣብቲ ጉዳይ  መዝግብ።
+    skip_and_create: በይዝኦም ሓድሽ ጉዳይ ይፍጠሩ
+    search_existing: ኣብቲ ሲስተም ዘለዉ ጉዳያት ድለዩ።
+    search_helper_text: ተደጋጋሚ ጉዳያት ንከይንፈጥሩ ጥንቓቐ ይግበሩ።
+    consent_agreements: ኩሎም  ኣብ ስራሕ ዘለዉ ናይ ፍቓደኝነት  ቅጥዕታት ይምረፁ።
+    legitimate_basis: 'ኩሎም ኣብ ስራሕ ዘለዉ   ሕጋዊ  ኣሰራርሓ ምደባታት ይምረፁ '
+    family_linked_subform_delete_disabled: እዚ ንኡስ ቅጥዒ  ምስ መዝገብ ስድራቤት ዝተኣሳሰረ እዩ። በጃኹም  ነዚ ኣባል ስድራቤት ካብ መዝገብ ስድራቤት ኣወግድዎ ወይ ድማ ጉዳይ ናይቲ ኣባል ስድራቤት ካብ መዝገብ ስድራቤት ኣውፅእዎ።
+    workflow:
+      assessment: 'ዳሕሳስ '
+      case_plan: 'ትልሚ ጉዳይ '
+      closed: ተዓፅዩ።
+      created_on: ዝተፈጠረሉ
+      in_progress: 'ኣብ ከይዲ '
+      new: ሓዱሽ
+      on_label: 'ኣብ ስራሕ ዘሎ '
+      reopened: ዳግማይ ተኸፊቱ
+      service_implemented: ኣገልግሎት ተግባራዊ ኮይኑ
+      services_implemented: ኣገልግሎት ተግባራዊ ኮይኑ
+  linkedincidents:
+    label: ዝተኣሳሰሩ ፍጻመታት
+  activity_log:
+    label: ምዝገባ ንጥፈታት
+    accepted_transfer: '1% {to} ቅቡል ምትሕልላፍ%{record_type} 3%{record_id } ከሰብ 4% {from}'
+    rejected_transfer: '1% { to} ዘየቅቡል ምትሕልላፍ 2% {record_type} 3%{ record_id } ከሰብ 4% {from } ተነፂጉ።'
+  cases:
+    action_plan: ትልሚ ስራሕ
+    access_denied: "ነዚ ጉዳይ ናይ ምርኣይ መሰል የብልካን።"
+    age: ዕድመ
+    age_estimated: ግምታዊ ዕድመ?
+    agency: ትካል
+    apply_filter: ተግብር
+    approval_comments: ርእይቶታት
+    approval_radio: 'ይደሊ እየ '
+    approval_radio_accept: ኣፅድቕ
+    approval_radio_reject: ዘይምጽዳቕ
+    approval_select: እቲ ቅጥዒ ን...
+    approved_success_action_plan: '1% {approval_label } ንዝፀደቐ'
+    approved_success_assessment: '1% {approval_label } ንዝፀደቐ'
+    approved_success_bia: '1% {approval_label } ንዝፀደቐ'
+    approved_success_case_plan: '1% {approval_label } ንዝፀደቐ'
+    approved_success_closure: '1% {approval_label } ንዝፀደቐ'
+    approved_success_gbv_closure: '1% {approval_label } ንዝፀደቐ'
+    assessment:  ዳሕሳስ 
+    case_opening_date: ጉዳዩ ዝተኸፈተሉ ዕለት
+    case_plan: ትልሚ ጉዳይ
+    case_worker_code: 'መፍለይ ቑፅሪ  ጉዳይ ሰራሕተኛ '
+    clear_filter: 'ኣፅሪ '
+    close_dialog: እሺ ዝብል ቑልፊ እንትጥወቕ  ንቲ ጉዳይ ይዓፅዎ እዩ።
+    close_dialog_title: ጉዳይ ይዕፀው
+    close_success: ' እቲ ጉዳይ ብዘተኣምማን ኹነት ተዓፅዩ ኣሎ።'
+    closure: ምዕጻው
+    complete: ካብ መስመር ወፃኢ ይሰርሕ እዩ።
+    date_of_birth: 'መዓልቲ ልደት '
+    disable_dialog: እሺ ዝበል መጠወቂ ብምጥዋቕ ኩነታት ናይዚ ጉዳይ ናብ ዘይሰርሕ  ይቕይ እዩ ።
+    disable_dialog_title: ከም ዘይሰርሕ ግበሮ
+    disable_success: ብዘተኣማምን እቲ ጉዳይ ከይሰርሕ ተገይሩ።
+    enable_dialog: እሺ ዝበል መጠወቂ ብምጥዋቕ ኩነታት ናይዚ ጉዳይ ናብ ዝስራሕ ይቕይ እዩ ።
+    enable_dialog_title: 'ዝሰርሕ ጉዳይ ግበሮ '
+    enable_success: 'እቲ ጉዳይ ብዝግባእ ክሰርሕ ተገይሩ '
+    export: ኤክስፖርት
+    mark_for_offline:
+      title: ንኦፍላይን ምልክት ግበር
+      text: 'ሲስተም ኣብ ዘይሰርሓሉ እዋን እዞም ጉዳያት ምልክት ንክትገብር  እርግፀኛ ዲኻ? '
+      success: 'ሲስተም ኣብ ዘይሰርሓሉ እዋን እዞም ጉዳያት ምልክት ብምግባር  ኣብ ጥቅሚ ክውዕሉ ተገይሮም  '
+    filter_by:
+      3month_inactivity: ን3+ ኣዋርሕ
+      action_plan: 'መፈፀሚ ትልሚ '
+      age_0_5: 'ካብ 0 ክሳብ  5 '
+      age_12_17: ካብ 12 - 17
+      age_18_more: ልዕሊ 18
+      age_6_11: ካብ 6 ክሳብ 11
+      age_range: ዕድመ ክልል
+      agency: ትካል
+      approval_status: 'ኹነታት መፅደቕቲ '
+      approvals:
+        approved: ፀዲቑ
+        pending: ገና ኣብ ምፅባይ
+        rejected: ተነፂጉ
+      bia: ናይቲ ህፃን ጥቅምን ደሕንነትን  ዳሕሳስ
+      by_date: ብዕለት
+      case_open_date: ጉዳዩ ዝተኸፈተሉ ዕለት
+      case_plan: ትልሚ ጉዳይ
+      closed: ' ጉዳዩ ተዓፅዩ ኣሎ'
+      closure: ምዕጻው
+      current_location: 'ኸዚ ዘለሉ ቦታ '
+      date: ዕለት
+      displacement_status: 'ኩነታት ምፍንቓል '
+      district: ወረዳ
+      duplicate: ድግግሞሽ
+      enabled_disabled: ዝሰርሕ/ዘይሰርሕ
+      female: ኣንስተይቲ
+      flag: ምለክት ተገይሩሉ።
+      flag_label: ምልክት ተገይሩሉ ዶ?
+      gbv_closure: 'ኹነታት ጉዳይ ምዕፃው ፆታዊ መጥቃዕቲ '
+      high: ልዑል
+      low: ትሑት
+      male: ተባዕታይ
+      medium: ማእኸላይ
+      mobile: ሞባይል
+      mobile_label: ንሞባይል ምልክት ተገይሩ ዶ?
+      my_cases: ዝሓዝኹዎም ጉዳያት
+      no_action: 'ውሳነ  የለን '
+      no_activity: ንጥፈት የለን
+      open: ክፈት
+      other: ካልእ
+      photo: ፎቶ
+      photo_label: ፎቶ ኣለዎ ዶ?
+      protection_concerns: ስክፍታታት ከለላ
+      protection_status: ኩነታት ከለላ
+      record_state: ' ኩነታት ምዝገባ ጉዳይ '
+      referred_cases: 'ናባይ ሪፈር ዝተብሃሉ ጉዳያት '
+      registration_date: 'መዓልቲ ምዝገባ '
+      risk_level: 'ብርኪ ስግኣት '
+      sex: 'ፆታ '
+      social_worker: ጉዳይ ማሕበራዊ ክኢላ
+      status: ኹነታት
+      transferred: ተዛዊሩ
+      type_of_risk: 'ዓይነት ስግኣት '
+      urgent_protection_concern: 'ህፁፅ ከለላ ዝደልዩ '
+      user_group: 'ጉጅለ ተጠቀምቲ '
+      workflow: ፍሰት ስራሕ ጉዳያት
+      include_disabled: ኣካል ጉዱኣት  ኣካትት።
+    flag_summary: ' ናይ ጥቆማ መጠቃለሊ '
+    full_name: ሙሉእ ሽም
+    gbv_closure: ጉዳይ ፆታዊ መጥቃዕቲ ምዕፃው
+    hide_name: 'ሽም እቲ ህፃን ሓብኣዮ '
+    hide_name_error: ለውጥታትካ ኣብ እትዕቅበሉ እዋን ጌጋ ኣጋጢሙ። በጃኹም ደጊምኩም ፈትኑ።
+    id: 'መፍለይ ቑፅሪ '
+    label: ጉዳያት
+    my_filters: ናተይ መፃረይ
+    name: ሽም
+    notes_dialog_title: መዘኻኸሪታት ምውሳኽ
+    notes_form_notes: መዘኻኸሪታት
+    notes_form_subject: 'ብዓል ዋና '
+    ok: እሺ
+    order_by:
+      label: ምስራዕ ብ
+      most_recently: ኣብ ቀረባ እዋን
+      name: ሽም
+    owned_by: ወናኒ መዝገብ
+    owned_by_agency: ኤጀንሲ ወናኒ መዝገብ
+    photo: ፎቶ
+    photos: ፎቶ
+    quick_view:
+      tracing_message: 'መተሓሳሰቢ፡ እዙይ ህፃን ምስዝደሊ ሰብ ተመሳሳሊ መረዳእታ ኣሎ።ዝለኾነ ንተወሳኺ ስራሕ ናይቲ ህፃን ድሌት እንተኾይኑ ምስቲ ናይቲ ህፃን ጉዳይ ዝሓዘ ጉዳይ ክኢላ ይዘራረቡ'
+    reassign:
+      multiple_successfully: ፕሪሜሮ %{select_records}ጉዳይ（ያት） ዳግማይ ይምድብ ኣሎ። ኩሎም እዞም ጉዳያት እዚኦም ንኽመሓየሹ ሓያሎ ደቓይቕ ክወስድ ይኽእል እዩ።
+    referral_done: '''ተሰሪሑ'' ዝብል እንትጥወቅ ምስቲ ጉዳይ ዝተደሓሓዘ ናይ ሪፈራል ስራሕ    ከምዝወዳእኻ የርኢ።ነገር ግን  እቲ ተሰሪሑ ዝብል ቑልፊ  ሓደ ጊዜ ተተጠዊቑ መሊሶም ናብቲ መዝገብ ክምለሱ  ኣይኽእሉን'
+    referral_done_success: ሪፈራል ተፈፂሙ።
+    referral_accepted_header: ሪፈራል ተቐበል
+    referral_accepted: ርግፀኛ ዲኻ? ሕጂ ምስዚ ቅብብለ  ዝተኣሳሰር ስራሕ ናይ ምዝዛም ሓላፍነት ክትወስድ ኢኻ።
+    referral_accepted_success: ሪፈራል ተቐባልነት ረኺቡ ኣሎ።
+    referral_rejected: አይትቀበል' ዝብል እንተጠዊቅኻ ኣብ እዚ እዋን ሪፈራል ንምቅባል ድሉው ዘይምዃንኻ የርኢ።ዝለዚ በይዝኦም እቲ ሪፈራል ዘይቅቡል ዝገበርሉ ምኽንያት የእትዉ።
+    referral_rejected_success: 'ሪፈራል ቅቡልነት ኣይረኸበን '
+    register_new_case: ሓድሽ ጉዳይ
+    registration_date: ዕለት ምዝገባ
+    rejected_success_action_plan: '1% {approval_label} ኣይፀደቐን።'
+    rejected_success_assessment: '1% {approval_label} ኣይፀደቐን።'
+    rejected_success_bia: '1% {approval_label} ኣይፀደቐን።'
+    rejected_success_case_plan: '1% {approval_label} ኣይፀደቐን።'
+    rejected_success_closure: '1% {approval_label} ኣይፀደቐን።'
+    rejected_success_gbv_closure: '1% {approval_label} ኣይፀደቐን።'
+    reopen_dialog: እሺ ዝብል ቁልፊ   ብምጥዋቕ ኩነታት ናይዚ ጉዳይ ንኸኸፈት ይገብሮ እዩ
+    reopen_dialog_title: እቲ ጉዳይ ደጊምኻ ኸፈት
+    reopen_success: 'እቲ ጉዳይ ዳግማይ ብዕዉት ተኸፊቱ '
+    request_approval_failure: ጌጋ ኣጋጢሙ ኣሎ  በይዝኦም ሓገዘ ይሕተቱ
+    request_approval_select: 'ጉዳዩ ንክፀድቅ ፍቃድ ይሕተቱ '
+    request_approval_success_action_plan: ጉዳዩ ንክፀድቕ ተሓቲቱ 1% {approval_label'} ቅጥዒ።
+    request_approval_success_assessment: ጉዳዩ ንክፀድቕ ተሓቲቱ 1% {approval_label'} ቅጥዒ።
+    request_approval_success_case_plan: ጉዳዩ ንክፀድቕ ተሓቲቱ 1% {approval_label'} ቅጥዒ።
+    request_approval_success_closure: ጉዳዩ ንክፀድቕ ተሓቲቱ 1% {approval_label'} ቅጥዒ።
+    request_approval_success_gbv_closure: ጉዳዩ ንክፀድቕ ተሓቲቱ 1% {approval_label'} ቅጥዒ።
+    request_approval_type_of_case_plan: ዓይነት  ጉዳያት መፈፀሚ ትልሚ  መፅደቒ
+    request_approve_action_plan: '  መፈፀሚ ትልሚ ስራሕ ኣፅደቕ?'
+    request_approve_bia: 'ዳሕሳስ ጉዳይ መፀደቕ？ '
+    request_approve_case_plan: ናይ ጉዳይ መፈፀሚ ትልሚ መፅደቒ
+    request_approve_closure: ምዕፃው ጉዳይ ኣፅድቕ？
+    request_approve_gbv_closure: ናይ ፆታዊ ጥቅዓት ጉዳይ መዕፀዊ  መፅደቒ?
+    revoke_failure: 1%{transition_type} ኣብ ዝስረዘሉ እዋን ጌጋ ኣጋጢሙ፣ በጃኹም ንደገፍ ርኸቡ።
+    revoke_message: ‘ስረዝ’ ብምጥዋቕ፡ እቲ 1%{ዓይነት_መሰጋገሪ} ተቐባሊ ናብቲ ጉዳይ ዝረኽቦ መእተዊ ከተወግዶ ኢኻ።
+    revoke_success_message: ጉዳዩ 1%{case_id} 2%{transition_type} ናብ 3%{recipient_username} ተላዒሉ።
+    save_filter: መዝግብ
+    selected_all_records: ኩሎም ምስዚ ሕቶ ዝሰማምዑ %{total_records} ጉዳያት ምረፅ።
+    selected_records: '%{select_records} ጉዳይ(ታት) ተመሪጹ'
+    selected_records_assign: '%{select_records} ጉዳይ(ታት) ተመሪጹ'
+    sex: ፆታ
+    show_case: 'መለለዪ እቲ ጉዳይ1%{ short_id}'
+    social_worker: ማሕበራዊ ክኢላ ጉዳይ ኣተሓሕዛ
+    status: ኩነታት
+    summary:
+      label: መጠቓለሊ
+      find_match: ተመሳሳሊ ድለ
+      matched_trace: 'ተዛማዲ ቑፅሪ 1%{ ማሕበራዊ /ክኢላ}'
+      cannot_find_matches: ዝዛመድ/ዝሰማማዕ መረዳእታ  ክረክብ ኣይከኣለን። ምስቲ ጉዳይ ርክብ ዘለዎም መረዳእታ ንምርካብ ፍቃድን ኹነታትን ኣይተውሃበን።
+      matched: 'ተዛሚዱ '
+      fields:
+        consent_for_tracing:
+          label: እቲ ህፃን ምስ ስድርኡ  ምይይጥ ንክግበር  ፍቃድ ሂቡ
+          help_text: 'ናይቲ ህፃን መልሲ ኣይፋሉን ተኾይኑ ናይ ምትእልላሽ ፕሮግራም  ኣይካየድን '
+        wishes_child_family_tracing:
+          label: እቲ ህፃን ስድርኡ ንክእለሹ ድሌት ኣሎዎ ዶ?
+        wishes_reunification:
+          label: እቲ ህፃን ምስ ስድርኡ ምትዕራቅ ይደሊ ዶ?
+          options:
+            yes_as_soon_as_possible: 'እወ እቲ ህፃን ምስድርኡ ብሕፁፅ  ንክተዓረቅ ድልው እዩ '
+            yes_but_later: 'እወ ግን ድሕሪ ተወሰነ እዋን እዩ '
+            not_sure: 'እርግፀኛ ኣይኮነን '
+            'no': 'ንምትዕራቅ ኣይደልን '
+        data_confidentiality_link:
+          label: ምስጢራዊነት ሕሉው ምዃኑ ኣረጋግፅ
+        child_wishes_link:
+          label: ናይቲ ህፃን ድሌት/ትምኒት/ ርኣ
+    survivor_code: 'ናይ ጥቑዕ ህፃን  መፍለይ ቁፅሪ  '
+    transfer_accepted: 'ተቐቢለ ዝበል ተተፅዒንካ  ነቲ ጉዳይ ሓላፍነት ወሲድኻ ከምዝመላእኻዮ  የመልክት።ሓደ ጊዜ ተቐቢለ ዝብል  ተተፅዒነኖም ብቐፃሊ ናይቲ ጉዳይ ዝከታተል ብዓል ሞያ ምኳኖም ይፍለጡ። '
+    transfer_managed_user_accepted: '''ምቅባል'' እንተ ጠዊቕካ፡ %{transitioned_to} ተሓታቲ ናይዚ ጉዳይ ክኸውን እዩ፤ ''ቅባል'' ምስ ጠወቕካ፡ %{ምስግር_ናብ} ኣብቲ ስርዓት ወናኒ መዝገብ ክኸውን እዩ።'
+    transfer_managed_user_rejected: '''ንፀግ'' ብምጥዋቕ 1%{transitioned_to} ኣብዚ እዋን''ዚ ሓላፍነት ናይዚ ጉዳይ ክቕበል ድሉው ከምዘይኮነ ትሕብር ኣለኻ። ነዚ ጉዳይ ትነጽግዎ ዘለኹም ምኽንያት ኣእትዉ፤ ሓንሳብ ''ንፁግt'' ምስ ጠወቕካ %{transitioned_to} ድሕሪ ደጊም ነዚ መዝገብ ጉዳይ ምብጻሕ ኣይክህልዎን እዩ።'
+    transfer_accepted_rejected: ጉዳይ እቲ ህፃን 1% {transitioned_to} ምትሕላፍ /ምዝዋር  ተቐባልነት ኣይረኸበን
+    transfer_accepted_success: 'ጉዳይ እቲ ህፃን ምትሕልላፍ  ተቐባልነት ረኺቡ አሎ '
+    transfer_reject_reason_label: ናይ ዘይምቅባል ምኸንያት ግለፅ
+    transfer_rejected: ተቐበል' ብምጥዋቕ ናይዚ ጉዳይ ሓላፍነት ትቕበል፤ ሓንሳብ â€ ̃ተቐበል' ምስ ጠወቕካ ኣብቲ ስርዓት ወናኒ መዝገብ ክትከውን ኢኻ።
+    view_name: ናይቲ ህፃን ሽም ርኣ
+    sort_by: ብቅደም ሰዓብ ኣቅምጦ
+  change_logs:
+    filters:
+      form: ቅጥዒ
+      field: 'መደብ '
+    add_subform: '“ 1%{subform_name}” ንኡስ ቅጥዒ ምእታው #2%{short_id} ተወሰኸ።'
+    changes_subform: 'ናብ “%{subform_name}” ንኡስ ቅርጺ ይቕይሮ '
+    create: ሪከርድ ተፈጢሩ
+    deleted_subform: 'ምውጋድ “%{subform_name}” ንኡስ ቅጥዒ ምእታው # %{short_id}'
+    label: 'ምልክት ቐይር '
+    see_details: ብዕሙቐት ርኣዮ
+    change: 'ካብ “1%{from_value}” ናብ “%{to_value}”'
+    updated_subform: '“%{subform_name}” ንኡስ ቅጥዒ ምእታው #%{short_id} ዝተመሓየሸ።'
+    update_subform: '“1%{subform_name}” ንኡስ ቅጥዒ ተሓዲሱ'
+    from: 'ካብ '
+    to: 'ናብ '
+  children:
+    selectable_date_options:
+      assessment_requested_on: 'መዓልቲ ዳሕሳስ '
+      closure_approved_date: 'ጉዳይ መዕፀዊ መዓልቲ '
+      created_at: ' ጉዳይ መክፈቲ መዓልቲ'
+      date_case_plan_initiated: ' ጉዳይ ትልሚ ዝተፅሓፈሉ ዕለት '
+      date_of_creation: 'ናይቲ ህፃን ጉዳይ ዝኸፈተሉ ዕለት '
+      registration_date: 'ናይቲ ህፃን ጉዳይ ዝምዝገበሉ ዕለት '
+      followup_date: 'ክትትል ዝግበረሉ ዕለት '
+      date_reunification: 'ምትዕራቅ ዝፍፀመሉ  ዕለት '
+      tracing_date: 'ምትእልላሽ ዝጅመረሉ  ዕለት '
+      service_implemented_day_time: 'ግልጋሎት ዝተወዳኣሉ ዕለት '
+  configurations:
+    apply_label: እርግፀኛ ድዮም ? እዚ  መስተኻኸሊ  እንተርእዮም  መረዳእታ ናብ ሲስተም እናእተዉ እዮም  ፡፡ መረዳእቶኦም ብትኸኸል ምእታዎን ምምዝጋቦምን የረጋግፁ።እቲ መረዳእታ በኣግባቡ  እንተዘይኣትዩ ግን እቲ ዘእተውዎ መረዳእታ መሊሶም  ኣይረኸብዎን
+    apply_label_bold: ለውጢ ኣብዝገበርሉ እዋን ንዝተወሰኑ ደቃይቅ እቲ ፕሪሜሮ  ንከይሰርሕ ይኸእል እዩ
+    version_mismatch_tooltip: እዚ ውቅር እዚ ካብቲ መርበብ ሓበሬታኻ ዘካይዶ ዘሎ ዝለዓለ ስሪት መጀመርታ ተጠቒምካ ስለ ዝተፈጥረ፡ ክትጥቀመሉ ኣይትኽእልን ኢኻ። በጃኹም ነዚ ውቅር ንምትግባር ተጸበዩ ክሳብ እቲ ናይ መወዳእታ ስሪት መጀመርታ ትሰርሕ።
+    send_header: ናብ ዋና መስርሒ ክፍሊ ይልኣኹ
+    send_text: ርግጸኛ ዲኻ? Send እንተ ጠዊቕካ ነዚ ውቅር ናብ ዝስርሐሉ ቦታ ናትካ ክትሰዶ ኢኻ። እዚ ውቅር እዚ ኣብቲ መርበብ ሓበሬታ ዘሎ ኣመሓዳሪ ብኢዱ ክሳብ ዘይተግብሮ ኣብ ምፍራይ ኣይክትግበርን እዩ።
+    attributes:
+      created_by: 'ጉዳይ  ዝሰርሓ ኣካል '
+      date_created: 'ጉዳይ ዝተሰርሓሉ ዕለት '
+      description: መግለፂ
+      last_applied_by: 'ኣብ መወዳእታ ዝተግበረ ክኢላ '
+      last_applied_on: ኣብ መወዳእታ ዝተግበረ
+      name: 'ሽም '
+      version: ኮንፊጉሬሽን ቨርዥን
+      primero_version: ፕሪሜሮ ቨርዥን
+    delete_label: 'እዚ ክትገብር ከም እትደሊ ርግጸኛ ዲኻ? እዚ ንኹሎም እቶም ቅጥዕታት ካብቲ እዚ ውቅር ዝተፈጥረሉ እዋን ዝውክል እዩ። ነዚ ምዝርዛር ምስ ሰረዝካዮ ንድሕሪት ተመሊስካ ነዞም ቅጥዕታት ክትመልሶም ኣይትኽእልን ኢኻ። '
+    explanation: 'ኣቕምጥ ምጥዋቕ ኣብዚ እዋን እዚ ናይ ኩሎም ህሉዋት ናይ ውቅር ቅጥዕታት (ንኣብነት: ተራታት፣ ትካላት፣ ቅጥዕታት) መዝገብ ይፈጥር። ድሕሪ ምዕቃብካ ነዞም ለውጥታት ናብ ካልእ ኣብነት ናይ ፕሪሜሮ ክትደፍኦም ትኽእል ኢኻ። ኣብ መጻኢ፡ ክትመልሶ እትደሊ ናይ ውቅር ለውጢ እንተገይርካ፡ ነዚ ናይ ውቅር መዝገብ ተጠቒምካ ንኹሉ እቲ ኣብዚ እዋን እዚ ዝነበረካ ናይ ውቅር ለውጥታት ክትመልሶ ትኽእል።'
+    label: 'መስተኻኸሊታት '
+    label_new: ' ሓዱሽ መስተኸኸሊ  መዋቅር'
+    messages:
+      applied: እቲ መዋቅር  ብፅቡቅ ተሰሪሑ
+      created: 'መዋቀር  ብፀቡቅ ተፈጢሩ '
+      deleted: ውቅርታት ብፅቡቅ ተሰሪዙ
+      updated: 'ውቅርታት ብፅቡቅ ተሓዲሱ '
+      sent: ውቅር ናብ ምፍራይ ምልኣኽ። በጃኹም ውቅርኹም መጺኡ ድዩ ኣይመጸን ንምርኣይ ኣብቲ ናይ ምፍራይ ቦታ መርምሩ።
+    not_allowed: 'ኣይተፈቐደን '
+    unavailable_server: 'ንግዚኡ ግልጋሎት የለን '
+  contact:
+    field:
+      email: 'ኢሜይል '
+      location: 'ከባቢ '
+      name: ሽም
+      organization: ትካል
+      other_information: 'ካሊእ ሓበሬታ '
+      phone: 'ስልኪ '
+      position: 'ኣንፈት '
+      primero_version: ፕሪመርዮ ቨርዥን
+      support_forum: 'ናይ ድጋፈ ፎረም  '
+      system_version: ሲስተም ቨርዥን
+    info_label: '  ሓበሬታ መርከቢ ኣድራሻ '
+    updated: ርክብ ሓበሬታ ብዓወት ተሓዲሱ።
+  code_of_conduct:
+    field:
+      title: 'ርእሲ '
+      content: 'ዝርዝር '
+      created_on: 'ተፈጢሩ '
+      created_by: ዝተፈጠረ
+    info_label: 'ስነ ምግባር '
+    updated: ስነምግባር ተመሓይሹ
+  dashboard:
+    activity: 'ዝርዝር ስራሕቲ '
+    admin_only: መተግበሪ መተግበሪ ሰማእታት %{ምትእስሳር} ንቕድሚት
+    all_cases: 'ኹሎም ጉዳያት '
+    all_services_implemented: 'ኹሎም ግልጋሎታት ተፈፂሞም '
+    and: 'ን'
+    action_needed:
+      awaiting_acceptance: ተቐባልነት ምፅባይ
+      header: 'ውሳነ ዘድልዮ ጉዳይ '
+      new: ሓዱሽ
+      new_this_week: 'ኣብዚ ሰሞን ሓዱሽ ጉዳይ '
+      referrals: ሪፈራል
+      transfers: 'ዝውውራት '
+    approval_action_plan_approved: ዝፀደቐ
+    approval_action_plan_pending: ገና ኣብ ምፅባይ
+    approval_action_plan_pending_group: 'ዝርዝረ መተግበሪ ትልሚ '
+    approval_action_plan_rejected: ቅቡልነት ዝሰኣነ
+    approval_assessment_approved: ዝፀደቐ
+    approval_assessment_pending: ገና ኣብ ምፅባይ
+    approval_assessment_pending_group: 'ዳሕሳስ '
+    approval_assessment_rejected: 'ተቐባልንት ዘይረኸበ  ጉዳይ '
+    approval_case_plan_approved: ዝፀደቐ
+    approval_case_plan_pending: ዝፀደቐ
+    approval_case_plan_pending_group: 'ትልሚ ጉዳይ '
+    approval_case_plan_rejected: 'ቅቡል ዘይኾነ '
+    approval_closure_approved: ዝፀደቐ
+    approval_closure_pending: ገና ኣብ ምፅባይ
+    approval_closure_pending_group: 'ጉዳይ ምዕፃው '
+    approval_closure_rejected: 'ቅቡል ዘይኾነ '
+    approval_gbv_closure_approved: ዝተመሓሸ
+    approval_gbv_closure_pending: ገና ኣብ ምፅባይ
+    approval_gbv_closure_pending_group: 'ጉዳይ ፆታ መጥቃዕቲ ምዕፃው  '
+    approval_gbv_closure_rejected: 'ቅቡል ዘይኾነ '
+    approvals: ዝፀደቐ
+    approvals_action_plan: 'ዝርዝር ትልሚ '
+    approvals_assessment: ዳሕሳስ
+    approvals_case_plan: 'ጉዳይ ትልሚ '
+    approvals_closure: 'ምዕፃው '
+    approvals_gbv_closure: 'ጉዳይ ፆታ መጥቃዕቲ ምዕፃው '
+    approved: ዝፀደቐ
+    assessment: 'ዳህሳስ '
+    awaiting_acceptance: ተቐባልነት ምፅባይ
+    cases_by_social_worker_total: 'ድምር '
+    cases_by_social_worker_new_or_updated: 'ሓዱሽን ዝተመሓሸን ጉዳይ '
+    case_id: 'ጉዳይ መፍለይ ቑፅሪ '
+    case_management_service: 'ምሕደራ ጉዳይ ግልጋሎት '
+    case_overview: 'ጉዳያት ህፃናት '
+    case_plan: 'ጉዳይ ትልሚ '
+    case_risk: 'ጉዳያት ብብርኪ  ዳሕሳስ '
+    case_stat_by_approval_type: ዝፀደቐ
+    case_stat_by_assessment_level: 'ጉዳያት ብብርኪ ዳሕሳስ '
+    case_stat_referrals: ሪፈር
+    case_stats: 'ጉዳያት ህፃናት '
+    case_worker: 'ጉዳይ ህፃናት ማሕበራዊ ክኢላ '
+    cases_by_social_worker: 'ብማሕበራዊ  ጉዳይ ክኢላ  ህፃናት ዝተትሓዙ  ጉዳያት '
+    cases_by_task_overdue: 'ዝተዘናጉዑ ስራሕቲ '
+    cases_by_workflow: 'ጉዳያት ቅደም ሰዓብ '
+    cases_this_week: 'ጉዳያት እዚ ሰሙን '
+    cases_to_assign: 'ዝምደቡ ጉዳያት '
+    closed: 'ዝተዓፀዉ '
+    closed_last_week: 'ኣብ (ሕሉፍ ሰሙን )ዝተዓፀዉ ጉዳያት '
+    closed_this_week: ኣብ ዚ (ሰሙን ዝተዓፀዉ )
+    comprehensive_need_intervention: 'ክሉ ዘካተተ ግብረ መልሲ '
+    count_new_bia_approvals:
+      one: '%{stat} new %{stat_type} Approval'
+      other: '%{stat}ሓዱሽ %{stat_type}ምፅዳቕ'
+    count_new_case_plan_approvals:
+      one: '%{stat} new %{stat_type} Approval'
+      other: '%{stat} ሓድሽ %{stat_type} ምጽዳቕ'
+    count_new_closure_approvals:
+      one: '%{stat} new %{stat_type} Approval'
+      other: '%{stat} ሓድሽ %{stat_type} ምጽዳቕ'
+    count_pending_approval_total:
+      one: 'You have %{stat} pending %{stat_type} Approval '
+      other: '%{stat} ኣብ ምጽባይ %{stat_type} ምጽዳቕ ኣለካ '
+    count_pending_transfers:
+      one: 'You have %{stat} pending Transfer '
+      other: '%{stat} ኣብ ምጽባይ ዝውውር ኣለካ'
+    count_records_new:
+      one: and %{stat} new case
+      other: ቆንዓን %{stat} ጀስቲ መልከፍቲ
+    count_records_total:
+      one: 'You have %{stat} total case '
+      other: '%{stat} ጠቕላላ ጉዳያት ኣለዉኻ'
+    count_referrals_new:
+      one: and %{stat} new referrals
+      other: ከምኡውን %{stat} ሓደስቲ ሪፈራላት
+    count_referrals_total:
+      one: 'You have %{stat} total referral '
+      other: '%{stat} ጠቕላላ ሪፈራላት ኣለካ'
+    count_rejected_approval_total:
+      one: 'and %{stat} rejected %{stat_type} Approval '
+      other: ከምኡውን %{stat} %{stat_type} ምጽዳቕ ነጺጉ
+    count_rejected_transfers:
+      one: 'and %{stat} rejected Transfer '
+      other: ከምኡውን %{stat} ዝተነጽገ ዝውውር
+    count_risk_level_new:
+      one: and %{stat} new %{stat_type} risk case
+      other: ከምኡውን %{stat} ሓደስቲ %{stat_type} ሓደጋታት
+    count_risk_level_total:
+      one: 'You have %{stat} %{stat_type} risk case '
+      other: '%{stat} %{stat_type} ናይ ሓደጋ ጉዳያት ኣለዉኻ'
+    count_waiting_for_acceptance_transfers: ተቐባልነትካ ዝጽበዩ %{stat} ዝውውር ኣለዉኻ
+    current_owner: 'ኸዚ ጉዳዩ ዝሓዞ '
+    dash_case_incident_overview: 'ናተይ ጉዳያት '
+    dash_group_overview: 'ናይ ጉጁለይ ጉዳያት '
+    dash_shared_from_my_team: 'ካብ ጉጅለይ ዝበፅሓኒ '
+    dash_shared_with_me: ምሳይ ኣካፊሉ።
+    dash_shared_with_my_team: ምስ ጉጅለይ ኣካፊለዮ
+    dash_shared_with_my_team_overview: ምስ ጉጅለይ ዝተኻፈለ (ሓፈሻዊ ትሕዝቶ)
+    dash_shared_with_others: ምስ ካልኦት ዝካፈል
+    dash_national_admin_summary: ናይ ኣማሓዳሪ መጠቓለሊ
+    dash_violations_category_verification_status: 'በዝሒ ክስተታት ብሓደ መጠቃለሊ '
+    dash_violations_category_region: 'ድመር ዝተረጋገፁ ጉዳያት ብክልል በርኪ '
+    dash_perpetrator_armed_force_group_party_names: 'በዝሒ ክስተታት ምስ ጥቅዓት ፈፀምቲ እንትነፃፀር '
+    date: ዕለት
+    date_of_incident: ክስተት ዘጋጠመሉ ዕለት
+    date_of_interview: ' ቃለ መሕትት   ዝተገበረሉ ዕለት：'
+    due: 'ዝተደናጎየ '
+    flagged: 'ጠቋሚ '
+    flagged_by: 'ዝጠቆመ '
+    flagged_by_me: 'ብኣየይ ዝተጠቆመ '
+    flagged_by_other: 'ብካሊእ ሰብ ዝተጠቆመ '
+    flagged_cases: ዝተጠቆሙ  ጉዳያት
+    follow_up: ክትትል
+    forms: ቅጥዕታት ገፅ
+    geographic_area: ጂኦግራፊያዊ ከባቢ
+    group_overview_closed: ዕፅው
+    group_overview_open: ክፈት
+    high_level: ላዕሊ
+    high_risk: ልዑል ቀዳምነት ምሃብ
+    immediate_response: ቅልጡፍ ምላሽ ምሃብ
+    in_progress: ኣብ ከይዲ
+    incident_id: 'መፍለዪ ቁፅሪ ፍጻመ'
+    incident_location: ናይ ፍጻመ ቦታ
+    incident_status_open: ክፈት
+    last_updated: ናይ መወዳእታ ዝተመሓየሸ
+    link_see_all: ኩሉ ርአ
+    low_level: ትሑት
+    low_risk: ትሑት ቀዳምነት ምሃብ
+    manager_count_closed_total:
+      one: 'and %{stat} closed case '
+      other: ከምኡውን 1% {stat} ዝተዓጽዉ ጉዳያት
+    manager_count_open_total:
+      one: 'You have %{stat} open case '
+      other: ' 1% {stat} ክፉት ጉዳያት ኣለዉኻ'
+    manager_transfers_totals:
+      one: 'You have %{stat} %{stat_type} Transfer '
+      other: '%{stat} %{stat_type} ዝውውር ኣለካ'
+    match_result: ውጽኢት ምትእስሳር
+    medium_level: 'ማእኸላይ '
+    medium_risk: ማእከላይ ቀዳምነት ምሃብ
+    missed_cases: ዝጠፍኡ ጉዳያት
+    name: ሽም
+    name_or_survivor_code: ስም ወይ መፍለይ ቁፅሪ
+    near_deadline: ኣብ ቀረባ ናይ መወዳእታ ግዜ
+    new: ሓድሽን እዋናዊን
+    new_child_assigned_to_you: ሓደሽቲ ጉዳያት ዝተመደቡልካ
+    new_incident: ሓደሽቲ ፍጻመታት
+    new_incident_assigned_to_you: ሓደሽቲ ዝተመደቡ ፍጻመታት
+    new_last_week: ሓድሽ (ዝሓለፈ ሰሙን)
+    new_or_updated: ሓድሽ ወይ እዋናዊ
+    new_referred: ሓደሽቲ ሪፈራላት
+    new_service_provision: ሓድሽ ድንጋገታት ኣገልግሎት
+    new_this_week: ሓድሽ (ኣብዚ ሰሙን)
+    no_action_risk: ስጉምቲ የለን
+    no_case_stats: ስታቲስቲክስ ጉዳይ የለን
+    no_caseworker_data: መረዳእታ ሰራሕተኛ ጉዳይ የለን
+    no_flagged_child: ዝተጠቆሙ ጉዳያት የለውን
+    no_flagged_incident: ዝተጠቆሙ ክስተታት የለውን
+    no_open_incidents: ዝተኸፈቱ ፍጻመታት የለውን
+    no_overdue_activities: ግዜኡ ዝሓለፎ ንጥፈታት የለን
+    no_recent_activities: ኣብ ቀረባ እዋን ዝተገብረ ንጥፈታት የለን
+    no_scheduled_activities: መደብ ዝተገብረሉ ንጥፈታት የለን
+    none_risk: ቀዳምነት የለን
+    number_of_victims: ብዝሒ ግዳያት
+    number_of_violations: ብዝሒ ጥሕሰት ሕጊ
+    number_of_violations_verified: ጥሕሰታት ተረጋጊፁ
+    open: ክፈት
+    open_cases: ክፉት ጉዳያት
+    open_incidents: ክፉት ክስተታት
+    outstanding_transfers: ብሉፃት ዝውውር
+    overdue_activities: ግዜኡ ዝሓለፎ ንጥፈታት
+    overdue_cases_to_assign: ግዜኦም ዝሓለፉ ጉዳያት ንምምዳብ
+    overdue_cases_to_assign_high: እዞም ጉዳያት እዚኦም ንልዕሊ 1 ሰዓት ኣጋጢሞምኻ እዮም።
+    overdue_cases_to_assign_low: እዞም ጉዳያት እዚኦም ንልዕሊ ሰለስተ ሰዓታት ኣጋጢሞምኻ እዮም።
+    overview: ሓፈሻዊ ትሕዝቶ
+    pending: ገና ኣብ ምፅባይ
+    pending_approvals: ኣብ ምጽባይ ምጽዳቕ
+    pending_transfers: ኣብ ምጽባይ ዘሎ ዝውውር
+    protection_concern: ስክፍታ ምክልኻል
+    protection_concerns: ስክፍታታት ምክልኻል
+    range12+: 12+
+    range4: 0-4
+    range4_8: 4-8
+    range8_12: 8-12
+    recent_activities: ኣብ ቀረባ እዋን ዝተገብረ ንጥፈታት
+    recently_flagged_child: ኣብ ቀረባ እዋን ሰንደቕ ዕላማ ዝተገብረሎም ጉዳያት
+    recently_flagged_incident: ኣብ ቀረባ እዋን ሰንደቕ ዕላማ ዝተገብረሎም ፍጻመታት
+    referrals_by_social_worker: ሪፈራል ብማሕበራዊ ሰራሕተኛ
+    registration: ምዝገባ
+    rejected: ተነጺጉ
+    rejected_transfers: ዝተነጽገ ዝውውር
+    response: መልሲ (ኣብ ከይዲ ኣሎ)
+    scheduled_activities: መደብ ዝተገብረሎም ንጥፈታት
+    score_range: ደረጃ ነጥቢ
+    screening_service: ኣገልግሎት ምጽራይ
+    services: ኣገልግሎታት
+    services_implemented: ኣገልግሎት ተግባራዊ ኮይኑ
+    shared_from_my_team_pending_transfers: 'ዝተደናጎዩ ዝውውራት '
+    shared_from_my_team_referrals: ቅብበላት
+    shared_from_my_team_rejected_transfers: 'ዘይቅቡል ዝዉውራት '
+    shared_with_me_new_referrals: ሓደስቲ ቅብብላት
+    shared_with_me_total_referrals: 'ጠቕላላ ቅብብላት '
+    shared_with_me_transfers_awaiting_acceptance: 'ተቐባልነት ዝፅበዩ ዝውውራት '
+    shared_with_my_team_pending_transfers_overview: 'ተቐባልነት ዝፅበዩ ዝውውራት '
+    shared_with_my_team_pending_transfers: 'ዝተዘናጉዑ  ዝውውራት '
+    shared_with_my_team_referrals: 'ቅብብላት '
+    shared_with_others_pending_transfers: 'ዝተዘናጉዑ ዝውውራት '
+    shared_with_others_referrals: 'ቅብብላት '
+    shared_with_others_rejected_transfers: 'ዘይቅቡል ዝውውራት '
+    status_of_cases: ኩነታት ጉዳያት
+    system_user: ስርዓት
+    total: ድምር
+    total_cases: 'ጠቕላላ ጉዳያት '
+    total_referred: 'ጠቕላላ ቅብብላት '
+    tr_stats: ናይ ምክትታል ሕቶታት
+    transers_awaiting_acceptance: ተቐባልነት ዝፅበዩ ዝውውር
+    transfers_by_social_worker: ብማሕበራዊ ሰራሕተኛ ዝግበር ዝውውር
+    users: ምምዕርራይ ምልክት
+    violence_type: 'ዓይነት መጥቃዐቲ '
+    with_incidents: ምስ ተጓንፎታት
+    with_new_incidents: 'ምስ ሓድሽ ተጓንፎታት '
+    without_incidents: 'ብዘይ ተጋንፎታት '
+    worker_count_referrals_total:
+      one: '%{case_worker} has %{stat} total referral '
+      other: 1%{case_worker} 2%{stat} ጠቕላላ ሪፈራል ኣለዎ።
+    worker_count_total:
+      one: '%{case_worker} has %{stat} total case '
+      other: '%{case_worker} %{stat} ጠቕላላ ሕሙማት ኣለዎ።'
+    workflow: ዑደት ስራሕ
+    workflow_team: ዑደት ስራሕ ጉዳያት  ጉጅለታት
+    you_have: 'ኣለካ'
+  disabled:
+    status:
+      disabled: ዘይሰርሕ
+      enabled: ዝሰረሕ
+  email_notification:
+    assign: '%{user} ነዚ ዝስዕብ %{record_type} መዲቡልኩም ኣሎ፡ %{record_id}።'
+    assign_subject: '%{record_type}: %{id} - ንዓኻ ተመዲቡ ኣሎ።'
+    approval_request: 'ተጠቃሚ %{user} ኣብ ጉዳይ %{approval_type} %{case_id} ፍቓድ ይሓትት ኣሎ።'
+    approval_request_subject: 'ጉዳይ፡ %{id} - ናይ ምጽዳቕ ሕቶ'
+    approval_response: '%{user} ንጉዳይ %{case_id} %{approval_type} ናይ ፍቓድ ሕቶ %{status} ኣለዎ።'
+    approval_response_subject: 'ጉዳይ፡ %{id} - መልሲ ምጽዳቕ'
+    referral: '%{user} ካብ %{agency} ነዚ ዝስዕብ %{record_type} ናባኻ ሪፈር ገይሩ ኣሎ፡ %{record_id} ን %{service_type}።'
+    transfer: '%{user} ነዚ ዝስዕብ %{record_type} ናባኻ ኣሰጋጊሩ ኣሎ፡ %{record_id}። '
+    transfer_request_subject: ንሓደ ካብ ጉዳያትካ ናይ ምስግጋር ሕቶ
+    transfer_subject: '%{record_type}: %{id} - ምስግጋር'
+    referral_subject: '%{record_type}: %{id} - ሪፈራል'
+    transfer_request: 'ተጠቃሚ ፕራይሜሮ %{user} ካብ %{agency} ዋንነት ናይዚ %{record_type} መዝገብ %{record_id} ከተሰጋግር ይሓትት ኣሎ፣ ምእንቲ ኣብ ከባቢኦም ንዘሎ ውልቀሰብ %{record_type} ናይ ምሕደራ ኣገልግሎት ክህቡ። እዚ ምስግጋር ቅቡል እንተኾይኑ፡ በጃኻ ኣብዚ ኢመይል ኣብ ዘሎ %{record_type} ID ዝብል መላግቦ ጠውቕ እሞ ኣብ ፕሪሜሮ %{record_type} ክትከፍቶን ነቲ ምስግጋር ጀምርን።'
+    approval_request_html: 'ተጠቃሚ %{user}1 ኣብ ጉዳይ %{case_id} ን %{approval_type}ፍቓድ ይሓትት ኣሎ።'
+    approval_response_html: '1%{user}1 %{status}2 ናይ ፍቓድ ሕቶ ን3%{approval_type}3 ንጉዳይ 4%{case_id}4 ኣለዎ።'
+    referral_html: '1%{user}1 ካብ %{agency} ነዚ ዝስዕብ %{record_type} ናባኻ ሪፈር ገይሩ ኣሎ፡ 2%{record_id}2 ን %{service_type}።'
+    transfer_html: '1%{ተጠቃሚ}1 ነዚ ዝስዕብ %{መዝገብ_ዓይነት} ኣሰጋጊሩልካ ኣሎ፡ 2%{መዝገብ_መፍለዪይ}2።'
+    assign_html: '1%{user}1 ነዚ ዝስዕብ %{record_type} መዲቡልካ ኣሎ፡ 2%{record_id}2.'
+    transfer_request_html: 'ፕሪሜሮ ተጠቃሚ 1%{user}1 ካብ 1%{agency} ዋንነት ናይዚ 1%{record_type} መዝገብ 2%{record_id}2 ከተሰጋግሩ ይሓትት ኣሎ፣ ምእንቲ ኣብ ከባቢኦም ንዘሎ ውልቀሰብ 3%{record_type} ናይ ምሕደራ ኣገልግሎት ክህቡ። እዚ ዝውውር ቅቡል እንተኾይኑ፡ በጃኹም ኣብዚ ኢመይል ኣብ ዘሎ 4%{record_type} መለለዪ መላግቦ ጠዊቕኩም ኣብ ፕሪሜሮ 3%{record_type} ከፊትኩም ነቲ ምስግጋር ጀምሩዎ።'
+    transfer_request_notes_html: 'ካብቲ ሕቶ ዘቕረበ ውልቀሰብ ዝመጸ መዘኻኸሪታት፡ %{request_transfer_notes}'
+    alert: '%{record_type} %{መፍለዪይ} - %{form_name} ተሓዲሱ ኣሎ። ነቲ ለውጢ ንምግምጋም በጃኹም ናብ ፕሪሜሮ እቶ።'
+    alert_subject: '%{record_type}: %{id} - %{form_name}መዲሱ'
+  webpush_notification:
+    action_label: ናብ ጉዳይ ኪድ
+    approval_request:
+      title: ናይ ምጽዳቕ ሕቶ
+      body: ኣብ ጋንታኻ ዘሎ ጉዳይ ን %{type} ዝኸውን ኣብ ምጽባይ ዘሎ ናይ ምጽዳቕ ሕቶ ኣለዎ።
+    approval_response:
+      title: ናይ ምጽዳቕ መልሲ
+      body: ሓደ ካብ ጉዳያትኩም ናይ ምጽዳቕ መልሲ ረኺቡ ኣሎ።
+    assign:
+      title: ሓድሽ ምደባ
+      body: ሓድሽ ናይ ጉዳይ ምደባ ተቐቢልካ ኣለኻ።
+    referral:
+      title: ሓድሽ ሪፈራል
+      body: ሓድሽ ናይ ጉዳይ ዝውውር ተቐቢልኩም ኣለኹም።
+    transfer:
+      title: ሓድሽ ዝውውር
+      body: ሓድሽ ጉደይ ምምሕልላፍ ተቐቢልኩም ኣለኹም።
+    alert_case:
+      title: ጉዳይ ተሓዲሱ
+      body: "1%{type} ኣብ ሓደ ካብ ጉዳያትካ ተሓዲሱ ኣሎ።"
+    transfer_request:
+      title: ናይ ምስግጋር ሕቶ
+      body: ሓድሽ ናይ ጉዳይ ምስግጋር ሕቶ በጺሑኩም ኣሎ።
+  encrypt:
+    export_type: ዓይነት ሰደድ
+    file_name: ናይ ባዕልኻ ፋይል ስም ምፍጣር (ኣማራጺ)
+    password_extra_info: ፓስዎርድ እንተወሓደ 8 ፊደላት ክኸውን ኣለዎ። እዚ ፓስዎርድ ምስቲ ናብ ወጻኢ ዝለኣኽ ፋይል ዝተኣሳሰር ስለዝኾነ ኣብ መጻኢ ዝኾነ ነዚ ፋይል ዝኸፍት ሰብ ከእትዎ ከድልዮ እዩ።
+    password_label: በይዛኻ መረዳእታኻ መፍለዪ ቁፅሪ ግበረሉ
+  error_message:
+    address_fields: ነቲ ኣብ %{forms} ዝርከብ %{fields}ዓውድታት ክትሪኦ ኣለካ
+    address_form_fields: ኣብዚ ፎርም እዚ ንዚርከብ ዓውድታት %{fields} ክትሪኦ ኣለካ
+    address_subform_fields: '%{fields} %{subform}ዘይሕጋዊ ዓውድታት ኣለዎ።'
+    error_401: ዝመዝገብካዮ በይዛኻ መሊስካ ረአዮ
+    error_something_went_wrong: ብስሕተት ዝተሰርሐ ኣሎ/ጌጋ ኣሎ
+  error_page:
+    not_authorized:
+      server_error: እዚ ገፅ ክትጥቀም ስልጣን የብልካን
+      title: ስልጣን የብልካን/ሓላፍነት የብልካን
+    not_found:
+      contact_admin: ትኣምን እንተኾይንካ ንስኻ ብስሕተት ኢኻ ኣብዙይ ዘለኻ በይዛኻ ሓላፊኻ ርኸቦ
+      something_went_wrong: ይቅርታ ጌጋ ኣሎ እዩ
+  errors:
+    api:
+      internal_server: ሓበሬታ ማእኸሉ ፀገም ኣለዎ
+    attachments:
+      maximum: ሕድሕድ ትምዝግቦም ዝለዓለ ፅሬት ዝተጓናፀፉ ክኾኑ ይግባእ
+    error_loading: መዝገብ(ታት) ኣብ ምጽዓን ጌጋ
+    models:
+      agency:
+        code_present: ባዶ ክኸውን የብሉን
+        logo_format: ፋይል ፒኤንጂ ክኸውን ኣለዎ።
+        terms_of_use_format: ፋይል ፒኤንጂ ክኸውን ኣለዎ።
+        name_present: ባዶ ክኸውን የብሉን
+      child:
+        age: ዕድመ ኣብ መንጎ 0ን 130ን ክኸውን ይግባእ
+        date_of_birth: 'በይዛኻ ብዛዒባ ክትምዝግብ ከለኻ ተቐባልነት ዘለዎ ዕድመ ወሊድ ይኹን '
+      export_configuration:
+        opt_out_field_does_not_exist: ንገለጸ ናይ opt_out ዓዲ ምምጻእ መዝገብ ንህዝቢ
+        record_type: ሕቶ ኣለሻ ህፃን ዘይትኽክል ዓይነት ኣመላልኣ ወይ ዘጋጠመ ክኸውን ኣለዎ
+      field:
+        translated_options_do_not_match: ዝግበር ለውጢ ምስቲ ዝነበረ መሰረተ ሓሳብ ዝመሳሰል ክኸውን ይግባእ
+      location:
+        admin_level_present: ባዶ ክኸውን የብሉን
+        code_present: ባዶ ክኸውን የብሉን
+        name_present: ባዶ ክኸውን የብሉን
+        unique_location_code: 'እቲ ከባቢ በቲ ናይቲ ከባቢ መፍለይ ቁፅሪ ኣቲዩ ስለስኾነ በይዘኦም ዝተፈለየ ምልክት የእትዉ '
+      lookup:
+        being_used: ኣብ ጥቕሚ ስለዘሎ ምጥፋእ ኣይከኣልን
+        name_present:  ሽም ክፍቲ ክኾን የብሉን
+        values_ids_blank: ሓደ ምድላይ_ዋጋ መፍለዪይ ባዶ እዩ።
+      primero_module:
+        associated_record_types:  እንተንኣሰ ሓደ ዓይነት ኣመዘጋግባ ሰነድ ክህሉ ይግባእ
+        form_section_ids: 'እንተንኣሰ ሓደ ቅጥዒ ምስዚ ሰነድ ዝተዋሃሃደ ክኸውን ይግባእ '
+        name_present: ሽም ክፍቲ ክኾን የብሉን
+        unique_name: ተመሳሳሊ መዝገብ ሰለዘሎ በይዘኦም ካሊእ ሽም የእትዉ
+      report:
+        module_presence: ክፍቲ መዝገብ ክህሉ የብሉን
+        module_syntax: ኩሎም ፀብፃባት ክምዝገቡ ይግባእ
+        name_presence: ሽም ክፍቲ ክኾን የብሉን
+      role:
+        permission_presence: 'በይዘኦም እንተንኣሰ ሓደ ፍቓድ ይምረፁ '
+      user:
+        email: "በጃኹም ቅኑዕ ኢመይል ኣእትዉ (ንኣብነት፡ 'name@example.org')"
+        password_mismatch: ' እቲ ናይ መዝገብ ቁልፊ ተመሳሳሊ ኣይኮነን '
+        password_length: እቲ ምልክት ቃል እንተወሓደ %{min} ፊደላት ክኸውን ኣለዎ።
+        email_uniqueness: ናይ ተገልጋሊ ኣድራሻ ተፈጢሩ ስለዝኾነ በይዘኦም ሓደ ዝተፈለየ የእትው
+      code_of_conduct:
+        title_present: ኣርእስቲ ናይ ግድን ነፃ ክኸውን የብሉን
+        content_present: ትሕዝቶ ነፃ ክኸውን የብሉን
+        created_by_present: 'እቲ ዝተፈጠረ ነፃ ክኸውን የብሉን '
+      webpush_subscription:
+        notification_url_present: መፍለጢባዶ ክኸውን የብሉን
+        notification_url_format: መፍለጢ ቅርጺ ዩኣርኤል ክህልዎ ኣለዎ።
+        auth_present: ኣውት ባዶ ክኸውን የብሉን
+        p256dh_present: p256dh ባዶ ክኸውን የብሉን
+    not_found: መዝገብ(ታት) ኣይተረኽበን።
+    try_again: 'ደጊምካ ሞክር '
+  exports:
+    case_pdf:
+      all: ፒዲኤፍ
+      one: ፒዲኤፍ
+      selected: 'ናብ ፒዲኤፍ ተመሪጹ '
+    csv:
+      all: CSV
+      one: CSV
+      selected: ናብ CSV ተመሪጹ
+    custom:
+      all: ልምዲ
+    custom_exports:
+      all: ልምዲ
+      choose_fields:  ናይ ውልቀ ሰብ ምርጫ መምልኢ ቅጥዒ ምምራፅ ትደሊ
+      empty_fields_forms: በይዘኦም መልኣኺ ቅጥዒ ይምረፁ
+      empty_format: 'በይዘኦም መልኣኺ ቅጥዒ ይምረፁ '
+      empty_module: በይዘኦም መልኣኺ ሰነድ ይምረፁ
+      empty_password: በይዘኦም ናይ ማህደሮም መሕለፊ የእትዉ
+      field_label: ዓውዲ ቅጥዒ
+      fields: ዓውዲ ቅጥዒ ይምረፁ
+      form_label: ቅጥዒ
+      format_label: ዝተዳለወ ምምራፅ
+      forms: መልኣኺ ቅጥዒ ይምረፁ
+      label: ልሙድ መልኣኺ
+      module_placeholder: በይዘኦም መሐበሪ ይምረፁ
+      select_module: 'መሐበሪ ምምራፅ '
+      submit: እሺ
+      header: 'ርእሲ '
+      custom_header: 'ልሙድ ርእሲ '
+      signatures:  መፈረሚ መስመር ሓዊስካ ምግዳፍ
+      include_implementation_logos: መተግበሪ ኣርማ ምጥቐላል?
+      include_implementation_logos_help_text: እዚ ኣርማታት ዘጠቓልል ኮይኑ ኣብ መስታወሻን መኽፈቲ ገፃትን ዝረአ እዩ
+      include_agency_logo: ናይ ትካል ኣርማ የጠቓልል
+      include_other_logos: ካልኦት ኣርማታት የጠቓልል
+    duplicate_id_csv:
+      all: 'መፍለይኻ ኣራብሕ /መታወቅያ ኮፒ ምግባር '
+      female_abbreviation: ኣ
+      headers:
+        age: ዕድመ
+        case_id: ናይቲ ጉዳይ መፍለዪይ
+        child_name_last_first: ሽም ህፃን
+        family_size: በዝሒ ስድራ
+        moha_id: መፍለይ መንነት ምእራም
+        national_id_no: ቢሄራዊ መፍለይ መንነት ቁፅሪ
+        progress_id: ምምሕያሽ ቁፅሪ
+        sex_mapping_m_f_u: ፆታ
+        other_agency_id:  ናይ ሆስፒታል መፍለይን ቁፅሪ መፍለይ ሕሙምን
+      male_abbreviation: ተ
+      unknown_abbreviation: U
+    exported: እቲ ዝለኣኽ ማህደር ብትኽክል ተሰሪሑ እዩ
+    exported_error: ' እቲ ዝለኣኽ ማህደር ስሕተት ኣለዎ እዩ'
+    forms:
+      button: መልኣኺ ቅጥዒ
+      label: ምልኣኽ
+      header:
+        form_group: ጉጅለ መስርት
+        form_name: 'ሽም ቅጥዒ '
+        field_id: ሞያ ቁፅሪ
+        field_type:  ሞያ ዓይነት
+        field_name: ሞያ ሽም
+        required: ተደላዪይ
+        on_mobile: ኣብ ሞባይል
+        on_short_form: ብሓፂር ቅጥዒ
+        option_ids: መማረፂ ካርድታት
+        options: መማረፂታት
+        options_lookup: ተመልከት
+        help_text: ምፅሓፍ ሓግዝ
+        guiding_questions: መመላኸቲ ሕቶታት
+        visible: ዝረአ
+        lookup_id: ካርዲ ተመልከት
+        lookup_name: ሽም ተመልከት
+        option_id: መማረፂ መፍለዪይ
+        option_name: መማረፂ ሽም
+      options:
+        location: ቦታታት
+        agency: 'ትካላት '
+        user: ተጠቀምቲ
+        reportinglocation:  መፀብፀቢ ቦታት
+        subforms: 'ንኡስ ቅጥዒ: 1%{subform_name}'
+        collapsed_fields: 'ዝዓረፉ ዓውድታት: %{fields}'
+        country: ዓዲታት
+        linkedincidents: ክስተታት ምትእስሳር
+      summary_header:
+        form_group: ኩነታት
+        form: ፕሪሜሮ ቅጥዕታት
+        status: ኩነታት
+        notes: መዘኻኸሪ
+    go_to_exports: ንምውራድ ናብ መልኣኺ ገፅ ኪድ
+    incident_recorder_xls:
+      all: 'ክስተት መዝጋቢ '
+      one: 'ክስተት መዝጋቢ '
+      selected: ተመራፂ ክስተት መዝጋቢ
+    json:
+      all: JSON
+      one: JSON
+      selected: 'ናብ JSON ተመሪፁ '
+    list_view_csv:
+      all: ዝተዘርዘሩ ለኣኽ
+      selected: ናብ CSV ተመሪፁ
+    messages:
+      no_exporter: ዝተነፀረ ለኣኺ የለን
+    mrm_violation_xls:
+      all: ጥሕሰት MRM
+      one: ጥሕሰት MRM
+      selected: ናብ MRM ጥሕሰት ተመሪጹ
+    no_records: ዝተመዝገበ የለን
+    pdf:
+      all: PDF (ዘይምስጢራዊ)
+      one: 'PDF '
+      selected: ናብ PDF ተመሪጹ
+    pdf_exports:
+      label: 'PDF '
+      recipient: ተቐባሊ
+      case_worker: ጉዳይ መፃረዪይ
+      client: ዓሚል
+      date: ዕለት
+      recipient_name: ተቐባሊ ሽም
+      recipient_agency: ተቐባሊ ትካል
+      caseworker_name: ስም ሰራሕተኛ ጉዳይ
+      caseworker_agency: ትካል ጉዳይ ሰራሕኛ
+    photowall:
+      all: 'ግድግዳ ፎቶ '
+      flag_suspect_record: ' ዘይተረጋገፁ መዝገባት '
+      no_photos_available: ፎቶግራፍ የብሉን
+      one: 'ግድግዳ ፎቶ '
+      reunited: ዝተመለሰ
+      selected: ዝተመረፀ ግድግዳ ፎቶ
+      success_message: ናይ ግድግዳ ፎቶ1%{file_name} ምፍጣር ስእሊ ዘይብሎም ጉዳያት ኣይክካተቱን እዮም።
+    printed: 'ዝተሓትመሉ: %{date}'
+    queueing: 'ምፍጣር ናይ ሰደድ ፋይል%{date} '
+    selected_xls:
+      all: Excel
+      one: Excel
+      selected: 'Excel ተመሪፁ '
+      selected_fields: ዝተመረፁ ዓውድታት ቅጥዒ
+    unhcr_csv:
+      all: ትካል ስደተኛታት ዓለም
+      female_abbreviation: ኣ
+      headers:
+        age: ዕድመ
+        case_status: ድግሪ ጉዳይ
+        causes_of_separation: መፈላለዪይ ምኽንያት
+        country_of_origin: ትውልዲ ዓዲ
+        cpims_code: CPIMS ኮድ
+        current_care_arrangement: ህሉው ምድላው ክንክን
+        date_of_birth: ናይ ትውልዲ ማዕልቲ
+        date_of_identification: መፍለዪይ ማዕልቲ
+        family_count_no: ናይ ቤተሰብ መቑፀሪ ቁፅሪ
+        governorate_country: ምሕደራ ዓዲ
+        id: መፍለዪይ መንነት
+        individual_progress_id: ናይ ሕድሕድ ለውጢ መርኣዪይ መፍለዪይ ካርድ
+        locations_by_level: ኣድራሻ (ካምፕ፣ ብሎክን ካልኦት ተግባራዊ ዝኾኑ ደረጃታት ኣድራሻን፣ ከም መዕቆቢ ጂፒኤስ ኮርዲኔት)
+        long_id: ነዊሕ መለለዪ መንነት
+        moha_id: ' ሞሃ መፍለዪይ'
+        name_of_caregiver: ናይ ሓብሓብቲ ሙሉእ ሽም
+        name_of_child_last_first: ሙሉእ ሽም ህፃን
+        primary_protection_concerns: ቅድመ ምክልኻል ስራሕተቲ
+        progres_id: 'ለውጢ መፍለዪይ '
+        reunification_status: ናይ ምቅልቓል ደረጃ
+        secondary_protection_concerns: ካልኣይ ናይ መከላኸሊ ስራሕቲ
+        sex: ፆታ
+        sex_mapping_m_f_u: ፆታ
+        short_id: ሓፂር መፍለዪይ
+        vulnerability_code: ተገላፂነት ሓባሪ
+        vulnerability_details_code:  ተገላፂነት ዝርዝር ሓባሪ
+      male_abbreviation: ተ
+      one:  ትካል ስደተኛታት ዓለም
+      selected: 'ትካል ስደተኛታት ዓለም ተመሪፁ '
+      unknown_abbreviation: U
+    xlsx:
+      all:  ሓጋዚ ምዝገባ
+      one:  ሓጋዚ ምዝገባ
+      selected: 'ዝተመረፀ ሓጋዚ '
+  imports:
+    csv_hxl_location:
+      messages:
+        success:  ከባቢታት ብዝግባእ ኣቲዮም እዮም
+        no_data: 'ኣቲዩ ኣይተፃረየን ዝሓለፈ መረዳእታ የለን'
+        csv_parse_error: 'ምእታው ኣይተሰርሑን:: ኣብ ምትንታን ዳታ  ሲኤስቪ ጌጋ'
+        error: 'መስርዕ %{row_number} ኣይተሰርሐን: %{row_number}'
+        db_error: '%{location_code} ኣብ ምፍጣር ጌጋ: %{message}'
+        locale_invalid: '%{column_name} ምዝላል: ሎካል ትኽክል ኣይኮነን።'
+        insert_all_error: 'ኣእትዎት ኣይተመስረሐን። ጌጋ ዳታቤዝ: %{message}'
+    csv_record:
+      messages:
+        success: ኣቲዩ ኣይተፃረየን ዝሓለፈ መረዳእታ የለን
+        no_data: 'ኣቲዩ ኣይተፃረየን ዝሓለፈ መረዳእታ የለን'
+        no_file: ' ኣቲዩ ዝተፃረየ የለን ዝተፈጠረ ማህደር የለን '
+        csv_parse_error: 'ኣእትዎት ኣይተመስረሐን።: ኣብ ምትንታን መረዳእታ ሲኤስቪ ጌጋ'
+        error: 'መስርዕ 1%{row_number} ኣይተሰርሐን፤2%{message}'
+        db_error: '%{location_code} ኣብ ምፍጣር ጌጋ: %{message}'
+        locale_invalid: '%{column_name} ምዝላል: ሎካል ትኽክል ኣይኮነን።'
+        insert_all_error: 'ኣእትዎት ኣይተመስረሐን። ጌጋ ዳታቤዝ: %{message}'
+  sync_record:
+    failed: 'ናይ መወዳእታ ምትእስሳር: ኣይተዓወተን '
+    last: 'ናይ መወዳእታ ምትእስሳር: %{date_time}'
+    not_found: 'ናይ መወዳእታ ምትእስሳር፤ ዳታ ኣይተረኽበን።'
+    retrieving: ምፅራይ መረዳእታ
+    see_details: ዝርዝር ምርኣይ
+  fields:
+    action: ተግባር
+    actions: ተግባራት
+    add: ደምር
+    add_new_field: ሓዱሽ ሰረት ስራሕ
+    add_existing_field: ዘሎ ሰረት ደምር
+    add_field: ዘሎ ሰረት ደምር
+    add_field_type: '%{file_type} ምውሳኽ።'
+    attachments:
+      maximum_attached: ዝለዓለ ገደብ ምትእስሳር ኣብ ነፍሲ ወከፍ መዝገብ (%{maximumttachmentsPerRecord}) ዝበጽሐ። እዚ ድማ ስእልታት፡ ድምጽን ሰነዳትን የጠቓልል። በጃኹም ቅድሚ ካልእ ምውሳኽኩም ሓደ ፋይል ኣውጽእዎ።
+    audio:
+      current: ሐዚ ዝተፃረየ
+    audio_upload_box: ዝተፃረየ ምጥቃም
+    bia_document: ሰነድ ቢ.ኣይ.ኤ
+    bid_document: ሰነድ ቢዲ
+    check_box: ሳንዱቕ ኣረጋግፅ
+    clear_group_by: ዝፃረ ጉጅለ
+    clear_sort_by: ግልፂ ኣቀማምጣ
+    copy_from_another_form: እዚ ሰረት ካብ ከሊእ ቅጥዒ ዝተቐድሐ እዩ
+    create_field: ሰረት ስራሕ
+    create_unique_values: ዝተፈለየ ዋጋ ስራሕ
+    date_field: ናይ ሰረት ዕለት
+    date_help: 'ዕለት-ወርሒ-ዓመት '
+    date_help_with_time: ዕለት-ወርሒ-ዓመት ሰዓት ደቒቓ
+    date_not_valid: እቲ ማዕልቲ ትኽክል ኣይኮነን
+    time: 'ጊዜ '
+    date_range:
+      date: 'ዕለት '
+      date_range: ማዕልቲ ካብ  ናብ
+      from: ካብ
+      to: ናብ
+      view_by: ተራእዩ
+    date_range_field: ማዕልቲ ካብ ናብ
+    date_time: ዕለት-ስዓት
+    db_name: መረዳእታ መቐመጢ ሽም
+    default: ነባሪ
+    default_date_validation: ማዕልታዊ ዘሎ ምርግጋፅ
+    default_to_current_date:  ክሳብ ሐዚ ዘለዉ ነበርቲ
+    default_to_current_datetime: ንሐዚ ማዕልትን ሰዓትን ነበርቲ
+    default_value: 'ክውን ቫልዩ '
+    deleted: ዓውዲ %{display_name} ተደምሲሱ ኣሎ።
+    detail: ዝርዝር
+    disabled:  አካል ጉድእ /ምትዕንቓፍ
+    display_name: መርአዪይ ሽም
+    document:
+      comments: ሓሳባት
+      current: እዚ ናይ ሐዚ ሰነድ ድዩ?
+      date: ናይ ሰነድ ማዕልቲ
+      name: ናይቲ ሰነድ ሽም
+      is_current: እዚ ናይ ሐዚ ሰነድ ድዩ?
+    document_upload_box: ሰነድ ምፅዓን
+    edit_label:  ዓውዲ ቅጥዒ ምእራም
+    enabled: ይከኣሉ ድዮም
+    enabled_label: ይከኣሉ ድዮም
+    english_text: ብእንግሊዝኛ ዝተፅሓፈ
+    field_name: ሽም ዓቅዲ ቅጥዒ
+    field_type: ዓቅዲ ቅጥዒ ዓይነት
+    attachment_too_large: እቲ ፋይል ካብ 20ሜጋ ባይት ክበልፅ የብሉን
+    file_upload_box:
+      add_document_label:  ሰነድ ወስኽ
+      add_new_document_button_text: ካሊእ ሰነድ ወስኽ
+      add_new_photo_button_text: ካሊእ ሰነድ ወስኽ
+      add_photo_label:  ካሊእ ፎቶ ወስኽ
+      document_description: 'ናይ ሰነድ መግለፂ '
+      document_file_restrictions_message: ፋይላት ካብ 2 ሜባ ክዓብዩ የብሎምን (executable (.exe)  ፋይላት ክስቀሉ ኣይክእሉን እዮም)።
+      no_file_selected: ዝተመረፀ ፋይል የለን
+      photo_file_restrictions_message: 'ፎቶታት ካብ 10ሜጋ ባይት ክበልፁ የብሎምን ናይ ድምፂ '
+      recorded_audio_label: ዝተቐድሐ ድምፂ
+      select_file_button_text: ማህደር ምረፅ
+    find_lookup: መድለዪይ ርኸብ
+    form_name: 'ሽም ቅጥዒ '
+    future_date_not_valid: ንቐፃሊ ክኸውን ኣይኽእልን
+    guidance: መምርሒ
+    guiding_questions: መምርሒ ሕቶታት
+    help_text: ጽሑፍ ሓገዝ
+    hide_on_view_page: ገፅ ኣርኢ
+    label: ዓውዲ ቅጥዒ
+    mobile_visible: ናይ ሞባይል መተግበሪ
+    move_to: ኣንቀሳቕስ
+    multi_select: ብዙሓት መማረፂታት ምምራፅ ይኽእል
+    multi_select_box:  በዓል ብዙሕ መማረፂ
+    must_be_english: ብእንግሊዝኛ ክኣቱ ኣለዎ
+    name: ሽም
+    not_future_date:  ናይ ቀፀሊ ዕለት ኣይኮነን
+    number_not_valid: በይዘኦም ናይ ቁፅሪ መረዳእታ የእትዉ
+    numeric_field: ናይ ቁፅሪ ስምሪት
+    on_collapsed_subform: ኣብ ዝተሰብሰበ ንኡሽተይ ቅርፂ
+    option_strings_add_option: መማረፂ ደምር
+    option_strings_source:  ምድላይ
+    option_strings_text: መማረፂታት
+    option_strings_text_display: መማረፂ ፅሑፍ
+    option_strings_text_key: መማረፂ ቁልፊ
+    options_indications_lookup_values: ወይ ቀዲሙ ዝተገለፀ ኣለሻታት ምጥቃም ወይ ድማ ወይ ድማ ፍሉይ እሴታት ምፍጣር ትኽእል ኢኻ
+    options_indications_restrictions: ክልቲኦም ክትሰርሕ ኣይትኽእልን
+    options_or_lookup_warning: በይዘኦም መማረፂታት ይሓዙ ወይም ኣለሻ ይምረፁ ክልቲኡ ኣይተእትዉ
+    other_documents: ካሊእ ሰነድ
+    photo_upload_box: ፎቶ ምስቃል
+    predifined_lookups: ቀዲሙ ዝተገለፀ ኣለሻ ተጠቐም
+    radio_button: ናይ ሬድዮ ቁልፊ
+    remove: ኣወግድ
+    remove_attachment_confirmation: ርግፀኛ ዲኻ እዚ ተታሓሒዙ ዘሎ ሰነድ ክትውግዶ ደሊኻ?
+    required: ተደላዪይ
+    required_field: '1%{field} የድሊ'
+    search_existing: ዘለዉ ዓውዲ ስራሕቲ ይድለዩ
+    select_box: ዝተወርወረ ይምረፁ
+    select_date_validation: ዕለት መረጋገፂ መንገዲ ምርፅ
+    select_multiple: ኩሎም ዝምልከቶም ይምረፁ
+    select_single: (ምረፅ...)
+    separator: ምፍልላይ/ፈላዪይ
+    show:  ኣርኢ
+    show_on: ኣብ ላዕሊ እርኢ
+    show_on_minify_form:  ሓፂር ቅጥዒ
+    skip_logic:
+      name: ምኽንያታት ዝለል
+      record_section:
+        title: እዚ ዓውዲ ስራሕ እንድሕር ተመዝጊቡ ክረአ ኣለዎ
+        buttons:
+          add: ኩነታት መዝገብ ወስኽ
+      subform_section:
+        title: 'እዚ ዓውዲ ስራሕ ብንኡሽተይ ቅርፂ እንተኾይኑ ክረአ ኣለዎ '
+        buttons:
+          add: ተወሰኽቲ ኣናእሽተይ ቅጥዒታት ምድላው
+    subform: ንእሽተይ ቅጥዒ
+    subform_group_by: ጉጅለ ብ
+    subform_remove_message: ርግፀኛ ዲኻ እዚ ንኡሽተይ ቅጥዒ ክውገድ ደሊኻ
+    subform_section:
+      description: መግለፂ ንኡሽተይ ቅጥዒ
+      name: ርእሲ ንኡሽተይ ቅጥዒ
+      starts_with_one_entry: በቲ ንኡሽተይ ቅጥዒ ምእታው ጀምር
+      subform_append_only: ኣብ ሞባይል ዝተመረፀ ምምስሳል
+      subform_prevent_item_removal:  ናይ ንኡሽተይ ቅጥዒ ምእታው ይከላኸሉ
+    subform_sort_by: ስርርዕ ብ
+    successfully_added: ዓውዲ ስራሕ ብዝግባእ ተወሲኹ እዩ
+    tally_field: ታሊ ሜዳ
+    tally_items: ናይ ታሊ ኣቑሑ
+    tally_items_maximum: (5 ዝለዓለ)
+    text_area: ናይቲ ዕሑፍ ኣከባቢ
+    text_field: ናይ ፅሑፍ ዓውዲ ቅጥዒ
+    textarea:  ናይ ፅሑፍ ዓውዲ ቅጥዒ
+    tick_box: ምልክት መግበሪ ሳንዱቕ
+    tick_box_label: ምልክት መግበሪ ሳንዱቕ መፍለዪይ
+    translation_text: ናይ ትርጉም ፅሑፍ
+    total: ጠቕላላ
+    type: ዓይነት
+    updated: ዓውዲ ቅጥዒ ተመሓይሹ
+    visibility: ተርኣዪይ
+    web_app: ናይ ድሕረገፅ መተግበሪ
+  filters:
+    apply_filters: ኣመልክት
+    clear_filters: ግልፂ
+    less: ዝነኣሰ
+    more: ዝበለፀ
+    save_filters: መዝግብ
+    categories:
+      violations:  ጥሕሰታት
+      incidents: ክስተታት
+      individual_victims: ጉድኣት ውልቀሰባት
+  flags:
+    add_flag_tab: ሓዱሽ መጠቆሚ ወስኽ
+    date: 'ማዕልቲ'
+    flag_added: ጥቆማ ብትኽክል ተወሲኹ
+    flag_date: ማዕልት ጥቆማ
+    flag_reason:  ዓላማ ጥቆማ
+    flag_reason_maximun_label: ዝለዓለ 255 ፊደላት ዝሓፀ ፅሑፍ
+    flag_resolved: ጥቆማ ተፈቲሑ
+    flags_tab: ጥቆማታት
+    no_flags: ዝተረኸበ ጥቆማ የለን
+    resolve_button: ምፍታሕ
+    resolve_flag: ጥቆማታት ምፍታሕ
+    resolve_reason: ምኽንያቱ ምፍታሕ
+    resolved: ዝተፈትሑ ጥቆማታት
+    resolved_date: 'ተፈቲሑ፤'
+    resolved_reason: 'ምኽንያቱ ምፍታሕ'
+    title: ጥቆማታት
+  followup_reminders:
+    system_generated_followup_flag: ናይ ግዴታ ክትትል ምጉብናይ
+  form_section:
+    form_name: ' ሽም ቅጥዒ '
+    module:  ሰነድ
+    name: ሽም
+    record_type: ናይ መዝገብ ዓይነት
+    required_field: '%{field} የድሊ'
+  forms:
+    add:  ቅጥዒ ይወስኹ
+    description: መግለፂ ቅጥዒ
+    fields: ዓውዲ ቅጥዒ
+    form_description: መግለፂ
+    form_group:  ናይ ቅጥዒ ጉጅለ
+    form_title: ናይ ቅጥዒ ርእሲ
+    help_text:
+      must_be_english: ብእንግሊዝኛ ክኣቱ ኣለዎ
+      related_groups: ንተጠቀምቲ ኣብ ዝተዘመደ ቅጥዒ ጉጅለ ዉሽጢ የቕምጡ
+      summariaze_purpose: 'ናይ ቅጥዒ ዓላማ ምጥቕላል ብእንግሊዝኛ ምእታው ይግባእ '
+    invalid_characters_field: '%{field} ዘይሕጋዊ ፊደላት ዝሓዘ እዩ።'
+    label: ቅጥዒታት
+    manage: ምምሕዳር
+    messages:
+      created: ክፍሊ ቅጥዒ ብዝተሳኽዐ መንገዲ ተፈጠሩ እዩ
+      fields_with_same_name: ቅጥዒታት ተመሳሳሊ ሽም ዘለዎም ዓውዲ ስራሕቲ ክህልዎም ኣይኽእልን
+      save_success: ናይ ቅጥዒ ኣካላት ብዝተሳኸዐ መንገዲ ዘሚኑ እዩ
+      save_with_errors: ፀገም ስለዝነበረ ሓድሓደ ክፋላት እቲ ቅጥዒ ኣይዘመኑን
+      updated: ናይቲ ቅጥዒ ክፋል ብዝግባእ ዘሚኑ እዩ
+      use_existing: እዚ ናይ ሓበሬታ ምልውዋጥን ኣብ ትካላት ማእኸል ዘሎ ሓድነት ቀሊል ስለዝገብሮ ዘለዉ ቅጥዒታት ንኽትጥቀሙ ነበረታትዕ ኢና
+    mobile_app: ናይ ሞባይል መተግበሪ
+    module: ሰነድ
+    no_subform_filters_added: 'እዚ ንኡሽተይ ቅጥዒ በዚ ሐዚ ጊዜ ዓውዲ ስራሕ የብሉን '
+    record_type:  ናይ መዝገብ ዓይነት
+    record_types:
+      approvals: ምፅዳቕ
+      case: ጉዳይ
+      child: ጉዳይ
+      incident: ክስተት
+      individual_victim: ጥቕዓት ውልቀ ሰባት
+      potential_match: ጥሕሰት
+      record_information:  ናይ መዝገብ ሓበሬታ
+      referrals: ምትእስሳር
+      reportable_follow_up: ምክትታል
+      reportable_protection_concern:  ትኹረት ሓለዋ
+      reportable_service: ግልጋሎት
+      tracing_request: ናይ መከታተሊ ሕቶ
+      transfers_assignments: ምምሕልላፍ/ገዛ ዕዮ
+      violation: ጥሕሰት
+      registry_details:  ናይ መመዝገቢ ዝርዝራት
+      registry_record:  መመዝገቢ መዝገብ
+      family_record:  ናይ ቤተሰብ መዝገብ
+      family:  ናይ ቤተሰብ መዝገብ
+    required_field: '1%{ሞያ} ዘድሊ ዓውዲ እዩ።'
+    select_label: ምረፅ
+    settings: ምውዳድ
+    show_on: ኣብ ላዕሊ ኣርኢ
+    subform_need_to_be_added: 'ንሳቶም ምውሳኽ የድልዮም '
+    subform_need_to_be_added_single: 'እዚ ምውሳኽ የድልዮ '
+    subform_not_found: '%{subform_name} ኣይተረኽበን።'
+    title: ' ናይ ቅጥዒ ርእሲ '
+    translations:
+      edit:  ትርጉም ምእራም
+      edit_form_group: ናይ ጉጅለ ኣለሻ ኣርም
+      manage:  ምምሕዳር ትርጉም
+      no_changes_message:  ናይ ትርጉም ለውጢታት ኣይገበርካን
+      note: 'ማስታወሻ'
+      note_form_group: 'ንጉጅለ ቅጥዒ ትርጉማት ንምውሳኽ ናይ ቅጥዒ ኣለሻ ጉጅለ ትርጉማት ምእራም የድልዮም '
+      select_language: ቋንቋ ምረፅ
+      title: ትርጉማት
+    type_label: ዓይነት
+    visibility: ተርኣዪይ
+    web_app: 'መተግበሪ ድሕረ ገፅ '
+    skip_logic:
+      name: ካብ ሰነ-ሓሳብ ውፃእ
+      section:
+        title: እንተኾይኑ እዚ ቅጥዒ ክረየ ኣለዎ
+        buttons:
+          add: ኩነታት ወስኽ
+    conditions:
+      add: ኩነታት ወስኽ
+      update: ኩነታት ምዝማን
+      field_name: ናይ ዓውዲ ስራሕ ሽም
+      condition: ኩነታት
+      empty: ዝተወሰኹ ኩነታት የለዉን
+      type: ዓይነት
+      types:
+        and:
+          display_text: ን ነዚ ኩነታት
+          name: ን
+        or:
+          display_text: ወይ እዚ ኩነታት
+          name: ወይ
+  home:
+    ar: ዓረብኛ
+    ar-IQ: ዓረብኛ (ዒራቕ)
+    ar-JO: ዓረብኛ (ጆርዳንኛ)
+    ar-LB: ዓረብኛ (ሊባኖስ)
+    ar-SD: ዓረብኛ (ሱዳናዊ)
+    bn: ኣነ እየ
+    cmn: ብ...
+    current_time_zone: ወይ
+    dashboard: ሓቛፊ
+    en: እንግሊዝኛ
+    es: ስጳኛ
+    es-GT: ስጳኛ
+    es-ES: ስጳኛዊ (ስጳኛ)
+    fr: ፈረንሳይ
+    hu: ማጃር
+    id: ባሃሳ
+    km: ብ...
+    ku: ኩርድ
+    ku-IQ: ኩርዲ (ባዲኒ)
+    fa-AF: ፋርሳዊ (ኣፍጋኒስታን)
+    ps-AF: ፓሽቶ (ኣፍጋኒስታን)
+    sw-KE: ኪስዋሂሊ (ኬንያ)
+    sw-TZ: ኪስዋሂሊ (ታንዛንያ)
+    ne: ጽሑፋት
+    om: ኦሮሞ
+    am-ET: ኣማርኛ (ኢትዮጵያ)
+    tr: ቱርካዊ
+    label: ገዛ
+    language: ቋንቋ
+    manage_system_users: ናይ ኣገልጋይ ምምስሳል ተጠቀምቲ ኣመሓድር
+    my: ኣብዚ ኣለኹ
+    pl: ምስ ልስሉስ መግቢ
+    pt: ፖርቱጋልኛ
+    pt-BR: ፖርቱኳል (ብራዚል)
+    records_need_attention: 'መዛግብቲ ትኹረት የድልዮም '
+    ro: ሮማና
+    ru: ሩስያዊ
+    sk: ስሎቨንያዊ
+    so: ንኡስ
+    th: እቲ
+    uk: ስእሊ ስክሪን
+    users: ምምሕዳር ተጠቀምቲ
+    view_records: መዛግብቲ ተመልከት
+    welcome: መእተዊ እንዃዕ ብዳሕና መፁ
+    zh: ብ...
+    tet: ቴተም
+  incident:
+    code: ናይ ክስተት ቁፅሪ
+    associated_case: "ተተሓሓዝቲ ነገራት"
+    link_incident_to_case: ናይ ጉዳይ ጉዳያት መራኸቢ
+    link_incident_to_case_success: ምስ ጉዳይ ዝተኣሳሰር ፍጻመ(ታት)
+    messages:
+      creation_success: 'ናይ ክስተት መዝገብ ብትኽክል መንገዲ ተፈጢሩ '
+      creation_success_queue: ናይ ክስተት መዝገብ ብዝተሳኸዐ ኩነታት ብድሕሪት ተፈጢሩ
+      disabled:  ክስተት ተሰናኺሉ
+      update_success: 'ፍጻመ %{record_id} ብዓወት ተሓዲሱ። '
+      update_success_queue: 'ፍጻመ %{record_id ኣብ ድሕሪት ብዓወት ተሓዲሱ።'
+      bulk_assign_limit_try_again: ብሓደ ጊዜ ካብ 100ንላዕሊ ክስተታት ምምዳብ ኣይከኣሉን በይዘኦም 100 ወይም ካብኡ ዝነኣሱ ክስተታት ይምረፁ እሞ ካብኡ ደጊሞም ይሞኩሩ
+    violation:
+      associated_violations: "ዝተተሓሓዙ ጥሕሰታት"
+      update_and_return: 'ኣዘምን ናብ %{association} ተመለስ።'
+      save_and_return: 'ናብ 1%{association} ምውሳኽን ምምላስን'
+      pending: 'መረጋገፂ ኣብ ምሕላው '
+      title: ጥሕሰታት
+      types:
+        killing:  ቅትለት ህፃናት
+        maiming: 'ጉድኣት ህፃናት '
+        recruitment: ቆልዑ ምቑፃርን ወይ ምጥቃም
+        sexual_violence: ኣገዲዱ ምድፋርን ካልኦት ወሲባዊ ጥቕዓታትን
+        abduction: ጠለፋ
+        attack_on: ኣብ ልዕሊ ቤት ትምህርቲ(ታት)ን/ወይ ሆስፒታል(ታት)ን ዝፍጸም መጥቃዕቲ
+        attack_on_hospitals: ኣብ ልዕሊ ሆስፒታ(ላት) ዝፍጸም መጥቃዕቲ
+        attack_on_schools: ኣብ (ልዕሊ ኣብያተ ትምህርቲ ዝፍጸም መጥቃዕቲ)
+        military_use: ወተሃደራዊ ኣጠቓቕማ ቤት ትምህርቲ(ታትን)/ወይ (ሆስፒታላትን)
+        denial_humanitarian_access: ናይ ህፃናት ሰብኣዊ ቀረብ ምኽልካል
+  incidents:
+    change_status: ኩነታት ቀይር
+    disable_dialog: እቲ ቁልፊ ምንካእ ናይዚ ክስተት ኩነታት ናብ ዘይሰርሕ ይልውጦ እዩ
+    disable_dialog_title: ክስተት ምስንኻል
+    disable_success: ክስተት ብዝተሳኸዐ መንገዲ ተሰናኺሉ እዩ
+    enable_dialog: ቁልፊ ምንካእ ናይዚ ክስተት ኩነታት ናብ ንቑሕ ይልውጦ እዩ
+    enable_dialog_title: ' ክስተት ኣስርሕ /ኣንቅሕ ክስተት ኣስርሕ /ኣንቅሕ'
+    enable_success: ብዝተሳኸዐ ኩነታት ዝነቕሑ ክስተታት
+    id: መለለዪ መንነት#
+    complete: ካብ መስመር ወፃኢ ይርከብ
+    date_of_interview: ናይ መሕተቲ ማዕልቲ
+    date_of_incident: ዝተፈፀመሉ ማዕልቲ
+    incident_location: ዝተኸሰተሉ ቦታ
+    violations: ጥሕሰታት
+    export: ምልኣኽ
+    label: ክስተታት
+    filter_by:
+      filter_category: ናይ ምፅራይ ምደባ
+      boys: ኣወዳት ቆልዑ
+      by_date: ብዕለት
+      children: ህፃናት
+      girls: ቆልዑ
+      incident_location: ዝተኸሰተሉ ቦታ
+      status: ሁኔታ
+      unaccompanied_separated_status: ናይ ሓለዋ ኩነታት
+      unknown: ዘይፍለጥ
+      verification_status: ናይ መረጋገፂ ኩነታት
+      violence_type: ናይ ዓመፅ ዓይነት
+      armed_force_group_party_name: 'ናይ ጦር ሓይሊ ጉጅለን ወይ ካሊእ ኣካል '
+      armed_force_group_type: 'ናይ ጦር ሓይሊታት ጉጅለ ዓይነት '
+      violations: ጥሕሰታት
+      individual_violations: ናይ ውልቀ ሰባት ጥሕሰት
+      individual_age: ናይ ውልቀ ሰባት ዕድመ
+      individual_sex: ናይ ውልቀ ሰባት ፆታ
+      victim_deprived_liberty_security_reasons: ዝተገደበ ነፃነት
+      reasons_deprivation_liberty:  ናይ ነፃነት ግደባታት ምኽንያታት እንታይ እዮም
+      victim_facilty_victims_held: በጃኹም እቲ ግዳይ(ታት) ዝተኣሰረሉ/ዝተኣሰረሉ መሳለጥያ ምረጹ
+      torture_punishment_while_deprivated_liberty: 'ህፃናት (ቆልዑ) ነፃነት ክኽልኡ ምስቓይ ወይ ካሊእ ጭካነ ዝተሞልኦ ኢሰብኣዊ ወይ መዋረዲ ነገራት ወይ ቅፅዓት ተገይሩ '
+      verified_ghn_reported: እዚ ፍጻመ ዝተኻተተሉ ጂኤችኤን ግለጽ
+      weapon_type: 'ኣብ ጥቕሚ ዝወዓለ ናይ ጦር መሳርሒ /መንገዲ ዓይነት'
+      facility_impact: 'ናይ ኣካላዊ ተፅዕኖ ዓይነትን መጠንን'
+      facility_attack_type: 'ምስ ጥዒና ወይ ምስ ትምህርቲ ዝተተሓሓዘ ዓይነት ጥሕሰታት'
+      child_role: 'እቲ ህጻን(ቆልዑ) ኣብ ዕጡቕ ሓይሊ/ጉጅለ እንታይ ተራ ተጻዊቱ?'
+      abduction_purpose_single: 'ናይ ጠለፋ ዓላማ'
+      military_use_type: 'ናይ ወታደራዊ ኣጠቓቕማ ዓይነት'
+      types_of_aid_disrupted_denial: 'ናይ ርዳእታ ዓይነት/ኣገልግሎት ተኸልኪሉ/ተዓናቒፉ '
+      late_verified_violations: ድሒሮም ዝተረጋገፁ ጥሕሰታት
+      perpetrator_category: ናይ ወንጀለኛ ዓይነት
+      record_owner: ናይ መዝገብ በዓል ዋና
+    register_new_incident: ሓዱሽ ክስተት
+    reassign:
+      multiple_successfully: ፕራይሜሮ %{select_records} ፍጻመ(ታት) ዳግማይ ይምድብ ኣሎ። እዚ ኩሉ ፍጻመታት ንኽመሓየሽ ሓያሎ ደቓይቕ ክወስድ ይኽእል እዩ። ድሮ ምስ ጉዳያት ዝተኣሳሰሩ ፍጻመታት ከምዘይምደቡ ኣስተውዕል።
+    selectable_date_options:
+      date_of_first_report: ናይ ቃል መሕትት ማዕልቲ
+      mrm_date_of_first_report:  ኣባል ናይ መጀመርያ ሪፖርት ዝተገበረሉ ማዕልቲ
+      ctfmr_verified_date: ውሳነ ዝተረጋገፀሉ ማዕልቲ
+      incident_date_derived: ዝተኸሰተሉ ማዕልቲ
+    selected_records: '%{ምረፅ_መዛግብቲ} ፍጻመ(ታት) ተመሪጹ'
+    selected_records_assign: '%{ምረፅ_መዛግብቲ} ፍጻመ(ታት) ተመሪጹ። ድሮ ምስ ጉዳያት ዝተኣሳሰሩ ፍጻመታት ከምዘይምደቡ ኣስተውዕል።'
+    selected_all_records: 'ኩሎም ምስዚ ሕቶ ዝሰማምዑ %{ጠቕላላ_መዛግብቲ} ፍጻመታት ምረጽ።'
+    summary_mrm:
+      label: መጠቓለሊ ክስተት
+      fields:
+        children_multiple_violation:
+          label: ብዙሓት ጥሕሰታት ዝተጎድኡ ህፃናት
+        summary_of_incident:
+          label: መጠቓለሊ ክስተት
+        incident_total_tally:
+          label: 'ቁፅሪ ተጠቃዕቲ '
+          boys: ወዳት ቆልዑ
+          girls: ኣጓላት ቆልዑ
+          unknown: ዘይፍለጥ
+        incident_date:
+          label:  ናይ ሓደጋ ማዕልቲ
+        incident_location:
+          label:  ዝተኸሰተሉ ቦታ
+        incident_description:
+          label:  ናይ ክስተት መፍለዪይ
+        incident_update:
+          label: ክስተት ምዝማን/ናይ ክስተት ምምሕያሽ
+    survivor_code: ' ጥቅዓት ዝበፅሓን መፍለዪይ ኮድ'
+    show_incident: 'መለለዪ ፍጻመ %{short_id}'
+    social_worker: ማሕበራዊ ሰራሕተኛ
+    verify_mrm: ኤምኣርኤም ምርግጋጽ
+    violation_type: ዓይነት ጥሕሰት
+    violence_type: ናይ ዓመፅ ዓይነት
+    type_violence: ዓይነት ዓመፅ
+    violation_summary: መጠቓለሊ
+    sort_by: ምስራዕ ብ
+  key_performance_indicators:
+    label: "KPIs"
+    case_assessment: "ናይ ጉዳይ ገምጋም"
+    case_action_planning: "ናይ ጉዳይ ተግባር በትልሚ ምውፃእ"
+    case_action_plan_implementation: "ናይ ጉዳይ ተግባር ናይ መተግበሪ ትልሚ"
+    case_follow_up: "ናይ ጉዳይ ክትትል"
+    case_closure: "ጉዳይ ምዕፃው"
+    feedback: "ግብረ መልሲ"
+    other: "ካሊእ"
+    date_format: "%b %Y"
+    date_range_select:
+      custom_range: 'ልምዲ'
+    long_date_format: "ማዕልቲ/ወርሒ/ዓ.ም"
+    time_periods:
+      all_time: 'ኩሉ ጊዜ'
+      current_month: "ሐዚ ወርሒ"
+      last_3_months: "ዝሓለፉ 3 ኣዋርሕ"
+      last_6_months: "ዝሓለፉ 6 ኣዋርሕ"
+      last_1_year: "ዝሓለፈ ዓመት"
+      0-3days: "0-3ማዕልቲ"
+      4-5days: "4 - 5 ማዕልቲ"
+      6-14days: "6 - 14 ማዕልቲ"
+      15-30days: "15 - 30 ማዕልቲ"
+      1-3months: "1 - 3 ኣዋርሕ"
+      4months: "> 3 ኣዋርሕ"
+      1-month: "< 1ኣዋርሕ"
+      3-6months: "3 - 6 ኣዋርሕ"
+      7-months: "> 6 ኣዋርሕ"
+    helptext:
+      helptext: "ብዛዒባ KPI ፍለጥ"
+    number_of_cases:
+      title: "1. ብዝሒ ዝተመዝገቡ ጉዳያት"
+      reporting_site: "ሪፖርት መግበሪ ጣቢያ/ቦታ"
+      helptext: |+
+        እዚ ኣመልካቲ ክንደይ ዝኣኽሉ ሓደሽቲ ጉዳያት ከምዝኽፈቱ ይቖፅር ሪፖርት መግበሪ ጣቢያ/ቦታ ናይ ተጠቃሚ ትካል ግልጋሎታት እናሃበ ዝርከብ ጣቢያ ከምዝኾነ ተረዲኡ እቲ ጉዳይ ንግልጋሎት ወሃቢ ሪፖርት ዝተገበረሉ ይሕዝ
+
+    number_of_incidents:
+      title: "2. ብዝሓት ዝተመዝገቡ ክስተታት"
+      reporting_site: " ሪፖርት መግበሪ ጣቢያ/ቦታ"
+      helptext: |
+        This indicator counts the number of new incidents opened each month per reporting site.
+        A reporting site is understood as the site where the User Organization is providing services and
+        where the incident was reported to the service provider.
+    reporting_delay:
+      title: "3. ምድንጓይ ጸብጻብ"
+      delay: "Delay"
+      total_incidents: "ጠቕላላ ክስተታት"
+      helptext: "እዚ ኣመልካቲ ይቖፅርን ብማእኸሎም ዝሓለፉ በዝሒ ማዕልቲታት ይፈሊ ዝተረፈ ሰብ ፆታ መሰረት ዝገበረ ጥቕዓት (ፆመዝጥ) ኣጋጢሙዎን ዝተረፈ ሰብ ንመጀመሪያ ጊዜ ንግልጋሎት መቕረቢ ከፍልጦ ተሎ እቲ ክስተት ንመጀመሪያ ጊዜ ንተጠቃሚ ትካል ሪፖርት ኣብዝተገበረሉ ጊዜ ተመስሪቱ ዝሕሰብ መረዳእታ እዩ ብዝተፈላለዩ ናይ ጊዜ ንውሓት ኣብ ልዕሊ (0-3ማዕልቲ; 4-5ማዕልቲታት; 6-14ማዕልቲታት; 15-30ማዕልቲታት; \n1ወርሒ ካብ 3ወርሒ ንላዕሊ)\n"
+    service_access_delay:
+      title: "ምድንጓይ ኣወሃህባ ግልጋሎት "
+      delay: "ምድንጓይ "
+      total_incidents: "ጠቕላላ ክስተት"
+    assessment_status:
+      title: "4. ኩነታት ገምጋም"
+      completed: "ዝተወደአ"
+      completed_supervisor_approved: "ተጠናቒቑን ብተቖፃፃሪ ፀዲቑን እዩ"
+      helptext: "እዚ ኣመልካቲ ናይ ገምጋም ቅጥዒ ዝነበሮም ንቑሕ ጉዳያት መጠን ይሰርሕ ተፈፂሙ እተ ገምጋም ከምዝተወደአ ይሕሰብ ኣብ ውሽጡ ናይ ግዴታ መርአዪይታት ዝተረፉ ናይ ገምጋም ቅጥዒታት ተማሊኦም \n"
+    completed_case_safety_plans:
+      title: "5. ዝተዛዘመ ትልምታት ድሕንነት ጉዳይ"
+      completed: "ዝተፈፀሙ ጉዳያት ናይ ድሕንነት ትልሚ"
+      helptext: "እዚ ኣመልካቲ ናይ ድሕንነት ትልሚ ዝተሓሰበሎም ንቑሕ ጉዳያት መጠን ይሓስብ ኣድላይን ዝተፈፀመን (ንኣብነት ናይ ቀረባ ቤተሰብ ጥቕዓት ዓርስኻ ምጥፋእ ናይ ምቕታል ሓደጋ ናይ ቆልዓ ሓለዋ) ኣብ ድሕንነት ትልሚ ውሽጢ ናይ ግዴታ መርአዪይ እኽብካብ እንትህሉ ናይ ድሕንነት ትልሚ ከምዝተወደአ ይቑፀር እቲ ቅጥዒ ተማሊኡ \n\n"
+    completed_case_action_plans:
+      title: "6. ዝተወድኡ ጉዳያትን ተግባራትን መተግበሪ ትልሚታት"
+      completed: "ዝተዛዘመ ትልሚ ስራሕ ጉዳይ"
+      label: "ዝተወድኡ ጉዳያትን ተግባራትን መተግበሪ ትልሚታት"
+      helptext: |+
+        እዚ ኣመልካቲ ናይ ጉዳይ ትልሚ ዝነበሮም ንቑሕ ጉዳይ መጠን ይሓስብ ተጠናቒቑ ናይ ግዴታ መሳኹቲ እኽብካብ ኣብ ዝነበሩሉ ጊዜ ናይ ጉዳይ ተግባር መተግበሪ ትልሚ ከምዝተወደአ ይቑፀር ናይ ተግባር መተግበሪ ትልሚ ቅጥዒ ተማሊኡ እዩ
+
+
+    completed_supervisor_approved_case_action_plans:
+      title: "7. ብተቖፃፃሪ ዝፀደቐ ጉዳይ መተግበሪ ትልሚታት"
+      completed_and_approved: "ዝተወደአ ብተቖፃፃሪ ዝፀቐ ጉዳይ መተግበሪ ትልሚታት "
+      helptext: |+
+        እዚ ኣመልካቲ ናይ ጉዳይ ተግባር ትልሚ ዝነበሮም ብዝነቕሐ መንገዲ መጠን ጉዳያት ዝሓስብን ተጠናቒቑ ብሓደ ተቖፃፀሪ ፀዲቑ ናይ ጉዳይ ተግባር መተግበሪ ትልሚ ምስተጠናቐቐ ይቑፀር ብተግባር መተግበሪ ትልሚ ቅጥዒ ውሽጢ ናይ ግዴታ ዓውዲ ስራሕቲ እኽብካብ ተማሊኡ ናይ ጉዳይ ትልሚ ኣብ ግምት ውሽጢ ይኣቱ ናይ ጉዳይ ሰራሕተኛ ንፉይ ትልሚን ንተቖፃፀሪ ፍቓድ ክጥይቕ ፀዲቑ ኣብ መድረኽ ናይቲ ጉዳይ ትልሚ የፅድቕ
+
+
+    services_provided:
+      title: "8. ዝወሃብ ኣገልግሎት"
+      service: " ግልጋሎት"
+      count: "ዝተውሃበ ጊዜታት"
+      male: "ወዲ"
+      female: "ጓል ኣነስተይቲ"
+      0-11: "0-11"
+      12-17: "12-17"
+      '>18': ">18"
+      disability: "መጉዳእቲ "
+      no_disability: "መጉዳእቲ የብሉን"
+      helptext: "እዚ ኣመላኻቲ ብምምሕዳር ጉዳይ ዝተረፉ ሰባት ዝወሃብ ኣገልግሎት （ታት） ዓይነት ይቑፀር ከይዲ ዝቐረበ ኣገልግሎት ክንብል ብተጠቃሚ ትካል ዝወሃብ ኣገልግሎት መለትና እዩ ናይ ገዛ ውሽጢ እምበር ካልኦት ኣገልግሎታት ወይ ናይ ውሽጢ ይግባኝ ዝህብ ኣገልግሎት ኣይኮነን \n\n\n"
+    average_referrals:
+      title: "9. ማእኸላይ ምትእስሳራት"
+      label: "ማእኸላይ ምትእስሳራት ብሕድሕድ ጉዳያት"
+      helptext: "እዚ ኣመልካቲ ንሕድሕዱ ዝተቐድሐ ጉዳይ (ንኹሉ ዓይነት) ማእኸላይ መጠቐሲታት ብዝሓት ይቑፀር ናይ ግልጋሎታት ብኹሎም ጉዳያት ጉዳይ ንቑሕን ክፍትን ይኹን ዕፁው እዩ ይግባኝ የካትት ኣብ መድረኻት ዝተገበሩ መማሳኸርቲ ጥራሕ ተይኮነስ ኣብ ጉዳይ መስመር ተመዝጊቡ እዩ \n\n\n"
+    referrals_per_service:
+      title: "ግልጋሎት ብሕድሕድ ምትእስሳራት"
+    average_followup_meetings_per_case:
+      title: "10. ማእኸላይ ክትትል ኣኼባታት ብሕድሕድ ጉዳይ"
+      label: "ማእኸላይ ክትትል ኣኼባታት ብሕድሕድ ጉዳይ "
+      helptext: |+
+        እዚ ኣመላኻቲ ንሕድሕዱ ዝተቐድሐ ጉዳይ ንኹሉ ዓይነት ማእኸላይ መጣቐሲ በዝሒ ይቖፅር ናይ ኣገልግሎት ብኹሉ ጉዳያት ንቑሕን ክፍትን ይኹን ዕፅው እዩ 1408 እዚ ኣመላኻቲ ንሕድሕዱ ንቑሕ ጉዳይ ዝግበሩ ናይ ተኸታታሊ ስብሰባታት ማእኸላይ ቁፅሪ ይቑፀር ኣብ መድረኽ ንሕድሕዱ ጉዳይ ሰራሕተኛ ናይ ክትትል ስብሰባ ኣብ ጉዳይ ሰራሕተኛን ካብ መጀመርያ ቃለ መሕትት /መግለፂ ድሕሪ ዝተረፉ
+
+
+    time_from_case_open_to_close:
+      title: "11. ካብ ጉዳይ ክፉት ክሳብ ጉዳይ ዕጹው ግዜ"
+      time: " ጊዜ "
+      percent: "ምኢታዊ ናይ ጉዳያት"
+      helptext: "እዚ ኣመላኻቲ ዝልክዖ ጉዳይ ተኸፊቱ ንኽንደይ ጊዜ ከምዝፀንሕ ክንደይ ዝኣክል ከይዲ ምሕደራ ጉዳይ ዝወስዶ ካብ ፀብፃብ መጀመርታ ክሳብ ተጠቀምቲ ትካላትን ክሳብ ምዕፃው ጉዳይን እቲ ንውሓት ጊዜ ከምዝስዕብ ከፋፊልካ ምርኣይ ይከኣል ትሕቲ 1ወርሒ ኣብ ሞንጎ 1ን 3ወርሒታት ኣብ ሞንጎ ካብ 3-6 ኣዋርሕን ልዕሊ 6ኣዋርሕ \n\n\n"
+    case_closure_rate:
+      title: "12. ቁፅሪ ዝተዓፀወ ጉዳይ"
+      reporting_site: "ሪፖርት መግበሪ ጣቢያ/ቦታ"
+      helptext: "እዚ ኣመላኻቲ ዝልክዖ በዝሒ ዝተዓፀዉ ጉዳያት ኣብ ወርሒ ካብ ሕድሕድ ፀብፃብ መግበሪ ማእኸል መፀብፀብቲ ማእኸላት ርዱእ እዩ ማለት እቲ ተጠቀምቲ ትካላት ግልጋሎታት ዝህቡሉን ክስተት ንግልጋሎት ወሃቢ ዝተፀብፀበሉን እዩ \n\n"
+    client_satisfaction_rate:
+      title: "13. ለውጢ ዕግበት ተገልገልቲ"
+      label: "ለውጢ ዕግበት ተገልገልቲ"
+      invalid: "ንጊዚኡ እዙይ ምሕሳብ ኣይንኽእልን "
+      helptext: |
+        እዚ ኣመላኸቲ ናይ ዓሚል ግብረ መልሲ ዳህሳስን ዘጠቓለሉ ሓድጊታትን ብምኢታዊ ይልካዕ
+        ብዝተውሃቦም ናይ ጉዳይ ኣመሓደርቲ ግልግሎት ዘዕግብ እዚ አመላኻቲ እዩ።
+        ናይ ዓሚል ግብረ መልሲ ቅጥዒ ብፆታ መሰረት ዝገበረ ጥቕዓት ኣብ ምሕደራ ስርዓትን ብኻሊእ ሰራሕተኛ ተፈፂሙ ዝተገለፀ ንሓደጋ ዝበፅሖ ሰብ ግልጋሎት ወሃቢ ናይ ጉዳይ እዚ ኣመላኻቲ ናይ ዓሚል ግብረ መልሲ ዳህሳሰን ዘጠቓልል ዝተረፉ ብምኢታዊ ይለኣኽ
+        ብዝተውሃቦም ናይ ጉዳይ ምምሕዳር ግልጋሎት ዝዓግቡ ዝኢ ኣመላኻቲ እዩ።
+        ናይ ዓሚል ግብረ መልሲ ቅጥዒ ኣብ ፆታዊ መሰረት ዝገበረ ጥቕዓት ኣብ ምምሕዳር ስርዓት ብኻሊእ ሰራሕተኛ ብምፍፃም ዝተገለፀ
+        ንሓደጋ ዝበፅሖ ሰብ ኣገልግሎት ምስዝሃበ ናይ ጉዳይ ሰራሕተኛ ይኸውን.
+        "
+    supervisor_to_caseworker_ratio:
+      title: "14. ተቖፃፃሪ ምስ ጉዳይ ሰራሕተኛ እንትነፃፀር"
+      label: "ጉዳይ ሰራሕተኛታት ምስ ተቖፃፃሪ እንትነፃፀር"
+      helptext: |
+        እዚ መርኣዪ እዚ ሓደ ተቖጻጻሪ ዝቆጻጸሮም ዘሎ ብዝሒ ሰራሕተኛታት ጉዳይ እዩ: ካብ ተቖጻጻሪ ናብ ጉዳይሰራሕተኛ ሬሾ። እዚ ስሌት ኣብቲ መድረኽ ዝተመደበ ናይ ስርዓት ተራታት ዝተመርኮሰ እዩ።
+    case_load:
+      title: "15. ጽዕነት ጉዳይ"
+      case_load: "ጉዳይ መፅዓኒ "
+      percent: "ናይ ጉዳይ ሰራሕተኛታት መፅዓኒ ብሚኢዊ"
+      10cases: "< 10 ጉዳያት"
+      20cases: "11 - 20 ጉዳያት"
+      21-30cases: "21 - 30 ጉዳያት"
+      30cases: "> 30 ጉዳያት"
+      helptext: "እዚ ጉዳይ ኣመላኻቲ ብንቕሓት ኣብ ጉዳያት ብምምስራት ብሓደ ኣብ ተግባር ዘሎ ናይ ጉዳይ ሰራሕተኛ ብማእኸላይ ናይ ጉዳይ ዝተፅዓነ ይለኣኽ።\nናይ ጉዳያትን ናይ ጉዳይ ሰራሕተኛታት ጥምረት ብዝስዕብ ምክፍፋል ተመስሪቱ እዩ፡ካብ 10 ንታሕቲ \nክፍቲ ዝኾኑ ጉዳያት፣ ካ10-20 ክፍቲ ዝኾኑ ጉዳያት ካብ 21-30 ክፍቲ ጉዳያት፣ ካብ 30 ንላዕሊ ክፍቲ ጉዳያት።እዚ ኣመላኻቲ ብንቕሓት ጉዳያት መሰረት ብምግባር ብሓደ ዝነቕሐ ናይ ጉዳይ ሰራሕተኛ ማእኸላይ ናይ ጉዳይ ብምፅዓን ይለኣኽ።\nናይ ጉዳያትን ናይ ጉዳይ ሰራሕተኛታትን ጥምረት ብዝስዕብ ክፋላት ተመስሪቱ እዩ፡ካብ 10 ንታሕቲ ክፍቲ ጉዳያት፣ካብ 10-20 ክፍቲ ጉዳያት፣ ካብ21-30 ክፍቲ ዝኾኑ ጉዳያት፣ካብ30 ንላዕሊ ክፍቲ ጉዳያት ።\n\"\n"
+    date_range_dialog:
+      title: "ልምዲታት መሰረት ዝገበረ ማዕልታዊ ክልል"
+      description: "ሓደ ጊዜ እዚ ለውጢ ምስተተግበረ ፣ መረዳእታ ካብዚ ንታሕቲ ብዘለዉ ኣብ ውሽጢ ክልተ ማዕልቲታት ይምረፅ"
+      apply: 'ኣመልክት'
+      from: ' ካብ'
+      to: 'ናብ'
+      aria-labels:
+        from: "ድሕሪ እዚ ዕለት መረዳእታ ምሩፃት ይኾኑ"
+        to: "ቅድሚ እዚ ዕለት መረዳእታ ምሩፃት ይኾኑ"
+  location:
+    base_types:
+      camp: ማዓስከር
+      chiefdom: ሓላፍነት
+      city: ከተማ
+      community:  ማሕበረሰብ
+      country: ሃገር
+      county: ኣውራጃ
+      district: ወረዳ
+      governorate: ጠቕላላ ግዝኣት
+      locality: አካባቢ
+      other: ካሊእ
+      province: ክፍለ ሀገር
+      region: ክልል
+      site: ጣቢያ
+      state: ግዛት
+      sub-district: ንኡስ ወረዳ
+      village: ሰፈር
+      zone:  ዞባ
+      association: ማሕበር
+      division: ምምቃል
+      central_warehouse: ማዕከላዊ መጋዝን
+      warehouse: መጋዘን
+      buyingstation: የግዢ ጣቢያ
+      township: የከተማ ኣስተዳደር
+      municipality: ማዘጋጃ ቤት
+      autonomous_region: ራስ ገዝ ክልል
+      parish: አጥቢያ
+      cercle:  ሰርክል
+      sub-county: ዲፓርትመንት
+      departement_fr: 'ዲፓርትመንት'
+      region_fr: ' ክልል'
+      wilaya: 'ዊላያ'
+      commune: 'መግባባት'
+      division_fr: 'ኣካፍል'
+      prefecture: 'ክልል'
+      moughataa: 'ሞውጋታ'
+      sub_division: 'ክፍልፋላት'
+      sub-prefecture: 'ንኡስ ፕሪፌክተር'
+    label: አካባቢ
+    name:  ሽም
+    code: ኮድ
+    admin_level: የአስተዳዳሪ ደረጃ
+    type: ዓይነት
+    hierarchy: ብርኪ
+    import_title: አካባቢ ኣምፅእ
+    message: በይዘኦም ንምስቃል ናይ ሲኤስቪ ማህደር ይምረፁ። እዚ ማህደር UTF-8 ምእታው ምጥቃምን ብሕድሕድ መሰረት ካልኣይ ኣርእስቲ ሪጋ HXL ድልየታት ምክታት ኣለዎ
+    no_location: ' በይዘኦም ዝኾነ ዓይነት ናይ ተጠቃሚ መፍለይ ቅድሚ ምፍጣሮም የምፅኡ'
+    enable_title: ተኽእሎታት ከባቢ
+    enable_text: ዝተመረፁ ቦታታት ምስኣንቅሑ ኣብ መርከቢ ቦታኦም ዉሽጢ ከም መማረፂ ኮይኖም ይረአዩ
+    disable_title:  ከባቢ ምትዕንቓፍ
+    disable_text: 'ዝተመረፁ ከባቢታት ምስኣተዓናቐፉ፣ካብ ሐዚ ንደሓር ብመርከቢ ቦታታት ከም መማረፂ ኣይረአዩን '
+  logger:
+    actions:
+      _approved: ዝፀደቐ
+      _rejected: ዝተነፀገ
+      _requested: ዝተሓተተ
+      add_note: መስታወሻ ወስኽ
+      assign: መድብ
+      assign_to: ናብ ምምዳብ
+      attach: ኣተኣሳስር
+      bulk_assign: ብጅምላ ምምዳብ
+      bulk_create: ብብዝሓት ይፍጠሩ
+      bulk_index: ናይ ጅምላ መረዳእታ ጠቋሚ
+      case_plan_approved: ናይ ጉዳይ ትልሚ ፀዲቑ
+      case_plan_rejected:  ናይ ክሲ ትልሚ ውድቂ ተገይሩ እዩ
+      case_plan_requested: ናይ ጉዳይ ትልሚ ተሓቲቱ
+      close: ምዕፃው
+      create: ፍጠር
+      create_bulk: ብበዝሒ ይፍጠሩ
+      delete:  ምጥፋእ
+      destroy: ምድምሳስ
+      detach: ምፍልላይ
+      enable_disable_record: ዝተሰናኸለ መዝገብ ምኽኣል
+      export: ናብ ወፃኢ ለኣኽ
+      flag: ጥቆማ
+      import:  ኣምፅኢ
+      incident_details_from_case: ናይ ክስተት ጉዳያት ዝርዝር
+      index: መረዳእታ ሓባሪ
+      list: ምዝርዛር
+      login: እቶ
+      password_reset: ናይ ይሕለፍ ቃል ደጊምካ ምጅማር
+      password_reset_request: ሕቶ እንደገና ምትእትታው መሕለፊ ቃል
+      refer: ምምሕላፍ
+      refer_accepted: ምምሕላፍ ተቐባልነት ረኺቡ
+      refer_done: ምምሕላፍ ተኸናዊኑ እዩ
+      refer_rejected: ምምሕላፍ ተቐባልነት ኣይረኸበን
+      refer_revoke: እቲ ዝተስዓረ ኣጣቕስ
+      refer_to: ናብ ምምሕልላፍ
+      reopen: መሊስካ ምኽፋት
+      services_section_from_case: ናይ ግልጋሎት ክፍሊ ጉዳይ
+      show: ኣርኢ
+      show_alerts: ዘነቓቕሑ ኣርኢ
+      traces: ኣለሻታት
+      transfer: ምምሕልላፍ
+      transfer_accepted: 'እቲ ምምሕልላፍ ተቐባልነት ረኺቡ '
+      transfer_rejected: እቲ ምምሕልላፍ ውድቂ ተገይሩ እዩ
+      transfer_request: ናይ ምመሕልላፍ ሕቶ
+      transfer_to: ናብ ኣመሓላልፍ
+      unflag: ባንዲራ ምልዓል
+      update: ዘመናዊ
+      user_password_reset_request: ናይ ተጠቃሚ ናይ ይሕለፍ ቃል ደጊምካ ናይ ምጅማር ሕቶ
+      webhook: ናይ ድሕረ ገፅ መርከቢ
+    approve_form:
+      action_plan: ናይ ተግባር ትልሚ ቅጥዒ
+      bia: BIA ቅጥዒ
+      case_plan: 'ናይ ጉዳይ ትልሚ ቅጥዒ '
+      closure: ናይ መዕፀዊ ቅጥዒ
+      'false': ምንፃግ
+      gbv_closure: ናይ ፆታ መሰረት ዝገበረ ጥቕዓት መዕፀዊ ቅጥዒ
+      'true': ምፅዳቕ
+    assessment_approved: "1%{approval_label} ን..."
+    assessment_requested: "1%{approval_label} ተሓቲቱ"
+    bulk_index: ኩሎም ምዝርዛር
+    by_user:  በተጠቃሚ
+    case_plan_approved: "1%{approval_label} ን..."
+    case_plan_requested: "1%{ምፅዳቅ_ምፍላይ} ተሓቲቱ"
+    close: ምዕፃው
+    closure_approved: "1%{approval_label} ን..."
+    closure_requested: "1%{approval_label} ተሓቲቱ"
+    consent_count: ናይ ፍቓድ በዝሒ
+    copy:  ምቕዳሕ
+    create: ምፍጣር
+    create_subform: ንኡሽተይ ቅጥዒ ምፍጣር
+    destroy: ምጥፋእ
+    edit: ምእራም
+    enable_disable_record: ኣኽእል/ምስንኻል
+    export: ናብ ደገ መረዳእታ ምልኣኽ
+    flag: ሓበሬታ ምሃብ
+    flag_records: ሓበሬታ ምሃብ
+    graph_data: ናይ ግራፍ መረዳእታ ምምልካት
+    hide_name:
+      protect: ሽም ምድባቕ
+      view: ናይ ምርኣይ ሽም
+    index: ናይ መዛግብቲ ዝርዝር
+    list: ዘርዝር
+    login: እቶ
+    logout: ውፃእ
+    lookups_for_field: ኣለሻታት ዓውዲ ስራሕ
+    mark_for_mobile:
+      'false': ንሞባይል ምልክት ኣይትግበር
+      'true': ንሞባይል ማርክ
+    match_record: ተዛመድቲ መዛግብቲ
+    permitted_field_list:  ዝተፈቐደ ዓውዲ ስራሕ ዝርዝር
+    quick_view: ፈጣን ዝኾነ ምልክታ ምምልካት
+    reassign: ምምዳብ
+    resources:
+      audit_log: የኦዲት መዝገብ ናይ ኦዲት መዝገብ
+      user: ተጠቃሚ
+      agency: ትካል
+      user_group: ናይ ተጠቃሚ ጉጅለ
+      child: ህፃን
+      alert: መንቅሒ
+      form_section: ቅጥዒ
+      lookup: ኣለሻ
+      system_settings: የስርዓት ቅንብሮች ናይ ስርዓት ቅንብራት
+      permission: ፍቃድ
+      dashboard: ዳሽቦርድ
+      report: ፀብፃብ ለኣኽ
+      bulk_export: ብጉጅለ ናብ ወፃኢ ምልኣኽ
+      saved_search: ዝተቐመጠ ኣለሻ
+      role: ሚና
+      incident: ክስተት
+      location: አካባቢ
+      primero_configuration: ውቅር
+      code_of_conduct: ናይ ስነ ምግባር ደንቢ
+      task: ተግባር
+    record_state:
+      'false': ስንኩል
+      'true': ምኽኣል
+    refer: ምምሕላፍ
+    refer_to: ምምሕላፍ ተቐባሊ ድለ
+    referral:   ምምሕላፍ
+    relinquish_referral: 'ምምሕላፍ ተኻይዱ '
+    reopen: መሊስካ ምኽፋት
+    reopen_case: መሊስካ ምኽፋት
+    request_approval:
+      action_plan: ተግባር ትልሚ ቅጥዒ ንምፅዳቕ ይጥይቑ
+      bia: ን BIA ቅጥዒ ምፅዳቕ ይጠይቑ
+      case_plan: ንጉዳይ ትልሚ ቅጥዒ ምፅዳቕ ይሕተቱ
+      closure: ናይ መዕፀዊ ቅጥዒ ምፅዳቑ ይሕተቱ
+      gbv_closure: 'ንፆታዊ መሰረት ዝገበረ ጥቕዓት መዕፀዊ ቅጥዒ ምፅዳቑ ይሕተቱ '
+    request_transfer: 'ናይ ምስግጋር ሕቶ ምልኣኽ '
+    request_transfer_view: ምዝውዋር ሕቶ ምርኣይ
+    save_subform: ንኡስ ቅጥዒ ምዕቃብ
+    search: ኤፒኣይ ምድላይ
+    show: ምርኣይ
+    show_alerts: ንዝምልከት መጠንቀቕታታት ርአ
+    to:  ናብ
+    to_user: ናብ ተጠቃማይ
+    transfer: ምትሕልላፍ
+    transfer_status:
+      Accepted: ምትሕልላፍ
+      Rejected: ዝተነጽገ ዝውውር
+    unflag: ባንዴራ ዘይብሉ
+    update: ምዝማም
+  login:
+    label: እቶ
+    password:
+      label: መሕለፊ ቃል
+    password_confirmation:
+      label: ምርግጋፅ መሕለፊ ቃል
+    password_match:
+      label: መሕለፊ ቃል ክመሳሰል ኣለዎ።
+    provider_title: ምስ %{provider}
+    title: ናብ ውሽጢ ምእታው
+    username: ሽም ተጠቃሚ
+    password_reset_modal: ፓስዎርድ ዳግማይ ምትካል
+    password_reset_modal_text: ፕራይሜሮ ናብ ኢመይል ኣድራሻኻ ናይ ፓስዎርድ ሪሰት ሊንክ ክሰድድ ምስትኽኻል ሊንክ ክሰድድ እዩ።
+    password_reset_email:  ኢመይል
+    forgot_password: ፓስዎርድካ ረሲዕካዮ?
+    email:
+      label: ኢመይል
+  lookup:
+    create: ሓድሽ ምድላይ
+    enabled_label: ይከኣሉ ድዮም
+    english_label: እንግሊዝኛ ፅሑፍ
+    label: ምድላይ
+    language_label: ቋንቋ
+    messages:
+      cannot_create: ምድላይ ክፍጠር ኣይከኣለን
+      correct_errors: 'እዞም ዝስዕቡ ጌጋታት ኣሪምኩም ዳግማይ ኣቕርቡ፤'
+      created: ምድላይ ብዓወት ተፈጢሩ።
+      updated: .ምድላይ ብዓወት ተሓዲሱ።
+    name: ሽም
+    no_options: እዚ ኣለሻ ኣብዚ እዋን እዚ ዝኾነ ኣማራጺ የብሉን።
+    translation_label: ናይ ትርጉም ፅሑፍ
+    values: ኣማራፂታት
+    locked_alert_message: እዚ ኣለሻ እዚ ተዓጽዩ ኣሎ።
+  managed_reports:
+    generated_on: ኣብ ዝተፈጠረ
+    label: ርድኢታት
+    total: ጠቕላላ
+    violations_total: ጥሕሰታት
+    filter_by:
+      date: ዕለት
+      verification_status: ናይ መረጋገፂ ኩነታት
+      violation_type:  ጥሕሰት ዓይነት
+      status: ኩነታት
+      status_open: ምኽፋት
+      status_closed: ምዕፃው
+      user_group: ናይ ተጠቃሚ ጉጅለ
+      agency: ትካል
+      by: ብ
+      workflow: ኩነታት ዋሕዚ ስራሕ
+      cp_incident_violence_type: ዓይነት ዓመጽ
+      referral_transfer_status: ናይ ሪፈራል / ናይ ምዝውዋር ኩነታት
+      protection_concerns: ስክፍታታት ምክልኻል
+      location: ጸብጻብ ዝግበረሉ ቦታ
+      followup_type: ዓይነት ፎሎው ዓይነት ፎሎው ኣፕ
+      service_type: ዓይነት ግልጋሎት
+    status_options:
+      open:  ምኽፋት
+      closed: ምዕፃው
+    by_options:
+      created_by_groups: ተጠቃሚ ጉጅለታት ናይ መዝገብ ፈጣሪ
+      owned_by_groups: ተጠቃሚ ጉጅለታት ናይ ወናኒ መዝገብ
+      created_organization: ተጠቃሚ ጉጅለታት ናይ ወናኒ መዝገብ
+      owned_by_agency_id: ትካል ፈጣሪ መዝገብ
+    referral_transfer_status_options:
+      in_progress: ገና ኣብ ምፅባይ
+      accepted: ቅቡል
+      rejected: ንፁግ
+      done: ምውዳእ
+    date_range:
+      month: ወርሒ
+      quarter: ርብዒ
+      year: ዓመት
+      week: ሰሙን
+    date_range_options:
+      this_quarter: እዚ ርብዒ
+      last_quarter: ዝሓለፈ ርብዒ
+      this_month: እዚ ወርሒ
+      last_month: ዝሓለፈ ወርሒ
+      this_week: እዚ ሰሙን
+      last_week: ዝሓለፈ ሰሙን
+      this_year:  እዚ ዓመት
+      last_year:  ዝሓለፈ ዓመት
+      custom: ቅቡል ልምዲ
+    no_data: ነዚ ርድኢት ዝኸውን ዳታ የለን
+    no_data_table: ነዚ ርድኢት ዝኸውን ዝኾነ ናይ ሳጥን ዳታ የለን
+    incomplete_data: ዘይተማልአ መረዳእታ
+    individual_children:
+      name: ውልቀ-ሰባት ህጻናት
+      reports:
+        individual_children: ውልቀ-ሰባት ህጻናት
+      sub_reports:
+        individual_age: ውልቀ ህጻናት ብዕድመ
+        individual_violation_type: ውልቀ ህጻናት ብክልል
+        individual_region: ውልቀ ህጻናት ብክልል
+        individual_perpetrator: ውልቀ ህጻናት ብገበነኛ
+    services:
+      name: ግልጋሎታት
+      description: እቶም ዝተመርጹ ዓይነታት ኣገልግሎት ዘለዎም ጉዳያት፡ ብዕድመን ጾታን ዝተበታተኑ።
+    services_report:
+      reports:
+        services: Services
+        description: እቶም ዝተመርጹ ዓይነታት ኣገልግሎት ዘለዎም ጉዳያት፡ ብዕድመን ጾታን ዝተበታተኑ።
+      sub_reports:
+        services: ግልጋሎታት
+      filter_options:
+        service_implemented_day_time: ኣገልግሎት ተዛዚሙ
+    followups:
+      name: ምክትታላት
+      description: እቶም ዝተመርጹ ዓይነታት ክትትል ዘለዎም ጉዳያት፡ ብዕድመን ጾታንተኸፋፊሎም።
+    followups_report:
+      filter_options:
+        followup_date: ምክትታል ዕለት
+      reports:
+        followups:  ምክትታላት
+        description: እቶም ዝተመርጹ ዓይነታት ክትትል ዘለዎም ጉዳያት፡ ብዕድመን ጾታን ተኸፋፊሎም።
+      sub_reports:
+        followups: ምክትታላት
+    protection_concerns:
+      name: ስክፍታታት ምክልኻል
+      description: ብዕድመን ጾታን ዝተበታተኑ ዝተመርጹ ናይ መከላኸሊ ስክፍታታት ዘለዎም ጉዳያት።
+    protection_concerns_report:
+      reports:
+        protection_concerns: ስክፍታታት ሓለዋ
+        description: ብዕድመን ጾታን ዝተበታተኑ ዝተመርጹ ናይ መከላኸሊ ስክፍታታት ዘለዎም ጉዳያት።
+      sub_reports:
+        protection_concerns:  ስክፍታታት ምክልኻል
+      filter_options:
+        registration_date: ናይ ምዝገባ ዕለት
+    reporting_locations:
+      name: ጸብጻብ ዝግበረሉ ቦታ
+      description: 'ዝተመርጸ ናይ ጸብጻብ ቦታ ዘለዎም ጉዳያት፡ ብዕድመን ጾታን ተበታቲኖም።'
+    reporting_locations_report:
+      reports:
+        reporting_locations: ጸብጻብ ዝግበረሉ ቦታ
+      sub_reports:
+        reporting_location_by_sex_and_age: ጸብጻብ ዝግበረሉ ቦታ
+      filter_options:
+        registration_date: ዕለት ምዝገባ
+    ghn_report:
+      name: ዓለምለኻዊ ልኡል መተሓሳሰቢ
+      reports:
+        ghn_report: ዓለምለኻዊ ልኡል መተሓሳሰቢ
+      sub_reports:
+        verified_information: ዝተረጋገጸ ሓበሬታ ጥቕዓት
+        late_verification: ድሒሩ ዝተረጋገፀ ጥቕዓታት
+        unverified_information: ዘይተረጋገጸ ሓበሬታ - ግዳያት
+        verified_information_violations: ዝተረጋገጸ ሓበሬታ - ጥሕሰት
+        late_verification_violations: ደንጉዩ ምርግጋጽ - ጥሕሰት
+        unverified_information_violations: ዘይተረጋገጸ ሓበሬታ - ጥሕሰት
+        killing: ቅትለት ህፃናት
+        maiming: 'ጉድኣት ህፃናት '
+        recruitment: ቆልዑ ምቑፃርን ወይ ምጥቃም
+        sexual_violence: ዓመጽን ካልእ ዓይነት ጾታዊ ዓመጽን
+        rape: ዓመጽን ካልእ ዓይነት ጾታዊ ዓመጽን
+        abduction: ጠለፋታት
+        attack_on_hospitals: ጥቕዓት ኣብ ሆሰፒታል（ላት）
+        attack_on_schools: ጥቕዓት ኣብ ቤት ትምህርቲ （ታት）
+        military_use: ወተሃደራዊ ኣጠቓቕማ ቤት ትምህርቲ(ታት)ን/ወይ ሆስፒታል(ታት)ን
+        denial_humanitarian_access: ንህጻናት ሰብኣዊ ኣገልግሎት ምኽልካል
+        multiple_violations: ብተደጋጋሚ ጥሕሰት ዝተሃስዩ ህጻናት
+        detention: ማእሰርቲ
+        boys: ኣወዳት
+        girls: ኣዋልድ
+        total: ጠቕላላ
+        unknown: ዘይፍለጥ
+        associated_violations: ተዛመድቲ ጥሕሰታት
+    violations:
+      name: ጥሕሰታት
+      filter_options:
+        incident_date: ናይ ክስተት ማዕልቲ
+        date_of_report: ናይ ፀብፃብ ማዕልቲ
+        ctfmr_verified_date: ዕለት ምርግጋጽ
+        verified: ተረጋጊጹ
+      reports:
+        killing: ቅትለት ህፃናት
+        maiming: 'ጉድኣት ህፃናት '
+        recruitment: ምልመላን/ወይ ኣጠቓቕማን ህጻናት
+        sexual_violence: ዓመጽን ካልእ ዓይነት ጾታዊ ዓመጽን
+        rape: ዓመጽን ካልእ ዓይነት ጾታዊ ዓመጽን
+        abduction: ጠለፋታት
+        attack_on_hospitals: ኣብ ልዕሊ ሆስፒታል(ላት) ዝፍጸም መጥቃዕቲ
+        attack_on_schools: ኣብ ልዕሊ ኣብያተ ትምህርቲ (ታት) ዝፍጸም መጥቃዕቲ
+        military_use: ወተሃደራዊ ኣጠቓቕማ ቤት ትምህርቲ(ታት)ን/ወይ ሆስፒታል(ታት)ን
+        denial_humanitarian_access: ንህጻናት ሰብኣዊ ኣገልግሎት ምኽልካል
+        detention: ማእሰርቲ
+      sub_reports:
+        children: ህፃውንቲ
+        combined: ጥሕሰታት
+        denial_humanitarian_access: ሰብኣዊ ምኽሓድ
+        denial_type: ዓይነት ምኽሓድ
+        detention_detained:  ተኣሲሮም ይጸንሑ
+        detention_released: ተለቒቑ
+        perpetrators: ብዝሒ ህጻናት ብገበነኛታት
+        perpetrators_denial: ብዝሒ ጥሕሰት ብገበነኛታት
+        perpetrator_detention: ብዝሒ ህጻናት ብገበነኛታት
+        perpetrators_incidents: ብዝሒ ፍጻመታት ብገበነኛታት
+        reporting_location_incidents: ብዝሒ ፍጻመታት ብክልል
+        reporting_location: ብዝሒ ህጻናት ብኽልል
+        reporting_location_detention: ብዝሒ ህጻናት ብኽልል
+        reporting_location_denial: ብዝሒ ጥሕሰት ብክልል
+        attack_type: ብዝሒ ህጻናት ብዓይነት መጥቃዕቲ
+        boys: ኣወዳት
+        girls: ኣዋልድ
+        unknown: ዘይፍለጥ
+        total: ጠቕላላ
+        violation: ጥሕሰታት
+        sexual_violence_type: መልክዕ (መልክዓት) ጾታዊ ዓመጽ
+        detention_status: ኩነታት ዝተኣስሩ ህጻናት
+        type_of_use: ዓይነት ኣጠቓቕማ
+        factors_of_recruitment: ምኽንያታት ምልመላ
+        still_being_held: ሕጂ ውን ተታሒዙ ኣሎ።
+        released: 'ተለቒቑ'
+        escaped: 'ኣምሊጡ'
+        abduction_reasons: ንጠለፋ ምኽንያት
+        abducted_status: ኩነታት ጠለፋ
+        facility_attack_type: ዓይነት ጥሕሰት
+        received_response: ህጻናት መልሲ ረኺቦም
+        male: ተ
+        female: ኣ
+        military_use_type_of_use: ብዝሒ ጥሕሰት ብዓይነት ኣጠቓቕማ
+    gbv_statistics:
+      name: ናይ ፆታ መሰረት ተገይሩ ዝተፈፀመ ጥቕዓት
+      filter_options:
+        date_of_first_report: ናይ መሕተቲ ማዕልቲ
+        incident_date: ናይ ክስተት ማዕልቲ
+      reports:
+        incidents: መረዳእታ ናይ ፆታ መሰረት ተገይሩ ዝተፈፀመ ጥቕዓት
+        perpetrators: ገበነኛታት
+        survivors: ካብቲ ሓደጋ ዝደሓኑ
+        referrals: ምትእስሳር
+      sub_reports:
+        incidents:  ክስተት
+        combined: ሓፈሻዊ መረዳእታ
+        total: 1. ሓደስቲ ፍጻመታት ጂቢቪ ተጸብጺቦም
+        gbv_sexual_violence: ስታቲስቲክስ ካብ ሞት ዝደሓኑ - 9. ዝተገልጸ ፍጻመታት ጾታዊ ዓመጽ
+        gbv_previous_incidents: 2. ሓደስቲ ፍጻመታት ጾታዊ ዓመጽ ተገሊጹ
+        gbv_sexual_violence_type: ስታቲስቲክስ ፍጻመታት - 10. ዓይነት GBV
+        incident_timeofday: ስታቲስቲክስ ፍጻመታት - 11. ናይ መዓልቲ ግዜ ፍጻመ
+        elapsed_reporting_time: ስታቲስቲክስ ፍጻመታት - 13. ኣብ መንጎ ፍጻመን ዕለት ጸብጻብን ዘሎ ግዜ
+        elapsed_reporting_time_rape: ስታቲስቲክስ ፍጻመታት - 14. ፍጻመታት ዓመጽ፡ ኣብ መንጎ ፍጻመን ዕለት ጸብጻብን ዝሓለፈ ግዜ
+        elapsed_reporting_time_rape_health_referral: ስታቲስቲክስ ፍጻመታት - 15. ፍጻመታት ዓመጽ፡ ዝሓለፈ ግዜ (ኣገልግሎት ጥዕና ወይ ሪፈራል)
+        incident_location_type: ' ስታቲስቲክስ ፍጻመታት - 16. ቦታ ፍጻመ'
+        number_of_perpetrators: ስታቲስቲክስ ገበነኛታት - 17. ብዝሒ ቀዳሞት ገበነኛታት
+        perpetrator_relationship: ስታቲስቲክስ ገበነኛ - 18. ገበነኛ ዝበሃል ሰብ - ካብ ሞት ዝደሓነ ርክብ
+        perpetrator_age_group: ስታቲስቲክስ ገበነኛታት - 19. ቀዳሞት ገበነኛታት ዝበሃሉ ዕድመ ጉጅለ
+        perpetrator_occupation: ስታቲስቲክስ ገበነኛ - 20. ቀዳማይ ገበነኛ ዝበሃል ሞያ
+        age: ስታቲስቲክስ ካብ ሞት ዝደሓኑ - 4. ዕድመ ካብ ሞት ዝደሓኑ
+        sex:  ስታቲስቲክስ ካብ ሞት ዝደሓኑ - 3. ጾታ ካብ ሞት ዝደሓኑ
+        marital_status: ስታቲስቲክስ ብህይወት ዝተረፉ - 5. ኩነታት ሓዳር ናይቶም ብህይወት ዝተረፉ
+        displacement_status: ስታቲስቲክስ ብህይወት ዝተረፉ - 6. ኣብ እዋን ጸብጻብ ኩነታት ምዝንባል
+        displacement_incident: ስታቲስቲክስ ብህይወት ዝተረፉ - 7. ደረጃ ምዝንባል ኣብ እዋን ፍጻመ
+        gbv_case_context: ስታቲስቲክስ ፍጻመታት - 12. ዓውደ-ጽሑፍ ጉዳይ
+        incidents_first_point_of_contact: ሪፈራል ስታቲስቲክስ - 21. ትካልኩም ቀዳማይ ርክብ ነጥቢ ዝኾነሎም ብዝሒ ፍጻመታት
+        incidents_from_other_service_provider: ስታቲስቲክስ ሪፈራል - 22. ካብ ካልኦት ወሃብቲ ኣገልግሎት ሪፈራል ዝኾኑ ፍጻመታት
+        number_of_services_provided: ሪፈራል ስታቲስቲክስ - 23. ንፍጻመታት ዝወሃብ ብዝሒ ኣገልግሎት
+        number_of_services_provided_other: ስታቲስቲክስ ሪፈራል - 24. ሓደስቲ ፍጻመታት ሪፈራል ናብ ካልኦት ወሃብቲ ኣገልግሎት
+        service_safehouse_referral:  ውሑስ ገዛ/ውሑስ መዕቆቢ ምምሕልላፍ
+        service_medical_referral: ናይ ጥዕና/ሕክምናዊ ምምሕልላፍ
+        service_psycho_referral: ስነ-ኣእምሮኣዊ ማሕበራዊ/ምኽሪ ኣገልግሎት
+        service_legal_referral: ኣገልግሎት ሕጋዊ ሓገዝ
+        service_police_referral: ፖሊስ ወይ ካልእ ዓይነት ኣገልግሎት ጸጥታ
+        service_livelihoods_referral: ኣገልግሎት መነባብሮ
+        service_protection_referral: ኣገልግሎት ሓለዋ ህጻናት
+        vulnerable_populations: ስታቲስቲክስ ካብ ሞት ዝደሓኑ - 8. ተቓላዕቲ ህዝቢ
+        survivors_disability_type: ምስ ስንኩላን
+    workflow_report:
+      name: ዋሕዚ ስራሕ
+      description: ዝተመርጸ ኩነታት ዋሕዚ ስራሕ ዘለዎም ጉዳያትን ፍጻመታትን፡ ብዕድመን ጾታን ዝተበታተኑ።
+      reports:
+        cases_workflow: ዋሕዚ ስራሕ - ጉዳያት
+        incidents_workflow: ዋሕዚ ስራሕ - ፍጻመታት
+      filter_options:
+        registration_date: ዕለት ምዝገባ
+      sub_reports:
+        case_workflow_by_sex_and_age: ጠቕላላ ቁጽሪ ሕሙማት ብጾታን ዕድመን።
+        incident_workflow_by_sex_and_age:  ጠቕላላ ቁጽሪ ፍጻመታት ብጾታን ዕድመን።
+    cases_workflow_report:
+      name: ዋሕዚ ስራሕ
+      description: ዝተመርጸ ኩነታት ዋሕዚ ስራሕ ዘለዎም ጉዳያት፡ ብዕድመን ጾታን ዝተበታተኑ።
+      reports:
+        cases_workflow: ዋሕዚ ስራሕ - ጉዳያት
+      filter_options:
+        registration_date: ዕለት ምዝገባ
+      sub_reports:
+        case_workflow_by_sex_and_age: ጠቕላላ ቁጽሪ ሕሙማት ብጾታን ዕድመን።
+    referrals_transfers_report:
+      name: ምምሕልላፋትን ዝውውርን ምግባር
+      description: ኣብ ውሽጢ ዝተወሰነ ግዜ ዘጋጠሙ ሪፈራላትን ትራንስፈርን ። ብናይ ምልኣኽን ምቕባልን ኤጀንሲታት ወይ ተጠቃሚ ጉጅለታት ዝተበታተነ።
+      reports:
+        total_referrals: ምምሕልላፍ
+        total_transfers: ምምሕልላፍ
+      sub_reports:
+        total_transfers_by_user_groups: ጠቕላላ ዝውውር
+        total_referrals_by_user_groups: ጠቕላላ ምዝዋር
+      filter_options:
+        registration_date: ዕለት ምዝገባ
+    violence_type_report:
+      name: ዓይነት ጥሕሰት
+      reports:
+        cases_violence_type: ዓይነት ዓመጽ - ጉዳያት
+        incidents_violence_type: ዓይነት ዓመጽ - ፍጻመታት
+      filter_options:
+        registration_date: ዕለት ምዝገባ
+      sub_reports:
+        case_violence_type_by_sex_and_age: ጠቕላላ ቁጽሪ ሕሙማት ብጾታን ዕድመን።
+        incident_violence_type_by_sex_and_age: ጠቕላላ ቁጽሪ ፍጻመታት ብጾታን ዕድመን።
+    success_message: ነቲ ናይ ሰደድ ፋይል ብዓወት ፈጢሩ
+  messages:
+    alert_items: '%{items} ናይ መተሓሳሰቢ ነገራት ኣለዉኻ።'
+    alerts_for:
+      approval: ን %{items} ምጽዳቕ ይጽበ ኣሎ።
+      field_change: '1%{items} ኣብ %{ምንቃሕ_ጊዜ} ተሓዲሱ።'
+      transfer_request: ሓድሽ ናይ ምስግጋር ሕቶ ኣብ %{date} ብ %{user} ኣብ %{agency} ተገይሩ።
+      duplicate_field: ካልእ ኣብቲ ስርዓት ዘሎ ጉዳይ ከምዚ ናይዚ %{field_name} ኣለዎ።
+    cannot_edit: ነዚ ከተዐርዮ ኣይትኽእልን ኢኻ።
+    confirmation_message: ምጥዋቕ ዝኾነ ዘይተዓቀበ ለውጢ ደርብዩ ናብቲ ዝርዝር ትርኢት ይምለስ ። ናብቲ መዝገብ ንምምላስ ሰርዝ ዝብል ጠውቕ።
+    confirmation_message_subform: ካብ መስመር ወጻኢ ኢኻ ዘለኻ። እቲ ዳሽቦርድ ምሉእ ብምሉእ ኣብ መስመር ምስ ተመለስካ ክሰርሕ እዩ።
+    dashboard_offline: ካብ መስመር ወጻኢ ኢኻ ዘለኻ። እቲ ዳሽቦርድ ምሉእ ብምሉእ ኣብ መስመር ምስ ተመለስካ ክሰርሕ እዩ።
+    field_name_on_form_name: '''%{field_name}'' ቦታ ኣብ ''%{form_name}'' ቅጥዒ።'
+    logout_confirmation: ክፍለ ግዜኻ ክትቅጽል ትደሊ ዲኻ?
+    logout_offline_warning: ርግጸኛ ዲኻ ክትወጽእ ከም እትደሊ? ከምኡ እንተ ጌርካ፡ ዳግማይ ኣብ ኢንተርነት ክሳብ እትኣቱ ዳግማይ ክትኣቱ ኣይትኽእልን ኢኻ። ካብ መስመር ወጻኢ ከለኻ ዝገበርካዮ ዝኾነ ለውጢ ክጠፍእ እዩ።
+    logout_warning: ድሕሪ 5 ደቓይቕ ክትወጽእ ኢኻ።
+    logout_dialog_header: ካብ ኢንተርኔት ወጻኢ ምውጻእ
+    logout_confirmation_title: ምውፃእ ምርግጋፅ
+    logout_confirmation_text: ርግጸኛ ዲኻ ክትወጽእ ከም እትደሊ?
+    no_changes:  ናይ ሜዳ ለውጢ ኣይገበርካን።
+    not_available: ኣይርከብን እዩ።
+    record_list:
+      column_header_tooltip: ን ሚኢታዊ{column} ምድላው።
+      of: ካብ
+      no_match: ይቕሬታ፡ ዝሰማማዕ መዝገብ ኣይተረኽበን።
+      rows_per_page: መስመራት ኣብ ገጽ
+      sort: ምስራዕ
+  navigation:
+    bulk_exports:  ሰደድ ምግባር
+    cases: ጉዳያት
+    home: ገዛ
+    key_performance_indicators: ናይ ልቢ ትርታ
+    incidents: ክስተት
+    logout: ምውጻእ
+    reports:  ጸብጻባት
+    insights: ርድኢታት
+    search: ምድላይ
+    phonetic_search:
+      title: ንዝጸንሐ መዝገብ ንምድላይ ስም ኣእቱ።
+      label: ናይ ስም ዓውድታት ተጠቐም
+      help_text: ንናይ ስም ዓውድታት ድምጻዊ ምድላይ ኣሎ።
+    id_search:
+      title: ንዝጸንሐ መዝገብ ንምድላይ ቁጽሪ መለለዪ ኣእቱ።
+    settings: ምውዳድ
+    support:  ሓገዝ
+    support_menu:
+      contact_information: ርክብ ሓበሬታ
+      code_of_conduct: ስነ-ምግባር
+      terms_of_use: ውዕል ኣጠቓቕማ
+      system_information: ሓበሬታ ስርዓት
+      resync: ዘይተቐረበ ካብ መስመር ወጻኢ ለውጢ
+    tasks: ዕማማት
+    tracing_request: ናይ ምክትታል ሕቶ
+    activity_log: ምዝገባ ንጥፈታት
+    registry_records: መዝገብ
+    families: ቤተሰባት
+  notes:
+    note_success: ብዓወት ኖት ተወሰኸ
+  permissions:
+    label: ፍቓድ
+    permission:
+      All: ኩሉ
+      add_note: መዘኻኸሪታት ምውሳኽ
+      admin_only: መዛግብቲ የለን - ናይ ኣድሚን ተግባር ጥራይ
+      administrator_read: ኣመሓዳሪ ኣንብብ
+      agency: ትካል
+      agency_read: ትካል ኣንብብ
+      all: ኩሎም መዛግብቲ ወይ ተጠቀምቲ ምብጻሕ
+      approvals_assessment: '1%{approval_label}'
+      approvals_assessment_pending: '1%{approval_label} ኣብ ምጽባይ ይርከብ።'
+      approvals_case_plan: '%{approval_label}'
+      approvals_case_plan_pending: '%{approval_label} ኣብ ምጽባይ ይርከብ።'
+      approvals_closure: '1%{approval_label}'
+      approvals_closure_pending: '1%{approval_label} ኣብ ምጽባይ ይርከብ።'
+      approve_action_plan: ኣጽድቕ %{approval_label}
+      approve_assessment: 1%{approval_label} ዝብል ቅጥዒ ምጽዳቕ
+      approve_case_plan: ኣጽድቕ 1%{approval_label}
+      approve_closure: '%{approval_label} ዝብል ቅጥዒ ምጽዳቕ'
+      approve_gbv_closure: '%{approval_label} ቅጥዒ ኣጽድቕ'
+      assign: ምምዳብ
+      assign_within_agency: ኣብ ውሽጢ ትካል ምምዳብ
+      assign_within_user_group: ኣብ ውሽጢ ጉጅለ ተጠቃሚ ምምዳብ
+      audit_log: ናይ ኦዲት ኣርማ
+      case: ጉዳይ
+      case_approvals: ናይ ጉዳይ ምጽዳቕ
+      case_assignments_referrals_transfers: ምምዳብ ጉዳይ፡ ምዝዋርን ዝውውርን
+      case_exports: 'ጉዳይ ህፃናት ዝከታተል ክኢላ '
+      case_overview: 'ናተይ ጉዳይ '
+      case_risk: 'ጉዳያት ብብርኪ ዳሕሳስ '
+      cases_by_task_overdue_assessment: ብዳሕሳስ ዝተርኣዩ ጉዳያት ርአ
+      cases_by_task_overdue_case_plan: ብዳሕሳስ ዝተርኣዩን ትልሚ ዝተዳለወሎም ጉዳያት ርእ
+      cases_by_task_overdue_followups: ' ግልጋሎት  ዘይተውሃቦም ጉዳያት ርእ'
+      cases_by_task_overdue_services: ግልጋሎት ዘይተውሃቦም ጉዳያት ርእ
+      cases_managed_other_users: ' ብካልኦት  ዝተሰርሑ ጉዳይ ህፃናት '
+      close: ጉዳይ ዕፆ
+      consent_override: ፍቃደኝነት ዘይተሓተቱ ጉዳያት
+      copy: ቅዳሕ
+      copy_of: 'ቅዳሕ ግበር '
+      create: ጉዳይ ፍጠር
+      dash_case_incident_overview: ናተይ ጉዳያት /ጉዳያተይ / ፍፃመታተይ
+      dash_cases_by_social_worker: ' ብማሕበራዊ ክኢላ ዝተሰርሑ ጉዳያት ርእ'
+      dash_cases_by_task_overdue: 'ዝተረስዑ ጉዳያት ርእ '
+      dash_cases_by_workflow: ' ጉዳያት ብቅደም ሳዓብ  ርእ'
+      dash_cases_to_assign: ጉዳያት ንክምደቡ ርእ
+      dash_group_overview: '  ናይ ጉጅለይ ጉዳያት '
+      dash_manager_transfers: ' ብመራሒ ዝተሓላለፉ  ጉዳያት ርእ'
+      dash_matching_results: ' ብምትእስሳር ውፅኢታዊ ዝኸነ ጉዳይ  ርአ'
+      dash_protection_concerns: ናይ ምክልክል ስግኣታት ርእ
+      dash_protection_concerns_by_location: '  ብከባቢ ናይ ምክልክል ስግኣታት ርእ'
+      dash_referrals_by_socal_worker: ' ብማሕበራዊ ክኢላ ሪፈር ዝተገበሩ ጉዳያት ርእ '
+      dash_reporting_location: ' ብከባቢ ዝተገበረ ሪፖርት ርእ '
+      dash_service_provisions: ዝወሃቡ ግልጋሎታት ርእ
+      dash_shared_from_my_team: ' ካብ ብዱነይ ዝተልኣኸ '
+      dash_shared_with_me: ለኣኸለይ
+      dash_shared_with_my_team: '  ምስ ጋንታይ ተለኣኣኸ'
+      dash_shared_with_others: 'ብካልኦት ዝተልኣኸ ጉዳያት '
+      dash_show_none_values: ዋጋ ዘይብሎም  ጉዳያት ርእ
+      dash_tasks: ስራሕቲ ርእ
+      dash_transfers_by_socal_worker: ብማሕበራዊ ክኢላ ዝተዛወሩ  ጉዳያት ርእ
+      dash_national_admin_summary: 'ጥቅሉል ምሕደራ '
+      dashboard: ዳሽ ቦርድ
+      delete: ሰርዝ
+      display_view_page: ' ዝተሰርሑ ጉዳያት ክርኣዩ ግበር '
+      duplicate: 'ዝድለዩ ጉዳያት ኣባዝሕ '
+      enable_disable_record: ከይሰርሕ ግበር
+      export_case_pdf: ጉዳያት ብፕዲፍ ልኣኮ
+      export_csv: ብሲኤስ ልኣኸ
+      export_custom: ሰደድ ልኣክ
+      export_duplicate_id_csv: ' ዝልኣኸ ኣባዝሓዮ '
+      export_json: ' ጄሰን ልኣክ'
+      export_list_view_csv: ዝተርኣዩ ዝርዝር ጉዳያት ለኣኸ
+      export_mrm_violation_xls: ' ዝተሓሱ ኤም ርኤም ልኣክ'
+      export_pdf: ብፐዲፍ ለኣኽ
+      export_photowall: ናይ ግድግዳ ስዕሊ ልኣክ
+      export_unhcr_csv: ሰደድ ዩኤንኤችሲኣር ሲቪቪ
+      export_xls: ኤክስኤል ልኣክ
+      find_tracing_match: ካብ ጉዳይ ምክትታል ምትእስሳር ርኸብ
+      view_registry_record: መዝገብ መዝገብ ርአ
+      add_registry_record: መዝገብ መዝገብ ምውሳኽ
+      family: ስድራ
+      flag: ፀገም
+      form: ቅጥዒታት
+      group: ኣብ ጉጅለይ ዘለዉ ኩሎም መዛግብቲ ወይ ተጠቀምቲ ምብጻሕ
+      group_read: ጉጅለ ንባብ
+      import: ምእታው
+      incident: ክስተት
+      incident_details_from_case: ዝርዝር ፍጻመታት ኣብ ጉዳይ ካልእ ተጠቃሚ ምውሳኽ
+      incident_from_case: ካብ ሓደ ጉዳይ ፍጻመ ምፍጣር
+      kpi: ናህሪ/KPIs
+      lookup: ምድላይ
+      manage: ኣተሓሕዛ
+      mark_for_offline:  ንኦፍላይን ምልክት ግበር
+      matching_configuration: ምትእስሳር ምውቓር
+      metadata: ቅጥዕታት፡ ምድላይ
+      potential_match: ክኸውን ዝኽእል ምትእስሳር
+      primero_configuration: ውቅር
+      read: ምንባብ
+      reassign: ደጊምካ ምምዳብ
+      receive_referral: ሪፈራል ምቕባል
+      receive_transfer: ዝውውር ምቕባል
+      referral: ንሪፈራል ክውዕል ይኽእል።
+      referral_from_service: ጉዳይ ካብ ቅጥዒ ኣገልግሎት ተወከስ
+      registry_record: መዝገብ
+      remove_assigned_users: ካልኦት ዝተመደቡ ተጠቀምቲ (መወከሲታት) ምእላይ
+      reopen: መሊስካ ምኽፋት
+      report:  ፀብፃብ
+      managed_report: ርድኢታት
+      resolve_any_flag: ዝኾነ ባንዴራ ፍታሕ
+      request_approval: ሕቶ ምጽዳቕ
+      request_approval_action_plan: 1%{ምፅዳቅ_ምፍላይ} ፍቓድ ምሕታት 
+      request_approval_assessment: 1%{ምፅዳቅ_ምፍላይ} ፍቓድ ምሕታት
+      request_approval_case_plan: '%{ምፅዳቅ_መ ፍሌዪይ} ፍቓድ ምሕታት'
+      request_approval_closure: 1%{ምፅዳቅ_መ ፍሌዪይ} ፍቓድ ምሕታት
+      request_approval_gbv_closure: 1%{ምፅዳቅ_lመፍለዪ} ፍቓድ ምሕታት
+      request_transfer: ምሕታት ምዝውዋር
+      role: 'ተራታትኻ ተፃወት '
+      save_search: ' ርካቦታትካ ዓቅብ'
+      saved_search: ርካቦትኻ ዓቅብ
+      search_owned_by_others: ብኻልኦት ተጠቀምቲ ዝውነኑ መዛግብቲ ጉዳያት ድለ
+      self: ናተይ መዛግብቲ ብቻ ርእ
+      service_provision_incident_details: 'ኣብ ዝርዝር ፍጻመታት ሞዴል ዝርከብ መጠወቒ ኣወሃህባ ኣገልግሎት  ርእን ወስኸን '
+      services_section_from_case: 'ብካልኦት  ንዝተሰረሑ ጉዳያት  ግልጋሎት ሃብ '
+      specific_roles: 'ብንፁር ኣብ ዝተውሃበካ ዝርዝር  ተጠቐም '
+      sync_external: ምስ ናይ ደገ ስርዓት  ምሕደራ ሓበሬታ ኣራኸብ
+      sync_mobile: 'ካብ ኣገልግሎት ወፃኢ እንትኾን ምልክት ግበር '
+      system: 'ስርዓት '
+      tracing_request: 'ንምእላሽ ሕተት '
+      transfer: ንምዝዋር ተጠቐመሉ
+      user: 'ተጠቀምቲ '
+      user_group: ' ተጠቀምቲ ጉጅለታት'
+      verify_mrm: ኤም ኣርቪ ኣረጋግፅ
+      view_approvals: 'ዝፀደቑ ርእ '
+      view_assessment: ገምጋም ርአ
+      view_photo: ምስሊ ርእ
+      view_protection_concerns_filter: ዝተፈለዩ  ናይ ምክልኻል ስግኣታት ርእ
+      view_response: ምላሻት ርእ
+      webhook: ዌብሁክ
+      workflow: 'ቅደም ሰዓብ ሕድሕድ ጉዳያት '
+      workflow_team: ' ቅደም ሰዓብ ሕሐበራዊ  ጉዳያት '
+      write: ፀሓፍ
+      activity_log: 'ናይ ስራሕ መዝገብ '
+      remove_alert: ' መንቅሒ ኣልዕል'
+    resource:
+      kpi:
+        actions:
+          read:
+            explanation: 'ናብቲ መስርሕ ናይ ምእታው ዓቅሚ '
+            label: 'ናብቲ መስርሕ ብናህሪ ናይ መእታው ዓቅሚ '
+          kpi_assessment_status:
+            explanation: 'ካብቶም ዘይተዓፀዉ ኣብ ከይዲ ዘለዉ ጉዳያት ተጠቃሚ ካብዝርእዮም ክንደየኖም ዝተማልእ ዳሕሳስ ቅጥዒ ኣለዎም '
+            label: 'ክነታት ዳሕሳስ '
+          kpi_average_followup_meetings_per_case:
+            explanation: 'ካብቶም ዘይተዓፀዉ ኣብ ከይዲ ዘለዉ ጉዳያት ተጠቃሚ ካብዝርእዮም ክንደየናይ  ብማእኸላይ ዝተማልእ  ናይ ክትትል ምይይጥ ተገይርሎም   '
+            label: ንሕድሕድ ጉዳይ  ክንደየናይ ማእከላይ ምምይይጥ ይግበር
+          kpi_average_referrals:
+            explanation: 'ካብቶም ዘይተዓፀዉ ኣብ ከይዲ ዘለዉ ኹሎም ጉዳያት ተጠቃሚ ካብዝርእዮም ብማእኸላይ  ክንደየናይ ሪፈራል ግልጋሎት  ተጠቒሞም '
+            label: 'ማእኸላይ ናይ ሪፈራል ግልጋሎት '
+          kpi_case_closure_rate:
+            explanation: 'ኣብ ሕድሕድ ከባቢ ካብ ዘለዉ ጉዳያት ተዓፅዮም '
+            label: ዝተዓፀዉ ጉዳያት ቑፀር
+          kpi_case_load:
+            explanation: ' ሓደ ማሕበራዊ ሰራሕተኛ ካብ ዝኸፈቶም ጉዳያት ብማእኸላይ ክንደየኖም ክርኢ ይኸእል '
+            label: 'በዝሒ ጉዳያት '
+          kpi_client_satisfaction_rate:
+            explanation: ' ካብቶም ተበፃሕቲ  ጉዳያት ግብረመልሲ  ክህቡ ካብ ዝተሓተቱ  ተጠቃዕቲ  ብሚእታዊ  ክንደየናይ   ዕጉባት ነይሮም /ኢዮም/'
+            label: መጠን ዕግበት ዓማዊል
+          kpi_completed_case_action_plans:
+            explanation: 'ኣብ ሂደት ካብዘለዉን ተጠቃሚ ክርእዮም ካብዝኸል  ጉዳያት ክንደየኖም  ተመጣጣኒ መፈፀሚ ትልሚ ተሰሪሕሎም '
+            label: 'ሙሉአ መተግበሪ ትልሚ ዝተሰርሓሎም ጉዳያት '
+          kpi_completed_case_safety_plans:
+            explanation: 'ኣብ ከይዲ ካብ ዘለዉ ክርኣዩ  ካብ ዝኸሉ  ጉዳያት  ክንደየኖም ናይ ደሕንንት ትልሚ ሙሉእ ብሙሉእ ተሰሪሑሎም  '
+            label: 'በዝሒ ደሕንነት ትልሚ ዝተሰርሓሎም ጉዳያት  '
+          kpi_completed_supervisor_approved_case_action_plans:
+            explanation: 'መተግበሪ ትልሚ ካብ ዝተሰርሓሎም ጉዳያት ክንደየናይ ብተቆፃፃሪ ፀዲቆም '
+            label: ' ብተቆፃፃሪ ዝተጠቃለሉ መተግበሪ ትልሚ '
+          kpi_goal_progress_per_need:
+            explanation: 'ኣብ ከይዲ ካብ ዘለዉ ጉዳያት  ብሚእታዊ ዕላምኦም  ዝረኸቡ ክንደይ ኢዮም '
+            label: 'ዕላማታት ንምዕዋት ዝተገብረ ከይዲ  '
+          kpi_number_of_cases:
+            explanation: ' ሪፖርት ካብ ዝተገበሩ ሓደሽቲ  ጉዳያት ክንደየኖም  ጉዳያት  በከባቢ ብወርሒ ተኸፊትሎም  '
+            label: 'በዝሒ ጉዳያት '
+          kpi_number_of_incidents:
+            explanation: 'ሓደሽቲ  ሪፖርት ካብ ዝተገብሩ ጉዳያት ኣብ ሕድሕድ ወርሕን  ከባቢን መሰረት ዝተኸፈቱ ጉዳያት ክንደይ እዮም  '
+            label: ' በዝሒ ፍፃመታት/ክስተታት/'
+          kpi_reporting_delay:
+            explanation: ናይ ምርኣይ ዓቕሚ፣ ንኹሎም እቲ ተጠቃሚ ዝረኽቦም ፍጻመታት፣ ኣብ መንጎ እቲ ዝደሓነ ሰብ ጂቢቪ ዘጋጠመሉን እቲ ዝደሓነ ሰብ ናብ ወሃቢ ኣገልግሎት ምስ ዝሓበሮን ዝሓለፈ ብዝሒ መዓልታት።
+            label: ናይ ሪፖርት ምዝንጋዕ
+          kpi_services_provided:
+            explanation: በቲ ኣብ ጉዳይ ስራሕቲ ዝተዋፈረ ትካል ታይ ዓይነት ግልጋሎታት ይህበሎ
+            label: ዝተወሃቡ ግልጋሎታት
+          kpi_supervisor_to_caseworker_ratio:
+            explanation: ናይ ጉዳይ ሰራሕተኛታትን ተቖጻጸርትን ዘለዎም ርክብ ናይ ምርኣይ ክእለት።
+            label: 'ሓደ ተቆፃፃሪ ንክንደይ ማሕበራዊ ሰራሕተኛ  ይከታተል ብምእታዊ '
+          kpi_time_from_case_open_to_close:
+            explanation: ናይ ምርኣይ ክእለት፣ ንኹሎም እቲ ተጠቃሚ ዝረኽቦም ጉዳያት፣ ክንደይ ግዜ ኬዝ ክፉት ኮይኑ ይቕመጥ።
+            label: 'ካብ ጉዳይ ምኸፋት ክሳብ ምዕፃው ዝተውሃበ ጊዘ ገደብ '
+        label: KPI
+      agency:
+        actions:
+          assign:
+            explanation: ናይ ተጠቃሚ ኣካውንት ኣብ ምፍጣር ወይ ምእራም ንሓደ ትካል ናይ ምምራጽ ክእለት። እቲ ሕጂ ዘሎ ተጠቃሚ እዚ ፍቓድ ከምኡ'ውን ኣብ ተጠቀምቲ "ትካል ምንባብ" ዝብል ፍቓድ እንተሃልይዎ፡ ኣብ ናይ ገዛእ ርእሶም ትካል ጥራይ እዮም ተጠቃሚ ክውስኹ ዝኽእሉ።
+            label: 'ምደባ '
+          create:
+            explanation: 'ትካል ናይ ምፍጣር ዓቅሚ '
+            label: ፍጠር/መስርት/
+          manage:
+            explanation: 'ሓደ ተጠቃሚ ኣብ ኤጀንሲታት ኩሎም ዝርከቡ ተግባራት ክፍጽም የኽእሎ። እቲ "ምምሕዳር" ዝብል ፍቓድ ብመሰረቱ "ኩሉ" ማለት እዩ። ኣገዳሲ፡ እዚ ሓድሽ ትካል ናይ ምፍጣር ዓቕሚ እውን ይህብ።'
+            label: ' ተቆፃፀር(ንኹሎም ዝተውሃቡ ፍቃዳት)'
+          read:
+            explanation: 'ኹሎም ትካላት ናይ ምምራሕ ዓቅሚ '
+            label: ርእ
+          write:
+            explanation: ናይ ትካላት ሓበሬታ ናይ ምእራም ክእለት ኣዳብር። መተሓሳሰቢ ኣብቲ መተግበሪ  መርበብ ሓበሬታ ዘለዎ  ትካላት ብሙሉኦም ይምልከቶም እዩ።
+            label: ምስኸኻል
+        explanation: ፕሪሜሮ ዝጥቀሙ ኣባላት ዘለዎ ትካል ይውክል። ትካላት ካብ ጉጅለታት ተጠቀምቲ ነጻ ኮይኖም ይርከቡ።
+        label: 'ትካል '
+      audit_log:
+        actions:
+          read:
+            explanation: ተጠቃሚ ዝርዝር ናይ ኩሎም ኣብቲ ስርዓት ዝተፈጸሙ ተግባራት ክርኢን ክፍልፍልን የኽእሎ፣ ብተጠቃሚ፣ ዓይነት ተግባር፣ መታወቅያ መዝገብን ግዜ ተግባርን ተበታቲኑ። እዚ ንሃገራዊ ደረጃ ወይ ብደረጃ ትካል ኣመሓደርቲ ዝበለጸ ይምችእ፣ እዚ ብኹሎም ተጠቀምቲ ኣብቲ ስርዓት ዝፍጸም ተግባራት ስለዘርኢ። እቲ ናይ ኦዲት መዝገብ ብዛዕባ ኣብ ነፍሲ ወከፍ ተግባር ዝተሳተፉ መዛግብቲ ውልቃዊ መለለዪ ሓበሬታ ከምዘየርኢ ኣስተውዕሉ።
+            label: ርእ/ተመልከት
+        explanation: ኣብቲ ስርዓት ዝተፈጸሙ ኩሎም ተግባራት ዝጽረግ ዝርዝር። ኣብ ጉዳያት፡ ፍጻመታት፡ ወይ ሕቶታት ምክትታል ዝኾነ መለለዪ ሓበሬታ ኣየጠቓልል።
+        label: 'ኦዲት መዝገብ '
+      case:
+        actions:
+          add_note:
+            explanation: ሓደ ተጠቃሚ ኣብቲ "መተሓሳሰቢ" ንኡስ ቅጥዒ (ሓድሓደ ግዜ "ርእይቶታት" ተባሂሉ'ውን ይጽዋዕ) ምእታው ክውስኽ የኽእሎ። እቲ ተጠቃሚ ነዚ ዝገብሮ ኣብቲ ጉዳይ ምርኣይ ገፅ"መተሓሳሰቢ ምውሳኽ" ዝብል ቁልፊ ብምጥዋቕ እዩ። እዚ ተግባር እዚ ብፍላይ ነቶም ንጉዳያት ናይ ምእራም ዓቕሚ ዘይብሎም፡ ግን ከኣ ንሰራሕተኛ ጉዳይ ኣብ ሓደ ጉዳይ መዘኻኸሪታት ክውስኹ ዝደልዩ ኣካየድቲ ጠቓሚ እዩ። በዚ መንገዲ እዚ ኖት ምውሳኽ ምስ ባንዴራ ምውሳኽ ዝመሳሰል እዩ። ብልጫ ናይ ምውሳኽ ኖት፡ እቲ ሓላፊ ኣብ ሓደ ጉዳይ ኖት ክውስኽ ከሎ፡ ነቲ ሰራሕተኛ ጉዳይ ኣብ ሞባይሎም ነቲ ጉዳይ ክዕዘብዎ ከለዉ፡ ኣብቲ ኬዝ መፍለጢ ክቐርብ እዩ።
+            label: ጉዳይ ክትሰርሕ ከላኻ መዘኸኸሪ ሓዝ
+          add_registry_record:
+            explanation: 'ካብቲ ዝርዘር መመዝገቢ ቅጥዒ ጉዳያት ተጠቐምቲ   ንክምዝግቡ  ኹነታት ኣመቻችወሎም።ምትእስሳር ንዝተሰርሓሎም ጉዳያት ግን ኣይተፍቐደሎም '
+            label: ጉዳያት ዝመዝገብሉ መዝገብ ኣመሓይሽ
+          approve_action_plan:
+            explanation: ሓደ ኣካያዲ ስራሕ ነቲ ናይ ጕዳይ ሰራሕተኛታት ጕዳያቶም %{approval_label}  ክፈቕደሉ ይፈቅድ
+            label: '%{approval_label} ምጽዳቕ'
+          approve_assessment:
+            explanation: ሓደ ኣካያዲ ንጉዳያቶም ናይ ጉዳዮም ሰራሕተኛታት ጉዳዮም %{approval_label} ከጽድቕ የኽእሎ።
+            label: 'አፀድቅ %{approval_label} ካብ '
+          approve_bia:
+            explanation: ሓደ ኣካያዲ ንጉዳያቶም ናይ ጉዳዮም ሰራሕተኛታት ጉዳዮም %{approval_label} ከጽድቕ የኽእሎ።
+            label: ኣፀድቕ %{approval_label} ቅጥዒ
+          approve_case_plan:
+            explanation: ሓደ ኣካያዲ ንጉዳያቶም ናይ ጉዳዮም ሰራሕተኛታት ጉዳዮም %{approval_label} ከጽድቕ የኽእሎ።
+            label: ኣፀድቅ  %{approval_label}
+          approve_closure:
+            explanation: ሓደ ኣካያዲ ስራሕ ነቲ ናይ ጕዳይ ሰራሕተኛታት ጕዳያቶም %{approval_label} ክፈቕደሉ ይፈቅድ።
+            label: ኣፀድቕ %{approval_label} ቅጥዒ
+          approve_gbv_closure:
+            explanation: ሓደ ኣካያዲ ንጉዳያቶም ናይ ጉዳዮም ሰራሕተኛታት ጉዳዮም %{approval_label} ከጽድቕ የኽእሎ።
+            label: '%{approval_label} ቅጥዒ ኣፀድቕ'
+          assign:
+            explanation: ናይቲ ህፃን ፍቃድ ከየድለየ ሓደ ተጠቃሚ ካብቲ ናይመጀመርያ ዝተመዝገበ ጉዳይ  ንካልኦት ንከልእኸ ኣብቲ ስርዓት ፍቐድ።እቲ ተቐባሊ ግን ክቀበል ወይ ድማ ክነፅጎ ዕድል የብሉን
+            label: መድብ
+          assign_within_agency:
+            explanation: ናይቲ ህፃን ፍቃድ ከየድለየ ሓደ ተጠቃሚ ካብቲ ናይመጀመርያ ዝተመዝገበ ጉዳይ ንካሊእ ተጠቃሚ ትካል ፍቐድ።እቲ ተቐባሊ ግን ክቀበል ወይ ድማ ክነፅጎ ዕድል የብሉን
+            label: ' ኣብ ናተይ ትካል ተጠቀምቲ ክጥቀሙ መድብ  ወይም ፍቐድ'
+          assign_within_user_group:
+            explanation: ናይቲ ህፃን ፍቃድ ከየድለየ ሓደ ተጠቃሚ ካብቲ ናይመጀመርያ ዝተመዝገበ ጉዳይ ንካሊእ ተጠቃሚ  ጉጅለ ፍቐድ።እቲ ተቐባሊ ግን ክቀበል ወይ ድማ ክነፅጎ ዕድል የብሉን
+            label: ኣብ ናተይ ጉጅለ  ተጠቀምቲ ክጥቀሙ መድብ ወይም ፍቐድ
+          change_log:
+            explanation: ተጠቀምቲ  ኣብቲ ታሪክ ዘለዉ ለውጥታት  ክርእዩ ይኸእሉ እዮም ምክንያቱም እቲ ጉዳይ ሓደ ጊዘ ስለዝተፈጠረ።እዙይ ድማ ኩሎም ክብርታት  ኣብ ኹሎመ ዓውድታት ዘካተተ እዩ።
+            label: መዝገብ ቐይር
+          close:
+            explanation: 'ዝተኸፈቱ ጉዳያት ንክዓፅዉን ደረጅኦም ንክውስኑ መእተዊ ፍቐደሎም  '
+            label: ጉዳይ ዕፆ
+          consent_override:
+            explanation: 'ፍቃድ ንዘይተውሃበሎም ጉዳያት ሪፈር ንክፀሓፈሎም ወይድማ ንክዛወሩ ንካልኦት ተጠቀምቲ መእተዊ ፍቐደሎም '
+            label: ናይቲ ህፃን ፍቃድ ንዘይተውሃበሎም  ጉዳያት ኣብ እዋን ሪፈር ምግባር  ወይድማ ምዝዋር ግደፎም
+          create:
+            explanation: 'ጉዳይ ናይ ምፍጣር ክእለት '
+            label: ፍጠር
+          display_view_page:
+            explanation: ሓደ ተጠቃሚ ዘይረኸቦ ጉዳይ ምድላይ እንተገይሩ፡ እዚ ፍቓድ እዚ ዋላ እቲ ተጠቃሚ ኩሉ ሓበሬታኡ ንምርኣይ ናብቲ ጉዳይ ጠዊቑ እንተዘይከኣለ፡ ብዛዕባ እቲ ጉዳይ መሰረታዊ ሓበሬታ ዘለዎ ንእሽቶ ሞዳል ክርኢ የኽእሎ። ኣብዚ "View Modal" ዝረኣዩ ዓውድታት "Show on Short Form" ተባሂሎም ዝተዋቕሩ ዓውድታት እዮም። እዚ ሞዳል ​​እዚ ንናይ ስድራቤት ምክትታልን ዳግመ-ውህደትን ተግባራት ንዝፍጽሙ ተጠቀምቲ'ውን ጠቓሚ እዩ፣ ምኽንያቱ እቲ "ሞዳል ምርኣይ" ተጠቃሚ ንሓደ ናይ ምክትታል ሕቶ ከም "ዓቕሚ ምትእስሳር" ኮይኖም ዝተራእዩ ጉዳያት ክግምግም ከሎ ክረኽቦ ዝኽእል እዩ።
+            label: ጉዳይ ዝርኣየሉ ገፅ ኸፈት
+          enable_disable_record:
+            explanation: ንሓደ ጉዳይ ናይ ምዕጻው ወይ ምኽኣል ክእለት። "ዝተሰናኸሉ" ጉዳያት ብነባሪ ኣብ ዝርዝር ጉዳያት ኣይረኣዩን። ተጠቀምቲ ኣብቲ ዝርዝር ጉዳያት ስንኩላን ጉዳያት ፍልተር ብምጥቃም ክርእዩ ይኽእሉ። ፕሪሜሮ ተጠቀምቲ ንኬዝ ክድምስሱ ስለዘይፈቅድ፡ ሓደ ተጠቃሚ ንሓደ ኬዝ ከም መተካእታ ከሰናኽሎ ክደሊ ይኽእል። ንኣብነት ሓደ ተጠቃሚ ብጌጋ ኬዝ እንተፈጢሩ፡ ወይ እቲ ኬዝ ሕማቕ ዳታ እንተሃልይዎ፡ እቲ ተጠቃሚ ከሰናኽሎ ኣለዎ።
+            label: ኣኽእል/ኣይተኽእል
+          export_case_pdf:
+            explanation: ተጠቃሚ ካብቲ ዝርዝር ጉዳያት ወይ ገጻት ምርኢት ጉዳይ ፒዲኤፍ ፋይል ሰደድ ክፈጥር ይኽእል፣ እዚ ድማ ንኹሎም እቲ ሕጂ ተጠቃሚ ዝረኽቦም ዓውድታት ዝሓዘ እዩ፣ ንሓደ፣ ንብዙሕ ወይ ንኹሎም እቲ ተጠቃሚ ዝረኽቦም ጉዳያት። ኣብቲ ናይ PDF ሰደድ ፋይል፡ ሓበሬታ መጀመርታ ብጉዳይ ይዝርዘር፡ ድሕሪኡ ድማ ብዝያዳ በቲ ሓበሬታ ዝረኣየሉ ቅጥዒ ይውደብ።
+            label: Export case PDF
+          export_csv:
+            explanation: 'ተጠቃሚ ካብቲ ዝርዝር ጉዳያት ወይ ገጻት ምርኢት ጉዳይ CSV ፋይል ሰደድ ክፈጥር ይኽእል፣ እዚ ድማ ንኹሎም እቲ ሕጂ ተጠቃሚ ዝረኽቦም ዓውድታት ዝሓዘ እዩ፣ ንሓደ፣ ንብዙሕ ወይ ንኹሎም እቲ ተጠቃሚ ዝረኽቦም ጉዳያት። መተሓሳሰቢ፡ እቲ CSV ሰደድ ላቲን ዘይኮኑ ፊደላት (ንኣብነት ዓረብኛ፡ ባንግላ) ብንባብ ዝኽእል ቅርጺ ኣይህብን እዩ።'
+            label: Export CSV
+          export_custom:
+            explanation: ተጠቃሚ ካብ ዝርዝር ጉዳያት ወይ ገጻት ምርኢት ጉዳይ ኤክስኤልኤስ ፋይል ሰደድ ክፈጥር ይኽእል፣ እዚ ድማ ብሕታዊ ስብስብ ቅጥዕታት ወይ ዓውድታት ዝሓዘ እዩ፣ ንሓደ፣ ንብዙሕ፣ ወይ ንኹሎም እቲ ተጠቃሚ ዝረኽቦም ጉዳያት። ኣብዚ ሰደድ እዚ ነፍሲ ወከፍ ቅጥዒ ኣብ ውሽጢ ፋይል ኤክስኤልኤስ ኣብ ናይ ገዛእ ርእሱ ትብ ይውከል። እቲ ተጠቃሚ ኣየኖት ቅጥዕታት ወይ ዓውድታት ኣብቲ ሰደድ ክካተቱ ከም ዝደሊ ብሕታዊ ሰደድ ሞዳል ተጠቒሙ ክመርጽ ይኽእል። ተጠቀምቲ ኣብቲ ሰደድ ቅጥዕታትን ዓውድታትን ከካትቱ ዝኽእሉ ድሮ ኣብቲ መተግበሪ ኬዝ ክርእዩ ከለዉ ነቶም ቅጥዕታትን ዓውድታትን ናይ ምርኣይ ዓቕሚ ምስ ዝህልዎም ጥራይ ምዃኑ ኣስተውዕሉ።
+            label: Export custom
+          export_duplicate_id_csv:
+            explanation: ሓደ ዓይነት ሃገራዊ መለለዪ ዓውዲ ዘለዎም ጉዳያት ሲኤስቪ ሰደድ ይፈጥር (ከከም ውቅር ዝተፈላለየ ስያመ ክህልዎም ይኽእል)። ካብ ገጽ ዝርዝር ጉዳያት ጥራይ ዝፍጸም።
+            label: Export duplicates
+          export_json:
+            explanation: ተጠቃሚ ካብቲ ዝርዝር ጉዳያት ወይ ገጻት ምርኢት ጉዳይ ጀኤስኦኤን ፋይል ሰደድ ክፈጥር ይኽእል፣ እዚ ድማ ንኹሎም እቲ ሕጂ ተጠቃሚ ዝረኽቦም ዓውድታት ዝሓዘ እዩ፣ ንሓደ፣ ንብዙሕ ወይ ንኹሎም እቲ ተጠቃሚ ዝረኽቦም ጉዳያት። እዚ ሰደድ ብቐንዱ ነቶም ካብቲ ሕጂ ዘሎ ስርዓት ፕሪሜሮ ኬዝ ሰደድ ክገብሩን ድሕሪኡ ናብ ዝተፈላለየ ፕሪሜሮ ስርዓት፡ ወይ ናብ ካልእ ስርዓተ ምሕደራ ሓበሬታ ከእትዉን ዝደልዩ ዝውዕል እዩ። ቅርጺ ጀኤስኦኤን ብማሽን ዝንበብ ኮይኑ ንመብዛሕትኦም ተጠቀምቲ ግብራዊ ኣይኮነን።
+            label: Export JSON
+          export_list_view_csv:
+            explanation: ተጠቃሚ ካብቲ ኣብ ዝርዝር ጉዳያት ንእቲ ተጠቃሚ ዝረኣዩ ተመሳሳሊ ዓውድታት ዝሓዘ ገጽ ዝርዝር ጉዳያት CSV ፋይል ሰደድ ክፈጥር ይኽእል። ካብ ገጽ ዝርዝር ጉዳያት ጥራይ ዝፍጸም።
+            label: Export list view CSV
+          export_pdf:
+            explanation: ተጠቃሚ ካብቲ ዝርዝር ጉዳያት ወይ ገጻት ምርኢት ጉዳይ ፒዲኤፍ ፋይል ሰደድ ክፈጥር ይኽእል፣ እዚ ድማ ንኹሎም እቲ ሕጂ ተጠቃሚ ዝረኽቦም ዓውድታት ዝሓዘ እዩ፣ ንሓደ፣ ንብዙሕ ወይ ንኹሎም እቲ ተጠቃሚ ዝረኽቦም ጉዳያት። ኣብቲ ናይ PDF ሰደድ ፋይል፡ ሓበሬታ መጀመርታ ብጉዳይ ይዝርዘር፡ ድሕሪኡ ድማ ብዝያዳ በቲ ሓበሬታ ዝረኣየሉ ቅጥዒ ይውደብ።
+            label: Export case PDF
+          export_photowall:
+            explanation: ተጠቃሚ ካብቲ ናይ ኩሎም ዝተመርጹ ጉዳያት ስእልታት ዝሓዘ ገጽ ዝርዝር ጉዳያት ፋይል ክሰድድ የኽእሎ። እዚ ሰደድ ብቐንዱ ንንጥፈታት ምክትታልን ምጥርናፍን ስድራቤት ዝውዕል እዩ። ካብ ገጽ ዝርዝር ጉዳያት ጥራይ ዝፍጸም።
+            label: Export case PDF
+          export_unhcr_csv:
+            label: Export UNHCR CSV
+            explanation: እዚ ባህሪ ድሕሪ ሕጂ ኣብ ጥቕሚ ኣይውዕልን እዩ።
+          export_xls:
+            explanation: 'ተጠቃሚ ካብቲ ዝርዝር ጉዳያት ወይ ገጻት ምርኢት ጉዳይ ኤክስኤልኤስ ፋይል ሰደድ ክፈጥር ይኽእል፣ እዚ ድማ ንኹሎም እቲ ሕጂ ተጠቃሚ ዝረኽቦም ዓውድታት ዝሓዘ እዩ፣ ንሓደ፣ ንብዙሕ ወይ ንኹሎም እቲ ተጠቃሚ ዝረኽቦም ጉዳያት። ኣብዚ ሰደድ እዚ ነፍሲ ወከፍ ቅጥዒ ኣብ ውሽጢ ፋይል ኤክስኤልኤስ ኣብ ናይ ገዛእ ርእሱ ትብ ይውከል። መተሓሳሰቢ፡ ቅርጺ ኤክስኤልኤስ ላቲን ዘይኮኑ ፊደላት (ንኣብነት ዓረብኛ፡ ባንግላ) ብንበብ ቅርጺ ክህቦም ከሎ፡ ሲኤስቪ ሰደድ ግን ከምኡ ኣይኮነን።'
+            label: Excel (XLS file) export
+          find_tracing_match:
+            explanation: እዚ ንዓውደ-ጽሑፋት ምስ ንጥፈታት ምክትታልን ዳግመ-ውህደትን ስድራቤት ጥራይ እዩ ዝጥቀመሉ። እዚ ፍቓድ ዘለዎም ተጠቀምቲ ኣብቲ ናይ ጉዳይ ምርኢት ገጽ "Find Tracing Match" ዝብል መጠወቒ ክርእዩ እዮም። ምስ ጠወቕዎ፡ ኣብቲ ስርዓት ዝርከቡ ናይ ምክትታል ሕቶታት ዝርዝር ክበጽሑ እዮም፡ እዚኦም ድማ ንጉዳዮም ክመሳሰሉ ዝኽእሉ እዮም።
+            label:  ካብ ጉዳይ ምድላይ ርኸብ
+          flag:
+            explanation: ኣብ ሓደ ጉዳይ ባንዴራ ናይ ምውሳኽ ክእለት። እዚ ፍቓድ ዘለዎም ተጠቀምቲ ኣብ ሓደ ጉዳይ ዝወሰኽዎም ባንዴራታት እውን ከውጽኡ ይኽእሉ እዮም።
+            label: ጥቆማ
+          resolve_any_flag:
+            explanation: ተጠቃሚ ዝኾነ ባንዴራ ኣብቲ መዝገብ ክፈትሖ የኽእሎ፣ መን ባንዴራ ፈጢርዎ ብዘየገድስ።
+            label:  ዝኾነ ጥቆማ ፍታሕ
+          import:
+            explanation: ተጠቃሚ ካብ ሲኤስቪ, ኤክስኤል, ወይ ጀኤስኦኤን ፋይል ብምእታው ሓደ ወይ ልዕሊኡ ሓደስቲ ኬዝ ክፈጥር የኽእሎ። እቲ ካብ ወጻኢ ዝኣተወ ፋይል ሓበሬታ ብግቡእ ንኽኣቱ *ኣዝዩ* ብፍሉይ ቅርጺ ክህልዎ ኣለዎ። እዚ ተግባር እዚ ንዝለዓለ ቴክኒካዊ ክእለትን ዳታ ኣብ ፕሪሜሮ ብኸመይ ከም ዝቕረጽ ዓሚቕ ፍልጠት ዘለዎምን ምምሕዳራዊ ተጠቀምቲ ጥራይ ክኸውን ኣለዎ። ካብ ገጽ ዝርዝር ጉዳያት ጥራይ ዝፍጸም።
+            label:  ኣምፅእ
+          incident_details_from_case:
+            explanation: ኣብ ውጽኢት ምድላይ ኣብ ዝረኸብካዮ ጉዳይ፡ ግን ከኣ ክትረኽቦ ዘይትኽእል ጉዳይ፡ ንኡስ ቅጥዒ ዝርዝር ፍጻመታት ዝኸውን ምእታው ናይ ምውሳኽ ዓቕሚ። እቲ ተጠቃሚ ነዚ ተግባር ካብ ገጽ ውጽኢት ምድላይ ሓደ ወይ ልዕሊኡ ጉዳያት ብምምራጽ ይፍጽሞ፣ ድሕሪኡ ካብቲ ተግባራት ዝርዝር "ክስተት ደምር" ብምምራጽ። ብድሕሪኡ እቲ ተጠቃሚ ኣብቲ ንኡስ ቅጥዒ ዝርዝር ፍጻመታት ዝርከቡ ኩሎም ዓውድታት ዝሓዘ ሞዳል ይርኢ፣ ኣብኡ ድማ ብዛዕባ ሓደ ኣገልግሎት ሓበሬታ ከእቱን ከቕርብን ይኽእል። እዚ ተግባር ካብ ገጽ ውጽኢት ምድላይ ጥራይ ክፍጸም ስለ ዝኽእል፡ ሓደ ተራ ነዚ ፍቓድ ክህልዎ ትርጉም ዘለዎ፡ ንሳቶም እውን "ብኻልኦት ተጠቀምቲ ዝውነኑ መዛግብቲ ጉዳይ ድለ" ዝብል ፍቓድ ምስ ዝህልዎም ጥራይ እዩ።
+            label:  ካብ ገጽ ውጽኢት ምድላይ ዝርዝር ፍጻመታት ናብ ጉዳይ ካልእ ተጠቃሚ ምውሳኽ
+          incident_from_case:
+            explanation: እዚ ፍቓድ እዚ ተጠቃሚ ነቲ "ክስተት ምፍጣር" ዝብል ቁልፊ ክጥውቕ የኽእሎ። እዚ ድማ ካብቲ ጉዳይ ዝተቐድሐ ገለ ሓበሬታ ክህልዎ ዝኽእል ፍጻመ ይፈጥር። ንጉዳያት ጀቢቪ፡ እዚ መጠወቒ ኣብ ላዕሊ ናይቲ ሾው ኬዝ ገጽ ኮይኑ፡ ምስ ሓበሬታ ብዛዕባ እቲ ጉዳይ ብሓፈሻ ይሰማማዕ። ኣብ ገለ ፍጻመታት ምክትታል፡ እዚ መጠወቒ ኣብ "ዝርዝር ፍጻመታት" ንኡስ ቅጥዒ እዩ። ኣብ ከምዚ ኩነታት፡ ገለ ሓበሬታ ካብቲ እቲ መጠወቒ ዝተጠውቐሉ ንኡስ ቅጥዒ ዝርዝር ፍጻመ፡ ከምኡ’ውን ካብቲ ጉዳይ ብሓፈሻ ክቕዳሕ ይኽእል። I.e. እቲ ዝፍጠር ሓድሽ ፍጻመ ካብቲ ውልቃዊ ዝርዝር ፍጻመታት ንኡስ ቅጥዒ "ዓይነት ዓመጽ" ዝብል ዓውዲ ክሕዝ ይኽእል እዩ፡ እንተኾነ ግን ዕድመን ጾታን ናይቲ ጉዳይ ባዕሉ እውን ክሕዝ ይኽእል። ኣስተውዕል እዚ ፍቓድ እዚ ተጠቃሚ ናብቲ ዝተፈጥረ ፍጻመ ዝወስድ መላግቦ ክርኢ እውን የኽእሎ።
+            label:  ካብ ሓደ ጉዳይ ፍጻመ ምፍጣር
+          remove_alert:
+            explanation: እዚ ፍቓድ እዚ ተጠቃሚ ካብ ሓደ ጉዳይ መጠንቀቕታ ከውጽእ የኽእሎ። መጠንቀቕታታት ብተለምዶ ዝፍጠሩ ሓደ ፍሉይ ዓውዲ ክእረም ከሎ እዩ፣ ከም መዘኻኸሪታት ክመሓየሹ ከለዉ። መብዛሕትኡ ግዜ መጠንቀቕታታት ኣብ ጎኒ እቲ ቦርሳ ብጫ ነጥቢ ይረኣዩ።
+            label: ካብ ሓደ ጉዳይ መጠንቀቕታ ኣወግድ
+          manage:
+            explanation: ሓደ ተጠቃሚ ኣብ ጉዳያት ኩሎም ዘለዉ ተግባራት ክፍጽም የኽእሎ። እቲ "ምምሕዳር" ዝብል ፍቓድ ብመሰረቱ "ኩሉ" ማለት እዩ።
+            label:  ምምሕዳር (ኩሉ ፍቓድ ናይዚ ዓይነት ጸጋ)
+          read:
+            explanation: ንሓደ ጉዳይ ናይ ምርኣይ ክእለት።
+            label:  ረአ
+          receive_referral:
+            explanation: ሓደ ተጠቃሚ ሪፈራል ክቕበል የኽእሎ። እዚ ፍቓድ ዘለዎም ተጠቀምቲ ከም ተቐበልቲ ክኾኑ ዝኽእሉ ናይ ሪፈራል ስጉምቲ ክቐርቡ እንከለዉ፡ እዚ ፍቓድ ዘይብሎም ተጠቀምቲ ድማ፡ ሓደ ሰብ ኣብ ሪፈራል ሞዳል ተቐባሊ ክደሊ ከሎ ከም ተቐበልቲ ክኾኑ ዝኽእሉ ኣይክረኣዩን እዮም።
+            label: ሪፈራል ምቕባል
+          receive_referral_different_module:
+            explanation: ሓደ ተጠቃሚ ኣብ ዝተፈላለየ ፕራይሜሮ ሞዱል ዝተፈጥረ መዝገብ ሪፈራል ክቕበል የኽእሎ። እዚ ፍቓድ ዘለዎም ተጠቀምቲ ከም ተቐበልቲ ክኾኑ ዝኽእሉ ናይ ሪፈራል ስጉምቲ ናይቲ መዝገብ ክቐርቡ እዮም፣ እዚ ፍቓድ ዘይብሎም ተጠቀምቲ ድማ፣ ሓደ ሰብ ኣብቲ ሪፈራል ሞዳል ተቐባሊ ክደሊ ከሎ ከም ተቐበልቲ ክኾኑ ዝኽእሉ ኣይክረኣዩን እዮም።
+            label:  ካብ ሓደ ተጠቃሚ ኣብ ዝተፈላለየ ሞዱል ሪፈራል ምቕባል
+          receive_transfer:
+            explanation: ሓደ ተጠቃሚ ዝውውር ክቕበል የኽእሎ። እዚ ፍቓድ ዘለዎም ተጠቀምቲ ከም ተቐበልቲ ናይ ምስግጋር ስጉምቲ ክቐርቡ እንከለዉ፡ እዚ ፍቓድ ዘይብሎም ተጠቀምቲ ድማ፡ ሓደ ሰብ ኣብቲ ናይ ምስግጋር ሞዳል ተቐባሊ ክደሊ ከሎ ከም ተቐበልቲ ክኾኑ ዝኽእሉ ኣይክረኣዩን እዮም።
+            label: ዝውውር ምቕባል
+          referral:
+            explanation: ሓደ ተጠቃሚ ንግዚኡ ንሓደ ጉዳይ ንኻልእ ተጠቃሚ መእተዊ ክህብ የኽእሎ። እቲ ተቐባሊ ናይቲ ሪፈራል ኣብቲ ዝተወከሰ ጉዳይ ኩሉ እቲ ኣብ ናይ ገዛእ ርእሱ ጉዳይ ክፍጽም ዝኽእል ተግባራት ክፍጽም ይኽእል። እቲ ተቐባሊ ድሕሪ ደጊም ናብቲ ጉዳይ ምእታው ኣብ ዘየድልዮ እዋን፡ ኣብቲ ንኡስ ቅጥዒ ሪፈራልን ምትሕልላፍን ዘሎ "ምውዳእ" ዝብል ቁልፊ ጠውቑ፡ ናብቲ ጉዳይ ምእታው ድማ ክስእን እዩ። ንሓደ ጉዳይ ናብ ሓደ ተራኡ ሪፈራል ናይ ምቕባል ዓቕሚ ዘለዎ ተጠቃሚ ጥራይ ኢኻ ክትውከሶ እትኽእል።
+            label: ሪፈራል ምግባር
+          referral_from_service:
+            explanation: ተጠቃሚ ኣብቲ ንኡስ ቅጥዒ ኣገልግሎታት "Refer" ዝብል ቁልፊ ክርኢ የኽእሎ። ተጠቃሚ ነዚ መጠወቒ ምስ ጠወቖ፡ እቲ ናይ ሪፈራል ሞዳል፡ እቶም ዓይነት ኣገልግሎት፡ ኤጀንሲ፡ ወሃቢ ኣገልግሎትን ቦታን ዝበሃሉ ዓውድታት ተሰናኺሎም ክረአ እዩ፡ ግን ከኣ ብኣውቶማቲክ በቲ ተጠቃሚ ነቲ ሪፈር ዝብል መጠወቒ ዝጠወቐሉ ንኡስ ቅጥዒ ኣገልግሎታት ዝርከቡ ዓውድታት ዝምልከት ሓበሬታ ክምላእ እዩ።
+            label: ካብ ንኡስ ቅጥዒ ኣገልግሎት ንጉዳይ ተወከስ
+          remove_assigned_users:
+            explanation: ተጠቃሚ ካብቲ "ካልኦት ዝተመደቡ ተጠቀምቲ" ዝብል ዓውዲ ካልኦት ተጠቀምቲ ከውጽእ የኽእሎ። ሓደ ተጠቃሚ ኣብዚ ተዘርዚሩ ዘሎ፡ ንጉዳይ ሪፈራል ዝረኸቦ ወይ ንጉዳይ ዝውውር ምስ ዝረኸቦ፡ ግን ከኣ ገና ዘይተቐበሎ ወይ ዘይነጸጎ እንተኾይኑ እዩ። ሓደ ተጠቃሚ ካብቲ "ካልኦት ዝተመደቡ ተጠቀምቲ" ዝብል ዓውዲ ምስ እተውጽኦ፡ ናብቲ ጉዳይ ዘለዎም መእተዊ ትእለዮ። ስለዚ፡ እዚ ፍቓድ ዘለዎም ተጠቀምቲ ካብቶም ቅድሚ ሕጂ ሪፈራል ወይ ገና ንጉዳይ ዝምልከት ዝውውር ዝረኸቡ ተጠቀምቲ፡ መእተዊ ጉዳይ ከውጽኡ ይኽእሉ። እዚ ፍቓድ ዝሰርሕ እቲ ናይ ሕጂ ተጠቃሚ እውን ነቲ ጉዳይ ናይ ምእራም ዓቕሚ ምስ ዝህልዎ ጥራይ ምዃኑ ኣስተውዕል።
+            label: ካልኦት ዝተመደቡ ተጠቀምቲ ምእላይ (ካብቶም ናብ ዝተመሓላለፉ ተጠቀምቲ ናይ ጉዳይ ምብጻሕ ምምላስ)
+          reopen:
+            explanation: ሓደ ተጠቃሚ ኣብዚ እዋን እዚ ተዓጽዩ ዘሎ ኬዝ ክኸፍት የኽእሎ።
+            label: ዳግማይ ክፈት
+          request_approval_action_plan:
+            explanation: ሓደ ተጠቃሚ (መብዛሕትኡ ግዜ ሰራሕተኛ ጉዳይ) ኣካያዲኡ ናይ ጉዳዩ %{approval_label} ከጽድቕ ክሓትት የኽእሎ።
+            label: '%{approval_label} ፍቓድ ምሕታት'
+          request_approval_assessment:
+            explanation: ሓደ ተጠቃሚ (መብዛሕትኡ ግዜ ሰራሕተኛ ጉዳይ) ኣካያዲኡ ናይ ጉዳዩ %{approval_label} ከጽድቕ ክሓትት የኽእሎ።
+            label: 1%{approval_label} ፍቓድ ምሕታት
+          request_approval_bia:
+            explanation: ሓደ ተጠቃሚ (መብዛሕትኡ ግዜ ሰራሕተኛ ጉዳይ) ኣካያዲኡ ናይ ጉዳዩ 1%{approval_label} ከጽድቕ ክሓትት የኽእሎ።
+            label: 1%{approval_label} ፍቓድ ምሕታት
+          request_approval_case_plan:
+            explanation: ሓደ ተጠቃሚ (መብዛሕትኡ ግዜ ሰራሕተኛ ጉዳይ) ኣካያዲኡ ናይ ጉዳዩ %{approval_label} ከጽድቕ ክሓትት የኽእሎ።
+            label: '%{approval_label} ፍቓድ ምሕታት'
+          request_approval_closure:
+            explanation: ሓደ ተጠቃሚ (መብዛሕትኡ ግዜ ሰራሕተኛ ጉዳይ) ኣካያዲኡ ናይ ጉዳዩ %{approval_label}ከጽድቕ ክሓትት የኽእሎ።
+            label: '%{approval_label} ፍቓድ ምሕታት'
+          request_approval_gbv_closure:
+            explanation: ሓደ ተጠቃሚ (መብዛሕትኡ ግዜ ሰራሕተኛ ጉዳይ) ኣካያዲኡ ናይ ጉዳዩ %{approval_label}። ከጽድቕ ክሓትት የኽእሎ።
+            label: '%{approval_label} ፍቓድ ምሕታት'
+          request_transfer:
+            explanation: ኣብ "ምርኣይ ብሉፅ" ዘሎ "ሕቶዝውውር" ዝብል ቁልፊ ይገልጽ። እቲ መጠወቒ ተጠቃሚ ብኢመይል ናብቲ ናይ ሕጂ ወናኒ መዝገብ ናይ ሓደ ጉዳይ ብሕታዊ መዘኻኸሪ ዘለዎ መልእኽቲ ክሰድድ የኽእሎ፣ እዚ ድማ እቲ ወናኒ መዝገብ ነቲ ጉዳይ ናብቲ ሕቶ ዝለኣኸ ተጠቃሚ ከሰጋግሮ ይሓትት። እዚ ኣብቲ ህጻናት ብዙሕ ግዜ ቦታታት ዝቕይሩሉ ኵነታት ጠቓሚ እዩ፣ ሰራሕተኛታት ጉዳይ ድማ ተደጋጋሚ መዝገብ ንኸይፍጠር ብዛዕባ እቲ ህጻን ሓበሬታ ክሰድድ ናይ ሓደ ህጻን ቅድሚ ሕጂ ሰራሕተኛ ጉዳይ የድልዮም።
+            label: ምዝውዋር ምሕታት
+          search_owned_by_others:
+            explanation: ሓደ ተጠቃሚ መብዛሕትኡ ግዜ ክረኽቦም ዘይክእል መዛግብቲ ምድላይ ክገብር የኽእሎ፣ ወይ ንእቲ ጉዳይ ወናኒ መዝገብ ስለዘይኮኑ፣ ወይ (ንኣካየድቲ) እቲ ወናኒ መዝገብ ኣብ ጉጅለታት ተጠቀምቶም ስለዘየለ። ኣስተውዕል፡ እቲ ተጠቃሚ ነቲ ጉዳይ ኣብቲ ናይ ምድላይ ውጽኢት ርእይቶ ክርእዮ እንከሎ፡ ኣብቲ ናይቲ ጉዳይ ምርኢት ገጽ ክጥውቕ ኣይክእልን እዩ፡ ማለት ብዛዕባ እቲ ጉዳይ ዝኾነ ዝርዝር ሓበሬታ ክርኢ ኣይክእልን እዩ።
+            label: ብኻልኦት ተጠቀምቲ ዝውነኑ መዛግብቲ ጉዳያት ድለዩ።
+          service_provision_incident_details:
+            explanation: ተጠቃሚ ኣብ ታሕቲ ናይቲ ፍጻመ ወስኽ ሞዳል "ኣወሃህባ ኣገልግሎት ዕቋርን ምውሳኽን" ዝብል ጽሑፍ ዘለዎ መጠወቒ ክርኢ የኽእሎ። ነዚ መጠወቒ ምጥዋቕ ነቲ ኣብዚ እዋን’ዚ ብዛዕባ እቲ ፍጻመ ዝኣተወ ሓበሬታ ይዕቅቦ፣ ድሕሪኡ ነቲ ተጠቃሚ ብቐጥታ ናብ ሞዳል ኣወሃህባ ኣገልግሎት ምውሳኽ ይወስዶ። እዚ ተግባር እዚ ብቐጥታ ምስ ተግባራት ምውሳኽ ፍጻመን ምውሳኽ ኣገልግሎት ምሃብን ዝተኣሳሰር ስለዝኾነ፡ እቲ ተራ "ዝርዝር ፍጻመ ኣብ ጉዳይ ካልእ ተጠቃሚ ምውሳኽ" ከምኡ'ውን "ኣቕርቦት ኣገልግሎት ናብ ጉዳይ ካልእ ተጠቃሚ ምውሳኽ" እውን እንተሃልይዎ ጥራይ እዩ ነዚ ፍቓድ ንሓደ ተራ ምሃብ ትርጉም ዘለዎ ጉዳይ" ፍቓድ ምሃብ።
+            label: ኣብ ሞዳል ዝርዝር ፍጻመታት ዝርከብ መጠወቒ ኣወሃህባ ኣገልግሎት ምውሳኽ ርአ
+          services_section_from_case:
+            explanation: ኣብ ውጽኢት ምድላይ ኣብ ዝረኸብካዮ ጉዳይ፡ ግን ከኣ ክትበጽሖ ዘይትኽእል፡ ናይ ኣገልግሎታት ንኡስ ቅጥዒ ምእታው ናይ ምውሳኽ ዓቕሚ። እቲ ተጠቃሚ ነዚ ተግባር ካብ ገጽ ውጽኢት ምድላይ ሓደ ወይ ልዕሊኡ ጉዳያት ብምምራጽ ይፍጽሞ፣ ድሕሪኡ ካብቲ ተግባራት ዝርዝር "ኣወሃህባ ኣገልግሎት ምውሳኽ" ብምምራጽ። ብድሕሪኡ እቲ ተጠቃሚ ኣብቲ ንኡስ ቅጥዒ ኣገልግሎታት ዝርከቡ ኩሎም ዓውድታት ዝሓዘ ሞዳል ይርኢ፣ ኣብኡ ድማ ብዛዕባ ሓደ ኣገልግሎት ሓበሬታ ከእቱን ከቕርብን ይኽእል። እዚ ተግባር ካብ ገጽ ውጽኢት ምድላይ ጥራይ ክፍጸም ስለ ዝኽእል፡ ሓደ ተራ ነዚ ፍቓድ ክህልዎ ትርጉም ዘለዎ፡ ንሳቶም እውን "ብኻልኦት ተጠቀምቲ ዝውነኑ መዛግብቲ ጉዳይ ድለ" ዝብል ፍቓድ ምስ ዝህልዎም ጥራይ እዩ።
+            label: ንኣቕርቦት ኣገልግሎት ኣብ ጉዳይ ካልእ ተጠቃሚ ምውሳኽ
+          sync_external:
+            explanation: ንሓደ መዝገብ ምስ ናይ ደገ ስርዓተ ምሕደራ ሓበሬታ ናይ ምትእስሳር ክእለት።
+            label: ምስ ናይ ደገ ስርዓተ ምሕደራ ሓበሬታ ምትእስሳር
+          sync_mobile:
+            explanation: ተጠቃሚ ካብ መስመር ወጻኢ ንኣጠቓቕማ ዝኸውን ጉዳያት ክዕቅብ የኽእሎ።
+            label: ንኦፍላይን ምልክት ግበር
+          transfer:
+            explanation: ሓደ ተጠቃሚ ካብቲ ሕጂ ዘለዎ ወናኒ መዝገብ ናብ ዝኾነ ኣብቲ ስርዓት ዘሎ ተጠቃሚ ዝውውር ናይ ምቕባል ዓቕሚ ዘለዎ ጉዳይ ክሰድድ የኽእሎ። እቲ ወናኒ መዝገብ ናይቲ ጉዳይ ግን፡ እቲ ተቐባሊ እቲ ዝውውር "ዝቕበሎ" ክሳብ ዘይቅየር እዩ። እቲ ተቐባሊ ኣብ ክንድኡ ነቲ ዝውውር "እንተነጺግዎ"፡ እቲ ተቐባሊ ነቲ ጉዳይ ምብጻሕ ይስእን፡ ነቲ መበቆላዊ ወናኒ መዝገቡ ድማ ይሕዞ።
+            label: ምምሕልላፍ
+          view_photo:
+            explanation: ሓደ ተጠቃሚ ካብቲ ናይ ጉዳይ ዝርዝር ርእይቶ ስእልታት ናይ ሓደ ጉዳይ ክርኢ የኽእሎ። ብዘይ እዚ ፍቓድ እዚ ተጠቃሚ ኣብቲ ናይ ጉዳይ ዝርዝር ሰሌዳ "ስእሊ" ዝብል ዓምዲ፡ ወይ ኣብኡ ዝረኣዩ ናይ ስእሊ ምልክታት ኣይርእን እዩ። እዚ ፍቓድ እዚ ተጠቃሚ ኣብ "ምርኣይ ብሉፅ" ስእሊ ናይቲ ህጻን ክርኢ እውን የኽእሎ።
+            label: ካብ ምርኣይ ዝርዝር ጉዳይ ስእሊ ርአ
+          view_incident_from_case:
+            explanation: “ተጠቃሚ ንሓደ ጉዳይ ክዕዘብ ከሎ፡ ምስቲ ጉዳይ ዝተኣሳሰሩ ፍጻመታት ዝርዝር ክርኢ ይኽእል፡ ምስ ገለ ጽማቕ ሓበሬታ ብዛዕባ ነፍሲ ወከፎም።
+            label: ካብ ምርኣይ ዝርዝር ጉዳይ ስእሊ ርአ
+          view_protection_concerns_filter:
+            explanation: ተጠቃሚ ኣብቲ ናይ ጉዳይ ዝርዝር ገጽ ናይ መከላኸሊ ስክፍታታት መጽረዪ ክርኢ የኽእሎ።
+            label: ኣብ ገጽ ዝርዝር ጉዳያት ናይ ምክልኻል ስክፍታታት ፍልተር ርአ
+          view_registry_record:
+            explanation: ሓደ ተጠቃሚ ምስ ሓደ ጉዳይ ዝተኣሳሰር ዝኾነ ይኹን መዝገብ ሓበሬታ ክርኢ የኽእሎ። ከምኡ ውን ተጠቃሚ ኣብቲ ጉዳይ ዘሎ ናይ መዝገብ ዝርዝር ቅጥዒ ክርኢ የኽእሎ።
+            label:  ጉዳይ መዝገብ መዝገብ ርአ
+          write:
+            explanation: ዝብል ቁልፊ ብምጥዋቕ፡ ኣብቲ ኬዝ ሓበሬታ ናይ ምዕራፍ፡ "Save" ዝብል ምጥዋቕ ክእለት።
+            label: ምዕራይ
+          accept_or_reject_transfer:
+            explanation: ተጠቃሚ ኣብ ጋንታኻ ዝርከብ ካልእ ተጠቃሚ ወኪሉ ዝውውር ክቕበል ወይ ክነጽጎ የኽእሎ (ንኣብነት፡ ናብ ማሕበራዊ ሰራሕተኛኡ ዝተላእከ ዝውውር ዝቕበል ተቖጻጻሪ)።
+            label: ኣብ ጋንታኻ ንኻልእ ተጠቃሚ ዝውውር ምቕባል ወይ ምንጻግ።
+          list_case_names:
+            explanation: መብዛሕትኡ ግዜ ኣካየድቲ ኣብ ዝርዝር ጉዳያት ኣስማት ጉዳያት ክርእዩ ኣይክእሉን እዮም። ሓደ ኣካያዲ ነዚ ፍቓድ እንተሃልይዎ ኣብቲ ዝርዝር ኣስማት ክርእዩ ይኽእሉ።
+            label: ኣካያዲ እንተኾይኑ፡ ኣብ ዝርዝር ጉዳያት ኣስማት ጉዳያት ክርኢ ይኽእል።
+          mark_for_offline:
+            explanation: ተጠቃሚ ንሓደ ጉዳይ ንኣጠቓቕማ ካብ መስመር ወጻኢ ክዕቅቦ የኽእሎ።
+            label: ንኦፍላይን ምልክት ግበር
+          view_family_record:
+            explanation: ተጠቀምቲ ኣብቲ ጉዳይ ዘሎ 'መዝገብ ስድራቤት' ዝብል ቅጥዒ ክርእዩ ይኽእሉ፡ እዚ ድማ ናብ መዝገብ ስድራቤት ናይቲ ጉዳይ ዝወስድ መላግቦ ዘጠቓልል እዩ።
+            label: መዝገብ ስድራቤት ካብ ጉዳይ ርአ
+          case_from_family:
+            explanation: ተጠቀምቲ ኣብቲ ንኡስ ቅጥዒ ዝርዝር ስድራቤት ንሓደ ካብ ኣባላት ስድራቤት ናይቲ ጉዳይ ጉዳይ ክፈጥሩ ይኽእሉ። ነዞም ክልተ ጉዳያት ንምትእስሳር ብኣውቶማቲክ መዝገብ ስድራቤት ከም ዝፍጠር ኣስተውዕል።
+            label: ካብ ዝርዝር ስድራቤት ኬዝ ምፍጣር
+          link_family_record:
+            explanation: ሓደ ተጠቃሚ ዝጸንሐ መዝገብ ስድራቤት ምስ ጉዳዩ ክደሊን ከራኽቦን የኽእሎ። ከምኡ’ውን ተጠቀምቲ ንሓደ መዝገብ ስድራቤት ካብ ሓደ ጉዳይ ንኽፈትሕዎ የኽእሎም።
+            label:  መዝገብ ስድራቤት ካብ ጉዳይ ምትእስሳር / ምፍንጫል
+        explanation: ንውልቃዊ ቆልዓ፡ ካብ ሞት ዝደሓነ ወይ ካልእ ተጠቃሚ ይውክል።
+        label: ጉዳይ
+      dashboard:
+        actions:
+          action_needed_new_updated:
+            explanation: ኣብቲ ''ስጉምቲ የድሊ'። ዝብል ዳሽቦርድ 'ሓድሽን ዝተመሓየሸን' ዝብል መመልከቲ የቕርብ። እዚ ድማ ነቶም ሓደስቲ ናብቲ ናይ ሕጂ ተጠቃሚ ዝተመደቡ፡ ወይ ድማ ካልእ ተጠቃሚ ካብቲ ናይ መወዳእታ ግዜ እቲ ሕጂ ዘሎ ተጠቃሚ ዘዘመኖ ጀሚሩ ዘዘመኖ ጉዳያት የጠቓልል።
+            label: 'ዘድሊ ስጉምቲ፡ ሓድሽ ወይ እዋናዊ'
+          action_needed_new_referrals:
+            explanation: ኣብቲ 'ስጉምቲ የድሊ' ዝብል ዳሽቦርድ 'ሓደስቲ ሪፈራላት' ዝብል መመልከቲ የቕርብ። እዚ ዝኾነ ይኹን ናብቲ ሕጂ ዘሎ ተጠቃሚ ዝለኣኽ ሓድሽ ሪፈራል ዘለዎ ጉዳያት የጠቓልል፣ ኣብዚ እቲ ሕጂ ዘሎ ተጠቃሚ ነቲ ጉዳይ ዘመሓይሽ ናይ መወዳእታ ሰብ ኣይኮነን።
+            label: 'ዘድሊ ስጉምቲ፡ ሓደስቲ ሪፈራላት'
+          action_needed_transfer_awaiting_acceptance:
+            explanation: ኣብቲ 'ስጉምቲ የድሊ' ዝብል ዳሽቦርድ 'ዝውውር ምጽባይ ተቐባልነት' ዝብል መመልከቲ የቕርብ። እዚ ዝኾነ ይኹን ናብቲ ናይ ሕጂ ተጠቃሚ ዝውውር ዘለዎ ጉዳያት የጠቓልል፣ እዚ ድማ እቲ ሕጂ ዘሎ ተጠቃሚ ዘይተቐበሎ እዩ።
+            label: 'ዘድሊ ስጉምቲ፡ ተቐባልነት ዝጽበ ዝውውር'
+          approvals_action_plan:
+            explanation: ብዝሒ ናይቲ ሕጂ ዘሎ ተጠቃሚ ጉዳያት ምስ ናይ ውጥን ስራሕ ፍቓድ ሕቶታት የርኢ እዚኦም ድማ ኣብ ምጽባይ፣ ዝጸደቑ ወይ ዝተነጽጉ እዮም።
+            label: ናይ ጉዳይ ሰራሕተኛ %{approval_label} ምጽዳቕ
+          approvals_action_plan_pending:
+            explanation: ኣብ ሓደ ናይ ሓላፊ ጉጅለ ብዝሒ ጉዳያት ምስ ኣብ ምጽባይ ዝርከብ ሕቶታት ምጽዳቕ ትልሚ ጉዳይ የርኢ።
+            label: ኣካያዲ %{approval_label} ምጽዳቕ
+          approvals_assessment:
+            explanation: ብዝሒ ናይቲ ሕጂ ዘሎ ተጠቃሚ ጉዳያት ምስ ናይ ኬዝ ፕላን ምጽዳቕ ሕቶታት የርኢ እዚኦም ድማ ኣብ ምጽባይ፣ ዝጸደቑ ወይ ዝተነጽጉ እዮም።
+            label: ናይ ጉዳይ ሰራሕተኛ %{approval_label} ምጽዳቕ
+          approvals_assessment_pending:
+            explanation: ብዝሒ ናይቲ ሕጂ ዘሎ ተጠቃሚ ጉዳያት ምስ ናይ ምዕጻው ምጽዳቕ ሕቶታት የርኢ እዚኦም ድማ ኣብ ምጽባይ፣ ዝጸደቑ ወይ ዝተነጽጉ እዮም።
+            label: ኣካያዲ %{approval_label} ምጽዳቕ
+          approvals_case_plan:
+            explanation: ብዝሒ ናይቲ ሕጂ ዘሎ ተጠቃሚ ጉዳያት ምስ ናይ ኬዝ ፕላን ምጽዳቕ ሕቶታት የርኢ እዚኦም ድማ ኣብ ምጽባይ፣ ዝጸደቑ ወይ ዝተነጽጉ እዮም።
+            label: ናይ ጉዳይ ሰራሕተኛ %{approval_label} ምጽዳቕ
+          approvals_case_plan_pending:
+            explanation: ኣብ ሓደ ናይ ሓላፊ ጉጅለ ብዝሒ ጉዳያት ምስ ኣብ ምጽባይ ዝርከብ ሕቶታት ምጽዳቕ ትልሚ ጉዳይ የርኢ።
+            label: ኣካያዲ %{approval_label} ምጽዳቕ
+          approvals_closure:
+            explanation: ብዝሒ ናይቲ ሕጂ ዘሎ ተጠቃሚ ጉዳያት ምስ ናይ ምዕጻው ምጽዳቕ ሕቶታት የርኢ እዚኦም ድማ ኣብ ምጽባይ፣ ዝጸደቑ ወይ ዝተነጽጉ እዮም።
+            label: ናይ ጉዳይ ሰራሕተኛ %{approval_label} ምጽዳቕ
+          approvals_closure_pending:
+            explanation: ኣብ ሓደ ናይ ሓላፊ ጋንታ ብዝሒ ጉዳያት ምስ ኣብ ምጽባይ ዘሎ ናይ ምዕጻው ፍቓድ ሕቶታት የርኢ።
+            label: ኣካያዲ 1%{approval_label} ምጽዳቕ
+          approvals_gbv_closure:
+            explanation: ብ ሓደ ናይ ሓላፊ ጋንታ ብዝሒ ጉዳያት ምስ ኣብ ምጽባይ ዝርከብ ናይ ጂቢቪ ምዕፃው ፍቓድ ሕቶታት የርኢ።
+            label: ናይ ጉዳይ ሰራሕተኛ %{approval_label} ምጽዳቕ
+          approvals_gbv_closure_pending:
+            explanation: ኣብ ሓደ ናይ ሓላፊ ጋንታ ብዝሒ ጉዳያት ምስ ኣብ ምጽባይ ዝርከብ ናይ ጂቢቪ ምዕፃው ፍቓድ ሕቶታት የርኢ።
+            label: ኣካያዲ %{approval_label} ምጽዳቕ
+          case_overview:
+            explanation: ሓፈሻዊ ትዕዝብቲ ዳሽቦርድ ካርድ ኣብ ላዕሊ ናይቲ መበገሲ ገጽ፡ እዚ ድማ ከም ጠቕላላን ሓድሽን ጉዳያት ዝኣመሰሉ ኣሃዛት ዘጠቓልል እዩ።
+            label: ሓፈሻዊ ትሕዝቶ ዳሽቦርድ
+          case_risk:
+            explanation: ኣብ ነፍሲ ወከፍ ደረጃ ሓደጋ ክንደይ ሕሙማት ከምዘለዉ ዘርኢ እዩ።
+            label: ጉዳያት ብደረጃ ሓደጋ
+          cases_by_task_overdue_assessment:
+            explanation: ሓደ ሓላፊ ንነፍሲ ​​ወከፍ ሰራሕተኛታት ጉዳዮም ክንደይ ጉዳያት ዕማማት ገምጋም ከም ዝሓለፉ ክርኢ የኽእሎ።
+            label: ግዜኡ ዝሓለፎ ዕማማት ገምጋም
+          cases_by_task_overdue_case_plan:
+            explanation: ሓደ ሓላፊ ንነፍሲ ​​ወከፍ ሰራሕተኛ ጉዳያቱ ክንደይ ጉዳያት ትልሚ ጉዳይ ዕማማት ከም ዝሓለፉ ክርኢ የኽእሎ።
+            label: ግዜኡ ዝሓለፈ ዕማማት ትልሚ ጉዳይ
+          cases_by_task_overdue_followups:
+            explanation: ሓደ ሓላፊ ንነፍሲ ​​ወከፍ ሰራሕተኛታት ጉዳዮም ክንደይ ጉዳያት ምክትታል ዕማማት ከም ዝሓለፉ ክርኢ የኽእሎ።
+            label: ግዜኡ ዝሓለፈ ዕማማት ምክትታል
+          cases_by_task_overdue_services:
+            explanation: ሓደ ሓላፊ ንነፍሲ ​​ወከፍ ናይ ጉዳዮም ሰራሕተኛታት ክንደይ ጉዳያት ናይ ኣገልግሎት ዕማማት ከም ዝሓለፉ ክርኢ የኽእሎ።
+            label: ግዜኡ ዝሓለፈ ናይ ኣገልግሎት ዕማማት
+          dash_case_incident_overview:
+            explanation: ንሓደ ኣካያዲ ብነፍሲ ወከፍ ተጠቃሚ ኣብ ጋንትኡ ዝመሓደር ብዝሒ ጉዳያት የርኢ፣ እዚኦም ድማ ናብ ካልኦት ተጠቀምቲ ይመሓላለፉ ወይ ይሰጋገሩ ኣለዉ።
+            label: ሓፈሻዊ ትሕዝቶ - ጉዳያተይ / ፍጻመታተይ
+          dash_cases_by_social_worker:
+            explanation: ሰንጠረዥ እዚ ብኸመይ ጠቕላላ ቁጽሪ ክፉታት ጉዳያትን ብዝሒ ሓደስቲ ጉዳያት ብነፍሲ ወከፍ ተጠቃሚ ኣብቲ ናይ ሕጂ ተጠቃሚ ጉጅለታት ተጠቃሚ ዝመሓደር እዩ። ነፍሲ ወከፍ መስርዕ ኣብቲ ናይ ሕጂ ተጠቃሚ ጉጅለታት ተጠቃሚ ተጠቃሚ ክኸውን ከሎ፡ "ጠቕላላ"ን "ሓድሽ"ን ድማ እቶም ክልተ ዓምድታት እዮም።
+            label: ጉዳያት ብማሕበራዊ ሰራሕተኛ ርአ
+          dash_cases_to_assign:
+            explanation: 'ኣገዳሲ፡ ንኣካየድቲ ጥራይ። ብቐጥታ ብናይ ሕጂ ተጠቃሚ ዝውነን ብዝሒ ጉዳያት የርኢ (ኣካያዲ ክኸውን ኣለዎ)። እዚ ዳሽቦርድ እዚ ኣካየድቲ ንጉዳያቶም ናይ ገዛእ ርእሶም ከምዘየመሓድሩን፣ ሓደ ኣካያዲ ናይ ገዛእ ርእሱ ጉዳይ እንተሃልይዎ ድማ ነዞም ጉዳያት ኣብ ጋንትኦም ንዘለዉ ሰራሕተኛታት ጉዳይ ክምድቦም ከምዘለዎን ይግምት።'
+            label: (ንኣካየድቲ) ኣብ ጋንታይ ንዝርከቡ ሰባት ክምድቦም ዘለኒ ጉዳያት
+          dash_flags:
+            explanation: ካልኦት ተጠቀምቲ ኣብ መዛግብተይ ዝወሰኽዎም ባንዴራታት ዝርዝር የርኢ፣ ከምኡ’ውን ኣብ መዛግብቲ ካልኦት ተጠቀምቲ ዝወሰኽክዎም ባንዴራታት።
+            label: ሰንደቕ ዕላማ ዘለዎም መዛግብቲ
+          dash_group_overview:
+            explanation: ንሓደ ኣካያዲ ስራሕ ብብዝሒ ናይቶም ኣብ ጋንትኦም ዘለዉ ተጠቀምቲ ዝመሓደሩ ክፉታትን ዕጹዋትን ጉዳያት የርኢ።
+            label: ናይ ጉጅለይ ጉዳያት
+          dash_matching_results:
+            explanation: ዘይተገልገለ ዝብል ቃል ንረክብ። እዚ ዳሽቦርድ ዘይሰርሕ ኮይኑ ኣብ ቪ2 ክእለ እዩ።
+            label: ውጽኢት ምትእስሳር ርአ
+          dash_protection_concerns:
+            explanation: ነፍሲ ወከፍ ናይ ምክልኻል ስክፍታ ክንደይ ጉዳያት ከምዘለዎ ዘርኢ ሰሌዳ። ነፍሲ ወከፍ መስርዕ ናይቲ ሰሌዳ ንመከላኸሊ ስክፍታ ክኸውን ከሎ፡ እቶም ዓምድታት ድማ ዝተፈላለየ ኩነታት ናይቶም ጉዳያት ("ኩሎም ጉዳያት"፡ "ክፉት ጉዳያት"፡ "ሓድሽ (ኣብዚ ሰሙን)," "ዕጹው (ኣብዚ ሰሙን)") የመልክቱ።
+            label: Cases by Protection Concerns
+          dash_protection_concerns_by_location:
+            explanation: እዚ ምስቲ "ስክፍታታት ምክልኻል ርአ" ዝበሃል ዳሽቦርድ ሓደ እዩ፣ ብዘይካ እቲ ተጠቃሚ ካብቲ ንቑልቁል ዝወርድ ቦታ ብምምራጽ ኣብቲ ቦታ ጥራይ ብዛዕባ ዝርገሐ ስክፍታ መከላኸሊ ስታቲስቲክስ ከርኢ ይኽእል።
+            label: ስክፍታታት ምክልኻል ብኣቀማምጣ ርአ
+          dash_reporting_location:
+            explanation: ኣብ ነፍሲ ወከፍ ቦታ ክንደይ ሕሙማት ከምዘለዉ ዘርኢ ሰሌዳ (ኣብ ሓደ ደረጃ ፍሉይነት ከም "ኣውራጃ" ወይ "ኣውራጃ")። ነፍሲ ወከፍ መስርዕ ናይቲ ሰሌዳ ቦታ ኮይኑ፡ እቶም ዓምድታት ድማ ዝተፈላለየ ኩነታት ናይቶም ጉዳያት ይሕብሩ ("ክፉት ጉዳያት," "ሓድሽ(ዝሓለፈ ሰሙን)," "ሓድሽ(ኣብዚ ሰሙን)," "ዕጹው(ዝሓለፈ ሰሙን)," "ተዓጽዩ(ኣብዚ ሰሙን)")።  መብዛሕትኡ ግዜ ንኣካውንትታት ኣካያዲ ወይ ኣመሓዳሪ ዝውዕል።
+            label: ጉዳያት ብመሰረት ጸብጻብ ቦታ
+          dash_service_provisions:
+            explanation: ካልኦት ተጠቀምቲ ኣቕርቦት ኣገልግሎት ክውስኹሎም ዝገበሩ ብዝሒ ጉዳያት የርኢ። እዚ ቁጽሪ ኣብቲ ቀንዲ ክፋል ናይቲ ዳሽቦርድ ይረአ።
+            label: ጉዳያት ብዓይነት ኣወሃህባ ኣገልግሎት
+          dash_shared_from_my_team:
+            explanation: ንሓደ ኣካያዲ ብነፍሲ ወከፍ ተጠቃሚ ኣብ ጋንትኡ ዝመሓደር ብዝሒ ጉዳያት የርኢ፣ እዚኦም ድማ ናብ ካልኦት ተጠቀምቲ ይመሓላለፉ ወይ ይሰጋገሩ ኣለዉ።
+            label: ሼር ዝገበረ ካብ ጋንታይ
+          dash_shared_with_me:
+            explanation: ክንደይ ጉዳያት ናባኻ ከምዝተመሓላለፉ ወይ ከምዝተሰጋገሩ ዘርኢ እዩ።
+            label: ምሳይ ኣካፊሉ።
+          dash_shared_with_my_team:
+            explanation: ንሓደ ኣካያዲ ስራሕ ናብ ነፍሲ ወከፍ ካብቶም ኣብ ጋንትኡ ዘለዉ ተጠቀምቲ ዝተመሓላለፉ ወይ ዝተሰጋገሩ ጉዳያት የርኢ።
+            label: ምስ ጋንታይ ኣካፊለዮ
+          dash_shared_with_my_team_overview:
+            explanation: ንሓደ ኣካያዲ ስራሕ ናብ ነፍሲ ወከፍ ካብቶም ኣብ ጋንትኡ ዘለዉ ተጠቀምቲ ዝተመሓላለፉ ወይ ዝተሰጋገሩ ጉዳያት የርኢ።
+            label: ምስ ጋንታይ ዝተኻፈለ (ሓፈሻዊ ትሕዝቶ)
+          dash_shared_with_others:
+            explanation: ክንደይ ካብ ጉዳያተይ ንጡፍ ሪፈራል፡ ኣብ ምጽባይ ዝውውር፡ ወይ ዝተነጽገ ዝውውር ከም ዘለዎም የርኢ። ንኣካየድቲ ዝምልከት ልሙድ ኣይኮነን፣ ንጉዳያት ባዕሎም ዘመሓድሩ እንተዘይኮይኖም
+            label: ምስ ካልኦት ዝካፈል
+          dash_violations_category_verification_status:
+            explanation: ክንደይ ናይ ኤምኣርኤም ጥሕሰት ናይ ነፍሲ ወከፍ ዓይነት ከምዘጋጠመ ዘርኢ ኮይኑ፡ ብኹነታት ምርግጋጽ ተበታቲኑ።
+            label: ኤምኣርኤም - ብዝሒ ጥሕሰት ኣብ ነፍሲ ወከፍ ናይ ምርግጋጽ ኩነታት
+          dash_violations_category_region:
+            explanation: ኣብ ነፍሲ ወከፍ ዞባ ክንደይ ጥሕሰት ኤምኣርኤም ከምዘጋጠመ ዘርኢ ኮይኑ፡ ብዓይነት ጥሕሰት ተበታቲኑ።
+            label: ኤምኣርኤም - ብዝሒ ጥሕሰት ኣብ ነፍሲ ወከፍ ዞባ
+          dash_perpetrator_armed_force_group_party_names:
+            explanation: ክንደይ ናይ ኤምኣርኤም ጥሕሰት ናይ ነፍሲ ወከፍ ዓይነት ከምዘጋጠመ ዘርኢ ኮይኑ፡ ብገበነኛ ተበታቲኑ።
+            label: ኤምኣርኤም - ብዝሒ ጥሕሰት ኣብ ሓደ ገበነኛ
+          dash_show_none_values:
+            explanation: ኣብ ኩሎም ዳሽቦርድታት ተወሳኺ "ደረጃ ሓደጋ የለን" ዝብል ምድብ ይውስኽ እዚ ድማ ንጉዳያት ብደረጃ ሓደጋ ይብትኖ። እዚ ብፍላይ ንናይ ሓደጋ ደረጃ ዓውድታት ራብዓይ "ሓደጋ የብሉን" ዝብል ኣማራጺ ዘለዎም ውቅርታት እዩ።
+            label: ኣብ ዳሽቦርድ ገምጋም 'ደረጃ ሓደጋ የለን' ዘለዎም ጉዳያት ርአ
+          dash_tasks:
+            explanation: ተጠቃሚ ነቲ ናይ ዕማማት ገጽ ክርኢ የኽእሎ። እዚ ንሰራሕተኛታት ጉዳይን ወሃብቲ ኣገልግሎትን ክውዕል ኣለዎ፣ ምኽንያቱ እቶም ቁጽርታት ብፍላይ ነቶም ብቐጥታ እተመሓድሮም ጉዳያት ስለዝኾኑ። ኣካየድቲ ኣብ ክንድኡ ""ጉዳያት ብዕማም ዝሓለፈ ምርኣይ"" ዝብል ዳሽቦርድ ክረኽቡ ኣለዎም፣ እዚ ንኹሉ ኣብ ጉጅለታት ተጠቀምቶም ዘሎ ሰብ ዝሓለፎም ዕማማት ክርእዩ ስለዘኽእሎም።
+            label: Tasks Page
+          dash_national_admin_summary:
+            explanation: ኣብቲ ስርዓት ዘሎ ጠቕላላ ክፉት ጉዳያት፣ ኣብ ነፍሲ ወከፍ ናይ ዝሓለፈ ክልተ ሰሙናት ዝተፈጥሩ ሓደስቲ ሕሙማት፣ ከምኡ’ውን ኣብ ነፍሲ ወከፍ ናይ ዝሓለፉ ክልተ ሰሙናት ዝተዓጽዉ ብዝሒ ጉዳያት የርኢ።
+            label: ጽማቕ ኣመሓዳሪ
+          view_response:
+            explanation: ንነፍሲ ወከፍ ዓይነት መልሲ፡ ክንደይ ኣብ ነፍሲ ወከፍ ደረጃ ሓደጋ ዝርከቡ ጉዳያት፡ ኣብ መወዳእታ ግዜ ዝቐረቡ ወይ ንኽዛዘሙ ዝሓለፉ ኣገልግሎታት ከም ዘለዎም የርኢ።
+            label: መልስታት ርአ
+          workflow:
+            explanation: ሓደ ሰራሕተኛ ጉዳይ ኣብ ነፍሲ ወከፍ ደረጃ ዋሕዚ ስራሕ ምሕደራ ጉዳይ ክንደይ ካብ ጉዳያቶም ከምዘለዉ ዘርኢ ፓይ ግራፍ ክርኢ የኽእሎ።
+            label: ብዋሕዚ ስራሕ ዝተበታተኑ ጉዳያት
+          workflow_team:
+            explanation: ሓደ ሓላፊ ኣብ ነፍሲ ወከፍ ደረጃ መስርሕ ምሕደራ ጉዳያት ክንደይ ካብ ጉዳያት ማሕበራዊ ሰራሕተኛታቶም ከምዘለዉ ዘርኢ ሰሌዳ ክርኢ የኽእሎ።
+            label: ጉዳያት ብዋሕዚ ስራሕን ሰራሕተኛ ጉዳይን።
+        explanation: ኣየናይ ጽማቕ ሓበሬታ ኣብቲ መበገሲ ገጽ ከም ዝቐርብ ይውስን።
+        label: ዳሽቦርድ
+      disabled:
+        explanation: ነዚ ሚና እንተ ኣሰናኺልካዮ፡ ድሕሪ ደጊም ናብ ተጠቀምቲ ሕሳባት ክትምድቦ ኣይትኽእልን ኢኻ።
+        label: ስንኩል
+      referral_authorization:
+        explanation: እዚ ማለት እቲ ተራ ተጠቃሚ ውሽጣዊ ሪፈራል ክገብር ከሎ ከም ኣማራጺ ናይቲ "ዓይነት ሪፈራል" ዝብል ንቑልቁል ዝወርድ ክረአ እዩ። እቲ ተጠቃሚ ነዚ ተራ ከም ዓይነት ሪፈራል እንተመሪጹ፡ እቲ ተቐባሊ ሪፈራል ነቶም እቲ ዝተመርጸ ተራ ክረኽቦም ዝኽእል ቅጥዕታት ጥራይ እዩ ክረኽቦ ዝኽእል። ስለዚ ንኣብነት፡ እቲ ተጠቃሚ ከም ዓይነት ሪፈራል "ወሃቢ ኣገልግሎት ሕክምና" እንተመሪጹ፡ እቲ ተራ ወሃቢ ኣገልግሎት ሕክምና ድማ ናብቲ መሰረታዊ መንነትን ስክፍታታት ሓለዋን ቅጥዕታት ጥራይ እዩ ዝበጽሕ እንተኾይኑ፡ እቲ ተቐባሊ ነዞም ቅጥዕታት ጥራይ እዩ ዝሪኦም።
+        label: ብዋሕዚ ስራሕ ዝተበታተኑ ጉዳያት
+      duplicate:
+        actions:
+          read:
+            explanation: ተጠቃሚ ንኹሎም ኣብቲ ስርዓት ዘለዉ ጉዳያት ምዕቡል ምድላይ ክገብር የኽእሎ፣ ስም፣ ሳጓ፣ ጾታ፣ ዕድመን ዜግነትን ሓዊሱ ብርክት ዝበሉ መዐቀኒታት ብምጥቃም።
+            label: ኣረኣእያ
+        explanation: ምዕቡል ናይ ጉዳይ ምድላይ ኣመሓደርቲ።
+        label: ምድግጋም ምድላይ
+      forms:
+        case:
+          explanation: 'ሓደ ተጠቃሚ ኣብ ጉዳያት ቅጥዕታት ንኽረክብ ምድራት፡ እቲ ተጠቃሚ ኣብ ሓደ ፍጻመ ኣየናይ ሓበሬታ ክርኢ ከም ዝኽእል ይድርት። ንኣብነት፡ እቲ ተጠቃሚ ናብቲ ናይ መዝገብ ወናኒ ቅጥዒ ጥራይ ክኣቱ እንተኾይኑ፡ ኣብቲ ቅጥዒ ዘሎ ዓውድታት ዝርከብ ሓበሬታ ጥራይ እውን ክርኢ ይኽእል። እቲ ሕጂ ዘሎ ተጠቃሚ ውሱን ናይ ቅጥዒ ምብጻሕ እንተሃልይዎን ነቲ ናይ ቅጥዒ ውቅር ናይ ምምሕዳር ክእለት እንተሃልይዎን፡ ናይ ቅጥዒ ምብጻሕ ምድራት ኣየኖት ቅጥዕታት ክውቅሩ ከም ዝኽእሉ እውን ይድርቶ። መተሓሳሰቢ፡ ዝኾነ ቅጥዕታት እንተዘይተገሊጹ፡ እቲ ተራ ንኹሎም ቅጥዕታት ንጉዳያት ክረክብ ኣለዎ ማለት እዩ።'
+          label: Forms - Case
+        incident:
+          explanation: 'ሓደ ተጠቃሚ ኣብ ፍጻመታት ንዝቐርቡ ቅጥዕታት ምድራት፡ እቲ ተጠቃሚ ኣብ ሓደ ፍጻመ ኣየናይ ሓበሬታ ክርኢ ከም ዝኽእል ይድርት። ንኣብነት፡ እቲ ተጠቃሚ ናብቲ ናይ መዝገብ ወናኒ ቅጥዒ ጥራይ ክኣቱ እንተኾይኑ፡ ኣብቲ ቅጥዒ ዘሎ ዓውድታት ዝርከብ ሓበሬታ ጥራይ እውን ክርኢ ይኽእል። እቲ ሕጂ ዘሎ ተጠቃሚ ውሱን ናይ ቅጥዒ ምብጻሕ እንተሃልይዎን ነቲ ናይ ቅጥዒ ውቅር ናይ ምምሕዳር ክእለት እንተሃልይዎን፡ ናይ ቅጥዒ ምብጻሕ ምድራት ኣየኖት ቅጥዕታት ክውቅሩ ከም ዝኽእሉ እውን ይድርቶ። መተሓሳሰቢ፡ ዝኾነ ቅጥዕታት እንተዘይተገሊጹ፡ እቲ ተራ ንኹሉ ቅጥዕታት ንፍጻመታት ክረክብ ኣለዎ ማለት እዩ።'
+          label: ቅጥዕታት - ፍጻመ
+        tracing_request:
+          explanation: 'ሓደ ተጠቃሚ ኣብ ናይ ምክትታል ሕቶታት ናብ ቅጥዕታት ንኽረኽቦ ምድራት፡ እቲ ተጠቃሚ ኣብ ናይ ምክትታል ሕቶ ኣየናይ ሓበሬታ ክርኢ ከም ዝኽእል ይድርት። ንኣብነት፡ እቲ ተጠቃሚ ናብቲ ናይ መዝገብ ወናኒ ቅጥዒ ጥራይ ክኣቱ እንተኾይኑ፡ ኣብቲ ቅጥዒ ዘሎ ዓውድታት ዝርከብ ሓበሬታ ጥራይ እውን ክርኢ ይኽእል። እቲ ሕጂ ዘሎ ተጠቃሚ ውሱን ናይ ቅጥዒ ምብጻሕ እንተሃልይዎን ነቲ ናይ ቅጥዒ ውቅር ናይ ምምሕዳር ክእለት እንተሃልይዎን፡ ናይ ቅጥዒ ምብጻሕ ምድራት ኣየኖት ቅጥዕታት ክውቅሩ ከም ዝኽእሉ እውን ይድርቶ። መተሓሳሰቢ፡ ዝኾነ ቅጥዕታት እንተዘይተገሊጹ፡ እቲ ተራ ንኹሎም ቅጥዕታት ንሕቶታት ምክትታል ይበጽሕ ማለት እዩ።'
+          label: ቅጥዕታት - ናይ ምክትታል ሕቶ
+        registry_record:
+          explanation: 'ሓደ ተጠቃሚ ኣብ መዝገብ ዝርከቡ ቅጥዕታት ንኽረኽቦም ምድራት፡ እቲ ተጠቃሚ ኣብ መዝገብ ኣየናይ ሓበሬታ ክርኢ ከም ዝኽእል ይድርቶ። ንኣብነት፡ እቲ ተጠቃሚ ናብቲ ናይ መዝገብ ወናኒ ቅጥዒ ጥራይ ክኣቱ እንተኾይኑ፡ ኣብቲ ቅጥዒ ዘሎ ዓውድታት ዝርከብ ሓበሬታ ጥራይ እውን ክርኢ ይኽእል። እቲ ሕጂ ዘሎ ተጠቃሚ ውሱን ናይ ቅጥዒ ምብጻሕ እንተሃልይዎን ነቲ ናይ ቅጥዒ ውቅር ናይ ምምሕዳር ክእለት እንተሃልይዎን፡ ናይ ቅጥዒ ምብጻሕ ምድራት ኣየኖት ቅጥዕታት ክውቅሩ ከም ዝኽእሉ እውን ይድርቶ። መተሓሳሰቢ፡ ዝኾነ ቅጥዕታት እንተዘይተገሊጹ፡ እቲ ተራ ንኹሉ ቅጥዕታት ንመዝገብታት ክረክብ ኣለዎ ማለት እዩ።'
+          label: ቅጥዕታት - መዝገብ
+        family:
+          label: ቅጥዕታት - ስድራቤት
+          explanation: 'ሓደ ተጠቃሚ ንስድራቤታት ዝኸውን ቅጥዕታት ንኽረክብ ምድራት፡ እቲ ተጠቃሚ ኣብ ሓደ ስድራቤት ኣየናይ ሓበሬታ ክርኢ ከም ዝኽእል ይድርቶ። ንኣብነት፡ እቲ ተጠቃሚ ናብቲ ናይ መዝገብ ወናኒ ቅጥዒ ጥራይ ክኣቱ እንተኾይኑ፡ ኣብቲ ቅጥዒ ዘሎ ዓውድታት ዝርከብ ሓበሬታ ጥራይ እውን ክርኢ ይኽእል። እቲ ሕጂ ዘሎ ተጠቃሚ ውሱን ናይ ቅጥዒ ምብጻሕ እንተሃልይዎን ነቲ ናይ ቅጥዒ ውቅር ናይ ምምሕዳር ክእለት እንተሃልይዎን፡ ናይ ቅጥዒ ምብጻሕ ምድራት ኣየኖት ቅጥዕታት ክውቅሩ ከም ዝኽእሉ እውን ይድርቶ።'
+      group:
+        actions:
+          admin_only:
+            explanation: እዚ ማለት እዚ ተራ ዘለዎም ተጠቀምቲ ምስ ምምሕዳር ናይቲ ስርዓት ዝተኣሳሰሩ ነገራት ከም ጸብጻባት፣ ቅጥዕን ምድላይን ውቅር፣ ተጠቀምቲ፣ ተራታትን ጉጅለታት ተጠቀምቲን ጥራይ እዮም ክርእዩ ዝኽእሉ። ዝኾነ ውልቃዊ ጉዳያት፡ ናይ ምክትታል ሕቶታት፡ ወይ ፍጻመታት ኣይክርእዩን እዮም።
+            label: መዛግብቲ የለን - ናይ ኣድሚን ተግባር ጥራይ
+          agency:
+            explanation: እቲ ተራ ብኹሎም ተጠቀምቲ ኣብ ትካሎም ዝመሓደሩ መዛግብቲ ክረክብ ይኽእል። እቲ ተጠቃሚ ምስ ተጠቀምቲ ርክብ እንተሃልይዎ ንኹሎም ኣብ ትካሉ ዘለዉ ተጠቀምቲ ክረኽቦም ይኽእል።
+            label: ኩሎም መዛግብቲ ወይ ተጠቀምቲ ኣብ ትካልይ
+          all:
+            explanation: እቲ ተራ ንኹሎም መዛግብቲ፣ ተጠቀምትን ጉጅለታት ተጠቀምቲን ኣብቲ ስርዓት ክረኽቦም ይኽእል እዩ፣ ንባዕሎም ኣየኖት ጉጅለታት ተጠቀምቲ ምዃኖም ብዘየገድስ።
+            label: ኩሎም መዛግብቲ ወይ ተጠቀምቲ ምብጻሕ
+          group:
+            explanation: እቲ ተራ ብኹሎም ተጠቀምቲ ኣብ ጉጅለታት ተጠቀምቶም ዝመሓደሩ መዛግብቲ ክረክብ ይኽእል። ኣብጉጅለታት ተጠቀምቲ ንዘለዉ ተጠቀምቲ ጥራይ እዮም ክረኽብዎም ዝኽእሉ። ናይ ገዛእ ርእሶም ጉጅለ ተጠቀምቲ ጥራይ እዮም ክኣትዉ ዝኽእሉ።
+            label: Access all records or users in my group
+          self:
+            explanation: The role can access their own records (cases, tracing requests, or incidents), and can edit their own user account.
+            label: መዛግብተይ ወይ ተጠቃሚ ጥራይ ክትረክብ
+        explanation: ኣየኖት መዛግብቲ (ጉዳያት፣ ሕቶታት ምክትታል፣ ወይ ፍጻመታት) ይቆጻጸር፣ እቲ ተራ ክረኽቦ ይኽእል። እቲ ተራ ናብ ተጠቀምትን ጉጅለታት ተጠቀምትን ምብጻሕ እንተሃልይዎ፡ እዚ ኣየኖት ተጠቀምትን ጉጅለታት ተጠቀምትን ክበጽሑ ከም ዝኽእሉ እውን ይቆጻጸር። ናብ "ኣይተመዝገበን" ዝበጽሑ ተራታት ከም ቅጥዕታት፡ ተጠቀምትን ጸብጻባትን ዝኣመሰሉ ናይ ስርዓት ውቅር ጥራይ እዮም ክበጽሑ ዝኽእሉ።
+        label: እዚ ተራ እዚ እንታይ መዛግብቲ እዩ ዚጸልዎ፧
+      incident:
+        actions:
+          assign:
+            explanation: ሓደ ተጠቃሚ ካብቲ መበቆላዊ ወናኒ መዝገቡ ናብ ዝኾነ ካልእ ኣብቲ ስርዓት ዘሎ ተጠቃሚ ፍጻመ ክሰድድ የኽእሎ። ድሮ ምስ ሓደ ጉዳይ ዝተኣሳሰሩ ፍጻመታት ክምደቡ ኣይክእሉን፤ ኣብ ክንድኡ ነቲ ዝተኣሳሰር ጉዳይ ዳግማይ ክትምድቦ ኣለካ፣ እዚ ድማ ንዋንነት መዝገብ ናይቲ ፍጻመ ከዘምኖ እዩ።
+            label: ምምዳብ
+          change_log:
+            explanation: ተጠቃሚ ታሪኽ ናይ ኩሉ ኣብቲ መዝገብ ካብ ዝፍጠር ጀሚሩ ዝተገብረ ለውጢ ክርኢ ይኽእል። እዚ ንኹሎም ዓውድታት ዝተመዝገቡ ክብርታት የጠቓልል።
+            label: ኣርማ ለውጥ
+          create:
+            explanation: ፍጻመ ናይ ምፍጣር ዓቕሚ።
+            label: ምፍጣር
+          enable_disable_record:
+            explanation: ንሓደ ፍጻመ ናይ ምዕጻው ወይ ምኽኣል ዓቕሚ። "ጉዱእ" ፍጻመታት ብነባሪ ኣብ ዝርዝር ፍጻመታት ኣይረኣዩን። ተጠቀምቲ ኣብ ዝርዝር ፍጻመታት ንዝተሰናኸሉ ፍጻመታት ፍልተር ብምትግባር ክርእዩ ይኽእሉ።
+            label: ተኽእሎ/ ጉዱእ
+          export_case_pdf:
+            explanation: ተጠቃሚ ካብቲ ናይ ፍጻመታት ዝርዝር ወይ ናይ ፍጻመታት ምርኢት ገጻት ፒዲኤፍ ፋይል ሰደድ ክፈጥር ይኽእል፣ እዚ ድማ ንኹሎም እቲ ሕጂ ተጠቃሚ ዝረኽቦም ዓውድታት ዝሓዘ እዩ፣ ንሓደ፣ ንብዙሕ ወይ ንኹሎም እቲ ተጠቃሚ ዝረኽቦም መዛግብቲ። ኣብቲ ናይ PDF ሰደድ ፋይል፡ ሓበሬታ መጀመርታ ብጉዳይ ይዝርዘር፡ ድሕሪኡ ድማ ብዝያዳ በቲ ሓበሬታ ዝረኣየሉ ቅጥዒ ይውደብ።
+            label: Export PDF
+          export_csv:
+            explanation: ተጠቃሚ ካብቲ ናይ ፍጻመ ዝርዝር ወይ ናይ ፍጻመ ምርኢት ገጻት ሲኤስቪ ፋይል ሰደድ ክፈጥር ይኽእል፣ እዚ ድማ ኩሎም እቲ ናይ ሕጂ ተጠቃሚ መእተዊ ዘለዎም ዓውድታት ዝሓዘ እዩ፣ ንሓደ፣ ንብዙሕ ወይ ንኹሎም እቲ ተጠቃሚ ዝበጽሖም ፍጻመታት።
+            label: ሲኤስቪ ሰደድ
+          export_custom:
+            explanation: ተጠቃሚ ናብ ኤክስኤልኤስ ፋይል ንምልኣኽ ፍሉያት ቅጥዕታት ወይ ዓውድታት ክመርጽ ይኽእል።
+            label: ሰደድ ብሕታዊ
+          export_incident_recorder_xls:
+            explanation: ተጠቃሚ ፍሉይ ናይ ኤክስኤልኤስ ፋይል ሰደድ ክፈጥር ይኽእል እዚ ድማ ብመሳርሒ መዝገብ ፍጻመታት ጂቢቪዳታ ምልውዋጥ የኽእል።
+            label: ናይ ሰደድ ፍጻመ መዝገብ ኤክስኤልኤስ
+          export_mrm_violation_xls:
+            explanation: ተጠቃሚ ንኤምኣርኤም ጥሕሰት  ፍሉይ ናይ ኤክሰል (XLS ፋይል) ሰደድ ክፈጥር ይኽእል። እዚ ተግባር ኣብ ገጽ ምርኢት ፍጻመን ዝርዝር ፍጻመታትን ይርከብ።
+            label: ናይ ኤምኣርኤም ምጥሓስ ናብ ኤክሰል (ኤክስኤልኤስ ፋይል) ሰደድ
+          export_json:
+            explanation: ተጠቃሚ ካብቲ ናይ ፍጻመ ዝርዝር ወይ ናይ ፍጻመ ምርኢት ገጻት ናይ ጀኤስኦኤን ፋይል ሰደድ ክፈጥር ይኽእል፣ እዚ ድማ ኩሎም እቲ ናይ ሕጂ ተጠቃሚ መእተዊ ዘለዎም ዓውድታት ዝሓዘ እዩ፣ ንሓደ፣ ንብዙሕ ወይ ንኹሎም እቲ ተጠቃሚ ዝረኽቦም ፍጻመታት። እዚ ሰደድ ብቐንዱ ነቶም ካብቲ ሕጂ ዘሎ ስርዓት ፕሪሜሮ ፍጻመታት ሰደድ ክገብሩን ድሕሪኡ ናብ ዝተፈላለየ ፕሪሜሮ ስርዓት፡ ወይ ናብ ካልእ ስርዓተ ምሕደራ ሓበሬታ ከእትዉን ዝደልዩ ዝውዕል እዩ። ቅርጺ ጀኤስኦኤን ብማሽን ዝንበብ ኮይኑ ንመብዛሕትኦም ተጠቀምቲ ግብራዊ ኣይኮነን።
+            label: Export JSON
+          export_list_view_csv:
+            explanation: ተጠቃሚ ካብቲ ናይ ፍጻመ ዝርዝር ገጽ ንእቲ ተጠቃሚ ኣብቲ ዝርዝር ፍጻመታት ዝረኣዩ ተመሳሳሊ ዓውድታት ዝሓዘ ሲኤስቪ ፋይል ሰደድ ክፈጥር ይኽእል። ካብ ገጽ ዝርዝር ፍጻመታት ጥራይ ዝተፈጸመ።
+            label: ዝርዝር ሰደድ ርእይቶ ሲኤስቪ
+          export_pdf:
+            explanation: ተጠቃሚ ካብቲ ናይ ፍጻመታት ዝርዝር ወይ ናይ ፍጻመታት ምርኢት ገጻት ፒዲኤፍ ፋይል ሰደድ ክፈጥር ይኽእል፣ እዚ ድማ ንኹሎም እቲ ሕጂ ተጠቃሚ ዝረኽቦም ዓውድታት ዝሓዘ እዩ፣ ንሓደ፣ ንብዙሕ ወይ ንኹሎም እቲ ተጠቃሚ ዝረኽቦም መዛግብቲ። ኣብቲ ናይ PDF ሰደድ ፋይል፡ ሓበሬታ መጀመርታ ብጉዳይ ይዝርዘር፡ ድሕሪኡ ድማ ብዝያዳ በቲ ሓበሬታ ዝረኣየሉ ቅጥዒ ይውደብ።
+            label: ፒዲኤፍ ሰደድ
+          export_xls:
+            explanation: ተጠቃሚ ካብቲ ናይ ፍጻመታት ዝርዝር ወይ ናይ ፍጻመታት ምርኢት ገጻት ናይ ኤክስኤልኤስ ፋይል ሰደድ ክፈጥር ይኽእል፣ እዚ ድማ ብሕታዊ ስብስብ ቅጥዕታት ወይ ዓውድታት ዝሓዘ እዩ፣ ንሓደ፣ ንብዙሕ ወይ ንኹሎም እቲ ተጠቃሚ ዝረኽቦም ጉዳያት። ኣብዚ ሰደድ እዚ ነፍሲ ወከፍ ቅጥዒ ኣብ ውሽጢ ፋይል ኤክስኤልኤስ ኣብ ናይ ገዛእ ርእሱ ትብ ይውከል። እቲ ተጠቃሚ ኣየኖት ቅጥዕታት ወይ ዓውድታት ኣብቲ ሰደድ ክካተቱ ከም ዝደሊ ብሕታዊ ሰደድ ሞዳል ተጠቒሙ ክመርጽ ይኽእል። ተጠቀምቲ ኣብቲ ሰደድ ቅጥዕታትን ዓውድታትን ከካትቱ ዝኽእሉ ድሮ ኣብቲ መተግበሪ ኬዝ ክርእዩ ከለዉ ነቶም ቅጥዕታትን ዓውድታትን ናይ ምርኣይ ዓቕሚ ምስ ዝህልዎም ጥራይ ምዃኑ ኣስተውዕሉ።
+            label: Excel (XLS file) export
+          flag:
+            explanation: ኣብ ሓደ ፍጻመ ባንዴራ ናይ ምውሳኽ ክእለት። እዚ ፍቓድ ዘለዎም ተጠቀምቲ ኣብ ሓደ ፍጻመ ዝወሰኽዎም ባንዴራታት እውን ከውጽኡ ይኽእሉ እዮም።
+            label: ፀገም
+          resolve_any_flag:
+            explanation: ተጠቃሚ ዝኾነ ኣብቲ መዝገብ ዘሎ ባንዴራ ክፈትሖ የኽእሎ፣ መን ባንዴራ ፈጢርዎ ብዘየገድስ።
+            label: ዝኾነ ባንዴራ ፍታሕ
+          import:
+            explanation: ተጠቃሚ ካብ ሲኤስቪ, ኤክስኤል, ወይ ጀኤስኦኤን ፋይል ብምእታው ሓደ ወይ ልዕሊኡ ሓደስቲ ፍጻመታት ክፈጥር የኽእሎ። እቲ ካብ ወጻኢ ዝኣተወ ፋይል ሓበሬታ ብግቡእ ንኽኣቱ *ኣዝዩ* ብፍሉይ ቅርጺ ክህልዎ ኣለዎ። እዚ ተግባር እዚ ንዝለዓለ ቴክኒካዊ ክእለትን ዳታ ኣብ ፕሪሜሮ ብኸመይ ከም ዝቕረጽ ዓሚቕ ፍልጠት ዘለዎምን ምምሕዳራዊ ተጠቀምቲ ጥራይ ክኸውን ኣለዎ። ካብ ገጽ ዝርዝር ፍጻመታት ጥራይ ዝፍጸም።
+            label: ምእታው
+          remove_alert:
+            explanation: እዚ ፍቓድ እዚ ተጠቃሚ ካብ ሓደ ፍጻመ መጠንቀቕታ ከውጽእ የኽእሎ። መጠንቀቕታታት ብተለምዶ ዝፍጠሩ ሓደ ፍሉይ ዓውዲ ክእረም ከሎ እዩ፣ ከም መዘኻኸሪታት ክመሓየሹ ከለዉ። መብዛሕትኡ ግዜ መጠንቀቕታታት ኣብ ጎኒ እቲ ፍጻመ ብጫ ነጥቢ ይረኣዩ።
+            label: ካብ ሓደ ፍጻመ መጠንቀቕታ ኣወግድ
+          link_incident_to_case:
+            explanation: ተጠቃሚ ነቲ ፍጻመ ምስ ዝተመርጸ ጉዳይ ከራኽቦ የኽእሎ።
+            label: ፍጻመ ምስ ኬዝ ኣተሓሕዞ
+          manage:
+            explanation: ሓደ ተጠቃሚ ኣብ ፍጻመታት ኩሎም ዘለዉ ተግባራት ክፍጽም የኽእሎ። እቲ "ምሕደራ" ዝብል ፍቓድ ብመሰረቱ "ኩሉ" ማለት እዩ።
+            label: ምምሕዳር (ኩሉ ፍቓድ ናይዚ ዓይነት ጸጋ)
+          read:
+            explanation: ንሓደ ፍጻመ ናይ ምርኣይ ክእለት።
+            label: ኣረኣእያ
+          sync_mobile:
+            explanation: እዚ ፍቓድ እዚ ብሓፈሻ ተጠቃሚ ነቲ ሞባይል ኣፕሊኬሽን ክጥቀመሉ የኽእሎ። መጀመርታ፡ ተጠቃሚ ኣብ ዝርዝር ፍጻመታትን ገጻት ምርኢት ፍጻመታትን ዝረኣዩ "ንሞባይል ምልክት ምግባር"ን "ንሞባይል ምልክት ምግባር"ን ዝብሉ ተግባራት ክርኢ የኽእሎ። ንሞባይል ፍጻመ ምልክት ምግባር፡ ብዛዕባ እቲ ፍጻመ ዝምልከት ሓበሬታ ኣብ መንጎ ሞባይል መሳርሒ ተጠቃሚን መርበብ ሓበሬታ ኣፕሊኬሽንን ክሰማማዕ ከም ዘለዎ ዘመልክት ክኸውን ከሎ፡ ንሞባይል ዝኸውን ፍጻመ ምልክት ዘይምግባር ድማ ነዚ ምትእስሳር ካብ ምፍጻም ደው የብሎ። እዚ ፍቓድ ዘይብሎም ተጠቀምቲ እውን ንሞባይል መሳርሒታቶም ምስቲ ዌብ ኣፕሊኬሽን ብሓፈሻ ከሰማምዕዎ ኣይክእሉን እዮም፣ እዚ ማለት ድማ ​​ነቲ ሞባይል ኣፕ ንፍጻመታት ንምምሕዳር ክጥቀሙሉ ኣይክእሉን እዮም።
+            label: ምስ ሞባይል መሳርሒ ምትእስሳር
+          verify_mrm:
+            explanation: ተጠቃሚ MRM ኩነታት ጥሕሰት ክቕይር ይኽእል።
+            label: ተጠቃሚ ኤምኣርኤም ኩነታት ጥሕሰት ክቕይር ይኽእል።
+          write:
+            explanation: '"ምእራም" ዝብል ቁልፊ ምጥዋቕ፡ ብዛዕባ እቲ ፍጻመ ሓበሬታ ናይ ምሕዳስ፡ ከምኡ''ውን "ምቕማጥ" ምጥዋቕ ክእለት። ከምኡ ውን ተጠቃሚ ንሓደ ፍጻመ ከሰናኽሎ ወይ ከኽእል የኽእሎ።'
+            label: Edit
+        explanation: ንዝተፈጸመ ፍጻመ ይውክል። እዚኦም መብዛሕትኡ ግዜ ፍጻመታት ግህሰት ወይ ዓመጽ እኳ እንተኾኑ፡ ምስ ከም ርክባት ምስ ኣኽበርቲ ሕጊ ዝኣመሰሉ ፍጻመታት እውን ክሰማምዑ ይኽእሉ። መብዛሕትኡ ግዜ ፍጻመታት ምስ ጉዳያት ዝተኣሳሰሩ እዮም።
+        label: ክስተት
+      is_manager:
+        explanation: ንዝኾነ ናይ ተጠቃሚ ተራ ይምልከት እዚ ድማ ብሓፈሻ ንኻልኦት ተጠቀምቲ ዝቆጻጸር እዩ። እዚ ድማ ሓደ ተጠቃሚ ንሓደ ተጠቃሚ ንሓንቲ ጋንታ ንምምሕዳር ዝሕግዙ ዳሽቦርድን ፍልትራትን ክርኢ የኽእሎ።
+        label: ማናጀር ድዩ?
+      managed_report:
+        actions:
+          reporting_locations_report:
+            label: ጸብጻብ ዝግበረሉ ቦታ (ጉዳያት)
+            explanation: ኣብ ውሽጢ ዝተወሰነ ዕለት ደረጃ ዝተመዝገቡ፡ ብናይ ጸብጻብ ቦታ ዝተጻረዩ፡ ብዕድመን ጾታን ዝተበታተኑን ቁጽሪ ሕሙማት ዝምልከት ስታቲስቲክስ ምርኣይ ክእለት። እዚ ፍቓድ እዚ ተጠቃሚ ካብ ሓደ ኢንሳይት ዳታ ንኽሰድድ እውን የኽእሎ።
+          followups_report:
+            label: ምክትታል (ጉዳያት)
+            explanation: ኣብ ውሽጢ ዝተወሰነ ዕለት ዝተገብረ ቁጽሪ ምክትታል ስታቲስቲክስ ምርኣይ ክእለት፣ ብዓይነት ምክትታል ዝተጻረየ፣ ብዕድመን ጾታን ዝተበታተነን። እዚ ፍቓድ እዚ ተጠቃሚ ካብ ሓደ ኢንሳይት ዳታ ንኽሰድድ እውን የኽእሎ።
+          services_report:
+            label: ኣገልግሎታት (ጉዳያት)
+            explanation: ኣብ ውሽጢ ዝተዋህበ ዕለት ደረጃ ዝተፈጸሙ ብዝሒ ኣገልግሎታት ስታቲስቲክስ ምርኣይ ክእለት፣ ብዓይነት ኣገልግሎት ዝተጻረየ፣ ብዕድመን ጾታን ዝተበታተነን። እዚ ፍቓድ እዚ ተጠቃሚ ካብ ሓደ ኢንሳይት ዳታ ንኽሰድድ እውን የኽእሎ።
+          protection_concerns_report:
+            label: ስክፍታታት ምክልኻል (ጉዳያት)
+            explanation: ኣብ ውሽጢ ዝተወሰነ ዕለት ዝተመዝገቡ ጉዳያት ስክፍታታት ሓለዋ ዝምልከት ስታቲስቲክስ ምርኣይ ክእለት። እዚ ፍቓድ እዚ ተጠቃሚ ካብ ሓደ ኢንሳይት ዳታ ንኽሰድድ እውን የኽእሎ።
+          managed_report_scope:
+            label: እዚ ተራ ኣብ ​​ኢንሳይትስ እንታይ መዛግብቲ ክርኢ ክኽእል ኣለዎ?
+          managed_report_scope_all:
+            label: ኩሉ
+          managed_report_scope_group:
+            label: ኣብ ጉጅለ ​​ዝተመርኮሰ ዳታ ጥራይ
+          managed_report_scope_agency:
+            label: ኣብ ኤጀንሲ ዝተመርኮሰ ዳታ ጥራይ
+          violations:
+            explanation: ንኤምኣርኤም ጥሕሰታት ርድኢት ናይ ምርካብ ዓቕሚ።
+            label: ጥሕሰት ሕጊ
+          gbv_statistics:
+            explanation: 'ጂቢቪ ስታቲስቲክስ ኢንሳይት ንምርኣይ ናይ ምብጻሕ ዓቕሚ።  '
+            label: ስታቲስቲክስ ጂቢቪ
+          ghn_report:
+            explanation: ንኤምአርኤም ዓለምለኻዊ ሆሪዞንታል ኖት ኢንሳይት. ናይ ምርካብ ዓቕሚ።
+            label: ዓለምለኻዊ ልኡል መተሓሳሰቢ
+          individual_children:
+            explanation: ናይ MRM ውልቃዊ ህጻናት ርድኢት ናይ ምርካብ ዓቕሚ።
+            label: ውልቀ-ሰባት ህጻናት
+          workflow_report:
+            label: ዋሕዚ ስራሕ (ጉዳያትን ፍጻመታትን)
+            explanation: ንኽልቲኦም ጉዳያትን ምስኦም ዝተኣሳሰሩ ፍጻመታትን ብዛዕባ ኩነታት ዋሕዚ ስራሕ ስታቲስቲክስ ምርኣይ ክእለት። እዚ ፍቓድ እዚ ተጠቃሚ ካብ ሓደ ኢንሳይት ዳታ ንኽሰድድ እውን የኽእሎ።
+          cases_workflow_report:
+            label: ዋሕዚ ስራሕ (ጉዳያት)
+            explanation: ኣብ ዋሕዚ ስራሕ ኩነታት ጉዳያት ስታቲስቲክስ ናይ ምርኣይ ክእለት። እዚ ፍቓድ እዚ ተጠቃሚ ካብ ሓደ ኢንሳይት ዳታ ንኽሰድድ እውን የኽእሎ።
+          violence_type_report:
+            label: ዓይነት ዓመጽ (ጉዳያትን ፍጻሜታትን)
+            explanation: ብዛዕባ ዓይነት ዓመጽ ስታቲስቲክስ ናይ ምርኣይ ክእለት። እዚ ፍቓድ እዚ ተጠቃሚ ካብ ሓደ ኢንሳይት ዳታ ንኽሰድድ እውን የኽእሎ።
+          referrals_transfers_report:
+            label: ሪፈራልን ዝውውርን (ጉዳያት)
+            explanation: ተጠቀምቲ ካብ ነፍሲ ወከፍ ጉጅለ ተጠቃሚ ናብ ነንሕድሕዶም ዝተሰጋገሩን ዝተሰጋገሩን ጉዳያት ብዝሒ ይርእዩ።
+      matching_configuration:
+        actions:
+          manage:
+            explanation: ኣብ መንጎ ሕቶ ምክትታልን ጉዳያትን ምትእስሳር ንምርካብ ኣየኖት ዓውድታት ከም ዝወዳደሩ ናይ ምቁጽጻር ክእለት። እዚ ኣብ ምሉእ ስርዓት ምትእስሳር ከመይ ከም ዝካየድ ስለ ዝቆጻጸር፡ እዚ ፍቓድ ብሓፈሻ ንኣመሓዳሪ ስርዓት ጥራይ ክኸውን ኣለዎ።
+            label: ምምሕዳር (ኩሉ ፍቓድ ናይዚ ዓይነት ጸጋ)
+        explanation: ኣብ እዋን ምክትታል ስድራቤትን ዳግመ ውህደትን ንሕቶታት ምክትታል ምስ ጉዳያት ንምንጽጻር ኣየኖት ዓውድታት ከም ዝጥቀሙ ይቆጻጸር።
+        label: ምትእስሳር ዝርዝር
+      metadata:
+        actions:
+          manage:
+            explanation: ቅጥዕታት፡ ናይ ቅጥዒ ዓውድታትን ምድላይን ናይ ምፍጣር፡ ምእራም፡ ምትርጓምን ምድምሳስን ክእለት። እዚ ፍቓድ ዘለዎ ተጠቃሚ ዝረኽቦም ቅጥዕታት ጥራይ ከም ዘመሓድር ኣስተውዕሉ። ንኣብነት ሓደ ሃገራዊ ኣመሓዳሪ ኣብ ጉዳያት ቅጥዒ ወናኒ መዝገብ ጥራይ ናይ ምርኣይ ዓቕሚ እንተሃልይዎ፡ ሽዑ ንሓዋሩ ጥራይ እዩ ነቲ ውቅር ናይዚ ቅጥዒ ከዘምኖ ዝኽእል።
+            label: ምምሕዳር (ኩሉ ፍቓድ ናይዚ ዓይነት ጸጋ)
+        explanation: ፕሪሜሮ ቅጥዕታትን ሜዳታትን፣ ናይ ምውቃር ዓቕሚ፡ ከምኡ’ውን ኣብ ውሽጦም ዝጥቀሙ ናይ ምድላይ ኣማራጺታትይቆጻጸር።
+        label: ቅጥዕታት፡ ምድላይ
+      module:
+        actions:
+          cp:
+            label: ሲፒ
+          gbv:
+            label: ጂቢቪ
+          mrm:
+            label: ኤምርኤም
+        explanation: እዚ ተራ ኣብ ​​ኣየኖት ሞዱላት ከም ዝምልከት ይቆጻጸር
+        label: ጥራዝ
+      potential_match:
+        actions:
+          read:
+            explanation: ኣብ መንጎ ሓደ ናይ ምክትታል ሕቶን ሓደ ጉዳይን ዘሎ ምትእስሳር ይውክል። ንስራሕ ምክትታልን ምጥርናፍን ስድራቤት (ኤፍቲር) ንምርካብ ተኽእሎ ዘለዎም ምትእስሳር ኣድላዪ እዩ። ተጠቃሚ ኣብ ጉዳያት ጽማቕ ምክትታል ቅጥዒ ክርኢ የኽእሎ።
+            label: ኣረኣእያ
+          view_audio:
+            explanation: ሓደ ናይ ምክትታል ምትእስሳር ዝደሊ ተጠቃሚ ምስ ሓደ ተኽእሎ ምትእስሳር ዝተኣሳሰሩ ናይ ጉዳይ ወይ ምክትታል ሕቶ ናይ ድምጺ ፋይላት ክርኢ ይኽእል ድዩ ኣይክእልን ይቆጻጸር።
+            label: ድምጺ ርአ
+          view_photo:
+            explanation: ሓደ ናይ ምክትታል ምትእስሳር ዝደሊ ተጠቃሚ ምስ ሓደ ተኽእሎ ምትእስሳር ዝተኣሳሰር ናይ ጉዳይ ወይ ምክትታል ሕቶ ስእልታት ክርኢ ይኽእል ድዩ ኣይክእልን ይቆጻጸር።
+            label: ስእልታት ርአ
+          manage:
+            explanation: ሓደ ተጠቃሚ ኣብ ተኽእሎታት ምትእስሳር ኩሎም ዝርከቡ ተግባራት ክፍጽም የኽእሎ። እቲ "ምምሽዳር" ዝብል ፍቓድ ብመሰረቱ "ኩሉ" ማለት እዩ።
+            label: ምምሕዳር
+        label: ተኽእሎ ምትእስሳር
+      primero_configuration:
+        actions:
+          manage:
+            explanation: ዝርዝራት ናይ ምዕቃብ፣ ምትግባርን ምልኣኽን ዓቕሚ። እዚ ፍቓድ መብዛሕትኡ ግዜ ንኣመሓዳሪ ስርዓት ዝተሓዝአ እዩ።
+            label: ምምሕዳር (ኩሉ ፍቓድ ናይዚ ዓይነት ጸጋ)
+        label: ዝርዝር
+      referral:
+        actions:
+          refer:
+            explanation: እዚ ማለት እቲ ተራ ከም ኣማራጺ ን"ዓይነት ተቐባሊ" ክረአ እዩ እቲ ተጠቃሚ ናይ ደገ ሪፈራል ክገብር ከሎ። ተጠቃሚ ነዚ ተራ ከም ዓይነት ሪፈራል እንተመሪጽዎ፡ እቲ ተጠቃሚ ነቲ ሪፈራል ከቕርብ ከሎ ፕሪሜሮ ዘመንጩ ሰደድ፡ እዚ ተራ ኣብ ​​ዝረኽቦም ቅጥዕታት ዝርከብ ሓበሬታ ጥራይ እዩ ዝሕዝ። ስለዚ፡ ንኣብነት፡ እቲ ተጠቃሚ ከም ዓይነት ተቐባሊ "ወሃቢ ኣገልግሎት ሕክምና" እንተመሪጹ፡ እቲ ተራ ወሃቢ ኣገልግሎት ሕክምና ድማ ናብቲ መሰረታዊ መንነትን ስክፍታታት ሓለዋን ቅጥዕታት ጥራይ እዩ ዝበጽሕ እንተኾይኑ፡ እቲ ፕሪሜሮ ንደጋዊ ሪፈራል ዝሰደዶ ናይ ሰደድ ፋይል ጥራይ እዩ ክኸውን በቶም ክልተ ቅርጽታት ዘለዉ ዓውድታት ዝሓዙ እዮም።
+            label: እዚ ተራ እዚ ንናይ ደገ ሪፈራላት ክውዕል ይኽእል ድዩ?
+        label: ምዝዋር
+      registry_record:
+        actions:
+          change_log:
+            explanation: ተጠቃሚ ታሪኽ ናይ ኩሉ ኣብቲ መዝገብ ካብ ዝፍጠር ጀሚሩ ዝተገብረ ለውጢ ክርኢ ይኽእል። እዚ ንኹሎም ዓውድታት ዝተመዝገቡ ክብርታት የጠቓልል።
+            label: ኣርማ ለውጥ
+          create:
+            explanation: መዝገብ መዝገብ ናይ ምፍጣር ዓቕሚ።
+            label: ምፍጣር
+          enable_disable_record:
+            explanation: መዝገብ መዝገብ ናይ ምዕጻው ወይ ምኽኣል ዓቕሚ። "ዝተሰናኸሉ" መዛግብቲ ብነባሪ ኣብ ዝርዝር መዝገብ ኣይረኣዩን። ተጠቀምቲ ኣብ ዝርዝር መዝገብ ንዝተሰናኸሉ መዛግብቲ መዝገብ ፍልተር ብምጥቃም ክርእዩ ይኽእሉ።
+            label: ምኽኣል / ዘይኽእል
+          export_csv:
+            explanation: 'ተጠቃሚ ካብቲ ናይ መዝገብ ዝርዝር ወይ ናይ መዝገብ ምርኢት ገጻት ሲኤስቪ ፋይል ሰደድ ክፈጥር ይኽእል፣ እዚ ድማ ኩሎም እቲ ናይ ሕጂ ተጠቃሚ ክበጽሖም ዝኽእል ዓውድታት ዝሓዘ እዩ፣ ንሓደ፣ ብዙሕ፣ ወይ ንኹሎም እቲ ተጠቃሚ ዝበጽሖም መዛግብቲ መዝገብ። መተሓሳሰቢ፡ እቲሲኤስቪ ሰደድ ላቲን ዘይኮኑ ፊደላት (ንኣብነት ዓረብኛ፡ ባንግላ) ኣይገልጽን እዩ።'
+            label: Export CSV
+          export_json:
+            explanation: ተጠቃሚ ካብ ዝርዝር መዝገብ ወይ ገጻት ምርኢት መዝገብ ጀኤስኦኤን ፋይል ሰደድ ክፈጥር ይኽእል፣ እዚ ድማ ኩሎም እቲ ሕጂ ተጠቃሚ ዝረኽቦም ዓውድታት ዝሓዘ እዩ። ቅርጺጀኤስኦኤን ብማሽን ዝንበብ ኮይኑ ንመብዛሕትኦም ተጠቀምቲ ግብራዊ ኣይኮነን።
+            label: Export JSON
+          export_xls:
+            explanation: 'ተጠቃሚ ካብ ዝርዝር መዝገብ ወይ ገጻት ምርኢት መዝገብ ናይ ኤክስኤልኤስ ፋይል ሰደድ ክፈጥር ይኽእል፣ እዚ ድማ ኩሎም እቲ ሕጂ ተጠቃሚ ዝረኽቦም ዓውድታት ዝሓዘ እዩ። መተሓሳሰቢ፡ ቅርጺ ኤክስኤልኤስ ላቲን ዘይኮኑ ፊደላት (ንኣብነት ዓረብኛ፡ ባንግላ) ብንበብ ቅርጺ ክህቦም ከሎ፡ ሲኤስቪ ሰደድ ግን ከምኡ ኣይኮነን።'
+            label: Excel (XLS file) export
+          flag:
+            explanation: ኣብ መዝገብ መዝገብ ባንዴራ ናይ ምውሳኽ ክእለት። እዚ ፍቓድ ዘለዎም ተጠቀምቲ ኣብ መዝገብ መዝገብ ዝወሰኽዎም ባንዴራታት እውን ከውጽኡ ይኽእሉ እዮም።
+            label: ጠቁም
+          resolve_any_flag:
+            explanation: ተጠቃሚ ዝኾነ ኣብቲ መዝገብ ዘሎ ባንዴራ ክፈትሖ የኽእሎ፣ መን ባንዴራ ፈጢርዎ ብዘየገድስ።
+            label: ዝኾነ ፀገም ፍታሕ
+          manage:
+            explanation: ሓደ ተጠቃሚ ኣብ መዛግብቲ መዝገብ ኩሎም ዝርከቡ ተግባራት ክፍጽም የኽእሎ። እቲ "ምምሕዳር" ዝብል ፍቓድ ብመሰረቱ "ኩሉ" ማለት እዩ።
+            label: ምምሕዳር (ኩሉ ፍቓድ ናይዚ ዓይነት ጸጋ)
+          read:
+            explanation: መዛግብቲ መዝገብ ምርኣይ ክእለት።
+            label: ኣረኣእያ
+          write:
+            explanation: '"ምእራም" ዝብል ቁልፊ ጠውቕ፣ ብዛዕባ መዝገብ መዝገብ ሓበሬታ ናይ ምዕራፍ፣ "ምቕማጥ" ድማ ምጥዋቕ ክእለት።'
+            label: ምእራም
+          sync_mobile:
+            explanation: ተጠቃሚ ካብ መስመር ወጻኢ ንኽጥቀመሉ መዛግብቲ መዝገብ ክዕቅብ የኽእሎ።
+            label: ንኦፍላይን ምልክት ግበር
+        explanation: እዚ ምስ ካልኦት መዛግብቲ ከም ጉዳያት ወይ ፍጻመታት ምትእስሳር ዘድልዮም፣ ኣዝዮም ብዙሓት ዝኾኑ፣ ብተደጋጋሚ ብሓድሽ ሓበሬታ ዝመሓየሹ ውልቀሰብ ወይ ትካል ክውክል ይኽእል። ምስ ምድላይ ዝመሳሰሉ ኮይኖም፡ ንነፍሲ ​​ወከፍ ምእታው ግን ዝያዳ ዝተሓላለኸ ስብስብ ሓበሬታ ኣለዎም።
+        label: ማህደር መዝገብ
+      family:
+        actions:
+          change_log:
+            explanation: ተጠቃሚ ታሪኽ ናይ ኩሉ ኣብቲ መዝገብ ካብ ዝፍጠር ጀሚሩ ዝተገብረ ለውጢ ክርኢ ይኽእል። እዚ ንኹሎም ዓውድታት ዝተመዝገቡ ክብርታት የጠቓልል።
+            label: ኣርማ ለውጥ
+          create:
+            explanation: ስድራቤት ናይ ምፍጣር ክእለት።
+            label: ፍጠር
+          enable_disable_record:
+            explanation: ንሓደ ስድራቤት ናይ ምቁራጽ ወይ ምኽኣል ክእለት። "ስንኩላን" ስድራቤታት ብነባሪ ኣብ ዝርዝር ስድራቤት ኣይረኣዩን። ተጠቀምቲ ፍልተር ብምጥቃም ኣብ ዝርዝር ስድራቤት ስንኩላን ስድራቤታት ክርእዩ ይኽእሉ።
+            label: ' ኣኽእል / ኣሰናኽል'
+          export_csv:
+            explanation: 'ተጠቃሚ ካብ ዝርዝር ስድራቤት ወይ ገጻት ምርኢት ስድራቤት ሲኤስቪ ፋይል ሰደድ ክፈጥር ይኽእል፣ እዚ ድማ ኩሎም እቲ ናይ ሕጂ ተጠቃሚ መእተዊ ዘለዎም ዓውድታት ዝሓዘ እዩ፣ ንሓደ፣ ንብዙሕ፣ ወይ ንኹሎም እቲ ተጠቃሚ ዝረኽቦም ስድራቤት። መተሓሳሰቢ፡ እቲ ሲኤስቪ ሰደድ ላቲን ዘይኮኑ ፊደላት (ንኣብነት ዓረብኛ፡ ባንግላ) ኣይገልጽን እዩ።'
+            label: Export CSV
+          export_json:
+            explanation: ተጠቃሚ ካብ ዝርዝር ስድራቤት ወይ ገጻት ምርኢት ስድራቤት ጀኤስኦኤን ፋይል ሰደድ ክፈጥር ይኽእል፣ እዚ ድማ ኩሎም እቲ ሕጂ ተጠቃሚ ዝረኽቦም ዓውድታት ዝሓዘ እዩ። ቅርጺ ጀኤስኦኤን ብማሽን ዝንበብ ኮይኑ ንመብዛሕትኦም ተጠቀምቲ ግብራዊ ኣይኮነን።
+            label: ምልኣኽ ጀኤስኦኤን
+          export_xls:
+            explanation: 'ተጠቃሚ ካብ ዝርዝር ስድራቤት ወይ ገጻት ምርኢት ስድራቤት ናይ ኤክስኤልኤስ ፋይል ሰደድ ክፈጥር ይኽእል፣ እዚ ድማ ኩሎም እቲ ሕጂ ተጠቃሚ ዝረኽቦም ዓውድታት ዝሓዘ እዩ። መተሓሳሰቢ፡ ቅርጺ ኤክስኤልኤስ ላቲን ዘይኮኑ ፊደላት (ንኣብነት ዓረብኛ፡ ባንግላ) ብንበብ ቅርጺ ክህቦም ከሎ፡ሲኤስቪ  ሰደድ ግን ከምኡ ኣይኮነን።'
+            label: Excel (XLS file) export
+          export_list_view_csv:
+            explanation: ተጠቃሚ ካብቲ ናይ ስድራቤት ዝርዝር ገጽ ንእቲ ተጠቃሚ ኣብ ዝርዝር ስድራቤት ዝረኣዩ ተመሳሳሊ ዓውድታት ዝሓዘ ሲኤስቪ ፋይል ሰደድ ክፈጥር ይኽእል። ካብ ገጽ ዝርዝር ስድራቤት ጥራይ ዝፍጸም።
+            label: ዝርዝር ሰደድ ርእይቶ ሲኤስቪ
+          export_pdf:
+            explanation: ተጠቃሚ ካብቲ ናይ ስድራቤት ዝርዝር ወይ ናይ ስድራቤት ምርኢት ገጻት ፒዲኤፍ ፋይል ሰደድ ክፈጥር ይኽእል፣ እዚ ድማ ኩሎም እቲ ሕጂ ተጠቃሚ ዝረኽቦም ዓውድታት ዝሓዘ እዩ፣ ንሓደ፣ ንብዙሕ ወይ ንኹሎም እቲ ተጠቃሚ ዝረኽቦም መዛግብቲ። ኣብቲ ናይ ፒዲኤፍ ሰደድ ፋይል፡ ሓበሬታ መጀመርታ ብስድራቤት ይዝርዘር፡ ድሕሪኡ ድማ ብዝያዳ በቲ ሓበሬታ ዝረኣየሉ ቅጥዒ ይውደብ።
+            label: Export PDF
+          export_custom:
+            label: Export custom
+            explanation: ተጠቃሚ ካብ ዝርዝር ስድራቤት ወይ ገጻት ምርኢት ስድራቤት ፍሉያት ቅጥዕታት ወይ ዓውድታት ክመርጽ ናብ ኤክስኤልኤስ ፋይል ክሰድድ ይኽእል።
+          flag:
+            explanation: ኣብ ሓደ ስድራቤት ባንዴራ ናይ ምውሳኽ ክእለት። እዚ ፍቓድ ዘለዎም ተጠቀምቲ ኣብ ሓደ ስድራቤት ዝወሰኽዎ ባንዴራታት እውን ከውጽኡ ይኽእሉ እዮም።
+            label: ጠቁም
+          resolve_any_flag:
+            explanation: ተጠቃሚ ዝኾነ ባንዴራ ኣብቲ መዝገብ ክፈትሖ የኽእሎ፣ መን ባንዴራ ፈጢርዎ ብዘየገድስ።
+            label: ዝኾነ ጥቆማ ፍታሕ
+          manage:
+            explanation: ሓደ ተጠቃሚ ኣብ ስድራቤታት ኩሎም ዝርከቡ ተግባራት ክፍጽም የኽእሎ። እቲ "ምምሕዳር" ዝብል ፍቓድ ብመሰረቱ "ኩሉ" ማለት እዩ።
+            label: ምምሕዳር (ኩሉ ፍቓድ ናይዚ ዓይነት ጸጋ)
+          read:
+            explanation: ስድራቤታት ናይ ምርኣይ ክእለት።
+            label: ኣረኣእያ
+          write:
+            explanation: ምእራም" ዝብል ቁልፊ ብምጥዋቕ፡ ብዛዕባ ስድራቤት ሓበሬታ ንምዕራፍን "ኣቕምጥ" ብምጥዋቕን ክእለት።
+            label: ምእራም
+          sync_mobile:
+            explanation: ተጠቃሚ ካብ መስመር ወጻኢ ንኽጥቀመሉ መዛግብቲ ስድራቤት ክዕቅብ የኽእሎ።
+            label: ንካብ ኢንተርኔት ወፃኢ ምልክት ግበር
+          close:
+            explanation: ሓደ ተጠቃሚ ኩነታት ናይ ሓደ ክፉት ስድራቤት ናብ ዕጹው ከቐምጦ የኽእሎ።
+            label: ዕፁው
+          reopen:
+            explanation: ሓደ ተጠቃሚ ኣብዚ እዋን እዚ ተዓጽዩ ዘሎ ስድራቤት ክኸፍት የኽእሎ።
+            label: ዳግማይ ክፈት
+          case_from_family:
+            explanation: ተጠቀምቲ ካብ ንኡስ ቅጥዒ ኣባላት ስድራቤት ኣብ ውሽጢ መዝገብ ስድራቤት ሓድሽ ጉዳይ ክፈጥሩ የኽእሎም።
+            label: ጉዳይ ምፍጣር
+        label: ስድራ
+      report:
+        actions:
+          create:
+            explanation: ሓድሽ ጸብጻብ ናይ ምፍጣር ዓቕሚ። ሓደ ተጠቃሚ ጸብጻብ ክፈጥር ከሎ፡ ንኹሎም ተጠቀምቲ "ምንባብ" ወይ "ጉጅለ ምንባብ" ዝብል ርክብ ዘለዎም ጸብጻባት ይረአ።
+            label: ምፍጣር
+          group_read:
+            explanation: ኩሉ ጸብጻባት ናይ ምርኣይ ክእለት። ኣብ ነፍሲ ወከፍ ጸብጻብ ዝርከቡ ቁጽርታት ነቶም ኣብቲ ናይ ሕጂ ተጠቃሚ ጉጅለታት ተጠቀምቲ ዘለዉ ተጠቀምቲ ዝረኽብዎም መዛግብቲ ጥራይ ዘንጸባርቑ እዮም። እዚ ፍቓድ እዚ መብዛሕትኡ ግዜ ንኣመሓደርቲ ከባቢ፡ ዞባዊ ወይ ትካል ኣብ ኣፈጻጽማ ናይ ገዛእ ርእሶም ጋንታታት ወይ ትካል ርድኢት ንምርካብ ዝደልዩ ይጥቀመሉ። እዚ ፍቓድ እዚ ነቲ ተጠቃሚ ካብ ጸብጻብ ዳታ ናይ ምልኣኽ ዓቕሚ እውን ይህቦ።
+            label: View (group-based data)
+          manage:
+            explanation: ሓደ ተጠቃሚ ንዅሉ እቲ ኣብ ትካላት ዝወሃብ ስጕምትታት ክፍጽም ይፈቕደሉ ። እቲ "ምምሕዳር" ዝብል ፍቓድ ብመሰረቱ "ኵሉ" ማለት እዩ።
+            label: ምምሕዳር (ኵሉ ፍቓድ እዚ ዓይነት ምንጪ)
+          read:
+            explanation: ኩሉ ጸብጻባት ናይ ምርኣይ ክእለት። ኣብ ነፍሲ ወከፍ ጸብጻብ ዝርከቡ ቁጽርታት፡ ነቲ ሕዚ ተጠቃሚ ዝረኽቦ መዛግብቲ ጥራይ ዘይኮነስ፡ ንኹሎም ኣብቲ ስርዓት ዘለዉ መዛግብቲ ዘንጸባርቑ እዮም። እዚ ፍቓድ እዚ ነቲ ተጠቃሚ ካብ ጸብጻብ ዳታ ናይ ምልኣኽ ዓቕሚ እውን ይህቦ።
+            label: ረኣ
+          write:
+            explanation: ኩሎም ጸብጻባት (ብኻልኦት ተጠቀምቲ ዝተፈጥሩ ሓዊሱ) ናይ ምእራም ዓቕሚ።
+            label: ምእራም
+          agency_read:
+            explanation: ኩሉ ጸብጻባት ናይ ምርኣይ ክእለት። ኣብ ነፍሲ ወከፍ ጸብጻብ ዝርከቡ ቁጽርታት ነቶም ኣብቲ ናይ ሕጂ ተጠቃሚ ኤጀንሲ ዘለዉ ተጠቀምቲ ዝረኽብዎም መዛግብቲ ጥራይ ዘንጸባርቑ እዮም። እዚ ፍቓድ መብዛሕትኡ ግዜ ንኣመሓደርቲ ትካላት ዝውዕል እዩ።
+            label: ምርኣይ (ኣብ ኤጀንሲ ዝተመርኮሰ ዳታ)
+        explanation: መሳርሒ ትንተና ድምር መረዳእታ። ናይ ሰንጠረዥን ግራፍን ውክልናታት ዳታ የጠቓልል።
+        label: ፀብፃብ
+      reporting_location_level:
+        explanation: 'እዚ ኣብ ዳሽቦርድታት፣ ፍልትራት፣ ሪፈራል ሞዳላትን ናይ ምስግጋር ሞዳላትን ነዚ ተራ እንታይ ደረጃ ቦታታት ከም ዝረኣዩ ክቆጻጸር እዩ። ነዚ ዓውዲ ባዶ እንተገዲፍካዮ፡ እዚ ተራ’ዚ ናይቲ ስርዓት ነባሪ ደረጃ ጸብጻብ ቦታ ክርኢ እዩ።'
+        label: ነዚ ተራ እዚ ንጸብጻብ እንታይ ዓይነት ቦታ ክውዕል ኣለዎ?
+      role:
+        actions:
+          assign:
+            explanation: ናይ ተጠቃሚ ኣካውንት ኣብ ምፍጣር ወይ ምእራም ተራ ናይ ምምራጽ ክእለት። እዚ ፍቓድ እዚ ንዝኾነ ተራ ኣድላዪ እዩ እዚ ድማ ናይ ተጠቃሚ ኣካውንት ምፍጣር ወይ ምእራም ክኸውን እዩ።
+            label: ምምዳብ
+          copy:
+            explanation: ቅዳሕ ናይ ሓደ ተራ ናይ ምፍጣር ክእለት። እዚ ነቶም ኣዝዮም ዝመሳሰሉ ብርክት ዝበሉ ተራታት ዝፈጥሩ ክኾኑ ዝኽእሉ ኣመሓደርቲ ስርዓት (ንኣብነት ወሃብቲ ኣገልግሎት) ጠቓሚ እዩ።
+            label: ምቕዳሕ
+          create:
+            explanation: ተራ ናይ ምፍጣር ክእለት።
+            label: ምፍጣር
+          delete:
+            explanation: ሓደ ተራ ናይ ምድምሳስ ክእለት።
+            label: ምድምሳስ
+          manage:
+            explanation: 'ሓደ ተጠቃሚ ኩሎም ዝርከቡ ተግባራት ኣብ ተራታት ክፍጽም የኽእሎ። እቲ "ምምሕዳር" ዝብል ፍቓድ ብመሰረቱ "ኩሉ" ማለት እዩ። ኣገዳሲ፡ እዚ ተራ ናይ ምፍጣርን ምድምሳስን ዓቕሚ እውን ይህብ።'
+            label: ምምሕዳር (ኩሉ ፍቓድ ናይዚ ዓይነት ጸጋ)
+          permitted_roles:
+            explanation: ሓደ ተራ ኣብ ​​ሓደ ተራ ካብዞም ኣብ ላዕሊ ዝተጠቕሱ ተግባራት ዝኾነ ናይ ምፍጻም ዓቕሚ እንተሃልይዎ፡ ነቶም ተግባራት ኣብቲ ኣብዚ ዝርዝር ዝተገልጹ ተራታት ክፍጽሙ ይኽእሉ። ስለዚ ንኣብነት ሓደ ተራ ኣብ ​​ተራታት "ምንባብ"ን "ምምዳብ"ን ዝብል ፍቓድ እንተሃልይዎ፡ ግን ከኣ "ሲፒ ገዳይ ሰራሕተኛ"ን "ሲፒ ኣመሓዳሪ"ን ጥራይ ከም "ምሕደራ ሚናታት" ተዘርዚሩ እንተሃልይዎ፡ ነቶም ጥራይ እዩ ክርኢ ዝኽእል ክልተ ተራታት፣ ከምኡ’ውን ኣብቶም ክልተ ተራታት ሓደስቲ ተጠቀምቲ ጥራይ ክምድብ ክኽእል እዩ። ሓደ ዓይነት ተራ "ምሕደራ ሚናታት" ዝተገለፀ እንተዘይኮይኑ ኩሎም ተራታት ክርኢ ይኽእልን ኣብቲ ስርዓት ዝኾነ ተራ ዘለዎም ሓደሽቲ ናይ ተጠቃሚ ኣካውንት ክፈጥር ይኽእልን።
+            label: ካልኦት በዚ ተራ ዝመሓደሩ ተራታት
+          read:
+            explanation: ተራታት ናይ ምርኣይ ክእለት።
+            label: ረኣ
+          write:
+            explanation: ሓደ ተጠቃሚ ኣብ ፕሪሜሮ ኣየኖት ተግባራት ክፍጽም ከም ዝኽእል ይእዝዝ።
+            label: ምእራም
+        explanation: ሓደ ተጠቃሚ ኣብ ፕሪሜሮ ኣየኖት ተግባራት ክፍጽም ከም ዝኽእል ይእዝዝ።
+        label: ሚናታት
+      system:
+        actions:
+          manage:
+            explanation: ኣብ ናይ ስርዓት ርክብ ሓበሬታ፣ ነባሪ መፍለጢን ናይ እንቋዕ ደሓን መጻእኩም ናይ ኢመይል ቅጥዕታትን፣ ከምኡ’ውን ዝተመዓራረዩ ኣገልገልቲ ሓበሬታ ናይ ምርኣይን ምዕራፍን ክእለት። እዚ ፍቓድ መብዛሕትኡ ግዜ ንኣመሓዳሪ ስርዓት ዝተሓዝአ እዩ።
+            label: ምምሕዳር (ኩሉ ፍቓድ ናይዚ ዓይነት ጸጋ)
+        explanation: ዝተፈላለዩ ስርዓት-ዓቐን ቅጥዕታት ውቅር።
+        label: ኣሰራርሓ
+      tracing_request:
+        actions:
+          change_log:
+            explanation: ተጠቃሚ ታሪኽ ናይ ኩሉ ኣብቲ መዝገብ ካብ ዝፍጠር ጀሚሩ ዝተገብረ ለውጢ ክርኢ ይኽእል። እዚ ንኹሎም ዓውድታት ዝተመዝገቡ ክብርታት የጠቓልል።
+            label: መዝገብ ለውጢ
+          create:
+            explanation: ናይ ምክትታል ሕቶ ናይ ምፍጣር ዓቕሚ
+            label: ፍጠር
+          enable_disable_record:
+            explanation: ንሓደ ናይ ምክትታል ሕቶናይ ምዕጻው ወይ ምኽፋት ዓቕሚ። "ኣካል ጉዱእ" ናይ ምክትታል ሕቶ ኣብ ብነባሪ ኣይረኣዩን። ተጠቀምቲ ኣብ ዝርዝር ሕቶታት ምክትታል ንዝተሰናኸሉ ናይ ምክትታል ሕቶታት ፍልተር ብምትግባር ክርእዩ ይኽእሉ።
+            label: ኣኽእል / ኣይተኽእል
+          export_case_pdf:
+            explanation: ተጠቃሚ ካብቲ ናይ ምክትታል ሕቶታት ዝርዝር ወይ ናይ ምክትታል ሕቶ ምርኢት ገጻት ፒዲኤፍ ፋይል ሰደድ ክፈጥር ይኽእል። ኣብቲ ናይ PDF ሰደድ ፋይል፡ ሓበሬታ መጀመርታ ብጉዳይ ይዝርዘር፡ ድሕሪኡ ድማ ብዝያዳ በቲ ሓበሬታ ዝረኣየሉ ቅጥዒ ይውደብ።
+            label: Export PDF
+          export_csv:
+            explanation: ተጠቃሚ ካብቲ ናይ ምክትታል ሕቶ ዝርዝር ወይ ናይ ምክትታል ሕቶ ምርኢት ገጻት CSV ፋይል ሰደድ ክፈጥር ይኽእል፣ እዚ ድማ ኩሎም እቲ ናይ ሕጂ ተጠቃሚ መእተዊ ዘለዎም ዓውድታት ዝሓዘ እዩ፣ ንሓደ፣ ብዙሕ ወይ ንኹሎም እቲ ተጠቃሚ ዝበጽሖም ናይ ምክትታል ሕቶታት።
+            label: Export PDF
+          export_custom:
+            explanation: ተጠቃሚ ካብቲ ናይ ምክትታል ሕቶ ዝርዝር ወይ ናይ ምክትታል ሕቶ ምርኢት ገጻት፣ እዚ ድማ ብሕታዊ ስብስብ ቅጥዕታት ወይ ዓውድታት ዝሓዘ፣ ንሓደ፣ ብዙሕ ወይ ንኹሉ እቲ ተጠቃሚ ዝረኽቦ ናይ ምክትታል ሕቶ፣ ናይ XLS ፋይል ሰደድ ክፈጥር ይኽእል። ኣብዚ ሰደድ እዚ ነፍሲ ወከፍ ቅጥዒ ኣብ ውሽጢ ፋይል XLS ኣብ ናይ ገዛእ ርእሱ ትብ ይውከል። እቲ ተጠቃሚ ኣየኖት ቅጥዕታት ወይ ዓውድታት ኣብቲ ሰደድ ክካተቱ ከም ዝደሊ ብሕታዊ ሰደድ ሞዳል ተጠቒሙ ክመርጽ ይኽእል። ተጠቀምቲ ኣብቲ ሰደድ ቅጥዕታትን ዓውድታትን ከካትቱ ዝኽእሉ ድሮ ኣብቲ መተግበሪ ናይ ምክትታል ሕቶ ክርእዩ ከለዉ ነቶም ቅጥዕታትን ዓውድታትን ናይ ምርኣይ ዓቕሚ ምስ ዝህልዎም ጥራይ ምዃኑ ኣስተውዕል።
+            label: Export custom
+          export_json:
+            explanation: ተጠቃሚ ካብቲ ናይ ምክትታል ሕቶ ዝርዝር ወይ ናይ ምክትታል ሕቶ ምርኢት ገጻት JSON ፋይል ሰደድ ክፈጥር ይኽእል። እዚ ሰደድ ብቐንዱ ነቶም ካብቲ ሕጂ ዘሎ ስርዓት ፕራይሜሮ ናይ ምክትታል ሕቶታት ሰደድ ክገብሩን ድሕሪኡ ናብ ዝተፈላለየ ፕሪሜሮ ስርዓት፡ ወይ ናብ ካልእ ስርዓተ ምሕደራ ሓበሬታ ከእትዉን ዝደልዩ ዝውዕል እዩ። ቅርጺ JSON ብማሽን ዝንበብ ኮይኑ ንመብዛሕትኦም ተጠቀምቲ ግብራዊ ኣይኮነን።
+            label: Export JSON
+          export_list_view_csv:
+            explanation: ተጠቃሚ ካብቲ ናይ ምክትታል ሕቶ ዝርዝር ገጽ ንእቲ ተጠቃሚ ኣብቲ ናይ ምክትታል ሕቶ ዝርዝር ዝረኣዩ ተመሳሳሊ ዓውድታት ዝሓዘ ሲኤስቪ ፋይል ሰደድ ክፈጥር ይኽእል። ካብቲ ናይ ምክትታል ሕቶ ዝርዝር ገጽ ጥራይ እዩ ዝፍጸም።
+            label: Export list view CSV
+          export_pdf:
+            explanation: ተጠቃሚ ካብቲ ናይ ምክትታል ሕቶታት ዝርዝር ወይ ናይ ምክትታል ሕቶ ምርኢት ገጻት ፒዲኤፍ ፋይል ሰደድ ክፈጥር ይኽእል። ኣብቲ ናይ ፒዲኤፍ ሰደድ ፋይል፡ ሓበሬታ መጀመርታ ብጉዳይ ይዝርዘር፡ ድሕሪኡ ድማ ብዝያዳ በቲ ሓበሬታ ዝረኣየሉ ቅጥዒ ይውደብ።
+            label: Export PDF
+          export_xls:
+            explanation: 'ተጠቃሚ ካብቲ ናይ ምክትታል ሕቶታት ዝርዝር ወይ ናይ ምክትታል ሕቶታት ምርኢት ገጻት ናይ XLS ፋይል ሰደድ ክፈጥር ይኽእል እዩ፣ እዚ ድማ ኩሎም እቲ ናይ ሕጂ ተጠቃሚ መእተዊ ዘለዎም ዓውድታት ዝሓዘ እዩ፣ ንሓደ፣ ብዙሕ ወይ ንኹሎም እቲ ተጠቃሚ ዝረኽቦም ናይ ምክትታል ሕቶታት። ኣብዚ ሰደድ እዚ ነፍሲ ወከፍ ቅጥዒ ኣብ ውሽጢ ፋይል XLS ኣብ ናይ ገዛእ ርእሱ ትብ ይውከል። መተሓሳሰቢ፡ ቅርጺ XLS ላቲን ዘይኮኑ ፊደላት (ንኣብነት ዓረብኛ፡ ባንግላ) ብንበብ ቅርጺ ክህቦም ከሎ፡ CSV ሰደድ ግን ከምኡ ኣይኮነን።'
+            label: Excel (XLS file) export
+          flag:
+            explanation: ኣብ ናይ ምክትታል ሕቶ ሰንደቕ ዕላማ ናይ ምውሳኽ ክእለት። እዚ ፍቓድ ዘለዎም ተጠቀምቲ ኣብ ናይ ምክትታል ሕቶ ዝወሰኽዎም ሰንደቕ ዕላማታት እውን ከውጽኡ ይኽእሉ።
+            label: ጥቆማ
+          resolve_any_flag:
+            explanation: ተጠቃሚ ዝኾነ ባንዴራ ኣብቲ መዝገብ ክፈትሖ የኽእሎ፣ መን ባንዴራ ፈጢርዎ ብዘየገድስ።
+            label: ዝኾነ ጥቆማ ፍታሕ
+          import:
+            explanation: ተጠቃሚ ካብ ሲኤስቪኤክስኤል, , ወይ ጆሶን ፋይል ብምእታው ሓደ ወይ ልዕሊኡ ሓደስቲ ኬዝ ክፈጥር የኽእሎ። እቲ ዝኣተወ ፋይል ሓበሬታ ብግቡእ ንኽኣቱ *ኣዝዩ* ብፍሉይ ቅርጺ ክህልዎ ኣለዎ። እዚ ተግባር እዚ ንዝለዓለ ቴክኒካዊ ክእለትን ዳታ ኣብ ፕሪሜሮ ብኸመይ ከም ዝቕረጽ ዓሚቝ ፍልጠት ዘለዎምን ምምሕዳራዊ ተጠቀምቲ ጥራይ ክቐርብ ኣለዎ። ካብ ገጽ ዝርዝር ጉዳያት ጥራይ ዝፍጸም።
+            label: ኣምፅእ
+          manage:
+            explanation: ሓደ ተጠቃሚ ኣብ ናይ ምክትታል ሕቶታት ኩሎም ዝርከቡ ተግባራት ክፍጽም የኽእሎ። እቲ "Manage" ዝብል ፍቓድ ብመሰረቱ "ኩሉ" ማለት እዩ።
+            label: ምምሕዳር (ኩሉ ፍቓድ ናይዚ ዓይነት ጸጋ)
+          read:
+            explanation: ናይ ምክትታል ሕቶ ናይ ምርኣይ ክእለት። ናይ ምክትታል ሕቶታት ናይ ምርኣይ ዓቕሚ ዘለዎም ተራታት እውን ናይ ፖተንሽያል ማች መዝገብ ዓይነት ናይ ምርኣይ ዓቕሚ ክህልዎም ይግባእ።
+            label: ኣረኣእያ
+          write:
+            explanation: '"ምእራም" ዝብል ቁልፊ ናይ ምጥዋቕ ዓቕሚ፣ ብዛዕባ እቲ ናይ ምክትታል ሕቶ ሓበሬታ ናይ ምሕዳስ፣ ከምኡውን "ምቕማጥ" ምጥዋቕ። ከምኡ ውን ተጠቃሚ ንናይ ምክትታል ሕቶ ከሰናኽል ወይ ከኽእል የኽእሎ'
+            label: ምእራም
+        explanation: ምስ ዘይተሰነየ ወይ ዝተፈለየ ጉዳይ ንምርካብን ዳግማይ ክጥርነፍን ዝፍትን ውልቀሰብ ይውክል።
+        label: ናይ ምክትታል ሕቶ
+      transfer:
+        actions:
+          transfer:
+            explanation: እዚ ማለት እቲ ተራ ከም ኣማራጺ ን"ዓይነት ተቐባሊ" ክረአ እዩ እቲ ተጠቃሚ ናይ ደገ ሪፈራል ክገብር ከሎ። ተጠቃሚ ነዚ ተራ ከም ዓይነት ምትሕልላፍ እንተመሪጽዎ፡ እቲ ተጠቃሚ ነቲ ዝውውር ከቕርብ ከሎ ፕራይሜሮ ዘመንጩ ሰደድ፡ ኣብቲ እዚ ተራ ዝረኽቦ ቅጥዕታት ዝርከብ ሓበሬታ ጥራይ እዩ ዝሕዝ። ስለዚ ንኣብነት፡ እቲ ተጠቃሚ ከም ዓይነት ተቐባሊ "ወሃቢ ኣገልግሎት ሕክምና" እንተመሪጹ፡ እቲ ተራ ወሃቢ ኣገልግሎት ሕክምና ድማ ናብቲ መሰረታዊ መንነትን ስክፍታታት ምክልኻልን ቅጥዕታት ጥራይ እዩ ዝበጽሕ እንተኾይኑ፡ እቲ ፕሪመሮ ንደጋዊ ዝውውር ዝሰደዶ ናይ ሰደድ ፋይል ጥራይ እዩ ዝኸውን በቶም ክልተ ቅርጽታት ዘለዉ ዓውድታት ዝሓዙ እዮም።
+            label: እዚ ተራ እዚ ንናይ ደገ ዝውውር ክውዕል ይኽእል ድዩ?
+        label: ምምሕልላፍ
+      user:
+        actions:
+          agency_read:
+            explanation: ኣብቲ ናይ ሕጂ ተጠቃሚ ትካል ዘለዉ ናይ ተጠቃሚ ኣካውንታት ጥራይ ናይ ምርኣይ ዓቕሚ። እዚ ውን እቲ ሕጂ ዘሎ ተጠቃሚ ኣብ ኣየኖት ናይ ተጠቃሚ ኣካውንት ካልእ ተግባራት ክፍጽም ከም ዝኽእል ይጸልዎ። ንኣብነት እቲ ሕጂ ዘሎ ተጠቃሚ ኣብ ልዕሊ ተጠቀምቲ "ፀሓፍ" ዝብል ፍቓድ እንተሃልይዎ፡ ግን ከኣ ናይ ትካል ኣንብብ ፍቓድ እንተሃልይዎ፡ ኣብ ናይ ገዛእ ርእሱ ኤጀንሲ ዝርከቡ ናይ ተጠቃሚ ኣካውንታት ጥራይ እዮም ከዐርዩ ዝኽእሉ። ብተመሳሳሊ እቲ ሕጂ ዘሎ ተጠቃሚ ኣብ ተጠቀምቲ "ስራሕ መካየዲ" ዝብል ፍቓድ እንተሃልይዎ፡ ግን ከኣ "ትካል ኣንብብ" ዝብል ፍቓድ እንተሃልይዎ፡ ንናይ ገዛእ ርእሱ ትካል ጥራይ ተጠቀምቲ ክፈጥሩ ይኽእሉ።
+            label: ርእይቶ (ኣብ ውሽጢ ኤጀንሲ)
+          create:
+            explanation: ናይ ተጠቃሚ ኣካውንት ናይ ምፍጣር ዓቕሚ።
+            label: ፍጠር
+          manage:
+            explanation: 'ሓደ ተጠቃሚ ኩሎም ዝርከቡ ተግባራት ኣብ ልዕሊ ተጠቀምቲ ክፍጽም የኽእሎ። እቲ "ስራሕ መካየዲ" ዝብል ፍቓድ ብመሰረቱ "ኩሉ" ማለት እዩ። ኣገዳሲ፡ እዚ ሓደስቲ ናይ ተጠቃሚ ኣካውንት ናይ ምፍጣር ዓቕሚ እውን ይህብ።'
+            label: ምምሕዳር (ኩሉ ፍቓድ ናይዚ ዓይነት ጸጋ)
+          read:
+            explanation: ናይ ተጠቃሚ ኣካውንት ናይ ምርኣይ ክእለት። ብነባሪ መልክዑ፡ ነፍሲ ወከፍ ተጠቃሚ ብዛዕባ ናይ ገዛእ ርእሱ ናይ ተጠቃሚ ኣካውንት (ንኣብነት ፓስዎርድ፡ ኢመይል) ሓበሬታ ናይ ምርኣይን ምእራምን ዓቕሚ ኣለዎ።
+            label: ኣረኣእያ
+          write:
+            explanation: ኣብ ገጽ ተጠቃሚ ምርኣይ "ምእራም" ዝብል ቁልፊ ጠዊቕካ፡ ብዛዕባ ተጠቃሚ ሓበሬታ ከተመሓይሽ፡ ድሕሪኡ ድማ ምዕቃብ። እዚ ፍቓድ እዚ ንናይ ተጠቃሚ ኣካውንት ናይ ምዕጻው ዓቕሚ እውን ከም ዝህብ ኣስተውዕሉ።
+            label: ምእራም
+        explanation: ንውልቃዊ ናይ ተጠቃሚ ኣካውንት ይውክል።
+        label: ተጠቀምቲ
+      user_group:
+        actions:
+          assign:
+            explanation: " ናይ ተጠቃሚ ኣካውንት ኣብ ምፍጣር ወይ ምእራም ጉጅለታት ተጠቀምቲ ናይ ምምራጽ ክእለት። እቲ ሕጂ ዘሎ ተጠቃሚ \"ኣብ ጉጅለይ ዘለዉ መዛግብቲ ወይ ተጠቀምቲ ጥራይ\" ዝብል ደረጃ መእተዊ እንተሃልይዎ፡ ነቲ ዝፈጥሮ ወይ ዝእርሞ ዘሎ ናይ ተጠቃሚ ኣካውንት ሓደ ወይ ልዕሊኡ ካብ *ናይ ገዛእ ርእሱ* ናይ ተጠቃሚ ጉጅለታት ጥራይ ክመርጽ ከም ዝኽእል ኣስተውዕል። እዚ ማለት ሓደ ናይ ተጠቀምቲ ጉጅለታት ናይ ምምዳብ ዓቕሚ ዘለዎ ኣካያዲ ስራሕ ኣብቲ እቲ ኣካያዲ ኣብዚ እዋን’ዚ ዝምልከቶም ናይ ተጠቀምቲ ጉጅለታት ጥራይ እዩ ተጠቃሚ ክውስኽ ዝኽእል። እዚ ፍቓድ እዚ ንዝኾነ ተራ ኣድላዪ እዩ እዚ ድማ ናይ ተጠቃሚ ኣካውንት ምፍጣር ወይ ምእራም ክኸውን እዩ።\n \n \n \n \n \n \n \n \n \n \n \n531 / 5,000 \nTranslation results\nTranslation result\nናይ ተጠቃሚ ኣካውንት ኣብ ምፍጣር ወይ ምእራም ጉጅለታት ተጠቀምቲ ናይ ምምራጽ ክእለት። እቲ ሕጂ ዘሎ ተጠቃሚ \"ኣብ ጉጅለይ ዘለዉ መዛግብቲ ወይ ተጠቀምቲ ጥራይ\" ዝብል ደረጃ መእተዊ እንተሃልይዎ፡ ነቲ ዝፈጥሮ ወይ ዝእርሞ ዘሎ ናይ ተጠቃሚ ኣካውንት ሓደ ወይ ልዕሊኡ ካብ *ናይ ገዛእ ርእሱ* ናይ ተጠቃሚ ጉጅለታት ጥራይ ክመርጽ ከም ዝኽእል ኣስተውዕል። እዚ ማለት ሓደ ናይ ተጠቀምቲ ጉጅለታት ናይ ምምዳብ ዓቕሚ ዘለዎ ኣካያዲ ስራሕ ኣብቲ እቲ ኣካያዲ ኣብዚ እዋን’ዚ ዝምልከቶም ናይ ተጠቀምቲ ጉጅለታት ጥራይ እዩ ተጠቃሚ ክውስኽ ዝኽእል። እዚ ፍቓድ እዚ ንዝኾነ ተራ ኣድላዪ እዩ እዚ ድማ ናይ ተጠቃሚ ኣካውንት ምፍጣር ወይ ምእራም ክኸውን እዩ።"
+            label: ምምዳብ
+          create:
+            explanation: ናይ ተጠቃሚ ጉጅለ ናይ ምፍጣር ዓቕሚ።
+            label: ፍጠር
+          delete:
+            explanation: ንሓደ ናይ ተጠቃሚ ጉጅለ ናይ ምድምሳስ ክእለት።
+            label: ምድምሳስ
+          manage:
+            explanation: 'ሓደ ተጠቃሚ ኣብ ጉጅለታት ተጠቀምቲ ኩሎም ዝርከቡ ተግባራት ክፍጽም የኽእሎ። እቲ "ስራሕ መካየዲ" ዝብል ፍቓድ ብመሰረቱ "ኩሉ" ማለት እዩ። ኣገዳሲ፡ እዚ ንጉጅለታት ተጠቀምቲ ናይ ምፍጣርን ምድምሳስን ዓቕሚ እውን ይህብ።'
+            label: ምምሕዳር (ኩሉ ፍቓድ ናይዚ ዓይነት ጸጋ)
+          read:
+            explanation: ጉጅለታት ተጠቀምቲ ናይ ምርኣይ ክእለት።
+            label: ረአ
+          write:
+            explanation: ናይ ተጠቀምቲ ጉጅለታት ናይ ምእራም ክእለት።
+            label: ምእራም
+        explanation: ንሓንቲ ጋንታ ወይ ንሓበሬታ ከካፍሉ ዝኽእሉ ናይ ምትሕብባር ጉጅለ ተጠቀምቲ ይውክል። ኣካየድቲ ብተለምዶ ኩሎም ብማሕበራዊ ሰራሕተኛታት ዝመሓደሩ መዛግብቲ ኣብ ጉጅለታት ተጠቀምቶም ክርእዩ ይኽእሉ።
+        label: ጉጅለታት ተጠቀምቲ
+      webhook:
+        actions:
+          read:
+            label: ረአ
+            explanation: ብመንገዲ ኤፒኣይ ኣቢልካ ናይ ዌብሁክ ውቅርታት ናይ ምዝርዛርን ምግምጋምን ዓቕሚ
+          write:
+            label: ምእራም
+            explanation: ብመንገዲ ኤፒኣይ ኣቢልካ ናይ ዌብሁክ ውቅር ናይ ምፍጣርን ምእራምን ክእለት።
+          create:
+            explanation: ብመንገዲ ኤፒኣይ ኣቢልካ ናይ ዌብሁክ ውቅር ናይ ምፍጣር ዓቕሚ።
+            label: ፍጠር
+          delete:
+            explanation: ብመንገዲ ኤፒኣይ ንሓደ ናይ ዌብሁክ ውቅር ናይ ምድምሳስ ዓቕሚ።
+            label: ምድምሳስ
+          manage:
+            label: ምምሕዳር (ኩሉ ፍቓድ ናይዚ ዓይነት ጸጋ)
+            explanation: ንፕራይሜሮ ዌብሁክስ ናብ ካልኦት ስርዓታት ዝበጽሕ ናይ ስርዓት ተራታት ዝውዕል። ንዘይዲቨሎፐር ኣጠቓቕማ ኣይምከርን።
+      activity_log:
+        actions:
+          transfer:
+            explanation: ተጠቃሚ ኣብቲ ናይ ዳሽቦርድ ክፍሊ መዝገብ ንጥፈታት ጠዊቑ ናይ ኩሎም ተቐባልነት ዘለዎም ወይ ዝተነጽጉ ዝውውር ናይቶም ክረኽብዎም ዝኽእሉ ጉዳያት መዝገብ ክርኢ ይኽእል።
+            label: ዝውውር ምግባር
+          manage:
+            label: ምምሕዳር (ኩሉ ፍቓድ ናይዚ ዓይነት ጸጋ)
+            explanation: ንኹሉ ናይ ምብጻሕ ክእለት።
+        label: ምዝገባ ንጥፈታት
+  potential_match:
+    case_id: መለለዪ ጉዳይ
+    child_age: ዕድመ
+    child_gender: ተባዕታይ/ኣነስታይ
+    child_id: ቆልዓ መለለዪይ#
+    inquirer_id: ሓታቲ መፍለዪይ#
+    inquirer_tr_name: ናይ ምክትታል ሕቶ
+    inquiry_date: ዕለት መርመራ
+    name: ሽም
+    score: ነጥቢ
+    social_worker: ማሕበራዊ ሰራሕተኛ
+    social_worker_agency: ትካል
+    tracing_request_id: ምክትታል ሕቶ መለለዪ
+    trace: ኣሰር
+    likelihood_likely: ምናልባት
+    likelihood_possible: ይከኣል
+  potential_matches:
+    display: ን %{type} %{id} ክሰማማዕ ዝኽእል ምትእስሳር ምርኣይ
+  reassign:
+    multiple_error: ጌጋ ኣጋጢሙ። %{re} ጉዳይ(ታት) ኣይተመደበን።
+    multiple_successfully: ፕሪሜሮ %{select_records} ከም ጉዳይ(ያት) ዳግማይ ይምዝግብ ኣሎ። ኩሎም እዞም ጉዳያት እዚኦም ንኽመሓየሹ ሓያሎ ደቓይቕ ክወስድ ይኽእል እዩ።
+    notes_label: መተሓሳሰቢ
+    successfully: ብዓወት ዳግማይ ተመዲቡ።
+    user_mandatory_label: ተቐባሊ የድሊ
+    users_label: ተቐባሊ
+    incident_from_case_warning: ነዚ ፍጻመ ክትምድቦ ኣይትኽእልን ኢኻ፣ ምኽንያቱ ድሮ ምስ ሓደ ጉዳይ ዝተኣሳሰር እዩ። ነቲ ጉዳይ ክትምድቦ ከለኻ፡ እቲ ፍጻመ እውን ይምደብ።
+  record_information:
+    assigned_user_names: ካልኦት ዝተመደቡ ተጠቀምቲ
+    created_at: ኣብ ዝተፈጥረ መዝገብ
+    created_by: መዝገብ ብ...
+    created_organization: ብኤጀንሲ ዝተፈጥረ
+    current_owner_separator: ናይ ሕጂ ወናኒ
+    module_id: ጥራዝ
+    owned_by: ሕጊ ሰራሕተኛ ጉዳይ
+    owned_by_agency_id: ትካል
+    owned_by_text: ናይ ሜዳ/ጉዳይ/ማሕበራዊ ሰራሕተኛ
+    previously_owned_by: ቅድሚ ሕጂ ዝነበረ ወናኒ
+    previously_owned_by_agency: ቅድሚ ሕጂ ዝነበረ ትካል
+    reassigned_tranferred_on: ዳግማይ ተመዲቡ / ተሰጋጊሩ ኣብ ላዕሊ
+    record_history_separator: ታሪኽ መዝገብ
+    last_updated_at: መወዳእታ ዝተመሓየሸሉ ሰዓት
+    last_updated_by: መወዳእታ ዝተሓደሰ ብ...
+  record_panel:
+    record_information: ሓበሬታ ምምዝጋብ
+  referral:
+    type_of_recipient: ዓይነት ተቐባሊ
+    type_of_referral_required: ዓይነት ምዝዋር የድሊ
+    referral_authorization_label: ዓይነት ዝውውር ክትገልጽ ትደሊ ዲኻ?
+    referral_authorization_help_text: እዚ ድማ እቲ ተቐባሊ ኣየኖት ቅጥዕታት ክረክብ ከም ዝኽእል ክድርት እዩ።
+    agency_label: ትካል
+    is_remote_label: መቆፃፀሪ ሲስተም ዲኻ ትጠቅስ ዘለኻ?
+    location_label: ሓባሪ ቦታ
+    notes_label: መተሓሳሰቢ
+    notes_on_referral: መተሓሳሰቢ ብዛዕባ ምዝዋር
+    note_on_referral_from_provider: መተሓሳሰቢ ብዛዕባ ምዝዋር ካብ ወሃቢ
+    provided_consent_label: ኣብቲ ቅጥዕታት ፍቓደኝነት ኣይተዋህበን።
+    recipient_label: ተቐባሊ
+    refer_anyway_label: ንማንኛውም ክተመሓላልፍ ዲኻ?
+    service_label: ግልጋሎት
+    success: '%{መዝገብ_ዓይነት} %{መፍለዪይ} ብዓወት ሪፈር ተገይሩሉ።'
+    user_mandatory_label: ተቐባሊ የድሊ
+    date: ዕለት
+    rejected_reason: ናይ ዘይምቅባል ምኸንያት ግለፅ
+  report:
+    aggregate_by: ጉጅለ ብመስርዕ
+    attribute: ባህሪ
+    constraint: ሕፅረት
+    date_ranges:
+      date: ማዕልቲ
+      month: ወርሒ
+      quarter: ርብዒ
+      quarter_abbr: Q1%{ርብዒ}
+      week: ሰሙን
+      year: ዓመት
+    description: መግለፂ
+    disabled:
+      explanation: ነዚ ጸብጻብ እንተ ኣሰናኺልካዮ ኣብቲ ዘሎ ጸብጻባት ኣይክረአን እዩ።
+      label: ስንኩል
+    exclude_empty_rows: ባዶ መስርዕ ኣይተርኢ
+    disaggregate_by: ብዓምዲ ጉጅለ
+    filters:
+      label: ሪፖርት ፍልትራት
+      label_new: ሓድሽ ጸብጻብ መጽረዪ
+      attribute: ምፅራይ
+      value: ምስ
+      not_null: ባዶ ኣይኮነን?
+      less_than: ካብ ...ይንእስ
+      greater_than: ካብ ዝዓቢ
+      equal_to: ማዕረ...
+      not_blank: ባዶ ኣይኮነን።
+      is: እዩ
+      before: ቅድሚት
+      after: ድሕሪ
+      delete_filter_message: ነዚ ምፅራይ ክትድምስሶ ከም እትደሊ ርግጸኛ ዲኻ?
+    group_ages: ናይ ዕድመ ደረጃታት ተጠቐም
+    group_dates_by: ናይ ዕለት ደረጃታት ተጠቐም
+    is_graph: ግራፍ ምምንጫው?
+    messages:
+      delete_success: ሪፖርት ብዓወት ተደምሲሱ።
+      success: ሪፖርት ብዓወት ተፈጢሩ።
+      updated: ጸብጻብ ብዓወት ተሓዲሱ።
+    modules: ጥራዝ
+    name: ሽም
+    name_mandatory: ሽም የድሊ
+    no_data: ነዚ ጸብጻብ ዝምልከት ዝኾነ ዳታ የለን
+    no_filters_added: ዝኾነ ምፅራይ ኣይተወሰኸን።
+    not_selected: ኣይተመርጸን።
+    record_type: ዓይነት መዝገብ
+    total: ጠቕላላ
+    value: ዋጋ
+    incomplete_data: ዘይተማልአ መረዳእታ
+  reports:
+    delete_report: ጸብጻብ ምድምሳስ
+    delete_report_message: ነዚ ጸብጻብ ክትድምስሶ ከም እትደሊ ርግጸኛ ዲኻ? ምድምሳስ ክምለስ ኣይክእልን እዩ። ጸብጻብ ንምድምሳስ እሺ ጠውቕ
+    label: ጸብጻባት
+    register_new_report: ሪፖርት ምፍጣር
+    translations:
+      edit: ትርጉማት ኣርም
+      manage: ትርጉማት ምምሕዳር
+      select_language: ቋንቋ ምረጽ
+    error_loading: ጸብጻብ(ታት) ኣብ ምጽዓን ጌጋ
+  request_transfer:
+    notes_label: መተሓሳሰቢ
+    submit_label: ሕቶ ምልኣኽ
+    success: ሕቶ ዝውውር ተላኢኹ
+  role:
+    agency_ids_label: በዚ ሚና ዝመሓደሩ ትካላት
+    copy_failure: ጌጋ ምቕዳሕ ሚና። እቲ ስም ምስ ካልእ ተራ ከምዘይጋጮ ምርግጋጽ።
+    copy_success: ሚና ብዓወት ተቐዲሑ።
+    create: ተራ ምፍጣር
+    delete_header: ሚና ምድምሳስ
+    description: መግለፂ
+    edit: ሚና ምእራም
+    error_in_updating: ዝርዝር ተራ ኣብ ​​ምዕራፍ ጌጋ።
+    group_permission_label: እዚ ተራ እዚ እንታይ መዛግብቲ እዩ ዚጸልዎ፧
+    label: ሚና
+    manager: ስራሕ መካየዲ
+    messages:
+      confirmation: ነዚ ተራ ክትድምስሶ ከም እትደሊ ርግጸኛ ዲኻ? ምድምሳስ ክምለስ ኣይክእልን እዩ። ነቲ ተራ ንምድምሳስ እሺ ጠውቕ።
+      created: ተራ ብዓወት ተፈጢሩ።
+      deleted: ተራ ብዓወት ተደምሲሱ።
+      updated: ተራ ብዓወት ተሓዲሱ።
+    name: ሽም
+    referral_label: እዚ ተራ እዚ ንምዝዋር ክውዕል ይኽእል ድዩ?
+    reporting_location_level_label: ነዚ ተራ እዚ ንጸብጻብ እንታይ ዓይነት ቦታ ክውዕል ኣለዎ?
+    role_ids_label: ካልኦት በዚ ተራ ዝመሓደሩ ተራታት
+    successfully_updated: ዝርዝር ሜና ብዓወት ይመሓየሽ።
+    transfer_label: እዚ ተራ እዚ ንዝውውራት ክውዕል ይኽእል ድዩ?
+    hide: ምሕባእ
+    read: ኣርኢ
+    read_write: ኣርእን ኣርምን
+  roles:
+    label: ሚና
+  saved_search:
+    deleted: ምድላይ ብዓወት ተደምሲሱ
+    filters_tab: ምፅራያት
+    no_filters: ዝተመርጹ ፍልትራት የለዉን።
+    save_success: ምድላይ ብዓወት ተዓቂቡ።
+    saved_searches_tab: ዝተዓቀቡ ፍተሻታት
+    title_description: ነዚ ዝተቐመጠ ምድላይ ክትድምስሶ ከም እትደሊ ርግጸኛ ዲኻ?
+    title_modal: ዝተቐመጡ ፍተሻታት ምድምሳስ
+  saved_searches:
+    no_save_searches: ዝተዓቀበ ምድላይ የብልካን።
+    save_search: ምድላይ ኣቕምጥ
+  settings:
+    navigation:
+      agencies: ትካላት
+      audit_logs: ናይ ኦዲት ምዝገባታት
+      configurations: ዝርዝራት
+      contact_information: ርክብ ሓበሬታ
+      forms: ቅጥዒታት
+      locations: ቦታታት
+      lookups: ምድላይ
+      user_groups: ጉጅለታት ተጠቀምቲ
+      users: ተጠቀምቲ
+      roles: ሚና
+      code_of_conduct: 'ስነ-ምግባር '
+    title: ምምዕርራይ
+  system_settings:
+    label: ምምዕርራይ ስርዓት
+  task:
+    due_date: መፈፀሚ ዕለት
+    id: መለለዪ መንነት#
+    name: ሽም
+    priorities:
+      high_level: ልዑል
+      low_level: ትሑት
+      medium_level: ማእኸላይ
+      no_action_level: ስጉምቲ የለን
+    priority: ቀዳምነት ዝወሃቦ ደረጃ
+    status: ኩነታት
+    statuses:
+      overdue: ግዜኡ ዝሓለፈ
+      upcoming_soon: ዳርጋ ግዜኡ
+    type: ዓይነት ተግባር
+    types:
+      assessment: ዳህሳስ
+      case_plan: ትልሚ ጉዳይ
+      follow_up: ምክትታል - %{ንኡስ ዓይነት}
+      service: ኣገልግሎት - %{ንኡስ ዓይነት}
+  tracing_request:
+    label: ናይ ምክትታል ሕቶ
+    has_match: ዘመድ ኣለዎ
+    find_match: መዛምድቲ ምድላይ
+    back_to_traces: ናብ ኣሰራት ንመለስ
+    back_to_potential_matches: ናብ ክመሳሰሉ ዝኽእሉ ምትእስሳራት ንመለስ
+    traces: ኣሰራት
+    trace: ኣሰር
+    match: ምዝማድ
+    matches: ዝተኣሳሰሩ
+    unmatch: ዘይተመዓራረየ
+    tracing_request_photos: ስእልታት ነዚ ናይ ምክትታል ሕቶ
+    case_photos: ስእልታት ነዚ ጉዳይ
+    tracing_request_audios: ድምጺ ነዚ ናይ ምክትታል ሕቶ
+    case_audios: ድምጺ ነዚ ጉዳይ
+    messages:
+      already_matched: ድሮ ኣብቲ ስርዓት ምስ ሓደ ሓታቲ ነዚ ቆልዓ ዝደሊ ምትእስሳር ኣሎ።
+      disabled: ናይ ምክትታል ሕቶ ተዓፂዩ ማለት እዩ።
+      nothing_found: ዝተረኽበ ነገር የለን
+      update_success: 'ናይ ምክትታል ሕቶ %{record_id} ብዓወት ተሓዲሱ።'
+      creation_success: ምክትታል መዝገብ ሕቶ ብዓወት ተፈጢሩ።
+      update_success_queue: 'ናይ ምክትታል ሕቶ %{record_id} ኣብ ድሕረ ባይታ ብዓወት ተሓዲሱ።'
+      creation_success_queue: ምክትታል መዝገብ ሕቶ ብዓወት ኣብ ድሕሪት ተፈጢሩ።
+      match_action: ኣሰር %{trace_id} ምስ ጉዳይ%{record_id} ብዓወት ተዛሚዱ።
+      unmatch_action: ብዓወት ዘይተመጣጠነ ኣሰር %{trace_id}ን ጉዳይ %{record_id}ን።
+  registry_record:
+    messages:
+      update_success: 'መዝገብ መዝገብ %{record_id} ብዓወት ተሓዲሱ።'
+      creation_success: 'መዝገብ መዝገብ ብዓወት ተፈጢሩ።'
+      disabled: መዝገብ መዝገብ ተሰናኺሉ ኣሎ።
+  tracing_requests:
+    date_of_inquiry: ዕለት መርመራ
+    disable_dialog_title: ናይ ምክትታል ሕቶ ኣሰናኽል
+    disable_dialog: እሺ ብምጥዋቕ ኩነታት ናይዚ ናይ ምክትታል ሕቶ ናብ ስንኩል ይቕይሮ።
+    disable_success: እሺ ብምጥዋቕ ኩነታት ናይዚ ናይ ምክትታል ሕቶ ናብ ተኽእሎይቕይሮ።
+    enable_dialog: እሺ ብምጥዋቕ ኩነታት ናይዚ ናይ ምክትታል ሕቶ ናብ ምኽኣል ይቕይሮ።
+    enable_dialog_title: ናይ ምክትታል ሕቶ ኣንቅሕ
+    enable_success: ብዓወት ናይ ምድላይ ሕቶ ተኸፊቱ።
+    id: መፍለዪይ
+    complete: ካብ መስመር ወጻኢ ይርከብ።
+    filter_by:
+      by_date: ብዕለት
+      location_separation: ናይ ምፍልላይ ቦታ
+      separation_cause: ምኽንያት ምፍልላይ
+      status: ብርኪ
+    label: ናይ ምክትታል ሕቶታት
+    name_of_inquirer: ሽም ሓታቲ
+    inquirer: ሓታቲ
+    name: ሽም
+    register_new_tracing_request: ሓድሽ ናይ ምክትታል ሕቶ
+    selectable_date_options:
+      inquiry_date: ዕለት መሕተቲ
+    selected_records: '%{select_records} ናይ ምክትታል ሕቶ(ታት) ተመሪጹ'
+    selected_all_records: 'ኩሎም ምስዚ ሕቶ ዝሰማምዑ %{total_records} ናይ ምክትታል ሕቶታት ምረጽ።'
+    show_tracing_request: 'ምክትታል ሕቶ መለለዪ %{short_id}'
+    tracing_requests: ናይ ምክትታል ሕቶታት
+    export: Export
+    sort_by: ምስራዕ ብ..
+  registry_records:
+    id: መፍለዪይ
+    label: ምዝገባ መዛግብቲ
+    name: ሽም
+    registry_no: ቁጽሪ መዝገብ
+    location: ቦታ
+    registration_date: ዕለት ምዝገባ
+    selected_records: '1%{select_records} መዝገብ መዝገብ(ታት) ተመሪጹ'
+    selected_all_records: 'ኩሎም ምስዚ ሕቶ ዝሰማምዑ %{total_records} መዛግብቲ መዝገብ ምረጽ።'
+    disable_dialog_title: መመዝገቢ መዝገብ ኣይተኽእል
+    disable_dialog: እሺ ብምጥዋቕ ኩነታት ናይዚ መዝገብ መዝገብ ናብ ስንኩል ይቕይሮ።
+    disable_success: መመዝገቢ መዝገብ ብዓወት ተሰናኺሉ።
+    enable_dialog_title: መዝገብ መዝገብ ኣንቅሕ
+    enable_dialog: እሺ ብምጥዋቕ ኩነታት ናይዚ መመዝገቢ መዝገብ ናብ ዝኽእል ይቕይሮ።
+    enable_success: ብዓወት መዝገብ መዝገብ ተኸፊቱ።
+    complete: ካብ መስመር ወጻኢ ይርከብ።
+    filter_by:
+      by_date: ብዕለት
+      status: ድርኪ
+    selectable_date_options:
+      registration_date: ናይ መመዝገቢ ዕለት
+    show_registry_record: ' መመዝገቢ መዝገብ: %{short_id}'
+    register_new_registry_record: ሓድሽ ምዝገባ መዝገብ
+    export: Export
+    mark_for_offline:
+      title: ካብ ኢንተርኔት ወጻኢ ምልክት ግበር
+      text: ርግጸኛ ዲኻ ነዞም መዛግብቲ መዝገብ ካብ መስመር ወጻኢ ኣብ እትህልወሉ እዋን ንኽትጥቀመሉ ምልክት ክትገብረሎም ትደሊ?
+      success: መዛግብቲ መዝገብ ካብ መስመር ወጻኢ ንኽጥቀሙ ብዓወት ምልክት ተገይሩሎም
+  families:
+    id: መለለዪይ
+    label: ስድራቤት
+    family_id: መለለዪ ስድራቤት
+    family_number: ቁጽሪ ስድራቤት
+    family_name: ስም ስድራቤት
+    family_registration_date: ዕለት ምዝገባ
+    family_location_current: ስድራቤታዊ ቦታ
+    export: ናብ ደገ ምልኣኽ
+    register_new_family: ሓዱሽ ስድራቤት
+    show_family: 'መለለዪ ስድራቤት %{short_id}'
+    disable_dialog_title: ንስድራቤት ዝኾን ኣይተኽእል
+    disable_dialog: እሺ ብምጥዋቕ ኩነታት ናይዚ ስድራቤት ናብ ስንኩል ይቕይሮ።
+    selected_records: '%{select_records} ናይ ስድራቤት መዝገብ(ታት) ተመሪጹ'
+    selected_all_records: 'ኩሎም ምስዚ ሕቶ ዝሰማምዑ %{total_records} ስድራቤታት ምረጽ።'
+    mark_for_offline:
+      title: ካብ ኢንተርኔት ወጻኢ ምልክት ግበር
+      text: ርግጸኛ ዲኻ ነዞም መዛግብቲ ስድራቤት ካብ መስመር ወጻኢ ኣብ እትህልወሉ እዋን ንኽትጥቀመሉ ምልክት ክትገብረሎም ትደሊ?
+      success: መዛግብቲ ስድራቤት ካብ መስመር ወጻኢ ንኽጥቀሙ ብዓወት ምልክት ተገይሩሎም
+    filter_by:
+      by_date: ብዕለት
+      status: ኩነታት
+      current_location: ስድራቤታዊ ቦታ
+  family:
+    family_member:
+      case_id: መለለዪ ጉዳይ
+      update_and_return: ኣዘምንን ተመለስን
+      save_and_return: ደምርን ተመለስን
+      create_case: ጉዳይ ምፍጣር
+      back_to_family_members: ናብ ኣባላት ስድራቤት ንመለስ
+      create: ፍጠር
+    messages:
+      update_success: 'ስድራቤት %{መዝገብ_መፍለዪይ} ብዓወት ተሓዲሱ።'
+      creation_success: 'ስድራቤት ብዓወት ተፈጢሩ።'
+      disabled: ስድራቤት ስንኩል እዩ።
+      confirm_create_case: ነዚ ውልቀ ሰብ ጉዳይ ክትፈጥሩ ትደልዩ ዶ?
+  transfer:
+    label: ዝውውር
+    agency_label: ትካል
+    consent_from_individual_label: ነዚ ዝውውር ንምግባር ካብቲ ውልቀሰብ ፍቓደኝነቱ ኣለካ ድዩ?
+    consent_label: መዛግብቲ ፍቓደኝነት ኣይሃቡን።
+    consent_override_label: ነዚ ቅጥዒ ክትሽፍኖ ትደሊ ዲኻ?
+    is_remote_label: ናብ መቆፃፀሪ መስርሕ ዲኻ ትሰጋገር ዘለኻ?
+    location_label: ኣንፈት
+    notes_label: መተሓሳሰቢ
+    provided_consent_label: ኣብቲ ቅጥዕታት ፍቓደኝነት ኣይተዋህበን።
+    recipient_label: ተቐባሊ
+    select_label: ምረፅ...
+    success: 'ዝተሳኸዐ ዝውውር '
+    transfer_label: ብዝኾነ ምዝውዋር?
+    user_mandatory: ተቐባሊ የድሊ
+    rejected_reason: ዝተነጽገ ምኽንያት
+  transfer_assignment:
+    title: ዝውውራትን ምደባታትን
+  transition:
+    agency_label: ትካል
+    assigned_by: ' ብ..ተመዲቡ'
+    consent_individual_transfer_value:
+      true_label: 'እወ'
+      false_label: 'ኣይኮነን'
+    consent_overridden_value:
+      false_label: 'ኣይኮነን'
+      true_label: 'እወ'
+    errors:
+      consent: ፍቓድ ኣይተዋህበን።
+      to_user_can_receive: እዚ ተጠቃሚ እዚ ነዚ መዝገብ ክቕበሎ ኣይክእልን እዩ።
+    individual_consent: እቲ ሰራሕተኛ ጉዳይ ነዚ ዝውውር ንምግባር ናይቲ ውልቀሰብ ፍቓድ ነይርዎ ድዩ?
+    no_consent_share: ፍቓድ ምክፋል ቅጥዒ ኣብ ልዕሊኡ ተጻሒፉ?
+    notes: መተሓሳሰቢ
+    recipient: ተቐባሊ
+    rejected: ብምኽንያት ተነጺጉ
+    requested_by: ዝተሓተተ ብ...
+    service_label: ግልጋሎት
+    responded_at: መልሲ ዝሃበ ኣብ...
+    status:
+      accepted: ቅቡል
+      done: ምውዳእ
+      in_progress: ኣብ ከይዲ
+      inprogress: ኣብ ከይዲ
+      rejected: ተነጺጉ
+      revoked: ደጊምካ መድማፅ
+    transferred_by: ዝተሰጋገረ ብ...
+    type:
+      assign: ምምዳብ
+      reassign: ምምዳብ
+      referral: ሪፈራል ምግባር
+      external_referral: ናይ ደገ ሪፈራል
+      transfer: ምምሕልላፍ
+      transferRequest: ናይ ምስግጋር ሕቶ
+  user:
+    agency_office: ቤት ፅሕፈት ኤጀንሲ (ፆታ መሰረት ዝገበረ ጥቕዓት ሜዳ)
+    code: ናይ ተጠቃሚ ኮድ
+    disabled: ሰይሰርሕ
+    email: ኢመይል
+    full_name: ሙሉእ ሽም
+    identity_provider: ወሃቢ መንነት
+    invalid_provider_username: 'ዘይሕጋዊ ቅርጺ ስም ተጠቃሚ። ኣብነት፡ናተይ ተጠቀምቲ ሽም @%{domain}'
+    label: ተጠቃሚ
+    language: ከባቢ
+    locale: ከባቢ
+    location: ቦታ
+    messages:
+      records_update: ፕሪሜሮ ነቲ ዝገበርካዮ ለውጢ ንምንጽብራቕ መዛግብቲ ናይዚ ተጠቃሚ የዘምኖ ኣሎ። ዳሽቦርድን ጸብጻባትን ንኽመሓየሹ ቁሩብ ግዜ ክወስድ ይኽእል እዩ።
+      confirmation: ነዚ ተጠቃሚ ክትድምስሶ ከም እትደሊ ርግጸኛ ዲኻ? ምድምሳስ ክምለስ ኣይክእልን እዩ። እሺ ናብ ተጠቃሚ ምጥፋእ ዝብል ንጥውቕ።
+      created: ተጠቃሚ ብዓወት ተፈጢሩ።
+      failure: ጌጋ ኣጋጢሙ፣ በጃኹም ንደገፍ ተወከሱ።
+      new_confirm_html: ነቲ ተጠቃሚ %{username} ካብ %{identity} ምስ ተራ %{role} ፕሪሜሮ ክጥቀም ክትዕድሞ ቀሪብካ ኣለኻ። ናይ ምርግጋጽ ኢመይል ናብ %{email} ክለኣኽ እዩ። ክትቅጽል ትደሊ ዲኻ?
+      new_confirm_non_identity_html: ሓለዋ 1%{username}1 ሰራሕተኛ 2%{role}2 ፕሪሜሮ ክረኽብቲ ንቕድሚት ሞት ቀብ ኣለኻ። ናይ ምንጋጽ ኢመጋጽ 3%{email}3 ክለኣኽ ክራይ ንቕጽል ትኽክለኛ ዲኻ?
+      not_found: ዝተዋህበ መፍለዪይ ዘለዎ ተጠቃሚ ኣይተረኽበን።
+      password_changed_successfully: ፓስዎርድ ብዓወት ተቐይሩ
+      passwords_do_not_match: ምስ ናይ ሕጂ ምልክት ቃል ኣይሰማማዕን እዩ።
+      time_zone_updated: እቲ ለውጢ ብዓወት ተሓዲሱ።
+      updated: ተጠቃሚ ብዓወት ተሓዲሱ።
+      created_warning: '%{total_enabled} ዕድል %{maximum_users} ዝፍላ ቅንጥብጣብ ተቀባልነት ፈጣሪ ኣሌባ'
+    organization: ውድብ
+    agency: ትካል
+    services_help_text: ኣገልግሎታት እንተዘይገለጽካ፡ እዚ ተጠቃሚ እዚ ከምቲ ኤጀንሲኡ ዘለዎ ኣገልግሎት ክወሃቦ እዩ።
+    password_setting:
+      label: ፕራይሜሮ ናይ ተጠቃሚ ምልክት ቃል ብኸመይ ከቐምጥ ኣለዎ?
+      self: እቲ ፓስዎርድ ክሰርዖ እየ
+      user: ተጠቃሚ ነቲ ናይ እንቋዕ ደሓን መጻእኩም ኢመይል ተጠቒሙ ነቲ ምልክት ቃል ከቐምጦ እዩ።
+      help_text: ንስኻ ኣመሓዳሪ ነቲ ምልክት ቃል ብኢድካ እንተ ኣቐሚጥካዮ፡ ብውሑስ መንገዲ ምስቲ ተጠቃሚ ከተካፍሎ ከምዘድልየካ ኣይትረስዕ።
+    password_reset_header: ፓስዎርድ ሪሰት ኢመይል ስደድ
+    password_reset_text: ምልኣኽ’ እንተ ጠዊቕካ፡ እዚ ተጠቃሚ ፓስዎርድኡ ዳግማይ ንምስራዕ ዝሕግዝ ሊንክ ዘለዎ ኢመይል ይመጾ።
+    password_reset_request: ፓስዎርድ ሪሰት ኢመይል ስደድ
+    password: መሕለፊ ቓል
+    password_confirmation: ምርግጋጽ ምልክት ቃል
+    phone: ስልኪ
+    position: ቦታ
+    provider_username_help: 'ኣብነት፡ my.username@%{domain}'
+    role_id: ግደ
+    send_mail: ናይ ኢመይል መፍለጢታት ይቕበሉ?
+    send_mail_preferences:
+      label: ኣየኖት ዓይነት ናይ ኢመይል መፍለጢታት ክትቅበሉ ትደልዩ?
+      help_text: ነዚ ዓውዲ ባዶ እንተገዲፍካዮ፡ ኩሉ ናይ ኢመይል መፍለጢታት ክመጸካ እዩ።
+    receive_webpush:
+      label: ድፍኢት መፍለጢታት ይቕበል?
+      help_text: ሕጂ’ውን ኣብ መርበብ ሓበሬታ መሳርሒኻ ናይ ምድፋእ መፍለጢታት ክትፈቅድ ከምዘድልየካ ኣስተውዕል።
+      tooltip: መጀመርታ ኣካውንትካ ከተዐርዮን ንተጠቃሚኻ ድፍኢት መፍለጢታት ከተኽእሎን ኣለካ።
+    receive_webpush_preferences:
+      label: ኣየኖት ዓይነት ናይ ድፍኢት መፍለጢታት ክትቅበሉ ትደልዩ?
+      help_text: ነዚ ዓውዲ ባዶ እንተገዲፍካዮ፡ ኩሉ ናይ ምድፋእ መፍለጢታት ክመጸካ እዩ።
+    notification_preferences:
+      approval_request: 'ናይ ምጽዳቕ ሕቶ (ኣካየድቲ)'
+      approval_response: 'መልሲ ምጽዳቕ (ሰራሕተኛታት ጉዳይ)'
+      transition_notification: 'ምደባታት፡ ምዝውዋርን ሪፈራልን ምግባር'
+      transfer_request: 'ናይ ምስግጋር ሕቶታት'
+    user_group_unique_ids: ጉጅለ ተጠቀምቲ
+    user_name: ናይ ተጠቃሚ ሽም
+    services: ግልጋሎታት
+    welcome_email:
+      subject: 'እንቋዕ ናብ%{system} ብደሓን መጻእኩም!'
+      greeting: 'እንቋዕ ናብ 1%{system}ብደሓን መጻእኩም!'
+      body_native: 'ከም %{role_name} ተወሰኽካ። ምስ %{host} ስራሕ ንምጅማር ንመምርሒታት ምክትታል በጃኹም %{admin_full_name} (%{admin_email}) ተወከሱ።'
+      sso:
+        body: 'ከም %{role_name} ተወሲኽካ።'
+        step1: 'ናብ %{host} ብምኻድ %{identity_provider} ጠውቕ።'
+        step2: 'ብ %{identity_provider} ኣካውንትካ %{user_name} እቶ።'
+        step3: 'ኩሉ ግዜ 1%{identity_provider} ኣካውንትካ እትጥቀመሉ ምልክት ቃል ተጠቐም።'
+        footer: 'ንተወሳኺ ዕድል %{re} (%{admin_email}) ተወከሱ።'
+      otp:
+        body: 'ከም %{role_name} ተወሰኽካ።'
+        step1: 'በይዛኻ ርኸቦ %{admin_full_name} ( %{admin_email} ) ርኸብ።'
+        step2: 'ናብ %{host} ብምኻድ ""ብስም ተጠቃሚ ፕሪሜሮ ምእታው" ዝብል ጠውቕ።."።'
+        step3: 'ናይ ምህዞ ስራሕን ግዝያ መምሃሪ %{otp} ሒዝካ እቶ።'
+        step4: 'ምስ ተሓተትካ ፓስዎርድካ ዳግማይ ኣቐምጦ።'
+      url_label: ፕሪሜሮ
+      enabled_label: ናይ እንቋዕ ደሓን መጻእኩም ኢመይል ስደዱ?
+      text_label: ናይ እንቋዕ ደሓን መጻእኩም ኢመይል ጽሑፍ
+    password_reset:
+      subject: 'መምርሒታት ምልክት ቃል ዳግማይ ምትካል'
+      email_greeting: "ዝኸበርካ %{full_name}"
+      email_body1: "ሓደ ሰብ ንመሕለፊ ቃልካ ን %{host_href} ክትገብሮ ሕቶ ኣቕሪቡ። ንምጅማር ኣብ ታሕቲ ዘሎ url ጠውቑ፤"
+      email_body2: "እዚ መላግቦ ኣብ %{hours} ሰዓታት ክውዳእ እዩ፡ ሓንሳብ ጥራይ ድማ ክጥቀመሉ ይኽእል። በጃኹም ነዚ ኢመይል ዕሽሽ በልዎ፡ ናይ ምልክት ቃል ዳግመ-ምትዕርራይ ሕቶ እንተዘይገይርኩም ወይ ሓድሽ ተጠቃሚ ፕራይሜሮ ብስምኩም እንተዘይተመዝጊቡ። እዚ ኣብ ላዕሊ ዘሎ መላግቦ ግዜኡ እንተ ኣኺሉ፡ በጃኹም %{reset_request_href} ጠውቑ እሞ ዳግማይ ናይ ምልክት ቃል ዳግመ-ምትዕርራይ ሕቶ ኣቕርቡ።"
+      email_body_link: ኣብዚ
+      request_submitted: "ናይ ፓስዎርድ ዳግመ-ምትዕርራይ ሕቶ ቀሪቡ።"
+      success: "ፓስዎርድ ብዓወት ተቐይሩ"
+      errors:
+        reset_password_token: "ዘይሕጋዊ ናይ ምልክት ቃል ዳግመ-ምትዕርራይ ምልክት"
+        password_confirmation: "ፓስዎርድታት ክሰማምዑ ኣለዎም።"
+    onboard_email:
+      subject: "Onboarding to %{system}"
+      greeting: "ክቡር%{full_name},"
+      body1: "እንቋዕ ናብ ፕሪሜሮ ብደሓን መጻእኩም!"
+      body2: "ን%{host_href} ከም መተግበሪ ኣመሓዳሪ ተመዲብካ ኣለኻ። %{reset_notification}"
+      body2_reset_notification: "ተወሳኺ ኢመይል ክመጸካ እዩ፡ ፓስዎርድካ ዳግማይ ክትሰርዖ ዝሕብር።"
+      body3: "ውሑስን እዋናውን ኣተገባብራ ናይ ምርግጋጽ ሓላፍነት ኣለካ። ንነፍሲ ወከፍ ምዝርጋሕ፡ ትልሚ ኣተገባብራ ምስ ናይ ምእታውን ናይ ተጠቃሚ ምሕደራ ስትራተጂን ናይ ሓበሬታ ምክፋል ፕሮቶኮልን ክትውድእ ነይሩካ። ብተወሳኺ ንኹለን ናይ ተጠቀምቲ ትካላት ዝተፈረመ ውዕል ኣጠቓቕማ ኣብ ፋይል ከምዘሎ ናይ ምርግጋጽ ሓላፍነት ኣለካ።"
+  user_group:
+    associated_agencies: ምስዚ ጉጅለ ተጠቃሚ ዝተኣሳሰሩ ትካላት
+    description: መግለፂ
+    disabled:
+      explanation: ነዚ ናይ ተጠቃሚ ጉጅለ እንተ ኣሰናኺልካዮ፡ ድሕሪ ደጊም ናብ ናይ ተጠቀምቲ ሒሳብ ክትምድቦ ኣይትኽእልን ኢኻ።
+      label: ምስንኻል
+    messages:
+      created: ናይ ተጠቀምቲ ጉጅለ ብዝተሳኸዐ መንገዲ ተፈጢሩ እዩ
+      updated: ናይ ተጠቀምቲ ጉጅለ ብዝተሳኸዐ መንገዲ ዘሚኑ እዩ
+    name: ሽም
+  user_groups:
+    label: ጉጅለ ተጠቀምቲ
+  users:
+    label: ተጠቀምቲ
+    headers:
+      full_name: ሙሉእ ሽም
+      user_name: ናይ ተጠቃሚ ሽም
+      position: ብርኪ ስራሕ
+      agency: 'ትካል '
+    alerts:
+      total_users_created: ካብቶም ናይ ኣተገባብራኻ ዝፈቐዱ %{maximum_users} ክእለት ተጠቀምቲ %{total_enabled} ፈጢርካ ኣለኻ።
+      limit_user_reached: ኣብ ደረትካ ናይ %{maximum_users} ክእለት ተጠቀምቲታት በጺሕካ ኣለኻ። ቅድሚ ተወሳኺ ምፍጣርካ ሓደ ወይ ልዕሊኡ ተጠቀምተታት ክትዓጽዎ ኣለካ።
+      limit_user_reached_on_enable: ኣብ ደረትካ ናይ %{maximum_users} ተኽእሎ ተጠቀምቲ በጺሕካ ኣለኻ። ቅድሚ ተወሳኺ ምፍጣር ወይ ምኽፋትካ ሓደ ወይ ልዕሊኡ ተጠቀምቲ ክትዓጽዎ ኣለካ።
+  devise:
+    failure:
+      already_authenticated: "ንስኻ በቃ ኣቲኻ ኣለኻ"
+      invalid: "ዝተስሓሓተ %{authentication_keys} ወይ መሐለፊ  ቃል።"
+      locked: "ኣካውንት ተዓፂዩ እዩ"
+      last_attempt: "ቅድሚ ኣካውንትካ ምዕጻዉ ሓደ ተወሳኺ ፈተነ ኣለካ"
+  admin:
+    locations:
+      selected_records: '%{select_records} ቦታ(ታት) ተመሪጹ'
+      selected_all_records: ኩሎም ምስዚ ሕቶ ዝሰማምዑ %{total_records} ጉዳያት ምረጽ።
+      updated: '%{updated_records} ቦታ(ታት) ተሓዲሱ'
+  push_notifications_dialog:
+    title: መሳርሒ መፍለጢታት
+    body_blocked:
+      message: ኣብዚ መሳርሒ ንመጀመርያ ዝምልከት መተሓሳሰቢታት ዓጊትካዮ ኣለኻ። ነዚ ንምእራም ድማ ነቲ ናይ ፍቓድ መፍለጢ ክትውልዖ ከድልየካ እዩ።
+      android: "ኣንድሮይድ፡ ናብ ቅጥዕታት ኪድ። ኣብ ኣፕስ ዝብል ጠውቕ። ኣብ ዝርዝር ኣፕስ መጀመርያ ረኺብኩም ነዚ ጠውቑ። መፍለጢታት ዝብል ጠውቕ። ነቲ ንመፍለጢታት ዝኸውን ምቅይያር ናብቲ ናይ ምውላዕ ቦታ ቀይሮ።"
+      ios: "ኣይኦኤስ: ናብ ምዕሩይ ዝብል ኣፕ ኪድ። ኣብ መፍለጢታት ዝብል ጠውቕ። ናብ ዝርዝር ኣፕስ ንታሕቲ ሸኸርከር ብምግባር መጀመርያ ንረክብ። ንመጀመርያ ዝኸውን ምልጓም ናብ ኣብ እርከን ቦታ ቀይሮ።"
+    body:
+      one: Do you want to allow Primero to send you notifications? Remember that you will continue to receive notifications on this device %{count} day after you log out. This is not recommended for shared devices.
+      other: መጀመርታ መተሓሳሰቢታት ክሰደልካ ክትፈቅድ ትደሊ ዲኻ? ድሕሪ ምውጻእካ %{count} መዓልታት ኣብዚ መሳርሒ መፍለጢታት ከም ዝቕበልካ ኣይትረስዕ። እዚ ንናይ ሓባር መሳርሒታት ኣይምከርን እዩ።

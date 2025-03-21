@@ -15,9 +15,6 @@ variables:
   # Container registry service connection established during pipeline creation
   vmImageName: 'Ubuntu-22.04'
   latestBranch: main
-  buildAgentPool: 'primerox-azdo-agentpool'
-  containerRegistry : 'crpmxsandbox.azurecr.io'
-  dockerRegistryServiceConnection : 'a2adf74e-9412-47bd-baaa-c7e8b5ff34d9'
 
 jobs:
   - job: Test
@@ -44,7 +41,7 @@ jobs:
         displayName: 'Install dependencies'
       - bash: |
           . ~/.bash_env
-          rbenv global 3.3.5
+          rbenv global 3.3.7
           bundle install --without production --path=${BUNDLE_PATH:-vendor/bundle}
         displayName: 'Bundle install'
         env:

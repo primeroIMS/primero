@@ -19,18 +19,8 @@ describe Workflow do
     )
     @lookups = [lookup]
 
-    @module_a = PrimeroModule.new(
+    @module = PrimeroModule.new(
       name: 'Test Module A',
-      form_sections: [],
-      module_options: {
-        use_workflow_case_plan: true,
-        use_workflow_assessment: true
-      }
-    )
-
-    @module_b = PrimeroModule.new(
-      associated_record_types: ['case'],
-      name: 'Test Module B',
       form_sections: [],
       module_options: {
         use_workflow_case_plan: true,
@@ -40,70 +30,49 @@ describe Workflow do
   end
 
   describe 'workflow_statuses' do
-    context 'when there are multiple modules' do
+    it 'returns a workflow status hash list' do
+      status_list = Child.workflow_statuses(@module)[:en]
+      expect(status_list).to include(include('id' => Workflow::WORKFLOW_NEW))
+      expect(status_list).to include(include('id' => Workflow::WORKFLOW_REOPENED))
+      expect(status_list).to include(include('id' => 'care_plan'))
+      expect(status_list).to include(include('id' => 'action_plan'))
+      expect(status_list).to include(include('id' => 'service_provision'))
+      expect(status_list).to include(include('id' => Workflow::WORKFLOW_CLOSED))
+    end
+
+    context 'and module does not use workflow_assessment' do
       before do
-        @modules = [@module_a, @module_b]
+        @module.use_workflow_assessment = false
       end
 
-      it 'returns a workflow status hash list' do
-        status_list = Child.workflow_statuses(@modules, @lookups)[:en]
-        expect(status_list).to include(include('id' => Workflow::WORKFLOW_NEW))
-        expect(status_list).to include(include('id' => Workflow::WORKFLOW_REOPENED))
-        expect(status_list).to include(include('id' => 'care_plan'))
-        expect(status_list).to include(include('id' => 'action_plan'))
-        expect(status_list).to include(include('id' => 'service_provision'))
-        expect(status_list).to include(include('id' => Workflow::WORKFLOW_CLOSED))
-      end
-
-      context 'and no modules use workflow_assessment' do
-        before do
-          @module_a.use_workflow_assessment = false
-          @module_b.use_workflow_assessment = false
-        end
-
-        it 'does not include Workflow Assessment in the status list' do
-          expect(Child.workflow_statuses(@modules, @lookups)[:en]).not_to(
-            include(include('id' => Workflow::WORKFLOW_ASSESSMENT))
-          )
-        end
-      end
-
-      context 'and one modules uses workflow_assessment' do
-        before do
-          @module_a.use_workflow_assessment = true
-          @module_b.use_workflow_assessment = false
-        end
-
-        it 'does include Workflow Assessment in the status list' do
-          expect(Child.workflow_statuses(@modules, @lookups)[:en]).to(
-            include(include('id' => Workflow::WORKFLOW_ASSESSMENT))
-          )
-        end
-      end
-
-      context 'and both modules use workflow_assessment' do
-        before do
-          @module_a.use_workflow_assessment = true
-          @module_b.use_workflow_assessment = true
-        end
-
-        it 'does include Workflow Assessment in the status list' do
-          expect(Child.workflow_statuses(@modules, @lookups)[:en]).to(
-            include(include('id' => Workflow::WORKFLOW_ASSESSMENT))
-          )
-        end
-        it 'return assesment from app strings' do
-          assessment_status_text = Child.workflow_statuses(@modules)[:en]
-                                        &.find { |lkp| lkp['id'] == Workflow::WORKFLOW_ASSESSMENT }
-                                        &.dig('display_text')
-          expect(assessment_status_text).to eq('Assessment')
-        end
+      it 'does not include Workflow Assessment in the status list' do
+        expect(Child.workflow_statuses(@module)[:en]).not_to(
+          include(include('id' => Workflow::WORKFLOW_ASSESSMENT))
+        )
       end
     end
+
+    context 'and module use workflow_assessment' do
+      before do
+        @module.use_workflow_assessment = true
+      end
+
+      it 'does include Workflow Assessment in the status list' do
+        expect(Child.workflow_statuses(@module)[:en]).to(
+          include(include('id' => Workflow::WORKFLOW_ASSESSMENT))
+        )
+      end
+      it 'return assesment from app strings' do
+        assessment_status_text = Child.workflow_statuses(@module)[:en]
+                                      &.find { |lkp| lkp['id'] == Workflow::WORKFLOW_ASSESSMENT }
+                                      &.dig('display_text')
+        expect(assessment_status_text).to eq('Assessment')
+      end
+    end
+
     context 'when assessment value is present on workflow lookup' do
       before do
         clean_data(Lookup)
-        @modules = [@module_a, @module_b]
         Lookup.create!(
           unique_id: 'lookup-workflow',
           name_i18n: { en: 'Workflow' },
@@ -114,14 +83,14 @@ describe Workflow do
         )
       end
       it 'return assesment from Lookup' do
-        assessment_status_text = Child.workflow_statuses(@modules)[:en]
+        assessment_status_text = Child.workflow_statuses(@module)[:en]
                                       &.find { |lkp| lkp['id'] == Workflow::WORKFLOW_ASSESSMENT }
                                       &.dig('display_text')
         expect(assessment_status_text).to eq('Assessment LK')
       end
 
       it 'return status that include text from workflow lookup' do
-        workflow_status = Child.workflow_statuses(@modules)[:en].map { |lk| lk['display_text'] }
+        workflow_status = Child.workflow_statuses(@module)[:en].map { |lk| lk['display_text'] }
 
         expect(workflow_status).to match_array(['New', 'Reopened', 'Assessment LK', 'Case Plan LK', 'Closed'])
       end

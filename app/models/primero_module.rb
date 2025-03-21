@@ -13,6 +13,7 @@ class PrimeroModule < ApplicationRecord
   MRM = 'primeromodule-mrm'
 
   DEFAULT_CONSENT_FORM = 'consent'
+  DEFAULT_SERVICES_FORM = 'services'
 
   DEFAULT_CASE_LIST_HEADERS = {
     CP => %w[id case_id_display short_id name complete age sex registration_date photo owned_by alert_count
@@ -28,7 +29,7 @@ class PrimeroModule < ApplicationRecord
       approval_status_action_plan approval_status_gbv_closure protection_concerns
       protection_status urgent_protection_concern type_of_risk risk_level
       location_current reporting_location last_updated_by cases_by_date
-      record_state has_photo last_updated_at
+      record_state has_photo last_updated_at module_id
     ],
     GBV => %w[
       flagged owned_by my_cases workflow owned_by_agency_id status
@@ -61,11 +62,11 @@ class PrimeroModule < ApplicationRecord
     :allow_searchable_ids, :selectable_approval_types,
     :workflow_status_indicator, :agency_code_indicator, :use_workflow_service_implemented,
     :use_workflow_case_plan, :use_workflow_assessment, :reporting_location_filter,
-    :user_group_filter, :use_webhooks_for, :use_webhook_sync_for, :consent_form,
+    :user_group_filter, :use_webhooks_for, :use_webhook_sync_for, :consent_form, :services_form,
     :list_filters, :list_headers, :approval_forms_to_alert,
     :approvals_labels_i18n, :changes_field_to_form, :search_and_create_workflow,
     :violation_type_field, :creation_field_map, :data_protection_case_create_field_names,
-    :age_ranges
+    :age_ranges, :workflow_lookup, :response_type_lookup
   )
 
   localize_jsonb_properties %i[approvals_labels]
@@ -79,7 +80,7 @@ class PrimeroModule < ApplicationRecord
   validates_presence_of :associated_record_types,
                         message: I18n.t('errors.models.primero_module.associated_record_types')
 
-  before_create :set_unique_id, :set_consent_form
+  before_create :set_unique_id, :set_consent_form, :set_services_form
   after_save :sync_forms
 
   def program_name
@@ -154,6 +155,14 @@ class PrimeroModule < ApplicationRecord
     headers
   end
 
+  def module_workflow_lookup
+    workflow_lookup || Workflow::LOOKUP_WORKFLOW
+  end
+
+  def module_response_type_lookup
+    response_type_lookup || Workflow::LOOKUP_RESPONSE_TYPES
+  end
+
   private
 
   def set_unique_id
@@ -164,6 +173,10 @@ class PrimeroModule < ApplicationRecord
 
   def set_consent_form
     self.consent_form ||= DEFAULT_CONSENT_FORM
+  end
+
+  def set_services_form
+    self.services_form ||= DEFAULT_SERVICES_FORM
   end
 
   def sync_forms

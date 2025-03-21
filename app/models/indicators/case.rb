@@ -52,14 +52,6 @@ module Indicators
       )
     end
 
-    WORKFLOW = GroupedIndicator.new(
-      name: 'workflow',
-      pivots: [{ field_name: 'workflow' }],
-      record_model: Child,
-      scope: OPEN_CLOSED_ENABLED,
-      scope_to_owner: true
-    ).freeze
-
     WORKFLOW_TEAM = GroupedIndicator.new(
       name: 'workflow_team',
       record_model: Child,
@@ -714,6 +706,25 @@ module Indicators
         queries: CLOSED_ENABLED + [SearchFilters::DateRange.last_week('date_closure')].freeze
       )
     end
+
+    # rubocop:disable Metrics/MethodLength
+    def self.workflows(role)
+      role_modules = role.modules.reject do |primero_module|
+        [PrimeroModule::GBV, PrimeroModule::MRM].include?(primero_module)
+      end
+
+      role_modules.map do |primero_module|
+        GroupedIndicator.new(
+          name: "workflow_#{primero_module.unique_id}",
+          pivots: [{ field_name: 'workflow' }],
+          record_model: Child,
+          scope: OPEN_CLOSED_ENABLED + [SearchFilters::TextValue.new(field_name: 'module_id',
+                                                                     value: primero_module.unique_id)],
+          scope_to_owner: true
+        ).freeze
+      end
+    end
+    # rubocop:enable Metrics/MethodLength
   end
   # rubocop:enable Metrics/ClassLength
 end

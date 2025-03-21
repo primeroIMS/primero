@@ -86,6 +86,7 @@ so:
     terms_of_use_download_button: Soodaji  PDF ka
     terms_of_use_enabled: Muuji Shuruudaha Isticmaalka?
   approvals:
+    no_requests: ma jiro codsi ansixin kiiskan
     approved_by: waxaa ansixiyey
     case_plan_type_label: 'Qeybta '
     manager_comments_label: Qeybta Qorshaha Kiiska
@@ -496,6 +497,7 @@ so:
       date_case_plan_initiated: Taariikhda qorshaha kiiska
       date_of_creation: Taariikhda lasameyey
       registration_date: Taariikhda ladiiwaangali
+      date_reunification: Taariikhda ilmaha qoyskiisa dib loogu geeyay/mideeyay
   configurations:
     apply_label: 'Ma hubtaa? Haddii aad codsato, habaynnada qaabayntan ayaa lagu dabaqi doonaa nidaamka. Waxaad waayi doontaa dhammaan goobahaaga hadda mana awoodid inaad dib uheshid ila aad hori u habeynsatay ma ahane '
     apply_label_bold: Primero ma heli doono isticmaalayaasha dhowr daqiiqadood inta isbedeladu soo kordhayaan.
@@ -551,6 +553,10 @@ so:
     all_cases: Dhamaan kiisaska
     all_services_implemented: Dhamaan adeega lahirgaliyay
     and: 'Iyo'
+    action_needed:
+      new: Cusub
+      new_this_week: Kuwa Cusub Todobaadka
+      transfers: kiisaska lagudbiyay
     approval_action_plan_approved: La ansixiyay
     approval_action_plan_pending: Lasugayo
     approval_action_plan_pending_group: 'Qorshaha '
@@ -1378,6 +1384,7 @@ so:
     ar-LB: Carabi (Lubnaan)
     ar-SD: Carabi (Suudaani)
     bn: Bengali
+    cmn: 中文/Luuqada Shiinayska
     current_time_zone: Waqtiga xaadirka ah
     dashboard: Dashboard-ka
     en: English
