@@ -899,7 +899,7 @@ superuser_permissions = [
   ),
   Permission.new(
     resource: Permission::USAGE_REPORT,
-    actions: [Permission::MANAGE]
+    actions: [Permission::READ]
   ),
   Permission.new(
     resource: Permission::MATCHING_CONFIGURATION,
