@@ -7,7 +7,8 @@ export const FILTER_TYPES = Object.freeze({
   MULTI_TOGGLE: "multi_toggle",
   CHIPS: "chips",
   TOGGLE: "toggle",
-  DATES: "dates"
+  DATES: "dates",
+  WORKFLOW: "workflow"
 });
 
 export const ID_SEARCH = "id_search";

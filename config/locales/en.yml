@@ -442,6 +442,7 @@ en:
       urgent_protection_concern: Urgent Protection Concern
       user_group: User Group
       workflow: Cases by Workflow
+      module_id: Module
       include_disabled: Include disabled
       safety_plan_needed: Is a safety plan needed for this case?
       mhpss_suicidal_thoughts_last_month_most_recent: In the past month, have you had serious thoughts or plans to end your own life?

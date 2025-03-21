@@ -173,7 +173,8 @@ class Role < ApplicationRecord
 
   def update_dashboard_permissions(dashboard_permissions)
     dashboard_permissions&.actions&.map do |action|
-      next Dashboard.send(action, self) if %w[dash_reporting_location dash_violations_category_region].include?(action)
+      next Dashboard.send(action, self) if %w[dash_reporting_location dash_violations_category_region
+                                              workflow].include?(action)
       next Dashboard.send(action) if Dashboard::DYNAMIC.include?(action)
 
       "Dashboard::#{action.upcase}".constantize

@@ -7,7 +7,8 @@ import {
   SwitchFilter,
   DateFilter,
   ToggleFilter,
-  SelectFilter
+  SelectFilter,
+  WorkflowFilter
 } from "../components/filter-types";
 
 export default type => {
@@ -24,6 +25,8 @@ export default type => {
       return ChipsFilter;
     case FILTER_TYPES.MULTI_SELECT:
       return SelectFilter;
+    case FILTER_TYPES.WORKFLOW:
+      return WorkflowFilter;
     default:
       return null;
   }

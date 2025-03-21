@@ -20,6 +20,7 @@ class Dashboard < ValueObject
     dash_cases_to_assign
     dash_national_admin_summary
     dash_violations_category_region
+    workflow
   ].freeze
 
   # NOTE: The constant name of each Dashboard needs to match the value of the corresponding Permission
@@ -30,12 +31,6 @@ class Dashboard < ValueObject
     indicators: [
       Indicators::Case::OPEN, Indicators::Case::UPDATED
     ]
-  ).freeze
-
-  WORKFLOW = Dashboard.new(
-    name: 'workflow',
-    type: 'indicator',
-    indicators: [Indicators::Case::WORKFLOW]
   ).freeze
 
   WORKFLOW_TEAM = Dashboard.new(
@@ -316,6 +311,14 @@ class Dashboard < ValueObject
       name: 'dash_violations_category_region',
       type: 'indicator',
       indicators: [Indicators::Incident.violation_category_region(role)]
+    ).freeze
+  end
+
+  def self.workflow(role = nil)
+    Dashboard.new(
+      name: 'workflow',
+      type: 'indicator',
+      indicators: Indicators::Case.workflows(role)
     ).freeze
   end
 end
