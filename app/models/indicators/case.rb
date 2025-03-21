@@ -718,8 +718,8 @@ module Indicators
           name: "workflow_#{primero_module.unique_id}",
           pivots: [{ field_name: 'workflow' }],
           record_model: Child,
-          scope: OPEN_CLOSED_ENABLED + [SearchFilters::TextList.new(field_name: 'module_id',
-                                                                    values: [primero_module.unique_id])],
+          scope: OPEN_CLOSED_ENABLED + [SearchFilters::TextValue.new(field_name: 'module_id',
+                                                                     value: primero_module.unique_id)],
           scope_to_owner: true
         ).freeze
       end
