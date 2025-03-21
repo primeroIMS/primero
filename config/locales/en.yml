@@ -2358,6 +2358,8 @@ en:
     label: Export Usage Report
     file_name: Create your own file name (Optional)
     instructions: 'To generate your quarterly reports click "Export"'
+    invalid_date_format: '%{field} must be a valid date'
+    invalid_date_range: '%{to} must be greater than %{from}'
     export:
       users: Users
       hostname: Hostname
@@ -2574,6 +2576,7 @@ en:
       transfer: Can be used for transfer
       user: Users
       user_group: User Groups
+      usage_report: Usage Report
       verify_mrm: Verify MRM
       view_approvals: View Approvals
       view_assessment: View Assessment
@@ -4095,6 +4098,11 @@ en:
             label: Manage (all permissions for this resource type)
             explanation: Ability to access all.
         label: Activity Log
+      usage_report:
+        actions:
+          read:
+            explanation: Ability to access the Usage Report page.
+            label: Access Usage Report Page.
   potential_match:
     case_id: Case ID
     child_age: Age

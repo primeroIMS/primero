@@ -23,13 +23,7 @@ function Container() {
       </PageHeading>
       <PageContent>
         <h3>{i18n.t("usage_report.instructions")}</h3>
-        <UsageReport
-          i18n={i18n}
-          open={dialogOpen}
-          pending={pending}
-          close={dialogClose}
-          setPending={setDialogPending}
-        />
+        <UsageReport open={dialogOpen} pending={pending} close={dialogClose} setPending={setDialogPending} />
       </PageContent>
     </>
   );

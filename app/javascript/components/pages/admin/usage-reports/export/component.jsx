@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { object, string, date } from "yup";
 import { useEffect } from "react";
 
+import { useI18n } from "../../../../i18n";
 import ActionDialog from "../../../../action-dialog";
 import Form from "../../../../form";
 import { formatFileName } from "../../../../record-actions/exports/utils";
@@ -16,36 +17,41 @@ import { NAME, FORM_ID, EXPORTED_URL } from "./constants";
 import { form } from "./form";
 import css from "./style.css";
 
-const validationSchema = object({
-  fromDate: date()
-    .transform(
-      originalValue => (originalValue === "" ? null : originalValue) // transform empty string to null
-    )
-    .required("From Date is required")
-    .typeError("From Date must be a valid date"),
-  toDate: date()
-    .transform(
-      originalValue => (originalValue === "" ? null : originalValue) // transform empty string to null
-    )
-    .required("To Date is required")
-    .typeError("To Date must be a valid date") // catch invalid date format
-    .test({
-      name: "is-after",
-      message: "To Date must be greater than From Date",
-      test: (value, context) => {
-        const { fromDate } = context.parent;
-
-        return !fromDate || !value || value > fromDate;
-      }
-    }),
-  file_name: string().required("File name is required")
-});
-
-function Component({ close, i18n, open, pending, setPending }) {
+function Component({ close, open, pending, setPending }) {
+  const i18n = useI18n();
   const exportedUsageReport = useMemoizedSelector(state => getUsageReportExport(state));
-
   const dispatch = useDispatch();
   const dialogPending = typeof pending === "object" ? pending.get("pending") : pending;
+
+  const fieldDisplayName = {
+    fromDate: i18n.t("key_performance_indicators.date_range_dialog.from"),
+    toDate: i18n.t("key_performance_indicators.date_range_dialog.to"),
+    file_name: i18n.t("usage_report.file_name")
+  };
+
+  const validationSchema = object({
+    fromDate: date()
+      .nullable()
+      .required(i18n.t("fields.required_field", { field: fieldDisplayName.fromDate }))
+      .typeError(i18n.t("usage_report.invalid_date_format", { field: fieldDisplayName.fromDate })),
+    toDate: date()
+      .nullable()
+      .required(i18n.t("fields.required_field", { field: fieldDisplayName.toDate }))
+      .typeError(i18n.t("usage_report.invalid_date_format", { field: fieldDisplayName.toDate }))
+      .test({
+        name: "is-after",
+        message: i18n.t("usage_report.invalid_date_range", {
+          from: fieldDisplayName.fromDate,
+          to: fieldDisplayName.toDate
+        }),
+        test: (value, context) => {
+          const { fromDate } = context.parent;
+
+          return !fromDate || !value || value > fromDate;
+        }
+      }),
+    file_name: string().required(i18n.t("fields.required_field", { field: fieldDisplayName.file_name }))
+  });
 
   // Form submission
   const onSubmit = getData => {
@@ -89,7 +95,7 @@ function Component({ close, i18n, open, pending, setPending }) {
         useCancelPrompt
         formID={FORM_ID}
         mode="new"
-        formSections={form(i18n)}
+        formSections={form(fieldDisplayName)}
         onSubmit={onSubmit}
         formClassName={`${css["usage-reports-form"]}`}
         validations={validationSchema}
@@ -102,7 +108,6 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   close: PropTypes.func,
-  i18n: PropTypes.object,
   open: PropTypes.bool,
   pending: PropTypes.bool,
   setPending: PropTypes.func
