@@ -155,6 +155,14 @@ class PrimeroModule < ApplicationRecord
     headers
   end
 
+  def module_workflow_lookup
+    workflow_lookup || Workflow::LOOKUP_WORKFLOW
+  end
+
+  def module_response_type_lookup
+    response_type_lookup || Workflow::LOOKUP_RESPONSE_TYPES
+  end
+
   private
 
   def set_unique_id
