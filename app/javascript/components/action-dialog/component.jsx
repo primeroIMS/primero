@@ -137,7 +137,6 @@ function ActionDialog({
       <Dialog
         open={open}
         onClose={onCloseDialog}
-        fullWidth
         maxWidth={maxSize || "sm"}
         aria-labelledby="action-dialog-title"
         aria-describedby="action-dialog-description"

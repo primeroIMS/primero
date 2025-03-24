@@ -125,6 +125,9 @@ Rails.application.routes.draw do
       end
       resources :bulk_exports, as: :exports, path: :exports, only: %i[index show create destroy]
       get 'alerts', to: 'alerts#bulk_index'
+      # TODO: Make usage_reports a resourceful route if/when they start getting saved
+      get 'usage_reports/current', to: 'usage_reports#show'
+      get 'usage_reports/current/export', to: 'usage_reports#export'
       resources :agencies
       resources :webhooks
       resources :roles

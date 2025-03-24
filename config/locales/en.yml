@@ -2358,6 +2358,35 @@ en:
         case_violence_type_by_sex_and_age: Total Number of Cases by Sex and Age
         incident_violence_type_by_sex_and_age: Total Number of Incidents by Sex and Age
     success_message: Successfully generated the export file
+  usage_report:
+    label: Export Usage Report
+    file_name: Create your own file name (Optional)
+    instructions: 'To generate your quarterly reports click "Export"'
+    invalid_date_format: '%{field} must be a valid date'
+    invalid_date_range: '%{to} must be greater than %{from}'
+    export:
+      users: Users
+      hostname: Hostname
+      start_date: Start Date
+      end_date: End Date
+      quarter: Quarter
+      agencies_total: Total Number of Agencies
+      yes: Yes
+      no: No
+      agency_list: Agency List
+      users_total: Total Users
+      users_active: Active Users
+      users_disabled: Disabled Users
+      users_new: New Users in this quarter
+      cases_total: Total Cases
+      cases_open: Open Cases
+      cases_closed: Closed Cases
+      cases_open_this_quarter: Open this Quarter
+      cases_closed_this_quarter: Closed this Quarter
+      services_total: Total Services
+      followups_total: Total Followups
+      incidents_total: Total Incidents
+      incidents_open_this_quarter: Incidents this quarter
   messages:
     alert_items: You have %{items} items of note.
     alerts_for:
@@ -2551,6 +2580,7 @@ en:
       transfer: Can be used for transfer
       user: Users
       user_group: User Groups
+      usage_report: Usage Report
       verify_mrm: Verify MRM
       view_approvals: View Approvals
       view_assessment: View Assessment
@@ -4074,6 +4104,11 @@ en:
             label: Manage (all permissions for this resource type)
             explanation: Ability to access all.
         label: Activity Log
+      usage_report:
+        actions:
+          read:
+            explanation: Ability to access the Usage Report page.
+            label: Access Usage Report Page.
   potential_match:
     case_id: Case ID
     child_age: Age
@@ -4253,6 +4288,7 @@ en:
       locations: Locations
       lookups: Lookups
       user_groups: User Groups
+      usage_reports: Usage Report
       users: Users
       roles: Roles
       code_of_conduct: Code of Conduct
