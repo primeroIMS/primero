@@ -52,14 +52,6 @@ module Indicators
       )
     end
 
-    WORKFLOW_TEAM = GroupedIndicator.new(
-      name: 'workflow_team',
-      record_model: Child,
-      pivots: [{ field_name: 'owned_by', constrained: true }, { field_name: 'workflow' }],
-      scope: OPEN_CLOSED_ENABLED,
-      scope_to_owned_by_groups: true
-    ).freeze
-
     CASES_BY_SOCIAL_WORKER = [
       GroupedIndicator.new(
         name: 'cases_by_social_worker_total',
@@ -708,6 +700,23 @@ module Indicators
     end
 
     # rubocop:disable Metrics/MethodLength
+    def self.workflow_team(role)
+      role_modules = role.modules.reject do |primero_module|
+        [PrimeroModule::GBV, PrimeroModule::MRM].include?(primero_module)
+      end
+
+      role_modules.map do |primero_module|
+        GroupedIndicator.new(
+          name: "workflow_team_#{primero_module.unique_id}",
+          record_model: Child,
+          pivots: [{ field_name: 'owned_by', constrained: true }, { field_name: 'workflow' }],
+          scope: OPEN_CLOSED_ENABLED + [SearchFilters::TextValue.new(field_name: 'module_id',
+                                                                     value: primero_module.unique_id)],
+          scope_to_owned_by_groups: true
+        ).freeze
+      end
+    end
+
     def self.workflows(role)
       role_modules = role.modules.reject do |primero_module|
         [PrimeroModule::GBV, PrimeroModule::MRM].include?(primero_module)
