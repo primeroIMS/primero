@@ -918,10 +918,10 @@ en:
     transfer_request: 'Primero user %{user} from %{agency} is requesting that you transfer ownership of this %{record_type} record %{record_id} so that they can provide %{record_type} management services for the individual in their area. If this transfer is acceptable to you, please click on the %{record_type} ID link in this email to open the %{record_type} in Primero and initiate the transfer.'
     approval_request_html: 'The user <strong>%{user}</strong> is requesting approval for <strong> %{approval_type}</strong> on case <strong>%{case_id}</strong>.'
     approval_response_html: '<strong>%{user}</strong> has <strong>%{status}</strong> the request for approval for <strong>%{approval_type}</strong> for case <strong>%{case_id}</strong>.'
-    referral_html: 'You have received a referral for %{record_type} (${record_id}) for  %{service_type} from %{user} from %{agency}. Please %{login_url} to your account to review.'
-    transfer_html: 'You have received a transfer for %{record_type} (${record_id}) from %{user} from %{agency}. Please %{login_url} into your account to review.'
-    assign_html: You have been assigned a new %{record_type} (${record_id}) from %{user}. Please %{login_url} to your account to review.
-    transfer_request_html: 'You have received a transfer request for %{record_type} ${record_id} from %{user} from %{agency}. The individual making the request has included a transfer note: %{request_transfer_notes}. If this transfer is acceptable to you, please log in to access Primero to initiate the transfer.'
+    referral_html: 'You have received a referral for %{record_type} (%{record_id}) for  %{service_type} from %{user} from %{agency}. Please %{login_url} to your account to review.'
+    transfer_html: 'You have received a transfer for %{record_type} (%{record_id}) from %{user} from %{agency}. Please %{login_url} into your account to review.'
+    assign_html: You have been assigned a new %{record_type} (%{record_id}) from %{user}. Please %{login_url} to your account to review.
+    transfer_request_html: 'You have received a transfer request for %{record_type} %{record_id} from %{user} from %{agency}. The individual making the request has included a transfer note: %{request_transfer_notes}. If this transfer is acceptable to you, please log in to access Primero to initiate the transfer.'
     alert: '%{record_type} %{id} - %{form_name} has been updated. Please log in to Primero to review the changes.'
     alert_subject: '%{record_type}: %{id} - %{form_name} Updated'
   webpush_notification:
