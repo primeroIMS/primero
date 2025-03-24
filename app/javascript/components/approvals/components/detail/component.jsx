@@ -9,16 +9,20 @@ import { useApp } from "../../../application";
 
 import { approvalLabel } from "./utils";
 
-function Component({ approvalSubform, isRequest, isResponse }) {
+function Component({ approvalSubform, isRequest, isResponse, primeroModule }) {
   const { approvalsLabels } = useApp();
+
+  const getApprovalLabel = label => {
+    return approvalsLabels.getIn([primeroModule, label], approvalsLabels.getIn(["default", label]));
+  };
 
   const renderApprovalLabel =
     isRequest && !isResponse ? "approvals.requested_for_label" : "approvals.response_for_label";
 
   const renderApprovalValue =
     isRequest && !isResponse
-      ? approvalsLabels.get(approvalSubform.get("approval_requested_for"))
-      : approvalsLabels.get(approvalSubform.get("approval_response_for"));
+      ? getApprovalLabel(approvalSubform.get("approval_requested_for"))
+      : getApprovalLabel(approvalSubform.get("approval_response_for"));
 
   const renderCasePlanType =
     approvalSubform.get("approval_response_for") === CASE_PLAN ||
@@ -60,6 +64,8 @@ Component.displayName = NAME_DETAIL;
 Component.propTypes = {
   approvalSubform: PropTypes.object.isRequired,
   isRequest: PropTypes.bool,
-  isResponse: PropTypes.bool
+  isResponse: PropTypes.bool,
+  primeroModule: PropTypes.string
 };
+
 export default Component;

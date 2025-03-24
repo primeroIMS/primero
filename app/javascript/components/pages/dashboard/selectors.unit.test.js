@@ -2,6 +2,8 @@
 
 import { fromJS } from "immutable";
 
+import { PrimeroModuleRecord } from "../../application/records";
+
 import { DASHBOARD_NAMES } from "./constants";
 import * as selectors from "./selectors";
 
@@ -42,7 +44,7 @@ const reportingLocation = {
 };
 
 const approvalsAssessmentPending = {
-  name: "dashboard.approvals_assessment_pending",
+  name: "dashboard.approvals_assessment_pending.primeromodule-cp",
   type: "indicator",
   indicators: {
     approval_assessment_pending_group: {
@@ -52,7 +54,7 @@ const approvalsAssessmentPending = {
   }
 };
 const approvalsCasePlanPending = {
-  name: "dashboard.approvals_case_plan_pending",
+  name: "dashboard.approvals_case_plan_pending.primeromodule-cp",
   type: "indicator",
   indicators: {
     approval_case_plan_pending_group: {
@@ -62,7 +64,7 @@ const approvalsCasePlanPending = {
   }
 };
 const approvalsClosurePending = {
-  name: "dashboard.approvals_closure_pending",
+  name: "dashboard.approvals_closure_pending.primeromodule-cp",
   type: "indicator",
   indicators: {
     approval_closure_pending_group: {
@@ -259,8 +261,34 @@ const myCasesIncidents = {
   }
 };
 
+const application = fromJS({
+  modules: [
+    PrimeroModuleRecord({
+      unique_id: "primeromodule-cp",
+      workflows: {
+        case: {
+          en: [
+            {
+              id: "new",
+              display_text: "New"
+            },
+            {
+              id: "closed",
+              display_text: "Closed"
+            }
+          ]
+        }
+      }
+    })
+  ]
+});
+
 const stateWithoutRecords = fromJS({});
 const initialState = fromJS({
+  application,
+  user: fromJS({
+    modules: ["primeromodule-cp"]
+  }),
   records: {
     dashboard: {
       data: [
@@ -385,7 +413,7 @@ describe("<Dashboard /> - Selectors", () => {
 
   describe("getApprovalsAssessmentPending", () => {
     it("should return the approvals assessment pending", () => {
-      const values = selectors.getApprovalsAssessmentPending(initialState);
+      const values = selectors.getApprovalsAssessmentPending(initialState)["primeromodule-cp"];
 
       expect(values).to.deep.equal(fromJS(approvalsAssessmentPending));
     });
@@ -393,7 +421,7 @@ describe("<Dashboard /> - Selectors", () => {
 
   describe("getApprovalsCasePlanPending", () => {
     it("should return the approvals case plan pending", () => {
-      const values = selectors.getApprovalsCasePlanPending(initialState);
+      const values = selectors.getApprovalsCasePlanPending(initialState)["primeromodule-cp"];
 
       expect(values).to.deep.equal(fromJS(approvalsCasePlanPending));
     });
@@ -401,7 +429,7 @@ describe("<Dashboard /> - Selectors", () => {
 
   describe("getApprovalsClosurePending", () => {
     it("should return the approvals closure pending", () => {
-      const values = selectors.getApprovalsClosurePending(initialState);
+      const values = selectors.getApprovalsClosurePending(initialState)["primeromodule-cp"];
 
       expect(values).to.deep.equal(fromJS(approvalsClosurePending));
     });
