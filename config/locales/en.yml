@@ -4645,7 +4645,7 @@ en:
     unsubscribe: 'Unsubscribe'
     site_description: Primero is an open source software platform that helps social services, humanitarian and development workers manage protection-related data, with tools that facilitate case management, incident monitoring and family tracing and reunification.
     email_disclaimer_pre: DO NOT REPLY TO THIS EMAIL
-    email_welcome_greeting: Welcome to the Primero team
+    email_welcome_greeting: Welcome to the Primero team.
     email_welcome_closing: Welcome to the Primero Community
     email_closing: At your service,
     email_signature: Primero team
