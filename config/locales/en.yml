@@ -898,6 +898,7 @@ en:
       other: '%{case_worker} has %{stat} total cases '
     workflow: Workflow
     workflow_team: Workflow - Teams cases
+    workflow_team_module: Workflow - Teams cases - %{module_name}
     you_have: 'You have '
   disabled:
     status:
@@ -2371,8 +2372,8 @@ en:
       end_date: End Date
       quarter: Quarter
       agencies_total: Total Number of Agencies
-      yes: Yes
-      no: No
+      module_yes: 'Yes'
+      module_no: 'No'
       agency_list: Agency List
       users_total: Total Users
       users_active: Active Users
@@ -4645,7 +4646,7 @@ en:
     unsubscribe: 'Unsubscribe'
     site_description: Primero is an open source software platform that helps social services, humanitarian and development workers manage protection-related data, with tools that facilitate case management, incident monitoring and family tracing and reunification.
     email_disclaimer_pre: DO NOT REPLY TO THIS EMAIL
-    email_welcome_greeting: Welcome to the Primero team
+    email_welcome_greeting: Welcome to the Primero team.
     email_welcome_closing: Welcome to the Primero Community
     email_closing: At your service,
     email_signature: Primero team

@@ -95,9 +95,12 @@ function Component({
     approvalType === "request"
       ? `${recordType}.request_approval_success_${requestType}`
       : `${recordType}.${approval}_success_${requestType}`;
-
   const handleSubmit = () => {
     setPending(true);
+
+    const approvalLabels = record
+      ? approvalsLabels.getIn([record.get("module_id"), requestType])
+      : approvalsLabels.getIn(["default", requestType]);
 
     batch(async () => {
       await dispatch(
@@ -107,7 +110,7 @@ function Component({
           approvalId: requestType,
           body: actionBody,
           message: i18n.t(message, {
-            approval_label: approvalsLabels.get(requestType)
+            approval_label: approvalLabels
           }),
           messageFromQueue: i18n.t("offline_submitted_changes"),
           currentUser: username,

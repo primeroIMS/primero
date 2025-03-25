@@ -26,7 +26,11 @@ class UsageReport < ValueObject
       hash[agency[0]] =
         { unique_id: agency[1], users_total: 0, users_active: 0, users_disabled: 0, users_new: 0 }
     end
-    User.all.each { |user| count_user_for_agency(agencies, user) }
+    User.all.each do |user|
+      next unless user.agency_id.present?
+
+      count_user_for_agency(agencies, user)
+    end
     agencies.values
   end
 

@@ -6,7 +6,7 @@
 class Api::V2::DashboardsController < ApplicationApiController
   def index
     current_user.user_groups.load
-    @dashboards = current_user.role.dashboards
+    @dashboards = current_user.role.dashboards.flatten
     indicators = @dashboards.map(&:indicators).flatten
     @indicator_stats = IndicatorQueryService.query(indicators, current_user)
   end

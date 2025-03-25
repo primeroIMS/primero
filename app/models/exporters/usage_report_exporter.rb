@@ -60,7 +60,7 @@ class Exporters::UsageReportExporter < ValueObject
                 else
                   mod[:cases_total].positive?
                 end
-      worksheet.write(i, 0, [mod[:name], present ? t('yes') : t('no')])
+      worksheet.write(i, 0, [mod[:name], present ? t('module_yes') : t('module_no')])
     end
   end
 
