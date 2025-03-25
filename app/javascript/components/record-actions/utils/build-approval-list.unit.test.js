@@ -49,13 +49,13 @@ describe("record-actions/utils/build-approval-list", () => {
       }).approvals
     ).to.deep.equal([
       {
-        name: approvalsLabels.get(APPROVALS_TYPES.assessment),
+        name: approvalsLabels.getIn(["default", APPROVALS_TYPES.assessment]),
         condition: true,
         recordType: RECORD_TYPES.all,
         value: APPROVALS_TYPES.assessment
       },
       {
-        name: approvalsLabels.get(APPROVALS_TYPES.closure),
+        name: approvalsLabels.getIn(["default", APPROVALS_TYPES.closure]),
         condition: true,
         recordType: RECORD_TYPES.all,
         value: APPROVALS_TYPES.closure
@@ -96,7 +96,7 @@ describe("record-actions/utils/build-approval-list", () => {
       }).approvals
     ).to.deep.equal([
       {
-        name: approvalsLabels.get(APPROVALS_TYPES.assessment),
+        name: approvalsLabels.getIn(["default", APPROVALS_TYPES.assessment]),
         condition: true,
         recordType: RECORD_TYPES.all,
         value: APPROVALS_TYPES.assessment
