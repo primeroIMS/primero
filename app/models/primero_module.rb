@@ -159,14 +159,10 @@ class PrimeroModule < ApplicationRecord
   private
 
   def defaults
-    self.module_options = (module_options || {}).reverse_merge(
-      {
-        'consent_form' => DEFAULT_CONSENT_FORM,
-        'services_form' => DEFAULT_SERVICES_FORM,
-        'response_type_lookup' => Workflow::LOOKUP_RESPONSE_TYPES,
-        'workflow_lookup' => Workflow::LOOKUP_WORKFLOW
-      }
-    )
+    self.consent_form ||= DEFAULT_CONSENT_FORM
+    self.services_form ||= DEFAULT_SERVICES_FORM
+    self.response_type_lookup ||= Workflow::LOOKUP_RESPONSE_TYPES
+    self.workflow_lookup ||= Workflow::LOOKUP_WORKFLOW
   end
 
   def set_unique_id
