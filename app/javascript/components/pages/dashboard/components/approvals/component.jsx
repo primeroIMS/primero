@@ -65,6 +65,11 @@ function Component({ loadingIndicator }) {
   const approvalsGbvClosure = useMemoizedSelector(state => getApprovalsGbvClosure(state));
 
   const approvalsDashHasData = [
+    approvalsAssessmentPending,
+    approvalsCasePlanPending,
+    approvalsClosurePending,
+    approvalsActionPlanPending,
+    approvalsGbvClosurePending,
     approvalsAssessment,
     approvalsGbvClosure,
     approvalsActionPlan,
