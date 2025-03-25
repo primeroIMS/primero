@@ -17,7 +17,7 @@ class Api::V2::UsageReportsController < ApplicationApiController
     return @usage_report_params if @usage_report_params.present?
 
     @usage_report_params = params.permit(:from, :to, :file_name, :export_type)
-    @usage_report_params = DestringifyService.destringify(@usage_report_params)
+    @usage_report_params = DestringifyService.destringify(@usage_report_params.to_h, true)
   end
 
   def exporter
