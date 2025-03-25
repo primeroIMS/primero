@@ -143,7 +143,7 @@ export const approvalsLabels = state => {
   const userModules = selectUserModules(state);
   const systemApprovalLabels = state.getIn([NAMESPACE, "approvalsLabels"], fromJS({}));
   const defaultModules =
-    userModules.size === 1 ? userModules.first().get("approvals_labels", systemApprovalLabels) : systemApprovalLabels;
+    userModules.size === 1 ? userModules.first().get("approvals_labels") || systemApprovalLabels : systemApprovalLabels;
 
   const userModulesApprovalLabels = userModules.reduce((prev, current) => {
     return { ...prev, [current.unique_id]: current.get("approvals_labels") };
