@@ -78,200 +78,105 @@ module Indicators
       scope: OPEN_ENABLED
     ).freeze
 
-    APPROVALS_ASSESSMENT_PENDING = QueriedIndicator.new(
-      name: 'approval_assessment_pending',
-      record_model: Child,
-      scope_to_owner: true,
-      queries: OPEN_ENABLED + [
-        SearchFilters::TextValue.new(field_name: 'approval_status_assessment', value: Approval::APPROVAL_STATUS_PENDING)
-      ]
-    ).freeze
+    def self.approvals_assessment_pending(module_id)
+      approval_indicator(name: 'approval_assessment_pending', field_name: 'approval_status_assessment',
+                         value: Approval::APPROVAL_STATUS_PENDING, module_id:)
+    end
 
-    APPROVALS_ASSESSMENT_PENDING_GROUP = QueriedIndicator.new(
-      name: 'approval_assessment_pending_group',
-      record_model: Child,
-      queries: OPEN_ENABLED + [
-        SearchFilters::TextValue.new(field_name: 'approval_status_assessment', value: Approval::APPROVAL_STATUS_PENDING)
-      ]
-    ).freeze
+    def self.approvals_assessment_pending_group(module_id)
+      approval_indicator(name: 'approval_assessment_pending_group', field_name: 'approval_status_assessment',
+                         value: Approval::APPROVAL_STATUS_PENDING, module_id:)
+    end
 
-    APPROVALS_ASSESSMENT_REJECTED = QueriedIndicator.new(
-      name: 'approval_assessment_rejected',
-      record_model: Child,
-      scope_to_owner: true,
-      queries: OPEN_ENABLED + [
-        SearchFilters::TextValue.new(
-          field_name: 'approval_status_assessment', value: Approval::APPROVAL_STATUS_REJECTED
-        )
-      ]
-    ).freeze
+    def self.approvals_assessment_rejected(module_id)
+      approval_indicator(name: 'approval_assessment_rejected', field_name: 'approval_status_assessment',
+                         value: Approval::APPROVAL_STATUS_REJECTED, module_id:)
+    end
 
-    APPROVALS_ASSESSMENT_APPROVED = QueriedIndicator.new(
-      name: 'approval_assessment_approved',
-      record_model: Child,
-      scope_to_owner: true,
-      queries: OPEN_ENABLED + [
-        SearchFilters::TextValue.new(
-          field_name: 'approval_status_assessment', value: Approval::APPROVAL_STATUS_APPROVED
-        )
-      ]
-    ).freeze
+    def self.approvals_assessment_approved(module_id)
+      approval_indicator(name: 'approval_assessment_approved', field_name: 'approval_status_assessment',
+                         value: Approval::APPROVAL_STATUS_APPROVED, module_id:)
+    end
 
-    APPROVALS_CASE_PLAN_PENDING = QueriedIndicator.new(
-      name: 'approval_case_plan_pending',
-      record_model: Child,
-      scope_to_owner: true,
-      queries: OPEN_ENABLED + [
-        SearchFilters::TextValue.new(field_name: 'approval_status_case_plan', value: Approval::APPROVAL_STATUS_PENDING)
-      ]
-    ).freeze
+    def self.approvals_case_plan_pending(module_id)
+      approval_indicator(name: 'approval_case_plan_pending', field_name: 'approval_status_case_plan',
+                         value: Approval::APPROVAL_STATUS_PENDING, module_id:)
+    end
 
-    APPROVALS_CASE_PLAN_PENDING_GROUP = QueriedIndicator.new(
-      name: 'approval_case_plan_pending_group',
-      record_model: Child,
-      queries: OPEN_ENABLED + [
-        SearchFilters::TextValue.new(field_name: 'approval_status_case_plan', value: Approval::APPROVAL_STATUS_PENDING)
-      ]
-    ).freeze
+    def self.approvals_case_plan_pending_group(module_id)
+      approval_indicator(name: 'approval_case_plan_pending_group', field_name: 'approval_status_case_plan',
+                         value: Approval::APPROVAL_STATUS_PENDING, module_id:)
+    end
 
-    APPROVALS_CASE_PLAN_REJECTED = QueriedIndicator.new(
-      name: 'approval_case_plan_rejected',
-      record_model: Child,
-      scope_to_owner: true,
-      queries: OPEN_ENABLED + [
-        SearchFilters::TextValue.new(field_name: 'approval_status_case_plan', value: Approval::APPROVAL_STATUS_REJECTED)
-      ]
-    ).freeze
+    def self.approvals_case_plan_rejected(module_id)
+      approval_indicator(name: 'approval_case_plan_rejected', field_name: 'approval_status_case_plan',
+                         value: Approval::APPROVAL_STATUS_REJECTED, module_id:)
+    end
 
-    APPROVALS_CASE_PLAN_APPROVED = QueriedIndicator.new(
-      name: 'approval_case_plan_approved',
-      record_model: Child,
-      scope_to_owner: true,
-      queries: OPEN_ENABLED + [
-        SearchFilters::TextValue.new(field_name: 'approval_status_case_plan', value: Approval::APPROVAL_STATUS_APPROVED)
-      ]
-    ).freeze
+    def self.approvals_case_plan_approved(module_id)
+      approval_indicator(name: 'approval_case_plan_approved', field_name: 'approval_status_case_plan',
+                         value: Approval::APPROVAL_STATUS_APPROVED, module_id:)
+    end
 
-    APPROVALS_CLOSURE_PENDING = QueriedIndicator.new(
-      name: 'approval_closure_pending',
-      record_model: Child,
-      scope_to_owner: true,
-      queries: OPEN_ENABLED + [
-        SearchFilters::TextValue.new(field_name: 'approval_status_closure', value: Approval::APPROVAL_STATUS_PENDING)
-      ]
-    ).freeze
+    def self.approvals_closure_pending(module_id)
+      approval_indicator(name: 'approval_closure_pending', field_name: 'approval_status_closure',
+                         value: Approval::APPROVAL_STATUS_PENDING, module_id:)
+    end
 
-    APPROVALS_CLOSURE_PENDING_GROUP = QueriedIndicator.new(
-      name: 'approval_closure_pending_group',
-      record_model: Child,
-      queries: OPEN_ENABLED + [
-        SearchFilters::TextValue.new(field_name: 'approval_status_closure', value: Approval::APPROVAL_STATUS_PENDING)
-      ]
-    ).freeze
+    def self.approvals_closure_pending_group(module_id)
+      approval_indicator(name: 'approval_closure_pending_group', field_name: 'approval_status_closure',
+                         value: Approval::APPROVAL_STATUS_PENDING, module_id:)
+    end
 
-    APPROVALS_CLOSURE_REJECTED = QueriedIndicator.new(
-      name: 'approval_closure_rejected',
-      record_model: Child,
-      scope_to_owner: true,
-      queries: OPEN_ENABLED + [
-        SearchFilters::TextValue.new(field_name: 'approval_status_closure', value: Approval::APPROVAL_STATUS_REJECTED)
-      ]
-    ).freeze
+    def self.approvals_closure_rejected(module_id)
+      approval_indicator(name: 'approval_closure_rejected', field_name: 'approval_status_closure',
+                         value: Approval::APPROVAL_STATUS_REJECTED, module_id:)
+    end
 
-    APPROVALS_CLOSURE_APPROVED = QueriedIndicator.new(
-      name: 'approval_closure_approved',
-      record_model: Child,
-      scope_to_owner: true,
-      queries: OPEN_ENABLED + [
-        SearchFilters::TextValue.new(field_name: 'approval_status_closure', value: Approval::APPROVAL_STATUS_APPROVED)
-      ]
-    ).freeze
+    def self.approvals_closure_approved(module_id)
+      approval_indicator(name: 'approval_closure_approved', field_name: 'approval_status_closure',
+                         value: Approval::APPROVAL_STATUS_APPROVED, module_id:)
+    end
 
-    APPROVALS_ACTION_PLAN_PENDING = QueriedIndicator.new(
-      name: 'approval_action_plan_pending',
-      record_model: Child,
-      scope_to_owner: true,
-      queries: OPEN_ENABLED + [
-        SearchFilters::TextValue.new(
-          field_name: 'approval_status_action_plan', value: Approval::APPROVAL_STATUS_PENDING
-        )
-      ]
-    ).freeze
+    def self.approvals_action_plan_pending(module_id)
+      approval_indicator(name: 'approval_action_plan_pending', field_name: 'approval_status_action_plan',
+                         value: Approval::APPROVAL_STATUS_PENDING, module_id:)
+    end
 
-    APPROVALS_ACTION_PLAN_PENDING_GROUP = QueriedIndicator.new(
-      name: 'approval_action_plan_pending_group',
-      record_model: Child,
-      queries: OPEN_ENABLED + [
-        SearchFilters::TextValue.new(
-          field_name: 'approval_status_action_plan', value: Approval::APPROVAL_STATUS_PENDING
-        )
-      ]
-    ).freeze
+    def self.approvals_action_plan_pending_group(module_id)
+      approval_indicator(name: 'approval_action_plan_pending_group', field_name: 'approval_status_action_plan',
+                         value: Approval::APPROVAL_STATUS_PENDING, module_id:)
+    end
 
-    APPROVALS_ACTION_PLAN_REJECTED = QueriedIndicator.new(
-      name: 'approval_action_plan_rejected',
-      record_model: Child,
-      scope_to_owner: true,
-      queries: OPEN_ENABLED + [
-        SearchFilters::TextValue.new(
-          field_name: 'approval_status_action_plan', value: Approval::APPROVAL_STATUS_REJECTED
-        )
-      ]
-    ).freeze
+    def self.approvals_action_plan_rejected(module_id)
+      approval_indicator(name: 'approval_action_plan_rejected', field_name: 'approval_status_action_plan',
+                         value: Approval::APPROVAL_STATUS_REJECTED, module_id:)
+    end
 
-    APPROVALS_ACTION_PLAN_APPROVED = QueriedIndicator.new(
-      name: 'approval_action_plan_approved',
-      record_model: Child,
-      scope_to_owner: true,
-      queries: OPEN_ENABLED + [
-        SearchFilters::TextValue.new(
-          field_name: 'approval_status_action_plan', value: Approval::APPROVAL_STATUS_APPROVED
-        )
-      ]
-    ).freeze
+    def self.approvals_action_plan_approved(module_id)
+      approval_indicator(name: 'approval_action_plan_approved', field_name: 'approval_status_action_plan',
+                         value: Approval::APPROVAL_STATUS_APPROVED, module_id:)
+    end
 
-    APPROVALS_GBV_CLOSURE_PENDING = QueriedIndicator.new(
-      name: 'approval_gbv_closure_pending',
-      record_model: Child,
-      scope_to_owner: true,
-      queries: OPEN_ENABLED + [
-        SearchFilters::TextValue.new(
-          field_name: 'approval_status_gbv_closure', value: Approval::APPROVAL_STATUS_PENDING
-        )
-      ]
-    ).freeze
+    def self.approvals_gbv_closure_pending(module_id)
+      approval_indicator(name: 'approval_gbv_closure_pending', field_name: 'approval_status_gbv_closure',
+                         value: Approval::APPROVAL_STATUS_PENDING, module_id:)
+    end
 
-    APPROVALS_GBV_CLOSURE_PENDING_GROUP = QueriedIndicator.new(
-      name: 'approval_gbv_closure_pending_group',
-      record_model: Child,
-      queries: OPEN_ENABLED + [
-        SearchFilters::TextValue.new(
-          field_name: 'approval_status_gbv_closure', value: Approval::APPROVAL_STATUS_PENDING
-        )
-      ]
-    ).freeze
+    def self.approvals_gbv_closure_pending_group(module_id)
+      approval_indicator(name: 'approval_gbv_closure_pending_group', field_name: 'approval_status_gbv_closure',
+                         value: Approval::APPROVAL_STATUS_PENDING, module_id:)
+    end
 
-    APPROVALS_GBV_CLOSURE_REJECTED = QueriedIndicator.new(
-      name: 'approval_gbv_closure_rejected',
-      record_model: Child,
-      scope_to_owner: true,
-      queries: OPEN_ENABLED + [
-        SearchFilters::TextValue.new(
-          field_name: 'approval_status_gbv_closure', value: Approval::APPROVAL_STATUS_REJECTED
-        )
-      ]
-    ).freeze
+    def self.approvals_gbv_closure_rejected(module_id)
+      approval_indicator(name: 'approval_gbv_closure_rejected', field_name: 'approval_status_gbv_closure',
+                         value: Approval::APPROVAL_STATUS_REJECTED, module_id:)
+    end
 
-    APPROVALS_GBV_CLOSURE_APPROVED = QueriedIndicator.new(
-      name: 'approval_gbv_closure_approved',
-      record_model: Child,
-      scope_to_owner: true,
-      queries: OPEN_ENABLED + [
-        SearchFilters::TextValue.new(
-          field_name: 'approval_status_gbv_closure', value: Approval::APPROVAL_STATUS_APPROVED
-        )
-      ]
-    ).freeze
+    def self.approvals_gbv_closure_approved(module_id)
+      approval_indicator(name: 'approval_gbv_closure_approved', field_name: 'approval_status_gbv_closure',
+                         value: Approval::APPROVAL_STATUS_APPROVED, module_id:)
+    end
 
     def self.tasks_overdue_assessment
       GroupedIndicator.new(
@@ -715,6 +620,20 @@ module Indicators
           scope_to_owned_by_groups: true
         ).freeze
       end
+    end
+
+    def self.approval_indicator(name:, field_name:, value:, module_id:)
+      QueriedIndicator.new(
+        name: name,
+        record_model: Child,
+        scope_to_owner: true,
+        queries: OPEN_ENABLED + [
+          SearchFilters::TextValue.new(field_name: field_name,
+                                       value: value),
+          SearchFilters::TextValue.new(field_name: 'module_id',
+                                       value: module_id)
+        ]
+      ).freeze
     end
 
     def self.workflows(role)

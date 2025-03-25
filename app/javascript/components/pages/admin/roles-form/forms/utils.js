@@ -3,11 +3,12 @@
 import startCase from "lodash/startCase";
 
 const buildLabel = (element, i18n, resource, approvalsLabel, type) => {
-  const approvalLabel = (approvalsLabel.size > 0 ? [...approvalsLabel.keys()] : []).filter(approval =>
+  const approvalLabel = (approvalsLabel.size > 0 ? [...approvalsLabel.get("default").keys()] : []).filter(approval =>
     element.includes(approval)
   );
 
-  const label = approvalsLabel.size > 0 ? approvalsLabel.get(approvalLabel[approvalLabel.length - 1]) : "";
+  const label =
+    approvalsLabel.size > 0 ? approvalsLabel.getIn(["default", approvalLabel[approvalLabel.length - 1]]) : "";
 
   return i18n.t(`permissions.resource.${resource}.actions.${element}.${type}`, {
     approval_label: label
