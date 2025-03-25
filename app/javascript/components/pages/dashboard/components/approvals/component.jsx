@@ -70,7 +70,7 @@ function Component({ loadingIndicator }) {
     approvalsActionPlan,
     approvalsGbvClosure
   ].some(selector => {
-    return Object.values(selector);
+    return Boolean(Object.values(selector).some(subSelector => subSelector?.size));
   });
 
   const renderDashboards = primeroModule => {
