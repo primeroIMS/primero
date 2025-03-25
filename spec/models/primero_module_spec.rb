@@ -44,6 +44,27 @@ describe PrimeroModule do
     expect(primero_module.consent_form).to eq(consent_form)
   end
 
+  it 'sets the default services_form' do
+    primero_module = create(:primero_module, name: 'test module 1234')
+    expect(primero_module.services_form).to eq(PrimeroModule::DEFAULT_SERVICES_FORM)
+  end
+
+  it 'sets the services_form' do
+    services_form = 'other_services_form'
+    primero_module = create(:primero_module, name: 'test module 1234', services_form:)
+    expect(primero_module.services_form).to eq(services_form)
+  end
+
+  it 'does not change a services_form if the module changes' do
+    services_form = 'other_services_form'
+    primero_module = create(:primero_module, name: 'test module 1234', services_form:)
+    primero_module.name = 'new module name 1234'
+    primero_module.save!
+    primero_module.reload
+
+    expect(primero_module.services_form).to eq(services_form)
+  end
+
   describe 'associated forms' do
     before do
       @form_section_a = FormSection.create!(unique_id: 'A', name: 'A', parent_form: 'case', form_group_id: 'm')

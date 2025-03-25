@@ -80,7 +80,8 @@ class PrimeroModule < ApplicationRecord
   validates_presence_of :associated_record_types,
                         message: I18n.t('errors.models.primero_module.associated_record_types')
 
-  before_create :set_unique_id, :set_consent_form, :set_services_form
+  after_initialize :defaults
+  before_create :set_unique_id
   after_save :sync_forms
 
   def program_name
@@ -155,28 +156,19 @@ class PrimeroModule < ApplicationRecord
     headers
   end
 
-  def module_workflow_lookup
-    workflow_lookup || Workflow::LOOKUP_WORKFLOW
-  end
-
-  def module_response_type_lookup
-    response_type_lookup || Workflow::LOOKUP_RESPONSE_TYPES
-  end
-
   private
+
+  def defaults
+    self.consent_form ||= DEFAULT_CONSENT_FORM
+    self.services_form ||= DEFAULT_SERVICES_FORM
+    self.response_type_lookup ||= Workflow::LOOKUP_RESPONSE_TYPES
+    self.workflow_lookup ||= Workflow::LOOKUP_WORKFLOW
+  end
 
   def set_unique_id
     return if unique_id.present?
 
     self.unique_id = "#{self.class.name}-#{name}".parameterize.dasherize
-  end
-
-  def set_consent_form
-    self.consent_form ||= DEFAULT_CONSENT_FORM
-  end
-
-  def set_services_form
-    self.services_form ||= DEFAULT_SERVICES_FORM
   end
 
   def sync_forms
