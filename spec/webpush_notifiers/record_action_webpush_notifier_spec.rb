@@ -136,7 +136,7 @@ describe RecordActionWebpushNotifier do
         {
           action_label: 'Go to Case',
           body: 'A Case on your team has a pending approval request for Case Plan.',
-          link: "localhost:3000/v2/cases/#{child.id}",
+          link: "localhost/v2/cases/#{child.id}",
           title: 'Approval Request',
           icon: ''
         }

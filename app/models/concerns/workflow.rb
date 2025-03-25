@@ -87,8 +87,8 @@ module Workflow
   # Class methods
   module ClassMethods
     def workflow_statuses(primero_module)
-      lookups_grouped = Lookup.group_by_unique_id([primero_module.module_response_type_lookup,
-                                                   primero_module.module_workflow_lookup])
+      lookups_grouped = Lookup.group_by_unique_id([primero_module.response_type_lookup,
+                                                   primero_module.workflow_lookup])
 
       I18n.available_locales.map do |locale|
         { locale => status_list(locale, primero_module, lookups_grouped) }
@@ -101,7 +101,7 @@ module Workflow
       status_list << workflow_entry(WORKFLOW_REOPENED, locale, lookups, primero_module)
       workflow_assessment(status_list, locale, primero_module, lookups)
       workflow_case_plan(status_list, locale, primero_module, lookups)
-      status_list += lookups&.[](primero_module.module_response_type_lookup)&.[](locale.to_s) || []
+      status_list += lookups&.[](primero_module.response_type_lookup)&.[](locale.to_s) || []
       workflow_service_implemented(status_list, locale, primero_module)
       status_list << workflow_entry(WORKFLOW_CLOSED, locale, lookups, primero_module)
     end
@@ -134,7 +134,7 @@ module Workflow
     end
 
     def value_from_lookup(status, lookups, primero_module, locale = I18n.locale)
-      lookups&.[](primero_module.module_workflow_lookup)&.[](locale.to_s)&.find do |lkp|
+      lookups&.[](primero_module.workflow_lookup)&.[](locale.to_s)&.find do |lkp|
         lkp['id'] == status
       end
     end
