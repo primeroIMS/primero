@@ -2371,8 +2371,8 @@ en:
       end_date: End Date
       quarter: Quarter
       agencies_total: Total Number of Agencies
-      yes: Yes
-      no: No
+      module_yes: 'Yes'
+      module_no: 'No'
       agency_list: Agency List
       users_total: Total Users
       users_active: Active Users
