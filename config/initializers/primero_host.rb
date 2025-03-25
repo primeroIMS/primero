@@ -3,7 +3,7 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 Rails.application.config.before_initialize do
-  primero_host = ENV['PRIMERO_HOST'] || ENV['LETS_ENCRYPT_DOMAIN'] || 'localhost:3000'
+  primero_host = ENV['PRIMERO_HOST'] || ENV['LETS_ENCRYPT_DOMAIN'] || 'localhost'
   protocol = Rails.application.config.force_ssl ? 'https://' : 'http://'
   asset_host = [protocol, primero_host]
   asset_host << ':3000' if Rails.env.development?
