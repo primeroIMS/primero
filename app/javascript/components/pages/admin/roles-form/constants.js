@@ -38,7 +38,8 @@ export const RESOURCES = [
   "activity_log",
   "matching_configuration",
   "duplicate",
-  "kpi"
+  "kpi",
+  "usage_report"
 ];
 
 export const ROLES_PERMISSIONS = Object.freeze({

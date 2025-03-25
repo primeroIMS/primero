@@ -26,7 +26,7 @@ import {
   getApprovalsActionPlan,
   getApprovalsGbvClosure
 } from "../../selectors";
-import { useApp } from "../../../../application";
+import { selectUserModules, useApp } from "../../../../application";
 import { useMemoizedSelector } from "../../../../../libs";
 import css from "../styles.css";
 
@@ -52,6 +52,7 @@ function Component({ loadingIndicator }) {
     dashApprovalsGbvClosure: [ACTIONS.DASH_APPROVALS_GBV_CLOSURE]
   });
 
+  const userModules = useMemoizedSelector(state => selectUserModules(state));
   const approvalsAssessmentPending = useMemoizedSelector(state => getApprovalsAssessmentPending(state));
   const approvalsCasePlanPending = useMemoizedSelector(state => getApprovalsClosurePending(state));
   const approvalsClosurePending = useMemoizedSelector(state => getApprovalsCasePlanPending(state));
@@ -63,90 +64,99 @@ function Component({ loadingIndicator }) {
   const approvalsActionPlan = useMemoizedSelector(state => getApprovalsActionPlan(state));
   const approvalsGbvClosure = useMemoizedSelector(state => getApprovalsGbvClosure(state));
 
-  const pendingApprovalsItems = toApprovalsManager([
-    approvalsAssessmentPending,
-    approvalsCasePlanPending,
-    approvalsClosurePending,
-    approvalsActionPlanPending,
-    approvalsGbvClosurePending
-  ]);
+  const approvalsDashHasData = [
+    approvalsAssessment,
+    approvalsGbvClosure,
+    approvalsActionPlan,
+    approvalsGbvClosure
+  ].some(selector => {
+    return Boolean(Object.values(selector).some(subSelector => subSelector?.size));
+  });
 
-  const approvalsDashHasData = Boolean(
-    pendingApprovalsItems.get("indicators").size ||
-      approvalsAssessment.size ||
-      approvalsCasePlan.size ||
-      approvalsClosure.size ||
-      approvalsActionPlan.size ||
-      approvalsGbvClosure.size
-  );
+  const renderDashboards = primeroModule => {
+    const moduleID = primeroModule.unique_id;
 
-  const dashboards = [
-    {
-      key: "dashApprovalPending",
-      type: DASHBOARD_TYPES.OVERVIEW_BOX,
-      actions: dashApprovalPending,
-      options: {
-        items: pendingApprovalsItems,
-        sumTitle: i18n.t("dashboard.pending_approvals"),
-        withTotal: false
-      }
-    },
-    {
-      key: "dashApprovalsAssessment",
-      type: DASHBOARD_TYPES.OVERVIEW_BOX,
-      actions: dashApprovalsAssessment,
-      options: {
-        items: approvalsAssessment,
-        sumTitle: approvalsLabels.get("assessment")
-      }
-    },
-    {
-      key: "dashApprovalsCasePlan",
-      type: DASHBOARD_TYPES.OVERVIEW_BOX,
-      actions: dashApprovalsCasePlan,
-      options: {
-        items: approvalsCasePlan,
-        sumTitle: approvalsLabels.get("case_plan")
-      }
-    },
-    {
-      key: "dashApprovalsClosure",
-      type: DASHBOARD_TYPES.OVERVIEW_BOX,
-      actions: dashApprovalsClosure,
-      options: {
-        items: approvalsClosure,
-        sumTitle: approvalsLabels.get("closure")
-      }
-    },
-    {
-      key: "dashApprovalsActionPlan",
-      type: DASHBOARD_TYPES.OVERVIEW_BOX,
-      actions: dashApprovalsActionPlan,
-      options: {
-        items: approvalsActionPlan,
-        sumTitle: approvalsLabels.get("action_plan")
-      }
-    },
-    {
-      type: DASHBOARD_TYPES.OVERVIEW_BOX,
-      actions: dashApprovalsGbvClosure,
-      options: {
-        items: approvalsGbvClosure,
-        sumTitle: approvalsLabels.get("gbv_closure")
-      }
+    const pendingApprovalsItems = toApprovalsManager([
+      approvalsAssessmentPending[moduleID],
+      approvalsCasePlanPending[moduleID],
+      approvalsClosurePending[moduleID],
+      approvalsActionPlanPending[moduleID],
+      approvalsGbvClosurePending[moduleID]
+    ]);
+
+    function getLabel(key) {
+      return approvalsLabels.getIn([moduleID, key], approvalsLabels.getIn(["default", key]));
     }
-  ].filter(dashboard => dashboard.actions);
 
-  const renderDashboards = () => {
+    const dashboards = [
+      {
+        key: "dashApprovalPending",
+        type: DASHBOARD_TYPES.OVERVIEW_BOX,
+        actions: dashApprovalPending,
+        options: {
+          items: pendingApprovalsItems,
+          sumTitle: i18n.t("dashboard.pending_approvals"),
+          withTotal: false
+        }
+      },
+      {
+        key: "dashApprovalsAssessment",
+        type: DASHBOARD_TYPES.OVERVIEW_BOX,
+        actions: dashApprovalsAssessment,
+        options: {
+          items: approvalsAssessment[moduleID],
+          titleKey: "assessment"
+        }
+      },
+      {
+        key: "dashApprovalsCasePlan",
+        type: DASHBOARD_TYPES.OVERVIEW_BOX,
+        actions: dashApprovalsCasePlan,
+        options: {
+          items: approvalsCasePlan[moduleID],
+          titleKey: "case_plan"
+        }
+      },
+      {
+        key: "dashApprovalsClosure",
+        type: DASHBOARD_TYPES.OVERVIEW_BOX,
+        actions: dashApprovalsClosure,
+        options: {
+          items: approvalsClosure[moduleID],
+          titleKey: "closure"
+        }
+      },
+      {
+        key: "dashApprovalsActionPlan",
+        type: DASHBOARD_TYPES.OVERVIEW_BOX,
+        actions: dashApprovalsActionPlan,
+        options: {
+          items: approvalsActionPlan[moduleID],
+          titleKey: "action_plan"
+        }
+      },
+      {
+        type: DASHBOARD_TYPES.OVERVIEW_BOX,
+        actions: dashApprovalsGbvClosure,
+        options: {
+          items: approvalsGbvClosure[moduleID],
+          titleKey: "gbv_closure"
+        }
+      }
+    ].filter(dashboard => dashboard.actions);
+
     return dashboards.map((dashboard, index) => {
       const { type, options, key } = dashboard;
+      const { items, sumTitle, titleKey } = options;
       const Dashboard = dashboardType(type);
+      const label = sumTitle || getLabel(titleKey);
+      const title = userModules.size === 1 ? label : `${label} - ${primeroModule.name}`;
 
       return (
         <Fragment key={key}>
           <div className={css.optionsBox}>
             <OptionsBox flat>
-              <Dashboard {...options} />
+              <Dashboard items={items} sumTitle={title} />
             </OptionsBox>
           </div>
           {index === dashboards.length - 1 || <div className={css.divider} />}
@@ -158,7 +168,9 @@ function Component({ loadingIndicator }) {
   return (
     <Permission resources={RESOURCES.dashboards} actions={DASH_APPROVALS}>
       <OptionsBox title={i18n.t("dashboard.approvals")} hasData={approvalsDashHasData} {...loadingIndicator}>
-        <div className={css.container}>{renderDashboards()}</div>
+        {userModules.map(userModule => (
+          <div className={css.container}>{renderDashboards(userModule)}</div>
+        ))}
       </OptionsBox>
     </Permission>
   );

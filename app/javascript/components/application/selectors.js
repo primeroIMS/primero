@@ -143,19 +143,26 @@ export const getPrimaryAgeRanges = state => getAgeRanges(state, getPrimaryAgeRan
 export const getReportableTypes = state => state.getIn([NAMESPACE, "reportableTypes"], fromJS([]));
 
 export const approvalsLabels = state => {
-  const systemApprovalLabels = state.getIn([NAMESPACE, "approvalsLabels"], fromJS({}));
   const userModules = selectUserModules(state);
+  const systemApprovalLabels = state.getIn([NAMESPACE, "approvalsLabels"], fromJS({}));
+  const defaultModules =
+    userModules.size === 1 ? userModules.first().get("approvals_labels") || systemApprovalLabels : systemApprovalLabels;
 
-  if (userModules.size === 1) {
-    return fromJS(userModules.first()?.approvals_labels) || systemApprovalLabels;
-  }
+  const userModulesApprovalLabels = userModules.reduce((prev, current) => {
+    return { ...prev, [current.unique_id]: current.get("approvals_labels") };
+  }, {});
 
-  return systemApprovalLabels;
+  return fromJS({ default: defaultModules, ...userModulesApprovalLabels });
 };
 
 export const getApprovalsLabels = createCachedSelector(getLocale, approvalsLabels, (locale, data) => {
   const labels = data.entrySeq().reduce((acc, [key, value]) => {
-    return acc.set(key, displayNameHelper(value, locale));
+    return acc.set(
+      key,
+      value?.entrySeq()?.reduce((prev, [subKey, subValue]) => {
+        return prev.set(subKey, displayNameHelper(subValue, locale));
+      }, Map({}))
+    );
   }, Map({}));
 
   return labels;

@@ -32,11 +32,11 @@ const getFormattedList = (values, listKey, sort) => {
   return sort ? sortBy(formattedList, [elem => elem[""]]) : formattedList;
 };
 
-export default (data, columnLabels, rowLabels, locale) => {
+export default (data, columnLabels, rowLabels, locale, indicatorGetter) => {
   const result = dataToJS(data);
 
   if (result.length || Object.keys(result).length) {
-    const indicator = last(Object.values(result.indicators));
+    const indicator = indicatorGetter ? indicatorGetter(result.indicators) : last(Object.values(result.indicators));
     const indicatorData = indicator[first(Object.keys(indicator))] || {};
 
     const columnKeys = Object.keys(indicatorData);

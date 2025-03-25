@@ -20,7 +20,23 @@ class Dashboard < ValueObject
     dash_cases_to_assign
     dash_national_admin_summary
     dash_violations_category_region
+  ].freeze
+
+  DYMANIC_WITH_SELF = %w[
+    dash_reporting_location
+    dash_violations_category_region
+    workflow approvals_assessment
+    approvals_case_plan
+    approvals_closure
+    approvals_action_plan
+    approvals_gbv_closure
+    approvals_assessment_pending
+    approvals_case_plan_pending
+    approvals_closure_pending
+    approvals_action_plan_pending
+    approvals_gbv_closure_pending
     workflow
+    workflow_team
   ].freeze
 
   # NOTE: The constant name of each Dashboard needs to match the value of the corresponding Permission
@@ -31,12 +47,6 @@ class Dashboard < ValueObject
     indicators: [
       Indicators::Case::OPEN, Indicators::Case::UPDATED
     ]
-  ).freeze
-
-  WORKFLOW_TEAM = Dashboard.new(
-    name: 'workflow_team',
-    type: 'indicator',
-    indicators: [Indicators::Case::WORKFLOW_TEAM]
   ).freeze
 
   CASE_RISK = Dashboard.new(
@@ -67,85 +77,127 @@ class Dashboard < ValueObject
     ]
   ).freeze
 
-  APPROVALS_ASSESSMENT = Dashboard.new(
-    name: 'approvals_assessment',
-    type: 'indicator',
-    indicators: [
-      Indicators::Case::APPROVALS_ASSESSMENT_PENDING,
-      Indicators::Case::APPROVALS_ASSESSMENT_REJECTED,
-      Indicators::Case::APPROVALS_ASSESSMENT_APPROVED
-    ]
-  ).freeze
+  # rubocop:disable Metrics/MethodLength
+  def self.approvals_assessment(role = nil)
+    role.modules.map do |primero_module|
+      Dashboard.new(
+        name: "approvals_assessment.#{primero_module.unique_id}",
+        type: 'indicator',
+        indicators: [
+          Indicators::Case.approvals_assessment_pending(primero_module.unique_id),
+          Indicators::Case.approvals_assessment_rejected(primero_module.unique_id),
+          Indicators::Case.approvals_assessment_approved(primero_module.unique_id)
+        ]
+      ).freeze
+    end
+  end
 
-  APPROVALS_CASE_PLAN = Dashboard.new(
-    name: 'approvals_case_plan',
-    type: 'indicator',
-    indicators: [
-      Indicators::Case::APPROVALS_CASE_PLAN_PENDING,
-      Indicators::Case::APPROVALS_CASE_PLAN_REJECTED,
-      Indicators::Case::APPROVALS_CASE_PLAN_APPROVED
-    ]
-  ).freeze
+  def self.approvals_case_plan(role = nil)
+    role.modules.map do |primero_module|
+      Dashboard.new(
+        name: "approvals_case_plan.#{primero_module.unique_id}",
+        type: 'indicator',
+        indicators: [
+          Indicators::Case.approvals_case_plan_pending(primero_module.unique_id),
+          Indicators::Case.approvals_case_plan_rejected(primero_module.unique_id),
+          Indicators::Case.approvals_case_plan_approved(primero_module.unique_id)
+        ]
+      ).freeze
+    end
+  end
 
-  APPROVALS_CLOSURE = Dashboard.new(
-    name: 'approvals_closure',
-    type: 'indicator',
-    indicators: [
-      Indicators::Case::APPROVALS_CLOSURE_PENDING,
-      Indicators::Case::APPROVALS_CLOSURE_REJECTED,
-      Indicators::Case::APPROVALS_CLOSURE_APPROVED
-    ]
-  ).freeze
+  def self.approvals_closure(role = nil)
+    role.modules.map do |primero_module|
+      Dashboard.new(
+        name: "approvals_closure.#{primero_module.unique_id}",
+        type: 'indicator',
+        indicators: [
+          Indicators::Case.approvals_closure_pending(primero_module.unique_id),
+          Indicators::Case.approvals_closure_rejected(primero_module.unique_id),
+          Indicators::Case.approvals_closure_approved(primero_module.unique_id)
+        ]
+      ).freeze
+    end
+  end
 
-  APPROVALS_ACTION_PLAN = Dashboard.new(
-    name: 'approvals_action_plan',
-    type: 'indicator',
-    indicators: [
-      Indicators::Case::APPROVALS_ACTION_PLAN_PENDING,
-      Indicators::Case::APPROVALS_ACTION_PLAN_REJECTED,
-      Indicators::Case::APPROVALS_ACTION_PLAN_APPROVED
-    ]
-  ).freeze
+  def self.approvals_action_plan(role = nil)
+    role.modules.map do |primero_module|
+      Dashboard.new(
+        name: "approvals_action_plan.#{primero_module.unique_id}",
+        type: 'indicator',
+        indicators: [
+          Indicators::Case.approvals_action_plan_pending(primero_module.unique_id),
+          Indicators::Case.approvals_action_plan_rejected(primero_module.unique_id),
+          Indicators::Case.approvals_action_plan_approved(primero_module.unique_id)
+        ]
+      ).freeze
+    end
+  end
 
-  APPROVALS_GBV_CLOSURE = Dashboard.new(
-    name: 'approvals_gbv_closure',
-    type: 'indicator',
-    indicators: [
-      Indicators::Case::APPROVALS_GBV_CLOSURE_PENDING,
-      Indicators::Case::APPROVALS_GBV_CLOSURE_REJECTED,
-      Indicators::Case::APPROVALS_GBV_CLOSURE_APPROVED
-    ]
-  ).freeze
+  def self.approvals_gbv_closure(role = nil)
+    role.modules.map do |primero_module|
+      Dashboard.new(
+        name: "approvals_gbv_closure.#{primero_module.unique_id}",
+        type: 'indicator',
+        indicators: [
+          Indicators::Case.approvals_gbv_closure_pending(primero_module.unique_id),
+          Indicators::Case.approvals_gbv_closure_rejected(primero_module.unique_id),
+          Indicators::Case.approvals_gbv_closure_approved(primero_module.unique_id)
+        ]
+      ).freeze
+    end
+  end
+  # rubocop:enable Metrics/MethodLength
 
-  APPROVALS_ASSESSMENT_PENDING = Dashboard.new(
-    name: 'approvals_assessment_pending',
-    type: 'indicator',
-    indicators: [Indicators::Case::APPROVALS_ASSESSMENT_PENDING_GROUP]
-  ).freeze
+  def self.approvals_assessment_pending(role = nil)
+    role.modules.map do |primero_module|
+      Dashboard.new(
+        name: "approvals_assessment_pending.#{primero_module.unique_id}",
+        type: 'indicator',
+        indicators: [Indicators::Case.approvals_assessment_pending_group(primero_module.unique_id)]
+      ).freeze
+    end
+  end
 
-  APPROVALS_CASE_PLAN_PENDING = Dashboard.new(
-    name: 'approvals_case_plan_pending',
-    type: 'indicator',
-    indicators: [Indicators::Case::APPROVALS_CASE_PLAN_PENDING_GROUP]
-  ).freeze
+  def self.approvals_case_plan_pending(role = nil)
+    role.modules.map do |primero_module|
+      Dashboard.new(
+        name: "approvals_case_plan_pending.#{primero_module.unique_id}",
+        type: 'indicator',
+        indicators: [Indicators::Case.approvals_case_plan_pending_group(primero_module.unique_id)]
+      ).freeze
+    end
+  end
 
-  APPROVALS_CLOSURE_PENDING = Dashboard.new(
-    name: 'approvals_closure_pending',
-    type: 'indicator',
-    indicators: [Indicators::Case::APPROVALS_CLOSURE_PENDING_GROUP]
-  ).freeze
+  def self.approvals_closure_pending(role = nil)
+    role.modules.map do |primero_module|
+      Dashboard.new(
+        name: "approvals_closure_pending.#{primero_module.unique_id}",
+        type: 'indicator',
+        indicators: [Indicators::Case.approvals_closure_pending_group(primero_module.unique_id)]
+      ).freeze
+    end
+  end
 
-  APPROVALS_ACTION_PLAN_PENDING = Dashboard.new(
-    name: 'approvals_action_plan_pending',
-    type: 'indicator',
-    indicators: [Indicators::Case::APPROVALS_ACTION_PLAN_PENDING_GROUP]
-  ).freeze
+  def self.approvals_action_plan_pending(role = nil)
+    role.modules.map do |primero_module|
+      Dashboard.new(
+        name: "approvals_action_plan_pending.#{primero_module.unique_id}",
+        type: 'indicator',
+        indicators: [Indicators::Case.approvals_action_plan_pending_group(primero_module.unique_id)]
+      ).freeze
+    end
+  end
 
-  APPROVALS_GBV_CLOSURE_PENDING = Dashboard.new(
-    name: 'approvals_gbv_closure_pending',
-    type: 'indicator',
-    indicators: [Indicators::Case::APPROVALS_GBV_CLOSURE_PENDING_GROUP]
-  ).freeze
+  def self.approvals_gbv_closure_pending(role = nil)
+    role.modules.map do |primero_module|
+      Dashboard.new(
+        name: "approvals_gbv_closure_pending.#{primero_module.unique_id}",
+        type: 'indicator',
+        indicators: [Indicators::Case.approvals_gbv_closure_pending_group(primero_module.unique_id)]
+      ).freeze
+    end
+  end
 
   DASH_VIOLATIONS_CATEGORY_VERIFICATION_STATUS = Dashboard.new(
     name: 'dash_violations_category_verification_status',
@@ -319,6 +371,14 @@ class Dashboard < ValueObject
       name: 'workflow',
       type: 'indicator',
       indicators: Indicators::Case.workflows(role)
+    ).freeze
+  end
+
+  def self.workflow_team(role = nil)
+    Dashboard.new(
+      name: 'workflow_team',
+      type: 'indicator',
+      indicators: Indicators::Case.workflow_team(role)
     ).freeze
   end
 end
