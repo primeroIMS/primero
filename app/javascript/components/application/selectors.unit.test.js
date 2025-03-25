@@ -3,7 +3,7 @@
 import { fromJS } from "immutable";
 import { describe } from "mocha";
 
-import { RECORD_TYPES, MODULES, SERVICES_FORM } from "../../config";
+import { RECORD_TYPES, MODULES } from "../../config";
 import { GROUP_PERMISSIONS, ACTIONS } from "../permissions";
 import { FieldRecord } from "../form";
 
@@ -672,30 +672,6 @@ describe("Application - Selectors", () => {
       const values = selectors.getListHeaders(fromJS({}));
 
       expect(values).to.be.empty;
-    });
-  });
-
-  describe("getServicesForm", () => {
-    it("returns the default services form if not defined", () => {
-      const servicesForm = selectors.getServicesForm(fromJS({}));
-
-      expect(servicesForm).to.deep.equal(SERVICES_FORM);
-    });
-
-    it("returns the defined services form", () => {
-      const servicesForm = selectors.getServicesForm(
-        fromJS({
-          user: {
-            modules: ["app-module"]
-          },
-          application: {
-            modules: [PrimeroModuleRecord({ unique_id: "app-module", options: { services_form: "app_services" } })]
-          }
-        }),
-        "app-module"
-      );
-
-      expect(servicesForm).to.deep.equal("app_services");
     });
   });
 });

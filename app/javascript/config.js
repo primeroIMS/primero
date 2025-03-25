@@ -108,7 +108,6 @@ const INCIDENT_CASE_ID_FIELD = "incident_case_id";
 const INCIDENT_CASE_ID_DISPLAY_FIELD = "case_id_display";
 const INCIDENT_SHORT_ID_FIELD = "short_id";
 const SERVICES_SUBFORM_FIELD = "services_section";
-const SERVICES_FORM = "services";
 
 const CONSENT_GIVEN_FIELD_BY_MODULE = Object.freeze({
   [MODULES.CP]: ["consent_for_services", "disclosure_other_orgs"],
@@ -908,6 +907,5 @@ export {
   DATE_SORTABLE_FIELDS,
   NOTIFICATION_PERMISSIONS,
   POST_MESSAGES,
-  SERVICES_SUBFORM_FIELD,
-  SERVICES_FORM
+  SERVICES_SUBFORM_FIELD
 };

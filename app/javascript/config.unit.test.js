@@ -105,7 +105,6 @@ describe("Verifying config constant", () => {
       "ROWS_PER_PAGE_OPTIONS",
       "SAVE_METHODS",
       "SAVING",
-      "SERVICES_FORM",
       "SERVICES_SUBFORM_FIELD",
       "STRING_SOURCES_TYPES",
       "SUBFORM_READONLY_FIELD_NAMES",

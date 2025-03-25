@@ -10,7 +10,7 @@ import displayNameHelper from "../../libs/display-name-helper";
 import { getLocale } from "../i18n/selectors";
 import { DATA_PROTECTION_FIELDS } from "../record-creation-flow/constants";
 import { currentUser } from "../user/selectors";
-import { MODULES, RECORD_TYPES_PLURAL, SERVICES_FORM } from "../../config";
+import { MODULES, RECORD_TYPES_PLURAL } from "../../config";
 
 import { PERMISSIONS, RESOURCE_ACTIONS, DEMO, LIMITED } from "./constants";
 import NAMESPACE from "./namespace";
@@ -78,8 +78,7 @@ export const getAllWorkflowLabels = (state, recordType) => {
   }, []);
 };
 
-export const getServicesForm = (state, id) =>
-  selectModule(state, id).getIn(["options", "services_form"], SERVICES_FORM);
+export const getServicesForm = (state, id) => selectModule(state, id).getIn(["options", "services_form"]);
 
 export const getConsentform = (state, id) => selectModule(state, id).getIn(["options", "consent_form"]);
 
