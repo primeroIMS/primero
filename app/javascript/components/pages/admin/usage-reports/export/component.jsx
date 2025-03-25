@@ -57,11 +57,9 @@ function Component({ close, open, pending, setPending }) {
   const onSubmit = getData => {
     const fileName = formatFileName(getData.file_name, "xlsx");
     const defaultBody = {
-      export_format: "xlsx",
-      record_type: "usage_report",
       file_name: fileName,
-      selected_from_date: toServerDateFormat(getData.fromDate),
-      selected_to_date: toServerDateFormat(getData.toDate)
+      from: toServerDateFormat(getData.fromDate),
+      to: toServerDateFormat(getData.toDate)
     };
     const data = { ...defaultBody };
 
