@@ -898,6 +898,7 @@ en:
       other: '%{case_worker} has %{stat} total cases '
     workflow: Workflow
     workflow_team: Workflow - Teams cases
+    workflow_team_module: Workflow - Teams cases - %{module_name}
     you_have: 'You have '
   disabled:
     status:
