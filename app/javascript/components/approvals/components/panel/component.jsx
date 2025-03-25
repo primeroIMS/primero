@@ -9,7 +9,7 @@ import ApprovalSummary from "../summary";
 import ApprovalDetail from "../detail";
 import { NAME_PANEL } from "../../constants";
 
-function Component({ approvalSubform, css }) {
+function Component({ approvalSubform, css, primeroModule }) {
   const [expanded, setExpanded] = useState(false);
 
   const handleExpanded = () => {
@@ -23,7 +23,8 @@ function Component({ approvalSubform, css }) {
     approvalSubform,
     css,
     isRequest,
-    isResponse
+    isResponse,
+    primeroModule
   };
 
   return (
@@ -51,6 +52,7 @@ Component.displayName = NAME_PANEL;
 
 Component.propTypes = {
   approvalSubform: PropTypes.object.isRequired,
-  css: PropTypes.object.isRequired
+  css: PropTypes.object.isRequired,
+  primeroModule: PropTypes.string
 };
 export default Component;

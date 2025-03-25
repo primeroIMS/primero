@@ -40,7 +40,7 @@ class ApprovalNotificationService
   alias owner user
 
   def approval_type
-    SystemSettings.current.approvals_labels(manager.locale)&.dig(type)
+    (child.module&.approvals_labels || SystemSettings.current).approvals_labels(manager.locale)&.dig(type)
   end
 
   def send_notification?

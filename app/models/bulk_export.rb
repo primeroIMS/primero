@@ -17,15 +17,12 @@ class BulkExport < ApplicationRecord
   alias_attribute :export_format, :format
 
   scope :owned, ->(owner_user_name) { where(owned_by: owner_user_name) }
-
   belongs_to :owner, class_name: 'User', foreign_key: 'owned_by', primary_key: 'user_name'
   has_one_attached :export_file
-
   validates :owned_by, presence: true
   validates :record_type, presence: true
   validates :format, presence: true
   validates :export_file, file_size: { less_than_or_equal_to: 50.megabytes }, if: -> { export_file.attached? }
-
   before_save :generate_file_name
 
   def self.validate_password!(password)

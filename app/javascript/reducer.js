@@ -48,6 +48,7 @@ import { reducer as AdminLookupsFormReducers } from "./components/pages/admin/lo
 import { reducer as adminFormListReducer } from "./components/pages/admin/forms-list";
 import { reducer as adminFormBuilderReducer } from "./components/pages/admin/form-builder";
 import { reducer as AuditLogsReducers } from "./components/pages/admin/audit-logs";
+import { reducer as UsageReportsReducer } from "./components/pages/admin/usage-reports";
 import { reducer as kpiReducer } from "./components/key-performance-indicators";
 import { reducer as configurationsListReducer } from "./components/pages/admin/configurations-list";
 import { reducer as configurationsFormReducer } from "./components/pages/admin/configurations-form";
@@ -115,7 +116,8 @@ const rootReducer = {
         roles: reduceReducers(initialState, rolesListReducer, rolesFormReducer),
         lookups: reduceReducers(initialState, lookupsListReducer, AdminLookupsFormReducers),
         configurations: reduceReducers(initialState, configurationsListReducer, configurationsFormReducer),
-        locations: reduceReducers(initialState, locationsListReducer, locationsImportReducer)
+        locations: reduceReducers(initialState, locationsListReducer, locationsImportReducer),
+        usage_reports: reduceReducers(initialState, UsageReportsReducer)
       }),
       activity_logs: activityLogReducer,
       ...kpiReducer

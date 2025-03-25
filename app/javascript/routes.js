@@ -62,6 +62,7 @@ import Login, { IdpLogin } from "./components/login";
 import Logout from "./components/logout";
 import PasswordResetRequest from "./components/login/components/password-reset-form";
 import { ROUTES, MODES, RECORD_PATH } from "./config";
+import UsageReports from "./components/pages/admin/usage-reports";
 
 const recordPaths = [
   RECORD_PATH.cases,
@@ -290,6 +291,11 @@ export default [
               component: UsersList,
               resources: RESOURCES.users,
               actions: ADMIN_ACTIONS
+            },
+            {
+              path: ROUTES.usage_reports,
+              component: UsageReports,
+              resources: RESOURCES.usage_reports
             },
             {
               path: `${ROUTES.admin_user_groups}/new`,

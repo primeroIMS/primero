@@ -2,6 +2,8 @@
 
 import { fromJS } from "immutable";
 
+import { selectUserModules } from "../../application";
+
 import { DASHBOARD_NAMES } from "./constants";
 import NAMESPACE from "./namespace";
 
@@ -37,14 +39,16 @@ export const getDashboards = state => {
   return state.getIn(["records", NAMESPACE, "data"], false);
 };
 
-export const getDashboardByName = (state, name) => {
+export const getDashboardByName = (state, name, moduleID) => {
   const currentState = getDashboards(state);
   const noDashboard = fromJS({});
+  const dashboardName = moduleID ? [name, ".", moduleID].join("") : name;
 
   if (!currentState) {
     return noDashboard;
   }
-  const dashboardData = currentState.filter(f => f.get("name") === name).first();
+
+  const dashboardData = currentState.filter(f => f.get("name") === dashboardName).first();
 
   return dashboardData?.size ? dashboardData : noDashboard;
 };
@@ -64,15 +68,26 @@ export const getWorkflowIndividualCases = state => {
   return getDashboardByName(state, DASHBOARD_NAMES.WORKFLOW).deleteIn(["stats", "closed"]);
 };
 
-export const getApprovalsAssessment = state => getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_ASSESSMENT);
+export const selectApprovalIndicator = (state, indicator) => {
+  const userModules = selectUserModules(state);
 
-export const getApprovalsCasePlan = state => getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_CASE_PLAN);
+  return userModules.reduce((prev, current) => {
+    return {
+      ...prev,
+      [current.unique_id]: getDashboardByName(state, indicator, current.unique_id)
+    };
+  }, {});
+};
 
-export const getApprovalsClosure = state => getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_CLOSURE);
+export const getApprovalsAssessment = state => selectApprovalIndicator(state, DASHBOARD_NAMES.APPROVALS_ASSESSMENT);
 
-export const getApprovalsActionPlan = state => getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_ACTION_PLAN);
+export const getApprovalsCasePlan = state => selectApprovalIndicator(state, DASHBOARD_NAMES.APPROVALS_CASE_PLAN);
 
-export const getApprovalsGbvClosure = state => getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_GBV_CLOSURE);
+export const getApprovalsClosure = state => selectApprovalIndicator(state, DASHBOARD_NAMES.APPROVALS_CLOSURE);
+
+export const getApprovalsActionPlan = state => selectApprovalIndicator(state, DASHBOARD_NAMES.APPROVALS_ACTION_PLAN);
+
+export const getApprovalsGbvClosure = state => selectApprovalIndicator(state, DASHBOARD_NAMES.APPROVALS_GBV_CLOSURE);
 
 export const getWorkflowTeamCases = state => getDashboardByName(state, DASHBOARD_NAMES.WORKFLOW_TEAM);
 
@@ -88,18 +103,19 @@ export const getPerpetratorArmedForceGroupPartyNames = state =>
 export const getReportingLocation = state => getDashboardByName(state, DASHBOARD_NAMES.REPORTING_LOCATION);
 
 export const getApprovalsAssessmentPending = state =>
-  getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_ASSESSMENT_PENDING);
+  selectApprovalIndicator(state, DASHBOARD_NAMES.APPROVALS_ASSESSMENT_PENDING);
 
-export const getApprovalsClosurePending = state => getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_CLOSURE_PENDING);
+export const getApprovalsClosurePending = state =>
+  selectApprovalIndicator(state, DASHBOARD_NAMES.APPROVALS_CLOSURE_PENDING);
 
 export const getApprovalsCasePlanPending = state =>
-  getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_CASE_PLAN_PENDING);
+  selectApprovalIndicator(state, DASHBOARD_NAMES.APPROVALS_CASE_PLAN_PENDING);
 
 export const getApprovalsActionPlanPending = state =>
-  getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_ACTION_PLAN_PENDING);
+  selectApprovalIndicator(state, DASHBOARD_NAMES.APPROVALS_ACTION_PLAN_PENDING);
 
 export const getApprovalsGbvClosurePending = state =>
-  getDashboardByName(state, DASHBOARD_NAMES.APPROVALS_GBV_CLOSURE_PENDING);
+  selectApprovalIndicator(state, DASHBOARD_NAMES.APPROVALS_GBV_CLOSURE_PENDING);
 
 export const getProtectionConcerns = state => getDashboardByName(state, DASHBOARD_NAMES.PROTECTION_CONCERNS);
 

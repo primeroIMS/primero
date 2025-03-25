@@ -25,15 +25,15 @@ export const buildFilter = (queryValue, isManager = false) => {
 export const buildItemLabel = (item, approvalsLabels, defaultLabel) => {
   switch (item) {
     case "approval_assessment_pending_group":
-      return approvalsLabels.get("assessment");
+      return approvalsLabels.getIn(["default", "assessment"]);
     case "approval_case_plan_pending_group":
-      return approvalsLabels.get("case_plan");
+      return approvalsLabels.getIn(["default", "case_plan"]);
     case "approval_closure_pending_group":
-      return approvalsLabels.get("closure");
+      return approvalsLabels.getIn(["default", "closure"]);
     case "approval_action_plan_pending_group":
-      return approvalsLabels.get("action_plan");
+      return approvalsLabels.getIn(["default", "action_plan"]);
     case "approval_gbv_closure_pending_group":
-      return approvalsLabels.get("gbv_closure");
+      return approvalsLabels.getIn(["default", "gbv_closure"]);
     default:
       return defaultLabel;
   }
