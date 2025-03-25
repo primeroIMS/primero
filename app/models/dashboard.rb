@@ -35,6 +35,8 @@ class Dashboard < ValueObject
     approvals_closure_pending
     approvals_action_plan_pending
     approvals_gbv_closure_pending
+    workflow
+    workflow_team
   ].freeze
 
   # NOTE: The constant name of each Dashboard needs to match the value of the corresponding Permission
@@ -45,12 +47,6 @@ class Dashboard < ValueObject
     indicators: [
       Indicators::Case::OPEN, Indicators::Case::UPDATED
     ]
-  ).freeze
-
-  WORKFLOW_TEAM = Dashboard.new(
-    name: 'workflow_team',
-    type: 'indicator',
-    indicators: [Indicators::Case::WORKFLOW_TEAM]
   ).freeze
 
   CASE_RISK = Dashboard.new(
@@ -375,6 +371,14 @@ class Dashboard < ValueObject
       name: 'workflow',
       type: 'indicator',
       indicators: Indicators::Case.workflows(role)
+    ).freeze
+  end
+
+  def self.workflow_team(role = nil)
+    Dashboard.new(
+      name: 'workflow_team',
+      type: 'indicator',
+      indicators: Indicators::Case.workflow_team(role)
     ).freeze
   end
 end

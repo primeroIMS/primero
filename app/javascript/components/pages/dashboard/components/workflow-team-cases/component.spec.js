@@ -12,63 +12,8 @@ describe("<WorkflowTeamCases> - pages/dashboard/components/workflow-team-cases",
   const permissions = {
     dashboards: [ACTIONS.DASH_WORKFLOW_TEAM]
   };
-  const state = fromJS({
-    records: {
-      dashboard: {
-        data: [
-          {
-            name: "dashboard.workflow_team",
-            type: "indicator",
-            indicators: {
-              workflow_team: {
-                primero_cp: {
-                  new: {
-                    count: 5,
-                    query: ["record_state=true", "workflow=new"]
-                  },
-                  case_plan: {
-                    count: 2,
-                    query: ["record_state=true", "workflow=case_plan"]
-                  },
-                  response_type1: {
-                    count: 0,
-                    query: ["record_state=true", "workflow=response_type1"]
-                  }
-                },
-                primero_mgr_cp: {
-                  new: {
-                    count: 0,
-                    query: ["record_state=true", "workflow=new"]
-                  },
-                  case_plan: {
-                    count: 1,
-                    query: ["record_state=true", "workflow=case_plan"]
-                  },
-                  response_type1: {
-                    count: 4,
-                    query: ["record_state=true", "workflow=response_type1"]
-                  }
-                },
-                "": {
-                  new: {
-                    count: 0,
-                    query: ["record_state=true", "workflow=new"]
-                  },
-                  case_plan: {
-                    count: 0,
-                    query: ["record_state=true", "workflow=case_plan"]
-                  },
-                  response_type1: {
-                    count: 0,
-                    query: ["record_state=true", "workflow=response_type1"]
-                  }
-                }
-              }
-            }
-          }
-        ]
-      }
-    },
+
+  const userData = {
     user: {
       permissions,
       modules: ["primeromodule-cp"]
@@ -91,43 +36,105 @@ describe("<WorkflowTeamCases> - pages/dashboard/components/workflow-team-cases",
         })
       ]
     }
-  });
+  };
 
-  beforeEach(() => {
-    mountedComponent(<WorkflowTeamCases />, state);
-  });
+  describe("when component has data", () => {
+    const state = fromJS({
+      records: {
+        dashboard: {
+          data: [
+            {
+              name: "dashboard.workflow_team",
+              type: "indicator",
+              indicators: {
+                "workflow_team_primeromodule-cp": {
+                  primero_cp: {
+                    new: {
+                      count: 5,
+                      query: ["record_state=true", "workflow=new"]
+                    },
+                    case_plan: {
+                      count: 2,
+                      query: ["record_state=true", "workflow=case_plan"]
+                    },
+                    response_type1: {
+                      count: 0,
+                      query: ["record_state=true", "workflow=response_type1"]
+                    }
+                  },
+                  primero_mgr_cp: {
+                    new: {
+                      count: 0,
+                      query: ["record_state=true", "workflow=new"]
+                    },
+                    case_plan: {
+                      count: 1,
+                      query: ["record_state=true", "workflow=case_plan"]
+                    },
+                    response_type1: {
+                      count: 4,
+                      query: ["record_state=true", "workflow=response_type1"]
+                    }
+                  },
+                  "": {
+                    new: {
+                      count: 0,
+                      query: ["record_state=true", "workflow=new"]
+                    },
+                    case_plan: {
+                      count: 0,
+                      query: ["record_state=true", "workflow=case_plan"]
+                    },
+                    response_type1: {
+                      count: 0,
+                      query: ["record_state=true", "workflow=response_type1"]
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      ...userData
+    });
 
-  it("should render a <DashboardTable /> component", () => {
-    expect(screen.getByRole("grid")).toBeInTheDocument();
-  });
+    beforeEach(() => {
+      mountedComponent(<WorkflowTeamCases />, state);
+    });
 
-  it("should render 4 columns", () => {
-    expect(document.querySelectorAll("th")).toHaveLength(4);
-  });
+    it("should render a <DashboardTable /> component", () => {
+      expect(screen.getByRole("grid")).toBeInTheDocument();
+    });
 
-  it("should render New column", () => {
-    expect(screen.getAllByText("New")).toBeTruthy();
-  });
+    it("should render 4 columns", () => {
+      expect(document.querySelectorAll("th")).toHaveLength(4);
+    });
 
-  it("should render Case plan column", () => {
-    expect(screen.getAllByText("Case plan")).toBeTruthy();
-  });
+    it("should render New column", () => {
+      expect(screen.getAllByText("New")).toBeTruthy();
+    });
 
-  it("should render Response Type 1 column", () => {
-    expect(screen.getAllByText("Response Type 1")).toBeTruthy();
+    it("should render Case plan column", () => {
+      expect(screen.getAllByText("Case plan")).toBeTruthy();
+    });
+
+    it("should render Response Type 1 column", () => {
+      expect(screen.getAllByText("Response Type 1")).toBeTruthy();
+    });
   });
 
   describe("when the data is loading", () => {
-    const props = {
-      loadingIndicator: {
-        overlay: true,
-        type: "NAMESPACE",
-        loading: true,
-        errors: false
-      }
-    };
-
     it("renders a <LoadingIndicator />", () => {
+      const props = {
+        loadingIndicator: {
+          overlay: true,
+          type: "NAMESPACE",
+          loading: true,
+          errors: false
+        }
+      };
+
       mountedComponent(<WorkflowTeamCases {...props} />, {
         records: {
           dashboard: {
@@ -135,9 +142,7 @@ describe("<WorkflowTeamCases> - pages/dashboard/components/workflow-team-cases",
             loading: true
           }
         },
-        user: {
-          permissions
-        }
+        ...userData
       });
 
       expect(screen.getByRole("progressbar")).toBeInTheDocument();
