@@ -4,6 +4,8 @@
 
 # Send an email to confirm that Primero is correctly set up
 class MailSetupTestMailer < ActionMailer::Base
+  helper :application
+
   def mail_setup_test(to_email)
     host = ActionMailer::Base.default_url_options[:host]
     system_settings = SystemSettings.current
