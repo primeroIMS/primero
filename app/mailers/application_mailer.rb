@@ -4,6 +4,8 @@
 
 # Superclass for all Mailers
 class ApplicationMailer < ActionMailer::Base
+  helper :application
+
   before_action :load_theme
   before_action :system_admin
 

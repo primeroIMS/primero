@@ -344,6 +344,13 @@ const components = {
       }
     }
   },
+  MuiDialog: {
+    styleOverrides: {
+      paper: {
+        width: "100%"
+      }
+    }
+  },
   MuiDialogContent: {
     styleOverrides: {
       root: {

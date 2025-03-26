@@ -19,9 +19,9 @@ definitions:
         script:
           - npm config set legacy-peer-deps true
           - npm ci
+          - npm run lint:run
           - npm run test
           - npm run test:components -- --maxWorkers=2
-          - npm run lint:run
         caches:
           - node
     - step: &push-branch
