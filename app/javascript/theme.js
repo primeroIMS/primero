@@ -347,7 +347,7 @@ const components = {
   MuiDialog: {
     styleOverrides: {
       paper: {
-        width: '100%'
+        width: "100%"
       }
     }
   },
