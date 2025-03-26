@@ -35,11 +35,18 @@ if [[ "$BRANCH" == "main" || "$BRANCH" == "develop" || "$BRANCH" == release-2* ]
   rm -r ansible/inventory/*
   cp ${CODEBUILD_SRC_DIR_devops}/src/vars-files/${DEPLOY_SERVER_INVENTORY_FILE} ansible/vars.yml
   aws s3 sync ansible s3://${BUCKET_NAME}/ansible-${TAG} --sse 'aws:kms'
-else
+elif [[ "${BRANCH}" =~ "v2." ]]; then
   DEPLOY="false"
   echo "export DEPLOY=${DEPLOY}" >> pre-build-env-vars
   echo "DEPLOY=${DEPLOY}"
   TAG=${BRANCH}
+  echo "export TAG=${TAG}" >> pre-build-env-vars
+  echo "TAG=${TAG}"
+else
+  DEPLOY="false"
+  echo "export DEPLOY=${DEPLOY}" >> pre-build-env-vars
+  echo "DEPLOY=${DEPLOY}"
+  TAG=$(docker/git-to-docker-tag.sh ${BRANCH} ${CODEBUILD_RESOLVED_SOURCE_VERSION})
   echo "export TAG=${TAG}" >> pre-build-env-vars
   echo "TAG=${TAG}"
 fi
