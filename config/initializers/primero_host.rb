@@ -9,5 +9,5 @@ Rails.application.config.before_initialize do
   asset_host << ':3000' if Rails.env.development?
 
   Rails.application.routes.default_url_options[:host] = primero_host
-  Rails.application.config.action_controller.asset_host = asset_host.join
+  Rails.application.config.asset_host = asset_host.join
 end
