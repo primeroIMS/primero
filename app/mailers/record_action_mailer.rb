@@ -6,8 +6,6 @@
 # Transition notification, and Transfer Requests.
 # TODO: Break up into separate mailers.
 class RecordActionMailer < ApplicationMailer
-  helper :application
-
   def manager_approval_request(approval_notification)
     @approval_notification = approval_notification
     @subject = @approval_notification.subject
