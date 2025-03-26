@@ -150,7 +150,7 @@ function Component({ loadingIndicator }) {
       }
     ].filter(dashboard => dashboard.actions);
 
-    return dashboards.map((dashboard, index) => {
+    return dashboards.map(dashboard => {
       const { type, options, key } = dashboard;
       const { items, sumTitle, titleKey } = options;
       const Dashboard = dashboardType(type);
@@ -164,7 +164,6 @@ function Component({ loadingIndicator }) {
               <Dashboard items={items} sumTitle={title} />
             </OptionsBox>
           </div>
-          {index === dashboards.length - 1 || <div className={css.divider} />}
         </Fragment>
       );
     });
@@ -173,9 +172,7 @@ function Component({ loadingIndicator }) {
   return (
     <Permission resources={RESOURCES.dashboards} actions={DASH_APPROVALS}>
       <OptionsBox title={i18n.t("dashboard.approvals")} hasData={approvalsDashHasData} {...loadingIndicator}>
-        {userModules.map(userModule => (
-          <div className={css.container}>{renderDashboards(userModule)}</div>
-        ))}
+        <div className={css.content}>{userModules.map(userModule => renderDashboards(userModule))}</div>
       </OptionsBox>
     </Permission>
   );
