@@ -36,10 +36,9 @@ const fetchSinglePayload = async (action, store, options) => {
 
   const controller = new AbortController();
 
-  if (action.type !== "user/LOGOUT") {
+  if (!["user/LOGOUT", "application/FETCH_SANDBOX_UI", "idp/LOGIN"].includes(action.type)) {
     abortControllers.push(controller);
   }
-
   setTimeout(() => {
     controller.abort("timeout");
   }, FETCH_TIMEOUT);
