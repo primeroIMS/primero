@@ -13,7 +13,8 @@ end
 def grant_new_updated?(role)
   return false if role.group_permission == Permission::ALL
 
-  role.group_permission == Permission::SELF || role.permitted_dashboard?(Permission::DASH_CASE_OVERVIEW)
+  role.group_permission == Permission::SELF || role.permitted_dashboard?(Permission::DASH_CASE_OVERVIEW) ||
+    role.permitted_dashboard?(Permission::DASH_CASE_INCIDENT_OVERVIEW)
 end
 
 def grant_new_referrals?(role)
@@ -71,8 +72,12 @@ if save_records
   end
 else
   modified_roles = roles.each_with_object([]) { |role, memo| memo << role.unique_id if role.changed? }
-  print_log('The following roles will  be modified:')
-  print_log(modified_roles)
+  if modified_roles.present?
+    print_log('The following roles will  be modified:')
+    print_log(modified_roles)
+  else
+    print_log('No roles will be modified.')
+  end
 end
 
 print_log('Done.')
