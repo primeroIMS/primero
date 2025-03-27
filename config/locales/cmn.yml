@@ -495,6 +495,10 @@ cmn:
       date_case_plan_initiated: 个案计划日期
       date_of_creation: 创建日期
       registration_date: 登记日期
+      followup_date: 跟进日期
+      date_reunification: 团聚日期
+      tracing_date: 追踪日期
+      service_implemented_day_time: 完成服务日期
   configurations:
     apply_label: 您确定吗？如果应用，此配置中的设置将应用于系统。您将丢失当前的所有设置，并且无法恢复，除非您已将其保存在另一个配置中。
     apply_label_bold: 在更改加载期间，用户将有几分钟无法使用 Primero。
@@ -550,6 +554,13 @@ cmn:
     all_cases: 所有个案
     all_services_implemented: 所有已实施的服务
     and: '和'
+    action_needed:
+      awaiting_acceptance: 等待接受
+      header: 待处理事项
+      new: 新增
+      new_this_week: 本周新增
+      referrals: 转介
+      transfers: 移交
     approval_action_plan_approved: 已批准
     approval_action_plan_pending: 待定
     approval_action_plan_pending_group: 行动计划
@@ -2089,10 +2100,36 @@ cmn:
         date_of_first_report: 面谈日期
         incident_date: 事件日期
       reports:
+        incidents: GBV统计数据
         perpetrators: 肇事者
         survivors: 幸存者
         referrals: 转介
       sub_reports:
+        incidents: 事件
+        combined: 通用统计数据
+        total: 1.新增报告的GBV事件
+        gbv_sexual_violence: 幸存者统计数据-9.已报告的性暴力事件数
+        gbv_previous_incidents: 2.新增的已报告性暴力事件
+        gbv_sexual_violence_type: 事件统计数据-10.GBV类型
+        incident_timeofday: 事件统计数据-11.当日事件发生时间
+        elapsed_reporting_time: 事件统计数据- 13. 发生事件与报告事件之间的间隔时间
+        elapsed_reporting_time_rape: 事件统计数据- 14.强奸事件，发生与报告之间的间隔时间
+        elapsed_reporting_time_rape_health_referral: 事件统计数据- 15.强奸事件，事件与报告日期之间经过的时间（卫生服务或服务转介）
+        incident_location_type: 事件统计数据- 16.事件地点
+        number_of_perpetrators: 肇事者统计数据- 17.主要肇事者人数
+        perpetrator_relationship: 肇事者统计数据- 18.被指控的主要肇事者与幸存者的关系
+        perpetrator_age_group: 肇事者统计数据- 19.被指控的主要肇事者年龄组
+        perpetrator_occupation: 肇事者统计数据- 20.被指控的主要肇事者职业
+        age: 幸存者统计数据- 4.幸存者年龄
+        sex: 幸存者统计数据- 3.幸存者性别
+        marital_status: 幸存者统计数据- 5.幸存者婚姻状况
+        displacement_status: 幸存者统计数据- 6.幸存者流离失所状况
+        displacement_incident: 幸存者统计数据- 7.事件发生时的所处流离失所阶段
+        gbv_case_context: 事件统计数据- 12.个案背景
+        incidents_first_point_of_contact: 转介统计数据- 21.您的组织作为第一联系人的事件数
+        incidents_from_other_service_provider: 转介统计数据- 22.从其他服务提供方转介的事件
+        number_of_services_provided: 转介统计数据- 23.为事件提供的服务数量
+        number_of_services_provided_other: 转介统计数据- 24.给其他服务提供商转介的新事件
         service_safehouse_referral: 安全屋/安全庇护所转介
         service_medical_referral: 健康/医疗转介
         service_psycho_referral: 社会心理/咨询服务
@@ -2100,6 +2137,7 @@ cmn:
         service_police_referral: 警察或其他类型的安全服务
         service_livelihoods_referral: 生计服务
         service_protection_referral: 儿童保护服务
+        vulnerable_populations: 幸存者统计数据- 8.脆弱群体
         survivors_disability_type: 残障人士
     workflow_report:
       name: 工作流程
@@ -2179,6 +2217,12 @@ cmn:
     reports: 报告
     insights: 见解
     search: 搜索
+    phonetic_search:
+      title: 输入名字搜索已有记录
+      label: 用户名称字段
+      help_text: 可以通过音节搜索名字
+    id_search:
+      title: 输入ID搜索已有记录
     settings: 设置
     support: 支持
     support_menu:
@@ -2626,6 +2670,15 @@ cmn:
         label: 个案
       dashboard:
         actions:
+          action_needed_new_updated:
+            explanation: 在“待处理事项”仪表盘中显示“新增和更新”指示器。这包括分配给当前用户的新个案，或自当前用户上次更新后由其他用户更新的个案。
+            label: '待处理事项：新增或已更新'
+          action_needed_new_referrals:
+            explanation: 在“待处理事项”仪表盘中显示“新转介”指示器。这包括任何有新转介发送给当前用户的个案，其中当前用户不是最后更新该个案的人。
+            label: '待处理事项：新转介'
+          action_needed_transfer_awaiting_acceptance:
+            explanation: 在“待处理事项”仪表盘中显示“待接受的移交”指示器。这包括任何移交给当前用户但尚未被当前用户接受的个案。
+            label: '待处理事项：待接收的移交'
           approvals_action_plan:
             explanation: 显示了当前用户的个案数量，其中包括待定，批准或拒绝的行动计划批准请求。
             label: 个案社工 %{approval_label} 审批

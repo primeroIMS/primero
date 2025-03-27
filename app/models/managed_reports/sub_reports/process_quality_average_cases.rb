@@ -14,15 +14,9 @@ class ManagedReports::SubReports::ProcessQualityAverageCases < ManagedReports::S
     ].freeze
   end
 
-  def lookups
-    {
-      ManagedReports::Indicators::AverageCasesPerCaseWorker.id => 'lookup-gender'
-    }.freeze
-  end
-
   def indicators_subcolumns
     {
-      ManagedReports::Indicators::AverageCasesPerCaseWorker.id => 'lookup-gender'
+      ManagedReports::Indicators::AverageCasesPerCaseWorker.id => 'lookup-gender-identity'
     }.freeze
   end
 

@@ -2,8 +2,8 @@
 
 # -------------------------------------------------------------------- BUILD STAGE
 ARG BUILD_REGISTRY
-ARG RUBY_VERSION=3.3.5
-FROM ${BUILD_REGISTRY}ruby:${RUBY_VERSION}-alpine3.20 AS build-env
+ARG RUBY_VERSION=3.3.7
+FROM ${BUILD_REGISTRY}ruby:${RUBY_VERSION}-alpine3.21 AS build-env
 
 ENV BUILD_PACKAGES="bash curl wget curl-dev build-base git"
 ENV PYTHON_PACKAGES="python3 py3-pip"
@@ -62,7 +62,7 @@ RUN set -euox pipefail \
 # Note: Deleting the Solr dev server is not strictly necessary since we don't run it
 # but its java packages are riddled with vulnerabilities that set off static security scans.
 # TODO: Get rid of this line when we get rid of Solr gems.
-RUN rm -r /usr/local/bundle/gems/sunspot_solr-2.6.0/solr/server
+RUN rm -r /usr/local/bundle/gems/sunspot_solr-2.7.1/solr/server
 
 # Run npm ci
 COPY [ "package.json", "package-lock.json", "$APP_ROOT/" ]
@@ -101,10 +101,10 @@ RUN set -euox pipefail \
 
 # -------------------------------------------------------------------- FINAL
 ARG BUILD_REGISTRY
-FROM ${BUILD_REGISTRY}ruby:${RUBY_VERSION}-alpine3.20
+FROM ${BUILD_REGISTRY}ruby:${RUBY_VERSION}-alpine3.21
 
 ENV BUILD_PACKAGES=bash
-ENV RUNTIME_PACKAGES="libpq gettext libintl imagemagick libsodium-dev p7zip curl tini"
+ENV RUNTIME_PACKAGES="libpq gettext libintl imagemagick libsodium-dev p7zip tini curl"
 
 ARG APP_UID
 ARG APP_GID
@@ -144,6 +144,5 @@ RUN set -euox pipefail \
 USER docker-primero
 
 ENTRYPOINT ["/sbin/tini", "--", "/entrypoint.sh"]
-# ENTRYPOINT ["/entrypoint.sh"]
 
 CMD [ "primero-start" ]

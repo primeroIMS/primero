@@ -21,7 +21,7 @@ class ManagedReports::Indicators::PercentageClientsWithDisability < ManagedRepor
           SELECT
             #{date_query&.+(' AS group_id,')}
             COALESCE(data->>'disability_status_yes_no', 'incomplete_data') AS disability_status,
-            data->>'sex' AS sex
+            COALESCE(data->>'gender', 'incomplete_data') AS gender
           FROM cases
           #{ManagedReports::SearchableFilterService.filter_next_steps}
           #{ManagedReports::SearchableFilterService.filter_datetimes(date_param)}
@@ -33,10 +33,10 @@ class ManagedReports::Indicators::PercentageClientsWithDisability < ManagedRepor
         SELECT
           #{group_id&.+(',')}
           disability_status,
-          sex,
+          gender,
           COUNT(*)
         FROM disability_cases
-        GROUP BY #{group_id&.+(',')} disability_status, sex
+        GROUP BY #{group_id&.+(',')} disability_status, gender
       )
     end
     # rubocop:enable Metrics/MethodLength
@@ -47,11 +47,11 @@ class ManagedReports::Indicators::PercentageClientsWithDisability < ManagedRepor
     end
 
     def fields
-      %w[sex disability_status]
+      %w[gender disability_status]
     end
 
     def result_map
-      { 'key' => 'sex', 'name' => 'disability_status' }
+      { 'key' => 'gender', 'name' => 'disability_status' }
     end
   end
 end

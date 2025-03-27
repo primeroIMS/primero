@@ -46,6 +46,21 @@ describe Api::V2::DashboardsController, type: :request do
 
     group1 = UserGroup.create!(unique_id: 'usergroup-group1', name: 'Group1')
 
+    @primero_module = PrimeroModule.create!(
+      unique_id: 'primeromodule-cp',
+      name: 'CP',
+      associated_record_types: %w[case tracing_request incident]
+    )
+
+    @role = Role.new(
+      permissions: [
+        @permission_dashboard,
+        @permission_case
+      ],
+      modules: [@primero_module],
+      group_permission: Permission::GROUP
+    )
+    @role.save(validate: false)
     Location.create!(placename_en: 'Country', location_code: 'CNT', type: 'country')
     Location.create!(placename_en: 'State', location_code: 'STE', type: 'state', hierarchy_path: 'CNT.STE')
     Location.create!(placename_en: 'City', location_code: 'CTY',
@@ -59,7 +74,7 @@ describe Api::V2::DashboardsController, type: :request do
       ]
     )
 
-    @foo = User.new(user_name: 'foo', user_groups: [group1], location: 'CTY')
+    @foo = User.new(user_name: 'foo', user_groups: [group1], location: 'CTY', role: @role)
     @foo.save(validate: false)
     @bar = User.new(user_name: 'bar', user_groups: [group1], location: 'CTY')
     @bar.save(validate: false)
@@ -75,14 +90,15 @@ describe Api::V2::DashboardsController, type: :request do
             service_appointment_date: (Date.today - 7.days),
             service_response_day_time: (Date.today - 7.days), service_response_timeframe: '3_days'
           }
-        ]
+        ], module_id: PrimeroModule::CP
       }
     )
     child = Child.create!(
       data: {
         record_state: true, status: 'open', owned_by: 'foo', last_updated_by: 'bar', workflow: 'assessment',
         protection_concerns: ['refugee'], followup_subform_section: [{ followup_needed_by_date: Time.zone.now }],
-        assessment_due_date: Time.zone.now, case_plan_due_date: Time.zone.now
+        assessment_due_date: Time.zone.now, case_plan_due_date: Time.zone.now,
+        module_id: PrimeroModule::CP
       }
     )
 
@@ -156,17 +172,17 @@ describe Api::V2::DashboardsController, type: :request do
       login_for_test(
         user_name: 'foo',
         group_permission: Permission::SELF,
-        permissions: [@permission_case, @permission_dashboard]
+        permissions: [@permission_case, @permission_dashboard],
+        role: @role
       )
 
       get '/api/v2/dashboards'
 
       expect(response).to have_http_status(200)
-
       workflow_dashboard = json['data'].find { |d| d['name'] == 'dashboard.workflow' }
-      expect(workflow_dashboard['indicators']['workflow']['assessment']['count']).to eq(1)
-      expect(workflow_dashboard['indicators']['workflow']['assessment']['query']).to match_array(
-        %w[owned_by=foo record_state=true status=open,closed workflow=assessment]
+      expect(workflow_dashboard['indicators']['workflow_primeromodule-cp']['assessment']['count']).to eq(1)
+      expect(workflow_dashboard['indicators']['workflow_primeromodule-cp']['assessment']['query']).to match_array(
+        %w[module_id=primeromodule-cp owned_by=foo record_state=true status=open,closed workflow=assessment]
       )
     end
 
@@ -349,8 +365,6 @@ describe Api::V2::DashboardsController, type: :request do
 
     describe 'Test the shared with dashboard', search: true do
       before :each do
-        @primero_module = PrimeroModule.new(name: 'CP')
-        @primero_module.save(validate: false)
         @permission_refer_case = Permission.new(
           resource: Permission::CASE,
           actions: [

@@ -23,7 +23,9 @@ describe HealthCheckService do
     end
 
     it 'returns false if Solr is not connected' do
-      allow_any_instance_of(RSolr::Client).to receive(:head).and_raise(RSolr::Error::ConnectionRefused)
+      allow_any_instance_of(RSolr::Client).to receive(:head).and_raise(
+        RSolr::Error::ConnectionRefused.new({ uri: URI.parse('http://localhost:8983/solr') })
+      )
 
       expect(HealthCheckService.solr_accessible?).to be_falsey
     end

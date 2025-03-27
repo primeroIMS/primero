@@ -213,7 +213,8 @@ function Component() {
                   indicatorsSubcolumns,
                   totalText,
                   indicatorSubColumnKeys,
-                  includeAllSubColumns: !isReferralsTransferSubreport
+                  includeAllSubColumns: !isReferralsTransferSubreport,
+                  incompleteDataLabel
                 });
 
                 const cellValueRender = PERCENTAGE_INDICATORS.includes(valueKey) ? cellRender : null;

@@ -16,55 +16,52 @@ class ManagedReports::Indicators::PercentageCasesProtectionRisk < ManagedReports
       date_param = filter_date(params)
       date_query = grouped_date_query(params['grouped_by'], date_param, 'searchable_datetimes', nil, 'value')
       group_id = date_query.present? ? 'group_id' : nil
-      filter_ops = { table_name: 'sex_values', field_name: 'record_id' }
       next_step = 'a_continue_protection_assessment'
 
       %(
         WITH protection_assessment_cases AS (
           SELECT
             #{date_query&.+(' AS group_id,')}
-            sex_values.record_id,
-            sex_values.value AS sex
-          FROM searchable_values AS sex_values
-          #{ManagedReports::SearchableFilterService.filter_datetimes(date_param, filter_ops)}
-          #{ManagedReports::SearchableFilterService.filter_values(params['status'], filter_ops)}
-          #{ManagedReports::SearchableFilterService.filter_reporting_location(params['location'], filter_ops)}
-          #{ManagedReports::SearchableFilterService.filter_scope(current_user, filter_ops)}
-          #{ManagedReports::SearchableFilterService.filter_next_steps(next_step, filter_ops)}
-          #{ManagedReports::SearchableFilterService.filter_consent_reporting(filter_ops)}
-          WHERE sex_values.record_type = 'Child'
-          AND sex_values.field_name = 'sex'
+            cases.id AS id,
+            COALESCE(data->>'gender', 'incomplete_data') AS gender
+          FROM cases
+          #{ManagedReports::SearchableFilterService.filter_datetimes(date_param)}
+          #{ManagedReports::SearchableFilterService.filter_values(params['status'])}
+          #{ManagedReports::SearchableFilterService.filter_reporting_location(params['location'])}
+          #{ManagedReports::SearchableFilterService.filter_scope(current_user)}
+          #{ManagedReports::SearchableFilterService.filter_next_steps(next_step)}
+          #{ManagedReports::SearchableFilterService.filter_consent_reporting}
         ),
         total_cases_by_groups AS (
           SELECT
             #{group_id.present? ? 'GROUPING(group_id) by_group_id,' : nil}
-            GROUPING(#{group_id&.+(',')} sex) by_group_id_sex,
+            GROUPING(#{group_id&.+(',')} gender) by_group_id_gender,
             #{group_id&.+(',')}
-            sex,
+            gender,
             CAST(COUNT(*) AS DECIMAL) AS total
           FROM protection_assessment_cases
           GROUP BY GROUPING SETS(
             #{group_id.present? ? '(group_id),' : '(),'}
-            (#{group_id&.+(',')} sex)
+            (#{group_id&.+(',')} gender)
           )
         ),
         protection_risks_cases AS (
           SELECT
             protection_assessment_cases.*,
-            protection_risks.value as protection_risk
+            protection_risks.value AS protection_risk
           FROM protection_assessment_cases
           #{join_searchable_protection_risks}
         )
         SELECT
           #{group_id&.+(',')}
           protection_risk AS name,
-          sex AS key,
+          gender AS key,
           ROUND(
             (COUNT(*) * 100) / (
               SELECT
                 total
               FROM total_cases_by_groups
-              WHERE total_cases_by_groups.sex = protection_risks_cases.sex
+              WHERE total_cases_by_groups.gender = protection_risks_cases.gender
               #{group_id.present? ? 'AND total_cases_by_groups.group_id = protection_risks_cases.group_id' : nil}
             ),
             2
@@ -74,13 +71,13 @@ class ManagedReports::Indicators::PercentageCasesProtectionRisk < ManagedReports
               SELECT
                 total
               FROM total_cases_by_groups
-              WHERE total_cases_by_groups.by_group_id_sex >= 1
+              WHERE total_cases_by_groups.by_group_id_gender >= 1
               #{group_id.present? ? 'AND total_cases_by_groups.group_id = protection_risks_cases.group_id' : nil}
             ),
             2
           ) AS total
         FROM protection_risks_cases
-        GROUP BY #{group_id&.+(',')} protection_risk, sex
+        GROUP BY #{group_id&.+(',')} protection_risk, gender
       )
     end
     # rubocop:enable Metrics/MethodLength
@@ -90,7 +87,7 @@ class ManagedReports::Indicators::PercentageCasesProtectionRisk < ManagedReports
     def join_searchable_protection_risks
       %(
          INNER JOIN searchable_values AS protection_risks
-         ON protection_risks.record_id = protection_assessment_cases.record_id
+         ON protection_risks.record_id = protection_assessment_cases.id
          AND protection_risks.record_type = 'Child'
          AND protection_risks.field_name = 'protection_risks'
       )

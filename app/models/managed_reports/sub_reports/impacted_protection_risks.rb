@@ -25,13 +25,7 @@ class ManagedReports::SubReports::ImpactedProtectionRisks < ManagedReports::SubR
 
   def indicators_subcolumns
     {
-      ManagedReports::Indicators::LessImpactedAfterSupport.id => 'lookup-gender'
-    }
-  end
-
-  def lookups
-    {
-      ManagedReports::Indicators::LessImpactedAfterSupport.id => 'lookup-gender'
+      ManagedReports::Indicators::LessImpactedAfterSupport.id => 'lookup-gender-identity'
     }
   end
 

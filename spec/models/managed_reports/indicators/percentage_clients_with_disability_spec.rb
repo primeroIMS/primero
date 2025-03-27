@@ -8,7 +8,7 @@ describe ManagedReports::Indicators::PercentageClientsWithDisability do
   let(:child1) do
     Child.create!(
       data: {
-        sex: 'male',
+        gender: 'male',
         registration_date: '2021-10-05',
         next_steps: ['a_continue_protection_assessment'],
         disability_status_yes_no: 'true',
@@ -20,7 +20,7 @@ describe ManagedReports::Indicators::PercentageClientsWithDisability do
   let(:child2) do
     Child.create!(
       data: {
-        sex: 'male',
+        gender: 'male',
         registration_date: '2021-10-08',
         next_steps: ['a_continue_protection_assessment']
       }
@@ -30,7 +30,7 @@ describe ManagedReports::Indicators::PercentageClientsWithDisability do
   let(:child3) do
     Child.create!(
       data: {
-        sex: 'male',
+        gender: 'male',
         registration_date: '2021-11-07',
         next_steps: ['a_continue_protection_assessment'],
         disability_status_yes_no: 'true'
@@ -41,7 +41,7 @@ describe ManagedReports::Indicators::PercentageClientsWithDisability do
   let(:child4) do
     Child.create!(
       data: {
-        sex: 'female',
+        gender: 'female',
         registration_date: '2021-11-12',
         next_steps: ['a_continue_protection_assessment'],
         disability_status_yes_no: 'true'
@@ -52,7 +52,7 @@ describe ManagedReports::Indicators::PercentageClientsWithDisability do
   let(:child5) do
     Child.create!(
       data: {
-        sex: 'female',
+        gender: 'female',
         registration_date: '2021-10-09',
         next_steps: ['a_continue_protection_assessment'],
         disability_status_yes_no: 'false',
@@ -100,6 +100,36 @@ describe ManagedReports::Indicators::PercentageClientsWithDisability do
           { id: 'false', female: 100.0, total: 50.0 }
         ]
       )
+    end
+  end
+
+  context 'when gender is null' do
+    before do
+      Child.create!(
+        id: 'bc691666-f940-11ef-9ac6-18c04db5c362',
+        data: {
+          registration_date: '2021-10-09',
+          next_steps: ['a_continue_protection_assessment'],
+          disability_status_yes_no: 'false',
+          consent_reporting: true
+        }
+      )
+    end
+
+    it 'returns incomplete_data for null genders' do
+      report_data = ManagedReports::Indicators::PercentageClientsWithDisability.build(nil, {}).data
+
+      expect(report_data).to match_array(
+        [
+          { id: 'true', female: 50.0, male: 66.67, total: 50.0 },
+          { id: 'false', female: 50.0, incomplete_data: 100.0, total: 33.33 },
+          { id: 'incomplete_data', male: 33.33, total: 16.67 }
+        ]
+      )
+    end
+
+    after do
+      Child.find_by(id: 'bc691666-f940-11ef-9ac6-18c04db5c362').destroy!
     end
   end
 

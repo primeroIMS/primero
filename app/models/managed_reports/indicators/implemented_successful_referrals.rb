@@ -25,7 +25,7 @@ class ManagedReports::Indicators::ImplementedSuccessfulReferrals < ManagedReport
               service_unique_id,
               service_type,
               service_implemented,
-              data->>'sex' AS sex,
+              COALESCE(data->>'gender', 'incomplete_data') AS gender,
               data->>'owned_by_location' AS owned_by_location,
               cases.id AS case_id
             FROM cases
@@ -39,11 +39,11 @@ class ManagedReports::Indicators::ImplementedSuccessfulReferrals < ManagedReport
         SELECT
           #{group_id&.+(',')}
           service_implemented AS name,
-          sex AS key,
+          gender AS key,
           COUNT(*) AS sum,
           SUM(COUNT(*)) OVER (#{group_id&.dup&.prepend('PARTITION BY ')}) AS total
         FROM implemented_services
-        GROUP BY #{group_id&.+(',')} service_implemented, sex
+        GROUP BY #{group_id&.+(',')} service_implemented, gender
       )
     end
     # rubocop:enable Metrics/MethodLength

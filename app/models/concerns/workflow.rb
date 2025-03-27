@@ -86,39 +86,40 @@ module Workflow
 
   # Class methods
   module ClassMethods
-    def workflow_statuses(modules = [], _lookups = nil)
-      lookups_grouped = Lookup.group_by_unique_id([LOOKUP_RESPONSE_TYPES, LOOKUP_WORKFLOW])
+    def workflow_statuses(primero_module)
+      lookups_grouped = Lookup.group_by_unique_id([primero_module.response_type_lookup,
+                                                   primero_module.workflow_lookup])
 
       I18n.available_locales.map do |locale|
-        { locale => status_list(locale, modules, lookups_grouped) }
+        { locale => status_list(locale, primero_module, lookups_grouped) }
       end.inject(&:merge)
     end
 
-    def status_list(locale, modules, lookups)
+    def status_list(locale, primero_module, lookups)
       status_list = []
-      status_list << workflow_key_value(WORKFLOW_NEW, locale)
-      status_list << workflow_key_value(WORKFLOW_REOPENED, locale)
-      workflow_assessment(status_list, locale, modules, lookups)
-      workflow_case_plan(status_list, locale, modules, lookups)
-      status_list += lookups&.[](Workflow::LOOKUP_RESPONSE_TYPES)&.[](locale.to_s) || []
-      workflow_service_implemented(status_list, locale, modules)
-      status_list << workflow_key_value(WORKFLOW_CLOSED, locale)
+      status_list << workflow_entry(WORKFLOW_NEW, locale, lookups, primero_module)
+      status_list << workflow_entry(WORKFLOW_REOPENED, locale, lookups, primero_module)
+      workflow_assessment(status_list, locale, primero_module, lookups)
+      workflow_case_plan(status_list, locale, primero_module, lookups)
+      status_list += lookups&.[](primero_module.response_type_lookup)&.[](locale.to_s) || []
+      workflow_service_implemented(status_list, locale, primero_module)
+      status_list << workflow_entry(WORKFLOW_CLOSED, locale, lookups, primero_module)
     end
 
-    def workflow_assessment(status_list, locale, modules, lookups)
-      return unless modules&.any?(&:use_workflow_assessment)
+    def workflow_assessment(status_list, locale, primero_module, lookups)
+      return unless primero_module&.use_workflow_assessment
 
-      status_list << workflow_entry(WORKFLOW_ASSESSMENT, locale, lookups)
+      status_list << workflow_entry(WORKFLOW_ASSESSMENT, locale, lookups, primero_module)
     end
 
-    def workflow_case_plan(status_list, locale, modules, lookups)
-      return unless modules&.any?(&:use_workflow_case_plan)
+    def workflow_case_plan(status_list, locale, primero_module, lookups)
+      return unless primero_module&.use_workflow_case_plan
 
-      status_list << workflow_entry(WORKFLOW_CASE_PLAN, locale, lookups)
+      status_list << workflow_entry(WORKFLOW_CASE_PLAN, locale, lookups, primero_module)
     end
 
-    def workflow_service_implemented(status_list, locale, modules)
-      return unless modules&.any?(&:use_workflow_service_implemented)
+    def workflow_service_implemented(status_list, locale, primero_module)
+      return unless primero_module&.use_workflow_service_implemented
 
       status_list << workflow_key_value(WORKFLOW_SERVICE_IMPLEMENTED, locale)
     end
@@ -132,13 +133,15 @@ module Workflow
       }
     end
 
-    def value_from_lookup(status, lookups, locale = I18n.locale)
-      lookups&.[](Workflow::LOOKUP_WORKFLOW)&.[](locale.to_s)&.find { |lkp| lkp['id'] == status }
+    def value_from_lookup(status, lookups, primero_module, locale = I18n.locale)
+      lookups&.[](primero_module.workflow_lookup)&.[](locale.to_s)&.find do |lkp|
+        lkp['id'] == status
+      end
     end
 
     # TODO: This can be use with the other workflow states (WORKFLOW_NEW, WORKFLOW_REOPENED, WORKFLOW_CLOSED)
-    def workflow_entry(status, locale, lookups)
-      value_from_lookup(status, lookups, locale) || workflow_key_value(status, locale)
+    def workflow_entry(status, locale, lookups, primero_module)
+      value_from_lookup(status, lookups, primero_module, locale) || workflow_key_value(status, locale)
     end
   end
 end

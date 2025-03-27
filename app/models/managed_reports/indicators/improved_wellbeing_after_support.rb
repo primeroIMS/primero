@@ -28,7 +28,7 @@ class ManagedReports::Indicators::ImprovedWellbeingAfterSupport < ManagedReports
             THEN 'improve_by_at_least_3_points'
             ELSE 'not_improve_by_at_least_3_points'
             END AS improvement_range,
-            data->>'sex' AS sex
+            COALESCE(data->>'gender', 'incomplete_data') AS gender
           FROM cases
           #{ManagedReports::SearchableFilterService.filter_values(params['status'])}
           #{ManagedReports::SearchableFilterService.filter_datetimes(date_param)}
@@ -44,10 +44,10 @@ class ManagedReports::Indicators::ImprovedWellbeingAfterSupport < ManagedReports
         SELECT
           #{group_id&.+(', ')}
           improvement_range,
-          sex,
+          gender,
           COUNT(*)
         FROM improvement_ranges_and_groups
-        GROUP BY #{group_id&.+(',')} improvement_range, sex
+        GROUP BY #{group_id&.+(',')} improvement_range, gender
       }
     end
     # rubocop:enable Metrics/MethodLength
@@ -58,11 +58,11 @@ class ManagedReports::Indicators::ImprovedWellbeingAfterSupport < ManagedReports
     end
 
     def fields
-      %w[sex improvement_range]
+      %w[gender improvement_range]
     end
 
     def result_map
-      { 'key' => 'sex', 'name' => 'improvement_range' }
+      { 'key' => 'gender', 'name' => 'improvement_range' }
     end
   end
 end

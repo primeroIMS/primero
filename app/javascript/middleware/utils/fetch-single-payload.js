@@ -24,25 +24,23 @@ import handleSuccess from "./handle-success";
 import FetchError from "./fetch-error";
 import getCSRFToken from "./get-csrf-token";
 
-let abortFollowingRequest = false;
+let abortControllers = [];
 
 const fetchSinglePayload = async (action, store, options) => {
+  if (action.type === "user/LOGOUT") {
+    abortControllers.forEach(abortController => {
+      abortController.abort("logging_out");
+    });
+    abortControllers = [];
+  }
+
   const controller = new AbortController();
 
-  if (action.type === "user/LOGOUT") {
-    abortFollowingRequest = true;
+  if (!["user/LOGOUT", "application/FETCH_SANDBOX_UI", "idp/LOGIN"].includes(action.type)) {
+    abortControllers.push(controller);
   }
-
-  if (["user/LOGIN", "connectivity/SERVER_STATUS"].includes(action.type)) {
-    abortFollowingRequest = false;
-  }
-
-  if (abortFollowingRequest && action.type !== "user/LOGOUT") {
-    return false;
-  }
-
   setTimeout(() => {
-    controller.abort();
+    controller.abort("timeout");
   }, FETCH_TIMEOUT);
 
   const {
@@ -115,8 +113,6 @@ const fetchSinglePayload = async (action, store, options) => {
         fetchStatus({ store, type }, "FAILURE", json);
 
         if (status === 401) {
-          abortFollowingRequest = true;
-
           if (action.type === userActions.FETCH_USER_DATA) {
             throw new Error(window.I18n.t("error_message.error_401"));
           }
@@ -176,6 +172,12 @@ const fetchSinglePayload = async (action, store, options) => {
         fetchSinglePayload(configurationCallback, store, options);
       }
     } catch (error) {
+      const silenceErrors = [["AbortError"].includes(error.name), error === "logging_out"];
+
+      if (silenceErrors.some(condition => condition === true)) {
+        return;
+      }
+
       const errorDataObject = { json: error?.json, recordType, fromQueue, id, error };
 
       if (fromAttachment && error?.response?.status === 422) {

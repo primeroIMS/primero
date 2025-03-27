@@ -22,7 +22,7 @@ class ManagedReports::SubReports::CaseProtectionRisk < ManagedReports::SubReport
 
   def indicators_subcolumns
     {
-      ManagedReports::Indicators::PercentageCasesProtectionRisk.id => 'lookup-gender'
+      ManagedReports::Indicators::PercentageCasesProtectionRisk.id => 'lookup-gender-identity'
     }
   end
 end

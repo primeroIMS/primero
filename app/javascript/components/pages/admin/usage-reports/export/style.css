@@ -1,0 +1,9 @@
+.usage-reports-form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 16px;   
+}
+
+.usage-reports-form>div:nth-child(3) {
+  grid-column: span 2; 
+}

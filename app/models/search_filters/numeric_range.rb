@@ -34,6 +34,6 @@ class SearchFilters::NumericRange < SearchFilters::SearchFilter
   end
 
   def to_s
-    "#{field_name}=#{from}..#{to&.to_s}"
+    "#{field_name}=#{from}..#{to}"
   end
 end

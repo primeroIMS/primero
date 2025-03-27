@@ -288,7 +288,7 @@ class FormSection < ApplicationRecord
   end
 
   def collapsed_fields_to_unlink
-    return (fields[1..]&.pluck(:id) || []) unless subform_collapsed_field_names.present?
+    return fields[1..]&.pluck(:id) || [] unless subform_collapsed_field_names.present?
 
     fields.where.not(name: subform_collapsed_field_names).pluck(:id)
   end

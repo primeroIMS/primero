@@ -21,7 +21,7 @@ unless [PrimeroModule::MRM, PrimeroModule::GBV].include?(primero_module.unique_i
       ['case'].each do |record_type|
         record_class = PrimeroModelService.to_model(record_type)
         json.set! record_type do
-          json.merge! FieldI18nService.convert_options(record_class.workflow_statuses([primero_module]))
+          json.merge! FieldI18nService.convert_options(record_class.workflow_statuses(primero_module))
         end
       end
     end

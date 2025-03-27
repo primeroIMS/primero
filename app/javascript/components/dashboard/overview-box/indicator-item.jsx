@@ -12,7 +12,7 @@ import dashboardsCss from "../styles.css";
 
 import css from "./styles.css";
 
-function IndicatorItem({ item, query, count, countClasses, labelClasses, highlight = false }) {
+function IndicatorItem({ titleHasModule, item, query, count, countClasses, labelClasses, highlight = false }) {
   const i18n = useI18n();
   const { approvalsLabels } = useApp();
   const dispatch = useDispatch();
@@ -21,9 +21,9 @@ function IndicatorItem({ item, query, count, countClasses, labelClasses, highlig
     dispatch(push({ pathname: ROUTES.cases, search: buildFilter(query) }));
   };
 
-  const defaultLabel = i18n.t(`dashboard.${item}`);
+  const defaultLabel = i18n.t(["dashboard", titleHasModule ? item.split(".")?.[0] : item].join("."));
 
-  const itemLabel = buildItemLabel(item, approvalsLabels, defaultLabel);
+  const itemLabel = buildItemLabel(item, approvalsLabels, defaultLabel, titleHasModule);
 
   const numberClasses =
     countClasses || cx({ [dashboardsCss.zero]: !count, [css.itemButtonNumber]: true, [css.highlight]: highlight });
@@ -60,7 +60,8 @@ IndicatorItem.propTypes = {
   highlight: PropTypes.bool,
   item: PropTypes.object,
   labelClasses: PropTypes.object,
-  query: PropTypes.object
+  query: PropTypes.object,
+  titleHasModule: PropTypes.bool
 };
 
 export default IndicatorItem;

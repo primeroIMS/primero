@@ -8,12 +8,11 @@ module Api::V2::Concerns::Export
 
   def export
     authorize_export!
-
     # The '::' is necessary so Export model does not conflict with current concern
     @export = ::Export.new(
       exporter:, record_type:, module_id:,
       file_name: export_params[:file_name], visible: visible_param,
-      managed_report: @managed_report, opts: export_params
+      managed_report: report, hostname: request.hostname, opts: export_params
     )
     @export.run
     status = @export.status == ::Export::SUCCESS ? 200 : 422
@@ -28,10 +27,14 @@ module Api::V2::Concerns::Export
     export_params[:module_id]
   end
 
+  def report
+    nil
+  end
+
   def visible_param
     return nil if export_params[:visible].nil?
 
-    export_params[:visible]&.start_with?(/[yYTt]/) ? true : false
+    export_params[:visible]&.start_with?(/[yYTt]/) || false
   end
 
   def export_params

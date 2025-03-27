@@ -8,7 +8,7 @@ describe ManagedReports::Indicators::PercentageCasesProtectionRisk do
   let(:child1) do
     Child.create!(
       data: {
-        sex: 'male',
+        gender: 'male',
         registration_date: '2021-10-05',
         next_steps: ['a_continue_protection_assessment'],
         protection_risks: %w[risk1 risk2],
@@ -20,7 +20,7 @@ describe ManagedReports::Indicators::PercentageCasesProtectionRisk do
   let(:child2) do
     Child.create!(
       data: {
-        sex: 'male',
+        gender: 'male',
         registration_date: '2021-10-08',
         next_steps: ['a_continue_protection_assessment'],
         protection_risks: %w[risk1 risk3]
@@ -31,7 +31,7 @@ describe ManagedReports::Indicators::PercentageCasesProtectionRisk do
   let(:child3) do
     Child.create!(
       data: {
-        sex: 'male',
+        gender: 'male',
         registration_date: '2021-11-07',
         next_steps: ['a_continue_protection_assessment']
       }
@@ -41,7 +41,7 @@ describe ManagedReports::Indicators::PercentageCasesProtectionRisk do
   let(:child4) do
     Child.create!(
       data: {
-        sex: 'female',
+        gender: 'female',
         registration_date: '2021-10-12',
         next_steps: ['a_continue_protection_assessment'],
         protection_risks: %w[risk2],
@@ -88,6 +88,36 @@ describe ManagedReports::Indicators::PercentageCasesProtectionRisk do
           { id: 'risk2', female: 100.0, male: 100.0, total: 100.0 }
         ]
       )
+    end
+  end
+
+  context 'when gender is null' do
+    before do
+      Child.create!(
+        id: 'bc691666-f940-11ef-9ac6-18c04db5c362',
+        data: {
+          registration_date: '2021-10-12',
+          next_steps: ['a_continue_protection_assessment'],
+          protection_risks: %w[risk2],
+          consent_reporting: true
+        }
+      )
+    end
+
+    it 'returns incomplete_data for null genders' do
+      report_data = ManagedReports::Indicators::PercentageCasesProtectionRisk.build(nil, {}).data
+
+      expect(report_data).to match_array(
+        [
+          { id: 'risk1', male: 66.67, total: 40.0 },
+          { id: 'risk2', female: 100.0, male: 33.33, incomplete_data: 100.0, total: 60.0 },
+          { id: 'risk3', male: 33.33, total: 20.0 }
+        ]
+      )
+    end
+
+    after do
+      Child.find_by(id: 'bc691666-f940-11ef-9ac6-18c04db5c362').destroy!
     end
   end
 

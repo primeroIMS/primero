@@ -36,4 +36,9 @@ module ApplicationHelper
 
     tag('meta', property: 'csp-nonce', content: content_security_policy_nonce)
   end
+
+  def url_for_asset(source)
+    protocol = Rails.application.config.force_ssl ? 'https' : 'http'
+    asset_path(source, host: host_url, protocol:)
+  end
 end
