@@ -79,102 +79,105 @@ module Indicators
     ).freeze
 
     def self.approvals_assessment_pending(module_id)
-      approval_indicator(name: 'approval_assessment_pending', field_name: 'approval_status_assessment',
+      approval_indicator(name: "approval_assessment_pending.#{module_id}", field_name: 'approval_status_assessment',
                          value: Approval::APPROVAL_STATUS_PENDING, module_id:)
     end
 
     def self.approvals_assessment_pending_group(module_id)
-      approval_indicator(name: 'approval_assessment_pending_group', field_name: 'approval_status_assessment',
-                         value: Approval::APPROVAL_STATUS_PENDING, module_id:)
+      approval_indicator(name: "approval_assessment_pending_group.#{module_id}",
+                         field_name: 'approval_status_assessment',
+                         value: Approval::APPROVAL_STATUS_PENDING, module_id:, scope_to_owner: false)
     end
 
     def self.approvals_assessment_rejected(module_id)
-      approval_indicator(name: 'approval_assessment_rejected', field_name: 'approval_status_assessment',
+      approval_indicator(name: "approval_assessment_rejected.#{module_id}", field_name: 'approval_status_assessment',
                          value: Approval::APPROVAL_STATUS_REJECTED, module_id:)
     end
 
     def self.approvals_assessment_approved(module_id)
-      approval_indicator(name: 'approval_assessment_approved', field_name: 'approval_status_assessment',
+      approval_indicator(name: "approval_assessment_approved.#{module_id}", field_name: 'approval_status_assessment',
                          value: Approval::APPROVAL_STATUS_APPROVED, module_id:)
     end
 
     def self.approvals_case_plan_pending(module_id)
-      approval_indicator(name: 'approval_case_plan_pending', field_name: 'approval_status_case_plan',
+      approval_indicator(name: "approval_case_plan_pending.#{module_id}", field_name: 'approval_status_case_plan',
                          value: Approval::APPROVAL_STATUS_PENDING, module_id:)
     end
 
     def self.approvals_case_plan_pending_group(module_id)
-      approval_indicator(name: 'approval_case_plan_pending_group', field_name: 'approval_status_case_plan',
-                         value: Approval::APPROVAL_STATUS_PENDING, module_id:)
+      approval_indicator(name: "approval_case_plan_pending_group.#{module_id}", field_name: 'approval_status_case_plan',
+                         value: Approval::APPROVAL_STATUS_PENDING, module_id:, scope_to_owner: false)
     end
 
     def self.approvals_case_plan_rejected(module_id)
-      approval_indicator(name: 'approval_case_plan_rejected', field_name: 'approval_status_case_plan',
+      approval_indicator(name: "approval_case_plan_rejected.#{module_id}", field_name: 'approval_status_case_plan',
                          value: Approval::APPROVAL_STATUS_REJECTED, module_id:)
     end
 
     def self.approvals_case_plan_approved(module_id)
-      approval_indicator(name: 'approval_case_plan_approved', field_name: 'approval_status_case_plan',
+      approval_indicator(name: "approval_case_plan_approved.#{module_id}", field_name: 'approval_status_case_plan',
                          value: Approval::APPROVAL_STATUS_APPROVED, module_id:)
     end
 
     def self.approvals_closure_pending(module_id)
-      approval_indicator(name: 'approval_closure_pending', field_name: 'approval_status_closure',
+      approval_indicator(name: "approval_closure_pending.#{module_id}", field_name: 'approval_status_closure',
                          value: Approval::APPROVAL_STATUS_PENDING, module_id:)
     end
 
     def self.approvals_closure_pending_group(module_id)
-      approval_indicator(name: 'approval_closure_pending_group', field_name: 'approval_status_closure',
-                         value: Approval::APPROVAL_STATUS_PENDING, module_id:)
+      approval_indicator(name: "approval_closure_pending_group.#{module_id}", field_name: 'approval_status_closure',
+                         value: Approval::APPROVAL_STATUS_PENDING, module_id:, scope_to_owner: false)
     end
 
     def self.approvals_closure_rejected(module_id)
-      approval_indicator(name: 'approval_closure_rejected', field_name: 'approval_status_closure',
+      approval_indicator(name: "approval_closure_rejected.#{module_id}", field_name: 'approval_status_closure',
                          value: Approval::APPROVAL_STATUS_REJECTED, module_id:)
     end
 
     def self.approvals_closure_approved(module_id)
-      approval_indicator(name: 'approval_closure_approved', field_name: 'approval_status_closure',
+      approval_indicator(name: "approval_closure_approved.#{module_id}", field_name: 'approval_status_closure',
                          value: Approval::APPROVAL_STATUS_APPROVED, module_id:)
     end
 
     def self.approvals_action_plan_pending(module_id)
-      approval_indicator(name: 'approval_action_plan_pending', field_name: 'approval_status_action_plan',
+      approval_indicator(name: "approval_action_plan_pending.#{module_id}", field_name: 'approval_status_action_plan',
                          value: Approval::APPROVAL_STATUS_PENDING, module_id:)
     end
 
     def self.approvals_action_plan_pending_group(module_id)
-      approval_indicator(name: 'approval_action_plan_pending_group', field_name: 'approval_status_action_plan',
-                         value: Approval::APPROVAL_STATUS_PENDING, module_id:)
+      approval_indicator(name: "approval_action_plan_pending_group.#{module_id}",
+                         field_name: 'approval_status_action_plan',
+                         value: Approval::APPROVAL_STATUS_PENDING, module_id:, scope_to_owner: false)
     end
 
     def self.approvals_action_plan_rejected(module_id)
-      approval_indicator(name: 'approval_action_plan_rejected', field_name: 'approval_status_action_plan',
+      approval_indicator(name: "approval_action_plan_rejected.#{module_id}", field_name: 'approval_status_action_plan',
                          value: Approval::APPROVAL_STATUS_REJECTED, module_id:)
     end
 
     def self.approvals_action_plan_approved(module_id)
-      approval_indicator(name: 'approval_action_plan_approved', field_name: 'approval_status_action_plan',
+      approval_indicator(name: "approval_action_plan_approved.#{module_id}", field_name: 'approval_status_action_plan',
                          value: Approval::APPROVAL_STATUS_APPROVED, module_id:)
     end
 
     def self.approvals_gbv_closure_pending(module_id)
-      approval_indicator(name: 'approval_gbv_closure_pending', field_name: 'approval_status_gbv_closure',
+      approval_indicator(name: "approval_gbv_closure_pending.#{module_id}", field_name: 'approval_status_gbv_closure',
                          value: Approval::APPROVAL_STATUS_PENDING, module_id:)
     end
 
     def self.approvals_gbv_closure_pending_group(module_id)
-      approval_indicator(name: 'approval_gbv_closure_pending_group', field_name: 'approval_status_gbv_closure',
-                         value: Approval::APPROVAL_STATUS_PENDING, module_id:)
+      approval_indicator(name: "approval_gbv_closure_pending_group.#{module_id}",
+                         field_name: 'approval_status_gbv_closure',
+                         value: Approval::APPROVAL_STATUS_PENDING, module_id:, scope_to_owner: false)
     end
 
     def self.approvals_gbv_closure_rejected(module_id)
-      approval_indicator(name: 'approval_gbv_closure_rejected', field_name: 'approval_status_gbv_closure',
+      approval_indicator(name: "approval_gbv_closure_rejected.#{module_id}", field_name: 'approval_status_gbv_closure',
                          value: Approval::APPROVAL_STATUS_REJECTED, module_id:)
     end
 
     def self.approvals_gbv_closure_approved(module_id)
-      approval_indicator(name: 'approval_gbv_closure_approved', field_name: 'approval_status_gbv_closure',
+      approval_indicator(name: "approval_gbv_closure_approved.#{module_id}", field_name: 'approval_status_gbv_closure',
                          value: Approval::APPROVAL_STATUS_APPROVED, module_id:)
     end
 
@@ -622,11 +625,11 @@ module Indicators
       end
     end
 
-    def self.approval_indicator(name:, field_name:, value:, module_id:)
+    def self.approval_indicator(name:, field_name:, value:, module_id:, scope_to_owner: true)
       QueriedIndicator.new(
         name: name,
         record_model: Child,
-        scope_to_owner: true,
+        scope_to_owner:,
         queries: OPEN_ENABLED + [
           SearchFilters::TextValue.new(field_name: field_name,
                                        value: value),

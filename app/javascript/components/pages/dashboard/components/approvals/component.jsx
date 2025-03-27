@@ -161,7 +161,7 @@ function Component({ loadingIndicator }) {
         <Fragment key={key}>
           <div className={css.optionsBox}>
             <OptionsBox flat>
-              <Dashboard items={items} sumTitle={title} />
+              <Dashboard items={items} sumTitle={title} titleHasModule />
             </OptionsBox>
           </div>
         </Fragment>

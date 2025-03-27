@@ -6,6 +6,10 @@ import qs from "qs";
 
 import { OR_FIELDS } from "../index-filters";
 
+function getApprovalLabel(approvalsLabels, moduleID, label) {
+  return approvalsLabels.getIn([moduleID, label]) || approvalsLabels.getIn(["default", label]);
+}
+
 export const buildFilter = (queryValue, isManager = false) => {
   const value = queryValue.reduce((acum, obj) => {
     const [filterName, filterValue] = obj.split("=");
@@ -22,18 +26,20 @@ export const buildFilter = (queryValue, isManager = false) => {
   return qs.stringify(value);
 };
 
-export const buildItemLabel = (item, approvalsLabels, defaultLabel) => {
-  switch (item) {
+export const buildItemLabel = (item, approvalsLabels, defaultLabel, titleHasModule) => {
+  const [key, moduleID] = titleHasModule ? item.split(".") : [item, "default"];
+
+  switch (key) {
     case "approval_assessment_pending_group":
-      return approvalsLabels.getIn(["default", "assessment"]);
+      return getApprovalLabel(approvalsLabels, moduleID, "assessment");
     case "approval_case_plan_pending_group":
-      return approvalsLabels.getIn(["default", "case_plan"]);
+      return getApprovalLabel(approvalsLabels, moduleID, "case_plan");
     case "approval_closure_pending_group":
-      return approvalsLabels.getIn(["default", "closure"]);
+      return getApprovalLabel(approvalsLabels, moduleID, "closure");
     case "approval_action_plan_pending_group":
-      return approvalsLabels.getIn(["default", "action_plan"]);
+      return getApprovalLabel(approvalsLabels, moduleID, "action_plan");
     case "approval_gbv_closure_pending_group":
-      return approvalsLabels.getIn(["default", "gbv_closure"]);
+      return getApprovalLabel(approvalsLabels, moduleID, "gbv_closure");
     default:
       return defaultLabel;
   }
