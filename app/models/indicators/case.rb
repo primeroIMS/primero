@@ -84,7 +84,8 @@ module Indicators
     end
 
     def self.approvals_assessment_pending_group(module_id)
-      approval_indicator(name: "approval_assessment_pending_group.#{module_id}", field_name: 'approval_status_assessment',
+      approval_indicator(name: "approval_assessment_pending_group.#{module_id}",
+                         field_name: 'approval_status_assessment',
                          value: Approval::APPROVAL_STATUS_PENDING, module_id:, scope_to_owner: false)
     end
 
@@ -144,7 +145,8 @@ module Indicators
     end
 
     def self.approvals_action_plan_pending_group(module_id)
-      approval_indicator(name: "approval_action_plan_pending_group.#{module_id}", field_name: 'approval_status_action_plan',
+      approval_indicator(name: "approval_action_plan_pending_group.#{module_id}",
+                         field_name: 'approval_status_action_plan',
                          value: Approval::APPROVAL_STATUS_PENDING, module_id:, scope_to_owner: false)
     end
 
@@ -164,7 +166,8 @@ module Indicators
     end
 
     def self.approvals_gbv_closure_pending_group(module_id)
-      approval_indicator(name: "approval_gbv_closure_pending_group.#{module_id}", field_name: 'approval_status_gbv_closure',
+      approval_indicator(name: "approval_gbv_closure_pending_group.#{module_id}",
+                         field_name: 'approval_status_gbv_closure',
                          value: Approval::APPROVAL_STATUS_PENDING, module_id:, scope_to_owner: false)
     end
 
