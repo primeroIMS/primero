@@ -14,6 +14,6 @@ else
   Rails.application.config.session_store :active_record_store,
                                          key: '_app_session',
                                          expire_after: native_session_timeout.minute,
-                                         same_site: 'Strict'
+                                         same_site: 'Lax'
   ActiveRecord::SessionStore::Session.serializer = :null
 end
