@@ -99,7 +99,7 @@ function Component({
     setPending(true);
 
     const approvalLabels = record
-      ? approvalsLabels.getIn([record.get("module_id"), requestType])
+      ? approvalsLabels.getIn([record.get("module_id"), requestType]) || approvalsLabels.getIn(["default", requestType])
       : approvalsLabels.getIn(["default", requestType]);
 
     batch(async () => {
