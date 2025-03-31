@@ -243,10 +243,6 @@
                                           role="presentation"
                                           style="border:none;border-radius:10px;cursor:auto;mso-padding-alt:2%;background:<%= @theme.get('email_help_link_background_color') %>;"
                                           valign="middle">
-                                          <a
-                                            href="<%= link[:href] %>"
-                                            style="width: 100%; display: inline-block; background: <%= @theme.get('email_help_link_background_color') %>; color: #4a4a4a; font-family: -apple-system,BlinkMacSystemFont,avenir next,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif; font-size: 18px; font-weight: normal; line-height: 30px; margin: 0; text-decoration: none; text-transform: none; padding: 2%; mso-padding-alt: 0px; border-radius: 10px;"
-                                            target="_blank">
                                             <table width="100%">
                                               <tr>
                                                 <td style="vertical-align: top"
@@ -256,10 +252,15 @@
                                                     width="70"
                                                     height="70"></td>
                                                 <td
-                                                  style="vertical-align: top">
+                                                  style="vertical-align: top;">
                                                   <h4
-                                                    style="padding: 0; margin: 0; color: <%= @theme.get('email_link_color') %>">
+                                                    style="padding: 0; margin: 0;">
+                                                    <a
+                                                      href="<%= link[:href] %>"
+                                                      style="width: 100%; display: inline-block; color: <%= @theme.get('email_link_color') %> font-family: -apple-system,BlinkMacSystemFont,avenir next,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif; font-size: 18px; font-weight: normal; line-height: 30px; margin: 0; text-decoration: none; text-transform: none; padding: 2%; mso-padding-alt: 0px; border-radius: 10px;"
+                                                      target="_blank">
                                                     <%= link[:name][@locale] %>
+                                                    </a>
                                                   </h4>
                                                   <p
                                                     style="margin-top: 0; height: 50px">
@@ -267,7 +268,6 @@
                                                 </td>
                                               </tr>
                                             </table>
-                                          </a>
                                         </td>
                                       </tr>
                                     </tbody>
