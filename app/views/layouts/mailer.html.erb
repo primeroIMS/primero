@@ -219,68 +219,75 @@
         <tbody>
           <tr>
             <td style="direction:ltr;font-size:0px;padding:20px 0;text-align:center;">
-              <% @theme.get('email_help_links', []).map(&:with_indifferent_access).each do |link| %>
               <!--[if mso]><table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td class="" style="vertical-align:top;width:432px;" ><![endif]-->
-              <div class="mj-column-per-48 mj-outlook-group-fix"
-                style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
-                <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%">
-                  <tbody>
-                    <tr>
-                      <td
-                        style="background-color:#ffffff;vertical-align:top;padding:4%;padding-bottom:0;">
-                        <table border="0" cellpadding="0" cellspacing="0" role="presentation"
-                          width="100%">
-                          <tbody>
-                            <tr>
-                              <td align="center" vertical-align="middle" class="help-btn"
-                                style="font-size:0px;padding:0;word-break:break-word;">
-                                <table border="0" cellpadding="0" cellspacing="0"
-                                  role="presentation"
-                                  style="border-collapse:separate;width:100%;line-height:100%;">
-                                  <tbody>
-                                    <tr>
-                                      <td align="center"
-                                        role="presentation"
-                                        style="border:none;border-radius:10px;cursor:auto;mso-padding-alt:2%;background:<%= @theme.get('email_help_link_background_color') %>;"
-                                        valign="middle"><a
-                                          href="<%= link[:href] %>"
-                                          style="width: 100%; display: inline-block; background: <%= @theme.get('email_help_link_background_color') %>; color: #4a4a4a; font-family: -apple-system,BlinkMacSystemFont,avenir next,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif; font-size: 18px; font-weight: normal; line-height: 30px; margin: 0; text-decoration: none; text-transform: none; padding: 2%; mso-padding-alt: 0px; border-radius: 10px;"
-                                          target="_blank">
-                                          <table width="100%">
-                                            <tr>
-                                              <td style="vertical-align: top"
-                                                width="80px"><img
-                                                  src="<%= link[:icon_url] %>"
-                                                  alt="<%= link[:name][@locale] %> icon"
-                                                  width="70px"
-                                                  height="70px"></td>
-                                              <td
-                                                style="vertical-align: top">
-                                                <h4
-                                                  style="padding: 0; margin: 0; color: <%= @theme.get('email_link_color') %>">
-                                                  <%= link[:name][@locale] %>
-                                                </h4>
-                                                <p
-                                                  style="margin-top: 0; height: 50px">
-                                                  <%= link[:description][@locale] %></p>
-                                              </td>
-                                            </tr>
-                                          </table>
-                                        </a></td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+              <% @theme.get('email_help_links', []).map(&:with_indifferent_access).each_with_index(1) do |link, index| %>
+                <div class="mj-column-per-48 mj-outlook-group-fix"
+                  style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
+                  <table border="0" cellpadding="0" cellspacing="0" role="presentation" width="100%">
+                    <tbody>
+                      <tr>
+                        <td
+                          style="background-color:#ffffff;vertical-align:top;padding:4%;padding-bottom:0;">
+                          <table border="0" cellpadding="0" cellspacing="0" role="presentation"
+                            width="100%">
+                            <tbody>
+                              <tr>
+                                <td align="center" vertical-align="middle" class="help-btn"
+                                  style="font-size:0px;padding:0;word-break:break-word;">
+                                  <table border="0" cellpadding="0" cellspacing="0"
+                                    role="presentation"
+                                    style="border-collapse:separate;width:100%;line-height:100%;">
+                                    <tbody>
+                                      <tr>
+                                        <td align="center"
+                                          role="presentation"
+                                          style="border:none;border-radius:10px;cursor:auto;mso-padding-alt:2%;background:<%= @theme.get('email_help_link_background_color') %>;"
+                                          valign="middle">
+                                          <a
+                                            href="<%= link[:href] %>"
+                                            style="width: 100%; display: inline-block; background: <%= @theme.get('email_help_link_background_color') %>; color: #4a4a4a; font-family: -apple-system,BlinkMacSystemFont,avenir next,avenir,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif; font-size: 18px; font-weight: normal; line-height: 30px; margin: 0; text-decoration: none; text-transform: none; padding: 2%; mso-padding-alt: 0px; border-radius: 10px;"
+                                            target="_blank">
+                                            <table width="100%">
+                                              <tr>
+                                                <td style="vertical-align: top"
+                                                  width="80px"><img
+                                                    src="<%= link[:icon_url] %>"
+                                                    alt="<%= link[:name][@locale] %> icon"
+                                                    width="70"
+                                                    height="70"></td>
+                                                <td
+                                                  style="vertical-align: top">
+                                                  <h4
+                                                    style="padding: 0; margin: 0; color: <%= @theme.get('email_link_color') %>">
+                                                    <%= link[:name][@locale] %>
+                                                  </h4>
+                                                  <p
+                                                    style="margin-top: 0; height: 50px">
+                                                    <%= link[:description][@locale] %></p>
+                                                </td>
+                                              </tr>
+                                            </table>
+                                          </a>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <% if index % 2 == 0%>
+                  <!--[if mso]></td></tr><tr><td><![endif]-->
+                <% else %>
+                  <!--[if mso]></td><td><![endif]-->
+                <% end %>
               <% end %>
-              <!--[if mso]></td></tr><tr><td class="" style="vertical-align:top;width:900px;" ><![endif]-->
+              <!--[if mso]></td></tr></table><table><tr><td class="" style="vertical-align:top;width:900px;" ><![endif]-->
               <div class="mj-column-per-100 mj-outlook-group-fix"
                 style="font-size:0px;text-align:left;direction:ltr;display:inline-block;vertical-align:top;width:100%;">
                 <table border="0" cellpadding="0" cellspacing="0" role="presentation"
