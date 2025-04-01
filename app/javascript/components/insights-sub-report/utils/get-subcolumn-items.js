@@ -52,10 +52,16 @@ export default ({
   }
 
   if (indicatorsSubcolumns.get(valueKey) === "AgeRange") {
-    const ageRangeOptions = ageRanges.map(ageRange => ({ id: ageRange, display_text: ageRange }));
+    let ageRangeOptions = ageRanges.map(ageRange => ({ id: ageRange, display_text: ageRange }));
+
+    const hasIncompleteData = (indicatorSubColumnKeys || []).includes("incomplete_data");
+
+    if (hasIncompleteData) {
+      ageRangeOptions = ageRangeOptions.concat({ id: "incomplete_data", display_text: incompleteDataLabel });
+    }
 
     if (hasTotalColumn) {
-      return ageRangeOptions.concat({ id: "total", display_text: totalText });
+      ageRangeOptions = ageRangeOptions.concat({ id: "total", display_text: totalText });
     }
 
     return ageRangeOptions;
