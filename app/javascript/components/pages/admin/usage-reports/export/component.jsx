@@ -2,7 +2,7 @@
 
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { object, string, date } from "yup";
+import { object, date } from "yup";
 import { useEffect } from "react";
 
 import { useI18n } from "../../../../i18n";
@@ -49,8 +49,7 @@ function Component({ close, open, pending, setPending }) {
 
           return !fromDate || !value || value > fromDate;
         }
-      }),
-    file_name: string().required(i18n.t("fields.required_field", { field: fieldDisplayName.file_name }))
+      })
   });
 
   // Form submission
