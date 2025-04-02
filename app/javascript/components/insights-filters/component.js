@@ -15,7 +15,7 @@ import {
   VIOLENCE_TYPE_SUBREPORTS,
   WORKFLOW_SUBREPORTS
 } from "../../config";
-import { fetchUserGroups, getWorkflowLabels, useApp } from "../application";
+import { fetchUserGroups, useApp } from "../application";
 import { READ_RECORDS, RESOURCES, usePermissions } from "../permissions";
 import { useI18n } from "../i18n";
 import { OPTION_TYPES, SELECT_FIELD, whichFormMode } from "../form";
@@ -36,12 +36,13 @@ import { clearFilters, setFilters } from "../insights-list/action-creators";
 import useOptions from "../form/use-options";
 import { compactBlank } from "../record-form/utils";
 import { getIsManagedReportScopeAll } from "../user";
+import { getAllWorkflowLabels } from "../application/selectors";
 
 import css from "./styles.css";
 import { transformFilters } from "./utils";
 import validations from "./validations";
 
-function Component({ moduleID, id, subReport, toggleControls }) {
+function Component({ id, subReport, toggleControls }) {
   const isManagedReportScopeAll = useMemoizedSelector(state => getIsManagedReportScopeAll(state));
 
   const app = useApp();
@@ -50,7 +51,7 @@ function Component({ moduleID, id, subReport, toggleControls }) {
   const insightsConfig = INSIGHTS_CONFIG[id];
   const { defaultFilterValues } = insightsConfig;
 
-  const workflowLabels = useMemoizedSelector(state => getWorkflowLabels(state, moduleID, RECORD_TYPES.cases));
+  const workflowLabels = useMemoizedSelector(state => getAllWorkflowLabels(state, RECORD_TYPES.cases));
 
   const i18n = useI18n();
   const formMethods = useForm({
@@ -120,7 +121,7 @@ function Component({ moduleID, id, subReport, toggleControls }) {
 
   const submit = data => {
     getInsights(
-      compactBlank({ ...data, module_id: app.userModules.size <= 1 ? app.userModules.getIn([0, "unique_id"]) : null })
+      compactBlank({ module_id: app.userModules.size <= 1 ? app.userModules.getIn([0, "unique_id"]) : null, ...data })
     );
   };
 
@@ -167,7 +168,6 @@ Component.displayName = "InsightsFilters";
 
 Component.propTypes = {
   id: PropTypes.string,
-  moduleID: PropTypes.string,
   subReport: PropTypes.string,
   toggleControls: PropTypes.func.isRequired
 };

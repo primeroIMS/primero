@@ -220,7 +220,8 @@ module ManagedReports::SqlQueryHelpers
 
     # rubocop:disable Metrics/MethodLength
     def age_ranges_query(field_name: 'age', table_name: nil, is_json_field: true, module_id: nil)
-      module_age_range(module_id)&.reduce("CASE \n") do |acc, range|
+      age_ranges = module_age_range(module_id)
+      age_ranges&.reduce("CASE \n") do |acc, range|
         column = age_range_column(field_name, table_name, is_json_field)
 
         acc + ActiveRecord::Base.sanitize_sql_for_conditions(
@@ -228,7 +229,7 @@ module ManagedReports::SqlQueryHelpers
             %{
                WHEN #{column} IS NULL THEN 'incomplete_data'
                WHEN int4range(:start, :end, '[]') @> CAST(#{column} AS INTEGER)
-               THEN #{last_range?(range) ? "':start+' end" : "':start - :end'"}
+               THEN #{last_range?(range, age_ranges) ? "':start+' end" : "':start - :end'"}
              }, { field_name:, start: range.first, end: range.last }
           ]
         )
@@ -236,8 +237,8 @@ module ManagedReports::SqlQueryHelpers
     end
     # rubocop:enable Metrics/MethodLength
 
-    def last_range?(range)
-      range == SystemSettings.primary_age_ranges.last
+    def last_range?(range, age_ranges)
+      range == age_ranges.last
     end
 
     def age_range_column(field_name = 'age', table_name = nil, is_json_field = true)
