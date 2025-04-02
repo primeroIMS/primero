@@ -46,8 +46,13 @@ module Indicators
       raise NotImplementedError
     end
 
+    def build_query(indicator_filters, user_query_scope)
+      Search::SearchQuery.new(record_model).with_filters(indicator_filters).with_scope(user_query_scope)
+    end
+
+    # Override this method on the indicator subclass and use build_query()
     def query(indicator_filters, user_query_scope)
-      Search::SearchQuery.new(record_model).with_filters(indicator_filters).with_scope(user_query_scope).result.records
+      raise NotImplementedError
     end
 
     protected
