@@ -24,6 +24,7 @@ import { getLocale } from "../i18n/selectors";
 import { getRecordFormAlerts, getSelectedRecordData, selectRecord } from "../records";
 import { selectorEqualityFn } from "../../libs/use-memoized-selector";
 import { getPermittedFormsIds } from "../user";
+import { getServicesForm } from "../application/selectors";
 
 import getDefaultForms from "./form/utils/get-default-forms";
 import NAMESPACE from "./namespace";
@@ -364,6 +365,15 @@ export const getRecordFormsByUniqueIdWithFallback = (state, query) => {
   }
 
   return form;
+};
+
+export const getServicesRecordForm = (state, query) => {
+  const servicesFormId = getServicesForm(state, query.primeroModule || query.fallbackModule);
+
+  return getRecordFormsByUniqueIdWithFallback(state, {
+    ...query,
+    formName: servicesFormId
+  })?.first();
 };
 
 export const getIncidentFromCaseForm = (state, query) =>

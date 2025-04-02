@@ -10,7 +10,7 @@ describe ManagedReports::Indicators::ImprovedWellbeingAfterSupport do
 
     Child.create!(
       data: {
-        sex: 'male',
+        gender: 'male',
         next_steps: ['a_continue_protection_assessment'],
         registration_date: '2021-10-05',
         consent_reporting: true,
@@ -20,7 +20,7 @@ describe ManagedReports::Indicators::ImprovedWellbeingAfterSupport do
     )
     Child.create!(
       data: {
-        sex: 'male',
+        gender: 'male',
         next_steps: ['a_continue_protection_assessment'],
         registration_date: '2021-10-08',
         consent_reporting: true,
@@ -30,7 +30,7 @@ describe ManagedReports::Indicators::ImprovedWellbeingAfterSupport do
     )
     Child.create!(
       data: {
-        sex: 'male',
+        gender: 'male',
         next_steps: ['a_continue_protection_assessment'],
         registration_date: '2021-11-07',
         consent_reporting: true,
@@ -40,7 +40,7 @@ describe ManagedReports::Indicators::ImprovedWellbeingAfterSupport do
     )
     Child.create!(
       data: {
-        sex: 'female',
+        gender: 'female',
         next_steps: ['a_continue_protection_assessment'],
         registration_date: '2021-10-08',
         psychsocial_assessment_score_most_recent: 19,

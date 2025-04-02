@@ -10,7 +10,7 @@ describe ManagedReports::Indicators::TotalProtectionManagementCases do
 
     Child.create!(
       data: {
-        sex: 'male',
+        gender: 'male',
         next_steps: ['a_continue_protection_assessment'],
         registration_date: '2021-10-05',
         status: 'closed',
@@ -19,7 +19,7 @@ describe ManagedReports::Indicators::TotalProtectionManagementCases do
     )
     Child.create!(
       data: {
-        sex: 'male',
+        gender: 'male',
         next_steps: ['a_continue_protection_assessment'],
         registration_date: '2021-10-08',
         status: 'closed',
@@ -28,14 +28,14 @@ describe ManagedReports::Indicators::TotalProtectionManagementCases do
     )
     Child.create!(
       data: {
-        sex: 'male',
+        gender: 'male',
         next_steps: ['a_continue_protection_assessment'],
         registration_date: '2021-11-07'
       }
     )
     Child.create!(
       data: {
-        sex: 'female',
+        gender: 'female',
         next_steps: ['a_continue_protection_assessment'],
         registration_date: '2021-10-08'
       }
@@ -66,6 +66,33 @@ describe ManagedReports::Indicators::TotalProtectionManagementCases do
           { id: 'closed', male: 2, total: 2 }
         ]
       )
+    end
+  end
+
+  context 'when gender is null' do
+    before do
+      Child.create!(
+        id: 'bc691666-f940-11ef-9ac6-18c04db5c362',
+        data: {
+          next_steps: ['a_continue_protection_assessment'],
+          registration_date: '2021-10-08'
+        }
+      )
+    end
+
+    it 'returns incomplete_data for null genders' do
+      report_data = ManagedReports::Indicators::TotalProtectionManagementCases.build(nil, {}).data
+
+      expect(report_data).to match_array(
+        [
+          { id: 'open', female: 1, male: 1, incomplete_data: 1, total: 3 },
+          { id: 'closed', male: 2, total: 2 }
+        ]
+      )
+    end
+
+    after do
+      Child.find_by(id: 'bc691666-f940-11ef-9ac6-18c04db5c362').destroy!
     end
   end
 

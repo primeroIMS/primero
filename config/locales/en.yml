@@ -316,6 +316,53 @@ en:
     case_opening_date: Case Open Date
     case_plan: Case Plan
     case_worker_code: Case Worker Code
+    child_functioning:
+      date: "Date"
+      ready_to_start_cfm: "Are you ready to start the Child Functioning Module"
+      age: "Age"
+      vision_wear_glass: "Vision wear glass"
+      difficulty_seeing_with_glasses: "Difficulty seeing with glasses"
+      continue_hearing_section: "Continue hearing section"
+      child_wears_hearing_aid: "The child wears hearing aid"
+      difficulty_hearing_with_hearing_aid: "Difficulty hearing with hearing aid"
+      continue_mobility_section: "Continue mobility section"
+      child_uses_equipment_or_receive_assistance_for_walking: "The child uses equipment or receive assistance for walking"
+      difficulty_walking_without_equipment: "Difficulty walking without equipment/assistance"
+      mobility_difficulty_without_equipment_100m: "Mobility difficulty without equipment 100m"
+      mobility_difficulty_without_equipment_500m: "Mobility difficulty without equipment 500m"
+      difficulty_walking_with_equipment: "Difficulty walking with equipment/assistance"
+      mobility_difficulty_with_equipment_100m: "Mobility difficulty with equipment 100m"
+      mobility_difficulty_with_equipment_500m: "Mobility difficulty with equipment 500m"
+      continue_dexterity_display_section: "Continue dexterity display section"
+      difficulty_picking_up_small_objects_with_hand: "Difficulty picking up small objects with hand"
+      self_care_display: "Self care display"
+      self_care_difficulty: "Self care difficulty"
+      communication_display_section: "Communication display section"
+      child_have_difficulty_to_understand: "The child have difficulty to understand"
+      child_have_difficulty_to_understanding_child_household: "child have difficulty to understanding child household"
+      difficulty_to_understanding_child_others: "Difficulty to understanding child others"
+      difficulty_to_understand_the_child: "Difficulty to understand the child"
+      learning_display_section: "Learning display section"
+      child_have_difficulty_for_learning: "The child have difficulty for Learning"
+      playing_display_section: "Playing display section"
+      child_have_difficulty_for_playing: "The child have difficulty for playing"
+      remembering_display: "Remembering display"
+      remembering_difficulty: "Remembering difficulty"
+      concentrating_display: "Concentrating display"
+      concentrating_difficulty: "Concentrating difficulty"
+      accepting_change_display: "Accepting change display"
+      accepting_change_difficulty: "Accepting change difficulty"
+      controlling_behavior_display_section: "Controlling behavior display section"
+      difficulty_for_controlling_behaviour: "Difficulty for controlling behaviour like kick,bite or hit others"
+      making_friends_display_section: "Making friends display section"
+      making_friends_difficulty: "Making friends difficulty"
+      anxiety_display_section: "Anxiety display section"
+      anxiety_how_often: "Anxiety how often"
+      depression_display_section: "Depression display section"
+      depression_how_often: "Depression how often"
+      cfm_yes: "Yes"
+      cfm_no: "No"
+      n_a: "N/A"
     client_code: Client Code
     clear_filter: Clear
     close_dialog: Clicking OK will change the status of this case to Closed
@@ -396,6 +443,7 @@ en:
       urgent_protection_concern: Urgent Protection Concern
       user_group: User Group
       workflow: Cases by Workflow
+      module_id: Module
       include_disabled: Include disabled
       safety_plan_needed: Is a safety plan needed for this case?
       mhpss_suicidal_thoughts_last_month_most_recent: In the past month, have you had serious thoughts or plans to end your own life?
@@ -853,6 +901,7 @@ en:
       other: '%{case_worker} has %{stat} total cases '
     workflow: Workflow
     workflow_team: Workflow - Teams cases
+    workflow_team_module: Workflow - Teams cases - %{module_name}
     you_have: 'You have '
   disabled:
     status:
@@ -873,10 +922,10 @@ en:
     transfer_request: 'Primero user %{user} from %{agency} is requesting that you transfer ownership of this %{record_type} record %{record_id} so that they can provide %{record_type} management services for the individual in their area. If this transfer is acceptable to you, please click on the %{record_type} ID link in this email to open the %{record_type} in Primero and initiate the transfer.'
     approval_request_html: 'The user <strong>%{user}</strong> is requesting approval for <strong> %{approval_type}</strong> on case <strong>%{case_id}</strong>.'
     approval_response_html: '<strong>%{user}</strong> has <strong>%{status}</strong> the request for approval for <strong>%{approval_type}</strong> for case <strong>%{case_id}</strong>.'
-    referral_html: 'You have received a referral for %{record_type} (${record_id}) for  %{service_type} from %{user} from %{agency}. Please %{login_url} to your account to review.'
-    transfer_html: 'You have received a transfer for %{record_type} (${record_id}) from %{user} from %{agency}. Please %{login_url} into your account to review.'
-    assign_html: You have been assigned a new %{record_type} (${record_id}) from %{user}. Please %{login_url} to your account to review.
-    transfer_request_html: 'You have received a transfer request for %{record_type} ${record_id} from %{user} from %{agency}. The individual making the request has included a transfer note: %{request_transfer_notes}. If this transfer is acceptable to you, please log in to access Primero to initiate the transfer.'
+    referral_html: 'You have received a referral for %{record_type} (%{record_id}) for  %{service_type} from %{user} from %{agency}. Please %{login_url} to your account to review.'
+    transfer_html: 'You have received a transfer for %{record_type} (%{record_id}) from %{user} from %{agency}. Please %{login_url} into your account to review.'
+    assign_html: You have been assigned a new %{record_type} (%{record_id}) from %{user}. Please %{login_url} to your account to review.
+    transfer_request_html: 'You have received a transfer request for %{record_type} %{record_id} from %{user} from %{agency}. The individual making the request has included a transfer note: %{request_transfer_notes}. If this transfer is acceptable to you, please log in to access Primero to initiate the transfer.'
     alert: '%{record_type} %{id} - %{form_name} has been updated. Please log in to Primero to review the changes.'
     alert_subject: '%{record_type}: %{id} - %{form_name} Updated'
   webpush_notification:
@@ -1476,6 +1525,7 @@ en:
     es-ES: Español (España)
     fr: Français
     hu: Magyar
+    hy: Armenian
     id: Bahasa
     it: Italiano
     km: ភាសាខ្មែរ
@@ -1488,10 +1538,12 @@ en:
     ne: नेपाली
     om: Oromo
     am-ET: Amharic (Ethiopia)
+    ti: Tigrinya
     tr: Türkçe
     label: Home
     language: Language
     manage_system_users: Manage Server Synchronisation Users
+    mn: Mongolian
     my: ဗမာစာ
     pl: Polski
     pt: Português
@@ -2382,7 +2434,7 @@ en:
         clients_disability: Clients with a disability
         case_safety_plan: Cases with a safety plan
         clients_gender: Cases by gender
-      description: 'Key case characteristics, including % of cases by risk level, protection risks, case management duration, disability status, safety plan completion, and sex.'
+      description: 'Key case characteristics, including % of cases by risk level, protection risks, case management duration, disability status, safety plan completion, and gender.'
       name: Case Characteristics
       filter_options:
         registration_date: Registration Date
@@ -2402,6 +2454,35 @@ en:
       percentage_cases_safety_plan:
         safety_plan_completed: 'Safety Plan completed'
         safety_plan_not_completed: 'Safety Plan not completed'
+  usage_report:
+    label: Export Usage Report
+    file_name: Create your own file name (Optional)
+    instructions: 'To generate your quarterly reports click "Export"'
+    invalid_date_format: '%{field} must be a valid date'
+    invalid_date_range: '%{to} must be greater than %{from}'
+    export:
+      users: Users
+      hostname: Hostname
+      start_date: Start Date
+      end_date: End Date
+      quarter: Quarter
+      agencies_total: Total Number of Agencies
+      module_yes: 'Yes'
+      module_no: 'No'
+      agency_list: Agency List
+      users_total: Total Users
+      users_active: Active Users
+      users_disabled: Disabled Users
+      users_new: New Users in this quarter
+      cases_total: Total Cases
+      cases_open: Open Cases
+      cases_closed: Closed Cases
+      cases_open_this_quarter: Open this Quarter
+      cases_closed_this_quarter: Closed this Quarter
+      services_total: Total Services
+      followups_total: Total Followups
+      incidents_total: Total Incidents
+      incidents_open_this_quarter: Incidents this quarter
   messages:
     alert_items: You have %{items} items of note.
     alerts_for:
@@ -2595,6 +2676,7 @@ en:
       transfer: Can be used for transfer
       user: Users
       user_group: User Groups
+      usage_report: Usage Report
       verify_mrm: Verify MRM
       view_approvals: View Approvals
       view_assessment: View Assessment
@@ -3414,6 +3496,8 @@ en:
             explanation: The role can access their own records (cases, tracing requests,
               or incidents), and can edit their own user account.
             label: Access only my records or user
+          webhook:
+            label: Webhook
         explanation: Controls which records (Cases, Tracing Requests, or Incidents),
           the role can access. If the role has access to Users and User Groups, this
           also controls which Users and User Groups they can access. Roles with access
@@ -4138,6 +4222,11 @@ en:
             label: Manage (all permissions for this resource type)
             explanation: Ability to access all.
         label: Activity Log
+      usage_report:
+        actions:
+          read:
+            explanation: Ability to access the Usage Report page.
+            label: Access Usage Report Page.
   potential_match:
     case_id: Case ID
     child_age: Age
@@ -4319,6 +4408,7 @@ en:
       locations: Locations
       lookups: Lookups
       user_groups: User Groups
+      usage_reports: Usage Report
       users: Users
       roles: Roles
       code_of_conduct: Code of Conduct
@@ -4593,7 +4683,7 @@ en:
       subject: 'Welcome to %{system}!'
       subject_instructions: '%{system} Login Instructions'
       greeting: 'Welcome to %{system}!'
-      body_native: "%{greeting}! We are creating a %{role_name} account for you. You will receive a separate email to set up your password shortly. Once logged in please go to your user profile to find your username. You will find your user profile in the left navigation of Primero."
+      body_native: "%{greeting} We are creating a %{role_name} account for you. You will receive a separate email to set up your password shortly. Once logged in please go to your user profile to find your username. You will find your user profile in the left navigation of Primero."
       body_native2: "You can watch this %{instructional_video} if you need additional guidance."
       instructional_video: instructional video
       additional_support: 'Please contact your %{admin_email} if you need additional support.'
@@ -4675,8 +4765,8 @@ en:
     unsubscribe: 'Unsubscribe'
     site_description: Primero is an open source software platform that helps social services, humanitarian and development workers manage protection-related data, with tools that facilitate case management, incident monitoring and family tracing and reunification.
     email_disclaimer_pre: DO NOT REPLY TO THIS EMAIL
-    email_welcome_greeting: Welcome to the Primero team
+    email_welcome_greeting: Welcome to the Primero team.
     email_welcome_closing: Welcome to the Primero Community
-    email_closing: At your service
+    email_closing: At your service,
     email_signature: Primero team
     email_admin_name: System Administrator

@@ -6,12 +6,12 @@
 # Transition notification, and Transfer Requests.
 # TODO: Break up into separate mailers.
 class RecordActionMailer < ApplicationMailer
-  helper :application
-
   def manager_approval_request(approval_notification)
     @approval_notification = approval_notification
     @subject = @approval_notification.subject
     @locale = @approval_notification.locale
+    @user = @approval_notification.manager
+
     return unless @approval_notification.send_notification?
     return unless assert_notifications_enabled(@approval_notification.manager, Approval::NOTIFICATION_ACTIONS_REQUEST)
 
@@ -22,6 +22,7 @@ class RecordActionMailer < ApplicationMailer
     @approval_notification = approval_notification
     @subject = @approval_notification.subject
     @locale = @approval_notification.locale
+    @user = @approval_notification.owner
 
     return unless @approval_notification.send_notification?
     return unless assert_notifications_enabled(@approval_notification.owner, Approval::NOTIFICATION_ACTIONS_RESPONSE)
@@ -31,8 +32,9 @@ class RecordActionMailer < ApplicationMailer
 
   def transition_notify(transition_notification)
     @transition_notification = transition_notification
-    @subject = transition_notification.subject
+    @subject = @transition_notification.subject
     @locale = @transition_notification.locale
+    @user = @transition_notification&.transitioned_to
 
     return if @transition_notification.transition.nil?
     return unless assert_notifications_enabled(
@@ -46,6 +48,7 @@ class RecordActionMailer < ApplicationMailer
     @transfer_request_notification = transfer_request_notification
     @subject = @transfer_request_notification.subject
     @locale = @transfer_request_notification.locale
+    @user = @transfer_request_notification&.transitioned_to
 
     return if @transfer_request_notification.transition.nil?
     return unless assert_notifications_enabled(

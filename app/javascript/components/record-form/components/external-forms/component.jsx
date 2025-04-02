@@ -56,7 +56,12 @@ const externalForms =
         />
       ),
       [APPROVALS]: (
-        <Approvals approvals={approvalSubforms} mobileDisplapary={mobileDisplay} handleToggleNav={handleToggleNav} />
+        <Approvals
+          primeroModule={primeroModule}
+          approvals={approvalSubforms}
+          mobileDisplapary={mobileDisplay}
+          handleToggleNav={handleToggleNav}
+        />
       ),
       [INCIDENT_FROM_CASE]: (
         <IncidentFromCase

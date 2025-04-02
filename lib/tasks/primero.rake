@@ -21,7 +21,7 @@ namespace :primero do
   desc 'Remove records'
   task :remove_records, %i[record_models filters] => :environment do |_, args|
     filters = DestringifyService.destringify(JSON.parse(args[:filters] || '{}').with_indifferent_access)
-    record_models = args[:record_models]&.split(' ')
+    record_models = args[:record_models]&.split
     DataRemovalService.remove_records(record_models:, filters:)
   end
 
@@ -29,7 +29,7 @@ namespace :primero do
   desc 'Deletes out all metadata. Do this only if you need to reseed from scratch!'
   task :remove_config, %i[metadata include_users] => :environment do |_, args|
     DataRemovalService.remove_config(
-      metadata: args[:metadata]&.split(' '),
+      metadata: args[:metadata]&.split,
       include_users: args[:include_users] == 'true'
     )
   end

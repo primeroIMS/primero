@@ -1,0 +1,1179 @@
+hy:
+  'true': 'Այո'
+  'false': 'Ոչ'
+  accepted: Ընդունված
+  cancel: Չեղարկել
+  connection_lost: 'Այժմ գտնվում է անցանց ռեժիմում '
+  field_mode_offline: Այժմ գտնվում է դաշտային ռեժիմում
+  connected: Հասանելի է առցանց
+  no_connection: Կապ չկա
+  clear: Մաքրել
+  sandbox_ui: ցուցադրում
+  description: Նկարագրություն
+  form: ձևաթուղթ
+  minimum_reportable_fields: "Հաշվետվության ենթակա դաշտերի նվազագույն քանակ%{record_type}"
+  name: Անուն
+  offline: Անցանց
+  field_mode: "Դաշտի ձևաչափ։%{mode}"
+  field_mode_on: "Միացված"
+  field_mode_off: "Անջատված"
+  unavailable_offline: Հասանելի չէ անցանց ռեժիմում
+  online: Հասանելի է առցանց
+  yes_label: 'Այո'
+  or_label: կամ
+  select_provider: Ընտրել մատակարար
+  select_language: Ընտրել լեզուն
+  log_in_primero_idp: 'Մուտք գործեք համակարգ %{idp_name}օգտատիրոջ անվամբ։ '
+  offline_submitted_changes: 'Դուք այժմ անցանց ռեժիմում եք։ Ձեր կատարած փոփոխությունները կհաստատվեն, երբ դուք վերադառնաք առցանց ռեժիմ։ '
+  updated: Թարմացված
+  go: Անցնել
+  select_idp_error: Խնդրեմ ընտրեք մատակարար։
+  sync:
+    success: "Գրառումների %{records}-ը հաջողությամբ համաժամեցվել է։ "
+    error:
+      create: 'Բացել չի հաջողվել %{record_type}։ Խնդրեմ դիմեք տեխնիկական աջակցության թիմին։ '
+      update: 'Թարմացումը %{record_type}%{short_id}չի հաջողվել։ Խնդրեմ դիմեք տեխնիկական աջակցության թիմին։ '
+  actions:
+    approvals: Հաստատումներ
+    button: Գործողություններ
+    close: Փակել
+    description:
+      invalid: Սխալ գրառում
+      valid: Ճիշտ գրառում
+    disable: Ապակտիվացնել
+    enable: Ակտիվացնել
+    incident_details_from_case: Ավելացնել պատահար
+    incident_from_case: Բացել պատահարի հայտ
+    next: Հաջորդը
+    notes: Կատարել նշումներ
+    previous: Նախորդը
+    reopen: Վերաբացել
+    request_approval: Ներկայացնել հաստատման հայտ
+    revoke: Չեղյալ համարել
+    save: Պահպանել
+    services_from_case_creation_success: Ծառայության մատուցման մասին գրառումը հաջող կերպով գրանցվել է։
+    services_section_from_case: Ավելացնել Ծառայության Մատուցում տող
+    mark_for_offline: Նշել անցանց ռեժիմը
+  agencies:
+    label: Գործակալություն
+    translations:
+      manage: Կառավարել թարգմանությունները
+  agency:
+    agency_logos: Գործակալության լոգոտիպերը
+    code: Գործակալության կոդ
+    description: Նկարագրություն
+    disabled: Ապակտիվ
+    exclude_agency_from_lookups: Բացառել այս գործակալությունը որոնում և ֆիլտրում ֆունկցիաներում
+    exclude_agency_from_lookups_help: Նշեք այս վանդակը, եթե գործակալությունը չունի օգտատերեր (օրինակ՝ այս Գործակալությունը ներառվել է, որպեսզի դրա լոգոտիպը կիրառվի արտածված փաստաթղթերում։
+    label: Գործակալություն
+    logo_enabled: Ցույց տա՞լ այս գործակալության լոգոտիպը Պրիմերո հարթակում։
+    logo_enabled_help: Ցույց տա՞լ այս գործակալության լոգոտիպը Պրիմերո հարթակում։
+    logo_icon: Լոգոտիպի պատկեր
+    logo_icon_help: 'Սա կհայտնվի փոքր էկրանների, պլանշետների և հեռախոսների վրա։ Սա պետք է լինի քառակուսի։ '
+    logo_large: Մեծ լոգոտիպ
+    logo_large_help: Սա կհայտնվի մեծ էկրանների վրա և արտածված PDF ձևաչափի վրա։ Սա պետք է լինի ուղղանկյուն, ավելի մեծ լայնությամբ, քան երկարությամբ։
+    messages:
+      created: Գործակալության հաշիվը բացված է։
+      updated: 'Գործակալության հաշիվը թարմացված է։ '
+    name: Գործակալության անուն
+    pdf_logo_option: 'Օգտագործե՞լ լոգոտիպը PDF ձևաչափով արտածման դեպքում։ '
+    pdf_logo_option_help: 'Նշում՝ օգտատիրոջը ավտոմատ կերպով հասանելի են իր իսկ  գործակալության լոգոտիպերը, ուստի նշեք այս վանդակը միայն, եթե ցանկանում եք, որ այս լոգոտիպը հասանելի լինի բոլոր օգտատերերին։  '
+    services: Գործակալության ծառայությունները
+    terms_of_use: Օգտագործման պայմանները
+    terms_of_use_help: Թույլատրվում են միայն PDF ձևաչափով փաստաթղթեր։
+    terms_of_use_download_button: Ներբեռնել PDF տարբերակը
+    terms_of_use_enabled: Ցույց տա՞լ օգտագործման պայմանները։
+  approvals:
+    no_requests: Այս դեպքի հաստատման համար հայտեր չկան։
+    approved_by: Հաստատել է
+    case_plan_type_label: Դեպքի պլանի տեսակը
+    manager_comments_label: Ղեկավարի նկատառումներ
+    rejected_by: Մերժել է
+    requested_by: 'Հայտը ներկայացրել է '
+    requested_for_label: Հաստատման հայտը ներկայացվել է ․․․ համար
+    requested_for_title: Հաստատման հայտ
+    response_for_label: հաստատում ․․․ համար
+    response_for_title: Հաստատում
+    action_plan: Գործողությունների պլան
+    gbv_closure: ԳՀԲ դեպքի փակում
+    status:
+      approved: Հաստատված
+      pending: Սպասման մեջ
+      rejected: Մերժված
+      requested: Տրված է հայտ
+  audit_log:
+    action: Գործողություն
+    description: Նկարագրություն
+    record_owner: Գրառման հեղինակ
+    timestamp: Ժամանակ
+    user_name: Կատարող՝
+  bulk_export:
+    file_name: Փաստաթուղթ
+    record_type: Տեսակ
+    retry: 'Այս արտածումը սխալ է։ Խնդրեմ փորձեք կրկնել արտածումը։ '
+    started_on: Սկսված է
+    status: Կարգավիճակ
+  form_export:
+    label: Արտածման ձևաթղթի կոնֆիգուրացիա
+    include_hidden: Ներառե՞լ թաքցրած ձևաթղթերն ու դաշտերը։
+    file_name: Փաստաթղթին անվանում տվեք (պարտադիր լրացման դաշտ չէ)
+    success_message: Արտածված փաստաթուղթը հաջող կերպով գեներացվել է։
+  buttons:
+    accept: Ընդունել
+    add: Ավելացնել
+    add_another_option: Ավելացնել ևս մեկ տարբերակ
+    add_note: Ավելացնել նշումներ
+    apply: Կիրառել
+    approvals: Հաստատումներ
+    approve_action_plan: Հաստատել գործողությունների պլանը
+    approve_bia: Հաստատել ԼՇԳ
+    approve_case_plan: Հաստատել դեպքի պլանը
+    approve_closure: Հաստատել փակումը
+    approve_gbv_closure: Հաստատել ԳՀԲ դեպքի փակումը
+    back: Հետ
+    bundle_export: կոնֆիգուրացիայի փաթեթ
+    bundle_import: կոնֆիգուրացիայի փաթեթ
+    cancel: Չեղարկել
+    change_password: Փոխել գաղտնաբառը
+    check_status: Ստուգել կարգավիճակը
+    clear_default: Մաքրել ավտոմատ տարբերակը
+    clear_selection: հանել նշագծումը
+    clear: Ջնջել
+    close: Փակել
+    continue: Շարունակել
+    create_case: Բացել դեպք
+    create_incident: Բացել պատահարի հայտ
+    create_new_record: Ստեղծել նոր %{model}
+    delete: Ջնջել
+    disable: Ապակտիվացնել
+    disable_photo_wall: Ապակտիվացնել լուսանկարների պատը
+    done: Կատարված
+    download: Ներբեռնել
+    edit: Խմբագրել
+    edit_subform: Խմբագրել ենթաձևաթուղթը
+    enable: Ակտիվացնել
+    enable_photo_wall: Ակտիվացնել լուսանկարների պատը
+    export: Արտածել
+    filter: Կիրառել ֆիլտր
+    filter_clear: Հանել ֆիլտրերը
+    filter_label: 'Ֆիլտրել․'
+    filter_restore: Վերականգնել համակարգի կարգաբերումներ բաժնում
+    find_tracing_match: Գտնել որոնվող համընկնումը
+    flag_model: Դրոշակել %{model}
+    flag_records: Դրոշակել
+    flags: Դրոշակներ
+    guidance: Ուղեցույց
+    guiding_questions: Ուղենշող հարցեր
+    import: Ներածել
+    login: Մուտք գործել
+    logout: Դուրս գալ
+    link: Հղում
+    mark_for_mobile: Նշել, որ լինի հասանելի անցանց
+    new: Նոր
+    ok: Լավ
+    print: Տպել
+    reassign: Հանձնարարել
+    referral: Ուղղորդել
+    referral_again: Կրկին ուղղորդել
+    reject: Մերժել
+    remove_referrals: Ջնջել ուղղորդումները
+    reorder: Վերադասավորել
+    request_approval: Ներկայացնել հաստատման հայտ
+    request_transfer: Ներկայացնել փոխանցման հայտ
+    reunite: Վերամիավորել
+    save: Պահպանել
+    save_and_add_service_provision: Պահպանել և ավելացնել Ծառայության Մատուցում տող
+    save_and_return: Պահպանել և վերադառնալ
+    save_continue: Պահպանել և շարունակել
+    save_changes: Պահպանել փոփոխությունները
+    select: Ընտրել
+    send: Ուղարկել
+    sort_by_case: Դեպքեր
+    sort_by_tr: Հայտի կարգավիճակին հետևելու խնդրանքներ
+    sync: Համաժամեցում
+    submit: Հանձնել
+    transfer: Փոխանցել
+    unflag_model: Հանել դրոշակը%{model}
+    unflag_model_history: Դրոշակված դեպքերի պատմություն%{model}
+    unmark_for_mobile: Հանել նշումը անցանց հասանելիության համար
+    update: Թարմացնել
+    view: Դիտել
+    view_flags_history: Դիտել պատմությունը
+    return_to_case: Վերադառնալ դեպքին
+    enable_webpush: Սարքի ծանուցումներ
+    dialog_yes: "Այո"
+  resync_records:
+    id: Անձը հաստատող փաստաթուղթ
+    record_type: Գրառման տեսակ
+    action: Գործողություն
+    date: Ամսաթիվ
+    last_attempt: Վերջին փորձ
+    create: Բացել
+    update: Թարմացնել
+    resync: Հանձնել
+  case:
+    label: Դեպք
+    create_new_case: Բացել նոր դեպք
+    create_case: Բացել դեպք
+    create: Բացել
+    add_new: Ավելացնել նոր
+    back_to_family_details: Վերադառնալ ընտանիքի տվյալներին
+    back_to_case: Վերադառնալ դեպքին
+    back_to_results: Վերադառնալ արդյունքներին
+    back_to_search: Վերադառնալ որոնում ֆունկցիային
+    search_by: Որոնել ըստ
+    search_for: Որոնել %{record_type}
+    results: Արդյունքներ
+    details: Մանրամասներ
+    select: Ընտրել
+    deselect: Ապաընտրել
+    enter_id_number: Մուտքագրել անձը հաստատող փաստաթղթի համարը՝ առկա գրառումը որոնելու համար
+    id_search_no_results: 'Համակարգում առկա չէ %{search_query}հետ համընկնում։ Խնդրեմ ստեղծեք նոր գրառում։ '
+    messages:
+      disabled: Դեպքը ապակտիվացված է
+      update_success: 'Դեպքը %{record_id}թարմացվել է։ '
+      update_success_queue: 'Հետին պլանում դեպքը %{record_id}թարմացվել է։ '
+      creation_success: 'Դեպքի մասին գրառումը բացված է։ '
+      creation_success_queue: 'Հետին պլանում դեպքը թարմացվել է։ '
+      already_matched: 'Հարցումն իրականացնողն արդեն համընկել է ձեր դեպքի հետ։ '
+      already_matched_not_current_case: 'Համակարգում արդեն առկա է այս հարցումը ներկայացնողի հետ համընկնող դեպք:'
+      not_found_case: '%{search_value}հետ համընկնող դեպք չկա։ Բացել նոր դեպք։ '
+      introductory_sentence: 'Նշեք խնդրեմ անհատի համաձայնությունը դեպքի վարման ծառայությունների ստացման և Primero հարթակում հավաքվող նրա անձնական տվյալների համար։ '
+      consent_agreements_required: 'Ընտրեք խնդրեմ համաձայնության պայմանագրերից առնվազն մեկը։ '
+      legitimate_basis_required: 'Ընտրեք խնդրեմ դասակարգված օրինական հիմքերից առնվազն մեկ տարբերակ։ '
+      confirm_create_case: 'Ցանկանու՞մ եք բացել դեպք այս անձի համար։ '
+      case_referral_pending: 'Դեպքի ուղղորդումը սպասման մեջ է։ '
+      case_transfer_pending: 'Դեպքի փոխանցումը սպասման մեջ է։ '
+      case_no_approval_request: Այս դեպքի հաստատման համար հայտեր չկան։
+      bulk_assign_limit: 'Դուք չեք կարող միաժամանակ հանձնարարել 100 դեպքից ավելի։ '
+      bulk_assign_limit_try_again: 'Դուք չեք կարող միաժամանակ հանձնարարել 100 դեպքից ավելի։ Ընտրեք խնդրեմ 100 կամ ավելի քիչ թվով դեպք և փորձեք կրկին։ '
+      referral_rejected: Ուղղորդումը մերժվել է։
+      transfer_request_made: Այս դեպքի համար ներկայացվել է փոխանցման հայտ։
+    save: Պահպանել դեպքը։
+    save_text: Նախքան շարունակելը՝ պահպանեք ձեր կատարած փոփոխությունները դեպքում։
+    skip_and_create: Անցնել առաջ և բացել նոր դեպք
+    search_existing: Որոնել առկա դեպքեր
+    search_helper_text: 'Ինչու՞։ Կանխարգելելու կրկնակի դեպքերի բացումը։ '
+    consent_agreements: Ընտրել բոլոր կիրառելի համաձայնության պայմանագրերը
+    legitimate_basis: 'Ընտրել բոլոր կիրառելի օրինական հիմքերի դասակարգումները '
+    family_linked_subform_delete_disabled: 'Այս ենթաձևաթղթի մուտքագրումը կապված է մի Ընտանիքի մասին գրառման հետ։ Կամ այս ընտանիքի անդամին հանեք ընտանիքի մասին գրառումից, կամ առանձնացրեք ընտանիքի անդամի դեպքը Ընտանիքի մասին գրառումից։ '
+    workflow:
+      assessment: Գնահատում
+      case_plan: Դեպքի պլան
+      closed: Փակված
+      created_on: Բացվել է
+      in_progress: Ընթացքում է
+      new: Նոր
+      on_label: 'Միացված'
+      reopened: Վերաբացված
+      service_implemented: Ծառայությունը տրամադրված է
+      services_implemented: Ծառայությունը տրամադրված է
+  linkedincidents:
+    label: փոխկապակցված պատահարներ
+  activity_log:
+    label: միջոցառումների մատյան
+    accepted_transfer: '%{to}%{record_type}-ի ընդունված փոխանցում %{record_id}%{from}-ից'
+    rejected_transfer: '%{to}%{record_type}-ի մերժված փոխանցում %{record_id}%{from}-ից'
+  cases:
+    action_plan: Գործողությունների պլան
+    access_denied: "Դուք այս դեպքին հասանելիություն չունեք։ "
+    age: Տարիք
+    age_estimated: Գնահատված տարի՞քը
+    agency: Գործակալություն
+    apply_filter: Կիրառել
+    approval_comments: Նկատառումներ
+    approval_radio: Կցանկանայի
+    approval_radio_accept: Հաստատել
+    approval_radio_reject: Չհաստատել
+    approval_select: ձևաթուղթ նախատեսված՝
+    approved_success_action_plan: '%{approval_label}հաստատված է'
+    approved_success_assessment: '%{approval_label}հաստատված է'
+    approved_success_bia: '%{approval_label}հաստատված է'
+    approved_success_case_plan: '%{approval_label}հաստատված է'
+    approved_success_closure: '%{approval_label}հաստատված է'
+    approved_success_gbv_closure: '%{approval_label}հաստատված է'
+    assessment: Գնահատում
+    case_opening_date: Դեպքի բացման ամսաթիվ
+    case_plan: Դեպքի պլան
+    case_worker_code: Դեպքի վարման մասնագետի կոդ
+    clear_filter: Մաքրել
+    close_dialog: 'Եթե սեղմեք "լավ" կոճակը, այս դեպքի կարգավիճակը կդառնա "փակված"։ '
+    close_dialog_title: 'Փակել դեպքը '
+    close_success: 'Հաջող կերպով փակված դեպք '
+    closure: Փակում
+    complete: Հասանելի է անցանց
+    date_of_birth: Ծննդյան ամսաթիվ
+    disable_dialog: 'Եթե սեղմեք "լավ" կոճակը, այս դեպքի կարգավիճակը կդառնա "ապակտիվ"։ '
+    disable_dialog_title: Ապակտիվացնել դեպքը
+    disable_success: 'Անխափան կերպով ապակտիվացված դեպք '
+    enable_dialog: 'Սեղմելով "լավ" կոճակը՝ այս դեպքի կարգավիճակը կդառնա "ակտիվ"։ '
+    enable_dialog_title: Ակտիվացնել դեպքը
+    enable_success: Անխափան կերպով ակտիվացված դեպք
+    export: Արտածել
+    mark_for_offline:
+      title: Նշել անցանց ռեժիմում հասանելիության համար
+      text: 'Վստա՞հ եք, որ ցանկանում եք այս դեպքերը նշել անցանց ռեժիմում օգտագործելու համար։ '
+      success: Դեպքերն առանձնացված են անցանց ռեժիմում օգտագործելու նպատակով։
+    filter_by:
+      3month_inactivity: 3 և ավելի ամիսների համար
+      action_plan: Գործողությունների պլան
+      age_0_5: 0 - 5 տ․
+      age_12_17: '12 - 17 տ․ '
+      age_18_more: '18+ տ․ '
+      age_6_11: 6-11 տ․
+      age_range: Տարիքային միջակայք
+      agency: Գործակալություն
+      approval_status: Հաստատումների կարգավիճակ
+      approvals:
+        approved: Հաստատված
+        pending: Սպասման մեջ
+        rejected: Մերժված
+      bia: ԼՇԳ
+      by_date: Ըստ ամսաթվի
+      case_open_date: Դեպքի բացման ամսաթիվ
+      case_plan: Դեպքի պլան
+      closed: Փակված
+      closure: Փակում
+      current_location: ներկա տեղադրությունը
+      date: Ամսաթիվ
+      displacement_status: Տեղահանման կարգավիճակ
+      district: թաղամաս
+      duplicate: Կրկնօրինակել
+      enabled_disabled: ակտիվացված / ապակտիվացված
+      female: Իգական
+      flag: Դրոշակված
+      flag_label: Դրոշակվա՞ծ
+      gbv_closure: ԳՀԲ դեպքի փակում
+      high: Բարձր
+      low: Ցածր
+      male: Արական
+      medium: Միջին
+      mobile: Բջջային
+      mobile_label: Նշվա՞ծ է անցանց հասանելիության համար
+      my_cases: Իմ դեպքերը
+      no_action: Գործողություն չկա
+      no_activity: Միջոցառում չկա
+      open: Բաց
+      other: Այլ
+      photo: Լուսանկար
+      photo_label: Ունի՞ լուսանկար։
+      protection_concerns: Անձի իրավունքների պաշտպանության վերաբերյալ մտահոգություններ
+      protection_status: Անձի իրավունքների պաշտպանության կարգավիճակ
+      record_state: Գրառման վիճակ
+      referred_cases: Ինձ ուղղորդված դեպքերը
+      registration_date: Գրանցման ամսաթիվ
+      risk_level: Ռիսկի մակարդակ
+      sex: Սեռ
+      social_worker: Դաշտային / դեպք վարող / սոցիալական աշխատող
+      status: Կարգավիճակ
+      transferred: փոխանցված
+      type_of_risk: Ռիսկի տեսակ
+      urgent_protection_concern: Անձի իրավունքների պաշտպանության վերաբերյալ հրատապ մտահոգություն
+      user_group: Օգտատերերի խումբ
+      workflow: Դեպքեր ըստ աշխատանքային հոսքի
+      include_disabled: Ներառել ապակտիվացվածները
+    flag_summary: Դրոշակել ամփոփաթերթը
+    full_name: Ամբողջական անուն
+    gbv_closure: ԳՀԲ դեպքի փակում
+    hide_name: Թաքցնել անունը
+    hide_name_error: 'Ձեր կատարած փոփոխությունները պահպանելիս՝ տեղի է ունեցել սխալ։ Փորձեք կրկին։ '
+    id: 'Անձը հաստատող փաստաթղթի #'
+    label: Դեպքեր
+    my_filters: Իմ ֆիլտրերը
+    name: Անուն
+    notes_dialog_title: Կատարել նշումներ
+    notes_form_notes: Նշումներ
+    notes_form_subject: Թեմա
+    ok: Լավ
+    order_by:
+      label: 'Պատվիրել է '
+      most_recently: բոլորովին վերջերս
+      name: Անուն
+    owned_by: Գրառման հեղինակ
+    owned_by_agency: Գրառման հեղինակ գործակալություն
+    photo: Լուսանկար
+    photos: Լուսանկար
+    quick_view:
+      tracing_message: 'Նշում՝ համակարգում կա համընկնում այս երեխային փնտրող հարցում ներկայացնողի հետ։ Այս գրառման հեղինակ սոցիալական աշխատողի հետ կապվեք հետագա քայլերի համար՝ երեխայի ցանկության դեպքում։  '
+    reassign:
+      multiple_successfully: 'Primero հարթակը վերահանձնարարում է %{select_records}դեպք(եր)ը։ Այս բոլոր դեպքերի թարմացումը կտևի մի քանի րոպե։ '
+    referral_done: '"Կատարված է" կոճակը սեղմելը նշանակում է, որ դուք ավարտել եք այս դեպքին առնչվող ուղղորդման աշխատանքը։ "Կատարված է" կոճակը սեղմելուց հետո դուք այս գրառմանը հասանելիություն այլևս չեք ունենա։  '
+    referral_done_success: Ուղղորդումը կատարված է։
+    referral_accepted_header: Ընդունել ուղղորդումը
+    referral_accepted: 'Վստա՞հ եք։ Դուք այժմ պատասխանատու եք այս ուղղորդման հետ կապված աշխատանքն ավարտելու համար։ '
+    referral_accepted_success: 'Ուղղորդումն ընդունված է։ '
+    referral_rejected: 'Սեղմելով "մերժել"՝ դուք նշում եք, որ պատրաստ չեք ստանձնել պատասխանատվություն այս ուղղորդման համար այս պահին։ Խնդրեմ գրեք այս ուղղորդման մերժման պատճառը․ "մերժել" կոճակը սեղմելուց հետո դուք այլևս չեք ունենա հասանելիություն այս դեպքի մասին գրառմանը։ '
+    referral_rejected_success: 'Ուղղորդումը մերժված է։ '
+    register_new_case: Նոր դեպք
+    registration_date: Գրանցման ամսաթիվ
+    rejected_success_action_plan: '%{approval_label}հաստատված չէ'
+    rejected_success_assessment: '%{approval_label}հաստատված չէ'
+    rejected_success_bia: '%{approval_label}հաստատված չէ'
+    rejected_success_case_plan: '%{approval_label}հաստատված չէ'
+    rejected_success_closure: '%{approval_label}հաստատված չէ'
+    rejected_success_gbv_closure: '%{approval_label}հաստատված չէ'
+    reopen_dialog: '"Լավ" կոճակը սեղմելով՝ այս դեպքի կարգավիճակը կդառնա բաց։'
+    reopen_dialog_title: Վերաբացել դեպքը
+    reopen_success: Վերաբացված դեպք
+    request_approval_failure: 'Տեղի է ունեցել սխալ։ Խնդրեմ դիմեք տեխնիկական աջակցության թիմին։ '
+    request_approval_select: Ներկայացնել հաստատման հայտ
+    request_approval_success_action_plan: 'Ներկայացված է հաստատման հայտ %{approval_label}ձևաթղթի համար։ '
+    request_approval_success_assessment: 'Ներկայացված է հաստատման հայտ %{approval_label}ձևաթղթի համար։ '
+    request_approval_success_case_plan: 'Ներկայացված է հաստատման հայտ %{approval_label}ձևաթղթի համար։ '
+    request_approval_success_closure: 'Ներկայացված է հաստատման հայտ %{approval_label}ձևաթղթի համար։ '
+    request_approval_success_gbv_closure: 'Ներկայացված է հաստատման հայտ %{approval_label}ձևաթղթի համար։ '
+    request_approval_type_of_case_plan: Դեպքի պլանի հաստատման տեսակ
+    request_approve_action_plan: Հաստատե՞լ գործողությունների պլանը
+    request_approve_bia: Հաստատե՞լ գնահատումը
+    request_approve_case_plan: Հաստատե՞լ դեպքի պլանը
+    request_approve_closure: Հաստատե՞լ փակումը
+    request_approve_gbv_closure: Հաստատե՞լ ԳՀԲ փակումը
+    revoke_failure: 'Տեղի է ունեցել սխալ %{transition_type}-ի հետ կանչի ժամանակ․ խնդրեմ դիմեք տեխնիկական աջակցության թիմին։ '
+    revoke_message: 'Սեղմելով "հետ կանչ" կոճակը՝ դուք կփակեք %{transition_type}ընդունողի հասանելիությունը դեպքին։ '
+    revoke_success_message: '%{case_id}%{transition_type}դեպքը %{recipient_username}-ին հետ է կանչվել։ '
+    save_filter: Պահպանել
+    selected_all_records: Նշել այս հարցմանը համապատասխանող բոլոր %{total_records}դեպքերը
+    selected_records: 'Դեպք(եր)ի %{select_records} ընտրված է'
+    selected_records_assign: 'Դեպք(եր)ի %{select_records} ընտրված է'
+    sex: Սեռ
+    show_case: 'Դեպքի կոդ․%{short_id}'
+    social_worker: Սոցիալական աշխատող
+    status: Կարգավիճակ
+    summary:
+      label: Ամփոփաթերթ
+      find_match: Գտնել համընկնում
+      matched_trace: 'Համընկնում # %{trace_id}'
+      cannot_find_matches: 'Համընկնումներ չեն գտնվել։ Այս դեպքի համար համաձայնություն չի ստացվել՝ բացահայտելու որոնման նպատակով անհրաժեշտ տեղեկատվությունը։ '
+      matched: Համընկած
+      fields:
+        consent_for_tracing:
+          label: Ստացվել է համաձայնություն՝ բացահայտելու որոնման նպատակով անհրաժեշտ տեղեկատվությունը։
+          help_text: 'Եթե այս դաշտում նշված է "ոչ", ապա երեխայի դեպքի գրառումը չի հայտնվի հարցում ներկայացնողի որոնման հայտերի հետ համընկնումների ցանկում։ '
+        wishes_child_family_tracing:
+          label: Երեխան ցանկանու՞մ է որոնել իր ընտանիքի անդամներին։
+        wishes_reunification:
+          label: 'Երեխան ցանկանու՞մ է ընտանիքի վերամիավորում։ '
+          options:
+            yes_as_soon_as_possible: Այո, հնարավորինս շուտ
+            yes_but_later: Այո, բայց ավելի ուշ
+            not_sure: Վստահ չէ
+            'no': 'Ոչ'
+        data_confidentiality_link:
+          label: Տեսնել տվյալների գաղտնիությունը
+        child_wishes_link:
+          label: Տեսնել երեխայի ցանկությունները
+    survivor_code: Բռնություն վերապրած անձի կոդ
+    transfer_accepted: 'Սեղմելով "ընդունել"՝ դուք ստանձնում եք այս դեպքի պատասխանատվությունը․ "ընդունել" կոճակը սեղմելուց հետո դուք կդառնաք այս համակարգում գրառման հեղինակը։ '
+    transfer_managed_user_accepted: 'Եթե սեղմեք "ընդունել" կոճակը, %{transitioned_to}կդառնա այս դեպքի պատասխանատուն։ "Ընդունել" կոճակը սեղմելուց հետո %{transitioned_to}կդառնա համակարգում գրառման հեղինակը։ '
+    transfer_managed_user_rejected: 'Սեղմելով "մերժել" կոճակը՝ դուք նշում եք, որ %{transitioned_to}պատրաստ չէ ստանձնել այս դեպքի պատասխանատվությունը այս պահին։ Խնդրեմ նշեք այս դեպքի մերժման պատճառ։ "Մերժել" կոճակը սեղմելուց հետո %{transitioned_to}այլևս չի ունենա հասանելիություն այս դեպքի մասին գրառմանը։  '
+    transfer_accepted_rejected: '%{record_id}դեպքի փոխանցումը մերժված է։ '
+    transfer_accepted_success: 'Դեպքի փոխանցումը ընդունված է։ '
+    transfer_reject_reason_label: Մերժման պատճառ
+    transfer_rejected: 'Սեղմելով "մերժել" կոճակը՝ դուք նշում եք, որ պատրաստ չեք հիմա ստանձնել այս դեպքի պատասխանատվությունը։ Խնդրեմ գրեք այս դեպքի մերժման պատճառը․ "մերժել" կոճակը սեղմելուց հետո դուք այլևս չեք ունենա հասանելիություն այս դեպքի մասին գրառմանը։ '
+    view_name: Տեսնել անունը
+    sort_by: Տեսակավորել ըստ
+  change_logs:
+    filters:
+      form: Ձևաթուղթ
+      field: Դաշտ
+    add_subform: 'Ավելացրել է "%{subform_name}" ենթաձևաթղթի մուտքագրումը # %{short_id}'
+    changes_subform: '"%{subform_name}" ենթաձևաթղթում փոփոխություններ'
+    create: Բացված գրառում
+    deleted_subform: 'Հեռացված "%{subform_name}" ենթաձևաթղթի մուտքագրում # %{short_id}'
+    label: Փոփոխությունների մատյան
+    see_details: Տեսնել մանրամասները։
+    change: '"%{from_value}"-ից "%{to_value}"'
+    updated_subform: 'Թարմացված "%{subform_name}" ենթաձևաթղթի մուտքագրում # %{short_id}'
+    update_subform: 'Թարմացված "%{subform_name}" ենթաձևաթուղթ'
+    from: ից
+    to: ին
+  children:
+    selectable_date_options:
+      assessment_requested_on: Գնահատման ամսաթիվ
+      closure_approved_date: 'Դեպքի փակման ամսաթիվ'
+      created_at: Դեպքի բացման ամսաթիվ
+      date_case_plan_initiated: Դեպքի պլանի ամսաթիվ
+      date_of_creation: Բացման ամսաթիվ
+      registration_date: Գրանցման ամսաթիվ
+      followup_date: Դեպքով զբաղվելու ամսաթիվ
+      date_reunification: Վերամիավորման ամսաթիվ
+      tracing_date: Որոնման ամսաթիվ
+      service_implemented_day_time: Ծառայության ավարտի ամսաթիվ
+  configurations:
+    apply_label: 'Վստա՞հ եք։ Եթե սեղմեք, այս կոնֆիգուրացիայի կարգաբերումները կկիրառվեն համակարգի հանդեպ։ Դուք կկորցնեք ձեր ներկայիս բոլոր կարգաբերումները և դրանք չեք կարողանա վերականգնել, եթե դրանք պահպանած չլինեք մեկ այլ կոնֆիգուրացիայում։ '
+    apply_label_bold: 'Primero հարթակը հասանելի չի լինի օգտատերերին մի քանի րոպե, մինչև փոփոխությունները հաստատվեն։ '
+    version_mismatch_tooltip: 'Դուք չեք կարող կիրառել այս կոնֆիգուրացիան, քանի որ այն ստեղծվել է Primero հարթակի ավելի զարգացած տարբերակի օգտագործմամբ, քան ձեր կայքում գործողն է։ Սպասեք խնդրեմ այս կոնֆիգուրացիայի կիրառման հարցում, մինչև որ դուք կգործածեք Primero հարթակի ամենավերջին տարբերակը։ '
+    send_header: Ուղարկել գործարկման
+    send_text: 'Վստա՞հ եք։ Եթե սեղմեք "ուղարկել" կոճակը, ապա այս կոնֆիգուրացիան կուղարկվի ձեր Գործարկման կայքին։ Այս կոնֆիգուրացիան չի գործարկվի, եթե կայքի ադմինիստրատորը չգործարկի այն։ '
+    attributes:
+      created_by: Բացվել է
+      date_created: Բացման ամսաթիվ
+      description: Նկարագրություն
+      last_applied_by: Վերջինը կիրառել է
+      last_applied_on: 'Վերջինը կիրառվել է '
+      name: Անուն
+      version: կոնֆիգուրացիայի տարբերակ
+      primero_version: Primero-ի տարբերակ
+    delete_label: 'Վստա՞հ եք, որ ցանկանում եք անել սա։ Սա այս կոնֆիգուրացիայի ստեղծման ժամանակ առկա բոլոր կարգաբերումների ամբողջությունն է։ Դուք չեք կարողանա հետ գնալ ու վերականգնել այս կարգաբերումները, եթե ջնջեք այս կոնֆիգուրացիան։ '
+    explanation: 'Սեղմելով "պահպանել" կոճակը՝ կստեղծվի ներկա ժամանակում գործող բոլոր կոնֆիգուրացիոն կարգաբերումների գրառում (օրինակ՝ դերեր, գործակալություններ, ձևաթղթեր)։ Պահպանելուց հետո կարող եք այս փոփոխությունները տեղափոխել Primero-ի մեկ այլ հարթություն։ Հետագայում, եթե կատարեք այնպիսի կոնֆիգուրացիոն փոփոխություններ, որ ցանկանաք չեղարկել, ապա կարող եք կիրառել այս կոնֆիգուրացիայի գրառումը՝ վերականգնելու տվյալ պահին ձեր ունեցած բոլոր կոնֆիգուրացիոն փոփոխությունները։ '
+    label: Կոնֆիգուրացիաներ
+    label_new: նոր կոնֆիգուրացիա
+    messages:
+      applied: 'Կոնֆիգուրացիան անխափան կիրառվել է։ '
+      created: 'Կոնֆիգուրացիան անխափան ստեղծվել է։ '
+      deleted: 'Կոնֆիգուրացիան ջնջվել է։ '
+      updated: 'Կոնֆիգուրացիան թարմացվել է։ '
+      sent: 'Կոնֆիգուրացիան ուղարկվում է գործարկման։ Խնդրեմ ստուգեք գործարկման կայքը՝ տեսնելու, թե արդյոք կոնֆիգուրացիան ստացվել է։ '
+    not_allowed: արգելված
+    unavailable_server: Սերվերը ժամանակավորապես հասանելի չէ։
+  contact:
+    field:
+      email: Էլ․ հասցե
+      location: Տեղադրություն
+      name: Անուն
+      organization: Կազմակերպություն
+      other_information: Այլ տեղեկատվություն
+      phone: Հեռախոս
+      position: Պաշտոն
+      primero_version: Primero-ի տարբերակ
+      support_forum: Աջակցող ֆորում
+      system_version: Համակարգի տարբերակ
+    info_label: Կոնտակտային տեղեկատվություն
+    updated: Կոնտակտային տեղեկատվությունը թարմացվել է։
+  code_of_conduct:
+    field:
+      title: տիտղոս
+      content: Բովանդակություն
+      created_on: Բացվել է
+      created_by: Բացել է
+    info_label: Վարքականոններ
+    updated: Վարքականոնները թարմացվել են։
+  dashboard:
+    activity: Միջոցառում
+    admin_only: Սեղմել %{links}հավելվածում փոփոխություններ կատարելու համար
+    all_cases: Բոլոր դեպքերը
+    all_services_implemented: Տրամադրված բոլոր ծառայությունները
+    and: 'և'
+    action_needed:
+      awaiting_acceptance: Ընդունումն ընթացքի մեջ է
+      header: Հարկ է կատարել գործողություն
+      new: Նոր
+      new_this_week: Այս շաբաթվա նորույթ
+      referrals: Ուղղորդումներ
+      transfers: Փոխանցումներ
+    approval_action_plan_approved: Հաստատված
+    approval_action_plan_pending: Սպասման մեջ
+    approval_action_plan_pending_group: Գործողությունների պլան
+    approval_action_plan_rejected: Մերժված
+    approval_assessment_approved: Հաստատված
+    approval_assessment_pending: Սպասման մեջ
+    approval_assessment_pending_group: Գնահատում
+    approval_assessment_rejected: Մերժված
+    approval_case_plan_approved: Հաստատված
+    approval_case_plan_pending: Սպասման մեջ
+    approval_case_plan_pending_group: Դեպքի պլան
+    approval_case_plan_rejected: Մերժված
+    approval_closure_approved: Հաստատված
+    approval_closure_pending: Սպասման մեջ
+    approval_closure_pending_group: Փակում
+    approval_closure_rejected: Մերժված
+    approval_gbv_closure_approved: Հաստատված
+    approval_gbv_closure_pending: Սպասման մեջ
+    approval_gbv_closure_pending_group: ԳՀԲ դեպքի փակում
+    approval_gbv_closure_rejected: Մերժված
+    approvals: Հաստատումներ
+    approvals_action_plan: Գործողությունների պլան
+    approvals_assessment: Գնահատում
+    approvals_case_plan: Դեպքի պլան
+    approvals_closure: Փակում
+    approvals_gbv_closure: ԳՀԲ դեպքի փակում
+    approved: Հաստատված
+    assessment: Գնահատում
+    awaiting_acceptance: Ընդունումն ընթացքի մեջ է
+    cases_by_social_worker_total: Ընդամենը
+    cases_by_social_worker_new_or_updated: Նոր և թարմացված
+    case_id: 'Դեպքի #'
+    case_management_service: Դեպքի վարման ծառայություն
+    case_overview: Իմ դեպքերը
+    case_plan: Դեպքի պլան
+    case_risk: Դեպքերը՝ ըստ գնահատման մակարդակի
+    case_stat_by_approval_type: Հաստատումներ
+    case_stat_by_assessment_level: Դեպքերը՝ ըստ գնահատման մակարդակի
+    case_stat_referrals: Ուղղորդումներ
+    case_stats: Դեպքեր
+    case_worker: Դեպքի վարող
+    cases_by_social_worker: Սոցիալական աշխատողի ներկայացրած դեպքերը
+    cases_by_task_overdue: Ժամկետանց հանձնարարականներ
+    cases_by_workflow: Դեպքեր ըստ աշխատանքային հոսքի
+    cases_this_week: Այս շաբաթվա դեպքերը
+    cases_to_assign: Հանձնարարվելիք դեպքերը
+    closed: Փակված
+    closed_last_week: Փակվել է (անցյալ շաբաթ)
+    closed_this_week: Փակվել է (այս շաբաթ)
+    comprehensive_need_intervention: համապարփակ արձագանք
+    count_new_bia_approvals:
+      one: '%{stat}նոր %{stat_type}հաստատում'
+      other: '%{stat}նոր %{stat_type}հաստատումներ'
+    count_new_case_plan_approvals:
+      one: '%{stat} նոր %{stat_type}հաստատում'
+      other: '%{stat}նոր %{stat_type} հաստատումներ'
+    count_new_closure_approvals:
+      one: '%{stat}նոր %{stat_type}հաստատում'
+      other: '%{stat}նոր %{stat_type}հաստատումներ'
+    count_pending_approval_total:
+      one: Դուք ունեք %{stat}սպասման մեջ %{stat_type}հաստատում
+      other: Դուք ունեք %{stat}սպասման մեջ %{stat_type}հաստատումներ
+    count_pending_transfers:
+      one: 'Դուք ունեք %{stat}փոխանցում սպասման մեջ '
+      other: 'Դուք ունեք %{stat}փոխանցումներ սպասման մեջ '
+    count_records_new:
+      one: և %{stat}նոր դեպք
+      other: և %{stat}նոր դեպքեր
+    count_records_total:
+      one: Դուք ունեք ընդհանուր առմամբ %{stat}դեպք
+      other: Դուք ունեք ընդհանուր առմամբ %{stat} դեպքեր
+    count_referrals_new:
+      one: և %{stat}նոր ուղղորդումներ
+      other: և %{stat}նոր ուղղորդումներ
+    count_referrals_total:
+      one: Դուք ունեք ընդհանուր առմամբ %{stat}ուղղորդում
+      other: Դուք ունեք ընդհանուր առմամբ %{stat}ուղղորդումներ
+    count_rejected_approval_total:
+      one: և %{stat}մերժված %{stat_type}հաստատման հայտ
+      other: և %{stat} մերժված %{stat_type}հաստատման հայտեր
+    count_rejected_transfers:
+      one: և %{stat} մերժված փոխանցում
+      other: և %{stat}մերժված փոխանցումներ
+    count_risk_level_new:
+      one: և %{stat} նոր %{stat_type}ռիսկային դեպք
+      other: և %{stat} նոր %{stat_type}ռիսկային դեպքեր
+    count_risk_level_total:
+      one: Դուք ունեք %{stat} %{stat_type} ռիսկային դեպք
+      other: Դուք ունեք %{stat} %{stat_type} ռիսկային դեպքեր
+    count_waiting_for_acceptance_transfers: 'Դուք ունեք ընդունման սպասող %{stat}փոխանցում։ '
+    current_owner: Ներկա հեղինակը
+    dash_case_incident_overview: Իմ դեպքերը
+    dash_group_overview: Իմ Խմբի դեպքերը
+    dash_shared_from_my_team: Ուղարկված է իմ թիմի կողմից
+    dash_shared_with_me: Ուղարկվել է ինձ
+    dash_shared_with_my_team: Ուղարկվել է իմ թիմին
+    dash_shared_with_my_team_overview: Ուղարկվել է իմ թիմին (ամփոփ տարբերակ)
+    dash_shared_with_others: Ուղարկվել է այլոց
+    dash_national_admin_summary: Ադմինիստրատորի ամփոփումը
+    dash_violations_category_verification_status: Պատահարների ընդհանուր թիվը ըստ ստուգված լինելու կարգավիճակի
+    dash_violations_category_region: Պատահարների ընդհանուր թիվը՝ ըստ մարզի
+    dash_perpetrator_armed_force_group_party_names: Պատահարների ընդհանուր թիվը՝ ըստ բռնարարի
+    date: Ամսաթիվ
+    date_of_incident: Պատահարի ամսաթիվը
+    date_of_interview: Հարցազրույցի ամսաթիվը
+    due: Ժամկետանց
+    flagged: Դրոշակված
+    flagged_by: 'Դրոշակել է'
+    flagged_by_me: Դրոշակվել է իմ կողմից
+    flagged_by_other: Դրոշակվել է մեկ ուրիշի կողմից
+    flagged_cases: Դրոշակված դեպքեր
+    follow_up: Դեպքի վարման հետագա գործողություններ
+    forms: ՁևԱԹՂԹԵՐ ներդիր
+    geographic_area: Աշխարհագրական տարածք
+    group_overview_closed: Փակված
+    group_overview_open: Բաց
+    high_level: Բարձր
+    high_risk: Խիստ առաջնահերթ
+    immediate_response: Անհապաղ արձագանք
+    in_progress: Ընթացքում է
+    incident_id: 'Պատահարի կոդ #'
+    incident_location: Պատահարի տեղադրություն
+    incident_status_open: Բաց
+    last_updated: Վերջին անգամ թարմացվել է
+    link_see_all: Տեսնել բոլորը
+    low_level: Ցածր
+    low_risk: Քիչ առաջնահերթ
+    manager_count_closed_total:
+      one: և %{stat}փակված դեպք
+      other: և %{stat} փակված դեպքեր
+    manager_count_open_total:
+      one: Դուք ունեք %{stat}բաց դեպք
+      other: Դուք ունեք %{stat} բաց դեպքեր
+    manager_transfers_totals:
+      one: Դուք ունեք %{stat} %{stat_type} փոխանցում
+      other: Դուք ունեք %{stat} %{stat_type} փոխանցումներ
+    match_result: Համընկնման արդյունքները
+    medium_level: 'Միջին '
+    medium_risk: Միջին առաջնահերթության
+    missed_cases: Բաց թողնված դեպքեր
+    name: Անուն
+    name_or_survivor_code: Բռնություն վերապրածի կոդ
+    near_deadline: Մոտեցող վերջնաժամկետ
+    new: Նոր և թարմացված
+    new_child_assigned_to_you: Ձեզ հանձնարարված նոր դեպքեր
+    new_incident: Նոր պատահարներ
+    new_incident_assigned_to_you: Նոր հանձնարարված պատահարներ
+    new_last_week: Նոր (անցած շաբաթ)
+    new_or_updated: Նոր կամ թարմացված
+    new_referred: Նոր ուղղորդումներ
+    new_service_provision: Նոր Ծառայության մատուցումներ
+    new_this_week: Նոր (այս շաբաթ)
+    no_action_risk: Գործողություն չկա
+    no_case_stats: Դեպքի վիճակագրություն չկա
+    no_caseworker_data: Դեպք վարողի տվյալներ չկան
+    no_flagged_child: Դրոշակված դեպքեր չկան
+    no_flagged_incident: Դրոշակված պատահարներ չկան
+    no_open_incidents: Բաց պատահարներ չկան
+    no_overdue_activities: Ժամկետանց միջոցառումներ չկան
+    no_recent_activities: Վերջերս իրականացված միջոցառումներ չկան
+    no_scheduled_activities: Պլանավորված միջոցառումներ չկան
+    none_risk: Առաջնահերթ չէ
+    number_of_victims: Զոհերի թիվը
+    number_of_violations: Խախտումների թիվը
+    number_of_violations_verified: Հաստատված խախտումները
+    open: Բաց
+    open_cases: Բաց դեպքերը
+    open_incidents: Բաց պատահարներ
+    outstanding_transfers: Արտառոց փոխանցումներ
+    overdue_activities: Ժամկետանց միջոցառումներ
+    overdue_cases_to_assign: Հանձնարարվելիք ժամկետանց դեպքեր
+    overdue_cases_to_assign_high: 'Այս դեպքերը ձեզ մոտ են գտնվում ավելի քան 1 ժամ։ '
+    overdue_cases_to_assign_low: Այս դեպքերը ձեզ մոտ են գտնվում ավելի քան երեք ժամ։
+    overview: Ամփոփ նկարագիր
+    pending: Սպասման մեջ
+    pending_approvals: Սպասման մեջ գտնվող հաստատումներ
+    pending_transfers: Սպասման մեջ գտնվող փոխանցումներ
+    protection_concern: Անձի իրավունքների պաշտպանության վերաբերյալ մտահոգություն
+    protection_concerns: Անձի իրավունքների պաշտպանության վերաբերյալ մտահոգություններ
+    range12+: 12+ տ․
+    range4: 0-4 տ․
+    range4_8: 4-8 տ․
+    range8_12: 8-12 տ․
+    recent_activities: Վերջերս իրականացված միջոցառումներ
+    recently_flagged_child: Վերջերս դրոշակված դեպքեր
+    recently_flagged_incident: Վերջերս դրոշակված պատահարներ
+    referrals_by_social_worker: Սոցիալական աշխատողի ուղղորդումները
+    registration: Գրանցում
+    rejected: Մերժված
+    rejected_transfers: Մերժված փոխանցումներ
+    response: Արձագանք (ընթացքի մեջ է)
+    scheduled_activities: Պլանավորված միջոցառումներ
+    score_range: Բալային միջակայք
+    screening_service: Սքրինինգի ծառայություն
+    services: Ծառայություններ
+    services_implemented: Ծառայությունը տրամադրված է
+    shared_from_my_team_pending_transfers: Սպասման մեջ գտնվող փոխանցումներ
+    shared_from_my_team_referrals: Ուղղորդումներ
+    shared_from_my_team_rejected_transfers: Մերժված փոխանցումներ
+    shared_with_me_new_referrals: Նոր ուղղորդումներ
+    shared_with_me_total_referrals: Ընդամենը ուղղորդումներ
+    shared_with_me_transfers_awaiting_acceptance: Ընդունման սպասող փոխանցումներ
+    shared_with_my_team_pending_transfers_overview: Ընդունման սպասող փոխանցումներ
+    shared_with_my_team_pending_transfers: Սպասման մեջ գտնվող փոխանցումներ
+    shared_with_my_team_referrals: Ուղղորդումներ
+    shared_with_others_pending_transfers: Սպասման մեջ գտնվող փոխանցումներ
+    shared_with_others_referrals: Ուղղորդումներ
+    shared_with_others_rejected_transfers: Մերժված փոխանցումներ
+    status_of_cases: Դեպքերի կարգավիճակ
+    system_user: Համակարգ
+    total: Ընդամենը
+    total_cases: Ընդամենը դեպքեր
+    total_referred: Ընդամենը ուղղորդումներ
+    tr_stats: Հայտի կարգավիճակին հետևելու խնդրանքներ
+    transers_awaiting_acceptance: Ընդունման սպասող փոխանցումներ
+    transfers_by_social_worker: Սոցիալական աշխատողի փոխանցումները
+    users: ԿԱՐԳԱԲԵՐՈՒՄՆԵՐ պատկերակ
+    violence_type: Բռնության տեսակ
+    with_incidents: Պատահարները ներառյալ
+    with_new_incidents: Նոր պատահարները ներառյալ
+    without_incidents: Առանց պատահարների
+    worker_count_referrals_total:
+      one: '%{case_worker} ունի ընդամենը %{stat} ուղղորդում։'
+      other: '%{case_worker} ունի ընդամենը %{stat} ուղղորդումներ։'
+    worker_count_total:
+      one: '%{case_worker} ունի ընդհանուր առմամբ %{stat}դեպք'
+      other: '%{case_worker} ունի ընդհանուր առմամբ %{stat}դեպք'
+    workflow: Աշխատանքային հոսք
+    workflow_team: Աշխատանքային հոսք․ Թիմս հավելվածի դեպքերը
+    you_have: 'Դուք ունեք'
+  disabled:
+    status:
+      disabled: Ապակտիվ
+      enabled: Ակտիվ
+  email_notification:
+    assign: '%{user} հետևյալ %{record_type} հանձնարարել է ձեզ․ %{record_id}։'
+    assign_subject: '%{record_type}․ %{id}՝ հանձնարարվել է ձեզ'
+    approval_request: 'Օգտվող %{user} խնդրում է հաստատել %{approval_type} %{case_id} դեպքի վերաբերյալ։ '
+    approval_request_subject: 'Դեպք՝ %{id}․ հաստատման հայտ'
+    approval_response: '%{user} ունի %{status}հաստատման հայտ %{approval_type}համար %{case_id}դեպքի մասով։ '
+    approval_response_subject: 'Դեպք՝ %{id}․ հաստատման պատասխան'
+    referral: '%{user}-ը %{agency}-ից ուղղորդել է %{record_type} ձեզ․ %{record_id} %{service_type}-ի համար։ '
+    transfer: '%{user} փոխանցել է հետևյալ %{record_type}-ը ձեզ․ %{record_id}։'
+    transfer_request_subject: Ձեր դեպքերից մեկի փոխանցման հայտ
+    transfer_subject: '%{record_type}․ %{id}՝ փոխանցում'
+    referral_subject: '%{record_type}․ %{id}՝ ուղղորդում'
+    transfer_request: 'Primero-ի %{user} օգտատերը %{agency}-ից խնդրում է, որ դուք փոխանցեք այս %{record_type} գրառման %{record_id} սեփականությունը, որպեսզի նրանք կարողանան մատուցել %{record_type} կառավարման ծառայություններ անհատի համար իր տարածքում։ Եթե այս փոխանցումն ընդունելի է ձեզ համար, խնդրեմ սեղմեք այս էլեկտրոնային փոստի %{record_type} ՆՓ հղմանը՝ բացելու այն Primero հարթակում և կատարելու փոխանցումը։ '
+    approval_request_html: ' <strong>%{user} օգտատերը ներկայացրել է հաստատման հայտ <strong>%{approval_type}</strong>համար <strong>%{case_id}</strong>դեպքի մասով։  '
+    approval_response_html: '<strong>%{user}</strong> ունի <strong>%{status}</strong> հաստատման հայտը <strong>%{approval_type}</strong> համար <strong>%{case_id}</strong> դեպքի մասով։ '
+    referral_html: '<strong>%{user}</strong> %{agency} ից ուղղորդել է հետևյալ %{record_type} ձեզ․ <strong>%{record_id}</strong> %{service_type} համար։'
+    transfer_html: '<strong>%{user}</strong> փոխանցել է հետևյալ %{record_type} ձեզ․ <strong>%{record_id}</strong>։'
+    assign_html: '<strong>%{user}</strong> հանձնարարել է հետևյալ %{record_type} ձեզ․ <strong>%{record_id}</strong>։'
+    transfer_request_html: 'Primero-ի <strong>%{user}</strong> օգտատերը %{agency}-ից խնդրում է, որ դուք փոխանցեք այս %{record_type} գրառման <strong>%{record_id}</strong> տնօրինման իրավունքը, որպեսզի նրանք կարողանան մատուցել %{record_type} կառավարման ծառայություններ անհատի համար իր տարածքում։ Եթե այս փոխանցումն ընդունելի է ձեզ համար, խնդրեմ սեղմեք այս էլեկտրոնային փոստի %{record_type} կոդի հղմանը՝ բացելու այն Primero հարթակում և կատարելու փոխանցումը։ '
+    transfer_request_notes_html: 'Հայտ ներկայացնող անձի նշումները․ %{request_transfer_notes}'
+    alert: '%{record_type} %{id} - %{form_name} թարմացվել է։ Խնդրեմ մուտք արեք Primero հարթակ փոփոխությունները դիտարկելու համար։ '
+    alert_subject: '%{record_type}․ %{id} - %{form_name} թարմացված է'
+  webpush_notification:
+    action_label: Անցնել դեպքին
+    approval_request:
+      title: Հաստատման հայտ
+      body: 'Քո թիմում մի դեպքի մասով առկա է հաստատման համար սպասման մեջ հայտ %{type} համար։ '
+    approval_response:
+      title: Հաստատման պատասխան
+      body: 'Քո դեպքերից մեկը ստացել է հաստատում։ '
+    assign:
+      title: Նոր հանձնարարական
+      body: 'Դուք ստացել եք նոր դեպքի հանձնարարական։ '
+    referral:
+      title: Նոր ուղղորդում
+      body: 'Ձեզ ուղղորդվել է նոր դեպք։ '
+    transfer:
+      title: Նոր փոխանցում
+      body: 'Ձեզ փոխանցվել է նոր դեպք։ '
+    alert_case:
+      title: Դեպքը թարմացված է
+      body: "Քո դեպքերից մեկի %{type} թարմացվել է։ "
+    transfer_request:
+      title: Փոխանցման հայտ
+      body: 'Դուք ստացել եք նոր դեպքի փոխանցման հայտ։ '
+  encrypt:
+    export_type: Արտածման տեսակ
+    file_name: Փաստաթղթին անվանում տվեք (պարտադիր լրացման դաշտ չէ)
+    password_extra_info: 'Գաղտնաբառը պետք է պարունակի առնվազն 8 նիշ։ Այս գաղտնաբառը կասոցացվի արտածված փաստաթղթի հետ և պետք է մուտքագրվի այս փաստաթուղթը հետագայում բացող ցանկացած անձի կողմից։ '
+    password_label: 'Խնդրեմ մուտքագրեք այնպիսի գաղտնաբառ, որը կծածկագրի ձեր փաստաթուղթը։ '
+  error_message:
+    address_fields: 'Դուք պետք է լրացնեք %{forms} ձևաթղթերի %{fields}դաշտերը '
+    address_form_fields: 'Դուք պետք է լրացնեք այս ձևաթղթի %{fields}դաշտերը '
+    address_subform_fields: '%{subform} ունի %{fields}սխալ դաշտեր։'
+    error_401: Դուք դուրս եք եկել համակարգից։ Մուտք գործեք կրկին։
+    error_something_went_wrong: Տեղի է ունեցել սխալ։
+  error_page:
+    not_authorized:
+      server_error: 'Դուք չունեք այս էջ մուտքի թույլտվություն։  '
+      title: Չունի թույլտվություն
+    not_found:
+      contact_admin: 'Եթե կարծում եք, որ այստեղ գտնվում եք սխալմամբ, ապա դիմեք ձեր ադմինիստրատորին։ '
+      something_went_wrong: 'Կներեք, տեղի է ունեցել սխալ։ '
+  errors:
+    api:
+      internal_server: Սերվերի սխալ
+    attachments:
+      maximum: 'Դուք հասել եք մի գրառման համար թույլատրելի ներդիրների առավելագույն քանակին '
+    error_loading: Գրառման (գրառումների) բեռնման սխալ
+    models:
+      agency:
+        code_present: Չպետք է լինի դատարկ
+        logo_format: Փաստաթուղթը պետք է լինի png տեսակի
+        terms_of_use_format: Փաստաթուղթը պետք է լինի png տեսակի
+        name_present: Չպետք է լինի դատարկ
+      child:
+        age: Պետք է լինի 0-ից 130 տարիքային սահմանում
+        date_of_birth: Խնդրեմ մուտքագրել ծննդյան հավաստի ամսաթիվ այս դեպքի գրառման մեջ
+      export_configuration:
+        opt_out_field_does_not_exist: Առանձին նշված "հրաժարվել" դաշտ չկա այս գրառման մեջ
+        record_type: 'Սխալ գրառման տեսակ։ Պետք է լինի Երեխա, Որոնման Հայտ կամ Պատահար։ '
+      field:
+        translated_options_do_not_match: Դաշտերում թարգմանված տարբերակները պետք է ունենան նույն նույնականացման կոդերը
+      location:
+        admin_level_present: Չպետք է լինի դատարկ
+        code_present: Չպետք է լինի դատարկ
+        name_present: Չպետք է լինի դատարկ
+        unique_location_code: 'Այդ տեղադրության կոդով տեղադրություն արդեն կա։ Խնդրեմ մուտքագրեք այլ տեղադրության կոդ։ '
+      lookup:
+        being_used: Այս ՛որոնում՛ ֆունկցիան արդեն օգտագործվում է և չի կարող ջնջվել։
+        name_present: Անվան դաշտը չպետք է լինի դատարկ
+        values_ids_blank: Որոնում արժեքի կոդը դատարկ է
+      primero_module:
+        associated_record_types: Առնվազն մեկ գրառման տեսակ պետք է ասոցացվի այս մոդուլի հետ
+        form_section_ids: Առնվազն մեկ ձևաթուղթ պետք է ասոցացվի այս մոդուլի հետ
+        name_present: Անվան դաշտը չպետք է լինի դատարկ
+        unique_name: 'Այդ անունով մոդուլ արդեն կա։ Խնդրեմ մուտքագրեք այլ անուն։ '
+      report:
+        module_presence: Մոդուլի դաշտը չպետք է լինի դատարկ
+        module_syntax: Հաշվետվության բոլոր մոդուլները պետք է արդեն լինեն առկա։
+        name_presence: Անվան դաշտը չպետք է լինի դատարկ
+      role:
+        permission_presence: Խնդրեմ ընտրեք առնվազն մեկ թույլտվություն
+      user:
+        email: "Խնդրեմ մուտքագրեք ճիշտ էլեկտրոնային հասցե  (օրինակ՝ 'name@example.org')"
+        password_mismatch: Գաղտնաբառի դաշտերի համար նույն գաղտնաբառը չէ սահմանված
+        password_length: Գաղտնաբառը պետք է պարունակի առնվազն %{min} նիշ
+        email_uniqueness: Այս էլեկտրոնային հասցեով օգտատեր արդեն կա։ Խնդրեմ մուտքագրեք այլ հասցե։
+      code_of_conduct:
+        title_present: Պաշտոնի դաշտը չպետք է լինի դատարկ
+        content_present: Բովանդակության դաշտը չպետք է լինի դատարկ
+        created_by_present: '"Բացել է" դաշտը չպետք է լինի դատարկ'
+      webpush_subscription:
+        notification_url_present: '"Տեղեկացում" url դաշտը չպետք է լինի դատարկ'
+        notification_url_format: '"Տեղեկացում" url դաշտը պետք է ունենա URL ձևաչափ'
+        auth_present: '"Նույնականացում" դաշտը չպետք է լինի դատարկ'
+        p256dh_present: '"p256dh" դաշտը չպետք է լինի դատարկ'
+    not_found: Գրառում(ներ) չեն գտնվել
+    try_again: Կրկին փորձել
+  exports:
+    case_pdf:
+      all: PDF ձևաչափ
+      one: PDF ձևաչափ
+      selected: Ընտրվել է PDF ձևաչափով
+    csv:
+      all: CSV ձևաչափ
+      one: CSV ձևաչափ
+      selected: Ընտրվել է CSV ձևաչափով
+    custom:
+      all: Ըստ պահանջների ադապտացվող
+    custom_exports:
+      all: Ըստ պահանջների ադապտացվող
+      choose_fields: Կցանկանա՞ք առանձին դաշտեր ընտրել ձևաթղթի համար։
+      empty_fields_forms: 'Խնդրեմ ընտրեք մի քանի ձևաթղթեր կամ դաշտեր արտածման նպատակով։ '
+      empty_format: 'Խնդրեմ ընտրեք մի ձևաչափ արտածման նպատակով։ '
+      empty_module: 'Խնդրեմ ընտրեք մի մոդուլ արտածման նպատակով։ '
+      empty_password: 'Խնդրեմ մուտքագրեք այնպիսի գաղտնաբառ, որը կծածկագրի ձեր փաստաթուղթը։ '
+      field_label: Դաշտ
+      fields: Ընտրել դաշտեր արտածման նպատակով
+      form_label: ձևաթուղթ
+      format_label: Ընտրել ձևաչափ
+      forms: Ընտրել ձևաթղթեր արտածման նպատակով
+      label: Ըստ պահանջի ադապտացված արտածումներ
+      module_placeholder: Խնդրեմ ընտրեք մոդուլ։
+      select_module: Ընտրել մոդուլ
+      submit: Լավ
+      header: Վերնագիր
+      custom_header: Ադապտացված վերնագիր
+      signatures: Ներառել ստորագրության տողեր
+      include_implementation_logos: 'Ներառե՞լ իրականացման լոգոտիպերը։ '
+      include_implementation_logos_help_text: 'Սա կներառի լոգոտիպեր, որոնք կերևան նավիգացիոն ցանկի և մուտքի էջում։ '
+      include_agency_logo: 'Ներառե՞լ գործակալության լոգոտիպը։ '
+      include_other_logos: 'Ներառե՞լ այլ լոգոներ։ '
+    duplicate_id_csv:
+      all: Կրկնօրինակել անձը հաստատող փաստաթուղթը
+      female_abbreviation: ԻԳ
+      headers:
+        age: Տարիք
+        case_id: 'Դեպքի #'
+        child_name_last_first: Երեխայի անուն
+        family_size: Ընտանիքի չափ
+        moha_id: Առողջապահության նախարարության կոդը չի գործում
+        national_id_no: Պետական անձը հաստատող փաստաթղթի համար
+        progress_id: Progress հարթակի կոդ
+        sex_mapping_m_f_u: Սեռ
+        other_agency_id: Հիվանդանոցի կոդ և պացիենտի համար
+      male_abbreviation: Արական
+    exported: 'Արտածված փաստաթուղթը անխափան կերպով գեներացվել է։ '
+    exported_error: Արտածման փաստաթղթի գեներացման սխալ
+    forms:
+      button: Արտածման ձևաթղթեր
+      label: Արտածել
+      header:
+        form_group: Ձևաթղթերի խումբ
+        form_name: Ձևաթղթի անվանում
+        field_id: Դաշտի կոդ
+        field_type: Դաշտի տեսակ
+        field_name: Դաշտի անվանում
+        required: պահանջված
+        on_mobile: Բջջայինում
+        on_short_form: Կարճ ձևաթղթում
+        option_ids: Տարբերակների կոդեր
+        options: Տարբերակներ
+        options_lookup: Որոնում
+        help_text: Աջակցող տեքստ
+        guiding_questions: Ուղենշող հարցեր
+        visible: Տեսանելի
+        lookup_id: Որոնման կոդ
+        lookup_name: Որոնման անվանում
+        option_id: Տարբերակի կոդ
+        option_name: Տարբերակի անվանում
+      options:
+        location: Տեղադրություններ
+        agency: Գործակալություններ
+        user: Օգտատերներ
+        reportinglocation: Հաշվետվության ենթակա տեղադրություններ
+        subforms: 'Ենթաձևաթուղթ՝ %{subform_name}'
+        collapsed_fields: 'Խափանված դաշտեր՝ %{fields}'
+        country: Երկրներ
+        linkedincidents: փոխկապակցված պատահարներ
+      summary_header:
+        form_group: Primero-ի ձևաթղթերի խումբ
+        form: Primero-ի ձևաթղթեր
+        status: Կարգավիճակ
+        notes: Նշումներ
+    go_to_exports: Անցնել Արտածումների էջ ներբեռնելու համար
+    incident_recorder_xls:
+      all: Պատահարներ գրանցող
+      one: Պատահարներ գրանցող
+      selected: Ընտրված է պատահարներ գրանցող ֆունկցիայի համար
+    json:
+      all: JSON ձևաչափ
+      one: JSON ձևաչափ
+      selected: Ընտրվել է JSON ձևաչափով
+    list_view_csv:
+      all: Արտածման ցանկի դիտում
+      selected: Ընտրվել է CSV ձևաչափով
+    messages:
+      no_exporter: Արտածողը նշված չէ
+    no_records: Գրառումներ չկան։
+    pdf:
+      all: PDF ձևաչափ (չծածկագրված)
+      one: PDF ձևաչափ
+      selected: Ընտրվել է PDF ձևաչափով
+    pdf_exports:
+      label: PDF ձևաչափ
+      recipient: Ստացող
+      case_worker: Դեպք վարող
+      client: Հաճախորդ
+      date: Ամսաթիվ
+      recipient_name: Ստացողի անուն
+      recipient_agency: Ստացողի գործակալություն
+      caseworker_name: Դեպք վարողի անուն
+      caseworker_agency: Դեպք վարողի գործակալություն
+    photowall:
+      all: Լուսանկարների պատ
+      flag_suspect_record: Դրոշակված որպես կասկածելի գրառում
+      no_photos_available: Լուսանկարներ չկան
+      one: Լուսանկարների պատ
+      reunited: Վերամիավորված
+      selected: Ընտրվել է լուսանկարների պատի համար
+      success_message: 'Լուսանկարների պատի ստեղծում %{file_name}․ Առանց լուսանկարների դեպքերը չեն ներառվի։ '
+    printed: 'Տպագրված․ %{date}'
+    queueing: Գեներացնելով արտածման փաստաթուղթը %{file_name}
+    selected_xls:
+      all: Excel ձևաչափ
+      one: Excel ձևաչափ
+      selected: Ընտրվել է Excel ձևաչափով
+      selected_fields: Ընտրված դաշտեր
+    unhcr_csv:
+      all: ՄԱԿ ՓԳՀ
+      female_abbreviation: ԻԳ
+      headers:
+        age: Տարիք
+        case_status: Դեպքի կարգավիճակ
+        causes_of_separation: Բաժանման պատճառներ
+        country_of_origin: Ծագման երկիր
+        cpims_code: Երեխայի պաշտպանության տեղեկատվական կառավարման համակարգի կոդ
+        current_care_arrangement: Խնամքի ներկա ձևը
+        date_of_birth: Ծննդյան ամսաթիվ
+        date_of_identification: Նույնականացման ամսաթիվը
+        family_count_no: Ընտանիքի անդամների թիվ
+        governorate_country: Մարզ․ երկիր
+        id: Անձը հաստատող փաստաթուղթ
+        individual_progress_id: Progress հարթակի անհատական կոդ
+        locations_by_level: Հասցե (ճամբար, թաղամաս և այլ կիրառելի հասցեներ, ինչես օրինակ՝ կացարանի GPS կոորդինատները)
+        long_id: Երկար կոդ ID
+        moha_id: Առողջապահության նախարարության կոդ ID
+        name_of_caregiver: Խնամակալի ամբողջական անունը
+        name_of_child_last_first: Երեխայի ամբողջական անուն
+        primary_protection_concerns: Անձի իրավունքների պաշտպանության վերաբերյալ առաջնային մտահոգություններ
+        progres_id: Progress հարթակի կոդ
+        reunification_status: Վերամիավորման կարգավիճակ
+        secondary_protection_concerns: Անձի իրավունքների պաշտպանության վերաբերյալ երկրորդային մտահոգություններ
+        sex: Սեռ
+        sex_mapping_m_f_u: Սեռ
+        short_id: Կարճ կոդ ID
+        vulnerability_code: Խոցելիության կոդեր
+        vulnerability_details_code: Խոցելիության մանրամասների կոդեր
+      male_abbreviation: Արական
+      one: ՄԱԿ ՓԳՀ
+      selected: Ընտրված է ՄԱԿ ՓԳՀ համար
+    xlsx:
+      all: Excel ձևաչափ
+      one: Excel ձևաչափ
+      selected: Ընտրվել է Excel ձևաչափով
+  imports:
+    csv_hxl_location:
+      messages:
+        success: Տեղադրությունները անխափան կերպով ներածվել են
+        no_data: 'Ներածում չի կատարվել․ Տվյալ չի փոխանցվել։'
+        csv_parse_error: 'Ներածում չի կատարվել․ CSV ձևաչափով տվյալների վերլուծության սխալ'
+        error: 'Տող %{row_number} չի մշակվել․ %{message}'
+        db_error: '%{location_code} բացման սխալ․ %{message}'
+        locale_invalid: '%{column_name} բացթողում․ սխալ վայր'
+        insert_all_error: 'Ներածում չի կատարվել․ տվյալների շտեմարանի սխալ՝ %{message}'
+    csv_record:
+      messages:
+        success: 'Գրառումները անխափան կերպով ներածվել են։ '
+        no_data: 'Ներածում չի կատարվել․ տվյալ չի փոխանցվել։'
+        no_file: 'Ներածում չի կատարվել․ փաստաթուղթը գոյություն չունի։ '
+        csv_parse_error: 'Ներածում չի կատարվել․ CSV ձևաչափով տվյալների վերլուծության սխալ'
+        error: 'Տող %{row_number} չի մշակվել․ %{message}'
+        db_error: '%{location_code} բացման սխալ․ %{message}'
+        locale_invalid: '%{column_name} բացթողում․ սխալ վայր'
+        insert_all_error: 'Ներածում չի կատարվել․ տվյալների շտեմարանի սխալ՝ %{message}'
+  sync_record:
+    failed: 'Վերջին համաժամեցում․ ձախողվել է'
+    last: 'Վերջին համաժամեցում․ %{date_time}'
+    not_found: 'Վերջին համաժամեցում․ տվյալներ չեն գտնվել'
+    retrieving: Տվյալների առբերում
+    see_details: Տեսնել մանրամասները։
+  fields:
+    action: Գործողություն
+    actions: Գործողություններ
+    add: Ավելացնել
+    add_new_field: Բացել նոր դաշտ
+    add_existing_field: Ավելացնել գոյություն ունեցող դաշտ
+    add_field: Ավելացնել դաշտ
+    add_field_type: Ավելացնել %{file_type}
+    attachments:
+      maximum_attached: 'Ամեն գրառման համար առավելագույն առդիրների քանակy լրացված է (%{maximumttachmentsPerRecord})։ Դրանք ներառում են լուսանկարները, աուդիո ֆայլերը և փաստաթղթերը։ Խնդրեմ ջնջեք որևէ ֆայլ նախքան մեկ ուրիշն ավելացնելը։ '
+    audio:
+      current: Ներկա աուդիո ֆայլ
+    audio_upload_box: Աուդիո ֆայլի ներբեռնում
+    bia_document: ԼՇԳ փաստաթուղթ
+    bid_document: Մրցութային փաստաթուղթ
+    check_box: Նշել վանդակներ
+    clear_group_by: Մաքրել խումբը ըստ
+    clear_sort_by: Մաքրել սորտավորումը ըստ
+    copy_from_another_form: Այս դաշտը պատճենվել է մեկ այլ ձևաթղթից
+    create_field: Ստեղծել դաշտ
+    create_unique_values: Ստեղծել եզակի արժեքներ
+    date_field: Տվյալի դաշտ
+    date_help: օր-ամիս-ամսաթիվ
+    date_help_with_time: օր-ամիս-ամսաթիվ․ mm
+    date_not_valid: 'Այս ամսաթիվը վավեր չէ։ '
+    time: Ժամանակ
+    date_range:
+      date: Ամսաթիվ
+      date_range: Տվյալների միջակայք
+      from: ից
+      to: ին
+      view_by: Դիտել ըստ
+    date_range_field: Տվյալների միջակայք
+    date_time: Ամսաթիվ - ժամ
+    db_name: Տվյալների շտեմարանի անվանում
+    default: Ավտոմա՞տ
+    default_date_validation: տվյալների ավտոմատ վավերացում
+    default_to_current_date: Ներկա ամսաթվի համար լրացնե՞լ սկզբնական արժեքը
+    default_to_current_datetime: Ներկա ամսաթվի և ժամի համար լրացնե՞լ սկզբնական արժեքը
+    default_value: Սկզբնական արժեք
+    deleted: '%{display_name} դաշտը ջնջվել է։ '
+    detail: Մանրամասն
+    disabled: Ապակտիվ
+    display_name: Ցույց տալ անունը
+    document:
+      comments: Նկատառումներ
+      current: Սա՞ է ընթացիկ փաստաթուղթը։
+      date: Փաստաթղթի ամսաթիվ
+      name: Փաստաթղթի անվանում
+      is_current: Սա՞ է ընթացիկ փաստաթուղթը։
+    document_upload_box: Փաստաթղթի ներբեռնում
+    edit_label: Խմբագրել դաշտը
+    enabled: Ակտի՞վ
+    enabled_label: Ակտիվ
+    english_text: Անգլերեն տեքստ
+    field_name: Դաշտի անվանում
+    field_type: Դաշտի տեսակ
+    attachment_too_large: Փաստաթղթի չափը պիտի 20 մբ չգերազանցի
+    file_upload_box:
+      add_document_label: Ավելացնել փաստաթուղթ
+      add_new_document_button_text: Ավելացնել ևս մեկ փաստաթուղթ
+      add_new_photo_button_text: Ավելացնել ևս մեկ լուսանկար
+      add_photo_label: Ավելացնել լուսանկար
+      document_description: Փաստաթղթի նկարագրություն
+      document_file_restrictions_message: 'Փաստաթուղթի չափը չպետք է գերազանցի 2 մեգաբայթը (executable (.exe) տեսակի փաստաթղթերը չեն կարող ներբեռնվել):'
+      no_file_selected: 'Փաստաթուղթ չի ընտրվել։ '
+      photo_file_restrictions_message: 'Լուսանկարների չափը չպետք է գերազանցի 10 մեգաբայթը։ Աուդիո ֆայլերը չպետք է գերազանցեն 10 մեգաբայթը։ Որքան փոքր՝ այնքան լավ։ '
+      recorded_audio_label: Ձայնագրված աուդիո
+      select_file_button_text: Ընտրել փաստաթուղթ
+    find_lookup: Գտնել "որոնում" ֆունկցիան

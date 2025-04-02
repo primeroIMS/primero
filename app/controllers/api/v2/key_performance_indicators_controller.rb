@@ -21,7 +21,7 @@ class Api::V2::KeyPerformanceIndicatorsController < ApplicationApiController
   private
 
   def kpi_permission
-    "kpi_#{kpi_id}".to_sym
+    :"kpi_#{kpi_id}"
   end
 
   def kpi_id

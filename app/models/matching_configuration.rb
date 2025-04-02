@@ -171,7 +171,7 @@ class MatchingConfiguration
   end
 
   def load_filter_fields_by_type(type)
-    match_fields = match_configuration.try(:[], "#{type}_fields".to_sym) || {}
+    match_fields = match_configuration.try(:[], :"#{type}_fields") || {}
     send("#{type}_fields").try(:merge, match_fields) { |_k, _o, n| n }.to_a
   end
 

@@ -62,7 +62,7 @@ describe ManagedReports::Indicators::AverageCasesPerCaseWorker do
     child1 = Child.new_with_user(
       user1,
       {
-        sex: 'male',
+        gender: 'male',
         next_steps: ['a_continue_protection_assessment'],
         registration_date: '2021-10-05',
         consent_reporting: true
@@ -76,7 +76,7 @@ describe ManagedReports::Indicators::AverageCasesPerCaseWorker do
     child2 = Child.new_with_user(
       user2,
       {
-        sex: 'male',
+        gender: 'male',
         next_steps: ['a_continue_protection_assessment'],
         registration_date: '2021-10-08',
         consent_reporting: true
@@ -90,7 +90,7 @@ describe ManagedReports::Indicators::AverageCasesPerCaseWorker do
     child3 = Child.new_with_user(
       user1,
       {
-        sex: 'male',
+        gender: 'male',
         next_steps: ['a_continue_protection_assessment'],
         registration_date: '2021-11-07',
         consent_reporting: true
@@ -103,7 +103,7 @@ describe ManagedReports::Indicators::AverageCasesPerCaseWorker do
   let(:child4) do
     child4 = Child.new_with_user(
       user2,
-      { sex: 'female', next_steps: ['a_continue_protection_assessment'], registration_date: '2021-10-08' }
+      { gender: 'female', next_steps: ['a_continue_protection_assessment'], registration_date: '2021-10-08' }
     )
     child4.save!
     child4
@@ -112,7 +112,7 @@ describe ManagedReports::Indicators::AverageCasesPerCaseWorker do
   let(:child5) do
     child5 = Child.new_with_user(
       user3,
-      { sex: 'female', next_steps: ['a_continue_protection_assessment'], registration_date: '2021-11-08' }
+      { gender: 'female', next_steps: ['a_continue_protection_assessment'], registration_date: '2021-11-08' }
     )
     child5.save!
     child5
@@ -146,6 +146,33 @@ describe ManagedReports::Indicators::AverageCasesPerCaseWorker do
       report_data = ManagedReports::Indicators::AverageCasesPerCaseWorker.build(nil, {}).data
 
       expect(report_data).to match_array([{ id: 'average_cases_per_case_worker', male: 1.5, total: 1.5 }])
+    end
+  end
+
+  context 'when gender is null' do
+    before do
+      child6 = Child.new_with_user(
+        user3,
+        {
+          id: 'bc691666-f940-11ef-9ac6-18c04db5c362',
+          next_steps: ['a_continue_protection_assessment'],
+          registration_date: '2021-11-08'
+        }
+      )
+      child6.save!
+      child6
+    end
+
+    it 'returns incomplete_data for null genders' do
+      report_data = ManagedReports::Indicators::AverageCasesPerCaseWorker.build(nil, {}).data
+
+      expect(report_data).to match_array(
+        [{ id: 'average_cases_per_case_worker', female: 0.67, male: 1, incomplete_data: 0.33, total: 2.0 }]
+      )
+    end
+
+    after do
+      Child.find_by(id: 'bc691666-f940-11ef-9ac6-18c04db5c362').destroy!
     end
   end
 

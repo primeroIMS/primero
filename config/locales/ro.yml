@@ -198,6 +198,7 @@ ro:
     view: Vizualizare
     view_flags_history: Vizualizare istoric
     return_to_case: Înapoi la înregistrare
+    dialog_yes: "Da"
   resync_records:
     id: ID
     record_type: Tip înregistrare
@@ -210,6 +211,7 @@ ro:
   case:
     label: Înregistrare
     create_new_case: Creare înregistrare nouă
+    create: Crează
     add_new: Adaugă nou
     back_to_case: Înapoi la înregistrare
     back_to_results: Înapoi la rezultate

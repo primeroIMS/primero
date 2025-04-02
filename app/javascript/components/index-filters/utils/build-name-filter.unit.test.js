@@ -22,12 +22,16 @@ describe("<IndexFilters>/utils - buildNameFilter", () => {
   it("return approval label filter if it's an approval", () => {
     const item = `${APPROVALS}.${APPROVALS_TYPES.assessment}`;
 
-    expect(buildNameFilter(item, i18n, approvalsLabels)).to.deep.equal(approvalsLabels.get("assessment"));
+    expect(buildNameFilter(item, i18n, approvalsLabels)).to.deep.equal(
+      approvalsLabels.getIn(["default", "assessment"])
+    );
   });
 
   it("return approval label filter if it's an GBV approval", () => {
     const item = `${APPROVALS}.${APPROVALS_TYPES.gbv_closure}`;
 
-    expect(buildNameFilter(item, i18n, approvalsLabels)).to.deep.equal(approvalsLabels.get("gbv_closure"));
+    expect(buildNameFilter(item, i18n, approvalsLabels)).to.deep.equal(
+      approvalsLabels.getIn(["default", "gbv_closure"])
+    );
   });
 });

@@ -570,6 +570,17 @@ ActiveRecord::Schema.define(version: 2025_02_28_000006) do
     t.index ["record_type", "record_id"], name: "index_searchable_values_on_record"
   end
 
+  create_table "sessions", force: :cascade do |t|
+    t.string "session_id", null: false
+    t.jsonb "data", default: {}
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.boolean "expired", default: false, null: false
+    t.index ["data"], name: "index_sessions_on_data", using: :gin
+    t.index ["session_id"], name: "index_sessions_on_session_id", unique: true
+    t.index ["updated_at"], name: "index_sessions_on_updated_at"
+  end
+
   create_table "sources", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.jsonb "data", default: {}
     t.index ["data"], name: "index_sources_on_data", using: :gin

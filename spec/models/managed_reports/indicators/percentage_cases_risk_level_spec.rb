@@ -8,7 +8,7 @@ describe ManagedReports::Indicators::PercentageCasesRiskLevel do
   let(:child1) do
     Child.create!(
       data: {
-        sex: 'male',
+        gender: 'male',
         registration_date: '2021-10-05',
         next_steps: ['a_continue_protection_assessment'],
         risk_level: 'high',
@@ -20,7 +20,7 @@ describe ManagedReports::Indicators::PercentageCasesRiskLevel do
   let(:child2) do
     Child.create!(
       data: {
-        sex: 'male',
+        gender: 'male',
         registration_date: '2021-10-08',
         next_steps: ['a_continue_protection_assessment'],
         risk_level: 'medium'
@@ -31,7 +31,7 @@ describe ManagedReports::Indicators::PercentageCasesRiskLevel do
   let(:child3) do
     Child.create!(
       data: {
-        sex: 'male',
+        gender: 'male',
         registration_date: '2021-11-07',
         next_steps: ['a_continue_protection_assessment']
       }
@@ -41,7 +41,7 @@ describe ManagedReports::Indicators::PercentageCasesRiskLevel do
   let(:child4) do
     Child.create!(
       data: {
-        sex: 'female',
+        gender: 'female',
         registration_date: '2021-11-12',
         next_steps: ['a_continue_protection_assessment'],
         risk_level: 'low',
@@ -53,7 +53,7 @@ describe ManagedReports::Indicators::PercentageCasesRiskLevel do
   let(:child5) do
     Child.create!(
       data: {
-        sex: 'female',
+        gender: 'female',
         registration_date: '2021-10-09',
         next_steps: ['a_continue_protection_assessment'],
         risk_level: 'medium'
@@ -100,6 +100,35 @@ describe ManagedReports::Indicators::PercentageCasesRiskLevel do
           { id: 'low', female: 100.0, total: 50.0 }
         ]
       )
+    end
+  end
+
+  context 'when gender is null' do
+    before do
+      Child.create!(
+        id: 'bc691666-f940-11ef-9ac6-18c04db5c362',
+        data: {
+          registration_date: '2021-10-09',
+          next_steps: ['a_continue_protection_assessment'],
+          risk_level: 'medium'
+        }
+      )
+    end
+
+    it 'returns incomplete_data for null genders' do
+      report_data = ManagedReports::Indicators::PercentageCasesRiskLevel.build(nil, {}).data
+
+      expect(report_data).to match_array(
+        [
+          { id: 'high', male: 33.33, total: 16.67 },
+          { id: 'medium', female: 50.0, male: 33.33, incomplete_data: 100, total: 50.0 },
+          { id: 'low', female: 50.0, total: 16.67 }
+        ]
+      )
+    end
+
+    after do
+      Child.find_by(id: 'bc691666-f940-11ef-9ac6-18c04db5c362').destroy!
     end
   end
 

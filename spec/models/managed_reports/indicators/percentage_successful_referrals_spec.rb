@@ -48,7 +48,7 @@ describe ManagedReports::Indicators::PercentageSuccessfulReferrals do
   let(:child1) do
     child1 = Child.new_with_user(
       user1,
-      sex: 'male',
+      gender: 'male',
       registration_date: '2021-10-05',
       services_section: [
         {
@@ -73,7 +73,7 @@ describe ManagedReports::Indicators::PercentageSuccessfulReferrals do
   let(:child2) do
     child2 = Child.new_with_user(
       user1,
-      sex: 'male',
+      gender: 'male',
       registration_date: '2021-10-08',
       consent_reporting: true,
       services_section: [
@@ -101,7 +101,7 @@ describe ManagedReports::Indicators::PercentageSuccessfulReferrals do
   let(:child3) do
     child3 = Child.new_with_user(
       user1,
-      sex: 'male',
+      gender: 'male',
       registration_date: '2021-11-07',
       services_section: [
         {
@@ -128,7 +128,7 @@ describe ManagedReports::Indicators::PercentageSuccessfulReferrals do
   let(:child4) do
     child4 = Child.new_with_user(
       user2,
-      sex: 'female',
+      gender: 'female',
       registration_date: '2021-10-08',
       consent_reporting: true,
       services_section: [
@@ -289,6 +289,51 @@ describe ManagedReports::Indicators::PercentageSuccessfulReferrals do
           { id: 'not_implemented', female: 100.0, male: 50.0, total: 75.0 }
         ]
       )
+    end
+  end
+
+  context 'when gender is null' do
+    before do
+      child = Child.new_with_user(
+        user1,
+        id: 'bc691666-f940-11ef-9ac6-18c04db5c362',
+        registration_date: '2021-10-05',
+        services_section: [
+          {
+            unique_id: '4b4e488c-f9fb-11ef-a955-18c04db5c362',
+            service_implemented: 'not_implemented',
+            service_type: 'type2',
+            service_response_day_time: '2021-10-07T08:05:08.350Z'
+          }
+        ]
+      )
+      child.save!
+
+      service = child.services_section.first
+      referral = Referral.new(
+        transitioned_to: user1.user_name,
+        service_record_id: service['unique_id'],
+        transitioned_by: user2.user_name,
+        created_at: service['service_response_day_time'] + 3.months,
+        record: child
+      )
+      referral.save(validate: false)
+      referral
+    end
+
+    it 'returns incomplete_data for null genders' do
+      report_data = ManagedReports::Indicators::PercentageSuccessfulReferrals.build(nil, {}).data
+
+      expect(report_data).to match_array(
+        [
+          { id: 'implemented', male: 40.0, total: 25.0 },
+          { id: 'not_implemented', female: 100.0, incomplete_data: 100, male: 60.0, total: 75.0 }
+        ]
+      )
+    end
+
+    after do
+      Child.find_by(id: 'bc691666-f940-11ef-9ac6-18c04db5c362').destroy!
     end
   end
 

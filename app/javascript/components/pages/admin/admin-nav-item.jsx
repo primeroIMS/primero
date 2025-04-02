@@ -26,7 +26,6 @@ function AdminNavItem({ item, isParent = false, open, handleClick, nestedClass, 
   );
 
   const listItemProps = {
-    key: item.to,
     button: true,
     disabled: item.disabled || disabledApplication,
     ...(isParent ? { onClick: handleClick } : { component: Link }),
@@ -39,7 +38,7 @@ function AdminNavItem({ item, isParent = false, open, handleClick, nestedClass, 
   const jewel = renderJewel ? <Jewel value={renderJewel} isForm /> : null;
 
   return (
-    <ListItem {...listItemProps}>
+    <ListItem {...listItemProps} key={item.to}>
       <ListItemText className={nestedClass || null}>{i18n.t(item.label)}</ListItemText>
       {isParent ? handleOpen : null}
       {jewel}

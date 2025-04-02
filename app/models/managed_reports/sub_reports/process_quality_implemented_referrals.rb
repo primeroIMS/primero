@@ -14,15 +14,9 @@ class ManagedReports::SubReports::ProcessQualityImplementedReferrals < ManagedRe
     ].freeze
   end
 
-  def lookups
-    {
-      ManagedReports::Indicators::ImplementedSuccessfulReferrals.id => 'lookup-gender'
-    }.freeze
-  end
-
   def indicators_subcolumns
     {
-      ManagedReports::Indicators::ImplementedSuccessfulReferrals.id => 'lookup-gender'
+      ManagedReports::Indicators::ImplementedSuccessfulReferrals.id => 'lookup-gender-identity'
     }.freeze
   end
 

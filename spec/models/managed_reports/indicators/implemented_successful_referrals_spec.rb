@@ -22,7 +22,7 @@ describe ManagedReports::Indicators::ImplementedSuccessfulReferrals do
   let(:child1) do
     Child.create!(
       data: {
-        sex: 'male',
+        gender: 'male',
         module_id: 'test_module',
         registration_date: '2021-10-05',
         consent_reporting: true,
@@ -46,7 +46,7 @@ describe ManagedReports::Indicators::ImplementedSuccessfulReferrals do
   let(:child2) do
     Child.create!(
       data: {
-        sex: 'male',
+        gender: 'male',
         module_id: 'test_module',
         registration_date: '2021-10-08',
         consent_reporting: true,
@@ -65,7 +65,7 @@ describe ManagedReports::Indicators::ImplementedSuccessfulReferrals do
   let(:child3) do
     Child.create!(
       data: {
-        sex: 'male',
+        gender: 'male',
         module_id: 'test_module',
         registration_date: '2021-11-07',
         consent_reporting: true,
@@ -84,7 +84,7 @@ describe ManagedReports::Indicators::ImplementedSuccessfulReferrals do
   let(:child4) do
     Child.create!(
       data: {
-        sex: 'female',
+        gender: 'female',
         registration_date: '2021-10-08',
         module_id: 'test_module',
         services_section: [
@@ -128,6 +128,41 @@ describe ManagedReports::Indicators::ImplementedSuccessfulReferrals do
       report_data = ManagedReports::Indicators::ImplementedSuccessfulReferrals.build(nil, {}).data
 
       expect(report_data).to match_array([{ id: 'implemented', male: 3, total: 3 }])
+    end
+  end
+
+  context 'when gender is null' do
+    before do
+      Child.create!(
+        id: 'bc691666-f940-11ef-9ac6-18c04db5c362',
+        data: {
+          registration_date: '2021-10-08',
+          module_id: 'test_module',
+          services_section: [
+            {
+              unique_id: '227fccd2-d1d8-11ef-bdf0-18c04db5c362',
+              service_status_referred: true,
+              service_implemented: 'not_implemented'
+            },
+            {
+              unique_id: 'ccad48b6-d1dc-11ef-bf85-18c04db5c362',
+              service_status_referred: true,
+              service_implemented: 'implemented',
+              service_implemented_day_time: '2021-10-11T08:35:08.350Z'
+            }
+          ]
+        }
+      )
+    end
+
+    it 'returns incomplete_data for null genders' do
+      report_data = ManagedReports::Indicators::ImplementedSuccessfulReferrals.build(nil, {}).data
+
+      expect(report_data).to match_array([{ id: 'implemented', male: 3, incomplete_data: 1, female: 1, total: 5 }])
+    end
+
+    after do
+      Child.find_by(id: 'bc691666-f940-11ef-9ac6-18c04db5c362').destroy!
     end
   end
 

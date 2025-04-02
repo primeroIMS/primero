@@ -106,7 +106,7 @@ class Child < ApplicationRecord
     common_summary_fields + %w[
       case_id_display name survivor_code_no age sex registration_date
       hidden_name workflow case_status_reopened module_id registry_record_id
-      client_code gender reporting_location_hierarchy
+      client_code gender reporting_location_hierarchy location_current
     ]
   end
 
@@ -164,7 +164,7 @@ class Child < ApplicationRecord
 
       date(:date_closure)
       %w[consent_for_tracing].each do |f|
-        boolean(f) { data[f] == true || data[f] == 'true' }
+        boolean(f) { [true, 'true'].include?(data[f]) }
       end
     end
   end

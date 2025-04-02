@@ -71,6 +71,7 @@ export const getServerStatus = ({ showSnackbars = true, successCallback = [] }) 
   type: actions.SERVER_STATUS,
   api: {
     path: ROUTES.check_server_health,
+    params: { session: true },
     external: true,
     successCallback: [
       { action: actions.SERVER_STATUS, payload: true },

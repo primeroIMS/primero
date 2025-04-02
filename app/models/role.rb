@@ -140,7 +140,7 @@ class Role < ApplicationRecord
 
   def permitted_forms(record_type = nil, visible_only = false, include_subforms = false)
     forms = form_sections.where(
-      { parent_form: record_type, visible: (visible_only || nil) }.compact.merge(is_nested: false)
+      { parent_form: record_type, visible: visible_only || nil }.compact.merge(is_nested: false)
     )
 
     return forms.order(:order) unless include_subforms
@@ -182,7 +182,7 @@ class Role < ApplicationRecord
 
   def update_dashboard_permissions(dashboard_permissions)
     dashboard_permissions&.actions&.map do |action|
-      next Dashboard.send(action, self) if %w[dash_reporting_location dash_violations_category_region].include?(action)
+      next Dashboard.send(action, self) if Dashboard::DYMANIC_WITH_SELF.include?(action)
       next Dashboard.send(action) if Dashboard::DYNAMIC.include?(action)
 
       "Dashboard::#{action.upcase}".constantize

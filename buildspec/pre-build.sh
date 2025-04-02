@@ -12,14 +12,7 @@ echo "WEBHOOK=${WEBHOOK}"
 if [ "$WEBHOOK" = "true" ]; then BRANCH=$(echo $CODEBUILD_WEBHOOK_HEAD_REF | awk -F/ '{print $NF}'); fi
 echo "export BRANCH=${BRANCH}" > pre-build-env-vars
 echo "BRANCH=${BRANCH}"
-if [[ "${BRANCH}" =~ "v2." ]]; then
-  DEPLOY="false"
-  echo "export DEPLOY=${DEPLOY}" >> pre-build-env-vars
-  echo "DEPLOY=${DEPLOY}"
-  TAG=${BRANCH}
-  echo "export TAG=${TAG}" >> pre-build-env-vars
-  echo "TAG=${TAG}"
-else
+if [[ "$BRANCH" == "main" || "$BRANCH" == "develop" || "$BRANCH" == release-2* ]]; then
   DEPLOY="true"
   echo "export DEPLOY=${DEPLOY}" >> pre-build-env-vars
   echo "DEPLOY=${DEPLOY}"
@@ -42,6 +35,20 @@ else
   rm -r ansible/inventory/*
   cp ${CODEBUILD_SRC_DIR_devops}/src/vars-files/${DEPLOY_SERVER_INVENTORY_FILE} ansible/vars.yml
   aws s3 sync ansible s3://${BUCKET_NAME}/ansible-${TAG} --sse 'aws:kms'
+elif [[ "${BRANCH}" =~ "v2." ]]; then
+  DEPLOY="false"
+  echo "export DEPLOY=${DEPLOY}" >> pre-build-env-vars
+  echo "DEPLOY=${DEPLOY}"
+  TAG=${BRANCH}
+  echo "export TAG=${TAG}" >> pre-build-env-vars
+  echo "TAG=${TAG}"
+else
+  DEPLOY="false"
+  echo "export DEPLOY=${DEPLOY}" >> pre-build-env-vars
+  echo "DEPLOY=${DEPLOY}"
+  TAG=$(docker/git-to-docker-tag.sh ${BRANCH} ${CODEBUILD_RESOLVED_SOURCE_VERSION})
+  echo "export TAG=${TAG}" >> pre-build-env-vars
+  echo "TAG=${TAG}"
 fi
 
 cat ./pre-build-env-vars
