@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_02_21_221207) do
+ActiveRecord::Schema.define(version: 2025_02_28_000006) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -530,7 +530,7 @@ ActiveRecord::Schema.define(version: 2025_02_21_221207) do
     t.uuid "record_id"
     t.string "field_name"
     t.boolean "value"
-    t.index ["field_name", "record_id", "record_type", "value"], name: "searchable_booleans_unique_idx", unique: true
+    t.index ["field_name", "record_id", "record_type", "value"], name: "searchable_booleans_idx"
     t.index ["record_type", "record_id"], name: "index_searchable_booleans_on_record"
   end
 
@@ -539,7 +539,7 @@ ActiveRecord::Schema.define(version: 2025_02_21_221207) do
     t.uuid "record_id"
     t.string "field_name"
     t.datetime "value"
-    t.index ["field_name", "record_id", "record_type", "value"], name: "searchable_datetimes_unique_idx", unique: true
+    t.index ["field_name", "record_id", "record_type", "value"], name: "searchable_datetimes_idx"
     t.index ["record_type", "record_id"], name: "index_searchable_datetimes_on_record"
   end
 
@@ -557,7 +557,7 @@ ActiveRecord::Schema.define(version: 2025_02_21_221207) do
     t.uuid "record_id"
     t.string "field_name"
     t.integer "value"
-    t.index ["field_name", "record_id", "record_type", "value"], name: "searchable_numerics_unique_idx", unique: true
+    t.index ["field_name", "record_id", "record_type", "value"], name: "searchable_numerics_idx"
     t.index ["record_type", "record_id"], name: "index_searchable_numerics_on_record"
   end
 
@@ -566,16 +566,16 @@ ActiveRecord::Schema.define(version: 2025_02_21_221207) do
     t.uuid "record_id"
     t.string "field_name"
     t.string "value"
-    t.index ["field_name", "record_id", "record_type", "value"], name: "searchable_values_unique_idx", unique: true
+    t.index ["field_name", "record_id", "record_type", "value"], name: "searchable_values_idx"
     t.index ["record_type", "record_id"], name: "index_searchable_values_on_record"
   end
 
   create_table "sessions", force: :cascade do |t|
     t.string "session_id", null: false
     t.jsonb "data", default: {}
-    t.boolean "expired", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "expired", default: false, null: false
     t.index ["data"], name: "index_sessions_on_data", using: :gin
     t.index ["session_id"], name: "index_sessions_on_session_id", unique: true
     t.index ["updated_at"], name: "index_sessions_on_updated_at"

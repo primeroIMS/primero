@@ -72,7 +72,7 @@ class ManagedReport < ValueObject
         description: 'managed_reports.workflow_report.description',
         subreports: %w[cases_workflow incidents_workflow],
         permitted_filters: [
-          :grouped_by, :by, :created_by_groups, :workflow, :owned_by_groups,
+          :grouped_by, :by, :created_by_groups, :workflow, :owned_by_groups, :module_id,
           :created_organization, :owned_by_agency_id, { status: {}, registration_date: {} }
         ],
         module_id: PrimeroModule::CP
@@ -83,7 +83,7 @@ class ManagedReport < ValueObject
         description: 'managed_reports.cases_workflow_report.description',
         subreports: %w[cases_workflow],
         permitted_filters: [
-          :grouped_by, :by, :created_by_groups, :workflow, :owned_by_groups,
+          :grouped_by, :by, :created_by_groups, :workflow, :owned_by_groups, :module_id,
           :created_organization, :owned_by_agency_id, { status: {}, registration_date: {} }
         ],
         module_id: PrimeroModule::CP

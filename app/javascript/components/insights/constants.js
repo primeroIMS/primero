@@ -367,7 +367,17 @@ export const SHARED_WORKFLOW_CONFIG = {
     {
       name: WORKFLOW,
       type: SELECT_FIELD,
-      display_name: WORKFLOW_DISPLAY_NAME
+      display_name: WORKFLOW_DISPLAY_NAME,
+      watchedInputs: [MODULE_ID],
+      filterOptionSource: (watchedInputsValue, options) => {
+        if (watchedInputsValue.module_id) {
+          const selectedOptions = options.find(optionGroup => optionGroup[2] === watchedInputsValue.module_id);
+
+          return selectedOptions?.[1]?.map(opt => ({ id: opt.id, display_text: opt.display_text.en }));
+        }
+
+        return [];
+      }
     },
     RECORD_FILTERS[BY],
     RECORD_FILTERS[CREATED_BY_GROUPS],
