@@ -24,7 +24,6 @@ export const form = fieldDisplayName => {
         FieldRecord({
           name: "file_name",
           display_name: fieldDisplayName.file_name,
-          required: true,
           type: TEXT_FIELD
         })
       ]
