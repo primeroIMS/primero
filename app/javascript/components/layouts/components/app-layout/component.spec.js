@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { mountedComponent, screen, userEvent, stub } from "../../../../test-utils";
+import { mountedComponent, screen, userEvent } from "../../../../test-utils";
 
 import AppLayout from "./component";
 
@@ -97,7 +97,7 @@ describe("<AppLayout />", () => {
 
   describe("when the mobile is displayed", () => {
     beforeEach(() => {
-      stub(window, "matchMedia").returns(window.defaultMediaQueryList({ matches: true }));
+      jest.spyOn(window, "matchMedia").mockReturnValue(window.defaultMediaQueryList({ matches: true }));
     });
 
     it("should not render the DemoIndicator", () => {
@@ -146,7 +146,7 @@ describe("<AppLayout />", () => {
     });
 
     afterEach(() => {
-      window.matchMedia.restore();
+      jest.restoreAllMocks();
     });
   });
 });

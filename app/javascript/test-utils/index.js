@@ -4,7 +4,6 @@
 
 export { render, fireEvent, screen, waitFor, within, cleanup, act } from "@testing-library/react";
 export { default as userEvent } from "@testing-library/user-event";
-export { spy, useFakeTimers, stub, mock, fake, replace } from "sinon";
 export { createMockStore, DEFAULT_STATE } from "./create-mock-store";
 export { default as mountedComponent } from "./mounted-component";
 export { default as translateOptions } from "./translate-options";
