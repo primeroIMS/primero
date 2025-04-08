@@ -24,7 +24,7 @@ describe("getFormField", () => {
       formMode
     });
 
-    expect(formSections.forms.size).to.be.equal(2);
+    expect(formSections.forms.size).toBe(2);
   });
 
   it("should return the form sections for TICK_FIELD type", () => {
@@ -37,6 +37,6 @@ describe("getFormField", () => {
       formMode
     });
 
-    expect(formSections.forms.size).to.be.equal(2);
+    expect(formSections.forms.size).toBe(2);
   });
 });

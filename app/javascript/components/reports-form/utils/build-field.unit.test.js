@@ -1,6 +1,5 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { expect } from "chai";
 import { fromJS } from "immutable";
 
 import { buildField, buildLocationFields, buildMinimumLocationField } from "./build-field";
@@ -26,7 +25,7 @@ describe("<ReportForm>/utils/build-field", () => {
         visible: true
       };
 
-      expect(buildField(field, "Form 1", "en")).to.deep.equal(expected);
+      expect(buildField(field, "Form 1", "en")).toEqual(expected);
     });
   });
 
@@ -74,7 +73,7 @@ describe("<ReportForm>/utils/build-field", () => {
         }
       ];
 
-      expect(buildLocationFields(field, "Form 1", i18n, reportingLocationConfig)).to.deep.equal(expected);
+      expect(buildLocationFields(field, "Form 1", i18n, reportingLocationConfig)).toEqual(expected);
     });
   });
 
@@ -118,7 +117,7 @@ describe("<ReportForm>/utils/build-field", () => {
         }
       ];
 
-      expect(buildMinimumLocationField(locationField, i18n, reportingLocationConfig)).to.deep.equal(expected);
+      expect(buildMinimumLocationField(locationField, i18n, reportingLocationConfig)).toEqual(expected);
     });
   });
 });

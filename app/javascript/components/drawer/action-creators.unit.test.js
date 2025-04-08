@@ -8,11 +8,11 @@ describe("components/drawer/action-creators.js", () => {
     const creators = { ...actionCreators };
 
     ["setDrawer", "toggleDrawer"].forEach(property => {
-      expect(creators).to.have.property(property);
+      expect(creators).toHaveProperty(property);
       delete creators[property];
     });
 
-    expect(creators).to.be.empty;
+    expect(Object.keys(creators)).toHaveLength(0);
   });
 
   it("should create an action to set the drawer", () => {
@@ -23,7 +23,7 @@ describe("components/drawer/action-creators.js", () => {
       payload
     };
 
-    expect(actionCreators.setDrawer(payload)).to.eql(expectedAction);
+    expect(actionCreators.setDrawer(payload)).toEqual(expectedAction);
   });
 
   it("should create an action to toggle the drawer", () => {
@@ -32,6 +32,6 @@ describe("components/drawer/action-creators.js", () => {
       payload: true
     };
 
-    expect(actionCreators.toggleDrawer(true)).to.eql(expectedAction);
+    expect(actionCreators.toggleDrawer(true)).toEqual(expectedAction);
   });
 });

@@ -6,6 +6,6 @@ describe("bulk-transitons - namespace", () => {
   const namespaceValues = { ...namespace };
 
   it("should have known properties", () => {
-    expect(namespaceValues).to.be.an("object");
+    expect(typeof namespaceValues).toEqual("object");
   });
 });

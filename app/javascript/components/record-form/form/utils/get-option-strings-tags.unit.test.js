@@ -15,6 +15,6 @@ describe("getOptionStringsTags", () => {
   });
 
   it("returns the tags for the field", () => {
-    expect(getOptionStringsTags(field, { key1: "value1" })).to.deep.equal(["tag1"]);
+    expect(getOptionStringsTags(field, { key1: "value1" })).toEqual(["tag1"]);
   });
 });

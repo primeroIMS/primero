@@ -7,10 +7,10 @@ describe("Verifying config constant", () => {
     const constants = { ...navConstants };
 
     ["NAME", "CUSTOM_FORM_IDS_NAV"].forEach(property => {
-      expect(constants).to.have.property(property);
+      expect(constants).toHaveProperty(property);
       delete constants[property];
     });
 
-    expect(constants).to.deep.equal({});
+    expect(constants).toEqual({});
   });
 });

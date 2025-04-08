@@ -57,6 +57,6 @@ describe("getViolationAssociationsValues", () => {
       ]
     };
 
-    expect(result).to.deep.equal(expected);
+    expect(result).toEqual(expected);
   });
 });

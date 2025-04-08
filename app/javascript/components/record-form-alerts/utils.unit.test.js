@@ -21,7 +21,7 @@ describe("<RecordFormAlerts/> - utils", () => {
         alert_time: "01-Jan-2010"
       };
 
-      expect(utils.getMessageData({ alert, form, i18n })).to.deep.equal(expected);
+      expect(utils.getMessageData({ alert, form, i18n })).toEqual(expected);
     });
 
     it("should return the correct data for approval alerts", () => {
@@ -29,7 +29,7 @@ describe("<RecordFormAlerts/> - utils", () => {
       const form = fromJS({ name: { en: "Form 1" } });
       const expected = { form_section_name: "Form 1" };
 
-      expect(utils.getMessageData({ alert, form, i18n })).to.deep.equal(expected);
+      expect(utils.getMessageData({ alert, form, i18n })).toEqual(expected);
     });
   });
 });

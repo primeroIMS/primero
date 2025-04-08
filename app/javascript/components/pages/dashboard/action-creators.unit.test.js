@@ -1,7 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import clone from "lodash/clone";
-import sinon from "sinon";
 import configureStore from "redux-mock-store";
 
 import { RECORD_PATH } from "../../../config";
@@ -23,27 +22,27 @@ describe("<Dashboard /> - Action Creators", () => {
       "openPageActions",
       "fetchDashboards"
     ].forEach(property => {
-      expect(creators).to.have.property(property);
+      expect(creators).toHaveProperty(property);
       delete creators[property];
     });
 
-    expect(creators).to.be.empty;
+    expect(Object.keys(creators)).toHaveLength(0);
   });
 
   it("should check the 'fetchDashboards' action creator to return the correct object", () => {
     const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
+    const dispatch = jest.spyOn(store, "dispatch");
 
     dispatch(actionCreators.fetchDashboards());
 
-    expect(dispatch.getCall(0).returnValue.type).to.eql(actions.DASHBOARDS);
+    expect(dispatch.mock.calls[0][0].type).toEqual(actions.DASHBOARDS);
 
-    expect(dispatch.getCall(0).returnValue.api.path).to.eql(RECORD_PATH.dashboards);
+    expect(dispatch.mock.calls[0][0].api.path).toEqual(RECORD_PATH.dashboards);
   });
 
   describe("fetchFlags", () => {
     const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
+    const dispatch = jest.spyOn(store, "dispatch");
     const commonPath = "record_type=cases";
 
     describe("when only activeFlags is false", () => {
@@ -51,9 +50,9 @@ describe("<Dashboard /> - Action Creators", () => {
         const expected = { type: "dashboard/DASHBOARD_FLAGS", api: { path: `flags?${commonPath}` } };
 
         dispatch(actionCreators.fetchFlags("cases"));
-        const { returnValue: firstCallReturnValue } = dispatch.getCall(0);
+        const firstCallReturnValue = dispatch.mock.calls[0][0];
 
-        expect(firstCallReturnValue).deep.equals(expected);
+        expect(firstCallReturnValue).toEqual(expected);
       });
     });
 
@@ -62,9 +61,9 @@ describe("<Dashboard /> - Action Creators", () => {
         const expected = { type: "dashboard/DASHBOARD_FLAGS", api: { path: `flags?active_only=true&${commonPath}` } };
 
         dispatch(actionCreators.fetchFlags("cases", true));
-        const { returnValue: firstCallReturnValue } = dispatch.getCall(1);
+        const firstCallReturnValue = dispatch.mock.calls[0][0];
 
-        expect(firstCallReturnValue).deep.equals(expected);
+        expect(firstCallReturnValue).toEqual(expected);
       });
     });
   });

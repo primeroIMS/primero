@@ -39,7 +39,7 @@ describe("<SavedSearches /> - Reducers", () => {
 
     const newState = reducer.savedSearches(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle REMOVE_SAVED_SEARCH_SUCCESS", () => {
@@ -76,7 +76,7 @@ describe("<SavedSearches /> - Reducers", () => {
 
     const newState = reducer.savedSearches(defaultStateSavedSearch, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SAVE_SEARCH_SUCCESS", () => {
@@ -130,6 +130,6 @@ describe("<SavedSearches /> - Reducers", () => {
     const newState = reducer.savedSearches(defaultStateSuccess, action);
 
     // Using toJS(), because SavedSearchesRecord doesn't implement immutable js
-    expect(newState.toJS()).to.deep.equal(expected);
+    expect(newState.toJS()).toEqual(expected);
   });
 });

@@ -14,7 +14,7 @@ describe("pages/account/reducer.js", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_CURRENT_USER_FAILURE", () => {
@@ -25,7 +25,7 @@ describe("pages/account/reducer.js", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_CURRENT_USER_SUCCESS", () => {
@@ -43,7 +43,7 @@ describe("pages/account/reducer.js", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_CURRENT_USER_FINISHED", () => {
@@ -54,7 +54,7 @@ describe("pages/account/reducer.js", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle CLEAR_CURRENT_USER", () => {
@@ -69,7 +69,7 @@ describe("pages/account/reducer.js", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle UPDATE_CURRENT_USER_STARTED", () => {
@@ -80,7 +80,7 @@ describe("pages/account/reducer.js", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle UPDATE_CURRENT_USER_SUCCESS", () => {
@@ -91,6 +91,6 @@ describe("pages/account/reducer.js", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

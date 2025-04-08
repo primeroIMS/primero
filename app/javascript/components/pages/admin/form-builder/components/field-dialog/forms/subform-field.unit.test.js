@@ -14,7 +14,7 @@ describe("subformField()", () => {
       formMode: fromJS({ isNew: false })
     });
 
-    expect(forms).to.have.sizeOf(3);
+    expect(forms.size).toBe(3);
   });
 
   it("should return the correct fields for the visibilityForm", () => {
@@ -26,7 +26,7 @@ describe("subformField()", () => {
 
     const visibilityForm = forms.find(form => form.unique_id === "field_visibility");
 
-    expect(visibilityForm.fields[1].row.map(field => field.get("name"))).to.deep.equal([
+    expect(visibilityForm.fields[1].row.map(field => field.get("name"))).toEqual([
       "field_1.visible",
       "field_1.mobile_visible",
       "field_1.hide_on_view_page"

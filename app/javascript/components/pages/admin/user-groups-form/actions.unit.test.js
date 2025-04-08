@@ -6,7 +6,7 @@ describe("<UserGroupsForm /> - Actions", () => {
   it("should have known properties", () => {
     const clonedActions = { ...actions };
 
-    expect(clonedActions).to.be.an("object");
+    expect(typeof clonedActions).toEqual("object");
     [
       "CLEAR_SELECTED_USER_GROUP",
       "FETCH_USER_GROUP",
@@ -20,10 +20,10 @@ describe("<UserGroupsForm /> - Actions", () => {
       "SAVE_USER_GROUP_SUCCESS",
       "SAVE_USER_GROUP_FAILURE"
     ].forEach(property => {
-      expect(clonedActions).to.have.property(property);
+      expect(clonedActions).toHaveProperty(property);
       delete clonedActions[property];
     });
 
-    expect(clonedActions).to.be.empty;
+    expect(Object.keys(clonedActions)).toHaveLength(0);
   });
 });

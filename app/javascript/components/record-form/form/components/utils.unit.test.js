@@ -16,7 +16,7 @@ describe("<RecordForm>/form/components - utils", () => {
         field3: [{ subfield1: "value subfield1" }]
       };
 
-      expect(utils.removeEmptyArrays(current)).to.deep.equal(expected);
+      expect(utils.removeEmptyArrays(current)).toEqual(expected);
     });
   });
   describe("buildLabelSync", () => {
@@ -32,21 +32,21 @@ describe("<RecordForm>/form/components - utils", () => {
       const syncedStatus = SYNC_RECORD_STATUS.synced;
       const expected = "sync_record.last";
 
-      expect(utils.buildLabelSync(syncedStatus, syncedAt, i18n)).to.deep.equal(expected);
+      expect(utils.buildLabelSync(syncedStatus, syncedAt, i18n)).toEqual(expected);
     });
 
     it("build label for failed status", () => {
       const syncedStatus = SYNC_RECORD_STATUS.failed;
       const expected = "sync_record.failed";
 
-      expect(utils.buildLabelSync(syncedStatus, syncedAt, i18n)).to.deep.equal(expected);
+      expect(utils.buildLabelSync(syncedStatus, syncedAt, i18n)).toEqual(expected);
     });
 
     it("build label for not_found status", () => {
       const syncedStatus = SYNC_RECORD_STATUS.not_found;
       const expected = "sync_record.not_found";
 
-      expect(utils.buildLabelSync(syncedStatus, syncedAt, i18n)).to.deep.equal(expected);
+      expect(utils.buildLabelSync(syncedStatus, syncedAt, i18n)).toEqual(expected);
     });
   });
 });

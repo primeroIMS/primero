@@ -13,7 +13,7 @@ describe("<RecordForm>/form/subforms/<TraceComparisonForm> - utils", () => {
       { field_name: "field_3", case_value: null, trace_value: "trace_value_3", match: "mismatch" }
     ]);
 
-    context("when does not include empty", () => {
+    describe("when does not include empty", () => {
       it("returns only those fields with values for trace and case", () => {
         const expected = [
           {
@@ -24,11 +24,11 @@ describe("<RecordForm>/form/subforms/<TraceComparisonForm> - utils", () => {
           }
         ];
 
-        expect(utils.getComparisons({ fields, comparedFields })).to.deep.equal(expected);
+        expect(utils.getComparisons({ fields, comparedFields })).toEqual(expected);
       });
     });
 
-    context("when includes empty", () => {
+    describe("when includes empty", () => {
       it("returns fields with values for trace or case", () => {
         const expected = [
           {
@@ -51,7 +51,7 @@ describe("<RecordForm>/form/subforms/<TraceComparisonForm> - utils", () => {
           }
         ];
 
-        expect(utils.getComparisons({ fields, comparedFields, includeEmpty: true })).to.deep.equal(expected);
+        expect(utils.getComparisons({ fields, comparedFields, includeEmpty: true })).toEqual(expected);
       });
     });
   });
@@ -70,7 +70,7 @@ describe("<RecordForm>/form/subforms/<TraceComparisonForm> - utils", () => {
             { id: "0002", attachment_url: "/audio/2.mp3", file_name: "2.mp3" }
           ])
         )
-      ).to.deep.equals(expected);
+      ).toEqual(expected);
     });
   });
 });

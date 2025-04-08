@@ -7,10 +7,10 @@ describe("FlagForm - Constants", () => {
     const clonedConstants = { ...constants };
 
     ["NAME", "MAX_LENGTH_FLAG_REASON"].forEach(property => {
-      expect(clonedConstants).to.have.property(property);
+      expect(clonedConstants).toHaveProperty(property);
       delete clonedConstants[property];
     });
 
-    expect(clonedConstants).to.be.empty;
+    expect(Object.keys(clonedConstants)).toHaveLength(0);
   });
 });

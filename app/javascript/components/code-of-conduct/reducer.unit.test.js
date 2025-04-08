@@ -20,7 +20,7 @@ describe("components/connectivity/reducer.js", () => {
 
     const newState = reducer(defaultState, action);
 
-    expect(newState).to.eql(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle ACCEPT_CODE_OF_CONDUCT_SUCCESS", () => {
@@ -42,6 +42,6 @@ describe("components/connectivity/reducer.js", () => {
 
     const newState = reducer(defaultState, action);
 
-    expect(newState).to.eql(expected);
+    expect(newState).toEqual(expected);
   });
 });

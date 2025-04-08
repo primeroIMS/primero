@@ -18,7 +18,7 @@ describe("<Report /> - utils", () => {
             }
           }
         })
-      ).to.equals(1);
+      ).toBe(1);
     });
 
     it("returns the first value of an object after excluding the excludeKey", () => {
@@ -38,7 +38,7 @@ describe("<Report /> - utils", () => {
           },
           "_total"
         )
-      ).to.deep.equals({
+      ).toEqual({
         _total: 1,
         true: {
           _total: 0
@@ -58,7 +58,7 @@ describe("<Report /> - utils", () => {
         },
         "_total"
       )
-    ).to.deep.equals({
+    ).toEqual({
       _total: 1
     });
   });

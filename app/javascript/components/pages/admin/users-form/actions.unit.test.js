@@ -6,7 +6,7 @@ describe("<UsersForm /> - Actions", () => {
   it("should have known properties", () => {
     const clonedActions = { ...actions };
 
-    expect(clonedActions).to.be.an("object");
+    expect(typeof clonedActions).toEqual("object");
     [
       "CLEAR_RECORDS_UPDATE",
       "CLEAR_SELECTED_USER",
@@ -32,10 +32,10 @@ describe("<UsersForm /> - Actions", () => {
       "SAVE_USER_STARTED",
       "SAVE_USER_SUCCESS"
     ].forEach(property => {
-      expect(clonedActions).to.have.property(property);
+      expect(clonedActions).toHaveProperty(property);
       delete clonedActions[property];
     });
 
-    expect(clonedActions).to.be.empty;
+    expect(Object.keys(clonedActions)).toHaveLength(0);
   });
 });

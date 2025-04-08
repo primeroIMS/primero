@@ -72,7 +72,7 @@ describe("calculateFormParams", () => {
           }),
           i18n: { t: t => t }
         })
-      ).to.deep.equal(expected);
+      ).toEqual(expected);
     });
   });
 
@@ -111,7 +111,7 @@ describe("calculateFormParams", () => {
           }),
           i18n: { t: t => t }
         })
-      ).to.deep.equal(expected);
+      ).toEqual(expected);
     });
   });
 
@@ -161,7 +161,7 @@ describe("calculateFormParams", () => {
           }),
           i18n: { t: t => t }
         })
-      ).to.deep.equal(expected);
+      ).toEqual(expected);
     });
   });
 });

@@ -52,7 +52,7 @@ describe("<Flagging /> - Reducers", () => {
     };
     const newState = nsReducer(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle ADD_FLAG_SUCCESS", () => {
@@ -92,7 +92,7 @@ describe("<Flagging /> - Reducers", () => {
     };
     const newState = nsReducer(defaultState, action);
 
-    expect(List(newState.get("data"))).to.deep.equal(List(expected.get("data")));
+    expect(List(newState.get("data"))).toEqual(List(expected.get("data")));
   });
 
   it("should handle UNFLAG_SUCCESS", () => {
@@ -138,6 +138,6 @@ describe("<Flagging /> - Reducers", () => {
 
     const newState = nsReducer(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

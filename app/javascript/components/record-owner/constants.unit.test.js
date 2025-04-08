@@ -7,11 +7,11 @@ describe("<RecordOwner /> - constants", () => {
     const constantsValues = { ...constants };
 
     ["FIELDS", "NAME"].forEach(property => {
-      expect(constantsValues).to.have.property(property);
+      expect(constantsValues).toHaveProperty(property);
 
       delete constantsValues[property];
     });
 
-    expect(constantsValues).to.be.empty;
+    expect(Object.keys(constantsValues)).toHaveLength(0);
   });
 });

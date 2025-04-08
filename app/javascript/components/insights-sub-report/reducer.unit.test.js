@@ -20,7 +20,7 @@ describe("<Insights /> - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_INSIGHT_SUCCESS", () => {
@@ -45,7 +45,7 @@ describe("<Insights /> - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_INSIGHT_FINISHED", () => {
@@ -59,7 +59,7 @@ describe("<Insights /> - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_INSIGHT_FAILURE", () => {
@@ -73,7 +73,7 @@ describe("<Insights /> - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle user/LOGOUT_SUCCESS", () => {
@@ -97,6 +97,6 @@ describe("<Insights /> - Reducers", () => {
 
     const newState = reducer(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

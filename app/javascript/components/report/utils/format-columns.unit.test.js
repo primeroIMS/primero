@@ -9,7 +9,7 @@ describe("<Report /> - utils", () => {
       const columns = [{ display_name: { en: "Age" }, name: "age", position: { type: "vertical", order: 0 } }];
       const i18n = { t: value => value, locale: "en" };
 
-      expect(formatColumns(keys, columns, ["0 - 5", "6 - 11"], true, i18n)).to.deep.equals([
+      expect(formatColumns(keys, columns, ["0 - 5", "6 - 11"], true, i18n)).toEqual([
         ["0 - 5", "6 - 11", "report.total"]
       ]);
     });

@@ -17,19 +17,19 @@ describe("<TaskList /> - utils", () => {
   ];
 
   it("should return translations for tasks type", () => {
-    expect(getTranslatedValue("follow_up", "random", lookupSample, lookupSample, i18nTranslation)).to.equal(
+    expect(getTranslatedValue("follow_up", "random", lookupSample, lookupSample, i18nTranslation)).toBe(
       "task.types.follow_up"
     );
   });
 
   it("should return <IconButton /> Component if ACTION_BUTTON_TYPES is icon", () => {
-    expect(getTranslatedValue("service", "test2", lookupSample, lookupSample, i18nTranslation)).to.equal(
+    expect(getTranslatedValue("service", "test2", lookupSample, lookupSample, i18nTranslation)).toBe(
       "task.types.service"
     );
   });
 
   it("should return null if any invalid type is passed in", () => {
-    expect(getTranslatedValue("case_plan", "", lookupSample, lookupSample, i18nTranslation)).to.be.equal(
+    expect(getTranslatedValue("case_plan", "", lookupSample, lookupSample, i18nTranslation)).toBe(
       "task.types.case_plan"
     );
   });

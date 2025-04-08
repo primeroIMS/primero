@@ -8,6 +8,6 @@ describe("translateQuarter", () => {
   it("translates the quarter", () => {
     const result = translateQuarter("Q3", format);
 
-    expect(result).to.equal("Q3");
+    expect(result).toBe("Q3");
   });
 });

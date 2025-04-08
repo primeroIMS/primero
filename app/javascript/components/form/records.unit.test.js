@@ -6,17 +6,17 @@ describe("Verifying records", () => {
   describe("properties", () => {
     let clone;
 
-    before(() => {
+    beforeAll(() => {
       clone = { ...records };
     });
 
-    after(() => {
-      expect(clone).to.be.empty;
+    afterAll(() => {
+      expect(Object.keys(clone)).toHaveLength(0);
     });
 
     ["FieldRecord", "FormSectionRecord", "Option"].forEach(property => {
       it(`exports '${property}'`, () => {
-        expect(records).to.have.property(property);
+        expect(records).toHaveProperty(property);
         delete clone[property];
       });
     });

@@ -1,34 +1,28 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { stub } from "../../../test-utils";
-
 import * as handleOptions from "./handle-options";
 
 describe("form/utils/handle-options", () => {
   describe("generateIdForNewOption()", () => {
     it("returns an id", () => {
-      stub(Date, "now").returns(12345);
+      jest.spyOn(Date, "now").mockReturnValue(12345);
 
-      expect(handleOptions.generateIdForNewOption()).to.equal("new_option_12345");
+      expect(handleOptions.generateIdForNewOption()).toBe("new_option_12345");
     });
 
     afterEach(() => {
-      if (Date.now.restore) {
-        Date.now.restore();
-      }
+      jest.spyOn(Date, "now").mockRestore();
     });
   });
 
   describe("generateIdFromDisplayText()", () => {
     it("returns an id for the diplay_text", () => {
-      stub(Math, "random").returns(0.522234);
-      expect(handleOptions.generateIdFromDisplayText("Display Text 1")).to.equal("display_text_1_522234");
+      jest.spyOn(Math, "random").mockReturnValue(0.522234);
+      expect(handleOptions.generateIdFromDisplayText("Display Text 1")).toBe("display_text_1_522234");
     });
 
     afterEach(() => {
-      if (Math.random.restore) {
-        Math.random.restore();
-      }
+      jest.resetAllMocks();
     });
   });
 
@@ -44,7 +38,7 @@ describe("form/utils/handle-options", () => {
         { id: "option_2", display_text: "Option 2" }
       ];
 
-      expect(handleOptions.mergeOptions(options1, options2)).to.deep.equal(expected);
+      expect(handleOptions.mergeOptions(options1, options2)).toEqual(expected);
     });
   });
 });

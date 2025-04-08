@@ -21,21 +21,21 @@ describe("<Referral /> - Constants", () => {
       "SERVICE_SECTION_FIELDS",
       "TRANSITIONED_TO_FIELD"
     ].forEach(property => {
-      expect(constants).to.have.property(property);
+      expect(constants).toHaveProperty(property);
       delete constants[property];
     });
 
-    expect(constants).to.be.empty;
+    expect(Object.keys(constants)).toHaveLength(0);
   });
 
   it("should have known SERVICE_SECTION_FIELDS properties", () => {
     const constants = { ...referralConstants.SERVICE_SECTION_FIELDS };
 
     ["deliveryLocation", "implementingAgency", "implementingAgencyIndividual", "uniqueId", "type"].forEach(property => {
-      expect(constants).to.have.property(property);
+      expect(constants).toHaveProperty(property);
       delete constants[property];
     });
 
-    expect(constants).to.be.empty;
+    expect(Object.keys(constants)).toHaveLength(0);
   });
 });

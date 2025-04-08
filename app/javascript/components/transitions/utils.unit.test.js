@@ -15,7 +15,7 @@ describe("transitions/utils", () => {
         redirect: `/cases`
       };
 
-      expect(utils.redirectCheckAccessDenied(RECORD_PATH.cases)).to.deep.equal(expected);
+      expect(utils.redirectCheckAccessDenied(RECORD_PATH.cases)).toEqual(expected);
     });
   });
 });

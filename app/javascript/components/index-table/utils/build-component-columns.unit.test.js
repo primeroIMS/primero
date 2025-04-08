@@ -18,8 +18,8 @@ describe("buildComponentColumns", () => {
       "column3"
     );
 
-    expect(columns.map(column => column.name)).to.deep.equals(fromJS(["column1", "column2", "column3"]));
-    expect(columns.find(column => column.name === "column3").options).to.deep.equals({
+    expect(columns.map(column => column.name)).toEqual(fromJS(["column1", "column2", "column3"]));
+    expect(columns.find(column => column.name === "column3").options).toEqual({
       customBodyRender,
       sortOrder: "asc"
     });
@@ -38,8 +38,8 @@ describe("buildComponentColumns", () => {
       "column3"
     );
 
-    expect(columns.map(column => column.name)).to.deep.equals(fromJS(["column1", "column2", "column3"]));
-    expect(columns.find(column => column.name === "column3").options).to.deep.equals({
+    expect(columns.map(column => column.name)).toEqual(fromJS(["column1", "column2", "column3"]));
+    expect(columns.find(column => column.name === "column3").options).toEqual({
       customBodyRender,
       sortOrder: "asc"
     });

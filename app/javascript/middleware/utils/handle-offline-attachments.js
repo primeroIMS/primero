@@ -3,7 +3,7 @@
 import merge from "deepmerge";
 import isEqual from "lodash/isEqual";
 
-import { syncIndexedDB } from "../../db";
+import syncIndexedDB from "../../db/sync";
 import { getAttachmentFields } from "../../components/record-form";
 
 import keepExistingMerge from "./keep-existing-merge";

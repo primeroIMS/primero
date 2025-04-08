@@ -47,7 +47,7 @@ describe("<FormsList /> - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(expectedState);
+    expect(newState).toEqual(expectedState);
   });
 
   it("should handle RECORD_FORMS_STARTED", () => {
@@ -64,7 +64,7 @@ describe("<FormsList /> - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle RECORD_FORMS_FINISHED", () => {
@@ -80,7 +80,7 @@ describe("<FormsList /> - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle CLEAR_FORMS_REORDER", () => {
@@ -100,7 +100,7 @@ describe("<FormsList /> - Reducers", () => {
 
     const newState = reducer(currentState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle ENABLE_REORDER", () => {
@@ -119,7 +119,7 @@ describe("<FormsList /> - Reducers", () => {
 
     const newState = reducer(currentState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle REORDER_FORM_GROUPS", () => {
@@ -165,7 +165,7 @@ describe("<FormsList /> - Reducers", () => {
       }))
       .toJS();
 
-    expect(reordered).to.deep.equal([
+    expect(reordered).toEqual([
       { id: 1, order_form_group: 0 },
       { id: 2, order_form_group: 10 }
     ]);
@@ -216,7 +216,7 @@ describe("<FormsList /> - Reducers", () => {
       }))
       .toJS();
 
-    expect(reordered).to.deep.equal([
+    expect(reordered).toEqual([
       { id: 1, order: 0 },
       { id: 2, order: 10 }
     ]);
@@ -237,7 +237,7 @@ describe("<FormsList /> - Reducers", () => {
 
     const newState = reducer(currentState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SAVE_FORMS_REORDER_SUCCESS", () => {
@@ -271,7 +271,7 @@ describe("<FormsList /> - Reducers", () => {
 
     const newState = reducer(currentState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SAVE_FORMS_REORDER_FINISHED", () => {
@@ -290,7 +290,7 @@ describe("<FormsList /> - Reducers", () => {
 
     const newState = reducer(currentState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SET_REORDERED_FORMS", () => {
@@ -309,7 +309,7 @@ describe("<FormsList /> - Reducers", () => {
 
     const newState = reducer(currentState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle CLEAR_EXPORT_FORMS", () => {
@@ -333,6 +333,6 @@ describe("<FormsList /> - Reducers", () => {
 
     const newState = reducer(currentState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

@@ -4,18 +4,18 @@ import * as configConstants from "./config";
 
 describe("Verifying config constant", () => {
   it("exports an object", () => {
-    expect(configConstants).to.be.an("object");
+    expect(typeof configConstants).toEqual("object");
   });
 
   describe("properties", () => {
     let clone;
 
-    before(() => {
+    beforeAll(() => {
       clone = { ...configConstants };
     });
 
-    after(() => {
-      expect(clone).to.be.empty;
+    afterAll(() => {
+      expect(Object.keys(clone)).toHaveLength(0);
     });
 
     [
@@ -159,7 +159,7 @@ describe("Verifying config constant", () => {
       "CASE_CHARACTERISTICS_SUBREPORTS"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
-        expect(configConstants).to.have.property(property);
+        expect(configConstants).toHaveProperty(property);
         delete clone[property];
       });
     });
@@ -179,7 +179,7 @@ describe("Verifying config constant", () => {
       "USERS_REFER_TO"
     ].forEach(property => {
       it(`DEPRECATED '${property}'`, () => {
-        expect(configConstants).to.not.have.property(property);
+        expect(configConstants).not.toHaveProperty(property);
       });
     });
 
@@ -187,12 +187,12 @@ describe("Verifying config constant", () => {
       it("should have correct constant value", () => {
         const constants = { ...configConstants };
 
-        expect(constants.FETCH_TIMEOUT).equal(90000);
-        expect(constants.DATABASE_NAME).equal("primero");
-        expect(constants.IDLE_TIMEOUT).equal(15 * 1000 * 60);
-        expect(constants.IDLE_LOGOUT_TIMEOUT).equal(5 * 1000 * 60);
-        expect(constants.TOKEN_REFRESH_INTERVAL).equal(30 * 1000 * 60);
-        expect(constants.RECORD_TYPES).to.deep.equal({
+        expect(constants.FETCH_TIMEOUT).toBe(90000);
+        expect(constants.DATABASE_NAME).toBe("primero");
+        expect(constants.IDLE_TIMEOUT).toBe(15 * 1000 * 60);
+        expect(constants.IDLE_LOGOUT_TIMEOUT).toBe(5 * 1000 * 60);
+        expect(constants.TOKEN_REFRESH_INTERVAL).toBe(30 * 1000 * 60);
+        expect(constants.RECORD_TYPES).toEqual({
           cases: "case",
           tracing_requests: "tracing_request",
           incidents: "incident",
@@ -200,83 +200,83 @@ describe("Verifying config constant", () => {
           registry_records: "registry_record",
           families: "family"
         });
-        expect(constants.AGE_MAX).equal(999);
-        expect(constants.PERMITTED_URL).to.be.an("array");
-        expect(constants.MODULES).to.deep.equal({
+        expect(constants.AGE_MAX).toBe(999);
+        expect(Array.isArray(constants.PERMITTED_URL)).toBe(true);
+        expect(constants.MODULES).toEqual({
           CP: "primeromodule-cp",
           GBV: "primeromodule-gbv",
           MRM: "primeromodule-mrm"
         });
-        expect(constants.CONSENT_GIVEN_FIELD_BY_MODULE).to.deep.equal({
+        expect(constants.CONSENT_GIVEN_FIELD_BY_MODULE).toEqual({
           "primeromodule-cp": ["consent_for_services", "disclosure_other_orgs"],
           "primeromodule-gbv": ["consent_for_services"]
         });
-        expect(constants.MODULE_TYPE_FIELD).to.equal("module_id");
-        expect(constants.TRANSITION_TYPE).to.deep.equal(["transfers_assignments", "referral"]);
-        expect(constants.RECORD_OWNER).to.equal("record_owner");
-        expect(constants.TRANSFERS_ASSIGNMENTS).to.equal("transfers_assignments");
-        expect(constants.REFERRAL).to.equal("referral");
-        expect(constants.NAME_FIELD).to.be.equal("name");
-        expect(constants.DATE_FORMAT).to.equal("dd-MMM-yyyy");
-        expect(constants.DATE_TIME_FORMAT).to.equal("dd-MMM-yyyy HH:mm");
-        expect(constants.USER_NAME_FIELD).to.equal("user_name");
-        expect(constants.MODES).to.be.an("object");
-        expect(constants.STRING_SOURCES_TYPES).to.be.an("object");
-        expect(constants.ID_FIELD).to.equal("id");
-        expect(constants.UNIQUE_ID_FIELD).to.equal("unique_id");
-        expect(constants.DISPLAY_TEXT_FIELD).to.equal("display_text");
-        expect(constants.CODE_FIELD).to.equal("code");
-        expect(constants.LOOKUPS).to.be.an("object");
-        expect(constants.LOOKUPS).to.have.all.keys(
-          "agency_office",
-          "armed_force_group_or_other_party",
-          "risk_level",
-          "workflow",
-          "service_type",
-          "protection_concerns",
-          "followup_type",
-          "reporting_locations",
-          "gbv_violence_type",
-          "cp_violence_type",
-          "gender",
-          "gender_unknown",
-          "legitimate_basis",
-          "legitimate_basis_explanations",
-          "verification_status",
-          "violation_type"
+        expect(constants.MODULE_TYPE_FIELD).toBe("module_id");
+        expect(constants.TRANSITION_TYPE).toEqual(["transfers_assignments", "referral"]);
+        expect(constants.RECORD_OWNER).toBe("record_owner");
+        expect(constants.TRANSFERS_ASSIGNMENTS).toBe("transfers_assignments");
+        expect(constants.REFERRAL).toBe("referral");
+        expect(constants.NAME_FIELD).toBe("name");
+        expect(constants.DATE_FORMAT).toBe("dd-MMM-yyyy");
+        expect(constants.DATE_TIME_FORMAT).toBe("dd-MMM-yyyy HH:mm");
+        expect(constants.USER_NAME_FIELD).toBe("user_name");
+        expect(typeof constants.MODES).toEqual("object");
+        expect(typeof constants.STRING_SOURCES_TYPES).toEqual("object");
+        expect(constants.ID_FIELD).toBe("id");
+        expect(constants.UNIQUE_ID_FIELD).toBe("unique_id");
+        expect(constants.DISPLAY_TEXT_FIELD).toBe("display_text");
+        expect(constants.CODE_FIELD).toBe("code");
+        expect(typeof constants.LOOKUPS).toEqual("object");
+        expect(Object.keys(constants.LOOKUPS)).toEqual(
+          expect.arrayContaining([
+            "agency_office",
+            "armed_force_group_or_other_party",
+            "risk_level",
+            "workflow",
+            "service_type",
+            "protection_concerns",
+            "followup_type",
+            "reporting_locations",
+            "gbv_violence_type",
+            "cp_violence_type",
+            "gender",
+            "gender_unknown",
+            "legitimate_basis",
+            "legitimate_basis_explanations",
+            "verification_status",
+            "violation_type"
+          ])
         );
-        expect(constants.RECORD_INFORMATION).to.be.an("array");
-        expect(constants.INCIDENT_FROM_CASE).to.be.an("string");
-        expect(constants.INCIDENT_FROM_CASE).to.equal("incident_from_case");
-        expect(constants.APPROVALS).to.be.an("string");
-        expect(constants.APPROVALS_TYPES).to.be.an("object");
-        expect(constants.APPROVALS_TYPES).to.have.all.keys(
-          "action_plan",
-          "assessment",
-          "case_plan",
-          "closure",
-          "gbv_closure"
+        expect(Array.isArray(constants.RECORD_INFORMATION)).toBe(true);
+        expect(typeof constants.INCIDENT_FROM_CASE).toBe("string");
+        expect(constants.INCIDENT_FROM_CASE).toBe("incident_from_case");
+        expect(typeof constants.APPROVALS).toBe("string");
+        expect(typeof constants.APPROVALS_TYPES).toEqual("object");
+        expect(Object.keys(constants.APPROVALS_TYPES)).toEqual(
+          expect.arrayContaining(["action_plan", "assessment", "case_plan", "closure", "gbv_closure"])
         );
 
-        expect(constants.ALERTS_FOR).to.have.all.keys(
-          "approval",
-          "field_change",
-          "incident_details",
-          "new_form",
-          "services_section",
-          "transfer_request",
-          "duplicate_field",
-          "transfer",
-          "referral"
+        expect(Object.keys(constants.ALERTS_FOR)).toEqual(
+          expect.arrayContaining([
+            "approval",
+            "field_change",
+            "incident_details",
+            "new_form",
+            "services_section",
+            "transfer_request",
+            "duplicate_field",
+            "transfer",
+            "referral"
+          ])
         );
 
-        expect(constants.ROWS_PER_PAGE_OPTIONS).to.be.an("array");
+        expect(Array.isArray(constants.ROWS_PER_PAGE_OPTIONS)).toBe(true);
 
-        expect(constants.DEFAULT_METADATA).to.have.all.keys("page", "per");
+        expect(Object.keys(constants.DEFAULT_METADATA)).toEqual(expect.arrayContaining(["page", "per"]));
 
-        expect(constants.HTTP_STATUS).to.have.all.keys("invalidRecord");
+        expect(Object.keys(constants.HTTP_STATUS)).toContain("invalidRecord");
 
-        expect(constants.DEFAULT_DATE_VALUES).to.have.all.keys("TODAY", "NOW");
+        expect(Object.keys(constants.DEFAULT_DATE_VALUES)).toEqual(expect.arrayContaining(["TODAY", "NOW"]));
       });
     });
   });

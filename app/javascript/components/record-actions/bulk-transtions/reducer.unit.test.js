@@ -35,7 +35,7 @@ describe("bulk-transitons - Reducers", () => {
 
     const newState = reducer(RECORD_PATH.cases)(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle BULK_ASSIGN_USER_SAVE_FINISHED", () => {
@@ -51,7 +51,7 @@ describe("bulk-transitons - Reducers", () => {
 
     const newState = reducer(RECORD_PATH.cases)(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle BULK_ASSIGN_USER_SAVE_STARTED", () => {
@@ -69,7 +69,7 @@ describe("bulk-transitons - Reducers", () => {
 
     const newState = reducer(RECORD_PATH.cases)(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle BULK_ASSIGN_USER_SAVE_SUCCESS", () => {
@@ -112,7 +112,7 @@ describe("bulk-transitons - Reducers", () => {
 
     const newState = reducer(RECORD_PATH.cases)(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle BULK_ASSIGN_USER_SELECTED_RECORDS_LENGTH", () => {
@@ -130,6 +130,6 @@ describe("bulk-transitons - Reducers", () => {
 
     const newState = reducer(RECORD_PATH.cases)(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

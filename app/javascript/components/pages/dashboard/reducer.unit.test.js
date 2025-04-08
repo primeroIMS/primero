@@ -23,7 +23,7 @@ describe("<Dashboard /> - Reducers", () => {
 
     const newState = nsReducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle DASHBOARDS_SUCCESS", () => {
@@ -58,7 +58,7 @@ describe("<Dashboard /> - Reducers", () => {
     };
     const newState = nsReducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle DASHBOARDS_FINISHED", () => {
@@ -72,7 +72,7 @@ describe("<Dashboard /> - Reducers", () => {
 
     const newState = nsReducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle DASHBOARDS_FAILURE", () => {
@@ -86,7 +86,7 @@ describe("<Dashboard /> - Reducers", () => {
 
     const newState = nsReducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle user/LOGOUT_SUCCESS", () => {
@@ -100,6 +100,6 @@ describe("<Dashboard /> - Reducers", () => {
 
     const newState = nsReducer(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

@@ -12,8 +12,8 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/base - su
       const form = subform({ i18n });
       const fieldNames = form.fields.map(field => field.name);
 
-      expect(form.unique_id).to.equal("subform_field");
-      expect(fieldNames).to.deep.equal([
+      expect(form.unique_id).toBe("subform_field");
+      expect(fieldNames).toEqual([
         "subform_section.name.en",
         "subform_section.description.en",
         "subform_section.subform_append_only",
@@ -30,8 +30,8 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/base - su
       const form = subform({ i18n, fields: [customField] });
       const fieldNames = form.fields.map(field => field.name);
 
-      expect(form.unique_id).to.equal("subform_field");
-      expect(fieldNames).to.deep.equal(["custom_field_1"]);
+      expect(form.unique_id).toBe("subform_field");
+      expect(fieldNames).toEqual(["custom_field_1"]);
     });
   });
 });

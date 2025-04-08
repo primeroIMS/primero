@@ -61,9 +61,6 @@ jobs:
       - bash: |
           npm run test
         displayName: 'Run Integration test'
-      - bash: |
-          npm run test:components -- --maxWorkers=2
-        displayName: 'Run Integration test (Components)'
 
   - job: Build
     displayName: 'Build and push'

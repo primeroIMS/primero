@@ -21,7 +21,7 @@ describe("isFormDirty", () => {
       }
     ]);
 
-    expect(isFormDirty(initialValues, currentValues, fields)).to.be.false;
+    expect(isFormDirty(initialValues, currentValues, fields)).toBe(false);
   });
 
   it("should return true if initialValues and currentValues are not equals", () => {
@@ -40,10 +40,10 @@ describe("isFormDirty", () => {
       }
     ]);
 
-    expect(isFormDirty(initialValues, currentValues, fields)).to.be.true;
+    expect(isFormDirty(initialValues, currentValues, fields)).toBe(true);
   });
 
-  context("when with subforms", () => {
+  describe("when with subforms", () => {
     it(
       "should return false if initialValues and currentValues are equals, " +
         "even if currentValues subforms are in a differente order",
@@ -87,7 +87,7 @@ describe("isFormDirty", () => {
           }
         ]);
 
-        expect(isFormDirty(initialValues, currentValues, fields)).to.be.false;
+        expect(isFormDirty(initialValues, currentValues, fields)).toBe(false);
       }
     );
 
@@ -134,7 +134,7 @@ describe("isFormDirty", () => {
           }
         ]);
 
-        expect(isFormDirty(initialValues, currentValues, fields)).to.be.true;
+        expect(isFormDirty(initialValues, currentValues, fields)).toBe(true);
       }
     );
   });

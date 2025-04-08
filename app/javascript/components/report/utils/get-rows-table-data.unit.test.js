@@ -15,7 +15,7 @@ describe("report/utils/get-rows-table-data", () => {
         }
       };
 
-      expect(getRowsTableData(data, ["Gesamt"], [], i18n)).to.deep.equal([["Weiblich", false, 5]]);
+      expect(getRowsTableData(data, ["Gesamt"], [], i18n)).toEqual([["Weiblich", false, 5]]);
     });
 
     it("returns the rows for multiple attributes", () => {
@@ -123,7 +123,7 @@ describe("report/utils/get-rows-table-data", () => {
         }
       ];
 
-      expect(getRowsTableData(data, columns, [], i18n)).to.deep.equal([
+      expect(getRowsTableData(data, columns, [], i18n)).toEqual([
         ["high", true, 0],
         ["abandonment", false, 0, 0, 0, 0, 0, 0, 0],
         ["low", true, 2],
@@ -195,7 +195,7 @@ describe("report/utils/get-rows-table-data", () => {
     };
     const columns = ["female", "male", "other", "_total"];
 
-    expect(getRowsTableData(data, columns, [], i18n)).to.deep.equal([
+    expect(getRowsTableData(data, columns, [], i18n)).toEqual([
       ["high", false, 1, 0, 0, 1],
       ["medium", false, 0, 0, 1, 1],
       ["low", false, 0, 1, 0, 1]
@@ -375,7 +375,7 @@ describe("report/utils/get-rows-table-data", () => {
       }
     ];
 
-    expect(getRowsTableData(data, columns, [], i18n)).to.deep.equal([
+    expect(getRowsTableData(data, columns, [], i18n)).toEqual([
       ["high", true, 0],
       ["abandonment", false, 0, 0, 0, 0, 0, 0, 0],
       ["medium", true, 3],
@@ -439,6 +439,6 @@ describe("report/utils/get-rows-table-data", () => {
     };
     const columns = ["abandoment", "neglect", "security.e.g_safe_shelter", "_total"];
 
-    expect(getRowsTableData(data, columns, [], i18n)).to.deep.equal([["high", false, 1, 1, 2, 4]]);
+    expect(getRowsTableData(data, columns, [], i18n)).toEqual([["high", false, 1, 1, 2, 4]]);
   });
 });

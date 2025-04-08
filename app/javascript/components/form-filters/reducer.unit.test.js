@@ -20,7 +20,7 @@ describe("components/drawer/reducer.js", () => {
 
     const newState = reducer.formFilters(defaultState, action);
 
-    expect(newState).to.eql(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle CLEAR_FORM_FILTERS", () => {
@@ -33,6 +33,6 @@ describe("components/drawer/reducer.js", () => {
 
     const newState = reducer.formFilters(fromJS({ someForm: { filter_1: ["value_1", "value_2"] } }), action);
 
-    expect(newState).to.eql(expected);
+    expect(newState).toEqual(expected);
   });
 });

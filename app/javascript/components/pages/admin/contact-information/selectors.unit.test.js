@@ -33,11 +33,11 @@ describe("<AgenciesForm /> - Selectors", () => {
     it("should return selected contactInformation", () => {
       const expected = contactInformation;
 
-      expect(selectContactInformation(defaultState)).to.deep.equal(expected);
+      expect(selectContactInformation(defaultState)).toEqual(expected);
     });
 
     it("should be empty", () => {
-      expect(selectContactInformation(emptyState)).to.be.empty;
+      expect(selectContactInformation(emptyState).size).toBe(0);
     });
   });
 
@@ -45,7 +45,7 @@ describe("<AgenciesForm /> - Selectors", () => {
     it("should return errors", () => {
       const expected = false;
 
-      expect(selectSavingContactInformation(defaultState)).to.deep.equal(expected);
+      expect(selectSavingContactInformation(defaultState)).toEqual(expected);
     });
   });
 });

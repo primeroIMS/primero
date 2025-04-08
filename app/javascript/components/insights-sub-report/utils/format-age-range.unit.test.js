@@ -6,6 +6,6 @@ describe("formatAgeRange", () => {
   it("formats the age ranges", () => {
     const range = formatAgeRange("0..9");
 
-    expect(range).to.equal("0 - 9");
+    expect(range).toBe("0 - 9");
   });
 });

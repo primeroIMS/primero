@@ -20,8 +20,7 @@ definitions:
           - npm config set legacy-peer-deps true
           - npm ci
           - npm run lint:run
-          - npm run test
-          - npm run test:components -- --maxWorkers=2
+          - npm run test -- --maxWorkers=2
         caches:
           - node
     - step: &push-branch

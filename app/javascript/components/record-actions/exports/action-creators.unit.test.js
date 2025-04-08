@@ -1,6 +1,5 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { stub } from "../../../test-utils";
 import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
 import { EXPORT_URL } from "../../pages/export-list/constants";
 import { EXPORT_DIALOG } from "../constants";
@@ -10,18 +9,18 @@ import actions from "./actions";
 import * as actionCreators from "./action-creators";
 
 describe("<RecordActions /> - exports/action-creators", () => {
-  before(() => {
-    stub(generate, "messageKey").returns(4);
+  beforeAll(() => {
+    jest.spyOn(generate, "messageKey").mockReturnValue(4);
   });
   it("should have known action creators", () => {
     const creators = { ...actionCreators };
 
     ["saveExport"].forEach(property => {
-      expect(creators).to.have.property(property);
+      expect(creators).toHaveProperty(property);
       delete creators[property];
     });
 
-    expect(creators).to.be.empty;
+    expect(Object.keys(creators)).toHaveLength(0);
   });
 
   it("should check the 'saveExport' action creator to return the correct object, when creating an export", () => {
@@ -61,11 +60,11 @@ describe("<RecordActions /> - exports/action-creators", () => {
       }
     };
 
-    expect(returnObject).to.not.be.undefined;
-    expect(returnObject).to.deep.equals(expected);
+    expect(returnObject).toBeDefined();
+    expect(returnObject).toEqual(expected);
   });
 
-  after(() => {
-    generate.messageKey.restore();
+  afterAll(() => {
+    jest.resetAllMocks();
   });
 });

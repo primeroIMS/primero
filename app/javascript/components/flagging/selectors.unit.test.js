@@ -29,14 +29,14 @@ describe("<Flagging /> - Selectors", () => {
       ]);
       const records = selectFlags(state, 2, recordType);
 
-      expect(records).to.deep.equal(expected);
+      expect(records).toEqual(expected);
     });
 
     it("should return empty list when no flags", () => {
       const expected = List([]);
       const records = selectFlags(state, 3, recordType);
 
-      expect(records).to.deep.equal(expected);
+      expect(records).toEqual(expected);
     });
   });
 
@@ -44,7 +44,7 @@ describe("<Flagging /> - Selectors", () => {
     const expected = List([FlagRecord({ record_id: 2, record_type: "cases" })]);
 
     it("should return the correct value", () => {
-      expect(getActiveFlags(state, 2, "cases")).to.deep.equal(expected);
+      expect(getActiveFlags(state, 2, "cases")).toEqual(expected);
     });
   });
 
@@ -52,7 +52,7 @@ describe("<Flagging /> - Selectors", () => {
     const expected = List([FlagRecord({ record_id: 2, record_type: "cases", removed: true })]);
 
     it("should return the correct value", () => {
-      expect(getResolvedFlags(state, 2, "cases")).to.deep.equal(expected);
+      expect(getResolvedFlags(state, 2, "cases")).toEqual(expected);
     });
   });
 });

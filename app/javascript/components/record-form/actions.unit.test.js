@@ -43,10 +43,10 @@ describe("<RecordForm /> - Actions", () => {
       "SET_TEMP_INTIAL_VALUES",
       "CLEAR_TEMP_INTIAL_VALUES"
     ].forEach(property => {
-      expect(cloneActions).to.have.property(property);
+      expect(cloneActions).toHaveProperty(property);
       delete cloneActions[property];
     });
 
-    expect(cloneActions).to.be.empty;
+    expect(Object.keys(cloneActions)).toHaveLength(0);
   });
 });
