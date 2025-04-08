@@ -6,17 +6,17 @@ describe("app/javascript/components/dashboard/flag-box-item/constants", () => {
   describe("properties", () => {
     let clone;
 
-    before(() => {
+    beforeAll(() => {
       clone = { ...constants };
     });
 
-    after(() => {
-      expect(clone).to.be.empty;
+    afterAll(() => {
+      expect(Object.keys(clone)).toHaveLength(0);
     });
 
     ["NAME"].forEach(property => {
       it(`exports '${property}'`, () => {
-        expect(constants).to.have.property(property);
+        expect(constants).toHaveProperty(property);
         delete clone[property];
       });
     });

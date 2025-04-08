@@ -7,10 +7,10 @@ describe("<Nav>/components/<NavItem>- constants", () => {
     const clonedConstants = { ...constants };
 
     ["NAME"].forEach(property => {
-      expect(clonedConstants).to.have.property(property);
+      expect(clonedConstants).toHaveProperty(property);
       delete clonedConstants[property];
     });
 
-    expect(clonedConstants).to.deep.equal({});
+    expect(clonedConstants).toEqual({});
   });
 });

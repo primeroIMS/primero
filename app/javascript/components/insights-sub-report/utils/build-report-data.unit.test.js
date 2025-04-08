@@ -5,15 +5,15 @@ import { fromJS } from "immutable";
 import buildReportData from "./build-report-data";
 
 describe("<InsightsSubReport />/utils/buildReportData", () => {
-  context("when there is no data", () => {
+  describe("when there is no data", () => {
     it("returns an empty array", () => {
       const result = buildReportData(fromJS({}), "incidents");
 
-      expect(result).to.deep.equals(fromJS({}));
+      expect(result).toEqual(fromJS({}));
     });
   });
 
-  context("when there is data", () => {
+  describe("when there is data", () => {
     it("returns sorted Map", () => {
       const result = buildReportData(
         fromJS({
@@ -72,9 +72,9 @@ describe("<InsightsSubReport />/utils/buildReportData", () => {
         "incidents"
       );
 
-      expect([...result.keys()]).to.deep.equal(["single", "aggregate"]);
-      expect([...result.get("single").keys()]).to.deep.equal(["total"]);
-      expect([...result.get("aggregate").keys()]).to.deep.equal(["incident_timeofday", "elapsed_reporting_time"]);
+      expect([...result.keys()]).toEqual(["single", "aggregate"]);
+      expect([...result.get("single").keys()]).toEqual(["total"]);
+      expect([...result.get("aggregate").keys()]).toEqual(["incident_timeofday", "elapsed_reporting_time"]);
     });
   });
 });

@@ -23,13 +23,13 @@ describe("<UsersList /> - Selectors", () => {
 
       const headers = selectListHeaders(stateWithHeaders, NAMESPACE);
 
-      expect(headers).to.deep.equal(expected);
+      expect(headers).toEqual(expected);
     });
 
     it("should return empty object when list headers empty", () => {
       const headers = selectListHeaders(stateWithoutHeaders, NAMESPACE);
 
-      expect(headers).to.deep.equal(fromJS([]));
+      expect(headers).toEqual(fromJS([]));
     });
   });
 });

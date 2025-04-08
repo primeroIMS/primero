@@ -13,7 +13,7 @@ describe("<ChangeLogs>/utils/getFieldAndValuesTranslations", () => {
       }
     });
 
-    expect(getFieldAndValuesTranslations([], [], [], { locale: "es" }, field, {}, {}).fieldDisplayName).to.equal(
+    expect(getFieldAndValuesTranslations([], [], [], { locale: "es" }, field, {}, {}).fieldDisplayName).toBe(
       "Nombre del Campo 1"
     );
   });
@@ -21,7 +21,7 @@ describe("<ChangeLogs>/utils/getFieldAndValuesTranslations", () => {
   it("should return the english translation if the translation is not avaiable ", () => {
     const field = Map({ display_name: { en: "Field Name 1", es: "" } });
 
-    expect(getFieldAndValuesTranslations([], [], [], { locale: "es" }, field, {}, {}).fieldDisplayName).to.equal(
+    expect(getFieldAndValuesTranslations([], [], [], { locale: "es" }, field, {}, {}).fieldDisplayName).toBe(
       "Field Name 1"
     );
   });

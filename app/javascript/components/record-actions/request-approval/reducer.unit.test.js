@@ -89,6 +89,6 @@ describe("<RequestApproval /> - Reducers", () => {
 
     const newState = reducer("cases")(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

@@ -6,12 +6,12 @@ describe("middleware/utils/index.js", () => {
   describe("known properties", () => {
     let clone;
 
-    before(() => {
+    beforeAll(() => {
       clone = { ...modules };
     });
 
-    after(() => {
-      expect(clone).to.be.empty;
+    afterAll(() => {
+      expect(Object.keys(clone)).toHaveLength(0);
     });
 
     [
@@ -37,7 +37,7 @@ describe("middleware/utils/index.js", () => {
       "userToggleOffline"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
-        expect(modules).to.have.property(property);
+        expect(modules).toHaveProperty(property);
         delete clone[property];
       });
     });

@@ -5,12 +5,14 @@ import * as records from "./records";
 describe("Flaggging - records", () => {
   const recordsValues = { ...records };
 
-  ["FlagRecord"].forEach(property => {
-    expect(recordsValues).to.have.property(property);
-    expect(recordsValues[property]).to.be.a("function");
+  it("imports", () => {
+    ["FlagRecord"].forEach(property => {
+      expect(recordsValues).toHaveProperty(property);
+      expect(recordsValues[property]).toBeInstanceOf(Function);
 
-    delete recordsValues[property];
+      delete recordsValues[property];
+    });
+
+    expect(Object.keys(recordsValues)).toHaveLength(0);
   });
-
-  expect(recordsValues).to.be.empty;
 });

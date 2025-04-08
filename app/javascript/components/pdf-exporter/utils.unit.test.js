@@ -10,11 +10,11 @@ describe("components/exports/components/pdf-exporter/utils.js", () => {
       const clone = { ...utils };
 
       ["addPageHeaderFooter", "buildHeaderImage", "getLogosToRender"].forEach(property => {
-        expect(clone).to.have.property(property);
-        expect(clone[property]).to.be.a("function");
+        expect(clone).toHaveProperty(property);
+        expect(clone[property]).toBeInstanceOf(Function);
         delete clone[property];
       });
-      expect(clone).to.be.empty;
+      expect(Object.keys(clone)).toHaveLength(0);
     });
   });
   describe("getLogosToRender", () => {
@@ -85,9 +85,7 @@ describe("components/exports/components/pdf-exporter/utils.js", () => {
         }
       ];
 
-      expect(utils.getLogosToRender(agencies, user, includeOtherLogos, agencyLogosPdf, true, true)).to.deep.equal(
-        expected
-      );
+      expect(utils.getLogosToRender(agencies, user, includeOtherLogos, agencyLogosPdf, true, true)).toEqual(expected);
     });
   });
 });

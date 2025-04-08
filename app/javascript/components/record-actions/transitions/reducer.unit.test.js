@@ -35,7 +35,7 @@ describe("<Transitions /> - Reducers", () => {
 
     const newState = reducer(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle ASSIGN_USER_SAVE_FAILURE", () => {
@@ -63,7 +63,7 @@ describe("<Transitions /> - Reducers", () => {
 
     const newState = reducer(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle ASSIGN_USER_SAVE_FINISHED", () => {
@@ -80,7 +80,7 @@ describe("<Transitions /> - Reducers", () => {
 
     const newState = reducer(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle ASSIGN_USER_SAVE_STARTED", () => {
@@ -98,7 +98,7 @@ describe("<Transitions /> - Reducers", () => {
 
     const newState = reducer(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle ASSIGN_USER_SAVE_SUCCESS", () => {
@@ -132,7 +132,7 @@ describe("<Transitions /> - Reducers", () => {
 
     const newState = reducer(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle CLEAR_ERRORS", () => {
@@ -150,7 +150,7 @@ describe("<Transitions /> - Reducers", () => {
 
     const newState = reducer(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle TRANSFER_USERS_FETCH_STARTED", () => {
@@ -159,7 +159,7 @@ describe("<Transitions /> - Reducers", () => {
 
     const newState = reducer(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle TRANSFER_USERS_FETCH_FAILURE", () => {
@@ -168,7 +168,7 @@ describe("<Transitions /> - Reducers", () => {
 
     const newState = reducer(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle TRANSFER_USERS_FETCH_SUCCESS", () => {
@@ -190,7 +190,7 @@ describe("<Transitions /> - Reducers", () => {
 
     const newState = reducer(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle TRANSFER_USER_FAILURE", () => {
@@ -218,7 +218,7 @@ describe("<Transitions /> - Reducers", () => {
 
     const newState = reducer(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle TRANSFER_USER_STARTED", () => {
@@ -235,7 +235,7 @@ describe("<Transitions /> - Reducers", () => {
 
     const newState = reducer(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle TRANSFER_USER_SUCCESS", () => {
@@ -269,7 +269,7 @@ describe("<Transitions /> - Reducers", () => {
 
     const newState = reducer(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("case Actions.REFERRAL_USERS_FETCH_SUCCESS", () => {
@@ -289,7 +289,7 @@ describe("<Transitions /> - Reducers", () => {
 
     const newState = reducer(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("case Actions.REFER_USER_FAILURE", () => {
@@ -324,7 +324,7 @@ describe("<Transitions /> - Reducers", () => {
 
     const newState = reducer(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("case Actions.REFER_USER_STARTED", () => {
@@ -342,7 +342,7 @@ describe("<Transitions /> - Reducers", () => {
 
     const newState = reducer(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("case Actions.REFER_USER_SUCCESS", () => {
@@ -377,7 +377,7 @@ describe("<Transitions /> - Reducers", () => {
 
     const newState = reducer(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("case Actions.REFERRAL_USERS_FETCH_STARTED", () => {
@@ -395,6 +395,6 @@ describe("<Transitions /> - Reducers", () => {
 
     const newState = reducer(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

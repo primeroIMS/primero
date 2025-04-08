@@ -1,6 +1,5 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { stub } from "../../../../test-utils";
 import { ACCEPTED, REJECTED } from "../../../../config";
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 import { CLEAR_DIALOG, SET_DIALOG_PENDING } from "../../../action-dialog";
@@ -21,12 +20,12 @@ describe("<ReferralAction /> - Action Creators", () => {
     const creators = { ...actionCreators };
 
     ["referralAccepted", "referralDone", "referralRejected"].forEach(method => {
-      expect(creators).to.have.property(method);
-      expect(creators[method]).to.be.a("function");
+      expect(creators).toHaveProperty(method);
+      expect(creators[method]).toBeInstanceOf(Function);
       delete creators[method];
     });
 
-    expect(creators).to.be.empty;
+    expect(Object.keys(creators)).toHaveLength(0);
   });
 
   describe("referralDone action creator", () => {
@@ -81,35 +80,35 @@ describe("<ReferralAction /> - Action Creators", () => {
     };
 
     beforeEach(() => {
-      stub(generate, "messageKey").returns(4);
+      jest.spyOn(generate, "messageKey").mockReturnValue(4);
     });
 
     afterEach(() => {
-      generate.messageKey.restore();
+      jest.resetAllMocks();
     });
 
     it("should return the correct action creator", () => {
-      expect(actionCreators.referralDone(args)).to.deep.equal(expectedAction);
+      expect(actionCreators.referralDone(args)).toEqual(expectedAction);
     });
 
-    context("when a note_on_referral_from_provider is passed", () => {
+    describe("when a note_on_referral_from_provider is passed", () => {
       it("should return the correct action creator", () => {
         const data = { note_on_referral_from_provider: "some test notes", status: "done" };
 
         expectedAction.api = { ...expectedAction.api, body: { data } };
 
-        expect(actionCreators.referralDone({ ...args, data })).to.deep.equal(expectedAction);
+        expect(actionCreators.referralDone({ ...args, data })).toEqual(expectedAction);
       });
     });
   });
 
   describe("referralRejected", () => {
     beforeEach(() => {
-      stub(generate, "messageKey").returns(4);
+      jest.spyOn(generate, "messageKey").mockReturnValue(4);
     });
 
     afterEach(() => {
-      generate.messageKey.restore();
+      jest.resetAllMocks();
     });
 
     it("should return the correct object", () => {
@@ -164,17 +163,17 @@ describe("<ReferralAction /> - Action Creators", () => {
         }
       };
 
-      expect(actionCreators.referralRejected(args)).to.deep.equal(expectedAction);
+      expect(actionCreators.referralRejected(args)).toEqual(expectedAction);
     });
   });
 
   describe("referralAccepted", () => {
     beforeEach(() => {
-      stub(generate, "messageKey").returns(4);
+      jest.spyOn(generate, "messageKey").mockReturnValue(4);
     });
 
     afterEach(() => {
-      generate.messageKey.restore();
+      jest.resetAllMocks();
     });
 
     it("should return the correct object", () => {
@@ -228,7 +227,7 @@ describe("<ReferralAction /> - Action Creators", () => {
         }
       };
 
-      expect(actionCreators.referralAccepted(args)).to.deep.equal(expectedAction);
+      expect(actionCreators.referralAccepted(args)).toEqual(expectedAction);
     });
   });
 });

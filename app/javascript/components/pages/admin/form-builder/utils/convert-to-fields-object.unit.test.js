@@ -13,6 +13,6 @@ describe("convertToFieldsObject", () => {
       field_2: { name: "field_2", visible: true }
     };
 
-    expect(convertToFieldsObject(fields)).to.deep.equal(expected);
+    expect(convertToFieldsObject(fields)).toEqual(expected);
   });
 });

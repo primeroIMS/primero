@@ -9,11 +9,11 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/basic - v
     it("should return the options fields", () => {
       const fields = visibilityFields({ fieldName: "test_1", i18n });
 
-      expect(fields.showOn.name).to.equal("test_1.show_on");
-      expect(fields.visible.name).to.equal("test_1.visible");
-      expect(fields.mobileVisible.name).to.equal("test_1.mobile_visible");
-      expect(fields.hideOnViewPage.name).to.equal("test_1.hide_on_view_page");
-      expect(fields.showOnMinifyForm.name).to.equal("test_1.show_on_minify_form");
+      expect(fields.showOn.name).toBe("test_1.show_on");
+      expect(fields.visible.name).toBe("test_1.visible");
+      expect(fields.mobileVisible.name).toBe("test_1.mobile_visible");
+      expect(fields.hideOnViewPage.name).toBe("test_1.hide_on_view_page");
+      expect(fields.showOnMinifyForm.name).toBe("test_1.show_on_minify_form");
     });
   });
 
@@ -22,8 +22,8 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/basic - v
       const form = visibilityForm({ fieldName: "test_1", i18n });
       const fieldNames = form.fields.map(field => field.name || field.row.map(rowField => rowField.name)).flat();
 
-      expect(form.unique_id).to.equal("field_visibility");
-      expect(fieldNames).to.deep.equal([
+      expect(form.unique_id).toBe("field_visibility");
+      expect(fieldNames).toEqual([
         "test_1.show_on",
         "test_1.visible",
         "test_1.mobile_visible",
@@ -42,8 +42,8 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/basic - v
       });
       const fieldNames = form.fields.map(field => field.name);
 
-      expect(form.unique_id).to.equal("field_visibility");
-      expect(fieldNames).to.deep.equal(["test_1.visible", "test_1.mobile_visible"]);
+      expect(form.unique_id).toBe("field_visibility");
+      expect(fieldNames).toEqual(["test_1.visible", "test_1.mobile_visible"]);
     });
   });
 });

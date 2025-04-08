@@ -7,10 +7,10 @@ describe("<ExportList/> - pages/export-list/records", () => {
 
   it("should have known exported properties", () => {
     ["ExportRecord"].forEach(property => {
-      expect(clone).to.have.property(property);
-      expect(clone[property]).to.be.a("function");
+      expect(clone).toHaveProperty(property);
+      expect(clone[property]).toBeInstanceOf(Function);
       delete clone[property];
     });
-    expect(clone).to.be.empty;
+    expect(Object.keys(clone)).toHaveLength(0);
   });
 });

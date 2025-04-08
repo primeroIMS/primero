@@ -14,7 +14,7 @@ describe("<Report /> - utils", () => {
       const i18n = { t: key => (key === "report.total" ? "Total" : key) };
       const fields = [];
 
-      expect(getLabels(data, i18n, fields, {})).to.deep.equal(["Row1", "Row2"]);
+      expect(getLabels(data, i18n, fields, {})).toEqual(["Row1", "Row2"]);
     });
 
     it("returns the labels translated when some columns are not present", () => {
@@ -25,7 +25,7 @@ describe("<Report /> - utils", () => {
       const i18n = { t: key => (key === "report.total" ? "Total" : key) };
       const fields = [];
 
-      expect(getLabels(data, i18n, fields, {})).to.deep.equal(["Row1", "Row2"]);
+      expect(getLabels(data, i18n, fields, {})).toEqual(["Row1", "Row2"]);
     });
 
     it("returns the labels for the agencies even when there are more than 2 rows defined", () => {
@@ -43,7 +43,7 @@ describe("<Report /> - utils", () => {
             { id: "agency2", display_text: "Agency 2" }
           ]
         })
-      ).to.deep.equal(["Agency 1", "Agency 2"]);
+      ).toEqual(["Agency 1", "Agency 2"]);
     });
   });
 });

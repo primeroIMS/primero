@@ -17,7 +17,7 @@ describe("<TaskList /> - Reducer", () => {
 
     const newState = reducer.tasks(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle tasks/TASKS_SUCCESS", () => {
@@ -73,7 +73,7 @@ describe("<TaskList /> - Reducer", () => {
 
     const newState = reducer.tasks(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle tasks/TASKS_FINISHED", () => {
@@ -87,7 +87,7 @@ describe("<TaskList /> - Reducer", () => {
 
     const newState = reducer.tasks(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle tasks/TASKS_FAILURE", () => {
@@ -101,6 +101,6 @@ describe("<TaskList /> - Reducer", () => {
 
     const newState = reducer.tasks(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

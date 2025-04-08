@@ -11,11 +11,11 @@ describe("<AuditLogs /> - Helpers", () => {
       const clone = { ...helper };
 
       ["buildAuditLogsQuery", "getFilters", "searchableUsers"].forEach(property => {
-        expect(clone).to.have.property(property);
-        expect(clone[property]).to.be.a("function");
+        expect(clone).toHaveProperty(property);
+        expect(clone[property]).toBeInstanceOf(Function);
         delete clone[property];
       });
-      expect(clone).to.be.empty;
+      expect(Object.keys(clone)).toHaveLength(0);
     });
   });
 
@@ -33,7 +33,7 @@ describe("<AuditLogs /> - Helpers", () => {
 
       const converted = helper.searchableUsers(data);
 
-      expect(converted).to.deep.equal(expected);
+      expect(converted).toEqual(expected);
     });
   });
 
@@ -53,7 +53,7 @@ describe("<AuditLogs /> - Helpers", () => {
 
       const converted = helper.buildAuditLogsQuery(data);
 
-      expect(converted).to.deep.equal(expected);
+      expect(converted).toEqual(expected);
     });
   });
 
@@ -80,7 +80,7 @@ describe("<AuditLogs /> - Helpers", () => {
         }
       ];
 
-      expect(helper.getFilters(data)).to.deep.equal(expected);
+      expect(helper.getFilters(data)).toEqual(expected);
     });
   });
 });

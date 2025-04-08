@@ -19,6 +19,6 @@ describe("<IndexFilters>/utils - compactFilters", () => {
       filter6: { option1: "option1" }
     };
 
-    expect(compactFilters(values)).to.deep.equal(expected);
+    expect(compactFilters(values)).toEqual(expected);
   });
 });

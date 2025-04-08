@@ -6,17 +6,17 @@ describe("pages/users-form/change-password/index.js", () => {
   describe("index", () => {
     let clone;
 
-    before(() => {
+    beforeAll(() => {
       clone = { ...index };
     });
 
-    after(() => {
-      expect(clone).to.be.empty;
+    afterAll(() => {
+      expect(Object.keys(clone)).toHaveLength(0);
     });
 
     ["default"].forEach(property => {
       it(`exports '${property}'`, () => {
-        expect(index).to.have.property(property);
+        expect(index).toHaveProperty(property);
         delete clone[property];
       });
     });

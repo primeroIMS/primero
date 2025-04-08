@@ -6,12 +6,12 @@ describe("<LocationsList /> - Actions", () => {
   describe("actions", () => {
     let clone = { ...actions };
 
-    before(() => {
+    beforeAll(() => {
       clone = { ...actions };
     });
 
-    after(() => {
-      expect(clone).to.be.empty;
+    afterAll(() => {
+      expect(Object.keys(clone)).toHaveLength(0);
     });
 
     [
@@ -28,7 +28,7 @@ describe("<LocationsList /> - Actions", () => {
       "SET_LOCATIONS_FILTER"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
-        expect(clone).to.have.property(property);
+        expect(clone).toHaveProperty(property);
         delete clone[property];
       });
     });

@@ -18,12 +18,14 @@ describe("<RecordActions /> - Selectors", () => {
     it("should return dialog open status", () => {
       const openDialog = selectDialog(stateWithDialogs, "requestApproval");
 
-      expect(openDialog).to.equal(
-        fromJS({
-          dialog: "requestApproval",
-          pending: true
-        })
-      );
+      expect(
+        openDialog.equals(
+          fromJS({
+            dialog: "requestApproval",
+            pending: true
+          })
+        )
+      ).toBe(true);
     });
   });
 
@@ -31,7 +33,7 @@ describe("<RecordActions /> - Selectors", () => {
     it("should return dialog pending status", () => {
       const pendingDialog = selectDialogPending(stateWithDialogs);
 
-      expect(pendingDialog).to.equal(true);
+      expect(pendingDialog).toBe(true);
     });
   });
 });

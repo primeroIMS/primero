@@ -21,7 +21,7 @@ describe("form/utils/build-linked-incident-options", () => {
 
       expect(
         buildLinkedIncidentOptions(linkedIncidents, violenceLookupValues, { localizeDate: value => value })
-      ).to.deep.equal(expected);
+      ).toEqual(expected);
     });
 
     it("does not fail if the violence lookup value does not exist", () => {
@@ -39,7 +39,7 @@ describe("form/utils/build-linked-incident-options", () => {
 
       expect(
         buildLinkedIncidentOptions(linkedIncidents, violenceLookupValues, { localizeDate: value => value })
-      ).to.deep.equal(expected);
+      ).toEqual(expected);
     });
   });
 });

@@ -30,7 +30,7 @@ describe("teamSharingTable - pages/dashboard/utils/", () => {
   });
 
   it("should return empty object if data is empty ", () => {
-    expect(teamSharingTable(fromJS({}), i18nMock)).to.be.empty;
+    expect(teamSharingTable(fromJS({}), i18nMock)).toStrictEqual({});
   });
 
   it("should respond true when at least one taskOverdue has data", () => {
@@ -72,6 +72,6 @@ describe("teamSharingTable - pages/dashboard/utils/", () => {
       ]
     };
 
-    expect(teamSharingTable(data, i18nMock)).to.deep.equals(expected);
+    expect(teamSharingTable(data, i18nMock)).toEqual(expected);
   });
 });

@@ -20,11 +20,11 @@ describe("<FormsList /> - Action Creators", () => {
       "saveFormsReorder",
       "exportForms"
     ].forEach(property => {
-      expect(creators).to.have.property(property);
+      expect(creators).toHaveProperty(property);
       delete creators[property];
     });
 
-    expect(creators).to.be.empty;
+    expect(Object.keys(creators)).toHaveLength(0);
   });
 
   it("should check the 'enableReorder' action creator returns the correct object", () => {
@@ -33,7 +33,7 @@ describe("<FormsList /> - Action Creators", () => {
       payload: true
     };
 
-    expect(actionCreators.enableReorder(true)).to.deep.equal(expected);
+    expect(actionCreators.enableReorder(true)).toEqual(expected);
   });
 
   it("should check the 'reorderFormGroups' action creator returns the correct object", () => {
@@ -45,7 +45,7 @@ describe("<FormsList /> - Action Creators", () => {
       payload: { formGroupId, order, filter }
     };
 
-    expect(actionCreators.reorderFormGroups(formGroupId, order, filter)).to.deep.equal(expected);
+    expect(actionCreators.reorderFormGroups(formGroupId, order, filter)).toEqual(expected);
   });
 
   it("should check the 'reorderFormSections' action creator returns the correct object", () => {
@@ -57,7 +57,7 @@ describe("<FormsList /> - Action Creators", () => {
       payload: { id, order, filter }
     };
 
-    expect(actionCreators.reorderFormSections(id, order, filter)).to.deep.equal(expected);
+    expect(actionCreators.reorderFormSections(id, order, filter)).toEqual(expected);
   });
 
   it("should check the 'reorderedForms' action creator returns the correct object", () => {
@@ -67,7 +67,7 @@ describe("<FormsList /> - Action Creators", () => {
       payload: { ids }
     };
 
-    expect(actionCreators.reorderedForms(ids)).to.deep.equal(expected);
+    expect(actionCreators.reorderedForms(ids)).toEqual(expected);
   });
 
   it("should check the 'saveFormsReorder' action creator returns the correct object", () => {
@@ -110,7 +110,7 @@ describe("<FormsList /> - Action Creators", () => {
       }
     };
 
-    expect(actionCreators.saveFormsReorder(forms)).to.deep.equal(expected);
+    expect(actionCreators.saveFormsReorder(forms)).toEqual(expected);
   });
 
   it("should check the 'clearFormsReorder' action creator returns the correct object", () => {
@@ -118,7 +118,7 @@ describe("<FormsList /> - Action Creators", () => {
       type: actions.CLEAR_FORMS_REORDER
     };
 
-    expect(actionCreators.clearFormsReorder()).to.deep.equal(expected);
+    expect(actionCreators.clearFormsReorder()).toEqual(expected);
   });
 
   it("should check the 'exportForms' action creator returns the correct object", () => {
@@ -159,7 +159,7 @@ describe("<FormsList /> - Action Creators", () => {
       type: "admin/forms/EXPORT_FORMS"
     };
 
-    expect(actionCreators.exportForms({ params, message })).to.deep.equal(expected);
+    expect(actionCreators.exportForms({ params, message })).toEqual(expected);
   });
 
   it("should check the 'clearExportForms' action creator returns the correct object", () => {
@@ -167,6 +167,6 @@ describe("<FormsList /> - Action Creators", () => {
       type: actions.CLEAR_EXPORT_FORMS
     };
 
-    expect(actionCreators.clearExportForms()).to.deep.equal(expected);
+    expect(actionCreators.clearExportForms()).toEqual(expected);
   });
 });

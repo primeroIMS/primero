@@ -3,8 +3,6 @@
 import { fromJS } from "immutable";
 import { parseISO } from "date-fns";
 
-import { useFakeTimers } from "../test-utils";
-
 import {
   compare,
   dataToJS,
@@ -20,14 +18,14 @@ describe("component-helpers", () => {
       const expected = { a: "test" };
       const immutableMap = fromJS(expected);
 
-      expect(dataToJS(immutableMap)).to.deep.equal(expected);
+      expect(dataToJS(immutableMap)).toEqual(expected);
     });
 
     it("should convert data to plain JS from List", () => {
       const expected = ["a", "b", "c"];
       const immbutableList = fromJS(expected);
 
-      expect(dataToJS(immbutableList)).to.deep.equal(expected);
+      expect(dataToJS(immbutableList)).toEqual(expected);
     });
   });
 
@@ -43,7 +41,7 @@ describe("component-helpers", () => {
         { value: "user-2", label: "User 2" }
       ];
 
-      expect(valuesToSearchableSelect(data, "id", "userName", "en")).to.deep.equal(expected);
+      expect(valuesToSearchableSelect(data, "id", "userName", "en")).toEqual(expected);
     });
 
     it("should convert values to searchableSelect value with locale es", () => {
@@ -52,7 +50,7 @@ describe("component-helpers", () => {
         { value: "user-2", label: "Usuario 2" }
       ];
 
-      expect(valuesToSearchableSelect(data, "id", "userName", "es")).to.deep.equal(expected);
+      expect(valuesToSearchableSelect(data, "id", "userName", "es")).toEqual(expected);
     });
   });
 
@@ -61,14 +59,14 @@ describe("component-helpers", () => {
       const obj1 = fromJS({ name: "User Name" });
       const obj2 = fromJS({ name: "User Name" });
 
-      expect(compare(obj1, obj2)).to.equal(true);
+      expect(compare(obj1, obj2)).toBe(true);
     });
 
     it("should return false if two objects are not equal", () => {
       const obj1 = fromJS({ name: "User Name 1" });
       const obj2 = fromJS({ name: "User Name 2" });
 
-      expect(compare(obj1, obj2)).to.equal(false);
+      expect(compare(obj1, obj2)).toBe(false);
     });
   });
 
@@ -91,7 +89,7 @@ describe("component-helpers", () => {
             answer: Symbol(42)
           }
         ])
-      ).to.deep.equal([
+      ).toEqual([
         "test[0]",
         "test[1][0]",
         "test[1][1]",
@@ -110,7 +108,6 @@ describe("component-helpers", () => {
   });
 
   describe("normalizeTimezone", () => {
-    let clock = null;
     const { getTimezoneOffset } = Date.prototype;
 
     beforeEach(() => {
@@ -120,47 +117,47 @@ describe("component-helpers", () => {
       // eslint-disable-next-line no-extend-native
       Date.prototype.getTimezoneOffset = () => 240;
 
-      clock = useFakeTimers(today);
+      jest.useFakeTimers().setSystemTime(today);
     });
 
     it("should remove the timezone from the date", () => {
       const date = parseISO("2010-01-05T14:30:00Z");
       const expectedDate = parseISO("2010-01-05T18:30:00Z");
 
-      expect(normalizeTimezone(date).toString()).to.equal(expectedDate.toString());
+      expect(normalizeTimezone(date).toString()).toBe(expectedDate.toString());
     });
 
     afterEach(() => {
       // Restore original method
       // eslint-disable-next-line no-extend-native
       Date.prototype.getTimezoneOffset = getTimezoneOffset;
-      clock.restore();
+      jest.resetAllMocks();
+      jest.useRealTimers();
     });
   });
 
   describe("toServerDateFormat", () => {
-    let clock = null;
-
     beforeEach(() => {
       const today = parseISO("2010-01-05T18:30:00Z");
 
-      clock = useFakeTimers(today);
+      jest.useFakeTimers().setSystemTime(today);
     });
 
     it("should return the API_DATE_FORMAT if the date does not include time", () => {
       const date = parseISO("2010-01-05T14:30:00Z");
 
-      expect(toServerDateFormat(date)).to.equal("2010-01-05");
+      expect(toServerDateFormat(date)).toBe("2010-01-05");
     });
 
     it("should return the API_DATE_TIME_FORMAT if the date does include time", () => {
       const date = parseISO("2010-01-05T14:30:00Z");
 
-      expect(toServerDateFormat(date, { includeTime: true })).to.equal("2010-01-05T14:30:00Z");
+      expect(toServerDateFormat(date, { includeTime: true })).toBe("2010-01-05T14:30:00Z");
     });
 
     afterEach(() => {
-      clock.restore();
+      jest.resetAllMocks();
+      jest.useRealTimers();
     });
   });
 });

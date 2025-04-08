@@ -15,10 +15,10 @@ describe("KeyPerformanceIndicators - Selectors", () => {
   });
 
   it("should return default value for missing keys", () => {
-    expect(forKPI("wrong", state, "default")).to.equal("default");
+    expect(forKPI("wrong", state, "default")).toBe("default");
   });
 
   it("should return the deep value for the given KPI", () => {
-    expect(forKPI("test", state, "default")).to.equal("test");
+    expect(forKPI("test", state, "default")).toBe("test");
   });
 });

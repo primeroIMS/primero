@@ -1,6 +1,5 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { stub } from "../../../../test-utils";
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 import { CLEAR_DIALOG, SET_DIALOG_PENDING } from "../../../action-dialog";
 
@@ -11,14 +10,14 @@ describe("<TransferApproval /> - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionCreators };
 
-    expect(creators).to.have.property("approvalTransfer");
+    expect(creators).toHaveProperty("approvalTransfer");
     delete creators.approvalTransfer;
 
-    expect(creators).to.deep.equal({});
+    expect(creators).toEqual({});
   });
 
   it("should check that 'approvalTransfer' action creator returns the correct object", () => {
-    stub(generate, "messageKey").returns(4);
+    jest.spyOn(generate, "messageKey").mockReturnValue(4);
 
     const args = {
       recordId: "10",
@@ -80,8 +79,8 @@ describe("<TransferApproval /> - Action Creators", () => {
       }
     };
 
-    expect(actionCreators.approvalTransfer(args)).to.deep.equal(expectedAction);
+    expect(actionCreators.approvalTransfer(args)).toEqual(expectedAction);
 
-    generate.messageKey.restore();
+    jest.resetAllMocks();
   });
 });

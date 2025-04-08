@@ -11,15 +11,10 @@
     "build": "NODE_ENV=production webpack --config webpack/index.js",
     "dev": "node --trace-deprecation ./node_modules/.bin/webpack-dev-server --config webpack/index.js",
     "dev:debug": "NODE_ENV=profile npm run dev",
-    "test": "npm run test:run './app/javascript/**/*.unit.test.js'",
-    "test:all": "npm test",
-    "test:inspect": "NODE_ENV=test mocha -- --inspect-brk=0.0.0.0:9229",
-    "test:coverage": "NODE_ENV=test nyc --nycrc-path './.nycrc.yml' npm run test:all",
-    "test:run": "NODE_ENV=test mocha --timeout 8000  --check-leaks --parallel --reporter=dot --exit",
-    "test:all-bb": "NODE_ENV=test mocha --timeout 8000 --check-leaks --reporter=dot './app/javascript/**/*.unit.test.js'",
-    "test:components": "NODE_ENV=test NODE_OPTIONS='--max-old-space-size=6144' jest --no-compilation-cache --clearMocks --forceExit",
-    "test:components:profile": "NODE_ENV=test NODE_OPTIONS='--max-old-space-size=6144' node --no-compilation-cache --expose-gc ./node_modules/.bin/jest --runInBand --logHeapUsage --detectOpenHandles",
-    "test:components:debug": "npm run test:components:profile -- --inspect-brk",
+    "test:coverage": "NODE_ENV=test nyc --nycrc-path './.nycrc.yml' npm run test",
+    "test": "NODE_ENV=test NODE_OPTIONS='--max-old-space-size=6144' jest --no-compilation-cache --clearMocks --forceExit",
+    "test:profile": "NODE_ENV=test NODE_OPTIONS='--max-old-space-size=6144' node --no-compilation-cache --expose-gc ./node_modules/.bin/jest --runInBand --logHeapUsage --detectOpenHandles",
+    "test:debug": "npm run test:profile -- --inspect-brk",
     "jscpd": "npm run jscpd:run 'app/javascript/**'",
     "jscpd:run": "jscpd",
     "lint": "npm run lint:run -- --fix",
@@ -127,7 +122,6 @@
     "lodash": "^4.17.21",
     "mini-css-extract-plugin": "2.9.0",
     "minimist-lite": "^2.2.1",
-    "mocha": "^11.1.0",
     "mui-datatables": "^4.3.0",
     "mui-nepali-datepicker-reactjs": "^2.0.0",
     "mutationobserver-shim": "^0.3.5",
@@ -154,7 +148,6 @@
     "react-redux": "^7.2.4",
     "react-router-dom": "^5.0.1",
     "react-router-navigation-prompt": "^1.9.6",
-    "react-spaces": "^0.3.2",
     "react-test-renderer": "^18.3.1",
     "react-window": "^1.8.10",
     "reduce-reducers": "^1.0.4",
@@ -192,20 +185,6 @@
       "html",
       "time"
     ]
-  },
-  "mocha": {
-    "require": [
-      "@babel/register",
-      "./.mochaignore.js",
-      "./app/javascript/test-utils/jsdom.setup.js",
-      "./app/javascript/test-utils/globals-mocha.js"
-    ],
-    "exclude": [
-      "**/node_modules/**"
-    ],
-    "diff": true,
-    "recursive": true,
-    "exit": true
   },
   "prettier": {
     "arrowParens": "avoid",

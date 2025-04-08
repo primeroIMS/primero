@@ -11,7 +11,7 @@ describe("buildOrderUpdater", () => {
       const currentOrder = fromJS({ order: 1 });
       const expectedOrder = fromJS({ order: 0 });
 
-      expect(orderUpdater(currentOrder)).to.deep.equal(expectedOrder);
+      expect(orderUpdater(currentOrder)).toEqual(expectedOrder);
     });
   });
 
@@ -21,7 +21,7 @@ describe("buildOrderUpdater", () => {
       const currentOrder = fromJS({ order: 1 });
       const expectedOrder = fromJS({ order: 2 });
 
-      expect(orderUpdater(currentOrder)).to.deep.equal(expectedOrder);
+      expect(orderUpdater(currentOrder)).toEqual(expectedOrder);
     });
   });
 });

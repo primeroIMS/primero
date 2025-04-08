@@ -51,6 +51,6 @@ describe("<Transitions /> - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

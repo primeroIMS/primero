@@ -6,13 +6,13 @@ describe("<ContactInformation /> - Constants", () => {
   it("should have known constant", () => {
     const clonedConstants = { ...constants };
 
-    expect(clonedConstants).to.be.an("object");
+    expect(typeof clonedConstants).toEqual("object");
 
     ["NAME", "FORM_ID"].forEach(property => {
-      expect(clonedConstants).to.have.property(property);
+      expect(clonedConstants).toHaveProperty(property);
       delete clonedConstants[property];
     });
 
-    expect(clonedConstants).to.be.empty;
+    expect(Object.keys(clonedConstants)).toHaveLength(0);
   });
 });

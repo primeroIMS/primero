@@ -4,23 +4,23 @@ import * as moduleToTest from "./index";
 
 describe("pages/account/index.js", () => {
   it("exports an object", () => {
-    expect(moduleToTest).to.be.an("object");
+    expect(typeof moduleToTest).toEqual("object");
   });
 
   describe("properties", () => {
     let clone;
 
-    before(() => {
+    beforeAll(() => {
       clone = { ...moduleToTest };
     });
 
-    after(() => {
-      expect(clone).to.be.empty;
+    afterAll(() => {
+      expect(Object.keys(clone)).toHaveLength(0);
     });
 
     ["default", "reducer"].forEach(property => {
       it(`exports '${property}'`, () => {
-        expect(moduleToTest).to.have.property(property);
+        expect(moduleToTest).toHaveProperty(property);
         delete clone[property];
       });
     });

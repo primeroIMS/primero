@@ -128,9 +128,9 @@ describe("<FormList /> - Selectors", () => {
         recordType: "case"
       });
 
-      expect(formGroups.getIn([0, 0, "id"])).to.equal(5);
-      expect(formGroups.getIn([1, 0, "id"])).to.equal(1);
-      expect(formGroups.getIn([1, 1, "id"])).to.equal(2);
+      expect(formGroups.getIn([0, 0, "id"])).toBe(5);
+      expect(formGroups.getIn([1, 0, "id"])).toBe(1);
+      expect(formGroups.getIn([1, 1, "id"])).toBe(2);
     });
 
     it("should filter out subforms", () => {
@@ -139,8 +139,8 @@ describe("<FormList /> - Selectors", () => {
         recordType: "incident"
       });
 
-      expect(formGroups.getIn([0, 0, "id"])).to.equal(3);
-      expect(formGroups.getIn([1, 0, "id"], false)).to.equal(false);
+      expect(formGroups.getIn([0, 0, "id"])).toBe(3);
+      expect(formGroups.getIn([1, 0, "id"], false)).toBe(false);
     });
 
     it("should return empty object when form sections empty", () => {
@@ -149,7 +149,7 @@ describe("<FormList /> - Selectors", () => {
         recordType: "incident"
       });
 
-      expect(formGroups).to.deep.equal(fromJS([]));
+      expect(formGroups).toEqual(fromJS([]));
     });
   });
 
@@ -160,7 +160,7 @@ describe("<FormList /> - Selectors", () => {
         recordType: "case"
       });
 
-      expect(forms.size).to.equal(3);
+      expect(forms.size).toBe(3);
     });
   });
 
@@ -178,7 +178,7 @@ describe("<FormList /> - Selectors", () => {
         })
       );
 
-      expect(isLoading).to.be.true;
+      expect(isLoading).toBe(true);
     });
   });
 
@@ -186,7 +186,7 @@ describe("<FormList /> - Selectors", () => {
     it("should return true if the reorder is loading", () => {
       const isLoading = getReorderIsLoading(stateWithReorderHeaders);
 
-      expect(isLoading).to.be.true;
+      expect(isLoading).toBe(true);
     });
   });
 
@@ -194,7 +194,7 @@ describe("<FormList /> - Selectors", () => {
     it("should return an array of errors", () => {
       const reorderErrors = getReorderErrors(stateWithReorderHeaders);
 
-      expect(reorderErrors).to.deep.equal(errors);
+      expect(reorderErrors).toEqual(errors);
     });
   });
 
@@ -202,7 +202,7 @@ describe("<FormList /> - Selectors", () => {
     it("should return an array of pending ids to be reordered", () => {
       const pendingForms = getReorderPendings(stateWithReorderHeaders);
 
-      expect(pendingForms).to.deep.equal(pending);
+      expect(pendingForms).toEqual(pending);
     });
   });
 
@@ -210,7 +210,7 @@ describe("<FormList /> - Selectors", () => {
     it("should return if the reorder functionality is enabled", () => {
       const enabled = getReorderEnabled(stateWithReorderHeaders);
 
-      expect(enabled).to.deep.equal(false);
+      expect(enabled).toEqual(false);
     });
   });
 
@@ -218,7 +218,7 @@ describe("<FormList /> - Selectors", () => {
     it("should return the fields", () => {
       const fieldsInState = getFields(stateWithHeaders);
 
-      expect(fieldsInState.map(field => field.get("name"))).to.deep.equal(
+      expect(fieldsInState.map(field => field.get("name"))).toEqual(
         fromJS(["field_1", "field_2", "field_3", "field_4"])
       );
     });

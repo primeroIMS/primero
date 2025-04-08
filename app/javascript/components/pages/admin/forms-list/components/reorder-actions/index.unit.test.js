@@ -7,9 +7,9 @@ describe("pages/admin/<FormList>/components/<ReorderActions> - index", () => {
 
   it("should have known properties", () => {
     ["default"].forEach(property => {
-      expect(indexValues).to.have.property(property);
+      expect(indexValues).toHaveProperty(property);
       delete indexValues[property];
     });
-    expect(indexValues).to.be.empty;
+    expect(Object.keys(indexValues)).toHaveLength(0);
   });
 });

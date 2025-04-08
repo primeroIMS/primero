@@ -9,26 +9,26 @@ describe("I8n - utils", () => {
       const clone = { ...utils };
 
       ["getLocaleDir"].forEach(property => {
-        expect(clone).to.have.property(property);
-        expect(clone[property]).to.be.a("function");
+        expect(clone).toHaveProperty(property);
+        expect(clone[property]).toBeInstanceOf(Function);
         delete clone[property];
       });
-      expect(clone).to.be.empty;
+      expect(Object.keys(clone)).toHaveLength(0);
     });
   });
 
   describe("getLocaleDir", () => {
     it("should return rtl when recieve any locale RTL orientation locale", () => {
-      expect(utils.getLocaleDir("ar")).to.be.equal(ORIENTATION.rtl);
-      expect(utils.getLocaleDir("ar-LB")).to.be.equal(ORIENTATION.rtl);
-      expect(utils.getLocaleDir("ar-SD")).to.be.equal(ORIENTATION.rtl);
-      expect(utils.getLocaleDir("ku")).to.be.equal(ORIENTATION.rtl);
-      expect(utils.getLocaleDir("zh")).to.be.equal(ORIENTATION.rtl);
+      expect(utils.getLocaleDir("ar")).toBe(ORIENTATION.rtl);
+      expect(utils.getLocaleDir("ar-LB")).toBe(ORIENTATION.rtl);
+      expect(utils.getLocaleDir("ar-SD")).toBe(ORIENTATION.rtl);
+      expect(utils.getLocaleDir("ku")).toBe(ORIENTATION.rtl);
+      expect(utils.getLocaleDir("zh")).toBe(ORIENTATION.rtl);
     });
 
     it("hould return rtl when recieve any locale LTR orientation locale", () => {
-      expect(utils.getLocaleDir("en")).to.be.equal(ORIENTATION.ltr);
-      expect(utils.getLocaleDir("as")).to.be.equal(ORIENTATION.ltr);
+      expect(utils.getLocaleDir("en")).toBe(ORIENTATION.ltr);
+      expect(utils.getLocaleDir("as")).toBe(ORIENTATION.ltr);
     });
   });
 });

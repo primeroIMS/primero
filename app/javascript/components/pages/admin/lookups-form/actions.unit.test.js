@@ -6,7 +6,7 @@ describe("<LookupsForms /> - actions", () => {
   it("should have known properties", () => {
     const clone = { ...actions };
 
-    expect(clone).to.be.an("object");
+    expect(typeof clone).toEqual("object");
     [
       "CLEAR_SELECTED_LOOKUP",
       "FETCH_LOOKUP",
@@ -20,10 +20,10 @@ describe("<LookupsForms /> - actions", () => {
       "SAVE_LOOKUP_STARTED",
       "SAVE_LOOKUP_SUCCESS"
     ].forEach(property => {
-      expect(clone).to.have.property(property);
+      expect(clone).toHaveProperty(property);
       delete clone[property];
     });
 
-    expect(clone).to.be.empty;
+    expect(Object.keys(clone)).toHaveLength(0);
   });
 });

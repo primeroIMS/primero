@@ -15,7 +15,7 @@ describe("toFacetedTable - pages/dashboard/utils/", () => {
       }
     });
 
-    expect(toFacetedTable(data, "Total", [], "facetedIndicator")).to.deep.equals({
+    expect(toFacetedTable(data, "Total", [], "facetedIndicator")).toEqual({
       columns: [
         { label: "", name: "" },
         { label: "Total", name: "total" }
@@ -46,7 +46,7 @@ describe("toFacetedTable - pages/dashboard/utils/", () => {
       { id: "value1", display_text: "Value 1" }
     ];
 
-    expect(toFacetedTable(data, "Total", lookup, "facetedIndicator")).to.deep.equals({
+    expect(toFacetedTable(data, "Total", lookup, "facetedIndicator")).toEqual({
       columns: [
         { label: "", name: "" },
         { label: "Total", name: "total" }
@@ -72,7 +72,7 @@ describe("toFacetedTable - pages/dashboard/utils/", () => {
       { id: "value1", display_text: "Value 1" }
     ];
 
-    expect(toFacetedTable(data, "Total", lookup, "facetedIndicator")).to.deep.equals({
+    expect(toFacetedTable(data, "Total", lookup, "facetedIndicator")).toEqual({
       columns: [],
       data: [],
       query: []

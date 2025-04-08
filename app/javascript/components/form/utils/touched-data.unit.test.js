@@ -23,7 +23,7 @@ describe("touchedFormData()", () => {
       prop4: [{ prop4a: true }]
     };
 
-    expect(touchedFormData(touched, data)).to.deep.equal(expected);
+    expect(touchedFormData(touched, data)).toEqual(expected);
   });
 
   it("returns touched data for a field that was array and now is a single value", () => {
@@ -39,10 +39,10 @@ describe("touchedFormData()", () => {
       prop1: ["value1", "value2"]
     };
 
-    expect(touchedFormData(touched, data)).to.deep.equal(expected);
+    expect(touchedFormData(touched, data)).toEqual(expected);
   });
 
-  context("when keepArrayData = true", () => {
+  describe("when keepArrayData = true", () => {
     it("returns all the array data", () => {
       const data = {
         prop4: [{ prop4a: "prop-4a", prop4b: "prop-4b" }, { prop4c: "prop-4c" }]
@@ -54,7 +54,7 @@ describe("touchedFormData()", () => {
 
       const touched = { prop4: [{ prop4a: true }] };
 
-      expect(touchedFormData(touched, data, false, {}, true)).to.deep.equal(expected);
+      expect(touchedFormData(touched, data, false, {}, true)).toEqual(expected);
     });
   });
 });

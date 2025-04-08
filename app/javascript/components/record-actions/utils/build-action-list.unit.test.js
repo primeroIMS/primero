@@ -39,7 +39,7 @@ describe("record-actions/utils/build-action-list", () => {
   ];
 
   it("should be a function", () => {
-    expect(buildActionList).to.be.an("function");
+    expect(buildActionList).toBeInstanceOf(Function);
   });
 
   it("should return the actionlist", () => {
@@ -74,9 +74,9 @@ describe("record-actions/utils/build-action-list", () => {
 
     const response = buildActionList(params);
 
-    expect(Object.keys(response).length).to.be.equal(2);
-    expect(response.actions.length).to.be.equal(4);
-    expect(Object.keys(response.dialogs)).to.deep.equal([
+    expect(Object.keys(response).length).toBe(2);
+    expect(response.actions.length).toBe(4);
+    expect(Object.keys(response.dialogs)).toEqual([
       "referral",
       "assign",
       "transfer",
@@ -119,7 +119,7 @@ describe("record-actions/utils/build-action-list", () => {
 
       const response = buildActionList(params);
 
-      expect(response.actions.map(action => action.name)).to.deep.equal([
+      expect(response.actions.map(action => action.name)).toEqual([
         "buttons.reassign forms.record_types.incident",
         "actions.enable",
         "incidents.export",

@@ -24,20 +24,20 @@ describe("dateFieldForm", () => {
   const visibilitySection = date.forms.last().fields[1].row;
 
   it("should return a valid object", () => {
-    expect(date).to.be.an("object");
-    expect(date.forms.size).to.be.equal(2);
-    expect(date).to.have.keys("forms", "validationSchema");
+    expect(typeof date).toEqual("object");
+    expect(date.forms.size).toBe(2);
+    expect(Object.keys(date)).toEqual(expect.arrayContaining(["forms", "validationSchema"]));
   });
 
   it("should return valid fields from the validationSchema", () => {
-    expect(date.validationSchema.fields).to.have.keys("test_name");
+    expect(Object.keys(date.validationSchema.fields)).toContain("test_name");
   });
 
   it("should return 8 fields from the general section form", () => {
-    expect(generalSection).to.have.lengthOf(9);
+    expect(generalSection).toHaveLength(9);
   });
 
   it("should return 5 fields from the visible section form", () => {
-    expect(visibilitySection).to.have.lengthOf(5);
+    expect(visibilitySection).toHaveLength(5);
   });
 });

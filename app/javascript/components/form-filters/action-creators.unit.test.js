@@ -8,11 +8,11 @@ describe("components/form-filters/action-creators.js", () => {
     const creators = { ...actionCreators };
 
     ["clearFormFilters", "setFormFilters"].forEach(property => {
-      expect(creators).to.have.property(property);
+      expect(creators).toHaveProperty(property);
       delete creators[property];
     });
 
-    expect(creators).to.be.empty;
+    expect(Object.keys(creators)).toHaveLength(0);
   });
 
   it("should create an action to set the form filters", () => {
@@ -28,7 +28,7 @@ describe("components/form-filters/action-creators.js", () => {
       payload
     };
 
-    expect(actionCreators.setFormFilters("someForm", { filter_1: ["value_1", "value_2"] })).to.eql(expectedAction);
+    expect(actionCreators.setFormFilters("someForm", { filter_1: ["value_1", "value_2"] })).toEqual(expectedAction);
   });
 
   it("should create an action to clear the filters", () => {
@@ -37,6 +37,6 @@ describe("components/form-filters/action-creators.js", () => {
       payload: "someForm"
     };
 
-    expect(actionCreators.clearFormFilters("someForm")).to.eql(expectedAction);
+    expect(actionCreators.clearFormFilters("someForm")).toEqual(expectedAction);
   });
 });

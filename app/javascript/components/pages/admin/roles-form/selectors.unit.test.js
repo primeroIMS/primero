@@ -29,11 +29,11 @@ describe("<RolesForm /> - Selectors", () => {
     const creators = { ...selectors };
 
     ["getLoading", "getRole", "getServerErrors", "getSavingRecord", "getCopiedRole"].forEach(property => {
-      expect(creators).to.have.property(property);
+      expect(creators).toHaveProperty(property);
       delete creators[property];
     });
 
-    expect(creators).to.be.empty;
+    expect(Object.keys(creators)).toHaveLength(0);
   });
 
   describe("getRole", () => {
@@ -42,13 +42,13 @@ describe("<RolesForm /> - Selectors", () => {
 
       const role = selectors.getRole(stateWithHeaders);
 
-      expect(role).to.deep.equal(expected);
+      expect(role).toEqual(expected);
     });
 
     it("should return empty object when selected role empty", () => {
       const role = selectors.getRole(stateWithoutHeaders);
 
-      expect(role).to.be.empty;
+      expect(role.size).toBe(0);
     });
   });
 
@@ -58,13 +58,13 @@ describe("<RolesForm /> - Selectors", () => {
 
       const serverErrors = selectors.getServerErrors(stateWithHeaders);
 
-      expect(serverErrors).to.deep.equal(expected);
+      expect(serverErrors).toEqual(expected);
     });
 
     it("should return empty object when no server errors", () => {
       const user = selectors.getServerErrors(stateWithoutHeaders);
 
-      expect(user).to.be.empty;
+      expect(user.size).toBe(0);
     });
   });
 
@@ -74,7 +74,7 @@ describe("<RolesForm /> - Selectors", () => {
 
       const saving = selectors.getSavingRecord(stateWithHeaders);
 
-      expect(saving).to.deep.equal(expected);
+      expect(saving).toEqual(expected);
     });
   });
 
@@ -84,7 +84,7 @@ describe("<RolesForm /> - Selectors", () => {
 
       const loading = selectors.getLoading(stateWithHeaders);
 
-      expect(loading).to.deep.equal(expected);
+      expect(loading).toEqual(expected);
     });
   });
 
@@ -94,13 +94,13 @@ describe("<RolesForm /> - Selectors", () => {
 
       const copiedRole = selectors.getCopiedRole(stateWithHeaders);
 
-      expect(copiedRole).to.deep.equal(expected);
+      expect(copiedRole).toEqual(expected);
     });
 
     it("should return empty object when no server errors", () => {
       const copiedRole = selectors.getCopiedRole(stateWithoutHeaders);
 
-      expect(copiedRole).to.be.empty;
+      expect(copiedRole.size).toBe(0);
     });
   });
 });

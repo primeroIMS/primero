@@ -10,11 +10,11 @@ describe("configurations-list/actions-creators.js", () => {
     const creators = { ...actionsCreators };
 
     ["fetchConfigurations"].forEach(property => {
-      expect(creators).to.have.property(property);
+      expect(creators).toHaveProperty(property);
       delete creators[property];
     });
 
-    expect(creators).to.be.empty;
+    expect(Object.keys(creators)).toHaveLength(0);
   });
 
   it("should check fetchConfigurations return the correct object", () => {
@@ -28,6 +28,6 @@ describe("configurations-list/actions-creators.js", () => {
       }
     };
 
-    expect(actionsCreators.fetchConfigurations({ data })).to.deep.equal(expectedAction);
+    expect(actionsCreators.fetchConfigurations({ data })).toEqual(expectedAction);
   });
 });

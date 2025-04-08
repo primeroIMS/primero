@@ -1,6 +1,5 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { spy } from "../../../../test-utils";
 import { AGE_MAX } from "../../../../config";
 
 import {
@@ -17,11 +16,11 @@ const i18n = { locale: "en" };
 describe("<IndexFitlers>/components/filter-types/utils", () => {
   describe("ageParser()", () => {
     it("returns age range with param value with a dash", () => {
-      expect(ageParser("1 - 5")).to.equal("1..5");
+      expect(ageParser("1 - 5")).toBe("1..5");
     });
 
     it("returns age range with param value with a dash", () => {
-      expect(ageParser("18+")).to.equal(`18..${AGE_MAX}`);
+      expect(ageParser("18+")).toBe(`18..${AGE_MAX}`);
     });
   });
 
@@ -29,25 +28,25 @@ describe("<IndexFitlers>/components/filter-types/utils", () => {
     it("returns display_text from option object", () => {
       const option = { display_text: "Option 1" };
 
-      expect(optionText(option)).to.equal(option.display_text);
+      expect(optionText(option)).toBe(option.display_text);
     });
 
     it("returns display_name from option object", () => {
       const option = { display_name: "Option 1" };
 
-      expect(optionText(option)).to.equal(option.display_name);
+      expect(optionText(option)).toBe(option.display_name);
     });
 
     it("returns display_name locale object from option object", () => {
       const option = { display_text: { en: "Option 1 (en)" } };
 
-      expect(optionText(option, i18n)).to.equal(option.display_text.en);
+      expect(optionText(option, i18n)).toBe(option.display_text.en);
     });
 
     it("returns display_name locale object from option object", () => {
       const option = { display_name: { en: "Option 1 (en)" } };
 
-      expect(optionText(option, i18n)).to.equal(option.display_name.en);
+      expect(optionText(option, i18n)).toBe(option.display_name.en);
     });
   });
 
@@ -58,7 +57,7 @@ describe("<IndexFitlers>/components/filter-types/utils", () => {
       const expected = [{ id: "option-1", display_name: "Option 1" }];
       const output = whichOptions({ options: expected });
 
-      expect(output).to.deep.equal(expected);
+      expect(output).toEqual(expected);
     });
 
     it("returns lookups", () => {
@@ -68,7 +67,7 @@ describe("<IndexFitlers>/components/filter-types/utils", () => {
         lookups: expected
       });
 
-      expect(output).to.deep.equal(expected);
+      expect(output).toEqual(expected);
     });
   });
 
@@ -77,21 +76,21 @@ describe("<IndexFitlers>/components/filter-types/utils", () => {
     const fieldName = "filter1";
 
     it("handles basic input from array values", () => {
-      const setMoreFilters = spy();
+      const setMoreFilters = jest.fn();
 
       handleMoreFiltersChange(moreFilters, setMoreFilters, fieldName, ["option-1"]);
 
-      expect(setMoreFilters.getCalls()?.length).to.be.equal(1);
-      expect(setMoreFilters).to.have.been.calledWith({ filter1: ["option-1"] });
+      expect(setMoreFilters).toHaveBeenCalledTimes(1);
+      expect(setMoreFilters).toHaveBeenCalledWith({ filter1: ["option-1"] });
     });
 
     it("handles basic input from boolean value", () => {
-      const setMoreFilters = spy();
+      const setMoreFilters = jest.fn();
 
       handleMoreFiltersChange(moreFilters, setMoreFilters, fieldName, true);
 
-      expect(setMoreFilters.getCalls()?.length).to.be.equal(1);
-      expect(setMoreFilters).to.have.been.calledWith({ filter1: true });
+      expect(setMoreFilters).toHaveBeenCalledTimes(1);
+      expect(setMoreFilters).toHaveBeenCalledWith({ filter1: true });
     });
   });
 
@@ -100,20 +99,20 @@ describe("<IndexFitlers>/components/filter-types/utils", () => {
     const fieldName = "flagged";
 
     it("should call setMoreSectionFilters if secondary is true", () => {
-      const setMoreSectionFilters = spy();
+      const setMoreSectionFilters = jest.fn();
 
       resetSecondaryFilter(true, fieldName, [], moreSectionFilters, setMoreSectionFilters);
 
-      expect(setMoreSectionFilters.getCalls().length).to.be.equal(1);
-      expect(setMoreSectionFilters).to.have.been.calledWith({});
+      expect(setMoreSectionFilters).toHaveBeenCalledTimes(1);
+      expect(setMoreSectionFilters).toHaveBeenCalledWith({});
     });
 
     it("should not call setMoreSectionFilters if secondary is false", () => {
-      const setMoreSectionFilters = spy();
+      const setMoreSectionFilters = jest.fn();
 
       resetSecondaryFilter(false, fieldName, [], moreSectionFilters, setMoreSectionFilters);
 
-      expect(setMoreSectionFilters).to.have.not.been.called;
+      expect(setMoreSectionFilters).not.toHaveBeenCalled();
     });
   });
 
@@ -122,20 +121,20 @@ describe("<IndexFitlers>/components/filter-types/utils", () => {
     const fieldName = "flagged";
 
     it("should call setValues if fieldName is included on filters", () => {
-      const setValues = spy();
+      const setValues = jest.fn();
 
       setMoreFilterOnPrimarySection(filters, fieldName, setValues);
 
-      expect(setValues.getCalls().length).to.be.equal(1);
-      expect(setValues).to.have.been.calledWith(fieldName, true);
+      expect(setValues).toHaveBeenCalledTimes(1);
+      expect(setValues).toHaveBeenCalledWith(fieldName, true);
     });
 
     it("should not call setValues if fieldName isn't included on filters", () => {
-      const setValues = spy();
+      const setValues = jest.fn();
 
       setMoreFilterOnPrimarySection({}, fieldName, setValues);
 
-      expect(setValues).to.have.not.been.called;
+      expect(setValues).not.toHaveBeenCalled();
     });
   });
 });

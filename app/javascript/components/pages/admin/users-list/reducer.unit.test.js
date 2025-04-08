@@ -19,7 +19,7 @@ describe("<UsersList /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle USERS_STARTED", () => {
@@ -33,7 +33,7 @@ describe("<UsersList /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle USERS_SUCCESS", () => {
@@ -49,7 +49,7 @@ describe("<UsersList /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SET_USERS_FILTER", () => {
@@ -66,7 +66,7 @@ describe("<UsersList /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle CLEAR_METADATA", () => {
@@ -80,6 +80,6 @@ describe("<UsersList /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

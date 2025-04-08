@@ -1,7 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { queueIndexedDB } from "../../db";
-import { stub } from "../../test-utils";
 import { METHODS, RECORD_PATH } from "../../config";
 import uuid from "../../libs/uuid";
 
@@ -11,13 +10,12 @@ describe("middleware/utils/process-attachments.js", () => {
   let queue;
 
   beforeEach(() => {
-    queue = stub(queueIndexedDB, "add").resolves();
-    stub(uuid, "v4").returns("1234");
+    queue = jest.spyOn(queueIndexedDB, "add").mockResolvedValue();
+    jest.spyOn(uuid, "v4").mockReturnValue("1234");
   });
 
   afterEach(() => {
-    queueIndexedDB.add?.restore();
-    uuid.v4?.restore();
+    jest.resetAllMocks();
   });
 
   it("should generate the attachment actions", () => {
@@ -25,7 +23,7 @@ describe("middleware/utils/process-attachments.js", () => {
 
     processAttachments({ attachments, id: 10, recordType: RECORD_PATH.cases });
 
-    expect(queue).to.have.been.calledWith([
+    expect(queue).toHaveBeenCalledWith([
       {
         type: `${RECORD_PATH.cases}/SAVE_ATTACHMENT`,
         api: {

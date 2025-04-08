@@ -4,23 +4,23 @@ import * as index from "./index";
 
 describe("configurations-form/index.js", () => {
   it("exports an object", () => {
-    expect(index).to.be.an("object");
+    expect(typeof index).toEqual("object");
   });
 
   describe("properties", () => {
     let clone;
 
-    before(() => {
+    beforeAll(() => {
       clone = { ...index };
     });
 
-    after(() => {
-      expect(clone).to.be.empty;
+    afterAll(() => {
+      expect(Object.keys(clone)).toHaveLength(0);
     });
 
     ["default", "reducer"].forEach(property => {
       it(`exports '${property}'`, () => {
-        expect(index).to.have.property(property);
+        expect(index).toHaveProperty(property);
         delete clone[property];
       });
     });

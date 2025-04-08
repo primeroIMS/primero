@@ -20,7 +20,7 @@ describe("<IndexFilters>/utils - transformFilters", () => {
       ]
     };
 
-    expect(transformFilters.combine(data)).to.deep.equal(expected);
+    expect(transformFilters.combine(data)).toEqual(expected);
   });
 
   it("combines violation_category and has_late_verified_violations if both are present", () => {
@@ -35,7 +35,7 @@ describe("<IndexFilters>/utils - transformFilters", () => {
       late_verified_violations: ["killing", "maiming"]
     };
 
-    expect(transformFilters.combine(data)).to.deep.equal(expected);
+    expect(transformFilters.combine(data)).toEqual(expected);
   });
 
   it("does not combines violation_category and verification_status if only violation_category is present", () => {
@@ -44,7 +44,7 @@ describe("<IndexFilters>/utils - transformFilters", () => {
       violation_category: ["killing", "maiming"]
     };
 
-    expect(transformFilters.combine(data)).to.deep.equal(data);
+    expect(transformFilters.combine(data)).toEqual(data);
   });
 
   it("does not combines violation_category and verification_status if only verification_status is present", () => {
@@ -53,7 +53,7 @@ describe("<IndexFilters>/utils - transformFilters", () => {
       verification_status: ["verified", "report_pending_verification"]
     };
 
-    expect(transformFilters.combine(data)).to.deep.equal(data);
+    expect(transformFilters.combine(data)).toEqual(data);
   });
 
   it("splits the violation_with_verification_status filter", () => {
@@ -73,7 +73,7 @@ describe("<IndexFilters>/utils - transformFilters", () => {
       verification_status: ["verified", "report_pending_verification"]
     };
 
-    expect(transformFilters.split(data)).to.deep.equal(expected);
+    expect(transformFilters.split(data)).toEqual(expected);
   });
 
   it("splits late_verified_violations filter", () => {
@@ -88,7 +88,7 @@ describe("<IndexFilters>/utils - transformFilters", () => {
       has_late_verified_violations: [true]
     };
 
-    expect(transformFilters.split(data)).to.deep.equal(expected);
+    expect(transformFilters.split(data)).toEqual(expected);
   });
 
   it("does not split the violation_category and verification_status if only violation_category is present", () => {
@@ -97,7 +97,7 @@ describe("<IndexFilters>/utils - transformFilters", () => {
       violation_category: ["killing", "maiming"]
     };
 
-    expect(transformFilters.split(data)).to.deep.equal(data);
+    expect(transformFilters.split(data)).toEqual(data);
   });
 
   it("does not split the violation_category and verification_status if only verification_status is present", () => {
@@ -106,7 +106,7 @@ describe("<IndexFilters>/utils - transformFilters", () => {
       verification_status: ["verified", "report_pending_verification"]
     };
 
-    expect(transformFilters.split(data)).to.deep.equal(data);
+    expect(transformFilters.split(data)).toEqual(data);
   });
 
   it("combines violation_category and weapon_type if both are present", () => {
@@ -121,7 +121,7 @@ describe("<IndexFilters>/utils - transformFilters", () => {
       violation_with_weapon_type: ["killing_hanging", "killing_small_arm", "maiming_hanging", "maiming_small_arm"]
     };
 
-    expect(transformFilters.combine(data)).to.deep.equal(expected);
+    expect(transformFilters.combine(data)).toEqual(expected);
   });
 
   it("combines violation_category and facility_impact if both are present", () => {
@@ -141,7 +141,7 @@ describe("<IndexFilters>/utils - transformFilters", () => {
       ]
     };
 
-    expect(transformFilters.combine(data)).to.deep.equal(expected);
+    expect(transformFilters.combine(data)).toEqual(expected);
   });
 
   it("combines violation_category and facility_attack_type if both are present", () => {
@@ -161,7 +161,7 @@ describe("<IndexFilters>/utils - transformFilters", () => {
       ]
     };
 
-    expect(transformFilters.combine(data)).to.deep.equal(expected);
+    expect(transformFilters.combine(data)).toEqual(expected);
   });
 
   it("splits the violation_with_weapon_type filter", () => {
@@ -176,7 +176,7 @@ describe("<IndexFilters>/utils - transformFilters", () => {
       weapon_type: ["hanging", "small_arm"]
     };
 
-    expect(transformFilters.split(data)).to.deep.equal(expected);
+    expect(transformFilters.split(data)).toEqual(expected);
   });
 
   it("splits the violation_with_facility_impact filter", () => {
@@ -191,7 +191,7 @@ describe("<IndexFilters>/utils - transformFilters", () => {
       facility_impact: ["minor_damage", "serious_damage"]
     };
 
-    expect(transformFilters.split(data)).to.deep.equal(expected);
+    expect(transformFilters.split(data)).toEqual(expected);
   });
 
   it("splits the violation_with_facility_attack_type filter", () => {
@@ -209,6 +209,6 @@ describe("<IndexFilters>/utils - transformFilters", () => {
       facility_attack_type: ["other_interference_with_healthcare", "other_interference_with_education"]
     };
 
-    expect(transformFilters.split(data)).to.deep.equal(expected);
+    expect(transformFilters.split(data)).toEqual(expected);
   });
 });

@@ -1,6 +1,5 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { stub } from "../../../../test-utils";
 import { RECORD_PATH, METHODS, SAVE_METHODS, ROUTES } from "../../../../config";
 import { ENQUEUE_SNACKBAR, generate, SNACKBAR_VARIANTS } from "../../../notifier";
 
@@ -11,12 +10,12 @@ describe("configurations-form/action-creators.js", () => {
   describe("exported action-creators", () => {
     let clone;
 
-    before(() => {
+    beforeAll(() => {
       clone = { ...actionsCreators };
     });
 
-    after(() => {
-      expect(clone).to.be.empty;
+    afterAll(() => {
+      expect(Object.keys(clone)).toHaveLength(0);
     });
 
     [
@@ -31,7 +30,7 @@ describe("configurations-form/action-creators.js", () => {
       "sentToProduction"
     ].forEach(actionCreator => {
       it(`exports '${actionCreator}'`, () => {
-        expect(clone).to.have.property(actionCreator);
+        expect(clone).toHaveProperty(actionCreator);
         delete clone[actionCreator];
       });
     });
@@ -60,7 +59,7 @@ describe("configurations-form/action-creators.js", () => {
         }
       };
 
-      expect(actionsCreators.applyConfiguration(args)).to.deep.equal(expected);
+      expect(actionsCreators.applyConfiguration(args)).toEqual(expected);
     });
 
     it("should check that 'checkConfiguration' action creator returns the correct object", () => {
@@ -72,7 +71,7 @@ describe("configurations-form/action-creators.js", () => {
         }
       };
 
-      expect(actionsCreators.checkConfiguration(1234)).to.deep.equal(expected);
+      expect(actionsCreators.checkConfiguration(1234)).toEqual(expected);
     });
 
     it("should check that 'clearSelectedConfiguration' action creator returns the correct object", () => {
@@ -80,11 +79,11 @@ describe("configurations-form/action-creators.js", () => {
         type: actions.CLEAR_SELECTED_CONFIGURATION
       };
 
-      expect(actionsCreators.clearSelectedConfiguration()).to.deep.equal(expected);
+      expect(actionsCreators.clearSelectedConfiguration()).toEqual(expected);
     });
 
     it("should check that 'deleteConfiguration' action creator returns the correct object", () => {
-      stub(generate, "messageKey").returns(4);
+      jest.spyOn(generate, "messageKey").mockReturnValue(4);
 
       const args = {
         id: 1,
@@ -111,7 +110,7 @@ describe("configurations-form/action-creators.js", () => {
         }
       };
 
-      expect(actionsCreators.deleteConfiguration(args)).to.deep.equal(expected);
+      expect(actionsCreators.deleteConfiguration(args)).toEqual(expected);
     });
 
     it("should check that 'fetchConfiguration' action creator returns the correct object", () => {
@@ -122,7 +121,7 @@ describe("configurations-form/action-creators.js", () => {
         }
       };
 
-      expect(actionsCreators.fetchConfiguration(1234)).to.deep.equal(expected);
+      expect(actionsCreators.fetchConfiguration(1234)).toEqual(expected);
     });
 
     it("should check that 'applyingConfigMessage' action creator returns the correct object", () => {
@@ -138,11 +137,11 @@ describe("configurations-form/action-creators.js", () => {
         }
       };
 
-      expect(actionsCreators.applyingConfigMessage()).to.deep.equal(expected);
+      expect(actionsCreators.applyingConfigMessage()).toEqual(expected);
     });
 
     it("should check that 'saveConfiguration' action creator returns the correct object", () => {
-      stub(generate, "messageKey").returns(4);
+      jest.spyOn(generate, "messageKey").mockReturnValue(4);
 
       const args = {
         id: 1,
@@ -177,7 +176,7 @@ describe("configurations-form/action-creators.js", () => {
         }
       };
 
-      expect(actionsCreators.saveConfiguration(args)).to.deep.equal(expected);
+      expect(actionsCreators.saveConfiguration(args)).toEqual(expected);
     });
 
     it("should check that 'sentToProduction' action creator returns the correct object", () => {
@@ -206,13 +205,11 @@ describe("configurations-form/action-creators.js", () => {
         }
       };
 
-      expect(actionsCreators.sentToProduction("12345", "Success")).to.deep.equal(expected);
+      expect(actionsCreators.sentToProduction("12345", "Success")).toEqual(expected);
     });
   });
 
   afterEach(() => {
-    if (generate.messageKey.restore) {
-      generate.messageKey.restore();
-    }
+    jest.restoreAllMocks();
   });
 });

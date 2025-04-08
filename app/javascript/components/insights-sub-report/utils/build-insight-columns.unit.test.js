@@ -6,7 +6,7 @@ import { format } from "date-fns";
 import buildInsightColumns from "./build-insight-columns";
 
 describe("<InsightsSubReport />/utils/buildInsightColumns", () => {
-  context("when is not grouped", () => {
+  describe("when is not grouped", () => {
     it("returns an empty array", () => {
       const columns = buildInsightColumns.default({
         value: fromJS([
@@ -16,11 +16,11 @@ describe("<InsightsSubReport />/utils/buildInsightColumns", () => {
         totalText: "Total"
       });
 
-      expect(columns).to.deep.equals([{ label: "Total" }]);
+      expect(columns).toEqual([{ label: "Total" }]);
     });
   });
 
-  context("when is grouped by year", () => {
+  describe("when is grouped by year", () => {
     it("returns a single object with items", () => {
       const columns = buildInsightColumns.default({
         groupedBy: "year",
@@ -52,7 +52,7 @@ describe("<InsightsSubReport />/utils/buildInsightColumns", () => {
         ])
       });
 
-      expect(columns).to.deep.equal([
+      expect(columns).toEqual([
         { label: "2022", colspan: 1, subItems: [] },
         { label: "2023", colspan: 1, subItems: [] },
         { label: "2024", colspan: 1, subItems: [] }
@@ -60,7 +60,7 @@ describe("<InsightsSubReport />/utils/buildInsightColumns", () => {
     });
   });
 
-  context("when is grouped by month", () => {
+  describe("when is grouped by month", () => {
     it("returns a dataset for each group", () => {
       const columns = buildInsightColumns.default({
         groupedBy: "month",
@@ -92,7 +92,7 @@ describe("<InsightsSubReport />/utils/buildInsightColumns", () => {
         ])
       });
 
-      expect(columns).to.deep.equal([
+      expect(columns).toEqual([
         { label: "2022", items: ["Jan"], colspan: 2, subItems: ["boys", "girls"] },
         { label: "2023", items: ["Feb"], colspan: 2, subItems: ["boys", "girls"] },
         { label: "2024", items: ["Jan"], colspan: 2, subItems: ["boys", "girls"] }

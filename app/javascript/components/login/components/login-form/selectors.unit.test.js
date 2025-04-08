@@ -19,13 +19,13 @@ describe("<LoginForm /> - Selectors", () => {
     it("should return records", () => {
       const records = selectModules(stateWithRecords);
 
-      expect(records).to.deep.equal(fromJS(["primeromodule-cp", "primeromodule-gbv"]));
+      expect(records).toEqual(fromJS(["primeromodule-cp", "primeromodule-gbv"]));
     });
 
     it("should return empty object when records empty", () => {
       const records = selectModules(stateWithNoRecords);
 
-      expect(records).to.be.undefined;
+      expect(records).toBeUndefined();
     });
   });
 
@@ -33,13 +33,13 @@ describe("<LoginForm /> - Selectors", () => {
     it("should return records", () => {
       const records = selectAgency(stateWithRecords);
 
-      expect(records).to.deep.equal("unicef");
+      expect(records).toEqual("unicef");
     });
 
     it("should return empty object when records empty", () => {
       const records = selectAgency(stateWithNoRecords);
 
-      expect(records).to.be.undefined;
+      expect(records).toBeUndefined();
     });
   });
 
@@ -47,13 +47,13 @@ describe("<LoginForm /> - Selectors", () => {
     it("should return records meta", () => {
       const meta = selectAuthErrors(stateWithRecords);
 
-      expect(meta).to.deep.equal("");
+      expect(meta).toEqual("");
     });
 
     it("should return empty object when records empty", () => {
       const meta = selectAuthErrors(stateWithNoRecords);
 
-      expect(meta).to.deep.equal("");
+      expect(meta).toEqual("");
     });
   });
 });

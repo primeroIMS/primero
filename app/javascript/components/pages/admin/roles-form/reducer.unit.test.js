@@ -14,7 +14,7 @@ describe("<RolesForm /> - Reducers", () => {
     };
     const newState = reducers(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_ROLE_FAILURE", () => {
@@ -25,7 +25,7 @@ describe("<RolesForm /> - Reducers", () => {
     };
     const newState = reducers(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_ROLE_SUCCESS", () => {
@@ -42,7 +42,7 @@ describe("<RolesForm /> - Reducers", () => {
 
     const newState = reducers(fromJS({ selectedRole: {} }), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_ROLE_FINISHED", () => {
@@ -53,7 +53,7 @@ describe("<RolesForm /> - Reducers", () => {
     };
     const newState = reducers(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle CLEAR_SELECTED_ROLE", () => {
@@ -68,7 +68,7 @@ describe("<RolesForm /> - Reducers", () => {
     };
     const newState = reducers(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SAVE_ROLE_FAILURE", () => {
@@ -79,7 +79,7 @@ describe("<RolesForm /> - Reducers", () => {
     };
     const newState = reducers(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SAVE_ROLE_STARTED", () => {
@@ -90,7 +90,7 @@ describe("<RolesForm /> - Reducers", () => {
     };
     const newState = reducers(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SAVE_ROLE_FINISHED", () => {
@@ -101,7 +101,7 @@ describe("<RolesForm /> - Reducers", () => {
     };
     const newState = reducers(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should return the same state if action is unknown", () => {
@@ -112,7 +112,7 @@ describe("<RolesForm /> - Reducers", () => {
     };
     const newState = reducers(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SET_COPY_ROLE", () => {
@@ -128,7 +128,7 @@ describe("<RolesForm /> - Reducers", () => {
     };
     const newState = reducers(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle CLEAR_COPY_ROLE", () => {
@@ -146,6 +146,6 @@ describe("<RolesForm /> - Reducers", () => {
     };
     const newState = reducers(state, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

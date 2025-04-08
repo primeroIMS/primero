@@ -1,6 +1,5 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { stub, useFakeTimers } from "../../../test-utils";
 import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
 import { CLEAR_DIALOG, SET_DIALOG_PENDING } from "../../action-dialog";
 import { FETCH_RECORD_ALERTS } from "../../records/actions";
@@ -10,18 +9,22 @@ import * as actionCreators from "./action-creators";
 import { APPROVE_RECORD } from "./actions";
 
 describe("<RequestApproval /> - Action Creators", () => {
+  afterAll(() => {
+    jest.useRealTimers();
+  });
+
   it("should have known action creators", () => {
     const creators = { ...actionCreators };
 
-    expect(creators).to.have.property("approvalRecord");
+    expect(creators).toHaveProperty("approvalRecord");
     delete creators.approvalRecord;
 
-    expect(creators).to.deep.equal({});
+    expect(creators).toEqual({});
   });
 
   it("should check that 'approvalRecord' action creator returns the correct object", () => {
-    stub(generate, "messageKey").returns(4);
-    const clock = useFakeTimers(new Date("10/01/2020"));
+    jest.spyOn(generate, "messageKey").mockReturnValue(4);
+    jest.useFakeTimers().setSystemTime(new Date("10/01/2020"));
 
     const args = {
       recordType: "cases",
@@ -103,9 +106,8 @@ describe("<RequestApproval /> - Action Creators", () => {
       }
     };
 
-    expect(actionCreators.approvalRecord(args)).to.deep.equal(expectedAction);
+    expect(actionCreators.approvalRecord(args)).toEqual(expectedAction);
 
-    generate.messageKey.restore();
-    clock.restore();
+    jest.resetAllMocks();
   });
 });

@@ -15,7 +15,7 @@ describe("pages/admin/<CodeOfConduct />- Selectors", () => {
     it("should return the code of conduct", () => {
       const currentCodeOfConduct = getCodeOfConduct(stateWithHeaders);
 
-      expect(currentCodeOfConduct).to.deep.equal(codeOfConduct);
+      expect(currentCodeOfConduct).toEqual(codeOfConduct);
     });
   });
 
@@ -23,7 +23,7 @@ describe("pages/admin/<CodeOfConduct />- Selectors", () => {
     it("should return loading", () => {
       const loading = getLoadingCodeOfConduct(stateWithHeaders);
 
-      expect(loading).to.be.true;
+      expect(loading).toBe(true);
     });
   });
 
@@ -31,7 +31,7 @@ describe("pages/admin/<CodeOfConduct />- Selectors", () => {
     it("should return the errors", () => {
       const currentFetchErrors = getFetchErrorsCodeOfConduct(stateWithHeaders);
 
-      expect(currentFetchErrors).to.deep.equals(fetchErrors);
+      expect(currentFetchErrors).toEqual(fetchErrors);
     });
   });
 });

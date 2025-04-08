@@ -15,7 +15,7 @@ describe("pages/admin/<CodeOfConduct /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_CODE_OF_CONDUCT_SUCCESS", () => {
@@ -29,7 +29,7 @@ describe("pages/admin/<CodeOfConduct /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_CODE_OF_CONDUCT_FINISHED", () => {
@@ -41,7 +41,7 @@ describe("pages/admin/<CodeOfConduct /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_CODE_OF_CONDUCT_FAILURE", () => {
@@ -54,7 +54,7 @@ describe("pages/admin/<CodeOfConduct /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SAVE_CODE_OF_CONDUCT_STARTED", () => {
@@ -66,7 +66,7 @@ describe("pages/admin/<CodeOfConduct /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SAVE_CODE_OF_CONDUCT_SUCCESS", () => {
@@ -80,7 +80,7 @@ describe("pages/admin/<CodeOfConduct /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SAVE_CODE_OF_CONDUCT_FINISHED", () => {
@@ -92,6 +92,6 @@ describe("pages/admin/<CodeOfConduct /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

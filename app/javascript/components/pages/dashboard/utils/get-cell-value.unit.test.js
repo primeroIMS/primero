@@ -10,10 +10,10 @@ describe("getCellValue", () => {
           <span>5</span>
         </div>
       )
-    ).to.eq(5);
+    ).toBe(5);
   });
 
   it("returns a numeric value for a cell", () => {
-    expect(getCellValue("5")).to.eq(5);
+    expect(getCellValue("5")).toBe(5);
   });
 });
