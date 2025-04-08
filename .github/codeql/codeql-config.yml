@@ -1,0 +1,6 @@
+name: "CodeQL Config"
+
+paths-ignore:
+  - spec
+  - db
+  - '**/*.test.js'
