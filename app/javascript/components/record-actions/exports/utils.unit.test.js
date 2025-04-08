@@ -2,7 +2,6 @@
 
 import { fromJS, OrderedMap, Map } from "immutable";
 
-import { fake } from "../../../test-utils";
 import { ACTIONS } from "../../permissions";
 import { TEXT_FIELD, SUBFORM_SECTION } from "../../record-form/constants";
 import { RECORD_PATH } from "../../../config";
@@ -36,7 +35,7 @@ describe("<RecordActions /> - exports/utils", () => {
 
   describe("allowedExports", () => {
     const i18n = {
-      t: fake.returns("test.label")
+      t: jest.fn().mockReturnValue("test.label")
     };
 
     it("should return all export types if userPermission contains manage permission and recordType is cases", () => {
