@@ -39,10 +39,10 @@ describe("<RecordList />/utils - buildTableColumns", () => {
     const columns = buildTableColumns(listHeaders, i18n, "testRecordType", true)(fromJS([]));
 
     columns.forEach((v, k) => {
-      expect(v.id).to.equal(expected[k].id);
-      expect(v.name).to.equal(expected[k].name);
-      expect(v.label).to.equal(expected[k].label);
-      expect(v).to.have.property("options");
+      expect(v.id).toBe(expected[k].id);
+      expect(v.name).toBe(expected[k].name);
+      expect(v.label).toBe(expected[k].label);
+      expect(v).toHaveProperty("options");
     });
   });
 });

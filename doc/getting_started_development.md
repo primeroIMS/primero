@@ -264,7 +264,6 @@ rspec spec
 Javascript/NPM unit tests:
 ```shell
 npm run test
-npm run test:components
 ```
 
 

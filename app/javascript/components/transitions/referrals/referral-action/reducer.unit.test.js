@@ -76,6 +76,6 @@ describe("<ReferralAction /> - Reducers", () => {
 
     const newState = reducer(defaultState, action);
 
-    expect(newState.toJS()).to.deep.equal(expected.toJS());
+    expect(newState.toJS()).toEqual(expected.toJS());
   });
 });

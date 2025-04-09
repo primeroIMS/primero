@@ -44,13 +44,13 @@ describe("<UsersForm /> - Selectors", () => {
 
       const user = getUser(stateWithHeaders);
 
-      expect(user).to.deep.equal(expected);
+      expect(user).toEqual(expected);
     });
 
     it("should return empty object when selected user empty", () => {
       const user = getUser(stateWithoutHeaders);
 
-      expect(user).to.deep.equal(fromJS({}));
+      expect(user).toEqual(fromJS({}));
     });
   });
 
@@ -60,13 +60,13 @@ describe("<UsersForm /> - Selectors", () => {
 
       const user = getErrors(stateWithHeaders);
 
-      expect(user).to.deep.equal(expected);
+      expect(user).toEqual(expected);
     });
 
     it("should return false when errors empty", () => {
       const user = getErrors(stateWithoutHeaders);
 
-      expect(user).to.deep.equal(false);
+      expect(user).toEqual(false);
     });
   });
 
@@ -76,13 +76,13 @@ describe("<UsersForm /> - Selectors", () => {
 
       const serverErrors = getServerErrors(stateWithHeaders);
 
-      expect(serverErrors).to.deep.equal(expected);
+      expect(serverErrors).toEqual(expected);
     });
 
     it("should return empty object when no server errors", () => {
       const user = getServerErrors(stateWithoutHeaders);
 
-      expect(user).to.deep.equal(fromJS([]));
+      expect(user).toEqual(fromJS([]));
     });
   });
 
@@ -90,13 +90,13 @@ describe("<UsersForm /> - Selectors", () => {
     it("should return server errors", () => {
       const serverErrors = getSavingRecord(stateWithHeaders);
 
-      expect(serverErrors).to.be.true;
+      expect(serverErrors).toBe(true);
     });
 
     it("should return empty object when no server errors", () => {
       const user = getSavingRecord(stateWithoutHeaders);
 
-      expect(user).to.be.false;
+      expect(user).toBe(false);
     });
   });
 
@@ -104,13 +104,13 @@ describe("<UsersForm /> - Selectors", () => {
     it("should return true if it's loading", () => {
       const loading = getLoading(stateWithHeaders);
 
-      expect(loading).to.be.true;
+      expect(loading).toBe(true);
     });
 
     it("should return false if it is not loading", () => {
       const loading = getLoading(stateWithHeaders.merge(fromJS({ records: { users: { loading: false } } })));
 
-      expect(loading).to.be.false;
+      expect(loading).toBe(false);
     });
   });
 
@@ -119,14 +119,14 @@ describe("<UsersForm /> - Selectors", () => {
       const savingState = fromJS({ records: { users: { newPasswordReset: { saving: true } } } });
       const saving = getSavingNewPasswordReset(savingState);
 
-      expect(saving).to.be.true;
+      expect(saving).toBe(true);
     });
 
     it("should return false if it's saving", () => {
       const savingState = fromJS({ records: { users: { newPasswordReset: { saving: false } } } });
       const saving = getSavingNewPasswordReset(savingState);
 
-      expect(saving).to.be.false;
+      expect(saving).toBe(false);
     });
   });
 
@@ -136,7 +136,7 @@ describe("<UsersForm /> - Selectors", () => {
 
       const loading = getPasswordResetLoading(loadingState);
 
-      expect(loading).to.be.true;
+      expect(loading).toBe(true);
     });
 
     it("should return false if it's loading", () => {
@@ -144,7 +144,7 @@ describe("<UsersForm /> - Selectors", () => {
 
       const loading = getPasswordResetLoading(loadingState);
 
-      expect(loading).to.be.false;
+      expect(loading).toBe(false);
     });
   });
 
@@ -154,7 +154,7 @@ describe("<UsersForm /> - Selectors", () => {
 
       const recordsUpdate = getRecordsUpdate(currentState);
 
-      expect(recordsUpdate).to.be.true;
+      expect(recordsUpdate).toBe(true);
     });
   });
 
@@ -164,7 +164,7 @@ describe("<UsersForm /> - Selectors", () => {
 
       const loading = getUserSaved(currentState);
 
-      expect(loading).to.be.true;
+      expect(loading).toBe(true);
     });
 
     it("should return false if it's was NOT saved", () => {
@@ -172,7 +172,7 @@ describe("<UsersForm /> - Selectors", () => {
 
       const loading = getUserSaved(currentState);
 
-      expect(loading).to.be.false;
+      expect(loading).toBe(false);
     });
   });
 
@@ -182,7 +182,7 @@ describe("<UsersForm /> - Selectors", () => {
 
       const totalUsersEnabled = getTotalUsersEnabled(currentState);
 
-      expect(totalUsersEnabled).to.equal(25);
+      expect(totalUsersEnabled).toBe(25);
     });
   });
 });

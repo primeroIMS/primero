@@ -2,31 +2,30 @@
 
 import clone from "lodash/clone";
 import configureStore from "redux-mock-store";
-import sinon from "sinon";
 
 import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
-import { stub } from "../../../test-utils";
 import { CLEAR_DIALOG } from "../../action-dialog";
 
 import * as actionCreators from "./action-creators";
 import actions from "./actions";
 
 describe("<Transitions /> - Action Creators", () => {
-  before(() => {
-    stub(generate, "messageKey").returns(4);
+  beforeAll(() => {
+    jest.spyOn(generate, "messageKey").mockReturnValue(4);
   });
 
   it("should have known action creators", () => {
     const creators = clone(actionCreators);
 
-    expect(creators).to.have.property("fetchAssignUsers");
-    expect(creators).to.have.property("removeFormErrors");
-    expect(creators).to.have.property("saveAssignedUser");
-    expect(creators).to.have.property("saveTransferUser");
-    expect(creators).to.have.property("fetchTransferUsers");
-    expect(creators, "DEPRECATED fetchTransitionData").to.not.have.property("fetchTransitionData");
-    expect(creators).to.have.property("fetchReferralUsers");
-    expect(creators).to.have.property("saveReferral");
+    expect(creators).toHaveProperty("fetchAssignUsers");
+    expect(creators).toHaveProperty("removeFormErrors");
+    expect(creators).toHaveProperty("saveAssignedUser");
+    expect(creators).toHaveProperty("saveTransferUser");
+    expect(creators).toHaveProperty("fetchTransferUsers");
+    // DEPRECATED fetchTransitionData
+    expect(creators).not.toHaveProperty("fetchTransitionData");
+    expect(creators).toHaveProperty("fetchReferralUsers");
+    expect(creators).toHaveProperty("saveReferral");
     delete creators.fetchAssignUsers;
     delete creators.removeFormErrors;
     delete creators.saveAssignedUser;
@@ -37,37 +36,38 @@ describe("<Transitions /> - Action Creators", () => {
     delete creators.saveReferral;
     delete creators.resetReferralSuccess;
 
-    expect(creators).to.deep.equal({});
+    expect(creators).toEqual({});
   });
 
   it("should check the 'fetchAssignUsers' action creator to return the correct object", () => {
     const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
+    const dispatch = jest.spyOn(store, "dispatch");
 
     dispatch(actionCreators.fetchAssignUsers());
-    const firstCallReturnValue = dispatch.getCall(0).returnValue;
+    const firstCallReturnValue = dispatch.mock.calls[0][0];
 
-    expect(firstCallReturnValue.type).to.equal(actions.ASSIGN_USERS_FETCH);
-    expect(firstCallReturnValue.api.path).to.equal("users/assign-to");
+    expect(firstCallReturnValue.type).toBe(actions.ASSIGN_USERS_FETCH);
+    expect(firstCallReturnValue.api.path).toBe("users/assign-to");
   });
 
   it("should check the 'fetchTransferUsers' action creator to return the correct object", () => {
     const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
+    const dispatch = jest.spyOn(store, "dispatch");
 
     dispatch(actionCreators.fetchTransferUsers());
-    const firstCallReturnValue = dispatch.getCall(0).returnValue;
+    const firstCallReturnValue = dispatch.mock.calls[0][0];
 
-    expect(firstCallReturnValue.type).to.equal(actions.TRANSFER_USERS_FETCH);
-    expect(firstCallReturnValue.api.path).to.equal("users/transfer-to");
+    expect(firstCallReturnValue.type).toBe(actions.TRANSFER_USERS_FETCH);
+    expect(firstCallReturnValue.api.path).toBe("users/transfer-to");
   });
 
   it("should check the 'removeFormErrors' action creator to return the correct object", () => {
-    const dispatch = sinon.spy(actionCreators, "removeFormErrors");
+    const store = configureStore()({});
+    const dispatch = jest.spyOn(store, "dispatch");
 
-    actionCreators.removeFormErrors("reassign");
+    dispatch(actionCreators.removeFormErrors("reassign"));
 
-    expect(dispatch.getCall(0).returnValue).to.deep.equal({
+    expect(dispatch).toHaveBeenCalledWith({
       type: actions.CLEAR_ERRORS,
       payload: "reassign"
     });
@@ -81,7 +81,7 @@ describe("<Transitions /> - Action Creators", () => {
       }
     };
     const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
+    const dispatch = jest.spyOn(store, "dispatch");
     const expected = {
       type: actions.ASSIGN_USER_SAVE,
       api: {
@@ -106,9 +106,7 @@ describe("<Transitions /> - Action Creators", () => {
       }
     };
 
-    expect(dispatch(actionCreators.saveAssignedUser("cases", "123abc", body, "Success Message"))).to.deep.equals(
-      expected
-    );
+    expect(dispatch(actionCreators.saveAssignedUser("cases", "123abc", body, "Success Message"))).toEqual(expected);
   });
 
   it("should check the 'saveTransferUser' action creator to return the correct object", () => {
@@ -119,7 +117,7 @@ describe("<Transitions /> - Action Creators", () => {
       }
     };
     const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
+    const dispatch = jest.spyOn(store, "dispatch");
     const expected = {
       type: actions.TRANSFER_USER,
       api: {
@@ -144,17 +142,17 @@ describe("<Transitions /> - Action Creators", () => {
       }
     };
 
-    expect(dispatch(actionCreators.saveTransferUser("123abc", body, "Success Message"))).to.deep.equals(expected);
+    expect(dispatch(actionCreators.saveTransferUser("123abc", body, "Success Message"))).toEqual(expected);
   });
 
   it("should check the 'fetchReferralUsers' action creator to return the correct object", () => {
     const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
+    const dispatch = jest.spyOn(store, "dispatch");
 
     dispatch(actionCreators.fetchReferralUsers());
 
-    expect(dispatch.getCall(0).returnValue.type).to.equal(actions.REFERRAL_USERS_FETCH);
-    expect(dispatch.getCall(0).returnValue.api.path).to.equal("users/refer-to");
+    expect(dispatch.mock.calls[0][0].type).toBe(actions.REFERRAL_USERS_FETCH);
+    expect(dispatch.mock.calls[0][0].api.path).toBe("users/refer-to");
   });
 
   it("should check the 'saveReferral' action creator to return the correct object", () => {
@@ -165,7 +163,7 @@ describe("<Transitions /> - Action Creators", () => {
       }
     };
     const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
+    const dispatch = jest.spyOn(store, "dispatch");
     const expected = {
       type: actions.REFER_USER,
       api: {
@@ -190,10 +188,10 @@ describe("<Transitions /> - Action Creators", () => {
       }
     };
 
-    expect(dispatch(actionCreators.saveReferral("123abc", "cases", body, "Success Message"))).to.deep.equals(expected);
+    expect(dispatch(actionCreators.saveReferral("123abc", "cases", body, "Success Message"))).toEqual(expected);
   });
 
-  after(() => {
-    generate.messageKey.restore();
+  afterAll(() => {
+    jest.resetAllMocks();
   });
 });

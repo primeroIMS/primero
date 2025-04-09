@@ -1,6 +1,5 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import sinon from "sinon";
 import configureStore from "redux-mock-store";
 
 import { RECORD_PATH } from "../../config";
@@ -13,19 +12,19 @@ describe("<Nav /> - Action Creators", () => {
     const creators = { ...actionCreators };
 
     ["fetchAlerts"].forEach(property => {
-      expect(creators).to.have.property(property);
+      expect(creators).toHaveProperty(property);
       delete creators[property];
     });
-    expect(creators).to.deep.equal({});
+    expect(creators).toEqual({});
   });
 
   it("should check the 'fetchAlerts' action creator to return the correct object", () => {
     const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
+    const dispatch = jest.spyOn(store, "dispatch");
 
     dispatch(actionCreators.fetchAlerts());
 
-    expect(dispatch.getCall(0).returnValue.type).to.eql(actions.FETCH_ALERTS);
-    expect(dispatch.getCall(0).returnValue.api.path).to.eql(RECORD_PATH.alerts);
+    expect(dispatch.mock.calls[0][0].type).toEqual(actions.FETCH_ALERTS);
+    expect(dispatch.mock.calls[0][0].api.path).toEqual(RECORD_PATH.alerts);
   });
 });

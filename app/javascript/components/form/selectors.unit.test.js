@@ -1,6 +1,5 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { expect } from "chai";
 import { fromJS } from "immutable";
 
 import { CP_VIOLENCE_TYPE } from "../incidents-from-case/components/panel/constants";
@@ -143,7 +142,7 @@ describe("Forms - Selectors", () => {
     it("should return all lookup types including customs", () => {
       const options = selectors.getOptions(OPTION_TYPES.LOOKUPS)(stateWithLookups, { source: OPTION_TYPES.LOOKUPS });
 
-      expect(options).to.deep.equal([
+      expect(options).toEqual([
         {
           id: "lookup lookup-1",
           display_text: "Lookup 1",
@@ -203,7 +202,7 @@ describe("Forms - Selectors", () => {
             }
           ];
 
-          expect(options).to.deep.equal(expected);
+          expect(options).toEqual(expected);
         });
       });
 
@@ -228,7 +227,7 @@ describe("Forms - Selectors", () => {
             }
           ];
 
-          expect(options).to.deep.equal(expected);
+          expect(options).toEqual(expected);
         });
       });
     });
@@ -275,7 +274,7 @@ describe("Forms - Selectors", () => {
             selectors.getOptions(OPTION_TYPES.USER_GROUP_PERMITTED)(state, {
               source: OPTION_TYPES.USER_GROUP_PERMITTED
             })
-          ).to.deep.equals([{ disabled: false, display_text: "Test 1", id: "test-1" }]);
+          ).toEqual([{ disabled: false, display_text: "Test 1", id: "test-1" }]);
         });
       });
 
@@ -312,7 +311,7 @@ describe("Forms - Selectors", () => {
             selectors.getOptions(OPTION_TYPES.USER_GROUP_PERMITTED)(state, {
               source: OPTION_TYPES.USER_GROUP_PERMITTED
             })
-          ).to.deep.equals(expected);
+          ).toEqual(expected);
         });
       });
 
@@ -350,10 +349,10 @@ describe("Forms - Selectors", () => {
             selectors.getOptions(OPTION_TYPES.USER_GROUP_PERMITTED)(state, {
               source: OPTION_TYPES.USER_GROUP_PERMITTED
             })
-          ).to.deep.equals(expected);
+          ).toEqual(expected);
         });
 
-        context("and managedReportScope is all", () => {
+        describe("and managedReportScope is all", () => {
           const stateWithManagedReportScope = fromJS({
             application: {
               userGroups: allUserGroups
@@ -388,7 +387,7 @@ describe("Forms - Selectors", () => {
               selectors.getOptions(OPTION_TYPES.USER_GROUP_PERMITTED)(stateWithManagedReportScope, {
                 source: OPTION_TYPES.USER_GROUP_PERMITTED
               })
-            ).to.deep.equals(expected);
+            ).toEqual(expected);
           });
         });
       });
@@ -449,7 +448,7 @@ describe("Forms - Selectors", () => {
             selectors.getOptions(OPTION_TYPES.INSIGHTS_USER_GROUP_PERMITTED)(state, {
               source: OPTION_TYPES.INSIGHTS_USER_GROUP_PERMITTED
             })
-          ).to.deep.equals(expected);
+          ).toEqual(expected);
         });
       });
 
@@ -487,10 +486,10 @@ describe("Forms - Selectors", () => {
             selectors.getOptions(OPTION_TYPES.INSIGHTS_USER_GROUP_PERMITTED)(state, {
               source: OPTION_TYPES.INSIGHTS_USER_GROUP_PERMITTED
             })
-          ).to.deep.equals(expected);
+          ).toEqual(expected);
         });
 
-        context("and managedReportScope is all", () => {
+        describe("and managedReportScope is all", () => {
           const stateWithManagedReportScope = fromJS({
             application: {
               userGroups: allUserGroups
@@ -525,7 +524,7 @@ describe("Forms - Selectors", () => {
               selectors.getOptions(OPTION_TYPES.USER_GROUP_PERMITTED)(stateWithManagedReportScope, {
                 source: OPTION_TYPES.USER_GROUP_PERMITTED
               })
-            ).to.deep.equals(expected);
+            ).toEqual(expected);
           });
         });
       });
@@ -543,7 +542,7 @@ describe("Forms - Selectors", () => {
         { id: 2, display_text: "Agency 2", disabled: true }
       ];
 
-      expect(options).to.deep.equal(expected);
+      expect(options).toEqual(expected);
     });
   });
 
@@ -558,7 +557,7 @@ describe("Forms - Selectors", () => {
         { id: "role-2", display_text: "Role 2", disabled: true }
       ];
 
-      expect(options).to.deep.equal(expected);
+      expect(options).toEqual(expected);
     });
   });
 
@@ -568,7 +567,7 @@ describe("Forms - Selectors", () => {
         uniqueID: "role-1"
       });
 
-      expect(options).to.deep.equal(fromJS(["basic_identity", "notes"]));
+      expect(options).toEqual(fromJS(["basic_identity", "notes"]));
     });
   });
 
@@ -587,7 +586,7 @@ describe("Forms - Selectors", () => {
           source: OPTION_TYPES.LINKED_INCIDENTS,
           localizeDate: value => value
         })
-      ).to.deep.equals(expected);
+      ).toEqual(expected);
     });
   });
 
@@ -605,7 +604,7 @@ describe("Forms - Selectors", () => {
         { id: "MCMP2MD2", display_text: "MyDistrict2", admin_level: 2, disabled: false }
       ];
 
-      expect(options).to.deep.equal(expected);
+      expect(options).toEqual(expected);
     });
     it("should return reporting location options with full location name", () => {
       const options = selectors.getOptions(OPTION_TYPES.REPORTING_LOCATIONS)([
@@ -621,7 +620,7 @@ describe("Forms - Selectors", () => {
         { id: "MCMP2MD2", display_text: "MyCountry:MyProvince2:MyDistrict2", admin_level: 2, disabled: false }
       ];
 
-      expect(options).to.deep.equal(expected);
+      expect(options).toEqual(expected);
     });
   });
 
@@ -655,7 +654,7 @@ describe("Forms - Selectors", () => {
       const source = "FormGroupLookup";
       const result = selectors.getOptions(source)(stateWithLookupsFormGroup, { source });
 
-      expect(result).to.deep.equal(lookups);
+      expect(result).toEqual(lookups);
     });
   });
 
@@ -664,7 +663,7 @@ describe("Forms - Selectors", () => {
       const source = "lookup lookup-violence-type";
       const result = selectors.getOptions(source)(stateWithLookups, { source });
 
-      expect(result).to.deep.equal([{ id: "type1", display_text: "Type 1", disabled: false, tags: ["low"] }]);
+      expect(result).toEqual([{ id: "type1", display_text: "Type 1", disabled: false, tags: ["low"] }]);
     });
   });
 
@@ -679,7 +678,7 @@ describe("Forms - Selectors", () => {
       const source = OPTION_TYPES.ROLE_REFERRAL_AUTHORIZATION;
       const result = selectors.getOptions(source)(stateWithReferralAuthorizationRoles, { source });
 
-      expect(result).to.deep.equal([{ id: "role-authorized-1", display_text: "Authorized Role 1" }]);
+      expect(result).toEqual([{ id: "role-authorized-1", display_text: "Authorized Role 1" }]);
     });
   });
 });

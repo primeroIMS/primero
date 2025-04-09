@@ -21,7 +21,7 @@ describe("<ImportDialog /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle IMPORT_LOCATIONS_SUCCESS", () => {
@@ -38,7 +38,7 @@ describe("<ImportDialog /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle IMPORT_LOCATIONS_FAILURE", () => {
@@ -55,7 +55,7 @@ describe("<ImportDialog /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle IMPORT_LOCATIONS_FINISHED", () => {
@@ -72,7 +72,7 @@ describe("<ImportDialog /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle CLEAR_IMPORT_ERRORS", () => {
@@ -88,6 +88,6 @@ describe("<ImportDialog /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

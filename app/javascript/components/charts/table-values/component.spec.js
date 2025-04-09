@@ -4,19 +4,18 @@ import { fromJS } from "immutable";
 import { mountedComponent, screen } from "test-utils";
 
 import { buildTableData } from "../../report/utils";
-import { abbrMonthNames, stub } from "../../../test-utils";
+import { abbrMonthNames } from "../../../test-utils";
 
 import TableValues from "./component";
 
 describe("<TableValues />", () => {
-  let stubI18n = null;
-
   beforeEach(() => {
-    stubI18n = stub(window.I18n, "t")
-      .withArgs("date.abbr_month_names")
-      .returns(abbrMonthNames)
-      .withArgs("report.total")
-      .returns("Total");
+    jest.spyOn(window.I18n, "t").mockImplementation(arg => {
+      if (arg === "date.abbr_month_namesf") return abbrMonthNames;
+      if (arg === "report.total") return "Total";
+
+      return arg;
+    });
   });
 
   it("renders canvas values as table", () => {
@@ -82,9 +81,8 @@ describe("<TableValues />", () => {
     expect(screen.getAllByRole("table")).toHaveLength(1);
     expect(screen.getAllByRole("columnheader")).toHaveLength(2);
   });
+
   afterEach(() => {
-    if (stubI18n) {
-      window.I18n.t.restore();
-    }
+    jest.restoreAllMocks();
   });
 });

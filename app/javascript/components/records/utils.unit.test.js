@@ -6,17 +6,17 @@ describe("<Records /> - utils", () => {
   describe("properties", () => {
     let clone;
 
-    before(() => {
+    beforeAll(() => {
       clone = { ...utils };
     });
 
-    after(() => {
-      expect(clone).to.be.empty;
+    afterAll(() => {
+      expect(Object.keys(clone)).toHaveLength(0);
     });
 
     ["cleanUpFilters", "useMetadata", "getShortIdFromUniqueId"].forEach(property => {
       it(`exports '${property}'`, () => {
-        expect(utils).to.have.property(property);
+        expect(utils).toHaveProperty(property);
         delete clone[property];
       });
     });

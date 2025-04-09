@@ -36,7 +36,7 @@ describe("<Transitions /> - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle TRANSFER_REQUEST_FINISHED", () => {
@@ -53,7 +53,7 @@ describe("<Transitions /> - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle TRANSFER_REQUEST_STARTED", () => {
@@ -71,7 +71,7 @@ describe("<Transitions /> - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle TRANSFER_REQUEST_SUCCESS", () => {
@@ -105,6 +105,6 @@ describe("<Transitions /> - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

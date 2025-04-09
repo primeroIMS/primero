@@ -25,11 +25,11 @@ describe("<LookupsForm /> - selectors", () => {
     const creators = { ...selectors };
 
     ["getLookup", "getSavingLookup"].forEach(property => {
-      expect(creators).to.have.property(property);
+      expect(creators).toHaveProperty(property);
       delete creators[property];
     });
 
-    expect(creators).to.be.empty;
+    expect(Object.keys(creators)).toHaveLength(0);
   });
 
   describe("getLookup", () => {
@@ -38,13 +38,13 @@ describe("<LookupsForm /> - selectors", () => {
 
       const role = selectors.getLookup(state);
 
-      expect(role).to.deep.equal(expected);
+      expect(role).toEqual(expected);
     });
 
     it("should return empty object when selected role empty", () => {
       const role = selectors.getLookup(stateWithoutRecords);
 
-      expect(role).to.be.empty;
+      expect(role.size).toBe(0);
     });
   });
 
@@ -54,7 +54,7 @@ describe("<LookupsForm /> - selectors", () => {
 
       const saving = selectors.getSavingLookup(state);
 
-      expect(saving).to.deep.equal(expected);
+      expect(saving).toEqual(expected);
     });
   });
 });

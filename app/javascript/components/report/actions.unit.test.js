@@ -18,11 +18,11 @@ describe("<Reports /> - Actions", () => {
       "DELETE_REPORT_FAILURE",
       "DELETE_REPORT_FINISHED"
     ].forEach(property => {
-      expect(cloneActions).to.have.property(property);
-      expect(cloneActions[property]).to.be.a("string");
+      expect(cloneActions).toHaveProperty(property);
+      expect(typeof cloneActions[property]).toBe("string");
       delete cloneActions[property];
     });
 
-    expect(cloneActions).to.be.empty;
+    expect(Object.keys(cloneActions)).toHaveLength(0);
   });
 });

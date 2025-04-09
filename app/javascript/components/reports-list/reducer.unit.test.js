@@ -35,7 +35,7 @@ describe("<Reports /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(initialState);
+    expect(newState).toEqual(initialState);
   });
 
   it("deprecated Reports/CASES_BY_AGE_AND_SEX", () => {
@@ -74,7 +74,7 @@ describe("<Reports /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(initialState);
+    expect(newState).toEqual(initialState);
   });
 
   it("deprecated Reports/CASES_BY_PROTECTION_CONCERN", () => {
@@ -113,7 +113,7 @@ describe("<Reports /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(initialState);
+    expect(newState).toEqual(initialState);
   });
 
   it("deprecated Reports/CASES_BY_AGENCY", () => {
@@ -135,7 +135,7 @@ describe("<Reports /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(initialState);
+    expect(newState).toEqual(initialState);
   });
 
   it("should handle FETCH_REPORTS_STARTED", () => {
@@ -150,7 +150,7 @@ describe("<Reports /> - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_REPORTS_SUCCESS", () => {
@@ -185,7 +185,7 @@ describe("<Reports /> - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_REPORTS_FINISHED", () => {
@@ -199,7 +199,7 @@ describe("<Reports /> - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_REPORTS_FAILURE", () => {
@@ -213,7 +213,7 @@ describe("<Reports /> - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle CLEAR_METADATA", () => {
@@ -227,6 +227,6 @@ describe("<Reports /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

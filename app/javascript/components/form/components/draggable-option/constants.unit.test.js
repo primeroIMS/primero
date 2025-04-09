@@ -7,10 +7,10 @@ describe("<Form />/components/<DraggableOption /> - constants", () => {
     const clonedConstants = { ...constants };
 
     ["NAME"].forEach(property => {
-      expect(clonedConstants).to.have.property(property);
+      expect(clonedConstants).toHaveProperty(property);
       delete clonedConstants[property];
     });
 
-    expect(clonedConstants).to.be.empty;
+    expect(Object.keys(clonedConstants)).toHaveLength(0);
   });
 });

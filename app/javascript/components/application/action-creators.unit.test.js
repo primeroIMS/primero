@@ -1,6 +1,5 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import sinon from "sinon";
 import configureStore from "redux-mock-store";
 
 import { ROUTES } from "../../config";
@@ -28,11 +27,11 @@ describe("Application - Action Creators", () => {
       "fetchWebpushConfig",
       "setTheme"
     ].forEach(property => {
-      expect(creators).to.have.property(property);
+      expect(creators).toHaveProperty(property);
       delete creators[property];
     });
 
-    expect(creators).to.be.empty;
+    expect(Object.keys(creators)).toHaveLength(0);
   });
 
   it("should check the 'fetchSystemSettings' action creator to return the correct object", () => {
@@ -44,13 +43,12 @@ describe("Application - Action Creators", () => {
       }
     };
     const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
+    const dispatch = jest.spyOn(store, "dispatch");
 
     dispatch(actionCreators.fetchSystemSettings());
+    expect(dispatch.mock.calls[0][0].type).toEqual("application/FETCH_SYSTEM_SETTINGS");
 
-    expect(dispatch.getCall(0).returnValue.type).to.eql("application/FETCH_SYSTEM_SETTINGS");
-
-    expect(dispatch.getCall(0).returnValue.api).to.eql(expected);
+    expect(dispatch.mock.calls[0][0].api).toEqual(expected);
   });
 
   it("should create an action to set the user to idle", () => {
@@ -59,7 +57,7 @@ describe("Application - Action Creators", () => {
       payload: true
     };
 
-    expect(actionCreators.setUserIdle(true)).to.eql(expectedAction);
+    expect(actionCreators.setUserIdle(true)).toEqual(expectedAction);
   });
 
   it("should check the 'fetchSystemPermissions' action creator to return the correct object", () => {
@@ -73,7 +71,7 @@ describe("Application - Action Creators", () => {
       }
     };
 
-    expect(actionCreators.fetchSystemPermissions()).to.deep.equal(expected);
+    expect(actionCreators.fetchSystemPermissions()).toEqual(expected);
   });
 
   it("should check the 'fetchRoles' action creator to return the correct object", () => {
@@ -84,7 +82,7 @@ describe("Application - Action Creators", () => {
       }
     };
 
-    expect(actionCreators.fetchRoles()).to.deep.equal(expected);
+    expect(actionCreators.fetchRoles()).toEqual(expected);
   });
 
   it("should check the 'fetchUserGroups' action creator to return the correct object", () => {
@@ -95,7 +93,7 @@ describe("Application - Action Creators", () => {
       }
     };
 
-    expect(actionCreators.fetchUserGroups()).to.deep.equal(expected);
+    expect(actionCreators.fetchUserGroups()).toEqual(expected);
   });
 
   it("should check the 'disableNavigation' action creator to return the correct object", () => {
@@ -104,7 +102,7 @@ describe("Application - Action Creators", () => {
       payload: true
     };
 
-    expect(actionCreators.disableNavigation(true)).to.deep.equal(expected);
+    expect(actionCreators.disableNavigation(true)).toEqual(expected);
   });
 
   it("should check the 'fetchSandboxUI' action creator to return the correct object", () => {
@@ -118,7 +116,7 @@ describe("Application - Action Creators", () => {
       }
     };
 
-    expect(actionCreators.fetchSandboxUI()).to.deep.equal(expected);
+    expect(actionCreators.fetchSandboxUI()).toEqual(expected);
   });
 
   it("should check the 'setReturnUrl' action creator to return the correct object", () => {
@@ -127,6 +125,6 @@ describe("Application - Action Creators", () => {
       payload: "/test"
     };
 
-    expect(actionCreators.setReturnUrl("/test")).to.deep.equal(expected);
+    expect(actionCreators.setReturnUrl("/test")).toEqual(expected);
   });
 });

@@ -10,17 +10,17 @@ describe("components/dashboard/flag-box/utils.unit.test.js", () => {
       const clone = { ...utils };
 
       ["showId"].forEach(property => {
-        expect(clone).to.have.property(property);
-        expect(clone[property]).to.be.a("function");
+        expect(clone).toHaveProperty(property);
+        expect(clone[property]).toBeInstanceOf(Function);
         delete clone[property];
       });
-      expect(clone).to.be.empty;
+      expect(Object.keys(clone)).toHaveLength(0);
     });
   });
 
   describe("with showId", () => {
     it("should return false if any flagged is passed in", () => {
-      expect(utils.showId()).to.be.false;
+      expect(utils.showId()).toBe(false);
     });
 
     it("should return false if name prop contains less than 7 asterisks", () => {
@@ -28,7 +28,7 @@ describe("components/dashboard/flag-box/utils.unit.test.js", () => {
         name: "Test User"
       });
 
-      expect(utils.showId(flag)).to.be.false;
+      expect(utils.showId(flag)).toBe(false);
     });
 
     it("should return true if name prop contains 7 asterisks", () => {
@@ -36,7 +36,7 @@ describe("components/dashboard/flag-box/utils.unit.test.js", () => {
         name: "*******"
       });
 
-      expect(utils.showId(flag)).to.be.true;
+      expect(utils.showId(flag)).toBe(true);
     });
 
     it("should return true if flag's name is null", () => {
@@ -44,7 +44,7 @@ describe("components/dashboard/flag-box/utils.unit.test.js", () => {
         name: null
       });
 
-      expect(utils.showId(flag)).to.be.true;
+      expect(utils.showId(flag)).toBe(true);
     });
   });
 });

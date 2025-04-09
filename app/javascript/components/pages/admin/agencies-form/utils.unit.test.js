@@ -8,7 +8,7 @@ describe("<AgenciesForm /> - Helpers", () => {
     const expected = { name: { en: "Name" } };
     const data = { name: "Name" };
 
-    expect(localizeData(data, ["name"], i18n)).to.be.deep.equal(expected);
+    expect(localizeData(data, ["name"], i18n)).toEqual(expected);
   });
 
   it("translateFields should return the field with the current translation", () => {
@@ -16,6 +16,6 @@ describe("<AgenciesForm /> - Helpers", () => {
     const expected = { name: "Name" };
     const data = { name: { en: "Name" } };
 
-    expect(translateFields(data, ["name"], i18n)).to.be.deep.equal(expected);
+    expect(translateFields(data, ["name"], i18n)).toEqual(expected);
   });
 });

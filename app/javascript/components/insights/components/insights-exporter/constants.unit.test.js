@@ -5,13 +5,13 @@ import * as constants from "./constants";
 describe("insights/components/insights-exporter/constants", () => {
   const clone = { ...constants };
 
-  after(() => {
-    expect(clone).to.be.empty;
+  afterAll(() => {
+    expect(Object.keys(clone)).toHaveLength(0);
   });
 
   ["NAME", "FORM_ID", "EXPORTED_URL", "EXPORT_ALL_SUBREPORTS"].forEach(property => {
     it(`exports property '${property}'`, () => {
-      expect(clone).to.have.property(property);
+      expect(clone).toHaveProperty(property);
       delete clone[property];
     });
   });

@@ -83,10 +83,8 @@ module.exports = {
   },
   overrides: [
     {
-      files: ["*.unit.test.js"],
-      env: {
-        mocha: true
-      },
+      files: ["*.unit.test.js", "*.spec.js"],
+
       globals: {
         expect: "readonly"
       },

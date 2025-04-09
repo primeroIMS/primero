@@ -3,5 +3,5 @@ export const abbrMonthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", 
 
 export function freezeTimeZone(offset = 0) {
   // eslint-disable-next-line no-extend-native
-  Date.prototype.getTimezoneOffset = jest.fn(() => offset);
+  global.Date.prototype.getTimezoneOffset = jest.fn(() => offset);
 }

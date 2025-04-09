@@ -15,6 +15,6 @@ describe("middleware/utils/is-server-online.js", () => {
       })
     );
 
-    expect(isServerOnline(store)).to.be.true;
+    expect(isServerOnline(store)).toBe(true);
   });
 });

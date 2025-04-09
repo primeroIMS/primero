@@ -22,7 +22,7 @@ describe("toggleHideOnViewPage", () => {
         ...field1,
         hide_on_view_page: true
       })
-    ).to.deep.equal(expected);
+    ).toEqual(expected);
   });
 
   it("should return the form sections for SEPARATOR type", () => {
@@ -36,6 +36,6 @@ describe("toggleHideOnViewPage", () => {
       formMode
     });
 
-    expect(formSections.forms.size).to.be.equal(2);
+    expect(formSections.forms.size).toBe(2);
   });
 });

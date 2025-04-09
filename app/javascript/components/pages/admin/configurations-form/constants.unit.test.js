@@ -4,24 +4,24 @@ import * as constants from "./constants";
 
 describe("configurations-form/constants.js", () => {
   it("exports an object", () => {
-    expect(constants).to.be.an("object");
+    expect(typeof constants).toEqual("object");
   });
 
   describe("constants", () => {
     let clone;
 
-    before(() => {
+    beforeAll(() => {
       clone = { ...constants };
     });
 
-    after(() => {
-      expect(clone).to.be.empty;
+    afterAll(() => {
+      expect(Object.keys(clone)).toHaveLength(0);
     });
 
     ["APPLY_CONFIGURATION_MODAL", "DELETE_CONFIGURATION_MODAL", "NAME", "SEND_CONFIGURATION_MODAL", "FORM_ID"].forEach(
       property => {
         it(`exports '${property}'`, () => {
-          expect(constants).to.have.property(property);
+          expect(constants).toHaveProperty(property);
           delete clone[property];
         });
       }

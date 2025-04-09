@@ -6,7 +6,7 @@ describe("<AgenciesList /> - Actions", () => {
   it("should have known properties", () => {
     const clonedActions = { ...actions };
 
-    expect(clonedActions).to.be.an("object");
+    expect(typeof clonedActions).toEqual("object");
     [
       "AGENCIES",
       "AGENCIES_STARTED",
@@ -16,10 +16,10 @@ describe("<AgenciesList /> - Actions", () => {
       "CLEAR_METADATA",
       "SET_AGENCIES_FILTER"
     ].forEach(property => {
-      expect(clonedActions).to.have.property(property);
+      expect(clonedActions).toHaveProperty(property);
       delete clonedActions[property];
     });
 
-    expect(clonedActions).to.be.empty;
+    expect(Object.keys(clonedActions)).toHaveLength(0);
   });
 });

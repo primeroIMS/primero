@@ -32,15 +32,15 @@ describe("<RecordActions /> - Constants", () => {
       "FILTERS_TO_SKIP",
       "LINK_INCIDENT_TO_CASE_DIALOG"
     ].forEach(property => {
-      expect(constants).to.have.property(property);
+      expect(constants).toHaveProperty(property);
       delete constants[property];
     });
 
-    expect(constants).to.be.empty;
+    expect(Object.keys(constants)).toHaveLength(0);
   });
-  context("when is RECORD_ACTION_ABILITIES", () => {
+  describe("when is RECORD_ACTION_ABILITIES", () => {
     it("should be an object", () => {
-      expect(recordConstants.RECORD_ACTION_ABILITIES).to.be.an("object");
+      expect(typeof recordConstants.RECORD_ACTION_ABILITIES).toEqual("object");
     });
     it("should have the properties", () => {
       const recordActionAbilities = { ...recordConstants.RECORD_ACTION_ABILITIES };
@@ -74,11 +74,11 @@ describe("<RecordActions /> - Constants", () => {
         "canVerify",
         "canLinkIncidentToCase"
       ].forEach(property => {
-        expect(recordActionAbilities).to.have.property(property);
+        expect(recordActionAbilities).toHaveProperty(property);
         delete recordActionAbilities[property];
       });
 
-      expect(recordActionAbilities).to.be.empty;
+      expect(Object.keys(recordActionAbilities)).toHaveLength(0);
     });
   });
 });

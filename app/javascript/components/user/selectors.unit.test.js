@@ -46,13 +46,13 @@ describe("User - Selectors", () => {
     it("should return if user has permissions", () => {
       const hasUserPermissions = selectors.hasUserPermissions(stateWithUser);
 
-      expect(hasUserPermissions).to.deep.equal(true);
+      expect(hasUserPermissions).toEqual(true);
     });
 
     it("should return false if permissions not set", () => {
       const hasUserPermissions = selectors.hasUserPermissions(stateWithoutUser);
 
-      expect(hasUserPermissions).to.deep.equal(false);
+      expect(hasUserPermissions).toEqual(false);
     });
   });
 
@@ -60,13 +60,13 @@ describe("User - Selectors", () => {
     it("should return current user if username is set", () => {
       const currentUser = selectors.currentUser(stateWithUser, "cases");
 
-      expect(currentUser).to.deep.equal("primero");
+      expect(currentUser).toEqual("primero");
     });
 
     it("should return undefined if username is no set", () => {
       const currentUser = selectors.currentUser(stateWithoutUser);
 
-      expect(currentUser).to.be.undefined;
+      expect(currentUser).toBeUndefined();
     });
   });
 
@@ -80,13 +80,13 @@ describe("User - Selectors", () => {
 
       const selector = selectors.getPermissions(stateWithUser);
 
-      expect(selector).to.deep.equal(expectedPermission);
+      expect(selector).toEqual(expectedPermission);
     });
 
     it("should return undefined if username is no set", () => {
       const currentUser = selectors.currentUser(stateWithoutUser);
 
-      expect(currentUser).to.be.undefined;
+      expect(currentUser).toBeUndefined();
     });
   });
 
@@ -94,13 +94,13 @@ describe("User - Selectors", () => {
     it("should return isAuthenticated", () => {
       const meta = selectors.getIsAuthenticated(stateWithUser);
 
-      expect(meta).to.deep.equal(true);
+      expect(meta).toEqual(true);
     });
 
     it("should return false when user not autenticated", () => {
       const meta = selectors.getIsAuthenticated(stateWithoutUser);
 
-      expect(meta).to.deep.equal(false);
+      expect(meta).toEqual(false);
     });
   });
 
@@ -109,7 +109,7 @@ describe("User - Selectors", () => {
       const expectedFormsIds = fromJS({ record_owner: "r", client_feedback: "rw" });
       const selector = selectors.getPermittedFormsIds(stateWithUser);
 
-      expect(selector).to.deep.equal(expectedFormsIds);
+      expect(selector).toEqual(expectedFormsIds);
     });
   });
 
@@ -119,13 +119,13 @@ describe("User - Selectors", () => {
 
       const user = selectors.getUser(stateWithUser);
 
-      expect(user).to.deep.equal(expected);
+      expect(user).toEqual(expected);
     });
 
     it("should return empty object when selected user empty", () => {
       const user = selectors.getUser(stateWithoutUser);
 
-      expect(user).to.deep.equal(fromJS({}));
+      expect(user).toEqual(fromJS({}));
     });
   });
 
@@ -133,13 +133,13 @@ describe("User - Selectors", () => {
     it("should return saving key", () => {
       const result = selectors.getUserSavingRecord(stateWithUser);
 
-      expect(result).to.be.false;
+      expect(result).toBe(false);
     });
 
     it("should return empty object when no server errors", () => {
       const user = selectors.getUserSavingRecord(stateWithoutUser);
 
-      expect(user).to.be.false;
+      expect(user).toBe(false);
     });
   });
 
@@ -149,13 +149,13 @@ describe("User - Selectors", () => {
 
       const serverErrors = selectors.getServerErrors(stateWithUser);
 
-      expect(serverErrors).to.deep.equal(expected);
+      expect(serverErrors).toEqual(expected);
     });
 
     it("should return empty object when no server errors", () => {
       const user = selectors.getServerErrors(stateWithoutUser);
 
-      expect(user).to.deep.equal(fromJS([]));
+      expect(user).toEqual(fromJS([]));
     });
   });
 
@@ -163,7 +163,7 @@ describe("User - Selectors", () => {
     it("should return true if the password reset is being saving", () => {
       const saving = selectors.getSavingPassword(stateWithUser);
 
-      expect(saving).to.be.true;
+      expect(saving).toBe(true);
     });
   });
 
@@ -175,11 +175,11 @@ describe("User - Selectors", () => {
         }
       });
 
-      expect(selectors.getCodeOfConductId(state)).to.be.equal(1);
+      expect(selectors.getCodeOfConductId(state)).toBe(1);
     });
 
     it("should return null if the user hasn't accepted the code of conduct", () => {
-      expect(selectors.getCodeOfConductId(fromJS({}))).to.be.null;
+      expect(selectors.getCodeOfConductId(fromJS({}))).toBeNull();
     });
   });
 
@@ -193,11 +193,11 @@ describe("User - Selectors", () => {
       const date = selectors.getCodeOfConductAccepteOn(state);
       const formattedDate = format(parseISO(date), CODE_OF_CONDUCT_DATE_FORMAT);
 
-      expect(formattedDate).to.be.equal("March 23, 2021");
+      expect(formattedDate).toBe("March 23, 2021");
     });
 
     it("should return null if the user hasn't accepted the code of conduct", () => {
-      expect(selectors.getCodeOfConductAccepteOn(fromJS({}))).to.be.null;
+      expect(selectors.getCodeOfConductAccepteOn(fromJS({}))).toBeNull();
     });
   });
 
@@ -209,29 +209,29 @@ describe("User - Selectors", () => {
     });
 
     it("should return true if the user has the module", () => {
-      expect(selectors.hasPrimeroModule(state, "primeromodule-cp")).to.be.true;
+      expect(selectors.hasPrimeroModule(state, "primeromodule-cp")).toBe(true);
     });
 
     it("should return false if the user does not have the module", () => {
-      expect(selectors.hasPrimeroModule(state, "primeromodule-gbv")).to.be.false;
+      expect(selectors.hasPrimeroModule(state, "primeromodule-gbv")).toBe(false);
     });
   });
 
   describe("getCurrentUserUserGroups", () => {
     it("returns the user groups of the current user", () => {
-      expect(selectors.getCurrentUserUserGroups(stateWithUser)).to.deep.equals(userGroups);
+      expect(selectors.getCurrentUserUserGroups(stateWithUser)).toEqual(userGroups);
     });
   });
 
   describe("getManagedReportScope", () => {
     it("returns managed report scope for the current user", () => {
-      expect(selectors.getManagedReportScope(stateWithUser)).to.equal(MANAGED_REPORT_SCOPE.ALL);
+      expect(selectors.getManagedReportScope(stateWithUser)).toBe(MANAGED_REPORT_SCOPE.ALL);
     });
   });
 
   describe("getIsManagedReportScopeAll", () => {
     it("returns true if the current user managed scope is ALL", () => {
-      expect(selectors.getIsManagedReportScopeAll(stateWithUser)).to.be.true;
+      expect(selectors.getIsManagedReportScopeAll(stateWithUser)).toBe(true);
     });
   });
 });

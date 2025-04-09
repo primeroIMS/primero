@@ -13,6 +13,6 @@ describe("<CustomToolbarSelect /> - utils", () => {
       3: [0, 1]
     };
 
-    expect(selectAllRecords(totalRecords, perPage)).to.be.deep.equals(expected);
+    expect(selectAllRecords(totalRecords, perPage)).toEqual(expected);
   });
 });

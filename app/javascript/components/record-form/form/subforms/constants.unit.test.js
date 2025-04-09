@@ -37,11 +37,11 @@ describe("Verifying config constant", () => {
       "SUBFORM_DIALOG",
       "SUBFORM_FIELD_SUBFORM"
     ].forEach(property => {
-      expect(constants).to.have.property(property);
-      expect(constants[property]).to.be.a("string");
+      expect(constants).toHaveProperty(property);
+      expect(typeof constants[property]).toBe("string");
       delete constants[property];
     });
 
-    expect(constants).to.be.empty;
+    expect(Object.keys(constants)).toHaveLength(0);
   });
 });

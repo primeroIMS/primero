@@ -20,11 +20,11 @@ describe("Verifying user constant", () => {
       "FIELD_NAMES",
       "FORM_ID"
     ].forEach(property => {
-      expect(constants).to.have.property(property);
+      expect(constants).toHaveProperty(property);
       delete constants[property];
     });
 
-    expect(constants).to.be.empty;
+    expect(Object.keys(constants)).toHaveLength(0);
   });
 });
 
@@ -32,35 +32,37 @@ describe("values", () => {
   it("should have valid values for constants", () => {
     const constants = { ...userConstants };
 
-    expect(constants.FIELD_NAMES).to.have.all.keys(
-      "FULL_NAME",
-      "USER_NAME",
-      "CODE",
-      "PASSWORD_SETTING",
-      "PASSWORD",
-      "PASSWORD_CONFIRMATION",
-      "CHANGE_PASSWORD",
-      "LOCALE",
-      "ROLE_UNIQUE_ID",
-      "USER_GROUP_UNIQUE_IDS",
-      "SERVICES",
-      "PHONE",
-      "EMAIL",
-      "AGENCY_ID",
-      "AGENCY_OFFICE",
-      "POSITION",
-      "LOCATION",
-      "DISABLED",
-      "SEND_MAIL",
-      "SEND_MAIL_APPROVAL_REQUEST",
-      "SEND_MAIL_APPROVAL_RESPONSE",
-      "SEND_MAIL_TRANSFER_REQUEST",
-      "SEND_MAIL_TRANSITION_NOTIFICATION",
-      "RECEIVE_WEBPUSH",
-      "RECEIVE_WEBPUSH_APPROVAL_REQUEST",
-      "RECEIVE_WEBPUSH_APPROVAL_RESPONSE",
-      "RECEIVE_WEBPUSH_TRANSFER_REQUEST",
-      "RECEIVE_WEBPUSH_TRANSITION_NOTIFICATION"
+    expect(Object.keys(constants.FIELD_NAMES)).toEqual(
+      expect.arrayContaining([
+        "FULL_NAME",
+        "USER_NAME",
+        "CODE",
+        "PASSWORD_SETTING",
+        "PASSWORD",
+        "PASSWORD_CONFIRMATION",
+        "CHANGE_PASSWORD",
+        "LOCALE",
+        "ROLE_UNIQUE_ID",
+        "USER_GROUP_UNIQUE_IDS",
+        "SERVICES",
+        "PHONE",
+        "EMAIL",
+        "AGENCY_ID",
+        "AGENCY_OFFICE",
+        "POSITION",
+        "LOCATION",
+        "DISABLED",
+        "SEND_MAIL",
+        "SEND_MAIL_APPROVAL_REQUEST",
+        "SEND_MAIL_APPROVAL_RESPONSE",
+        "SEND_MAIL_TRANSFER_REQUEST",
+        "SEND_MAIL_TRANSITION_NOTIFICATION",
+        "RECEIVE_WEBPUSH",
+        "RECEIVE_WEBPUSH_APPROVAL_REQUEST",
+        "RECEIVE_WEBPUSH_APPROVAL_RESPONSE",
+        "RECEIVE_WEBPUSH_TRANSFER_REQUEST",
+        "RECEIVE_WEBPUSH_TRANSITION_NOTIFICATION"
+      ])
     );
   });
 });

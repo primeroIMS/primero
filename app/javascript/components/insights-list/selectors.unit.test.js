@@ -13,11 +13,11 @@ describe("<InsightsList /> - Selectors", () => {
     });
 
     it("returns the insights", () => {
-      expect(selectors.selectInsights(initialState)).to.deep.equals(fromJS(reports));
+      expect(selectors.selectInsights(initialState)).toEqual(fromJS(reports));
     });
 
     it("returns empty if there is no data", () => {
-      expect(selectors.selectInsights(emptyState)).to.deep.equals(fromJS([]));
+      expect(selectors.selectInsights(emptyState)).toEqual(fromJS([]));
     });
   });
 
@@ -27,11 +27,11 @@ describe("<InsightsList /> - Selectors", () => {
     const initialState = fromJS({ records: { insights: { metadata } } });
 
     it("returns the metadata", () => {
-      expect(selectors.selectInsightsPagination(initialState)).to.deep.equals(fromJS(metadata));
+      expect(selectors.selectInsightsPagination(initialState)).toEqual(fromJS(metadata));
     });
 
     it("returns empty if there is no data", () => {
-      expect(selectors.selectInsightsPagination(emptyState)).to.deep.equals(fromJS({}));
+      expect(selectors.selectInsightsPagination(emptyState)).toEqual(fromJS({}));
     });
   });
 
@@ -42,11 +42,11 @@ describe("<InsightsList /> - Selectors", () => {
     });
 
     it("returns true if is loading", () => {
-      expect(selectors.selectLoading(initialState)).to.be.true;
+      expect(selectors.selectLoading(initialState)).toBe(true);
     });
 
     it("returns false if there is no data", () => {
-      expect(selectors.selectLoading(emptyState)).to.be.false;
+      expect(selectors.selectLoading(emptyState)).toBe(false);
     });
   });
 });

@@ -15,7 +15,7 @@ describe("I8n - Reducer", () => {
     };
     const newState = reducer(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   describe("should handle SET_USER_LOCALE", () => {
@@ -28,7 +28,7 @@ describe("I8n - Reducer", () => {
       };
       const newState = reducer(defaultState, action);
 
-      expect(newState).to.deep.equal(expected);
+      expect(newState).toEqual(expected);
     });
     it("when user has not locale defined", () => {
       const defaultState = Map({ locale: "en", dir: "ltr" });
@@ -47,7 +47,7 @@ describe("I8n - Reducer", () => {
       };
       const newState = reducer(defaultState, action);
 
-      expect(newState).to.deep.equal(expected);
+      expect(newState).toEqual(expected);
     });
   });
 });

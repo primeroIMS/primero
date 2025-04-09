@@ -5,7 +5,7 @@ import merge from "deepmerge";
 import keepExistingMerge from "./keep-existing-merge";
 
 describe("keepExistingMerge", () => {
-  context("objects already exist", () => {
+  describe("objects already exist", () => {
     it("adds new objects", () => {
       const target = [
         { unique_id: "1", field_1: "value_1" },
@@ -15,7 +15,7 @@ describe("keepExistingMerge", () => {
 
       const expected = [...target, ...source];
 
-      expect(merge(target, source, { arrayMerge: keepExistingMerge })).to.deep.equal(expected);
+      expect(merge(target, source, { arrayMerge: keepExistingMerge })).toEqual(expected);
     });
 
     it("merges existing objects and add new objects", () => {
@@ -30,7 +30,7 @@ describe("keepExistingMerge", () => {
 
       const expected = [{ unique_id: "1", field_1: "value_1" }, ...source];
 
-      expect(merge(target, source, { arrayMerge: keepExistingMerge })).to.deep.equal(expected);
+      expect(merge(target, source, { arrayMerge: keepExistingMerge })).toEqual(expected);
     });
 
     it("merges existing objects and add new fields", () => {
@@ -45,11 +45,11 @@ describe("keepExistingMerge", () => {
 
       const expected = [{ unique_id: "1", field_1: "value_1" }, ...source];
 
-      expect(merge(target, source, { arrayMerge: keepExistingMerge })).to.deep.equal(expected);
+      expect(merge(target, source, { arrayMerge: keepExistingMerge })).toEqual(expected);
     });
   });
 
-  context("attachments already exist", () => {
+  describe("attachments already exist", () => {
     it("adds new attachments", () => {
       const target = [
         { attachment: "cde", file_name: "file_1" },
@@ -59,7 +59,7 @@ describe("keepExistingMerge", () => {
 
       const expected = [...target, ...source];
 
-      expect(merge(target, source, { arrayMerge: keepExistingMerge })).to.deep.equal(expected);
+      expect(merge(target, source, { arrayMerge: keepExistingMerge })).toEqual(expected);
     });
 
     it("adds new attachments", () => {
@@ -71,7 +71,7 @@ describe("keepExistingMerge", () => {
 
       const expected = [...target, ...source];
 
-      expect(merge(target, source, { arrayMerge: keepExistingMerge })).to.deep.equal(expected);
+      expect(merge(target, source, { arrayMerge: keepExistingMerge })).toEqual(expected);
     });
   });
 });

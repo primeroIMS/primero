@@ -189,13 +189,13 @@ describe("Records - Selectors", () => {
 
       const records = selectRecord(stateWithRecords, { isEditOrShow: mode, recordType, id });
 
-      expect(records).to.deep.equal(expected);
+      expect(records).toEqual(expected);
     });
 
     it("should return empty object when records empty", () => {
       const records = selectRecord(stateWithoutRecords, { isEditOrShow: false, recordType, id });
 
-      expect(records).to.be.null;
+      expect(records).toBeNull();
     });
   });
 
@@ -207,13 +207,13 @@ describe("Records - Selectors", () => {
 
       const records = selectRecordAttribute(stateWithRecords, recordType, id, attribute);
 
-      expect(records).to.deep.equal(expected);
+      expect(records).toEqual(expected);
     });
 
     it("should return empty object when records empty", () => {
       const records = selectRecordAttribute(stateWithoutRecords, recordType, id, attribute);
 
-      expect(records).to.be.empty;
+      expect(Object.keys(records)).toHaveLength(0);
     });
   });
 
@@ -225,13 +225,13 @@ describe("Records - Selectors", () => {
 
       const records = selectRecordsByIndexes(stateWithRecords, recordType, indexes);
 
-      expect(records).to.deep.equal(expected);
+      expect(records).toEqual(expected);
     });
 
     it("should return empty array when records empty", () => {
       const records = selectRecordsByIndexes(stateWithoutRecords, recordType, []);
 
-      expect(records).to.be.empty;
+      expect(Object.keys(records)).toHaveLength(0);
     });
   });
 
@@ -244,13 +244,13 @@ describe("Records - Selectors", () => {
     it("should return saving state value", () => {
       const savingState = getSavingRecord(stateWithSavingTrue, recordType);
 
-      expect(savingState).to.be.true;
+      expect(savingState).toBe(true);
     });
 
     it("should return false when there is not any saving state", () => {
       const savingState = getSavingRecord(stateWithSavingFalse, recordType);
 
-      expect(savingState).to.be.false;
+      expect(savingState).toBe(false);
     });
   });
 
@@ -263,13 +263,13 @@ describe("Records - Selectors", () => {
     it("should return loading state value", () => {
       const loadingState = getLoadingRecordState(stateWithLoadingTrue, recordType);
 
-      expect(loadingState).to.be.true;
+      expect(loadingState).toBe(true);
     });
 
     it("should return false when there is not any loading state", () => {
       const loadingState = getLoadingRecordState(stateWithLoadingFalse, recordType);
 
-      expect(loadingState).to.be.false;
+      expect(loadingState).toBe(false);
     });
   });
 
@@ -282,13 +282,13 @@ describe("Records - Selectors", () => {
     it("should return loading state value", () => {
       const loadingState = getMarkForMobileLoading(stateWithLoadingTrue, recordType);
 
-      expect(loadingState).to.be.true;
+      expect(loadingState).toBe(true);
     });
 
     it("should return false when there is not any loading state", () => {
       const loadingState = getMarkForMobileLoading(stateWithLoadingFalse, recordType);
 
-      expect(loadingState).to.be.false;
+      expect(loadingState).toBe(false);
     });
   });
 
@@ -319,13 +319,13 @@ describe("Records - Selectors", () => {
         }
       ]);
 
-      expect(getRecordAlerts(stateWithRecordAlerts, RECORD_PATH.cases)).to.deep.equals(expected);
+      expect(getRecordAlerts(stateWithRecordAlerts, RECORD_PATH.cases)).toEqual(expected);
     });
 
     it("should return an empty array when there are not any options", () => {
       const recordAlert = getRecordAlerts(fromJS({}));
 
-      expect(recordAlert).to.be.empty;
+      expect(recordAlert.size).toBe(0);
     });
   });
 
@@ -341,7 +341,7 @@ describe("Records - Selectors", () => {
     });
 
     it("should return the incident when is a new incident", () => {
-      expect(getIncidentFromCase(stateWithIncidentFromCase)).to.deep.equal(incidentFromCase);
+      expect(getIncidentFromCase(stateWithIncidentFromCase)).toEqual(incidentFromCase);
     });
   });
 
@@ -351,7 +351,7 @@ describe("Records - Selectors", () => {
     });
 
     it("should return the incident_case_id when is a new incident", () => {
-      expect(getCaseIdForIncident(stateWithIncidentFromCase)).to.deep.equal("123456789");
+      expect(getCaseIdForIncident(stateWithIncidentFromCase)).toEqual("123456789");
     });
   });
 
@@ -361,7 +361,7 @@ describe("Records - Selectors", () => {
     });
 
     it("should return the selectedRecord", () => {
-      expect(getSelectedRecord(stateWithSelectedRecord, RECORD_PATH.cases)).to.equal("123456789");
+      expect(getSelectedRecord(stateWithSelectedRecord, RECORD_PATH.cases)).toBe("123456789");
     });
   });
 
@@ -372,9 +372,7 @@ describe("Records - Selectors", () => {
     const stateWithRecordAttachments = fromJS({ records: { cases: { recordAttachments: { ...attachmentField } } } });
 
     it("should return the attachments", () => {
-      expect(getRecordAttachments(stateWithRecordAttachments, RECORD_PATH.cases)).to.deep.equal(
-        fromJS(attachmentField)
-      );
+      expect(getRecordAttachments(stateWithRecordAttachments, RECORD_PATH.cases)).toEqual(fromJS(attachmentField));
     });
   });
 
@@ -386,7 +384,7 @@ describe("Records - Selectors", () => {
       };
       const stateWithRecordAttachments = fromJS({ records: { cases: { recordAttachments: { ...attachmentFields } } } });
 
-      expect(getIsProcessingSomeAttachment(stateWithRecordAttachments, RECORD_PATH.cases)).to.be.true;
+      expect(getIsProcessingSomeAttachment(stateWithRecordAttachments, RECORD_PATH.cases)).toBe(true);
     });
 
     it("should return the false if the no attachment field has attachments being processed", () => {
@@ -396,7 +394,7 @@ describe("Records - Selectors", () => {
       };
       const stateWithRecordAttachments = fromJS({ records: { cases: { recordAttachments: { ...attachmentFields } } } });
 
-      expect(getIsProcessingSomeAttachment(stateWithRecordAttachments, RECORD_PATH.cases)).to.be.false;
+      expect(getIsProcessingSomeAttachment(stateWithRecordAttachments, RECORD_PATH.cases)).toBe(false);
     });
   });
 
@@ -407,7 +405,7 @@ describe("Records - Selectors", () => {
       };
       const stateWithRecordAttachments = fromJS({ records: { cases: { recordAttachments: { ...attachmentFields } } } });
 
-      expect(getIsProcessingAttachments(stateWithRecordAttachments, RECORD_PATH.cases, "field_1")).to.be.true;
+      expect(getIsProcessingAttachments(stateWithRecordAttachments, RECORD_PATH.cases, "field_1")).toBe(true);
     });
 
     it("should return the false if the attachment field doesn't have attachments being processed", () => {
@@ -416,7 +414,7 @@ describe("Records - Selectors", () => {
       };
       const stateWithRecordAttachments = fromJS({ records: { cases: { recordAttachments: { ...attachmentFields } } } });
 
-      expect(getIsProcessingAttachments(stateWithRecordAttachments, RECORD_PATH.cases, "field_1")).to.be.false;
+      expect(getIsProcessingAttachments(stateWithRecordAttachments, RECORD_PATH.cases, "field_1")).toBe(false);
     });
   });
 
@@ -427,7 +425,7 @@ describe("Records - Selectors", () => {
       };
       const stateWithRecordAttachments = fromJS({ records: { cases: { recordAttachments: { ...attachmentFields } } } });
 
-      expect(getIsPendingAttachments(stateWithRecordAttachments, RECORD_PATH.cases, "field_1")).to.be.true;
+      expect(getIsPendingAttachments(stateWithRecordAttachments, RECORD_PATH.cases, "field_1")).toBe(true);
     });
 
     it("should return the false if the attachment field doesn't have pending attachments", () => {
@@ -436,7 +434,7 @@ describe("Records - Selectors", () => {
       };
       const stateWithRecordAttachments = fromJS({ records: { cases: { recordAttachments: { ...attachmentFields } } } });
 
-      expect(getIsPendingAttachments(stateWithRecordAttachments, RECORD_PATH.cases, "field_1")).to.be.false;
+      expect(getIsPendingAttachments(stateWithRecordAttachments, RECORD_PATH.cases, "field_1")).toBe(false);
     });
   });
 
@@ -444,11 +442,11 @@ describe("Records - Selectors", () => {
     it("should return the potentialMatches values", () => {
       const expected = fromJS(potentialMatches);
 
-      expect(getCasesPotentialMatches(stateWithRecords)).to.deep.equals(expected);
+      expect(getCasesPotentialMatches(stateWithRecords)).toEqual(expected);
     });
 
     it("should return empty object", () => {
-      expect(getCasesPotentialMatches(stateWithoutRecords)).to.be.empty;
+      expect(getCasesPotentialMatches(stateWithoutRecords).size).toBe(0);
     });
   });
 
@@ -469,17 +467,17 @@ describe("Records - Selectors", () => {
         }
       ]);
 
-      expect(getMatchedTraces(stateWithRecords)).to.deep.equals(expected);
+      expect(getMatchedTraces(stateWithRecords)).toEqual(expected);
     });
 
     it("should return empty object", () => {
-      expect(getMatchedTraces(stateWithoutRecords)).to.be.empty;
+      expect(getMatchedTraces(stateWithoutRecords).size).toBe(0);
     });
   });
 
   describe("getLoadingCasesPotentialMatches", () => {
     it("should return the loading value for potentialMatches object", () => {
-      expect(getLoadingCasesPotentialMatches(stateWithRecords)).to.be.false;
+      expect(getLoadingCasesPotentialMatches(stateWithRecords)).toBe(false);
     });
   });
 
@@ -487,11 +485,11 @@ describe("Records - Selectors", () => {
     it("should return the potentialMatches values", () => {
       const expected = fromJS(potentialMatches[0]);
 
-      expect(getMatchedTrace(stateWithRecords, "12345")).to.deep.equals(expected);
+      expect(getMatchedTrace(stateWithRecords, "12345")).toEqual(expected);
     });
 
     it("should return empty object", () => {
-      expect(getMatchedTrace(stateWithoutRecords)).to.be.empty;
+      expect(getMatchedTrace(stateWithoutRecords).size).toBe(0);
     });
   });
 });

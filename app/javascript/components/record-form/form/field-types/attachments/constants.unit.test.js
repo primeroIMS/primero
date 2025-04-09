@@ -6,12 +6,12 @@ describe("record-form/form/field-types/attachments/constants", () => {
   describe("constants", () => {
     let clone;
 
-    before(() => {
+    beforeAll(() => {
       clone = { ...constants };
     });
 
-    after(() => {
-      expect(clone).to.be.empty;
+    afterAll(() => {
+      expect(Object.keys(clone)).toHaveLength(0);
     });
 
     [
@@ -22,7 +22,7 @@ describe("record-form/form/field-types/attachments/constants", () => {
       "ATTACHMENT_ACCEPTED_TYPES"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
-        expect(constants).to.have.property(property);
+        expect(constants).toHaveProperty(property);
         delete clone[property];
       });
     });
@@ -31,10 +31,10 @@ describe("record-form/form/field-types/attachments/constants", () => {
       const clonedAcceptedTypes = { ...constants.ATTACHMENT_ACCEPTED_TYPES };
 
       ["audio", "image", "document"].forEach(property => {
-        expect(clonedAcceptedTypes).to.have.property(property);
+        expect(clonedAcceptedTypes).toHaveProperty(property);
         delete clonedAcceptedTypes[property];
       });
-      expect(clonedAcceptedTypes).to.be.empty;
+      expect(Object.keys(clonedAcceptedTypes)).toHaveLength(0);
     });
   });
 });

@@ -16,6 +16,6 @@ describe("<ReportForm>/utils/buildReportFields()", () => {
       }
     ];
 
-    expect(buildReportFields(["test"], REPORT_FIELD_TYPES.horizontal)).to.deep.equal(expected);
+    expect(buildReportFields(["test"], REPORT_FIELD_TYPES.horizontal)).toEqual(expected);
   });
 });

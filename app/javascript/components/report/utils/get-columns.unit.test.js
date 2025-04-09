@@ -23,7 +23,7 @@ describe("<Report /> - utils", () => {
       const qtyColumns = 1;
       const qtyRows = 1;
 
-      expect(getColumns(data, totalLabel, qtyColumns, qtyRows)).to.deep.equals(["column1", "column2"]);
+      expect(getColumns(data, totalLabel, qtyColumns, qtyRows)).toEqual(["column1", "column2"]);
     });
 
     it("returns an array of columns for the first level of nesting", () => {
@@ -57,7 +57,7 @@ describe("<Report /> - utils", () => {
       const qtyColumns = 2;
       const qtyRows = 2;
 
-      expect(getColumns(data, totalLabel, qtyColumns, qtyRows)).to.deep.equals(["column1", "column2"]);
+      expect(getColumns(data, totalLabel, qtyColumns, qtyRows)).toEqual(["column1", "column2"]);
     });
   });
 });

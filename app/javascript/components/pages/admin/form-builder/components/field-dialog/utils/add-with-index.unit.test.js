@@ -7,6 +7,6 @@ describe("addWithIndex", () => {
     const original = ["a", "b", "c"];
     const expected = ["a", "b", "d", "c"];
 
-    expect(addWithIndex(original, 2, "d")).to.deep.equals(expected);
+    expect(addWithIndex(original, 2, "d")).toEqual(expected);
   });
 });

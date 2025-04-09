@@ -21,7 +21,7 @@ describe("<LookupsList /> - pages/admin/lookups-list/reducer", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_LOOKUPS_SUCCESS", () => {
@@ -37,7 +37,7 @@ describe("<LookupsList /> - pages/admin/lookups-list/reducer", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_LOOKUPS_FAILURE", () => {
@@ -52,7 +52,7 @@ describe("<LookupsList /> - pages/admin/lookups-list/reducer", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_LOOKUPS_FINISHED", () => {
@@ -67,7 +67,7 @@ describe("<LookupsList /> - pages/admin/lookups-list/reducer", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle CLEAR_METADATA", () => {
@@ -81,6 +81,6 @@ describe("<LookupsList /> - pages/admin/lookups-list/reducer", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

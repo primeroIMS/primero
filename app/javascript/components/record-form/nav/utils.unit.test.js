@@ -8,7 +8,7 @@ import buildFormGroupData from "./utils";
 
 describe("<Nav /> - utils", () => {
   describe("buildFormGroupData", () => {
-    context("when is not a violation from", () => {
+    describe("when is not a violation from", () => {
       it("return the form passed", () => {
         const formGroup = OrderedMap({
           1: NavRecord({
@@ -21,10 +21,10 @@ describe("<Nav /> - utils", () => {
           })
         });
 
-        expect(buildFormGroupData(formGroup)).to.deep.equal(formGroup);
+        expect(buildFormGroupData(formGroup)).toEqual(formGroup);
       });
     });
-    context("when is a violation from", () => {
+    describe("when is a violation from", () => {
       it("return the violation from", () => {
         const formGroup = OrderedMap({
           1: NavRecord({
@@ -38,11 +38,11 @@ describe("<Nav /> - utils", () => {
           })
         });
 
-        expect(buildFormGroupData(formGroup).first().formId).to.be.equal("killing_violation_wrapper");
-        expect(buildFormGroupData(formGroup).size).to.be.equal(1);
+        expect(buildFormGroupData(formGroup).first().formId).toBe("killing_violation_wrapper");
+        expect(buildFormGroupData(formGroup).size).toBe(1);
       });
     });
-    context("when display_conditions exists", () => {
+    describe("when display_conditions exists", () => {
       it("return the forms depends of condition", () => {
         const formGroup = OrderedMap({
           1: NavRecord({
@@ -90,8 +90,8 @@ describe("<Nav /> - utils", () => {
 
         const [...forms] = buildFormGroupData(formGroup, values).values();
 
-        expect(forms.map(fs => fs.formId)).to.deep.equal(["killing_violation_wrapper", "other_form"]);
-        expect(buildFormGroupData(formGroup, values).size).to.be.equal(2);
+        expect(forms.map(fs => fs.formId)).toEqual(["killing_violation_wrapper", "other_form"]);
+        expect(buildFormGroupData(formGroup, values).size).toBe(2);
       });
     });
   });

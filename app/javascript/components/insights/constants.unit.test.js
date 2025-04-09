@@ -1,14 +1,12 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { expect } from "chai";
-
 import * as constants from "./constants";
 
 describe("<Report /> - constants", () => {
   const clone = { ...constants };
 
   it("should have known properties", () => {
-    expect(clone).to.be.an("object");
+    expect(typeof clone).toEqual("object");
     [
       "AGENCY_DISPLAY_NAME",
       "AGENCY",
@@ -89,17 +87,17 @@ describe("<Report /> - constants", () => {
       "MODULE_ID",
       "MODULE_ID_NAME"
     ].forEach(property => {
-      expect(clone).to.have.property(property);
+      expect(clone).toHaveProperty(property);
       delete clone[property];
     });
 
-    expect(clone).to.be.empty;
+    expect(Object.keys(clone)).toHaveLength(0);
   });
 
   it("should have properties for INSIGHTS_CONFIG", () => {
     const clonedInsightsConfig = { ...constants.INSIGHTS_CONFIG };
 
-    expect(Object.keys(clonedInsightsConfig)).to.eql([
+    expect(Object.keys(clonedInsightsConfig)).toEqual([
       "violations",
       "ghn_report",
       "individual_children",

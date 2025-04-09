@@ -15,11 +15,11 @@ describe("Verifying utils", () => {
       "valuesWithHiddenAttribute",
       "isEmptyOrAllDestroyed"
     ].forEach(property => {
-      expect(clonedHelpers).to.have.property(property);
+      expect(clonedHelpers).toHaveProperty(property);
       delete clonedHelpers[property];
     });
 
-    expect(clonedHelpers).to.deep.equal({});
+    expect(clonedHelpers).toEqual({});
   });
 });
 
@@ -71,7 +71,7 @@ describe("valuesWithDisplayConditions", () => {
 
     const options = helpers.valuesWithDisplayConditions(values, displayConditions);
 
-    expect(options).to.deep.equal(expected);
+    expect(options).toEqual(expected);
   });
 
   it("should return empty array if values is empty no matters if displayConditions is present", () => {
@@ -83,7 +83,7 @@ describe("valuesWithDisplayConditions", () => {
     ];
     const options = helpers.valuesWithDisplayConditions(values, displayConditions);
 
-    expect(options).to.be.empty;
+    expect(Object.keys(options)).toHaveLength(0);
   });
 
   it("should return values if displayConditions is not present", () => {
@@ -102,7 +102,7 @@ describe("valuesWithDisplayConditions", () => {
     const displayConditions = [];
     const options = helpers.valuesWithDisplayConditions(values, displayConditions);
 
-    expect(options).to.deep.equal(values);
+    expect(options).toEqual(values);
   });
 });
 
@@ -146,27 +146,27 @@ describe("fieldsToRender", () => {
     ];
     const options = helpers.fieldsToRender(listFields, fields);
 
-    expect(options).to.deep.equal(expected);
+    expect(options).toEqual(expected);
   });
 });
 
 describe("isTracesSubform", () => {
   it("should return true if it is the traces subform", () => {
-    expect(helpers.isTracesSubform("tracing_requests", { unique_id: TRACES_SUBFORM_UNIQUE_ID })).to.be.true;
+    expect(helpers.isTracesSubform("tracing_requests", { unique_id: TRACES_SUBFORM_UNIQUE_ID })).toBe(true);
   });
 
   it("should return false if it is not the traces subform", () => {
-    expect(helpers.isTracesSubform("tracing_requests", { unique_id: "some_form_id" })).to.be.false;
+    expect(helpers.isTracesSubform("tracing_requests", { unique_id: "some_form_id" })).toBe(false);
   });
 });
 
 describe("isEmptyOrAllDestroyed", () => {
   it("should return true all removed or destroyed", () => {
-    expect(helpers.isEmptyOrAllDestroyed([{ _destroy: true }])).to.be.true;
+    expect(helpers.isEmptyOrAllDestroyed([{ _destroy: true }])).toBe(true);
   });
 
   it("should return false subforms", () => {
-    expect(helpers.isEmptyOrAllDestroyed([{ _destroy: true }, { id: "SUBFORM_1" }])).to.be.false;
+    expect(helpers.isEmptyOrAllDestroyed([{ _destroy: true }, { id: "SUBFORM_1" }])).toBe(false);
   });
 });
 
@@ -225,6 +225,6 @@ describe("valuesWithHiddenAttribute", () => {
 
     const options = helpers.valuesWithHiddenAttribute(values, displayConditions);
 
-    expect(options).to.deep.equal(expected);
+    expect(options).toEqual(expected);
   });
 });

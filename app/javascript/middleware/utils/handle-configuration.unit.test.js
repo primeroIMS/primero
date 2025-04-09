@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { stub, createMockStore, spy } from "../../test-utils";
+import { createMockStore } from "../../test-utils";
 import { generate } from "../../components/notifier";
 
 import handleConfiguration from "./handle-configuration";
@@ -10,20 +10,18 @@ describe("middleware/utils/handle-configuration.js", () => {
   const response = { url: "http://test.com/health/api" };
   const options = { baseUrl: "/api/v2" };
   const rest = {
-    fetchSinglePayload: spy(),
-    fetchStatus: spy(),
+    fetchSinglePayload: jest.fn(),
+    fetchStatus: jest.fn(),
     type: "TEST"
   };
-  let dispatch;
 
   beforeEach(() => {
-    stub(generate, "messageKey").returns(4);
-    dispatch = spy(store, "dispatch");
+    jest.spyOn(generate, "messageKey").mockReturnValue(4);
+    jest.spyOn(store, "dispatch");
   });
 
   afterEach(() => {
-    dispatch.restore();
-    generate.messageKey.restore();
+    jest.restoreAllMocks();
     store.clearActions();
   });
 
@@ -31,12 +29,12 @@ describe("middleware/utils/handle-configuration.js", () => {
     handleConfiguration(503, store, options, response, rest);
     const actions = store.getActions();
 
-    expect(actions[0]).to.deep.equals({
+    expect(actions[0]).toEqual({
       type: "application/DISABLE_NAVIGATION",
       payload: true
     });
 
-    expect(actions[1]).to.deep.equals({
+    expect(actions[1]).toEqual({
       type: "notifications/ENQUEUE_SNACKBAR",
       payload: {
         noDismiss: true,
@@ -51,7 +49,7 @@ describe("middleware/utils/handle-configuration.js", () => {
 
     const actions = store.getActions();
 
-    expect(actions[0]).to.deep.equals({
+    expect(actions[0]).toEqual({
       type: "notifications/ENQUEUE_SNACKBAR",
       payload: {
         options: { variant: "success", key: 4 },

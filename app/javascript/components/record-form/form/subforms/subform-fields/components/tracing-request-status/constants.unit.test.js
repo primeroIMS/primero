@@ -4,12 +4,14 @@ import * as constants from "./constants";
 
 describe("<RecordForm>/form/subforms/<SubformFields>/components/<TracingRequestStatus> - constants", () => {
   it("should have known constant", () => {
+    const clone = { ...constants };
+
     ["NAME"].forEach(property => {
-      expect(constants).to.have.property(property);
-      expect(constants[property]).to.be.a("string");
-      delete constants[property];
+      expect(clone).toHaveProperty(property);
+      expect(typeof clone[property]).toBe("string");
+      delete clone[property];
     });
 
-    expect(constants).to.be.empty;
+    expect(Object.keys(clone)).toHaveLength(0);
   });
 });

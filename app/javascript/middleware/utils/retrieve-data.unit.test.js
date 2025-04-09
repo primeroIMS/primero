@@ -1,13 +1,35 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { stub, createMockStore } from "../../test-utils";
+import { createMockStore } from "../../test-utils";
 import * as syncIndexedDB from "../../db/sync";
 
 import retrieveData from "./retrieve-data";
 import * as offlineDispatchSuccess from "./offline-dispatch-success";
 
+jest.mock("./offline-dispatch-success", () => {
+  const originalModule = jest.requireActual("./offline-dispatch-success");
+
+  return {
+    __esModule: true,
+    ...originalModule
+  };
+});
+
+jest.mock("../../db/sync", () => {
+  const originalModule = jest.requireActual("../../db/sync");
+
+  return {
+    __esModule: true,
+    ...originalModule
+  };
+});
+
 describe("middleware/utils/retrieve-data.js", () => {
   const { store } = createMockStore();
+
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
 
   it("sync indexeddb and calls offlineDispatchSuccess", async () => {
     const action = {
@@ -19,14 +41,13 @@ describe("middleware/utils/retrieve-data.js", () => {
     const resolvedData = {
       data: [{ field: "test" }]
     };
-    const syncDB = stub(syncIndexedDB, "default").resolves(resolvedData);
-    const success = stub(offlineDispatchSuccess, "default");
+
+    jest.spyOn(syncIndexedDB, "default").mockResolvedValue(resolvedData);
+    const success = jest.spyOn(offlineDispatchSuccess, "default");
 
     await retrieveData(store, action);
 
-    expect(success).to.have.been.calledWith(store, action, resolvedData);
-    syncDB.restore();
-    success.restore();
+    expect(success).toHaveBeenCalledWith(store, action, resolvedData);
   });
 
   it("displays errors in console", async () => {
@@ -37,14 +58,12 @@ describe("middleware/utils/retrieve-data.js", () => {
       }
     };
 
-    const consoleError = stub(console, "error");
-    const syncDB = stub(syncIndexedDB, "default").rejects("error happened");
+    const consoleError = jest.spyOn(global.console, "error");
+
+    jest.spyOn(syncIndexedDB, "default").mockRejectedValue("error happened");
 
     await retrieveData(store, action);
 
-    expect(consoleError).to.have.been.called;
-
-    consoleError.restore();
-    syncDB.restore();
+    expect(consoleError).toHaveBeenCalled();
   });
 });

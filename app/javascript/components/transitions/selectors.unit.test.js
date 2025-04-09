@@ -36,14 +36,14 @@ describe("<Transitions /> - Selectors", () => {
     it("should return list of transitions", () => {
       const records = selectors.selectTransitions(state, recordType, "6b0018e7-d421-4d6b-80bf-ca4cbf488907");
 
-      expect(records).to.deep.equal(dataExpected);
+      expect(records).toEqual(dataExpected);
     });
 
     it("should return empty list when no transitions", () => {
       const expected = List([]);
       const records = selectors.selectTransitions(state, recordType, 3);
 
-      expect(records).to.deep.equal(expected);
+      expect(records).toEqual(expected);
     });
   });
 });

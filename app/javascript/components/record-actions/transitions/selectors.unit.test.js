@@ -25,13 +25,13 @@ describe("<Transitions /> - Selectors", () => {
       const expected = [{ label: "primero_cp", value: "primero_cp" }];
       const values = selectors.getUsersByTransitionType(stateWithRecords, "reassign");
 
-      expect(values).to.deep.equal(expected);
+      expect(values).toEqual(expected);
     });
 
     it("should return empty when there are not users in store", () => {
       const errors = selectors.getUsersByTransitionType(stateWithNoRecords);
 
-      expect(errors).to.be.equal(fromJS([]));
+      expect(errors).toBe(fromJS([]));
     });
   });
 
@@ -40,25 +40,25 @@ describe("<Transitions /> - Selectors", () => {
       const expected = ["Test error message"];
       const values = selectors.getErrorsByTransitionType(stateWithRecords, "reassign");
 
-      expect(values).to.deep.equal(expected);
+      expect(values).toEqual(expected);
     });
 
     it("should return empty list when there are not messages in store", () => {
       const errors = selectors.getErrorsByTransitionType(stateWithNoRecords);
 
-      expect(errors).to.be.equal(fromJS([]));
+      expect(errors).toBe(fromJS([]));
     });
   });
 
   describe("deprecated getMockUsers", () => {
     it("should be undefined", () => {
-      expect(selectors.getMockUsers).to.be.equal(undefined);
+      expect(selectors.getMockUsers).toBeUndefined();
     });
   });
 
   describe("deprecated getAssignUsers", () => {
     it("should be undefined", () => {
-      expect(selectors.getAssignUsers).to.be.equal(undefined);
+      expect(selectors.getAssignUsers).toBeUndefined();
     });
   });
 
@@ -66,13 +66,13 @@ describe("<Transitions /> - Selectors", () => {
     it("should return error messages", () => {
       const values = selectors.getLoadingTransitionType(stateWithRecords, "reassign");
 
-      expect(values).to.be.true;
+      expect(values).toBe(true);
     });
 
     it("should return undefined when there are not messages in store", () => {
       const errors = selectors.getLoadingTransitionType(stateWithNoRecords, "referral");
 
-      expect(errors).to.be.false;
+      expect(errors).toBe(false);
     });
   });
 });

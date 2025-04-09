@@ -14,7 +14,7 @@ describe("<AgenciesForm /> - Reducers", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_AGENCY_FAILURE", () => {
@@ -25,7 +25,7 @@ describe("<AgenciesForm /> - Reducers", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_AGENCY_SUCCESS", () => {
@@ -42,7 +42,7 @@ describe("<AgenciesForm /> - Reducers", () => {
 
     const newState = reducer(fromJS({ selectedAgency: {} }), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_AGENCY_FINISHED", () => {
@@ -53,7 +53,7 @@ describe("<AgenciesForm /> - Reducers", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle CLEAR_SELECTED_AGENCY", () => {
@@ -68,7 +68,7 @@ describe("<AgenciesForm /> - Reducers", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SAVE_AGENCY_STARTED", () => {
@@ -79,7 +79,7 @@ describe("<AgenciesForm /> - Reducers", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SAVE_AGENCY_FINISHED", () => {
@@ -90,6 +90,6 @@ describe("<AgenciesForm /> - Reducers", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

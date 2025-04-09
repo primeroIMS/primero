@@ -17,7 +17,7 @@ describe("<RecordList /> - Reducers", () => {
     };
     const newState = nsReducer(Map({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle RECORDS_FAILURE", () => {
@@ -28,7 +28,7 @@ describe("<RecordList /> - Reducers", () => {
     };
     const newState = nsReducer(Map({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle RECORDS_SUCCESS", () => {
@@ -44,7 +44,7 @@ describe("<RecordList /> - Reducers", () => {
 
     const newState = nsReducer(Map({ data: List([]) }), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should append the selectedRecord when RECORDS_SUCCESS", () => {
@@ -65,7 +65,7 @@ describe("<RecordList /> - Reducers", () => {
 
     const newState = nsReducer(Map({ data, selectedRecord: "abc2" }), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should merge the selectedRecord when RECORDS_SUCCESS", () => {
@@ -89,7 +89,7 @@ describe("<RecordList /> - Reducers", () => {
 
     const newState = nsReducer(Map({ data, selectedRecord: "abc1" }), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should replace data if there is no selectedRecord when RECORDS_SUCCESS", () => {
@@ -108,7 +108,7 @@ describe("<RecordList /> - Reducers", () => {
 
     const newState = nsReducer(Map({ data }), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle RECORDS_FINISHED", () => {
@@ -119,7 +119,7 @@ describe("<RecordList /> - Reducers", () => {
     };
     const newState = nsReducer(Map({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SAVE_RECORD_STARTED", () => {
@@ -133,7 +133,7 @@ describe("<RecordList /> - Reducers", () => {
 
     const newState = nsReducer(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SAVE_RECORD_FINISHED", () => {
@@ -147,7 +147,7 @@ describe("<RecordList /> - Reducers", () => {
 
     const newState = nsReducer(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SAVE_RECORD_FAILURE", () => {
@@ -161,7 +161,7 @@ describe("<RecordList /> - Reducers", () => {
 
     const newState = nsReducer(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_RECORD_ALERTS", () => {
@@ -194,7 +194,7 @@ describe("<RecordList /> - Reducers", () => {
 
     const newState = nsReducer(defaultState, action);
 
-    expect(newState).to.deep.equals(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle CLEAR_METADATA", () => {
@@ -208,7 +208,7 @@ describe("<RecordList /> - Reducers", () => {
 
     const newState = nsReducer(fromJS({}), action);
 
-    expect(newState).to.deep.equals(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SET_SELECTED_RECORD", () => {
@@ -223,7 +223,7 @@ describe("<RecordList /> - Reducers", () => {
 
     const newState = nsReducer(fromJS({}), action);
 
-    expect(newState).to.deep.equals(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle CLEAR_SELECTED_RECORD", () => {
@@ -235,7 +235,7 @@ describe("<RecordList /> - Reducers", () => {
 
     const newState = nsReducer(fromJS({ selectedRecord: "123" }), action);
 
-    expect(newState).to.deep.equals(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SET_ATTACHMENT_STATUS", () => {
@@ -250,7 +250,7 @@ describe("<RecordList /> - Reducers", () => {
 
     const newState = nsReducer(fromJS({ recordAttachments: {} }), action);
 
-    expect(newState).to.deep.equals(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle CLEAR_RECORD_ATTACHMENTS", () => {
@@ -262,7 +262,7 @@ describe("<RecordList /> - Reducers", () => {
 
     const newState = nsReducer(fromJS({ recordAttachments: { field_1: { processing: true } } }), action);
 
-    expect(newState).to.deep.equals(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_TRACE_POTENTIAL_MATCHES_STARTED", () => {
@@ -274,7 +274,7 @@ describe("<RecordList /> - Reducers", () => {
 
     const newState = nsReducer(fromJS({}), action);
 
-    expect(newState).to.deep.equals(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_TRACE_POTENTIAL_MATCHES_SUCCESS", () => {
@@ -298,7 +298,7 @@ describe("<RecordList /> - Reducers", () => {
 
     const newState = nsReducer(fromJS({}), action);
 
-    expect(newState).to.deep.equals(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_TRACE_POTENTIAL_MATCHES_FAILURE", () => {
@@ -310,7 +310,7 @@ describe("<RecordList /> - Reducers", () => {
 
     const newState = nsReducer(fromJS({}), action);
 
-    expect(newState).to.deep.equals(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_TRACE_POTENTIAL_MATCHES_FINISHED", () => {
@@ -322,7 +322,7 @@ describe("<RecordList /> - Reducers", () => {
 
     const newState = nsReducer(fromJS({}), action);
 
-    expect(newState).to.deep.equals(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SET_MACHED_CASE_FOR_TRACE_STARTED", () => {
@@ -334,7 +334,7 @@ describe("<RecordList /> - Reducers", () => {
 
     const newState = nsReducer(fromJS({}), action);
 
-    expect(newState).to.deep.equals(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SET_MACHED_CASE_FOR_TRACE_STARTED", () => {
@@ -346,7 +346,7 @@ describe("<RecordList /> - Reducers", () => {
 
     const newState = nsReducer(fromJS({}), action);
 
-    expect(newState).to.deep.equals(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SET_MACHED_CASE_FOR_TRACE_STARTED", () => {
@@ -358,7 +358,7 @@ describe("<RecordList /> - Reducers", () => {
 
     const newState = nsReducer(fromJS({}), action);
 
-    expect(newState).to.deep.equals(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SET_MACHED_CASE_FOR_TRACE_SUCCESS", () => {
@@ -375,7 +375,7 @@ describe("<RecordList /> - Reducers", () => {
 
     const newState = nsReducer(fromJS({ data: [{ id: "12345", tracing_request_subform_section: [trace] }] }), action);
 
-    expect(newState).to.deep.equals(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SET_MACHED_CASE_FOR_TRACE_FAILURE", () => {
@@ -387,7 +387,7 @@ describe("<RecordList /> - Reducers", () => {
 
     const newState = nsReducer(fromJS({}), action);
 
-    expect(newState).to.deep.equals(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SET_MACHED_CASE_FOR_TRACE_FINISHED", () => {
@@ -399,7 +399,7 @@ describe("<RecordList /> - Reducers", () => {
 
     const newState = nsReducer(fromJS({}), action);
 
-    expect(newState).to.deep.equals(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_TRACING_REQUEST_TRACES_STARTED", () => {
@@ -411,7 +411,7 @@ describe("<RecordList /> - Reducers", () => {
 
     const newState = nsReducer(fromJS({}), action);
 
-    expect(newState).to.deep.equals(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_TRACING_REQUEST_TRACES_SUCCESS", () => {
@@ -451,7 +451,7 @@ describe("<RecordList /> - Reducers", () => {
       action
     );
 
-    expect(newState).to.deep.equals(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle ", () => {
@@ -463,7 +463,7 @@ describe("<RecordList /> - Reducers", () => {
 
     const newState = nsReducer(fromJS({}), action);
 
-    expect(newState).to.deep.equals(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_TRACING_REQUEST_TRACES_FINISHED", () => {
@@ -475,7 +475,7 @@ describe("<RecordList /> - Reducers", () => {
 
     const newState = nsReducer(fromJS({}), action);
 
-    expect(newState).to.deep.equals(expected);
+    expect(newState).toEqual(expected);
   });
 
   describe("when record type is cases", () => {
@@ -495,7 +495,7 @@ describe("<RecordList /> - Reducers", () => {
 
       const newState = casesReducer(fromJS({}), action);
 
-      expect(newState).to.deep.equals(fromJS({ incidentFromCase: { data } }));
+      expect(newState).toEqual(fromJS({ incidentFromCase: { data } }));
     });
 
     it("should handle SET_CASE_ID_FOR_INCIDENT", () => {
@@ -515,7 +515,7 @@ describe("<RecordList /> - Reducers", () => {
 
       const newState = casesReducer(fromJS({ incidentFromCase }), action);
 
-      expect(newState).to.deep.equals(
+      expect(newState).toEqual(
         fromJS({
           incidentFromCase: {
             ...incidentFromCase,
@@ -539,7 +539,7 @@ describe("<RecordList /> - Reducers", () => {
 
       const newState = casesReducer(stateWithIncidentFromCase, action);
 
-      expect(newState).to.deep.equals(fromJS({}));
+      expect(newState).toEqual(fromJS({}));
     });
 
     it("should handle SET_CASE_ID_REDIRECT", () => {
@@ -547,7 +547,7 @@ describe("<RecordList /> - Reducers", () => {
       const action = { type: "cases/SET_CASE_ID_REDIRECT", payload: { json: { data: { id: "case-id-1" } } } };
       const newState = casesReducer(incidentFromCase, action);
 
-      expect(newState).to.deep.equals(fromJS({ incidentFromCase: { incident_case_id: "case-id-1" } }));
+      expect(newState).toEqual(fromJS({ incidentFromCase: { incident_case_id: "case-id-1" } }));
     });
 
     it("should handle FETCH_CASES_POTENTIAL_MATCHES_STARTED", () => {
@@ -561,7 +561,7 @@ describe("<RecordList /> - Reducers", () => {
 
       const newState = nsReducer(defaultState, action);
 
-      expect(newState).to.deep.equal(expected);
+      expect(newState).toEqual(expected);
     });
 
     it("should handle FETCH_CASES_POTENTIAL_MATCHES_FINISHED", () => {
@@ -575,7 +575,7 @@ describe("<RecordList /> - Reducers", () => {
 
       const newState = nsReducer(defaultState, action);
 
-      expect(newState).to.deep.equal(expected);
+      expect(newState).toEqual(expected);
     });
 
     it("should handle FETCH_CASES_POTENTIAL_MATCHES_FAILURE", () => {
@@ -589,7 +589,7 @@ describe("<RecordList /> - Reducers", () => {
 
       const newState = nsReducer(defaultState, action);
 
-      expect(newState).to.deep.equal(expected);
+      expect(newState).toEqual(expected);
     });
   });
 
@@ -604,7 +604,7 @@ describe("<RecordList /> - Reducers", () => {
 
     const newState = nsReducer(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_CASE_MATCHED_TRACES_FINISHED", () => {
@@ -618,7 +618,7 @@ describe("<RecordList /> - Reducers", () => {
 
     const newState = nsReducer(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_CASE_MATCHED_TRACES_FAILURE", () => {
@@ -632,7 +632,7 @@ describe("<RecordList /> - Reducers", () => {
 
     const newState = nsReducer(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_CASE_MATCHED_TRACES_SUCCESS", () => {
@@ -659,7 +659,7 @@ describe("<RecordList /> - Reducers", () => {
 
     const newState = nsReducer(defaultState, action);
 
-    expect(newState).to.deep.equals(fromJS({ matchedTraces: { data } }));
+    expect(newState).toEqual(fromJS({ matchedTraces: { data } }));
   });
 
   it("should handle CLEAR_MATCHED_TRACES", () => {
@@ -668,7 +668,7 @@ describe("<RecordList /> - Reducers", () => {
 
     const newState = nsReducer(fromJS({ matchedTraces: { data: [{ id: "12345" }] } }), action);
 
-    expect(newState).to.deep.equals(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle CLEAR_POTENTIAL_MATCHES", () => {
@@ -677,7 +677,7 @@ describe("<RecordList /> - Reducers", () => {
 
     const newState = nsReducer(fromJS({ potentialMatches: { data: [{ id: "12345" }] } }), action);
 
-    expect(newState).to.deep.equals(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle EXTERNAL_SYNC_SUCCESS", () => {
@@ -713,7 +713,7 @@ describe("<RecordList /> - Reducers", () => {
       action
     );
 
-    expect(newState).to.deep.equals(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle CREATE_CASE_FROM_FAMILY_MEMBER_STARTED", () => {
@@ -722,7 +722,7 @@ describe("<RecordList /> - Reducers", () => {
 
     const newState = nsReducer(fromJS({}), action);
 
-    expect(newState).to.deep.equals(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle CREATE_CASE_FROM_FAMILY_MEMBER_SUCCESS", () => {
@@ -746,7 +746,7 @@ describe("<RecordList /> - Reducers", () => {
 
     const newState = nsReducer(initialState, action);
 
-    expect(newState).to.deep.equals(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle CREATE_CASE_FROM_FAMILY_MEMBER_FAILURE", () => {
@@ -755,7 +755,7 @@ describe("<RecordList /> - Reducers", () => {
 
     const newState = nsReducer(fromJS({}), action);
 
-    expect(newState).to.deep.equals(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle CREATE_CASE_FROM_FAMILY_MEMBER_FINISHED", () => {
@@ -764,7 +764,7 @@ describe("<RecordList /> - Reducers", () => {
 
     const newState = nsReducer(fromJS({}), action);
 
-    expect(newState).to.deep.equals(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle CREATE_CASE_FROM_FAMILY_DETAIL_SUCCESS", () => {
@@ -810,7 +810,7 @@ describe("<RecordList /> - Reducers", () => {
 
     const newState = nsReducer(initialState, action);
 
-    expect(newState).to.deep.equals(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle DELETE_ALERT_FROM_RECORD_SUCCESS", () => {
@@ -838,6 +838,6 @@ describe("<RecordList /> - Reducers", () => {
     };
     const newState = nsReducer(initialState, action);
 
-    expect(newState).to.deep.equals(newState);
+    expect(newState).toEqual(newState);
   });
 });

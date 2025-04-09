@@ -10,11 +10,11 @@ describe("<ViolationItem /> - utils", () => {
       const clonedHelpers = { ...helpers };
 
       ["getViolationTallyLabel"].forEach(property => {
-        expect(clonedHelpers).to.have.property(property);
+        expect(clonedHelpers).toHaveProperty(property);
         delete clonedHelpers[property];
       });
 
-      expect(clonedHelpers).to.deep.equal({});
+      expect(clonedHelpers).toEqual({});
     });
   });
 
@@ -74,19 +74,19 @@ describe("<ViolationItem /> - utils", () => {
     const locale = "en";
 
     it("should return a short violation values as label", () => {
-      expect(helpers.getViolationTallyLabel(fields, currentValues, locale)).to.deep.equal(
+      expect(helpers.getViolationTallyLabel(fields, currentValues, locale)).toEqual(
         "violation count: Boys: (1) Girls: (2)"
       );
     });
 
     it("should return the values translated as label", () => {
-      expect(helpers.getViolationTallyLabel(fields, currentValues, "fr")).to.deep.equal(
+      expect(helpers.getViolationTallyLabel(fields, currentValues, "fr")).toEqual(
         "Nombre de violations: Garçons: (1) Filles: (2)"
       );
     });
 
     it("should return null if violation tally is not present", () => {
-      expect(helpers.getViolationTallyLabel(fields.slice(0, 3), currentValues, locale)).to.equal(null);
+      expect(helpers.getViolationTallyLabel(fields.slice(0, 3), currentValues, locale)).toBeNull();
     });
   });
 });

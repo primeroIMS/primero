@@ -6,7 +6,7 @@ describe("<RolesList /> - Actions", () => {
   it("should have known properties", () => {
     const clonedActions = { ...actions };
 
-    expect(clonedActions).to.be.an("object");
+    expect(typeof clonedActions).toEqual("object");
     [
       "CLEAR_METADATA",
       "ROLES",
@@ -16,10 +16,10 @@ describe("<RolesList /> - Actions", () => {
       "ROLES_FINISHED",
       "SET_ROLES_FILTER"
     ].forEach(property => {
-      expect(clonedActions).to.have.property(property);
+      expect(clonedActions).toHaveProperty(property);
       delete clonedActions[property];
     });
 
-    expect(clonedActions).to.be.empty;
+    expect(Object.keys(clonedActions)).toHaveLength(0);
   });
 });

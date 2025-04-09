@@ -6,12 +6,12 @@ describe("pages/account/actions.js", () => {
   describe("properties", () => {
     let clone;
 
-    before(() => {
+    beforeAll(() => {
       clone = { ...actions };
     });
 
-    after(() => {
-      expect(clone).to.be.empty;
+    afterAll(() => {
+      expect(Object.keys(clone)).toHaveLength(0);
     });
 
     [
@@ -27,7 +27,7 @@ describe("pages/account/actions.js", () => {
       "UPDATE_CURRENT_USER_SUCCESS"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
-        expect(actions).to.have.property(property);
+        expect(actions).toHaveProperty(property);
         delete clone[property];
       });
     });

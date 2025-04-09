@@ -3,7 +3,6 @@
 import { fromJS, OrderedMap } from "immutable";
 
 import { FieldRecord } from "../record-form/records";
-import { stub } from "../../test-utils";
 
 import { ChangeLogsRecord } from "./records";
 import { buildDataItems, buildSubformDataItems } from "./utils";
@@ -216,7 +215,7 @@ describe("ChangeLogs - Utils", () => {
     ];
 
     it("should return an array of object with logs ready to be render", () => {
-      stub(Math, "random").returns(1234);
+      global.Math.random = () => 0.1234;
       const response = buildDataItems(
         recordChangeLogs,
         allFields,
@@ -229,8 +228,7 @@ describe("ChangeLogs - Utils", () => {
 
       // eslint-disable-next-line no-param-reassign
       response.forEach(obj => delete obj.onClick);
-
-      expect(response).to.deep.equal(result);
+      expect(response).toEqual(result);
     });
   });
 
@@ -293,16 +291,12 @@ describe("ChangeLogs - Utils", () => {
     ];
 
     it("should return an array of object with logs ready to be render", () => {
-      stub(Math, "random").returns(1234);
-      expect(buildSubformDataItems(recordChanges, allFields, allAgencies, lookups, locations, i18n)).to.deep.equal(
-        result
-      );
+      global.Math.random = () => 0.1234;
+      expect(buildSubformDataItems(recordChanges, allFields, allAgencies, lookups, locations, i18n)).toEqual(result);
     });
   });
 
   afterEach(() => {
-    if (Math.random.restore) {
-      Math.random.restore();
-    }
+    jest.resetAllMocks();
   });
 });
