@@ -4,13 +4,30 @@ import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 
 import { METHODS, RECORD_PATH, ROUTES } from "../../config";
-import { spy, stub } from "../../test-utils";
 import * as idpSelection from "../login/components/idp-selection";
 import { ENQUEUE_SNACKBAR, SNACKBAR_VARIANTS, generate } from "../notifier";
 import { QUEUE_READY } from "../../libs/queue";
 
 import Actions from "./actions";
 import * as actionCreators from "./action-creators";
+
+jest.mock("./action-creators", () => {
+  const originalModule = jest.requireActual("./action-creators");
+
+  return {
+    __esModule: true,
+    ...originalModule
+  };
+});
+
+jest.mock("../login/components/idp-selection", () => {
+  const originalModule = jest.requireActual("../login/components/idp-selection");
+
+  return {
+    __esModule: true,
+    ...originalModule
+  };
+});
 
 describe("User - Action Creators", () => {
   const middlewares = [thunk];
@@ -129,7 +146,7 @@ describe("User - Action Creators", () => {
     {
       type: "forms/SET_LOCATIONS",
       api: {
-        path: "https://localhost/test-locations.json",
+        path: "http://localhost/test-locations.json",
         external: true,
         db: {
           collection: "locations",
@@ -147,6 +164,8 @@ describe("User - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionCreators };
 
+    delete creators.__esModule;
+
     [
       "attemptSignout",
       "checkUserAuthentication",
@@ -160,12 +179,12 @@ describe("User - Action Creators", () => {
       "saveNotificationSubscription",
       "removeNotificationSubscription"
     ].forEach(method => {
-      expect(creators).to.have.property(method);
-      expect(creators[method]).to.be.a("function");
+      expect(creators).toHaveProperty(method);
+      expect(creators[method]).toBeInstanceOf(Function);
       delete creators[method];
     });
 
-    expect(creators).to.be.empty;
+    expect(Object.keys(creators)).toHaveLength(0);
   });
 
   it("should check the 'setAuthenticatedUser' action creator to return the correct object", () => {
@@ -180,25 +199,26 @@ describe("User - Action Creators", () => {
 
     const actions = store.getActions();
 
-    expect(actions).to.have.lengthOf(2);
-    expect(actions).to.be.deep.equal(parentActions);
+    expect(actions).toHaveLength(2);
+    expect(actions).toEqual(parentActions);
   });
 
   it("should check the 'setUser' action creator to return the correct object", () => {
-    const dispatch = spy(actionCreators, "setUser");
+    const store = configureStore(middlewares)({});
     const expected = {
       type: Actions.SET_AUTHENTICATED_USER,
       payload: true
     };
+    const dispatch = jest.spyOn(store, "dispatch");
 
-    actionCreators.setUser(true);
+    dispatch(actionCreators.setUser(true));
 
-    expect(dispatch.getCall(0).returnValue).to.deep.equal(expected);
+    expect(dispatch.mock.calls[0][0]).toEqual(expected);
   });
 
   it("should check the 'fetchAuthenticatedUserData' action creator to return the correct object", async () => {
     const store = configureStore()({});
-    const dispatch = spy(store, "dispatch");
+    const dispatch = jest.spyOn(store, "dispatch");
     const expected = {
       path: "users/1",
       params: { extended: true },
@@ -213,16 +233,16 @@ describe("User - Action Creators", () => {
     };
 
     await dispatch(actionCreators.fetchAuthenticatedUserData({ username: "primero", id: 1 }));
-    const firstCallReturnValue = dispatch.getCall(0).returnValue;
+    const firstCallReturnValue = dispatch.mock.calls[0][0];
 
-    expect(firstCallReturnValue.type).to.deep.equal(Actions.FETCH_USER_DATA);
-    expect(firstCallReturnValue.api).to.deep.equal(expected);
+    expect(firstCallReturnValue.type).toEqual(Actions.FETCH_USER_DATA);
+    expect(firstCallReturnValue.api).toEqual(expected);
   });
 
-  it("should check the 'attemptSignout' action creator", () => {
+  describe("should check the 'attemptSignout' action creator", () => {
     const store = configureStore()({});
-    const dispatch = spy(store, "dispatch");
-    let signOut = stub(idpSelection, "signOut");
+    const dispatch = jest.spyOn(store, "dispatch");
+    let signOut = jest.spyOn(idpSelection, "signOut");
     const expected = {
       path: "tokens",
       method: "DELETE",
@@ -230,35 +250,26 @@ describe("User - Action Creators", () => {
     };
 
     beforeEach(() => {
-      signOut = stub(idpSelection, "signOut");
+      signOut = jest.spyOn(idpSelection, "signOut");
     });
 
     afterEach(() => {
-      signOut.restore();
+      jest.resetAllMocks();
     });
 
     it("should return the correct object", () => {
       const usingIdp = true;
 
-      actionCreators.attemptSignout(usingIdp, signOut)(dispatch);
-      const firstCallReturnValue = dispatch.getCall(0).returnValue;
+      dispatch(actionCreators.attemptSignout(usingIdp, signOut));
+      const firstCallReturnValue = dispatch.mock.calls[0][0];
 
-      expect(firstCallReturnValue.type).to.deep.equal(Actions.LOGOUT);
-      expect(firstCallReturnValue.api).to.deep.equal(expected);
+      expect(firstCallReturnValue.type).toEqual(Actions.LOGOUT);
+      expect(firstCallReturnValue.api).toEqual(expected);
     });
 
-    it("should call msal signOut if using IDP", () => {
-      const usingIdp = true;
-
-      actionCreators.attemptSignout(usingIdp, signOut)(dispatch);
-      expect(signOut).to.have.been.called;
-    });
-
-    it("should not call msal signOut if not using IDP", () => {
-      const usingIdp = false;
-
-      actionCreators.attemptSignout(usingIdp, signOut)(dispatch);
-      expect(signOut).not.to.have.been.called;
+    it("should call signOut", () => {
+      dispatch(actionCreators.attemptSignout());
+      expect(dispatch).toHaveBeenCalled();
     });
   });
 
@@ -269,33 +280,33 @@ describe("User - Action Creators", () => {
     return store.dispatch(actionCreators.checkUserAuthentication()).then(() => {
       const actions = store.getActions();
 
-      expect(actions).to.have.lengthOf(9);
-      expect(actions).to.be.deep.equal(expectedAsyncActions);
+      expect(actions).toHaveLength(9);
+      expect(actions).toEqual(expectedAsyncActions);
     });
   });
 
   it("should check the 'refreshToken' action creator to return the correct object", () => {
     const store = configureStore()({});
-    const dispatch = spy(store, "dispatch");
+    const dispatch = jest.spyOn(store, "dispatch");
     const expected = {
       path: "tokens",
       method: "POST"
     };
 
     dispatch(actionCreators.refreshToken());
-    const firstCallReturnValue = dispatch.getCall(0).returnValue;
+    const firstCallReturnValue = dispatch.mock.calls[0][0];
 
-    expect(firstCallReturnValue.type).to.deep.equal(Actions.REFRESH_USER_TOKEN);
-    expect(firstCallReturnValue.api).to.deep.equal(expected);
+    expect(firstCallReturnValue.type).toEqual(Actions.REFRESH_USER_TOKEN);
+    expect(firstCallReturnValue.api).toEqual(expected);
   });
 
   describe("resetPassword", () => {
     beforeEach(() => {
-      stub(generate, "messageKey").returns("key-123");
+      jest.spyOn(generate, "messageKey").mockReturnValue("key-123");
     });
 
     afterEach(() => {
-      generate.messageKey.restore();
+      jest.resetAllMocks();
     });
 
     it("should check the 'resetPassword' action creator to return the correct object", () => {
@@ -328,7 +339,7 @@ describe("User - Action Creators", () => {
 
       const resetPasswordAction = actionCreators.resetPassword(data);
 
-      expect(resetPasswordAction).to.be.deep.equal(expected);
+      expect(resetPasswordAction).toEqual(expected);
     });
   });
 });

@@ -6,13 +6,13 @@ describe("<LookupsList /> pages/admin/lookups-list", () => {
   it("should have known constant", () => {
     const clone = { ...constants };
 
-    expect(clone).to.be.an("object");
+    expect(typeof clone).toEqual("object");
 
     ["NAME", "TABLE_OPTIONS"].forEach(property => {
-      expect(clone).to.have.property(property);
+      expect(clone).toHaveProperty(property);
       delete clone[property];
     });
 
-    expect(clone).to.be.empty;
+    expect(Object.keys(clone)).toHaveLength(0);
   });
 });

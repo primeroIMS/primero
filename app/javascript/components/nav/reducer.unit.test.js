@@ -26,6 +26,6 @@ describe("<Nav /> - Reducers", () => {
 
     const newState = nsReducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

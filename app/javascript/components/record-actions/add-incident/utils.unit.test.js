@@ -11,8 +11,8 @@ describe("record-actions/add-incident/utils", () => {
     };
     const result = validationSchema(subformSection, { i18n }).fields.test1;
 
-    expect(result).to.be.an("object");
-    expect(result.type).to.equal("string");
-    expect(result.spec.presence).to.equal("required");
+    expect(typeof result).toEqual("object");
+    expect(result.type).toBe("string");
+    expect(result.spec.presence).toBe("required");
   });
 });

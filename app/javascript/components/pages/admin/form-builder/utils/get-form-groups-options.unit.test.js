@@ -51,8 +51,6 @@ describe("getFormGroupsOptions", () => {
       { id: "group_2", display_text: "Group 2" }
     ];
 
-    expect(getFormGroupsOptions(allFormGroupsLookups, "primeromodule-cp", "case", { locale: "en" })).to.deep.equal(
-      result
-    );
+    expect(getFormGroupsOptions(allFormGroupsLookups, "primeromodule-cp", "case", { locale: "en" })).toEqual(result);
   });
 });

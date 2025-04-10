@@ -1,7 +1,6 @@
 import { fromJS, List } from "immutable";
 import { mountedComponent, userEvent, screen, cleanup } from "test-utils";
 
-import { fake } from "../../test-utils";
 import { RECORD_PATH } from "../../config";
 import { mapEntriesToRecord } from "../../libs";
 import { FieldRecord } from "../record-form";
@@ -51,7 +50,7 @@ describe("<IndexTable />", () => {
   };
   const props = {
     title: "testTitle",
-    onTableChange: fake.returns({
+    onTableChange: jest.fn().mockReturnValue({
       type: "test",
       payload: []
     }),

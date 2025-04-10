@@ -58,7 +58,7 @@ describe("valueFromOptionSource", () => {
   ];
   const fieldValue = fromJS(["female", "male"]);
 
-  context("when the value is List", () => {
+  describe("when the value is List", () => {
     it("should return the display text for each value", () => {
       const result = valueFromOptionSource(
         allAgencies,
@@ -69,19 +69,19 @@ describe("valueFromOptionSource", () => {
         fieldValue
       );
 
-      expect(result).to.deep.equal(fromJS(["Female", "Male"]));
+      expect(result).toEqual(fromJS(["Female", "Male"]));
     });
   });
 
-  context("when is the value is a string", () => {
+  describe("when is the value is a string", () => {
     it("should return the display text for each value", () => {
       const result = valueFromOptionSource(allAgencies, allLookups, locations, "en", "lookup lookup-gender", "female");
 
-      expect(result).to.deep.equal("Female");
+      expect(result).toEqual("Female");
     });
   });
 
-  context("when is the value is an agency", () => {
+  describe("when is the value is an agency", () => {
     it("should return the display text for each value", () => {
       const result = valueFromOptionSource(
         allAgencies,
@@ -92,11 +92,11 @@ describe("valueFromOptionSource", () => {
         "agency-one"
       );
 
-      expect(result).to.deep.equal("Agency 1");
+      expect(result).toEqual("Agency 1");
     });
   });
 
-  context("when is the value is a location", () => {
+  describe("when is the value is a location", () => {
     it("should return the display text for each value", () => {
       const result = valueFromOptionSource(
         allAgencies,
@@ -107,7 +107,7 @@ describe("valueFromOptionSource", () => {
         "city1"
       );
 
-      expect(result).to.deep.equal("City 1");
+      expect(result).toEqual("City 1");
     });
   });
 });

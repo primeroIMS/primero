@@ -18,14 +18,14 @@ describe("subformContainsFieldName", () => {
   });
 
   it("return false if the subform does not have the field name", () => {
-    expect(subformContainsFieldName(subform, "field_2")).to.be.false;
+    expect(subformContainsFieldName(subform, "field_2")).toBe(false);
   });
 
   it("return true if the subform have the field name", () => {
-    expect(subformContainsFieldName(subform, "field_1")).to.be.true;
+    expect(subformContainsFieldName(subform, "field_1")).toBe(true);
   });
 
   it("return true if the subform field is new", () => {
-    expect(subformContainsFieldName(subform, NEW_FIELD, subformField)).to.be.true;
+    expect(subformContainsFieldName(subform, NEW_FIELD, subformField)).toBe(true);
   });
 });

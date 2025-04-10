@@ -8,11 +8,11 @@ describe("<UserGroupsList /> - Action Creators", () => {
     const creators = { ...actionCreators };
 
     ["fetchUserGroups", "setUserGroupsFilter"].forEach(property => {
-      expect(creators).to.have.property(property);
+      expect(creators).toHaveProperty(property);
       delete creators[property];
     });
 
-    expect(creators).to.be.empty;
+    expect(Object.keys(creators)).toHaveLength(0);
   });
 
   it("should check fetchUserGroups return the correct object", () => {
@@ -26,7 +26,7 @@ describe("<UserGroupsList /> - Action Creators", () => {
       }
     };
 
-    expect(actionCreators.fetchUserGroups({ data })).to.deep.equal(expectedAction);
+    expect(actionCreators.fetchUserGroups({ data })).toEqual(expectedAction);
   });
 
   it("should check that 'setUserGroupsFilter' action creator returns the correct object", () => {
@@ -36,6 +36,6 @@ describe("<UserGroupsList /> - Action Creators", () => {
       payload
     };
 
-    expect(actionCreators.setUserGroupsFilter(payload)).to.deep.equal(expectedAction);
+    expect(actionCreators.setUserGroupsFilter(payload)).toEqual(expectedAction);
   });
 });

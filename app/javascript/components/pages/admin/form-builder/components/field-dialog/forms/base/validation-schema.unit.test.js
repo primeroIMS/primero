@@ -13,7 +13,7 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/basic - v
       i18n
     }).fields.test_1;
 
-    expect(Object.keys(fields)).to.deep.equal(["display_name", "help_text", "required"]);
+    expect(Object.keys(fields)).toEqual(["display_name", "help_text", "required"]);
   });
 
   it("should return the overrided validation schema", () => {
@@ -23,6 +23,6 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/basic - v
       overrides: { name: string() }
     }).fields.test_1;
 
-    expect(Object.keys(fields)).to.deep.equal(["display_name", "help_text", "required", "name"]);
+    expect(Object.keys(fields)).toEqual(["display_name", "help_text", "required", "name"]);
   });
 });

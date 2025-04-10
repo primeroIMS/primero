@@ -18,7 +18,7 @@ describe("<AuditLogs /> - pages/admin/audit-logs/reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_AUDIT_LOGS_FINISHED", () => {
@@ -33,7 +33,7 @@ describe("<AuditLogs /> - pages/admin/audit-logs/reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_AUDIT_LOGS_STARTED", () => {
@@ -49,7 +49,7 @@ describe("<AuditLogs /> - pages/admin/audit-logs/reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_AUDIT_LOGS_SUCCESS", () => {
@@ -80,7 +80,7 @@ describe("<AuditLogs /> - pages/admin/audit-logs/reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_PERFORMED_BY_FAILURE", () => {
@@ -97,7 +97,7 @@ describe("<AuditLogs /> - pages/admin/audit-logs/reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_PERFORMED_BY_FINISHED", () => {
@@ -114,7 +114,7 @@ describe("<AuditLogs /> - pages/admin/audit-logs/reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_PERFORMED_BY_SUCCESS", () => {
@@ -141,7 +141,7 @@ describe("<AuditLogs /> - pages/admin/audit-logs/reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SET_AUDIT_LOGS_FILTER", () => {
@@ -160,6 +160,6 @@ describe("<AuditLogs /> - pages/admin/audit-logs/reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

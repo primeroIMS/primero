@@ -1,19 +1,17 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import uuid from "../../libs/uuid";
-import { stub } from "../../test-utils";
 import queueIndexedDB from "../../db/queue";
 
 import queueFetch from "./queue-fetch";
 
 describe("middleware/utils/queue-fetch.js", () => {
-  context("when fetch is queued", () => {
-    let id;
+  describe("when fetch is queued", () => {
     let queue;
 
     beforeEach(() => {
-      id = stub(uuid, "v4").returns("1234");
-      queue = stub(queueIndexedDB, "add").resolves();
+      jest.spyOn(uuid, "v4").mockReturnValue("1234");
+      queue = jest.spyOn(queueIndexedDB, "add").mockResolvedValue();
     });
 
     it("queues the action", async () => {
@@ -24,12 +22,11 @@ describe("middleware/utils/queue-fetch.js", () => {
 
       await queueFetch(action);
 
-      expect(queue).to.have.been.calledWith({ ...action, fromQueue: "1234" });
+      expect(queue).toHaveBeenCalledWith({ ...action, fromQueue: "1234" });
     });
 
     afterEach(() => {
-      queue.restore();
-      id.restore();
+      jest.resetAllMocks();
     });
   });
 });

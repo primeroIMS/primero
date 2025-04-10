@@ -1,5 +1,5 @@
 import { fromJS, Map } from "immutable";
-import { mountedComponent, stub, screen, setScreenSizeToMobile } from "test-utils";
+import { mountedComponent, screen, setScreenSizeToMobile } from "test-utils";
 
 import { PrimeroModuleRecord } from "../../../application/records";
 
@@ -8,6 +8,10 @@ import WorkflowIndicator from "./workflow-indicator";
 describe("<WorkflowIndicator />", () => {
   beforeAll(() => {
     setScreenSizeToMobile(false);
+  });
+
+  afterAll(() => {
+    jest.restoreAllMocks();
   });
 
   const defaultProps = {
@@ -61,7 +65,7 @@ describe("<WorkflowIndicator />", () => {
   });
 
   describe("when the mobile is displayed", () => {
-    stub(window, "matchMedia").returns(window.defaultMediaQueryList({ matches: true }));
+    jest.spyOn(window, "matchMedia").mockReturnValue(window.defaultMediaQueryList({ matches: true }));
     const workflowProps = {
       ...defaultProps,
       record: Map({ case_status_reopened: false, workflow: "services" })

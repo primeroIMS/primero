@@ -34,6 +34,6 @@ describe("<AgenciesList /> pages/admin/agencies-list/utils", () => {
       }
     ];
 
-    expect(getUserGroupFilters(i18n)).to.be.deep.equals(expected);
+    expect(getUserGroupFilters(i18n)).toEqual(expected);
   });
 });

@@ -11,19 +11,19 @@ describe("<RecordForm>/form/subforms/<SubformTraces>/components/<FieldRow> - uti
     it("should return true if the field is a text field", () => {
       const field = { name: "field_1", type: TEXT_FIELD };
 
-      expect(utils.isTextField(field)).to.be.true;
+      expect(utils.isTextField(field)).toBe(true);
     });
 
     it("should return true if the field is a text area", () => {
       const field = { name: "field_1", type: TEXT_AREA };
 
-      expect(utils.isTextField(field)).to.be.true;
+      expect(utils.isTextField(field)).toBe(true);
     });
 
     it("should return false if the field is not a text field", () => {
       const field = { name: "field_1", type: DATE_FIELD };
 
-      expect(utils.isTextField(field)).to.be.false;
+      expect(utils.isTextField(field)).toBe(false);
     });
   });
 
@@ -33,14 +33,14 @@ describe("<RecordForm>/form/subforms/<SubformTraces>/components/<FieldRow> - uti
       const label = "Option 1";
       const options = fromJS([{ id: value, display_text: label }]);
 
-      expect(utils.getValueLabel({ options, value })).to.equal(label);
+      expect(utils.getValueLabel({ options, value })).toBe(label);
     });
 
     it("should return the value if does not exist", () => {
       const value = "opt-1";
       const options = fromJS([{ id: "opt-2", display_text: "Option 2" }]);
 
-      expect(utils.getValueLabel({ options, value })).to.equal(value);
+      expect(utils.getValueLabel({ options, value })).toBe(value);
     });
 
     it("should return a comma separated string if the value is an array", () => {
@@ -51,7 +51,7 @@ describe("<RecordForm>/form/subforms/<SubformTraces>/components/<FieldRow> - uti
         { id: "opt-2", display_text: "Option 2" }
       ]);
 
-      expect(utils.getValueLabel({ options, value })).to.equal(expected);
+      expect(utils.getValueLabel({ options, value })).toBe(expected);
     });
 
     it("should return a comma separated string if the value is a list", () => {
@@ -62,7 +62,7 @@ describe("<RecordForm>/form/subforms/<SubformTraces>/components/<FieldRow> - uti
         { id: "opt-2", display_text: "Option 2" }
       ]);
 
-      expect(utils.getValueLabel({ options, value })).to.equal(expected);
+      expect(utils.getValueLabel({ options, value })).toBe(expected);
     });
   });
 });

@@ -23,11 +23,11 @@ describe("components/connectivity/action-creator.js", () => {
       "setQueueStatus",
       "setUserToggleOffline"
     ].forEach(property => {
-      expect(creators).to.have.property(property);
+      expect(creators).toHaveProperty(property);
       delete creators[property];
     });
 
-    expect(creators).to.be.empty;
+    expect(Object.keys(creators)).toHaveLength(0);
   });
 
   it("should create an action to set the network status", () => {
@@ -36,7 +36,7 @@ describe("components/connectivity/action-creator.js", () => {
       payload: true
     };
 
-    expect(actionCreators.setNetworkStatus(true)).to.eql(expectedAction);
+    expect(actionCreators.setNetworkStatus(true)).toEqual(expectedAction);
   });
 
   it("should create an action to check server status", () => {
@@ -46,9 +46,9 @@ describe("components/connectivity/action-creator.js", () => {
 
     const expectedActions = store.getActions();
 
-    expect(expectedActions[0].type).to.eql(CLOSE_SNACKBAR);
-    expect(expectedActions[1].type).to.eql(CLOSE_SNACKBAR);
-    expect(expectedActions[2].type).to.eql(actions.NETWORK_STATUS);
-    expect(expectedActions[3].type).to.eql(actions.SERVER_STATUS);
+    expect(expectedActions[0].type).toEqual(CLOSE_SNACKBAR);
+    expect(expectedActions[1].type).toEqual(CLOSE_SNACKBAR);
+    expect(expectedActions[2].type).toEqual(actions.NETWORK_STATUS);
+    expect(expectedActions[3].type).toEqual(actions.SERVER_STATUS);
   });
 });

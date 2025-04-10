@@ -9,17 +9,17 @@ describe("pages/password-reset - form", () => {
     const indexValues = { ...form };
 
     ["form", "validationSchema"].forEach(property => {
-      expect(indexValues).to.have.property(property);
+      expect(indexValues).toHaveProperty(property);
       delete indexValues[property];
     });
-    expect(indexValues).to.be.empty;
+    expect(Object.keys(indexValues)).toHaveLength(0);
   });
 
   it("'validationSchema' should return an objectto.be.an('object')", () => {
-    expect(form.validationSchema(i18n)).to.be.an("object");
+    expect(typeof form.validationSchema(i18n)).toEqual("object");
   });
 
   it("'form' should return an objectto.be.an('object')", () => {
-    expect(form.form(i18n, () => {})).to.be.an("object");
+    expect(typeof form.form(i18n, () => {})).toEqual("object");
   });
 });

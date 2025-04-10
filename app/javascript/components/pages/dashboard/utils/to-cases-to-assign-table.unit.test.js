@@ -1,6 +1,5 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { expect } from "chai";
 import { fromJS } from "immutable";
 
 import toCasesToAssignTable from "./to-cases-to-assign-table";
@@ -64,8 +63,8 @@ describe("toCasesToAssignTable - pages/dashboard/utils/", () => {
 
     const result = toCasesToAssignTable(casesToAssign, riskLevels, i18n);
 
-    expect(result.data).to.deep.equal(expected.data);
-    expect(result.query).to.deep.equal(expected.query);
-    expect(result.columns.map(column => column.name)).to.deep.equal(["", "level_1", "level_2", "none"]);
+    expect(result.data).toEqual(expected.data);
+    expect(result.query).toEqual(expected.query);
+    expect(result.columns.map(column => column.name)).toEqual(["", "level_1", "level_2", "none"]);
   });
 });

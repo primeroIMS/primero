@@ -23,18 +23,18 @@ describe("<ReportForm>/utils/formatReport()", () => {
   };
 
   it("should return empty string for description if report doesn't have one", () => {
-    expect(formatReport(report).description).to.be.empty;
+    expect(formatReport(report).description).toHaveLength(0);
   });
 
   it("should return aggregate_by key with an array of fields with 'horizontal' type ", () => {
-    expect(formatReport(report).aggregate_by).to.deep.equal(["test_1"]);
+    expect(formatReport(report).aggregate_by).toEqual(["test_1"]);
   });
 
   it("should return disaggregate_by key with an array of fields with 'horizontal' type ", () => {
-    expect(formatReport(report).disaggregate_by).to.deep.equal(["test_2"]);
+    expect(formatReport(report).disaggregate_by).toEqual(["test_2"]);
   });
 
-  context("when the fields have admin_level", () => {
+  describe("when the fields have admin_level", () => {
     const reportWithAdminLevel = {
       name: "test",
       description: null,
@@ -49,7 +49,7 @@ describe("<ReportForm>/utils/formatReport()", () => {
     };
 
     it("should return an array with a field containing the admin level as part of the string", () => {
-      expect(formatReport(reportWithAdminLevel).aggregate_by).to.deep.equal(["loc:location1"]);
+      expect(formatReport(reportWithAdminLevel).aggregate_by).toEqual(["loc:location1"]);
     });
 
     describe("when admin_level is zero", () => {
@@ -67,7 +67,7 @@ describe("<ReportForm>/utils/formatReport()", () => {
       };
 
       it("should return an array with a field containing the admin level as part of the string", () => {
-        expect(formatReport(reportWithAdminLevelZero).aggregate_by).to.deep.equal(["loc:location0"]);
+        expect(formatReport(reportWithAdminLevelZero).aggregate_by).toEqual(["loc:location0"]);
       });
     });
   });

@@ -32,7 +32,7 @@ describe("User - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle LOGOUT_SUCCESS", () => {
@@ -42,7 +42,7 @@ describe("User - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(initialState);
+    expect(newState).toEqual(initialState);
   });
 
   it("should handle FETCH_USER_DATA_SUCCESS", () => {
@@ -188,7 +188,7 @@ describe("User - Reducers", () => {
     const newState = reducer(initialState, action);
 
     // TODO: Remove .toJS()
-    expect(newState.toJS()).to.deep.equal(expected.toJS());
+    expect(newState.toJS()).toEqual(expected.toJS());
   });
 
   it("it should handle RESET_PASSWORD_STARTED", () => {
@@ -200,7 +200,7 @@ describe("User - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("it should handle RESET_PASSWORD_SUCCESS", () => {
@@ -212,7 +212,7 @@ describe("User - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("it should handle RESET_PASSWORD_FAILURE", () => {
@@ -224,6 +224,6 @@ describe("User - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

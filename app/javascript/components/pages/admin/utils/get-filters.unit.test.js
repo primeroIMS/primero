@@ -26,6 +26,6 @@ describe("pages/admin/utils/getFilters", () => {
       }
     ];
 
-    expect(getFilters(i18n)).to.be.deep.equals(expected);
+    expect(getFilters(i18n)).toEqual(expected);
   });
 });

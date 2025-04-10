@@ -17,7 +17,7 @@ describe("form/utils/build-role-options", () => {
         { id: "role_2", display_text: "Role 2", disabled: false }
       ];
 
-      expect(buildRoleOptions(roles)).to.deep.equal(expected);
+      expect(buildRoleOptions(roles)).toEqual(expected);
     });
   });
 });

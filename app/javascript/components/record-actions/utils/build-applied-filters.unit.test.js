@@ -33,13 +33,13 @@ describe("record-actions/utils/build-applied-filters", () => {
   const recordIds = [record.get("id")];
 
   it("should be a function", () => {
-    expect(buildAppliedFilters).to.be.an("function");
+    expect(buildAppliedFilters).toBeInstanceOf(Function);
   });
 
   it("should return filters with short_id, if isShowPage true", () => {
     const expected = { filters: { id: recordIds } };
 
-    expect(buildAppliedFilters(true, false, recordIds, appliedFilters, {}, record, false)).to.be.deep.equals(expected);
+    expect(buildAppliedFilters(true, false, recordIds, appliedFilters, {}, record, false)).toEqual(expected);
   });
 
   it("should return filters without page, per and total params", () => {
@@ -51,7 +51,7 @@ describe("record-actions/utils/build-applied-filters", () => {
       per: 5
     });
 
-    expect(buildAppliedFilters(true, false, recordIds, filters, {}, record, false)).to.be.deep.equals(expected);
+    expect(buildAppliedFilters(true, false, recordIds, filters, {}, record, false)).toEqual(expected);
   });
 
   it(
@@ -60,14 +60,14 @@ describe("record-actions/utils/build-applied-filters", () => {
     () => {
       const expected = { filters: { id: recordIds } };
 
-      expect(buildAppliedFilters(false, false, recordIds, fromJS({}), {}, record, false)).to.be.deep.equals(expected);
+      expect(buildAppliedFilters(false, false, recordIds, fromJS({}), {}, record, false)).toEqual(expected);
     }
   );
 
   it("should return and object with applied filters, if isShowPage is false and allRowsSelected is true", () => {
     const expected = { filters: { id: recordIds } };
 
-    expect(buildAppliedFilters(false, true, recordIds, appliedFilters, {}, record, false)).to.be.deep.equals(expected);
+    expect(buildAppliedFilters(false, true, recordIds, appliedFilters, {}, record, false)).toEqual(expected);
   });
 
   it(
@@ -77,9 +77,7 @@ describe("record-actions/utils/build-applied-filters", () => {
       const query = "test";
       const expected = { filters: { id: recordIds } };
 
-      expect(buildAppliedFilters(false, true, recordIds, fromJS({ query }), {}, record, false)).to.be.deep.equals(
-        expected
-      );
+      expect(buildAppliedFilters(false, true, recordIds, fromJS({ query }), {}, record, false)).toEqual(expected);
     }
   );
 
@@ -90,9 +88,7 @@ describe("record-actions/utils/build-applied-filters", () => {
       const query = "test";
       const expected = { filters: { id: recordIds } };
 
-      expect(buildAppliedFilters(false, true, recordIds, fromJS({ query }), {}, record, false)).to.be.deep.equals(
-        expected
-      );
+      expect(buildAppliedFilters(false, true, recordIds, fromJS({ query }), {}, record, false)).toEqual(expected);
     }
   );
 
@@ -104,6 +100,6 @@ describe("record-actions/utils/build-applied-filters", () => {
       }
     };
 
-    expect(buildAppliedFilters(false, false, recordIds, fromJS({}), {}, record, true)).to.be.deep.equals(expected);
+    expect(buildAppliedFilters(false, false, recordIds, fromJS({}), {}, record, true)).toEqual(expected);
   });
 });

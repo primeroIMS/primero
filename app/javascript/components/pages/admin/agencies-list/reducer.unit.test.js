@@ -21,7 +21,7 @@ describe("<AgenciesList /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle AGENCIES_SUCCESS", () => {
@@ -37,7 +37,7 @@ describe("<AgenciesList /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle AGENCIES_FAILURE", () => {
@@ -52,7 +52,7 @@ describe("<AgenciesList /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle AGENCIES_FINISHED", () => {
@@ -67,7 +67,7 @@ describe("<AgenciesList /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle CLEAR_METADATA", () => {
@@ -81,7 +81,7 @@ describe("<AgenciesList /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SET_AGENCIES_FILTER", () => {
@@ -96,6 +96,6 @@ describe("<AgenciesList /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

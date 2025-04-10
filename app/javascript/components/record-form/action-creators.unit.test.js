@@ -1,7 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import clone from "lodash/clone";
-import sinon from "sinon";
 import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 
@@ -9,9 +8,16 @@ import * as actionCreators from "./action-creators";
 import actions from "./actions";
 import { URL_LOOKUPS } from "./constants";
 
-describe("<RecordForm /> - Action Creators", () => {
-  let dispatch;
+jest.mock("./action-creators", () => {
+  const originalModule = jest.requireActual("./action-creators");
 
+  return {
+    __esModule: true,
+    ...originalModule
+  };
+});
+
+describe("<RecordForm /> - Action Creators", () => {
   const setOptionsAction = {
     api: {
       params: {
@@ -27,11 +33,13 @@ describe("<RecordForm /> - Action Creators", () => {
   };
 
   afterEach(() => {
-    dispatch?.restore();
+    jest.resetAllMocks();
   });
 
   it("should have known action creators", () => {
     const creators = clone(actionCreators);
+
+    delete creators.__esModule;
 
     [
       "clearDataProtectionInitialValues",
@@ -50,22 +58,22 @@ describe("<RecordForm /> - Action Creators", () => {
       "setTempInitialValues",
       "clearTempInitialValues"
     ].forEach(property => {
-      expect(creators).to.have.property(property);
-      expect(creators[property]).to.be.a("function");
+      expect(creators).toHaveProperty(property);
+      expect(creators[property]).toBeInstanceOf(Function);
       delete creators[property];
     });
 
-    expect(creators).to.be.empty;
+    expect(Object.keys(creators)).toHaveLength(0);
   });
 
   it("should check the 'setSelectedForm' action creator to return the correct object", () => {
     const options = "referral_transfer";
+    const store = configureStore()({});
+    const dispatch = jest.spyOn(store, "dispatch");
 
-    dispatch = sinon.spy(actionCreators, "setSelectedForm");
+    dispatch(actionCreators.setSelectedForm("referral_transfer"));
 
-    actionCreators.setSelectedForm("referral_transfer");
-
-    expect(dispatch.getCall(0).returnValue).to.eql({
+    expect(dispatch.mock.calls[0][0]).toEqual({
       type: "forms/SET_SELECTED_FORM",
       payload: options
     });
@@ -83,7 +91,7 @@ describe("<RecordForm /> - Action Creators", () => {
       }
     };
 
-    expect(actionCreators.fetchForms()).to.deep.equal(expected);
+    expect(actionCreators.fetchForms()).toEqual(expected);
   });
 
   it("should check the 'fetchOptions' action creator to return the correct object", () => {
@@ -92,9 +100,9 @@ describe("<RecordForm /> - Action Creators", () => {
     return store.dispatch(actionCreators.fetchOptions()).then(() => {
       const expectedActions = store.getActions();
 
-      expect(expectedActions[0].type).to.eql(actions.SET_OPTIONS);
-      expect(expectedActions[0].api.path).to.eql(URL_LOOKUPS);
-      expect(expectedActions[1].type).to.eql(actions.SET_LOCATIONS);
+      expect(expectedActions[0].type).toEqual(actions.SET_OPTIONS);
+      expect(expectedActions[0].api.path).toEqual(URL_LOOKUPS);
+      expect(expectedActions[1].type).toEqual(actions.SET_LOCATIONS);
     });
   });
 
@@ -105,18 +113,19 @@ describe("<RecordForm /> - Action Creators", () => {
     global.window.locationManifest = [];
 
     return store.dispatch(actionCreators.fetchOptions()).then(() => {
-      expect(store.getActions()).to.eql([setOptionsAction]);
+      expect(store.getActions()).toEqual([setOptionsAction]);
 
       global.window.locationManifest = locationRef;
     });
   });
 
   it("should check the 'fetchLookups' action creator to return the correct object", () => {
-    dispatch = sinon.spy(actionCreators, "fetchLookups");
+    const store = configureStore()({});
+    const dispatch = jest.spyOn(store, "dispatch");
 
-    actionCreators.fetchLookups();
+    dispatch(actionCreators.fetchLookups());
 
-    expect(dispatch.getCall(0).returnValue).to.eql(setOptionsAction);
+    expect(dispatch.mock.calls[0][0]).toEqual(setOptionsAction);
   });
 
   it("should check the 'setServiceToRefer' action creator return the correct object", () => {
@@ -133,7 +142,7 @@ describe("<RecordForm /> - Action Creators", () => {
         service_type: "service_1",
         service_implementing_agency: "agency_1"
       })
-    ).to.deep.equals(expected);
+    ).toEqual(expected);
   });
 
   it("should check the 'fetchAgencies' action creator return the correct object", () => {
@@ -146,7 +155,7 @@ describe("<RecordForm /> - Action Creators", () => {
       }
     };
 
-    expect(actionCreators.fetchAgencies()).to.deep.equals(expected);
+    expect(actionCreators.fetchAgencies()).toEqual(expected);
   });
 
   it("should check the 'setValidationErrors' action creator return the correct object", () => {
@@ -164,13 +173,13 @@ describe("<RecordForm /> - Action Creators", () => {
       payload: validationErrors
     };
 
-    expect(actionCreators.setValidationErrors(validationErrors)).to.deep.equals(expected);
+    expect(actionCreators.setValidationErrors(validationErrors)).toEqual(expected);
   });
 
   it("should check the 'clearValidationErrors' action creator return the correct object", () => {
     const expected = { type: actions.CLEAR_VALIDATION_ERRORS };
 
-    expect(actionCreators.clearValidationErrors()).to.deep.equals(expected);
+    expect(actionCreators.clearValidationErrors()).toEqual(expected);
   });
 
   it("should check the 'setDataProtectionInitialValues' action creator return the correct object", () => {
@@ -183,18 +192,18 @@ describe("<RecordForm /> - Action Creators", () => {
       payload
     };
 
-    expect(actionCreators.setDataProtectionInitialValues(payload)).to.deep.equals(expected);
+    expect(actionCreators.setDataProtectionInitialValues(payload)).toEqual(expected);
   });
 
   it("should check the 'clearDataProtectionInitialValues' action creator return the correct object", () => {
     const expected = { type: actions.CLEAR_DATA_PROTECTION_INITIAL_VALUES };
 
-    expect(actionCreators.clearDataProtectionInitialValues()).to.deep.equals(expected);
+    expect(actionCreators.clearDataProtectionInitialValues()).toEqual(expected);
   });
 
   it("checks the 'setRedirectedToCreateNewRecord' action creator return the correct object", () => {
     const expected = { type: actions.REDIRECTED_TO_CREATE_NEW_RECORD, payload: true };
 
-    expect(actionCreators.setRedirectedToCreateNewRecord(true)).to.deep.equals(expected);
+    expect(actionCreators.setRedirectedToCreateNewRecord(true)).toEqual(expected);
   });
 });

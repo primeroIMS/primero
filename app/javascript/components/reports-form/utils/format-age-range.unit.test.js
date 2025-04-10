@@ -8,6 +8,6 @@ describe("<ReportForm>/utils/formatAgeRange()", () => {
 
     const values = ["0..5", "6..11", "12..17", "18..999"];
 
-    expect(formatAgeRange(values)).to.deep.equal(expected);
+    expect(formatAgeRange(values)).toEqual(expected);
   });
 });

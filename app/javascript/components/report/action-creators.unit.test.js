@@ -1,10 +1,8 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import sinon from "sinon";
 import configureStore from "redux-mock-store";
 
 import { RECORD_PATH } from "../../config";
-import { stub } from "../../test-utils";
 import { ENQUEUE_SNACKBAR, generate } from "../notifier";
 
 import * as actionCreators from "./action-creators";
@@ -14,12 +12,16 @@ describe("<Reports /> - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionCreators };
 
-    expect(creators, "DEPRECATED fetchCasesByNationality").to.not.have.property("fetchCasesByNationality");
-    expect(creators, "DEPRECATED fetchCasesByAgeAndSex").to.not.have.property("fetchCasesByAgeAndSex");
-    expect(creators, "DEPRECATED fetchCasesByProtectionConcern").to.not.have.property("fetchCasesByProtectionConcern");
-    expect(creators, "DEPRECATED fetchCasesByAgency").to.not.have.property("fetchCasesByAgency");
-    expect(creators).to.have.property("fetchReport");
-    expect(creators).to.have.property("deleteReport");
+    // DEPRECATED fetchCasesByNationality
+    expect(creators).not.toHaveProperty("fetchCasesByNationality");
+    // DEPRECATED fetchCasesByAgeAndSex
+    expect(creators).not.toHaveProperty("fetchCasesByAgeAndSex");
+    // DEPRECATED fetchCasesByProtectionConcern
+    expect(creators).not.toHaveProperty("fetchCasesByProtectionConcern");
+    // DEPRECATED fetchCasesByAgency
+    expect(creators).not.toHaveProperty("fetchCasesByAgency");
+    expect(creators).toHaveProperty("fetchReport");
+    expect(creators).toHaveProperty("deleteReport");
 
     delete creators.fetchCasesByNationality;
     delete creators.fetchCasesByAgeAndSex;
@@ -28,23 +30,23 @@ describe("<Reports /> - Action Creators", () => {
     delete creators.fetchReport;
     delete creators.deleteReport;
 
-    expect(creators).to.be.empty;
+    expect(Object.keys(creators)).toHaveLength(0);
   });
 
   it("should check the 'fetchReport' action creator to return the correct object", () => {
     const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
+    const dispatch = jest.spyOn(store, "dispatch");
     const id = 1234;
 
     dispatch(actionCreators.fetchReport(id));
-    const firstCall = dispatch.getCall(0);
+    const firstCall = dispatch.mock.calls[0][0];
 
-    expect(firstCall.returnValue.type).to.equal(actions.FETCH_REPORT);
-    expect(firstCall.returnValue.api.path).to.equal(`reports/${id}`);
+    expect(firstCall.type).toBe(actions.FETCH_REPORT);
+    expect(firstCall.api.path).toBe(`reports/${id}`);
   });
 
   it("should check that 'deleteRole' action creator returns the correct object", () => {
-    stub(generate, "messageKey").returns(4);
+    jest.spyOn(generate, "messageKey").mockReturnValue(4);
 
     const args = {
       id: 1,
@@ -71,8 +73,8 @@ describe("<Reports /> - Action Creators", () => {
       }
     };
 
-    expect(actionCreators.deleteReport(args)).to.deep.equal(expectedAction);
+    expect(actionCreators.deleteReport(args)).toEqual(expectedAction);
 
-    generate.messageKey.restore();
+    jest.resetAllMocks();
   });
 });

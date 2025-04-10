@@ -10,10 +10,10 @@ describe("withStickyOption", () => {
   ];
 
   it("should append a disabled option if sticky", () => {
-    expect(withStickyOption(options, "option_3")).to.have.lengthOf(3);
+    expect(withStickyOption(options, "option_3")).toHaveLength(3);
   });
 
   it("should not append a disabled option if it is not sticky", () => {
-    expect(withStickyOption(options)).to.have.lengthOf(2);
+    expect(withStickyOption(options)).toHaveLength(2);
   });
 });

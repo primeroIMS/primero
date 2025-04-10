@@ -37,13 +37,13 @@ describe("<ExportList /> - pages/export-list/reducer", () => {
     it("should return list of bulk export headers", () => {
       const records = selectors.selectListHeaders(state, NAMESPACE);
 
-      expect(records).to.deep.equal(bulkExportHeaders);
+      expect(records).toEqual(bulkExportHeaders);
     });
 
     it("should not return any header list", () => {
       const records = selectors.selectListHeaders(state, "");
 
-      expect(records).to.be.empty;
+      expect(records.size).toBe(0);
     });
   });
 });

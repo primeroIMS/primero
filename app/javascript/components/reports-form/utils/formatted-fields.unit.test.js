@@ -166,7 +166,7 @@ describe("<ReportForm>/utils/formattedFields()", () => {
 
     expect(
       formattedFields(formSections, MODULES.CP, RECORD_TYPES.cases, i18n, reportingLocationConfig, reportableFields)
-    ).to.deep.equal(expected);
+    ).toEqual(expected);
   });
 
   describe("when the recordType is not a nested type", () => {
@@ -222,9 +222,7 @@ describe("<ReportForm>/utils/formattedFields()", () => {
     });
 
     it("should not return fields on nested forms", () => {
-      expect(
-        formattedFields(formSections, MODULES.CP, RECORD_TYPES.cases, i18n, reportingLocationConfig, [])
-      ).to.deep.equal([
+      expect(formattedFields(formSections, MODULES.CP, RECORD_TYPES.cases, i18n, reportingLocationConfig, [])).toEqual([
         {
           display_text: "Status Field",
           formSection: "Status Form",

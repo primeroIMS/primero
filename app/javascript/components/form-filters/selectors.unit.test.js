@@ -10,7 +10,7 @@ describe("components/form-filters/selectors.js", () => {
       const formFilters = fromJS({ form_1: { filter_1: ["value_1", "value2"] } });
       const state = fromJS({ ui: { formFilters } });
 
-      expect(selectors.getFormFilters(state)).to.deep.equal(formFilters);
+      expect(selectors.getFormFilters(state)).toEqual(formFilters);
     });
   });
 });

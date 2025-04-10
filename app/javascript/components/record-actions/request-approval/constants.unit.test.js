@@ -7,11 +7,11 @@ describe("RequestApproval /> - components/record-actions/request-approval", () =
     const constantsValues = { ...constants };
 
     ["APPROVAL_FORM", "APPROVAL_STATUS", "APPROVAL_TYPE_LOOKUP", "CASE_PLAN", "NAME"].forEach(property => {
-      expect(constantsValues).to.have.property(property);
+      expect(constantsValues).toHaveProperty(property);
 
       delete constantsValues[property];
     });
 
-    expect(constantsValues).to.be.empty;
+    expect(Object.keys(constantsValues)).toHaveLength(0);
   });
 });

@@ -20,7 +20,7 @@ describe("<Nav>/components/<NavGroup> - Utils", () => {
         }
       ];
 
-      expect(utils.getFormGroupName(allFormGroupsLookups, "identification_registration")).to.be.equal(
+      expect(utils.getFormGroupName(allFormGroupsLookups, "identification_registration")).toBe(
         "Identification / Registration"
       );
     });

@@ -15,13 +15,13 @@ describe("<FormBuilder />/components/<ExistingFieldDialog /> - utils", () => {
     it("returns true if the field is the list", () => {
       const field2 = { id: 2, name: "field_2" };
 
-      expect(utils.isFieldInList(field2, fieldList)).to.be.true;
+      expect(utils.isFieldInList(field2, fieldList)).toBe(true);
     });
 
     it("returns false if the field is not the list", () => {
       const field5 = { id: 5, name: "field_5" };
 
-      expect(utils.isFieldInList(field5, fieldList)).to.be.false;
+      expect(utils.isFieldInList(field5, fieldList)).toBe(false);
     });
   });
 
@@ -40,7 +40,7 @@ describe("<FormBuilder />/components/<ExistingFieldDialog /> - utils", () => {
         { id: 3, name: "field_3" }
       ];
 
-      expect(utils.buildSelectedFieldList(selectedFields)).to.deep.equal(expectedList);
+      expect(utils.buildSelectedFieldList(selectedFields)).toEqual(expectedList);
     });
   });
 
@@ -55,7 +55,7 @@ describe("<FormBuilder />/components/<ExistingFieldDialog /> - utils", () => {
       const addedFields = [{ id: 4, name: "field_4" }];
       const removedFields = [];
 
-      expect(utils.buildExistingFields(selectedFieldList, addedFields, removedFields)).to.deep.equal(
+      expect(utils.buildExistingFields(selectedFieldList, addedFields, removedFields)).toEqual(
         selectedFieldList.concat(addedFields)
       );
     });
@@ -69,7 +69,7 @@ describe("<FormBuilder />/components/<ExistingFieldDialog /> - utils", () => {
         { id: 2, name: "field_2" }
       ];
 
-      expect(utils.buildExistingFields(selectedFieldList, addedFields, removedFields)).to.deep.equal(expectedList);
+      expect(utils.buildExistingFields(selectedFieldList, addedFields, removedFields)).toEqual(expectedList);
     });
   });
 
@@ -83,7 +83,7 @@ describe("<FormBuilder />/components/<ExistingFieldDialog /> - utils", () => {
     it("should return a list of names", () => {
       const expectedList = ["field_1", "field_2", "field_3"];
 
-      expect(utils.getExistingFieldNames(selectedFieldList)).to.deep.equal(expectedList);
+      expect(utils.getExistingFieldNames(selectedFieldList)).toEqual(expectedList);
     });
   });
 
@@ -101,7 +101,7 @@ describe("<FormBuilder />/components/<ExistingFieldDialog /> - utils", () => {
         { id: 3, name: "field_3" }
       ];
 
-      expect(utils.removeFieldFromList(removedField, selectedFieldList)).to.deep.equal(expectedList);
+      expect(utils.removeFieldFromList(removedField, selectedFieldList)).toEqual(expectedList);
     });
   });
 });

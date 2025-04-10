@@ -15,7 +15,7 @@ describe("<ActivityLog/> - Action Creators", () => {
       }
     };
 
-    expect(actionCreators.fetchActivityLog()).to.deep.equal(expected);
+    expect(actionCreators.fetchActivityLog()).toEqual(expected);
   });
 
   it("should check the 'setActivityLogsFilter' action creator to return the correct object", () => {
@@ -24,6 +24,6 @@ describe("<ActivityLog/> - Action Creators", () => {
       payload: { data: { filter1: "value1" } }
     };
 
-    expect(actionCreators.setActivityLogsFilter({ data: { filter1: "value1" } })).to.deep.equal(expected);
+    expect(actionCreators.setActivityLogsFilter({ data: { filter1: "value1" } })).toEqual(expected);
   });
 });

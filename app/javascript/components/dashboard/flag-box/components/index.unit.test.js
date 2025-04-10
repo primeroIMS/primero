@@ -6,17 +6,17 @@ describe("app/javascript/components/dashboard/flag-box/components/index", () => 
   describe("properties", () => {
     let clone;
 
-    before(() => {
+    beforeAll(() => {
       clone = { ...index };
     });
 
-    after(() => {
-      expect(clone).to.be.empty;
+    afterAll(() => {
+      expect(Object.keys(clone)).toHaveLength(0);
     });
 
     ["FlagBoxItem"].forEach(property => {
       it(`exports '${property}'`, () => {
-        expect(index).to.have.property(property);
+        expect(index).toHaveProperty(property);
         delete clone[property];
       });
     });

@@ -5,7 +5,7 @@ import { fromJS } from "immutable";
 import buildInsightValues from "./build-insight-values";
 
 describe("<InsightsSubReport />/utils/buildInsightValues", () => {
-  context("when is not grouped", () => {
+  describe("when is not grouped", () => {
     it("returns one row for each option", () => {
       const values = buildInsightValues.default({
         getLookupValue: (_key, value) => value.get("id"),
@@ -16,14 +16,14 @@ describe("<InsightsSubReport />/utils/buildInsightValues", () => {
         ])
       });
 
-      expect(values).to.deep.equals([
+      expect(values).toEqual([
         { colspan: 0, row: ["option_1", 5] },
         { colspan: 0, row: ["option_2", 10] }
       ]);
     });
   });
 
-  context("when is grouped by year", () => {
+  describe("when is grouped by year", () => {
     it("returns the rows for each group", () => {
       const values = buildInsightValues.default({
         getLookupValue: (_key, value) => value.get("id"),
@@ -55,7 +55,7 @@ describe("<InsightsSubReport />/utils/buildInsightValues", () => {
         ])
       });
 
-      expect(values).to.deep.equals([
+      expect(values).toEqual([
         { colspan: 0, row: ["option_1", 1, 3, 0] },
         { colspan: 0, row: ["option_2", 2, 1, 2] },
         { colspan: 0, row: ["option_3", 0, 0, 8] }
@@ -94,7 +94,7 @@ describe("<InsightsSubReport />/utils/buildInsightValues", () => {
         ])
       });
 
-      expect(values).to.deep.equals([
+      expect(values).toEqual([
         { colspan: 0, row: ["First Option", 1, 3, 0] },
         { colspan: 0, row: ["Fourth Option", 0, 0, 8] },
         { colspan: 0, row: ["Second Option", 2, 1, 2] }
@@ -133,7 +133,7 @@ describe("<InsightsSubReport />/utils/buildInsightValues", () => {
         ])
       });
 
-      expect(values).to.deep.equals([
+      expect(values).toEqual([
         { colspan: 0, row: ["0 - 5", 1, 3, 0] },
         { colspan: 0, row: ["12 - 17", 2, 0, 2] },
         { colspan: 0, row: ["18+", 0, 1, 8] }
@@ -141,7 +141,7 @@ describe("<InsightsSubReport />/utils/buildInsightValues", () => {
     });
   });
 
-  context("when is grouped by month", () => {
+  describe("when is grouped by month", () => {
     it("returns the rows for each group", () => {
       const values = buildInsightValues.default({
         getLookupValue: (_key, value) => value.get("id"),
@@ -184,7 +184,7 @@ describe("<InsightsSubReport />/utils/buildInsightValues", () => {
         ])
       });
 
-      expect(values).to.deep.equals([
+      expect(values).toEqual([
         { colspan: 0, row: ["option_1", 0, 0, 1, 3, 3] },
         { colspan: 0, row: ["option_2", 3, 4, 2, 1, 1] },
         { colspan: 0, row: ["option_3", 5, 0, 0, 0, 0] }
@@ -238,7 +238,7 @@ describe("<InsightsSubReport />/utils/buildInsightValues", () => {
         ])
       });
 
-      expect(values).to.deep.equals([
+      expect(values).toEqual([
         { colspan: 0, row: ["option_3", 5, 0, 0, 0, 0] },
         { colspan: 0, row: ["option_1", 0, 0, 1, 3, 3] },
         { colspan: 0, row: ["option_2", 3, 4, 2, 1, 1] }
@@ -246,7 +246,7 @@ describe("<InsightsSubReport />/utils/buildInsightValues", () => {
     });
   });
 
-  context("when subColumnItems entry is present", () => {
+  describe("when subColumnItems entry is present", () => {
     it("returns rows with subcolums items", () => {
       const values = buildInsightValues.default({
         getLookupValue: (_key, value) => value.get("id"),
@@ -283,7 +283,7 @@ describe("<InsightsSubReport />/utils/buildInsightValues", () => {
         ])
       });
 
-      expect(values).to.deep.equals([
+      expect(values).toEqual([
         { colspan: 0, row: ["option_1", 0, 0, 0, 0, 0, 0, 2, 0, 1, 2, 1, 3] },
         { colspan: 0, row: ["option_2", 2, 1, 3, 2, 2, 4, 2, 1, 2, 0, 1, 1] },
         { colspan: 0, row: ["option_3", 2, 3, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
@@ -308,7 +308,7 @@ describe("<InsightsSubReport />/utils/buildInsightValues", () => {
         key: "verified_information_violations"
       });
 
-      expect(values).to.deep.equals([
+      expect(values).toEqual([
         {
           colspan: 0,
           row: ["attack_on_schools", 1]

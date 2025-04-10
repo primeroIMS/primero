@@ -149,6 +149,7 @@ GEM
       multipart-post (>= 1.2, < 3)
     faraday_middleware (0.14.0)
       faraday (>= 0.7.4, < 1.0)
+    ffi (1.17.1-arm64-darwin)
     ffi (1.17.1-x86_64-linux-gnu)
     file_validators (3.0.0)
       activemodel (>= 3.2)
@@ -242,6 +243,8 @@ GEM
       net-protocol
     nio4r (2.7.4)
     nkf (0.2.0)
+    nokogiri (1.18.3-arm64-darwin)
+      racc (~> 1.4)
     nokogiri (1.18.3-x86_64-linux-gnu)
       racc (~> 1.4)
     openssl (3.3.0)
@@ -458,6 +461,7 @@ GEM
     zeitwerk (2.7.2)
 
 PLATFORMS
+  arm64-darwin-24
   x86_64-linux-gnu
 
 DEPENDENCIES

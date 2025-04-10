@@ -43,7 +43,7 @@ describe("ChangeLogs - Selectors", () => {
     it("should return the correct value", () => {
       const expected = List([state.getIn(["records", NAMESPACE, "data"]).first()]);
 
-      expect(getChangeLogs(state, "38c82975-99aa-4798-9c3d-dabea104d992", "cases")).to.deep.equal(expected);
+      expect(getChangeLogs(state, "38c82975-99aa-4798-9c3d-dabea104d992", "cases")).toEqual(expected);
     });
 
     it("should return only those changes for the form fields", () => {
@@ -69,7 +69,7 @@ describe("ChangeLogs - Selectors", () => {
         fromJS({ form_unique_ids: ["basic_form"] })
       );
 
-      expect(expected.toObject()).to.deep.equal(result.first().toObject());
+      expect(expected.toObject()).toEqual(result.first().toObject());
     });
 
     it("should return only those changes for the field names", () => {
@@ -92,7 +92,7 @@ describe("ChangeLogs - Selectors", () => {
         })
       );
 
-      expect(expected.toObject()).to.deep.equal(result.first().toObject());
+      expect(expected.toObject()).toEqual(result.first().toObject());
     });
   });
 });

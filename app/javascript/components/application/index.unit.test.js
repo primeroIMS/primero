@@ -6,7 +6,7 @@ describe("<Application /> - index", () => {
   const indexValues = { ...index };
 
   it("should have known properties", () => {
-    expect(indexValues).to.be.an("object");
+    expect(typeof indexValues).toEqual("object");
     [
       "fetchRoles",
       "fetchSystemPermissions",
@@ -37,9 +37,9 @@ describe("<Application /> - index", () => {
       "getWebpushConfig",
       "getListHeaders"
     ].forEach(property => {
-      expect(indexValues).to.have.property(property);
+      expect(indexValues).toHaveProperty(property);
       delete indexValues[property];
     });
-    expect(indexValues).to.be.empty;
+    expect(Object.keys(indexValues)).toHaveLength(0);
   });
 });

@@ -6,7 +6,7 @@ describe("<UserGroupsList /> - Actions", () => {
   it("should have known properties", () => {
     const clonedActions = { ...actions };
 
-    expect(clonedActions).to.be.an("object");
+    expect(typeof clonedActions).toEqual("object");
     [
       "CLEAR_METADATA",
       "SET_USER_GROUPS_FILTER",
@@ -16,10 +16,10 @@ describe("<UserGroupsList /> - Actions", () => {
       "USER_GROUPS_FAILURE",
       "USER_GROUPS_FINISHED"
     ].forEach(property => {
-      expect(clonedActions).to.have.property(property);
+      expect(clonedActions).toHaveProperty(property);
       delete clonedActions[property];
     });
 
-    expect(clonedActions).to.be.empty;
+    expect(Object.keys(clonedActions)).toHaveLength(0);
   });
 });

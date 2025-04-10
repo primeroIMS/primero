@@ -1,6 +1,5 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { stub } from "../../../../test-utils";
 import { RECORD_PATH, SAVE_METHODS, METHODS } from "../../../../config";
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 
@@ -12,11 +11,11 @@ describe("<LookupsForm /> - action-creators", () => {
     const creators = { ...actionsCreators };
 
     ["clearSelectedLookup", "fetchLookup", "saveLookup"].forEach(property => {
-      expect(creators).to.have.property(property);
+      expect(creators).toHaveProperty(property);
       delete creators[property];
     });
 
-    expect(creators).to.be.empty;
+    expect(Object.keys(creators)).toHaveLength(0);
   });
 
   it("should check that 'fetchLookup' action creator returns the correct object", () => {
@@ -27,11 +26,11 @@ describe("<LookupsForm /> - action-creators", () => {
       }
     };
 
-    expect(actionsCreators.fetchLookup(1)).to.deep.equal(expectedAction);
+    expect(actionsCreators.fetchLookup(1)).toEqual(expectedAction);
   });
 
   it("should check that 'saveLookup' action creator returns the correct object", () => {
-    stub(generate, "messageKey").returns(4);
+    jest.spyOn(generate, "messageKey").mockReturnValue(4);
 
     const args = {
       id: 1,
@@ -63,12 +62,10 @@ describe("<LookupsForm /> - action-creators", () => {
       }
     };
 
-    expect(actionsCreators.saveLookup(args)).to.deep.equal(expectedAction);
+    expect(actionsCreators.saveLookup(args)).toEqual(expectedAction);
   });
 
   afterEach(() => {
-    if (generate.messageKey.restore) {
-      generate.messageKey.restore();
-    }
+    jest.resetAllMocks();
   });
 });

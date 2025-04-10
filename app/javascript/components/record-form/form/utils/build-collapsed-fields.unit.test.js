@@ -7,15 +7,15 @@ import buildCollapsedFields from "./build-collapsed-fields";
 describe("buildCollapsedFields", () => {
   const i18n = { t: v => v };
 
-  context("when collapsedFieldNames or fields are empty", () => {
+  describe("when collapsedFieldNames or fields are empty", () => {
     it("should return empty array", () => {
       const result = buildCollapsedFields({});
 
-      expect(result).to.deep.equal([]);
+      expect(result).toEqual([]);
     });
   });
 
-  context("when formikValues and parentValues are present", () => {
+  describe("when formikValues and parentValues are present", () => {
     it("should return the values for subform", () => {
       const values = {
         perpetrators: [
@@ -30,7 +30,7 @@ describe("buildCollapsedFields", () => {
         i18n
       });
 
-      expect(result[0].type).to.equal("span");
+      expect(result[0].type).toBe("span");
     });
   });
 });

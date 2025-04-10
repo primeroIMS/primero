@@ -6,7 +6,7 @@ describe("<ContactInformation /> - Actions", () => {
   it("should have known properties", () => {
     const clonedActions = { ...actions };
 
-    expect(clonedActions).to.be.an("object");
+    expect(typeof clonedActions).toEqual("object");
     [
       "SAVE_CONTACT_INFORMATION",
       "SAVE_CONTACT_INFORMATION_STARTED",
@@ -14,10 +14,10 @@ describe("<ContactInformation /> - Actions", () => {
       "SAVE_CONTACT_INFORMATION_SUCCESS",
       "SAVE_CONTACT_INFORMATION_FAILURE"
     ].forEach(property => {
-      expect(clonedActions).to.have.property(property);
+      expect(clonedActions).toHaveProperty(property);
       delete clonedActions[property];
     });
 
-    expect(clonedActions).to.be.empty;
+    expect(Object.keys(clonedActions)).toHaveLength(0);
   });
 });

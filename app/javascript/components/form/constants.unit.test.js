@@ -6,7 +6,7 @@ describe("<Form /> - Constants", () => {
   it("should have known properties", () => {
     const clonedConstants = { ...constants };
 
-    expect(clonedConstants).to.be.an("object");
+    expect(typeof clonedConstants).toEqual("object");
     [
       "AUDIO_RECORD_FIELD",
       "DIALOG_TRIGGER",
@@ -42,17 +42,17 @@ describe("<Form /> - Constants", () => {
       "SELECT_CHANGE_REASON",
       "EMPTY_VALUE"
     ].forEach(property => {
-      expect(clonedConstants).to.have.property(property);
+      expect(clonedConstants).toHaveProperty(property);
       delete clonedConstants[property];
     });
 
-    expect(clonedConstants).to.be.empty;
+    expect(Object.keys(clonedConstants)).toHaveLength(0);
   });
 
   it("should have known properties for OPTION_TYPES", () => {
     const clonedOptionTypes = { ...constants.OPTION_TYPES };
 
-    expect(clonedOptionTypes).to.be.an("object");
+    expect(typeof clonedOptionTypes).toEqual("object");
 
     [
       "AGENCY",
@@ -78,10 +78,10 @@ describe("<Form /> - Constants", () => {
       "USER_GROUP_PERMITTED",
       "INSIGHTS_USER_GROUP_PERMITTED"
     ].forEach(property => {
-      expect(clonedOptionTypes).to.have.property(property);
+      expect(clonedOptionTypes).toHaveProperty(property);
       delete clonedOptionTypes[property];
     });
 
-    expect(clonedOptionTypes).to.be.empty;
+    expect(Object.keys(clonedOptionTypes)).toHaveLength(0);
   });
 });

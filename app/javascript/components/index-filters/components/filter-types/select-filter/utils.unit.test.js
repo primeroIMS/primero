@@ -6,17 +6,17 @@ describe("index-filters/components/filter-types/select-filter/utils.js", () => {
   describe("with exposed properties", () => {
     let clone;
 
-    before(() => {
+    beforeAll(() => {
       clone = { ...utils };
     });
 
-    after(() => {
-      expect(clone).to.be.empty;
+    afterAll(() => {
+      expect(Object.keys(clone)).toHaveLength(0);
     });
 
     ["getOptionName"].forEach(property => {
       it(`exports ${property}`, () => {
-        expect(clone).to.have.property(property);
+        expect(clone).toHaveProperty(property);
         delete clone[property];
       });
     });
@@ -29,7 +29,7 @@ describe("index-filters/components/filter-types/select-filter/utils.js", () => {
     it(`should returns an empty string if the option doesn't have any ${namesProps} prop`, () => {
       const option = { test: 1 };
 
-      expect(utils.getOptionName(option, i18n)).to.be.empty;
+      expect(utils.getOptionName(option, i18n)).toHaveLength(0);
     });
 
     it(`should return the translated value if any ${namesProps} is included in the option`, () => {
@@ -37,9 +37,9 @@ describe("index-filters/components/filter-types/select-filter/utils.js", () => {
       const optionDisplayText = { display_text: "Test display text" };
       const optionName = { name: "Test name" };
 
-      expect(utils.getOptionName(optionDisplayName, i18n)).to.be.equal("Test display name");
-      expect(utils.getOptionName(optionDisplayText, i18n)).to.be.equal("Test display text");
-      expect(utils.getOptionName(optionName, i18n)).to.be.equal("Test name");
+      expect(utils.getOptionName(optionDisplayName, i18n)).toBe("Test display name");
+      expect(utils.getOptionName(optionDisplayText, i18n)).toBe("Test display text");
+      expect(utils.getOptionName(optionName, i18n)).toBe("Test name");
     });
 
     it(`should return the translated value if any ${namesProps} is included in the option with the translation`, () => {
@@ -47,9 +47,9 @@ describe("index-filters/components/filter-types/select-filter/utils.js", () => {
       const optionDisplayText = { display_text: { en: "Test display text" } };
       const optionName = { name: { en: "Test name" } };
 
-      expect(utils.getOptionName(optionDisplayName, i18n)).to.be.equal("Test display name");
-      expect(utils.getOptionName(optionDisplayText, i18n)).to.be.equal("Test display text");
-      expect(utils.getOptionName(optionName, i18n)).to.be.equal("Test name");
+      expect(utils.getOptionName(optionDisplayName, i18n)).toBe("Test display name");
+      expect(utils.getOptionName(optionDisplayText, i18n)).toBe("Test display text");
+      expect(utils.getOptionName(optionName, i18n)).toBe("Test name");
     });
   });
 });

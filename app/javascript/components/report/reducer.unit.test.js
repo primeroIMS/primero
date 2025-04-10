@@ -27,7 +27,7 @@ describe("<Reports /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(initialState);
+    expect(newState).toEqual(initialState);
   });
 
   it("deprecated Reports/CASES_BY_AGE_AND_SEX", () => {
@@ -66,7 +66,7 @@ describe("<Reports /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(initialState);
+    expect(newState).toEqual(initialState);
   });
 
   it("deprecated Reports/CASES_BY_PROTECTION_CONCERN", () => {
@@ -105,7 +105,7 @@ describe("<Reports /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(initialState);
+    expect(newState).toEqual(initialState);
   });
 
   it("deprecated Reports/CASES_BY_AGENCY", () => {
@@ -127,7 +127,7 @@ describe("<Reports /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(initialState);
+    expect(newState).toEqual(initialState);
   });
 
   it("should handle FETCH_REPORT_STARTED", () => {
@@ -143,7 +143,7 @@ describe("<Reports /> - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_REPORT_SUCCESS", () => {
@@ -168,7 +168,7 @@ describe("<Reports /> - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_REPORT_FINISHED", () => {
@@ -182,7 +182,7 @@ describe("<Reports /> - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_REPORT_FAILURE", () => {
@@ -196,7 +196,7 @@ describe("<Reports /> - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle user/LOGOUT_SUCCESS", () => {
@@ -220,6 +220,6 @@ describe("<Reports /> - Reducers", () => {
 
     const newState = reducer(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

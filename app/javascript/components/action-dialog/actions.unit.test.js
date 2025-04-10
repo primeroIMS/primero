@@ -7,11 +7,11 @@ describe("<RecordActions /> - Actions", () => {
     const cloneActions = { ...actions };
 
     ["SET_DIALOG", "SET_DIALOG_PENDING", "CLEAR_DIALOG"].forEach(property => {
-      expect(cloneActions).to.have.property(property);
-      expect(cloneActions[property]).to.be.a("string");
+      expect(cloneActions).toHaveProperty(property);
+      expect(typeof cloneActions[property]).toBe("string");
       delete cloneActions[property];
     });
 
-    expect(cloneActions).to.be.empty;
+    expect(Object.keys(cloneActions)).toHaveLength(0);
   });
 });

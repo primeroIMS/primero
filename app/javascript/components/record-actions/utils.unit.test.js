@@ -12,35 +12,39 @@ describe("<RecordActions /> - utils", () => {
     it("should return true when the actions is not enabled", () => {
       const selectedRecords = { 0: [1, 5, 9] };
 
-      expect(isDisabledAction(ENABLED_FOR_ONE, enabledOnSearch, isSearchFromList, selectedRecords, totaRecords)).to.be
-        .true;
+      expect(isDisabledAction(ENABLED_FOR_ONE, enabledOnSearch, isSearchFromList, selectedRecords, totaRecords)).toBe(
+        true
+      );
     });
 
     it("should return false when the actions is enabled", () => {
       const selectedRecords = { 0: [4] };
 
-      expect(isDisabledAction(ENABLED_FOR_ONE, enabledOnSearch, isSearchFromList, selectedRecords, totaRecords)).to.be
-        .false;
+      expect(isDisabledAction(ENABLED_FOR_ONE, enabledOnSearch, isSearchFromList, selectedRecords, totaRecords)).toBe(
+        false
+      );
     });
 
     it("should return false when the isSearchFromList and enabledOnSearch are true", () => {
       const selectedRecords = { 0: [4] };
 
-      expect(isDisabledAction(ENABLED_FOR_ONE, !enabledOnSearch, !isSearchFromList, selectedRecords, totaRecords)).to.be
-        .false;
+      expect(isDisabledAction(ENABLED_FOR_ONE, !enabledOnSearch, !isSearchFromList, selectedRecords, totaRecords)).toBe(
+        false
+      );
     });
 
     it("should return true when the selectedRecords is empty and there are not records", () => {
       const selectedRecords = {};
 
-      expect(isDisabledAction(ENABLED_FOR_ONE_MANY_ALL, enabledOnSearch, isSearchFromList, selectedRecords, 0)).to.be
-        .true;
+      expect(isDisabledAction(ENABLED_FOR_ONE_MANY_ALL, enabledOnSearch, isSearchFromList, selectedRecords, 0)).toBe(
+        true
+      );
     });
   });
 
   describe("subformExists", () => {
     it("should return null if parent form is not defined", () => {
-      expect(subformExists(null, "test_name")).to.be.null;
+      expect(subformExists(null, "test_name")).toBeNull();
     });
 
     it("should return undefined if parent form does not have fields", () => {
@@ -50,7 +54,7 @@ describe("<RecordActions /> - utils", () => {
         fields: []
       };
 
-      expect(subformExists(parentForm, "test_name")).to.be.undefined;
+      expect(subformExists(parentForm, "test_name")).toBeUndefined();
     });
 
     it("should return subform_section_id from the parent", () => {
@@ -64,7 +68,7 @@ describe("<RecordActions /> - utils", () => {
         fields: [expected]
       };
 
-      expect(subformExists(parentForm, "test_name")).to.be.deep.equals();
+      expect(subformExists(parentForm, "test_name")).toEqual();
     });
   });
 });
