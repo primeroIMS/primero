@@ -33,9 +33,37 @@ import {
   WorkflowTeamCases
 } from "./components";
 import NAMESPACE from "./namespace";
-import { MAX_VISIBLE_DASHBOARDS, NAME } from "./constants";
+import { NAME } from "./constants";
 import { fetchDashboards, fetchFlags } from "./action-creators";
 import css from "./styles.css";
+import permittedDashboards from "./utils/permitted-dashboards";
+
+const tableDashboards = [
+  { component: SharedFromMyTeam, actions: [ACTIONS.DASH_SHARED_FROM_MY_TEAM] },
+  { component: SharedWithMyTeam, actions: [ACTIONS.DASH_SHARED_WITH_MY_TEAM] },
+  {
+    component: OverdueTasks,
+    actions: [
+      ACTIONS.DASH_CASES_BY_TASK_OVERDUE_ASSESSMENT,
+      ACTIONS.DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN,
+      ACTIONS.DASH_CASES_BY_TASK_OVERDUE_SERVICES,
+      ACTIONS.DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS
+    ]
+  },
+  { component: CasesBySocialWorker, actions: [ACTIONS.DASH_CASES_BY_SOCIAL_WORKER] },
+  { component: WorkflowTeamCases, actions: [ACTIONS.DASH_WORKFLOW_TEAM] },
+  { component: ReportingLocation, actions: [ACTIONS.DASH_REPORTING_LOCATION] },
+  { component: ProtectionConcern, actions: [ACTIONS.DASH_PROTECTION_CONCERNS] },
+  {
+    component: ViolationsCategoryVerificationStatus,
+    actions: [ACTIONS.DASH_VIOLATIONS_CATEGORY_VERIFICATION_STATUS]
+  },
+  { component: ViolationsCategoryRegion, actions: [ACTIONS.DASH_VIOLATIONS_CATEGORY_REGION] },
+  {
+    component: PerpetratorArmedForceGroupPartyNames,
+    actions: [ACTIONS.DASH_PERPETRATOR_ARMED_FORCE_GROUP_PARTY_NAMES]
+  }
+];
 
 function Dashboard() {
   const i18n = useI18n();
@@ -108,47 +136,11 @@ function Dashboard() {
     { component: CasesToAssign, actions: [ACTIONS.DASH_CASES_TO_ASSIGN] }
   ];
 
-  const tableDashboards = [
-    { component: SharedFromMyTeam, actions: [ACTIONS.DASH_SHARED_FROM_MY_TEAM] },
-    { component: SharedWithMyTeam, actions: [ACTIONS.DASH_SHARED_WITH_MY_TEAM] },
-    {
-      component: OverdueTasks,
-      actions: [
-        ACTIONS.DASH_CASES_BY_TASK_OVERDUE_ASSESSMENT,
-        ACTIONS.DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN,
-        ACTIONS.DASH_CASES_BY_TASK_OVERDUE_SERVICES,
-        ACTIONS.DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS
-      ]
-    },
-    { component: CasesBySocialWorker, actions: [ACTIONS.DASH_CASES_BY_SOCIAL_WORKER] },
-    { component: WorkflowTeamCases, actions: [ACTIONS.DASH_WORKFLOW_TEAM] },
-    { component: ReportingLocation, actions: [ACTIONS.DASH_REPORTING_LOCATION] },
-    { component: ProtectionConcern, actions: [ACTIONS.DASH_PROTECTION_CONCERNS] },
-    {
-      component: ViolationsCategoryVerificationStatus,
-      actions: [ACTIONS.DASH_VIOLATIONS_CATEGORY_VERIFICATION_STATUS]
-    },
-    { component: ViolationsCategoryRegion, actions: [ACTIONS.DASH_VIOLATIONS_CATEGORY_REGION] },
-    {
-      component: PerpetratorArmedForceGroupPartyNames,
-      actions: [ACTIONS.DASH_PERPETRATOR_ARMED_FORCE_GROUP_PARTY_NAMES]
-    }
-  ];
-
-  let permittedColumnDashboards = columnDashboards.filter(
-    dashboard => dashboard.permitted || dashboard.actions.some(action => permittedAbilities.includes(action))
-  );
-  const permittedTableDashboards = tableDashboards.filter(
-    dashboard => dashboard.permitted || dashboard.actions.some(action => permittedAbilities.includes(action))
-  );
-
-  const totalColumnDashboards = permittedColumnDashboards.length;
-
-  if (permittedColumnDashboards.length < MAX_VISIBLE_DASHBOARDS) {
-    permittedColumnDashboards = permittedColumnDashboards.concat(
-      permittedTableDashboards.slice(0, MAX_VISIBLE_DASHBOARDS - totalColumnDashboards)
-    );
-  }
+  const [permittedColumnDashboards, permittedTableDashboards] = permittedDashboards({
+    columnDashboards,
+    permittedAbilities,
+    tableDashboards
+  });
 
   const xlSizeFlags = permittedColumnDashboards.length > 0 ? 3 : 12;
   const mdSizeFlags = permittedColumnDashboards.length > 0 ? 4 : 12;
