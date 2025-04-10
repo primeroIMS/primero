@@ -70,7 +70,7 @@ describe("<Dashboard />", () => {
     });
 
     it("should render a <SharedFromMyTeam /> component", () => {
-      expect(screen.queryAllByText(/dashboard.dash_shared_from_my_team/i)).toHaveLength(3);
+      expect(screen.queryAllByText(/dashboard.dash_shared_from_my_team/i)).toHaveLength(6);
     });
 
     it("should render a <WorkflowIndividualCases /> component", () => {

@@ -185,11 +185,9 @@ function Dashboard() {
             </Grid>
           )}
           <Grid item xl={12} md={12} xs={12}>
-            {permittedTableDashboards
-              .slice(MAX_VISIBLE_DASHBOARDS - totalColumnDashboards, permittedTableDashboards.length)
-              .map(dashboard => (
-                <dashboard.component loadingIndicator={indicatorProps} userPermissions={userPermissions} />
-              ))}
+            {permittedTableDashboards.map(dashboard => (
+              <dashboard.component loadingIndicator={indicatorProps} userPermissions={userPermissions} />
+            ))}
           </Grid>
         </Grid>
       </PageContent>
