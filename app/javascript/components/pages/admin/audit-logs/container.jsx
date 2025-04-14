@@ -21,6 +21,7 @@ import { AUDIT_LOG, NAME, DEFAULT_FILTERS, TIMESTAMP, USER_NAME } from "./consta
 import { fetchAuditLogs, fetchPerformedBy, setAuditLogsFilters } from "./action-creators";
 import { getFilterUsers } from "./selectors";
 import { buildAuditLogsQuery, getFilters } from "./utils";
+import LogMessageRenderer from "./components/log-description-message";
 
 function Container() {
   const i18n = useI18n();
@@ -89,13 +90,9 @@ function Container() {
         name: "log_message",
         options: {
           sort: false,
-          customBodyRender: (value, { rowIndex }) => {
-            const prefix = value?.prefix?.approval_type
-              ? i18n.t(value?.prefix?.key, { approval_label: value?.prefix?.approval_type })
-              : i18n.t(value?.prefix?.key);
-
-            return `${prefix} ${i18n.t(`logger.resources.${data.getIn(["data", rowIndex, "record_type"])}`)}`;
-          }
+          customBodyRender: (value, { rowIndex }) => (
+            <LogMessageRenderer value={value} rowIndex={rowIndex} data={data} />
+          )
         }
       },
       {
