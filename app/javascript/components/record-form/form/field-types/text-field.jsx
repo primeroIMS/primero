@@ -95,7 +95,7 @@ function TextField({ name, field, formik, mode, recordType, recordID, formSectio
               {...fieldProps}
               helperText={fieldError || fieldProps?.helperText}
             />
-            {hiddenTextField && mode.isEdit && !rest?.formSection?.is_nested ? (
+            {hiddenTextField && mode.isEdit && !rest?.formSection?.is_nested && !rest.disabled ? (
               <ButtonBase
                 data-testid="button-base"
                 id="hidden-name-button"
