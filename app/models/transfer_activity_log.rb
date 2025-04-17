@@ -48,11 +48,12 @@ class TransferActivityLog < ActivityLog
         'record_changes @> ?',
         { transfer_status: { from: Transition::STATUS_INPROGRESS, to: Transition::STATUS_REJECTED } }.to_json
       )
-      
+
       rejected_query.where(
         'record_changes->\'assigned_user_names\'->\'from\' ?| array[:users]', users: managed_user_names
       ).or(
-        rejected_query.where('record_changes->\'associated_user_names\'->\'from\' ?| array[:users]', users: managed_user_names)
+        rejected_query.where('record_changes->\'associated_user_names\'->\'from\' ?| array[:users]',
+                             users: managed_user_names)
       )
     end
   end
