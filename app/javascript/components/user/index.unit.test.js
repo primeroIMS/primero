@@ -14,6 +14,7 @@ describe("User - index", () => {
       "fetchAuthenticatedUserData",
       "getAppResources",
       "getAssignedAgency",
+      "getAssignedAgencyUniqueId",
       "getCodeOfConductAccepteOn",
       "getCodeOfConductId",
       "getCurrentUserGroupPermission",
