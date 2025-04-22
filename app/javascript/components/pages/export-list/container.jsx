@@ -14,6 +14,7 @@ import { DATE_TIME_FORMAT, FETCH_PARAM } from "../../../config";
 import { getMetadata } from "../../record-list";
 import { useMetadata } from "../../records";
 import { useMemoizedSelector } from "../../../libs";
+import downloadUrl from "../../../libs/download-url";
 
 import { fetchExports } from "./action-creators";
 import css from "./styles.css";
@@ -31,7 +32,8 @@ function ExportList() {
   const defaultFilters = metadata;
   const isRecordProcessing = status => status === EXPORT_STATUS.processing;
 
-  const onRowClick = record => (!isRecordProcessing(record.status) ? window.open(record.export_file, "_self") : null);
+  const onRowClick = record =>
+    !isRecordProcessing(record.status) ? downloadUrl(record.export_file, record.file_name) : null;
 
   const columns = data => {
     const handleClick = exportRecord => () => onRowClick(exportRecord);

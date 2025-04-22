@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import PropTypes from "prop-types";
 
 import css from "../../styles.css";
+import { ImageJwt } from "../../../../image-jwt";
 
 import { ATTACHMENT_TYPES } from "./constants";
 
@@ -26,7 +27,7 @@ function AttachmentPreview({ name, attachment, attachmentUrl }) {
     );
   }
 
-  return <img data-testid="attachment" src={attachmentUrl} alt="" className={css.editImg} />;
+  return <ImageJwt data-testid="attachment" src={attachmentUrl} alt="" className={css.editImg} />;
 }
 
 AttachmentPreview.displayName = "AttachmentPreview";
