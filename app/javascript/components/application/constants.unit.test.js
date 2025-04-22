@@ -7,21 +7,21 @@ describe("<Application /> - Constants", () => {
     const clonedActions = { ...constants };
 
     ["DEMO", "PERMISSIONS", "RESOURCES", "RESOURCE_ACTIONS", "LIMITED"].forEach(property => {
-      expect(clonedActions).to.have.property(property);
+      expect(clonedActions).toHaveProperty(property);
       delete clonedActions[property];
     });
 
-    expect(clonedActions).to.be.empty;
+    expect(Object.keys(clonedActions)).toHaveLength(0);
   });
 
   it("should have known RESOURCES properties", () => {
     const clonedActions = { ...constants.RESOURCES };
 
     ["agency", "role"].forEach(property => {
-      expect(clonedActions).to.have.property(property);
+      expect(clonedActions).toHaveProperty(property);
       delete clonedActions[property];
     });
 
-    expect(clonedActions).to.be.empty;
+    expect(Object.keys(clonedActions)).toHaveLength(0);
   });
 });

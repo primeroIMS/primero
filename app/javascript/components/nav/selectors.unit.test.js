@@ -30,7 +30,7 @@ describe("<Nav /> - Selectors", () => {
         tracing_request: 1
       });
 
-      expect(records).to.deep.equal(expected);
+      expect(records).toEqual(expected);
     });
   });
 });

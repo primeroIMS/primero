@@ -6,7 +6,7 @@ describe("buildViolationSubform", () => {
   it("should return empty object when formikValues and currentValues are empty", () => {
     const result = buildViolationSubform([], []);
 
-    expect(result).to.deep.equal([]);
+    expect(result).toEqual([]);
   });
 
   it("should return formikValues object when currentValues is empty", () => {
@@ -18,7 +18,7 @@ describe("buildViolationSubform", () => {
     ];
     const result = buildViolationSubform(formikValues, []);
 
-    expect(result).to.deep.equal(formikValues);
+    expect(result).toEqual(formikValues);
   });
 
   it("should return a object when formikValues currentValues are preenet", () => {
@@ -36,6 +36,6 @@ describe("buildViolationSubform", () => {
     ];
     const result = buildViolationSubform(formikValues, currentValues);
 
-    expect(result).to.deep.equal([...formikValues, ...currentValues]);
+    expect(result).toEqual([...formikValues, ...currentValues]);
   });
 });

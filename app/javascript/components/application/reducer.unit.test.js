@@ -33,7 +33,7 @@ describe("Application - Reducers", () => {
 
     const newState = reducer.application(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_SYSTEM_SETTINGS_SUCCESS", () => {
@@ -228,7 +228,7 @@ describe("Application - Reducers", () => {
 
     const newState = reducer.application(defaultState, action);
 
-    expect(newState.toJS()).to.eql(expected.toJS());
+    expect(newState.toJS()).toEqual(expected.toJS());
   });
 
   it("should handle FETCH_SYSTEM_PERMISSIONS_SUCCESS", () => {
@@ -251,7 +251,7 @@ describe("Application - Reducers", () => {
 
     const newState = reducer.application(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_USER_GROUPS_FAILURE", () => {
@@ -264,7 +264,7 @@ describe("Application - Reducers", () => {
 
     const newState = reducer.application(defaultState, action);
 
-    expect(newState).to.eql(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_USER_GROUPS_FINISHED", () => {
@@ -277,7 +277,7 @@ describe("Application - Reducers", () => {
 
     const newState = reducer.application(defaultState, action);
 
-    expect(newState).to.eql(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_USER_GROUPS_STARTED", () => {
@@ -293,7 +293,7 @@ describe("Application - Reducers", () => {
 
     const newState = reducer.application(defaultState, action);
 
-    expect(newState).to.eql(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_USER_GROUPS_SUCCESS", () => {
@@ -312,7 +312,7 @@ describe("Application - Reducers", () => {
 
     const newState = reducer.application(defaultState, action);
 
-    expect(newState).to.eql(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_ROLES_FAILURE", () => {
@@ -325,7 +325,7 @@ describe("Application - Reducers", () => {
 
     const newState = reducer.application(defaultState, action);
 
-    expect(newState).to.eql(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_ROLES_FINISHED", () => {
@@ -338,7 +338,7 @@ describe("Application - Reducers", () => {
 
     const newState = reducer.application(defaultState, action);
 
-    expect(newState).to.eql(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_ROLES_SUCCESS", () => {
@@ -357,7 +357,7 @@ describe("Application - Reducers", () => {
 
     const newState = reducer.application(defaultState, action);
 
-    expect(newState).to.eql(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_ROLES_STARTED", () => {
@@ -373,7 +373,7 @@ describe("Application - Reducers", () => {
 
     const newState = reducer.application(defaultState, action);
 
-    expect(newState).to.eql(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle DISABLE_NAVIGATION", () => {
@@ -388,7 +388,7 @@ describe("Application - Reducers", () => {
 
     const newState = reducer.application(defaultState, action);
 
-    expect(newState).to.eql(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_SANDBOX_UI_SUCCESS", () => {
@@ -409,7 +409,7 @@ describe("Application - Reducers", () => {
 
     const newState = reducer.application(defaultState, action);
 
-    expect(newState).to.eql(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_REFERRAL_AUTHORIZATION_ROLES_STARTED", () => {
@@ -426,7 +426,7 @@ describe("Application - Reducers", () => {
 
     const newState = reducer.application(defaultState, action);
 
-    expect(newState).to.eql(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_REFERRAL_AUTHORIZATION_ROLES_SUCCESS", () => {
@@ -445,7 +445,7 @@ describe("Application - Reducers", () => {
 
     const newState = reducer.application(defaultState, action);
 
-    expect(newState).to.eql(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_REFERRAL_AUTHORIZATION_ROLES_FINISHED", () => {
@@ -457,7 +457,7 @@ describe("Application - Reducers", () => {
 
     const newState = reducer.application(defaultState, action);
 
-    expect(newState).to.eql(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_REFERRAL_AUTHORIZATION_ROLES_FAILURE", () => {
@@ -469,6 +469,6 @@ describe("Application - Reducers", () => {
 
     const newState = reducer.application(defaultState, action);
 
-    expect(newState).to.eql(expected);
+    expect(newState).toEqual(expected);
   });
 });

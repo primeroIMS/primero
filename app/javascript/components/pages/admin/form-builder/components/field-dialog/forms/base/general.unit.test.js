@@ -15,10 +15,10 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/base - ge
     it("should return the general fields", () => {
       const fields = generalFields({ fieldName: "test_1", i18n, formMode });
 
-      expect(fields.displayName.name).to.equal("test_1.display_name.en");
-      expect(fields.helpText.name).to.equal("test_1.help_text.en");
-      expect(fields.required.name).to.equal("test_1.required");
-      expect(fields.disabled.name).to.equal("test_1.disabled");
+      expect(fields.displayName.name).toBe("test_1.display_name.en");
+      expect(fields.helpText.name).toBe("test_1.help_text.en");
+      expect(fields.required.name).toBe("test_1.required");
+      expect(fields.disabled.name).toBe("test_1.disabled");
     });
   });
 
@@ -27,8 +27,8 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/base - ge
       const form = generalForm({ fieldName: "test_1", i18n, formMode });
       const fieldNames = form.fields.map(field => field.name);
 
-      expect(form.unique_id).to.equal("field_form");
-      expect(fieldNames).to.deep.equal([
+      expect(form.unique_id).toBe("field_form");
+      expect(fieldNames).toEqual([
         "test_1.display_name.en",
         "test_1.help_text.en",
         "test_1.guiding_questions.en",
@@ -48,8 +48,8 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/base - ge
       });
       const fieldNames = form.fields.map(field => field.name);
 
-      expect(form.unique_id).to.equal("field_form");
-      expect(fieldNames).to.deep.equal(["test_1.display_name.en"]);
+      expect(form.unique_id).toBe("field_form");
+      expect(fieldNames).toEqual(["test_1.display_name.en"]);
     });
   });
 });

@@ -16,7 +16,7 @@ describe("<ContactInformation /> - Reducers", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SAVE_CONTACT_INFORMATION_SUCCESS", () => {
@@ -44,7 +44,7 @@ describe("<ContactInformation /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SAVE_CONTACT_INFORMATION_FINISHED", () => {
@@ -55,6 +55,6 @@ describe("<ContactInformation /> - Reducers", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

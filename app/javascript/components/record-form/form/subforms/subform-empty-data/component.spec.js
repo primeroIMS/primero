@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { mountedComponent, spy, translateOptions, screen } from "../../../../../test-utils";
+import { mountedComponent, translateOptions, screen } from "../../../../../test-utils";
 
 import SubformEmptyData from "./component";
 
@@ -13,7 +13,7 @@ describe("<SubformEmptyData />", () => {
   };
 
   const props = {
-    handleClick: spy(),
+    handleClick: jest.fn(),
     i18n: { t: (value, options) => translateOptions(value, options, translations) },
     mode: { isEdit: true },
     subformName: "Test form"

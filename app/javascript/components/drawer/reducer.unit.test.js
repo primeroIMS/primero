@@ -20,7 +20,7 @@ describe("components/drawer/reducer.js", () => {
 
     const newState = reducer.drawers(defaultState, action);
 
-    expect(newState).to.eql(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle TOGGLE_DRAWER", () => {
@@ -35,6 +35,6 @@ describe("components/drawer/reducer.js", () => {
 
     const newState = reducer.drawers(fromJS({ formDrawer: true }), action);
 
-    expect(newState).to.eql(expected);
+    expect(newState).toEqual(expected);
   });
 });

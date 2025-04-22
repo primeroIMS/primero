@@ -11,6 +11,6 @@ describe("appendDisabledUser", () => {
     const expected = [...users, { id: "user-3", display_text: "user-3", disabled: true }];
     const options = appendDisabledUser(users, "user-3");
 
-    expect(options).to.deep.equal(expected);
+    expect(options).toEqual(expected);
   });
 });

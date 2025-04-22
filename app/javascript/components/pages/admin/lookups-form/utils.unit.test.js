@@ -3,7 +3,6 @@
 import { fromJS } from "immutable";
 
 import uuid from "../../../../libs/uuid";
-import { stub } from "../../../../test-utils";
 
 import * as utils from "./utils";
 
@@ -14,12 +13,12 @@ describe("<LookupsForm> - utils", () => {
 
       ["buildValues", "getDisabledInfo", "getInitialNames", "getInitialValues", "reorderValues", "validations"].forEach(
         property => {
-          expect(clone).to.have.property(property);
-          expect(clone[property]).to.be.a("function");
+          expect(clone).toHaveProperty(property);
+          expect(clone[property]).toBeInstanceOf(Function);
           delete clone[property];
         }
       );
-      expect(clone).to.be.empty;
+      expect(Object.keys(clone)).toHaveLength(0);
     });
   });
 
@@ -28,7 +27,7 @@ describe("<LookupsForm> - utils", () => {
       const i18n = { t: () => {} };
       const expected = ["name"];
 
-      expect(Object.keys(utils.validations(i18n).fields)).to.deep.equal(expected);
+      expect(Object.keys(utils.validations(i18n).fields)).toEqual(expected);
     });
   });
 
@@ -44,13 +43,13 @@ describe("<LookupsForm> - utils", () => {
 
       const expected = { en: "Case Status" };
 
-      expect(utils.getInitialNames(locales, name)).to.deep.equal(expected);
+      expect(utils.getInitialNames(locales, name)).toEqual(expected);
     });
 
     it("should return an empty object if any name is passed", () => {
       const name = {};
 
-      expect(utils.getInitialNames(locales, name)).to.be.empty;
+      expect(utils.getInitialNames(locales, name)).toEqual({});
     });
   });
 
@@ -82,13 +81,13 @@ describe("<LookupsForm> - utils", () => {
         es: { open: "Abierto", closed: "Cerrado" }
       };
 
-      expect(utils.getInitialValues(locales, values)).to.deep.equal(expected);
+      expect(utils.getInitialValues(locales, values)).toEqual(expected);
     });
 
     it("should return an empty object if any values is passed", () => {
       const values = {};
 
-      expect(utils.getInitialValues(locales, values)).to.be.empty;
+      expect(utils.getInitialValues(locales, values)).toEqual({});
     });
   });
 
@@ -112,7 +111,7 @@ describe("<LookupsForm> - utils", () => {
         test2: false
       };
 
-      expect(utils.getDisabledInfo(values)).to.deep.equal(expected);
+      expect(utils.getDisabledInfo(values)).toEqual(expected);
     });
   });
 
@@ -121,17 +120,17 @@ describe("<LookupsForm> - utils", () => {
       const items = ["open", "closed", "transferred", "duplicate"];
       const expected = ["transferred", "open", "closed", "duplicate"];
 
-      expect(utils.reorderValues(items, 2, 0)).to.deep.equal(expected);
+      expect(utils.reorderValues(items, 2, 0)).toEqual(expected);
     });
   });
 
   describe("buildValues", () => {
     beforeEach(() => {
-      stub(uuid, "v4").returns("1234abc");
+      jest.spyOn(uuid, "v4").mockReturnValue("1234abc");
     });
 
     afterEach(() => {
-      uuid.v4.restore();
+      jest.resetAllMocks();
     });
 
     it("should return values for a lookup", () => {
@@ -164,7 +163,7 @@ describe("<LookupsForm> - utils", () => {
         }
       ];
 
-      expect(utils.buildValues(values, "en", disabled, null)).to.deep.equal(expected);
+      expect(utils.buildValues(values, "en", disabled, null)).toEqual(expected);
     });
     it("DEPRECATED should return values with _delete key if there are removed values", () => {
       const values = {
@@ -189,7 +188,7 @@ describe("<LookupsForm> - utils", () => {
         }
       ];
 
-      expect(utils.buildValues(values, "en", removed, [])).to.not.equal(expected);
+      expect(utils.buildValues(values, "en", removed, [])).not.toBe(expected);
     });
     it("should return values for a lookup with ordered item", () => {
       const values = {
@@ -221,7 +220,7 @@ describe("<LookupsForm> - utils", () => {
         }
       ];
 
-      expect(utils.buildValues(values, "en", disabled, ["new_option_1", "test"])).to.deep.equal(expected);
+      expect(utils.buildValues(values, "en", disabled, ["new_option_1", "test"])).toEqual(expected);
     });
   });
 });

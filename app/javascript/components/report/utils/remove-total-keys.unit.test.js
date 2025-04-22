@@ -9,7 +9,7 @@ describe("<Report /> - utils", () => {
         removeTotalKeys("total", {
           prop1: { prop11: { total: 1 }, prop12: { total: 1 }, total: 2 }
         })
-      ).to.deep.equals([["prop1", "prop11"], ["prop1", "prop12"], ["prop1"]]);
+      ).toEqual([["prop1", "prop11"], ["prop1", "prop12"], ["prop1"]]);
     });
   });
 });

@@ -8,12 +8,12 @@ describe("<Nav /> - Actions", () => {
   const actionsNav = clone(actions);
 
   it("should have known properties", () => {
-    expect(actions).to.be.an("object");
+    expect(typeof actions).toEqual("object");
     ["FETCH_ALERTS", "FETCH_ALERTS_SUCCESS"].forEach(property => {
-      expect(actionsNav).to.have.property(property);
+      expect(actionsNav).toHaveProperty(property);
       delete actionsNav[property];
     });
 
-    expect(actionsNav).to.be.empty;
+    expect(Object.keys(actionsNav)).toHaveLength(0);
   });
 });

@@ -3,7 +3,7 @@
 import buildGroupedSubItemColumns from "./build-grouped-sub-item-columns";
 
 describe("<InsightsSubReport />/utils/buildGroupedSubItemColumns", () => {
-  context("when subItems is not present in columns", () => {
+  describe("when subItems is not present in columns", () => {
     it("return subitems object", () => {
       const columns = [
         {
@@ -22,11 +22,11 @@ describe("<InsightsSubReport />/utils/buildGroupedSubItemColumns", () => {
       const result = buildGroupedSubItemColumns(columns);
       const expected = {};
 
-      expect(result).to.deep.equals(expected);
+      expect(result).toEqual(expected);
     });
   });
 
-  context("when subItems is present in columns", () => {
+  describe("when subItems is present in columns", () => {
     it("return subitems object", () => {
       const columns = [
         {
@@ -49,7 +49,7 @@ describe("<InsightsSubReport />/utils/buildGroupedSubItemColumns", () => {
         "2022-Q2": ["boys", "girls", "total"]
       };
 
-      expect(result).to.deep.equals(expected);
+      expect(result).toEqual(expected);
     });
   });
 });

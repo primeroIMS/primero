@@ -13,10 +13,10 @@ describe("ChangeLogs - Actions", () => {
       "FETCH_CHANGE_LOGS_FAILURE",
       "FETCH_CHANGE_LOGS_FINISHED"
     ].forEach(property => {
-      expect(clonedActions).to.have.property(property);
+      expect(clonedActions).toHaveProperty(property);
       delete clonedActions[property];
     });
 
-    expect(clonedActions).to.be.empty;
+    expect(Object.keys(clonedActions)).toHaveLength(0);
   });
 });

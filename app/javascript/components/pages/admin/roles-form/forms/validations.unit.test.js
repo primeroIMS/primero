@@ -8,7 +8,7 @@ describe("pages/admin/<RolesForm>/forms - Validations", () => {
   it("returns an object with the fields to validate", () => {
     const validations = Validations(i18n);
 
-    expect(validations.fields.name).to.be.an("object");
-    expect(validations.fields.permissions).to.be.an("object");
+    expect(typeof validations.fields.name).toEqual("object");
+    expect(typeof validations.fields.permissions).toEqual("object");
   });
 });

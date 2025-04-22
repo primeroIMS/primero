@@ -7,21 +7,21 @@ describe("<Notifier/> - constants", () => {
     const clonedConstants = { ...constants };
 
     ["SNACKBAR_VARIANTS"].forEach(property => {
-      expect(clonedConstants).to.have.property(property);
+      expect(clonedConstants).toHaveProperty(property);
       delete clonedConstants[property];
     });
 
-    expect(clonedConstants).to.be.empty;
+    expect(Object.keys(clonedConstants)).toHaveLength(0);
   });
 
   it("should have known SNACKBAR_VARIANTS properties", () => {
     const clonedConstants = { ...constants.SNACKBAR_VARIANTS };
 
     ["error", "info", "success", "warning"].forEach(property => {
-      expect(clonedConstants).to.have.property(property);
+      expect(clonedConstants).toHaveProperty(property);
       delete clonedConstants[property];
     });
 
-    expect(clonedConstants).to.be.empty;
+    expect(Object.keys(clonedConstants)).toHaveLength(0);
   });
 });

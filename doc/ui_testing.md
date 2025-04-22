@@ -20,8 +20,8 @@ the `develop_react_upgrade` branch in Github.
 
 #### Thing to know
 - Running unit test
-  - `npm run test:components` - Runs full test suite
-  - `npm run test:components -- $FILE_PATH` - Run individual test files. Example: `npm run test:components -- app/javascript/components/menu/component.spec.js`
+  - `npm run test` - Runs full test suite
+  - `npm run test -- $FILE_PATH` - Run individual test files. Example: `npm run test -- app/javascript/components/menu/component.spec.js`
 - There are some utility functions that we use to render test components in `/app/javascript/test-utils`. `mountedComponent` will be the most used for unit test. The function takes a component to test, desired store data, and other options. It will return a rendered component to use with your assertions. For an example see: `app/javascript/components/action-button/component.spec.js`
 - If there is a component without an unit test file please create one. In that file please place the following.
   ```

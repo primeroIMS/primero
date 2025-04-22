@@ -102,6 +102,6 @@ describe("toProtectionConcernTable - pages/dashboard/utils/", () => {
 
     const converted = toProtectionConcernTable(data, i18nMock, lookups);
 
-    expect(converted).to.deep.equal(expected);
+    expect(converted).toEqual(expected);
   });
 });

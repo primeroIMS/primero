@@ -18,7 +18,7 @@ describe("getValueForOptionSource", () => {
     }
   });
 
-  context("when useReportingLocations is true and fieldName is incident_location", () => {
+  describe("when useReportingLocations is true and fieldName is incident_location", () => {
     it("should return a string with reportingLocation", () => {
       const result = getValueForOptionSource({
         value,
@@ -28,11 +28,11 @@ describe("getValueForOptionSource", () => {
         reportingLocationConfig
       });
 
-      expect(result).to.equal("UA0104");
+      expect(result).toBe("UA0104");
     });
   });
 
-  context("when useReportingLocations is false", () => {
+  describe("when useReportingLocations is false", () => {
     it("should return passed value", () => {
       const result = getValueForOptionSource({
         value: "Testing",
@@ -42,7 +42,7 @@ describe("getValueForOptionSource", () => {
         reportingLocationConfig
       });
 
-      expect(result).to.equal("Testing");
+      expect(result).toBe("Testing");
     });
   });
 });

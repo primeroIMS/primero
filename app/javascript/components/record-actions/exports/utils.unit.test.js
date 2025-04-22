@@ -2,7 +2,6 @@
 
 import { fromJS, OrderedMap, Map } from "immutable";
 
-import { fake } from "../../../test-utils";
 import { ACTIONS } from "../../permissions";
 import { TEXT_FIELD, SUBFORM_SECTION } from "../../record-form/constants";
 import { RECORD_PATH } from "../../../config";
@@ -26,17 +25,17 @@ describe("<RecordActions /> - exports/utils", () => {
         "isPdfExport",
         "skipFilters"
       ].forEach(property => {
-        expect(clone).to.have.property(property);
-        expect(clone[property]).to.be.a("function");
+        expect(clone).toHaveProperty(property);
+        expect(clone[property]).toBeInstanceOf(Function);
         delete clone[property];
       });
-      expect(clone).to.be.empty;
+      expect(Object.keys(clone)).toHaveLength(0);
     });
   });
 
   describe("allowedExports", () => {
     const i18n = {
-      t: fake.returns("test.label")
+      t: jest.fn().mockReturnValue("test.label")
     };
 
     it("should return all export types if userPermission contains manage permission and recordType is cases", () => {
@@ -51,7 +50,7 @@ describe("<RecordActions /> - exports/utils", () => {
         };
       });
 
-      expect(utils.allowedExports(userPermission, i18n, false, RECORD_PATH.cases)).to.deep.equal(expected);
+      expect(utils.allowedExports(userPermission, i18n, false, RECORD_PATH.cases)).toEqual(expected);
     });
 
     it("should return export types contained in userPermission", () => {
@@ -80,19 +79,19 @@ describe("<RecordActions /> - exports/utils", () => {
 
       const userPermission = fromJS([ACTIONS.EXPORT_CSV, ACTIONS.EXPORT_JSON]);
 
-      expect(utils.allowedExports(userPermission, i18n, false, RECORD_PATH.cases)).to.deep.equal(expected);
+      expect(utils.allowedExports(userPermission, i18n, false, RECORD_PATH.cases)).toEqual(expected);
     });
   });
 
   describe("formatFileName", () => {
     it("should set to default filename if any filename was not specified", () => {
-      expect(utils.formatFileName("", "csv")).to.be.empty;
+      expect(utils.formatFileName("", "csv")).toHaveLength(0);
     });
 
     it("should not return labels if there are not translations", () => {
       const expected = "hello world.csv";
 
-      expect(utils.formatFileName("hello world", "csv")).to.be.equal(expected);
+      expect(utils.formatFileName("hello world", "csv")).toBe(expected);
     });
   });
 
@@ -149,7 +148,7 @@ describe("<RecordActions /> - exports/utils", () => {
         }
       ];
 
-      expect(utils.buildFields(data, "en")).to.have.lengthOf(3);
+      expect(utils.buildFields(data, "en")).toHaveLength(3);
     });
 
     it("does not fail subforms without a subform section id", () => {
@@ -171,7 +170,7 @@ describe("<RecordActions /> - exports/utils", () => {
         }
       ];
 
-      expect(utils.buildFields(data, "en")).to.be.deep.equals([]);
+      expect(utils.buildFields(data, "en")).toEqual([]);
     });
 
     it("should not return hide_on_view_page: true fields", () => {
@@ -201,8 +200,8 @@ describe("<RecordActions /> - exports/utils", () => {
 
       const fields = utils.buildFields(data, "en");
 
-      expect(fields).to.have.lengthOf(1);
-      expect(fields).to.be.deep.equals([
+      expect(fields).toHaveLength(1);
+      expect(fields).toEqual([
         {
           display_text: "Field 1",
           formSectionId: "test_form",
@@ -218,38 +217,38 @@ describe("<RecordActions /> - exports/utils", () => {
     it("should return an array of strings with field_names", () => {
       const fields = ["form1:field1", "form2:field1", "form3:field10"];
 
-      expect(utils.formatFields(fields)).to.be.deep.equals(["field1", "field10"]);
+      expect(utils.formatFields(fields)).toEqual(["field1", "field10"]);
     });
   });
 
   describe("isCustomExport", () => {
     it("returns false if not custom export", () => {
-      expect(utils.isCustomExport("pdf")).to.be.false;
+      expect(utils.isCustomExport("pdf")).toBe(false);
     });
     it("returns true if custom export", () => {
-      expect(utils.isCustomExport("custom")).to.be.true;
+      expect(utils.isCustomExport("custom")).toBe(true);
     });
   });
 
   describe("isPdfExport", () => {
     it("returns false if not pdf export", () => {
-      expect(utils.isPdfExport("custom")).to.be.false;
+      expect(utils.isPdfExport("custom")).toBe(false);
     });
     it("returns true if pdf export", () => {
-      expect(utils.isPdfExport("pdf")).to.be.true;
+      expect(utils.isPdfExport("pdf")).toBe(true);
     });
   });
 
   describe("buildAgencyLogoPdfOptions", () => {
     it("return empty array when argument is empty", () => {
-      expect(utils.buildAgencyLogoPdfOptions([])).to.be.empty;
+      expect(utils.buildAgencyLogoPdfOptions([])).toHaveLength(0);
     });
 
     it("return an array of agencies", () => {
       const agencyLogosPdf = fromJS([{ id: "test", name: "Test" }]);
       const expected = [{ id: "test", display_name: "Test" }];
 
-      expect(utils.buildAgencyLogoPdfOptions(agencyLogosPdf)).to.deep.equal(expected);
+      expect(utils.buildAgencyLogoPdfOptions(agencyLogosPdf)).toEqual(expected);
     });
   });
 
@@ -262,13 +261,13 @@ describe("<RecordActions /> - exports/utils", () => {
       });
       const expected = [{ id: "test", display_text: "Test" }];
 
-      expect(utils.exportFormsOptions(forms, "en")).to.deep.equal(expected);
+      expect(utils.exportFormsOptions(forms, "en")).toEqual(expected);
     });
   });
 
   describe("skipFilters", () => {
     it("removes the FILTERS_TO_SKIP", () => {
-      expect(utils.skipFilters({ param1: "value1", per: 5, page: 1 })).to.deep.equal({ param1: "value1" });
+      expect(utils.skipFilters({ param1: "value1", per: 5, page: 1 })).toEqual({ param1: "value1" });
     });
   });
 });

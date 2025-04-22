@@ -30,7 +30,7 @@ describe("<LocationsList /> pages/admin/location-list/utils", () => {
         }
       ];
 
-      expect(getFilters(i18n)).to.be.deep.equals(expected);
+      expect(getFilters(i18n)).toEqual(expected);
     });
   });
 
@@ -57,7 +57,7 @@ describe("<LocationsList /> pages/admin/location-list/utils", () => {
         const expected = "TEST NAME";
         const nameColumn = getColumns(columns, fromJS([])).find(column => column.name === COLUMNS.NAME);
 
-        expect(nameColumn.options.customBodyRender("TEST_1::TEST_2::TEST NAME")).to.be.equals(expected);
+        expect(nameColumn.options.customBodyRender("TEST_1::TEST_2::TEST NAME")).toBe(expected);
       });
     });
 
@@ -66,7 +66,7 @@ describe("<LocationsList /> pages/admin/location-list/utils", () => {
         const expected = "Test 2";
         const typeColumn = getColumns(columns, lookup).find(column => column.name === COLUMNS.TYPE);
 
-        expect(typeColumn.options.customBodyRender("test_2")).to.be.equals(expected);
+        expect(typeColumn.options.customBodyRender("test_2")).toBe(expected);
       });
     });
 
@@ -74,7 +74,7 @@ describe("<LocationsList /> pages/admin/location-list/utils", () => {
       it("should not have options(customBodyRender)", () => {
         const hierarchyColumn = getColumns(columns, lookup).find(column => column.name === COLUMNS.HIERARCHY);
 
-        expect(hierarchyColumn.options).to.be.empty;
+        expect(hierarchyColumn.options).toStrictEqual({});
       });
     });
   });

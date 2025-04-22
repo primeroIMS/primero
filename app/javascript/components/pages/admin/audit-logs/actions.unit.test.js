@@ -19,10 +19,10 @@ describe("<AuditLogs /> - pages/admin/audit-logs/actions", () => {
       "FETCH_PERFORMED_BY_SUCCESS",
       "SET_AUDIT_LOGS_FILTER"
     ].forEach(property => {
-      expect(clone).to.have.property(property);
+      expect(clone).toHaveProperty(property);
       delete clone[property];
     });
 
-    expect(clone).to.be.empty;
+    expect(Object.keys(clone)).toHaveLength(0);
   });
 });

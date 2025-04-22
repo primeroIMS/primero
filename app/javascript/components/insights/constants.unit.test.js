@@ -1,7 +1,5 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { expect } from "chai";
-
 import { MODULES } from "../../config";
 
 import * as constants from "./constants";
@@ -10,7 +8,7 @@ describe("<Report /> - constants", () => {
   const clone = { ...constants };
 
   it("should have known properties", () => {
-    expect(clone).to.be.an("object");
+    expect(typeof clone).toEqual("object");
     [
       "AGENCY_DISPLAY_NAME",
       "AGENCY",
@@ -89,19 +87,19 @@ describe("<Report /> - constants", () => {
       "SERVICES_DISPLAY_NAME",
       "SHARED_WORKFLOW_CONFIG"
     ].forEach(property => {
-      expect(clone).to.have.property(property);
+      expect(clone).toHaveProperty(property);
       delete clone[property];
     });
 
-    expect(clone).to.be.empty;
+    expect(Object.keys(clone)).toHaveLength(0);
   });
 
   it("should have properties for INSIGHTS_CONFIG", () => {
     const clonedInsightsConfig = { ...constants.INSIGHTS_CONFIG };
     const expectModuleKeys = [MODULES.MRM, MODULES.GBV, MODULES.CP];
 
-    expect(Object.keys(clonedInsightsConfig)).to.eql(expectModuleKeys);
-    expect(Object.keys(clonedInsightsConfig[MODULES.MRM])).to.eql(["violations", "ghn_report", "individual_children"]);
-    expect(Object.keys(clonedInsightsConfig[MODULES.GBV])).to.eql(["gbv_statistics"]);
+    expect(Object.keys(clonedInsightsConfig)).toEqual(expectModuleKeys);
+    expect(Object.keys(clonedInsightsConfig[MODULES.MRM])).toEqual(["violations", "ghn_report", "individual_children"]);
+    expect(Object.keys(clonedInsightsConfig[MODULES.GBV])).toEqual(["gbv_statistics"]);
   });
 });

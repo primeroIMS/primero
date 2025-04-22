@@ -13,6 +13,6 @@ describe("pages/admin/utils/getAdminResources", () => {
       users: ["manage"]
     });
 
-    expect(getAdminResources(permissions)).to.be.deep.equal(expected);
+    expect(getAdminResources(permissions)).toEqual(expected);
   });
 });

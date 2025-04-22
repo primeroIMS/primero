@@ -32,7 +32,7 @@ describe("libs/reducer-helpers.js", () => {
         { type: "text_field", form_section_id: 2, name: "text_field" }
       ];
 
-      expect(listAttachmentFields(formSections, fields)).to.deep.equal(expected);
+      expect(listAttachmentFields(formSections, fields)).toEqual(expected);
     });
   });
 
@@ -124,7 +124,7 @@ describe("libs/reducer-helpers.js", () => {
         ]
       });
 
-      expect(mergeRecord(record, payload).toJS()).to.deep.equal(expected.toJS());
+      expect(mergeRecord(record, payload).toJS()).toEqual(expected.toJS());
     });
 
     it("should merge deep object and preserves the order of update/concat arrays", () => {
@@ -193,7 +193,7 @@ describe("libs/reducer-helpers.js", () => {
         services
       });
 
-      expect(mergeRecord(record, payload).toJS()).to.deep.equal(record.toJS());
+      expect(mergeRecord(record, payload).toJS()).toEqual(record.toJS());
     });
   });
 });

@@ -47,7 +47,7 @@ describe("record-actions/utils/build-approval-list", () => {
           ]
         })
       }).approvals
-    ).to.deep.equal([
+    ).toEqual([
       {
         name: approvalsLabels.getIn(["default", APPROVALS_TYPES.assessment]),
         condition: true,
@@ -94,7 +94,7 @@ describe("record-actions/utils/build-approval-list", () => {
           ]
         })
       }).approvals
-    ).to.deep.equal([
+    ).toEqual([
       {
         name: approvalsLabels.getIn(["default", APPROVALS_TYPES.assessment]),
         condition: true,

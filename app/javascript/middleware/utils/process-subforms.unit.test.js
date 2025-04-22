@@ -1,6 +1,5 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { stub } from "../../test-utils";
 import { METHODS } from "../../config";
 import { ENQUEUE_SNACKBAR, generate } from "../../components/notifier";
 import { SUBFORM_SECTION } from "../../components/form";
@@ -9,11 +8,11 @@ import processSubforms from "./process-subforms";
 
 describe("middleware/utils/process-subforms.js", () => {
   beforeEach(() => {
-    stub(generate, "messageKey").returns(4);
+    jest.spyOn(generate, "messageKey").mockReturnValue(4);
   });
 
   afterEach(() => {
-    generate.messageKey?.restore();
+    jest.resetAllMocks();
   });
 
   const callback = {
@@ -109,7 +108,7 @@ describe("middleware/utils/process-subforms.js", () => {
       ];
       const parentFormCallback = processSubforms(callback, responses);
 
-      expect(parentFormCallback.api.body.data.fields).to.deep.equals(expectedFields);
+      expect(parentFormCallback.api.body.data.fields).toEqual(expectedFields);
     });
   });
 
@@ -163,7 +162,7 @@ describe("middleware/utils/process-subforms.js", () => {
       ];
       const parentFormCallback = processSubforms(callback, failResponses);
 
-      expect(parentFormCallback.api.body.data.fields).to.deep.equals(expectedFields);
+      expect(parentFormCallback.api.body.data.fields).toEqual(expectedFields);
     });
   });
 });

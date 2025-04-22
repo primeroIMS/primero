@@ -1,11 +1,18 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { expect } from "chai";
-
-import { setupHook, spy, stub } from "../../test-utils";
+import { setupHook } from "../../test-utils";
 import * as authProvider from "../login/components/idp-selection/auth-provider";
 
 import useRefreshToken from "./use-refresh-token";
+
+jest.mock("../login/components/idp-selection/auth-provider", () => {
+  const originalModule = jest.requireActual("../login/components/idp-selection/auth-provider");
+
+  return {
+    __esModule: true,
+    ...originalModule
+  };
+});
 
 describe("user/use-refresh-token.js", () => {
   it("refresh token if authenticated", () => {
@@ -19,7 +26,7 @@ describe("user/use-refresh-token.js", () => {
       result.current.refreshUserToken();
     });
 
-    expect(store.getActions()).to.deep.eql([
+    expect(store.getActions()).toEqual([
       {
         api: {
           method: "POST",
@@ -41,13 +48,23 @@ describe("user/use-refresh-token.js", () => {
       result.current.refreshUserToken();
     });
 
-    expect(store.getActions()).to.deep.eql([]);
+    expect(store.getActions()).toEqual([]);
   });
 
   it("refreshes idp token", () => {
-    const idpTokenSpy = spy(authProvider, "refreshIdpToken");
+    const idpTokenSpy = jest.spyOn(authProvider, "refreshIdpToken");
 
-    stub(global.sessionStorage, "getItem").returns(JSON.stringify({ unique_id: "provider" }));
+    Object.defineProperty(global, "sessionStorage", {
+      value: {
+        getItem: jest.fn(() => {
+          return JSON.stringify({ unique_id: "provider" });
+        }),
+        setItem: jest.fn(),
+        removeItem: jest.fn(),
+        clear: jest.fn()
+      },
+      writable: true
+    });
 
     const { act, result } = setupHook(() => useRefreshToken(), {
       idp: {
@@ -63,10 +80,8 @@ describe("user/use-refresh-token.js", () => {
       result.current.refreshUserToken();
     });
 
-    expect(idpTokenSpy).to.have.been.called;
+    expect(idpTokenSpy).toHaveBeenCalled();
 
-    if (global.sessionStorage.getItem.restore) {
-      global.sessionStorage.getItem.restore();
-    }
+    jest.restoreAllMocks();
   });
 });

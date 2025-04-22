@@ -7,10 +7,10 @@ describe("<TransferRequest /> - Constants", () => {
     const constants = { ...transferRequestConstants };
 
     ["NAME", "REQUEST_FORM_NAME", "NOTES_FIELD"].forEach(property => {
-      expect(constants).to.have.property(property);
+      expect(constants).toHaveProperty(property);
       delete constants[property];
     });
 
-    expect(constants).to.be.empty;
+    expect(Object.keys(constants)).toHaveLength(0);
   });
 });

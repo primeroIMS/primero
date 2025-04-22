@@ -2,7 +2,6 @@
 
 import clone from "lodash/clone";
 import configureStore from "redux-mock-store";
-import sinon from "sinon";
 
 import { CLEAR_DIALOG } from "../../action-dialog";
 import { METHODS, RECORD_PATH } from "../../../config";
@@ -12,18 +11,18 @@ import actions from "./actions";
 
 describe("bulk-transitons - Action Creators", () => {
   const store = configureStore()({});
-  const dispatch = sinon.spy(store, "dispatch");
+  const dispatch = jest.spyOn(store, "dispatch");
 
   it("should have known action creators", () => {
     const creators = clone(actionCreators);
 
     ["saveBulkAssignedUser", "removeBulkAssignMessages"].forEach(property => {
-      expect(creators).to.have.property(property);
-      expect(creators[property]).to.be.a("function");
+      expect(creators).toHaveProperty(property);
+      expect(creators[property]).toBeInstanceOf(Function);
       delete creators[property];
     });
 
-    expect(creators).to.be.empty;
+    expect(Object.keys(creators)).toHaveLength(0);
   });
 
   it("should check the 'saveBulkAssignedUser' action creator to return the correct object", () => {
@@ -55,9 +54,7 @@ describe("bulk-transitons - Action Creators", () => {
       }
     };
 
-    expect(dispatch(actionCreators.saveBulkAssignedUser(RECORD_PATH.cases, [12345, 67890], 2, body))).to.deep.equals(
-      expected
-    );
+    expect(dispatch(actionCreators.saveBulkAssignedUser(RECORD_PATH.cases, [12345, 67890], 2, body))).toEqual(expected);
   });
 
   it("should check the 'removeBulkAssignMessages' action creator to remove all the bulk assign", () => {
@@ -65,6 +62,6 @@ describe("bulk-transitons - Action Creators", () => {
       type: `${RECORD_PATH.cases}/${actions.CLEAR_BULK_ASSIGN_MESSAGES}`
     };
 
-    expect(dispatch(actionCreators.removeBulkAssignMessages(RECORD_PATH.cases))).to.deep.equals(expected);
+    expect(dispatch(actionCreators.removeBulkAssignMessages(RECORD_PATH.cases))).toEqual(expected);
   });
 });

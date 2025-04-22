@@ -30,14 +30,14 @@ describe("<Insights /> - Selectors", () => {
 
       const records = getInsight(stateWithRecords, 1);
 
-      expect(records).to.deep.equal(expected);
+      expect(records).toEqual(expected);
     });
 
     it("should return empty object when records empty", () => {
       const expected = fromJS({});
       const records = getInsight(stateWithoutRecords, 1);
 
-      expect(records).to.deep.equal(expected);
+      expect(records).toEqual(expected);
     });
   });
 });

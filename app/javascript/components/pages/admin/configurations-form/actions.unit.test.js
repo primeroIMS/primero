@@ -4,18 +4,18 @@ import actions from "./actions";
 
 describe("configurations-form/actions.js", () => {
   it("exports an object", () => {
-    expect(actions).to.be.an("object");
+    expect(typeof actions).toEqual("object");
   });
 
   describe("properties", () => {
     let clone;
 
-    before(() => {
+    beforeAll(() => {
       clone = { ...actions };
     });
 
-    after(() => {
-      expect(clone).to.be.empty;
+    afterAll(() => {
+      expect(Object.keys(clone)).toHaveLength(0);
     });
 
     [
@@ -48,7 +48,7 @@ describe("configurations-form/actions.js", () => {
       "SEND_TO_PRODUCTION_FAILURE"
     ].forEach(property => {
       it(`exports '${property}' action`, () => {
-        expect(actions).to.have.property(property);
+        expect(actions).toHaveProperty(property);
         delete clone[property];
       });
     });

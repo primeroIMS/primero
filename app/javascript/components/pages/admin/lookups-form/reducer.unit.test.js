@@ -17,7 +17,7 @@ describe("<LookupForm /> - reducers", () => {
     };
     const newState = reducers(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_LOOKUP_FAILURE", () => {
@@ -28,7 +28,7 @@ describe("<LookupForm /> - reducers", () => {
     };
     const newState = reducers(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_LOOKUP_FINISHED", () => {
@@ -39,7 +39,7 @@ describe("<LookupForm /> - reducers", () => {
     };
     const newState = reducers(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_LOOKUP_STARTED", () => {
@@ -50,7 +50,7 @@ describe("<LookupForm /> - reducers", () => {
     };
     const newState = reducers(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_LOOKUP_SUCCESS", () => {
@@ -66,7 +66,7 @@ describe("<LookupForm /> - reducers", () => {
 
     const newState = reducers(fromJS({ selectedLookup: {} }), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SAVE_LOOKUP_FAILURE", () => {
@@ -77,7 +77,7 @@ describe("<LookupForm /> - reducers", () => {
     };
     const newState = reducers(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SAVE_LOOKUP_FINISHED", () => {
@@ -88,7 +88,7 @@ describe("<LookupForm /> - reducers", () => {
     };
     const newState = reducers(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SAVE_LOOKUP_STARTED", () => {
@@ -99,6 +99,6 @@ describe("<LookupForm /> - reducers", () => {
     };
     const newState = reducers(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

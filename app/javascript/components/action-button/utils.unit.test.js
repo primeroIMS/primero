@@ -10,25 +10,25 @@ describe("<AuditLogs /> - Helpers", () => {
       const clone = { ...helper };
 
       ["buttonType"].forEach(property => {
-        expect(clone).to.have.property(property);
-        expect(clone[property]).to.be.a("function");
+        expect(clone).toHaveProperty(property);
+        expect(clone[property]).toBeInstanceOf(Function);
         delete clone[property];
       });
-      expect(clone).to.be.empty;
+      expect(Object.keys(clone)).toHaveLength(0);
     });
   });
 
   describe("buttonType", () => {
     it("should return <DefaultButton /> Component if ACTION_BUTTON_TYPES is default", () => {
-      expect(helper.buttonType(ACTION_BUTTON_TYPES.default)).to.equal(DefaultButton);
+      expect(helper.buttonType(ACTION_BUTTON_TYPES.default)).toBe(DefaultButton);
     });
 
     it("should return <IconButton /> Component if ACTION_BUTTON_TYPES is icon", () => {
-      expect(helper.buttonType(ACTION_BUTTON_TYPES.icon)).to.equal(IconButton);
+      expect(helper.buttonType(ACTION_BUTTON_TYPES.icon)).toBe(IconButton);
     });
 
     it("should return null if any invalid type is passed in", () => {
-      expect(helper.buttonType("test")).to.be.null;
+      expect(helper.buttonType("test")).toBeNull();
     });
   });
 });

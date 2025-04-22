@@ -48,6 +48,6 @@ describe("ChangeLogs - Reducers", () => {
     };
     const newState = nsReducer(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

@@ -6,12 +6,12 @@ describe("<ImportDialog /> - Actions", () => {
   describe("actions", () => {
     let clone = { ...actions };
 
-    before(() => {
+    beforeAll(() => {
       clone = { ...actions };
     });
 
-    after(() => {
-      expect(clone).to.be.empty;
+    afterAll(() => {
+      expect(Object.keys(clone)).toHaveLength(0);
     });
 
     [
@@ -23,7 +23,7 @@ describe("<ImportDialog /> - Actions", () => {
       "IMPORT_LOCATIONS_FAILURE"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
-        expect(clone).to.have.property(property);
+        expect(clone).toHaveProperty(property);
         delete clone[property];
       });
     });

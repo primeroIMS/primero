@@ -36,6 +36,6 @@ describe("<RecordActions /> - exports/form", () => {
       {}
     );
 
-    expect(formFields).to.have.lengthOf(14);
+    expect(formFields).toHaveLength(14);
   });
 });

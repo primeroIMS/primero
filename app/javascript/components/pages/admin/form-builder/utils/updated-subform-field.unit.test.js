@@ -1,6 +1,5 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { expect } from "chai";
 import { fromJS } from "immutable";
 
 import updateSubformField from "./update-subform-field";
@@ -21,6 +20,6 @@ describe("updateSubformField", () => {
       ]
     });
 
-    expect(updateSubformField(field, fieldUpdate)).to.deep.equals(fieldUpdate);
+    expect(updateSubformField(field, fieldUpdate)).toEqual(fieldUpdate);
   });
 });

@@ -110,7 +110,7 @@ describe("<ViolationsCategoryRegion> - pages/dashboard/components/violations-cat
   });
 
   xit("should render 3 columns", () => {
-    expect(tableCells).to.have.lengthOf(3);
+    expect(tableCells).toHaveLength(3);
   });
 
   it("should render Killing column", () => {

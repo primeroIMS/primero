@@ -6,11 +6,11 @@ describe("<Form /> - index", () => {
   const clone = { ...constants };
 
   it("should have known properties", () => {
-    expect(clone).to.be.an("object");
+    expect(typeof clone).toEqual("object");
     ["RecordForm", "RecordFormToolbar", "FormSectionField"].forEach(property => {
-      expect(clone).to.have.property(property);
+      expect(clone).toHaveProperty(property);
       delete clone[property];
     });
-    expect(clone).to.be.empty;
+    expect(Object.keys(clone)).toHaveLength(0);
   });
 });

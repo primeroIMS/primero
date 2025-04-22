@@ -4,23 +4,23 @@ import * as constants from "./constants";
 
 describe("<ActionButton />  - constants", () => {
   it("exports an object", () => {
-    expect(constants).to.be.an("object");
+    expect(typeof constants).toEqual("object");
   });
 
   describe("properties", () => {
     let clone;
 
-    before(() => {
+    beforeAll(() => {
       clone = { ...constants };
     });
 
-    after(() => {
-      expect(clone).to.be.empty;
+    afterAll(() => {
+      expect(Object.keys(clone)).toHaveLength(0);
     });
 
     ["NAME", "ACTION_BUTTON_TYPES"].forEach(property => {
       it(`exports '${property}'`, () => {
-        expect(constants).to.have.property(property);
+        expect(constants).toHaveProperty(property);
         delete clone[property];
       });
     });

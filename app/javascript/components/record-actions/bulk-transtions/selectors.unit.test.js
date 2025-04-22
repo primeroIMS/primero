@@ -67,14 +67,14 @@ describe("bulk-transitons - Selectors", () => {
       const expected = 1;
       const values = selectors.getNumberErrorsBulkAssign(stateWithRecords, "cases");
 
-      expect(values).to.deep.equal(expected);
+      expect(values).toEqual(expected);
     });
 
     it("should return zero when there are not errors in store", () => {
       const expected = 0;
       const values = selectors.getNumberErrorsBulkAssign(stateWithNoRecords, "cases");
 
-      expect(values).to.be.equal(expected);
+      expect(values).toBe(expected);
     });
   });
 
@@ -83,14 +83,14 @@ describe("bulk-transitons - Selectors", () => {
       const expected = 1;
       const values = selectors.getNumberBulkAssign(stateWithRecords, "cases");
 
-      expect(values).to.deep.equal(expected);
+      expect(values).toEqual(expected);
     });
 
     it("should return zero when there are not records assigned in store", () => {
       const expected = 0;
       const values = selectors.getNumberBulkAssign(stateWithNoRecords, "cases");
 
-      expect(values).to.be.equal(expected);
+      expect(values).toBe(expected);
     });
   });
 });

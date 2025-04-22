@@ -3,21 +3,21 @@
 import configureStore from "redux-mock-store";
 
 import { RECORD_TYPES } from "../../config";
-import { spy } from "../../test-utils";
 
 import defaultErrorCallback from "./default-error-callback";
-import * as handleRestCallback from "./handle-rest-callback";
+import handleRestCallback from "./handle-rest-callback";
+
+jest.mock("./handle-rest-callback", () => ({
+  __esModule: true,
+  default: jest.fn()
+}));
 
 describe("middleware/utils/default-error-callback.js", () => {
   const store = configureStore()();
-  let handleRestCallbackSpy;
-
-  beforeEach(() => {
-    handleRestCallbackSpy = spy(handleRestCallback, "default");
-  });
 
   afterEach(() => {
-    handleRestCallbackSpy.restore();
+    jest.resetModules();
+    jest.resetAllMocks();
   });
 
   it("calls handleRestCallback if response not 401", () => {
@@ -42,7 +42,7 @@ describe("middleware/utils/default-error-callback.js", () => {
     ];
 
     defaultErrorCallback({ store, response });
-    expect(handleRestCallbackSpy).to.have.been.calledOnceWith(store, errorPayload, response, {});
+    expect(handleRestCallback).toHaveBeenCalledWith(store, errorPayload, response, {});
   });
 
   it("returns a sync update error for a record if fromQueue", () => {
@@ -69,7 +69,7 @@ describe("middleware/utils/default-error-callback.js", () => {
     ];
 
     defaultErrorCallback({ store, response, recordType: RECORD_TYPES.cases, fromQueue: true, id: "123456789" });
-    expect(handleRestCallbackSpy).to.have.been.calledOnceWith(store, errorPayload, response, {});
+    expect(handleRestCallback).toHaveBeenCalledWith(store, errorPayload, response, {});
   });
 
   it("returns a sync create error if fromQueue", () => {
@@ -95,7 +95,7 @@ describe("middleware/utils/default-error-callback.js", () => {
     ];
 
     defaultErrorCallback({ store, response, recordType: RECORD_TYPES.cases, fromQueue: true });
-    expect(handleRestCallbackSpy).to.have.been.calledOnceWith(store, errorPayload, response, {});
+    expect(handleRestCallback).toHaveBeenCalledWith(store, errorPayload, response, {});
   });
 
   it("extracts errors from json", () => {
@@ -130,13 +130,13 @@ describe("middleware/utils/default-error-callback.js", () => {
     ];
 
     defaultErrorCallback({ store, response, json });
-    expect(handleRestCallbackSpy).to.have.been.calledOnceWith(store, errorPayload, response, json);
+    expect(handleRestCallback).toHaveBeenCalledWith(store, errorPayload, response, json);
   });
 
   it("does not call handleRestCallback if response 401", () => {
     const response = { status: 401 };
 
     defaultErrorCallback({ store, response });
-    expect(handleRestCallbackSpy).to.not.have.been.called;
+    expect(handleRestCallback).not.toHaveBeenCalled();
   });
 });

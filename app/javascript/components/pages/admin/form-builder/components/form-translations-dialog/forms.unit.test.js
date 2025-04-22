@@ -22,8 +22,8 @@ describe("pages/admin/<FormBuilder>/<FormTranslationsDialog/>/forms", () => {
       currentValues: { name: "Form 1", description: "Form Description 1" }
     });
 
-    expect(forms.find(form => form.unique_id === "edit_translations")).to.exist;
-    expect(forms.find(form => form.unique_id === "form_title")).to.exist;
-    expect(forms.find(form => form.unique_id === "form_description")).to.exist;
+    expect(forms.find(form => form.unique_id === "edit_translations")).toBeDefined();
+    expect(forms.find(form => form.unique_id === "form_title")).toBeDefined();
+    expect(forms.find(form => form.unique_id === "form_description")).toBeDefined();
   });
 });

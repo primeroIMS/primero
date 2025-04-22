@@ -42,6 +42,6 @@ describe("<ExportList /> - pages/export-list/reducer", () => {
 
     const newState = reducer.bulk_exports(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });
