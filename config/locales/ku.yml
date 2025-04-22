@@ -682,7 +682,6 @@ ku:
     dash_shared_from_my_team: هاوبەشیكراوە لەلایەن تیمەكەوە
     dash_shared_with_me: هاوبەشیكراو لەگەڵ من
     dash_shared_with_my_team: هاوبەشی پێکراوە لەگەڵ تیمەكەم
-    dash_shared_with_my_team_overview: هاوبەشی پێکراوە لەگەڵ تیمەكەم ( تێڕوانینی گشتی)
     dash_shared_with_others: هاوبەشی پێکراوە لەگەڵ ئەوانی تر
     dash_national_admin_summary: پوختەی بەڕێوەبەرەكە
     dash_violations_category_verification_status: کۆی گشتی ژمارەی ڕووداوەکان بۆ هەر حاڵەتێکی لێکۆلینەوە
@@ -797,17 +796,8 @@ ku:
     shared_from_my_team_rejected_transfers: 'رەوانەكردنە رەتكراوەكان
 
        '
-    shared_with_me_new_referrals: رەوانەكردنە نوێیەكان
-    shared_with_me_total_referrals: تێكڕای رەوانەكردنەكان
-    shared_with_me_transfers_awaiting_acceptance: رەوانەكردنەكان لە چاوەڕوانی پەسەندكرندان
-    shared_with_my_team_pending_transfers_overview: 'رەوانەكردنەكان لە چاوەڕوانی پەسەندكرندان
-
-       '
     shared_with_my_team_pending_transfers: لە چاوەڕوانی گواستنەوەدایە
     shared_with_my_team_referrals: رەوانەكردنەكان
-    shared_with_others_pending_transfers: لە چاوەڕوانی گواستنەوەدایە
-    shared_with_others_referrals: رەوانەكردنەكان
-    shared_with_others_rejected_transfers: رەوانەكردنە رەتكراوەكان
     status_of_cases: دوخى کەیسەکان
     system_user: بەرنامە
     total: سەرجەم
@@ -837,23 +827,14 @@ ku:
   email_notification:
     assign: '%{user}ئەمانەی خوارەوەی سپارد%{record_type}بۆ تۆ%{record_id}'
     assign_subject: '%{record_type}:%{id} بە تۆ سپێردران'
-    approval_request: 'بەکارهێنەر %{user} داخوازى پەسەندکردن دەکات بۆ %{approval_type} دەربارەى  کەیسى %{case_id}.'
     approval_request_subject: 'کەیس  %{id} -داخوازى پەسەندکراو'
-    approval_response: '%{user} %{status} داخوازى پەسەندکردنى هەیە بو %{approval_type} بو کەیسى %{case_id}'
     approval_response_subject: 'کەیس %{id} - وەلامى پەسەندکراو'
     referral: '%{user} لە %{agency} ئەم پێشنیارانەى هەى %{record_type} بو تو %{record_id} بو %{service_type}.'
     transfer: '%{user} ئەم پێشنیارانەى کردووە %{record_type} بوتو%{record_id}.'
     transfer_request_subject: داخوازى گواستنەوە بو یەکێک لە کەیسەکانت
-    transfer_subject: '%{record_type}: %{id}  گواستنەوە'
-    referral_subject: '%{record_type}: %{id} - پێشنیارەکە'
     transfer_request: 'بەکارهێنەرى primero  %{user} لە %{agency} داخوازدەکات خاوەندارێتى ئه م  %{record_type} بوى بنێرى بو تومارى %{record_id} تا بتوانن خزمەتگوزایەکانى بەرێوەبردن %{record_type} بو تاکەکانى ئەو ناوچەیە دابینبکەن. ئەگەر رازیت لەسەر ئەم ناردنە، تکایە کلیک لەسەر %{record_type} ناسنامەى لینکى ئەم ئیمێلە بکە بو کردنەوەى %{record_type} لە پریمێرو وە ناردنەکە دەستپێبکرێت'
     approval_request_html: 'بەکارهێنەر 1%{user}1 داخوازى پەسەند دەکات بو 2 %{approval_type}2 دەربارەى کەیسى %{case_id}3.'
     approval_response_html: '%{user} دوخى   2%{status}2 هەیەتى و داخوازى پەسەند بو 3%{approval_type} بو کەیسى %{case_id}4'
-    referral_html: '%{user}1  لە %{agency}  ئەم  %{record_type} بو تو پێشنیارکرا: %{record_id}2 بو %{service_type}.'
-    transfer_html: '%{user}1 ئەمانەی خوارەوەی %{record_type} بو تۆ نارد : 2%{record_id}2.'
-    assign_html: '<strong>%{user}</strong>ئەمانەی خوارەوەی سپارد%{record_type}بە تۆ<strong>%{record_id}</strong>'
-    transfer_request_html: 'بەکارهێنەرى %{user}  داوادەکات لە %{agency}  خاوەندارێتى %{record_type} ئەم تۆمارەی 2%{record_id}2 پێبدات تاکو بتوانێت بەرێوەبردنی خزمەتگوزایەکان %{record_type} بو تاکەکانی ئەم ناوچەیە دابینبکات. ئەگەر ئەم ناردنە قبوڵ دەکەیت، تکایە کلیک لەسەر %{record_type} ئەم لینکەی ئەم ئیمێلە بکە بو کردنەوەى %{record_type} لە پریمێرو وە نەقڵ کردنەکە دەستپێبکرێت'
-    transfer_request_notes_html: 'تێبینی ئەو کەسەی داواکاریەکەی دروست کردوە : %{request_transfer_notes}'
   encrypt:
     export_type: جۆری هەناردەکردنەکە
     file_name: ناوى فایلى تایبەت بەخوت دروست بکە (ئارەزومەندانە)
@@ -3661,40 +3642,21 @@ ku:
       greeting: 'بەخێربێن بۆ %{system}!
 
          '
-      body_native: 'تۆ وەک %{role_name}زیاد کرایت. تکایە پەیوەندی بکە بە %{admin_full_name} (%{admin_email})بۆ ڕێنماییەکانی بەدواداچوون بۆ دەستپێکردنی کارکردن لەگەڵ %{host}'
       sso:
         body: 'تۆ زیادكرایت وەك %{role_name}'
-        step1: 'بڕۆ بۆ %{host} و كلیلك بكە لەسەر %{identity_provider}'
-        step2: 'چوونە ژوورەوە بە هەژمارەكەت%{identity_provider}%{user_name}'
-        step3: 'هەمان ووشەی نهێنی بەكاربهێنە كە هەمیشە بەكاری دەهێنیت بۆ  هەژمارەكەی%{identity_provider}'
-        footer: 'بۆ ووردەكاری زیاتر تكایە پەیوەندی بكە بە%{admin_full_name}(%{admin_email})'
       otp:
         body: 'تۆ زیادكرایت وەك%{role_name}'
-        step1: ' تكایە پەیوەندی بكە بە%{admin_full_name}(%{admin_email}) بۆ وەرگرتنی ناوی بەکارهێنەر'
-        step2: 'بڕۆ بۆ %{host} و كلیلك بكە لەسەر "چوونە ژوورەوە بە و نازناوەی لەسەرەتادا تۆمارکردوە. "'
-        step3: 'چوونەژوورەوە بە نازناو، ووشەی نهێنی كاتییەوە%{otp}.'
-        step4: 'کە داواتلێکرا، وشەی نهێنی بگۆڕە'
       url_label: پریمێرو
       enabled_label: 'ئیمەیڵی بەخێرهاتن بنێرە؟ '
       text_label: تێکستی ئیمەیڵی بەخێرهاتن
     password_reset:
       subject: 'رێنماییەكانی نوێكردنەوەی ووشەی نهێنی'
-      email_greeting: "بەڕێز%{full_name}"
-      email_body1: "كەسێك داواكارییەكی پێشكەش كردووە بۆ دروستكردنی ووشەی نهێنی بۆ %{host_href}. كلیك بكە لەسەر شوێندۆزی سەرچاوەی جیھانی خوارەوە بكە بۆ ئەوەی دەست پێبكەیت"
-      email_body2: "بەستەرەكە بەسەر دەچێت لە %{hours}كاتژمێردا و دەكرێت تەنها یەكجار بەكار بهێنرێت. تكایە ئەم ئیمەیڵە فەرامۆش بكە ئەگەر هاتوو لەبری تۆ داوای نوێكردنەوەی ووشەی نهێنیت نەكرد یان پریمێرۆییەكی نوێ تۆمار نەكرا، تكایە كلیك بكە لەسەر%{reset_request_href}بۆ دووبارە داوای نوێكردنەوەی ووشە نهێنییەكە پێشكەش بكەرەوە. "
       email_body_link: ئێرە
       request_submitted: "داواکاری گۆڕینی وشەی نهێنی داخڵکرا"
       success: "وشەی نهێنی سەرکەوتوانە گۆڕا"
       errors:
         reset_password_token: "نیشانەی گۆڕینی وشەی نهێنی دروست نیە"
         password_confirmation: "وشەی نهێنی مەرجە هاوشێوەبێت"
-    onboard_email:
-      subject: " ئەنجامدانی رێكخستن بۆ%{system}"
-      greeting: "بەرێز%{full_name}"
-      body1: "بەخێربێیت بۆ سەرەتا و دەستپێک "
-      body2: "وەک بەڕێوەبەری جێبەجێکردن دەستنیشانکرایت بۆ%{host_href}%{reset_notification}"
-      body2_reset_notification: "ئیمەیلێکی ترت بەدەست دەگات داوای گۆڕینی وشەی نهێنیت لێ دەکات"
-      body3: "تۆ بەرپرسیاریت لەوەی بە شێوەیەكی سەلامەت و لە كاتی گونجاودا جێبەجێكردنەكە ئەنجام بدەیت. بۆ هەر دەستپێكردنێك، پێویستە پلانی جێبەجێكردنەكەت تەواو كردبێت لەگەڵ ستراتیژییەتی دانان و بەڕێوەبردنی بەكارهێنەر و پرۆتۆكۆڵی هاوبەشیكردنی زانیاری. هەروەها تۆ بەرپرسیاریت لە دڵنیابوونەوە لەوەی كە مەرجە واژوكراوەكانی بەكارهێنان لە نێو فایلەكەدایە بۆ سەرجەم رێكخراوە بەكارهێنەرەكان. "
   user_group:
     associated_agencies: 'ئەو ئاژانسانەی پەیوەست بەم گروپی بەكارهێنەرەوە '
     description: وەسفکردن

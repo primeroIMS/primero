@@ -663,14 +663,8 @@ th:
     shared_from_my_team_pending_transfers: รอการส่งมอบ
     shared_from_my_team_referrals: การส่งต่อ
     shared_from_my_team_rejected_transfers: การส่งมอบที่ถูกปฏิเสธ
-    shared_with_me_new_referrals: เคสที่ส่งต่อมาใหม่
-    shared_with_me_total_referrals: จำนวนการส่งต่อทั้งหมด
-    shared_with_me_transfers_awaiting_acceptance: เคสส่งมอบที่อยู่ระหว่างรอการตอบรับ
     shared_with_my_team_pending_transfers: รอการส่งมอบ
     shared_with_my_team_referrals: การส่งต่อ
-    shared_with_others_pending_transfers: รอการส่งมอบ
-    shared_with_others_referrals: การส่งต่อ
-    shared_with_others_rejected_transfers: การส่งมอบที่ถูกปฏิเสธ
     status_of_cases: สถานะของเคส
     system_user: ระบบ
     total: รวม
@@ -698,23 +692,14 @@ th:
   email_notification:
     assign: '%{user}ได้มอบหมาย%{record_type}หมายเลข: %{record_id}ให้คุณดูแล'
     assign_subject: '%{record_type}: %{id} - ได้ถูกมอบหมายให้คุณ'
-    approval_request: 'ผู้ใช้งาน %{user} กำลังขอนุมัติ %{approval_type} สำหรับเคส %{case_id}'
     approval_request_subject: 'เคส: %{id} - ขอการอนุมัติ'
-    approval_response: '%{user}มี%{status}ขออนุมัติ%{approval_type}สำหรับเคส%{case_id}'
     approval_response_subject: 'เคส: %{id}- ตอบกลับการอนุมัติ'
     referral: '%{user}จาก%{agency}ได้ส่งต่อ%{record_type}มาให้คุณ: %{record_id}สำหรับ%{service_type}'
     transfer: '%{user}ได้ส่งมอบ%{record_type}มาให้คุณ: %{record_id}'
     transfer_request_subject: ร้องขอการส่งมอบ สำหรับเคสของคุณ
-    transfer_subject: '%{record_type}:%{id} - การส่งมอบ'
-    referral_subject: '%{record_type}:%{id} - การส่งต่อ'
     transfer_request: 'ผู้ใช้ Primero %{user} จาก %{agency} ขอให้คุณส่งมอบความเป็นเจ้าของข้อมูล %{record_type} %{record_id} เพื่อให้พวกเขาสามารถจัดบริการ %{record_type}สำหรับคนในพื้นที่ของพวกเขา หากคุณยอมรับการส่งมอบนี้ กรุณาคลิกลิงค์หมายเลขประจำตัว %{record_type} ในอีเมลนี้เพื่อเปิด %{record_type} ใน Primero และเริ่มการส่งมอบ'
     approval_request_html: 'ผู้ใช้งาน <strong>%{user}</strong> กำลังขออนุมัติ <strong>%{approval_type}</strong> สำหรับเคส <strong>%{case_id}</strong>'
     approval_response_html: '<strong>%{user}</strong>มี<strong>%{status}</strong>ขอการอนุมัติ<strong>%{approval_type}</strong> สำหรับเคส<strong>%{case_id}</strong>'
-    referral_html: '<strong>%{user}</strong>จาก%{agency}ได้ส่งต่อ%{record_type}มาให้คุณ: <strong>%{record_id}</strong>เพื่อ%{service_type}'
-    transfer_html: '<strong>%{user}</strong>ได้ส่งมอบ%{record_type}มาให้คุณ: <strong>%{record_id}</strong>'
-    assign_html: '<strong>%{user}</strong>ได้มอบหมายเคสเกี่ยวกับ%{record_type}หมายเลข: <strong>%{record_id}</strong>ให้คุณดูแล'
-    transfer_request_html: 'ผู้ใช้ Primero %{user} จาก %{agency} ขอให้คุณส่งมอบความเป็นเจ้าของข้อมูล %{record_type} %{record_id} เพื่อให้พวกเขาสามารถจัดบริการ %{record_type}สำหรับคนในพื้นที่ของพวกเขา หากคุณยอมรับการส่งมอบนี้ กรุณาคลิกลิงค์หมายเลขประจำตัว %{record_type} ในอีเมลนี้เพื่อเปิด %{record_type} ใน Primero และเริ่มการส่งมอบ'
-    transfer_request_notes_html: 'บันทึกข้อความจากบุคคลที่ร้องขอ: %{request_transfer_notes}'
   encrypt:
     export_type: ประเภทของข้อมูลส่งออก
     file_name: สร้างชื่อไฟล์ของคุณเอง (เป็นทางเลือก)
@@ -2718,39 +2703,20 @@ th:
     welcome_email:
       subject: 'ยินดีต้อนรับสู่ระบบ %{system}!'
       greeting: 'ยินดีต้อนรับสู่ระบบ %{system}!'
-      body_native: 'ท่านได้ถูกเพิ่มชื่อในบทบาท %{role_name}. กรุณาติดต่อคุณ%{admin_full_name}%{admin_email}ผู้ดูแลระบบ และดำเนินการตามข้อปฏิบัติเพื่อเริ่มทำงานกับ %{host}'
       sso:
         body: 'คุณได้ถูกเพิ่มชื่อในฐานะ %{role_name}.'
-        step1: 'Go to %{host} and click %{identity_provider}.'
-        step2: 'Login โดยใช้ %{identity_provider} ของคุณ ผ่านบัญชี %{user_name}.'
-        step3: 'ใช้รหัสผ่านเดียวกับที่ท่านใช้เป็นประจำกับบัญชี %{identity_provider} '
-        footer: 'กรุณาติดต่อ %{admin_full_name} (%{admin_email}) สำหรับรายละเอียดเพิ่มเติม'
       otp:
         body: 'คุณได้ถูกเพิ่มชื่อในฐานะ %{role_name}.'
-        step1: 'กรุณาติดต่อ %{admin_full_name} (%{admin_email}) เพื่อรับบัญชีผู้ใช้งาน (username)'
-        step2: 'ไปที่ %{host} และเลือก "login ด้วยบัญชีผู้ใช้งาน Primero".'
-        step3: 'Login ด้วยบัญชีผู้ใช้งานและรหัสผ่านช่วยคราว %{otp}.'
-        step4: 'เมื่อพร้อม ให้เปลี่ยนรหัสผ่าน'
       url_label: Primero
       enabled_label: ต้องการให้ส่งข้อความต้อนรับทางอีเมลหรือไม่?
       text_label: ข้อความต้อนรับทางอีเมล
     password_reset:
-      email_greeting: "คุณ %{full_name},"
-      email_body1: "มีการร้องขอเปลี่ยนรหัสผ่านของคุณ %{host_href}. ให้กด url ด้านล่างเพื่อเริ่มดำเนินการ"
-      email_body2: "Link นี้จะหมดอายุใน %{hours} ชั่วโมง และคุณสามารถใช้งานได้แค่ครั้งเดียว  คุณสามารถข้ามไปได้หากคุณไม่ได้ทำการร้องขอเปลี่ยนรหัสผ่าน หรือไม่มีการลงทะเบียนผู้ใช้งาน Primero ใหม่ในนามของคุณ   หาก link หมดอายุ โปรดตรวจ click %{reset_request_href} เพื่อส่งคำร้องขอเปลี่ยนรหัสผ่านอีกครั้ง"
       email_body_link: ที่นี่
       request_submitted: "ส่งคำร้องขอเปลี่ยนรหัสผ่าน"
       success: "เปลี่ยนรหัสผ่านสำเร็จแล้ว"
       errors:
         reset_password_token: "โทเค็นการเข้าเปลี่ยนรหัสผ่านไม่ถูกต้อง"
         password_confirmation: "รหัสผ่านต้องตรงกัน"
-    onboard_email:
-      subject: "Onboarding to %{system}"
-      greeting: "คุณ %{full_name},"
-      body1: "Welcome to Primero!"
-      body2: "คุณได้รับการแต่งตั้งเป็นผู้ดูแลระบบสำหรับ %{host_href}. %{reset_notification}"
-      body2_reset_notification: "ท่านจะได้รับอีเมล์ให้เข้าไปเปลี่ยนรหัสผ่าน"
-      body3: "คุณต้องรับผิดชอบดำเนินงานอย่างปลอดภัยและทันต่อเหตุการณ์ ในการขับเคลื่อนจะต้องดำเนินการตามแผนการใช้งานพร้อมด้วยกลยุทธ์การเริ่มต้นใช้งานและการจัดการผู้ใช้และโปรโตคอลการแบ่งปันข้อมูล นอกจากนี้คุณยังต้องรับผิดชอบในการตรวจสอบให้แน่ใจว่ามีการลงนามข้อกำหนดการใช้งานสำหรับองค์กรผู้ใช้ทั้งหมด"
   user_group:
     description: รายละเอียด
     disabled:

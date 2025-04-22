@@ -588,7 +588,6 @@ ro:
     dash_shared_from_my_team: Partajat din Echipa mea
     dash_shared_with_me: Partajat cu Mine
     dash_shared_with_my_team: Partajat cu Echipa mea
-    dash_shared_with_my_team_overview: Partajat cu Echipa mea (Sumar)
     dash_shared_with_others: Partajat cu Alții
     dash_national_admin_summary: Sumar administrator
     dash_violations_category_verification_status: Numărul total de incidente per status verificare
@@ -682,15 +681,8 @@ ro:
     shared_from_my_team_pending_transfers: Transferuri în așteptare
     shared_from_my_team_referrals: Referiri
     shared_from_my_team_rejected_transfers: Transferuri respinse
-    shared_with_me_new_referrals: Referiri noi
-    shared_with_me_total_referrals: Total referiri
-    shared_with_me_transfers_awaiting_acceptance: Tranferuri pentru acceptare
-    shared_with_my_team_pending_transfers_overview: Tranferuri pentru acceptare
     shared_with_my_team_pending_transfers: Transferuri în așteptare
     shared_with_my_team_referrals: Referiri
-    shared_with_others_pending_transfers: Transferuri în așteptare
-    shared_with_others_referrals: Referiri
-    shared_with_others_rejected_transfers: Transferuri respinse
     status_of_cases: Status Înregistrări
     system_user: Sistem
     total: Total
@@ -714,23 +706,14 @@ ro:
   email_notification:
     assign: '%{user} a asignat %{record_type} către tine: %{record_id}.'
     assign_subject: '%{record_type}: %{id} - Asignat către tine'
-    approval_request: 'Utilizatorul %{user} solicită aprobare %{approval_type} pentru cazul %{case_id}.'
     approval_request_subject: 'Caz: %{id} - Solicitare aprobare'
-    approval_response: '%{user} are %{status} solicitarea de aprobare pentru %{approval_type} asociată cazului %{case_id}.'
     approval_response_subject: 'Caz: %{id} - Răspuns aprobare'
     referral: '%{user}de la %{agency}a referit %{record_type}către tine: %{record_id}pentru %{service_type}.'
     transfer: '%{user}a transferat %{record_type}către tine: %{record_id}.'
     transfer_request_subject: Transfer solicitat pentru una din înregistrările tale.
-    transfer_subject: '%{record_type}: %{id}- Transfer'
-    referral_subject: '%{record_type}: %{id} - Referire'
     transfer_request: 'Utilizatorul Primero %{user}de la %{agency}solicită transferul proprietății asupra%{record_type} înregistrarea %{record_id} pentru a putea oferi servicii %{record_type} locuitorilor din zona lor. Dacă ești de acord cu transferul, selectează linkul ID %{record_type}din acest e-mail pentru a deschide %{record_type}în Primero și pentru a iniția transferul.'
     approval_request_html: 'Utilizatorul <strong>%{user}</strong> solicită aprobare <strong>%{approval_type}</strong>pentru cazul <strong>%{case_id}</strong>.'
     approval_response_html: '<strong>%{user}</strong> a <strong>%{status}</strong>solicitarea de aprobare <strong>%{approval_type}</strong> pentru cazul <strong>%{case_id}</strong>.'
-    referral_html: '<strong>%{user}</strong>de la %{agency}a referit %{record_type}către tine: <strong>%{record_id}</strong>pentru%{service_type}.'
-    transfer_html: '<strong>%{user}</strong>a transferat %{record_type}către tine: <strong>%{record_id}</strong>'
-    assign_html: '<strong>%{user}</strong> a asignat %{record_type} către tine: <strong>%{record_id}</strong>.'
-    transfer_request_html: 'Utilizatorul Primero <strong>%{user}</strong>de la %{agency}solicită transferul proprietății asupra %{record_type} înregistrarea <strong>%{record_id}</strong>pentru a putea oferi servicii %{record_type} locuitorilor din zona lor. Dacă ești de acord cu transferul, selectează linkul ID %{record_type}din acest e-mail pentru a deschide %{record_type}în Primero și pentru a iniția transferul.'
-    transfer_request_notes_html: 'Notițe de la persoana care face solicitarea: %{request_transfer_notes}'
   encrypt:
     export_type: Tip export
     file_name: Creează propria denumire de fișier (opțional)
@@ -3252,40 +3235,21 @@ ro:
     welcome_email:
       subject: 'Bun venit la %{system}!'
       greeting: 'Bun venit la %{system}!'
-      body_native: 'Ai fost adăugat ca %{role_name}. Te rugăm să contactezi %{admin_full_name}(%{admin_email}) pentru instrucțiuni ulterioare astfel încât să poți lucra cu %{host}.'
       sso:
         body: 'Ai fost adăugat ca %{role_name}.'
-        step1: 'Mergi la %{host}și selectează %{identity_provider}.'
-        step2: 'Autentifică-te cu %{identity_provider} cont %{user_name}.'
-        step3: 'Utilizează parola frecvent utilizată pentru contul tău %{identity_provider}.'
-        footer: 'Te rugăm să contactezi %{admin_full_name}(%{admin_email}) pentru noi detalii.'
       otp:
         body: 'Ai fost adăugat ca %{role_name}.'
-        step1: 'Te rugăm să contactezi %{admin_full_name}(%{admin_email}) pentru a primi numele de utilizator.'
-        step2: 'Mergi la %{host}și selectează "autentificare cu numele de utilizator Primero".'
-        step3: 'Autentifică-te cu numele de utilizator și parola temporară %{otp}.'
-        step4: 'Când este solicitat, resetează parola.'
       url_label: Primero
       enabled_label: Trimite e-mail de bun venit?
       text_label: E-mail de bun venit
     password_reset:
       subject: 'Instrucțiuni resetare parolă'
-      email_greeting: "Dragă %{full_name},"
-      email_body1: "Cineva a solicitat setarea parolei %{host_href}. Apasă pe URL-ul de mai jos pentru a începe."
-      email_body2: "Acest link va expira în %{hours} ore și poate fi folosit o singură dată. Te rugăm să ignori acest e-mail dacă nu ai solicitat resetarea parolei sau dacă nu ai înregistrat un nou utilizator Primero. Dacă linkul de mai sus a expirat, selectează %{reset_request_href} pentru a retrimite o cerere de resetare a parolei."
       email_body_link: aici
       request_submitted: "Solicitarea de resetare a parolei a fost trimisă"
       success: "Parolă schimbată cu succes"
       errors:
         reset_password_token: "Token nevalid de resetare a parolei"
         password_confirmation: "Parolele trebuie să fie identice"
-    onboard_email:
-      subject: "Integrarea la %{system}"
-      greeting: "Dragă %{full_name},"
-      body1: "Bun venit pe Primero!"
-      body2: "Ai fost desemnat administrator de implementare pentru %{host_href}.\n%{reset_notification}"
-      body2_reset_notification: "Vei primi un e-mail suplimentar care îți va solicita să resetezi parola."
-      body3: "Ești responsabil pentru asigurarea implementării în siguranță și în timp util. Pentru fiecare lansare, ar fi trebuit să fi finalizat Planul de implementare cu strategia de integrare și de management al utilizatorilor și protocolul de partajare a informațiilor. De asemenea, ești responsabil să te asiguri că Termenii de utilizare semnați sunt în dosar pentru toți Utilizatorii organizații."
   user_group:
     associated_agencies: Organizații/ instituții asociate acestui grup de utilizatori.
     description: Descriere

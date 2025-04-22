@@ -288,18 +288,12 @@ ar-LB:
       disabled: 'مُعطَّل '
       enabled: مُفعَّل/ممكَّن
   email_notification:
-    approval_request: 'يطلب المستخدم %{user} الموافقة %{approval_type} للملفّ %{case_id}.'
     approval_request_subject: 'الملفّ: %{id} - طلب الموافقة'
-    approval_response: 'طلب %{user} %{status} الموافقة %{approval_type} للملفّ %{case_id}.'
     approval_response_subject: 'الملفّ: %{id} - إستجابة حول الموافقة'
     referral: 'أحال إليك %{user} من %{agency} %{record_type}: %{record_id} لـ%{service_type}.'
     transfer: 'حوّل لك %{user} %{record_type} التالي:%{record_id}.'
-    transfer_subject: '%{record_type}: %{id} - نقل/تحويل'
-    referral_subject: '%{record_type}: %{id} - إحالة'
     approval_request_html: 'إنّ المستخدم <strong>%{user}</strong> يطلب الموافقة <strong>%{approval_type}</strong> للملفّ <strong>%{case_id}</strong>.'
     approval_response_html: '<strong>%{user}</strong> لديه <strong>%{status}</strong> طلب الموافقة على <strong>%{approval_type}</strong> للملفّ <strong>%{case_id}</strong>.'
-    referral_html: '<strong>%{user}</strong> من %{agency} أحال %{record_type} إليك: <strong>%{record_id}</strong> لـ%{service_type}.'
-    transfer_html: 'حوّل لك <strong>%{user}</strong> %{record_type}: <strong>%{record_id}</strong>.'
   encrypt:
     file_name: قم بوضع إسم الملف الخاصّ بك (اختياري)
     password_label: الرجاء إدخال كلمة المرور التي سوف تشفّر ملفك.

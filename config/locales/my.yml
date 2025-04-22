@@ -593,7 +593,6 @@ my:
     dash_shared_from_my_team: ကျွန်ုပ်၏အဖွဲ့မှ မျှဝေထားသည်။
     dash_shared_with_me: ကျွန်ုပ်နှင့်အတူ မျှဝေထားသည်။
     dash_shared_with_my_team: ကျွန်ုပ်၏အဖွဲ့နှင့်အတူ မျှဝေထားသည်။
-    dash_shared_with_my_team_overview: ကျွန်ုပ်၏အဖွဲ့နှင့် မျှဝေထားသည် (ခြုံငုံသုံးသပ်ချက်)
     dash_shared_with_others: အခြားသူများနှင့်အတူ မျှဝေထားသည်။
     dash_national_admin_summary: 'Administrator အနှစ်ချုပ် '
     date: ရက်စွဲ
@@ -690,15 +689,8 @@ my:
     shared_from_my_team_pending_transfers: လွှဲပြောင်းခြင်းကိုဆိုင်းငံ့ထားသည်
     shared_from_my_team_referrals: ညွှန်းပို့မှုများ
     shared_from_my_team_rejected_transfers: ညွှန်းပို့လွှဲအပ်မှုကို ငြင်းဆိုခဲ့သည်
-    shared_with_me_new_referrals: ညွှန်းပို့မှုအသစ်များ
-    shared_with_me_total_referrals: ညွှန်းပို့မှု စုစုပေါင်း
-    shared_with_me_transfers_awaiting_acceptance: လွှဲပြောင်းလက်ခံမှုကို စောင့်မျှော်နေပါသည်။
-    shared_with_my_team_pending_transfers_overview: လွှဲပြောင်းလက်ခံမှုကို စောင့်ဆိုင်းနေပါသည်။
     shared_with_my_team_pending_transfers: လွှဲပြောင်းခြင်းကိုဆိုင်းငံ့ထားသည်
     shared_with_my_team_referrals: ညွှန်းပို့မှုများ
-    shared_with_others_pending_transfers: လွှဲပြောင်းခြင်းကိုဆိုင်းငံ့ထားသည်
-    shared_with_others_referrals: ညွှန်းပို့မှုများ
-    shared_with_others_rejected_transfers: ညွှန်းပို့လွှဲအပ်မှုကို ငြင်းဆိုခဲ့သည်
     status_of_cases: ဖြစ်ရပ်များ၏ အခြေအနေ
     system_user: စနစ်
     total: စုစုပေါင်း
@@ -728,25 +720,14 @@ my:
 
        '
     assign_subject: '%{record_type}: %{id} - သင့်ကို တာဝန်ပေးသည်။'
-    approval_request: 'အသုံးပြုသူ %{user}သည် %{approval_type} အတွက် ခွင့်ပြုချက်တောင်းခံသည်။%{case_id}ဖြစ်ရပ်အတွက်ဖြစ်သည်'
     approval_request_subject: 'ဖြစ်ရပ် %{id} - အတည်ပြုချက်တောင်းခံမှု'
-    approval_response: 'အသုံးပြုသူ %{user}သည် %{status}ရှိပြီး %{approval_type} အတွက် ခွင့်ပြုချက်တောင်းခံသည်။%{case_id}ဖြစ်ရပ်အတွက်ဖြစ်သည်'
     approval_response_subject: 'ဖြစ်ရပ် %{id}- အတည်ပြုချက်တုံ့ပြန်မှု'
     referral: '%{user} သည် %{agency} ထံမှ %{record_type} အား သင့်ထံသို့ လွှဲပြောင်းညွှန်းပို့ခြင်းကို ဆောင်ရွက်ခဲ့သည် - %{record_id}%{service_type}အတွက်'
     transfer: '%{user} သည်  %{record_type} အား သင့်ထံသို့ လွှဲပြောင်းပေးခဲ့သည် - %{record_id}'
     transfer_request_subject: သင့်ဖြစ်ရပ်များထဲမှ တစ်ခုအား လွှဲပြောင်းရန်တောင်းဆိုချက်
-    transfer_subject: '%{record_type}%{id} - လွှဲပြောင်းမှု'
-    referral_subject: '%{record_type}%{id} - လွှဲပြောင်းညွှန်းပို့မှု'
     transfer_request: 'Primero အသုံးပြုသူ %{user}%{agency}မှ ဤ %{record_type}၏ %{record_id} မှတ်တမ်း၏ ပိုင်ဆိုင်မှုကို လွှဲပြောင်းပေးရန်တောင်းဆိုနေပါသည်၊ ၎င်းတို့သည် ၎င်းတို့နယ်မြေရှိလူတစ်ဦးချင်းစီအတွက်%{record_type} စီမံခန့်ခွဲမှုဆိုင်ရာ ဝန်ဆောင်မှုပေးနိုင်ရန်ဖြစ်သည်။ အကယ်၍ ဤလွှဲပြောင်းမှုကိုသင်လက်ခံပါက ဤအီးမေးလ်၏ %{record_type}ID link ကိုနှိပ်ပြီး Primero တွင် %{record_type}ကိုဖွင့်ပါ။ ထို့နောက် လွှဲပြောင်းမှုကိုစတင်ဆောင်ရွက်ပါ။'
     approval_request_html: 'အသုံးပြုသူ <strong> %{user}</strong> သည် <strong>%{approval_type}</strong> အတွက် ခွင့်ပြုချက်တောင်းခံသည်။<strong>%{case_id}</strong>ဖြစ်ရပ်အတွက်ဖြစ်သည်'
     approval_response_html: 'အသုံးပြုသူ <strong> %{user}</strong> သည်<strong> %{status} </strong>ရှိပြီး <strong>%{approval_type}</strong> အတွက် ခွင့်ပြုချက်တောင်းခံသည်။ <strong>%{case_id}</strong>ဖြစ်ရပ်အတွက်ဖြစ်သည်'
-    referral_html: '<strong>%{user}</strong> ကို %{agency}ထံမှ သင့်ထံသို့ %{record_type}ကို လွှဲပြောင်းညွှန်းပို့ခြင်းဆောင်ရွက်ခဲ့သည် - <strong>%{record_id}</strong> %{service_type}အတွက်'
-    transfer_html: '<strong>%{user}</strong> သည် သင့်ထံသို့ အောက်ပါလွှဲပြောင်းခြင်း %{record_type}ကိုဆောင်ရွက်ခဲ့သည် - <strong>%{record_id}</strong>။'
-    assign_html: '%{user}နောက်ဆက်တွဲ့ လေ့လာမှုပြုလုပ်ရန် %{record_type}သင့်အားတာဝန်ပေးခဲ့သည်။%{record_id}
-
-       '
-    transfer_request_html: 'Primero အသုံးပြုသူ %{user}%{agency}မှ ဤ %{record_type}၏ <strong>%{record_id}</strong> မှတ်တမ်း၏ ပိုင်ဆိုင်မှုကို လွှဲပြောင်းပေးရန်တောင်းဆိုနေပါသည်၊ ၎င်းတို့သည် ၎င်းတို့နယ်မြေရှိလူတစ်ဦးချင်းစီအတွက်%{record_type} စီမံခန့်ခွဲမှုဆိုင်ရာ ဝန်ဆောင်မှုပေးနိုင်ရန်ဖြစ်သည်။ အကယ်၍ ဤလွှဲပြောင်းမှုကိုသင်လက်ခံပါက ဤအီးမေးလ်၏ %{record_type}ID link ကိုနှိပ်ပြီး Primero တွင် %{record_type}ကိုဖွင့်ပါ။ ထို့နောက် လွှဲပြောင်းမှုကိုစတင်ဆောင်ရွက်ပါ။'
-    transfer_request_notes_html: 'တောင်းဆိုချက်ပြုလုပ်သူတစ်ဦးချင်းစီထံမှ မှတ်စုများ -%{request_transfer_notes}'
   encrypt:
     export_type: export သတင်းအချက်အလက်ထုတ်ယူမှုအမျိုးအစား
     file_name: သင့်ကိုယ်ပိုင်ဖိုင်အမည် ပြုလုပ်ပါ (ရွေးချယ်နိုင်သည်)
@@ -3038,40 +3019,21 @@ my:
     welcome_email:
       subject: '%{system}မှကြိုဆိုပါသည်။'
       greeting: '%{system}မှကြိုဆိုပါသည်။'
-      body_native: 'သင်အား %{role_name}တစ်ဦးအဖြစ်ထည့်သွင်းထားသည်။ ကျေးဇူးပြု၍ %{admin_full_name}(%{admin_email})ဖြင့် အလုပ်စတင်လုပ်ဆောင်ရန် နောက်ဆက်တွဲ ညွှန်ကြားချက်များအတွက် %{host}ကိုကျေးဇူးပြု၍ ဆက်သွယ်ပါ။'
       sso:
         body: 'သင့်အား %{role_name}အဖြစ် ထည့်သွင်းထားသည်။'
-        step1: '%{host} သွားပြီး %{identity_provider}ကိုနှိပ်ပါ။'
-        step2: 'သင့် %{identity_provider}အကောင့် %{user_name}ဖြင့်ဝင်ရောက်ပါ။'
-        step3: 'သင့် %{identity_provider}အကောင့်အတွက် အမြဲတမ်းအသုံးပြုနေသည့် တူညီသောစကားဝှက်ကို အသုံးပြုပါ။'
-        footer: 'နောက်ထပ်အသေးစိတ်အချက်အလက်များအတွက် ကျေးဇူးပြု၍ %{admin_full_name}%{admin_email}(သို့) ဆက်သွယ်ပါ။'
       otp:
         body: 'သင့်အား %{role_name} အဖြစ် ထည့်သွင်းထားသည်။'
-        step1: 'သင်၏အသုံးပြုသူအမည်ကို လက်ခံရရှိရန် %{admin_full_name}(%{admin_email})သို့ ဆက်သွယ်ပါ။'
-        step2: '%{host}သို့သွား၍ "Primero အသုံးပြုသူအမည်ဖြင့် အကောင့်ဝင်ပါ။" ကိုနှိပ်ပါ။'
-        step3: 'သင်၏အသုံးပြုသူအမည်နှင့် ယာယီစကားဝှက်ဖြင့် ဝင်ရောက်ပါ။%{otp}.'
-        step4: 'အကြောင်းကြားသောအခါ၊ သင့်စကားဝှက်ကို ပြန်လည်သတ်မှတ်ပါ။'
       url_label: Primero
       enabled_label: နှုတ်ခွန်းဆက် အီးမေးလ်ပို့လိုပါသလား
       text_label: နှုတ်ခွန်းဆက် အီးမေးလ် စာသားများ
     password_reset:
       subject: 'စကားဝှက်ညွှန်ကြားချက်များကို ပြန်လည်သတ်မှတ်ပါ။'
-      email_greeting: "ချစ်လှစွာသော %{full_name}"
-      email_body1: "တစ်စုံတစ်ဦးသည် သင့်စကားဝှက်ကို %{host_href}အတွက် သတ်မှတ်ရန် တောင်းဆိုခဲ့သည်။ စတင်ရန် အောက်ပါ url ကို နှိပ်ပါ။"
-      email_body2: "ဤလင့်ခ်သည် %{hours}နာရီပိုင်းအတွင်း သက်တမ်းကုန်ဆုံးမည်ဖြစ်ပြီး တစ်ကြိမ်သာ အသုံးပြုနိုင်သည်။ စကားဝှက် ပြန်လည်သတ်မှတ်ရန် တောင်းဆိုမှု မပြုလုပ်ခဲ့ပါက သို့မဟုတ် Primero အသုံးပြုသူအသစ်သည် သင့်ကိုယ်စား စာရင်းမသွင်းပါက ဤအီးမေးလ်ကို လျစ်လျူရှုပါ။ အထက်ဖော်ပြပါလင့်ခ်သည် သက်တမ်းကုန်သွားပါက၊ စကားဝှက်ပြန်လည်သတ်မှတ်ရန် တောင်းဆိုချက်ကို ပြန်လည်ပေးပို့ရန် ကျေးဇူးပြု၍ %{reset_request_href}နှိပ်ပါ။"
       email_body_link: ဤနေရာ
       request_submitted: "စကားဝှက် ပြန်လည်သတ်မှတ်ရန် တောင်းဆိုချက်ကို တင်သွင်းခဲ့သည်။"
       success: "စကားဝှက်ကို အောင်မြင်စွာ ပြောင်းလဲပြီးပါပြီ။"
       errors:
         reset_password_token: "မမှန်ကန်သော စကားဝှက် ပြန်လည်သတ်မှတ်ခြင်း တိုကင်"
         password_confirmation: "စကားဝှက် ကိုက်ညီရပါမည်။"
-    onboard_email:
-      subject: "စတင်ရန် %{system}"
-      greeting: "ချစ်လှစွာသော %{full_name}"
-      body1: "Primero မှကြိုဆိုပါသည်။"
-      body2: "သင်သည် %{host_href}အတွက် အကောင်အထည်ဖော်ရန် စီမံခန့်ခွဲသူအဖြစ် သတ်မှတ်ခြင်းခံရသည်။%{reset_notification}"
-      body2_reset_notification: "သင့်စကားဝှက်ကို ပြန်လည်သတ်မှတ်ရန် သင့်အား တောင်းဆိုသည့် နောက်ထပ်အီးမေးလ်တစ်စောင်ကို လက်ခံရရှိမည်ဖြစ်သည်။"
-      body3: "သင့်တွင် လုံခြုံမှုရှိပြီး အချိန်မီအကောင်အထည်ဖော်ရန်  တာဝန်ရှိပါသည်။ ထုတ်လွှင့်မှုတစ်ခုစီအတွက်၊ စတင်အသုံးပြုသူ၊ အသုံးပြုသူစီမံခန့်ခွဲမှုဗျူဟာနှင့် သတင်းအချက်အလက်မျှဝေခြင်းဆိုင်ရာ ပရိုတိုကောတို့နှင့်အတူ အကောင်အထည်ဖော်မှုအစီအစဉ်ကို ပြီးမြောက်ထားသင့်သည်။ အသုံးပြုသူအဖွဲ့အစည်းအားလုံးအတွက် လက်မှတ်ရေးထိုးထားသော အသုံးပြုမှုစည်းမျဥ်းများ ဖိုင်တွင်းရှိကြောင်း သေချာစေရန်အတွက် သင်သည်လည်း တာဝန်ရှိပါသည်။ "
   user_group:
     associated_agencies: အသုံးပြုသောအဖွဲ့နှင့် ဆက်စပ်သောအဖွဲ့အစည်းများ
     description: ရှင်းလင်းဖော်ပြချက်
