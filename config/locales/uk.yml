@@ -683,7 +683,6 @@ uk:
     dash_shared_from_my_team: Поширені моєю командою
     dash_shared_with_me: Поширені зі мною
     dash_shared_with_my_team: Поширені з моєю командою
-    dash_shared_with_my_team_overview: Поширені з моєю командою (Загальне уявлення)
     dash_shared_with_others: Поширені з іншими
     dash_national_admin_summary: Підсумок адміністратора
     dash_violations_category_verification_status: Загальна кількість інцидентів за верифікованим статусом
@@ -792,15 +791,8 @@ uk:
     shared_from_my_team_pending_transfers: Очікують переведення
     shared_from_my_team_referrals: Направлення
     shared_from_my_team_rejected_transfers: Відхилені трансфери
-    shared_with_me_new_referrals: Нові направлення
-    shared_with_me_total_referrals: Загальні направлення
-    shared_with_me_transfers_awaiting_acceptance: Переведення, які очікують прийняття
-    shared_with_my_team_pending_transfers_overview: Переведення, які очікують прийняття
     shared_with_my_team_pending_transfers: Очікують переведення
     shared_with_my_team_referrals: Направлення
-    shared_with_others_pending_transfers: Очікують переведення
-    shared_with_others_referrals: Направлення
-    shared_with_others_rejected_transfers: Відхилені переведення
     status_of_cases: Статус кейсів
     system_user: Система
     total: Загальна кількість
@@ -834,23 +826,14 @@ uk:
   email_notification:
     assign: '%{user} призначив наступний %{record_type} на вас: %{record_id}.'
     assign_subject: '%{record_type}: %{id} - Призначено на вас'
-    approval_request: 'Користувач %{user} запитує ухвалення для %{approval_type} для кейсу %{case_id}.'
     approval_request_subject: 'Кейс: %{id} - Запит на ухвалення'
-    approval_response: '%{user} має %{status} запит на ухвалення для %{approval_type} для кейсу %{case_id}.'
     approval_response_subject: 'Кейс: %{id} - Відповідь ухвалення'
     referral: '%{user} з %{agency} зарефералив наступний %{record_type} на вас: %{record_id} для %{service_type}'
     transfer: '%{user} зробив трансфер наступного %{record_type} на вас: %{record_id}'
     transfer_request_subject: Запит на переведення для одного з ваших кейсів
-    transfer_subject: '%{record_type}: %{id} - Трансфер'
-    referral_subject: '%{record_type}: %{id} - Направлення'
     transfer_request: 'Користувач Primero %{user} з %{agency} просить вас передати право власності на цей %{record_type} запис %{record_id}, щоб він міг надавати %{record_type} послуги з управління фізичним особам у своєму регіоні. Якщо цей переказ прийнятний для вас, будь ласка, натисніть на %{record_type} посилання ідентифікатора в цьому електронному листі, щоб відкрити %{record_type} в Primero та розпочати передачу.'
     approval_request_html: 'Користувач <strong>%{user}</strong> запитує погодження для <strong>%{approval_type}</strong> для кейсу <strong>%{case_id}</strong>.'
     approval_response_html: '<strong>%{user}</strong> має <strong>%{status}</strong> запит на ухвалення для <strong>%{approval_type}</strong> для кейсу <strong>%{case_id}</strong>.'
-    referral_html: '<strong>%{user}</strong> з %{agency} направив наступний %{record_type} на вас: <strong>%{record_id}</strong> для %{service_type}.'
-    transfer_html: '<strong>%{user}</strong> зробив трансфер наступного %{record_type} на вас: <strong>%{record_id}</strong>.'
-    assign_html: '<strong>%{user}</strong> призначив наступне %{record_type} на вас: <strong>%{record_id}</strong>.'
-    transfer_request_html: 'Користувач Primero <strong>%{user}</strong> з %{agency} просить вас передати право власності на цей %{record_type} запис <strong>%{record_id}</strong> , щоб він міг надавати послуги з управління фізичним особам у своєму регіоні. Якщо цей переказ прийнятний для вас, натисніть посилання %{record_type} ідентифікатора в цьому електронному листі, щоб відкрити %{record_type} в Primero та розпочати передачу.'
-    transfer_request_notes_html: 'Примітки особи, яка подала запит: %{request_transfer_notes}'
     alert: '%{record_type}%{id}-%{form_name} оновлено. Будь ласка, увійдіть до Primero щоб переглянути зміни.'
     alert_subject: '%{record_type}: %{id} - %{form_name} Оновлено'
   webpush_notification:
@@ -3346,40 +3329,21 @@ uk:
     welcome_email:
       subject: 'Вітаємо у %{system}!'
       greeting: 'Вітаємо у %{system}!'
-      body_native: 'Ви були додані як %{role_name}. Будь ласка, сконтактуйте з %{admin_full_name}(%{admin_email}) для отримання інтрукцій, щоб почати роботу з %{host}.'
       sso:
         body: 'Ви були додані як %{role_name}.'
-        step1: 'Ідіть до %{host}і натисніть %{identity_provider}.'
-        step2: 'Ввійдіть з вашим %{identity_provider}обліковим записом %{user_name}.'
-        step3: 'Використовуйте той самий пароль, який ви завжди використовуєте для вашого %{identity_provider}облікового запису.'
-        footer: 'Будь ласка, сконтактуйте з %{admin_full_name} (%{admin_email}) для подальших деталей.'
       otp:
         body: 'Ви були додані як %{role_name}.'
-        step1: 'Будь ласка, сконтактуйте з %{admin_full_name} (%{admin_email}), щоб отримати ваш обліковий запис.'
-        step2: 'Перейдіть до %{host} і натисніть "Залогінитися з обліковим записом Primero".'
-        step3: 'Ввійдіть зі своїм обліковис записом і тимчасовим паролем %{otp}.'
-        step4: 'Коли з’явиться потреба, скиньте пароль.'
       url_label: Primero
       enabled_label: Надіслати вітальний лист?
       text_label: Вітальний текст електронної листа
     password_reset:
       subject: 'Інструкції зі скидання пароля'
-      email_greeting: "Шановний %{full_name}"
-      email_body1: "Хтось зробив запит на встановлення вашого пароля для %{host_href}. Натисніть на URL-адресу нижче, щоб почати:"
-      email_body2: "Термін дії цього посилання закінчиться через %{hours} години, і його можна використовувати лише один раз. Проігноруйте цей електронний лист, якщо ви не робили запит на скидання пароля або нового користувача Primero не було зареєстровано від вашого імені. Якщо посилання вище не діє, натисніть %{reset_request_href}, щоб повторно надіслати запит на скидання пароля."
       email_body_link: тут
       request_submitted: "Запит на скидання пароля надіслано"
       success: "Пароль успішно змінено"
       errors:
         reset_password_token: "Недійсний токен скидання пароля"
         password_confirmation: "Паролі повинні збігатися"
-    onboard_email:
-      subject: "Онбординг до %{system}"
-      greeting: "Шановний %{full_name},"
-      body1: "Вітаємо у Primero!"
-      body2: "Вас призначено адміністратором-виконавцем для %{host_href}.%{reset_notification}"
-      body2_reset_notification: "Ви отримаєте додатковий електронний лист із пропозицією скинути пароль."
-      body3: "Ви несете відповідальність за забезпечення безпечної та своєчасної реалізації. Для кожного розгортання ви повинні завершити план впровадження із стратегією адаптації та керування користувачами та протоколом обміну інформацією. Ви також несете відповідальність за те, щоб підписані Умови використання зберігалися в усіх організаціях користувача."
   user_group:
     associated_agencies: Агенції, пов’язані з цією групою користувачів
     description: Опис

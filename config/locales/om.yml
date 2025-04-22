@@ -607,7 +607,6 @@ om:
     dash_shared_from_my_team: Garee kiyyarraa qoodameera.
     dash_shared_with_me: Anaan waliin kan qooddatame.
     dash_shared_with_my_team: Garee kiyya waliin qooddateera..
-    dash_shared_with_my_team_overview: Garee kiyya waliin qooddateera (Ilaalcha waliigalaa)
     dash_shared_with_others: Warra biraa waliin  qooddatameera.
     dash_national_admin_summary: Goolaba bulchaa/gaggeessaa.
     dash_violations_category_verification_status: Lakkoofsa waliigalaa taatewwan haala mirkaneessaa tokko tokkoon
@@ -701,15 +700,8 @@ om:
     shared_from_my_team_pending_transfers: Dabarsaawwan tursiisaman/murtii eeggachaa jiran.
     shared_from_my_team_referrals: Walittikenninsa.
     shared_from_my_team_rejected_transfers: Dabarsawan fudhatama dhaban.
-    shared_with_me_new_referrals: Dabarsaawwan haaraa.
-    shared_with_me_total_referrals: Dabarsaawwan waliigalaa.
-    shared_with_me_transfers_awaiting_acceptance: Dabarsaawwan fudhatama eeggatan.
-    shared_with_my_team_pending_transfers_overview: Dabarsaawwan fudhatama eeggatan.
     shared_with_my_team_pending_transfers: Dabarsaawwan tursiisaman.
     shared_with_my_team_referrals: Dabarsaawwan.
-    shared_with_others_pending_transfers: Dabarsaawwan tursiisaman.
-    shared_with_others_referrals: Dabarsaawwan.
-    shared_with_others_rejected_transfers: Dabarsaawwan fudhatama dhaban.
     status_of_cases: Haala sadarkaa dhimmootaa.
     system_user: Sirna.
     total: Waliigala.
@@ -733,23 +725,14 @@ om:
   email_notification:
     assign: '%{user}kanneen itti aanaan%{record_type} siif ramadamaniiru.%{record_id}'
     assign_subject: '%{record_type}%{id}kan siif ramadame'
-    approval_request: 'Fayyadamaan%{user} dhimma%{case_id} mirkanneessa gaafachaa jira%{approval_type}'
     approval_request_subject: 'Dhimma:1%(LG)-GGaafii Mirkanneessaa'
-    approval_response: '%{user}gaafii mirkaneessa%{status}dhimma%{case_id} gaafatame qabaa%{approval_type}'
     approval_response_subject: 'Dhimma: Deebii mirkaneessa %{id}'
     referral: '%{user}%{agency} irraa dhimmoota kana %{record_type} karaa kee%{record_id}gosa tajaajila%{service_type}dabarsee jira.'
     transfer: '1%(fayyadamaa)kannee itti aananii jiran dabarsan2%(gosa-galmee) karaa kee: 3%(LG-galmee)'
     transfer_request_subject: Gaaffii dabarsaa dhimma keessanii tokkoof.
-    transfer_subject: 'Dabarsa%{record_type}:%{id}'
-    referral_subject: '%{record_type}%{id}walitti dabarsuu.'
     transfer_request: 'Fayyadamaa primeeroo%{user} irraa%{agency}abbummaa dabarsuu kana gaafatamaa jiragalmee%{record_id}sana irraa kan ka''e %{record_type} naannoo isaanitti tajaajila bulchiinsa  namoota dhunfaaf%{record_type}. Yoo dabarsi kun isin fudhatama argate maaloo %{record_type}irratti cuqaassi banuuf Email kana irratti ID link%{record_type}primeeroo fi dabarsa si''eessi'
     approval_request_html: 'Fayyadamaan <strong>%{user}</strong>dhimma<strong>%{case_id}</strong>kana mirkanneessuuf gaafachaa jira<strong>%{approval_type}'
     approval_response_html: '<strong>%{user}gaafii <strong>%{status}mirkanneessa <strong>%{approval_type}dhimma<strong>%{case_id}qaba</strong>'
-    referral_html: '<strong>%{user}%{agency}irraa kanneen ittai aanan  karaa keetitti <strong>%{record_id} gosa tajaajilatiif%{service_type}dabarsee jira%{record_type}'
-    transfer_html: '1 1%(fayyadamaa) 1 kanneen armaan gadii dabarsee jira 2%(gosa-galmee) karaa kee:2 3%(galmee-LG)2.'
-    assign_html: '<strong>%{user}gosa galmee %{record_type}kana siif kennee jira<strong>%{record_id}</strong>'
-    transfer_request_html: 'Fayyadamaa primeeroo1 1%(Fayyadamaa)karaa 2%(ajensii) abbummaa kana dabarsuuf  gaafatamaa jira 3%(gosa-galmee) galmee2 4%(Gamlee-LK) 2 kanaaf tajaajila bulchiinsaa naannoo isaanitti 3%(gosa-galmee) ni kennu. Yoo dabarsi siin fudhatama argate maloo 3%(gosa-galmee) irratti cuqaassi 3%(gosa-galmee) banuuf LG emailii kana waliin wal-qabate'
-    transfer_request_notes_html: ' Tokkon tokkoon  nama gaafii  gaafatan irraa yaadannoo fudhuu:1(gaafii-dabarsuu-yaadannoo)'
   webpush_notification:
     action_label: Karaa dhimmaa deemi
     approval_request:
@@ -3484,40 +3467,21 @@ om:
     welcome_email:
       subject: 'Baga gara  %1  (sirna) nagaan dhuftan!'
       greeting: 'Baga gara %1 (sirna) nagaan dhuftan!'
-      body_native: '%{role_name}tiin ida''amtee jirta. Maloo %{admin_full_name}%{admin_email}qunnamaa%{host}  hajaja hordofuun hojii eegaluuf '
       sso:
         body: '%{role_name}tiin ida''amtee jirta'
-        step1: 'Karaa %{host}deemuun %{identity_provider}cuqaassa'
-        step2: 'Akka''uuntii keetiin%{user_name}keetiin seeni/gali/%{identity_provider}'
-        step3: 'Iggitaa hoggayyuu %{identity_provider}herrega keetiif  itti fayyadamtutti dhimma bayi'
-        footer: 'hubannoo gadi fageenyaatiif maaloo %{admin_full_name}%{admin_email}qunnamaa.'
       otp:
         body: 'Akka %{role_name}dabalamteerta.'
-        step1: 'Maaloo maqaa fayyadamaa%{admin_full_name}%{admin_email} keessanii fudhachuuf qunnamaa.'
-        step2: 'Karaa%{host}''maqaa fayyadamaa primeeroon'' cuqaassi'
-        step3: 'Maqaa itti fayyadama keessanii fi iggitaa yeroodhaaf fayyadamtaniin seenaa.%1(otp)'
-        step4: 'Yoo gaafatamtan, iggitaa keessan irra deebi''aa eegalsiisaa.'
       url_label: Piriimeeroo.
       enabled_label: Iimeelii baga nagaan dhuftanii ergi?
       text_label: Barruu iimeelii anaa dhufuu.
     password_reset:
       subject: 'Qajeelfama iggitaa irra deebiin jalqabsiisi.'
-      email_greeting: "Jaalatamoo %1 (maqaa-guutuu)"
-      email_body1: "Namni wayii iggitaa kee %{host_href}qindeessuuf gaafateera.Jalqabuudhaaf url gadi jiru tuqaa."
-      email_body2: "Hidhiin kun sa'aatii %{hours} keessatti kan xumuramu yoo ta'u al tokko qofa fayyadamuun ni danda'ama.  gaaffii jecha icciitii deebisanii kaa'uu yoo hin dhiheessine ykn fayyadamaan Primero haaraan bakka kee bu'ee hin galmoofne ta'e email kana bira darbi. Yoo hidhiin armaan olii yeroon isaa darbe, gaaffii jecha icciitii irra deebi'ii galchuuf %{reset_request_href} cuqaasi."
       email_body_link: Addana/gamana.
       request_submitted: "Gaaffin irra deebiin eegalsiisuu iggitaa galeera.."
       success: "Iggitaan milkaa'inaan jijjiirameera."
       errors:
         reset_password_token: "Fakkeessa iggitaa sirrii hintaane deebi'anii eegalsiisuu."
         password_confirmation: "Iggitaawwan walisimuu qaban."
-    onboard_email:
-      subject: "Gara yaabbachuu irratti.%1(sirna)"
-      greeting: "Jaalatamoo %1(Maqaa-guutuu)"
-      body1: "Baga nagaan gara Primeerootti  dhuftan."
-      body2: "Meeshaa sagalee waraabduu  xis taatee alatti ergi."
-      body2_reset_notification: "Iggitaa keessan irra deebiin akka  jalqabsiiftan  kan gaafatu iimeelii dabalataa isin dhaqqaba."
-      body3: "Raawwii nageenyummaan isaa eegamee fi yeroo isaa eeggate mirkaneessuuf gaafatamummaa qabdu.Tokkoo tokkoon adeemuu isaatiif karoora raawwii gabatee irra jiru fi tarsiimoo bulchinsa fayyadamaa fi kabaja yagutooma odeeffannoo xumuruu qabda.Akkasumas,waliigalteen fayyadamaa mallattaa'an  dhaabbilee fayyadamaa hunda isaaniitiifuu faayila irra jiraachuu isaa mirkaneessuuf gaafatamummaa qabdu."
   user_group:
     associated_agencies: Ejensiiwwan garee fayyadamaa kanaa wajjiin walitti hidhatama qaban.
     description: Ibsa.
