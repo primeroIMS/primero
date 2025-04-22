@@ -125,9 +125,9 @@ class Filter < ValueObject
     option_strings_source: 'lookup-yes-no',
     type: 'multi_toggle'
   )
-  MARGINALIZED_COMMUNITY_SELF_IDENTIFYING = Filter.new(
-    name: 'cases.filter_by.marginalized_community_self_identifying',
-    field_name: 'marginalized_community_self_identifying',
+  SOGIESC_SELF_IDENTIFYING = Filter.new(
+    name: 'cases.filter_by.sogiesc_self_identifying',
+    field_name: 'sogiesc_self_identifying',
     option_strings_source: 'lookup-yes-no-unknown',
     type: 'multi_toggle'
   )
@@ -408,9 +408,9 @@ class Filter < ValueObject
     option_strings_source: 'lookup-yes-no'
   )
 
-  SELF_HARM_THOUGHTS = Filter.new(
-    name: 'cases.filter_by.self_harm_thoughts',
-    field_name: 'self_harm_thoughts',
+  MHPSS_SUICIDAL_THOUGHTS_LAST_MONTH_MOST_RECENT = Filter.new(
+    name: 'cases.filter_by.mhpss_suicidal_thoughts_last_month_most_recent',
+    field_name: 'mhpss_suicidal_thoughts_last_month_most_recent',
     option_strings_source: 'lookup-yes-no'
   )
 
@@ -478,12 +478,12 @@ class Filter < ValueObject
       filters << RISK_LEVEL
       filters << DISPLACEMENT_STATUS
       filters << DISABILITY_STATUS
-      filters << MARGINALIZED_COMMUNITY_SELF_IDENTIFYING
+      filters << SOGIESC_SELF_IDENTIFYING
       filters << PROTECTION_RISKS
       filters << CURRENT_LOCATION
       filters << AGENCY_OFFICE
       filters << SAFETY_PLAN_NEEDED
-      filters << SELF_HARM_THOUGHTS
+      filters << MHPSS_SUICIDAL_THOUGHTS_LAST_MONTH_MOST_RECENT
       filters << USER_GROUP if user.user_group_filter?
       filters += reporting_location_filters(user)
       filters
