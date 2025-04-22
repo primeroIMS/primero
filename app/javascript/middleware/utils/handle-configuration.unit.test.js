@@ -21,7 +21,7 @@ describe("middleware/utils/handle-configuration.js", () => {
   });
 
   afterEach(() => {
-    jest.resetAllMocks();
+    jest.restoreAllMocks();
     store.clearActions();
   });
 
