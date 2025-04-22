@@ -436,7 +436,7 @@ en:
       risk_level: Risk Level
       sex: Sex
       social_worker: Field/Case/Social Worker
-      sogiesc_self_identifying: Client identifies as part of the SOGIESC community?
+      marginalized_community_self_identifying: Client identifies as part of the SOGIESC community?
       status: Status
       transferred: Transferred
       type_of_risk: Type of Risk
@@ -446,7 +446,7 @@ en:
       module_id: Module
       include_disabled: Include disabled
       safety_plan_needed: Is a safety plan needed for this case?
-      mhpss_suicidal_thoughts_last_month_most_recent: In the past month, have you had serious thoughts or plans to end your own life?
+      self_harm_thoughts: In the past month, have you had serious thoughts or plans to end your own life?
     flag_summary: Flag summary
     full_name: Full Name
     gbv_closure: GBV Closure
