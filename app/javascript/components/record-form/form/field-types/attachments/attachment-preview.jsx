@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import css from "../../styles.css";
 
 import { ATTACHMENT_TYPES } from "./constants";
+import { ImageJwt } from "../../../../image-jwt";
 
 function AttachmentPreview({ name, attachment, attachmentUrl }) {
   const isAudioAttachment = attachment === ATTACHMENT_TYPES.audio;
@@ -26,7 +27,7 @@ function AttachmentPreview({ name, attachment, attachmentUrl }) {
     );
   }
 
-  return <img data-testid="attachment" src={attachmentUrl} alt="" className={css.editImg} />;
+  return <ImageJwt data-testid="attachment" src={attachmentUrl} alt="" className={css.editImg} />;
 }
 
 AttachmentPreview.displayName = "AttachmentPreview";
