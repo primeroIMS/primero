@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 import { useI18n } from "../../../i18n";
 import { RECORD_TYPES_PLURAL } from "../../../../config";
-import { ImageJwt } from "../../../image-jwt";
+import { AssetJwt } from "../../../asset-jwt";
 
 function Component({ shortId, recordType, logos = [], css }) {
   const i18n = useI18n();
@@ -21,7 +21,7 @@ function Component({ shortId, recordType, logos = [], css }) {
       </div>
       <div className={css.logos}>
         {logos.map(logo => (
-          <ImageJwt src={logo?.logoFull} alt={logo?.name} />
+          <AssetJwt src={logo?.logoFull} alt={logo?.name} />
         ))}
       </div>
     </div>

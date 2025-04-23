@@ -1,2 +1,2 @@
 // eslint-disable-next-line import/prefer-default-export
-export { default as ImageJwt } from "./component";
+export { default as AssetJwt } from "./component";

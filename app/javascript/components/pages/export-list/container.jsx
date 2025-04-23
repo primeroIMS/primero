@@ -32,12 +32,13 @@ function ExportList() {
   const defaultFilters = metadata;
   const isRecordProcessing = status => status === EXPORT_STATUS.processing;
 
-  const onRowClick = record =>
-    !isRecordProcessing(record.status) ? downloadUrl(record.export_file, record.file_name) : null;
+  const onRowClick = record => {
+    if (!isRecordProcessing(record.status)) {
+      downloadUrl(record.export_file, record.file_name);
+    }
+  };
 
   const columns = data => {
-    const handleClick = exportRecord => () => onRowClick(exportRecord);
-
     return listHeaders.map(c => {
       const options = {
         ...{
@@ -57,12 +58,7 @@ function ExportList() {
                   return (
                     <DisableOffline>
                       {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
-                      <div
-                        className={css.link}
-                        onClick={handleClick(exportRecord)}
-                        role="button"
-                        tabIndex={tableMeta.rowIndex}
-                      >
+                      <div className={css.link} role="button" tabIndex={tableMeta.rowIndex}>
                         {exportIcon}
                         <span>{value}</span>
                       </div>
