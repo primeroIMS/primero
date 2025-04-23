@@ -2,61 +2,59 @@
 
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-# Superclass for all SearchFilter objects that transform API query parameters into Sunspot queries
+# Superclass for all SearchFilter objects that transform API query parameters into sql queries
 class SearchFilters::SearchFilter < ValueObject
   OPERATORS = %w[= > < >= <=].freeze
 
-  attr_accessor :field_name, :not_filter, :column_name, :table_name
+  attr_accessor :field_name, :json_column, :table_name
 
   def initialize(args = {})
     super(args)
     @safe_operator = OPERATORS.include?(args[:operator]) ? args[:operator] : '='
-    self.column_name = args[:column_name] || 'data'
+    self.json_column = args[:json_column] || 'data'
     self.table_name = args[:table_name] || ''
   end
 
-  def query
-    raise NotImplementedError
-  end
+  def safe_json_column
+    return ActiveRecord::Base.sanitize_sql_for_conditions(['%s', json_column]) unless table_name.present?
 
-  def json_column
-    return ActiveRecord::Base.sanitize_sql_for_conditions(['%s', column_name]) unless table_name.present?
-
-    ActiveRecord::Base.sanitize_sql_for_conditions(['%s.%s', table_name, column_name])
-  end
-
-  def json_path_query
-    "#{json_column} @? '#{json_field_query} ? (#{json_path_value})'"
+    ActiveRecord::Base.sanitize_sql_for_conditions(['%s.%s', table_name, json_column])
   end
 
   def json_field_query
     ActiveRecord::Base.sanitize_sql_for_conditions(['$.%s', field_name])
   end
 
-  def json_path_value
-    operator = @safe_operator == '=' ? '==' : @safe_operator
-    ActiveRecord::Base.sanitize_sql_for_conditions(['@ %s %s', operator, value])
+  def safe_search_column
+    return ActiveRecord::Base.sanitize_sql_for_conditions(['%s', "srch_#{field_name}"]) unless table_name.present?
+
+    ActiveRecord::Base.sanitize_sql_for_conditions(['%s.%s', table_name, "srch_#{field_name}"])
   end
 
-  def searchable_query(record_type)
-    return SearchableValue.where(field_name:, value:, record_type:).to_sql unless not_filter
+  def query(record_class = nil)
+    return searchable_query(record_class) if searchable_field_name?(record_class)
 
-    SearchableValue.where(field_name:, record_type:).where.not(value:).to_sql
+    json_path_query
   end
 
-  def searchable_join_query(record_type)
-    %(
-      INNER JOIN (#{searchable_query(record_type)}) AS #{searchable_join_alias}
-      ON #{searchable_join_alias}.record_id = #{record_table_name(record_type)}.id
-    )
+  def json_path_query
+    raise NotImplementedError
   end
 
-  def record_table_name(record_type)
-    record_type.constantize.table_name
+  def searchable_query
+    raise NotImplementedError
   end
 
-  def searchable_join_alias
-    ActiveRecord::Base.sanitize_sql_for_conditions(['%s', field_name.pluralize])
+  def searchable_field_name?(record_class)
+    return false unless record_class.present?
+
+    record_class.searchable_field_name?(field_name)
+  end
+
+  def array_field?(record_class)
+    return false unless record_class.present?
+
+    record_class.columns_hash["srch_#{field_name}"].array
   end
 
   def to_json(_obj)

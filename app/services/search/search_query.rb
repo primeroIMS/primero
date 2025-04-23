@@ -27,27 +27,9 @@ class Search::SearchQuery
   end
 
   def build
-    apply_filters(apply_scope(record_class.eager_loaded_class))
-  end
-
-  def apply_scope(record_query)
-    return record_query unless scope.present?
-
-    Search::SearchScope.apply(scope, record_query)
-  end
-
-  def apply_filters(record_query)
-    return record_query unless filters.present?
-
-    filters.each { |filter| record_query = apply_filter(record_query, filter) }
+    record_query = record_class.eager_loaded_class
+    query_filters = Search::SearchScope.scope_filters(scope) + filters
+    query_filters.each { |filter| record_query = record_query.where(filter.query(record_class)) }
     record_query
-  end
-
-  def apply_filter(record_query, filter)
-    if record_class.normalized_field_name?(filter.field_name)
-      record_query.joins(filter.searchable_join_query(record_class.name))
-    else
-      filter.not_filter ? record_query.where.not(filter.query) : record_query.where(filter.query)
-    end
   end
 end

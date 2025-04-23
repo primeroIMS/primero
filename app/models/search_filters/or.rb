@@ -2,14 +2,12 @@
 
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-# Transform API query parameter or[field_name1]=value1&or[field_name2]=value2 into a Sunspot query
+# Transform API query parameter or[field_name1]=value1&or[field_name2]=value2 into a sql query
 class SearchFilters::Or < SearchFilters::SearchFilter
   attr_accessor :filters
 
-  def query
-    return filters.first.query if filters.size == 1
-
-    "(#{filters.map(&:query).join(' OR ')})"
+  def query(record_class = nil)
+    filters.map { |filter| filter.query(record_class) }.join(' OR ')
   end
 
   def as_location_filter(record_class)

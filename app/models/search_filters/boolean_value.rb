@@ -4,17 +4,13 @@
 
 # Transform a boolean query parameter field_name=false into a sql query
 class SearchFilters::BooleanValue < SearchFilters::Value
-  def query
-    return json_path_query if value
+  def json_path_query
+    return super if value
 
-    "(#{json_path_query} OR #{ActiveRecord::Base.sanitize_sql_for_conditions(['(data->>? IS NULL)', field_name])})"
+    "(#{super} OR #{ActiveRecord::Base.sanitize_sql_for_conditions(['(data->>? IS NULL)', field_name])})"
   end
 
-  def searchable_query(record_type)
-    SearchableBoolean.where(field_name:, value:, record_type:).to_sql
-  end
-
-  def json_path_value
+  def json_path_predicate
     ActiveRecord::Base.sanitize_sql_for_conditions(['@ == %s || @ == "%s"', value, value])
   end
 end

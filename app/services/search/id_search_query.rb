@@ -7,7 +7,7 @@ class Search::IdSearchQuery < Search::SearchQuery
   attr_accessor :sort
 
   def build
-    record_query = super.distinct
+    record_query = super
     record_query = apply_sort(record_query)
     return record_query unless query.present?
 
@@ -30,8 +30,7 @@ class Search::IdSearchQuery < Search::SearchQuery
     return record_query unless sort.present?
 
     sort.each do |(sort_field, direction)|
-      direction = order_direction(direction)
-      record_query = if record_class.normalized_field_name?(sort_field)
+      record_query = if record_class.searchable_field_names.include?(sort_field)
                        apply_searchable_sort(record_query, sort_field, direction)
                      else
                        apply_data_sort(record_query, sort_field, direction)
@@ -42,15 +41,10 @@ class Search::IdSearchQuery < Search::SearchQuery
   end
 
   def apply_searchable_sort(record_query, sort_field, direction)
-    if filters.any? { |filter| filter.field_name == sort_field }
-      record_query.order(Arel.sql("#{search_filter.searchable_join_alias}.value #{direction}"))
-    else
-      record_query
-    end
-  end
-
-  def searchable_sort_query
-    # TODO: Depends on record_class?
+    field = ActiveRecord::Base.sanitize_sql_array(['%s', "srch_#{sort_field}"])
+    direction = order_direction(direction)
+    order_query = ActiveRecord::Base.sanitize_sql_for_order("#{field} #{direction}")
+    record_query.order(Arel.sql(order_query))
   end
 
   def apply_data_sort(record_query, sort_field, direction)

@@ -51,7 +51,7 @@ module Indicators
     end
 
     # Override this method on the indicator subclass and use build_query()
-    def query(_indicator_filters, user_query_scope)
+    def query(indicator_filters, user_query_scope)
       build_query(indicator_filters, user_query_scope)
     end
 
@@ -81,7 +81,11 @@ module Indicators
     def with_scope_to_not_last_update(user)
       return [] unless scope_to_not_last_update
 
-      [SearchFilters::TextValue.new(field_name: 'last_updated_by', value: user.user_name, not_filter: true)]
+      [
+        SearchFilters::Not.new(
+          filter: SearchFilters::TextValue.new(field_name: 'last_updated_by', value: user.user_name)
+        )
+      ]
     end
 
     def with_scope_referred_to_users(user)

@@ -16,6 +16,7 @@ class TracingRequest < ApplicationRecord
   include Webhookable
   include LocationCacheable
   include PhoneticSearchable
+  include Normalizeable
 
   has_many :traces
   store_accessor :data,
@@ -27,6 +28,7 @@ class TracingRequest < ApplicationRecord
                  :monitor_number, :survivor_code, :reunited, :inquiry_date,
                  :location_last
   alias inquirer_id tracing_request_id
+  before_save :save_searchable_fields
   after_save :save_traces
   class << self
     def filterable_id_fields
@@ -45,14 +47,6 @@ class TracingRequest < ApplicationRecord
         'string' => %w[status owned_by],
         'multistring' => %w[associated_user_names owned_by_groups],
         'date' => ['inquiry_date']
-      }
-    end
-
-    def normalized_field_names
-      {
-        'searchable_datetimes' => %w[created_at inquiry_date],
-        'searchable_values' => %w[status associated_user_groups associated_user_agencies associated_user_names],
-        'searchable_booleans' => %w[record_state]
       }
     end
 

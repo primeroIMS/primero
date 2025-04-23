@@ -2,7 +2,7 @@
 
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-# Transform API query parameter field_name=YYYYMMDD..YYYMMDD into a Sunspot query
+# Transform API query parameter field_name=YYYYMMDD..YYYMMDD into a sql query
 class SearchFilters::DateRange < SearchFilters::SearchFilter
   attr_accessor :field_name, :from, :to
 
@@ -37,8 +37,8 @@ class SearchFilters::DateRange < SearchFilters::SearchFilter
   end
 
   # rubocop:disable Metrics/MethodLength
-  def query
-    return "(#{from_query})" unless to.present?
+  def json_path_query
+    return "(#{json_from_query})" unless to.present?
 
     ActiveRecord::Base.sanitize_sql_for_conditions(
       [
@@ -63,18 +63,39 @@ class SearchFilters::DateRange < SearchFilters::SearchFilter
     from.is_a?(Time)
   end
 
-  def from_query
+  def json_from_query
     SearchFilters::DateValue.new(field_name:, value: from, operator: '>=').query
   end
 
-  def searchable_query(record_type)
-    SearchableDatetime.where(
-      field_name:, record_type:
-    ).where(
-      'value >= to_timestamp(:from, :date_format)', from: from.iso8601, date_format:
-    ).where(
-      'value <= to_timestamp(:to, :date_format)', to: to.iso8601, date_format:
-    ).to_sql
+  def searchable_query(record_class)
+    return searchable_from_query(record_class) unless to.present?
+    return searchable_array_query if array_field?(record_class)
+
+    ActiveRecord::Base.sanitize_sql_for_conditions(
+      ["(#{safe_search_column} >= ? AND #{safe_search_column} <= ?)", from, to]
+    )
+  end
+
+  def searchable_array_query
+    ActiveRecord::Base.sanitize_sql_for_conditions(
+      [
+        "EXISTS (SELECT 1 FROM UNNEST(#{safe_search_column}) AS date_value WHERE date_value >= ? AND date_value <= ?)",
+        from,
+        to
+      ]
+    )
+  end
+
+  def searchable_from_query(record_class)
+    return searchable_from_array_query if array_field?(record_class)
+
+    ActiveRecord::Base.sanitize_sql_for_conditions(["#{safe_search_column} >= ?", from])
+  end
+
+  def searchable_from_array_query
+    ActiveRecord::Base.sanitize_sql_for_conditions(
+      ["EXISTS (SELECT 1 FROM UNNEST(#{safe_search_column}) AS date_value WHERE date_value >= ?)", from]
+    )
   end
 
   def this_quarter?

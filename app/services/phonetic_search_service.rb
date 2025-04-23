@@ -26,9 +26,9 @@ class PhoneticSearchService
   def search
     Search::SearchResult.new(
       search_query.with_scope(search_params[:scope])
-                  .with_filters(search_params[:filters])
-                  .with_query(search_params[:query])
-                  .build
+      .with_filters(search_params[:filters])
+      .with_query(search_params[:query])
+      .build
     ).paginate(search_params[:pagination])
   end
 

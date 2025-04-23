@@ -7,7 +7,7 @@ class SearchFilters::DateValue < SearchFilters::Value
   attr_accessor :date_include_time
 
   # rubocop:disable Metrics/MethodLength
-  def query
+  def json_path_query
     ActiveRecord::Base.sanitize_sql_for_conditions(
       [
         %(
@@ -22,19 +22,15 @@ class SearchFilters::DateValue < SearchFilters::Value
   end
   # rubocop:enable Metrics/MethodLength
 
-  def searchable_query(record_type)
-    SearchableDatetime.where(
-      field_name:, record_type:
-    ).where(
-      'value = to_timestamp(:value, :date_format)', value: value.iso8601, date_format:
-    ).to_sql
-  end
-
   def date_format
     date_include_time? ? Report::DATE_TIME_FORMAT : Report::DATE_FORMAT
   end
 
   def date_include_time?
     date_include_time || value.is_a?(Time)
+  end
+
+  def search_column_query
+    ActiveRecord::Base.sanitize_sql_for_conditions(["#{safe_search_column} = ?", value])
   end
 end

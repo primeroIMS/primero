@@ -36,7 +36,7 @@ module Indicators
         ActiveRecord::Base.sanitize_sql_array(['data->>? AS pivot?', pivot[:field_name], index])
       end.join(', ')
 
-      "#{select}, COUNT(DISTINCT cases.id) AS count"
+      "#{select}, COUNT(*) AS count"
     end
 
     def pivot_field_names

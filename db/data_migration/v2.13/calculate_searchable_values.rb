@@ -33,7 +33,7 @@ end
 def generate_searchable_hashes(record, fields, data_to_update)
   fields.reduce([]) do |memo, field_name|
     value = record.data[field_name]
-    next(memo) if value.blank?
+    next(memo) if value.nil?
 
     memo + record.generate_searchable_hashes(data_to_update, field_name, value).map do |elem|
       elem.merge(record_id: record.id, record_type: record.class.name)

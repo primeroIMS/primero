@@ -14,7 +14,7 @@ class Search::PhoneticSearchQuery < Search::SearchQuery
   )
 
   def build
-    record_query = super.distinct
+    record_query = super
     return record_query unless query.present?
 
     self.tokens = LanguageService.tokenize(query)
