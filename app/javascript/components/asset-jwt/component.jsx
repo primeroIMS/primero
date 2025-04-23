@@ -42,7 +42,6 @@ function Component({ src, alt, className, type = "image", id }) {
   }, []);
 
   if (type === "audio") {
-    // console.log(src, srcString)
     return (
       // eslint-disable-next-line jsx-a11y/media-has-caption
       <audio id={id} controls data-testid="audio" src={isIDP ? srcString : src} />
