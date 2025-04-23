@@ -9,6 +9,8 @@ function Component({ src, alt, className, type = "image", id }) {
   const [srcString, setSrcString] = useState("");
   const isIDP = useMemoizedSelector(state => getUseIdentityProvider(state));
 
+  const isBase64 = src.startsWith("data:");
+
   const getBase64Image = async res => {
     const blob = await res.blob();
 
@@ -48,7 +50,7 @@ function Component({ src, alt, className, type = "image", id }) {
     );
   }
 
-  return <img src={isIDP ? srcString : src} alt={alt} className={className} data-testid="attachment" />;
+  return <img src={isIDP && !isBase64 ? srcString : src} alt={alt} className={className} data-testid="attachment" />;
 }
 
 Component.displayName = "AssetJWT";
