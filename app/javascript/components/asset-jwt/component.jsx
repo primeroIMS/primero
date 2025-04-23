@@ -46,7 +46,7 @@ function Component({ src, alt, className, type = "image", id }) {
   if (type === "audio") {
     return (
       // eslint-disable-next-line jsx-a11y/media-has-caption
-      <audio id={id} controls data-testid="audio" src={isIDP && !isBase64  ? srcString : src} />
+      <audio id={id} controls data-testid="audio" src={isIDP && !isBase64 ? srcString : src} />
     );
   }
 
