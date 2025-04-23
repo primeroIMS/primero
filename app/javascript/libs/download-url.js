@@ -1,5 +1,15 @@
 import { getIDPToken } from "../components/login/components/idp-selection/auth-provider";
 
+function getFileName(filename, url) {
+  const isZipped = url.includes(".zip?");
+
+  if (isZipped) {
+    return `${filename}.zip`;
+  }
+
+  return filename;
+}
+
 async function downloadUrl(url, filename) {
   const token = await getIDPToken();
 
@@ -14,7 +24,7 @@ async function downloadUrl(url, filename) {
       const a = document.createElement("a");
 
       a.href = fileUrl;
-      a.download = filename;
+      a.download = getFileName(filename, url);
       document.body.appendChild(a);
       a.click();
       a.remove();

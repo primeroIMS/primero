@@ -5,8 +5,8 @@ import { getIDPToken } from "../login/components/idp-selection/auth-provider";
 import { getUseIdentityProvider } from "../login/selectors";
 import { useMemoizedSelector } from "../../libs";
 
-function Component({ src, alt, className }) {
-  const [imagesString, setImagesString] = useState("");
+function Component({ src, alt, className, type = "image", id }) {
+  const [srcString, setSrcString] = useState("");
   const isIDP = useMemoizedSelector(state => getUseIdentityProvider(state));
 
   const getBase64Image = async res => {
@@ -32,7 +32,7 @@ function Component({ src, alt, className }) {
       }
     })
       .then(getBase64Image)
-      .then(imgString => setImagesString(imgString));
+      .then(output => setSrcString(output));
   }
 
   useEffect(() => {
@@ -41,15 +41,24 @@ function Component({ src, alt, className }) {
     }
   }, []);
 
-  return <img src={isIDP ? imagesString : src} alt={alt} className={className} data-testid="attachment" />;
+  if (type === "audio") {
+    return (
+      // eslint-disable-next-line jsx-a11y/media-has-caption
+      <audio id={id} controls data-testid="audio" src={isIDP ? srcString : src} />
+    );
+  }
+
+  return <img src={isIDP ? srcString : src} alt={alt} className={className} data-testid="attachment" />;
 }
 
-Component.displayName = "ImageJWT";
+Component.displayName = "AssetJWT";
 
 Component.propTypes = {
   alt: PropTypes.string,
   className: PropTypes.string,
-  src: PropTypes.string.isRequired
+  id: PropTypes.string,
+  src: PropTypes.string.isRequired,
+  type: PropTypes.string
 };
 
 export default Component;
