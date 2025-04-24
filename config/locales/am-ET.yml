@@ -896,7 +896,6 @@ am-ET:
     dash_shared_from_my_team: ከቡድኔ የተጋራ
     dash_shared_with_me: ለኔ የተጋራ
     dash_shared_with_my_team: ለቡድኔ የተጋራ
-    dash_shared_with_my_team_overview: ለቡድኔ የተጋራ (አጠቃላይ እይታ)
     dash_shared_with_others: ለሌሎች የተጋራ
     dash_national_admin_summary: የአስተዳዳሪ ማጠቃለያ
     dash_violations_category_verification_status: በአንድ የማረጋገጫ ሁኔታ አጠቃላይ የክስተቶች ብዛት
@@ -990,15 +989,8 @@ am-ET:
     shared_from_my_team_pending_transfers: በእንጥልጥል ላይ ያሉ የሚተላለፉ
     shared_from_my_team_referrals: ቅብብሎሾች
     shared_from_my_team_rejected_transfers: ተቀባይነት ያላገኘ ማስተላለፍ
-    shared_with_me_new_referrals: አዲስ ቅብብሎሽ
-    shared_with_me_total_referrals: አጠቃላይ ቅብብሎሾች
-    shared_with_me_transfers_awaiting_acceptance: ተቀባይነትን በእንጥልጥል ላይ ያሉ የሚተላለፉ
-    shared_with_my_team_pending_transfers_overview: ተቀባይነትን በእንጥልጥል ላይ ያሉ የሚተላለፉ
     shared_with_my_team_pending_transfers: በእንጥልጥል ላይ ያሉ የሚተላለፉ
     shared_with_my_team_referrals: ቅብብሎሾች
-    shared_with_others_pending_transfers: በእንጥልጥል ላይ ያሉ የሚተላለፉ
-    shared_with_others_referrals: ቅብብሎሾች
-    shared_with_others_rejected_transfers: ተቀባይነት ያላገኘ ማስተላለፍ
     status_of_cases: የጉዳዮች ሁኔታ
     system_user: ስርዓት
     total: አጠቃላይ
@@ -1022,22 +1014,13 @@ am-ET:
   email_notification:
     assign: '%{user} %{record_type} የሚከተለውን ለእርስዎ መድቧል፡ %{record_id}'
     assign_subject: '{ተመድቦልሀል}'
-    approval_request: 'ደንበኛው ኬዞች እንዲጸድቅ እየጠየቀ ነው'
     approval_request_subject: '{ጉዳይ፡ እንዲጸድቅ መጠየቅ}'
-    approval_response: '%{user} የማጽደቅ ጥያቄ %{approval_type}አለው%{status}ለጉዳይ%{case_id}።'
     approval_response_subject: '{የጉዳይ፡ ማጽደቅ ምላሽ}'
     referral: '%{user} ከ %{agency} አድረጋል %{record_type} ለእናንተ: %{record_id} ለ %{service_type}.'
     transfer_request_subject: ከጉዳዮች መካካል ለዝወወር አንዱን ጉዳይ መጠየቅ
-    transfer_subject: '%{record_type}፡%{id}ማዘዋወር'
-    referral_subject: '%{record_type}፡%{id}ቅብብሎሽ'
     transfer_request: 'የፕሪሚሮ ተጠቃሚ 1%{user} ከ2%{ኤጀንሲ} የዚህን  የማስተላለፍ የመዝገብ ባለቤትነት  እየጠየቀ ነው 3%{record_type} መዝገብ 4%{record_id}  3%{record_type} አስተዳደር አገልግሎቶችን መስጠት ይችላሉ። ይህ ማስተላለፍ ለእርስዎ ተቀባይነት ያለው ከሆነ፣ እባክዎ በዚህ ኢሜይል ውስጥ 3%{record_type} መታወቂያ አገናኝ ቁልፍ ላይ ይጫኑ 3%{record_type} በ Primero ውስጥ ለመክፈት እና ቅብብሎሸን ለመጀመር።'
     approval_request_html: 'ተጠቃሚዉ 1 %{ተጠቃሚ} 1 ጉዳዩ እንዲያጸድቅ ጠይቃል 2 %{ኬዝ _መለያ} 2  ላይ 3 %{ኬዝ _መለያ} '
     approval_response_html: '<strong>%{user}</strong> <strong>%{status}</strong> ለማጽደቅ የተጠየቀ  ጉዳዩ <strong>%{approval_type}</strong> ለ <strong>%{case_id}</strong>.'
-    referral_html: '<strong>%{user}</strong>ከ%{agency}ወደ እርስዎ%{record_type} ተልኳል፡፡<strong>%{record_id}</strong>ለ%{service_type}'
-    transfer_html: '<strong>%{user}</strong>  %{record_type}  <strong>%{record_id}</strong>.የሚከተለዉ ወዳ አንተ ተላልፏል'
-    assign_html: '<strong>%{user}</strong> ለአንተ %{record_type}ተመድባል: <strong>%{record_id}</strong>. የሚከተለዉ ጉዳይ ለአንተ ተመድባል'
-    transfer_request_html: 'የፕሪሜሮ ተጠቃሚ <strong>%{user}</strong> ከ %{agency} is ሀላፊነቱን አስተላልፋል%{record_type} መዝገብ <strong>%{record_id}</strong> ስለዚህ አገልግሎት መስጠት ይችላሉ %{record_type} . ይህ ቅብብሎሽን ከተቀበልክ , እባክዎ ይጫኑ %{record_type} ID ማያያዛ በዚህ ኢሜል %{record_type} በፕሪሜሮ ቅብብል.'
-    transfer_request_notes_html: '{ጥያቄውን ባቀረበው ግለሰብ የተያዘ ማስታወሻ}'
   webpush_notification:
     approval_response:
       title: የማጽደቅ ምላሽ
@@ -3657,40 +3640,21 @@ am-ET:
     welcome_email:
       subject: 'እንኩአን ደህና መጡ %{system}'
       greeting: 'እንኩአን ደህና መጡ %{system}'
-      body_native: 'እንደ%{role_name} ተጨምረሃል። አብሮ መስራት ለመጀመር%{admin_full_name}(%{admin_email}) ለክትትል መመሪያዎች እባክዎ  ያነጋግሩ%{host}'
       sso:
         body: 'እንደ %{role_name} ተጨምረሃል፡፡'
-        step1: 'ወደ ይሂዱ %{host} እና ጠቅ ያድርጉ %{identity_provider}'
-        step2: 'በመለያዎ ይግቡ፡፡%{identity_provider} %{user_name}'
-        step3: 'ሁልጊዜ ለመለያዎ የሚጠቀሙበትን ተመሳሳይ የይለፍ ቃል %{identity_provider} ይጠቀሙ።'
-        footer: 'ለተጨማሪ ዝርዝሮች እባክዎ %{admin_full_name} (%{admin_email}) ያነጋግሩ።'
       otp:
         body: 'እንደ %{role_name} ተጨምረሃል'
-        step1: 'እባክዎ የተጠቃሚ ስምዎን ለመቀበል %{admin_full_name} (%{admin_email}) ያነጋግሩ።'
-        step2: 'ወደ %{host}ይሂዱ እና "በፕሪሜሮ የተጠቃሚ ስም ግባ" ን የይንኩ።'
-        step3: 'በተጠቃሚ ስምዎ እና በጊዜያዊ የይለፍ ቃልዎ ይግቡ%{otp}'
-        step4: 'ሲጠየቁ የኢሜል ይለፍ ቃል ያስተካክሉ'
       url_label: ፕሪሜሮ
       enabled_label: የእንኳን ደህና መጡ ኢሜል ላክ
       text_label: የእንኳን ደህና መጡ የኢሜል ጽሁፍ
     password_reset:
       subject: 'የይለፍ ቃል ማስተካከያ መመሪያ '
-      email_greeting: "ውድ%{full_name}"
-      email_body1: "የሆነ ሰው የይለፍ ቃልዎን ለመቀየር ጠይቋል%{host_href}። ለመጀመር ከታች ያለውን ዩአርኤል ይንኩ፡-"
-      email_body2: "ይሄን ሊንክ %{hours} ለአንድ ሰዓት በቻ የሚያገለግል ነው:: የማለፊያ ጥር ቁጥር መሻሻያ ወይም መቀየሪያ ካተጠየቁ  አሊያም ደግሞ  በፕሪሜሮ ተጠቃሚ ሁነዉ ካልተመዘገቡ በቀር ይሄን ኢሜል ይተዉት::የላይኛዉ መተግበሪያ ግዜዉ  ያለፈበት ከሆነ የማለፊ ሚስጥር ማጥፊያ %{reset_request_href}የሚለዉን በመጫን እንደገና ማስገባት ይቻላል፡፡"
       email_body_link: እዚህ
       request_submitted: "የይለፍ ቃል የማስተካከል ጥያቄው ተቀባይነት አግኝቷል"
       success: "የይለፍ ቃሉ በተሳካ ሁኔታ ተቀይሯል"
       errors:
         reset_password_token: "የማያገለግል የይለፍ ቃል ቅያሪ"
         password_confirmation: "የይለፍ ቃሉ ተመሳሳይ መሆን አለበት"
-    onboard_email:
-      subject: "በመሄድ ላይ ወደ%{system}"
-      greeting: "ውድ %{full_name}"
-      body1: "ወደ ፐሪሜሮ እንኳን ደህና መጡ"
-      body2: "እርስዎ ለ ትግበራ አስተዳዳሪ ሆነው ተሾመዋል%{host_href}%{reset_notification}"
-      body2_reset_notification: "የይለፍ ቃል ለመቀየር የሚያሳስብ ተጨማሪ ኢሜይል ሊቀበሉ ይችላሉ"
-      body3: "ደህንነቱ የተጠበቀ እና ወቅታዊ ትግበራን የማረጋገጥ ኃላፊነት አለብዎት። ለእያንዳንዱ ስራ የትግበራ እቅዱን በሂደት ላይ ያለ እና በተጠቃሚ አስተዳደር ስትራቴጂ እና በመረጃ መጋራት ፕሮቶኮል ማጠናቀቅ አለብዎት። እንዲሁም የተፈረመ የአጠቃቀም ውል በሁሉም የተጠቃሚ ድርጅቶች ፋይል መሆኑን የማረጋገጥ ኃላፊነት አለብዎት።"
   user_group:
     associated_agencies: 'ከተጠቃሚ ቡድኖች ጋር የተያያዙ ድርጅቶች '
     description: መግለጫ

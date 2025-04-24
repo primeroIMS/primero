@@ -93,7 +93,7 @@ export function useTranslatedRecords({
       : getReportingLocationConfig(state)
   );
 
-  const recordListAdminLevel = reportingLocationConfig.get("record_list_admin_level");
+  const recordListAdminLevel = reportingLocationConfig?.get("record_list_admin_level");
 
   const source =
     useReportingLocations && !recordListAdminLevel ? LOOKUPS.reporting_locations : STRING_SOURCES_TYPES.LOCATION;

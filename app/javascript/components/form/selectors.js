@@ -228,8 +228,8 @@ const reportingLocations = memoize(([state, options]) => {
   return locationsParser(
     data.filter(location =>
       options.includeChildren === true
-        ? location.get("admin_level") >= reportingLocationData.get("admin_level")
-        : location.get("admin_level") === reportingLocationData.get("admin_level")
+        ? location.get("admin_level") >= reportingLocationData?.get("admin_level")
+        : location.get("admin_level") === reportingLocationData?.get("admin_level")
     ),
     {
       ...options,
