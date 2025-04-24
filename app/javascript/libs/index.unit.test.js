@@ -6,12 +6,12 @@ describe("libs/index", () => {
   describe("properties", () => {
     let clone;
 
-    before(() => {
+    beforeAll(() => {
       clone = { ...moduleToTest };
     });
 
-    after(() => {
-      expect(clone).to.be.empty;
+    afterAll(() => {
+      expect(Object.keys(clone)).toHaveLength(0);
     });
 
     [
@@ -45,7 +45,7 @@ describe("libs/index", () => {
       "valuesToSearchableSelect"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
-        expect(moduleToTest).to.have.property(property);
+        expect(moduleToTest).toHaveProperty(property);
         delete clone[property];
       });
     });

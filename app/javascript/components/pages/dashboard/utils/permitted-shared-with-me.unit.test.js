@@ -42,7 +42,7 @@ describe("permittedSharedWithMe - pages/dashboard/utils/", () => {
 
     const permitted = permittedSharedWithMe(sharedWithMe, userPermissions);
 
-    expect(permitted).to.deep.equal(expected);
+    expect(permitted).toEqual(expected);
   });
 
   it("should return referral indicators only", () => {
@@ -65,7 +65,7 @@ describe("permittedSharedWithMe - pages/dashboard/utils/", () => {
 
     const permitted = permittedSharedWithMe(sharedWithMe, userPermissions);
 
-    expect(permitted).to.deep.equal(expected);
+    expect(permitted).toEqual(expected);
   });
 
   it("should return all the indicators", () => {
@@ -92,6 +92,6 @@ describe("permittedSharedWithMe - pages/dashboard/utils/", () => {
 
     const permitted = permittedSharedWithMe(sharedWithMe, userPermissions);
 
-    expect(permitted).to.deep.equal(expected);
+    expect(permitted).toEqual(expected);
   });
 });

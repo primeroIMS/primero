@@ -48,6 +48,6 @@ describe("<RevokeModal /> - transitions/components/revoke-modal/reducer", () => 
       }
     });
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

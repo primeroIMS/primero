@@ -30,14 +30,14 @@ describe("<Insights /> - Selectors", () => {
 
       const records = getInsight(stateWithRecords, 1);
 
-      expect(records).to.deep.equal(expected);
+      expect(records).toEqual(expected);
     });
 
     it("should return empty object when records empty", () => {
       const expected = fromJS({});
       const records = getInsight(stateWithoutRecords, 1);
 
-      expect(records).to.deep.equal(expected);
+      expect(records).toEqual(expected);
     });
   });
 
@@ -68,11 +68,11 @@ describe("<Insights /> - Selectors", () => {
         }
       });
 
-      expect(getIsGroupedInsight(stateWithGroups, "subreport_1")).to.be.true;
+      expect(getIsGroupedInsight(stateWithGroups, "subreport_1")).toBe(true);
     });
 
     it("returns false if the insights don't have group_id", () => {
-      expect(getIsGroupedInsight(stateWithoutRecords, "subreport_1")).to.be.false;
+      expect(getIsGroupedInsight(stateWithoutRecords, "subreport_1")).toBe(false);
     });
   });
 
@@ -80,11 +80,11 @@ describe("<Insights /> - Selectors", () => {
     it("returns a filter if exists", () => {
       const stateWithFilters = fromJS({ records: { insights: { filters: { grouped_by: "month" } } } });
 
-      expect(getInsightFilter(stateWithFilters, "grouped_by")).to.equal("month");
+      expect(getInsightFilter(stateWithFilters, "grouped_by")).toBe("month");
     });
 
     it("returns a filter if exists", () => {
-      expect(getInsightFilter(stateWithoutRecords, "grouped_by")).to.be.undefined;
+      expect(getInsightFilter(stateWithoutRecords, "grouped_by")).toBeUndefined();
     });
   });
 });

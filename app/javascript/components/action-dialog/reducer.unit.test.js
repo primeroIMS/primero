@@ -29,7 +29,7 @@ describe("<RecordActions /> - Reducers", () => {
 
     const newState = reducer.dialogs(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SET_DIALOG_PENDING", () => {
@@ -52,6 +52,6 @@ describe("<RecordActions /> - Reducers", () => {
 
     const newState = reducer.dialogs(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

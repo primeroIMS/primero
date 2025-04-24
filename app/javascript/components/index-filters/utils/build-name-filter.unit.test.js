@@ -16,22 +16,18 @@ describe("<IndexFilters>/utils - buildNameFilter", () => {
   it("return the item if it is not an approval", () => {
     const item = "filter.referred_cases";
 
-    expect(buildNameFilter(item, i18n, approvalsLabels)).to.deep.equal(item);
+    expect(buildNameFilter(item, i18n, approvalsLabels)).toEqual(item);
   });
 
   it("return approval label filter if it's an approval", () => {
     const item = `${APPROVALS}.${APPROVALS_TYPES.assessment}`;
 
-    expect(buildNameFilter(item, i18n, approvalsLabels)).to.deep.equal(
-      approvalsLabels.getIn(["default", "assessment"])
-    );
+    expect(buildNameFilter(item, i18n, approvalsLabels)).toEqual(approvalsLabels.getIn(["default", "assessment"]));
   });
 
   it("return approval label filter if it's an GBV approval", () => {
     const item = `${APPROVALS}.${APPROVALS_TYPES.gbv_closure}`;
 
-    expect(buildNameFilter(item, i18n, approvalsLabels)).to.deep.equal(
-      approvalsLabels.getIn(["default", "gbv_closure"])
-    );
+    expect(buildNameFilter(item, i18n, approvalsLabels)).toEqual(approvalsLabels.getIn(["default", "gbv_closure"]));
   });
 });

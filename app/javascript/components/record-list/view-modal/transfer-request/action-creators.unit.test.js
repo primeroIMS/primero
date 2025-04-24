@@ -1,6 +1,5 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import sinon from "sinon";
 import configureStore from "redux-mock-store";
 
 import * as actionCreators from "./action-creators";
@@ -10,9 +9,9 @@ describe("<TransferRequest /> - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionCreators };
 
-    expect(creators).to.have.property("saveTransferRequest");
+    expect(creators).toHaveProperty("saveTransferRequest");
     delete creators.saveTransferRequest;
-    expect(creators).to.be.empty;
+    expect(Object.keys(creators)).toHaveLength(0);
   });
 
   it("should check the 'saveTransferRequest' action creator to return the correct object", () => {
@@ -22,17 +21,17 @@ describe("<TransferRequest /> - Action Creators", () => {
       }
     };
     const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
+    const dispatch = jest.spyOn(store, "dispatch");
 
     dispatch(actionCreators.saveTransferRequest("123abc", body, "Success Message"));
 
-    const firstCallReturnValue = dispatch.getCall(0).returnValue;
+    const firstCallReturnValue = dispatch.mock.calls[0][0];
 
-    expect(firstCallReturnValue.type).to.equal(actions.TRANSFER_REQUEST);
-    expect(firstCallReturnValue.api.path).to.equal(`cases/123abc/${actions.TRANSFER_REQUEST_URL}`);
-    expect(firstCallReturnValue.api.method).to.equal("POST");
-    expect(firstCallReturnValue.api.body).to.equal(body);
-    expect(firstCallReturnValue.api.successCallback.action).to.equal("notifications/ENQUEUE_SNACKBAR");
-    expect(firstCallReturnValue.api.successCallback.payload.message).to.equal("Success Message");
+    expect(firstCallReturnValue.type).toBe(actions.TRANSFER_REQUEST);
+    expect(firstCallReturnValue.api.path).toBe(`cases/123abc/${actions.TRANSFER_REQUEST_URL}`);
+    expect(firstCallReturnValue.api.method).toBe("POST");
+    expect(firstCallReturnValue.api.body).toBe(body);
+    expect(firstCallReturnValue.api.successCallback.action).toBe("notifications/ENQUEUE_SNACKBAR");
+    expect(firstCallReturnValue.api.successCallback.payload.message).toBe("Success Message");
   });
 });

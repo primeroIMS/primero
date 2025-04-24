@@ -7,10 +7,10 @@ describe("<ExistingFieldDialog />/components/<FieldsTable/> - Constants", () => 
     const clonedActions = { ...constants };
 
     ["COLUMN_HEADERS", "NAME"].forEach(property => {
-      expect(clonedActions).to.have.property(property);
+      expect(clonedActions).toHaveProperty(property);
       delete clonedActions[property];
     });
 
-    expect(clonedActions).to.be.empty;
+    expect(Object.keys(clonedActions)).toHaveLength(0);
   });
 });

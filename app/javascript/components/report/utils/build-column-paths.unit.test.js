@@ -6,7 +6,7 @@ describe("<Report /> - utils", () => {
   describe("buildColumnPaths", () => {
     const i18n = { t: () => "total" };
 
-    context("when the columns are an array of strings", () => {
+    describe("when the columns are an array of strings", () => {
       it("should return the array of paths for the columns", () => {
         const columns = ["column1", "column2"];
         const expected = [
@@ -14,11 +14,11 @@ describe("<Report /> - utils", () => {
           ["column2", "total"]
         ];
 
-        expect(buildColumnPaths(columns, i18n)).to.deep.equals(expected);
+        expect(buildColumnPaths(columns, i18n)).toEqual(expected);
       });
     });
 
-    context("when the columns are an array of objects", () => {
+    describe("when the columns are an array of objects", () => {
       it("should return the array of paths for the columns", () => {
         const columns = [
           {
@@ -37,7 +37,7 @@ describe("<Report /> - utils", () => {
           ["column2", "total"]
         ];
 
-        expect(buildColumnPaths(columns, i18n)).to.deep.equals(expected);
+        expect(buildColumnPaths(columns, i18n)).toEqual(expected);
       });
     });
   });

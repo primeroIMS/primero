@@ -9,11 +9,11 @@ describe("getConnectedFields", () => {
     const connectedFields = { ...getConnectedFields() };
 
     ["service", "agency", "location", "user"].forEach(property => {
-      expect(connectedFields).to.have.property(property);
+      expect(connectedFields).toHaveProperty(property);
       delete connectedFields[property];
     });
 
-    expect(connectedFields).to.deep.equal({});
+    expect(connectedFields).toEqual({});
   });
 
   it("should return the connected fields", () => {
@@ -26,6 +26,6 @@ describe("getConnectedFields", () => {
 
     const connectedFields = getConnectedFields();
 
-    expect(connectedFields).to.deep.equal(expected);
+    expect(connectedFields).toEqual(expected);
   });
 });

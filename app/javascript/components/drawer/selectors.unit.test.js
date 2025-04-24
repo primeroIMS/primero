@@ -10,7 +10,7 @@ describe("components/drawer/selectors.js", () => {
       const drawers = fromJS({ formDrawer: true });
       const state = fromJS({ ui: { drawers } });
 
-      expect(selectors.getDrawers(state)).to.deep.equal(drawers);
+      expect(selectors.getDrawers(state)).toEqual(drawers);
     });
   });
 });

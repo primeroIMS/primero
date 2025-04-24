@@ -1,6 +1,5 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { stub } from "../../../../test-utils";
 import { RECORD_PATH } from "../../../../config";
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 
@@ -12,11 +11,11 @@ describe("<UserGroupsForm /> - Action Creators", () => {
     const creators = { ...actionsCreators };
 
     ["fetchUserGroup", "saveUserGroup", "clearSelectedUserGroup"].forEach(property => {
-      expect(creators).to.have.property(property);
+      expect(creators).toHaveProperty(property);
       delete creators[property];
     });
 
-    expect(creators).to.be.empty;
+    expect(Object.keys(creators)).toHaveLength(0);
   });
 
   it("should check that 'fetchUserGroup' action creator returns the correct object", () => {
@@ -27,11 +26,11 @@ describe("<UserGroupsForm /> - Action Creators", () => {
       }
     };
 
-    expect(actionsCreators.fetchUserGroup(10)).to.deep.equal(expectedAction);
+    expect(actionsCreators.fetchUserGroup(10)).toEqual(expectedAction);
   });
 
   it("should check that 'saveUserGroup' action creator returns the correct object", () => {
-    stub(generate, "messageKey").returns(4);
+    jest.spyOn(generate, "messageKey").mockReturnValue(4);
 
     const args = {
       id: 10,
@@ -63,8 +62,8 @@ describe("<UserGroupsForm /> - Action Creators", () => {
       }
     };
 
-    expect(actionsCreators.saveUserGroup(args)).to.deep.equal(expectedAction);
+    expect(actionsCreators.saveUserGroup(args)).toEqual(expectedAction);
 
-    generate.messageKey.restore();
+    jest.resetAllMocks();
   });
 });

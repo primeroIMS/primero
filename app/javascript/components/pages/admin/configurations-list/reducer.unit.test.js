@@ -20,7 +20,7 @@ describe("configurations-list/reducers.js", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_CONFIGURATIONS_SUCCESS", () => {
@@ -53,7 +53,7 @@ describe("configurations-list/reducers.js", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_CONFIGURATIONS_FAILURE", () => {
@@ -68,7 +68,7 @@ describe("configurations-list/reducers.js", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_CONFIGURATIONS_FINISHED", () => {
@@ -83,7 +83,7 @@ describe("configurations-list/reducers.js", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle CLEAR_METADATA", () => {
@@ -97,6 +97,6 @@ describe("configurations-list/reducers.js", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

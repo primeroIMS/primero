@@ -26,13 +26,13 @@ describe("<AgenciesForm /> - Selectors", () => {
 
       const agency = getAgency(stateWithHeaders);
 
-      expect(agency).to.deep.equal(expected);
+      expect(agency).toEqual(expected);
     });
 
     it("should return empty object when selected agency empty", () => {
       const agency = getAgency(stateWithoutHeaders);
 
-      expect(agency).to.deep.equal(fromJS({}));
+      expect(agency).toEqual(fromJS({}));
     });
   });
 
@@ -42,13 +42,13 @@ describe("<AgenciesForm /> - Selectors", () => {
 
       const agency = getErrors(stateWithHeaders);
 
-      expect(agency).to.deep.equal(expected);
+      expect(agency).toEqual(expected);
     });
 
     it("should return false when errors empty", () => {
       const agency = getErrors(stateWithoutHeaders);
 
-      expect(agency).to.deep.equal(false);
+      expect(agency).toEqual(false);
     });
   });
 
@@ -58,13 +58,13 @@ describe("<AgenciesForm /> - Selectors", () => {
 
       const serverErrors = getServerErrors(stateWithHeaders);
 
-      expect(serverErrors).to.deep.equal(expected);
+      expect(serverErrors).toEqual(expected);
     });
 
     it("should return empty object when no server errors", () => {
       const user = getServerErrors(stateWithoutHeaders);
 
-      expect(user).to.deep.equal(fromJS([]));
+      expect(user).toEqual(fromJS([]));
     });
   });
 
@@ -72,13 +72,13 @@ describe("<AgenciesForm /> - Selectors", () => {
     it("should return server errors", () => {
       const serverErrors = getSavingRecord(stateWithHeaders);
 
-      expect(serverErrors).to.be.true;
+      expect(serverErrors).toBe(true);
     });
 
     it("should return empty object when no server errors", () => {
       const user = getSavingRecord(stateWithoutHeaders);
 
-      expect(user).to.be.false;
+      expect(user).toBe(false);
     });
   });
 });

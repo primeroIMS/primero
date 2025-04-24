@@ -6,14 +6,16 @@ describe("<Transitions /> - Constants - RecordActions", () => {
   it("should have known constant", () => {
     const clonedConstants = { ...constants };
 
-    expect(clonedConstants, "DEPRECATED TRANSFER_ACTIONS_NAME").to.not.have.property("TRANSFER_ACTIONS_NAME");
-    expect(clonedConstants, "DEPRECATED REFERRAL_ACTIONS_NAME").to.not.have.property("REFERRAL_ACTIONS_NAME");
+    // DEPRECATED TRANSFER_ACTIONS_NAME
+    expect(clonedConstants).not.toHaveProperty("TRANSFER_ACTIONS_NAME");
+    // DEPRECATED REFERRAL_ACTIONS_NAME
+    expect(clonedConstants).not.toHaveProperty("REFERRAL_ACTIONS_NAME");
 
     ["NAME", "REFERRAL_TYPE", "REFERRAL_FORM_ID", "TRANSFER_FORM_ID", "MAX_BULK_RECORDS"].forEach(property => {
-      expect(clonedConstants).to.have.property(property);
+      expect(clonedConstants).toHaveProperty(property);
       delete clonedConstants[property];
     });
 
-    expect(clonedConstants).to.be.empty;
+    expect(Object.keys(clonedConstants)).toHaveLength(0);
   });
 });

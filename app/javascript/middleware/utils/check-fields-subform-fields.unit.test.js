@@ -23,7 +23,7 @@ describe("middleware/utils/check-fields-subform-errors.js", () => {
   ];
 
   it("returns all subformFields if there are not errors", () => {
-    expect(checkFieldSubformErrors(subformFields, [])).to.be.deep.equals(subformFields);
+    expect(checkFieldSubformErrors(subformFields, [])).toEqual(subformFields);
   });
 
   it("returns all subformFields without the ones that contains errors", () => {
@@ -48,6 +48,6 @@ describe("middleware/utils/check-fields-subform-errors.js", () => {
       }
     ];
 
-    expect(checkFieldSubformErrors(subformFields, errors)).to.be.deep.equals(expected);
+    expect(checkFieldSubformErrors(subformFields, errors)).toEqual(expected);
   });
 });

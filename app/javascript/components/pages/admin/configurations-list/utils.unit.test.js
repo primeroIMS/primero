@@ -16,6 +16,6 @@ describe("configurations-list/utils.js", () => {
 
     const result = getColumns(i18n);
 
-    expect(result).to.deep.equals(expected);
+    expect(result).toEqual(expected);
   });
 });

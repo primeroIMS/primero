@@ -11,11 +11,11 @@ describe("<ReportFilters /> - utils", () => {
       const clone = { ...utils };
 
       ["formatValue", "onFilterDialogSuccess", "registerValues"].forEach(property => {
-        expect(clone).to.have.property(property);
-        expect(clone[property]).to.be.a("function");
+        expect(clone).toHaveProperty(property);
+        expect(clone[property]).toBeInstanceOf(Function);
         delete clone[property];
       });
-      expect(clone).to.be.empty;
+      expect(Object.keys(clone)).toHaveLength(0);
     });
   });
 
@@ -25,7 +25,7 @@ describe("<ReportFilters /> - utils", () => {
     it("should return a formatted date field if value is a valid date object", () => {
       const value = new Date("01/01/2020");
 
-      expect(utils.formatValue(value, i18n, { field: {}, lookups: {} })).to.be.equals("01-Jan-2020");
+      expect(utils.formatValue(value, i18n, { field: {}, lookups: {} })).toBe("01-Jan-2020");
     });
 
     describe("when field type is tick-field type", () => {
@@ -41,7 +41,7 @@ describe("<ReportFilters /> - utils", () => {
             field: { ...field, tick_box_label: { en: "test" } },
             lookups: {}
           })
-        ).to.be.equals("test");
+        ).toBe("test");
       });
       it("should return true if the value includes true and if there's not tick_box_label", () => {
         const value = [true];
@@ -51,7 +51,7 @@ describe("<ReportFilters /> - utils", () => {
             field,
             lookups: {}
           })
-        ).to.be.equals("true");
+        ).toBe("true");
       });
       it("should return not selected if the value doesn't include true", () => {
         const value = [false];
@@ -61,7 +61,7 @@ describe("<ReportFilters /> - utils", () => {
             field,
             lookups: {}
           })
-        ).to.be.equals("report.not_selected");
+        ).toBe("report.not_selected");
       });
     });
 
@@ -78,7 +78,7 @@ describe("<ReportFilters /> - utils", () => {
             field,
             lookups: {}
           })
-        ).to.be.empty;
+        ).toHaveLength(0);
       });
 
       it("should return translated values if field contains the option_strings_source prop", () => {
@@ -95,7 +95,7 @@ describe("<ReportFilters /> - utils", () => {
             field: { ...field, option_strings_source: "test_lookup" },
             lookups
           })
-        ).to.be.equals("Option 1");
+        ).toBe("Option 1");
       });
 
       it("should return translated values if field contains the option_strings_text ", () => {
@@ -112,7 +112,7 @@ describe("<ReportFilters /> - utils", () => {
             field: { ...field, option_strings_text: optionStringTexts },
             lookups: {}
           })
-        ).to.be.equals("Test 1");
+        ).toBe("Test 1");
       });
 
       it("should return agency values if field contains agency on the option_strings_source prop", () => {
@@ -129,7 +129,7 @@ describe("<ReportFilters /> - utils", () => {
             field: { ...field, option_strings_source: "Agency" },
             lookups
           })
-        ).to.be.equals("Agency 1");
+        ).toBe("Agency 1");
       });
     });
   });

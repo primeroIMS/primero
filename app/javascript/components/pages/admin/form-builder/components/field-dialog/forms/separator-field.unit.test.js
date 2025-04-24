@@ -19,20 +19,20 @@ describe("separatorFieldForm", () => {
   const visibilitySection = separator.forms.last().fields[1].row;
 
   it("should return a valid object", () => {
-    expect(separator).to.be.an("object");
-    expect(separator.forms.size).to.be.equal(2);
-    expect(separator).to.have.keys("forms", "validationSchema");
+    expect(typeof separator).toEqual("object");
+    expect(separator.forms.size).toBe(2);
+    expect(Object.keys(separator)).toEqual(expect.arrayContaining(["forms", "validationSchema"]));
   });
 
   it("should return valid fields from the validationSchema", () => {
-    expect(separator.validationSchema.fields).to.have.keys("test_name");
+    expect(Object.keys(separator.validationSchema.fields)).toContain("test_name");
   });
 
   it("should return 4 fields from the general section form", () => {
-    expect(generalSection).to.have.lengthOf(3);
+    expect(generalSection).toHaveLength(3);
   });
 
   it("should return 4 fields from the visible ection form", () => {
-    expect(visibilitySection).to.have.lengthOf(5);
+    expect(visibilitySection).toHaveLength(5);
   });
 });

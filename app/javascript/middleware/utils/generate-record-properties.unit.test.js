@@ -3,13 +3,11 @@
 import configureStore from "redux-mock-store";
 import { fromJS } from "immutable";
 
-import { stub, useFakeTimers } from "../../test-utils";
 import uuid from "../../libs/uuid";
 
 import generateRecordProperties from "./generate-record-properties";
 
 describe("middleware/utils/generate-record-properties.js", () => {
-  let clock;
   const time = new Date("10/01/2020");
 
   const store = configureStore()(
@@ -20,19 +18,20 @@ describe("middleware/utils/generate-record-properties.js", () => {
     })
   );
 
-  before(() => {
-    clock = useFakeTimers(time);
-    stub(uuid, "v4").returns("dd3b8e93-0cce-415b-ad2b-d06bb454b66f");
+  beforeAll(() => {
+    jest.useFakeTimers().setSystemTime(time);
+
+    jest.spyOn(uuid, "v4").mockReturnValue("dd3b8e93-0cce-415b-ad2b-d06bb454b66f");
   });
 
-  after(() => {
-    clock.restore();
-    uuid.v4.restore();
+  afterAll(() => {
+    jest.resetAllMocks();
+    jest.useRealTimers();
   });
 
   describe("subforms", () => {
     it("generates unique_id for new subforms", () => {
-      expect(generateRecordProperties(store, { method: "POST", subform: true }, false)).to.deep.equal({
+      expect(generateRecordProperties(store, { method: "POST", subform: true }, false)).toEqual({
         unique_id: "dd3b8e93-0cce-415b-ad2b-d06bb454b66f"
       });
     });
@@ -43,7 +42,7 @@ describe("middleware/utils/generate-record-properties.js", () => {
       const payload = { body: { name_first: "Josh", name_last: "Anon" } };
       const { name } = generateRecordProperties(store, payload, true);
 
-      expect(name).to.equal("Josh Anon");
+      expect(name).toBe("Josh Anon");
     });
 
     it("returns name", () => {
@@ -56,7 +55,7 @@ describe("middleware/utils/generate-record-properties.js", () => {
       };
       const { name } = generateRecordProperties(store, payload, true);
 
-      expect(name).to.deep.equal("James Tob");
+      expect(name).toEqual("James Tob");
     });
 
     it("returns existing id", () => {
@@ -72,7 +71,7 @@ describe("middleware/utils/generate-record-properties.js", () => {
 
       const results = generateRecordProperties(store, payload, true);
 
-      expect(results).to.deep.equal({ id: "1234", complete: true });
+      expect(results).toEqual({ id: "1234", complete: true });
     });
 
     it("generates missing record properties", () => {
@@ -88,7 +87,7 @@ describe("middleware/utils/generate-record-properties.js", () => {
       };
       const results = generateRecordProperties(store, { method: "POST", recordType: "testRecordType" }, true);
 
-      expect(results).to.deep.equal(expected);
+      expect(results).toEqual(expected);
     });
   });
 });

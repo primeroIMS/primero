@@ -60,13 +60,13 @@ describe("<IndexFilters /> - Selectors", () => {
 
       const records = getFiltersByRecordType(state, RECORD_PATH.cases);
 
-      expect(records).to.deep.equal(expected);
+      expect(records).toEqual(expected);
     });
 
     it("should return empty list", () => {
       const records = getFiltersByRecordType(stateWithoutRecords, RECORD_PATH.cases);
 
-      expect(records).to.be.empty;
+      expect(records.size).toBe(0);
     });
   });
 
@@ -78,13 +78,13 @@ describe("<IndexFilters /> - Selectors", () => {
 
       const records = getFiltersValuesByRecordType(state, RECORD_PATH.cases);
 
-      expect(records).to.deep.equal(expected);
+      expect(records).toEqual(expected);
     });
 
     it("should return empty map", () => {
       const records = getFiltersValuesByRecordType(stateWithoutRecords, RECORD_PATH.cases);
 
-      expect(records).to.be.empty;
+      expect(records.size).toBe(0);
     });
   });
 });

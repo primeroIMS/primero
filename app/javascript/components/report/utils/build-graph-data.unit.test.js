@@ -87,7 +87,7 @@ describe("<Report /> - utils", () => {
         }
       };
 
-      expect(buildGraphData(report, i18n, { agencies, ageRanges: [] })).to.deep.equal(expected);
+      expect(buildGraphData(report, i18n, { agencies, ageRanges: [] })).toEqual(expected);
     });
   });
 
@@ -244,6 +244,6 @@ describe("<Report /> - utils", () => {
       }
     };
 
-    expect(buildGraphData(report, i18n, { agencies: [], ageRanges: [] })).to.deep.equal(expected);
+    expect(buildGraphData(report, i18n, { agencies: [], ageRanges: [] })).toEqual(expected);
   });
 });

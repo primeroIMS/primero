@@ -62,13 +62,13 @@ describe("<LoginSelection /> - Selectors", () => {
         }
       ]);
 
-      expect(providers).to.deep.equal(expected);
+      expect(providers).toEqual(expected);
     });
 
     it("should return empty object when records empty", () => {
       const providers = getIdentityProviders(stateWithNoRecords);
 
-      expect(providers).to.be.empty;
+      expect(providers.size).toBe(0);
     });
   });
 });

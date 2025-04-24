@@ -42,7 +42,7 @@ describe("toApprovalsManager - pages/dashboard/utils/", () => {
     });
     const converted = toApprovalsManager(data);
 
-    expect(converted).to.deep.equal(expected);
+    expect(converted).toEqual(expected);
   });
 
   it("should convert the data if one of the indicators is not present OverviewBox", () => {
@@ -73,7 +73,7 @@ describe("toApprovalsManager - pages/dashboard/utils/", () => {
     });
     const converted = toApprovalsManager(data);
 
-    expect(converted).to.deep.equal(expected);
+    expect(converted).toEqual(expected);
   });
 
   it("should return an empty indicator key", () => {
@@ -94,6 +94,6 @@ describe("toApprovalsManager - pages/dashboard/utils/", () => {
     });
     const converted = toApprovalsManager(data);
 
-    expect(converted).to.deep.equal(expected);
+    expect(converted).toEqual(expected);
   });
 });

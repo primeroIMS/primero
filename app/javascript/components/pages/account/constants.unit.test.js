@@ -6,17 +6,17 @@ describe("pages/account/constants.js", () => {
   describe("properties", () => {
     let clone;
 
-    before(() => {
+    beforeAll(() => {
       clone = { ...constants };
     });
 
-    after(() => {
-      expect(clone).to.be.empty;
+    afterAll(() => {
+      expect(Object.keys(clone)).toHaveLength(0);
     });
 
     ["NAME", "FORM_ID"].forEach(property => {
       it(`exports '${property}'`, () => {
-        expect(constants).to.have.property(property);
+        expect(constants).toHaveProperty(property);
         delete clone[property];
       });
     });

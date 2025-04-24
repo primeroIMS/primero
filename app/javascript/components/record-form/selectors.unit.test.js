@@ -1,7 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { Map, List, OrderedMap, fromJS } from "immutable";
-import { expect } from "chai";
 
 import { mapEntriesToRecord } from "../../libs";
 import { ACTIONS } from "../permissions";
@@ -268,13 +267,13 @@ describe("<RecordForm /> - Selectors", () => {
     it("should return error value", () => {
       const errors = selectors.getErrors(stateWithRecords);
 
-      expect(errors).to.deep.equal(true);
+      expect(errors).toEqual(true);
     });
 
     it("should return false when there is not any error", () => {
       const errors = selectors.getErrors(stateWithNoRecords);
 
-      expect(errors).to.deep.equal(false);
+      expect(errors).toEqual(false);
     });
   });
 
@@ -282,19 +281,19 @@ describe("<RecordForm /> - Selectors", () => {
     it("should return loading state value", () => {
       const loadingState = selectors.getLoadingState(stateWithRecords);
 
-      expect(loadingState).to.deep.equal(true);
+      expect(loadingState).toEqual(true);
     });
 
     it("should return false when there is not any loading state", () => {
       const loadingState = selectors.getLoadingState(stateWithNoRecords);
 
-      expect(loadingState).to.deep.equal(false);
+      expect(loadingState).toEqual(false);
     });
   });
 
   describe("getRecord", () => {
     it("should not find removed function getRecord", () => {
-      expect(selectors.getRecord).to.be.an("undefined");
+      expect(selectors.getRecord).toBeUndefined();
     });
   });
 
@@ -307,15 +306,15 @@ describe("<RecordForm /> - Selectors", () => {
 
       const record = selectors.getOption(stateWithRecords, "lookup lookup-location-type", "en");
 
-      expect(Object.keys(record)).to.deep.equal(Object.keys(expected));
-      expect(Object.values(record)).to.deep.equal(Object.values(expected));
-      expect(record).to.deep.equal(expected);
+      expect(Object.keys(record)).toEqual(Object.keys(expected));
+      expect(Object.values(record)).toEqual(Object.values(expected));
+      expect(record).toEqual(expected);
     });
 
     it("should return an empty array when there are not any options", () => {
       const record = selectors.getOption(stateWithNoRecords);
 
-      expect(record).to.be.empty;
+      expect(Object.keys(record)).toHaveLength(0);
     });
 
     it("should return the options for optionStringsText", () => {
@@ -330,7 +329,7 @@ describe("<RecordForm /> - Selectors", () => {
       ];
       const result = selectors.getOption(stateWithRecords, optionStringsText, "en");
 
-      expect(result).to.deep.equal(expected);
+      expect(result).toEqual(expected);
     });
 
     it("should return the options including the disabled and selected for optionStringsText", () => {
@@ -347,7 +346,7 @@ describe("<RecordForm /> - Selectors", () => {
       ];
       const result = selectors.getOption(stateWithRecords, optionStringsText, "en", "pending");
 
-      expect(result).to.deep.equal(expected);
+      expect(result).toEqual(expected);
     });
 
     it("should return the options even if stored value it's a boolean", () => {
@@ -358,7 +357,7 @@ describe("<RecordForm /> - Selectors", () => {
       const expected = optionStringsText.map(option => ({ ...option, display_text: option.display_text.en }));
       const result = selectors.getOption(stateWithRecords, optionStringsText, "en", true);
 
-      expect(result).to.deep.equal(expected);
+      expect(result).toEqual(expected);
     });
   });
 
@@ -367,7 +366,7 @@ describe("<RecordForm /> - Selectors", () => {
       const attachmentForms = selectors.getAttachmentForms(stateWithRecords, "en");
       const expected = fromJS({ documents_form: { en: "Documents Form" } });
 
-      expect(attachmentForms).to.deep.equal(expected);
+      expect(attachmentForms).toEqual(expected);
     });
   });
 
@@ -412,15 +411,15 @@ describe("<RecordForm /> - Selectors", () => {
 
       const [...formValues] = forms.values();
 
-      expect(List(Object.keys(formValues["0"].toJS()))).to.deep.equal(List(Object.keys(expected.toJS()[0])));
+      expect(List(Object.keys(formValues["0"].toJS()))).toEqual(List(Object.keys(expected.toJS()[0])));
 
-      expect(Object.values(formValues["0"].toJS()).length).to.be.equal(Object.values(expected.toJS()[0]).length);
+      expect(Object.values(formValues["0"].toJS()).length).toBe(Object.values(expected.toJS()[0]).length);
     });
 
     it("should return an empty array when there are not any options", () => {
       const record = selectors.getRecordForms(stateWithRecords, {});
 
-      expect(record).to.be.equal(List([]));
+      expect(record.equals(List([]))).toBe(true);
     });
   });
 
@@ -511,13 +510,13 @@ describe("<RecordForm /> - Selectors", () => {
         formName: "basic_identity"
       });
 
-      expect(forms.toJS()[0]).to.deep.equal(expected.toJS());
+      expect(forms.toJS()[0]).toEqual(expected.toJS());
     });
 
     it("should return an empty array when there are not any options", () => {
       const record = selectors.getRecordFormsByUniqueId(stateWithRecords, {});
 
-      expect(record).to.be.equal(List([]));
+      expect(record.equals(List([]))).toBe(true);
     });
 
     it("should return form with visible false", () => {
@@ -599,7 +598,7 @@ describe("<RecordForm /> - Selectors", () => {
         checkVisible: false
       });
 
-      expect(forms.toJS()[0]).to.deep.equal(expected.toJS());
+      expect(forms.toJS()[0]).toEqual(expected.toJS());
     });
   });
 
@@ -639,8 +638,8 @@ describe("<RecordForm /> - Selectors", () => {
         recordType: "case"
       });
 
-      expect([...record.keys()]).to.deep.equal([...expectedNav.keys()]);
-      expect([...record.values()]).to.deep.equal([...expectedNav.values()]);
+      expect([...record.keys()]).toEqual([...expectedNav.keys()]);
+      expect([...record.values()]).toEqual([...expectedNav.values()]);
     });
 
     it("should not return form groupName", () => {
@@ -649,13 +648,13 @@ describe("<RecordForm /> - Selectors", () => {
         recordType: "case"
       });
 
-      expect(record?.groupName).to.not.exist;
+      expect(record?.groupName).toBeFalsy();
     });
 
     it("should return an empty ordered map when there are not any options", () => {
       const record = selectors.getFormNav(stateWithRecords, {});
 
-      expect(record).to.be.equal(OrderedMap({}));
+      expect(record.equals(OrderedMap({}))).toBe(true);
     });
 
     it("should return an ordered map when there are options", () => {
@@ -668,11 +667,11 @@ describe("<RecordForm /> - Selectors", () => {
         }
       );
 
-      expect([...record.keys()]).to.deep.equal([...expected.keys()]);
-      expect([...record.values()]).to.deep.equal([...expected.values()]);
+      expect([...record.keys()]).toEqual([...expected.keys()]);
+      expect([...record.values()]).toEqual([...expected.values()]);
     });
 
-    context("when the summary form exist", () => {
+    describe("when the summary form exist", () => {
       const formSectionsWithSummary = {
         1: {
           id: 1,
@@ -737,7 +736,7 @@ describe("<RecordForm /> - Selectors", () => {
           }
         );
 
-        expect(record).to.have.property("tracing");
+        expect(record.toJS()).toHaveProperty("tracing");
       });
 
       it("should NOT return summary if the user has not the permission", () => {
@@ -747,7 +746,7 @@ describe("<RecordForm /> - Selectors", () => {
           checkPermittedForms: true
         });
 
-        expect(record).to.not.have.property("tracing");
+        expect(record.keys).not.toHaveProperty("tracing");
       });
 
       it("should return summary if the record has the permission", () => {
@@ -768,7 +767,7 @@ describe("<RecordForm /> - Selectors", () => {
           }
         );
 
-        expect(record).to.have.property("tracing");
+        expect(record.toJS()).toHaveProperty("tracing");
       });
     });
   });
@@ -803,13 +802,13 @@ describe("<RecordForm /> - Selectors", () => {
         recordType: "case"
       });
 
-      expect(record.toJS()).to.deep.equal(expected.toJS());
+      expect(record.toJS()).toEqual(expected.toJS());
     });
 
     it("should return an empty ordered map when there are not any options", () => {
       const record = selectors.getFirstTab(stateWithRecords, {});
 
-      expect(record).to.be.equal(null);
+      expect(record).toBeNull();
     });
   });
 
@@ -819,14 +818,14 @@ describe("<RecordForm /> - Selectors", () => {
 
       const record = selectors.getOptions(stateWithRecords);
 
-      expect(record.size).to.be.equal(1);
-      expect(record).to.be.deep.equal(expected);
+      expect(record.size).toBe(1);
+      expect(record).toEqual(expected);
     });
 
     it("should return an empty array when there are not any options", () => {
       const record = selectors.getOptions(stateWithNoRecords);
 
-      expect(record).to.be.empty;
+      expect(record.size).toBe(0);
     });
   });
 
@@ -836,14 +835,14 @@ describe("<RecordForm /> - Selectors", () => {
 
       const record = selectors.getLocations(stateWithRecords);
 
-      expect(record.size).to.be.equal(1);
-      expect(record).to.be.deep.equal(expected);
+      expect(record.size).toBe(1);
+      expect(record).toEqual(expected);
     });
 
     it("should return an empty array when there are not any options", () => {
       const record = selectors.getLocations(stateWithNoRecords);
 
-      expect(record).to.be.empty;
+      expect(record.size).toBe(0);
     });
   });
 
@@ -852,19 +851,19 @@ describe("<RecordForm /> - Selectors", () => {
       const expected = fromJS(mapEntriesToRecord(formSections, R.FormSectionRecord));
       const forms = selectors.getAssignableForms(stateWithRecords);
 
-      expect(forms).to.deep.equal(expected);
+      expect(forms).toEqual(expected);
     });
 
     it("should return empty if there are not forms to assign", () => {
       const forms = selectors.getAssignableForms(stateWithNoRecords);
 
-      expect(forms).to.be.empty;
+      expect(forms.size).toBe(0);
     });
 
     it("should return empty if the forms are not assignable", () => {
       const forms = selectors.getAssignableForms(stateWithInvisibleForms);
 
-      expect(forms).to.be.empty;
+      expect(forms.size).toBe(0);
     });
   });
 
@@ -873,13 +872,13 @@ describe("<RecordForm /> - Selectors", () => {
       const expected = fromJS(serviceToRefer);
       const result = selectors.getServiceToRefer(stateWithRecords);
 
-      expect(result).to.deep.equal(expected);
+      expect(result).toEqual(expected);
     });
 
     it("should return empty if there is not a service to refer", () => {
       const forms = selectors.getAssignableForms(stateWithNoRecords);
 
-      expect(forms).to.be.empty;
+      expect(forms.size).toBe(0);
     });
   });
 
@@ -889,7 +888,7 @@ describe("<RecordForm /> - Selectors", () => {
 
       const result = selectors.getValidationErrors(stateWithRecords);
 
-      expect(result).to.deep.equal(expected);
+      expect(result).toEqual(expected);
     });
   });
 
@@ -898,7 +897,7 @@ describe("<RecordForm /> - Selectors", () => {
       const expected = R.FieldRecord(fields["1"]);
       const result = selectors.getFieldByName(stateWithRecords, "name_first");
 
-      expect(result).to.deep.equal(expected);
+      expect(result).toEqual(expected);
     });
   });
 
@@ -928,7 +927,7 @@ describe("<RecordForm /> - Selectors", () => {
       const result = selectors.getMiniFormFields(stateWithRecords, "case", "primeromodule-cp");
 
       // Using toJS() since FieldRecord has empty mutable attributes
-      expect(result.toList().toJS()).to.deep.equal(expected.toJS());
+      expect(result.toList().toJS()).toEqual(expected.toJS());
     });
 
     it("does not return the excluded fields for the show_on_minify_form fields", () => {
@@ -956,7 +955,7 @@ describe("<RecordForm /> - Selectors", () => {
       const result = selectors.getMiniFormFields(stateWithRecords, "case", "primeromodule-cp", ["name_first"]);
 
       // Using toJS() since FieldRecord has empty mutable attributes
-      expect(result.toList().toJS()).to.deep.equal([]);
+      expect(result.toList().toJS()).toEqual([]);
     });
 
     it("it returns the show_on_minify_form fields as common fields", () => {
@@ -984,7 +983,7 @@ describe("<RecordForm /> - Selectors", () => {
       const result = selectors.getCommonMiniFormFields(stateWithRecords, "case", "primeromodule-cp", ["name_first"]);
 
       // Using toJS() since FieldRecord has empty mutable attributes
-      expect(result.toJS()).to.deep.equal(expected.toJS());
+      expect(result.toJS()).toEqual(expected.toJS());
     });
   });
 
@@ -1058,7 +1057,7 @@ describe("<RecordForm /> - Selectors", () => {
         .toList()
         .sort();
 
-      expect(result).to.deep.equal(
+      expect(result).toEqual(
         fromJS([
           "Approvals from State",
           "Record Owner from State",
@@ -1083,7 +1082,7 @@ describe("<RecordForm /> - Selectors", () => {
       .toList()
       .sort();
 
-    expect(result).to.deep.equal(
+    expect(result).toEqual(
       fromJS([
         "change_logs.label",
         "forms.record_types.approvals",
@@ -1108,7 +1107,7 @@ describe("<RecordForm /> - Selectors", () => {
         .toList()
         .sort();
 
-      expect(result).to.deep.equals(
+      expect(result).toEqual(
         fromJS([APPROVALS, CHANGE_LOGS, INCIDENT_FROM_CASE, RECORD_OWNER, REFERRAL, TRANSFERS_ASSIGNMENTS])
       );
     });
@@ -1134,7 +1133,7 @@ describe("<RecordForm /> - Selectors", () => {
         .toList()
         .sort();
 
-      expect(result).to.deep.equals(fromJS([CHANGE_LOGS, RECORD_OWNER, REFERRAL, TRANSFERS_ASSIGNMENTS]));
+      expect(result).toEqual(fromJS([CHANGE_LOGS, RECORD_OWNER, REFERRAL, TRANSFERS_ASSIGNMENTS]));
     });
 
     it("should return forms where the record has permissions", () => {
@@ -1157,7 +1156,7 @@ describe("<RecordForm /> - Selectors", () => {
         .toList()
         .sort();
 
-      expect(result).to.deep.equals(fromJS([CHANGE_LOGS, RECORD_OWNER, REFERRAL, TRANSFERS_ASSIGNMENTS]));
+      expect(result).toEqual(fromJS([CHANGE_LOGS, RECORD_OWNER, REFERRAL, TRANSFERS_ASSIGNMENTS]));
     });
   });
 
@@ -1170,7 +1169,7 @@ describe("<RecordForm /> - Selectors", () => {
       ]);
       const state = fromJS({ records: { cases: { recordAlerts } } });
 
-      expect(selectors.getDuplicatedFieldAlerts(state, "cases", "form1")).to.deep.equals(fromJS([duplicatedAlert]));
+      expect(selectors.getDuplicatedFieldAlerts(state, "cases", "form1")).toEqual(fromJS([duplicatedAlert]));
     });
   });
 
@@ -1184,7 +1183,7 @@ describe("<RecordForm /> - Selectors", () => {
       ]);
       const state = fromJS({ records: { cases: { recordAlerts } }, forms: { fields: [field] } });
 
-      expect(selectors.getDuplicatedFields(state, "cases", "form1")).to.deep.equals(fromJS([field]));
+      expect(selectors.getDuplicatedFields(state, "cases", "form1")).toEqual(fromJS([field]));
     });
   });
 
@@ -1246,7 +1245,8 @@ describe("<RecordForm /> - Selectors", () => {
             omitDuplicates: true
           })
           .map(field => field.name)
-      ).to.deep.equals(fromJS(["name_first"]));
+          .equals(fromJS(["name_first"]))
+      ).toBe(true);
     });
 
     it("returns the record fields and exclude some field types", () => {
@@ -1315,7 +1315,8 @@ describe("<RecordForm /> - Selectors", () => {
             omitDuplicates: true
           })
           .map(field => field.name)
-      ).to.deep.equals(fromJS(["sex"]));
+          .equals(fromJS(["sex"]))
+      ).toBe(true);
     });
   });
 
@@ -1365,7 +1366,8 @@ describe("<RecordForm /> - Selectors", () => {
             nestedFormIds: [20]
           })
           .map(field => field.name)
-      ).to.deep.equals(fromJS(["name_first"]));
+          .equals(fromJS(["name_first"]))
+      ).toBe(true);
     });
   });
 
@@ -1375,7 +1377,7 @@ describe("<RecordForm /> - Selectors", () => {
         forms: { previousRecord: { id: "001", recordType: "cases" } }
       });
 
-      expect(selectors.getPreviousRecordType(stateWithPreviousRecord)).to.equals("cases");
+      expect(selectors.getPreviousRecordType(stateWithPreviousRecord)).toBe("cases");
     });
   });
 
@@ -1388,19 +1390,19 @@ describe("<RecordForm /> - Selectors", () => {
     });
 
     it("returns the permitted forms for the user", () => {
-      expect(selectors.getPermittedForms(stateWithForms, {})).to.deep.equals(permittedForms);
+      expect(selectors.getPermittedForms(stateWithForms, {})).toEqual(permittedForms);
     });
 
     it("returns the permitted forms for the record", () => {
       expect(
         selectors.getPermittedForms(stateWithForms, { recordType: "case", recordId: "0001", isEditOrShow: true })
-      ).to.deep.equals(recordForms);
+      ).toEqual(recordForms);
     });
 
     it("returns the permitted forms for the user if the record is not found", () => {
       expect(
         selectors.getPermittedForms(stateWithForms, { recordType: "case", recordId: "0002", isEditOrShow: true })
-      ).to.deep.equals(permittedForms);
+      ).toEqual(permittedForms);
     });
   });
 
@@ -1464,11 +1466,11 @@ describe("<RecordForm /> - Selectors", () => {
     });
 
     it("returns true if the form contains a services_section subform", () => {
-      expect(selectors.getIsServicesForm(state, { recordType: "case", formName: "services" })).to.be.true;
+      expect(selectors.getIsServicesForm(state, { recordType: "case", formName: "services" })).toBe(true);
     });
 
     it("returns false if the form contains a services_section subform", () => {
-      expect(selectors.getIsServicesForm(state, { recordType: "case", formName: "basic_identity" })).to.be.false;
+      expect(selectors.getIsServicesForm(state, { recordType: "case", formName: "basic_identity" })).toBe(false);
     });
   });
 
@@ -1554,8 +1556,8 @@ describe("<RecordForm /> - Selectors", () => {
         fieldName: SERVICES_SUBFORM_FIELD
       });
 
-      expect(subform.id).to.equals(3);
-      expect(subform.unique_id).to.equals("nested_services");
+      expect(subform.id).toBe(3);
+      expect(subform.unique_id).toBe("nested_services");
     });
   });
 });

@@ -19,11 +19,11 @@ describe("<Nav /> - Selectors", () => {
       const primeroModule = "primeromodule-mrm";
 
       it("should return MRMLogo and PrimeroPictorial if white is false", () => {
-        expect(utils.getLogo(primeroModule)).to.deep.equals([MRMLogo, PrimeroPictorial]);
+        expect(utils.getLogo(primeroModule)).toEqual([MRMLogo, PrimeroPictorial]);
       });
 
       it("should return MRMLogo and PrimeroPictorial if white is true", () => {
-        expect(utils.getLogo(primeroModule, true)).to.deep.equals([MRMLogo, PrimeroPictorial]);
+        expect(utils.getLogo(primeroModule, true)).toEqual([MRMLogo, PrimeroPictorial]);
       });
     });
 
@@ -31,11 +31,11 @@ describe("<Nav /> - Selectors", () => {
       const primeroModule = "primeromodule-gbv";
 
       it("should return GBVLogo and GBVPictorial if white is false", () => {
-        expect(utils.getLogo(primeroModule)).to.deep.equals([GBVLogo, GBVPictorial]);
+        expect(utils.getLogo(primeroModule)).toEqual([GBVLogo, GBVPictorial]);
       });
 
       it("should return GBVLogoWhite and GBVPictorial if white is true", () => {
-        expect(utils.getLogo(primeroModule, true)).to.deep.equals([GBVLogoWhite, GBVPictorial]);
+        expect(utils.getLogo(primeroModule, true)).toEqual([GBVLogoWhite, GBVPictorial]);
       });
     });
 
@@ -43,11 +43,11 @@ describe("<Nav /> - Selectors", () => {
       const primeroModule = "primeromodule-cp";
 
       it("should return CPIMSLogo and CPIMSPictorial if white is false", () => {
-        expect(utils.getLogo(primeroModule)).to.deep.equals([CPIMSLogo, CPIMSPictorial]);
+        expect(utils.getLogo(primeroModule)).toEqual([CPIMSLogo, CPIMSPictorial]);
       });
 
       it("should return CPIMSLogoWhite and CPIMSPictorial if white is true", () => {
-        expect(utils.getLogo(primeroModule, true)).to.deep.equals([CPIMSLogoWhite, CPIMSPictorial]);
+        expect(utils.getLogo(primeroModule, true)).toEqual([CPIMSLogoWhite, CPIMSPictorial]);
       });
     });
 
@@ -55,11 +55,11 @@ describe("<Nav /> - Selectors", () => {
       const primeroModule = "primero";
 
       it("should return PrimeroLogo and PrimeroPictorial if white is false", () => {
-        expect(utils.getLogo(primeroModule)).to.deep.equals([PrimeroLogo, PrimeroPictorial]);
+        expect(utils.getLogo(primeroModule)).toEqual([PrimeroLogo, PrimeroPictorial]);
       });
 
       it("should return PrimeroLogoWhite and PrimeroPictorial if white is true", () => {
-        expect(utils.getLogo(primeroModule, true)).to.deep.equals([PrimeroLogoWhite, PrimeroPictorial]);
+        expect(utils.getLogo(primeroModule, true)).toEqual([PrimeroLogoWhite, PrimeroPictorial]);
       });
     });
   });

@@ -20,7 +20,7 @@ describe("components/connectivity/reducer.js", () => {
 
     const newState = reducer.connectivity(defaultState, action);
 
-    expect(newState).to.eql(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SERVER_STATUS_SUCCESS", () => {
@@ -36,7 +36,7 @@ describe("components/connectivity/reducer.js", () => {
 
     const newState = reducer.connectivity(defaultState, action);
 
-    expect(newState).to.eql(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SERVER_STATUS_FAILURE", () => {
@@ -52,6 +52,6 @@ describe("components/connectivity/reducer.js", () => {
 
     const newState = reducer.connectivity(defaultState, action);
 
-    expect(newState).to.eql(expected);
+    expect(newState).toEqual(expected);
   });
 });

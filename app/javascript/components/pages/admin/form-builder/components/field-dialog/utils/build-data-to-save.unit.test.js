@@ -3,19 +3,18 @@
 import { fromJS } from "immutable";
 
 import uuid from "../../../../../../../libs/uuid";
-import { stub } from "../../../../../../../test-utils";
 import { TEXT_FIELD, SELECT_FIELD, DATE_FIELD } from "../../../../../../form";
 import { NEW_FIELD } from "../../../constants";
 
 import buildDataToSave from "./build-data-to-save";
 
 describe("buildDataToSave", () => {
-  before(() => {
-    stub(uuid, "v4").returns("b8e93-0cce-415b-ad2b-d06bb454b66f");
+  beforeAll(() => {
+    jest.spyOn(uuid, "v4").mockReturnValue("b8e93-0cce-415b-ad2b-d06bb454b66f");
   });
 
-  after(() => {
-    uuid.v4.restore();
+  afterAll(() => {
+    jest.resetAllMocks();
   });
 
   it("should set the data for update", () => {
@@ -37,7 +36,7 @@ describe("buildDataToSave", () => {
       }
     };
 
-    expect(buildDataToSave(selectedField, data[fieldName], "en")).to.deep.equals(data);
+    expect(buildDataToSave(selectedField, data[fieldName], "en")).toEqual(data);
   });
 
   describe("when its a new field", () => {
@@ -57,7 +56,7 @@ describe("buildDataToSave", () => {
     it("should set the data for create", () => {
       const selectedField = fromJS({ name: NEW_FIELD, type: TEXT_FIELD });
 
-      expect(buildDataToSave(selectedField, objectData, 1)).to.deep.equal({
+      expect(buildDataToSave(selectedField, objectData, 1)).toEqual({
         test_field_454b66f: {
           ...objectData,
           type: TEXT_FIELD,
@@ -78,7 +77,7 @@ describe("buildDataToSave", () => {
         multi_select: true
       };
 
-      expect(buildDataToSave(selectedField, objectDataSelectField, 1)).to.deep.equals({
+      expect(buildDataToSave(selectedField, objectDataSelectField, 1)).toEqual({
         test_field_454b66f: {
           ...objectDataSelectField,
           type: SELECT_FIELD,
@@ -100,7 +99,7 @@ describe("buildDataToSave", () => {
         date_include_time: true
       };
 
-      expect(buildDataToSave(selectedField, objectDataDateTimeField, 1)).to.deep.equals({
+      expect(buildDataToSave(selectedField, objectDataDateTimeField, 1)).toEqual({
         test_field_454b66f: {
           ...objectDataDateTimeField,
           type: DATE_FIELD,
@@ -126,7 +125,7 @@ describe("buildDataToSave", () => {
       };
       const expected = "test_field_name_1_454b66f";
 
-      expect(Object.keys(buildDataToSave(selectedField, data, "en", 1))[0]).to.deep.equals(expected);
+      expect(Object.keys(buildDataToSave(selectedField, data, "en", 1))[0]).toEqual(expected);
     });
   });
 });

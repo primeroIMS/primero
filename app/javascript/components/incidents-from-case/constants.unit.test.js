@@ -7,11 +7,11 @@ describe("<IncidentFromCase /> - constants", () => {
     const constantsValues = { ...constants };
 
     ["NAME", "NAME_DETAIL", "NAME_PANEL", "NAME_SUMMARY", "REDIRECT_DIALOG"].forEach(property => {
-      expect(constantsValues).to.have.property(property);
+      expect(constantsValues).toHaveProperty(property);
 
       delete constantsValues[property];
     });
 
-    expect(constantsValues).to.be.empty;
+    expect(Object.keys(constantsValues)).toHaveLength(0);
   });
 });

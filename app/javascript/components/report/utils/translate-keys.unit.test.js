@@ -14,7 +14,7 @@ describe("<Report /> - utils", () => {
         locale: { current: "es", default: "en" }
       };
 
-      expect(translateKeys(data.keys, data.field, data.locale)).to.deep.equal(optionLabelsEs);
+      expect(translateKeys(data.keys, data.field, data.locale)).toEqual(optionLabelsEs);
     });
 
     it("should return the default translations when the current is missing", () => {
@@ -26,7 +26,7 @@ describe("<Report /> - utils", () => {
         locale: { current: "es", default: "en" }
       };
 
-      expect(translateKeys(data.keys, data.field, data.locale)).to.deep.equal(optionLabels);
+      expect(translateKeys(data.keys, data.field, data.locale)).toEqual(optionLabels);
     });
   });
 });

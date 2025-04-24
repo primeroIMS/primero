@@ -6,7 +6,7 @@ describe("<IndexFilters /> - index", () => {
   const clone = { ...constants };
 
   it("should have known properties", () => {
-    expect(clone).to.be.an("object");
+    expect(typeof clone).toEqual("object");
     [
       "default",
       "reducer",
@@ -16,9 +16,9 @@ describe("<IndexFilters /> - index", () => {
       "FILTER_TYPES",
       "DEFAULT_FILTERS"
     ].forEach(property => {
-      expect(clone).to.have.property(property);
+      expect(clone).toHaveProperty(property);
       delete clone[property];
     });
-    expect(clone).to.be.empty;
+    expect(Object.keys(clone)).toHaveLength(0);
   });
 });

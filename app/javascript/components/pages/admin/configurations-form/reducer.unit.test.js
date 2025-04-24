@@ -14,7 +14,7 @@ describe("configurations-form/reducers.js", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_CONFIGURATION_FAILURE", () => {
@@ -25,7 +25,7 @@ describe("configurations-form/reducers.js", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_CONFIGURATION_SUCCESS", () => {
@@ -42,7 +42,7 @@ describe("configurations-form/reducers.js", () => {
 
     const newState = reducer(fromJS({ selectedConfiguration: {} }), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_CONFIGURATION_FINISHED", () => {
@@ -53,7 +53,7 @@ describe("configurations-form/reducers.js", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle CLEAR_SELECTED_CONFIGURATION", () => {
@@ -68,7 +68,7 @@ describe("configurations-form/reducers.js", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SAVE_CONFIGURATION_STARTED", () => {
@@ -79,7 +79,7 @@ describe("configurations-form/reducers.js", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SAVE_CONFIGURATION_FINISHED", () => {
@@ -90,7 +90,7 @@ describe("configurations-form/reducers.js", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SAVE_CONFIGURATION_FAILURE", () => {
@@ -101,7 +101,7 @@ describe("configurations-form/reducers.js", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle APPLY_CONFIGURATION_STARTED", () => {
@@ -112,7 +112,7 @@ describe("configurations-form/reducers.js", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle APPLY_CONFIGURATION_SUCCESS", () => {
@@ -127,7 +127,7 @@ describe("configurations-form/reducers.js", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("deprecated APPLY_CONFIGURATION_FINISHED", () => {
@@ -138,7 +138,7 @@ describe("configurations-form/reducers.js", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.not.deep.equal(expected);
+    expect(newState).not.toEqual(expected);
   });
 
   it("should handle APPLY_CONFIGURATION_FAILURE", () => {
@@ -149,7 +149,7 @@ describe("configurations-form/reducers.js", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle CHECK_CONFIGURATION_FINISHED", () => {
@@ -159,7 +159,7 @@ describe("configurations-form/reducers.js", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SEND_TO_PRODUCTION_STARTED", () => {
@@ -170,7 +170,7 @@ describe("configurations-form/reducers.js", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("deprecated APPLY_CONFIGURATION_FINISHED", () => {
@@ -181,7 +181,7 @@ describe("configurations-form/reducers.js", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.not.deep.equal(expected);
+    expect(newState).not.toEqual(expected);
   });
 
   it("should handle SEND_TO_PRODUCTION_FAILURE", () => {
@@ -192,6 +192,6 @@ describe("configurations-form/reducers.js", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

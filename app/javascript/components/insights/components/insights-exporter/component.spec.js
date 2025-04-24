@@ -36,6 +36,6 @@ describe("<Insights />/components/<InsightsExporter />", () => {
     const user = userEvent.setup();
 
     await user.click(screen.getByText("submit"));
-    expect(globalStore.getActions()[0].api.params).to.deep.equals(result);
+    expect(globalStore.getActions()[0].api.params).toEqual(result);
   });
 });

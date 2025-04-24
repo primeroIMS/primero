@@ -11,11 +11,11 @@ describe("<RevokeModal /> - transitions/components/revoke-modal/action-creators"
     const creators = { ...actionCreators };
 
     ["revokeTransition"].forEach(property => {
-      expect(creators).to.have.property(property);
+      expect(creators).toHaveProperty(property);
       delete creators[property];
     });
 
-    expect(creators).to.be.empty;
+    expect(Object.keys(creators)).toHaveLength(0);
   });
 
   it("should check the 'revokeTransition' action creator to return the correct object", () => {
@@ -72,7 +72,7 @@ describe("<RevokeModal /> - transitions/components/revoke-modal/action-creators"
       type: actions.REVOKE_TRANSITION
     };
 
-    expect(returnObject).to.not.be.undefined;
-    expect(returnObject).to.deep.equals(expected);
+    expect(returnObject).toBeDefined();
+    expect(returnObject).toEqual(expected);
   });
 });

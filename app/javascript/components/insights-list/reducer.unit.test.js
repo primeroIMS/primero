@@ -29,7 +29,7 @@ describe("<Insights /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(initialState);
+    expect(newState).toEqual(initialState);
   });
 
   it("deprecated Reports/CASES_BY_AGE_AND_SEX", () => {
@@ -68,7 +68,7 @@ describe("<Insights /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(initialState);
+    expect(newState).toEqual(initialState);
   });
 
   it("deprecated Reports/CASES_BY_PROTECTION_CONCERN", () => {
@@ -107,7 +107,7 @@ describe("<Insights /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(initialState);
+    expect(newState).toEqual(initialState);
   });
 
   it("deprecated Reports/CASES_BY_AGENCY", () => {
@@ -129,7 +129,7 @@ describe("<Insights /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(initialState);
+    expect(newState).toEqual(initialState);
   });
 
   it("should handle FETCH_INSIGHTS_STARTED", () => {
@@ -144,7 +144,7 @@ describe("<Insights /> - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_INSIGHTS_SUCCESS", () => {
@@ -179,7 +179,7 @@ describe("<Insights /> - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_INSIGHTS_FINISHED", () => {
@@ -193,7 +193,7 @@ describe("<Insights /> - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_INSIGHTS_FAILURE", () => {
@@ -207,7 +207,7 @@ describe("<Insights /> - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle CLEAR_METADATA", () => {
@@ -221,7 +221,7 @@ describe("<Insights /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle CLEAR_INSIGHT_FILTERS", () => {
@@ -233,7 +233,7 @@ describe("<Insights /> - Reducers", () => {
 
     const newState = reducer(fromJS({ filters: { filter1: "value1" } }), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SET_INSIGHT_FILTERS", () => {
@@ -246,6 +246,6 @@ describe("<Insights /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

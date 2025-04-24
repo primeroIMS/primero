@@ -139,6 +139,6 @@ describe("<ReportForm>/utils/buildFields()", () => {
       ]
     };
 
-    expect(buildMinimumReportableFields(i18n, forms)).to.deep.equal(expected);
+    expect(buildMinimumReportableFields(i18n, forms)).toEqual(expected);
   });
 });

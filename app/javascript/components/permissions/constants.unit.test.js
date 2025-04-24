@@ -131,11 +131,11 @@ describe("Verifying config constant", () => {
       "WRITE",
       "REMOVE_ALERT"
     ].forEach(property => {
-      expect(permissions).to.have.property(property);
-      expect(permissions[property]).to.be.a("string");
+      expect(permissions).toHaveProperty(property);
+      expect(typeof permissions[property]).toBe("string");
       delete permissions[property];
     });
-    expect(permissions).to.be.empty;
+    expect(Object.keys(permissions)).toHaveLength(0);
   });
 
   it("should have known RESOURCES", () => {
@@ -170,144 +170,144 @@ describe("Verifying config constant", () => {
       "users",
       "webhooks"
     ].forEach(property => {
-      expect(resources).to.have.property(property);
-      expect(resources[property]).to.be.a("string");
+      expect(resources).toHaveProperty(property);
+      expect(typeof resources[property]).toBe("string");
       delete resources[property];
     });
-    expect(resources).to.be.empty;
+    expect(Object.keys(resources)).toHaveLength(0);
   });
 
   it("should have CREATE_REPORTS", () => {
     const permissions = [...PERMISSIONS.CREATE_REPORTS];
 
-    expect(permissions).to.be.a("array");
+    expect(Array.isArray(permissions)).toBe(true);
     [PERMISSIONS.ACTIONS.CREATE, PERMISSIONS.ACTIONS.MANAGE].forEach(element => {
-      expect(permissions).to.include(element);
+      expect(permissions).toEqual(expect.arrayContaining([element]));
       permissions.splice(permissions.indexOf(element), 1);
     });
-    expect(permissions).to.be.empty;
+    expect(Object.keys(permissions)).toHaveLength(0);
   });
 
   it("should have READ_REPORTS", () => {
     const permissions = [...PERMISSIONS.READ_REPORTS];
 
-    expect(permissions).to.be.a("array");
+    expect(Array.isArray(permissions)).toBe(true);
     [
       PERMISSIONS.ACTIONS.READ,
       PERMISSIONS.ACTIONS.GROUP_READ,
       PERMISSIONS.ACTIONS.MANAGE,
       PERMISSIONS.ACTIONS.AGENCY_READ
     ].forEach(element => {
-      expect(permissions).to.include(element);
+      expect(permissions).toEqual(expect.arrayContaining([element]));
       permissions.splice(permissions.indexOf(element), 1);
     });
-    expect(permissions).to.be.empty;
+    expect(Object.keys(permissions)).toHaveLength(0);
   });
 
   it("should have EXPORT_CUSTOM", () => {
     const permissions = [...PERMISSIONS.EXPORT_CUSTOM];
 
-    expect(permissions).to.be.a("array");
+    expect(Array.isArray(permissions)).toBe(true);
     [PERMISSIONS.ACTIONS.EXPORT_CUSTOM, PERMISSIONS.ACTIONS.MANAGE].forEach(element => {
-      expect(permissions).to.include(element);
+      expect(permissions).toEqual(expect.arrayContaining([element]));
       permissions.splice(permissions.indexOf(element), 1);
     });
-    expect(permissions).to.be.empty;
+    expect(Object.keys(permissions)).toHaveLength(0);
   });
 
   it("should have CREATE_RECORDS", () => {
     const permissions = [...PERMISSIONS.CREATE_RECORDS];
 
-    expect(permissions).to.be.a("array");
+    expect(Array.isArray(permissions)).toBe(true);
     [PERMISSIONS.ACTIONS.CREATE, PERMISSIONS.ACTIONS.MANAGE].forEach(element => {
-      expect(permissions).to.include(element);
+      expect(permissions).toEqual(expect.arrayContaining([element]));
       permissions.splice(permissions.indexOf(element), 1);
     });
 
-    expect(permissions).to.be.empty;
+    expect(Object.keys(permissions)).toHaveLength(0);
   });
 
   it("should have WRITE_RECORDS", () => {
     const permissions = [...PERMISSIONS.WRITE_RECORDS];
 
-    expect(permissions).to.be.a("array");
+    expect(Array.isArray(permissions)).toBe(true);
     [PERMISSIONS.ACTIONS.MANAGE, PERMISSIONS.ACTIONS.WRITE].forEach(element => {
-      expect(permissions).to.include(element);
+      expect(permissions).toEqual(expect.arrayContaining([element]));
       permissions.splice(permissions.indexOf(element), 1);
     });
-    expect(permissions).to.be.empty;
+    expect(Object.keys(permissions)).toHaveLength(0);
   });
 
   it("should have READ_RECORDS", () => {
     const permissions = [...PERMISSIONS.READ_RECORDS];
 
-    expect(permissions).to.be.a("array");
+    expect(Array.isArray(permissions)).toBe(true);
     [PERMISSIONS.ACTIONS.MANAGE, PERMISSIONS.ACTIONS.READ].forEach(element => {
-      expect(permissions).to.include(element);
+      expect(permissions).toEqual(expect.arrayContaining([element]));
       permissions.splice(permissions.indexOf(element), 1);
     });
-    expect(permissions).to.be.empty;
+    expect(Object.keys(permissions)).toHaveLength(0);
   });
 
   it("should have ENABLE_DISABLE_RECORD", () => {
     const permissions = [...PERMISSIONS.ENABLE_DISABLE_RECORD];
 
-    expect(permissions).to.be.a("array");
+    expect(Array.isArray(permissions)).toBe(true);
     [PERMISSIONS.ACTIONS.ENABLE_DISABLE_RECORD, PERMISSIONS.ACTIONS.MANAGE].forEach(element => {
-      expect(permissions).to.include(element);
+      expect(permissions).toEqual(expect.arrayContaining([element]));
       permissions.splice(permissions.indexOf(element), 1);
     });
-    expect(permissions).to.be.empty;
+    expect(Object.keys(permissions)).toHaveLength(0);
   });
 
   it("should have FLAG_RECORDS", () => {
     const permissions = [...PERMISSIONS.FLAG_RECORDS];
 
-    expect(permissions).to.be.a("array");
+    expect(Array.isArray(permissions)).toBe(true);
     [PERMISSIONS.ACTIONS.FLAG, PERMISSIONS.ACTIONS.MANAGE].forEach(element => {
-      expect(permissions).to.include(element);
+      expect(permissions).toEqual(expect.arrayContaining([element]));
       permissions.splice(permissions.indexOf(element), 1);
     });
-    expect(permissions).to.be.empty;
+    expect(Object.keys(permissions)).toHaveLength(0);
   });
 
   it("should have ADD_NOTE", () => {
     const permissions = [...PERMISSIONS.ADD_NOTE];
 
-    expect(permissions).to.be.a("array");
+    expect(Array.isArray(permissions)).toBe(true);
     [PERMISSIONS.ACTIONS.ADD_NOTE, PERMISSIONS.ACTIONS.MANAGE].forEach(element => {
-      expect(permissions).to.include(element);
+      expect(permissions).toEqual(expect.arrayContaining([element]));
       permissions.splice(permissions.indexOf(element), 1);
     });
-    expect(permissions).to.be.empty;
+    expect(Object.keys(permissions)).toHaveLength(0);
   });
 
   it("should have DISPLAY_VIEW_PAGE", () => {
     const permissions = [...PERMISSIONS.DISPLAY_VIEW_PAGE];
 
-    expect(permissions).to.be.a("array");
+    expect(Array.isArray(permissions)).toBe(true);
     [PERMISSIONS.ACTIONS.DISPLAY_VIEW_PAGE, PERMISSIONS.ACTIONS.MANAGE].forEach(element => {
-      expect(permissions).to.include(element);
+      expect(permissions).toEqual(expect.arrayContaining([element]));
       permissions.splice(permissions.indexOf(element), 1);
     });
-    expect(permissions).to.be.empty;
+    expect(Object.keys(permissions)).toHaveLength(0);
   });
 
   it("should have SHOW_TASKS", () => {
     const permissions = [...PERMISSIONS.SHOW_TASKS];
 
-    expect(permissions).to.be.a("array");
+    expect(Array.isArray(permissions)).toBe(true);
     [PERMISSIONS.ACTIONS.DASH_TASKS, PERMISSIONS.ACTIONS.MANAGE].forEach(element => {
-      expect(permissions).to.include(element);
+      expect(permissions).toEqual(expect.arrayContaining([element]));
       permissions.splice(permissions.indexOf(element), 1);
     });
-    expect(permissions).to.be.empty;
+    expect(Object.keys(permissions)).toHaveLength(0);
   });
 
   it("should have SHOW_EXPORTS", () => {
     const permissions = [...PERMISSIONS.SHOW_EXPORTS];
 
-    expect(permissions).to.be.a("array");
+    expect(Array.isArray(permissions)).toBe(true);
     [
       PERMISSIONS.ACTIONS.EXPORT_CASE_PDF,
       PERMISSIONS.ACTIONS.EXPORT_CSV,
@@ -323,16 +323,16 @@ describe("Verifying config constant", () => {
       PERMISSIONS.ACTIONS.EXPORT_PDF,
       PERMISSIONS.ACTIONS.MANAGE
     ].forEach(element => {
-      expect(permissions).to.include(element);
+      expect(permissions).toEqual(expect.arrayContaining([element]));
       permissions.splice(permissions.indexOf(element), 1);
     });
-    expect(permissions).to.be.empty;
+    expect(Object.keys(permissions)).toHaveLength(0);
   });
 
   it("should have DASH_APPROVALS_PENDING", () => {
     const permissions = [...PERMISSIONS.DASH_APPROVALS_PENDING];
 
-    expect(permissions).to.be.a("array");
+    expect(Array.isArray(permissions)).toBe(true);
     [
       PERMISSIONS.ACTIONS.DASH_APPROVALS_ASSESSMENT_PENDING,
       PERMISSIONS.ACTIONS.DASH_APPROVALS_CASE_PLAN_PENDING,
@@ -340,16 +340,16 @@ describe("Verifying config constant", () => {
       PERMISSIONS.ACTIONS.DASH_APPROVALS_ACTION_PLAN_PENDING,
       PERMISSIONS.ACTIONS.DASH_APPROVALS_GBV_CLOSURE_PENDING
     ].forEach(element => {
-      expect(permissions).to.include(element);
+      expect(permissions).toEqual(expect.arrayContaining([element]));
       permissions.splice(permissions.indexOf(element), 1);
     });
-    expect(permissions).to.be.empty;
+    expect(Object.keys(permissions)).toHaveLength(0);
   });
 
   it("should have DASH_APPROVALS", () => {
     const permissions = [...PERMISSIONS.DASH_APPROVALS];
 
-    expect(permissions).to.be.a("array");
+    expect(Array.isArray(permissions)).toBe(true);
     [
       PERMISSIONS.ACTIONS.DASH_APPROVALS_ASSESSMENT_PENDING,
       PERMISSIONS.ACTIONS.DASH_APPROVALS_CASE_PLAN_PENDING,
@@ -362,27 +362,27 @@ describe("Verifying config constant", () => {
       PERMISSIONS.ACTIONS.DASH_APPROVALS_ACTION_PLAN,
       PERMISSIONS.ACTIONS.DASH_APPROVALS_GBV_CLOSURE
     ].forEach(element => {
-      expect(permissions).to.include(element);
+      expect(permissions).toEqual(expect.arrayContaining([element]));
       permissions.splice(permissions.indexOf(element), 1);
     });
-    expect(permissions).to.be.empty;
+    expect(Object.keys(permissions)).toHaveLength(0);
   });
 
   it("should have GROUP_PERMISSIONS", () => {
     const groupPermissions = { ...PERMISSIONS.GROUP_PERMISSIONS };
 
     ["AGENCY", "ALL", "GROUP", "SELF"].forEach(property => {
-      expect(groupPermissions).to.have.property(property);
-      expect(groupPermissions[property]).to.be.a("string");
+      expect(groupPermissions).toHaveProperty(property);
+      expect(typeof groupPermissions[property]).toBe("string");
       delete groupPermissions[property];
     });
-    expect(groupPermissions).to.be.empty;
+    expect(Object.keys(groupPermissions)).toHaveLength(0);
   });
 
   it("should have REQUEST_APPROVAL", () => {
     const permissions = [...PERMISSIONS.REQUEST_APPROVAL];
 
-    expect(permissions).to.be.a("array");
+    expect(Array.isArray(permissions)).toBe(true);
     [
       PERMISSIONS.ACTIONS.MANAGE,
       PERMISSIONS.ACTIONS.REQUEST_APPROVAL_ASSESSMENT,
@@ -391,16 +391,16 @@ describe("Verifying config constant", () => {
       PERMISSIONS.ACTIONS.REQUEST_APPROVAL_ACTION_PLAN,
       PERMISSIONS.ACTIONS.REQUEST_APPROVAL_GBV_CLOSURE
     ].forEach(element => {
-      expect(permissions).to.include(element);
+      expect(permissions).toEqual(expect.arrayContaining([element]));
       permissions.splice(permissions.indexOf(element), 1);
     });
-    expect(permissions).to.be.empty;
+    expect(Object.keys(permissions)).toHaveLength(0);
   });
 
   it("should have APPROVAL", () => {
     const permissions = [...PERMISSIONS.APPROVAL];
 
-    expect(permissions).to.be.a("array");
+    expect(Array.isArray(permissions)).toBe(true);
     [
       PERMISSIONS.ACTIONS.APPROVE_ASSESSMENT,
       PERMISSIONS.ACTIONS.APPROVE_CASE_PLAN,
@@ -409,16 +409,16 @@ describe("Verifying config constant", () => {
       PERMISSIONS.ACTIONS.APPROVE_GBV_CLOSURE,
       PERMISSIONS.ACTIONS.MANAGE
     ].forEach(element => {
-      expect(permissions).to.include(element);
+      expect(permissions).toEqual(expect.arrayContaining([element]));
       permissions.splice(permissions.indexOf(element), 1);
     });
-    expect(permissions).to.be.empty;
+    expect(Object.keys(permissions)).toHaveLength(0);
   });
 
   it("should have SHOW_APPROVALS", () => {
     const permissions = [...PERMISSIONS.SHOW_APPROVALS];
 
-    expect(permissions).to.be.a("array");
+    expect(Array.isArray(permissions)).toBe(true);
     [
       PERMISSIONS.ACTIONS.APPROVE_ASSESSMENT,
       PERMISSIONS.ACTIONS.APPROVE_CASE_PLAN,
@@ -432,16 +432,16 @@ describe("Verifying config constant", () => {
       PERMISSIONS.ACTIONS.REQUEST_APPROVAL_ACTION_PLAN,
       PERMISSIONS.ACTIONS.REQUEST_APPROVAL_GBV_CLOSURE
     ].forEach(element => {
-      expect(permissions).to.include(element);
+      expect(permissions).toEqual(expect.arrayContaining([element]));
       permissions.splice(permissions.indexOf(element), 1);
     });
-    expect(permissions).to.be.empty;
+    expect(Object.keys(permissions)).toHaveLength(0);
   });
 
   it("should have EXPORTS_PERMISSIONS", () => {
     const permissions = [...PERMISSIONS.EXPORTS_PERMISSIONS];
 
-    expect(permissions).to.be.a("array");
+    expect(Array.isArray(permissions)).toBe(true);
     [
       PERMISSIONS.ACTIONS.EXPORT_CASE_PDF,
       PERMISSIONS.ACTIONS.EXPORT_CSV,
@@ -456,9 +456,9 @@ describe("Verifying config constant", () => {
       PERMISSIONS.ACTIONS.EXPORT_UNHCR,
       PERMISSIONS.ACTIONS.EXPORT_PDF
     ].forEach(element => {
-      expect(permissions).to.include(element);
+      expect(permissions).toEqual(expect.arrayContaining([element]));
       permissions.splice(permissions.indexOf(element), 1);
     });
-    expect(permissions).to.be.empty;
+    expect(Object.keys(permissions)).toHaveLength(0);
   });
 });

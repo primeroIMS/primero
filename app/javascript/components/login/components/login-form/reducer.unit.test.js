@@ -26,7 +26,7 @@ describe("<LoginForm /> - Reducers", () => {
     };
     const newState = reducer.user(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle LOGIN_FAILURE", () => {
@@ -44,6 +44,6 @@ describe("<LoginForm /> - Reducers", () => {
     };
     const newState = reducer.user(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

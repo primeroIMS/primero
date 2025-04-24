@@ -49,13 +49,13 @@ describe("<RecordList /> - Selectors", () => {
     it("should return all fields", () => {
       const values = selectors.getFields(stateWithRecords);
 
-      expect(values).to.deep.equal(field);
+      expect(values).toEqual(field);
     });
 
     it("should return undefined when there are not messages in store", () => {
       const values = selectors.getFields(stateWithoutRecords);
 
-      expect(values).to.be.empty;
+      expect(values.size).toBe(0);
     });
   });
 
@@ -63,13 +63,13 @@ describe("<RecordList /> - Selectors", () => {
     it("should return all metadata", () => {
       const values = selectors.getMetadata(stateWithRecords, "cases");
 
-      expect(values).to.deep.equal(metadata);
+      expect(values).toEqual(metadata);
     });
 
     it("should return an empty object when there are not metadata in store", () => {
       const values = selectors.getMetadata(stateWithoutRecords);
 
-      expect(values).to.be.empty;
+      expect(values.size).toBe(0);
     });
   });
 
@@ -77,13 +77,13 @@ describe("<RecordList /> - Selectors", () => {
     it("should return the filters", () => {
       const values = selectors.getAppliedFilters(stateWithRecords, "cases");
 
-      expect(values).to.deep.equal(fromJS({ disabled: ["true"] }));
+      expect(values).toEqual(fromJS({ disabled: ["true"] }));
     });
 
     it("should return an empty object when there are not metadata in store", () => {
       const values = selectors.getAppliedFilters(stateWithoutRecords);
 
-      expect(values).to.be.empty;
+      expect(values.size).toBe(0);
     });
   });
 
@@ -91,7 +91,7 @@ describe("<RecordList /> - Selectors", () => {
     it("returns a query string with the current filters", () => {
       const queryString = selectors.getAppliedFiltersAsQueryString(stateWithRecords, "cases");
 
-      expect(queryString).to.equal("disabled%5B0%5D=true");
+      expect(queryString).toBe("disabled%5B0%5D=true");
     });
   });
 });

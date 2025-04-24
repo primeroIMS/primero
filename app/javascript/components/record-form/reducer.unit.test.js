@@ -45,7 +45,7 @@ describe("<RecordForm /> - Reducers", () => {
 
     const newState = reducer.forms(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SET_LOCATIONS_SUCCESS", () => {
@@ -79,7 +79,7 @@ describe("<RecordForm /> - Reducers", () => {
 
     const newState = reducer.forms(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle RECORD_FORMS_SUCCESS", () => {
@@ -160,7 +160,7 @@ describe("<RecordForm /> - Reducers", () => {
 
     // TODO: toJS() is needed to compare the two objects because on recordTypes
     //  there are values that are not immutable
-    expect(newState.toJS()).to.deep.equal(expected.toJS());
+    expect(newState.toJS()).toEqual(expected.toJS());
   });
 
   it("should handle RECORD_FORMS_FAILURE", () => {
@@ -177,7 +177,7 @@ describe("<RecordForm /> - Reducers", () => {
 
     const newState = reducer.forms(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle RECORD_FORMS_STARTED", () => {
@@ -195,7 +195,7 @@ describe("<RecordForm /> - Reducers", () => {
 
     const newState = reducer.forms(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle RECORD_FORMS_FINISHED", () => {
@@ -212,7 +212,7 @@ describe("<RecordForm /> - Reducers", () => {
 
     const newState = reducer.forms(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle user/LOGOUT_SUCCESS", () => {
@@ -229,7 +229,7 @@ describe("<RecordForm /> - Reducers", () => {
 
     const newState = reducer.forms(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle forms/FETCH_AGENCIES_FAILURE", () => {
@@ -248,7 +248,7 @@ describe("<RecordForm /> - Reducers", () => {
 
     const newState = reducer.forms(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle forms/FETCH_AGENCIES_FINISHED", () => {
@@ -267,7 +267,7 @@ describe("<RecordForm /> - Reducers", () => {
 
     const newState = reducer.forms(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle forms/FETCH_AGENCIES_STARTED", () => {
@@ -286,7 +286,7 @@ describe("<RecordForm /> - Reducers", () => {
 
     const newState = reducer.forms(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle forms/FETCH_AGENCIES_SUCCESS", () => {
@@ -314,7 +314,7 @@ describe("<RecordForm /> - Reducers", () => {
 
     const newState = reducer.forms(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle forms/SET_SELECTED_FORM", () => {
@@ -350,7 +350,7 @@ describe("<RecordForm /> - Reducers", () => {
 
     const newState = reducer.forms(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle forms/SET_SELECTED_RECORD", () => {
@@ -374,7 +374,7 @@ describe("<RecordForm /> - Reducers", () => {
 
     const newState = reducer.forms(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle forms/SET_SERVICE_TO_REFER", () => {
@@ -398,7 +398,7 @@ describe("<RecordForm /> - Reducers", () => {
 
     const newState = reducer.forms(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle forms/CLEAR_VALIDATION_ERRORS", () => {
@@ -420,7 +420,7 @@ describe("<RecordForm /> - Reducers", () => {
 
     const newState = reducer.forms(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle forms/SET_VALIDATION_ERRORS", () => {
@@ -445,7 +445,7 @@ describe("<RecordForm /> - Reducers", () => {
 
     const newState = reducer.forms(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle forms/SET_DATA_PROTECTION_INITIAL_VALUES", () => {
@@ -468,7 +468,7 @@ describe("<RecordForm /> - Reducers", () => {
 
     const newState = reducer.forms(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle forms/CLEAR_DATA_PROTECTION_INITIAL_VALUES", () => {
@@ -485,7 +485,7 @@ describe("<RecordForm /> - Reducers", () => {
 
     const newState = reducer.forms(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("handles forms/REDIRECTED_TO_CREATE_NEW_RECORD", () => {
@@ -497,6 +497,6 @@ describe("<RecordForm /> - Reducers", () => {
 
     const newState = reducer.forms(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

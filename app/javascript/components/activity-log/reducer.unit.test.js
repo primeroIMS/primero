@@ -19,7 +19,7 @@ describe("<ActivityLog /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FECTH_ACTIVITY_LOGS_SUCCESS", () => {
@@ -35,7 +35,7 @@ describe("<ActivityLog /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FECTH_ACTIVITY_LOGS_FAILURE", () => {
@@ -50,7 +50,7 @@ describe("<ActivityLog /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FECTH_ACTIVITY_LOGS_FINISHED", () => {
@@ -65,7 +65,7 @@ describe("<ActivityLog /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SET_ACTIVITY_LOGS_FILTER", () => {
@@ -80,6 +80,6 @@ describe("<ActivityLog /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

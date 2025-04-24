@@ -10,11 +10,11 @@ describe("<AgenciesList /> - Action Creators", () => {
     const creators = { ...actionsCreators };
 
     ["fetchAgencies", "setAgenciesFilter"].forEach(property => {
-      expect(creators).to.have.property(property);
+      expect(creators).toHaveProperty(property);
       delete creators[property];
     });
 
-    expect(creators).to.be.empty;
+    expect(Object.keys(creators)).toHaveLength(0);
   });
 
   it("should check that 'fetchAgencies' action creator returns the correct object", () => {
@@ -28,7 +28,7 @@ describe("<AgenciesList /> - Action Creators", () => {
       }
     };
 
-    expect(actionsCreators.fetchAgencies()).to.deep.equal(expectedAction);
+    expect(actionsCreators.fetchAgencies()).toEqual(expectedAction);
   });
 
   it("should check that 'setAgenciesFilter' action creator returns the correct object", () => {
@@ -38,6 +38,6 @@ describe("<AgenciesList /> - Action Creators", () => {
       payload
     };
 
-    expect(actionsCreators.setAgenciesFilter(payload)).to.deep.equal(expectedAction);
+    expect(actionsCreators.setAgenciesFilter(payload)).toEqual(expectedAction);
   });
 });

@@ -10,11 +10,11 @@ describe("components/record-actions/transitions/utils.js", () => {
       const clone = { ...utils };
 
       ["filterUsers"].forEach(property => {
-        expect(clone).to.have.property(property);
-        expect(clone[property]).to.be.a("function");
+        expect(clone).toHaveProperty(property);
+        expect(clone[property]).toBeInstanceOf(Function);
         delete clone[property];
       });
-      expect(clone).to.be.empty;
+      expect(Object.keys(clone)).toHaveLength(0);
     });
   });
 
@@ -37,7 +37,7 @@ describe("components/record-actions/transitions/utils.js", () => {
           { label: "user_3", value: "user_3" }
         ];
 
-        expect(utils.filterUsers(users, mode, record, true)).to.deep.equals(expected);
+        expect(utils.filterUsers(users, mode, record, true)).toEqual(expected);
       });
     });
 
@@ -49,7 +49,7 @@ describe("components/record-actions/transitions/utils.js", () => {
           { label: "user_3", value: "user_3" }
         ];
 
-        expect(utils.filterUsers(users, mode, record)).to.deep.equals(expected);
+        expect(utils.filterUsers(users, mode, record)).toEqual(expected);
       });
     });
   });

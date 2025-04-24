@@ -19,7 +19,7 @@ describe("recordMerge", () => {
       ]
     };
 
-    expect(recordMerge(prev, current)).to.deep.equals({
+    expect(recordMerge(prev, current)).toEqual({
       id: 1,
       subform_section: [
         { unique_id: "uid-1", field: "value_1", new_field: "new_value_1" },
@@ -45,7 +45,7 @@ describe("recordMerge", () => {
       }
     };
 
-    expect(recordMerge(prev, current)).to.deep.equals({
+    expect(recordMerge(prev, current)).toEqual({
       id: 1,
       permitted_forms: {
         form1: "rw",

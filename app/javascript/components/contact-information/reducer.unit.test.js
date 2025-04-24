@@ -36,7 +36,7 @@ describe("<RecordList /> - Reducers", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState.get("data")).to.deep.equal(ContactInformationRecord(expected));
+    expect(newState.get("data")).toEqual(ContactInformationRecord(expected));
   });
 
   it("should handle FETCH_DATA_STARTED", () => {
@@ -46,8 +46,8 @@ describe("<RecordList /> - Reducers", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState.get("loading")).to.deep.equal(true);
-    expect(newState.get("errors")).to.deep.equal(false);
+    expect(newState.get("loading")).toEqual(true);
+    expect(newState.get("errors")).toEqual(false);
   });
 
   it("should handle FETCH_DATA_FINISHED", () => {
@@ -57,7 +57,7 @@ describe("<RecordList /> - Reducers", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState.get("loading")).to.deep.equal(false);
+    expect(newState.get("loading")).toEqual(false);
   });
 
   it("should handle FETCH_DATA_FAILURE", () => {
@@ -67,6 +67,6 @@ describe("<RecordList /> - Reducers", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState.get("errors")).to.deep.equal(true);
+    expect(newState.get("errors")).toEqual(true);
   });
 });

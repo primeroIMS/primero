@@ -18,6 +18,6 @@ describe("textFieldForm()", () => {
       formMode
     });
 
-    expect(forms).to.have.sizeOf(2);
+    expect(forms.size).toBe(2);
   });
 });

@@ -8,11 +8,11 @@ describe("subform-header-lookup/utils.js", () => {
       const clone = { ...utils };
 
       ["getMultiSelectValues", "buildAssociatedViolationsLabels"].forEach(property => {
-        expect(clone).to.have.property(property);
-        expect(clone[property]).to.be.a("function");
+        expect(clone).toHaveProperty(property);
+        expect(clone[property]).toBeInstanceOf(Function);
         delete clone[property];
       });
-      expect(clone).to.be.empty;
+      expect(Object.keys(clone)).toHaveLength(0);
     });
   });
 
@@ -41,7 +41,7 @@ describe("subform-header-lookup/utils.js", () => {
         }
       ];
 
-      expect(utils.getMultiSelectValues(values, source, "en")).to.be.equals("Test 1, Test 2");
+      expect(utils.getMultiSelectValues(values, source, "en")).toBe("Test 1, Test 2");
     });
 
     it("returns correct display_text when source does not contains a locale", () => {
@@ -60,7 +60,7 @@ describe("subform-header-lookup/utils.js", () => {
         }
       ];
 
-      expect(utils.getMultiSelectValues(values, source)).to.be.equals("Test 1, Test 2");
+      expect(utils.getMultiSelectValues(values, source)).toBe("Test 1, Test 2");
     });
 
     it("returns empty string when values does exist in the source", () => {
@@ -77,7 +77,7 @@ describe("subform-header-lookup/utils.js", () => {
 
       const randomValues = ["random_value"];
 
-      expect(utils.getMultiSelectValues(randomValues, source)).to.be.equals("");
+      expect(utils.getMultiSelectValues(randomValues, source)).toBe("");
     });
   });
 
@@ -89,11 +89,11 @@ describe("subform-header-lookup/utils.js", () => {
         denials: ["5", "6", "7"]
       };
 
-      expect(utils.buildAssociatedViolationsLabels(associatedViolations, "7")).to.be.equals("denials");
+      expect(utils.buildAssociatedViolationsLabels(associatedViolations, "7")).toBe("denials");
     });
 
     it("return null if get an empty associatedViolations", () => {
-      expect(utils.buildAssociatedViolationsLabels({}, "7")).to.be.null;
+      expect(utils.buildAssociatedViolationsLabels({}, "7")).toBeNull();
     });
   });
 });

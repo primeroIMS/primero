@@ -7,8 +7,8 @@ import { MULTI_SELECT_FIELD, DATE_TIME_FIELD } from "./custom-field-selector-dia
 
 describe("getFieldsAttribute", () => {
   it("should return the correct fields attribute", () => {
-    expect(utils.getFieldsAttribute(true)).to.equal("subform_section.fields");
-    expect(utils.getFieldsAttribute(false)).to.equal("fields");
+    expect(utils.getFieldsAttribute(true)).toBe("subform_section.fields");
+    expect(utils.getFieldsAttribute(false)).toBe("fields");
   });
 });
 
@@ -22,16 +22,16 @@ describe("getFiedListItemTheme", () => {
       }
     }).overrides;
 
-    expect(Object.keys(themeOverrides.MuiFormControl.root)).to.not.be.empty;
-    expect(Object.keys(themeOverrides.MuiCheckbox.root)).to.not.be.empty;
-    expect(Object.keys(themeOverrides.MuiFormControlLabel.root)).to.not.be.empty;
+    expect(Object.keys(themeOverrides.MuiFormControl.root)).not.toHaveLength(0);
+    expect(Object.keys(themeOverrides.MuiCheckbox.root)).not.toHaveLength(0);
+    expect(Object.keys(themeOverrides.MuiFormControlLabel.root)).not.toHaveLength(0);
   });
 });
 
 describe("getLabelTypeField", () => {
   it("should return the correct label attribute", () => {
-    expect(utils.getLabelTypeField(fromJS({ multi_select: true }))).to.equal(MULTI_SELECT_FIELD);
-    expect(utils.getLabelTypeField(fromJS({ date_include_time: true }))).to.equal(DATE_TIME_FIELD);
-    expect(utils.getLabelTypeField(fromJS({ type: "test" }))).to.equal("test");
+    expect(utils.getLabelTypeField(fromJS({ multi_select: true }))).toBe(MULTI_SELECT_FIELD);
+    expect(utils.getLabelTypeField(fromJS({ date_include_time: true }))).toBe(DATE_TIME_FIELD);
+    expect(utils.getLabelTypeField(fromJS({ type: "test" }))).toBe("test");
   });
 });

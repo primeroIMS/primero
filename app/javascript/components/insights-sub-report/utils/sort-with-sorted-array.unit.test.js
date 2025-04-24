@@ -6,7 +6,7 @@ describe("<InsightsSubReport/>/utils - sortWithSortedArray", () => {
   it("sorts an array using the order of another array", () => {
     const expected = [3, 2, 1];
 
-    expect(sortWithSortedArray([1, 2, 3], [3, 2, 1])).to.deep.equal(expected);
+    expect(sortWithSortedArray([1, 2, 3], [3, 2, 1])).toEqual(expected);
   });
 
   it("puts incomplete_data as last element", () => {
@@ -14,7 +14,7 @@ describe("<InsightsSubReport/>/utils - sortWithSortedArray", () => {
 
     expect(
       sortWithSortedArray([1, "incomplete_data", 2, 3], [3, 2, 1, "incomplete_data"], null, "incomplete_data")
-    ).to.deep.equal(expected);
+    ).toEqual(expected);
   });
 
   it("puts null as last element", () => {
@@ -25,6 +25,6 @@ describe("<InsightsSubReport/>/utils - sortWithSortedArray", () => {
         elem => elem.age,
         "incomplete_data"
       )
-    ).to.deep.equal([{ age: 3 }, { age: 2 }, { age: 1 }, { age: "incomplete_data" }]);
+    ).toEqual([{ age: 3 }, { age: 2 }, { age: 1 }, { age: "incomplete_data" }]);
   });
 });
