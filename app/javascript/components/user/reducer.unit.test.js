@@ -74,6 +74,7 @@ describe("User - Reducers", () => {
       userGroupUniqueIds: ["tests"],
       userGroups: [{ unique_id: "tests", description: "tests" }],
       agencyId: 1,
+      agencyUniqueId: "agency-unique-id",
       roleId: 19,
       listHeaders: mapObjectPropertiesToRecords(
         {
@@ -120,6 +121,7 @@ describe("User - Reducers", () => {
       user_name: "primero",
       email: "primero@primero.com",
       agency_id: 1,
+      agency_unique_id: "agency-unique-id",
       role_unique_id: 19,
       module_unique_ids: ["primeromodule-cp", "primeromodule-gbv"],
       permitted_form_unique_ids: ["record_owner", "client_feedback"],

@@ -11,6 +11,7 @@ import { PHOTO_FIELD, DOCUMENT_FIELD, EMPTY_VALUE } from "../constants";
 import ActionButton from "../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
 import { ATTACHMENT_TYPES } from "../../record-form/form/field-types/attachments/constants";
+import { AssetJwt } from "../../asset-jwt";
 
 import css from "./styles.css";
 
@@ -65,7 +66,7 @@ function AttachmentInput({ commonInputProps, metaInputProps, formMode, formMetho
 
     return (data || fileUrl) && type === PHOTO_FIELD ? (
       <div>
-        <img src={data || fileUrl} alt="" className={css.preview} />
+        <AssetJwt src={data || fileUrl} alt="Image" className={css.preview} />
       </div>
     ) : (
       <span>{fileName}</span>

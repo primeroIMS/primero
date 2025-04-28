@@ -52,8 +52,8 @@ describe("Forms - Selectors", () => {
   ];
 
   const agencies = [
-    { id: 1, name: { en: "Agency 1" } },
-    { id: 2, name: { en: "Agency 2" } }
+    { id: 1, unique_id: "agency-1", name: { en: "Agency 1" } },
+    { id: 2, unique_id: "agency-2", name: { en: "Agency 2" } }
   ];
 
   const stateWithLookups = fromJS({
@@ -134,6 +134,7 @@ describe("Forms - Selectors", () => {
     },
     user: {
       agencyId: 1,
+      agencyUniqueId: "agency-1",
       permittedRoleUniqueIds: ["role-1"]
     }
   });
@@ -534,12 +535,13 @@ describe("Forms - Selectors", () => {
   describe("when optionStringsSource is AGENCY_CURRENT_USER", () => {
     it("should disabled the agencies that are not permitted for the current user", () => {
       const options = selectors.getOptions(OPTION_TYPES.AGENCY_CURRENT_USER)(stateWithLookups, {
-        source: OPTION_TYPES.AGENCY_CURRENT_USER
+        source: OPTION_TYPES.AGENCY_CURRENT_USER,
+        optionStringsSourceIdKey: "unique_id"
       });
 
       const expected = [
-        { id: 1, display_text: "Agency 1", disabled: false },
-        { id: 2, display_text: "Agency 2", disabled: true }
+        { id: "agency-1", display_text: "Agency 1", disabled: false },
+        { id: "agency-2", display_text: "Agency 2", disabled: true }
       ];
 
       expect(options).toEqual(expected);

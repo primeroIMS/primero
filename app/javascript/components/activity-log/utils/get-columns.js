@@ -27,7 +27,8 @@ export default () =>
                   recordId: currentData.record_id,
                   recordAccessDenied: currentData.record_access_denied,
                   performedBy: currentData.performed_by,
-                  type: currentData.type
+                  type: currentData.type,
+                  datetime: currentData.datetime
                 }}
               />
             );

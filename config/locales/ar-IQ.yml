@@ -709,7 +709,6 @@ ar-IQ:
     dash_shared_from_my_team: تمّ تشاركها من فريقي
     dash_shared_with_me: 'تم مشاركتها معي '
     dash_shared_with_my_team: تمّ تشاركها مع فريقي
-    dash_shared_with_my_team_overview: تم مشاركته مع فريقي (نظرة عامة)
     dash_shared_with_others: تمّ تشاركها مع آخرين
     dash_national_admin_summary: ملخص المسؤول
     dash_violations_category_verification_status: إجمالي عدد الحوادث لكل وضع تحقق
@@ -824,15 +823,8 @@ ar-IQ:
     shared_from_my_team_pending_transfers: عمليات التحويل المُعلّقة
     shared_from_my_team_referrals: الإحالات
     shared_from_my_team_rejected_transfers: عمليات التحويل المرفوضة
-    shared_with_me_new_referrals: إحالات جديدة
-    shared_with_me_total_referrals: مجموع الإحالات
-    shared_with_me_transfers_awaiting_acceptance: عمليات التحويل بانتظار القبول
-    shared_with_my_team_pending_transfers_overview: عمليات التحويل بانتظار القبول
     shared_with_my_team_pending_transfers: عمليات التحويل المُعلّقة
     shared_with_my_team_referrals: الإحالات
-    shared_with_others_pending_transfers: عمليات التحويل المُعلّقة
-    shared_with_others_referrals: الإحالات
-    shared_with_others_rejected_transfers: عمليات التحويل المرفوضة
     status_of_cases: وضع الحالات
     system_user: النظام
     total: المجموع
@@ -870,23 +862,14 @@ ar-IQ:
   email_notification:
     assign: 'المستخدم %{user} قد عيّن السجل التالي %{record_type} لك: %{record_id}'
     assign_subject: '%{record_type}: %{id} - مُعيّن لك'
-    approval_request: 'المستخدم %{user} يطلب موافقة من نوع%{approval_type} بخصوص الحالة %{case_id}'
     approval_request_subject: 'حالة: %{id} طلب المصادقة'
-    approval_response: '%{user} لديه %{status} طلب الموافقة من نوع %{approval_type} للحالة %{case_id}.'
     approval_response_subject: 'حالة: %{id} الإجابة على طلب المصادقة'
     referral: 'المستخدم %{user} من مؤسسة %{agency} قد أحال نوع السجل التالي %{record_type} إليك: رقم السجل %{record_id} لنوع الخدمة %{service_type}'
     transfer: 'المستخدم %{user} قد حوّل السجل التالي %{record_type}لك: %{record_id}'
     transfer_request_subject: طلب تحويل لحالة من حالاتك
-    transfer_subject: '%{record_type}: %{id} - التحويل'
-    referral_subject: '%{record_type}: %{id}- الإحالة'
     transfer_request: 'مستخدم بريميرو %{user} من مؤسسة %{agency} يطلب أن تنقل ملكية هذا السجل من نوع %{record_type} ومعرّف %{record_id} بحيث يتمكنون من تقديم خدمات إدارة للشخص في منطقتهم. إذا كان التحويل مقبولا من طرفك، يرجى النقر على رابط معرف نوع السجل %{record_type} في هذا الايميل لفتح نوع السجل %{record_type} في بريميرو والبدء بعملية التحويل.'
     approval_request_html: 'المستخدم <strong> %{user} </strong> يطلب موافقة من نوع <strong> %{approval_type} </strong> بخصوص الحالة <strong> %{case_id} </strong>.'
     approval_response_html: 'المستخدم <strong>%{user}</strong> لديه <strong>%{status} </strong>طلب الموافقة من نوع <strong> %{approval_type} </strong> للحالة <strong> %{case_id} </strong>.'
-    referral_html: 'المستخدم<strong> %{user} </strong> من مؤسسة %{agency} قد أحال نوع السجل التالي %{record_type} إليك: رقم السجل <strong>%{record_id} </strong> لنوع الخدمة %{service_type}'
-    transfer_html: 'المستخدم <strong> %{user} </strong> قد حوّل السجل التالي %{record_type}لك: <strong>%{record_id}</strong>.'
-    assign_html: '<strong>%{user}</strong> عيّن السجلّ التالي %{record_type} لك: <strong>%{record_id}</strong>.'
-    transfer_request_html: 'مستخدم بريميرو <strong>%{user} </strong> من مؤسسة %{agency} يطلب أن تنقل ملكية هذا السجل من نوع %{record_type} ومعرّف <strong> %{record_id} </strong> بحيث يتمكنون من تقديم خدمات إدارة للشخص في منطقتهم. إذا كان التحويل مقبولا من طرفك، يرجى النقر على رابط معرف نوع السجل %{record_type} في هذا الايميل لفتح نوع السجل %{record_type} في بريميرو والبدء بعملية التحويل.'
-    transfer_request_notes_html: 'ملاحظات من الشخص مقدم الطلب: %{request_transfer_notes}'
     alert: 'تم تحديث %{record_type} %{id} - %{form_name}. يرجى تسجيل الدخول إلى Primero لمراجعة التغييرات.'
     alert_subject: 'تم تحديث%{record_type} : %{id} - %{form_name}'
   webpush_notification:
@@ -3835,40 +3818,21 @@ ar-IQ:
     welcome_email:
       subject: 'مرحبا بكم في %{system}!'
       greeting: 'مرحبا بكم في %{system}!'
-      body_native: 'لقد تمت إضافتك كـ.%{role_name}. يرجى الاتصال بـ%{admin_full_name} (%{admin_email}) للحصول على تعليمات المتابعة لبدء العمل مع%{host}.'
       sso:
         body: 'قد تمت إضافتك كـ.%{role_name}.'
-        step1: 'إذهب إلى %{host} وانقر على %{identity_provider}'
-        step2: 'قم بتسجيل دخول باستخدام حسابك %{identity_provider} %{user_name}'
-        step3: 'استخدم نفس كلمة المرور التي تستخدمها دائمًا لحسابك %{identity_provider}.'
-        footer: 'يرجى الاتصال بـ %{admin_full_name} (%{admin_email}) لمزيد من التفاصيل.'
       otp:
         body: 'قد تمت إضافتك كـ.%{role_name}.'
-        step1: 'يرجى الاتصال بـ %{admin_full_name} (%{admin_email}) للحصول على اسم المستخدم الخاص بك.'
-        step2: 'إذهب إلى %{host} وانقر على "تسجيل الدخول باستخدام اسم المستخدم في بريميرو Primero".'
-        step3: 'تسجيل الدخول باسم المستخدم وكلمة المرور المؤقتة %{otp}.'
-        step4: 'عند المطالبة، أعد تعيين كلمة المرور الخاصة بك.'
       url_label: بريميرو
       enabled_label: إرسال رسالة ترحيب عبر البريد الإلكتروني؟
       text_label: نص رسالة الترحيب
     password_reset:
       subject: 'تعليمات إعادة تعيين كلمة المرور'
-      email_greeting: "عزيزي%{full_name}"
-      email_body1: "قدّم أحدٌ ما طلبًا لتعيين كلمة المرور الخاصة بك لـ%{host_href}. انقر فوق الرابط  url أدناه للبدء:"
-      email_body2: "ستنتهي صلاحية هذا الرابط في غضون %{hours} ساعة ويمكن استخدامه مرّة واحدة فقط. يرجى تجاهل هذا البريد الإلكتروني إذا لم تكن قد طلبت إعادة تعيين كلمة المرور أو لم يتمّ تسجيل مستخدم Primero جديد نيابة عنك. في حالة انتهاء صلاحية الرابط أعلاه، يرجى النقر على %{reset_request_href} لإعادة إرسال طلب إعادة تعيين كلمة المرور."
       email_body_link: هنا
       request_submitted: "تم إرسال طلب إعادة تعيين كلمة المرور"
       success: "تمّ تغيير كلمة المرور بنجاح"
       errors:
         reset_password_token: "رمز إعادة تعيين كلمة المرور غير صالح"
         password_confirmation: "يجب أن تتطابق كلمات المرور"
-    onboard_email:
-      subject: "الإنضمام إلى %{system}"
-      greeting: "عزيزي%{full_name}،"
-      body1: "مرحبا بكم في بريميرو!"
-      body2: "لقد تم تعيينك كمسؤول منفذ لـ%{host_href}، %{reset_notification}"
-      body2_reset_notification: "ستتلقى رسالة بريد إلكتروني إضافية تطالبك بإعادة تعيين كلمة المرور الخاصة بك."
-      body3: "أنت مسؤول عن ضمان التنفيذ الآمن وفي الوقت المناسب. لكلّ عملية مطروحة، يجب أن تكون قد أكملت خطة التنفيذ مع إستراتيجية إدارة المستخدم والإنضمام وبروتوكول مشاركة المعلومات. أنت مسؤول أيضًا عن ضمان توقيع شروط الاستخدام من قبل جميع المنظمات المُستخدمة ووضع الشروط الموقعة في ملفّ المنظمات."
   user_group:
     associated_agencies: المؤسسات المرتبطة بمجموعة المستخدمين
     description: الوصف
