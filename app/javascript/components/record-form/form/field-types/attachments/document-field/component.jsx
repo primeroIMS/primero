@@ -22,6 +22,7 @@ import { MODULES } from "../../../../../../config";
 import { buildDocumentSchema } from "../../../validations";
 import AttachmentInput from "../attachment-input";
 import { ATTACHMENT_FIELDS, ATTACHMENT_FIELDS_INITIAL_VALUES } from "../constants";
+import downloadUrl from "../../../../../../libs/download-url";
 
 import DocumentRow from "./document-row";
 import DocumentDelete from "./document-delete";
@@ -43,7 +44,7 @@ function DocumentField({
 
   const [dialog, setDialog] = useState(false);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
-  const { attachment_url: attachmentUrl, id, _destroy: destroyed } = value;
+  const { attachment_url: attachmentUrl, id, _destroy: destroyed, file_name: fileName } = value;
   const primeroModule = arrayHelpers?.form?.values?.module_id || params.module;
   const isMRM = primeroModule === MODULES.MRM;
   const initialDocumentValues = value || ATTACHMENT_FIELDS_INITIAL_VALUES;
@@ -82,6 +83,10 @@ function DocumentField({
     if (dialog) {
       handleClose();
     }
+  };
+
+  const handleAttachmentDownload = async () => {
+    await downloadUrl(attachmentUrl, fileName);
   };
 
   const openDeleteConfirmation = () => setDeleteConfirmation(true);
@@ -139,7 +144,7 @@ function DocumentField({
                       rest={{
                         variant: "outlined",
                         component: "a",
-                        href: attachmentUrl
+                        onClick: handleAttachmentDownload
                       }}
                     />
                   ) : (

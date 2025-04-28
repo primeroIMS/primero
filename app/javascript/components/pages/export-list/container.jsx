@@ -14,6 +14,7 @@ import { DATE_TIME_FORMAT, FETCH_PARAM } from "../../../config";
 import { getMetadata } from "../../record-list";
 import { useMetadata } from "../../records";
 import { useMemoizedSelector } from "../../../libs";
+import downloadUrl from "../../../libs/download-url";
 
 import { fetchExports } from "./action-creators";
 import css from "./styles.css";
@@ -31,11 +32,13 @@ function ExportList() {
   const defaultFilters = metadata;
   const isRecordProcessing = status => status === EXPORT_STATUS.processing;
 
-  const onRowClick = record => (!isRecordProcessing(record.status) ? window.open(record.export_file, "_self") : null);
+  const onRowClick = record => {
+    if (!isRecordProcessing(record.status)) {
+      downloadUrl(record.export_file, record.file_name);
+    }
+  };
 
   const columns = data => {
-    const handleClick = exportRecord => () => onRowClick(exportRecord);
-
     return listHeaders.map(c => {
       const options = {
         ...{
@@ -55,12 +58,7 @@ function ExportList() {
                   return (
                     <DisableOffline>
                       {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
-                      <div
-                        className={css.link}
-                        onClick={handleClick(exportRecord)}
-                        role="button"
-                        tabIndex={tableMeta.rowIndex}
-                      >
+                      <div className={css.link} role="button" tabIndex={tableMeta.rowIndex}>
                         {exportIcon}
                         <span>{value}</span>
                       </div>

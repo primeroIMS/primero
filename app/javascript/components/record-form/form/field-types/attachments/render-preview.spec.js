@@ -1,4 +1,4 @@
-import { screen, simpleMountedComponent } from "../../../../../test-utils";
+import { mountedComponent, screen, simpleMountedComponent } from "../../../../../test-utils";
 
 import { ATTACHMENT_TYPES } from "./constants";
 import renderPreview from "./render-preview";
@@ -27,7 +27,7 @@ describe("renderPreview", () => {
       fileName: "test.png"
     };
 
-    simpleMountedComponent(renderPreview(ATTACHMENT_TYPES.photo, file, css, deleteButton));
+    mountedComponent(renderPreview(ATTACHMENT_TYPES.photo, file, css, deleteButton));
     expect(screen.getByTestId("attachment")).toBeInTheDocument();
   });
 });

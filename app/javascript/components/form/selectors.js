@@ -18,7 +18,7 @@ import {
 } from "../application/selectors";
 import { displayNameHelper } from "../../libs";
 import {
-  getAssignedAgency,
+  getAssignedAgencyUniqueId,
   getCurrentUserGroupPermission,
   getCurrentUserGroupsUniqueIds,
   getCurrentUserUserGroups,
@@ -160,7 +160,7 @@ const agencies = createCachedSelector(
 const agenciesCurrentUser = createCachedSelector(
   getLocale,
   agencyList,
-  getAssignedAgency,
+  getAssignedAgencyUniqueId,
   (_state, options) => options,
   (locale, data, currentUserAgencyData, options) => {
     const currentUserAgency = fromJS([currentUserAgencyData]);
@@ -228,8 +228,8 @@ const reportingLocations = memoize(([state, options]) => {
   return locationsParser(
     data.filter(location =>
       options.includeChildren === true
-        ? location.get("admin_level") >= reportingLocationData.get("admin_level")
-        : location.get("admin_level") === reportingLocationData.get("admin_level")
+        ? location.get("admin_level") >= reportingLocationData?.get("admin_level")
+        : location.get("admin_level") === reportingLocationData?.get("admin_level")
     ),
     {
       ...options,

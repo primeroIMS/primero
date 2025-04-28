@@ -620,7 +620,6 @@ ar-SD:
     dash_shared_from_my_team: تم تبادلها من فريقي
     dash_shared_with_me: تم تبادلها معي
     dash_shared_with_my_team: تم تبادلها مع فريقي
-    dash_shared_with_my_team_overview: تم مشاركته مع فريقي (نظرة عامة)
     dash_shared_with_others: تم تبادلها مع آخرين
     dash_national_admin_summary: ملخص مدير النظام
     dash_violations_category_verification_status: إجمالي عدد الحوادث لكل وضع تحقق
@@ -714,15 +713,8 @@ ar-SD:
     shared_from_my_team_pending_transfers: تحويلات قيد الإجراء
     shared_from_my_team_referrals: إحالات
     shared_from_my_team_rejected_transfers: تحويلات مرفوضة
-    shared_with_me_new_referrals: إحالات جديدة
-    shared_with_me_total_referrals: جملة الإحالات
-    shared_with_me_transfers_awaiting_acceptance: تحويلات تنتظر الموافقة
-    shared_with_my_team_pending_transfers_overview: تحويلات قيد الموافقة
     shared_with_my_team_pending_transfers: تحويلات قيد التنفيذ
     shared_with_my_team_referrals: إحالات
-    shared_with_others_pending_transfers: تحويلات قيد التنفيذ
-    shared_with_others_referrals: إحالات
-    shared_with_others_rejected_transfers: تحويلات مرفوضة
     status_of_cases: وضع الحالات
     system_user: نظام
     total: الجملة
@@ -746,23 +738,14 @@ ar-SD:
   email_notification:
     assign: '%{user}تم تكليف%{record_type} بالتالي:%{record_id}'
     assign_subject: 'تم تكليفك بالتالي%{record_type}:%{id}'
-    approval_request: 'يطلب المستخدم%{user} الموافقة على %{approval_type} الحالة%{case_id}'
     approval_request_subject: 'الحالة %{id} : تمت الموافقة على الطلب'
-    approval_response: '%{user} لديه %{status} وطلب الموافقة على الحالة%{approval_type} بالرقم%{case_id}'
     approval_response_subject: 'الحالة %{id}: الاستجابة للموافقة'
     referral: '%{user} من %{agency} احال %{record_type} لك:%{record_id} لتقديم%{service_type}'
     transfer: '%{user}حول لك %{record_type} للنظر في%{record_id}'
     transfer_request_subject: طلب التحويل لإحدى حالاتك
-    transfer_subject: 'تحويل%{record_type} : %{id}'
-    referral_subject: 'إحالة%{record_type}:%{id}'
     transfer_request: 'مستخدم بريميرو من %{user} من %{agency} يطلب منك تحويل ملكية السجل %{record_type} بالرقم %{record_id} ليتمكنوا من تقديم %{record_type}  للشخص في منطقتهم.  إذا تم قبولك لهذا التحويل، رجاء النقر على%{record_type} رابط الهوية في هذا البريد الإلكتروني لفتح %{record_type} في بريميرو والقيام بالتحويل'
     approval_request_html: 'المستخدم<strong>%{user} </strong> يطلب الموافقة على<strong>%{approval_type}</strong>في الحالة<strong>%{case_id}</strong>'
     approval_response_html: '<strong>%{user}</strong> لديه <strong>%{status}</strong> طلب الموافقة على<strong>%{approval_type}</strong> للحالة <strong>%{case_id}</strong>'
-    referral_html: '<strong>%{user}</strong>من%{agency} أحال %{record_type} إليك :<strong>%{record_id}</strong>ل%{service_type}'
-    transfer_html: '<strong>%{user}</strong>تم تحويل%{record_type} التالي لك <strong>%{record_id}</strong>'
-    assign_html: '<strong>%{user}</strong> تم تكليف%{record_type} لك<strong>%{record_id}</strong>'
-    transfer_request_html: 'مستخدم بريميرو<strong>%{user}</strong>من %{agency}  يطلب منك تحويل مسؤولية %{record_type} بالرقم <strong>%{record_id}</strong>  ليتمكنوا من توفير %{record_type} في منطقتهم. ,وإذا وافقت على هذا التحويل، رجاء النقر على%{record_type} رابط الهوية في هذه الرسالة الإلكترونية لفتح %{record_type} في بريميرو وبداية التحويل'
-    transfer_request_notes_html: 'ملاحظات من الشخص الذي قدم الطلب:%{request_transfer_notes}'
     alert: 'تم تحديث %{record_type} %{id} - %{form_name}. يرجى تسجيل الدخول إلى Primero لمراجعة التغييرات.'
     alert_subject: 'تم تحديث%{record_type} : %{id} - %{form_name}'
   webpush_notification:
@@ -3712,40 +3695,21 @@ ar-SD:
     welcome_email:
       subject: 'مرحبا في %{system} !'
       greeting: 'مرحبا في%{system} !'
-      body_native: 'تمت إضافتك ك %{role_name}. رجاء الاتصال ب %{admin_full_name} (%{admin_email}) لمتابعة التوجيهات لبداية العمل مع%{host}.'
       sso:
         body: 'تمت إضافتك ك %{role_name}'
-        step1: 'اذهب إلى%{host} وانقر %{identity_provider}'
-        step2: 'أدخل ب %{identity_provider}  الخاص حسابك %{user_name}'
-        step3: 'استخدم نفس كلمة السر التي تستخدمها دائما لحسابك %{identity_provider}'
-        footer: 'ارجو الاتصال ب %{admin_full_name} (%{admin_email}) لمزيد من التفاصيل.'
       otp:
         body: 'تمت إضافتك ك %{role_name}.'
-        step1: 'ارجو الاتصال ب%{admin_full_name} (%{admin_email}) لتلقي اسم المستخدم الخاص بك.'
-        step2: 'اذهب إلى %{host} وانقر على "دخول باسم مستخدم بريميرو".'
-        step3: 'أدخل باسم المستخدم الخاص بك وكلمة السر المؤقتة %{otp}'
-        step4: 'أعد اختيار كلمة السر الخاصة بك عندما يتم اشعارك.'
       url_label: بريميرو
       enabled_label: إرسال رساة الترحيب إلكترونيا؟
       text_label: نص رسالة التحيب الإلكترونية
     password_reset:
       subject: 'تعليمات إعادة تعيين كلمة المرور'
-      email_greeting: "عزيزي %{full_name}"
-      email_body1: "أحدهم قدم طلبا لإعادة وضع كلمة السر الخاصة بك ل%{host_href} أنقر على عنوان الشبكة أدناه للبداية."
-      email_body2: "ستنتهي صلاحية هذا الرابط بعد %{hours} ساعة ويمكن استخدامه مرة واحدة فقط. رجاء تجاهل هذه الرسالة الإلكترونية إذا لم تقم بطلب إعادة وضع كلمة السر أو  إذا لم يتم تسجيل مستخدم جديد لبريميرو نيابة عنك. وإذا انتهى الرابط أعلاه، أرجو النقر على %{reset_request_href} لإعادة التقديم لطلب إعادة وضع كلمة السر."
       email_body_link: هنا
       request_submitted: "تم تقديم طلب إعادة وضع كلمة السر"
       success: "تم بنجاح تغيير كلمة السر"
       errors:
         reset_password_token: "علامة إعادة وضع كلمة سر غير صالحة"
         password_confirmation: "يجب أن تتطابق كلمة السر"
-    onboard_email:
-      subject: "Onboarding to %{system}"
-      greeting: "عزيزي %{full_name}،"
-      body1: "مرحبا بك في بريميرو"
-      body2: "تم تكليفك كمدير منفذ ل %{host_href} .%{reset_notification}"
-      body2_reset_notification: "ستتلقى رسالة إلكترونية إضافية تطلب منك إعادة وضع كلمة السر الخاصة بك"
-      body3: "أنت مسؤول عن ضمان التنفيذ وتوقيته. ويجب عليك، لكل تعميم، أن تُكمل تنفيذ الخطة مع onboarding واستراتيجية إدارة المستخدم وبروتوكول تبادل المعلومات. وأنت مسؤول كذلك عن ضمان وجود شروط الاستخدام الموقعة فب الملف لجميع المنظمات المستخدمة للنظام."
   user_group:
     associated_agencies: المؤسسات المرتبطة بمجموعة المستخدمين
     description: وصف
