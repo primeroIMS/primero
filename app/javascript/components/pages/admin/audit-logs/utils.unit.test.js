@@ -2,9 +2,10 @@
 
 import { fromJS } from "immutable";
 
+import { FILTER_TYPES } from "../../../index-filters";
+
 import { TIMESTAMP, USER_NAME } from "./constants";
 import * as helper from "./utils";
-import { FILTER_TYPES } from "../../../index-filters";
 
 describe("<AuditLogs /> - Helpers", () => {
   describe("with exposed properties", () => {
