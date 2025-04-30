@@ -4,6 +4,7 @@ import { fromJS } from "immutable";
 
 import { TIMESTAMP, USER_NAME } from "./constants";
 import * as helper from "./utils";
+import { FILTER_TYPES } from "../../../index-filters";
 
 describe("<AuditLogs /> - Helpers", () => {
   describe("with exposed properties", () => {
@@ -76,6 +77,22 @@ describe("<AuditLogs /> - Helpers", () => {
           option_strings_source: null,
           options: helper.searchableUsers(data),
           type: "multi_select",
+          multiple: true
+        },
+        {
+          name: "audit_log.action",
+          field_name: "audit_log_actions",
+          option_strings_source: null,
+          options: [],
+          type: FILTER_TYPES.MULTI_SELECT,
+          multiple: true
+        },
+        {
+          name: "audit_log.type",
+          field_name: "record_type",
+          option_strings_source: null,
+          options: [],
+          type: FILTER_TYPES.MULTI_SELECT,
           multiple: false
         }
       ];

@@ -124,6 +124,7 @@ en:
     record_owner: Record Owner
     timestamp: Time
     user_name: Performed By
+    type: Record Type
   bulk_export:
     file_name: File
     record_type: Type
@@ -1908,6 +1909,9 @@ en:
       _rejected: Rejected
       _requested: Requested
       add_note: Add note
+      assessment_approved: Assessment Approved
+      assessment_rejected: Assessment Rejected
+      assessment_requested: Assessment Requested
       assign: Assign
       assign_to: Assign to
       attach: Attach
@@ -1918,19 +1922,26 @@ en:
       case_plan_rejected: Case plan rejected
       case_plan_requested: Case plan requested
       close: Close
+      closure_approved: Closure Approved
+      closure_rejected: Closure Rejected
+      closure_requested: Closure Requested
       create: Create
       create_bulk: Create bulk
+      create_family: Create Family
+      current: Current
       delete: Delete
       destroy: Destroy
       detach: Detach
       enable_disable_record: Enable disable record
       export: Export
+      family: List Family
       flag: Flag
       import: Import
       incident_details_from_case: Incident details from case
       index: Index
       list: List
       login: Login
+      logout: Logout
       password_reset: Password reset
       password_reset_request: Password reset request
       refer: Refer
@@ -1948,9 +1959,11 @@ en:
       transfer_accepted: Transfer accepted
       transfer_rejected: Transfer rejected
       transfer_request: Transfer request
+      transfer_revoked: Transfer Revoked
       transfer_to: Transfer to
       unflag: Unflag
       update: Update
+      update_bulk: Bulk Update
       user_password_reset_request: User password reset request
       webhook: Webhook
     approve_form:

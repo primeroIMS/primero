@@ -8,7 +8,8 @@ class Api::V2::AuditLogsController < ApplicationApiController
 
   def index
     authorize! :read, AuditLog
-    @audit_logs = AuditLog.logs(audit_logs_params[:user_name], timestamp_param, order_by:, order:)
+    @audit_logs = AuditLog.logs(audit_logs_params[:user_name], audit_logs_params[:audit_log_actions]&.values,
+                                audit_logs_params[:record_type]&.values, timestamp_param, order_by:, order:)
     @total = @audit_logs.size
     @audit_logs = @audit_logs.paginate(pagination)
   end
@@ -18,7 +19,7 @@ class Api::V2::AuditLogsController < ApplicationApiController
   end
 
   def audit_logs_params
-    params.permit(:user_name, :from, :to)
+    params.permit(:user_name, :from, :to, audit_log_actions: {}, record_type: {})
   end
 
   protected
