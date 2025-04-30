@@ -36,20 +36,29 @@ class AuditLog < ApplicationRecord
     self.timestamp ||= DateTime.now
   end
 
-  # rubocop:disable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   def self.logs(user_name, actions, record_types, date_range, options)
     logs = AuditLog.where(timestamp: date_range)
     logs = AuditLog.unscoped.where(timestamp: date_range) if options[:order_by].present?
     logs = logs.joins(:user) if options[:order_by] == 'users.user_name' || user_name.present?
     logs = logs.where(users: { user_name: }) if user_name.present?
-    logs = logs.where(action: actions) if actions.present? && actions.all? { |item| ACTIONS.include?(item) }
-    if record_types.present? && record_types.all? { |item| RECORD_TYPES.include?(item) }
-      logs = logs.where(record_type: record_types)
-    end
+    logs = query_actions(logs, actions)
+    logs = query_record_type(logs, record_types)
 
     OrderByPropertyService.apply_order(logs, options)
   end
-  # rubocop:enable Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+
+  def self.query_actions(logs, actions)
+    logs = logs.where(action: actions) if actions.present? && actions.all? { |item| ACTIONS.include?(item) }
+    logs
+  end
+
+  def self.query_record_type(logs, record_types)
+    if record_types.present? && record_types.all? { |item| RECORD_TYPES.include?(item) }
+      logs = logs.where(record_type: record_types.map(&:camelize))
+    end
+
+    logs
+  end
 
   def display_id
     # TODO: In order to fix this, we should add new column for Records not storaged in the database

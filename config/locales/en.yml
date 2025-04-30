@@ -2014,7 +2014,7 @@ en:
       user: User
       agency: Agency
       user_group: User group
-      child: Child
+      child: Case
       alert: Alert
       form_section: Form
       lookup: Lookup
@@ -2051,6 +2051,7 @@ en:
     search: API Search
     show: Viewing
     show_alerts: View alerts for
+    timestamp: Timestamp
     to: to
     to_user: to user
     transfer: Transfering

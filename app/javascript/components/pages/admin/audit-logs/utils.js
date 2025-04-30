@@ -43,7 +43,7 @@ export const getFilters = (filterUsers, i18n, actions, recordTypes) => [
     option_strings_source: null,
     dateIncludeTime: true,
     options: {
-      en: [{ id: TIMESTAMP, display_name: "Timestamp" }] // TODO: i18n
+      en: [{ id: TIMESTAMP, display_name: i18n.t("logger.timestamp") }]
     }
   },
   {
@@ -68,6 +68,6 @@ export const getFilters = (filterUsers, i18n, actions, recordTypes) => [
     option_strings_source: null,
     options: parseAuditLogOptions(i18n, recordTypes, "resources"),
     type: FILTER_TYPES.MULTI_SELECT,
-    multiple: false
+    multiple: true
   }
 ];
