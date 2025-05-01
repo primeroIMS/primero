@@ -70,7 +70,7 @@ describe("<AuditLogs /> - Helpers", () => {
           type: "dates",
           option_strings_source: null,
           dateIncludeTime: true,
-          options: { en: [{ id: TIMESTAMP, display_name: "Timestamp" }] }
+          options: { en: [{ id: TIMESTAMP, display_name: "logger.timestamp" }] }
         },
         {
           name: "audit_log.user_name",
@@ -94,11 +94,11 @@ describe("<AuditLogs /> - Helpers", () => {
           option_strings_source: null,
           options: [],
           type: FILTER_TYPES.MULTI_SELECT,
-          multiple: false
+          multiple: true
         }
       ];
 
-      expect(helper.getFilters(data)).toEqual(expected);
+      expect(helper.getFilters(data, { t: value => value })).toEqual(expected);
     });
   });
 });
