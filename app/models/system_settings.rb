@@ -15,6 +15,11 @@ class SystemSettings < ApplicationRecord
 
   TIMEFRAME_HOURS_TO_ASSIGN = 3
   TIMEFRAME_HOURS_TO_ASSIGN_HIGH = 1
+  DEFAULT_INCIDENT_REPORTING_LOCATION_CONFIG = {
+    field_key: 'incident_location',
+    admin_level: 2,
+    admin_level_map: { '1' => ['province'], '2' => ['district'] }
+  }.freeze
 
   store_accessor(:system_options, :due_date_from_appointment_date,
                  :show_alerts, :code_of_conduct_enabled, :timeframe_hours_to_assign,
@@ -85,7 +90,9 @@ class SystemSettings < ApplicationRecord
   end
 
   def incident_reporting_location_config
-    ReportingLocation.new(super) if super.present?
+    return ReportingLocation.new(super) if super.present?
+
+    ReportingLocation.new(DEFAULT_INCIDENT_REPORTING_LOCATION_CONFIG)
   end
 
   def age_ranges
