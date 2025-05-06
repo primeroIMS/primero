@@ -28,7 +28,8 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         system_options: systemOptions,
         export_require_password: exportRequirePassword,
         primary_age_range: primaryAgeRange,
-        incident_reporting_location_config: incidentReportingLocationConfig
+        incident_reporting_location_config: incidentReportingLocationConfig,
+        audit_log: auditLog
       } = payload.data;
 
       return state.merge(
@@ -45,7 +46,8 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
           codesOfConduct,
           systemOptions,
           exportRequirePassword,
-          primaryAgeRange
+          primaryAgeRange,
+          auditLog
         })
       );
     }
