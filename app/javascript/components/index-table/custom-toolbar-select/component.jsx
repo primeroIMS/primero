@@ -75,13 +75,14 @@ function Component({
     );
   };
 
-  const onChangeRowsPerPage = ({ target }) =>
+  const onRowsPerPageChange = ({ target }) => {
     dispatch(
       fetchRecords({
         recordType,
         data: selectedFilters.set("page", 1).set("per", target.value)
       })
     );
+  };
 
   const handleLabelDisplayRow = ({ from, to, count }) => `${from}-${to} ${i18n.t("messages.record_list.of")} ${count}`;
 
@@ -94,7 +95,7 @@ function Component({
     component: "div",
     onPageChange,
     className: css.customToolbarPagination,
-    onChangeRowsPerPage,
+    onRowsPerPageChange,
     labelRowsPerPage: i18n.t("messages.record_list.rows_per_page"),
     labelDisplayedRows: handleLabelDisplayRow
   };
