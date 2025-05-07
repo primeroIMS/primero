@@ -18,10 +18,10 @@ describe("Flagging - Constants", () => {
       "FETCH_FLAGS_STARTED",
       "FETCH_FLAGS_FINISHED"
     ].forEach(property => {
-      expect(clonedConstants).to.have.property(property);
+      expect(clonedConstants).toHaveProperty(property);
       delete clonedConstants[property];
     });
 
-    expect(clonedConstants).to.be.empty;
+    expect(Object.keys(clonedConstants)).toHaveLength(0);
   });
 });

@@ -44,12 +44,12 @@ describe("toData1D - pages/dashboard/utils/", () => {
       { id: "closed", display_text: "Closed" }
     ];
 
-    expect(toData1D(casesWorkflow, workflowLabels)).to.deep.equal(expected);
+    expect(toData1D(casesWorkflow, workflowLabels)).toEqual(expected);
   });
 
   it("should not return labels if there are not translations", () => {
     const { labels } = toData1D(casesWorkflow, []);
 
-    expect(labels).to.be.empty;
+    expect(Object.keys(labels)).toHaveLength(0);
   });
 });

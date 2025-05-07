@@ -7,14 +7,14 @@ describe("<RecordActions /> - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionCreators };
 
-    expect(creators).to.have.property("setDialog");
-    expect(creators).to.have.property("setPending");
-    expect(creators).to.have.property("clearDialog");
+    expect(creators).toHaveProperty("setDialog");
+    expect(creators).toHaveProperty("setPending");
+    expect(creators).toHaveProperty("clearDialog");
     delete creators.setDialog;
     delete creators.setPending;
     delete creators.clearDialog;
 
-    expect(creators).to.be.empty;
+    expect(Object.keys(creators)).toHaveLength(0);
   });
 
   it("should check that 'setDialog' action creator returns the correct object", () => {
@@ -28,7 +28,7 @@ describe("<RecordActions /> - Action Creators", () => {
       payload: { dialog: "REQUEST_APPROVAL_DIALOG", open: true }
     };
 
-    expect(actionCreators.setDialog(args)).to.deep.equal(expectedAction);
+    expect(actionCreators.setDialog(args)).toEqual(expectedAction);
   });
 
   it("should check that 'setPending' action creator returns the correct object", () => {
@@ -41,6 +41,6 @@ describe("<RecordActions /> - Action Creators", () => {
       payload: { pending: true }
     };
 
-    expect(actionCreators.setPending(args)).to.deep.equal(expectedAction);
+    expect(actionCreators.setPending(args)).toEqual(expectedAction);
   });
 });

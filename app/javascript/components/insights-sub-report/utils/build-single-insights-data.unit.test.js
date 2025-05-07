@@ -5,8 +5,8 @@ import { fromJS } from "immutable";
 import buildSingleInsightsData from "./build-single-insights-data";
 
 describe("<InsightsSubReport />/utils/buildSingleInsightsData", () => {
-  context("when is not grouped", () => {
-    context("when is single", () => {
+  describe("when is not grouped", () => {
+    describe("when is single", () => {
       it("when value is array return an array", () => {
         const columns = buildSingleInsightsData(
           fromJS({
@@ -50,18 +50,20 @@ describe("<InsightsSubReport />/utils/buildSingleInsightsData", () => {
           false
         );
 
-        expect(columns).to.deep.equals(
-          fromJS([
-            { id: "boys", total: 16 },
-            { id: "unknown", total: 10 },
-            { id: "girls", total: 12 },
-            { id: "total", total: 38 }
-          ])
-        );
+        expect(
+          columns.equals(
+            fromJS([
+              { id: "boys", total: 16 },
+              { id: "unknown", total: 10 },
+              { id: "girls", total: 12 },
+              { id: "total", total: 38 }
+            ])
+          )
+        ).toBe(true);
       });
     });
 
-    context("when is single", () => {
+    describe("when is single", () => {
       it("returns a single object with items", () => {
         const columns = buildSingleInsightsData(
           fromJS({
@@ -97,17 +99,19 @@ describe("<InsightsSubReport />/utils/buildSingleInsightsData", () => {
           false
         );
 
-        expect(columns).to.deep.equal(
-          fromJS([
-            { id: "total", total: 17 },
-            { id: "gbv_sexual_violence", total: 2 }
-          ])
-        );
+        expect(
+          columns.equals(
+            fromJS([
+              { id: "total", total: 17 },
+              { id: "gbv_sexual_violence", total: 2 }
+            ])
+          )
+        ).toBe(true);
       });
     });
   });
 
-  context("when is grouped by year", () => {
+  describe("when is grouped by year", () => {
     it("returns a single object with items", () => {
       const columns = buildSingleInsightsData(
         fromJS({
@@ -132,7 +136,7 @@ describe("<InsightsSubReport />/utils/buildSingleInsightsData", () => {
         true
       );
 
-      expect(columns).to.deep.equal(
+      expect(columns).toEqual(
         fromJS([
           {
             group_id: "april-2022",
@@ -152,7 +156,7 @@ describe("<InsightsSubReport />/utils/buildSingleInsightsData", () => {
     });
   });
 
-  context("when is grouped by year", () => {
+  describe("when is grouped by year", () => {
     it("returns a single object with items", () => {
       const columns = buildSingleInsightsData(
         fromJS({
@@ -219,7 +223,7 @@ describe("<InsightsSubReport />/utils/buildSingleInsightsData", () => {
         true
       );
 
-      expect(columns).to.deep.equal(
+      expect(columns).toEqual(
         fromJS([
           {
             group_id: 2022,

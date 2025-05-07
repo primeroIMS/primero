@@ -369,7 +369,7 @@ describe("<Dashboard /> - Selectors", () => {
         }
       });
 
-      expect(records).to.deep.equal(expected);
+      expect(records).toEqual(expected);
     });
   });
 
@@ -385,7 +385,7 @@ describe("<Dashboard /> - Selectors", () => {
 
       const expected = selectors.getCasesByAssessmentLevel(emptyValueInitialState);
 
-      expect(emptyResult).to.deep.equal(expected);
+      expect(emptyResult).toEqual(expected);
     });
   });
 
@@ -393,13 +393,13 @@ describe("<Dashboard /> - Selectors", () => {
     it("should return list of headers allowed to the user", () => {
       const values = selectors.getWorkflowTeamCases(initialState);
 
-      expect(values).to.deep.equal(fromJS(workflowTeamCases));
+      expect(values).toEqual(fromJS(workflowTeamCases));
     });
 
     it("should return false when there are not users in store", () => {
       const values = selectors.getWorkflowTeamCases(stateWithoutRecords);
 
-      expect(values).to.be.empty;
+      expect(values.size).toBe(0);
     });
   });
 
@@ -407,7 +407,7 @@ describe("<Dashboard /> - Selectors", () => {
     it("should return the reporting location config", () => {
       const values = selectors.getReportingLocation(initialState);
 
-      expect(values).to.deep.equal(fromJS(reportingLocation));
+      expect(values).toEqual(fromJS(reportingLocation));
     });
   });
 
@@ -415,7 +415,7 @@ describe("<Dashboard /> - Selectors", () => {
     it("should return the approvals assessment pending", () => {
       const values = selectors.getApprovalsAssessmentPending(initialState)["primeromodule-cp"];
 
-      expect(values).to.deep.equal(fromJS(approvalsAssessmentPending));
+      expect(values).toEqual(fromJS(approvalsAssessmentPending));
     });
   });
 
@@ -423,7 +423,7 @@ describe("<Dashboard /> - Selectors", () => {
     it("should return the approvals case plan pending", () => {
       const values = selectors.getApprovalsCasePlanPending(initialState)["primeromodule-cp"];
 
-      expect(values).to.deep.equal(fromJS(approvalsCasePlanPending));
+      expect(values).toEqual(fromJS(approvalsCasePlanPending));
     });
   });
 
@@ -431,7 +431,7 @@ describe("<Dashboard /> - Selectors", () => {
     it("should return the approvals closure pending", () => {
       const values = selectors.getApprovalsClosurePending(initialState)["primeromodule-cp"];
 
-      expect(values).to.deep.equal(fromJS(approvalsClosurePending));
+      expect(values).toEqual(fromJS(approvalsClosurePending));
     });
   });
 
@@ -439,7 +439,7 @@ describe("<Dashboard /> - Selectors", () => {
     it("should return the protection concerns data", () => {
       const values = selectors.getProtectionConcerns(initialState);
 
-      expect(values).to.deep.equal(fromJS(protectionConcern));
+      expect(values).toEqual(fromJS(protectionConcern));
     });
   });
 
@@ -447,7 +447,7 @@ describe("<Dashboard /> - Selectors", () => {
     it("should return the shared with me", () => {
       const values = selectors.getSharedWithMe(initialState);
 
-      expect(values).to.deep.equal(fromJS(sharedWithMe));
+      expect(values).toEqual(fromJS(sharedWithMe));
     });
   });
 
@@ -455,7 +455,7 @@ describe("<Dashboard /> - Selectors", () => {
     it("should return the shared with others", () => {
       const values = selectors.getSharedWithOthers(initialState);
 
-      expect(values).to.deep.equal(fromJS(sharedWithOthers));
+      expect(values).toEqual(fromJS(sharedWithOthers));
     });
   });
 
@@ -463,7 +463,7 @@ describe("<Dashboard /> - Selectors", () => {
     it("should return the group overview", () => {
       const values = selectors.getGroupOverview(initialState);
 
-      expect(values).to.deep.equal(fromJS(groupOverview));
+      expect(values).toEqual(fromJS(groupOverview));
     });
   });
 
@@ -471,7 +471,7 @@ describe("<Dashboard /> - Selectors", () => {
     it("should return the case overview", () => {
       const values = selectors.getCaseOverview(initialState);
 
-      expect(values).to.deep.equal(fromJS(caseOverview));
+      expect(values).toEqual(fromJS(caseOverview));
     });
   });
 
@@ -479,7 +479,7 @@ describe("<Dashboard /> - Selectors", () => {
     it("should return the case overview", () => {
       const values = selectors.getNationalAdminSummary(initialState);
 
-      expect(values).to.deep.equal(fromJS(nationalAdminSummary));
+      expect(values).toEqual(fromJS(nationalAdminSummary));
     });
   });
 
@@ -487,7 +487,7 @@ describe("<Dashboard /> - Selectors", () => {
     it("should return the shared with my team dashboard", () => {
       const values = selectors.getSharedWithMyTeam(initialState);
 
-      expect(values).to.deep.equal(fromJS(sharedWithMyTeam));
+      expect(values).toEqual(fromJS(sharedWithMyTeam));
     });
   });
 
@@ -495,7 +495,7 @@ describe("<Dashboard /> - Selectors", () => {
     it("should return the shared with my team dashboard", () => {
       const values = selectors.getSharedWithMyTeamOverview(initialState);
 
-      expect(values).to.deep.equal(fromJS(sharedWithMyTeamOverview));
+      expect(values).toEqual(fromJS(sharedWithMyTeamOverview));
     });
   });
 
@@ -503,7 +503,7 @@ describe("<Dashboard /> - Selectors", () => {
     it("should return the Overview - My Cases / Incidents dashboard", () => {
       const values = selectors.getCaseIncidentOverview(initialState);
 
-      expect(values).to.deep.equal(fromJS(myCasesIncidents));
+      expect(values).toEqual(fromJS(myCasesIncidents));
     });
   });
 
@@ -523,7 +523,7 @@ describe("<Dashboard /> - Selectors", () => {
           }
         ]);
 
-        expect(selectors.getDashboardFlags(initialState)).to.deep.equal(expected);
+        expect(selectors.getDashboardFlags(initialState)).toEqual(expected);
       });
     });
 
@@ -537,7 +537,7 @@ describe("<Dashboard /> - Selectors", () => {
           }
         ]);
 
-        expect(selectors.getDashboardFlags(initialState, true)).to.deep.equal(expected);
+        expect(selectors.getDashboardFlags(initialState, true)).toEqual(expected);
       });
     });
   });

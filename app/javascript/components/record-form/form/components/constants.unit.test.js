@@ -14,10 +14,10 @@ describe("Verifying config constant", () => {
       "VALIDATION_ERRORS_NAME",
       "WORKFLOW_INDICATOR_NAME"
     ].forEach(property => {
-      expect(constants).to.have.property(property);
+      expect(constants).toHaveProperty(property);
       delete constants[property];
     });
 
-    expect(constants).to.deep.equal({});
+    expect(constants).toEqual({});
   });
 });

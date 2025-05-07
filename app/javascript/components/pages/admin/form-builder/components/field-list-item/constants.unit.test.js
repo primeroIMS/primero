@@ -7,10 +7,10 @@ describe("<FormBuilder />/components/<FieldListItem /> - Constants", () => {
     const clonedActions = { ...constants };
 
     ["NAME", "SUBFORM_GROUP_BY", "SUBFORM_SECTION_CONFIGURATION", "SUBFORM_SORT_BY"].forEach(property => {
-      expect(clonedActions).to.have.property(property);
+      expect(clonedActions).toHaveProperty(property);
       delete clonedActions[property];
     });
 
-    expect(clonedActions).to.be.empty;
+    expect(Object.keys(clonedActions)).toHaveLength(0);
   });
 });

@@ -6,8 +6,8 @@ describe("<Insights /> - Actions", () => {
   describe("properties", () => {
     const clone = { ...actions };
 
-    after(() => {
-      expect(clone).to.be.empty;
+    afterAll(() => {
+      expect(Object.keys(clone)).toHaveLength(0);
     });
 
     [
@@ -21,7 +21,7 @@ describe("<Insights /> - Actions", () => {
       "CLEAR_INSIGHT_FILTERS"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
-        expect(actions).to.have.property(property);
+        expect(actions).toHaveProperty(property);
         delete clone[property];
       });
     });

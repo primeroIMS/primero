@@ -11,6 +11,7 @@ describe("<SessionTimeoutDialog />", () => {
 
   afterEach(() => {
     jest.clearAllTimers();
+    jest.useRealTimers();
   });
 
   it("should idle after 15 minutes", async () => {

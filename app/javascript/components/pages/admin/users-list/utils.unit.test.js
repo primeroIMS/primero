@@ -13,11 +13,11 @@ describe("<AuditLogs /> - Helpers", () => {
       const clone = { ...helper };
 
       ["agencyBodyRender", "buildObjectWithIds", "buildUsersQuery", "getFilters"].forEach(property => {
-        expect(clone).to.have.property(property);
-        expect(clone[property]).to.be.a("function");
+        expect(clone).toHaveProperty(property);
+        expect(clone[property]).toBeInstanceOf(Function);
         delete clone[property];
       });
-      expect(clone).to.be.empty;
+      expect(Object.keys(clone)).toHaveLength(0);
     });
   });
 
@@ -33,7 +33,7 @@ describe("<AuditLogs /> - Helpers", () => {
 
       const converted = helper.buildUsersQuery(data);
 
-      expect(converted).to.deep.equal(expected);
+      expect(converted).toEqual(expected);
     });
   });
 
@@ -81,7 +81,7 @@ describe("<AuditLogs /> - Helpers", () => {
         agency: false
       };
 
-      expect(helper.getFilters(i18n, options, null, filterPermission)).to.deep.equal(expected);
+      expect(helper.getFilters(i18n, options, null, filterPermission)).toEqual(expected);
     });
   });
 });

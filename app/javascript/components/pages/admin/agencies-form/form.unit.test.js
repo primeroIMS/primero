@@ -9,7 +9,7 @@ describe("<AgencyForm /> - agencies-form/form", () => {
   it("returns 11 fields", () => {
     const agencyForm = form(i18n);
 
-    expect(agencyForm.size).to.be.equal(1);
-    expect(agencyForm.first().fields).to.have.lengthOf(TOTAL_FIELDS_ON_FORM);
+    expect(agencyForm.size).toBe(1);
+    expect(agencyForm.first().fields).toHaveLength(TOTAL_FIELDS_ON_FORM);
   });
 });

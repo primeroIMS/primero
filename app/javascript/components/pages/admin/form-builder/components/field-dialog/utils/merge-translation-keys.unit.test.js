@@ -20,8 +20,8 @@ describe("mergeTranslationKeys", () => {
   it("should return defaultValues if there are not currValues (first render)", () => {
     const expected = defaultValues;
 
-    expect(mergeTranslationKeys(defaultValues, undefined)).to.deep.equals(expected);
-    expect(mergeTranslationKeys(defaultValues, {})).to.deep.equals(expected);
+    expect(mergeTranslationKeys(defaultValues, undefined)).toEqual(expected);
+    expect(mergeTranslationKeys(defaultValues, {})).toEqual(expected);
   });
 
   describe("when isSubform is false", () => {
@@ -54,7 +54,7 @@ describe("mergeTranslationKeys", () => {
         }
       };
 
-      expect(mergeTranslationKeys(defaultValues, currentValues)).to.deep.equals(expected);
+      expect(mergeTranslationKeys(defaultValues, currentValues)).toEqual(expected);
     });
   });
 
@@ -102,7 +102,7 @@ describe("mergeTranslationKeys", () => {
         }
       };
 
-      expect(mergeTranslationKeys(defaultSubformValues, currentValues, true)).to.deep.equals(expected);
+      expect(mergeTranslationKeys(defaultSubformValues, currentValues, true)).toEqual(expected);
     });
   });
 });

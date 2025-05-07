@@ -2,9 +2,7 @@
 
 import { parseISO } from "date-fns";
 import { fromJS } from "immutable";
-import { expect } from "chai";
 
-import { useFakeTimers } from "../../test-utils";
 import {
   APPROVALS,
   CHANGE_LOGS,
@@ -26,6 +24,10 @@ import * as utils from "./utils";
 import { getDefaultForms } from "./form/utils";
 
 describe("<RecordForms /> - utils", () => {
+  afterAll(() => {
+    jest.useRealTimers();
+  });
+
   describe("compactValues", () => {
     it("returns object of values that changed", () => {
       const initialValues = {
@@ -175,7 +177,7 @@ describe("<RecordForms /> - utils", () => {
         ]
       };
 
-      expect(utils.compactValues(values, initialValues)).to.deep.equal(expected);
+      expect(utils.compactValues(values, initialValues)).toEqual(expected);
     });
 
     it("returns object of values that changed for documents with id", () => {
@@ -191,7 +193,7 @@ describe("<RecordForms /> - utils", () => {
         other_documents: [{ id: 1, date: "2020-06-08" }]
       };
 
-      expect(utils.compactValues(values, initialValues)).to.deep.equal(expected);
+      expect(utils.compactValues(values, initialValues)).toEqual(expected);
     });
   });
 
@@ -203,7 +205,7 @@ describe("<RecordForms /> - utils", () => {
         c: false
       };
 
-      expect(utils.emptyValues(testObject)).to.be.true;
+      expect(utils.emptyValues(testObject)).toBe(true);
     });
     it("should return false if any of the object's values are not empty", () => {
       const testObject = {
@@ -211,33 +213,32 @@ describe("<RecordForms /> - utils", () => {
         b: "Test 2"
       };
 
-      expect(utils.emptyValues(testObject)).to.be.false;
+      expect(utils.emptyValues(testObject)).toBe(false);
     });
   });
 
   describe("getRedirectPath", () => {
     it("should return the path to the case id if there is a incidentFromCase", () => {
-      expect(utils.getRedirectPath({ isNew: true }, {}, "case-id-1")).to.equal("/cases/case-id-1");
+      expect(utils.getRedirectPath({ isNew: true }, {}, "case-id-1")).toBe("/cases/case-id-1");
     });
 
     it("should return the path to the incident id if is not new", () => {
-      expect(utils.getRedirectPath({ isEdit: true }, { recordType: "incidents", id: "incident-id-1" }), "").to.equal(
+      //
+      expect(utils.getRedirectPath({ isEdit: true }, { recordType: "incidents", id: "incident-id-1" })).toBe(
         "/incidents/incident-id-1"
       );
     });
 
     it("should return the path to incidents if is new", () => {
-      expect(utils.getRedirectPath({ isNew: true }, { recordType: "incidents", id: "incident-id-1" }, "")).to.equal("");
+      expect(utils.getRedirectPath({ isNew: true }, { recordType: "incidents", id: "incident-id-1" }, "")).toBe("");
     });
   });
 
   describe("constructInitialValues", () => {
-    let clock = null;
-
     beforeEach(() => {
       const today = parseISO("2010-01-05T18:30:00Z");
 
-      clock = useFakeTimers(today);
+      jest.useFakeTimers().setSystemTime(today);
     });
 
     it("should generate default values if they are defined", () => {
@@ -306,7 +307,7 @@ describe("<RecordForms /> - utils", () => {
         field_7: { test3: null, test4: null }
       };
 
-      expect(utils.constructInitialValues(forms)).to.deep.equal(expectedInitialValues);
+      expect(utils.constructInitialValues(forms)).toEqual(expectedInitialValues);
     });
 
     it("should not generate default values if they are not defined", () => {
@@ -342,7 +343,7 @@ describe("<RecordForms /> - utils", () => {
         field_4: null
       };
 
-      expect(utils.constructInitialValues(forms)).to.deep.equal(expectedInitialValues);
+      expect(utils.constructInitialValues(forms)).toEqual(expectedInitialValues);
     });
 
     it("should not generate default values for separators", () => {
@@ -356,7 +357,7 @@ describe("<RecordForms /> - utils", () => {
         })
       ];
 
-      expect(utils.constructInitialValues(forms)).to.deep.equal({});
+      expect(utils.constructInitialValues(forms)).toEqual({});
     });
 
     it("should not generate default values for hidden fields", () => {
@@ -370,11 +371,11 @@ describe("<RecordForms /> - utils", () => {
         })
       ];
 
-      expect(utils.constructInitialValues(forms)).to.deep.equal({});
+      expect(utils.constructInitialValues(forms)).toEqual({});
     });
 
     afterEach(() => {
-      clock.restore();
+      jest.resetAllMocks();
     });
   });
 
@@ -440,7 +441,7 @@ describe("<RecordForms /> - utils", () => {
 
       const result = utils.sortSubformValues(initialValues, forms);
 
-      expect(result).to.deep.equals(expected);
+      expect(result).toEqual(expected);
     });
 
     it("should return subforms sorted by subformSortBy field", () => {
@@ -484,7 +485,7 @@ describe("<RecordForms /> - utils", () => {
 
       const result = utils.sortSubformValues(initialValues, forms);
 
-      expect(result).to.deep.equals(expected);
+      expect(result).toEqual(expected);
     });
   });
 
@@ -510,7 +511,7 @@ describe("<RecordForms /> - utils", () => {
         is_first_tab: true
       });
 
-      expect(utils.buildFormNav(approvalsForm).toJS()).to.deep.equal(expected.toJS());
+      expect(utils.buildFormNav(approvalsForm).toJS()).toEqual(expected.toJS());
     });
 
     it("should return the nav without permission_actions if not defined", () => {
@@ -534,7 +535,7 @@ describe("<RecordForms /> - utils", () => {
         display_conditions: []
       });
 
-      expect(utils.buildFormNav(form).toJS()).to.deep.equal(expected.toJS());
+      expect(utils.buildFormNav(form).toJS()).toEqual(expected.toJS());
     });
   });
 
@@ -555,7 +556,7 @@ describe("<RecordForms /> - utils", () => {
         utils.pickFromDefaultForms(forms, getDefaultForms({ t: value => value, locale: "en" }))
       );
 
-      expect(result).to.deep.equal([
+      expect(result).toEqual([
         SUMMARY,
         APPROVALS,
         INCIDENT_FROM_CASE,
@@ -588,7 +589,7 @@ describe("<RecordForms /> - utils", () => {
           locations: fromJS([]),
           estimated: true
         })
-      ).to.deep.equals(expected);
+      ).toEqual(expected);
     });
 
     it("should remove all the null from subform entries", () => {
@@ -616,7 +617,7 @@ describe("<RecordForms /> - utils", () => {
             { relation: "father", name: "Name 2", current_location: "", is_alive: false, location: ["country1"] }
           ]
         })
-      ).to.deep.equals(expected);
+      ).toEqual(expected);
     });
 
     it("should remove all the null from subform objects", () => {
@@ -630,7 +631,7 @@ describe("<RecordForms /> - utils", () => {
           name: "Name 1",
           family_details: [{ relation: "mother", tally: { boys: 1, girls: 3, unknown: "", total: null } }]
         })
-      ).to.deep.equals(expected);
+      ).toEqual(expected);
     });
   });
 
@@ -683,7 +684,7 @@ describe("<RecordForms /> - utils", () => {
           },
           formSections
         )
-      ).to.deep.equals({ field_1: "value 1", field_3: "value 3" });
+      ).toEqual({ field_1: "value 1", field_3: "value 3" });
     });
 
     it("keep fields from readWrite forms when field is present in readOnly Forms", () => {
@@ -747,20 +748,20 @@ describe("<RecordForms /> - utils", () => {
           },
           formSections
         )
-      ).to.deep.equals({ field_1: "value 1", field_3: "value 3", field_5: "value 5" });
+      ).toEqual({ field_1: "value 1", field_3: "value 3", field_5: "value 5" });
     });
   });
 
   describe("getFieldDefaultValue", () => {
-    context("when the field type is TICK_FIELD", () => {
+    describe("when the field type is TICK_FIELD", () => {
       it("returns true if selected_value is either true, 't' or 'true'", () => {
-        expect(utils.getFieldDefaultValue({ type: TICK_FIELD, selected_value: "true" })).to.be.true;
-        expect(utils.getFieldDefaultValue({ type: TICK_FIELD, selected_value: true })).to.be.true;
-        expect(utils.getFieldDefaultValue({ type: TICK_FIELD, selected_value: "t" })).to.be.true;
+        expect(utils.getFieldDefaultValue({ type: TICK_FIELD, selected_value: "true" })).toBe(true);
+        expect(utils.getFieldDefaultValue({ type: TICK_FIELD, selected_value: true })).toBe(true);
+        expect(utils.getFieldDefaultValue({ type: TICK_FIELD, selected_value: "t" })).toBe(true);
       });
 
       it("returns false if selected_value is not true, 't' or 'true'", () => {
-        expect(utils.getFieldDefaultValue({ type: TICK_FIELD, selected_value: "wrong" })).to.be.false;
+        expect(utils.getFieldDefaultValue({ type: TICK_FIELD, selected_value: "wrong" })).toBe(false);
       });
     });
   });

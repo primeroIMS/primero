@@ -1,7 +1,7 @@
 /* Copyright (c) 2014 - 2023 UNICEF. All rights reserved. */
 
 .container {
-  height: var(--doc-height, 100vh);
+  height: 100dvh;
   display: flex;
   flex-direction: column;
   background-color: var(--c-blue);

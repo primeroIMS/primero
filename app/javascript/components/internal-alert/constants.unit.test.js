@@ -7,21 +7,21 @@ describe("Verifying config constant", () => {
     const clonedConstants = { ...constants };
 
     ["NAME", "SEVERITY"].forEach(property => {
-      expect(clonedConstants).to.have.property(property);
+      expect(clonedConstants).toHaveProperty(property);
       delete clonedConstants[property];
     });
 
-    expect(clonedConstants).to.be.empty;
+    expect(Object.keys(clonedConstants)).toHaveLength(0);
   });
 
   it("should have known the SEVERITY properties ", () => {
     const clonedProps = { ...constants.SEVERITY };
 
     ["error", "info", "success", "warning"].forEach(property => {
-      expect(clonedProps).to.have.property(property);
+      expect(clonedProps).toHaveProperty(property);
       delete clonedProps[property];
     });
 
-    expect(clonedProps).to.be.empty;
+    expect(Object.keys(clonedProps)).toHaveLength(0);
   });
 });

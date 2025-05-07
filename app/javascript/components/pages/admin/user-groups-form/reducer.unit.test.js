@@ -14,7 +14,7 @@ describe("<UserGroupsForm /> - Reducers", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_USER_GROUP_FAILURE", () => {
@@ -25,7 +25,7 @@ describe("<UserGroupsForm /> - Reducers", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_USER_GROUP_SUCCESS", () => {
@@ -42,7 +42,7 @@ describe("<UserGroupsForm /> - Reducers", () => {
 
     const newState = reducer(fromJS({ selectedUserGroup: {} }), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_USER_GROUP_FINISHED", () => {
@@ -53,7 +53,7 @@ describe("<UserGroupsForm /> - Reducers", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle CLEAR_SELECTED_USER_GROUP", () => {
@@ -68,7 +68,7 @@ describe("<UserGroupsForm /> - Reducers", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SAVE_USER_GROUP_STARTED", () => {
@@ -79,7 +79,7 @@ describe("<UserGroupsForm /> - Reducers", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SAVE_USER_GROUP_FINISHED", () => {
@@ -90,6 +90,6 @@ describe("<UserGroupsForm /> - Reducers", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

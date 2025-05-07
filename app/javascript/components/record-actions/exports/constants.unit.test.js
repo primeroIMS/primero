@@ -6,7 +6,7 @@ describe("<RecordActions /> - exports/constants", () => {
   const clone = { ...constants };
 
   it("should have known properties", () => {
-    expect(clone).to.be.an("object");
+    expect(typeof clone).toEqual("object");
     [
       "ALL_EXPORT_TYPES",
       "CUSTOM_EXPORT_FILE_NAME_FIELD",
@@ -32,15 +32,15 @@ describe("<RecordActions /> - exports/constants", () => {
       "CLIENT",
       "RECIPIENT"
     ].forEach(property => {
-      expect(clone).to.have.property(property);
+      expect(clone).toHaveProperty(property);
       delete clone[property];
     });
 
-    expect(clone).to.be.empty;
+    expect(Object.keys(clone)).toHaveLength(0);
   });
-  context("when is ALL_EXPORT_TYPES", () => {
+  describe("when is ALL_EXPORT_TYPES", () => {
     it("should be an object", () => {
-      expect(constants.ALL_EXPORT_TYPES).to.be.an("array");
+      expect(Array.isArray(constants.ALL_EXPORT_TYPES)).toBe(true);
     });
   });
 });

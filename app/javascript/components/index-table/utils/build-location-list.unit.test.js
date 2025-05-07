@@ -148,6 +148,6 @@ describe("buildLocationsList", () => {
   it("should return an array of locations code", () => {
     const result = buildLocationsList(records, columnsWithLookups);
 
-    expect(result).to.deep.equal(expected);
+    expect(result).toEqual(expected);
   });
 });

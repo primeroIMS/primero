@@ -12,11 +12,11 @@ describe("<SubformItem /> - utils", () => {
       const clonedHelpers = { ...helpers };
 
       ["buildFormViolations"].forEach(property => {
-        expect(clonedHelpers).to.have.property(property);
+        expect(clonedHelpers).toHaveProperty(property);
         delete clonedHelpers[property];
       });
 
-      expect(clonedHelpers).to.deep.equal({});
+      expect(clonedHelpers).toEqual({});
     });
   });
 
@@ -86,10 +86,10 @@ describe("<SubformItem /> - utils", () => {
       });
 
       // TODO: Certain records all of a sudden require toJS
-      expect(result.toJS()).to.deep.equal(expected.toJS());
+      expect(result.toJS()).toEqual(expected.toJS());
     });
 
-    context("When is denial_humanitarian_access field", () => {
+    describe("When is denial_humanitarian_access field", () => {
       const violationDenialHumanitarianAccess = {
         name: "denial_humanitarian_access",
         subform_section_id: {
@@ -144,7 +144,7 @@ describe("<SubformItem /> - utils", () => {
 
         const expected = ["violation_tally", "violation_tally_estimated", "test_field", "second_test_field"];
 
-        expect(result.subform_section_id.fields.map(field => field.name)).to.deep.equal(expected);
+        expect(result.subform_section_id.fields.map(field => field.name)).toEqual(expected);
       });
     });
   });

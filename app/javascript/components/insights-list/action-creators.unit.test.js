@@ -7,13 +7,17 @@ describe("<Reports /> - Action Creators", () => {
   it("should have known action creators", () => {
     const clone = { ...actionCreators };
 
-    expect(clone, "DEPRECATED fetchCasesByNationality").to.not.have.property("fetchCasesByNationality");
-    expect(clone, "DEPRECATED fetchCasesByAgeAndSex").to.not.have.property("fetchCasesByAgeAndSex");
-    expect(clone, "DEPRECATED fetchCasesByProtectionConcern").to.not.have.property("fetchCasesByProtectionConcern");
-    expect(clone, "DEPRECATED fetchCasesByAgency").to.not.have.property("fetchCasesByAgency");
+    // DEPRECATED fetchCasesByNationality
+    expect(clone).not.toHaveProperty("fetchCasesByNationality");
+    // DEPRECATED fetchCasesByAgeAndSex
+    expect(clone).not.toHaveProperty("fetchCasesByAgeAndSex");
+    // DEPRECATED fetchCasesByProtectionConcern
+    expect(clone).not.toHaveProperty("fetchCasesByProtectionConcern");
+    // DEPRECATED fetchCasesByAgency
+    expect(clone).not.toHaveProperty("fetchCasesByAgency");
 
     ["clearFilters", "fetchInsights", "setFilters"].forEach(property => {
-      expect(clone).to.have.property(property);
+      expect(clone).toHaveProperty(property);
       delete clone[property];
     });
 
@@ -23,7 +27,7 @@ describe("<Reports /> - Action Creators", () => {
     delete clone.fetchCasesByAgency;
     delete clone.fetchInsights;
 
-    expect(clone).to.be.empty;
+    expect(Object.keys(clone)).toHaveLength(0);
   });
 
   it("should check the 'fetchInsights' action creator to return the correct object", () => {
@@ -37,7 +41,7 @@ describe("<Reports /> - Action Creators", () => {
       }
     };
 
-    expect(actionCreators.fetchInsights(metadata)).to.deep.equals(expected);
+    expect(actionCreators.fetchInsights(metadata)).toEqual(expected);
   });
 
   it("should check the 'setFilters' action creator to return the correct object", () => {
@@ -48,12 +52,12 @@ describe("<Reports /> - Action Creators", () => {
       payload: filters
     };
 
-    expect(actionCreators.setFilters(filters)).to.deep.equals(expected);
+    expect(actionCreators.setFilters(filters)).toEqual(expected);
   });
 
   it("should check the 'clearFilters' action creator to return the correct object", () => {
     const expected = { type: actions.CLEAR_INSIGHT_FILTERS };
 
-    expect(actionCreators.clearFilters()).to.deep.equals(expected);
+    expect(actionCreators.clearFilters()).toEqual(expected);
   });
 });

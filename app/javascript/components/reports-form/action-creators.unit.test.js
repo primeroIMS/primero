@@ -1,6 +1,5 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { stub } from "../../test-utils";
 import { MODULES, RECORD_PATH, SAVE_METHODS, METHODS } from "../../config";
 import { ENQUEUE_SNACKBAR, generate } from "../notifier";
 
@@ -12,15 +11,15 @@ describe("<ReportsForm /> - action-creators", () => {
     const creators = { ...actionsCreators };
 
     ["saveReport", "clearSelectedReport"].forEach(property => {
-      expect(creators).to.have.property(property);
+      expect(creators).toHaveProperty(property);
       delete creators[property];
     });
 
-    expect(creators).to.be.empty;
+    expect(Object.keys(creators)).toHaveLength(0);
   });
 
   it("should check that 'saveReport' action creator returns the correct object", () => {
-    stub(generate, "messageKey").returns(4);
+    jest.spyOn(generate, "messageKey").mockReturnValue(4);
 
     const args = {
       id: 1,
@@ -54,12 +53,10 @@ describe("<ReportsForm /> - action-creators", () => {
       }
     };
 
-    expect(actionsCreators.saveReport(args)).to.deep.equal(expectedAction);
+    expect(actionsCreators.saveReport(args)).toEqual(expectedAction);
   });
 
   afterEach(() => {
-    if (generate.messageKey.restore) {
-      generate.messageKey.restore();
-    }
+    jest.resetAllMocks();
   });
 });

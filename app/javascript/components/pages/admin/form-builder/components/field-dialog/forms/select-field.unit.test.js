@@ -40,9 +40,9 @@ describe("selectFieldForm()", () => {
       field => field.get("name") === "select_field_1.option_strings_text"
     );
 
-    expect(forms).to.have.sizeOf(3);
-    expect(optionsForm).to.exist;
-    expect(optionStringsText.get("option_strings_text")).to.deep.equal(options);
+    expect(forms.size).toBe(3);
+    expect(optionsForm).toBeDefined();
+    expect(optionStringsText.get("option_strings_text")).toEqual(options);
   });
 
   it("renders a select field for lookup options", () => {
@@ -69,9 +69,9 @@ describe("selectFieldForm()", () => {
       field => field.get("name") === "select_field_1.option_strings_source"
     );
 
-    expect(forms).to.have.sizeOf(3);
-    expect(optionsForm).to.exist;
-    expect(optionStringsText.get("option_strings_text")).to.be.empty;
-    expect(optionStringsSource.get("option_strings_source")).to.equal("Lookups");
+    expect(forms.size).toBe(3);
+    expect(optionsForm).toBeDefined();
+    expect(optionStringsText.get("option_strings_text").size).toBe(0);
+    expect(optionStringsSource.get("option_strings_source")).toBe("Lookups");
   });
 });

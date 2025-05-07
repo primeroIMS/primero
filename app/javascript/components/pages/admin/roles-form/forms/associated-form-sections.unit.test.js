@@ -10,6 +10,6 @@ describe("pages/admin/<RolesForm>/forms - AssociatedFormSectionsForm", () => {
   it("returns the AssociatedFormSectionsForm with fields", () => {
     const formSectionsForm = AssociatedFormSectionsForm(fromJS([]), i18n);
 
-    expect(formSectionsForm).to.have.lengthOf(5);
+    expect(formSectionsForm).toHaveLength(5);
   });
 });

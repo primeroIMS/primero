@@ -12,7 +12,7 @@ describe("isNewApproval", () => {
       }
     ];
 
-    expect(isNewApproval(source)).to.be.true;
+    expect(isNewApproval(source)).toBe(true);
   });
   it("return false if is not approval request", () => {
     const source = [
@@ -24,6 +24,6 @@ describe("isNewApproval", () => {
       }
     ];
 
-    expect(isNewApproval(source)).to.be.false;
+    expect(isNewApproval(source)).toBe(false);
   });
 });

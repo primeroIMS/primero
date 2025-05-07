@@ -13,10 +13,10 @@ describe("<ExportList /> - pages/export-list/actions", () => {
       "FETCH_EXPORTS_FINISHED",
       "FETCH_EXPORTS_FAILURE"
     ].forEach(property => {
-      expect(clone).to.have.property(property);
+      expect(clone).toHaveProperty(property);
       delete clone[property];
     });
 
-    expect(clone).to.be.empty;
+    expect(Object.keys(clone)).toHaveLength(0);
   });
 });

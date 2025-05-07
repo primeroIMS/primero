@@ -16,17 +16,17 @@ describe("getSubformValues", () => {
     ]
   };
 
-  context("when subforms are not sorted", () => {
+  describe("when subforms are not sorted", () => {
     it("should return the subform object from formik values", () => {
       const result = getSubformValues(field, index, values);
 
-      expect(result).to.deep.equal({
+      expect(result).toEqual({
         response_type: "response-type-1"
       });
     });
   });
 
-  context("when subforms are sorted", () => {
+  describe("when subforms are sorted", () => {
     it("should return the subform object from orderedValues values and not from formik", () => {
       const orderedValues = [
         {
@@ -38,13 +38,13 @@ describe("getSubformValues", () => {
       ];
       const result = getSubformValues(field, index, values, orderedValues);
 
-      expect(result).to.deep.equal({
+      expect(result).toEqual({
         response_type: "response-type-2"
       });
     });
   });
 
-  context("when isViolation", () => {
+  describe("when isViolation", () => {
     it("should return the object with all the associated data to the current violation", () => {
       const indexViolation = 0;
       const fieldViolation = { name: "killing", subform_section_configuration: {} };
@@ -107,7 +107,7 @@ describe("getSubformValues", () => {
         ]
       };
 
-      expect(result).to.deep.equal(expected);
+      expect(result).toEqual(expected);
     });
   });
 });

@@ -26,13 +26,13 @@ describe("<UserGroupsForm /> - Selectors", () => {
 
       const userGroup = getUserGroup(stateWithHeaders);
 
-      expect(userGroup).to.deep.equal(expected);
+      expect(userGroup).toEqual(expected);
     });
 
     it("should return empty object when selected user empty", () => {
       const userGroup = getUserGroup(stateWithoutHeaders);
 
-      expect(userGroup).to.deep.equal(fromJS({}));
+      expect(userGroup).toEqual(fromJS({}));
     });
   });
 
@@ -42,13 +42,13 @@ describe("<UserGroupsForm /> - Selectors", () => {
 
       const userGroup = getErrors(stateWithHeaders);
 
-      expect(userGroup).to.deep.equal(expected);
+      expect(userGroup).toEqual(expected);
     });
 
     it("should return false when errors empty", () => {
       const userGroup = getErrors(stateWithoutHeaders);
 
-      expect(userGroup).to.deep.equal(false);
+      expect(userGroup).toEqual(false);
     });
   });
 
@@ -58,13 +58,13 @@ describe("<UserGroupsForm /> - Selectors", () => {
 
       const serverErrors = getServerErrors(stateWithHeaders);
 
-      expect(serverErrors).to.deep.equal(expected);
+      expect(serverErrors).toEqual(expected);
     });
 
     it("should return empty object when no server errors", () => {
       const userGroup = getServerErrors(stateWithoutHeaders);
 
-      expect(userGroup).to.deep.equal(fromJS([]));
+      expect(userGroup).toEqual(fromJS([]));
     });
   });
 
@@ -72,13 +72,13 @@ describe("<UserGroupsForm /> - Selectors", () => {
     it("should return server errors", () => {
       const serverErrors = getSavingRecord(stateWithHeaders);
 
-      expect(serverErrors).to.be.true;
+      expect(serverErrors).toBe(true);
     });
 
     it("should return empty object when no server errors", () => {
       const user = getSavingRecord(stateWithoutHeaders);
 
-      expect(user).to.be.false;
+      expect(user).toBe(false);
     });
   });
 });

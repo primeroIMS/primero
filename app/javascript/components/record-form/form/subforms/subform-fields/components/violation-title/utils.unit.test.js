@@ -8,11 +8,11 @@ describe("<ViolationTitle /> - utils", () => {
       const clonedHelpers = { ...helpers };
 
       ["getVerifiedValue"].forEach(property => {
-        expect(clonedHelpers).to.have.property(property);
+        expect(clonedHelpers).toHaveProperty(property);
         delete clonedHelpers[property];
       });
 
-      expect(clonedHelpers).to.deep.equal({});
+      expect(clonedHelpers).toEqual({});
     });
   });
 
@@ -42,7 +42,7 @@ describe("<ViolationTitle /> - utils", () => {
         ctfmr_verified: "verification_found_that_incident_did_not_occur"
       };
 
-      expect(helpers.getVerifiedValue(optionString, currentValues)).to.equal(
+      expect(helpers.getVerifiedValue(optionString, currentValues)).toBe(
         "Verification found that incident did not occur"
       );
     });

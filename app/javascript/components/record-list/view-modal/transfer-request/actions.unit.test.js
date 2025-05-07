@@ -14,10 +14,10 @@ describe("<TransferRequest /> - Actions", () => {
       "TRANSFER_REQUEST_FINISHED",
       "TRANSFER_REQUEST_URL"
     ].forEach(property => {
-      expect(cloneActions).to.have.property(property);
+      expect(cloneActions).toHaveProperty(property);
       delete cloneActions[property];
     });
 
-    expect(cloneActions).to.be.empty;
+    expect(Object.keys(cloneActions)).toHaveLength(0);
   });
 });

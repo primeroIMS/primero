@@ -12,6 +12,7 @@ describe("layouts/components/<EmptyLayout />", () => {
 
   afterEach(() => {
     jest.clearAllTimers();
+    jest.useRealTimers();
   });
 
   const state = {

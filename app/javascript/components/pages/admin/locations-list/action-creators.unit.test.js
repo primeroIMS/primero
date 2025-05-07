@@ -14,11 +14,11 @@ describe("<LocationsList /> - Action Creators", () => {
     const creators = { ...actionsCreators };
 
     ["disableLocations", "fetchLocations", "setLocationsFilter"].forEach(property => {
-      expect(creators).to.have.property(property);
+      expect(creators).toHaveProperty(property);
       delete creators[property];
     });
 
-    expect(creators).to.be.empty;
+    expect(Object.keys(creators)).toHaveLength(0);
   });
 
   it("should check that 'fetchLocations' action creator returns the correct object", () => {
@@ -30,7 +30,7 @@ describe("<LocationsList /> - Action Creators", () => {
       }
     };
 
-    expect(actionsCreators.fetchLocations().api.params.toJS()).to.deep.equal(expectedAction.api.params.toJS());
+    expect(actionsCreators.fetchLocations().api.params.toJS()).toEqual(expectedAction.api.params.toJS());
   });
 
   it("should check that 'disableLocations' action creator returns the correct object", () => {
@@ -58,7 +58,7 @@ describe("<LocationsList /> - Action Creators", () => {
       }
     };
 
-    expect(actionsCreators.disableLocations([1, 2], filterParams, "Success message")).to.deep.equal(expectedAction);
+    expect(actionsCreators.disableLocations([1, 2], filterParams, "Success message")).toEqual(expectedAction);
   });
 
   it("should check that 'setLocationsFilter' action creator returns the correct object", () => {
@@ -68,6 +68,6 @@ describe("<LocationsList /> - Action Creators", () => {
       payload
     };
 
-    expect(actionsCreators.setLocationsFilter(payload)).to.deep.equal(expectedAction);
+    expect(actionsCreators.setLocationsFilter(payload)).toEqual(expectedAction);
   });
 });

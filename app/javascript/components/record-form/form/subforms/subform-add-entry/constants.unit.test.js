@@ -7,10 +7,10 @@ describe("Verifying config constant", () => {
     const clonedConstants = { ...constants };
 
     ["NAME", "NEW"].forEach(property => {
-      expect(clonedConstants).to.have.property(property);
+      expect(clonedConstants).toHaveProperty(property);
       delete clonedConstants[property];
     });
 
-    expect(clonedConstants).to.be.empty;
+    expect(Object.keys(clonedConstants)).toHaveLength(0);
   });
 });

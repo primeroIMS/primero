@@ -15,10 +15,10 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms - index",
       "textFieldForm",
       "tickboxFieldForm"
     ].forEach(property => {
-      expect(indexValues).to.have.property(property);
+      expect(indexValues).toHaveProperty(property);
       delete indexValues[property];
     });
 
-    expect(indexValues).to.be.empty;
+    expect(Object.keys(indexValues)).toHaveLength(0);
   });
 });

@@ -28,6 +28,6 @@ describe("pages/admin/utils/headersToColumns", () => {
 
     const result = headersToColumns(headers, i18n);
 
-    expect(result).to.be.deep.equal(expected);
+    expect(result).toEqual(expected);
   });
 });

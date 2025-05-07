@@ -35,6 +35,6 @@ describe("<ReportForm>/utils/buildFields()", () => {
       }
     ]);
 
-    expect(buildFields(values, { locale: "en" }, false)).to.deep.equal(expected);
+    expect(buildFields(values, { locale: "en" }, false)).toEqual(expected);
   });
 });

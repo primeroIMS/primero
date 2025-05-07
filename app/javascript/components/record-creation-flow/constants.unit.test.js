@@ -7,10 +7,10 @@ describe("Verifying config constant", () => {
     const clone = { ...constants };
 
     ["NAME", "DATA_PROTECTION_FIELDS"].forEach(property => {
-      expect(clone).to.have.property(property);
+      expect(clone).toHaveProperty(property);
       delete clone[property];
     });
 
-    expect(clone).to.be.empty;
+    expect(Object.keys(clone)).toHaveLength(0);
   });
 });

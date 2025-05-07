@@ -37,7 +37,7 @@ describe("pages/admin/<RolesForm>/forms - utils", () => {
         }
       ];
 
-      expect(buildPermissionOptions(actions, i18n, "case", approvalsLabels)).to.deep.equal(expected);
+      expect(buildPermissionOptions(actions, i18n, "case", approvalsLabels)).toEqual(expected);
     });
   });
 
@@ -59,7 +59,7 @@ describe("pages/admin/<RolesForm>/forms - utils", () => {
         }
       ];
 
-      expect(buildAdminLevelSelect(adminLevelMap)).to.deep.equal(expected);
+      expect(buildAdminLevelSelect(adminLevelMap)).toEqual(expected);
     });
   });
 });

@@ -1,7 +1,5 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { spy, useFakeTimers } from "../../../../test-utils";
-
 import handleFilterChange, { valueParser, getFilterProps } from "./value-handlers";
 
 describe("<IndexFilters />/filter-types/value-handlers", () => {
@@ -15,9 +13,9 @@ describe("<IndexFilters />/filter-types/value-handlers", () => {
 
   beforeEach(() => {
     methods = {
-      event: spy(),
-      setInputValue: spy(),
-      setValue: spy(),
+      event: jest.fn(),
+      setInputValue: jest.fn(),
+      setValue: jest.fn(),
       fieldName: "field-name"
     };
   });
@@ -28,8 +26,8 @@ describe("<IndexFilters />/filter-types/value-handlers", () => {
 
       handleFilterChange(methods);
 
-      expect(methods.setInputValue).to.have.been.calledWith(2);
-      expect(methods.setValue).to.have.been.calledWith(methods.fieldName, 2);
+      expect(methods.setInputValue).toHaveBeenCalledWith(2);
+      expect(methods.setValue).toHaveBeenCalledWith(methods.fieldName, 2);
     });
 
     it("handles checkboxes with array value", () => {
@@ -39,8 +37,8 @@ describe("<IndexFilters />/filter-types/value-handlers", () => {
 
       handleFilterChange(methods);
 
-      expect(methods.setInputValue).to.have.been.calledWith([1, 2]);
-      expect(methods.setValue).to.have.been.calledWith(methods.fieldName, [1, 2]);
+      expect(methods.setInputValue).toHaveBeenCalledWith([1, 2]);
+      expect(methods.setValue).toHaveBeenCalledWith(methods.fieldName, [1, 2]);
     });
 
     it("handles checkboxes with object value", () => {
@@ -52,8 +50,8 @@ describe("<IndexFilters />/filter-types/value-handlers", () => {
 
       handleFilterChange(methods);
 
-      expect(methods.setInputValue).to.have.been.calledWith(expectedValue);
-      expect(methods.setValue).to.have.been.calledWith(methods.fieldName, expectedValue);
+      expect(methods.setInputValue).toHaveBeenCalledWith(expectedValue);
+      expect(methods.setValue).toHaveBeenCalledWith(methods.fieldName, expectedValue);
     });
   });
 
@@ -62,20 +60,19 @@ describe("<IndexFilters />/filter-types/value-handlers", () => {
       const value = "1 - 10";
       const output = valueParser("age", value);
 
-      expect(output).to.equal("1..10");
+      expect(output).toBe("1..10");
     });
 
     it("returns passed value by default", () => {
       const value = "test-value";
       const output = valueParser(methods.fieldName, value);
 
-      expect(output).to.equal(value);
+      expect(output).toBe(value);
     });
   });
 
   describe("getFilterProps()", () => {
     const { getTimezoneOffset } = Date.prototype;
-    let clock = null;
 
     beforeEach(() => {
       // eslint-disable-next-line no-extend-native
@@ -83,7 +80,7 @@ describe("<IndexFilters />/filter-types/value-handlers", () => {
 
       const today = new Date("2020-10-01T00:00:00Z");
 
-      clock = useFakeTimers(today);
+      jest.useFakeTimers().setSystemTime(today);
 
       filter = {
         field_name: "field-name",
@@ -102,7 +99,7 @@ describe("<IndexFilters />/filter-types/value-handlers", () => {
       };
       const output = getFilterProps({ filter, user, i18n });
 
-      expect(output).to.deep.equal(expected);
+      expect(output).toEqual(expected);
     });
 
     it("returns properties for my_cases filter from filter object", () => {
@@ -126,7 +123,7 @@ describe("<IndexFilters />/filter-types/value-handlers", () => {
       };
       const output = getFilterProps({ filter, user, i18n });
 
-      expect(output).to.deep.equal(expected);
+      expect(output).toEqual(expected);
     });
 
     it("returns properties for last_updated_at filter from filter object", () => {
@@ -143,7 +140,7 @@ describe("<IndexFilters />/filter-types/value-handlers", () => {
       };
       const output = getFilterProps({ filter, user, i18n });
 
-      expect(output).to.deep.equal(expected);
+      expect(output).toEqual(expected);
     });
 
     afterEach(() => {
@@ -151,7 +148,8 @@ describe("<IndexFilters />/filter-types/value-handlers", () => {
       // eslint-disable-next-line no-extend-native
       Date.prototype.getTimezoneOffset = getTimezoneOffset;
 
-      clock.restore();
+      jest.useRealTimers();
+      jest.resetAllMocks();
     });
   });
 });

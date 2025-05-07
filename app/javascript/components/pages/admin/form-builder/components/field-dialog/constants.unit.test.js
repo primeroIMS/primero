@@ -17,16 +17,16 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog /> - Constants", (
       "SUBFORM_TRANSLATABLE_OPTIONS",
       "RESET_OPTIONS"
     ].forEach(property => {
-      expect(clonedActions).to.have.property(property);
+      expect(clonedActions).toHaveProperty(property);
       delete clonedActions[property];
     });
 
-    expect(clonedActions).to.be.empty;
+    expect(Object.keys(clonedActions)).toHaveLength(0);
   });
 
   describe("values", () => {
     it("should have correct constant value", () => {
-      expect(constants.LOCALIZABLE_OPTIONS_FIELD_NAME).to.deep.equal({
+      expect(constants.LOCALIZABLE_OPTIONS_FIELD_NAME).toEqual({
         select_box: "option_strings_text",
         radio_button: "option_strings_text",
         tally_field: "tally"

@@ -7,10 +7,10 @@ describe("pages/admin/<FormBuilder />/components/<ClearButtons /> - Constants", 
     const clonedConstants = { ...constants };
 
     ["GROUP_BY", "NAME", "SORT_BY"].forEach(property => {
-      expect(clonedConstants).to.have.property(property);
+      expect(clonedConstants).toHaveProperty(property);
       delete clonedConstants[property];
     });
 
-    expect(clonedConstants).to.be.empty;
+    expect(Object.keys(clonedConstants)).toHaveLength(0);
   });
 });

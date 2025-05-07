@@ -22,7 +22,7 @@ describe("records - Action Creators", () => {
       "DEPRECATED fetchTracingRequests",
       "DEPRECATED updateRecordAttachments"
     ].forEach(property => {
-      expect(creators).to.not.have.property(property);
+      expect(creators).not.toHaveProperty(property);
       delete creators[property];
     });
 
@@ -58,16 +58,16 @@ describe("records - Action Creators", () => {
       "linkIncidentToCase",
       "fetchLinkIncidentToCaseData"
     ].forEach(property => {
-      expect(creators).to.have.property(property);
-      expect(creators[property]).to.be.a("function");
+      expect(creators).toHaveProperty(property);
+      expect(creators[property]).toBeInstanceOf(Function);
       delete creators[property];
     });
 
-    expect(creators).to.be.empty;
+    expect(Object.keys(creators)).toHaveLength(0);
   });
 
   describe("fetchRecord", () => {
-    context("when recordType is cases", () => {
+    describe("when recordType is cases", () => {
       it("should return the correct object", () => {
         const expected = {
           type: `${RECORD_PATH.cases}/RECORD`,
@@ -81,11 +81,11 @@ describe("records - Action Creators", () => {
           }
         };
 
-        expect(actionCreators.fetchRecord("cases", "123")).to.deep.equal(expected);
+        expect(actionCreators.fetchRecord("cases", "123")).toEqual(expected);
       });
     });
 
-    context("when recordType is tracing request", () => {
+    describe("when recordType is tracing request", () => {
       it("should return the correct object", () => {
         const expected = {
           type: `${RECORD_PATH.tracing_requests}/RECORD`,
@@ -105,7 +105,7 @@ describe("records - Action Creators", () => {
           }
         };
 
-        expect(actionCreators.fetchRecord(RECORD_PATH.tracing_requests, "123")).to.deep.equal(expected);
+        expect(actionCreators.fetchRecord(RECORD_PATH.tracing_requests, "123")).toEqual(expected);
       });
     });
   });
@@ -170,7 +170,7 @@ describe("records - Action Creators", () => {
         }
       };
 
-      expect(actionCreators.saveRecord("cases", "update", body, "123", messageFn)).to.deep.equal(expected);
+      expect(actionCreators.saveRecord("cases", "update", body, "123", messageFn)).toEqual(expected);
     });
 
     it("when path it's not 'update', the path and method should be different", () => {
@@ -219,7 +219,7 @@ describe("records - Action Creators", () => {
         }
       };
 
-      expect(actionCreators.saveRecord("cases", "update", body, "123", messageFn)).to.deep.equal(expected);
+      expect(actionCreators.saveRecord("cases", "update", body, "123", messageFn)).toEqual(expected);
     });
 
     it("should return 3 success callback actions if there is a dialogName", () => {
@@ -229,9 +229,9 @@ describe("records - Action Creators", () => {
         .saveRecord(RECORD_PATH.cases, "update", body, "123", "Saved Successfully", false, false, false, "testDialog")
         .api.successCallback.map(callback => callback.action);
 
-      expect(successCallbacks).to.be.an("array");
-      expect(successCallbacks).to.have.lengthOf(3);
-      expect(successCallbacks).to.deep.equal(expected);
+      expect(Array.isArray(successCallbacks)).toBe(true);
+      expect(successCallbacks).toHaveLength(3);
+      expect(successCallbacks).toEqual(expected);
     });
 
     it("should return 4 success callback actions when is an incidentFromCase", () => {
@@ -257,9 +257,9 @@ describe("records - Action Creators", () => {
         )
         .api.successCallback.map(callback => callback.action);
 
-      expect(successCallbacks).to.be.an("array");
-      expect(successCallbacks).to.have.lengthOf(4);
-      expect(successCallbacks).to.deep.equal(expected);
+      expect(Array.isArray(successCallbacks)).toBe(true);
+      expect(successCallbacks).toHaveLength(4);
+      expect(successCallbacks).toEqual(expected);
     });
 
     it("should return 5 success callback actions when incidentPath is included", () => {
@@ -288,10 +288,10 @@ describe("records - Action Creators", () => {
         )
         .api.successCallback.map(callback => (isObject(callback) ? callback.action : callback));
 
-      expect(successCallbacks).to.be.an("array");
-      expect(successCallbacks).to.have.lengthOf(5);
-      expect(successCallbacks).to.deep.equal(expected);
-      expect(successCallbacks[3]).to.eql("cases/SET_CASE_ID_REDIRECT");
+      expect(Array.isArray(successCallbacks)).toBe(true);
+      expect(successCallbacks).toHaveLength(5);
+      expect(successCallbacks).toEqual(expected);
+      expect(successCallbacks[3]).toEqual("cases/SET_CASE_ID_REDIRECT");
     });
   });
 
@@ -306,7 +306,7 @@ describe("records - Action Creators", () => {
       type: `${RECORD_PATH.cases}/FETCH_RECORD_ALERTS`
     };
 
-    expect(actionCreators.fetchRecordsAlerts(RECORD_PATH.cases, recordId)).be.deep.equals(expected);
+    expect(actionCreators.fetchRecordsAlerts(RECORD_PATH.cases, recordId)).toEqual(expected);
   });
 
   it("should check the 'clearMetadata' action creator to return the correct object", () => {
@@ -314,7 +314,7 @@ describe("records - Action Creators", () => {
       type: "TestRecordType/CLEAR_METADATA"
     };
 
-    expect(actionCreators.clearMetadata("TestRecordType")).be.deep.equals(expected);
+    expect(actionCreators.clearMetadata("TestRecordType")).toEqual(expected);
   });
 
   it("should check the 'clearCaseFromIncident' action creator to return the correct object", () => {
@@ -322,7 +322,7 @@ describe("records - Action Creators", () => {
       type: "cases/CLEAR_CASE_FROM_INCIDENT"
     };
 
-    expect(actionCreators.clearCaseFromIncident()).be.deep.equals(expected);
+    expect(actionCreators.clearCaseFromIncident()).toEqual(expected);
   });
 
   it("should check the 'fetchIncidentFromCase' action creator to return the correct object", () => {
@@ -338,7 +338,7 @@ describe("records - Action Creators", () => {
       }
     };
 
-    expect(actionCreators.fetchIncidentFromCase("case-unique-id-1", "case-display-id-1", "module-id-1")).be.deep.equals(
+    expect(actionCreators.fetchIncidentFromCase("case-unique-id-1", "case-display-id-1", "module-id-1")).toEqual(
       expected
     );
   });
@@ -349,7 +349,7 @@ describe("records - Action Creators", () => {
       payload: { caseId: "case-unique-id-1", caseIdDisplay: "case-display-id-1" }
     };
 
-    expect(actionCreators.setCaseIdForIncident("case-unique-id-1", "case-display-id-1")).to.deep.equal(expected);
+    expect(actionCreators.setCaseIdForIncident("case-unique-id-1", "case-display-id-1")).toEqual(expected);
   });
 
   it("should check the 'fetchIncidentwitCaseId' action creator to return the correct object", () => {
@@ -360,7 +360,7 @@ describe("records - Action Creators", () => {
       }
     };
 
-    expect(actionCreators.fetchIncidentwitCaseId("case-id-1")).to.deep.equal(expected);
+    expect(actionCreators.fetchIncidentwitCaseId("case-id-1")).toEqual(expected);
   });
 
   it("should check the 'setSelectedRecord' action creator to return the correct object", () => {
@@ -371,13 +371,13 @@ describe("records - Action Creators", () => {
       payload: { id: recordId }
     };
 
-    expect(actionCreators.setSelectedRecord(RECORD_PATH.cases, recordId)).be.deep.equals(expected);
+    expect(actionCreators.setSelectedRecord(RECORD_PATH.cases, recordId)).toEqual(expected);
   });
 
   it("should check the 'clearSelectedRecord' action creator to return the correct object", () => {
     const expected = { type: `${RECORD_PATH.cases}/CLEAR_SELECTED_RECORD` };
 
-    expect(actionCreators.clearSelectedRecord(RECORD_PATH.cases)).be.deep.equals(expected);
+    expect(actionCreators.clearSelectedRecord(RECORD_PATH.cases)).toEqual(expected);
   });
 
   it("should check the 'clearRecordAttachments' action creator to return the correct object", () => {
@@ -386,7 +386,7 @@ describe("records - Action Creators", () => {
       payload: { id: 10, recordType: RECORD_PATH.cases }
     };
 
-    expect(actionCreators.clearRecordAttachments(10, RECORD_PATH.cases)).be.deep.equals(expected);
+    expect(actionCreators.clearRecordAttachments(10, RECORD_PATH.cases)).toEqual(expected);
   });
 
   it("should check the 'fetchCasesPotentialMatches' action creator to return the correct object", () => {
@@ -395,7 +395,7 @@ describe("records - Action Creators", () => {
       api: { path: "cases/1234/potential_matches" }
     };
 
-    expect(actionCreators.fetchCasesPotentialMatches("1234", RECORD_PATH.cases)).be.deep.equals(expected);
+    expect(actionCreators.fetchCasesPotentialMatches("1234", RECORD_PATH.cases)).toEqual(expected);
   });
 
   it("should check the 'fetchTracePotentialMatches' action creator to return the correct object", () => {
@@ -406,7 +406,7 @@ describe("records - Action Creators", () => {
       }
     };
 
-    expect(actionCreators.fetchTracePotentialMatches("12345", RECORD_PATH.tracing_requests)).be.deep.equals(expected);
+    expect(actionCreators.fetchTracePotentialMatches("12345", RECORD_PATH.tracing_requests)).toEqual(expected);
   });
 
   it("should check the 'setMachedCaseForTrace' action creator to return the correct object", () => {
@@ -445,7 +445,7 @@ describe("records - Action Creators", () => {
       }
     };
 
-    expect(actionCreators.setSelectedCasePotentialMatch("12345", RECORD_PATH.cases)).be.deep.equals(expected);
+    expect(actionCreators.setSelectedCasePotentialMatch("12345", RECORD_PATH.cases)).toEqual(expected);
   });
 
   it("should check the 'clearSelectedCasePotentialMatch' action creator to return the correct object", () => {
@@ -453,9 +453,7 @@ describe("records - Action Creators", () => {
       type: `${RECORD_PATH.cases}/CLEAR_CASE_POTENTIAL_MATCH`
     };
 
-    expect(actionCreators.clearSelectedCasePotentialMatch("12345", RECORD_PATH.tracing_requests)).be.deep.equals(
-      expected
-    );
+    expect(actionCreators.clearSelectedCasePotentialMatch("12345", RECORD_PATH.tracing_requests)).toEqual(expected);
   });
 
   it("should check the 'fetchMatchedTraces' action creator to return the correct object", () => {
@@ -466,7 +464,7 @@ describe("records - Action Creators", () => {
       }
     };
 
-    expect(actionCreators.fetchMatchedTraces(RECORD_PATH.cases, "12345")).be.deep.equals(expected);
+    expect(actionCreators.fetchMatchedTraces(RECORD_PATH.cases, "12345")).toEqual(expected);
   });
 
   it("should check the 'unMatchCaseForTrace' action creator to return the correct object", () => {
@@ -493,7 +491,7 @@ describe("records - Action Creators", () => {
       type: `${RECORD_PATH.cases}/CLEAR_POTENTIAL_MATCHES`
     };
 
-    expect(actionCreators.clearPotentialMatches()).be.deep.equals(expected);
+    expect(actionCreators.clearPotentialMatches()).toEqual(expected);
   });
 
   it("should check the 'externalSync' action creator to return the correct object", () => {
@@ -505,7 +503,7 @@ describe("records - Action Creators", () => {
       }
     };
 
-    expect(actionCreators.externalSync(RECORD_PATH.cases, "12345")).be.deep.equals(expected);
+    expect(actionCreators.externalSync(RECORD_PATH.cases, "12345")).toEqual(expected);
   });
 
   it("should check the 'createCaseFromFamilyMember' action creator to return the correct object", () => {
@@ -528,9 +526,7 @@ describe("records - Action Creators", () => {
       }
     };
 
-    expect(actionCreators.createCaseFromFamilyMember({ familyId: "f001", familyMemberId: "m001" })).be.deep.equals(
-      expected
-    );
+    expect(actionCreators.createCaseFromFamilyMember({ familyId: "f001", familyMemberId: "m001" })).toEqual(expected);
   });
 
   it("checks that 'clearPotentialMatches' action creator to return the correct object", () => {
@@ -538,7 +534,7 @@ describe("records - Action Creators", () => {
       type: `${RECORD_PATH.cases}/CLEAR_POTENTIAL_MATCHES`
     };
 
-    expect(actionCreators.clearPotentialMatches()).be.deep.equals(expected);
+    expect(actionCreators.clearPotentialMatches()).toEqual(expected);
   });
 
   it("checks that 'deleteAlertFromRecord' action creator to return the correct object", () => {
@@ -556,6 +552,6 @@ describe("records - Action Creators", () => {
       }
     };
 
-    expect(actionCreators.deleteAlertFromRecord(RECORD_PATH.cases, "12345", "12345-alert")).be.deep.equals(expected);
+    expect(actionCreators.deleteAlertFromRecord(RECORD_PATH.cases, "12345", "12345-alert")).toEqual(expected);
   });
 });

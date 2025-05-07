@@ -13,7 +13,7 @@ describe("getIndicatorSubColumnKeys", () => {
       ])
     );
 
-    expect(keys).to.deep.equal(["column1", "column2"]);
+    expect(keys).toEqual(["column1", "column2"]);
   });
 
   it("returns the subcolumn keys for the indicator", () => {
@@ -24,6 +24,6 @@ describe("getIndicatorSubColumnKeys", () => {
       ])
     );
 
-    expect(keys).to.deep.equal(["column1", "column2"]);
+    expect(keys).toEqual(["column1", "column2"]);
   });
 });

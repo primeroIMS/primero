@@ -5,6 +5,8 @@ import PropTypes from "prop-types";
 import { IconButton, Modal } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
+import { AssetJwt } from "../asset-jwt";
+
 import css from "./styles.css";
 
 function Component({ trigger, image }) {
@@ -27,7 +29,7 @@ function Component({ trigger, image }) {
             <IconButton size="large" className={css.backdropClose}>
               <CloseIcon />
             </IconButton>
-            {open && <img src={image} alt="" />}
+            {open && <AssetJwt src={image} alt="Image" />}
           </div>
         </Modal>
       )}

@@ -10,6 +10,6 @@ describe("pages/admin/<RolesForm>/forms - ResourcesForm", () => {
   it("returns the resources form with fields", () => {
     const resourcesForm = ResourcesForm(fromJS({ case: ["read"] }), i18n, {});
 
-    expect(resourcesForm).to.have.lengthOf(1);
+    expect(resourcesForm).toHaveLength(1);
   });
 });

@@ -6,12 +6,12 @@ describe("<ReferralForm /> - index", () => {
   const indexValues = { ...index };
 
   it("should have known properties", () => {
-    expect(indexValues).to.be.an("object");
+    expect(typeof indexValues).toEqual("object");
     ["default", "SERVICE_SECTION_FIELDS"].forEach(property => {
-      expect(indexValues).to.have.property(property);
+      expect(indexValues).toHaveProperty(property);
       delete indexValues[property];
     });
 
-    expect(indexValues).to.deep.equal({});
+    expect(indexValues).toEqual({});
   });
 });

@@ -1,7 +1,7 @@
 /* Copyright (c) 2014 - 2023 UNICEF. All rights reserved. */
 
 :global html, :global body {
-  height: var(--doc-height, 100vh);
+  height: 100dvh;
   height: 100dvh;
 }
 
@@ -9,12 +9,12 @@
   display: flex;
   overflow: hidden;
   background: var(--c-content-grey);
-  height: var(--doc-height, 100vh);
+  height: 100dvh;
 }
 
 .content {
   flex-grow: 1;
-  height: var(--doc-height, 100vh);
+  height: 100dvh;
   overflow: hidden;
   background: var(--c-content-grey);
   transition: var(--transition);

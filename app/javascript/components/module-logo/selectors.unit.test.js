@@ -23,13 +23,13 @@ describe("getModuleLogoID", () => {
     const result = getModuleLogoID(state);
     const expected = "test-1";
 
-    expect(result).to.deep.equals(expected);
+    expect(result).toEqual(expected);
   });
 
   it("should return primero if no user module", () => {
     const state = fromJS({});
     const expected = "primero";
 
-    expect(getModuleLogoID(state)).to.deep.equals(expected);
+    expect(getModuleLogoID(state)).toEqual(expected);
   });
 });

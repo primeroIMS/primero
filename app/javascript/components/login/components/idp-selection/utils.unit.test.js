@@ -5,7 +5,7 @@ import { setMsalConfig, getLoginRequest, getTokenRequest } from "./utils";
 describe("auth-utils", () => {
   let idp;
 
-  before(() => {
+  beforeAll(() => {
     idp = {
       name: "UNICEF",
       unique_id: "unicef",
@@ -34,7 +34,7 @@ describe("auth-utils", () => {
       }
     };
 
-    expect(setMsalConfig(idp)).to.deep.equal(expected);
+    expect(setMsalConfig(idp)).toEqual(expected);
   });
 
   it("returns login request", () => {
@@ -43,7 +43,7 @@ describe("auth-utils", () => {
       extraQueryParameters: { domain_hint: "domain" }
     };
 
-    expect(getLoginRequest(["123"], "domain")).to.deep.equal(expected);
+    expect(getLoginRequest(["123"], "domain")).toEqual(expected);
   });
 
   it("returns token request", () => {
@@ -51,6 +51,6 @@ describe("auth-utils", () => {
       scopes: ["123"]
     };
 
-    expect(getTokenRequest(["123"])).to.deep.equal(expected);
+    expect(getTokenRequest(["123"])).toEqual(expected);
   });
 });

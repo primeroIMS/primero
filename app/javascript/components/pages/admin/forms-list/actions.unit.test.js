@@ -28,10 +28,10 @@ describe("<FormsList /> - Actions", () => {
       "SAVE_FORMS_REORDER_SUCCESS",
       "SET_REORDERED_FORMS"
     ].forEach(property => {
-      expect(cloneActions).to.have.property(property);
+      expect(cloneActions).toHaveProperty(property);
       delete cloneActions[property];
     });
 
-    expect(cloneActions).to.be.empty;
+    expect(Object.keys(cloneActions)).toHaveLength(0);
   });
 });

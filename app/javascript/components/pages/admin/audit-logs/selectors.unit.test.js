@@ -40,13 +40,13 @@ describe("<AuditLogs /> - pages/admin/audit-logs/selectors", () => {
       ]);
       const records = getFilterUsers(state);
 
-      expect(records).to.deep.equal(expected);
+      expect(records).toEqual(expected);
     });
 
     it("should return empty list when no users", () => {
       const records = getFilterUsers(emptyState);
 
-      expect(records).to.be.empty;
+      expect(records.size).toBe(0);
     });
   });
 });

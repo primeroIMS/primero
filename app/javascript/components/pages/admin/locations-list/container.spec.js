@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { mountedComponent, stub, screen, listHeaders } from "../../../../test-utils";
+import { mountedComponent, screen, listHeaders } from "../../../../test-utils";
 import { ListHeaderRecord } from "../../../user/records";
 import { ACTIONS } from "../../../permissions";
 
@@ -14,11 +14,16 @@ describe("<LocationsList />", () => {
     name: { en: `Location ${i + 1}` }
   }));
 
-  stub(window.I18n, "t")
-    .withArgs("messages.record_list.of")
-    .returns("of")
-    .withArgs("location.no_location")
-    .returns("No Location");
+  jest.spyOn(window.I18n, "t").mockImplementation(arg => {
+    if (arg === "messages.record_list.of") return "of";
+    if (arg === "location.no_location") return "No Location";
+
+    return arg;
+  });
+
+  afterAll(() => {
+    jest.restoreAllMocks();
+  });
 
   const initialState = fromJS({
     records: {

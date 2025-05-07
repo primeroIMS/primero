@@ -20,7 +20,7 @@ describe("pages/admin/<RolesForm> - utils", () => {
         adminLevelMap: fromJS({})
       });
 
-      expect(formsToRender).to.have.sizeOf(8);
+      expect(formsToRender.size).toBe(8);
     });
   });
 
@@ -41,7 +41,7 @@ describe("pages/admin/<RolesForm> - utils", () => {
         }
       };
 
-      expect(utils.mergeFormSections(data)).to.deep.equal(expected);
+      expect(utils.mergeFormSections(data)).toEqual(expected);
     });
 
     it("should keep empty those form sections without values", () => {
@@ -59,7 +59,7 @@ describe("pages/admin/<RolesForm> - utils", () => {
         }
       };
 
-      expect(utils.mergeFormSections(data)).to.deep.equal(expected);
+      expect(utils.mergeFormSections(data)).toEqual(expected);
     });
   });
 
@@ -89,7 +89,7 @@ describe("pages/admin/<RolesForm> - utils", () => {
       });
       const result = utils.groupSelectedIdsByParentForm(data, assignableForms);
 
-      expect(result).to.deep.equal(expected);
+      expect(result).toEqual(expected);
     });
   });
 });

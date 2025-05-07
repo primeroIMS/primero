@@ -8,11 +8,11 @@ describe("components/transitions/referrals/utils.js", () => {
       const clone = { ...utils };
 
       ["referralAgencyName"].forEach(property => {
-        expect(clone).to.have.property(property);
-        expect(clone[property]).to.be.a("function");
+        expect(clone).toHaveProperty(property);
+        expect(clone[property]).toBeInstanceOf(Function);
         delete clone[property];
       });
-      expect(clone).to.be.empty;
+      expect(Object.keys(clone)).toHaveLength(0);
     });
   });
 
@@ -31,7 +31,7 @@ describe("components/transitions/referrals/utils.js", () => {
       };
 
       it("should return the agency name from agencies ", () => {
-        expect(utils.referralAgencyName(transition, agencies)).to.be.equals("Test 1");
+        expect(utils.referralAgencyName(transition, agencies)).toBe("Test 1");
       });
     });
 
@@ -42,7 +42,7 @@ describe("components/transitions/referrals/utils.js", () => {
       };
 
       it("should return the agency name from transition's object ", () => {
-        expect(utils.referralAgencyName(transition, agencies)).to.be.equals("Test Agency");
+        expect(utils.referralAgencyName(transition, agencies)).toBe("Test Agency");
       });
     });
   });
