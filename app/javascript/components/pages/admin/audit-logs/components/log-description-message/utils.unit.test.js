@@ -14,7 +14,7 @@ describe("<AuditLogs /> - pages/admin/audit-logs/components/log-description-mess
 
       const result = getRecordID(data);
 
-      expect(result).to.equal(12345);
+      expect(result).toBe(12345);
     });
 
     it("should return an empty string if record ID is not present", () => {
@@ -27,7 +27,7 @@ describe("<AuditLogs /> - pages/admin/audit-logs/components/log-description-mess
 
       const result = getRecordID(data);
 
-      expect(result).to.equal("");
+      expect(result).toBe("");
     });
   });
 });
