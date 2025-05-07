@@ -4272,6 +4272,7 @@ en:
   record_panel:
     record_information: Record Information
   referral:
+    allow_all: Allow access to all available forms
     type_of_recipient: Type of Recipient
     type_of_referral_required: Type of Referral is required
     referral_authorization_label:  Would you like to specify a Type of Referral?

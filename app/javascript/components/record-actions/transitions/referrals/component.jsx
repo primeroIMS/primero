@@ -75,6 +75,7 @@ function Referrals({
   });
 
   const handleSubmit = values => {
+    console.log(values);
     const recordID = record.get("id");
 
     setPending(true);
@@ -127,6 +128,12 @@ function Referrals({
         onSubmit={handleSubmit}
         validations={validations(i18n)}
         formErrors={formErrors}
+        transformBeforeSend={data => {
+          return {
+            ...data,
+            ...(data[FIELDS.AUTHORIZED_ROLE_UNIQUE_ID] === "all" && { [FIELDS.AUTHORIZED_ROLE_UNIQUE_ID]: "" })
+          };
+        }}
         initialValues={{
           [FIELDS.CONSENT_INDIVIDUAL_TRANSFER]: providedConsent,
           ...referralFromService

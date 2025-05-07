@@ -103,7 +103,8 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
     showDeleteAction,
     showDisableOption,
     maxOptionsAllowed,
-    optionFieldName
+    optionFieldName,
+    additionalOptions
   } = field;
 
   const i18n = useI18n();
@@ -195,7 +196,8 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
     showDeleteAction,
     showDisableOption,
     maxOptionsAllowed,
-    optionFieldName
+    optionFieldName,
+    additionalOptions
   };
 
   const Field = (fieldType => {
