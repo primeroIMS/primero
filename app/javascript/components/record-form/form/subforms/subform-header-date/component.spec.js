@@ -1,12 +1,10 @@
-import { mountedComponent, screen, stub, abbrMonthNames, freezeTimeZone } from "test-utils";
+import { mountedComponent, screen, abbrMonthNames, freezeTimeZone } from "test-utils";
 
 import DateHeader from "./component";
 
 describe("<DateHeader /> - Form - Subforms", () => {
-  let stubI18n = null;
-
   beforeAll(() => {
-    stubI18n = stub(window.I18n, "t").withArgs("date.abbr_month_names").returns(abbrMonthNames);
+    jest.spyOn(window.I18n, "t").mockReturnValue(abbrMonthNames);
     freezeTimeZone();
   });
 
@@ -43,8 +41,6 @@ describe("<DateHeader /> - Form - Subforms", () => {
   });
 
   afterAll(() => {
-    if (stubI18n) {
-      window.I18n.t.restore();
-    }
+    jest.restoreAllMocks();
   });
 });

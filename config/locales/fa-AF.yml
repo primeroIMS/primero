@@ -505,14 +505,8 @@ fa-AF:
     shared_from_my_team_pending_transfers: انتقال در حال انتضار
     shared_from_my_team_referrals: رجعت دهی
     shared_from_my_team_rejected_transfers: انتقالات مسترد شده
-    shared_with_me_new_referrals: رجعت دهی های جدید
-    shared_with_me_total_referrals: همه تعداد رجعت شده ها
-    shared_with_me_transfers_awaiting_acceptance: انتقال قضیه قبول شده در حال انتظار
     shared_with_my_team_pending_transfers: انتقال در حال انتضار
     shared_with_my_team_referrals: رجعت دهی
-    shared_with_others_pending_transfers: انتقال در حال انتضار
-    shared_with_others_referrals: رجعت دهی
-    shared_with_others_rejected_transfers: انتقالات مسترد شده
     status_of_cases: وضعیت قضیه
     system_user: سیستم
     total: همه
@@ -534,23 +528,14 @@ fa-AF:
   email_notification:
     assign: '%{user} واگذار نموده است بخش زیر را %{record_type} برای شما: %{record_id}.'
     assign_subject: '%{record_type}: %{id} - به شما وگذار گردیده است'
-    approval_request: 'استفاده کننده %{user} تایدی درخواست دارد %{approval_type} برای قضیه %{case_id}.'
     approval_request_subject: 'قضیه: %{id} - درخواست تاییدی'
-    approval_response: '%{user} دارد %{status} درخواست برای تاییدی %{approval_type} برای قضیه %{case_id}.'
     approval_response_subject: 'قضیه: %{id} - درخواست تاییدی'
     referral: '%{user} از %{agency} رجعت داده شده است قضیه زیر %{record_type} برای شما: %{record_id} برای%{service_type}.'
     transfer: '%{user} انتقال داده شده است %{record_type} برای شما %{record_id}.'
     transfer_request_subject: انتقال درخواست برای یکی از قضایا
-    transfer_subject: '%{record_type}: %{id} - انتقال'
-    referral_subject: '%{record_type}: %{id} - رجعت دهی'
     transfer_request: 'مشتری پریمرو %{user} از %{agency} درخواست دارد که شما مسئولیت این را واگذار کنید %{record_type} ثبت %{record_id} تا آنها بتوانند ارئه کنند %{record_type} خدمات مدیریت قضیه را برای کسانی که در همان منطقه وجود دارند. اگر این انتقال برای شما مورد قبول میباشد، لطفا کلیک کنیدروی%{record_type} لینک آی دی در این ایمیل برای باز کردن %{record_type}  در پریمرو و شروع انتقال.'
     approval_request_html: 'استفاده کننده %{user}  درخواست تایدی دارد %{approval_type} برای قضیه %{case_id}.'
     approval_response_html: '<strong>%{user}</strong> دارد <strong>%{status}</strong> درخواست تاییدی <strong>%{approval_type}</strong>برای قضیه <strong>%{case_id}</strong>.'
-    referral_html: '<strong>%{user}</strong> از %{agency} رجعت داده شده است %{record_type} برای شما: <strong>%{record_id}</strong> برای %{service_type}.'
-    transfer_html: '<strong>%{user}</strong> انتقال داده است قضیه زیر را برای %{record_type} شما: <strong>%{record_id}</strong>.'
-    assign_html: '%{user} واگذار نموده است بخش زیر را %{record_type} برای شما: %{record_id}.'
-    transfer_request_html: 'مشتری پریمرو %{user} از %{agency} درخواست دارد که شما مسئولیت این را واگذار کنید %{record_type} ثبت %{record_id} تا آنها بتوانند ارئه کنند %{record_type} خدمات مدیریت قضیه را برای کسانی که در همان منطقه وجود دارند. اگر این انتقال برای شما مورد قبول میباشد، لطفا کلیک کنیدروی%{record_type} لینک آی دی در این ایمیل برای باز کردن %{record_type}  در پریمرو و شروع انتقال.'
-    transfer_request_notes_html: 'یاداشت های شخص درخواست کننده: %{request_transfer_notes}'
   encrypt:
     export_type: نوعیت صادره
     file_name: نام فایل را تشکیل دهید (دلخواه)

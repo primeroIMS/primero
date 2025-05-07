@@ -34,6 +34,6 @@ describe("getSubformErrorMessages", () => {
     ]);
     const expected = fromJS(["The unique id 'new_subform_1' is already taken.", "Internal Server Error"]);
 
-    expect(getSubformErrorMessages(subformServerErrors, i18n)).to.deep.equal(expected);
+    expect(getSubformErrorMessages(subformServerErrors, i18n)).toEqual(expected);
   });
 });

@@ -16,7 +16,7 @@ describe("pages/admin/utils/validateMetadata", () => {
       page: 20
     });
 
-    expect(validateMetadata(fromJS({ per: null, page: null }), defaultMetadata)).to.deep.equal(expected);
+    expect(validateMetadata(fromJS({ per: null, page: null }), defaultMetadata)).toEqual(expected);
   });
 
   it("should return metadata if per and page values are not null", () => {
@@ -31,6 +31,6 @@ describe("pages/admin/utils/validateMetadata", () => {
       page: 100
     });
 
-    expect(validateMetadata(metadata, defaultMetadata)).to.deep.equal(expected);
+    expect(validateMetadata(metadata, defaultMetadata)).toEqual(expected);
   });
 });

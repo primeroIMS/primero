@@ -64,7 +64,7 @@ describe("transformOfflineRequest", () => {
     const promise = new Promise((resolve, reject) => {
       transformOfflineRequest(action)
         .then(result => {
-          expect(result).to.deep.equals(expected);
+          expect(result).toEqual(expected);
           resolve();
         })
         .catch(reject);

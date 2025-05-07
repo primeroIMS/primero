@@ -7,10 +7,10 @@ describe("pages/password-reset - constants", () => {
     const clone = { ...constants };
 
     ["NAME", "RESET_PASSWORD_FORM"].forEach(property => {
-      expect(clone).to.have.property(property);
+      expect(clone).toHaveProperty(property);
       delete clone[property];
     });
 
-    expect(clone).to.be.empty;
+    expect(Object.keys(clone)).toHaveLength(0);
   });
 });

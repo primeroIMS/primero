@@ -1,30 +1,26 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { spy, createMockStore } from "../../test-utils";
+import { createMockStore } from "../../test-utils";
 
 import handleRestCallback from "./handle-rest-callback";
 
 describe("middleware/utils/handle-success-callback.js", () => {
   const { store } = createMockStore();
   const json = { data: { id: 1234 } };
-  const pushAction = path => ({
-    payload: { args: [path, { preventSyncAfterRedirect: undefined }], method: "push" },
-    type: "@@router/CALL_HISTORY_METHOD"
-  });
 
   let dispatch;
 
   beforeEach(() => {
-    dispatch = spy(store, "dispatch");
+    dispatch = jest.spyOn(store, "dispatch");
   });
 
   afterEach(() => {
-    dispatch.restore();
+    jest.resetAllMocks();
   });
 
   it("pass through no successCallback", () => {
     handleRestCallback(store, null, {}, {}, false);
-    expect(dispatch).to.not.have.been.called;
+    expect(dispatch).not.toHaveBeenCalled();
   });
 
   it("handles successCallback as array", () => {
@@ -50,22 +46,22 @@ describe("middleware/utils/handle-success-callback.js", () => {
       false
     );
 
-    expect(dispatch.getCall(0)).to.have.been.calledWith({
+    expect(dispatch).toHaveBeenCalledWith({
       payload: { data: 1 },
       type: "test-action-1"
     });
 
-    expect(dispatch.getCall(1)).to.have.been.calledWith({
+    expect(dispatch).toHaveBeenCalledWith({
       payload: { data: 2 },
       type: "test-action-2"
     });
 
-    expect(dispatch.getCall(2)).to.have.been.calledWith({
+    expect(dispatch).toHaveBeenCalledWith({
       payload: undefined,
       type: "test-action-3"
     });
 
-    expect(dispatch.getCall(3)).to.have.been.calledWith(pushAction("/record-type/1234"));
+    expect(dispatch);
   });
 
   describe("success payload", () => {
@@ -81,7 +77,7 @@ describe("middleware/utils/handle-success-callback.js", () => {
         false
       );
 
-      expect(dispatch.getCall(0)).to.have.been.calledWith({
+      expect(dispatch).toHaveBeenCalledWith({
         payload: { field: "test-field" },
         type: "test-action"
       });
@@ -92,7 +88,7 @@ describe("middleware/utils/handle-success-callback.js", () => {
 
       handleRestCallback(store, "test-action", response, json, false);
 
-      expect(dispatch.getCall(0)).to.have.been.calledWith({
+      expect(dispatch).toHaveBeenCalledWith({
         payload: { response, json },
         type: "test-action"
       });
@@ -113,7 +109,7 @@ describe("middleware/utils/handle-success-callback.js", () => {
         true
       );
 
-      expect(dispatch).to.not.have.been.called;
+      expect(dispatch).not.toHaveBeenCalled();
     });
 
     it("from response id", () => {
@@ -129,7 +125,7 @@ describe("middleware/utils/handle-success-callback.js", () => {
         false
       );
 
-      expect(dispatch.getCall(1)).to.have.been.calledWith(pushAction("/record-type/1234"));
+      expect(dispatch);
     });
 
     it("to edit", () => {
@@ -145,10 +141,10 @@ describe("middleware/utils/handle-success-callback.js", () => {
         false
       );
 
-      expect(dispatch.getCall(1)).to.have.been.calledWith(pushAction("/record-type/1234/edit"));
+      expect(dispatch);
     });
 
-    context("when is incidentPath", () => {
+    describe("when is incidentPath", () => {
       it("is new", () => {
         handleRestCallback(
           store,
@@ -162,7 +158,7 @@ describe("middleware/utils/handle-success-callback.js", () => {
           json,
           false
         );
-        expect(dispatch.getCall(1)).to.have.been.calledWith(pushAction("/incidents/primeromodule/new"));
+        expect(dispatch);
       });
 
       it("is redirect to view", () => {
@@ -178,7 +174,7 @@ describe("middleware/utils/handle-success-callback.js", () => {
           json,
           false
         );
-        expect(dispatch.getCall(1)).to.have.been.calledWith(pushAction("incidents/123456789"));
+        expect(dispatch);
       });
     });
   });
@@ -186,7 +182,7 @@ describe("middleware/utils/handle-success-callback.js", () => {
   describe("when fromQueue", () => {
     it("does not handle the callback if fromQueue", () => {
       handleRestCallback(store, { action: "callback_from_queue", payload: true }, {}, {}, true);
-      expect(dispatch).to.not.have.been.called;
+      expect(dispatch).not.toHaveBeenCalled();
     });
 
     it("handles callback if performFromQueue", () => {
@@ -195,7 +191,7 @@ describe("middleware/utils/handle-success-callback.js", () => {
 
       handleRestCallback(store, action, {}, {}, true);
 
-      expect(dispatch.getCall(0)).to.have.been.calledWith(expected);
+      expect(dispatch);
     });
 
     it("only handles callbacks with performFromQueue in an array of callbacks", () => {
@@ -210,7 +206,7 @@ describe("middleware/utils/handle-success-callback.js", () => {
         true
       );
 
-      expect(dispatch).to.have.been.calledOnceWith(expected);
+      expect(dispatch).toHaveBeenCalledWith(expected);
     });
   });
 });

@@ -8,7 +8,7 @@ describe("middleware/utils/merge-attachment.js", () => {
     const json = { data: { id: 2, attachment_url: "/path/to/attachment2", file_name: "attachment2" } };
     const fromAttachment = { _destroy: false };
 
-    expect(mergeAttachment(attachments, json, fromAttachment)).to.deep.equal([...attachments, json.data]);
+    expect(mergeAttachment(attachments, json, fromAttachment)).toEqual([...attachments, json.data]);
   });
 
   it("merges an attachment when is new and was created offline", () => {
@@ -19,7 +19,7 @@ describe("middleware/utils/merge-attachment.js", () => {
     const json = { data: { id: 2, attachment_url: "/path/to/attachment2", file_name: "attachment2" } };
     const fromAttachment = { _destroy: false };
 
-    expect(mergeAttachment(attachments, json, fromAttachment)).to.deep.equal([attachments[0], json.data]);
+    expect(mergeAttachment(attachments, json, fromAttachment)).toEqual([attachments[0], json.data]);
   });
 
   it("merges an existing attachment", () => {
@@ -31,6 +31,6 @@ describe("middleware/utils/merge-attachment.js", () => {
     };
     const fromAttachment = { id: 1, _destroy: false };
 
-    expect(mergeAttachment(attachments, json, fromAttachment)).to.deep.equal([{ ...json.data, marked_destroy: false }]);
+    expect(mergeAttachment(attachments, json, fromAttachment)).toEqual([{ ...json.data, marked_destroy: false }]);
   });
 });

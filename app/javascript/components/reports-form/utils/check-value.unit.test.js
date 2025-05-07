@@ -8,7 +8,7 @@ describe("<ReportForm>/utils/checkValue()", () => {
       value: new Date("01/01/2020")
     };
 
-    expect(checkValue(filter)).to.be.equals("01-Jan-2020");
+    expect(checkValue(filter)).toBe("01-Jan-2020");
   });
 
   it("should return a string", () => {
@@ -16,6 +16,6 @@ describe("<ReportForm>/utils/checkValue()", () => {
       value: "test"
     };
 
-    expect(checkValue(filter)).to.be.equals("test");
+    expect(checkValue(filter)).toBe("test");
   });
 });

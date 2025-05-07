@@ -41,10 +41,10 @@ describe("<RecordForm /> - Actions", () => {
       "SET_SERVICE_TO_REFER",
       "SET_VALIDATION_ERRORS"
     ].forEach(property => {
-      expect(cloneActions).to.have.property(property);
+      expect(cloneActions).toHaveProperty(property);
       delete cloneActions[property];
     });
 
-    expect(cloneActions).to.be.empty;
+    expect(Object.keys(cloneActions)).toHaveLength(0);
   });
 });

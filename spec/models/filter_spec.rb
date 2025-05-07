@@ -324,7 +324,7 @@ describe Filter do
             incidents.filter_by.verification_status
             incidents.filter_by.verified_ghn_reported
             incidents.filter_by.incident_location
-            location.base_types.
+            location.base_types.district
             incidents.filter_by.by_date
             incidents.filter_by.perpetrator_category
             incidents.filter_by.armed_force_group_party_name

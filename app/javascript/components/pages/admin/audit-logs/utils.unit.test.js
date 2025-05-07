@@ -2,6 +2,8 @@
 
 import { fromJS } from "immutable";
 
+import { FILTER_TYPES } from "../../../index-filters";
+
 import { TIMESTAMP, USER_NAME } from "./constants";
 import * as helper from "./utils";
 
@@ -11,11 +13,11 @@ describe("<AuditLogs /> - Helpers", () => {
       const clone = { ...helper };
 
       ["buildAuditLogsQuery", "getFilters", "searchableUsers"].forEach(property => {
-        expect(clone).to.have.property(property);
-        expect(clone[property]).to.be.a("function");
+        expect(clone).toHaveProperty(property);
+        expect(clone[property]).toBeInstanceOf(Function);
         delete clone[property];
       });
-      expect(clone).to.be.empty;
+      expect(Object.keys(clone)).toHaveLength(0);
     });
   });
 
@@ -33,7 +35,7 @@ describe("<AuditLogs /> - Helpers", () => {
 
       const converted = helper.searchableUsers(data);
 
-      expect(converted).to.deep.equal(expected);
+      expect(converted).toEqual(expected);
     });
   });
 
@@ -53,7 +55,7 @@ describe("<AuditLogs /> - Helpers", () => {
 
       const converted = helper.buildAuditLogsQuery(data);
 
-      expect(converted).to.deep.equal(expected);
+      expect(converted).toEqual(expected);
     });
   });
 
@@ -68,7 +70,7 @@ describe("<AuditLogs /> - Helpers", () => {
           type: "dates",
           option_strings_source: null,
           dateIncludeTime: true,
-          options: { en: [{ id: TIMESTAMP, display_name: "Timestamp" }] }
+          options: { en: [{ id: TIMESTAMP, display_name: "logger.timestamp" }] }
         },
         {
           name: "audit_log.user_name",
@@ -76,11 +78,27 @@ describe("<AuditLogs /> - Helpers", () => {
           option_strings_source: null,
           options: helper.searchableUsers(data),
           type: "multi_select",
-          multiple: false
+          multiple: true
+        },
+        {
+          name: "audit_log.action",
+          field_name: "audit_log_actions",
+          option_strings_source: null,
+          options: [],
+          type: FILTER_TYPES.MULTI_SELECT,
+          multiple: true
+        },
+        {
+          name: "audit_log.type",
+          field_name: "record_type",
+          option_strings_source: null,
+          options: [],
+          type: FILTER_TYPES.MULTI_SELECT,
+          multiple: true
         }
       ];
 
-      expect(helper.getFilters(data)).to.deep.equal(expected);
+      expect(helper.getFilters(data, { t: value => value })).toEqual(expected);
     });
   });
 });

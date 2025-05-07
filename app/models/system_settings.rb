@@ -85,7 +85,9 @@ class SystemSettings < ApplicationRecord
   end
 
   def incident_reporting_location_config
-    ReportingLocation.new(super) if super.present?
+    return ReportingLocation.new(super) if super.present?
+
+    ReportingLocation.default_ir_location_config
   end
 
   def age_ranges

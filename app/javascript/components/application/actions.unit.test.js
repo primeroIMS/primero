@@ -6,12 +6,12 @@ describe("Application - Actions", () => {
   describe("actions", () => {
     let clone;
 
-    before(() => {
+    beforeAll(() => {
       clone = { ...actions };
     });
 
-    after(() => {
-      expect(clone).to.be.empty;
+    afterAll(() => {
+      expect(Object.keys(clone)).toHaveLength(0);
     });
 
     [
@@ -63,7 +63,7 @@ describe("Application - Actions", () => {
       "FETCH_REFERRAL_AUTHORIZATION_ROLES_FINISHED"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
-        expect(actions).to.have.property(property);
+        expect(actions).toHaveProperty(property);
         delete clone[property];
       });
     });

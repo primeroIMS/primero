@@ -32,7 +32,7 @@ describe("User - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle LOGOUT_SUCCESS", () => {
@@ -42,7 +42,7 @@ describe("User - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(initialState);
+    expect(newState).toEqual(initialState);
   });
 
   it("should handle FETCH_USER_DATA_SUCCESS", () => {
@@ -74,6 +74,7 @@ describe("User - Reducers", () => {
       userGroupUniqueIds: ["tests"],
       userGroups: [{ unique_id: "tests", description: "tests" }],
       agencyId: 1,
+      agencyUniqueId: "agency-unique-id",
       roleId: 19,
       listHeaders: mapObjectPropertiesToRecords(
         {
@@ -120,6 +121,7 @@ describe("User - Reducers", () => {
       user_name: "primero",
       email: "primero@primero.com",
       agency_id: 1,
+      agency_unique_id: "agency-unique-id",
       role_unique_id: 19,
       module_unique_ids: ["primeromodule-cp", "primeromodule-gbv"],
       permitted_form_unique_ids: ["record_owner", "client_feedback"],
@@ -188,7 +190,7 @@ describe("User - Reducers", () => {
     const newState = reducer(initialState, action);
 
     // TODO: Remove .toJS()
-    expect(newState.toJS()).to.deep.equal(expected.toJS());
+    expect(newState.toJS()).toEqual(expected.toJS());
   });
 
   it("it should handle RESET_PASSWORD_STARTED", () => {
@@ -200,7 +202,7 @@ describe("User - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("it should handle RESET_PASSWORD_SUCCESS", () => {
@@ -212,7 +214,7 @@ describe("User - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("it should handle RESET_PASSWORD_FAILURE", () => {
@@ -224,6 +226,6 @@ describe("User - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

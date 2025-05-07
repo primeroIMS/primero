@@ -38,13 +38,13 @@ describe("configurations-form/selectors.js", () => {
 
       const userGroup = getConfiguration(state);
 
-      expect(userGroup).to.deep.equal(expected);
+      expect(userGroup).toEqual(expected);
     });
 
     it("should return empty object when selected user empty", () => {
       const userGroup = getConfiguration(stateWithoutHeaders);
 
-      expect(userGroup).to.deep.equal(fromJS({}));
+      expect(userGroup).toEqual(fromJS({}));
     });
   });
 
@@ -54,13 +54,13 @@ describe("configurations-form/selectors.js", () => {
 
       const userGroup = getErrors(state);
 
-      expect(userGroup).to.deep.equal(expected);
+      expect(userGroup).toEqual(expected);
     });
 
     it("should return false when errors empty", () => {
       const userGroup = getErrors(stateWithoutHeaders);
 
-      expect(userGroup).to.be.false;
+      expect(userGroup).toBe(false);
     });
   });
 
@@ -70,13 +70,13 @@ describe("configurations-form/selectors.js", () => {
 
       const serverErrors = getServerErrors(state);
 
-      expect(serverErrors).to.deep.equal(expected);
+      expect(serverErrors).toEqual(expected);
     });
 
     it("should return empty object when no server errors", () => {
       const userGroup = getServerErrors(stateWithoutHeaders);
 
-      expect(userGroup).to.deep.equal(fromJS([]));
+      expect(userGroup).toEqual(fromJS([]));
     });
   });
 
@@ -84,31 +84,31 @@ describe("configurations-form/selectors.js", () => {
     it("should return server errors", () => {
       const serverErrors = getSavingRecord(state);
 
-      expect(serverErrors).to.be.true;
+      expect(serverErrors).toBe(true);
     });
 
     it("should return empty object when no server errors", () => {
       const user = getSavingRecord(stateWithoutHeaders);
 
-      expect(user).to.be.false;
+      expect(user).toBe(false);
     });
   });
 
   describe("getLoading", () => {
     it("should loading state", () => {
-      expect(getLoading(state)).to.be.false;
+      expect(getLoading(state)).toBe(false);
     });
   });
 
   describe("getApplying", () => {
     it("should return false", () => {
-      expect(getApplying(state)).to.be.false;
+      expect(getApplying(state)).toBe(false);
     });
   });
 
   describe("getSending", () => {
     it("should return false", () => {
-      expect(getSending(state)).to.be.false;
+      expect(getSending(state)).toBe(false);
     });
   });
 });

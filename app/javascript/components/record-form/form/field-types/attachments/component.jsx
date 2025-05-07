@@ -15,6 +15,7 @@ import { getIsProcessingAttachments, getLoadingRecordState, getRecordAttachments
 import { useMemoizedSelector } from "../../../../../libs";
 import { get } from "../../../../form/utils";
 import SubformEmptyData from "../../subforms/subform-empty-data";
+import { AssetJwt } from "../../../../asset-jwt";
 
 import { ATTACHMENT_FIELDS_INITIAL_VALUES, ATTACHMENT_TYPES, FIELD_ATTACHMENT_TYPES } from "./constants";
 import AttachmentLabel from "./attachment-label";
@@ -98,9 +99,11 @@ function Component({ name, field, label, disabled, formik, mode, recordType, hel
 
       return (
         <Box my={2}>
-          <audio id={fileName} controls>
-            <source src={attachmentUrl || buildBase64URL(value.content_type, value.attachment)} />
-          </audio>
+          <AssetJwt
+            id={fileName}
+            src={attachmentUrl || buildBase64URL(value.content_type, value.attachment)}
+            type="audio"
+          />
         </Box>
       );
     });

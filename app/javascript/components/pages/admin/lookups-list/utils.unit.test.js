@@ -14,7 +14,7 @@ describe("<LookupsList /> pages/admin/utils", () => {
 
     const result = columns(i18n);
 
-    expect(JSON.stringify(result)).to.be.deep.equals(JSON.stringify(expected));
+    expect(JSON.stringify(result)).toEqual(JSON.stringify(expected));
   });
 
   it("should return a customBodyRender", () => {
@@ -24,8 +24,8 @@ describe("<LookupsList /> pages/admin/utils", () => {
 
     const result = columns(i18n, css);
 
-    expect(result[1].options.customBodyRender("test", tableMeta).type).to.be.equals("div");
-    expect(result[2].options.customBodyRender("test", tableMeta).type).to.be.equals("div");
-    expect(result[1].options.customBodyRender("test", tableMeta).props.children).to.be.equals("test");
+    expect(result[1].options.customBodyRender("test", tableMeta).type).toBe("div");
+    expect(result[2].options.customBodyRender("test", tableMeta).type).toBe("div");
+    expect(result[1].options.customBodyRender("test", tableMeta).props.children).toBe("test");
   });
 });

@@ -17,7 +17,7 @@ describe("<Report /> - utils", () => {
         }
       };
 
-      expect(getColumnObjects(reportData, 1)).to.deep.equals({
+      expect(getColumnObjects(reportData, 1)).toEqual({
         column_1: {
           _total: 5
         },
@@ -43,7 +43,7 @@ describe("<Report /> - utils", () => {
         }
       };
 
-      expect(getColumnObjects(reportData, 1)).to.deep.equals({
+      expect(getColumnObjects(reportData, 1)).toEqual({
         column_1: {
           _total: 5
         },
@@ -81,7 +81,7 @@ describe("<Report /> - utils", () => {
         }
       };
 
-      expect(getColumnObjects(reportData, 2)).to.deep.equals({
+      expect(getColumnObjects(reportData, 2)).toEqual({
         column_1: {
           _total: 5
         },
@@ -131,7 +131,7 @@ describe("<Report /> - utils", () => {
         }
       };
 
-      expect(getColumnObjects(reportData, 2)).to.deep.equals({
+      expect(getColumnObjects(reportData, 2)).toEqual({
         "Location - 1": {
           _total: 2,
           Yes: {

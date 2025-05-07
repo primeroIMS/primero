@@ -7,10 +7,10 @@ describe("<Form />/fields - Constants", () => {
     const clonedConstants = { ...constants };
 
     ["ERROR_FIELD_NAME", "ORDERABLE_OPTIONS_FIELD_NAME"].forEach(property => {
-      expect(clonedConstants).to.have.property(property);
+      expect(clonedConstants).toHaveProperty(property);
       delete clonedConstants[property];
     });
 
-    expect(clonedConstants).to.be.empty;
+    expect(Object.keys(clonedConstants)).toHaveLength(0);
   });
 });

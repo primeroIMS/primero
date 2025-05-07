@@ -8,7 +8,7 @@ describe("report/utils/sort-by-date.js", () => {
       const data = ["Jun-2021", "Feb-2020", "May-2021"];
       const expected = ["Feb-2020", "May-2021", "Jun-2021"];
 
-      expect(sortByDate(data)).to.deep.equals(expected);
+      expect(sortByDate(data)).toEqual(expected);
     });
   });
 
@@ -25,7 +25,7 @@ describe("report/utils/sort-by-date.js", () => {
         ["Jun-2021", 0, 1, 2]
       ];
 
-      expect(sortByDate(data, true)).to.deep.equals(expected);
+      expect(sortByDate(data, true)).toEqual(expected);
     });
   });
 
@@ -42,7 +42,7 @@ describe("report/utils/sort-by-date.js", () => {
         ["08-Oct-2018 - 14-Oct-2018", 3, 2, 1]
       ];
 
-      expect(sortByDate(data, true)).to.deep.equals(expected);
+      expect(sortByDate(data, true)).toEqual(expected);
     });
   });
 });

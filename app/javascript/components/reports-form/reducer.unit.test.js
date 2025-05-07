@@ -17,6 +17,6 @@ describe("<ReportForm /> - reducers", () => {
     };
     const newState = reducers(state, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

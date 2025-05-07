@@ -7,10 +7,10 @@ describe("Verifying violationTitle constant", () => {
     const constants = { ...violationTitleConstants };
 
     ["NAME", "VIOLATION_STATUS"].forEach(property => {
-      expect(constants).to.have.property(property);
+      expect(constants).toHaveProperty(property);
       delete constants[property];
     });
 
-    expect(constants).to.be.empty;
+    expect(Object.keys(constants)).toHaveLength(0);
   });
 });

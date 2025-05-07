@@ -17,12 +17,12 @@ describe("buildValidation", () => {
   it("should return form validation object (validation passes)", async () => {
     const validations = await buildValidation(fields).isValid({ search_by: "option1", option1: "test" });
 
-    expect(validations).to.be.true;
+    expect(validations).toBe(true);
   });
 
   it("should return form validation object (validation fails)", async () => {
     const validations = await buildValidation(fields).isValid({});
 
-    expect(validations).to.be.false;
+    expect(validations).toBe(false);
   });
 });

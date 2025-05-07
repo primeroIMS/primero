@@ -3,11 +3,28 @@
 import configureStore from "redux-mock-store";
 import { fromJS } from "immutable";
 
-import { spy, stub } from "../../test-utils";
 import * as methods from "../../components/login/components/idp-selection/auth-provider";
 import * as actions from "../../components/user/action-creators";
 
 import startSignout from "./start-signout";
+
+jest.mock("../../components/user/action-creators", () => {
+  const originalModule = jest.requireActual("../../components/user/action-creators");
+
+  return {
+    __esModule: true,
+    ...originalModule
+  };
+});
+
+jest.mock("../../components/login/components/idp-selection/auth-provider", () => {
+  const originalModule = jest.requireActual("../../components/login/components/idp-selection/auth-provider");
+
+  return {
+    __esModule: true,
+    ...originalModule
+  };
+});
 
 describe("middleware/utils/start-signout.js", () => {
   const store = (userProvider = true) =>
@@ -22,26 +39,27 @@ describe("middleware/utils/start-signout.js", () => {
       })
     );
 
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
   it("triggers msal signout if using identity provider", () => {
-    const signout = spy(methods, "signOut");
+    jest.spyOn(methods, "signOut");
 
     startSignout(store(), true);
 
-    expect(methods.signOut).to.have.been.calledOnce;
-    signout.restore();
+    expect(methods.signOut).toHaveBeenCalledTimes(1);
   });
 
   it("triggers msal signout if using identity provider", () => {
     const configuredStore = store(false);
 
-    const dispatch = spy(configuredStore, "dispatch");
-    const signout = stub(actions, "attemptSignout").returns({ type: "test" });
+    const dispatch = jest.spyOn(configuredStore, "dispatch");
+
+    jest.spyOn(actions, "attemptSignout").mockReturnValue({ type: "test" });
 
     startSignout(configuredStore, true);
 
-    expect(dispatch).to.have.been.calledOnceWith(actions.attemptSignout());
-
-    dispatch.restore();
-    signout.restore();
+    expect(dispatch).toHaveBeenCalledWith(actions.attemptSignout());
   });
 });

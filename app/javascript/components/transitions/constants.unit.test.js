@@ -16,21 +16,25 @@ describe("<Transitions /> - Constants", () => {
       "TRANSFER_REQUEST_SUMMARY_NAME",
       "TRANSFER_REQUEST_DETAILS_NAME"
     ].forEach(property => {
-      expect(constants).to.have.property(property);
-      expect(constants[property]).to.be.a("string");
+      expect(constants).toHaveProperty(property);
+      expect(typeof constants[property]).toBe("string");
       delete constants[property];
     });
 
-    expect(constants).to.have.property("TRANSITION_STATUS");
-    expect(constants.TRANSITION_STATUS).to.be.an("object");
-    expect(constants.TRANSITION_STATUS).to.have.all.keys("accepted", "rejected", "done", "inProgress");
+    expect(constants).toHaveProperty("TRANSITION_STATUS");
+    expect(typeof constants.TRANSITION_STATUS).toEqual("object");
+    expect(Object.keys(constants.TRANSITION_STATUS)).toEqual(
+      expect.arrayContaining(["accepted", "rejected", "done", "inProgress"])
+    );
     delete constants.TRANSITION_STATUS;
 
-    expect(constants).to.have.property("TRANSITIONS_TYPES");
-    expect(constants.TRANSITIONS_TYPES).to.be.an("object");
-    expect(constants.TRANSITIONS_TYPES).to.have.all.keys("transfer", "referral", "reassign");
+    expect(constants).toHaveProperty("TRANSITIONS_TYPES");
+    expect(typeof constants.TRANSITIONS_TYPES).toEqual("object");
+    expect(Object.keys(constants.TRANSITIONS_TYPES)).toEqual(
+      expect.arrayContaining(["transfer", "referral", "reassign"])
+    );
     delete constants.TRANSITIONS_TYPES;
 
-    expect(constants).to.be.empty;
+    expect(Object.keys(constants)).toHaveLength(0);
   });
 });

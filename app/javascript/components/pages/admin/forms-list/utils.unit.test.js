@@ -15,7 +15,7 @@ describe("<FormsList /> - Utils", () => {
         background: DRAGGING_COLOR
       };
 
-      expect(utils.getItemStyle(true, {})).to.deep.equal(expected);
+      expect(utils.getItemStyle(true, {})).toEqual(expected);
     });
   });
 
@@ -23,7 +23,7 @@ describe("<FormsList /> - Utils", () => {
     it("should return the correct object", () => {
       const expected = { background: DRAGGING_COLOR };
 
-      expect(utils.getListStyle(true)).to.deep.equal(expected);
+      expect(utils.getListStyle(true)).toEqual(expected);
     });
   });
 
@@ -35,7 +35,7 @@ describe("<FormsList /> - Utils", () => {
 
       const updater = utils.buildOrderUpdater(current, newOrder);
 
-      expect(updater(fromJS({ order_form_group: 10 }))).to.deep.equal(expected);
+      expect(updater(fromJS({ order_form_group: 10 }))).toEqual(expected);
     });
   });
 
@@ -65,7 +65,7 @@ describe("<FormsList /> - Utils", () => {
         2: { unique_id: "form_2", order: 0, id: 2 }
       });
 
-      expect(reorderedForms).to.deep.equal(expected);
+      expect(reorderedForms).toEqual(expected);
     });
   });
 
@@ -80,7 +80,7 @@ describe("<FormsList /> - Utils", () => {
 
       const filter = { primeroModule: "module_1", recordType: "parent" };
 
-      expect(utils.formSectionFilter(formSection, filter)).to.be.true;
+      expect(utils.formSectionFilter(formSection, filter)).toBe(true);
     });
   });
 
@@ -97,7 +97,7 @@ describe("<FormsList /> - Utils", () => {
         })
       ]);
 
-      expect(utils.getFormGroupId(formSections, "form_1")).to.be.equal("group_1");
+      expect(utils.getFormGroupId(formSections, "form_1")).toBe("group_1");
     });
   });
 
@@ -121,7 +121,7 @@ describe("<FormsList /> - Utils", () => {
 
       const filter = { primeroModule: "module_1", recordType: "parent_2" };
 
-      expect(utils.filterFormSections(formSections, filter)).to.deep.equal(expected);
+      expect(utils.filterFormSections(formSections, filter)).toEqual(expected);
     });
   });
 
@@ -141,7 +141,7 @@ describe("<FormsList /> - Utils", () => {
 
     const formSectionsByGroup = utils.groupByFormGroup(fromJS([formSection1, formSection2]));
 
-    expect(formSectionsByGroup.keySeq()).to.deep.equal(fromJS(["group_1", "group_2"]));
+    expect(formSectionsByGroup.keySeq().toJS()).toEqual(["group_1", "group_2"]);
   });
 
   describe("setInitialFormOrder", () => {
@@ -173,7 +173,8 @@ describe("<FormsList /> - Utils", () => {
         utils
           .setInitialFormOrder(formSections, filter)
           .map(formSection => fromJS([formSection.unique_id, formSection.order]))
-      ).to.deep.equal(expected.map(formSection => fromJS([formSection.unique_id, formSection.order])));
+          .equals(expected.map(formSection => fromJS([formSection.unique_id, formSection.order])))
+      ).toBe(true);
     });
   });
 
@@ -206,7 +207,8 @@ describe("<FormsList /> - Utils", () => {
         utils
           .setInitialGroupOrder(formSections, filter)
           .map(formSection => fromJS([formSection.unique_id, formSection.order_form_group]))
-      ).to.deep.equal(expected.map(formSection => fromJS([formSection.unique_id, formSection.order_form_group])));
+          .equals(expected.map(formSection => fromJS([formSection.unique_id, formSection.order_form_group])))
+      ).toBe(true);
     });
   });
 
@@ -245,9 +247,7 @@ describe("<FormsList /> - Utils", () => {
         record_information: "Record Information"
       };
 
-      expect(utils.getFormGroups(allFormGroupsLookups, "primeromodule-cp", "case", { locale: "en" })).to.deep.equal(
-        result
-      );
+      expect(utils.getFormGroups(allFormGroupsLookups, "primeromodule-cp", "case", { locale: "en" })).toEqual(result);
     });
   });
 });

@@ -1,6 +1,5 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { stub } from "../../../../test-utils";
 import { RECORD_PATH } from "../../../../config";
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 
@@ -12,11 +11,11 @@ describe("<RolesForm /> - Action Creators", () => {
     const creators = { ...actionsCreators };
 
     ["clearSelectedRole", "deleteRole", "fetchRole", "saveRole", "setCopyRole", "clearCopyRole"].forEach(property => {
-      expect(creators).to.have.property(property);
+      expect(creators).toHaveProperty(property);
       delete creators[property];
     });
 
-    expect(creators).to.be.empty;
+    expect(Object.keys(creators)).toHaveLength(0);
   });
 
   it("should check that 'fetchRole' action creator returns the correct object", () => {
@@ -27,11 +26,11 @@ describe("<RolesForm /> - Action Creators", () => {
       }
     };
 
-    expect(actionsCreators.fetchRole(10)).to.deep.equal(expectedAction);
+    expect(actionsCreators.fetchRole(10)).toEqual(expectedAction);
   });
 
   it("should check that 'saveRole' action creator returns the correct object", () => {
-    stub(generate, "messageKey").returns(4);
+    jest.spyOn(generate, "messageKey").mockReturnValue(4);
 
     const args = {
       id: null,
@@ -62,11 +61,11 @@ describe("<RolesForm /> - Action Creators", () => {
       }
     };
 
-    expect(actionsCreators.saveRole(args)).to.deep.equal(expectedAction);
+    expect(actionsCreators.saveRole(args)).toEqual(expectedAction);
   });
 
   it("should check that 'deleteRole' action creator returns the correct object", () => {
-    stub(generate, "messageKey").returns(4);
+    jest.spyOn(generate, "messageKey").mockReturnValue(4);
 
     const args = {
       id: 10,
@@ -93,7 +92,7 @@ describe("<RolesForm /> - Action Creators", () => {
       }
     };
 
-    expect(actionsCreators.deleteRole(args)).to.deep.equal(expectedAction);
+    expect(actionsCreators.deleteRole(args)).toEqual(expectedAction);
   });
 
   it("should check that 'setCopyRole' action creator returns the correct object", () => {
@@ -103,7 +102,7 @@ describe("<RolesForm /> - Action Creators", () => {
       payload
     };
 
-    expect(actionsCreators.setCopyRole(payload)).to.deep.equal(expectedAction);
+    expect(actionsCreators.setCopyRole(payload)).toEqual(expectedAction);
   });
 
   it("should check that 'clearCopyRole' action creator returns the correct object", () => {
@@ -111,12 +110,10 @@ describe("<RolesForm /> - Action Creators", () => {
       type: actions.CLEAR_COPY_ROLE
     };
 
-    expect(actionsCreators.clearCopyRole()).to.deep.equal(expectedAction);
+    expect(actionsCreators.clearCopyRole()).toEqual(expectedAction);
   });
 
   afterEach(() => {
-    if (generate.messageKey.restore) {
-      generate.messageKey.restore();
-    }
+    jest.resetAllMocks();
   });
 });

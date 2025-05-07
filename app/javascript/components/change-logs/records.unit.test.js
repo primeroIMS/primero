@@ -5,12 +5,14 @@ import * as records from "./records";
 describe("ChangeLogs - records", () => {
   const recordsValues = { ...records };
 
-  ["ChangeLogsRecord"].forEach(property => {
-    expect(recordsValues).to.have.property(property);
-    expect(recordsValues[property]).to.be.a("function");
+  it("exports records", () => {
+    ["ChangeLogsRecord"].forEach(property => {
+      expect(recordsValues).toHaveProperty(property);
+      expect(recordsValues[property]).toBeInstanceOf(Function);
 
-    delete recordsValues[property];
+      delete recordsValues[property];
+    });
+
+    expect(Object.keys(recordsValues)).toHaveLength(0);
   });
-
-  expect(recordsValues).to.be.empty;
 });

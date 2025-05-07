@@ -9,15 +9,15 @@ describe("components/nepali-calendar-input/utils.js", () => {
     const expected = "2066-09-21";
 
     it("converts iso dates", () => {
-      expect(convertToNeDate(isoDate)).to.deep.equals(expected);
+      expect(convertToNeDate(isoDate)).toEqual(expected);
     });
 
     it("converts native date object", () => {
-      expect(convertToNeDate(new Date(isoDate))).to.deep.equals(expected);
+      expect(convertToNeDate(new Date(isoDate))).toEqual(expected);
     });
 
     it("returns empty object", () => {
-      expect(convertToNeDate()).to.deep.equals("");
+      expect(convertToNeDate()).toEqual("");
     });
   });
 });

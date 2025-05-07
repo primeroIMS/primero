@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { mountedComponent, screen, stub, lookups } from "../../../../test-utils";
+import { mountedComponent, screen, lookups } from "../../../../test-utils";
 import { ACTIONS } from "../../../permissions";
 
 import RolesList from "./container";
@@ -37,7 +37,16 @@ describe("<RolesList />", () => {
     }
   });
 
-  stub(window.I18n, "t").withArgs("messages.record_list.of").returns("of").withArgs("buttons.new").returns("New");
+  jest.spyOn(window.I18n, "t").mockImplementation(arg => {
+    if (arg === "messages.record_list.of") return "of";
+    if (arg === "buttons.new") return "New";
+
+    return arg;
+  });
+
+  afterAll(() => {
+    jest.restoreAllMocks();
+  });
 
   it("renders record list table", () => {
     mountedComponent(<RolesList />, initialState, ["/admin/roles"]);

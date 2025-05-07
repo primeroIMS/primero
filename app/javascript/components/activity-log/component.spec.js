@@ -4,12 +4,11 @@ import { mountedComponent, userEvent, screen } from "test-utils";
 
 import { ACCEPTED, REJECTED } from "../../config";
 import { ACTIONS } from "../permissions";
-import { lookups, stub } from "../../test-utils";
+import { lookups } from "../../test-utils";
 
 import ActivityLog from "./component";
 
 describe("<ActivityLog", () => {
-  let stubI18n = null;
   const initialState = {
     records: {
       activity_logs: {
@@ -55,7 +54,7 @@ describe("<ActivityLog", () => {
   };
 
   beforeEach(() => {
-    stubI18n = stub(window.I18n, "t").withArgs("messages.record_list.of").returns("of");
+    jest.spyOn(window.I18n, "t").mockReturnValue("of");
   });
 
   describe("when record access is not denied", () => {
@@ -79,8 +78,6 @@ describe("<ActivityLog", () => {
   });
 
   afterEach(() => {
-    if (stubI18n) {
-      window.I18n.t.restore();
-    }
+    jest.restoreAllMocks();
   });
 });

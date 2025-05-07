@@ -1,12 +1,39 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { createMiddleware, spy } from "../test-utils";
+import { createMiddleware } from "../test-utils";
 import { METHODS } from "../config";
 
 import offlineMiddleware from "./offline-middleware";
 import * as queueData from "./utils/queue-data";
 import * as queueFetch from "./utils/queue-fetch";
 import * as retrieveData from "./utils/retrieve-data";
+
+jest.mock("./utils/queue-data", () => {
+  const originalModule = jest.requireActual("./utils/queue-data");
+
+  return {
+    __esModule: true,
+    ...originalModule
+  };
+});
+
+jest.mock("./utils/queue-fetch", () => {
+  const originalModule = jest.requireActual("./utils/queue-fetch");
+
+  return {
+    __esModule: true,
+    ...originalModule
+  };
+});
+
+jest.mock("./utils/retrieve-data", () => {
+  const originalModule = jest.requireActual("./utils/retrieve-data");
+
+  return {
+    __esModule: true,
+    ...originalModule
+  };
+});
 
 describe("middleware/offline-middleware.js", () => {
   const setupMiddleware = online =>
@@ -21,7 +48,7 @@ describe("middleware/offline-middleware.js", () => {
       const action = { type: "TEST" };
 
       invoke(action);
-      expect(next).to.have.been.calledWith(action);
+      expect(next).toHaveBeenCalledWith(action);
     });
 
     it("online", () => {
@@ -29,7 +56,7 @@ describe("middleware/offline-middleware.js", () => {
       const action = { type: "TEST" };
 
       invoke(action);
-      expect(next).to.have.been.calledWith(action);
+      expect(next).toHaveBeenCalledWith(action);
     });
   });
 
@@ -38,13 +65,12 @@ describe("middleware/offline-middleware.js", () => {
     let queueFetchSpy;
 
     beforeEach(() => {
-      queueFetchSpy = spy(queueFetch, "default");
-      retrieveDataSpy = spy(retrieveData, "default");
+      queueFetchSpy = jest.spyOn(queueFetch, "default");
+      retrieveDataSpy = jest.spyOn(retrieveData, "default");
     });
 
     afterEach(() => {
-      retrieveDataSpy.restore();
-      queueFetchSpy.restore();
+      jest.resetAllMocks();
     });
 
     it("invokes retrieveData with args", () => {
@@ -56,7 +82,7 @@ describe("middleware/offline-middleware.js", () => {
       };
 
       invoke(action);
-      expect(retrieveDataSpy).to.have.been.calledWith(store, action);
+      expect(retrieveDataSpy).toHaveBeenCalledWith(store, action);
     });
 
     it("does not invoke retrieveData if skipDB is true", () => {
@@ -68,7 +94,7 @@ describe("middleware/offline-middleware.js", () => {
       };
 
       invoke(action);
-      expect(retrieveDataSpy).to.not.have.been.called;
+      expect(retrieveDataSpy).not.toHaveBeenCalled();
     });
 
     it("queues the request if queueOffline is true", () => {
@@ -81,7 +107,7 @@ describe("middleware/offline-middleware.js", () => {
 
       invoke(action);
 
-      expect(queueFetchSpy).to.have.been.calledWith(action);
+      expect(queueFetchSpy).toHaveBeenCalledWith(action);
     });
   });
 
@@ -96,11 +122,11 @@ describe("middleware/offline-middleware.js", () => {
     const testMethods = assertion => [METHODS.DELETE, METHODS.PATCH, METHODS.POST, METHODS.PUT].forEach(assertion);
 
     beforeEach(() => {
-      queueDataSpy = spy(queueData, "default");
+      queueDataSpy = jest.spyOn(queueData, "default");
     });
 
     afterEach(() => {
-      queueDataSpy.restore();
+      jest.resetAllMocks();
     });
 
     it("queues actions", () => {
@@ -110,7 +136,7 @@ describe("middleware/offline-middleware.js", () => {
         const action = buildAction(method);
 
         invoke(action);
-        expect(queueDataSpy).to.have.been.calledWith(store, action);
+        expect(queueDataSpy).toHaveBeenCalledWith(store, action);
       });
     });
 
@@ -122,8 +148,8 @@ describe("middleware/offline-middleware.js", () => {
 
         invoke(action);
 
-        expect(queueDataSpy).to.have.not.been.called;
-        expect(next).to.have.been.calledWith(action);
+        expect(queueDataSpy).not.toHaveBeenCalled();
+        expect(next).toHaveBeenCalledWith(action);
       });
     });
   });

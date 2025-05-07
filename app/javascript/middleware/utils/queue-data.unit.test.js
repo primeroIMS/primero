@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { stub, createMockStore } from "../../test-utils";
+import { createMockStore } from "../../test-utils";
 import * as syncIndexedDB from "../../db/sync";
 import queueIndexedDB from "../../db/queue";
 import { METHODS } from "../../config";
@@ -14,15 +14,10 @@ import * as withGeneratedProperties from "./with-generated-properties";
 describe.skip("middleware/utils/retrieve-data.js", () => {
   const { store } = createMockStore();
 
-  context("when data is queued", () => {
+  describe("when data is queued", () => {
     const resolvedData = { data: [{ field: "test" }] };
-    let generatedProperties;
-    let id;
-    let syncDB;
     let success;
     let queue;
-    let skipSynced;
-    let dbPayload;
 
     const action = {
       type: "test-action",
@@ -33,45 +28,36 @@ describe.skip("middleware/utils/retrieve-data.js", () => {
     };
 
     beforeEach(() => {
-      id = stub(uuid, "v4").returns("1234");
-      skipSynced = stub(handleOfflineAttachments, "skipSyncedAttachments").resolves(action);
-      dbPayload = stub(handleOfflineAttachments, "buildDBPayload").resolves(resolvedData);
-      queue = stub(queueIndexedDB, "add").resolves();
-      syncDB = stub(syncIndexedDB, "default").resolves(resolvedData);
-      success = stub(offlineDispatchSuccess, "default");
+      jest.spyOn(uuid, "v4").mockReturnValue("1234");
+      jest.spyOn(handleOfflineAttachments, "skipSyncedAttachments").mockResolvedValue(action);
+      jest.spyOn(handleOfflineAttachments, "buildDBPayload").mockResolvedValue(resolvedData);
+      jest.spyOn(queueIndexedDB, "add").mockResolvedValue();
+      jest.spyOn(syncIndexedDB, "default").mockResolvedValue(resolvedData);
+      success = jest.spyOn(offlineDispatchSuccess, "default");
     });
 
     it("syncs indexeddb and calls offlineDispatchSuccess", async () => {
-      generatedProperties = stub(withGeneratedProperties, "default").returns({ ...action, fromQueue: "1234" });
+      jest.spyOn(withGeneratedProperties, "default").mockReturnValue({ ...action, fromQueue: "1234" });
 
       await queueData(store, action);
 
-      expect(queue).to.have.been.calledWith({ ...action, fromQueue: "1234" });
-      expect(success).to.have.been.calledWith(store, action, resolvedData);
+      expect(queue).toHaveBeenCalledWith({ ...action, fromQueue: "1234" });
+      expect(success).toHaveBeenCalledWith(store, action, resolvedData);
     });
 
     afterEach(() => {
-      syncDB.restore();
-      queue.restore();
-      success.restore();
-      id.restore();
-      generatedProperties?.restore();
-      skipSynced.restore();
-      dbPayload.restore();
+      jest.resetAllMocks();
     });
   });
 
-  context("when has errored", () => {
+  describe("when has errored", () => {
     let consoleError;
-    let syncDB;
-    let skipSynced;
-    let dbPayload;
 
     beforeEach(() => {
-      consoleError = stub(console, "error");
-      skipSynced = stub(handleOfflineAttachments, "skipSyncedAttachments").resolves({});
-      dbPayload = stub(handleOfflineAttachments, "buildDBPayload").resolves({});
-      syncDB = stub(syncIndexedDB, "default").rejects("error happened");
+      consoleError = jest.spyOn(console, "error");
+      jest.spyOn(handleOfflineAttachments, "skipSyncedAttachments").mockResolvedValue({});
+      jest.spyOn(handleOfflineAttachments, "buildDBPayload").mockResolvedValue({});
+      jest.spyOn(syncIndexedDB, "default").mockRejectedValue("error happened");
     });
 
     it("displays errors in console", async () => {
@@ -85,14 +71,11 @@ describe.skip("middleware/utils/retrieve-data.js", () => {
 
       await queueData(store, action);
 
-      expect(consoleError).to.have.been.called;
+      expect(consoleError).toHaveBeenCalled();
     });
 
     afterEach(() => {
-      consoleError.restore();
-      syncDB.restore();
-      skipSynced.restore();
-      dbPayload.restore();
+      jest.resetAllMocks();
     });
   });
 });

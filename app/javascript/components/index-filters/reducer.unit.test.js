@@ -18,6 +18,6 @@ describe("<IndexFilters /> - Reducers", () => {
     };
     const newState = reducer(namespace)(defaultState, action);
 
-    expect(newState.get("filters")).to.deep.equal(fromJS(payload));
+    expect(newState.get("filters")).toEqual(fromJS(payload));
   });
 });

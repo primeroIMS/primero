@@ -91,6 +91,6 @@ describe("toTasksOverdueTable - pages/dashboard/utils/", () => {
 
     const converted = toTasksOverdueTable(data, i18nMock);
 
-    expect(converted).to.deep.equal(expected);
+    expect(converted).toEqual(expected);
   });
 });

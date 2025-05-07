@@ -79,13 +79,13 @@ describe("<SavedSearches /> - Selectors", () => {
       ]);
       const filtersFromState = selectors.selectSavedSearches(stateWithRecords, "incidents");
 
-      expect(filtersFromState.toJS()).to.eql(expected.toJS());
+      expect(filtersFromState.toJS()).toEqual(expected.toJS());
     });
 
     it("should return false when there is not any error", () => {
       const errors = selectors.selectSavedSearches(stateWithNoRecords);
 
-      expect(errors).to.deep.equal(List([]));
+      expect(errors).toEqual(List([]));
     });
   });
 
@@ -107,13 +107,13 @@ describe("<SavedSearches /> - Selectors", () => {
       ]);
       const filtersFromState = selectors.selectSavedSearchesById(stateWithRecords, "incidents", 1);
 
-      expect(filtersFromState.toJS()).to.eql(expected.toJS());
+      expect(filtersFromState.toJS()).toEqual(expected.toJS());
     });
 
     it("should return false when there is not any error", () => {
       const errors = selectors.selectSavedSearchesById(stateWithNoRecords);
 
-      expect(errors).to.deep.equal(Map({}));
+      expect(errors).toEqual(Map({}));
     });
   });
 });

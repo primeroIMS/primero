@@ -5,13 +5,13 @@ import merge from "deepmerge";
 import subformAwareMerge from "./subform-aware-merge";
 
 describe("subformAwareMerge", () => {
-  context("when merging primitive values", () => {
+  describe("when merging primitive values", () => {
     it("adds items", () => {
       const target = [];
       const source = ["value_1", "value_2", "value_3"];
       const expected = [...source];
 
-      expect(merge(target, source, { arrayMerge: subformAwareMerge })).to.deep.equal(expected);
+      expect(merge(target, source, { arrayMerge: subformAwareMerge })).toEqual(expected);
     });
 
     it("removes items", () => {
@@ -19,11 +19,11 @@ describe("subformAwareMerge", () => {
       const source = ["value_1"];
       const expected = [...source];
 
-      expect(merge(target, source, { arrayMerge: subformAwareMerge })).to.deep.equal(expected);
+      expect(merge(target, source, { arrayMerge: subformAwareMerge })).toEqual(expected);
     });
   });
 
-  context("when merging objects", () => {
+  describe("when merging objects", () => {
     it("adds items", () => {
       const target = [];
       const source = [
@@ -32,7 +32,7 @@ describe("subformAwareMerge", () => {
       ];
       const expected = [...source];
 
-      expect(merge(target, source, { arrayMerge: subformAwareMerge })).to.deep.equal(expected);
+      expect(merge(target, source, { arrayMerge: subformAwareMerge })).toEqual(expected);
     });
 
     it("removes item", () => {
@@ -40,7 +40,7 @@ describe("subformAwareMerge", () => {
       const source = [{ id: 1, field: "value_1" }];
       const expected = [...source];
 
-      expect(merge(target, source, { arrayMerge: subformAwareMerge })).to.deep.equal(expected);
+      expect(merge(target, source, { arrayMerge: subformAwareMerge })).toEqual(expected);
     });
 
     it("merges items by id", () => {
@@ -57,7 +57,7 @@ describe("subformAwareMerge", () => {
         { id: 2, field: "value_2" }
       ];
 
-      expect(merge(target, source, { arrayMerge: subformAwareMerge })).to.deep.equal(expected);
+      expect(merge(target, source, { arrayMerge: subformAwareMerge })).toEqual(expected);
     });
 
     it("merges items by unique_id", () => {
@@ -74,7 +74,7 @@ describe("subformAwareMerge", () => {
         { unique_id: "uid-2", field: "value_2" }
       ];
 
-      expect(merge(target, source, { arrayMerge: subformAwareMerge })).to.deep.equal(expected);
+      expect(merge(target, source, { arrayMerge: subformAwareMerge })).toEqual(expected);
     });
   });
 });

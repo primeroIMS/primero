@@ -6,9 +6,9 @@ describe("<IdpSelection /> - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionCreators };
 
-    expect(creators).to.have.property("attemptIDPLogin");
+    expect(creators).toHaveProperty("attemptIDPLogin");
     delete creators.attemptIDPLogin;
 
-    expect(creators).to.deep.equal({});
+    expect(creators).toEqual({});
   });
 });

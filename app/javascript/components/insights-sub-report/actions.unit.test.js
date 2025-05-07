@@ -14,11 +14,11 @@ describe("<Insights /> - Actions", () => {
       "FETCH_INSIGHT_FINISHED",
       "SET_SUB_REPORT"
     ].forEach(property => {
-      expect(cloneActions).to.have.property(property);
-      expect(cloneActions[property]).to.be.a("string");
+      expect(cloneActions).toHaveProperty(property);
+      expect(typeof cloneActions[property]).toBe("string");
       delete cloneActions[property];
     });
 
-    expect(cloneActions).to.be.empty;
+    expect(Object.keys(cloneActions)).toHaveLength(0);
   });
 });

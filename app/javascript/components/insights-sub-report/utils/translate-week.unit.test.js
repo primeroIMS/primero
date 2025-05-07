@@ -9,6 +9,6 @@ describe("translateWeek", () => {
     const localizeDate = (value, dateFormat) => format(parseISO(value), dateFormat);
     const result = translateWeek("2020-06-07", "2020-06-13", localizeDate);
 
-    expect(result).to.equal("07-Jun-2020 - 13-Jun-2020");
+    expect(result).toBe("07-Jun-2020 - 13-Jun-2020");
   });
 });

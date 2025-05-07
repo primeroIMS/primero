@@ -12,10 +12,10 @@ describe("<TableValues/> - components/utils", () => {
       const result = emptyColumn(i18n);
 
       it("returns an array of two elements", () => {
-        expect(result).to.have.lengthOf(2);
+        expect(result).toHaveLength(2);
       });
       it("returns the last element with total label", () => {
-        expect(result[1]).to.be.equals("report.total");
+        expect(result[1]).toBe("report.total");
       });
     });
 
@@ -23,8 +23,8 @@ describe("<TableValues/> - components/utils", () => {
       it("returns an array with a single and empty element", () => {
         const result = emptyColumn(i18n, true);
 
-        expect(result[0]).to.be.empty;
-        expect(result).to.have.lengthOf(1);
+        expect(result[0]).toHaveLength(0);
+        expect(result).toHaveLength(1);
       });
     });
   });

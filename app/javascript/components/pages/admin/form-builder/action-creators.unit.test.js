@@ -2,7 +2,6 @@
 
 import { fromJS } from "immutable";
 
-import { stub } from "../../../../test-utils";
 import { generate, ENQUEUE_SNACKBAR } from "../../../notifier";
 
 import * as actionCreators from "./action-creators";
@@ -35,11 +34,11 @@ describe("<FormsBuilder /> - Action Creators", () => {
       "updateSelectedField",
       "updateSelectedSubform"
     ].forEach(property => {
-      expect(creators).to.have.property(property);
+      expect(creators).toHaveProperty(property);
       delete creators[property];
     });
 
-    expect(creators).to.be.empty;
+    expect(Object.keys(creators)).toHaveLength(0);
   });
 
   it("should check the 'clearSelectedForm' action creator to return the correct object", () => {
@@ -47,7 +46,7 @@ describe("<FormsBuilder /> - Action Creators", () => {
       type: actions.CLEAR_SELECTED_FORM
     };
 
-    expect(actionCreators.clearSelectedForm()).to.deep.equal(expected);
+    expect(actionCreators.clearSelectedForm()).toEqual(expected);
   });
 
   it("should check the 'clearSelectedSubform' action creator to return the correct object", () => {
@@ -55,7 +54,7 @@ describe("<FormsBuilder /> - Action Creators", () => {
       type: actions.CLEAR_SELECTED_SUBFORM
     };
 
-    expect(actionCreators.clearSelectedSubform()).to.deep.equal(expected);
+    expect(actionCreators.clearSelectedSubform()).toEqual(expected);
   });
 
   it("should check the 'clearSelectedField' action creator to return the correct object", () => {
@@ -63,7 +62,7 @@ describe("<FormsBuilder /> - Action Creators", () => {
       type: actions.CLEAR_SELECTED_FIELD
     };
 
-    expect(actionCreators.clearSelectedField()).to.deep.equal(expected);
+    expect(actionCreators.clearSelectedField()).toEqual(expected);
   });
 
   it("should check the 'clearSelectedSubformField' action creator to return the correct object", () => {
@@ -71,11 +70,11 @@ describe("<FormsBuilder /> - Action Creators", () => {
       type: actions.CLEAR_SELECTED_SUBFORM_FIELD
     };
 
-    expect(actionCreators.clearSelectedSubformField()).to.deep.equal(expected);
+    expect(actionCreators.clearSelectedSubformField()).toEqual(expected);
   });
 
   it("should check the 'saveForm' action creator to return the correct object", () => {
-    stub(generate, "messageKey").returns(4);
+    jest.spyOn(generate, "messageKey").mockReturnValue(4);
 
     const args = {
       body: { name: { en: "form section 1" } },
@@ -108,8 +107,8 @@ describe("<FormsBuilder /> - Action Creators", () => {
       }
     };
 
-    expect(actionCreators.saveForm(args)).to.deep.equal(expected);
-    generate.messageKey.restore();
+    expect(actionCreators.saveForm(args)).toEqual(expected);
+    jest.resetAllMocks();
   });
 
   it("should check the 'setNewField' action creator to return the correct object", () => {
@@ -126,7 +125,7 @@ describe("<FormsBuilder /> - Action Creators", () => {
       payload: data
     };
 
-    expect(actionCreators.setNewField(data)).to.deep.equal(expected);
+    expect(actionCreators.setNewField(data)).toEqual(expected);
   });
 
   it("should check the 'fetchForm' action creator to return the correct object", () => {
@@ -135,7 +134,7 @@ describe("<FormsBuilder /> - Action Creators", () => {
       api: { path: "forms/1" }
     };
 
-    expect(actionCreators.fetchForm(1)).to.deep.equal(expected);
+    expect(actionCreators.fetchForm(1)).toEqual(expected);
   });
 
   it("should check the 'setSelectedField' action creator to return the correct object", () => {
@@ -144,7 +143,7 @@ describe("<FormsBuilder /> - Action Creators", () => {
       payload: { name: "field_1" }
     };
 
-    expect(actionCreators.setSelectedField("field_1")).to.deep.equal(expected);
+    expect(actionCreators.setSelectedField("field_1")).toEqual(expected);
   });
 
   it("should check the 'setSelectedSubform' action creator to return the correct object", () => {
@@ -153,7 +152,7 @@ describe("<FormsBuilder /> - Action Creators", () => {
       payload: 1
     };
 
-    expect(actionCreators.setSelectedSubform(1)).to.deep.equal(expected);
+    expect(actionCreators.setSelectedSubform(1)).toEqual(expected);
   });
 
   it("should check the 'SET_SELECTED_SUBFORM_FIELD' action creator to return the correct object", () => {
@@ -162,7 +161,7 @@ describe("<FormsBuilder /> - Action Creators", () => {
       payload: { name: "field_1" }
     };
 
-    expect(actionCreators.setSelectedSubformField("field_1")).to.deep.equal(expected);
+    expect(actionCreators.setSelectedSubformField("field_1")).toEqual(expected);
   });
 
   it("should check the 'updateSelectedField' action creator to return the correct object", () => {
@@ -172,7 +171,7 @@ describe("<FormsBuilder /> - Action Creators", () => {
       payload: { data: field, subformId: null }
     };
 
-    expect(actionCreators.updateSelectedField(field)).to.deep.equal(expected);
+    expect(actionCreators.updateSelectedField(field)).toEqual(expected);
   });
 
   it("should check the 'updateSelectedSubform' action creator to return the correct object", () => {
@@ -182,7 +181,7 @@ describe("<FormsBuilder /> - Action Creators", () => {
       payload: { data: subform }
     };
 
-    expect(actionCreators.updateSelectedSubform(subform)).to.deep.equal(expected);
+    expect(actionCreators.updateSelectedSubform(subform)).toEqual(expected);
   });
 
   it("should check the 'createSelectedField' action creator to return the correct object", () => {
@@ -213,7 +212,7 @@ describe("<FormsBuilder /> - Action Creators", () => {
       }
     };
 
-    expect(actionCreators.createSelectedField(data)).to.deep.equal(expected);
+    expect(actionCreators.createSelectedField(data)).toEqual(expected);
   });
 
   it("should check the 'reorderFields' action creator to return the correct object", () => {
@@ -222,7 +221,7 @@ describe("<FormsBuilder /> - Action Creators", () => {
       payload: { name: "field_1", order: 0, isSubform: true }
     };
 
-    expect(actionCreators.reorderFields("field_1", 0, true)).to.deep.equal(expected);
+    expect(actionCreators.reorderFields("field_1", 0, true)).toEqual(expected);
   });
 
   it("should check the 'updateFieldTranslations' action creator to return the correct object", () => {
@@ -231,15 +230,11 @@ describe("<FormsBuilder /> - Action Creators", () => {
       payload: { field1: { display_name: { en: "Field 1" } } }
     };
 
-    expect(actionCreators.updateFieldTranslations({ field1: { display_name: { en: "Field 1" } } })).to.deep.equal(
-      expected
-    );
+    expect(actionCreators.updateFieldTranslations({ field1: { display_name: { en: "Field 1" } } })).toEqual(expected);
   });
 
   afterEach(() => {
-    if (generate.messageKey.restore) {
-      generate.messageKey.restore();
-    }
+    jest.resetAllMocks();
   });
 
   it("should check the 'mergeOnSelectedSubform' action creator to return the correct object", () => {
@@ -252,7 +247,7 @@ describe("<FormsBuilder /> - Action Creators", () => {
       payload
     };
 
-    expect(actionCreators.mergeOnSelectedSubform(payload)).to.deep.equal(expected);
+    expect(actionCreators.mergeOnSelectedSubform(payload)).toEqual(expected);
   });
 
   it("should check the 'selectExistingFields' action creator to return the correct object", () => {
@@ -266,11 +261,11 @@ describe("<FormsBuilder /> - Action Creators", () => {
       payload
     };
 
-    expect(actionCreators.selectExistingFields(payload)).to.deep.equal(expected);
+    expect(actionCreators.selectExistingFields(payload)).toEqual(expected);
   });
 
   it("should check the 'saveSubforms' action creator to return the correct object", () => {
-    stub(generate, "messageKey").returns(4);
+    jest.spyOn(generate, "messageKey").mockReturnValue(4);
     const fields = [
       {
         id: 146,
@@ -317,6 +312,6 @@ describe("<FormsBuilder /> - Action Creators", () => {
 
     const result = actionCreators.saveSubforms(subforms, parentFormParams);
 
-    expect(Object.keys(result)).to.deep.equal(["type", "api", "finalCallback", "finishedCallback"]);
+    expect(Object.keys(result)).toEqual(["type", "api", "finalCallback", "finishedCallback"]);
   });
 });

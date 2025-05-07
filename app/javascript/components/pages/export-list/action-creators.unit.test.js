@@ -9,11 +9,11 @@ describe("<ExportList /> - pages/export-list/action-creators", () => {
     const creators = { ...actionCreators };
 
     ["fetchExports"].forEach(property => {
-      expect(creators).to.have.property(property);
+      expect(creators).toHaveProperty(property);
       delete creators[property];
     });
 
-    expect(creators).to.be.empty;
+    expect(Object.keys(creators)).toHaveLength(0);
   });
 
   it("should check the 'fetchExports' action creator to return the correct object", () => {
@@ -29,7 +29,7 @@ describe("<ExportList /> - pages/export-list/action-creators", () => {
       }
     };
 
-    expect(returnObject).to.not.be.undefined;
-    expect(returnObject).to.deep.equals(expected);
+    expect(returnObject).toBeDefined();
+    expect(returnObject).toEqual(expected);
   });
 });

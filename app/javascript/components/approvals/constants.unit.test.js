@@ -8,11 +8,11 @@ describe("<Approvals /> - Constants", () => {
 
     ["CASE_PLAN", "NAME", "NAME_DETAIL", "NAME_PANEL", "NAME_SUMMARY", "STATUS_APPROVED", "STATUS_REJECTED"].forEach(
       property => {
-        expect(constants).to.have.property(property);
-        expect(constants[property]).to.be.a("string");
+        expect(constants).toHaveProperty(property);
+        expect(typeof constants[property]).toBe("string");
         delete constants[property];
       }
     );
-    expect(constants).to.be.empty;
+    expect(Object.keys(constants)).toHaveLength(0);
   });
 });

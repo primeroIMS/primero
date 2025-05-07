@@ -6,6 +6,6 @@ import getFormRequestPath from "./get-form-request-path";
 
 describe("getFormRequestPath", () => {
   it("should return the correct path", () => {
-    expect(getFormRequestPath(1, SAVE_METHODS.update)).to.equal("forms/1");
+    expect(getFormRequestPath(1, SAVE_METHODS.update)).toBe("forms/1");
   });
 });

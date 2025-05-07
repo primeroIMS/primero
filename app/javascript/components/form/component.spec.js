@@ -1,4 +1,4 @@
-import { screen, mountedComponent, spy } from "test-utils";
+import { screen, mountedComponent } from "test-utils";
 import { fromJS } from "immutable";
 import { object, string } from "yup";
 
@@ -7,7 +7,7 @@ import { FORM_MODE_DIALOG } from "./constants";
 import { FormSectionRecord, FieldRecord } from "./records";
 
 describe("<Form>", () => {
-  const formSubmit = spy();
+  const formSubmit = jest.fn();
   const FORM_ID = "test-form";
 
   const formSections = fromJS([

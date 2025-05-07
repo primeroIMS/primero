@@ -54,7 +54,6 @@ rpsec
 .gitignore
 .tx
 .travis.yml
-.mochaignore.js
 .ruby-version
 CHANGELOG.md
 CONTRIBUTING.md

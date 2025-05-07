@@ -3,7 +3,7 @@
 import buildSubformValues from "./build-subform-values";
 
 describe("buildSubformValues", () => {
-  context("when is a violation subform", () => {
+  describe("when is a violation subform", () => {
     it("should return the values for subform", () => {
       const values = {
         killing_number_of_victims: {
@@ -31,7 +31,7 @@ describe("buildSubformValues", () => {
       };
       const result = buildSubformValues("killing", values);
 
-      expect(result).to.deep.equal({
+      expect(result).toEqual({
         killing_number_of_victims: {
           boys: 2,
           girls: 1
@@ -41,7 +41,7 @@ describe("buildSubformValues", () => {
       });
     });
   });
-  context("when is no a violation subform", () => {
+  describe("when is no a violation subform", () => {
     it("should return the values for subform", () => {
       const values = {
         field_one: "other",
@@ -50,7 +50,7 @@ describe("buildSubformValues", () => {
       };
       const result = buildSubformValues("test", values);
 
-      expect(result).to.deep.equal(values);
+      expect(result).toEqual(values);
     });
   });
 });

@@ -15,7 +15,7 @@ describe("components/login/selectors.js", () => {
     it("should return identity providers", () => {
       const useProviders = getUseIdentityProvider(stateWithProviders);
 
-      expect(useProviders).to.equal(true);
+      expect(useProviders).toBe(true);
     });
   });
 });

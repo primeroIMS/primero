@@ -18,6 +18,6 @@ describe("tallyFieldForm()", () => {
       formMode
     });
 
-    expect(forms).to.have.sizeOf(3);
+    expect(forms.size).toBe(3);
   });
 });

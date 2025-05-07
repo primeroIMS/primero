@@ -94,7 +94,7 @@ describe("toReportingLocationTable - pages/dashboard/utils/", () => {
 
     const converted = toReportingLocationTable(data, reportingLocationConfig, i18nMock, locations).data;
 
-    expect(converted).to.deep.equal(expected);
+    expect(converted).toEqual(expected);
   });
   describe("dashboardTableData", () => {
     it("should return data for table", () => {
@@ -134,7 +134,7 @@ describe("toReportingLocationTable - pages/dashboard/utils/", () => {
       ];
       const converted = dashboardTableData(optionsByIndex, data, indicators, listKey);
 
-      expect(converted).to.deep.equal(expected);
+      expect(converted).toEqual(expected);
     });
   });
 });

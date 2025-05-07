@@ -7,9 +7,9 @@ describe("pages/admin/<FormBuilder>/components/<TranslationsForm>/components - i
 
   it("should have known properties", () => {
     ["FieldTranslationRow"].forEach(property => {
-      expect(indexValues).to.have.property(property);
+      expect(indexValues).toHaveProperty(property);
       delete indexValues[property];
     });
-    expect(indexValues).to.be.empty;
+    expect(Object.keys(indexValues)).toHaveLength(0);
   });
 });

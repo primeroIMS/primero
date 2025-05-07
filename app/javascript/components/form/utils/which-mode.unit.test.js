@@ -30,7 +30,7 @@ describe("whichFormMode()", () => {
       isDialog: formMode.get("isDialog")
     };
 
-    expect(mode).to.deep.equal(expected);
-    expect(modeViaGet).to.deep.equal(expected);
+    expect(mode).toEqual(expected);
+    expect(modeViaGet).toEqual(expected);
   });
 });

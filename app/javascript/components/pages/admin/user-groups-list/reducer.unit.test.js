@@ -24,7 +24,7 @@ describe("<UserGroupsList /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle CLEAR_METADATA", () => {
@@ -38,7 +38,7 @@ describe("<UserGroupsList /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SET_USER_GROUPS_FILTER", () => {
@@ -53,6 +53,6 @@ describe("<UserGroupsList /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

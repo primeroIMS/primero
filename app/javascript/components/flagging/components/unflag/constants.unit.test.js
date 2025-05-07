@@ -7,10 +7,10 @@ describe("Unflag - Constants", () => {
     const clonedConstants = { ...constants };
 
     ["NAME", "UNFLAG_DIALOG", "FORM_ID"].forEach(property => {
-      expect(clonedConstants).to.have.property(property);
+      expect(clonedConstants).toHaveProperty(property);
       delete clonedConstants[property];
     });
 
-    expect(clonedConstants).to.be.empty;
+    expect(Object.keys(clonedConstants)).toHaveLength(0);
   });
 });

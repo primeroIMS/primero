@@ -14,6 +14,7 @@ describe("User - index", () => {
       "fetchAuthenticatedUserData",
       "getAppResources",
       "getAssignedAgency",
+      "getAssignedAgencyUniqueId",
       "getCodeOfConductAccepteOn",
       "getCodeOfConductId",
       "getCurrentUserGroupPermission",
@@ -44,10 +45,10 @@ describe("User - index", () => {
       "removeNotificationSubscription",
       "getNotificationSubscription"
     ].forEach(property => {
-      expect(indexValues).to.have.property(property);
+      expect(indexValues).toHaveProperty(property);
       delete indexValues[property];
     });
 
-    expect(indexValues).to.be.empty;
+    expect(Object.keys(indexValues)).toHaveLength(0);
   });
 });

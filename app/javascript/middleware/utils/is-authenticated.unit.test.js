@@ -15,6 +15,6 @@ describe("middleware/utils/is-authenticated.js", () => {
       })
     );
 
-    expect(isOnline(store)).to.be.true;
+    expect(isOnline(store)).toBe(true);
   });
 });
