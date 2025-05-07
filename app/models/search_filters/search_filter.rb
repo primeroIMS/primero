@@ -26,9 +26,9 @@ class SearchFilters::SearchFilter < ValueObject
   end
 
   def safe_search_column
-    return ActiveRecord::Base.sanitize_sql_for_conditions(['%s', "srch_#{field_name}"]) unless table_name.present?
+    return ActiveRecord::Base.sanitize_sql_for_conditions(['%s', searchable_field_name]) unless table_name.present?
 
-    ActiveRecord::Base.sanitize_sql_for_conditions(['%s.%s', table_name, "srch_#{field_name}"])
+    ActiveRecord::Base.sanitize_sql_for_conditions(['%s.%s', table_name, searchable_field_name])
   end
 
   def query(record_class = nil)
@@ -43,6 +43,10 @@ class SearchFilters::SearchFilter < ValueObject
 
   def searchable_query
     raise NotImplementedError
+  end
+
+  def searchable_field_name
+    "srch_#{field_name}"
   end
 
   def searchable_field_name?(record_class)

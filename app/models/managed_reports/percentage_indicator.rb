@@ -20,7 +20,7 @@ module ManagedReports::PercentageIndicator
 
     def in_percentages_by_group(results)
       total_by_fields = calculate_total_by_fields(fields, results)
-      total_by_group = calculate_total_by_group(results)
+      total_by_group = calculate_total_records_by_group(results)
 
       results.map do |result|
         total_records_in_group = total_by_group[result['group_id']]
@@ -30,7 +30,7 @@ module ManagedReports::PercentageIndicator
 
     def in_percentages(results)
       total_by_fields = calculate_total_by_fields(fields, results)
-      total_records = BigDecimal(results.sum { |result| result['count'] })
+      total_records = calculate_total_records(results)
       results.map { |result| result_in_percentages(result, total_by_fields, total_records) }
     end
 
@@ -66,14 +66,18 @@ module ManagedReports::PercentageIndicator
       end
     end
 
-    def calculate_total_by_group(results)
+    def calculate_total_records(results)
+      BigDecimal(results.sum { |result| result['count'] })
+    end
+
+    def calculate_total_records_by_group(results)
       results.group_by { |result| result['group_id'] }.transform_values do |values|
         BigDecimal(values.sum { |value| value['count'] })
       end
     end
 
     def result_group_key(result, field)
-      [result['group_id'], result[field]].join('-')
+      [result['group_id'], result[field]].compact.join('-')
     end
   end
 end

@@ -27,16 +27,12 @@ class ManagedReports::Indicators::PercentageSuccessfulReferrals < ManagedReports
             service_response_day_time,
             service_implemented,
             service_unique_id,
-            COALESCE(data->>'gender', 'incomplete_data') AS gender,
-            data->>'owned_by_location' AS owned_by_location,
+            COALESCE(srch_gender, 'incomplete_data') AS gender,
             cases.id AS case_id
           FROM cases
-          #{ManagedReports::SearchableFilterService.filter_values(params['status'])}
-          #{ManagedReports::SearchableFilterService.filter_scope(current_user)}
-          #{ManagedReports::SearchableFilterService.filter_reporting_location(params['location'])}
-          #{ManagedReports::SearchableFilterService.filter_consent_reporting}
           #{join_services(params['service_type'])}
           WHERE data @? '$.services_section ? (@.service_status_referred == true)'
+          #{build_filter_query(current_user, params)&.prepend('AND ')}
         ),
         referred_services AS (
           SELECT
@@ -63,9 +59,21 @@ class ManagedReports::Indicators::PercentageSuccessfulReferrals < ManagedReports
         ORDER BY service_implemented
       )
     end
-
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/AbcSize
+
+    def build_filter_query(current_user, params = {})
+      filters = [
+        params['status'],
+        ManagedReports::FilterService.reporting_location(params['location']),
+        ManagedReports::FilterService.consent_reporting,
+        ManagedReports::FilterService.scope(current_user)
+      ].compact
+      return unless filters.present?
+
+      filters.map { |filter| filter.query(Child) }.join(' AND ')
+    end
+
     def service_date_query(grouped_by, date_param)
       return unless date_param&.field_name.present?
 

@@ -62,7 +62,7 @@ describe ManagedReports::Indicators::PercentageCasesRiskLevel do
   end
 
   before do
-    clean_data(SearchableValue, Alert, Lookup, UserGroup, User, Agency, Role, Child)
+    clean_data(Alert, Lookup, UserGroup, User, Agency, Role, Child)
     child1
     child2
     child3
@@ -71,7 +71,7 @@ describe ManagedReports::Indicators::PercentageCasesRiskLevel do
   end
 
   after do
-    clean_data(SearchableValue, Alert, Lookup, UserGroup, User, Agency, Role, Child)
+    clean_data(Alert, Lookup, UserGroup, User, Agency, Role, Child)
   end
 
   it 'returns data for percentage_cases_risk_level indicator' do
@@ -81,14 +81,15 @@ describe ManagedReports::Indicators::PercentageCasesRiskLevel do
       [
         { id: 'high', male: 33.33, total: 20.0 },
         { id: 'medium', female: 50.0, male: 33.33, total: 40.0 },
-        { id: 'low', female: 50.0, total: 20.0 }
+        { id: 'low', female: 50.0, total: 20.0 },
+        { id: 'incomplete_data', male: 33.33, total: 20.0 }
       ]
     )
   end
 
   context 'when consent_reporting is visible' do
     before do
-      ManagedReports::SearchableFilterService.stub(:consent_reporting_visible?).and_return(true)
+      ManagedReports::FilterService.stub(:consent_reporting_visible?).and_return(true)
     end
 
     it 'returns data for those records where the consent was provided' do
@@ -122,7 +123,8 @@ describe ManagedReports::Indicators::PercentageCasesRiskLevel do
         [
           { id: 'high', male: 33.33, total: 16.67 },
           { id: 'medium', female: 50.0, male: 33.33, incomplete_data: 100, total: 50.0 },
-          { id: 'low', female: 50.0, total: 16.67 }
+          { id: 'low', female: 50.0, total: 16.67 },
+          { id: 'incomplete_data', male: 33.33, total: 16.67 }
         ]
       )
     end
@@ -155,7 +157,8 @@ describe ManagedReports::Indicators::PercentageCasesRiskLevel do
                 [
                   { id: 'high', male: 33.33, total: 20.0 },
                   { id: 'medium', female: 50.0, male: 33.33, total: 40.0 },
-                  { id: 'low', female: 50.0, total: 20.0 }
+                  { id: 'low', female: 50.0, total: 20.0 },
+                  { id: 'incomplete_data', male: 33.33, total: 20.0 }
                 ]
               )
             }
@@ -193,7 +196,8 @@ describe ManagedReports::Indicators::PercentageCasesRiskLevel do
               group_id: '2021-11',
               data: match_array(
                 [
-                  { id: 'low', female: 100.0, total: 50.0 }
+                  { id: 'low', female: 100.0, total: 50.0 },
+                  { id: 'incomplete_data', male: 100.0, total: 50.0 }
                 ]
               )
             }

@@ -31,6 +31,13 @@ class AddRecordFilterableColumns < ActiveRecord::Migration[6.1]
     add_column :cases, :srch_referred_users_present, :boolean, default: false
     add_column :cases, :srch_has_incidents, :boolean, default: false
     add_column :cases, :srch_transfer_status, :string
+    add_column :cases, :srch_gender, :string
+    add_column :cases, :srch_psychsocial_assessment_score_initial, :integer
+    add_column :cases, :srch_psychsocial_assessment_score_most_recent, :integer
+    add_column :cases, :srch_client_summary_worries_severity_int, :integer
+    add_column :cases, :srch_closure_problems_severity_int, :integer
+    add_column :cases, :srch_begin_safety_plan_prompt, :boolean, default: false
+    add_column :cases, :srch_disability_status_yes_no, :string
     add_column :cases, :srch_owned_by_groups, :string, array: true, default: []
     add_column :cases, :srch_associated_user_agencies, :string, array: true, default: []
     add_column :cases, :srch_associated_user_names, :string, array: true, default: []

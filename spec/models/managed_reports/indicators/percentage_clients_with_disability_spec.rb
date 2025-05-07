@@ -62,7 +62,7 @@ describe ManagedReports::Indicators::PercentageClientsWithDisability do
   end
 
   before do
-    clean_data(SearchableValue, Alert, Lookup, UserGroup, User, Agency, Role, Child)
+    clean_data(Alert, Lookup, UserGroup, User, Agency, Role, Child)
     child1
     child2
     child3
@@ -71,7 +71,7 @@ describe ManagedReports::Indicators::PercentageClientsWithDisability do
   end
 
   after do
-    clean_data(SearchableValue, Alert, Lookup, UserGroup, User, Agency, Role, Child)
+    clean_data(Alert, Lookup, UserGroup, User, Agency, Role, Child)
   end
 
   it 'returns data for percentage_clients_with_disability indicator' do
@@ -88,7 +88,7 @@ describe ManagedReports::Indicators::PercentageClientsWithDisability do
 
   context 'when consent_reporting is visible' do
     before do
-      ManagedReports::SearchableFilterService.stub(:consent_reporting_visible?).and_return(true)
+      ManagedReports::FilterService.stub(:consent_reporting_visible?).and_return(true)
     end
 
     it 'returns data for those records where the consent was provided' do

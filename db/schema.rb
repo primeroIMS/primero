@@ -152,6 +152,7 @@ ActiveRecord::Schema.define(version: 2025_04_21_000000) do
     t.datetime "srch_date_closure"
     t.string "srch_owned_by"
     t.string "srch_owned_by_agency_id"
+    t.string "srch_owned_by_location"
     t.string "srch_last_updated_by"
     t.boolean "srch_record_state", default: false
     t.boolean "srch_consent_reporting", default: false
@@ -169,6 +170,13 @@ ActiveRecord::Schema.define(version: 2025_04_21_000000) do
     t.boolean "srch_referred_users_present", default: false
     t.boolean "srch_has_incidents", default: false
     t.string "srch_transfer_status"
+    t.string "srch_gender"
+    t.integer "srch_psychsocial_assessment_score_initial"
+    t.integer "srch_psychsocial_assessment_score_most_recent"
+    t.integer "srch_client_summary_worries_severity_int"
+    t.integer "srch_closure_problems_severity_int"
+    t.boolean "srch_begin_safety_plan_prompt", default: false
+    t.string "srch_disability_status_yes_no"
     t.string "srch_owned_by_groups", default: [], array: true
     t.string "srch_associated_user_agencies", default: [], array: true
     t.string "srch_associated_user_names", default: [], array: true

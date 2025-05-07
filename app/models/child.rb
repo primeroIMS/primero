@@ -216,6 +216,15 @@ class Child < ApplicationRecord
     [ReportableProtectionConcern, ReportableService, ReportableFollowUp]
   end
 
+  def self.searchable_field_map
+    {
+      'closure_problems_severity' => { 'name' => 'srch_closure_problems_severity_int', 'type' => 'integer' },
+      'client_summary_worries_severity' => {
+        'name' => 'srch_client_summary_worries_severity_int', 'type' => 'integer'
+      }
+    }
+  end
+
   def validate_date_of_birth
     return unless date_of_birth.present? && (!date_of_birth.is_a?(Date) || date_of_birth.year > Date.today.year)
 

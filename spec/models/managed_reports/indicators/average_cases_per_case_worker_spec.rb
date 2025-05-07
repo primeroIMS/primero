@@ -119,7 +119,7 @@ describe ManagedReports::Indicators::AverageCasesPerCaseWorker do
   end
 
   before do
-    clean_data(SearchableValue, SearchableDatetime, Lookup, UserGroup, User, Agency, Role, Child)
+    clean_data(Lookup, UserGroup, User, Agency, Role, Child)
     child1
     child2
     child3
@@ -139,7 +139,7 @@ describe ManagedReports::Indicators::AverageCasesPerCaseWorker do
 
   context 'when consent_reporting is visible' do
     before do
-      ManagedReports::SearchableFilterService.stub(:consent_reporting_visible?).and_return(true)
+      ManagedReports::FilterService.stub(:consent_reporting_visible?).and_return(true)
     end
 
     it 'returns data for those records where the consent was provided' do

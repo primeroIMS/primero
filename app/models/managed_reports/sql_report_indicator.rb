@@ -113,23 +113,14 @@ class ManagedReports::SqlReportIndicator < ValueObject
       end
     end
 
-    def searchable_user_scope_query(current_user, table_name = 'searchable_values')
-      return if current_user.blank? || current_user.managed_report_scope_all?
+    def build_date_group(params = {}, opts = {}, model_class = nil)
+      date_param = filter_date(params)
+      return unless date_param.present?
 
-      if current_user.managed_report_scope == Permission::AGENCY
-        searchable_scope_query(table_name, 'associated_user_agencies', [current_user.agency.unique_id])
-      elsif current_user.managed_report_scope == Permission::GROUP
-        searchable_scope_query(table_name, 'associated_user_groups', current_user.user_group_unique_ids)
-      else
-        searchable_scope_query(table_name, 'associated_user_names', [current_user.user_name])
-      end
-    end
-
-    def searchable_scope_query(table_name, field_name, values)
-      field_name_query = ActiveRecord::Base.sanitize_sql_for_conditions(['%s.field_name', table_name])
-      value_query = ActiveRecord::Base.sanitize_sql_for_conditions(['%s.value', table_name])
-      ActiveRecord::Base.sanitize_sql_for_conditions(
-        ["(#{field_name_query} = ? AND #{value_query} IN (?))", field_name, values]
+      field_name = date_param.searchable_field_name if date_param.searchable_field_name?(model_class)
+      table_name = opts[:table_name] || model_class.table_name
+      grouped_date_query(
+        params['grouped_by'], date_param, table_name, opts[:hash_field], field_name || date_param.field_name
       )
     end
 

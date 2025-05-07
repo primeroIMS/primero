@@ -22,12 +22,8 @@ module SearchFilters::Location
     Field.remove_location_parts(field_name)
   end
 
-  def safe_search_column
-    unless table_name.present?
-      return ActiveRecord::Base.sanitize_sql_for_conditions(['%s', "srch_#{record_field_name}"])
-    end
-
-    ActiveRecord::Base.sanitize_sql_for_conditions(['%s.%s', table_name, "srch_#{record_field_name}"])
+  def searchable_field_name
+    "srch_#{record_field_name}"
   end
 
   def searchable_field_name?(record_class)

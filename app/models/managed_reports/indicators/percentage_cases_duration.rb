@@ -11,32 +11,21 @@ class ManagedReports::Indicators::PercentageCasesDuration < ManagedReports::SqlR
       'percentage_cases_duration'
     end
 
-    # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
     def sql(current_user, params = {})
-      date_param = filter_date(params)
-      searchable_datetime_alias = date_param&.field_name == 'date_closure' ? 'closure_dates' : 'registration_dates'
-      date_query = grouped_date_query(params['grouped_by'], date_param, searchable_datetime_alias, nil, 'value')
-      group_id = date_query.present? ? 'group_id' : nil
-      status_filter_opts = { join_alias: 'statuses' }
-      next_step = 'a_continue_protection_assessment'
+      date_group_query = build_date_group(params, {}, Child)
+      group_id = date_group_query.present? ? 'group_id' : nil
 
       %(
         WITH protection_assessment_cases AS (
           SELECT
-            #{date_query&.+(' AS group_id,')}
-            next_steps.record_id,
+            #{date_group_query&.+(' AS group_id,')}
             cases.id AS id,
-            COALESCE(data->>'gender', 'incomplete_data') AS gender,
+            COALESCE(srch_gender, 'incomplete_data') AS gender,
             #{duration_days_query}
           FROM cases
-          #{join_searchable_closure_dates(date_param)}
-          #{join_searchable_registration_date(date_param)}
-          #{join_statuses(params['status'], status_filter_opts)}
-          #{ManagedReports::SearchableFilterService.filter_next_steps(next_step)}
-          #{ManagedReports::SearchableFilterService.filter_reporting_location(params['location'])}
-          #{ManagedReports::SearchableFilterService.filter_scope(current_user)}
-          #{ManagedReports::SearchableFilterService.filter_consent_reporting}
+          WHERE srch_next_steps && '{a_continue_protection_assessment}'
+          #{build_filter_query(current_user, params)&.prepend('AND ')}
         ),
         cases_with_duration_range AS (
           SELECT
@@ -59,8 +48,20 @@ class ManagedReports::Indicators::PercentageCasesDuration < ManagedReports::SqlR
         GROUP BY #{group_id&.+(',')} gender, duration_range
       )
     end
+
     # rubocop:enable Metrics/MethodLength
-    # rubocop:enable Metrics/AbcSize
+    def build_filter_query(current_user, params = {})
+      filters = [
+        params['status'],
+        ManagedReports::FilterService.reporting_location(params['location']),
+        ManagedReports::FilterService.to_datetime(filter_date(params)),
+        ManagedReports::FilterService.consent_reporting,
+        ManagedReports::FilterService.scope(current_user)
+      ].compact
+      return unless filters.present?
+
+      filters.map { |filter| filter.query(Child) }.join(' AND ')
+    end
 
     # rubocop:disable Metrics/MethodLength
     def duration_days_query
@@ -68,8 +69,8 @@ class ManagedReports::Indicators::PercentageCasesDuration < ManagedReports::SqlR
         [
           %(
             CASE
-              WHEN statuses.value = 'open' THEN EXTRACT(DAY FROM :current_date - registration_dates.value)
-              WHEN statuses.value = 'closed' THEN EXTRACT(DAY FROM closure_dates.value - registration_dates.value)
+              WHEN srch_status = 'open' THEN EXTRACT(DAY FROM :current_date - srch_registration_date)
+              WHEN srch_status = 'closed' THEN EXTRACT(DAY FROM srch_date_closure - srch_registration_date)
             END AS duration_days
           ),
           { current_date: DateTime.now }
@@ -77,45 +78,6 @@ class ManagedReports::Indicators::PercentageCasesDuration < ManagedReports::SqlR
       )
     end
     # rubocop:enable Metrics/MethodLength
-
-    def join_searchable_closure_dates(date_param)
-      join_query = SearchableDatetime.where(field_name: 'date_closure').to_sql
-      join_query = searchable_datetime_join_query(date_param) if date_param&.field_name == 'date_closure'
-
-      %(
-        LEFT JOIN (#{join_query}) AS closure_dates
-        ON closure_dates.record_id = cases.id
-        AND closure_dates.record_type = 'Child'
-      )
-    end
-
-    def join_searchable_registration_date(date_param)
-      join_query = SearchableDatetime.where(field_name: 'registration_date').to_sql
-      join_query = searchable_datetime_join_query(date_param) if date_param&.field_name == 'registration_date'
-
-      %(
-        INNER JOIN (#{join_query}) AS registration_dates
-        ON registration_dates.record_id = cases.id
-        AND registration_dates.record_type = 'Child'
-      )
-    end
-
-    def join_statuses(param, filter_opts)
-      return ManagedReports::SearchableFilterService.filter_values(param, filter_opts) if param.present?
-
-      %(
-        INNER JOIN searchable_values AS statuses
-        ON cases.id = statuses.record_id
-        AND statuses.field_name = 'status'
-        AND statuses.record_type = 'Child'
-      )
-    end
-
-    def searchable_datetime_join_query(date_param)
-      return unless date_param.present?
-
-      ManagedReports::SearchableFilterService.searchable_date_range_query(date_param)
-    end
 
     alias super_build_results build_results
     def build_results(results, params = {})
