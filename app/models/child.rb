@@ -216,6 +216,7 @@ class Child < ApplicationRecord
     [ReportableProtectionConcern, ReportableService, ReportableFollowUp]
   end
 
+  # The field names end with an `_int` suffix in case we need to index their string version.
   def self.searchable_field_map
     {
       'closure_problems_severity' => { 'name' => 'srch_closure_problems_severity_int', 'type' => 'integer' },

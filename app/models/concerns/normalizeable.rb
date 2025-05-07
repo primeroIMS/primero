@@ -10,11 +10,11 @@ module Normalizeable
   # ClassMethods
   module ClassMethods
     def searchable_columns
-      column_names.grep(/srch/)
+      column_names.grep(/^srch_/)
     end
 
     def searchable_field_names
-      searchable_columns.map { |column| column.gsub('srch_', '') }
+      searchable_columns.map { |column| column.gsub(/^srch_/, '') }
     end
 
     def searchable_column_array?(column_name)
@@ -25,6 +25,7 @@ module Normalizeable
       searchable_field_names.include?(field_name)
     end
 
+    # Defines custom mappings for searchable fields. This is helpful for fields that can hold different types.
     def searchable_field_map
       {}
     end
