@@ -319,7 +319,7 @@ class FormSection < ApplicationRecord
   end
 
   def validate_parent_form_changed
-    return unless parent_form_changed? && persisted?
+    return unless will_save_change_to_attribute?(:parent_form)
 
     errors.add(:parent_form, 'errors.models.form_section.parent_form_change')
   end
