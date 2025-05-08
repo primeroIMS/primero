@@ -14,7 +14,9 @@ module Normalizeable
     end
 
     def searchable_field_names
-      searchable_columns.map { |column| column.gsub(/^srch_/, '') }
+      columns_in_map = searchable_field_map.values.flatten.map { |column| column['name'] }
+      field_names_in_map = searchable_field_map.keys
+      (searchable_columns - columns_in_map).map { |column| column.gsub(/^srch_/, '') } + field_names_in_map
     end
 
     def searchable_column_array?(column_name)
@@ -34,12 +36,14 @@ module Normalizeable
   def save_searchable_fields
     return unless searchable_fields_changed?
 
-    self.class.searchable_field_names.each do |field_name|
-      send("srch_#{field_name}=", data[field_name])
-    end
-
-    self.class.searchable_field_map.each do |(field_name, column)|
-      send("#{column['name']}=", searchable_value_for_type(column['type'], data[field_name]))
+    klass = self.class
+    klass.searchable_field_names.each do |field_name|
+      searchable_column = klass.searchable_field_map[field_name]
+      if searchable_column.present?
+        send("#{searchable_column['name']}=", searchable_value_for_type(searchable_column['type'], data[field_name]))
+      else
+        send("srch_#{field_name}=", data[field_name])
+      end
     end
   end
 
