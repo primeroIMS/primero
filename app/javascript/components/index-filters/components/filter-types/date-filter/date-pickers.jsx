@@ -11,6 +11,7 @@ import { toServerDateFormat } from "../../../../../libs";
 import NepaliCalendar from "../../../../nepali-calendar-input";
 import css from "../styles.css";
 import DateProvider from "../../../../../date-provider";
+import { dayOfWeekFormatter } from "../../../../../libs/date-picker-localization";
 
 import { getDatesValue, getDateValue } from "./utils";
 
@@ -100,7 +101,7 @@ function Component({
     return (
       <div key={picker} className={css.dateInput}>
         <DateProvider>
-          <DateComponent {...inputProps} />
+          <DateComponent {...inputProps} dayOfWeekFormatter={dayOfWeekFormatter(i18n)} />
         </DateProvider>
       </div>
     );
