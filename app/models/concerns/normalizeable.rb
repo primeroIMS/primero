@@ -47,6 +47,8 @@ module Normalizeable
     case type
     when 'integer'
       value&.match?(/\d+/) ? value.to_i : nil
+    else
+      value
     end
   end
 
