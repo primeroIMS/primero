@@ -23,7 +23,8 @@ import {
   TRANSITIONED_TO_ASYNC_FILTER_FIELDS,
   STATE_REFERRAL_LOADING_PATH,
   STATE_REFERRAL_USERS_PATH,
-  USER_FIELDS
+  USER_FIELDS,
+  ALL_OPTION_ID
 } from "./constants";
 
 const commonHandleWatched = {
@@ -113,7 +114,7 @@ const localReferralFields = ({
       type: SELECT_FIELD,
       showIf: values => hasReferralRoles && !values[FIELDS.REMOTE],
       option_strings_source: OPTION_TYPES.ROLE_REFERRAL_AUTHORIZATION,
-      additionalOptions: [{ id: "all", display_text: i18n.t("referral.allow_all") }],
+      additionalOptions: [{ id: ALL_OPTION_ID, display_text: i18n.t("referral.allow_all") }],
       watchedInputs: [FIELDS.REMOTE],
       asyncOptionsLoadingPath: ["application", "loading"],
       asyncParamsFromWatched: [],

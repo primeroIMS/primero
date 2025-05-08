@@ -27,7 +27,8 @@ import {
   SERVICE_EXTERNAL_REFERRAL,
   FIELDS,
   CUSTOM_EXPORT_FILE_NAME_FIELD,
-  OMITTED_SUBMISSION_FIELDS
+  OMITTED_SUBMISSION_FIELDS,
+  ALL_OPTION_ID
 } from "./constants";
 import { form, validations } from "./form";
 
@@ -75,7 +76,6 @@ function Referrals({
   });
 
   const handleSubmit = values => {
-    console.log(values);
     const recordID = record.get("id");
 
     setPending(true);
@@ -131,7 +131,7 @@ function Referrals({
         transformBeforeSend={data => {
           return {
             ...data,
-            ...(data[FIELDS.AUTHORIZED_ROLE_UNIQUE_ID] === "all" && { [FIELDS.AUTHORIZED_ROLE_UNIQUE_ID]: "" })
+            ...(data[FIELDS.AUTHORIZED_ROLE_UNIQUE_ID] === ALL_OPTION_ID && { [FIELDS.AUTHORIZED_ROLE_UNIQUE_ID]: "" })
           };
         }}
         initialValues={{
