@@ -36,6 +36,7 @@ function Component({
   mobileDisplay,
   mode,
   permissions,
+  phoneticFieldNames = [],
   primeroModule,
   recordType,
   searchFieldNames,
@@ -206,6 +207,7 @@ function Component({
             validatedFieldNames={validatedFieldNames}
             linkField={linkField}
             linkFieldDisplay={linkFieldDisplay}
+            phoneticFieldNames={phoneticFieldNames}
           />
         )}
       </SubformDrawer>
@@ -228,6 +230,7 @@ Component.propTypes = {
   mobileDisplay: PropTypes.bool.isRequired,
   mode: PropTypes.object.isRequired,
   permissions: PropTypes.object.isRequired,
+  phoneticFieldNames: PropTypes.array.isRequired,
   primeroModule: PropTypes.string.isRequired,
   recordType: PropTypes.string.isRequired,
   searchFieldNames: PropTypes.array.isRequired,
