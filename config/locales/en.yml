@@ -2000,6 +2000,7 @@ en:
     hide_name:
       protect: Hide Name
       view: View Name
+    import: Import
     index: Listing Records
     list: List
     login: Login
@@ -2033,6 +2034,8 @@ en:
       primero_configuration: Primero configuration
       code_of_conduct: Code of conduct
       task: Task
+      flag: Flag
+      tracing_request: Tracing Request
     record_state:
       'false': Disabling
       'true': Enabling

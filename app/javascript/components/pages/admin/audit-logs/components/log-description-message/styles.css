@@ -1,0 +1,7 @@
+/* Copyright (c) 2014 UNICEF. All rights reserved. */
+
+.message {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
