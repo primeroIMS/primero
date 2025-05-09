@@ -2,13 +2,12 @@
 
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-# Transform API query parameter field_name=value1,value2,... into a Sunspot query
+# Transform API query parameter field_name[0]=1..10,... into a sql query
 class SearchFilters::RangeList < SearchFilters::ValueList
-  attr_accessor :range_type
+  def query(record_class = nil)
+    klass = SearchFilterService.range_class(values.first)
+    ranges = values.map { |value| klass.new(field_name:, from: value['from'], to: value['to']) }
 
-  def query
-    range_queries = values.map { |value| range_type.new(field_name:, from: value['from'], to: value['to']).query }
-
-    "(#{range_queries.join(' OR ')})"
+    "(#{ranges.map { |range| range.query(record_class) }.join(' OR ')})"
   end
 end

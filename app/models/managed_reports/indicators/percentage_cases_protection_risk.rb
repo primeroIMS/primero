@@ -4,93 +4,95 @@
 
 # An indicator that returns % of cases by protection risk
 class ManagedReports::Indicators::PercentageCasesProtectionRisk < ManagedReports::SqlReportIndicator
+  include ManagedReports::PercentageIndicator
   class << self
     def id
       'percentage_cases_protection_risk'
     end
 
     # rubocop:disable Metrics/MethodLength
-    # rubocop:disable Metrics/AbcSize
-    # rubocop:disable Metrics/CyclomaticComplexity
     def sql(current_user, params = {})
-      date_param = filter_date(params)
-      date_query = grouped_date_query(params['grouped_by'], date_param, 'searchable_datetimes', nil, 'value')
-      group_id = date_query.present? ? 'group_id' : nil
-      next_step = 'a_continue_protection_assessment'
-
+      date_group_query = build_date_group(params, {}, Child)
+      group_id = date_group_query.present? ? 'group_id' : nil
       %(
         WITH protection_assessment_cases AS (
           SELECT
-            #{date_query&.+(' AS group_id,')}
-            cases.id AS id,
-            COALESCE(data->>'gender', 'incomplete_data') AS gender
+            #{date_group_query&.+(' AS group_id,')}
+            srch_protection_risks AS protection_risks,
+            COALESCE(srch_gender, 'incomplete_data') AS gender
           FROM cases
-          #{ManagedReports::SearchableFilterService.filter_datetimes(date_param)}
-          #{ManagedReports::SearchableFilterService.filter_values(params['status'])}
-          #{ManagedReports::SearchableFilterService.filter_reporting_location(params['location'])}
-          #{ManagedReports::SearchableFilterService.filter_scope(current_user)}
-          #{ManagedReports::SearchableFilterService.filter_next_steps(next_step)}
-          #{ManagedReports::SearchableFilterService.filter_consent_reporting}
+          WHERE srch_next_steps && '{a_continue_protection_assessment}'
+          #{build_filter_query(current_user, params)&.prepend('AND ')}
         ),
-        total_cases_by_groups AS (
+        grouped_cases AS (
           SELECT
-            #{group_id.present? ? 'GROUPING(group_id) by_group_id,' : nil}
-            GROUPING(#{group_id&.+(',')} gender) by_group_id_gender,
             #{group_id&.+(',')}
             gender,
-            CAST(COUNT(*) AS DECIMAL) AS total
+            protection_risks,
+            COUNT(*) OVER  #{group_id.present? ? '(PARTITION BY group_id)' : '()'}  AS total_group,
+            COUNT(*) OVER (PARTITION BY #{group_id&.+(',') || nil} gender) AS total_gender
           FROM protection_assessment_cases
-          GROUP BY GROUPING SETS(
-            #{group_id.present? ? '(group_id),' : '(),'}
-            (#{group_id&.+(',')} gender)
-          )
-        ),
-        protection_risks_cases AS (
-          SELECT
-            protection_assessment_cases.*,
-            protection_risks.value AS protection_risk
-          FROM protection_assessment_cases
-          #{join_searchable_protection_risks}
         )
         SELECT
           #{group_id&.+(',')}
-          protection_risk AS name,
-          gender AS key,
-          ROUND(
-            (COUNT(*) * 100) / (
-              SELECT
-                total
-              FROM total_cases_by_groups
-              WHERE total_cases_by_groups.gender = protection_risks_cases.gender
-              #{group_id.present? ? 'AND total_cases_by_groups.group_id = protection_risks_cases.group_id' : nil}
-            ),
-            2
-          ) AS sum,
-          ROUND(
-            SUM(COUNT(*)) OVER (PARTITION BY #{group_id&.+(',')} protection_risk) * 100 / (
-              SELECT
-                total
-              FROM total_cases_by_groups
-              WHERE total_cases_by_groups.by_group_id_gender >= 1
-              #{group_id.present? ? 'AND total_cases_by_groups.group_id = protection_risks_cases.group_id' : nil}
-            ),
-            2
-          ) AS total
-        FROM protection_risks_cases
-        GROUP BY #{group_id&.+(',')} protection_risk, gender
+          gender,
+          total_gender,
+          total_group,
+          UNNEST(protection_risks) AS protection_risk,
+          COUNT(*) AS count
+        FROM grouped_cases
+        GROUP BY #{group_id&.+(',')} total_group, total_gender, gender, protection_risk
       )
     end
-    # rubocop:enable Metrics/MethodLength
-    # rubocop:enable Metrics/AbcSize
-    # rubocop:enable Metrics/CyclomaticComplexity
 
-    def join_searchable_protection_risks
-      %(
-         INNER JOIN searchable_values AS protection_risks
-         ON protection_risks.record_id = protection_assessment_cases.id
-         AND protection_risks.record_type = 'Child'
-         AND protection_risks.field_name = 'protection_risks'
-      )
+    # rubocop:enable Metrics/MethodLength
+    def build_filter_query(current_user, params = {})
+      filters = [
+        params['status'],
+        ManagedReports::FilterService.reporting_location(params['location']),
+        ManagedReports::FilterService.to_datetime(filter_date(params)),
+        ManagedReports::FilterService.consent_reporting,
+        ManagedReports::FilterService.scope(current_user)
+      ].compact
+      return unless filters.present?
+
+      filters.map { |filter| filter.query(Child) }.join(' AND ')
+    end
+
+    alias super_build_results build_results
+    def build_results(results, params = {})
+      super_build_results(results_in_percentages(results.to_a), params)
+    end
+
+    def fields
+      %w[gender protection_risk]
+    end
+
+    def result_map
+      { 'key' => 'gender', 'name' => 'protection_risk' }
+    end
+
+    def calculate_total_by_fields(fields, results)
+      fields.reduce({}) do |memo, field|
+        grouped_results = results.group_by { |result| result_group_key(result, field) }
+        if field == 'gender'
+          memo.merge(grouped_results.transform_values { |values| BigDecimal(values.first['total_gender']) })
+        else
+          memo.merge(
+            grouped_results.transform_values { |values| BigDecimal(values.sum { |value| value['count'] }) }
+          )
+        end
+      end
+    end
+
+    def calculate_total_records(results)
+      BigDecimal(results.first['total_group'])
+    end
+
+    def calculate_total_records_by_group(results)
+      results.group_by { |result| result['group_id'] }.transform_values do |values|
+        BigDecimal(values.first['total_group'])
+      end
     end
   end
 end

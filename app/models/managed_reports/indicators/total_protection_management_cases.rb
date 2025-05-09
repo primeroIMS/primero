@@ -11,21 +11,17 @@ class ManagedReports::Indicators::TotalProtectionManagementCases < ManagedReport
 
     # rubocop:disable Metrics/MethodLength
     def sql(current_user, params = {})
-      date_param = filter_date(params)
-      date_query = grouped_date_query(params['grouped_by'], date_param, 'searchable_datetimes', nil, 'value')
-      group_id = date_query.present? ? 'group_id' : nil
+      date_group_query = build_date_group(params, {}, Child)
+      group_id = date_group_query.present? ? 'group_id' : nil
       %{
         WITH protection_cases AS (
           SELECT
-            #{date_query&.+(' AS group_id,')}
+            #{date_group_query&.+(' AS group_id,')}
             COALESCE(data->>'gender', 'incomplete_data') AS key,
-            statuses.value AS name
+            srch_status AS name
           FROM cases
-          #{join_statuses_values(params['status'])}
-          #{ManagedReports::SearchableFilterService.filter_scope(current_user)}
-          #{ManagedReports::SearchableFilterService.filter_datetimes(date_param)}
-          #{ManagedReports::SearchableFilterService.filter_consent_reporting}
-          #{ManagedReports::SearchableFilterService.filter_next_steps}
+          WHERE srch_next_steps && '{a_continue_protection_assessment}'
+          #{build_filter_query(current_user, params)&.prepend('AND ')}
         )
         SELECT
           key,
@@ -39,15 +35,16 @@ class ManagedReports::Indicators::TotalProtectionManagementCases < ManagedReport
     end
     # rubocop:enable Metrics/MethodLength
 
-    def join_statuses_values(param)
-      return ManagedReports::SearchableFilterService.filter_values(param, { join_alias: 'statuses' }) if param.present?
+    def build_filter_query(current_user, params = {})
+      filters = [
+        params['status'],
+        ManagedReports::FilterService.to_datetime(filter_date(params)),
+        ManagedReports::FilterService.consent_reporting,
+        ManagedReports::FilterService.scope(current_user)
+      ].compact
+      return unless filters.present?
 
-      %(
-        INNER JOIN searchable_values AS statuses
-        ON cases.id = statuses.record_id
-        AND statuses.field_name = 'status'
-        AND statuses.record_type = 'Child'
-      )
+      filters.map { |filter| filter.query(Child) }.join(' AND ')
     end
   end
 end

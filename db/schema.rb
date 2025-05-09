@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_02_28_000006) do
+ActiveRecord::Schema.define(version: 2025_04_21_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -142,12 +142,68 @@ ActiveRecord::Schema.define(version: 2025_02_28_000006) do
     t.uuid "registry_record_id"
     t.uuid "family_id"
     t.jsonb "phonetic_data"
+    t.integer "srch_age"
+    t.datetime "srch_created_at"
+    t.datetime "srch_registration_date"
+    t.string "srch_name"
+    t.string "srch_module_id"
+    t.string "srch_location_current"
+    t.string "srch_client_code"
+    t.datetime "srch_date_closure"
+    t.string "srch_owned_by"
+    t.string "srch_owned_by_agency_id"
+    t.string "srch_owned_by_location"
+    t.string "srch_last_updated_by"
+    t.boolean "srch_record_state", default: false
+    t.boolean "srch_consent_reporting", default: false
+    t.string "srch_status"
+    t.string "srch_risk_level"
+    t.string "srch_workflow"
+    t.boolean "srch_not_edited_by_owner", default: false
+    t.boolean "srch_flagged", default: false
+    t.string "srch_approval_status_assessment"
+    t.string "srch_approval_status_case_plan"
+    t.string "srch_approval_status_closure"
+    t.string "srch_approval_status_action_plan"
+    t.string "srch_approval_status_gbv_closure"
+    t.datetime "srch_reassigned_transferred_on"
+    t.boolean "srch_referred_users_present", default: false
+    t.boolean "srch_has_incidents", default: false
+    t.string "srch_transfer_status"
+    t.string "srch_gender"
+    t.integer "srch_psychsocial_assessment_score_initial"
+    t.integer "srch_psychsocial_assessment_score_most_recent"
+    t.integer "srch_client_summary_worries_severity_int"
+    t.integer "srch_closure_problems_severity_int"
+    t.boolean "srch_begin_safety_plan_prompt", default: false
+    t.string "srch_disability_status_yes_no"
+    t.string "srch_owned_by_groups", default: [], array: true
+    t.string "srch_associated_user_agencies", default: [], array: true
+    t.string "srch_associated_user_names", default: [], array: true
+    t.string "srch_associated_user_groups", default: [], array: true
+    t.string "srch_transferred_to_users", default: [], array: true
+    t.string "srch_transferred_to_user_groups", default: [], array: true
+    t.string "srch_referred_users", default: [], array: true
+    t.string "srch_current_alert_types", default: [], array: true
+    t.datetime "srch_case_plan_due_dates", default: [], array: true
+    t.datetime "srch_service_due_dates", default: [], array: true
+    t.datetime "srch_assessment_due_dates", default: [], array: true
+    t.datetime "srch_followup_due_dates", default: [], array: true
+    t.string "srch_protection_concerns", default: [], array: true
+    t.string "srch_protection_risks", default: [], array: true
+    t.string "srch_next_steps", default: [], array: true
     t.index "((data ->> 'case_id'::text))", name: "cases_case_id_unique_idx", unique: true
     t.index "((phonetic_data -> 'tokens'::text))", name: "cases_phonetic_tokens_idx", using: :gin
     t.index ["data"], name: "index_cases_on_data", using: :gin
     t.index ["duplicate_case_id"], name: "index_cases_on_duplicate_case_id"
     t.index ["family_id"], name: "index_cases_on_family_id"
     t.index ["registry_record_id"], name: "index_cases_on_registry_record_id"
+    t.index ["srch_created_at"], name: "cases_srch_created_at_idx"
+    t.index ["srch_date_closure"], name: "cases_srch_date_closure_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_agencies"], name: "cases_default_associated_user_agencies_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_groups"], name: "cases_default_associated_user_groups_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_names"], name: "cases_default_associated_user_names_idx"
+    t.index ["srch_registration_date"], name: "cases_srch_registration_date_idx"
   end
 
   create_table "codes_of_conduct", force: :cascade do |t|
@@ -201,8 +257,24 @@ ActiveRecord::Schema.define(version: 2025_02_28_000006) do
   create_table "families", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.jsonb "data", default: {}
     t.jsonb "phonetic_data"
+    t.datetime "srch_created_at"
+    t.datetime "srch_family_registration_date"
+    t.string "srch_status"
+    t.boolean "srch_record_state", default: false
+    t.boolean "srch_flagged", default: false
+    t.boolean "srch_not_edited_by_owner", default: false
+    t.string "srch_family_location_current"
+    t.string "srch_owned_by_groups", default: [], array: true
+    t.string "srch_associated_user_agencies", default: [], array: true
+    t.string "srch_associated_user_names", default: [], array: true
+    t.string "srch_associated_user_groups", default: [], array: true
     t.index "((phonetic_data -> 'tokens'::text))", name: "families_tokens_idx", using: :gin
     t.index ["data"], name: "index_families_on_data", using: :gin
+    t.index ["srch_created_at"], name: "families_created_at_idx"
+    t.index ["srch_family_registration_date"], name: "families_family_registration_date_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_agencies"], name: "families_default_associated_user_agencies_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_groups"], name: "families_default_associated_user_groups_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_names"], name: "families_default_associated_user_names_idx"
   end
 
   create_table "fields", id: :serial, force: :cascade do |t|
@@ -351,10 +423,34 @@ ActiveRecord::Schema.define(version: 2025_02_28_000006) do
     t.jsonb "data", default: {}
     t.uuid "incident_case_id"
     t.jsonb "phonetic_data"
+    t.datetime "srch_created_at"
+    t.datetime "srch_incident_date"
+    t.string "srch_incident_location"
+    t.string "srch_module_id"
+    t.string "srch_owned_by"
+    t.string "srch_owned_by_agency_id"
+    t.boolean "srch_record_state", default: false
+    t.boolean "srch_flagged", default: false
+    t.boolean "srch_not_edited_by_owner", default: false
+    t.string "srch_status"
+    t.integer "srch_age"
+    t.string "srch_owned_by_groups", default: [], array: true
+    t.string "srch_transferred_to_users", default: [], array: true
+    t.string "srch_transferred_to_user_groups", default: [], array: true
+    t.string "srch_associated_user_agencies", default: [], array: true
+    t.string "srch_associated_user_names", default: [], array: true
+    t.string "srch_associated_user_groups", default: [], array: true
+    t.string "srch_armed_force_group_party_names", default: [], array: true
+    t.string "srch_violation_with_verification_status", default: [], array: true
     t.index "((data ->> 'incident_id'::text))", name: "incidents_incident_id_unique_idx", unique: true
     t.index "((phonetic_data -> 'tokens'::text))", name: "incidents_phonetic_tokens_idx", using: :gin
     t.index ["data"], name: "index_incidents_on_data", using: :gin
     t.index ["incident_case_id"], name: "index_incidents_on_incident_case_id"
+    t.index ["srch_created_at"], name: "incidents_srch_created_at_idx"
+    t.index ["srch_incident_date"], name: "incidents_srch_incident_date_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_agencies"], name: "incidents_default_associated_user_agencies_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_groups"], name: "incidents_default_associated_user_groups_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_names"], name: "incidents_default_associated_user_names_idx"
   end
 
   create_table "individual_victims", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -469,6 +565,16 @@ ActiveRecord::Schema.define(version: 2025_02_28_000006) do
   create_table "registry_records", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.jsonb "data", default: {}
     t.jsonb "phonetic_data"
+    t.datetime "srch_created_at"
+    t.datetime "srch_registration_date"
+    t.string "srch_status"
+    t.boolean "srch_record_state", default: false
+    t.string "srch_location_current"
+    t.boolean "srch_not_edited_by_owner", default: false
+    t.string "srch_owned_by_groups", default: [], array: true
+    t.string "srch_associated_user_agencies", default: [], array: true
+    t.string "srch_associated_user_names", default: [], array: true
+    t.string "srch_associated_user_groups", default: [], array: true
     t.index "((phonetic_data -> 'tokens'::text))", name: "registry_records_phonetic_tokens_idx", using: :gin
     t.index ["data"], name: "index_registry_records_on_data", using: :gin
   end
@@ -525,24 +631,6 @@ ActiveRecord::Schema.define(version: 2025_02_28_000006) do
     t.index ["user_id"], name: "index_saved_searches_on_user_id"
   end
 
-  create_table "searchable_booleans", force: :cascade do |t|
-    t.string "record_type"
-    t.uuid "record_id"
-    t.string "field_name"
-    t.boolean "value"
-    t.index ["field_name", "record_id", "record_type", "value"], name: "searchable_booleans_idx"
-    t.index ["record_type", "record_id"], name: "index_searchable_booleans_on_record"
-  end
-
-  create_table "searchable_datetimes", force: :cascade do |t|
-    t.string "record_type"
-    t.uuid "record_id"
-    t.string "field_name"
-    t.datetime "value"
-    t.index ["field_name", "record_id", "record_type", "value"], name: "searchable_datetimes_idx"
-    t.index ["record_type", "record_id"], name: "index_searchable_datetimes_on_record"
-  end
-
   create_table "searchable_identifiers", force: :cascade do |t|
     t.string "record_type"
     t.uuid "record_id"
@@ -552,30 +640,12 @@ ActiveRecord::Schema.define(version: 2025_02_28_000006) do
     t.index ["value"], name: "searchable_identifiers_value_idx", opclass: :gin_trgm_ops, using: :gin
   end
 
-  create_table "searchable_numerics", force: :cascade do |t|
-    t.string "record_type"
-    t.uuid "record_id"
-    t.string "field_name"
-    t.integer "value"
-    t.index ["field_name", "record_id", "record_type", "value"], name: "searchable_numerics_idx"
-    t.index ["record_type", "record_id"], name: "index_searchable_numerics_on_record"
-  end
-
-  create_table "searchable_values", force: :cascade do |t|
-    t.string "record_type"
-    t.uuid "record_id"
-    t.string "field_name"
-    t.string "value"
-    t.index ["field_name", "record_id", "record_type", "value"], name: "searchable_values_idx"
-    t.index ["record_type", "record_id"], name: "index_searchable_values_on_record"
-  end
-
   create_table "sessions", force: :cascade do |t|
     t.string "session_id", null: false
     t.jsonb "data", default: {}
+    t.boolean "expired", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.boolean "expired", default: false, null: false
     t.index ["data"], name: "index_sessions_on_data", using: :gin
     t.index ["session_id"], name: "index_sessions_on_session_id", unique: true
     t.index ["updated_at"], name: "index_sessions_on_updated_at"
@@ -640,9 +710,24 @@ ActiveRecord::Schema.define(version: 2025_02_28_000006) do
   create_table "tracing_requests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.jsonb "data", default: {}
     t.jsonb "phonetic_data"
+    t.datetime "srch_created_at"
+    t.datetime "srch_inquiry_date"
+    t.string "srch_status"
+    t.boolean "srch_record_state", default: false
+    t.boolean "srch_flagged", default: false
+    t.boolean "srch_not_edited_by_owner", default: false
+    t.string "srch_owned_by_groups", default: [], array: true
+    t.string "srch_associated_user_agencies", default: [], array: true
+    t.string "srch_associated_user_names", default: [], array: true
+    t.string "srch_associated_user_groups", default: [], array: true
     t.index "((data ->> 'tracing_request_id'::text))", name: "tracing_requests_tracing_request_id_unique_idx", unique: true
     t.index "((phonetic_data -> 'tokens'::text))", name: "tracing_requests_phonetic_tokens_idx", using: :gin
     t.index ["data"], name: "index_tracing_requests_on_data", using: :gin
+    t.index ["srch_created_at"], name: "tracing_requests_srch_created_at_idx"
+    t.index ["srch_inquiry_date"], name: "tracing_requests_srch_inquiry_date_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_agencies"], name: "tracing_requests_default_associated_user_agencies_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_groups"], name: "tracing_requests_default_associated_user_groups_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_names"], name: "tracing_requests_default_associated_user_names_idx"
   end
 
   create_table "transitions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

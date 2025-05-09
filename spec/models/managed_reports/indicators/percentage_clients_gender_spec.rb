@@ -67,7 +67,7 @@ describe ManagedReports::Indicators::PercentageClientsGender do
   end
 
   before do
-    clean_data(SearchableValue, SearchableDatetime, Alert, Lookup, UserGroup, User, Agency, Role, Child)
+    clean_data(Alert, Lookup, UserGroup, User, Agency, Role, Child)
     DateTime.stub(:now).and_return(Time.utc(2022, 2, 15, 14, 5, 0))
     child1
     child2
@@ -77,7 +77,7 @@ describe ManagedReports::Indicators::PercentageClientsGender do
   end
 
   after do
-    clean_data(SearchableValue, SearchableDatetime, Alert, Lookup, UserGroup, User, Agency, Role, Child)
+    clean_data(Alert, Lookup, UserGroup, User, Agency, Role, Child)
   end
 
   it 'returns data for percentage_clients_gender indicator' do
@@ -95,7 +95,7 @@ describe ManagedReports::Indicators::PercentageClientsGender do
 
   context 'when consent_reporting is visible' do
     before do
-      ManagedReports::SearchableFilterService.stub(:consent_reporting_visible?).and_return(true)
+      ManagedReports::FilterService.stub(:consent_reporting_visible?).and_return(true)
     end
 
     it 'returns data for those records where the consent was provided' do
@@ -204,10 +204,12 @@ describe ManagedReports::Indicators::PercentageClientsGender do
             },
             {
               group_id: '2021-10-03 - 2021-10-09',
-              data: [
-                { id: 'gender_1', total: 33.33 },
-                { id: 'gender_3', total: 66.67 }
-              ]
+              data: match_array(
+                [
+                  { id: 'gender_1', total: 33.33 },
+                  { id: 'gender_3', total: 66.67 }
+                ]
+              )
             },
             {
               group_id: '2021-10-10 - 2021-10-16',

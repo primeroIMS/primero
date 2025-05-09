@@ -13,33 +13,24 @@ class ManagedReports::Indicators::LessImpactedAfterSupport < ManagedReports::Sql
 
     # rubocop:disable Metrics/MethodLength
     def sql(current_user, params = {})
-      date_param = filter_date(params)
-      date_query = grouped_date_query(params['grouped_by'], date_param, 'searchable_datetimes', nil, 'value')
-      group_id = date_query.present? ? 'group_id' : nil
+      date_group_query = build_date_group(params, {}, Child)
+      group_id = date_group_query.present? ? 'group_id' : nil
       %{
         WITH impacted_ranges AS (
           SELECT
-            #{date_query&.+(' AS group_id,')}
-            CAST(data->>'closure_problems_severity' AS INTEGER) AS closure_problems_severity,
-            CAST(data->>'client_summary_worries_severity' AS INTEGER) AS client_summary_worries_severity,
-            CASE WHEN CAST(
-              data->>'closure_problems_severity' AS INTEGER
-            ) < CAST(data->>'client_summary_worries_severity' AS INTEGER)
+            #{date_group_query&.+(' AS group_id,')}
+            srch_closure_problems_severity_int AS closure_problems_severity,
+            srch_client_summary_worries_severity_int AS client_summary_worries_severity,
+            CASE WHEN srch_closure_problems_severity_int < srch_client_summary_worries_severity_int
             THEN 'clients_report_less_impacted'
             ELSE 'clients_report_equally_or_more_severely_impacted'
             END AS impact_range,
-            COALESCE(data->>'gender', 'incomplete_data') AS gender
+            COALESCE(srch_gender, 'incomplete_data') AS gender
           FROM cases
-          #{ManagedReports::SearchableFilterService.filter_values(params['status'])}
-          #{ManagedReports::SearchableFilterService.filter_datetimes(date_param)}
-          #{ManagedReports::SearchableFilterService.filter_scope(current_user)}
-          #{ManagedReports::SearchableFilterService.filter_next_steps}
-          #{ManagedReports::SearchableFilterService.filter_consent_reporting}
-          WHERE (
-            cases.data @? '$[*]
-              ? (@.client_summary_worries_severity like_regex "[0-9]")
-              ? (@.closure_problems_severity like_regex "[0-9]")'
-          )
+          WHERE srch_next_steps && '{a_continue_protection_assessment}'
+          AND srch_client_summary_worries_severity_int >= 0
+          AND srch_closure_problems_severity_int >= 0
+          #{build_filter_query(current_user, params)&.prepend('AND ')}
         )
         SELECT
           #{group_id&.+(', ')}
@@ -51,7 +42,19 @@ class ManagedReports::Indicators::LessImpactedAfterSupport < ManagedReports::Sql
       }
     end
     # rubocop:enable Metrics/MethodLength
-    #
+
+    def build_filter_query(current_user, params = {})
+      filters = [
+        params['status'],
+        ManagedReports::FilterService.to_datetime(filter_date(params)),
+        ManagedReports::FilterService.consent_reporting,
+        ManagedReports::FilterService.scope(current_user)
+      ].compact
+      return unless filters.present?
+
+      filters.map { |filter| filter.query(Child) }.join(' AND ')
+    end
+
     alias super_build_results build_results
     def build_results(results, params = {})
       super_build_results(results_in_percentages(results.to_a), params)

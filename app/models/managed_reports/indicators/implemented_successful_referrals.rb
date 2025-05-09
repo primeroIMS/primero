@@ -9,7 +9,6 @@ class ManagedReports::Indicators::ImplementedSuccessfulReferrals < ManagedReport
       'implemented_successful_referrals'
     end
 
-    # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
     def sql(current_user, params = {})
       date_param = filter_date(params)
@@ -25,16 +24,14 @@ class ManagedReports::Indicators::ImplementedSuccessfulReferrals < ManagedReport
               service_unique_id,
               service_type,
               service_implemented,
-              COALESCE(data->>'gender', 'incomplete_data') AS gender,
-              data->>'owned_by_location' AS owned_by_location,
+              COALESCE(srch_gender, 'incomplete_data') AS gender,
+              srch_owned_by_location AS owned_by_location,
               cases.id AS case_id
             FROM cases
-            #{ManagedReports::SearchableFilterService.filter_scope(current_user)}
-            #{ManagedReports::SearchableFilterService.filter_values(params['status'])}
-            #{ManagedReports::SearchableFilterService.filter_reporting_location(params['location'])}
-            #{ManagedReports::SearchableFilterService.filter_consent_reporting}
             #{join_services(params['service_type'])}
-            #{date_range_query(date_param, 'services', nil, 'service_implemented_day_time')&.prepend('WHERE ')}
+            WHERE 1 = 1
+            #{build_filter_query(current_user, params)&.prepend('AND ')}
+            #{date_range_query(date_param, 'services', nil, 'service_implemented_day_time')&.prepend('AND ')}
         )
         SELECT
           #{group_id&.+(',')}
@@ -47,7 +44,18 @@ class ManagedReports::Indicators::ImplementedSuccessfulReferrals < ManagedReport
       )
     end
     # rubocop:enable Metrics/MethodLength
-    # rubocop:enable Metrics/AbcSize
+
+    def build_filter_query(current_user, params = {})
+      filters = [
+        params['status'],
+        ManagedReports::FilterService.consent_reporting,
+        ManagedReports::FilterService.scope(current_user),
+        ManagedReports::FilterService.reporting_location(params['location'])
+      ].compact
+      return unless filters.present?
+
+      filters.map { |filter| filter.query(Child) }.join(' AND ')
+    end
 
     # rubocop:disable Metrics/MethodLength
     def join_services(service_type_param = nil)

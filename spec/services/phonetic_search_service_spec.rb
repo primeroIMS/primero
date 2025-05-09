@@ -37,7 +37,7 @@ describe PhoneticSearchService, search: true do
       end
 
       it 'matches the not filter' do
-        filter = SearchFilters::TextValue.new(field_name: 'sex', value: 'male', not_filter: true)
+        filter = SearchFilters::Not.new(filter: SearchFilters::TextValue.new(field_name: 'sex', value: 'male'))
         search = PhoneticSearchService.search(Child, filters: [filter])
 
         expect(search.total).to eq(3)
@@ -45,7 +45,7 @@ describe PhoneticSearchService, search: true do
       end
 
       it 'matches the not filter for a list' do
-        filter = SearchFilters::TextList.new(field_name: 'sex', values: %w[male], not_filter: true)
+        filter = SearchFilters::Not.new(filter: SearchFilters::TextList.new(field_name: 'sex', values: %w[male]))
         search = PhoneticSearchService.search(Child, filters: [filter])
 
         expect(search.total).to eq(3)
@@ -84,8 +84,8 @@ describe PhoneticSearchService, search: true do
       end
 
       it 'matches the not filter for a list of values' do
-        filter = SearchFilters::BooleanList.new(
-          field_name: 'urgent_protection_concern', values: [true], not_filter: true
+        filter = SearchFilters::Not.new(
+          filter: SearchFilters::BooleanList.new(field_name: 'urgent_protection_concern', values: [true])
         )
         search = PhoneticSearchService.search(Child, filters: [filter])
 
@@ -94,8 +94,8 @@ describe PhoneticSearchService, search: true do
       end
 
       it 'matches the not filter for false value' do
-        filter = SearchFilters::BooleanValue.new(
-          field_name: 'urgent_protection_concern', value: false, not_filter: true
+        filter = SearchFilters::Not.new(
+          filter: SearchFilters::BooleanValue.new(field_name: 'urgent_protection_concern', value: false)
         )
         search = PhoneticSearchService.search(Child, filters: [filter])
 
@@ -104,8 +104,8 @@ describe PhoneticSearchService, search: true do
       end
 
       it 'matches the not filter for true value' do
-        filter = SearchFilters::BooleanValue.new(
-          field_name: 'urgent_protection_concern', value: true, not_filter: true
+        filter = SearchFilters::Not.new(
+          filter: SearchFilters::BooleanValue.new(field_name: 'urgent_protection_concern', value: true)
         )
         search = PhoneticSearchService.search(Child, filters: [filter])
 
@@ -153,9 +153,7 @@ describe PhoneticSearchService, search: true do
       end
 
       it 'matches the numeric range list' do
-        filter = SearchFilters::RangeList.new(
-          field_name: 'age', values: [{ 'from' => 0, 'to' => 2 }], range_type: SearchFilters::NumericRange
-        )
+        filter = SearchFilters::RangeList.new(field_name: 'age', values: [{ 'from' => 0, 'to' => 2 }])
         search = PhoneticSearchService.search(Child, filters: [filter])
 
         expect(search.total).to eq(1)
@@ -163,7 +161,7 @@ describe PhoneticSearchService, search: true do
       end
 
       it 'matches the not filter' do
-        filter = SearchFilters::Value.new(field_name: 'age', value: 2, not_filter: true)
+        filter = SearchFilters::Not.new(filter: SearchFilters::Value.new(field_name: 'age', value: 2))
         search = PhoneticSearchService.search(Child, filters: [filter])
 
         expect(search.total).to eq(3)
@@ -171,7 +169,7 @@ describe PhoneticSearchService, search: true do
       end
 
       it 'matches the not filter for a list' do
-        filter = SearchFilters::ValueList.new(field_name: 'age', values: [2], not_filter: true)
+        filter = SearchFilters::Not.new(filter: SearchFilters::ValueList.new(field_name: 'age', values: [2]))
         search = PhoneticSearchService.search(Child, filters: [filter])
 
         expect(search.total).to eq(3)
@@ -179,7 +177,7 @@ describe PhoneticSearchService, search: true do
       end
 
       it 'matches the not filter for a numeric range' do
-        filter = SearchFilters::NumericRange.new(field_name: 'age', from: 0, to: 2, not_filter: true)
+        filter = SearchFilters::Not.new(filter: SearchFilters::NumericRange.new(field_name: 'age', from: 0, to: 2))
         search = PhoneticSearchService.search(Child, filters: [filter])
 
         expect(search.total).to eq(3)
@@ -221,8 +219,8 @@ describe PhoneticSearchService, search: true do
 
       it 'matches the date range list' do
         filter = SearchFilters::RangeList.new(
-          field_name: 'date_of_birth', values: [{ 'from' => Date.new(2020, 8, 1), 'to' => Date.new(2022, 4, 30) }],
-          range_type: SearchFilters::DateRange
+          field_name: 'date_of_birth',
+          values: [{ 'from' => Date.new(2020, 8, 1), 'to' => Date.new(2022, 4, 30) }]
         )
         search = PhoneticSearchService.search(Child, filters: [filter])
 

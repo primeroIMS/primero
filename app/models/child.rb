@@ -47,8 +47,8 @@ class Child < ApplicationRecord
   include FamilyLinkable
   include PhoneticSearchable
   include ReportableLocation
-  include Normalizeable
   include SubformSummarizable
+  include Normalizeable
 
   # rubocop:disable Naming/VariableNumber
   store_accessor(
@@ -110,24 +110,6 @@ class Child < ApplicationRecord
     ]
   end
 
-  # rubocop:disable Metrics/MethodLength
-  def self.normalized_field_names
-    {
-      'searchable_datetimes' => %w[
-        registration_date date_closure created_at assessment_due_dates case_plan_due_dates service_due_dates
-        followup_due_dates
-      ],
-      'searchable_values' => %w[
-        sex workflow risk_level status associated_user_groups associated_user_agencies associated_user_names
-        last_updated_by approval_status_case_plan approval_status_assessment approval_status_closure
-        referred_users transferred_to_users protection_concerns protection_risks owned_by_location next_steps
-      ],
-      'searchable_numerics' => %w[age],
-      'searchable_booleans' => %w[record_state not_edited_by_owner flagged consent_reporting]
-    }
-  end
-  # rubocop:enable Metrics/MethodLength
-
   def self.alert_count_self(current_user)
     records_owned_by = open_enabled_records.owned_by(current_user.user_name).ids
     # TODO: Once relation between transition and record is fixee, use joins(:transitions)
@@ -181,6 +163,7 @@ class Child < ApplicationRecord
   before_save :calculate_followup_due_dates
   before_save :calculate_tracing_dates
   before_save :calculate_reunification_dates
+  before_save :save_searchable_fields
   before_create :hide_name
   after_save :save_incidents
 
@@ -231,6 +214,16 @@ class Child < ApplicationRecord
 
   def self.nested_reportable_types
     [ReportableProtectionConcern, ReportableService, ReportableFollowUp]
+  end
+
+  # The field names end with an `_int` suffix in case we need to index their string version.
+  def self.searchable_field_map
+    {
+      'closure_problems_severity' => { 'name' => 'srch_closure_problems_severity_int', 'type' => 'integer' },
+      'client_summary_worries_severity' => {
+        'name' => 'srch_client_summary_worries_severity_int', 'type' => 'integer'
+      }
+    }
   end
 
   def validate_date_of_birth

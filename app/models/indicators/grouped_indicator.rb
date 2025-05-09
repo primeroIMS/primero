@@ -22,9 +22,7 @@ module Indicators
     )
 
     def query(indicator_filters, user_query_scope)
-      build_query(indicator_filters, user_query_scope).result.records.select(select_pivots).group(
-        pivot_field_names.join(', ')
-      )
+      build_query(indicator_filters, user_query_scope).select(select_pivots).group(pivot_field_names.join(', '))
     end
 
     def select_pivots

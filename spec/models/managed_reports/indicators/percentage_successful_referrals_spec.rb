@@ -250,7 +250,7 @@ describe ManagedReports::Indicators::PercentageSuccessfulReferrals do
   end
 
   before do
-    clean_data(SearchableValue, SearchableDatetime, Alert, Lookup, UserGroup, User, Agency, Role, Referral, Child)
+    clean_data(Alert, Lookup, UserGroup, User, Agency, Role, Referral, Child)
     referral1
     referral2
     referral3
@@ -261,7 +261,7 @@ describe ManagedReports::Indicators::PercentageSuccessfulReferrals do
   end
 
   after do
-    clean_data(SearchableValue, SearchableDatetime, Alert, Lookup, UserGroup, User, Agency, Role, Referral, Child)
+    clean_data(Alert, Lookup, UserGroup, User, Agency, Role, Referral, Child)
   end
 
   it 'returns data for average_cases_per_case_worker indicator' do
@@ -277,7 +277,7 @@ describe ManagedReports::Indicators::PercentageSuccessfulReferrals do
 
   context 'when consent_reporting is visible' do
     before do
-      ManagedReports::SearchableFilterService.stub(:consent_reporting_visible?).and_return(true)
+      ManagedReports::FilterService.stub(:consent_reporting_visible?).and_return(true)
     end
 
     it 'returns data for those records where the consent was provided' do

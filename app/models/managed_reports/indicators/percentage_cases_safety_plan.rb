@@ -13,22 +13,17 @@ class ManagedReports::Indicators::PercentageCasesSafetyPlan < ManagedReports::Sq
 
     # rubocop:disable Metrics/MethodLength
     def sql(current_user, params = {})
-      date_param = filter_date(params)
-      date_query = grouped_date_query(params['grouped_by'], date_param, 'searchable_datetimes', nil, 'value')
-      group_id = date_query.present? ? 'group_id' : nil
+      date_group_query = build_date_group(params, {}, Child)
+      group_id = date_group_query.present? ? 'group_id' : nil
       %(
         WITH disability_cases AS (
           SELECT
-            #{date_query&.+(' AS group_id,')}
-            data->>'begin_safety_plan_prompt' AS safety_plan,
-            COALESCE(data->>'gender', 'incomplete_data') AS gender
+            #{date_group_query&.+(' AS group_id,')}
+            srch_begin_safety_plan_prompt AS safety_plan,
+            COALESCE(srch_gender, 'incomplete_data') AS gender
           FROM cases
-          #{ManagedReports::SearchableFilterService.filter_next_steps}
-          #{ManagedReports::SearchableFilterService.filter_datetimes(date_param)}
-          #{ManagedReports::SearchableFilterService.filter_values(params['status'])}
-          #{ManagedReports::SearchableFilterService.filter_reporting_location(params['location'])}
-          #{ManagedReports::SearchableFilterService.filter_scope(current_user)}
-          #{ManagedReports::SearchableFilterService.filter_consent_reporting}
+          WHERE srch_next_steps && '{a_continue_protection_assessment}'
+          #{build_filter_query(current_user, params)&.prepend('AND ')}
         )
         SELECT
           #{group_id&.+(',')}
@@ -41,6 +36,19 @@ class ManagedReports::Indicators::PercentageCasesSafetyPlan < ManagedReports::Sq
     end
     # rubocop:enable Metrics/MethodLength
 
+    def build_filter_query(current_user, params = {})
+      filters = [
+        params['status'],
+        ManagedReports::FilterService.reporting_location(params['location']),
+        ManagedReports::FilterService.to_datetime(filter_date(params)),
+        ManagedReports::FilterService.consent_reporting,
+        ManagedReports::FilterService.scope(current_user)
+      ].compact
+      return unless filters.present?
+
+      filters.map { |filter| filter.query(Child) }.join(' AND ')
+    end
+
     alias super_build_results build_results
     def build_results(results, params = {})
       result_array = write_safety_plan_completion(results.to_a)
@@ -49,7 +57,7 @@ class ManagedReports::Indicators::PercentageCasesSafetyPlan < ManagedReports::Sq
 
     def write_safety_plan_completion(results)
       results.each_with_object([]) do |result, memo|
-        if result['safety_plan'] == 'true'
+        if result['safety_plan'] == true
           memo << result.merge('safety_plan' => 'safety_plan_completed')
         else
           recalculate_safety_plan_not_completed(memo, result)

@@ -18,6 +18,7 @@ class RegistryRecord < ApplicationRecord
   include EagerLoadable
   include LocationCacheable
   include PhoneticSearchable
+  include Normalizeable
 
   store_accessor(
     :data,
@@ -26,6 +27,8 @@ class RegistryRecord < ApplicationRecord
   )
 
   has_many :cases, class_name: 'Child', foreign_key: :registry_record_id
+
+  before_save :save_searchable_fields
 
   class << self
     def registry_types
@@ -40,14 +43,6 @@ class RegistryRecord < ApplicationRecord
     def summary_field_names
       common_summary_fields + %w[registry_type registry_id_display name registration_date
                                  module_id name location_current registry_no]
-    end
-
-    def normalized_field_names
-      {
-        'searchable_datetimes' => %w[created_at registration_date],
-        'searchable_values' => %w[status associated_user_groups associated_user_agencies associated_user_names],
-        'searchable_booleans' => %w[record_state]
-      }
     end
 
     def phonetic_field_names

@@ -65,7 +65,7 @@ describe ManagedReports::Indicators::PercentageCasesDuration do
   end
 
   before do
-    clean_data(SearchableValue, SearchableDatetime, Alert, Lookup, UserGroup, User, Agency, Role, Child)
+    clean_data(Alert, Lookup, UserGroup, User, Agency, Role, Child)
     DateTime.stub(:now).and_return(Time.utc(2022, 2, 15, 14, 5, 0))
     child1
     child2
@@ -75,7 +75,7 @@ describe ManagedReports::Indicators::PercentageCasesDuration do
   end
 
   after do
-    clean_data(SearchableValue, SearchableDatetime, Alert, Lookup, UserGroup, User, Agency, Role, Child)
+    clean_data(Alert, Lookup, UserGroup, User, Agency, Role, Child)
   end
 
   it 'returns data for percentage_cases_duration indicator' do
@@ -91,7 +91,7 @@ describe ManagedReports::Indicators::PercentageCasesDuration do
 
   context 'when consent_reporting is visible' do
     before do
-      ManagedReports::SearchableFilterService.stub(:consent_reporting_visible?).and_return(true)
+      ManagedReports::FilterService.stub(:consent_reporting_visible?).and_return(true)
     end
 
     it 'returns data for those records where the consent was provided' do
@@ -221,10 +221,12 @@ describe ManagedReports::Indicators::PercentageCasesDuration do
             },
             {
               group_id: '2021-10-03 - 2021-10-09',
-              data: [
-                { id: '1_3_months', male: 50.0, female: 100.0, total: 66.67 },
-                { id: '3_6_months', male: 50.0, total: 33.33 }
-              ]
+              data: match_array(
+                [
+                  { id: '1_3_months', male: 50.0, female: 100.0, total: 66.67 },
+                  { id: '3_6_months', male: 50.0, total: 33.33 }
+                ]
+              )
             },
             {
               group_id: '2021-10-10 - 2021-10-16',

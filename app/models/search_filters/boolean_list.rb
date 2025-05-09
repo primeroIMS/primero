@@ -4,20 +4,16 @@
 
 # Transform API query parameter field_name=false,true,... into a SQL query
 class SearchFilters::BooleanList < SearchFilters::ValueList
-  def query
+  def json_path_query
     ActiveRecord::Base.sanitize_sql_for_conditions(
       [
-        %(
-          (#{json_path_query}) OR (
-            data->>:field_name IS NULL AND (array[false, 'false'] @> array[:values])
-          )
-        ),
+        "(#{super}) OR (data->>:field_name IS NULL AND (array[false, 'false'] @> array[:values]))",
         { field_name:, values: }
       ]
     )
   end
 
-  def json_path_value
+  def json_path_predicate
     values.map do |value|
       ActiveRecord::Base.sanitize_sql_for_conditions(['@ == %s || @ == "%s"', value, value])
     end.join(' || ')

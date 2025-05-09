@@ -13,13 +13,9 @@ module Indicators
       'queried_indicator'
     end
 
-    def query(indicator_filters, user_query_scope)
-      build_query(indicator_filters, user_query_scope).result
-    end
-
     def write_stats_for_indicator(indicator_filters, user_query_scope, _managed_user_names = [])
-      result = query(indicator_filters, user_query_scope)
-      { name => { 'count' => result.total, 'query' => stat_query_strings(name, indicator_filters) } }
+      indicator_query = query(indicator_filters, user_query_scope)
+      { name => { 'count' => indicator_query.count, 'query' => stat_query_strings(name, indicator_filters) } }
     end
 
     def filters(user)

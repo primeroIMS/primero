@@ -12,34 +12,23 @@ class ManagedReports::Indicators::ImprovedWellbeingAfterSupport < ManagedReports
 
     # rubocop:disable Metrics/MethodLength
     def sql(current_user, params = {})
-      date_param = filter_date(params)
-      date_query = grouped_date_query(params['grouped_by'], date_param, 'searchable_datetimes', nil, 'value')
-      group_id = date_query.present? ? 'group_id' : nil
-
+      date_group_query = build_date_group(params, {}, Child)
+      group_id = date_group_query.present? ? 'group_id' : nil
       %{
         WITH improvement_ranges_and_groups AS (
           SELECT
-            #{date_query&.+(' AS group_id,')}
-            CASE WHEN (
-              cases.data ->> 'psychsocial_assessment_score_most_recent'
-            )::INT - (
-              cases.data ->> 'psychsocial_assessment_score_initial'
-            )::INT >= 3
-            THEN 'improve_by_at_least_3_points'
-            ELSE 'not_improve_by_at_least_3_points'
+            #{date_group_query&.+(' AS group_id,')}
+            CASE
+              WHEN srch_psychsocial_assessment_score_most_recent - srch_psychsocial_assessment_score_initial >= 3
+              THEN 'improve_by_at_least_3_points'
+              ELSE 'not_improve_by_at_least_3_points'
             END AS improvement_range,
-            COALESCE(data->>'gender', 'incomplete_data') AS gender
+            COALESCE(srch_gender, 'incomplete_data') AS gender
           FROM cases
-          #{ManagedReports::SearchableFilterService.filter_values(params['status'])}
-          #{ManagedReports::SearchableFilterService.filter_datetimes(date_param)}
-          #{ManagedReports::SearchableFilterService.filter_scope(current_user)}
-          #{ManagedReports::SearchableFilterService.filter_next_steps}
-          #{ManagedReports::SearchableFilterService.filter_consent_reporting}
-          WHERE (
-            cases.data @? '$[*]
-              ? (@.psychsocial_assessment_score_initial >= 0)
-              ? (@.psychsocial_assessment_score_most_recent >= 0)'
-          )
+          WHERE srch_psychsocial_assessment_score_initial >= 0
+          AND srch_psychsocial_assessment_score_most_recent >= 0
+          AND srch_next_steps && '{a_continue_protection_assessment}'
+          #{build_filter_query(current_user, params)&.prepend('AND ')}
         )
         SELECT
           #{group_id&.+(', ')}
@@ -51,6 +40,18 @@ class ManagedReports::Indicators::ImprovedWellbeingAfterSupport < ManagedReports
       }
     end
     # rubocop:enable Metrics/MethodLength
+
+    def build_filter_query(current_user, params = {})
+      filters = [
+        params['status'],
+        ManagedReports::FilterService.to_datetime(filter_date(params)),
+        ManagedReports::FilterService.consent_reporting,
+        ManagedReports::FilterService.scope(current_user)
+      ].compact
+      return unless filters.present?
+
+      filters.map { |filter| filter.query(Child) }.join(' AND ')
+    end
 
     alias super_build_results build_results
     def build_results(results, params = {})

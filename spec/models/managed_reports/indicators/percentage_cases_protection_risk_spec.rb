@@ -51,7 +51,7 @@ describe ManagedReports::Indicators::PercentageCasesProtectionRisk do
   end
 
   before do
-    clean_data(SearchableValue, Alert, Lookup, UserGroup, User, Agency, Role, Child)
+    clean_data(Alert, Lookup, UserGroup, User, Agency, Role, Child)
     child1
     child2
     child3
@@ -59,7 +59,7 @@ describe ManagedReports::Indicators::PercentageCasesProtectionRisk do
   end
 
   after do
-    clean_data(SearchableValue, Alert, Lookup, UserGroup, User, Agency, Role, Child)
+    clean_data(Alert, Lookup, UserGroup, User, Agency, Role, Child)
   end
 
   it 'returns data for percentage_cases_protection_risk indicator' do
@@ -76,7 +76,7 @@ describe ManagedReports::Indicators::PercentageCasesProtectionRisk do
 
   context 'when consent_reporting is visible' do
     before do
-      ManagedReports::SearchableFilterService.stub(:consent_reporting_visible?).and_return(true)
+      ManagedReports::FilterService.stub(:consent_reporting_visible?).and_return(true)
     end
 
     it 'returns data for those records where the consent was provided' do
@@ -140,11 +140,13 @@ describe ManagedReports::Indicators::PercentageCasesProtectionRisk do
           [
             {
               group_id: 2021,
-              data: [
-                { id: 'risk1', male: 66.67, total: 50.0 },
-                { id: 'risk2', female: 100.0, male: 33.33, total: 50.0 },
-                { id: 'risk3', male: 33.33, total: 25.0 }
-              ]
+              data: match_array(
+                [
+                  { id: 'risk1', male: 66.67, total: 50.0 },
+                  { id: 'risk2', female: 100.0, male: 33.33, total: 50.0 },
+                  { id: 'risk3', male: 33.33, total: 25.0 }
+                ]
+              )
             }
           ]
         )
@@ -169,11 +171,13 @@ describe ManagedReports::Indicators::PercentageCasesProtectionRisk do
           [
             {
               group_id: '2021-10',
-              data: [
-                { id: 'risk1', male: 100.0, total: 66.67 },
-                { id: 'risk2', female: 100.0, male: 50.0, total: 66.67 },
-                { id: 'risk3', male: 50.0, total: 33.33 }
-              ]
+              data: match_array(
+                [
+                  { id: 'risk1', male: 100.0, total: 66.67 },
+                  { id: 'risk2', female: 100.0, male: 50.0, total: 66.67 },
+                  { id: 'risk3', male: 50.0, total: 33.33 }
+                ]
+              )
             },
             {
               group_id: '2021-11',
@@ -206,11 +210,13 @@ describe ManagedReports::Indicators::PercentageCasesProtectionRisk do
             },
             {
               group_id: '2021-10-03 - 2021-10-09',
-              data: [
-                { id: 'risk1', male: 100.0, total: 100.0 },
-                { id: 'risk2', male: 50.0, total: 50.0 },
-                { id: 'risk3', male: 50.0, total: 50.0 }
-              ]
+              data: match_array(
+                [
+                  { id: 'risk1', male: 100.0, total: 100.0 },
+                  { id: 'risk2', male: 50.0, total: 50.0 },
+                  { id: 'risk3', male: 50.0, total: 50.0 }
+                ]
+              )
             },
             {
               group_id: '2021-10-10 - 2021-10-16',
