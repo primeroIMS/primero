@@ -12,6 +12,7 @@ import { useI18n } from "../../i18n";
 import { LOCALE_KEYS } from "../../../config";
 import NepaliCalendar from "../../nepali-calendar-input";
 import DateProvider from "../../../date-provider";
+import { dayOfWeekFormatter } from "../../../libs/date-picker-localization";
 
 function DateInput({ commonInputProps, metaInputProps = {}, formMethods }) {
   const i18n = useI18n();
@@ -69,7 +70,14 @@ function DateInput({ commonInputProps, metaInputProps = {}, formMethods }) {
     }
 
     return (
-      <DatePicker {...dialogLabels} {...commonInputProps} {...inputProps} onChange={handleChange} value={fieldValue} />
+      <DatePicker
+        {...dialogLabels}
+        {...commonInputProps}
+        {...inputProps}
+        onChange={handleChange}
+        value={fieldValue}
+        dayOfWeekFormatter={dayOfWeekFormatter(i18n)}
+      />
     );
   };
 
