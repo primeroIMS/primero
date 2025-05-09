@@ -18,6 +18,10 @@ json.data do
   json.system_options @system_setting.system_options
                                      .merge('maximum_attachments_per_record' =>
                                             @system_setting.maximum_attachments_per_record)
+  json.audit_log do
+    json.actions AuditLog::ACTIONS
+    json.record_types AuditLog::RECORD_TYPES
+  end
   if code_of_conduct
     json.code_of_conduct do
       json.partial! 'api/v2/codes_of_conduct/code_of_conduct', code_of_conduct:

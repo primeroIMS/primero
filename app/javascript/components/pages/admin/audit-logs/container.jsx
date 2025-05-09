@@ -16,6 +16,7 @@ import IndexTable from "../../../index-table";
 import { useMetadata } from "../../../records";
 import { FiltersForm } from "../../../form-filters/components";
 import { filterOnTableChange, onSubmitFilters } from "../utils";
+import { selectAuditLogActions, selectAuditLogRecordTypes } from "../../../application/selectors";
 
 import { AUDIT_LOG, NAME, DEFAULT_FILTERS, TIMESTAMP, USER_NAME } from "./constants";
 import { fetchAuditLogs, fetchPerformedBy, setAuditLogsFilters } from "./action-creators";
@@ -30,6 +31,8 @@ function Container() {
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
   const filterUsers = useMemoizedSelector(state => getFilterUsers(state), compare);
   const currentFilters = useMemoizedSelector(state => getAppliedFilters(state, recordType));
+  const actions = useMemoizedSelector(state => selectAuditLogActions(state));
+  const recordTypes = useMemoizedSelector(state => selectAuditLogRecordTypes(state));
 
   const defaultFilters = fromJS(DEFAULT_FILTERS).merge(metadata).set("locale", i18n.locale);
 
@@ -41,7 +44,7 @@ function Container() {
 
   const filterProps = {
     clearFields: [USER_NAME, TIMESTAMP],
-    filters: getFilters(filterUsers),
+    filters: getFilters(filterUsers, i18n, actions, recordTypes),
     defaultFilters,
     onSubmit: data => {
       const filters = typeof data === "undefined" ? {} : buildAuditLogsQuery(data);
