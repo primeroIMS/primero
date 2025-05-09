@@ -222,7 +222,7 @@ class Child < ApplicationRecord
 
   alias super_update_properties update_properties
   def update_properties(user, data)
-    build_or_update_incidents(user, (data.delete('incident_details') || []))
+    build_or_update_incidents(user, data.delete('incident_details') || [])
     self.registry_record_id = data.delete('registry_record_id') if data.key?('registry_record_id')
     self.mark_for_reopen = @incidents_to_save.present?
     update_associated_family(data)

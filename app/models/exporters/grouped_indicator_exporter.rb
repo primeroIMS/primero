@@ -175,8 +175,8 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
 
   def write_group_subcolumn_header(start_index, group_index, group_header_label)
     worksheet.merge_range(
-      current_row, calculate_position(start_index, (group_index * subitems_size)),
-      current_row, calculate_position(start_index, (((group_index + 1) * subitems_size) - 1)),
+      current_row, calculate_position(start_index, group_index * subitems_size),
+      current_row, calculate_position(start_index, ((group_index + 1) * subitems_size) - 1),
       group_header_label, formats[:bold_blue]
     )
   end
@@ -249,7 +249,7 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
   end
 
   def grouped_subcolumn_column(initial_index, group_index, subcolumn_index)
-    calculate_position(initial_index, (group_index * subcolumn_options.size), subcolumn_index)
+    calculate_position(initial_index, group_index * subcolumn_options.size, subcolumn_index)
   end
 
   def start_index_header(group, group_index)
