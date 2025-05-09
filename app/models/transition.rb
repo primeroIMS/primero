@@ -148,4 +148,8 @@ class Transition < ApplicationRecord
   def save_record
     record.save!
   end
+
+  def service_i18n
+    Lookup.display_value('lookup-service-type', service) if service.present?
+  end
 end
