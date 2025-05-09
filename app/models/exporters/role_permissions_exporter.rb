@@ -227,7 +227,7 @@ class Exporters::RolePermissionsExporter
   def add_format(col_count)
     @worksheet.set_column('A:A', 35, @workbook.add_format(bold: 1, text_wrap: 1))
     @worksheet.set_column('B:B', 50, @workbook.add_format(text_wrap: 1))
-    @worksheet.set_column(2, (col_count - 1), 32, @workbook.add_format(text_wrap: 1))
+    @worksheet.set_column(2, col_count - 1, 32, @workbook.add_format(text_wrap: 1))
   end
 
   def temp_file_name
