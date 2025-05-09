@@ -1,0 +1,44 @@
+# frozen_string_literal: true
+
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+class Indicators::JsonPivot < Indicators::IndicatorPivot
+  def select
+    return ActiveRecord::Base.sanitize_sql_array(['pivot?', index]) if multivalue?
+    return select_location_pivot if location?
+
+    ActiveRecord::Base.sanitize_sql_array(['data->>? AS pivot?', field_name, index])
+  end
+
+  def select_location_pivot
+    ActiveRecord::Base.sanitize_sql_array(
+      [
+        %(
+          (
+            SELECT LOWER(CAST(SUBPATH(locations.hierarchy_path, :admin_level, 1) AS VARCHAR)) FROM locations
+            WHERE location_code = data->>:field_name AND NLEVEL(hierarchy_path) > :admin_level
+          ) AS pivot:index
+        ), { admin_level:, index:, field_name: }
+      ]
+    )
+  end
+
+  def join_multivalue(indicator_query)
+    indicator_query.joins(
+      ActiveRecord::Base.sanitize_sql_array(
+        ['CROSS JOIN JSONB_ARRAY_ELEMENTS_TEXT(data->?) AS pivot?', field_name, index]
+      )
+    )
+  end
+
+  def constraint_values(indicator_query, managed_user_names)
+    if multivalue?
+      return indicator_query.where(
+        ActiveRecord::Base.sanitize_sql_array(['pivot? IN (?)', index, managed_user_names])
+      )
+    end
+
+    indicator_query.where(
+      ActiveRecord::Base.sanitize_sql_array(['data->>? IN (?)', field_name, managed_user_names])
+    )
+  end
+end
