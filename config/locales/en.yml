@@ -1979,13 +1979,16 @@ en:
       'true': Approving
     assessment_approved: "%{approval_label} approved for"
     assessment_requested: "%{approval_label} requested for"
+    assessment_rejected: "Assessment rejected for"
     bulk_index: List all
     by_user: by user
     case_plan_approved: "%{approval_label} approved for"
     case_plan_requested: "%{approval_label} requested for"
+    case_plan_rejected: "Case Plan rejected for"
     close: Close
     closure_approved: "%{approval_label} approved for"
     closure_requested: "%{approval_label} requested for"
+    closure_rejected: "Closure rejected for"
     consent_count: Consent Count
     copy: Copying
     create: Creating
@@ -2016,6 +2019,7 @@ en:
     resources:
       audit_log: Audit log
       user: User
+      flag: Flag
       agency: Agency
       user_group: User group
       child: Case

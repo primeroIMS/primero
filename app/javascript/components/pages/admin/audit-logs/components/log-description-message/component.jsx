@@ -13,7 +13,7 @@ import { getRecordID } from "./utils";
 function Component({ value, rowIndex, data }) {
   const i18n = useI18n();
   const prefix = value?.prefix?.approval_type
-    ? i18n.t(value?.prefix?.key, { approval_label: value?.prefix?.approval_type })
+    ? i18n.t(value?.prefix?.key, { approval_label: i18n.t(`cases.${value?.prefix?.approval_type}`) })
     : i18n.t(value?.prefix?.key);
   const recordID = getRecordID(data.getIn(["data", rowIndex]));
   const currentRecordType = data.getIn(["data", rowIndex, "record_type"]);
