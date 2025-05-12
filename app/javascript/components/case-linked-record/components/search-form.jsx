@@ -11,7 +11,7 @@ import Form, { FieldRecord, FormSectionRecord, SELECT_FIELD } from "../../form";
 import { useI18n } from "../../i18n";
 import css from "../../record-form/form/subforms/styles.css";
 import { FORM_ID, REGISTRY_LOCATION_CURRENT, SEARCH_BY } from "../constants";
-import { buildValidation } from "../utils";
+import { buildSearchParams, buildValidation } from "../utils";
 
 function Component({
   fields,
@@ -41,13 +41,7 @@ function Component({
     // eslint-disable-next-line camelcase
     const { search_by, ...params } = data;
 
-    const searchParams = Object.entries(params).reduce((acc, [key, value]) => {
-      if (phoneticFieldNames.includes(key)) {
-        return { ...acc, query: value, phonetic: true };
-      }
-
-      return acc;
-    }, {});
+    const searchParams = buildSearchParams(params, phoneticFieldNames);
 
     await setSearchParams({ ...searchParams, record_state: true });
     setComponent(1);
