@@ -16,3 +16,12 @@ export const buildValidation = (fields, searchByRequiredMessage) => {
     }, {})
   });
 };
+
+export const buildSearchParams = (params, phoneticFieldNames) =>
+  Object.entries(params).reduce((acc, [key, value]) => {
+    if (phoneticFieldNames.includes(key)) {
+      return { ...acc, query: value, phonetic: true };
+    }
+
+    return { ...acc, [key]: value };
+  }, {});
