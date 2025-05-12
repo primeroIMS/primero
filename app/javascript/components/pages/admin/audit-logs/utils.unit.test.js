@@ -78,7 +78,7 @@ describe("<AuditLogs /> - Helpers", () => {
           option_strings_source: null,
           options: helper.searchableUsers(data),
           type: "multi_select",
-          multiple: true
+          multiple: false
         },
         {
           name: "audit_log.action",
@@ -98,7 +98,7 @@ describe("<AuditLogs /> - Helpers", () => {
         }
       ];
 
-      expect(helper.getFilters(data, { t: value => value })).toEqual(expected);
+      expect(helper.getFilters(data, { t: value => value, locale: "en" })).toEqual(expected);
     });
   });
 });
