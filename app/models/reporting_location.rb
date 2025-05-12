@@ -7,6 +7,10 @@ class ReportingLocation < ValueObject
   DEFAULT_FIELD_KEY = 'owned_by_location'
   DEFAULT_ADMIN_LEVEL = 2
 
+  DEFAULT_IR_LOCATION_CONFIG = {
+    field_key: 'incident_location'
+  }.freeze
+
   attr_accessor :field_key, :label_keys, :admin_level, :record_list_admin_level, :hierarchy_filter, :admin_level_map
 
   def initialize(args = {})
@@ -23,5 +27,9 @@ class ReportingLocation < ValueObject
 
   def valid_admin_level?
     levels.include?(admin_level)
+  end
+
+  def self.default_ir_location_config
+    new(DEFAULT_IR_LOCATION_CONFIG)
   end
 end

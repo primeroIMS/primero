@@ -17,7 +17,8 @@ export const submitHandler = ({
   submitAllFields,
   submitAllArrayData = false,
   message = null,
-  submitAlways
+  submitAlways,
+  transformBeforeSend
 }) => {
   // formState needs to be called here otherwise touched will not work.
   // https://github.com/react-hook-form/react-hook-form-website/issues/154
@@ -31,6 +32,7 @@ export const submitHandler = ({
       })
     );
   }
+  const dataToSubmit = submitAllFields ? data : changedFormData;
 
-  return onSubmit(submitAllFields ? data : changedFormData);
+  return onSubmit(transformBeforeSend ? transformBeforeSend(dataToSubmit) : dataToSubmit);
 };

@@ -632,7 +632,6 @@ sk:
     dash_shared_from_my_team: Zdieľané z Môjho Tímu
     dash_shared_with_me: Zdieľané so mnou
     dash_shared_with_my_team: Zdieľané s Mojím Tímom
-    dash_shared_with_my_team_overview: Zdieľané s Mojím Tímom (prehľad)
     dash_shared_with_others: Zdieľané s Ostatnými
     dash_national_admin_summary: Súhrn Administrátora
     date: Dátum
@@ -738,15 +737,8 @@ sk:
     shared_from_my_team_pending_transfers: Čakajúce prevody
     shared_from_my_team_referrals: Odporúčania
     shared_from_my_team_rejected_transfers: Odmietnuté prevody
-    shared_with_me_new_referrals: Nové Odporúčania
-    shared_with_me_total_referrals: Celkový Počet Odporúčaní
-    shared_with_me_transfers_awaiting_acceptance: Prevody čakajúce na prijatie
-    shared_with_my_team_pending_transfers_overview: Prevody čakajúce na prijatie
     shared_with_my_team_pending_transfers: Čakajúce prevody
     shared_with_my_team_referrals: Odporúčania
-    shared_with_others_pending_transfers: Čakajúce prevody
-    shared_with_others_referrals: Odporúčania
-    shared_with_others_rejected_transfers: Odmietnuté prevody
     status_of_cases: Stav prípadov
     system_user: Systém
     total: Celkom
@@ -780,23 +772,14 @@ sk:
   email_notification:
     assign: '%{user} vám pridelil nasledovný %{record_type} záznam: %{record_id}.'
     assign_subject: '%{record_type}:%{id}- Je k vám pridelený'
-    approval_request: 'Používateľ %{user} žiada o schválenie pre %{approval_type} v prípade %{case_id}.'
     approval_request_subject: 'Prípad: %{id} - Žiadosť o schválenie'
-    approval_response: '%{user} má %{status} žiadosť o schválenie pre %{approval_type} pre prípad %{case_id}.'
     approval_response_subject: 'Prípad: %{id} - Žiadosť o schválenie'
     referral: '%{user} z %{agency} vám odkázal nasledujúce %{record_type} záznamy:  %{record_id} pre %{service_type}.'
     transfer: '%{user} vám preniesol nasledovný %{record_type} záznam: %{record_id}.'
     transfer_request_subject: Žiadosť o prevod pre jeden z vašich prípadov
-    transfer_subject: '%{record_type} : %{id} - Prevod'
-    referral_subject: '%{record_type}: %{id} - Odporúčanie'
     transfer_request: 'Používateľ z Primero%{user} z %{agency} vás žiada, aby ste previedli vlastníctvo tohto %{record_type} záznamu %{record_id}, aby mohol poskytovať %{record_type} služby jednotlivcovi vo svojej oblasti. Ak s tým súhlasíte, kliknite na %{record_type} ID linku v tomto e-maile aby ste mohli otvoriť %{record_type} v Primero a spustiť prevod.'
     approval_request_html: 'Používateľ <strong>%{user}</strong> žiada o schválenie pre <strong>%{approval_type}</strong> v prípade <strong>%{case_id}</strong>.'
     approval_response_html: '<strong>%{user}</strong> má <strong>%{status}</strong> žiadosť o schválenie pre <strong>%{approval_type}</strong> pre prípad <strong>%{case_id}</strong>.'
-    referral_html: '<strong>%{user}</strong> z %{agency} vám odkázal nasledujúce %{record_type} záznamy: <strong>%{record_id}</strong> pre %{service_type}.'
-    transfer_html: '<strong>%{user}</strong> vám previedol nasledovný %{record_type} záznam: <strong>%{record_id}</strong>.'
-    assign_html: '<strong>%{user}</strong> vám pridelil nasledovný %{record_type} záznam: <strong>%{record_id}</strong>'
-    transfer_request_html: 'Používateľ z Primero <strong>%{user} </strong> z %{agency} vás žiada, aby ste previedli vlastníctvo tohto %{record_type} záznamu <strong> %{record_id}</strong>, aby mohol poskytovať %{record_type} služby jednotlivcovi vo svojej oblasti. Ak s tým súhlasíte, kliknite na %{record_type} ID linku v tomto e-maile aby ste mohli otvoriť %{record_type} v Primero a spustiť prevod.'
-    transfer_request_notes_html: 'Poznámky od jednotlivca, ktorý podal žiadosť: %{request_transfer_notes}'
   encrypt:
     export_type: Typ exportu
     file_name: Vytvoriť vlastný názov súboru  (Nepovinné)
@@ -3116,40 +3099,21 @@ sk:
     welcome_email:
       subject: 'Vitajte v %{system}!'
       greeting: 'Vitajte v %{system}!'
-      body_native: 'Boli ste pridaný ako %{role_name}. Prosím kontaktujte %{admin_full_name} (%{admin_email}) pre ďalšie inštrukcie na prácu s %{host}.'
       sso:
         body: 'Boli ste pridaný ako %{role_name}.'
-        step1: 'Choďte na %{host}a kliknite %{identity_provider}.'
-        step2: 'Prihlásiť sa %{identity_provider} s vašim účtom %{user_name}.'
-        step3: 'Použite rovnaké heslo aké používate na svojom %{identity_provider}konte.'
-        footer: 'Prosím kontaktujte %{admin_full_name} (%{admin_email}) pre ďalšie detaily.'
       otp:
         body: 'Boli ste pridaný ako %{role_name}.'
-        step1: 'Prosím kontaktujte %{admin_full_name}(%{admin_email})pre získanie používateľského mena.'
-        step2: 'Choďte na %{host}a kliknite na "prihláste sa s Primero používateľským menom.".'
-        step3: 'Prihláste sa pomocou používateľského mena a dočasného hesla %{otp}.'
-        step4: 'Po výzve. obnovte heslo.'
       url_label: Primero
       enabled_label: Odoslať uvítací e-mail?
       text_label: Uvítací text e-mailu
     password_reset:
       subject: 'Pokyny na obnovenie hesla'
-      email_greeting: "Vážený %{full_name},"
-      email_body1: "Niekto požiadal o nastavenie Vášho hesla pre %{host_href}. Na spustenie práce kliknite na url nižšie:"
-      email_body2: "Tento link expiruje o %{hours} hodinu/hodiny a môže byť použitý iba raz. Prosím ignorujte tento email, ak ste nepožiadali o reset hesla alebo, ak sa nový Primero používateľ neprihlásil namiesto Vás. Ak platnosť linku vypršala,  kliknite na %{reset_request_href}pre opätovné požiadanie resetu hesla."
       email_body_link: tu
       request_submitted: "Žiadosť o obnovenie hesla bola odoslaná"
       success: "Heslo bolo úspešne zmenené"
       errors:
         reset_password_token: "Neplatný token na obnovenie hesla"
         password_confirmation: "Heslo sa musí zhodovať"
-    onboard_email:
-      subject: "Registrácia do %{system}"
-      greeting: "Vážený %{full_name},"
-      body1: "Vitajte v Primero!"
-      body2: "Boli ste pridelení ako správca nasadenia pre %{host_href}. %{reset_notification}"
-      body2_reset_notification: "Dostanete ďalší email s výzvou k resetovaniu svojho hesla."
-      body3: "Ste zodpovedný zabezpečit bezpečnú a včasnú implementáciu. Za každé vydanie, musíte mať dokončený plán implementácie so stratégiou integrácie a správy používateľov s protokolom zdieľania informácií. Zodpovedáte aj za to, aby podpísané Podmienky používania boli k dispozícii pre všetky používateľské agentúry."
   user_group:
     associated_agencies: Agentúry priradené k tejto skupine používateľov
     description: Popis

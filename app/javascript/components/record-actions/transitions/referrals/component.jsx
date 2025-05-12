@@ -27,7 +27,8 @@ import {
   SERVICE_EXTERNAL_REFERRAL,
   FIELDS,
   CUSTOM_EXPORT_FILE_NAME_FIELD,
-  OMITTED_SUBMISSION_FIELDS
+  OMITTED_SUBMISSION_FIELDS,
+  ALL_OPTION_ID
 } from "./constants";
 import { form, validations } from "./form";
 
@@ -127,6 +128,12 @@ function Referrals({
         onSubmit={handleSubmit}
         validations={validations(i18n)}
         formErrors={formErrors}
+        transformBeforeSend={data => {
+          return {
+            ...data,
+            ...(data[FIELDS.AUTHORIZED_ROLE_UNIQUE_ID] === ALL_OPTION_ID && { [FIELDS.AUTHORIZED_ROLE_UNIQUE_ID]: "" })
+          };
+        }}
         initialValues={{
           [FIELDS.CONSENT_INDIVIDUAL_TRANSFER]: providedConsent,
           ...referralFromService

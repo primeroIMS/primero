@@ -644,7 +644,6 @@ cmn:
     dash_shared_from_my_team: 来自我的团队的共享
     dash_shared_with_me: 与我共享
     dash_shared_with_my_team: 与我的团队共享
-    dash_shared_with_my_team_overview: 与我的团队共享（概述）
     dash_shared_with_others: 与他人共享
     dash_national_admin_summary: 管理员摘要
     dash_violations_category_verification_status: 每种核查状态下的事件总数
@@ -744,15 +743,8 @@ cmn:
     shared_from_my_team_pending_transfers: 待处理的移交
     shared_from_my_team_referrals: 转介
     shared_from_my_team_rejected_transfers: 已退回的移交
-    shared_with_me_new_referrals: 新转介
-    shared_with_me_total_referrals: 转介总数
-    shared_with_me_transfers_awaiting_acceptance: 等待接收的移交
-    shared_with_my_team_pending_transfers_overview: 等待接收的移交
     shared_with_my_team_pending_transfers: 待处理的移交
     shared_with_my_team_referrals: 转介
-    shared_with_others_pending_transfers: 待处理的移交
-    shared_with_others_referrals: 转介
-    shared_with_others_rejected_transfers: 已退回的移交
     status_of_cases: 个案状况
     system_user: 系统
     total: 总计
@@ -780,23 +772,14 @@ cmn:
   email_notification:
     assign: '%{user}已将%{record_type}分配给您： %{record_id}'
     assign_subject: '%{record_type}: %{id} - 分配给您'
-    approval_request: '该用户%{user}正在申请批准%{approval_type}个案%{case_id}。'
     approval_request_subject: '个案：%{id} - 审批请求'
-    approval_response: '%{user}有%{status}要求批准%{approval_type}个案%{case_id}。'
     approval_response_subject: '个案：%{id} - 审批回复'
     referral: '来自%{agency}的%{user}已将%{record_type}转给您：为个案%{record_id}寻求%{service_type}服务。'
     transfer: '%{user}已将个案%{record_id}的%{record_type}转交给您。'
     transfer_request_subject: 为您的一个个案申请移交
-    transfer_subject: '%{record_type}：%{id} - 移交'
-    referral_subject: '%{record_type}：%{id} - 转介'
     transfer_request: 'Primero 用户%{user}来自%{agency}要求您移交该%{record_type}记录%{record_id}的所有权，以便他们在其区域内为该个人提供%{record_type}个案管理服务。如果您可以接受这种移交，请单击此电子邮件中的 %{record_type}ID 链接，打开 Primero 中的%{record_type}并启动移交。'
     approval_request_html: '该用户<strong>%{user}</strong>正在申请批准<strong>%{approval_type}</strong>个案<strong>%{case_id}</strong>。'
     approval_response_html: '<strong>%{user}</strong><strong>%{status}</strong>请求批准<strong>%{approval_type}</strong>个案<strong>%{case_id}</strong>'
-    referral_html: '<strong>%{user}</strong>来自%{agency}已将以下%{record_type}转给您：寻求%{service_type}<strong>%{record_id}</strong>。'
-    transfer_html: '<strong>%{user}</strong>已将以下%{record_type}移交给您：<strong>%{record_id}</strong>。'
-    assign_html: '<strong>%{user}</strong>已将以下%{record_type}分配给您：<strong>%{record_id}</strong>。'
-    transfer_request_html: 'Primero 用户<strong>%{user}</strong>来自%{agency}要求您移交该%{record_type}记录<strong>%{record_id}</strong>的所有权，以便他们在其区域内为该个人提供%{record_type}个案管理服务。如果您可以接受这种移交，请单击此电子邮件中的 %{record_type}ID 链接，打开 Primero 中的%{record_type}并启动移交。'
-    transfer_request_notes_html: '申请者的说明：%{request_transfer_notes}'
     alert: '%{record_type}%{id} - %{form_name}已更新。请登录 Primero 查看更改。'
     alert_subject: '%{record_type}: %{id} - %{form_name}已更新 '
   webpush_notification:
@@ -3743,40 +3726,21 @@ cmn:
     welcome_email:
       subject: '欢迎来到 %{system}!'
       greeting: '欢迎来到 %{system}!'
-      body_native: '你已经被添加为 %{role_name}. 关于使用的后续说明，请联系%{admin_full_name} (%{admin_email})  %{host}.'
       sso:
         body: '您已被添加为 %{role_name}.'
-        step1: '前往%{host} 点击%{identity_provider}.'
-        step2: '登录你的 %{identity_provider} 账户 %{user_name}.'
-        step3: '始终使用您用于%{identity_provider}账户'
-        footer: '请联系 %{admin_full_name} (%{admin_email}) 以获取进一步的细节。'
       otp:
         body: '您已被添加为 %{role_name}.'
-        step1: '请联系%{admin_full_name} (%{admin_email}) 以获取您的用户名'
-        step2: '前往%{host}，然后单击“使用 Primero 用户名登录”。 '
-        step3: '使用您的用户名和临时密码登录%{otp}.'
-        step4: '出现提示时，重置密码。'
       url_label: Primero
       enabled_label: 发送欢迎电子邮件？
       text_label: 欢迎电子邮件文本
     password_reset:
       subject: '重置密码说明'
-      email_greeting: "亲爱的 %{full_name}"
-      email_body1: "有人请求设置您的密码%{host_href}. 单击下面的 url 开始："
-      email_body2: "此链接将在 %{hours} 小时后过期，并且只能使用一次。如果您没有提出密码重置请求，或者没有代表您注册新的 Primero 用户，请忽略此电子邮件。如果上述链接已过期，请单击%{reset_request_href} 重新提交密码重置请求"
       email_body_link: 这
       request_submitted: "密码重置请求已提交"
       success: "密码已成功更改"
       errors:
         reset_password_token: "密码重置令牌无效"
         password_confirmation: "密码必须匹配"
-    onboard_email:
-      subject: "进入 %{system}"
-      greeting: "亲爱的 %{full_name}"
-      body1: "欢迎来到 Primero"
-      body2: "您已被指定为 %{host_href}. %{reset_notification}的执行管理员。"
-      body2_reset_notification: "您将收到一封额外的电子邮件，提示您重置密码。"
-      body3: "您有责任确保安全及时地实施。对于每次推出，您都应该已经完成了实施计划，其中包含上线和用户管理策略以及信息共享协议。您还负责确保所有用户组织都已签署的使用条款存档。"
   user_group:
     associated_agencies: 与此用户组关联的机构
     description: 描述

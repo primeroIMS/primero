@@ -169,6 +169,12 @@ describe FormSection do
       expect(form_section.errors[:name_en]).to be_present
     end
 
+    it 'should validate parent form is not changed after persisted' do
+      form_section = FormSection.create(name: 'test-form', parent_form: 'incident')
+      form_section.parent_form = 'case'
+      expect(form_section).to_not be_valid
+    end
+
     context 'when default locale is not english' do
       before do
         I18n.default_locale = :es

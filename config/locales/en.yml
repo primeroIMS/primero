@@ -160,6 +160,7 @@ en:
     close: Close
     continue: Continue
     create_case: Create Case
+    referral_create_case: Create %{module_id} Case
     create_incident: Create Incident
     create_new_record: Create New %{model}
     delete: Delete
@@ -479,6 +480,8 @@ en:
     referral_done: Clicking 'Done' signifies that you have completed the referral
       work associated with this case. Once you click 'Done' you will no longer have
       access to this record.
+    referral_create_case_header: Create %{module_id} Case
+    referral_create_case: Are you sure? You will be responsible for managing the Case you create.
     referral_done_success: Referral done.
     referral_accepted_header: Accept Referral
     referral_accepted: Are you sure? You will now be responsible for completing work
@@ -910,12 +913,12 @@ en:
     assign_subject: '%{record_type}: %{id} - Assigned to you'
     approval_request: '%{user} is requesting a %{approval_type} approval on case (%{case_id}). Please log in your account to review.'
     approval_request_subject: 'Case: %{id} - Approval Request'
-    approval_response: '%{user} has %{status} your request for %{approval_type} approval on case (%{case_id}). Please log in to your account to review.'
+    approval_response: '%{user} has updated the status of your %{approval_type} approval request on Case (%{case_id}) to the following: %{approval_type}. Please log in to your account to review.'
     approval_response_subject: 'Case: %{id} - Approval Response'
     referral: '%{user} from %{agency} has referred the following %{record_type} to you: %{record_id} for %{service_type}.'
     transfer: '%{user} has transferred the following %{record_type} to you: %{record_id}.'
     transfer_request_subject: Transfer request for one of your cases
-    transfer_subject: '%{record_type}: %{id} - Transfer Request'
+    transfer_subject: '%{record_type}: %{id} - Transfer'
     referral_subject: '%{record_type}: %{id} - Referral Request'
     transfer_request: 'Primero user %{user} from %{agency} is requesting that you transfer ownership of this %{record_type} record %{record_id} so that they can provide %{record_type} management services for the individual in their area. If this transfer is acceptable to you, please click on the %{record_type} ID link in this email to open the %{record_type} in Primero and initiate the transfer.'
     approval_request_html: 'The user <strong>%{user}</strong> is requesting approval for <strong> %{approval_type}</strong> on case <strong>%{case_id}</strong>.'
@@ -2000,6 +2003,7 @@ en:
     hide_name:
       protect: Hide Name
       view: View Name
+    import: Import
     index: Listing Records
     list: List
     login: Login
@@ -2034,6 +2038,8 @@ en:
       primero_configuration: Primero configuration
       code_of_conduct: Code of conduct
       task: Task
+      flag: Flag
+      tracing_request: Tracing Request
     record_state:
       'false': Disabling
       'true': Enabling
@@ -2103,6 +2109,7 @@ en:
     total: Total
     violations_total: Violations
     filter_by:
+      module_id: Module
       date: Date
       verification_status: Verification Status
       violation_type: Violation Type
@@ -2377,6 +2384,97 @@ en:
         case_violence_type_by_sex_and_age: Total Number of Cases by Sex and Age
         incident_violence_type_by_sex_and_age: Total Number of Incidents by Sex and Age
     success_message: Successfully generated the export file
+    protection_outcomes:
+      reports:
+        improved_psychosocial_wellbeing: '% demonstrating improved psychosocial wellbeing'
+        impacted_protection_risks: '% less impacted by protection risks'
+      description: 'Key outcomes including clients with improved psychosocial wellbeing and clients less impacted by risks after case management'
+      name: Protection Outcome
+      filter_options:
+        registration_date: Registration Date
+        date_closure: Date of Closure
+      sub_reports:
+        improved_wellbeing_after_support: '% of clients with improved psychosocial wellbeing'
+        less_impacted_after_support: '% less impacted by protection risks'
+      improved_wellbeing_after_support:
+        improve_by_at_least_3_points: 'Improved by at least 3 points'
+        not_improve_by_at_least_3_points: 'Did not improve by at least 3 points'
+      less_impacted_after_support:
+        clients_report_less_impacted: 'Reported being less impacted'
+        clients_report_equally_or_more_severely_impacted: 'Reported being equally or more severely impacted'
+    process_quality_total_cases:
+      reports:
+        process_quality_total_cases: 'Total protection case management clients'
+      description: Total number of cases broken down by case status, gender, and timeframe.
+      name: 'Process and Quality - # of total protection case management clients'
+      filter_options:
+        registration_date: Registration Date
+        date_closure: Date of Closure
+      sub_reports:
+        total_protection_management_cases: '# of total protection case management clients'
+    process_quality_average_cases:
+      reports:
+        process_quality_average_cases: 'Cases per case worker'
+      description: Number of cases per case worker, broken down by gender and timeframe.
+      name: 'Process and Quality - Average # of cases per case worker'
+      filter_options:
+        registration_date: Registration Date
+        date_closure: Date of Closure
+      sub_reports:
+        average_cases_per_case_worker: 'Average # of cases per case worker'
+      average_cases_per_case_worker: 'Average # of cases per case worker'
+    process_quality_successful_referrals:
+      reports:
+        process_quality_successful_referrals: Successful referrals
+      description: Percentage of service referrals which are successful and non-successful, within gender and timeframe cohorts
+      name: 'Process and Quality - % of successful referrals'
+      filter_options:
+        referral_created_at: Date Service Referred
+        service_response_day_time: Date Service Created
+        case_status: Case Status
+      sub_reports:
+        percentage_successful_referrals: '% of successful referrals'
+      implemented: 'Successful'
+      not_implemented: 'Non-Successful'
+    process_quality_implemented_referrals:
+      reports:
+        process_quality_implemented_referrals: 'Successful referrals by date implemented'
+      description: Successful service referrals brokend own by date implemented, gender, and timeframe
+      name: Process and Quality - Successful referrals by date implemented
+      filter_options:
+        case_status: Case Status
+        service_implemented_day_time: Service Implemented On
+      sub_reports:
+        implemented_successful_referrals: Successful referrals by date implemented
+      implemented: Succesful referrals
+    case_characteristics:
+      reports:
+        case_protection_risk: Cases by protection risk
+        case_risk_level: Cases by risk level
+        case_duration: Cases by duration
+        clients_disability: Clients with a disability
+        case_safety_plan: Cases with a safety plan
+        clients_gender: Cases by gender
+      description: 'Key case characteristics, including % of cases by risk level, protection risks, case management duration, disability status, safety plan completion, and gender.'
+      name: Case Characteristics
+      filter_options:
+        registration_date: Registration Date
+        date_closure: Date of Closure
+      sub_reports:
+        percentage_cases_protection_risk: '% of cases by protection risk'
+        percentage_cases_risk_level: '% of cases by risk level'
+        percentage_cases_duration: '% of cases by duration'
+        percentage_clients_with_disability: '% of clients that have a disability'
+        percentage_cases_safety_plan: '% of cases with a finalized safety plan'
+        percentage_clients_gender: '% clients by gender'
+      percentage_cases_duration:
+        1_month: <1 month
+        1_3_months: 1-3 months
+        3_6_months: 3-6 months
+        over_6_months: over 6 months
+      percentage_cases_safety_plan:
+        safety_plan_completed: 'Safety Plan completed'
+        safety_plan_not_completed: 'Safety Plan not completed'
   usage_report:
     label: Export Usage Report
     file_name: Create your own file name (Optional)
@@ -2612,6 +2710,7 @@ en:
       write: Write
       activity_log: Activity Log
       remove_alert: Remove Alert
+      create_case_from_referral: Create a case from a referral
     resource:
       kpi:
         actions:
@@ -2780,6 +2879,9 @@ en:
               is needed for this action. Unlike with transfers, the recipient is not
               given the chance to accept or reject the assignment.
             label: Assign to user within my user group
+          create_case_from_referral:
+            label: Create a case from a referral
+            explanation: User can create a case from a referral
           change_log:
             explanation: User can see a history of all changes made to the record
               since it was created. This includes values recorded for all fields.
@@ -3606,6 +3708,24 @@ en:
             label: Referrals and Transfers (Cases)
             explanation: Users see the number of cases referred and transferred from each User Group
               to each other User Group.
+          protection_outcomes:
+            label: Protection Outcomes
+            explanation: Protection Outcomes originally developed for the PCM module. Includes % of clients who demonstrate improved psychosocial wellbeing and % who report being less impacted by protection risks.
+          process_quality_total_cases:
+            label: 'Process and Quality - # of total protection case management clients'
+            explanation: Only relevant for the PCM (Protection Case Management) module. Shows the total number of cases undergoing Protection Case Management.
+          process_quality_average_cases:
+            label: 'Process and Quality - Average # of cases per case worker'
+            explanation: Only relevant for the PCM (Protection Case Management) module. Shows the average number of PCM cases per case worker.
+          process_quality_successful_referrals:
+            label: 'Process and Quality - % of successful referrals'
+            explanation: Only relevant for the PCM (Protection Case Management) module. Shows the percentage of service referrals which were successfully implemented.
+          process_quality_implemented_referrals:
+            label: Process and Quality -  Successful referrals by date implemented
+            explanation: Only relevant for the PCM (Protection Case Management) module. Shows the number of successful service referrals which were implemented in each month.
+          case_characteristics:
+            label: 'Case Characteristics'
+            explanation: 'Only relevant for the PCM (Protection Case Management) module. Disaggregates cases by a number of key characteristics: protection risk, risk level, duration, disability status, completion of a safety plan, and gender.'
       matching_configuration:
         actions:
           manage:
@@ -4173,6 +4293,7 @@ en:
   record_panel:
     record_information: Record Information
   referral:
+    allow_all: Allow access to all available forms
     type_of_recipient: Type of Recipient
     type_of_referral_required: Type of Referral is required
     referral_authorization_label:  Would you like to specify a Type of Referral?
@@ -4191,6 +4312,8 @@ en:
     user_mandatory_label: Recipient is required
     date: Date
     rejected_reason: Rejection Reason
+    allow_case_creation: Allow case creation with this referral
+    allow_case_creation_help_text: Checking this box will allow the recipient to create their own case record to provide case management services for the client.
   report:
     aggregate_by: Group by row
     attribute: Attribute

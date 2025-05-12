@@ -20,6 +20,7 @@ function Component({
   locale,
   noForm = false,
   permissions,
+  phoneticFieldNames = [],
   redirectIfNotAllowed,
   setComponent,
   setDrawerTitle,
@@ -38,7 +39,15 @@ function Component({
 
   const handleSearch = async data => {
     // eslint-disable-next-line camelcase
-    const { search_by, ...searchParams } = data;
+    const { search_by, ...params } = data;
+
+    const searchParams = Object.entries(params).reduce((acc, [key, value]) => {
+      if (phoneticFieldNames.includes(key)) {
+        return { ...acc, query: value, phonetic: true };
+      }
+
+      return acc;
+    }, {});
 
     await setSearchParams({ ...searchParams, record_state: true });
     setComponent(1);
@@ -109,6 +118,7 @@ Component.propTypes = {
   locale: PropTypes.string.isRequired,
   noForm: PropTypes.bool,
   permissions: PropTypes.object.isRequired,
+  phoneticFieldNames: PropTypes.array.isRequired,
   redirectIfNotAllowed: PropTypes.func.isRequired,
   setComponent: PropTypes.func.isRequired,
   setDrawerTitle: PropTypes.func.isRequired,

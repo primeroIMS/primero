@@ -129,7 +129,7 @@ describe("renderFormSections()", () => {
         false
       );
 
-    // eslint-disable-next-line react/display-name
+    // eslint-disable-next-line react/display-name, react/no-multi-comp
     function RenderedFormSections() {
       return <>{formSection()}</>;
     }
@@ -194,7 +194,7 @@ describe("renderFormSections()", () => {
         false
       );
 
-    // eslint-disable-next-line react/display-name
+    // eslint-disable-next-line react/display-name, react/no-multi-comp
     function RenderedFormSections() {
       return <>{formSection()}</>;
     }

@@ -187,9 +187,9 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
     value_array = value.is_a?(Array) ? value : Array.new(rows_to_write, value)
     value_array.each_with_index do |val, i|
       if column.zero?
-        worksheet&.write_string((worksheets[current_worksheet_id][:row] + i), column, val)
+        worksheet&.write_string(worksheets[current_worksheet_id][:row] + i, column, val)
       else
-        worksheet&.write((worksheets[current_worksheet_id][:row] + i), column, val)
+        worksheet&.write(worksheets[current_worksheet_id][:row] + i, column, val)
       end
     end
   end
