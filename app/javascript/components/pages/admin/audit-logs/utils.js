@@ -2,7 +2,7 @@
 
 import { FILTER_TYPES } from "../../../index-filters";
 
-import { TIMESTAMP, USER_NAME } from "./constants";
+import { AUDIT_LOG_ACTIONS, RECORD_TYPE, TIMESTAMP, USER_NAME } from "./constants";
 
 function parseAuditLogOptions(i18n, options, key) {
   return (
@@ -52,11 +52,11 @@ export const getFilters = (filterUsers, i18n, actions, recordTypes) => [
     option_strings_source: null,
     options: searchableUsers(filterUsers),
     type: FILTER_TYPES.MULTI_SELECT,
-    multiple: true
+    multiple: false
   },
   {
     name: "audit_log.action",
-    field_name: "audit_log_actions",
+    field_name: AUDIT_LOG_ACTIONS,
     option_strings_source: null,
     options: parseAuditLogOptions(i18n, actions, "actions"),
     type: FILTER_TYPES.MULTI_SELECT,
@@ -64,7 +64,7 @@ export const getFilters = (filterUsers, i18n, actions, recordTypes) => [
   },
   {
     name: "audit_log.type",
-    field_name: "record_type",
+    field_name: RECORD_TYPE,
     option_strings_source: null,
     options: parseAuditLogOptions(i18n, recordTypes, "resources"),
     type: FILTER_TYPES.MULTI_SELECT,

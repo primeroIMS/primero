@@ -18,7 +18,7 @@ import { FiltersForm } from "../../../form-filters/components";
 import { filterOnTableChange, onSubmitFilters } from "../utils";
 import { selectAuditLogActions, selectAuditLogRecordTypes } from "../../../application/selectors";
 
-import { AUDIT_LOG, NAME, DEFAULT_FILTERS, TIMESTAMP, USER_NAME } from "./constants";
+import { AUDIT_LOG, NAME, DEFAULT_FILTERS, TIMESTAMP, USER_NAME, AUDIT_LOG_ACTIONS, RECORD_TYPE } from "./constants";
 import { fetchAuditLogs, fetchPerformedBy, setAuditLogsFilters } from "./action-creators";
 import { getFilterUsers } from "./selectors";
 import { buildAuditLogsQuery, getFilters } from "./utils";
@@ -43,7 +43,7 @@ function Container() {
   }, []);
 
   const filterProps = {
-    clearFields: [USER_NAME, TIMESTAMP],
+    clearFields: [USER_NAME, TIMESTAMP, AUDIT_LOG_ACTIONS, RECORD_TYPE],
     filters: getFilters(filterUsers, i18n, actions, recordTypes),
     defaultFilters,
     onSubmit: data => {
