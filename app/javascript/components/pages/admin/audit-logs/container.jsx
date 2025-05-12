@@ -94,7 +94,7 @@ function Container() {
           sort: false,
           customBodyRender: (value, { rowIndex }) => {
             const prefix = value?.prefix?.approval_type
-              ? i18n.t(value?.prefix?.key, { approval_label: value?.prefix?.approval_type })
+              ? i18n.t(value?.prefix?.key, { approval_label: i18n.t(`cases.${value?.prefix?.approval_type}`) })
               : i18n.t(value?.prefix?.key);
 
             return `${prefix} ${i18n.t(`logger.resources.${data.getIn(["data", rowIndex, "record_type"])}`)}`;
