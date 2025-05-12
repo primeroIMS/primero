@@ -149,7 +149,7 @@ class Transition < ApplicationRecord
     record.save!
   end
 
-  def service_i18n(locale)
+  def service_i18n(locale = I18n.locale)
     Lookup.display_value('lookup-service-type', service, nil, locale:) if service.present?
   end
 end
