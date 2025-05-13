@@ -6,7 +6,7 @@
 class Api::V2::AuditLogsController < ApplicationApiController
   include Api::V2::Concerns::Pagination
 
-   # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/AbcSize
   def index
     authorize! :read, AuditLog
     @audit_logs = AuditLog.logs(audit_logs_params[:user_name], audit_logs_params[:audit_log_actions]&.values,
