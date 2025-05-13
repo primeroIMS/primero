@@ -1993,6 +1993,7 @@ en:
     closure_approved: "%{approval_label} approved for"
     closure_rejected: Reject Closure approval
     closure_requested: "%{approval_label} requested for"
+    closure_rejected: "Closure rejected for"
     consent_count: Consent Count
     copy: Copying
     create: Creating
@@ -2025,6 +2026,7 @@ en:
     resources:
       audit_log: Audit log
       user: User
+      flag: Flag
       agency: Agency
       user_group: User group
       child: Case
