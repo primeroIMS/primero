@@ -240,9 +240,9 @@ const referralFields = args =>
     .sort((fieldA, fieldB) => fieldA.order - fieldB.order)
     .map(field => FieldRecord(field));
 
-const whenRemote = (isRemote, i18n, i18nKey = "", notRemote = false) =>
+const remoteValidation = (isRemote, i18n, i18nKey = "", checkNotEqual = false) =>
   string().when(FIELDS.REMOTE, {
-    is: value => (notRemote ? value !== isRemote : value === isRemote),
+    is: value => (checkNotEqual ? value !== isRemote : value === isRemote),
     then: string()
       .nullable()
       .required(i18n.t(`referral.${i18nKey}`))
@@ -251,11 +251,11 @@ const whenRemote = (isRemote, i18n, i18nKey = "", notRemote = false) =>
 export const validations = (i18n, { hasReferralRoles }) =>
   object().shape({
     ...(hasReferralRoles && {
-      [FIELDS.AUTHORIZED_ROLE_UNIQUE_ID]: whenRemote(true, i18n, "type_of_referral_required", true).nullable()
+      [FIELDS.AUTHORIZED_ROLE_UNIQUE_ID]: remoteValidation(true, i18n, "type_of_referral_required", true).nullable()
     }),
     [FIELDS.CONSENT_INDIVIDUAL_TRANSFER]: bool().oneOf([true]),
-    [FIELDS.ROLE]: whenRemote(true, i18n, "type_of_referral_required").nullable(),
-    [FIELDS.TRANSITIONED_TO]: whenRemote(false, i18n, "user_mandatory_label").nullable()
+    [FIELDS.ROLE]: remoteValidation(true, i18n, "type_of_referral_required").nullable(),
+    [FIELDS.TRANSITIONED_TO]: remoteValidation(false, i18n, "user_mandatory_label").nullable()
   });
 
 export const form = args => {
