@@ -22,7 +22,8 @@ class AuditLog < ApplicationRecord
                user_password_reset_request transfer_request family incident_details_from_case].freeze
   RECORD_TYPES = %w[agency alert audit_log bulk_export child code_of_conduct dashboard form_section incident location
                     lookup permission primero_configuration report role saved_search system_settings
-                    task user user_group].freeze
+                    task tracing_request user user_group].freeze
+
   RECORD_COLUMN_MAP = {
     'Child' => Arel.sql("data->>'case_id_display'"),
     'Incident' => Arel.sql("data->>'short_id'"),
