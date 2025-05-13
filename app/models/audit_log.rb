@@ -23,6 +23,18 @@ class AuditLog < ApplicationRecord
   RECORD_TYPES = %w[agency alert audit_log bulk_export child code_of_conduct dashboard form_section incident location
                     lookup permission primero_configuration report role saved_search system_settings
                     task user user_group].freeze
+  RECORD_COLUMN_MAP = {
+    'Child' => Arel.sql("data->>'case_id_display'"),
+    'Incident' => Arel.sql("data->>'short_id'"),
+    'TracingRequest' => Arel.sql("data->>'short_id'"),
+    'User' => :user_name,
+    'Role' => :name,
+    'UserGroup' => :name,
+    'Agency' => :agency_code,
+    'Report' => Arel.sql("name_i18n->>'en' as name")
+  }.freeze
+
+  ALLOWED_MODELS = [Child, Incident, TracingRequest, User, Role, Agency, UserGroup, Report].freeze
 
   default_scope { order(timestamp: :desc) }
 
@@ -89,6 +101,33 @@ class AuditLog < ApplicationRecord
   def statistic_message
     "#{AUDIT_LOG_STATISTIC}[#{id}]: #{record_type},#{action},#{metadata['remote_ip']},#{user_id}," \
       "#{metadata['role_id']},#{metadata['agency_id']}"
+  end
+
+  class << self
+    def group_records(audit_logs)
+      audit_logs.group_by(&:record_type).transform_values do |logs|
+        logs.map(&:record_id)
+      end
+    end
+
+    def fetch_record_data(model_class, record_type, ids)
+      return {} if ids.blank?
+
+      id_column = :id
+      column = RECORD_COLUMN_MAP[record_type]
+      return {} unless column
+
+      model_class.where(id: ids).pluck(id_column, column).to_h.transform_keys(&:to_s)
+    end
+
+    def enrich_audit_logs(audit_logs)
+      group_records(audit_logs).each_with_object({}) do |(record_type, ids), acc|
+        model_class = record_type.constantize
+        next unless model_class.in?(ALLOWED_MODELS)
+
+        acc[record_type] = fetch_record_data(model_class, record_type, ids.uniq)
+      end
+    end
   end
 
   private

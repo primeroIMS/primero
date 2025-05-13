@@ -27,7 +27,8 @@ describe("<LogMessageRenderer />", () => {
           action: "index"
         },
         {
-          record_id: "98765",
+          identifier: "98765",
+          record_id: "77dd7e62-8cb3-4bec-bc70-791151c862b0",
           record_type: "child",
           action: "update"
         }

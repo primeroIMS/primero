@@ -6,13 +6,16 @@
 class Api::V2::AuditLogsController < ApplicationApiController
   include Api::V2::Concerns::Pagination
 
+   # rubocop:disable Metrics/AbcSize
   def index
     authorize! :read, AuditLog
     @audit_logs = AuditLog.logs(audit_logs_params[:user_name], audit_logs_params[:audit_log_actions]&.values,
                                 audit_logs_params[:record_type]&.values, timestamp_param, order_by:, order:)
     @total = @audit_logs.size
     @audit_logs = @audit_logs.paginate(pagination)
+    @record_info = AuditLog.enrich_audit_logs(@audit_logs)
   end
+  # rubocop:enable Metrics/AbcSize
 
   def per
     @per ||= params[:per]&.to_i || 100

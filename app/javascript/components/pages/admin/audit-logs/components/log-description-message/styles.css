@@ -3,5 +3,11 @@
 .message {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.25rem;
 }
+
+.link {
+  color: var(--c-blue);
+  font-size: var(--fs-14);
+}
+

@@ -2,22 +2,34 @@
 
 import { fromJS } from "immutable";
 
-import { getRecordID } from "./utils";
+import { getRecordValue } from "./utils";
 
 describe("<AuditLogs /> - pages/admin/audit-logs/components/log-description-message/utils", () => {
-  describe("getRecordID", () => {
+  describe("getRecordValue", () => {
     it("should return the record ID if action is in ACTIONS_WITH_RECORD_ID", () => {
       const data = fromJS({
         record_id: 12345,
         action: "show_alerts"
       });
 
-      const result = getRecordID(data);
+      const result = getRecordValue(data, "record_id");
 
       expect(result).toBe(12345);
     });
 
-    it("should return an empty string if record ID is not present", () => {
+    it("should return the record identifier if action is in ACTIONS_WITH_RECORD_ID", () => {
+      const data = fromJS({
+        record_id: 12345,
+        identifier: 67890,
+        action: "flag"
+      });
+
+      const result = getRecordValue(data, "identifier");
+
+      expect(result).toBe(67890);
+    });
+
+    it("should return an empty string if action is not in ACTIONS_WITH_RECORD_ID", () => {
       const data = fromJS([
         {
           record_id: 12345,
@@ -25,7 +37,7 @@ describe("<AuditLogs /> - pages/admin/audit-logs/components/log-description-mess
         }
       ]);
 
-      const result = getRecordID(data);
+      const result = getRecordValue(data, "record_id");
 
       expect(result).toBe("");
     });
