@@ -126,13 +126,14 @@ function Referrals({
         submitAlways
         formSections={forms}
         onSubmit={handleSubmit}
-        validations={validations(i18n)}
+        validations={validations(i18n, { hasReferralRoles: !referralAuthorizationRoles.isEmpty() })}
         formErrors={formErrors}
         transformBeforeSend={data => {
-          return {
-            ...data,
-            ...(data[FIELDS.AUTHORIZED_ROLE_UNIQUE_ID] === ALL_OPTION_ID && { [FIELDS.AUTHORIZED_ROLE_UNIQUE_ID]: "" })
-          };
+          if (data[FIELDS.AUTHORIZED_ROLE_UNIQUE_ID] === ALL_OPTION_ID) {
+            return omit(data, [FIELDS.AUTHORIZED_ROLE_UNIQUE_ID]);
+          }
+
+          return data;
         }}
         initialValues={{
           [FIELDS.CONSENT_INDIVIDUAL_TRANSFER]: providedConsent,
