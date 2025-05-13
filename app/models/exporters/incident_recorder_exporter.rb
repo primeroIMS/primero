@@ -213,16 +213,18 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
     end
 
     def incident_recorder_age_groups
+      @incident_recorder_age_groups ||= build_incident_recorder_age_groups
+    end
+ 
+    def build_incident_recorder_age_groups
       age_group_label = I18n.t('exports.incident_recorder_xls.age_group.age', **locale_hash)
-      @incident_recorder_age_groups ||= {
-        '0_11' => "#{age_group_label} 0 - 11",
-        '12_17' => "#{age_group_label} 12 - 17",
-        '18_25' => "#{age_group_label} 18 - 25",
-        '26_40' => "#{age_group_label} 26 - 40",
-        '41_60' => "#{age_group_label} 41 - 60",
+      base_groups = Lookup.values('lookup-perpetrator-age-group').each_with_object({}) do |entry, hash|
+        hash[entry['id']] = "#{age_group_label} #{entry['display_text']}"
+      end
+      base_groups.merge(
         '61' => I18n.t('exports.incident_recorder_xls.age_group.61_older', **locale_hash),
         'unknown' => I18n.t('exports.incident_recorder_xls.age_group.unknown', **locale_hash)
-      }
+      )
     end
 
     def incident_recorder_age_type(perpetrators)
