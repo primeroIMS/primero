@@ -4,6 +4,8 @@
 
 # An audit log record is created for every invocation of a Primero endpoint.
 class AuditLog < ApplicationRecord
+  attr_accessor :display_name
+
   LOGIN = 'login'
   WEBHOOK = 'webhook'
   # Webhook statuses
@@ -49,13 +51,12 @@ class AuditLog < ApplicationRecord
     self.timestamp ||= DateTime.now
   end
 
-  def self.logs(user_name, actions, record_types, date_range, options)
-    logs = AuditLog.where(timestamp: date_range)
-    logs = AuditLog.unscoped.where(timestamp: date_range) if options[:order_by].present?
-    logs = logs.joins(:user) if options[:order_by] == 'users.user_name' || user_name.present?
-    logs = logs.where(users: { user_name: }) if user_name.present?
-    logs = query_actions(logs, actions)
-    logs = query_record_type(logs, record_types)
+  def self.logs(options = {})
+    logs = AuditLog.where(timestamp: options[:date_range])
+    logs = AuditLog.unscoped.where(timestamp: options[:date_range]) if options[:order_by].present?
+    logs = apply_user_filter(logs, options)
+    logs = query_actions(logs, options[:actions])
+    logs = query_record_type(logs, options[:record_types])
 
     OrderByPropertyService.apply_order(logs, options)
   end
@@ -69,6 +70,15 @@ class AuditLog < ApplicationRecord
     if record_types.present? && record_types.all? { |item| RECORD_TYPES.include?(item) }
       logs = logs.where(record_type: record_types.map(&:camelize))
     end
+
+    logs
+  end
+
+  def self.apply_user_filter(logs, options)
+    return logs unless options[:user_name].present? || options[:order_by] == 'users.user_name'
+
+    logs = logs.joins(:user) if options[:order_by] == 'users.user_name' || options[:user_name].present?
+    logs = logs.where(users: { user_name: options[:user_name] }) if options[:user_name].present?
 
     logs
   end
@@ -122,12 +132,17 @@ class AuditLog < ApplicationRecord
     end
 
     def enrich_audit_logs(audit_logs)
-      group_records(audit_logs).each_with_object({}) do |(record_type, ids), acc|
+      group_records(audit_logs).each do |record_type, ids|
         model_class = record_type.constantize
         next unless model_class.in?(ALLOWED_MODELS)
 
-        acc[record_type] = fetch_record_data(model_class, record_type, ids.uniq)
+        record_data = fetch_record_data(model_class, record_type, ids.uniq)
+
+        audit_logs.select { |log| log.record_type == record_type }.each do |log|
+          log.display_name = record_data[log.record_id.to_s]
+        end
       end
+      audit_logs
     end
   end
 

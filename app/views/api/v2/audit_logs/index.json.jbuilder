@@ -4,7 +4,6 @@
 
 json.data do
   json.array! @audit_logs do |audit_log|
-    json.identifier @record_info&.[](audit_log.record_type)&.[](audit_log.record_id)
     json.partial! 'api/v2/audit_logs/audit_log', audit_log:
   end
 end

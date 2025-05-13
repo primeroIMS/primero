@@ -17,14 +17,14 @@ describe("<AuditLogs /> - pages/admin/audit-logs/components/log-description-mess
       expect(result).toBe(12345);
     });
 
-    it("should return the record identifier if action is in ACTIONS_WITH_RECORD_ID", () => {
+    it("should return the record display_name if action is in ACTIONS_WITH_RECORD_ID", () => {
       const data = fromJS({
         record_id: 12345,
-        identifier: 67890,
+        display_name: 67890,
         action: "flag"
       });
 
-      const result = getRecordValue(data, "identifier");
+      const result = getRecordValue(data, "display_name");
 
       expect(result).toBe(67890);
     });

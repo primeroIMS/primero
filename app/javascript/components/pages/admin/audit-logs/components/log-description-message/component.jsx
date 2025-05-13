@@ -16,7 +16,7 @@ function Component({ value, rowIndex, data }) {
     ? i18n.t(value?.prefix?.key, { approval_label: i18n.t(`cases.${value?.prefix?.approval_type}`) })
     : i18n.t(value?.prefix?.key);
   const recordID = getRecordValue(data.getIn(["data", rowIndex]), "record_id");
-  const recordIdentifier = getRecordValue(data.getIn(["data", rowIndex]), "identifier");
+  const recordDisplayName = getRecordValue(data.getIn(["data", rowIndex]), "display_name");
   const currentRecordType = data.getIn(["data", rowIndex, "record_type"]);
   const resourceLabel =
     currentRecordType === "managed_report" && !isEmpty(recordID)
@@ -30,7 +30,7 @@ function Component({ value, rowIndex, data }) {
         <NavLink
           to={`${AUDIT_LOGS_PATHS[currentRecordType]}/${recordID}`}
           className={css.link}
-        >{`${resourceLabel} ${recordIdentifier}`}</NavLink>
+        >{`${resourceLabel} ${recordDisplayName}`}</NavLink>
       </div>
     );
   }
