@@ -1977,6 +1977,9 @@ en:
       'false': Rejecting
       gbv_closure: GBV Closure form
       'true': Approving
+    action_plan_approved: "%{approval_label} approved for"
+    action_plan_requested: "%{approval_label} requested for"
+    action_plan_rejected: "Action Plan rejected for"
     assessment_approved: "%{approval_label} approved for"
     assessment_requested: "%{approval_label} requested for"
     assessment_rejected: "Assessment rejected for"
@@ -1999,6 +2002,9 @@ en:
     export: Exporting data for
     flag: Flagging
     flag_records: Flagging
+    gbv_closure_approved: "%{approval_label} approved for"
+    gbv_closure_requested: "%{approval_label} requested for"
+    gbv_closure_rejected: "GBV Closure rejected for"
     graph_data: Viewing graph data
     hide_name:
       protect: Hide Name
