@@ -1993,7 +1993,6 @@ en:
     closure_approved: "%{approval_label} approved for"
     closure_rejected: Reject Closure approval
     closure_requested: "%{approval_label} requested for"
-    closure_rejected: "Closure rejected for"
     consent_count: Consent Count
     copy: Copying
     create: Creating
@@ -2003,6 +2002,7 @@ en:
     edit: Editing
     enable_disable_record: Enable / disable
     export: Exporting data for
+    family: Family Record
     flag: Flagging
     flag_records: Flagging
     graph_data: Viewing graph data
@@ -2045,7 +2045,6 @@ en:
       primero_configuration: Primero configuration
       code_of_conduct: Code of conduct
       task: Task
-      flag: Flag
       tracing_request: Tracing Request
       managed_report: Insights
     record_state:
@@ -2054,6 +2053,10 @@ en:
     refer: Refer
     refer_to: Search for Referral recipient
     referral: Referring
+    refer_revoke: Revoke referral
+    refer_rejected: Reject referral
+    refer_accpeted: Accept referral
+    refer_done: Mark referral as done
     relinquish_referral: Relinquish referral Done
     reopen: Reopen
     reopen_case: Reopening
@@ -2074,6 +2077,7 @@ en:
     to_user: to user
     traces: View traces
     transfer: Transfering
+    transfer_to: List users for record transfer
     transfer_status:
       Accepted: Accepted Transfer
       Rejected: Rejected Transfer

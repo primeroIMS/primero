@@ -80,7 +80,7 @@ describe Api::V2::AuditLogsController, type: :request do
       log_a = json['data'].select { |al| al['id'] == @audit_log_a.id }.first
       log_b = json['data'].find { |al| al['id'] == @audit_log_b.id }
 
-      expect(log_b['identifier']).to eq(@user_b.user_name)
+      expect(log_b['display_name']).to eq(@user_b.user_name)
       expect(log_b['action']).to eq(@audit_log_b.action)
       expect(log_a['action']).to eq('login')
       expect(log_a['log_message']).to eq({ 'prefix' => { 'key' => 'logger.login', 'approval_type' => nil },

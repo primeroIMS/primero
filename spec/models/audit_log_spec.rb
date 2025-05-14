@@ -89,10 +89,8 @@ describe AuditLog do
     it 'returns enriched data for supported models' do
       result = AuditLog.enrich_audit_logs(audit_logs)
 
-      expect(result).to include('UserGroup', 'Child', 'Incident')
-      expect(result['UserGroup'][user_group.id.to_s]).to eq('Primero CP')
-      expect(result['Child'][child.id.to_s]).to eq('abc123')
-      expect(result['Incident'][incident.id.to_s]).to eq('123xyz')
+      expect(result.map(&:record_type)).to match_array(%w[UserGroup Child Incident])
+      expect(result.map(&:display_name)).to match_array(['Primero CP', 'abc123', '123xyz'])
     end
   end
 
