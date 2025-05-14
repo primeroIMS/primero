@@ -39,7 +39,10 @@ function Container() {
 
   const onTableChange = filterOnTableChange(dispatch, fetchAuditLogs, setAuditLogsFilters);
 
+  useMetadata(recordType, metadata, fetchAuditLogs, "data");
+
   useEffect(() => {
+    dispatch(setAuditLogsFilters({ data: defaultFilters }));
     dispatch(fetchPerformedBy({ options: { per: 999 } }));
   }, []);
 
@@ -48,7 +51,7 @@ function Container() {
     filters: getFilters(filterUsers, i18n, actions, recordTypes),
     defaultFilters,
     onSubmit: data => {
-      const filters = typeof data === "undefined" ? {} : buildAuditLogsQuery(data);
+      const filters = typeof data === "undefined" ? defaultFilters : buildAuditLogsQuery(data);
       let queryParams = {};
 
       if (typeof data !== "undefined" && TIMESTAMP in data) {
@@ -57,16 +60,11 @@ function Container() {
         delete filters.timestamp;
       }
 
-      const newFilters =
-        typeof data === "undefined"
-          ? currentFilters.deleteAll([USER_NAME, "to", "from"])
-          : currentFilters.merge(filters).merge(queryParams);
+      const mergedFilters = currentFilters.merge(filters).merge(queryParams).set("page", 1);
 
-      onSubmitFilters(newFilters, dispatch, fetchAuditLogs, setAuditLogsFilters);
+      onSubmitFilters(mergedFilters, dispatch, fetchAuditLogs, setAuditLogsFilters);
     }
   };
-
-  useMetadata(recordType, metadata, fetchAuditLogs, "data");
 
   const columns = data => {
     return [
