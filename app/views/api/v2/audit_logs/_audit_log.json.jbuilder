@@ -12,3 +12,4 @@ json.timestamp audit_log.timestamp
 json.log_message audit_log.log_message
 json.metadata audit_log.metadata
 json.record_id audit_log.record_id
+json.display_name audit_log&.display_name

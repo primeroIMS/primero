@@ -3,9 +3,9 @@
 import { ACTIONS_WITH_RECORD_ID } from "./constants";
 
 /* eslint-disable import/prefer-default-export */
-export const getRecordID = dataRecord => {
-  const recordID = dataRecord.get("record_id") || "";
+export const getRecordValue = (dataRecord, key) => {
+  const attribute = dataRecord.get(key) || "";
   const action = dataRecord.get("action");
 
-  return recordID && ACTIONS_WITH_RECORD_ID.includes(action) ? recordID : "";
+  return attribute && ACTIONS_WITH_RECORD_ID.includes(action) ? attribute : "";
 };
