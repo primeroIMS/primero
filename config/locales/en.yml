@@ -913,7 +913,7 @@ en:
     assign_subject: '%{record_type}: %{id} - Assigned to you'
     approval_request: '%{user} is requesting a %{approval_type} approval on case (%{case_id}). Please log in your account to review.'
     approval_request_subject: 'Case: %{id} - Approval Request'
-    approval_response: '%{user} has updated the status of your %{approval_type} approval request on Case (%{case_id}) to the following: %{approval_type}. Please log in to your account to review.'
+    approval_response: '%{user} has updated the status of your %{approval_type} approval request on Case (%{case_id}) to the following: %{status}. Please log in to your account to review.'
     approval_response_subject: 'Case: %{id} - Approval Response'
     referral: '%{user} from %{agency} has referred the following %{record_type} to you: %{record_id} for %{service_type}.'
     transfer: '%{user} has transferred the following %{record_type} to you: %{record_id}.'
@@ -922,7 +922,7 @@ en:
     referral_subject: '%{record_type}: %{id} - Referral Request'
     transfer_request: 'Primero user %{user} from %{agency} is requesting that you transfer ownership of this %{record_type} record %{record_id} so that they can provide %{record_type} management services for the individual in their area. If this transfer is acceptable to you, please click on the %{record_type} ID link in this email to open the %{record_type} in Primero and initiate the transfer.'
     approval_request_html: 'The user <strong>%{user}</strong> is requesting approval for <strong> %{approval_type}</strong> on case <strong>%{case_id}</strong>.'
-    approval_response_html: '<strong>%{user}</strong> has <strong>%{status}</strong> the request for approval for <strong>%{approval_type}</strong> for case <strong>%{case_id}</strong>.'
+    approval_response_html: '<strong>%{user}</strong> has updated the status of your <strong>%{approval_type}</strong> approval request on Case (<strong>%{case_id}</strong>) to the following: <strong>%{status}</strong>. Please log in to your account to review.'
     referral_html: 'You have received a referral for %{record_type} (%{record_id}) for  %{service_type} from %{user} from %{agency}. Please %{login_url} to your account to review.'
     transfer_html: 'You have received a transfer for %{record_type} (%{record_id}) from %{user} from %{agency}. Please %{login_url} into your account to review.'
     assign_html: You have been assigned a new %{record_type} (%{record_id}) from %{user}. Please %{login_url} to your account to review.
