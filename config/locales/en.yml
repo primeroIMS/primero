@@ -2026,6 +2026,7 @@ en:
       'false': Un-Mark for mobile
       'true': Mark for mobile
     match_record: Matching Record
+    password_reset: Password reset
     permitted_field_list: Permitted field list
     quick_view: Viewing Quick View
     reassign: Assigning
@@ -2057,6 +2058,7 @@ en:
       'false': Disabling
       'true': Enabling
     refer: Refer
+    refer_accepted: Refer accepted
     refer_to: Search for Referral recipient
     referral: Referring
     refer_revoke: Revoke referral
