@@ -153,7 +153,9 @@ class Exporters::FormExporter < ValueObject
   end
 
   def make_worksheet_name_unique(worksheet_name, idx = 0)
-    return worksheet_name if workbook.worksheets.map(&:name).exclude?(worksheet_name)
+    if workbook.worksheets.map { |worksheet| worksheet.name.downcase }.exclude?(worksheet_name.downcase)
+      return worksheet_name
+    end
 
     idx += 1
     modify_worksheet_name(worksheet_name, idx)
