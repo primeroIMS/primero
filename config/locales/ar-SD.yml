@@ -745,7 +745,6 @@ ar-SD:
     transfer_request_subject: طلب التحويل لإحدى حالاتك
     transfer_request: 'مستخدم بريميرو من %{user} من %{agency} يطلب منك تحويل ملكية السجل %{record_type} بالرقم %{record_id} ليتمكنوا من تقديم %{record_type}  للشخص في منطقتهم.  إذا تم قبولك لهذا التحويل، رجاء النقر على%{record_type} رابط الهوية في هذا البريد الإلكتروني لفتح %{record_type} في بريميرو والقيام بالتحويل'
     approval_request_html: 'المستخدم<strong>%{user} </strong> يطلب الموافقة على<strong>%{approval_type}</strong>في الحالة<strong>%{case_id}</strong>'
-    approval_response_html: '<strong>%{user}</strong> لديه <strong>%{status}</strong> طلب الموافقة على<strong>%{approval_type}</strong> للحالة <strong>%{case_id}</strong>'
     alert: 'تم تحديث %{record_type} %{id} - %{form_name}. يرجى تسجيل الدخول إلى Primero لمراجعة التغييرات.'
     alert_subject: 'تم تحديث%{record_type} : %{id} - %{form_name}'
   webpush_notification:
@@ -1787,7 +1786,6 @@ ar-SD:
       user: مستخدم
       agency: وكالة
       user_group: مجموعة المستخدمين
-      child: طفل
       alert: تنبيه
       form_section: إستمارة
       lookup: بحث

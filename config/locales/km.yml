@@ -222,6 +222,8 @@ km:
       introductory_sentence: សូមបញ្ជាក់ការយល់ព្រមពីអតិថិជនក្នុងការទទួលសេវាគ្រប់គ្រងករណី និងសម្រាប់រក្សាទុកទិន្នន័យរបស់ពួកគេនៅក្នុង Primero ។
       consent_agreements_required: សូមជ្រើសរើសយ៉ាងហោចណាស់ជម្រើសមួយពីការយល់ព្រមទាំងនេះ
       legitimate_basis_required: សូមជ្រើសរើសយ៉ាងហោចណាស់ជម្រើសមួយពីការចាត់ថ្នាក់មូលដ្ឋានស្របច្បាប់។
+      case_transfer_pending: ករណីមួយកំពុងរង់ចាំការផ្ទេរ
+      transfer_request_made: ករណីនេះត្រូវបានស្នើរសំុការផ្ទេរ
     save: រក្សាទុកករណី
     save_text: មុននឹងបន្ត សូមរក្សាទុករាល់ការផ្លាស់ប្តូរសម្រាប់ករណី។
     skip_and_create: រំលង រួចបង្កើតករណីថ្មី
@@ -520,6 +522,11 @@ km:
     all_cases: គ្រប់ករណី​ទាំង​អស់
     all_services_implemented: បានអនុវត្តសេវា
     and: 'និង'
+    action_needed:
+      awaiting_acceptance: កំពុងរងចាំការទទួល
+      new: ការ​បញ្ជូន
+      referrals: ការ​បញ្ជូន
+      transfers: ​ផ្ទេរ
     approval_action_plan_approved: អនុម័ត
     approval_action_plan_pending: កំពុង​រង់ចាំ
     approval_action_plan_pending_group: ផែនការសកម្មភាព
@@ -699,8 +706,13 @@ km:
     shared_from_my_team_pending_transfers: កំពុង​រង់ចាំការ​ផ្ទេរ​
     shared_from_my_team_referrals: ការ​បញ្ជូន
     shared_from_my_team_rejected_transfers: បដិសេធការ​ផ្ទេរ​​
+    shared_with_me_new_referrals: ការ​បញ្ជូន
+    shared_with_me_total_referrals: ការ​បញ្ជូន
+    shared_with_me_transfers_awaiting_acceptance: កំពុងរងចាំការទទួល
+    shared_with_my_team_pending_transfers_overview: កំពុងរងចាំការទទួល
     shared_with_my_team_pending_transfers: កំពុង​រង់ចាំការ​ផ្ទេរ​
     shared_with_my_team_referrals: ការ​បញ្ជូន
+    shared_with_others_referrals: ការ​បញ្ជូន
     status_of_cases: ស្ថានភាព​ករណី
     system_user: ប្រព័ន្ធ
     total: សរុប
@@ -735,7 +747,12 @@ km:
     transfer_request_subject: សំណើ​ផ្ទេរ​សម្រាប់​ករណី​មួយ​ក្នុង​ចំណោម​ករណី​របស់​អ្នក
     transfer_request: 'អ្នក​ប្រើប្រាស់ Primero %{user} ពី %{agency} កំពុង​ស្នើសុំ​ឲ្យ​អ្នក​ផ្ទេរ​​ភាព​ជា​ម្ចាស់​របស់កំណត់ត្រា %{record_type} %{record_id} ដូច្នេះ​ពួកគេ​អាច​ផ្ដល់​សេវាកម្ម​គ្រប់គ្រង %{record_type} សម្រាប់​កំណត់ត្រា​នីមួយៗ​នៅ​ក្នុង​តំបន់​របស់​ពួកគេ។ ប្រសិនបើ​ការ​ផ្ទេរ​នេះ​អ្នក​អាច​ទទួលយក​​បាន សូម​ចុច​លើ​តំណ​លេខ​សម្គាល់ %{record_type} នៅ​ក្នុង​អ៊ីមែល ដើម្បី​បើក %{record_type} នៅ​ក្នុង Primero និង​ចាប់ផ្ដើម​ការ​ផ្ទេរ។'
     approval_request_html: 'អ្នក​ប្រើប្រាស់ <strong>%{user}</strong> កំពុង​ស្នើសុំ​ការ​អនុម័ត​សម្រាប់ <strong> %{approval_type}</strong> នៅ​លើ​ករណី <strong>%{case_id}</strong> ។'
-    approval_response_html: '<strong>%{user}</strong> មានសំណើ <strong>%{status}</strong> សម្រាប់​ការ​អនុម័ត​សម្រាប់ <strong>%{approval_type}</strong> សម្រាប់ករណី <strong>%{case_id}</strong> ។'
+  webpush_notification:
+    transfer:
+      title: ​ផ្ទេរថ្មី
+      body: អ្នកទើបទទួលបានការផ្ទេរថ្មី
+    transfer_request:
+      title: សុំផ្ទេរ
   encrypt:
     export_type: ប្រភេទ​ការ​នាំចេញ
     file_name: បង្កើត​ឈ្មោះ​ឯកសារ​ផ្ទាល់​របស់​អ្នក (ជា​ជម្រើស)
@@ -1606,7 +1623,6 @@ km:
       user: អ្នកប្រើប្រាស់
       agency: ស្ថាប័ន
       user_group: ក្រុម​អ្នកប្រើប្រាស់
-      child: កុមារ
       alert: ការជូនដំណឹង
       form_section: ទម្រង់
       lookup: រក​មើល
@@ -1689,6 +1705,7 @@ km:
     filter_by:
       date: កាលបរិច្ឆេទ
       verification_status: ស្ថានភាពការ​ផ្ទៀងផ្ទាត់
+      referral_transfer_status: ស្ថានភាពបញ្ជូន/ផ្ទេរ
     date_range:
       month: ខែ
       quarter: ត្រីមាស
@@ -1706,6 +1723,9 @@ km:
     followups_report:
       filter_options:
         followup_date: កាលបរិច្ឆេទនៃការតាមដាន
+    ghn_report:
+      sub_reports:
+        total: ការ​បញ្ជូន
     violations:
       name: ការបំពាន
       filter_options:
@@ -1737,6 +1757,14 @@ km:
         incident_date: កាលបរិច្ឆេទហេតុការណ៍
       reports:
         perpetrators: ជនល្មើស
+        referrals: ការ​បញ្ជូន
+    referrals_transfers_report:
+      name: ស្ថានភាពបញ្ជូន និងផ្ទេរ
+      reports:
+        total_referrals: ការ​បញ្ជូន
+        total_transfers: ផ្ទេរ
+      sub_reports:
+        total_transfers_by_user_groups: ​ផ្ទេរសរុប
   messages:
     alert_items: អ្នកមាន%{items}កំណត់គសម្គាល់។
     alerts_for:
@@ -2205,6 +2233,8 @@ km:
         label: ករណី
       dashboard:
         actions:
+          action_needed_transfer_awaiting_acceptance:
+            label: 'ការផ្ទេរកំពុងរង់ចាំការទទួល'
           approvals_action_plan:
             explanation: បង្ហាញចំនួនករណីរបស់អ្នកប្រើប្រាស់បច្ចុប្បន្នជាមួយនឹងសំណើការអនុម័តផែនការ ដែលកំពុងរងចាំ អនុម័ត ឬបដិសេធ។
             label: អ្នកកាន់ករណី%{approval_label}អនុម័ត
@@ -2421,6 +2451,8 @@ km:
             label: ការបំពាន
           gbv_statistics:
             label: ស្ថិតិ GBV
+          referrals_transfers_report:
+            label: ស្ថានភាពបញ្ជូន និងផ្ទេរ (ករណី)
       matching_configuration:
         actions:
           manage:
@@ -3010,6 +3042,7 @@ km:
       inprogress: កំពុង​រង់ចាំ
       rejected: បដិសេធ
       revoked: ហៅមកវិញ (revoke)
+    transferred_by: បាន​ផ្ទេរដោយ
     type:
       assign: ចាត់តាំង
       reassign: ចាត់តាំង
@@ -3058,6 +3091,8 @@ km:
     provider_username_help: 'ឧទាហរណ៍៖ my.username@%{domain}'
     role_id: តួនាទី
     send_mail: តើ​ទទួល​បាន​ការ​ជូន​ដំណឹង​តាម​អ៊ីមែល​ដែ​រឬទេ?
+    notification_preferences:
+      transfer_request: 'សំណើ​ផ្ទេរ'
     user_group_unique_ids: ក្រុម​អ្នកប្រើប្រាស់
     user_name: អ្នកប្រើប្រាស់
     services: សេវា

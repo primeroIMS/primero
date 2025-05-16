@@ -779,7 +779,6 @@ sk:
     transfer_request_subject: Žiadosť o prevod pre jeden z vašich prípadov
     transfer_request: 'Používateľ z Primero%{user} z %{agency} vás žiada, aby ste previedli vlastníctvo tohto %{record_type} záznamu %{record_id}, aby mohol poskytovať %{record_type} služby jednotlivcovi vo svojej oblasti. Ak s tým súhlasíte, kliknite na %{record_type} ID linku v tomto e-maile aby ste mohli otvoriť %{record_type} v Primero a spustiť prevod.'
     approval_request_html: 'Používateľ <strong>%{user}</strong> žiada o schválenie pre <strong>%{approval_type}</strong> v prípade <strong>%{case_id}</strong>.'
-    approval_response_html: '<strong>%{user}</strong> má <strong>%{status}</strong> žiadosť o schválenie pre <strong>%{approval_type}</strong> pre prípad <strong>%{case_id}</strong>.'
   encrypt:
     export_type: Typ exportu
     file_name: Vytvoriť vlastný názov súboru  (Nepovinné)
@@ -1665,7 +1664,6 @@ sk:
       user: Používateľ
       agency: Agentúra
       user_group: Používateľská skupina
-      child: Dieťa
       alert: Upozornenie
       form_section: Formulár
       lookup: Vyhľadávanie

@@ -293,7 +293,6 @@ ar-LB:
     referral: 'أحال إليك %{user} من %{agency} %{record_type}: %{record_id} لـ%{service_type}.'
     transfer: 'حوّل لك %{user} %{record_type} التالي:%{record_id}.'
     approval_request_html: 'إنّ المستخدم <strong>%{user}</strong> يطلب الموافقة <strong>%{approval_type}</strong> للملفّ <strong>%{case_id}</strong>.'
-    approval_response_html: '<strong>%{user}</strong> لديه <strong>%{status}</strong> طلب الموافقة على <strong>%{approval_type}</strong> للملفّ <strong>%{case_id}</strong>.'
   encrypt:
     file_name: قم بوضع إسم الملف الخاصّ بك (اختياري)
     password_label: الرجاء إدخال كلمة المرور التي سوف تشفّر ملفك.

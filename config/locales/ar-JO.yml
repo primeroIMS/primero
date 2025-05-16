@@ -837,7 +837,6 @@ ar-JO:
     transfer_request_subject: طلب نقل لإحدى حالاتك
     transfer_request: 'المستخدم %{user} عند %{agency} يطلب منك نقل ملكية هذا %{record_type} سجل %{record_id} حتى يتمكنوا من تقديم %{record_type}خدمات الإدارة للفرد في منطقتهم. إذا كان هذا النقل مقبولًا لك ، فيرجى النقر على %{record_type} رابط المعرف في هذا البريد الإلكتروني لفتح %{record_type} في النظام وبدء النقل.'
     approval_request_html: 'المستخدم <strong>%{user}</strong> طلب المصادقة <strong>%{approval_type}</strong>على الحالة <strong>%{case_id}</strong>'
-    approval_response_html: '%{user} لديه %{status} طلب الموافقة على %{approval_type} الحالة %{case_id}.'
   encrypt:
     export_type: نوع التصدير
     file_name: قم بإنشاء اسم الملف الخاص بك (اختياري)
@@ -1823,7 +1822,6 @@ ar-JO:
       user: مستخدم
       agency: مؤسسة
       user_group: مجموعة المستخدم
-      child: طفل
       alert: تحذير
       form_section: نموذج
       lookup: عمليات البحث

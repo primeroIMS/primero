@@ -869,7 +869,6 @@ ar-IQ:
     transfer_request_subject: طلب تحويل لحالة من حالاتك
     transfer_request: 'مستخدم بريميرو %{user} من مؤسسة %{agency} يطلب أن تنقل ملكية هذا السجل من نوع %{record_type} ومعرّف %{record_id} بحيث يتمكنون من تقديم خدمات إدارة للشخص في منطقتهم. إذا كان التحويل مقبولا من طرفك، يرجى النقر على رابط معرف نوع السجل %{record_type} في هذا الايميل لفتح نوع السجل %{record_type} في بريميرو والبدء بعملية التحويل.'
     approval_request_html: 'المستخدم <strong> %{user} </strong> يطلب موافقة من نوع <strong> %{approval_type} </strong> بخصوص الحالة <strong> %{case_id} </strong>.'
-    approval_response_html: 'المستخدم <strong>%{user}</strong> لديه <strong>%{status} </strong>طلب الموافقة من نوع <strong> %{approval_type} </strong> للحالة <strong> %{case_id} </strong>.'
     alert: 'تم تحديث %{record_type} %{id} - %{form_name}. يرجى تسجيل الدخول إلى Primero لمراجعة التغييرات.'
     alert_subject: 'تم تحديث%{record_type} : %{id} - %{form_name}'
   webpush_notification:
@@ -1904,7 +1903,6 @@ ar-IQ:
       user: 'مستخدم '
       agency: 'الوكالة '
       user_group: مجموعة المستخدمين
-      child: طفل
       alert: تحذير
       form_section: من
       lookup: ابحث عن

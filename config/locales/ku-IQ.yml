@@ -769,7 +769,6 @@ ku-IQ:
     transfer_request_subject: داخوازیا ڤەگوهاستنێ بو ئێك ژ کەیسێن تە
     transfer_request: 'بکارهێنەرێ پریمێرو %{user} ژ %{agency} یێ داخوازدکەت ببیتە خودانێ تومارا %{record_type}%{record_id}، ژبە هندی دا بشێت %{record_type} دابینکەت بو رێڤەبرنا خزمەتگوزاریان بو تاکەکەسی ل ناوچا وان. ئەگەر تو یێ رازی بی لسەر ڤێ ڤەگوهاستنێ، هیڤیە کلیك لسەر لینکێ ناسناما %{record_type}د ئیمەیلی دا بکە، بو ڤەکرنا %{record_type} د پریمێرو دا و دەستپێکرنا ڤەگوهاستنێ '
     approval_request_html: 'بکارهێنەر <strong>%{user}</strong> یێ داخوازا پەسەندکرنێ دکەت بو<strong>%{approval_type}</strong> لسەر کەسیێ <strong>%{case_id}</strong>'
-    approval_response_html: '<strong>%{user}</strong> داخوازیای پەسەندکرنێ <strong>%{status}</strong> کر بو <strong>%{approval_type}</strong> ژبو کەیسێ <strong>%{case_id}</strong>.'
   encrypt:
     export_type: جورێ دەرخستنێ
     file_name: (چێکرنا ناڤێ فایلێن تە (ئارەزومەندانە)
@@ -1726,7 +1725,6 @@ ku-IQ:
       user: بکارهێنەر
       agency: ئاژانس
       user_group: گروپێ بکارهێنەری
-      child: زاروک
       alert: هووشداری
       form_section: فورم
       lookup: لێگەریان

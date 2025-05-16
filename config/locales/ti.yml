@@ -797,7 +797,6 @@ ti:
     transfer_request_subject: ንሓደ ካብ ጉዳያትካ ናይ ምስግጋር ሕቶ
     transfer_request: 'ተጠቃሚ ፕራይሜሮ %{user} ካብ %{agency} ዋንነት ናይዚ %{record_type} መዝገብ %{record_id} ከተሰጋግር ይሓትት ኣሎ፣ ምእንቲ ኣብ ከባቢኦም ንዘሎ ውልቀሰብ %{record_type} ናይ ምሕደራ ኣገልግሎት ክህቡ። እዚ ምስግጋር ቅቡል እንተኾይኑ፡ በጃኻ ኣብዚ ኢመይል ኣብ ዘሎ %{record_type} ID ዝብል መላግቦ ጠውቕ እሞ ኣብ ፕሪሜሮ %{record_type} ክትከፍቶን ነቲ ምስግጋር ጀምርን።'
     approval_request_html: 'ተጠቃሚ %{user}1 ኣብ ጉዳይ %{case_id} ን %{approval_type}ፍቓድ ይሓትት ኣሎ።'
-    approval_response_html: '1%{user}1 %{status}2 ናይ ፍቓድ ሕቶ ን3%{approval_type}3 ንጉዳይ 4%{case_id}4 ኣለዎ።'
     alert: '%{record_type} %{መፍለዪይ} - %{form_name} ተሓዲሱ ኣሎ። ነቲ ለውጢ ንምግምጋም በጃኹም ናብ ፕሪሜሮ እቶ።'
     alert_subject: '%{record_type}: %{id} - %{form_name}መዲሱ'
   webpush_notification:
@@ -1823,7 +1822,6 @@ ti:
       user: ተጠቃሚ
       agency: ትካል
       user_group: ናይ ተጠቃሚ ጉጅለ
-      child: ህፃን
       alert: መንቅሒ
       form_section: ቅጥዒ
       lookup: ኣለሻ

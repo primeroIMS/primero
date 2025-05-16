@@ -732,7 +732,6 @@ om:
     transfer_request_subject: Gaaffii dabarsaa dhimma keessanii tokkoof.
     transfer_request: 'Fayyadamaa primeeroo%{user} irraa%{agency}abbummaa dabarsuu kana gaafatamaa jiragalmee%{record_id}sana irraa kan ka''e %{record_type} naannoo isaanitti tajaajila bulchiinsa  namoota dhunfaaf%{record_type}. Yoo dabarsi kun isin fudhatama argate maaloo %{record_type}irratti cuqaassi banuuf Email kana irratti ID link%{record_type}primeeroo fi dabarsa si''eessi'
     approval_request_html: 'Fayyadamaan <strong>%{user}</strong>dhimma<strong>%{case_id}</strong>kana mirkanneessuuf gaafachaa jira<strong>%{approval_type}'
-    approval_response_html: '<strong>%{user}gaafii <strong>%{status}mirkanneessa <strong>%{approval_type}dhimma<strong>%{case_id}qaba</strong>'
   webpush_notification:
     action_label: Karaa dhimmaa deemi
     approval_request:
@@ -1730,7 +1729,6 @@ om:
       user: Fayyadamaa.
       agency: Ejensii.
       user_group: Garee fayyyadamaa.
-      child: Daa'ima.
       alert: Dammaqsaa/eeggannoo
       form_section: Unka.
       lookup: Ilaali
