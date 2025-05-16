@@ -72,17 +72,13 @@ class SearchFilters::DateRange < SearchFilters::SearchFilter
     return searchable_array_query if array_field?(record_class)
 
     ActiveRecord::Base.sanitize_sql_for_conditions(
-      ["(#{safe_search_column} >= ? AND #{safe_search_column} <= ?)", from, to]
+      ["(#{safe_search_column} IS NOT NULL AND #{safe_search_column} >= ? AND #{safe_search_column} <= ?)", from, to]
     )
   end
 
   def searchable_array_query
     ActiveRecord::Base.sanitize_sql_for_conditions(
-      [
-        "EXISTS (SELECT 1 FROM UNNEST(#{safe_search_column}) AS date_value WHERE date_value >= ? AND date_value <= ?)",
-        from,
-        to
-      ]
+      ["#{safe_search_column} IS NOT NULL AND TSRANGE(?, ?, '[]') @> ANY(#{safe_search_column})", from, to]
     )
   end
 
@@ -94,7 +90,7 @@ class SearchFilters::DateRange < SearchFilters::SearchFilter
 
   def searchable_from_array_query
     ActiveRecord::Base.sanitize_sql_for_conditions(
-      ["EXISTS (SELECT 1 FROM UNNEST(#{safe_search_column}) AS date_value WHERE date_value >= ?)", from]
+      ["#{safe_search_column} IS NOT NULL AND TSRANGE(?, NULL, '[]') @> ANY(#{safe_search_column})", from]
     )
   end
 

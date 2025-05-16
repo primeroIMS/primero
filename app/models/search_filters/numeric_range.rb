@@ -18,9 +18,17 @@ class SearchFilters::NumericRange < SearchFilters::SearchFilter
     ActiveRecord::Base.sanitize_sql_for_conditions(['@ >= %s', from])
   end
 
-  def searchable_query(_record_class)
+  def searchable_query(record_class)
+    return searchable_array_query if array_field?(record_class)
+
     ActiveRecord::Base.sanitize_sql_for_conditions(
       ["#{safe_search_column} IS NOT NULL AND #{safe_search_column} >= ? AND #{safe_search_column} <= ?", from, to]
+    )
+  end
+
+  def searchable_array_query
+    ActiveRecord::Base.sanitize_sql_for_conditions(
+      ["#{safe_search_column} IS NOT NULL AND INT4RANGE(?, ?, '[]') @> ANY(#{safe_search_column})", from, to]
     )
   end
 
