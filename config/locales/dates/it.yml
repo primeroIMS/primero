@@ -1,0 +1,61 @@
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
+it:
+  date:
+    today: 'Oggi'
+    clear: 'Cancella'
+    first_day: 0
+    abbr_day_names_short:
+    - Do
+    - Lu
+    - Ma
+    - Me
+    - Gi
+    - Ve
+    - Sa
+    abbr_day_names:
+    - Dom
+    - Lun
+    - Mar
+    - Mer
+    - Gio
+    - Ven
+    - Sab
+    abbr_month_names:
+    - ~
+    - Gen
+    - Feb
+    - Mar
+    - Apr
+    - Mag
+    - Giu
+    - Lug
+    - Ago
+    - Set
+    - Ott
+    - Nov
+    - Dic
+    day_names:
+    - Domenica
+    - Lunedì
+    - Martedì
+    - Mercoledì
+    - Giovedì
+    - Venerdì
+    - Sabato
+    month_names:
+    - ~
+    - gennaio
+    - febbraio
+    - marzo
+    - aprile
+    - maggio
+    - giugno
+    - luglio
+    - agosto
+    - settembre
+    - ottobre
+    - novembre
+    - dicembre
+  'true': "Sì"
+  'false': "No"

@@ -699,7 +699,6 @@ th:
     transfer_request_subject: ร้องขอการส่งมอบ สำหรับเคสของคุณ
     transfer_request: 'ผู้ใช้ Primero %{user} จาก %{agency} ขอให้คุณส่งมอบความเป็นเจ้าของข้อมูล %{record_type} %{record_id} เพื่อให้พวกเขาสามารถจัดบริการ %{record_type}สำหรับคนในพื้นที่ของพวกเขา หากคุณยอมรับการส่งมอบนี้ กรุณาคลิกลิงค์หมายเลขประจำตัว %{record_type} ในอีเมลนี้เพื่อเปิด %{record_type} ใน Primero และเริ่มการส่งมอบ'
     approval_request_html: 'ผู้ใช้งาน <strong>%{user}</strong> กำลังขออนุมัติ <strong>%{approval_type}</strong> สำหรับเคส <strong>%{case_id}</strong>'
-    approval_response_html: '<strong>%{user}</strong>มี<strong>%{status}</strong>ขอการอนุมัติ<strong>%{approval_type}</strong> สำหรับเคส<strong>%{case_id}</strong>'
   encrypt:
     export_type: ประเภทของข้อมูลส่งออก
     file_name: สร้างชื่อไฟล์ของคุณเอง (เป็นทางเลือก)
@@ -1486,7 +1485,6 @@ th:
       user: ผู้ใช้งาน
       agency: หน่วยงาน
       user_group: กลุ่มผู้ใช้งาน
-      child: เด็ก
       alert: การแจ้งเตือน
       form_section: แบบฟอร์ม
       lookup: การค้นหา

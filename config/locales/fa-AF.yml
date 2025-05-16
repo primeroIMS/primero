@@ -535,7 +535,6 @@ fa-AF:
     transfer_request_subject: انتقال درخواست برای یکی از قضایا
     transfer_request: 'مشتری پریمرو %{user} از %{agency} درخواست دارد که شما مسئولیت این را واگذار کنید %{record_type} ثبت %{record_id} تا آنها بتوانند ارئه کنند %{record_type} خدمات مدیریت قضیه را برای کسانی که در همان منطقه وجود دارند. اگر این انتقال برای شما مورد قبول میباشد، لطفا کلیک کنیدروی%{record_type} لینک آی دی در این ایمیل برای باز کردن %{record_type}  در پریمرو و شروع انتقال.'
     approval_request_html: 'استفاده کننده %{user}  درخواست تایدی دارد %{approval_type} برای قضیه %{case_id}.'
-    approval_response_html: '<strong>%{user}</strong> دارد <strong>%{status}</strong> درخواست تاییدی <strong>%{approval_type}</strong>برای قضیه <strong>%{case_id}</strong>.'
   encrypt:
     export_type: نوعیت صادره
     file_name: نام فایل را تشکیل دهید (دلخواه)

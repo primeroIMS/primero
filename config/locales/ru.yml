@@ -688,7 +688,6 @@ ru:
     transfer_request_subject: Запрос для трансфера для одного из Ваших кейсов
     transfer_request: 'Пользователь Primero  %{user}из %{agency}требует, чтобы Вы перевели владение этой %{record_type}записью  %{record_id}б чтобы они могли предоставить %{record_type}услуги управления для этого человека в их зоне. Если этот трасфер приемлим для Вас, пожалуйста, нажмите %{record_type}ID ссылку в этом email, чтобы открыть %{record_type}в Primero и начать трансфер.'
     approval_request_html: 'Пользователь <strong>%{user}</strong> запрашивает одобрение для <strong>%{approval_type}</strong>по кейсу <strong>%{case_id}</strong>.'
-    approval_response_html: '<strong>%{user}</strong>имеет <strong>%{status}</strong>запрос для одобрения для <strong>%{approval_type}</strong> для кейса <strong>%{case_id}</strong>.'
   encrypt:
     export_type: Тип экспорта
     file_name: Создать Ваше собственное имя файла (Необязательно)
@@ -1549,7 +1548,6 @@ ru:
       user: Пользователь
       agency: Агенство
       user_group: Группа пользователя
-      child: Ребенок
       alert: Сигнал тревоги
       form_section: Форма
       lookup: Поиск

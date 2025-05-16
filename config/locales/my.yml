@@ -727,7 +727,6 @@ my:
     transfer_request_subject: သင့်ဖြစ်ရပ်များထဲမှ တစ်ခုအား လွှဲပြောင်းရန်တောင်းဆိုချက်
     transfer_request: 'Primero အသုံးပြုသူ %{user}%{agency}မှ ဤ %{record_type}၏ %{record_id} မှတ်တမ်း၏ ပိုင်ဆိုင်မှုကို လွှဲပြောင်းပေးရန်တောင်းဆိုနေပါသည်၊ ၎င်းတို့သည် ၎င်းတို့နယ်မြေရှိလူတစ်ဦးချင်းစီအတွက်%{record_type} စီမံခန့်ခွဲမှုဆိုင်ရာ ဝန်ဆောင်မှုပေးနိုင်ရန်ဖြစ်သည်။ အကယ်၍ ဤလွှဲပြောင်းမှုကိုသင်လက်ခံပါက ဤအီးမေးလ်၏ %{record_type}ID link ကိုနှိပ်ပြီး Primero တွင် %{record_type}ကိုဖွင့်ပါ။ ထို့နောက် လွှဲပြောင်းမှုကိုစတင်ဆောင်ရွက်ပါ။'
     approval_request_html: 'အသုံးပြုသူ <strong> %{user}</strong> သည် <strong>%{approval_type}</strong> အတွက် ခွင့်ပြုချက်တောင်းခံသည်။<strong>%{case_id}</strong>ဖြစ်ရပ်အတွက်ဖြစ်သည်'
-    approval_response_html: 'အသုံးပြုသူ <strong> %{user}</strong> သည်<strong> %{status} </strong>ရှိပြီး <strong>%{approval_type}</strong> အတွက် ခွင့်ပြုချက်တောင်းခံသည်။ <strong>%{case_id}</strong>ဖြစ်ရပ်အတွက်ဖြစ်သည်'
   encrypt:
     export_type: export သတင်းအချက်အလက်ထုတ်ယူမှုအမျိုးအစား
     file_name: သင့်ကိုယ်ပိုင်ဖိုင်အမည် ပြုလုပ်ပါ (ရွေးချယ်နိုင်သည်)
@@ -1583,7 +1582,6 @@ my:
       user: အသုံးပြုသူ
       agency: အဖွဲ့အစည်း
       user_group: အသုံးပြုသူ အုပ်စု
-      child: ကလေး
       alert: သတိပေးချက်
       form_section: ဖောင်ပုံစံ
       lookup: ရှာဖွေခြင်း

@@ -596,9 +596,9 @@ es-GT:
     case_management_service: Servicio de Gestión de Casos
     case_overview: Mis Casos
     case_plan: Plan de Caso
-    case_risk: Casos por Nivel de Evaluación
+    case_risk: Casos por Grado de Prioridad en la Atención
     case_stat_by_approval_type: Aprobaciones
-    case_stat_by_assessment_level: Casos por Nivel de Evaluación
+    case_stat_by_assessment_level: Casos por Grado de Prioridad en la Atención
     case_stat_referrals: Referencias
     case_stats: Casos
     case_worker: Trabajadora del Caso
@@ -815,7 +815,6 @@ es-GT:
     transfer_request_subject: Solicitud de transferencia para uno de sus casos
     transfer_request: 'El/la usuario(a) de Primero %{user} de %{agency} está solicitando que le transfiera la propiedad de este %{record_type} registro %{record_id} para que pueda prestarle servicios de gestión de %{record_type}a la persona en su área. Si esta transferencia le parece aceptable, por favor haga clic en el vínculo de ID %{record_type} en este correo para abrir el %{record_type} en Primero e iniciar la transferencia.'
     approval_request_html: 'El/la usuario(a) <strong>%{user}</strong> está solicitando aprobación para <strong>%{approval_type}</strong> en el caso <strong>%{case_id}</strong>.'
-    approval_response_html: '<strong>%{user}</strong> ha <strong>%{status}</strong> la solicitud de aprobación para <strong>%{approval_type}</strong> para el caso<strong>%{case_id}</strong>.'
     alert: '%{record_type}%{id}-%{form_name} ha sido actualizado. Por favor, ingrese a Primero para revisar los cambios.'
     alert_subject: '%{record_type}:%{id} - %{form_name} Actualizado'
   webpush_notification:
@@ -1811,7 +1810,6 @@ es-GT:
       user: Usuario(a)
       agency: Agencia
       user_group: Grupo de Usuario(a)
-      child: Niño, niña, o adolescente
       alert: Alerta
       form_section: Formulario
       lookup: Búsqueda Específica
@@ -2223,7 +2221,7 @@ es-GT:
       case_assignments_referrals_transfers: Asignaciones, referencias, y transferencias de casos
       case_exports: Exportación de Casos
       case_overview: Mis Casos
-      case_risk: Casos por Nivel de Evaluación
+      case_risk: Casos por Grado de Prioridad en la Atención
       cases_by_task_overdue_assessment: Ver Casos por Tarea de Evaluación Vencida
       cases_by_task_overdue_case_plan: Ver Casos por Tarea de Plan de Caso Atrasado
       cases_by_task_overdue_followups: Ver Casos por Tarea de Servicios Vencidos

@@ -834,7 +834,6 @@ ku:
     transfer_request_subject: داخوازى گواستنەوە بو یەکێک لە کەیسەکانت
     transfer_request: 'بەکارهێنەرى primero  %{user} لە %{agency} داخوازدەکات خاوەندارێتى ئه م  %{record_type} بوى بنێرى بو تومارى %{record_id} تا بتوانن خزمەتگوزایەکانى بەرێوەبردن %{record_type} بو تاکەکانى ئەو ناوچەیە دابینبکەن. ئەگەر رازیت لەسەر ئەم ناردنە، تکایە کلیک لەسەر %{record_type} ناسنامەى لینکى ئەم ئیمێلە بکە بو کردنەوەى %{record_type} لە پریمێرو وە ناردنەکە دەستپێبکرێت'
     approval_request_html: 'بەکارهێنەر 1%{user}1 داخوازى پەسەند دەکات بو 2 %{approval_type}2 دەربارەى کەیسى %{case_id}3.'
-    approval_response_html: '%{user} دوخى   2%{status}2 هەیەتى و داخوازى پەسەند بو 3%{approval_type} بو کەیسى %{case_id}4'
   encrypt:
     export_type: جۆری هەناردەکردنەکە
     file_name: ناوى فایلى تایبەت بەخوت دروست بکە (ئارەزومەندانە)
@@ -1813,7 +1812,6 @@ ku:
       user: بەکارهێنەر
       agency: دامەزراوە
       user_group: گروپی بەکارهێنەران
-      child: منداڵ
       alert: ئاگادارکردنەوە
       form_section: فۆرم
       lookup: گەڕان

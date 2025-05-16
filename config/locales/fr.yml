@@ -805,7 +805,6 @@ fr:
     transfer_request_subject: Demande de transfert pour l'un de vos cas
     transfer_request: 'L''utilisateur Primero %{user} de %{agency} vous demande de transférer la gestion du cas %{record_type}, %{record_id} afin qu''il puisse fournir des services de %{record_type} dans sa région. Si ce transfert vous convient, veuillez cliquer sur le lien %{record_type} dans cet e-mail pour ouvrir le fichier %{record_type}dans  Primero et effectuer le transfert.'
     approval_request_html: 'L''utilisateur <strong> %{user} </strong> demande votre approbation pour <strong> %{approval_type} </strong> sur le cas <strong> %{case_id} </strong>'
-    approval_response_html: 'L''utilisateur <strong> %{user} </strong> a <strong> %{status} </strong> demandé l''approbation pour <strong> %{approval_type} </strong> sur le cas <strong> %{case_id} </strong>.'
     alert: '%{record_type} %{id} - %{form_name} a été mis à jour. Veuillez vous connecter à Primero pour consulter les modifications.'
     alert_subject: '%{record_type} : %{id} - %{form_name} mis à jour '
   webpush_notification:
@@ -1840,7 +1839,6 @@ fr:
       user: Utilisateur
       agency: 'Organisation '
       user_group: Groupe d'utilisateurs
-      child: Enfant
       alert: Alerte
       form_section: Forme
       lookup: Chercher
