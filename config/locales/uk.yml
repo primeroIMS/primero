@@ -833,7 +833,6 @@ uk:
     transfer_request_subject: Запит на переведення для одного з ваших кейсів
     transfer_request: 'Користувач Primero %{user} з %{agency} просить вас передати право власності на цей %{record_type} запис %{record_id}, щоб він міг надавати %{record_type} послуги з управління фізичним особам у своєму регіоні. Якщо цей переказ прийнятний для вас, будь ласка, натисніть на %{record_type} посилання ідентифікатора в цьому електронному листі, щоб відкрити %{record_type} в Primero та розпочати передачу.'
     approval_request_html: 'Користувач <strong>%{user}</strong> запитує погодження для <strong>%{approval_type}</strong> для кейсу <strong>%{case_id}</strong>.'
-    approval_response_html: '<strong>%{user}</strong> має <strong>%{status}</strong> запит на ухвалення для <strong>%{approval_type}</strong> для кейсу <strong>%{case_id}</strong>.'
     alert: '%{record_type}%{id}-%{form_name} оновлено. Будь ласка, увійдіть до Primero щоб переглянути зміни.'
     alert_subject: '%{record_type}: %{id} - %{form_name} Оновлено'
   webpush_notification:
@@ -1856,7 +1855,6 @@ uk:
       user: Користувач
       agency: Агенція
       user_group: Група користувачів
-      child: Дитина
       alert: Сповіщення
       form_section: Форма
       lookup: Пошуковий запит

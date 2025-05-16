@@ -747,7 +747,6 @@ id:
     transfer_request_subject: Permintaan Pengalihan untuk Salah Satu dari Kasus Anda
     transfer_request: 'Pengguna Primero %{user} dari %{agency} meminta Anda untuk mengalihkan tanggungjawab catatan %{record_type} kasus %{record_id} agar mereka bisa mengelola catatan %{record_type} dan pelayanan untuk individu di wilayah mereka. Jika Anda menyetujui pengalihan ini, silahkan klik tautan ID %{record_type} di email ini untuk membuka %{record_type} di Primero dan memulai proses pengalihan.'
     approval_request_html: 'Pengguna <strong>%{user}</strong> meminta persetujuan  <strong>%{approval_type}</strong> untuk kasus  <strong>%{case_id} </strong>.'
-    approval_response_html: '<strong>%{user}</strong> telah <strong>%{status}</strong> terhadap permintaan persetujuan <strong>%{approval_type}</strong> untuk kasus <strong>%{case_id}</strong>.'
   encrypt:
     export_type: Tipe Ekspor
     file_name: Buat nama file Anda sendiri (Opsional)
@@ -1738,7 +1737,6 @@ id:
       user: Pengguna
       agency: Lembaga
       user_group: Grup Pengguna
-      child: Anak
       alert: Peringatan
       form_section: Formulir
       lookup: Referensi

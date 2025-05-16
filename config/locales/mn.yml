@@ -857,16 +857,13 @@ mn:
     assign_subject: '%{record_type}%{id}танд хувиарлагдсан.'
     approval_request: '%{user}хүсэлт гаргаад байна. %{approval_type}кейсийн зөвшөөрөл (%{case_id}). Шалгаж үзэхийн тулд аккуант руугаа орно уу'
     approval_request_subject: 'Кейс %{id}-Зөвшөөрлийн хүсэлт'
-    approval_response: ' таны %{user}  %{status}хүсэлт гаргасан%{approval_type}кейсийн зөвшөөрөл (%{case_id})Дахин шалгая гэвэл аккуант руугаа орно уу'
     approval_response_subject: 'Кейс %{id}Зөвшөөрлийн хариу'
     referral: '%{user}%{agency}холбон зуучилсан%{record_type}%{record_id}%{service_type}'
     transfer: '%{user}чамд шилжүүлсэн%{record_type}%{record_id}'
     transfer_request_subject: Таны кейсүүдийн нэгийг шилжүүлэх хүсэлт
-    transfer_subject: '%{record_type}%{id}Шилжүүлэх хүсэлт'
     referral_subject: '%{record_type}:%{id}-Холбон зуучлалын хүсэлт'
     transfer_request: 'Primero-ийн  %{user} хэрэглэгч%{agency} таныг энэ бүртгэлийн эзэмшлээ %{record_type}шилжүүлэхийг хүсч байгаа бөгөөд%{record_id} ингэснээр тэд %{record_type}өөрсдийн нутаг дэвсгэрт байгаа үйлчлүүлэгчид кейс менежментийн үйлчилгээ үзүүлэх боломжтой болно. Хэрэв энэ шилжүүлгийг та хийхийг  зөвшөөрвөл энэ имэйл дэх %{record_type}ID холбоос дээр дарж %{record_type}Primero-г нээгээд шилжүүлгийг эхлүүл '
     approval_request_html: 'Хэрэглэгч 1%{user} зөвшөөрөл хүсэж байгаа%{approval_type}кейс дээр%{case_id}'
-    approval_response_html: '%{user}%{status}зөвшөөрөл хүсэж байгаа %{approval_type}%{case_id}'
     referral_html: 'Та%{record_type}зөвшөөрөл(%{record_id})-аас -%{service_type}авсан байна.%{user}байгууллагаас %{agency}.Үүнийг шалгахын тулд%{login_url}өөрийн аккуантыг шалгана уу.'
     transfer_html: 'Та %{record_type}шилжүүлэг авлаа. (%{record_id}) -аас%{user} -аас %{agency}дахин шалгахын тулд%{login_url} өөрийн аккуант руу орно уу'
     assign_html: Танд шинэ %{record_type}хувиарлагдсан байна. (%{record_id})аас %{user}тэдгээрийг харахын тулд%{login_url} өөрийн аккуант руу орно уу.
@@ -1894,7 +1891,6 @@ mn:
       user: Хэрэглэгч
       agency: Байгууллага
       user_group: Хэрэглэгчийн бүлэг
-      child: Хүүхэд
       alert: Анхааруулга
       form_section: Маягт
       lookup: Хайлтын цонх

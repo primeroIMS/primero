@@ -779,7 +779,6 @@ cmn:
     transfer_request_subject: 为您的一个个案申请移交
     transfer_request: 'Primero 用户%{user}来自%{agency}要求您移交该%{record_type}记录%{record_id}的所有权，以便他们在其区域内为该个人提供%{record_type}个案管理服务。如果您可以接受这种移交，请单击此电子邮件中的 %{record_type}ID 链接，打开 Primero 中的%{record_type}并启动移交。'
     approval_request_html: '该用户<strong>%{user}</strong>正在申请批准<strong>%{approval_type}</strong>个案<strong>%{case_id}</strong>。'
-    approval_response_html: '<strong>%{user}</strong><strong>%{status}</strong>请求批准<strong>%{approval_type}</strong>个案<strong>%{case_id}</strong>'
     alert: '%{record_type}%{id} - %{form_name}已更新。请登录 Primero 查看更改。'
     alert_subject: '%{record_type}: %{id} - %{form_name}已更新 '
   webpush_notification:
@@ -1812,7 +1811,6 @@ cmn:
       user: 用户
       agency: 机构
       user_group: 用户组
-      child: 儿童
       alert: 警报
       form_section: 表格
       lookup: 查询

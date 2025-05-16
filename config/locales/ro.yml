@@ -713,7 +713,6 @@ ro:
     transfer_request_subject: Transfer solicitat pentru una din înregistrările tale.
     transfer_request: 'Utilizatorul Primero %{user}de la %{agency}solicită transferul proprietății asupra%{record_type} înregistrarea %{record_id} pentru a putea oferi servicii %{record_type} locuitorilor din zona lor. Dacă ești de acord cu transferul, selectează linkul ID %{record_type}din acest e-mail pentru a deschide %{record_type}în Primero și pentru a iniția transferul.'
     approval_request_html: 'Utilizatorul <strong>%{user}</strong> solicită aprobare <strong>%{approval_type}</strong>pentru cazul <strong>%{case_id}</strong>.'
-    approval_response_html: '<strong>%{user}</strong> a <strong>%{status}</strong>solicitarea de aprobare <strong>%{approval_type}</strong> pentru cazul <strong>%{case_id}</strong>.'
   encrypt:
     export_type: Tip export
     file_name: Creează propria denumire de fișier (opțional)
@@ -1681,7 +1680,6 @@ ro:
       user: Utilizator
       agency: Organizația/ instituția
       user_group: Grup utilizatori
-      child: Copil
       alert: Alertă
       form_section: Formular
       lookup: Căutare

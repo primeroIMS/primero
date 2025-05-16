@@ -862,16 +862,13 @@ hy:
     assign_subject: '%{record_type}․ %{id}՝ հանձնարարվել է ձեզ'
     approval_request: '%{user} ներկայացրել է %{approval_type} հաստատման հայտ (%{case_id}) դեպքի համար։ Խնդրեմ մուտք գործեք ձեր օգտահաշիվ հայտը տեսնելու համար։ '
     approval_request_subject: 'Դեպք՝ %{id}․ հաստատման հայտ'
-    approval_response: '%{user} %{status} է ձեր %{approval_type}հաստատման հայտը (%{case_id}) դեպքի համար։ Խնդրեմ մուտք գործեք ձեր օգտահաշիվ հայտը տեսնելու համար։ '
     approval_response_subject: 'Դեպք՝ %{id}․ հաստատման պատասխան'
     referral: '%{user}-ը %{agency}-ից ուղղորդել է %{record_type} ձեզ․ %{record_id} %{service_type}-ի համար։ '
     transfer: '%{user} փոխանցել է հետևյալ %{record_type}-ը ձեզ․ %{record_id}։'
     transfer_request_subject: Ձեր դեպքերից մեկի փոխանցման հայտ
-    transfer_subject: '%{record_type}` %{id}. փոխանցման հայտ'
     referral_subject: '%{record_type}՝ %{id}․ ուղղորդման հայտ'
     transfer_request: 'Primero-ի %{user} օգտատերը %{agency}-ից խնդրում է, որ դուք փոխանցեք այս %{record_type} գրառման %{record_id} սեփականությունը, որպեսզի նրանք կարողանան մատուցել %{record_type} կառավարման ծառայություններ անհատի համար իր տարածքում։ Եթե այս փոխանցումն ընդունելի է ձեզ համար, խնդրեմ սեղմեք այս էլեկտրոնային փոստի %{record_type} ՆՓ հղմանը՝ բացելու այն Primero հարթակում և կատարելու փոխանցումը։ '
     approval_request_html: ' <strong>%{user} օգտատերը ներկայացրել է հաստատման հայտ <strong>%{approval_type}</strong>համար <strong>%{case_id}</strong>դեպքի մասով։  '
-    approval_response_html: '<strong>%{user}</strong> ունի <strong>%{status}</strong> հաստատման հայտը <strong>%{approval_type}</strong> համար <strong>%{case_id}</strong> դեպքի մասով։ '
     referral_html: 'Դուք ստացել եք ուղղորդում %{record_type} համար (%{record_id}) %{service_type} համար %{agency}-ի %{user} -ից։ Խնդրեմ %{login_url}ձեր օգտահաշիվ հայտը տեսնելու համար։'
     transfer_html: 'Դուք ստացել եք դեպքի փոխանցում %{record_type} համար (%{record_id}) %{service_type} համար %{agency}-ի %{user} -ից։ Խնդրեմ %{login_url}ձեր օգտահաշիվ հայտը տեսնելու համար։'
     assign_html: Ձեզ հանձնարարվել է նոր %{record_type} (%{record_id}) %{user}-ից։ Խնդրեմ %{login_url}  ձեր օգտահաշիվ հայտը տեսնելու համար։ 
@@ -1885,7 +1882,6 @@ hy:
       user: Օգտատեր
       agency: Գործակալություն
       user_group: Օգտատերերի խումբ
-      child: Երեխա
       alert: Ահազանգ
       form_section: Ձևաթուղթ
       lookup: Որոնում
