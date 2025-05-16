@@ -5,6 +5,7 @@ import { Record, fromJS } from "immutable";
 import { SELECT_CHANGE_REASON } from "./constants";
 
 export const FieldRecord = Record({
+  additionalOptions: [],
   asyncAction: () => {},
   asyncOptions: false,
   asyncOptionsLoadingPath: null,

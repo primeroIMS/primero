@@ -50,14 +50,14 @@ class UsageReport < ValueObject
 
   def build_modules
     PrimeroModule.all.map do |primero_module|
-      unique_id = primero_module.unique_id
-      module_hash = { unique_id:, name: primero_module.name }
+      module_hash = { unique_id: primero_module.unique_id, name: primero_module.name }
       if primero_module.associated_record_types.include?('case')
-        module_hash = module_hash.merge(build_modules_cases(unique_id))
+        module_hash = module_hash.merge(build_modules_cases(primero_module.unique_id))
       end
       if primero_module.associated_record_types.include?('incident')
-        module_hash.merge(build_modules_incidents(unique_id))
+        module_hash.merge(build_modules_incidents(primero_module.unique_id))
       end
+      module_hash
     end
   end
 

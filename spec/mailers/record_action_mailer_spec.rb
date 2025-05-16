@@ -134,7 +134,7 @@ describe RecordActionMailer, type: :mailer do
 
       it 'renders the body' do
         expect(mail.body.encoded)
-          .to match("manager1 has rejected your request for case plan approval on case.*#{@child.short_id}")
+          .to match("manager1 has updated the status of your case plan approval request on Case.*#{@child.short_id}")
       end
     end
 
@@ -352,7 +352,7 @@ describe RecordActionMailer, type: :mailer do
       let(:mail) { RecordActionMailer.transition_notify(TransitionNotificationService.new(@transfer.id)) }
 
       it 'renders the headers' do
-        expect(mail.subject).to eq("Case: #{@case.short_id} - Transfer Request")
+        expect(mail.subject).to eq("Case: #{@case.short_id} - Transfer")
         expect(mail.to).to eq(['uzer_to@test.com'])
       end
 

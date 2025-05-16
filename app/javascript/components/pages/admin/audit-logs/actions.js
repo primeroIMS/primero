@@ -5,6 +5,7 @@ import { namespaceActions } from "../../../../libs";
 import NAMESPACE from "./namespace";
 
 export default namespaceActions(NAMESPACE, [
+  "CLEAR_METADATA",
   "FETCH_AUDIT_LOGS",
   "FETCH_AUDIT_LOGS_FAILURE",
   "FETCH_AUDIT_LOGS_FINISHED",

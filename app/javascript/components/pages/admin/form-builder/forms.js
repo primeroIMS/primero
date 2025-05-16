@@ -110,11 +110,11 @@ export const settingsForm = ({ formMode, onManageTranslation, onEnglishTextChang
 
                 return results;
               }, []),
-              required: true,
+              required: !formMode.get("isEdit"),
               clearDependentValues: [FORM_GROUP_FIELD],
               watchedInputs: MODULES_FIELD,
               handleWatchedInputs: value => {
-                return { disabled: isEmpty(value) || limitedProductionSite };
+                return { disabled: formMode.get("isEdit") || isEmpty(value) || limitedProductionSite };
               }
             })
           ]

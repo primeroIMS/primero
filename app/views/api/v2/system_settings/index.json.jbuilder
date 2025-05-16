@@ -22,6 +22,10 @@ json.data do
                                               'allow_case_creation_from_referral' =>
                                                   @system_setting.create_case_from_referral?
                                             })
+  json.audit_log do
+    json.actions AuditLog::ACTIONS
+    json.record_types AuditLog::RECORD_TYPES
+  end
   if code_of_conduct
     json.code_of_conduct do
       json.partial! 'api/v2/codes_of_conduct/code_of_conduct', code_of_conduct:

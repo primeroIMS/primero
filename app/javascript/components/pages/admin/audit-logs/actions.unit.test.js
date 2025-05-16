@@ -7,6 +7,7 @@ describe("<AuditLogs /> - pages/admin/audit-logs/actions", () => {
     const clone = { ...actions };
 
     [
+      "CLEAR_METADATA",
       "FETCH_AUDIT_LOGS",
       "FETCH_AUDIT_LOGS_FAILURE",
       "FETCH_AUDIT_LOGS_FINISHED",

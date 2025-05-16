@@ -31,7 +31,7 @@ jobs:
         displayName: 'Make required directories and copy files'
       - task: NodeTool@0
         inputs:
-          versionSpec: '23.11.0'
+          versionSpec: '22.13.1'
         displayName: 'Install node'
       - bash: npm config set legacy-peer-deps true && npm ci
         displayName: 'Install npm packages'
@@ -41,7 +41,7 @@ jobs:
         displayName: 'Install dependencies'
       - bash: |
           . ~/.bash_env
-          rbenv global 3.3.7
+          rbenv global 3.3.8
           bundle install --without production --path=${BUNDLE_PATH:-vendor/bundle}
         displayName: 'Bundle install'
         env:

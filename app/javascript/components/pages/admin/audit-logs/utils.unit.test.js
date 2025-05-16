@@ -2,6 +2,8 @@
 
 import { fromJS } from "immutable";
 
+import { FILTER_TYPES } from "../../../index-filters";
+
 import { TIMESTAMP, USER_NAME } from "./constants";
 import * as helper from "./utils";
 
@@ -68,7 +70,7 @@ describe("<AuditLogs /> - Helpers", () => {
           type: "dates",
           option_strings_source: null,
           dateIncludeTime: true,
-          options: { en: [{ id: TIMESTAMP, display_name: "Timestamp" }] }
+          options: { en: [{ id: TIMESTAMP, display_name: "logger.timestamp" }] }
         },
         {
           name: "audit_log.user_name",
@@ -77,10 +79,26 @@ describe("<AuditLogs /> - Helpers", () => {
           options: helper.searchableUsers(data),
           type: "multi_select",
           multiple: false
+        },
+        {
+          name: "audit_log.action",
+          field_name: "audit_log_actions",
+          option_strings_source: null,
+          options: [],
+          type: FILTER_TYPES.MULTI_SELECT,
+          multiple: true
+        },
+        {
+          name: "audit_log.type",
+          field_name: "record_type",
+          option_strings_source: null,
+          options: [],
+          type: FILTER_TYPES.MULTI_SELECT,
+          multiple: true
         }
       ];
 
-      expect(helper.getFilters(data)).toEqual(expected);
+      expect(helper.getFilters(data, { t: value => value, locale: "en" })).toEqual(expected);
     });
   });
 });

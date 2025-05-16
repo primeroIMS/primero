@@ -2,6 +2,8 @@
 
 import { fromJS } from "immutable";
 
+import { DEFAULT_METADATA } from "../../../../config";
+
 import { DATA, ERRORS, LOADING, METADATA } from "./constants";
 import actions from "./actions";
 
@@ -29,6 +31,9 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
         .setIn(filtersPath(METADATA), fromJS(payload.metadata));
     case actions.SET_AUDIT_LOGS_FILTER:
       return state.set("filters", fromJS(payload.data));
+    case actions.CLEAR_METADATA: {
+      return state.set("metadata", fromJS(DEFAULT_METADATA));
+    }
     default:
       return state;
   }

@@ -8,9 +8,9 @@ class Api::V2::AuditLogsController < ApplicationApiController
 
   def index
     authorize! :read, AuditLog
-    @audit_logs = AuditLog.logs(audit_logs_params[:user_name], timestamp_param, order_by:, order:)
+    @audit_logs = AuditLog.logs(audit_logs_filters)
     @total = @audit_logs.size
-    @audit_logs = @audit_logs.paginate(pagination)
+    @audit_logs = AuditLog.enrich_audit_logs(@audit_logs.paginate(pagination))
   end
 
   def per
@@ -18,7 +18,7 @@ class Api::V2::AuditLogsController < ApplicationApiController
   end
 
   def audit_logs_params
-    params.permit(:user_name, :from, :to)
+    params.permit(:user_name, :from, :to, audit_log_actions: {}, record_type: {})
   end
 
   protected
@@ -43,5 +43,14 @@ class Api::V2::AuditLogsController < ApplicationApiController
 
   def to_param
     params[:to].present? ? Time.zone.parse(params[:to]) : DateTime.now.end_of_day
+  end
+
+  def audit_logs_filters
+    {
+      user_name: audit_logs_params[:user_name],
+      actions: audit_logs_params[:audit_log_actions]&.values,
+      record_types: audit_logs_params[:record_type]&.values,
+      date_range: timestamp_param, order_by: order_by, order: order
+    }
   end
 end
