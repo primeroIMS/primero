@@ -131,7 +131,10 @@ const transferToUsers = createCachedSelector(
   }
 )(defaultCacheSelectorOptions);
 
-const agenciesParser = (data, { useUniqueId, optionStringsSourceIdKey, locale, filterOptions, includeServices }) => {
+const agenciesParser = (
+  data,
+  { useUniqueId, includeUniqueID, optionStringsSourceIdKey, locale, filterOptions, includeServices }
+) => {
   const filteredAgencies = filterOptions ? filterOptions(data) : data;
 
   return filteredAgencies.reduce(
@@ -139,6 +142,7 @@ const agenciesParser = (data, { useUniqueId, optionStringsSourceIdKey, locale, f
       ...prev,
       {
         id: current.get(useUniqueId ? "unique_id" : optionStringsSourceIdKey || "id"),
+        ...(includeUniqueID && { unique_id: current.get("unique_id") }),
         display_text: current.getIn(["name", locale], ""),
         disabled: current.get("disabled", false),
         ...(includeServices && { services: current.get("services", fromJS([])).toArray() })
@@ -164,11 +168,11 @@ const agenciesCurrentUser = createCachedSelector(
   (_state, options) => options,
   (locale, data, currentUserAgencyData, options) => {
     const currentUserAgency = fromJS([currentUserAgencyData]);
-    const allAgencies = agenciesParser(data, { ...options, locale });
+    const allAgencies = agenciesParser(data, { ...options, locale, includeUniqueID: true });
 
     return allAgencies.map(agency => ({
       ...agency,
-      disabled: agency.disabled || !currentUserAgency.includes(agency.id)
+      disabled: agency.disabled || !currentUserAgency.includes(agency.unique_id)
     }));
   }
 )(defaultCacheSelectorOptions);

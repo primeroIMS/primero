@@ -101,5 +101,11 @@ describe SystemSettings do
         end
       end
     end
+
+    describe 'incident_reporting_location_config' do
+      it 'return default value' do
+        expect(@system_settings.reporting_location_config).to be_present
+      end
+    end
   end
 end

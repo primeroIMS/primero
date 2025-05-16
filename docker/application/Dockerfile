@@ -2,13 +2,14 @@
 
 # -------------------------------------------------------------------- BUILD STAGE
 ARG BUILD_REGISTRY
-ARG RUBY_VERSION=3.3.7
+ARG RUBY_VERSION=3.3.8
 FROM ${BUILD_REGISTRY}ruby:${RUBY_VERSION}-alpine3.21 AS build-env
 
+ENV NODE_VERSION=22.13.1
 ENV BUILD_PACKAGES="bash curl wget curl-dev build-base git"
 ENV PYTHON_PACKAGES="python3 py3-pip"
 ENV BUILD_DEP_PACKAGES=postgresql-dev
-ENV RUNTIME_PACKAGES="libc6-compat nodejs gettext libintl npm imagemagick libsodium-dev"
+ENV RUNTIME_PACKAGES="libc6-compat nodejs=~${NODE_VERSION} gettext libintl npm imagemagick libsodium-dev"
 ENV DEV_PACKAGES="busybox-extras tree cairo pixman pixman-dev"
 ENV RAILS_ENV=production
 ENV PYTHON=/usr/bin/python

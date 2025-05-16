@@ -2,7 +2,22 @@
 
 import { FILTER_TYPES } from "../../../index-filters";
 
-import { TIMESTAMP, USER_NAME } from "./constants";
+import { AUDIT_LOG_ACTIONS, RECORD_TYPE, TIMESTAMP, USER_NAME } from "./constants";
+
+function parseAuditLogOptions(i18n, options, key) {
+  return (
+    options?.reduce(
+      (prev, current) => [
+        ...prev,
+        {
+          id: current,
+          display_name: i18n.t(`logger.${key}.${current}`)
+        }
+      ],
+      []
+    ) || []
+  );
+}
 
 export const searchableUsers = (data = []) => {
   return data.reduce((acc, user) => [...acc, { id: user.get("user_name"), display_name: user.get("user_name") }], []);
@@ -20,7 +35,7 @@ export const buildAuditLogsQuery = data => {
   }, {});
 };
 
-export const getFilters = filterUsers => [
+export const getFilters = (filterUsers, i18n, actions, recordTypes) => [
   {
     name: "audit_log.timestamp",
     field_name: "audit_log_date",
@@ -28,7 +43,7 @@ export const getFilters = filterUsers => [
     option_strings_source: null,
     dateIncludeTime: true,
     options: {
-      en: [{ id: TIMESTAMP, display_name: "Timestamp" }]
+      [i18n.locale]: [{ id: TIMESTAMP, display_name: i18n.t("logger.timestamp") }]
     }
   },
   {
@@ -38,5 +53,21 @@ export const getFilters = filterUsers => [
     options: searchableUsers(filterUsers),
     type: FILTER_TYPES.MULTI_SELECT,
     multiple: false
+  },
+  {
+    name: "audit_log.action",
+    field_name: AUDIT_LOG_ACTIONS,
+    option_strings_source: null,
+    options: parseAuditLogOptions(i18n, actions, "actions"),
+    type: FILTER_TYPES.MULTI_SELECT,
+    multiple: true
+  },
+  {
+    name: "audit_log.type",
+    field_name: RECORD_TYPE,
+    option_strings_source: null,
+    options: parseAuditLogOptions(i18n, recordTypes, "resources"),
+    type: FILTER_TYPES.MULTI_SELECT,
+    multiple: true
   }
 ];

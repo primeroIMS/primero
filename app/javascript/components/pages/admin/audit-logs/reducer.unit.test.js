@@ -2,6 +2,8 @@
 
 import { fromJS } from "immutable";
 
+import { DEFAULT_METADATA } from "../../../../config";
+
 import actions from "./actions";
 import reducer from "./reducer";
 
@@ -156,6 +158,20 @@ describe("<AuditLogs /> - pages/admin/audit-logs/reducers", () => {
     const action = {
       type: actions.SET_AUDIT_LOGS_FILTER,
       payload: { data }
+    };
+
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).toEqual(expected);
+  });
+
+  it("should handle CLEAR_METADATA", () => {
+    const expected = fromJS({
+      metadata: DEFAULT_METADATA
+    });
+
+    const action = {
+      type: actions.CLEAR_METADATA
     };
 
     const newState = reducer(fromJS({}), action);

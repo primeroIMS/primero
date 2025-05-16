@@ -9,7 +9,7 @@ function Component({ src, alt, className, type = "image", id }) {
   const [srcString, setSrcString] = useState("");
   const isIDP = useMemoizedSelector(state => getUseIdentityProvider(state));
 
-  const isBase64 = src.startsWith("data:");
+  const isBase64 = src?.startsWith("data:");
 
   const getBase64Image = async res => {
     const blob = await res.blob();

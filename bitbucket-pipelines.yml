@@ -4,7 +4,7 @@ definitions:
   steps:
     - step: &server-test
         name: Server tests
-        image: ruby:3.3.7-bookworm
+        image: ruby:3.3.8-bookworm
         script:
           - ./bin/install_local_test_solr.sh
           - ./bin/run_server_tests.sh
@@ -14,7 +14,7 @@ definitions:
           - bundler
     - step: &client-test
         name: Client tests
-        image: node:23.11.0
+        image: node:22.13.1
         size: 2x
         script:
           - npm config set legacy-peer-deps true

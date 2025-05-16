@@ -124,6 +124,7 @@ en:
     record_owner: Record Owner
     timestamp: Time
     user_name: Performed By
+    type: Record Type
   bulk_export:
     file_name: File
     record_type: Type
@@ -912,16 +913,16 @@ en:
     assign_subject: '%{record_type}: %{id} - Assigned to you'
     approval_request: '%{user} is requesting a %{approval_type} approval on case (%{case_id}). Please log in your account to review.'
     approval_request_subject: 'Case: %{id} - Approval Request'
-    approval_response: '%{user} has %{status} your request for %{approval_type} approval on case (%{case_id}). Please log in to your account to review.'
+    approval_response: '%{user} has updated the status of your %{approval_type} approval request on Case (%{case_id}) to the following: %{status}. Please log in to your account to review.'
     approval_response_subject: 'Case: %{id} - Approval Response'
     referral: '%{user} from %{agency} has referred the following %{record_type} to you: %{record_id} for %{service_type}.'
     transfer: '%{user} has transferred the following %{record_type} to you: %{record_id}.'
     transfer_request_subject: Transfer request for one of your cases
-    transfer_subject: '%{record_type}: %{id} - Transfer Request'
+    transfer_subject: '%{record_type}: %{id} - Transfer'
     referral_subject: '%{record_type}: %{id} - Referral Request'
     transfer_request: 'Primero user %{user} from %{agency} is requesting that you transfer ownership of this %{record_type} record %{record_id} so that they can provide %{record_type} management services for the individual in their area. If this transfer is acceptable to you, please click on the %{record_type} ID link in this email to open the %{record_type} in Primero and initiate the transfer.'
     approval_request_html: 'The user <strong>%{user}</strong> is requesting approval for <strong> %{approval_type}</strong> on case <strong>%{case_id}</strong>.'
-    approval_response_html: '<strong>%{user}</strong> has <strong>%{status}</strong> the request for approval for <strong>%{approval_type}</strong> for case <strong>%{case_id}</strong>.'
+    approval_response_html: '<strong>%{user}</strong> has updated the status of your <strong>%{approval_type}</strong> approval request on Case (<strong>%{case_id}</strong>) to the following: <strong>%{status}</strong>. Please log in to your account to review.'
     referral_html: 'You have received a referral for %{record_type} (%{record_id}) for  %{service_type} from %{user} from %{agency}. Please %{login_url} to your account to review.'
     transfer_html: 'You have received a transfer for %{record_type} (%{record_id}) from %{user} from %{agency}. Please %{login_url} into your account to review.'
     assign_html: You have been assigned a new %{record_type} (%{record_id}) from %{user}. Please %{login_url} to your account to review.
@@ -1911,6 +1912,9 @@ en:
       _rejected: Rejected
       _requested: Requested
       add_note: Add note
+      assessment_approved: Assessment Approved
+      assessment_rejected: Assessment Rejected
+      assessment_requested: Assessment Requested
       assign: Assign
       assign_to: Assign to
       attach: Attach
@@ -1921,19 +1925,26 @@ en:
       case_plan_rejected: Case plan rejected
       case_plan_requested: Case plan requested
       close: Close
+      closure_approved: Closure Approved
+      closure_rejected: Closure Rejected
+      closure_requested: Closure Requested
       create: Create
       create_bulk: Create bulk
+      create_family: Create Family
+      current: Current
       delete: Delete
       destroy: Destroy
       detach: Detach
       enable_disable_record: Enable disable record
       export: Export
+      family: List Family
       flag: Flag
       import: Import
       incident_details_from_case: Incident details from case
       index: Index
       list: List
       login: Login
+      logout: Logout
       password_reset: Password reset
       password_reset_request: Password reset request
       refer: Refer
@@ -1951,11 +1962,14 @@ en:
       transfer_accepted: Transfer accepted
       transfer_rejected: Transfer rejected
       transfer_request: Transfer request
+      transfer_revoked: Transfer Revoked
       transfer_to: Transfer to
       unflag: Unflag
       update: Update
+      update_bulk: Bulk Update
       user_password_reset_request: User password reset request
       webhook: Webhook
+    add_note: Add note
     approve_form:
       action_plan: Action Plan form
       bia: BIA form
@@ -1964,29 +1978,45 @@ en:
       'false': Rejecting
       gbv_closure: GBV Closure form
       'true': Approving
+    action_plan_approved: "%{approval_label} approved for"
+    action_plan_requested: "%{approval_label} requested for"
+    action_plan_rejected: "Action Plan rejected for"
     assessment_approved: "%{approval_label} approved for"
+    assessment_rejected: Reject Assessment approval
     assessment_requested: "%{approval_label} requested for"
+    assign_to: List users for record assignment
+    assign: Assign
+    attach: Add attachment
     bulk_index: List all
     by_user: by user
     case_plan_approved: "%{approval_label} approved for"
     case_plan_requested: "%{approval_label} requested for"
+    case_plan_rejected: Reject Case Plan approval
     close: Close
     closure_approved: "%{approval_label} approved for"
+    closure_rejected: Reject Closure approval
     closure_requested: "%{approval_label} requested for"
     consent_count: Consent Count
     copy: Copying
     create: Creating
     create_subform: Creating Subform
     destroy: Deleting
+    detach: Remove attachment
     edit: Editing
     enable_disable_record: Enable / disable
     export: Exporting data for
+    family: Family Record
     flag: Flagging
     flag_records: Flagging
+    gbv_closure_approved: "%{approval_label} approved for"
+    gbv_closure_requested: "%{approval_label} requested for"
+    gbv_closure_rejected: "GBV Closure rejected for"
     graph_data: Viewing graph data
     hide_name:
       protect: Hide Name
       view: View Name
+    import: Import
+    incident_details_from_case: Add Incident to Case from list view
     index: Listing Records
     list: List
     login: Login
@@ -1996,15 +2026,17 @@ en:
       'false': Un-Mark for mobile
       'true': Mark for mobile
     match_record: Matching Record
+    password_reset: Password reset
     permitted_field_list: Permitted field list
     quick_view: Viewing Quick View
     reassign: Assigning
     resources:
       audit_log: Audit log
       user: User
+      flag: Flag
       agency: Agency
       user_group: User group
-      child: Child
+      child: Case
       alert: Alert
       form_section: Form
       lookup: Lookup
@@ -2020,12 +2052,19 @@ en:
       primero_configuration: Primero configuration
       code_of_conduct: Code of conduct
       task: Task
+      tracing_request: Tracing Request
+      managed_report: Insights
     record_state:
       'false': Disabling
       'true': Enabling
     refer: Refer
+    refer_accepted: Refer accepted
     refer_to: Search for Referral recipient
     referral: Referring
+    refer_revoke: Revoke referral
+    refer_rejected: Reject referral
+    refer_accpeted: Accept referral
+    refer_done: Mark referral as done
     relinquish_referral: Relinquish referral Done
     reopen: Reopen
     reopen_case: Reopening
@@ -2041,12 +2080,19 @@ en:
     search: API Search
     show: Viewing
     show_alerts: View alerts for
+    timestamp: Timestamp
     to: to
     to_user: to user
+    traces: View traces
     transfer: Transfering
+    transfer_to: List users for record transfer
     transfer_status:
       Accepted: Accepted Transfer
       Rejected: Rejected Transfer
+    transfer_accepted: Accept transfer
+    transfer_rejected: Reject transfer
+    transfer_request: Request transfer
+    transfer_revoked: Revoke transfer
     unflag: Unflagging
     update: Updating
   login:
@@ -4272,6 +4318,7 @@ en:
   record_panel:
     record_information: Record Information
   referral:
+    allow_all: Allow access to all available forms
     type_of_recipient: Type of Recipient
     type_of_referral_required: Type of Referral is required
     referral_authorization_label:  Would you like to specify a Type of Referral?

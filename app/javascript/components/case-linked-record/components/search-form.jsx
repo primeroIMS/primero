@@ -11,7 +11,7 @@ import Form, { FieldRecord, FormSectionRecord, SELECT_FIELD } from "../../form";
 import { useI18n } from "../../i18n";
 import css from "../../record-form/form/subforms/styles.css";
 import { FORM_ID, REGISTRY_LOCATION_CURRENT, SEARCH_BY } from "../constants";
-import { buildValidation } from "../utils";
+import { buildSearchParams, buildValidation } from "../utils";
 
 function Component({
   fields,
@@ -20,6 +20,7 @@ function Component({
   locale,
   noForm = false,
   permissions,
+  phoneticFieldNames = [],
   redirectIfNotAllowed,
   setComponent,
   setDrawerTitle,
@@ -38,7 +39,9 @@ function Component({
 
   const handleSearch = async data => {
     // eslint-disable-next-line camelcase
-    const { search_by, ...searchParams } = data;
+    const { search_by, ...params } = data;
+
+    const searchParams = buildSearchParams(params, phoneticFieldNames);
 
     await setSearchParams({ ...searchParams, record_state: true });
     setComponent(1);
@@ -109,6 +112,7 @@ Component.propTypes = {
   locale: PropTypes.string.isRequired,
   noForm: PropTypes.bool,
   permissions: PropTypes.object.isRequired,
+  phoneticFieldNames: PropTypes.array.isRequired,
   redirectIfNotAllowed: PropTypes.func.isRequired,
   setComponent: PropTypes.func.isRequired,
   setDrawerTitle: PropTypes.func.isRequired,
