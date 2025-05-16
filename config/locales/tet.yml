@@ -761,7 +761,6 @@ tet:
     transfer_request_subject: Pedidu Transferensia ba ita nia kazu ida
     transfer_request: 'Utilizador Primero%{user}hosi%{agency}hato''o pedidu ba ita katak na''in ba transferensia husi %{record_type}rejistu %{record_id}atu nun''e sira be''e fornese %{record_type}jestaun servisu ba individu ne''e iha sira nia area. Bainhira ita simu transferensia ne''e, favór hanehan iha %{record_type}ligasaun ID iha email atu loke %{record_type}iha Primero no hahu halo transferensia.'
     approval_request_html: 'Utilizador <strong>%{user}</strong>hato''o pedidu aprovasaun ba <strong>%{approval_type}</strong>ba kazu <strong>%{case_id}</strong>.'
-    approval_response_html: '<strong>%{user}</strong>iha<strong>%{status}</strong>pedidu aprovasaun ba <strong>%{approval_type}</strong> a kazu <strong>%{case_id}</strong>.'
     alert_subject: '%{record_type}:%{id}-%{form_name}Atualiza ona'
   webpush_notification:
     action_label: Ba Kazu
@@ -1745,7 +1744,6 @@ tet:
       user: Utilizador
       agency: Ajénsia
       user_group: Grupu Utilizador
-      child: Labarik
       alert: Alerta
       form_section: Formuláriu
       lookup: Peskiza

@@ -3,9 +3,26 @@ it:
   'false': 'No '
   accepted: 'Accettato '
   cancel: 'Cancella '
-  connection_lost: 'Modalita'' offline '
+  connection_lost: 'Modalità offline '
   connected: Connesso
-  no_connection: no concessione
+  no_connection: Nessuna connessione
+  description: Descrizione
+  minimum_reportable_fields: "Campi minimi obbligatori %{record_type}"
+  name: Nome
+  offline: Offline
+  field_mode_on: "On"
+  field_mode_off: "Off"
+  unavailable_offline: Non disponibile offline
+  online: Online
+  yes_label: 'Si'
+  or_label: o,
+  select_provider: Seleziona il fornitore
+  select_language: Seleziona la lingua
+  offline_submitted_changes: Attualmente sei offline. Le modifiche verranno inviate non appena tornerai online.
+  updated: Aggiornato
+  actions:
+    button: Azioni
+    close: Chiuso
   cases:
     filter_by:
       date: data

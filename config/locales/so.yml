@@ -793,7 +793,6 @@ so:
     transfer_request_subject: 'Codsi wareejin ah ayaa nooga yimi mid ka mid ah kiisaskaagii '
     transfer_request: 'isticmaalaha ama userka Primero %{user} ee ka socda %{agency} wuxuu codsanaysaa inaad ku wareejiso masuuliyada diiwaanka xogtan %{record_type}%{record_id}  sidaas darteed waxay adeeg ku siin karaan halka ay joogaan %{record_type}.  Haddii ay wareejintu macquul kuu tahay adiga, fadlan taabo  %{record_type} sumada linkiga  Emailkan si aad u furto %{record_type} ee Primero una bilowdo wareejinta.'
     approval_request_html: 'Laanta  <strong>%{user}</strong>waxay codsanaysaa <strong>%{approval_type}</strong>in loo ansixiyo kiiska<strong>%{case_id}</strong>'
-    approval_response_html: '<strong>%{user}</strong>Waxaad haysaa<strong>%{status} codsi si loo ansixiyo <strong>%{approval_type}</strong>kiiska<strong>%{case_id}</strong>'
     alert: '%{record_type} %{id}-%{form_name} waa la cusbooneysiiyay. Fadlan gal Primero si aad dib ugu eegto isbedelka.'
     alert_subject: '%{record_type}: %{id} - %{form_name} waa la cusbooneysiiyay.'
   webpush_notification:
@@ -1805,7 +1804,6 @@ so:
       user: Isticmaale
       agency: Wakaalada
       user_group: Kooxda isticmaalaha
-      child: Ilmo
       alert: Digniin
       form_section: Foomka
       lookup: Eeg

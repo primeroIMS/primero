@@ -765,7 +765,6 @@ ne:
     transfer_request_subject: तपाईको एउटा घटनाको लागि स्थानान्तरण अनुरोध
     transfer_request: '%{agency} निकायबाट %{user} प्रीमेरो प्रयोगकर्ताले तपाईबाट यो %{record_type} अभिलेख %{record_id}  को स्वामित्व हस्तान्तरण गर्न अनुरोध गरिरहेको छ ताकि तिनीहरूले आफ्नो क्षेत्रका व्यक्तिका लागि %{record_type} व्यवस्थापन सेवा प्रदान गर्न सकून् । यदि यो स्थानान्तरण तपाईंलाई स्वीकार्य छ भने, कृपया प्रीमेरोमा %{record_type} खोल्न र स्थानान्तरण सुरु गर्न यो इमेल आईडीमा रहेको %{record_type} लिङ्कमा क्लिक गर्नुहोस् ।'
     approval_request_html: 'प्रयोगकर्ता <strong>%{user}</strong> ले <strong>%{approval_type}</strong> को <strong>%{case_id}</strong> घटनामा स्वीकृतिको लागि अनुरोध गरिराख्नुभएको छ ।'
-    approval_response_html: '<strong>%{user}</strong> <strong>%{status}</strong> ले <strong>%{approval_type}</strong> को <strong>%{case_id}</strong> घटनामा स्वीकृतिका लागि अनुरोध गर्नुभएको छ ।'
   encrypt:
     export_type: निर्यातको प्रकार
     file_name: तपाईँको आफ्नै फाइल नाम सिर्जना गर्नुहोस् (वैकल्पिक)
@@ -1706,7 +1705,6 @@ ne:
       user: प्रयोगकर्ता
       agency: निकाय
       user_group: 'प्रयोगकर्ताको समुह '
-      child: 'बालबालिका '
       alert: सतर्कता
       form_section: फारम
       lookup: खोजी

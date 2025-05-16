@@ -778,7 +778,6 @@ pl:
     transfer_request_subject: Prośba o przeniesienie jednej z twoich spraw
     transfer_request: 'Użytkownik Primero %{user} z %{agency} prosi o przeniesienie własności rekordu%{record_type}  %{record_id} w celu świadczenia %{record_type} usługi zarządzania dla osoby w jej/jego obszarze. Jeśli wyrażasz zgodę na to przeniesienie, kliknij link %{record_type} w tej wiadomości email, żeby otworzyć %{record_type} w Primero in rozpocząć przeniesienie. '
     approval_request_html: 'Użytkownik <strong>%{user}</strong> prosi o zatwierdzenie <strong> %{approval_type}</strong> w sprawie<strong>%{case_id}</strong>.'
-    approval_response_html: '<strong>%{user}</strong> ma<strong>%{status}</strong> prośbę o zatwierdzenie <strong>%{approval_type}</strong>w sprawie <strong>%{case_id}</strong>.'
   encrypt:
     export_type: Rodzaj eksportu
     file_name: Utwórz własną nazwę pliku (opcjonalnie)
@@ -1645,7 +1644,6 @@ pl:
       user: Użytkownik
       agency: Agencja
       user_group: Grupa Użytkownika
-      child: Dziecko
       alert: Alert
       form_section: Formularz
       lookup: Wyszukiwanie

@@ -762,7 +762,6 @@ hu:
     transfer_request_subject: Átvitelési kérvényezés az egyik esetéhez
     transfer_request: 'A Primero felhasználója %{user}az %{agency}től, kérvényezi, hogy adja át ennek a rekordnak %{record_type}%{record_id}a tulajdonjogát hogy biztosítani tudják az %{record_type}kezelését a környéken élő személynek. Ha ez az átvitel delfogadható az Ön számára, kérjük, kattintson az ebben az e-mailben található %{record_type} azonosító linkre az %{record_type} megnyitásához  Primero-ban és az átvitel elindításához.'
     approval_request_html: 'A felhasználó <strong>%{user}</strong><strong> %{approval_type} </strong>jóváhagyást kér <strong>%{case_id}</strong>ügyhöz.'
-    approval_response_html: '<strong>%{user}</strong>rendelkezik <strong>%{status}</strong>a jóváhagyási kérelemmel <strong>%{approval_type}</strong>az <strong>%{case_id}</strong> ügyben.'
   encrypt:
     export_type: Az export típusa
     file_name: Saját fájlnév létrehozása (választató)
@@ -1484,7 +1483,6 @@ hu:
       user: Felhasználó
       agency: Ügynökség
       user_group: Felhasználói csoport
-      child: Gyermek
       alert: Figyelmeztetés
       form_section: Formanyomtatvány
       lookup: Keresés

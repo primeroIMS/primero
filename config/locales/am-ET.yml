@@ -1020,7 +1020,6 @@ am-ET:
     transfer_request_subject: ከጉዳዮች መካካል ለዝወወር አንዱን ጉዳይ መጠየቅ
     transfer_request: 'የፕሪሚሮ ተጠቃሚ 1%{user} ከ2%{ኤጀንሲ} የዚህን  የማስተላለፍ የመዝገብ ባለቤትነት  እየጠየቀ ነው 3%{record_type} መዝገብ 4%{record_id}  3%{record_type} አስተዳደር አገልግሎቶችን መስጠት ይችላሉ። ይህ ማስተላለፍ ለእርስዎ ተቀባይነት ያለው ከሆነ፣ እባክዎ በዚህ ኢሜይል ውስጥ 3%{record_type} መታወቂያ አገናኝ ቁልፍ ላይ ይጫኑ 3%{record_type} በ Primero ውስጥ ለመክፈት እና ቅብብሎሸን ለመጀመር።'
     approval_request_html: 'ተጠቃሚዉ 1 %{ተጠቃሚ} 1 ጉዳዩ እንዲያጸድቅ ጠይቃል 2 %{ኬዝ _መለያ} 2  ላይ 3 %{ኬዝ _መለያ} '
-    approval_response_html: '<strong>%{user}</strong> <strong>%{status}</strong> ለማጽደቅ የተጠየቀ  ጉዳዩ <strong>%{approval_type}</strong> ለ <strong>%{case_id}</strong>.'
   webpush_notification:
     approval_response:
       title: የማጽደቅ ምላሽ
@@ -2018,7 +2017,6 @@ am-ET:
       user: ተጠቃሚ
       agency: ተቋም
       user_group: የተጠቃሚ ቡድኖች
-      child: ህጻን
       alert: ማንቂ/ደወል
       form_section: ቅፅ
       lookup: ተመልከት
