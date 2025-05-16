@@ -11,16 +11,27 @@ class Indicators::JsonPivot < Indicators::IndicatorPivot
 
   def select_location_pivot
     ActiveRecord::Base.sanitize_sql_array(
-      [
-        %(
-          (
-            SELECT LOWER(CAST(SUBPATH(locations.hierarchy_path, :admin_level, 1) AS VARCHAR)) FROM locations
-            WHERE location_code = data->>:field_name AND NLEVEL(hierarchy_path) > :admin_level
-          ) AS pivot:index
-        ), { admin_level:, index:, field_name: }
-      ]
+      [%(reporting_locations.reporting_location_code AS pivot:index), { index: }]
     )
   end
+
+  # rubocop:disable Metrics/MethodLength
+  def join_location_pivot(indicator_query)
+    indicator_query.joins(
+      ActiveRecord::Base.sanitize_sql_array(
+        [
+          %(CROSS JOIN LATERAL (
+              SELECT
+                LOWER(CAST(SUBPATH(locations.hierarchy_path, :admin_level, 1) AS VARCHAR)) AS reporting_location_code
+              FROM locations WHERE location_code = data->>:field_name AND NLEVEL(hierarchy_path) > :admin_level
+            ) AS reporting_locations
+          ),
+          { admin_level:, field_name: }
+        ]
+      )
+    )
+  end
+  # rubocop:enable Metrics/MethodLength
 
   def join_multivalue(indicator_query)
     indicator_query.joins(

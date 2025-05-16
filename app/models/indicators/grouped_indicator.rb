@@ -23,9 +23,8 @@ module Indicators
     def build_indicator_pivots
       pivots.map.with_index(1) do |pivot, index|
         if record_model.searchable_field_names.include?(pivot[:field_name])
-          next SearchablePivot.new(
-            pivot.merge(index:, searchable_column_name: record_model.searchable_column_name(pivot[:field_name]))
-          )
+          searchable_column_name = record_model.searchable_column_name(pivot[:field_name])
+          next SearchablePivot.new(pivot.merge(index:, searchable_column_name:))
         end
 
         JsonPivot.new(pivot.merge(index:))
@@ -55,6 +54,7 @@ module Indicators
     def join_and_constraint_pivots(indicator_query, managed_user_names)
       indicator_pivots.each do |pivot|
         indicator_query = pivot.join_multivalue(indicator_query) if pivot.multivalue?
+        indicator_query = pivot.join_location_pivot(indicator_query) if pivot.location?
         return indicator_query unless pivot.constrained? && managed_user_names.present?
 
         pivot.constraint_values(indicator_query, managed_user_names)

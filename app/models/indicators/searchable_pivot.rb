@@ -13,30 +13,37 @@ class Indicators::SearchablePivot < Indicators::IndicatorPivot
 
   def select_location_pivot
     ActiveRecord::Base.sanitize_sql_array(
-      [
-        %(
-          (
-            SELECT LOWER(CAST(SUBPATH(locations.hierarchy_path, :admin_level, 1) AS VARCHAR)) FROM locations
-            WHERE location_code = #{safe_column_name} AND NLEVEL(hierarchy_path) > :admin_level
-          ) AS pivot:index
-        ), { admin_level:, index: }
-      ]
+      [%(reporting_locations.reporting_location_code AS pivot:index), { index: }]
     )
   end
 
-  def join_multivalue(indicator_query)
+  # rubocop:disable Metrics/MethodLength
+  def join_location_pivot(indicator_query)
     indicator_query.joins(
       ActiveRecord::Base.sanitize_sql_array(
-        ["CROSS JOIN UNNEST(#{safe_column_name}) AS pivot?", index]
+        [
+          %(CROSS JOIN LATERAL (
+              SELECT
+                LOWER(CAST(SUBPATH(locations.hierarchy_path, :admin_level, 1) AS VARCHAR)) AS reporting_location_code
+              FROM locations WHERE location_code = #{safe_column_name} AND NLEVEL(hierarchy_path) > :admin_level
+            ) AS reporting_locations
+          ),
+          { admin_level: }
+        ]
       )
+    )
+  end
+  # rubocop:enable Metrics/MethodLength
+
+  def join_multivalue(indicator_query)
+    indicator_query.joins(
+      ActiveRecord::Base.sanitize_sql_array(["CROSS JOIN UNNEST(#{safe_column_name}) AS pivot?", index])
     )
   end
 
   def constraint_values(indicator_query, managed_user_names)
     if multivalue?
-      return indicator_query.where(
-        ActiveRecord::Base.sanitize_sql_array(['pivot? IN (?)', index, managed_user_names])
-      )
+      return indicator_query.where(ActiveRecord::Base.sanitize_sql_array(['pivot? IN (?)', index, managed_user_names]))
     end
 
     indicator_query.where(

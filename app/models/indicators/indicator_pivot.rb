@@ -12,6 +12,10 @@ class Indicators::IndicatorPivot < ValueObject
     raise NotImplementedError
   end
 
+  def join_location_pivot
+    raise NotImplementedError
+  end
+
   def join_multivalue
     raise NotImplementedError
   end
