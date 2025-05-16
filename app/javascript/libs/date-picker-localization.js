@@ -32,4 +32,12 @@ const localize = i18n => ({
   }
 });
 
+function dayOfWeekFormatter(i18n) {
+  return date => {
+    return i18n.t(`date.abbr_day_names_short.${date.getDay()}`);
+  };
+}
+
 export default localize;
+
+export { dayOfWeekFormatter };

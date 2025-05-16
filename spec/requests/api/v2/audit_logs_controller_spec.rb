@@ -54,7 +54,7 @@ describe Api::V2::AuditLogsController, type: :request do
                                       mobile_id: 'IMEI1', mobile_number: '123-456-7890'
                                     })
     @audit_log_b = AuditLog.create!(user: @user_b, record_type: 'User', record_id: @user_b.id,
-                                    timestamp: '2020-03-03T10:07:26-06:00')
+                                    timestamp: '2020-03-03T10:07:26-06:00', action: 'show')
     @audit_log_c = AuditLog.create!(user: @user_b, action: 'login', record_type: 'User', record_id: @user_b.id,
                                     timestamp: '2020-03-02T10:06:50-06:00', metadata: {
                                       mobile_id: 'IMEI', mobile_number: '123-456-7890'
@@ -78,6 +78,10 @@ describe Api::V2::AuditLogsController, type: :request do
         .to match_array([@audit_log_a.id, @audit_log_b.id, @audit_log_c.id, @audit_log_d.id])
 
       log_a = json['data'].select { |al| al['id'] == @audit_log_a.id }.first
+      log_b = json['data'].find { |al| al['id'] == @audit_log_b.id }
+
+      expect(log_b['display_name']).to eq(@user_b.user_name)
+      expect(log_b['action']).to eq(@audit_log_b.action)
       expect(log_a['action']).to eq('login')
       expect(log_a['log_message']).to eq({ 'prefix' => { 'key' => 'logger.login', 'approval_type' => nil },
                                            'identifier' => "User '#{@user_a.id}'",

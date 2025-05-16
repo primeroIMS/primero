@@ -42,6 +42,9 @@ export const getEnabledAgencies = (state, service) => {
 
 export const selectModules = state => state.getIn([NAMESPACE, "modules"], fromJS([]));
 
+export const selectAuditLogActions = state => state.getIn([NAMESPACE, "auditLog", "actions"], fromJS([]));
+export const selectAuditLogRecordTypes = state => state.getIn([NAMESPACE, "auditLog", "record_types"], fromJS([]));
+
 export const selectLocales = state => state.getIn([NAMESPACE, "primero", "locales"], fromJS([]));
 
 export const selectUserModules = state =>

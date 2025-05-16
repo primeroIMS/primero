@@ -49,6 +49,7 @@ class FormSection < ApplicationRecord
 
   validate :validate_fields_unique_name
   validate :validate_name_format
+  validate :validate_parent_form_changed, on: :update
   validates :name_en, presence: { message: 'errors.models.form_section.presence_of_name' }
   validates :unique_id, presence: true, uniqueness: { message: 'errors.models.form_section.unique_id' }
 
@@ -315,6 +316,12 @@ class FormSection < ApplicationRecord
     return unless field_names.length > field_names.dup.uniq.length
 
     errors.add(:fields, 'errors.models.form_section.unique_field_names')
+  end
+
+  def validate_parent_form_changed
+    return unless will_save_change_to_attribute?(:parent_form)
+
+    errors.add(:parent_form, 'errors.models.form_section.parent_form_change')
   end
 
   private

@@ -5,7 +5,7 @@
 require 'rails_helper'
 
 describe AuditLog do
-  before(:each) { clean_data(AuditLog, User, Role, Agency) }
+  before(:each) { clean_data(AuditLog, User, Role, Agency, Child) }
 
   describe '.display_id' do
     let(:role) do
@@ -55,6 +55,42 @@ describe AuditLog do
 
     it 'return empty when record_type is ManagedReport' do
       expect(audit_log_managed_report.display_id).to be_empty
+    end
+  end
+
+  describe '.enrich_audit_logs' do
+    let!(:user_group) { UserGroup.create!(name: 'Primero CP') }
+    let!(:child) do
+      Child.create!(
+        data: { case_id_display: 'abc123', name: 'Test1', age: 5, sex: 'male' }
+      )
+    end
+
+    let!(:incident) do
+      Incident.create!(
+        data: { short_id: '123xyz', name: 'Test1', age: 5, sex: 'male' }
+      )
+    end
+
+    let(:usergroup_log) do
+      AuditLog.new(record_type: 'UserGroup', record_id: user_group.id)
+    end
+
+    let(:child_log) do
+      AuditLog.new(record_type: 'Child', record_id: child.id)
+    end
+
+    let(:incident_log) do
+      AuditLog.new(record_type: 'Incident', record_id: incident.id)
+    end
+
+    let(:audit_logs) { [usergroup_log, child_log, incident_log] }
+
+    it 'returns enriched data for supported models' do
+      result = AuditLog.enrich_audit_logs(audit_logs)
+
+      expect(result.map(&:record_type)).to match_array(%w[UserGroup Child Incident])
+      expect(result.map(&:display_name)).to match_array(['Primero CP', 'abc123', '123xyz'])
     end
   end
 

@@ -116,7 +116,7 @@ ti:
   form_export:
     label: ቅጥዒ ኣቀማምጣ ኣውፅእ
     include_hidden: ዘይርኣዩ ቅጥዕታትን ዓውድታትን የካትቱ
-    file_name: ናይ ባዕልኻ ፋይል ሽም ፍጠ (Optional)
+    file_name: ናይ ባዕልኻ ፋይል ሽም ፍጠር(ኣማራጺ)
     success_message: 'ፋይል ብዕዉት መንገዲ ተፈጢሩ '
   buttons:
     accept: ተቐበል
@@ -143,7 +143,7 @@ ti:
     continue: ይቐፅሉ
     create_case: ጉዳይ ክፈት
     create_incident: ክስተት ይፍጠሩ
-    create_new_record: ሓድሽ 1% {model} ይፍጠሩ
+    create_new_record: ሓድሽ 1%{መርኣያ} ይፍጠሩ
     delete: ኣጥፍእ
     disable: ዘይሰርሕ
     disable_photo_wall: እቲ  ስእሊ የጥፍእዎ
@@ -466,7 +466,7 @@ ti:
     transfer_accepted: 'ተቐቢለ ዝበል ተተፅዒንካ  ነቲ ጉዳይ ሓላፍነት ወሲድኻ ከምዝመላእኻዮ  የመልክት።ሓደ ጊዜ ተቐቢለ ዝብል  ተተፅዒነኖም ብቐፃሊ ናይቲ ጉዳይ ዝከታተል ብዓል ሞያ ምኳኖም ይፍለጡ። '
     transfer_managed_user_accepted: '''ምቅባል'' እንተ ጠዊቕካ፡ %{transitioned_to} ተሓታቲ ናይዚ ጉዳይ ክኸውን እዩ፤ ''ቅባል'' ምስ ጠወቕካ፡ %{ምስግር_ናብ} ኣብቲ ስርዓት ወናኒ መዝገብ ክኸውን እዩ።'
     transfer_managed_user_rejected: '''ንፀግ'' ብምጥዋቕ 1%{transitioned_to} ኣብዚ እዋን''ዚ ሓላፍነት ናይዚ ጉዳይ ክቕበል ድሉው ከምዘይኮነ ትሕብር ኣለኻ። ነዚ ጉዳይ ትነጽግዎ ዘለኹም ምኽንያት ኣእትዉ፤ ሓንሳብ ''ንፁግt'' ምስ ጠወቕካ %{transitioned_to} ድሕሪ ደጊም ነዚ መዝገብ ጉዳይ ምብጻሕ ኣይክህልዎን እዩ።'
-    transfer_accepted_rejected: ጉዳይ እቲ ህፃን 1% {transitioned_to} ምትሕላፍ /ምዝዋር  ተቐባልነት ኣይረኸበን
+    transfer_accepted_rejected: ጉዳይ እቲ ህፃን 1% {ናብ_ተሰጋጊሩ} ምትሕላፍ /ምዝዋር  ተቐባልነት ኣይረኸበን
     transfer_accepted_success: 'ጉዳይ እቲ ህፃን ምትሕልላፍ  ተቐባልነት ረኺቡ አሎ '
     transfer_reject_reason_label: ናይ ዘይምቅባል ምኸንያት ግለፅ
     transfer_rejected: ተቐበል' ብምጥዋቕ ናይዚ ጉዳይ ሓላፍነት ትቕበል፤ ሓንሳብ â€ ̃ተቐበል' ምስ ጠወቕካ ኣብቲ ስርዓት ወናኒ መዝገብ ክትከውን ኢኻ።
@@ -657,7 +657,6 @@ ti:
     dash_shared_from_my_team: 'ካብ ጉጅለይ ዝበፅሓኒ '
     dash_shared_with_me: ምሳይ ኣካፊሉ።
     dash_shared_with_my_team: ምስ ጉጅለይ ኣካፊለዮ
-    dash_shared_with_my_team_overview: ምስ ጉጅለይ ዝተኻፈለ (ሓፈሻዊ ትሕዝቶ)
     dash_shared_with_others: ምስ ካልኦት ዝካፈል
     dash_national_admin_summary: ናይ ኣማሓዳሪ መጠቓለሊ
     dash_violations_category_verification_status: 'በዝሒ ክስተታት ብሓደ መጠቃለሊ '
@@ -760,15 +759,8 @@ ti:
     shared_from_my_team_pending_transfers: 'ዝተደናጎዩ ዝውውራት '
     shared_from_my_team_referrals: ቅብበላት
     shared_from_my_team_rejected_transfers: 'ዘይቅቡል ዝዉውራት '
-    shared_with_me_new_referrals: ሓደስቲ ቅብብላት
-    shared_with_me_total_referrals: 'ጠቕላላ ቅብብላት '
-    shared_with_me_transfers_awaiting_acceptance: 'ተቐባልነት ዝፅበዩ ዝውውራት '
-    shared_with_my_team_pending_transfers_overview: 'ተቐባልነት ዝፅበዩ ዝውውራት '
     shared_with_my_team_pending_transfers: 'ዝተዘናጉዑ  ዝውውራት '
     shared_with_my_team_referrals: 'ቅብብላት '
-    shared_with_others_pending_transfers: 'ዝተዘናጉዑ ዝውውራት '
-    shared_with_others_referrals: 'ቅብብላት '
-    shared_with_others_rejected_transfers: 'ዘይቅቡል ዝውውራት '
     status_of_cases: ኩነታት ጉዳያት
     system_user: ስርዓት
     total: ድምር
@@ -798,23 +790,13 @@ ti:
   email_notification:
     assign: '%{user} ነዚ ዝስዕብ %{record_type} መዲቡልኩም ኣሎ፡ %{record_id}።'
     assign_subject: '%{record_type}: %{id} - ንዓኻ ተመዲቡ ኣሎ።'
-    approval_request: 'ተጠቃሚ %{user} ኣብ ጉዳይ %{approval_type} %{case_id} ፍቓድ ይሓትት ኣሎ።'
     approval_request_subject: 'ጉዳይ፡ %{id} - ናይ ምጽዳቕ ሕቶ'
-    approval_response: '%{user} ንጉዳይ %{case_id} %{approval_type} ናይ ፍቓድ ሕቶ %{status} ኣለዎ።'
     approval_response_subject: 'ጉዳይ፡ %{id} - መልሲ ምጽዳቕ'
     referral: '%{user} ካብ %{agency} ነዚ ዝስዕብ %{record_type} ናባኻ ሪፈር ገይሩ ኣሎ፡ %{record_id} ን %{service_type}።'
     transfer: '%{user} ነዚ ዝስዕብ %{record_type} ናባኻ ኣሰጋጊሩ ኣሎ፡ %{record_id}። '
     transfer_request_subject: ንሓደ ካብ ጉዳያትካ ናይ ምስግጋር ሕቶ
-    transfer_subject: '%{record_type}: %{id} - ምስግጋር'
-    referral_subject: '%{record_type}: %{id} - ሪፈራል'
     transfer_request: 'ተጠቃሚ ፕራይሜሮ %{user} ካብ %{agency} ዋንነት ናይዚ %{record_type} መዝገብ %{record_id} ከተሰጋግር ይሓትት ኣሎ፣ ምእንቲ ኣብ ከባቢኦም ንዘሎ ውልቀሰብ %{record_type} ናይ ምሕደራ ኣገልግሎት ክህቡ። እዚ ምስግጋር ቅቡል እንተኾይኑ፡ በጃኻ ኣብዚ ኢመይል ኣብ ዘሎ %{record_type} ID ዝብል መላግቦ ጠውቕ እሞ ኣብ ፕሪሜሮ %{record_type} ክትከፍቶን ነቲ ምስግጋር ጀምርን።'
     approval_request_html: 'ተጠቃሚ %{user}1 ኣብ ጉዳይ %{case_id} ን %{approval_type}ፍቓድ ይሓትት ኣሎ።'
-    approval_response_html: '1%{user}1 %{status}2 ናይ ፍቓድ ሕቶ ን3%{approval_type}3 ንጉዳይ 4%{case_id}4 ኣለዎ።'
-    referral_html: '1%{user}1 ካብ %{agency} ነዚ ዝስዕብ %{record_type} ናባኻ ሪፈር ገይሩ ኣሎ፡ 2%{record_id}2 ን %{service_type}።'
-    transfer_html: '1%{ተጠቃሚ}1 ነዚ ዝስዕብ %{መዝገብ_ዓይነት} ኣሰጋጊሩልካ ኣሎ፡ 2%{መዝገብ_መፍለዪይ}2።'
-    assign_html: '1%{user}1 ነዚ ዝስዕብ %{record_type} መዲቡልካ ኣሎ፡ 2%{record_id}2.'
-    transfer_request_html: 'ፕሪሜሮ ተጠቃሚ 1%{user}1 ካብ 1%{agency} ዋንነት ናይዚ 1%{record_type} መዝገብ 2%{record_id}2 ከተሰጋግሩ ይሓትት ኣሎ፣ ምእንቲ ኣብ ከባቢኦም ንዘሎ ውልቀሰብ 3%{record_type} ናይ ምሕደራ ኣገልግሎት ክህቡ። እዚ ዝውውር ቅቡል እንተኾይኑ፡ በጃኹም ኣብዚ ኢመይል ኣብ ዘሎ 4%{record_type} መለለዪ መላግቦ ጠዊቕኩም ኣብ ፕሪሜሮ 3%{record_type} ከፊትኩም ነቲ ምስግጋር ጀምሩዎ።'
-    transfer_request_notes_html: 'ካብቲ ሕቶ ዘቕረበ ውልቀሰብ ዝመጸ መዘኻኸሪታት፡ %{request_transfer_notes}'
     alert: '%{record_type} %{መፍለዪይ} - %{form_name} ተሓዲሱ ኣሎ። ነቲ ለውጢ ንምግምጋም በጃኹም ናብ ፕሪሜሮ እቶ።'
     alert_subject: '%{record_type}: %{id} - %{form_name}መዲሱ'
   webpush_notification:
@@ -1840,7 +1822,6 @@ ti:
       user: ተጠቃሚ
       agency: ትካል
       user_group: ናይ ተጠቃሚ ጉጅለ
-      child: ህፃን
       alert: መንቅሒ
       form_section: ቅጥዒ
       lookup: ኣለሻ
@@ -3754,40 +3735,21 @@ ti:
     welcome_email:
       subject: 'እንቋዕ ናብ%{system} ብደሓን መጻእኩም!'
       greeting: 'እንቋዕ ናብ 1%{system}ብደሓን መጻእኩም!'
-      body_native: 'ከም %{role_name} ተወሰኽካ። ምስ %{host} ስራሕ ንምጅማር ንመምርሒታት ምክትታል በጃኹም %{admin_full_name} (%{admin_email}) ተወከሱ።'
       sso:
         body: 'ከም %{role_name} ተወሲኽካ።'
-        step1: 'ናብ %{host} ብምኻድ %{identity_provider} ጠውቕ።'
-        step2: 'ብ %{identity_provider} ኣካውንትካ %{user_name} እቶ።'
-        step3: 'ኩሉ ግዜ 1%{identity_provider} ኣካውንትካ እትጥቀመሉ ምልክት ቃል ተጠቐም።'
-        footer: 'ንተወሳኺ ዕድል %{re} (%{admin_email}) ተወከሱ።'
       otp:
         body: 'ከም %{role_name} ተወሰኽካ።'
-        step1: 'በይዛኻ ርኸቦ %{admin_full_name} ( %{admin_email} ) ርኸብ።'
-        step2: 'ናብ %{host} ብምኻድ ""ብስም ተጠቃሚ ፕሪሜሮ ምእታው" ዝብል ጠውቕ።."።'
-        step3: 'ናይ ምህዞ ስራሕን ግዝያ መምሃሪ %{otp} ሒዝካ እቶ።'
-        step4: 'ምስ ተሓተትካ ፓስዎርድካ ዳግማይ ኣቐምጦ።'
       url_label: ፕሪሜሮ
       enabled_label: ናይ እንቋዕ ደሓን መጻእኩም ኢመይል ስደዱ?
       text_label: ናይ እንቋዕ ደሓን መጻእኩም ኢመይል ጽሑፍ
     password_reset:
       subject: 'መምርሒታት ምልክት ቃል ዳግማይ ምትካል'
-      email_greeting: "ዝኸበርካ %{full_name}"
-      email_body1: "ሓደ ሰብ ንመሕለፊ ቃልካ ን %{host_href} ክትገብሮ ሕቶ ኣቕሪቡ። ንምጅማር ኣብ ታሕቲ ዘሎ url ጠውቑ፤"
-      email_body2: "እዚ መላግቦ ኣብ %{hours} ሰዓታት ክውዳእ እዩ፡ ሓንሳብ ጥራይ ድማ ክጥቀመሉ ይኽእል። በጃኹም ነዚ ኢመይል ዕሽሽ በልዎ፡ ናይ ምልክት ቃል ዳግመ-ምትዕርራይ ሕቶ እንተዘይገይርኩም ወይ ሓድሽ ተጠቃሚ ፕራይሜሮ ብስምኩም እንተዘይተመዝጊቡ። እዚ ኣብ ላዕሊ ዘሎ መላግቦ ግዜኡ እንተ ኣኺሉ፡ በጃኹም %{reset_request_href} ጠውቑ እሞ ዳግማይ ናይ ምልክት ቃል ዳግመ-ምትዕርራይ ሕቶ ኣቕርቡ።"
       email_body_link: ኣብዚ
       request_submitted: "ናይ ፓስዎርድ ዳግመ-ምትዕርራይ ሕቶ ቀሪቡ።"
       success: "ፓስዎርድ ብዓወት ተቐይሩ"
       errors:
         reset_password_token: "ዘይሕጋዊ ናይ ምልክት ቃል ዳግመ-ምትዕርራይ ምልክት"
         password_confirmation: "ፓስዎርድታት ክሰማምዑ ኣለዎም።"
-    onboard_email:
-      subject: "Onboarding to %{system}"
-      greeting: "ክቡር%{full_name},"
-      body1: "እንቋዕ ናብ ፕሪሜሮ ብደሓን መጻእኩም!"
-      body2: "ን%{host_href} ከም መተግበሪ ኣመሓዳሪ ተመዲብካ ኣለኻ። %{reset_notification}"
-      body2_reset_notification: "ተወሳኺ ኢመይል ክመጸካ እዩ፡ ፓስዎርድካ ዳግማይ ክትሰርዖ ዝሕብር።"
-      body3: "ውሑስን እዋናውን ኣተገባብራ ናይ ምርግጋጽ ሓላፍነት ኣለካ። ንነፍሲ ወከፍ ምዝርጋሕ፡ ትልሚ ኣተገባብራ ምስ ናይ ምእታውን ናይ ተጠቃሚ ምሕደራ ስትራተጂን ናይ ሓበሬታ ምክፋል ፕሮቶኮልን ክትውድእ ነይሩካ። ብተወሳኺ ንኹለን ናይ ተጠቀምቲ ትካላት ዝተፈረመ ውዕል ኣጠቓቕማ ኣብ ፋይል ከምዘሎ ናይ ምርግጋጽ ሓላፍነት ኣለካ።"
   user_group:
     associated_agencies: ምስዚ ጉጅለ ተጠቃሚ ዝተኣሳሰሩ ትካላት
     description: መግለፂ

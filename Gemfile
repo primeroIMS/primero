@@ -3,7 +3,7 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 source 'https://rubygems.org'
-ruby '3.3.7'
+ruby '3.3.8'
 
 gem 'activerecord-nulldb-adapter'      # Running Rake tasks at build time before DB is set up. TODO: Still needed?
 gem 'activerecord-session_store', '~> 2.0'

@@ -106,7 +106,7 @@ module Alertable
 
   def remove_alert(type = nil)
     alerts.each do |alert|
-      next unless (type.present? && alert.type == type) &&
+      next unless type.present? && alert.type == type &&
                   [NEW_FORM, FIELD_CHANGE, TRANSFER_REQUEST].include?(alert.alert_for)
 
       alert.destroy

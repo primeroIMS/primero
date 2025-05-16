@@ -733,7 +733,6 @@ pt-BR:
     transfer_request_subject: 'Solicitação de Transferência para um de seus casos '
     transfer_request: 'Usuário Primero %{user} da %{agency} está solicitando que você transfira a propriedade deste %{record_type} registro %{record_id} para que eles possam fornecer serviços de gerenciamento de %{record_type} para o indivíduo em sua área. Se esta transferência for aceitável para você, por favor clique no link da ID do %{record_type} neste email para abrir o %{record_type} no Primero e iniciar a transferência. '
     approval_request_html: 'O usuário <strong>%{user}</strong> está solicitando aprovação para <strong>%{approval_type}</strong> no caso <strong>%{case_id}</strong>.'
-    approval_response_html: '<strong>%{user}</strong> tem <strong>%{status}</strong> a solicitação de aprovação para <strong>%{approval_type}</strong> para o caso <strong>%{case_id}</strong>.'
   encrypt:
     export_type: Tipo de exportação
     file_name: Crie seu próprio nome de arquivo (Opcional)
@@ -1537,7 +1536,6 @@ pt-BR:
       user: Usuário
       agency: Agência
       user_group: Grupo de Usuário
-      child: Criança
       alert: Alerta
       form_section: Formulário
       lookup: Pesquisa

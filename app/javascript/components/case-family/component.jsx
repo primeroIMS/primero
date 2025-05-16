@@ -37,6 +37,7 @@ function Component({ handleToggleNav, mobileDisplay, mode, primeroModule, record
       showSelectButton={linkFamilyRecord && !mode.isShow}
       permissions={{ linkFamilyRecord, viewFamilyRecord }}
       isPermitted={linkFamilyRecord || viewFamilyRecord}
+      phoneticFieldNames={[FAMILY_NAME]}
     />
   );
 }
