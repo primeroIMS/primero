@@ -123,6 +123,7 @@ const DB = {
         // eslint-disable-next-line no-loop-func
         results.push(...fuzzyResults.flatMap(result => [{ ...result, data }]));
       }
+      // eslint-disable-next-line no-await-in-loop
       cursor = await cursor.continue();
     }
 
@@ -151,6 +152,7 @@ const DB = {
 
     while (cursor && resultCount < limit) {
       results.push(cursor.value);
+      // eslint-disable-next-line no-await-in-loop
       cursor = await cursor.continue();
       // eslint-disable-next-line no-plusplus
       resultCount++;
@@ -219,6 +221,7 @@ const DB = {
 
   async asyncForEach(array, callback) {
     for (let index = 0; index < array.length; index += 1) {
+      // eslint-disable-next-line no-await-in-loop
       await callback(array[index], index, array);
     }
   },
