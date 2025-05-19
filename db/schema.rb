@@ -177,6 +177,7 @@ ActiveRecord::Schema.define(version: 2025_05_12_000000) do
     t.integer "srch_closure_problems_severity_int"
     t.boolean "srch_begin_safety_plan_prompt", default: false
     t.string "srch_disability_status_yes_no"
+    t.string "srch_assigned_user_names", default: [], array: true
     t.string "srch_owned_by_groups", default: [], array: true
     t.string "srch_associated_user_agencies", default: [], array: true
     t.string "srch_associated_user_names", default: [], array: true
@@ -333,6 +334,9 @@ ActiveRecord::Schema.define(version: 2025_05_12_000000) do
     t.boolean "srch_flagged", default: false
     t.boolean "srch_not_edited_by_owner", default: false
     t.string "srch_family_location_current"
+    t.string "srch_owned_by"
+    t.string "srch_owned_by_agency_id"
+    t.string "srch_assigned_user_names", default: [], array: true
     t.string "srch_owned_by_groups", default: [], array: true
     t.string "srch_associated_user_agencies", default: [], array: true
     t.string "srch_associated_user_names", default: [], array: true
@@ -503,6 +507,7 @@ ActiveRecord::Schema.define(version: 2025_05_12_000000) do
     t.boolean "srch_not_edited_by_owner", default: false
     t.string "srch_status"
     t.integer "srch_age"
+    t.string "srch_assigned_user_names", default: [], array: true
     t.string "srch_owned_by_groups", default: [], array: true
     t.string "srch_transferred_to_users", default: [], array: true
     t.string "srch_transferred_to_user_groups", default: [], array: true
@@ -640,6 +645,9 @@ ActiveRecord::Schema.define(version: 2025_05_12_000000) do
     t.boolean "srch_record_state", default: false
     t.string "srch_location_current"
     t.boolean "srch_not_edited_by_owner", default: false
+    t.string "srch_owned_by"
+    t.string "srch_owned_by_agency_id"
+    t.string "srch_assigned_user_names", default: [], array: true
     t.string "srch_owned_by_groups", default: [], array: true
     t.string "srch_associated_user_agencies", default: [], array: true
     t.string "srch_associated_user_names", default: [], array: true
@@ -785,6 +793,9 @@ ActiveRecord::Schema.define(version: 2025_05_12_000000) do
     t.boolean "srch_record_state", default: false
     t.boolean "srch_flagged", default: false
     t.boolean "srch_not_edited_by_owner", default: false
+    t.string "srch_owned_by"
+    t.string "srch_owned_by_agency_id"
+    t.string "srch_assigned_user_names", default: [], array: true
     t.string "srch_owned_by_groups", default: [], array: true
     t.string "srch_associated_user_agencies", default: [], array: true
     t.string "srch_associated_user_names", default: [], array: true
