@@ -13,7 +13,7 @@
     "dev": "node --trace-deprecation ./node_modules/.bin/webpack-dev-server --config webpack/index.js",
     "dev:debug": "NODE_ENV=profile npm run dev",
     "test:coverage": "NODE_ENV=test nyc --nycrc-path './.nycrc.yml' npm run test",
-    "test": "TZ=UTC NODE_ENV=test NODE_OPTIONS='--max-old-space-size=6144' jest --no-compilation-cache --clearMocks --forceExit",
+    "test": "TZ=UTC NODE_ENV=test NODE_OPTIONS='--max-old-space-size=6144' jest --no-compilation-cache --clearMocks --forceExit --detectOpenHandles",
     "test:profile": "NODE_ENV=test NODE_OPTIONS='--max-old-space-size=6144' node --no-compilation-cache --expose-gc ./node_modules/.bin/jest --runInBand --logHeapUsage --detectOpenHandles",
     "test:debug": "npm run test:profile -- --inspect-brk",
     "jscpd": "npm run jscpd:run 'app/javascript/**'",
