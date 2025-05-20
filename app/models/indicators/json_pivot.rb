@@ -3,15 +3,15 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 class Indicators::JsonPivot < Indicators::IndicatorPivot
   def select
-    return ActiveRecord::Base.sanitize_sql_array(['pivot?', index]) if multivalue?
+    return ActiveRecord::Base.sanitize_sql_array(['pivot?', number]) if multivalue?
     return select_location_pivot if location?
 
-    ActiveRecord::Base.sanitize_sql_array(['data->>? AS pivot?', field_name, index])
+    ActiveRecord::Base.sanitize_sql_array(['data->>? AS pivot?', field_name, number])
   end
 
   def select_location_pivot
     ActiveRecord::Base.sanitize_sql_array(
-      [%(reporting_locations.reporting_location_code AS pivot:index), { index: }]
+      [%(reporting_locations.reporting_location_code AS pivot:number), { number: }]
     )
   end
 
@@ -36,7 +36,7 @@ class Indicators::JsonPivot < Indicators::IndicatorPivot
   def join_multivalue(indicator_query)
     indicator_query.joins(
       ActiveRecord::Base.sanitize_sql_array(
-        ['CROSS JOIN JSONB_ARRAY_ELEMENTS_TEXT(data->?) AS pivot?', field_name, index]
+        ['CROSS JOIN JSONB_ARRAY_ELEMENTS_TEXT(data->?) AS pivot?', field_name, number]
       )
     )
   end
@@ -44,7 +44,7 @@ class Indicators::JsonPivot < Indicators::IndicatorPivot
   def constraint_values(indicator_query, managed_user_names)
     if multivalue?
       return indicator_query.where(
-        ActiveRecord::Base.sanitize_sql_array(['pivot? IN (?)', index, managed_user_names])
+        ActiveRecord::Base.sanitize_sql_array(['pivot? IN (?)', number, managed_user_names])
       )
     end
 

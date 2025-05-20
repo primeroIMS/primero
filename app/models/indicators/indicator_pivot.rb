@@ -2,7 +2,8 @@
 
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 class Indicators::IndicatorPivot < ValueObject
-  attr_accessor :field_name, :index, :multivalue, :type, :admin_level, :constrained, :query_param
+  # number: The pivot number, determined by its index position in the indicator definition.
+  attr_accessor :field_name, :number, :multivalue, :type, :admin_level, :constrained, :query_param
 
   def select
     raise NotImplementedError
@@ -25,7 +26,7 @@ class Indicators::IndicatorPivot < ValueObject
   end
 
   def name
-    "pivot#{index}"
+    "pivot#{number}"
   end
 
   def multivalue?

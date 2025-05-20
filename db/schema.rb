@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_05_12_000000) do
+ActiveRecord::Schema.define(version: 2025_05_19_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -177,7 +177,6 @@ ActiveRecord::Schema.define(version: 2025_05_12_000000) do
     t.integer "srch_closure_problems_severity_int"
     t.boolean "srch_begin_safety_plan_prompt", default: false
     t.string "srch_disability_status_yes_no"
-    t.string "srch_assigned_user_names", default: [], array: true
     t.string "srch_owned_by_groups", default: [], array: true
     t.string "srch_associated_user_agencies", default: [], array: true
     t.string "srch_associated_user_names", default: [], array: true
@@ -193,6 +192,7 @@ ActiveRecord::Schema.define(version: 2025_05_12_000000) do
     t.string "srch_protection_concerns", default: [], array: true
     t.string "srch_protection_risks", default: [], array: true
     t.string "srch_next_steps", default: [], array: true
+    t.string "srch_assigned_user_names", default: [], array: true
     t.index "((data ->> 'case_id'::text))", name: "cases_case_id_unique_idx", unique: true
     t.index "((phonetic_data -> 'tokens'::text))", name: "cases_phonetic_tokens_idx", using: :gin
     t.index ["data"], name: "index_cases_on_data", using: :gin
@@ -217,7 +217,7 @@ ActiveRecord::Schema.define(version: 2025_05_12_000000) do
     t.index ["srch_associated_user_agencies", "srch_owned_by", "srch_record_state", "srch_status", "srch_module_id", "srch_workflow"], name: "workflow_dashboard_agency_idx"
     t.index ["srch_associated_user_agencies", "srch_record_state", "srch_status", "srch_not_edited_by_owner"], name: "new_or_updated_dashboard_agency_idx", where: "((srch_record_state IS NOT NULL) AND (srch_record_state = true) AND ((srch_status IS NOT NULL) AND ((srch_status)::text = 'open'::text)) AND ((srch_not_edited_by_owner IS NOT NULL) AND (srch_not_edited_by_owner = true)))"
     t.index ["srch_associated_user_agencies", "srch_record_state", "srch_status", "srch_referred_users", "srch_last_updated_by"], name: "shared_with_me_new_referrals_dashboard_agency_idx"
-    t.index ["srch_associated_user_agencies", "srch_record_state", "srch_status", "srch_referred_users_present", "srch_owned_by"], name: "shared_with_others_referrals_dashboard_agency_idx", where: "((srch_referred_users_present IS NOT NULL) AND (srch_referred_users_present = true))"
+    t.index ["srch_associated_user_agencies", "srch_record_state", "srch_status", "srch_referred_users_present", "srch_owned_by"], name: "shared_with_others_referrals_users_present_dashboard_agency_idx", where: "((srch_referred_users_present IS NOT NULL) AND (srch_referred_users_present = true))"
     t.index ["srch_associated_user_agencies", "srch_record_state", "srch_status", "srch_risk_level"], name: "risk_level_dashboard_agency_idx"
     t.index ["srch_associated_user_agencies", "srch_record_state", "srch_status", "srch_transfer_status", "srch_owned_by"], name: "shared_with_others_transfers_pending_dashboard_agency_idx", where: "((srch_transfer_status IS NOT NULL) AND ((srch_transfer_status)::text = 'in_progress'::text))"
     t.index ["srch_associated_user_agencies", "srch_record_state", "srch_status", "srch_transfer_status", "srch_owned_by"], name: "shared_with_others_transfers_rejected_dashboard_agency_idx", where: "((srch_transfer_status IS NOT NULL) AND ((srch_transfer_status)::text = 'rejected'::text))"
@@ -240,7 +240,7 @@ ActiveRecord::Schema.define(version: 2025_05_12_000000) do
     t.index ["srch_associated_user_groups", "srch_owned_by", "srch_record_state", "srch_status", "srch_module_id", "srch_workflow"], name: "workflow_dashboard_group_idx"
     t.index ["srch_associated_user_groups", "srch_record_state", "srch_status", "srch_not_edited_by_owner"], name: "new_or_updated_dashboard_group_idx", where: "((srch_record_state IS NOT NULL) AND (srch_record_state = true) AND ((srch_status IS NOT NULL) AND ((srch_status)::text = 'open'::text)) AND ((srch_not_edited_by_owner IS NOT NULL) AND (srch_not_edited_by_owner = true)))"
     t.index ["srch_associated_user_groups", "srch_record_state", "srch_status", "srch_referred_users", "srch_last_updated_by"], name: "shared_with_me_new_referrals_dashboard_group_idx"
-    t.index ["srch_associated_user_groups", "srch_record_state", "srch_status", "srch_referred_users_present", "srch_owned_by"], name: "shared_with_others_referrals_dashboard_group_idx", where: "((srch_referred_users_present IS NOT NULL) AND (srch_referred_users_present = true))"
+    t.index ["srch_associated_user_groups", "srch_record_state", "srch_status", "srch_referred_users_present", "srch_owned_by"], name: "shared_with_others_referrals_users_present_dashboard_group_idx", where: "((srch_referred_users_present IS NOT NULL) AND (srch_referred_users_present = true))"
     t.index ["srch_associated_user_groups", "srch_record_state", "srch_status", "srch_risk_level"], name: "risk_level_dashboard_group_idx"
     t.index ["srch_associated_user_groups", "srch_record_state", "srch_status", "srch_transfer_status", "srch_owned_by"], name: "shared_with_others_transfers_pending_dashboard_group_idx", where: "((srch_transfer_status IS NOT NULL) AND ((srch_transfer_status)::text = 'in_progress'::text))"
     t.index ["srch_associated_user_groups", "srch_record_state", "srch_status", "srch_transfer_status", "srch_owned_by"], name: "shared_with_others_transfers_rejected_dashboard_group_idx", where: "((srch_transfer_status IS NOT NULL) AND ((srch_transfer_status)::text = 'rejected'::text))"
@@ -263,7 +263,7 @@ ActiveRecord::Schema.define(version: 2025_05_12_000000) do
     t.index ["srch_associated_user_names", "srch_owned_by", "srch_record_state", "srch_status", "srch_module_id", "srch_workflow"], name: "workflow_dashboard_user_idx"
     t.index ["srch_associated_user_names", "srch_record_state", "srch_status", "srch_not_edited_by_owner"], name: "new_or_updated_dashboard_user_idx", where: "((srch_record_state IS NOT NULL) AND (srch_record_state = true) AND ((srch_status IS NOT NULL) AND ((srch_status)::text = 'open'::text)) AND ((srch_not_edited_by_owner IS NOT NULL) AND (srch_not_edited_by_owner = true)))"
     t.index ["srch_associated_user_names", "srch_record_state", "srch_status", "srch_referred_users", "srch_last_updated_by"], name: "shared_with_me_new_referrals_dashboard_user_idx"
-    t.index ["srch_associated_user_names", "srch_record_state", "srch_status", "srch_referred_users_present", "srch_owned_by"], name: "shared_with_others_referrals_dashboard_user_idx", where: "((srch_referred_users_present IS NOT NULL) AND (srch_referred_users_present = true))"
+    t.index ["srch_associated_user_names", "srch_record_state", "srch_status", "srch_referred_users_present", "srch_owned_by"], name: "shared_with_others_referrals_users_present_dashboard_user_idx", where: "((srch_referred_users_present IS NOT NULL) AND (srch_referred_users_present = true))"
     t.index ["srch_associated_user_names", "srch_record_state", "srch_status", "srch_risk_level"], name: "risk_level_dashboard_user_idx"
     t.index ["srch_associated_user_names", "srch_record_state", "srch_status", "srch_transfer_status", "srch_owned_by"], name: "shared_with_others_transfers_pending_dashboard_user_idx", where: "((srch_transfer_status IS NOT NULL) AND ((srch_transfer_status)::text = 'in_progress'::text))"
     t.index ["srch_associated_user_names", "srch_record_state", "srch_status", "srch_transfer_status", "srch_owned_by"], name: "shared_with_others_transfers_rejected_dashboard_user_idx", where: "((srch_transfer_status IS NOT NULL) AND ((srch_transfer_status)::text = 'rejected'::text))"
@@ -334,13 +334,13 @@ ActiveRecord::Schema.define(version: 2025_05_12_000000) do
     t.boolean "srch_flagged", default: false
     t.boolean "srch_not_edited_by_owner", default: false
     t.string "srch_family_location_current"
-    t.string "srch_owned_by"
-    t.string "srch_owned_by_agency_id"
-    t.string "srch_assigned_user_names", default: [], array: true
     t.string "srch_owned_by_groups", default: [], array: true
     t.string "srch_associated_user_agencies", default: [], array: true
     t.string "srch_associated_user_names", default: [], array: true
     t.string "srch_associated_user_groups", default: [], array: true
+    t.string "srch_owned_by"
+    t.string "srch_owned_by_agency_id"
+    t.string "srch_assigned_user_names", default: [], array: true
     t.index "((phonetic_data -> 'tokens'::text))", name: "families_tokens_idx", using: :gin
     t.index ["data"], name: "index_families_on_data", using: :gin
     t.index ["srch_created_at"], name: "families_created_at_idx"
@@ -507,7 +507,6 @@ ActiveRecord::Schema.define(version: 2025_05_12_000000) do
     t.boolean "srch_not_edited_by_owner", default: false
     t.string "srch_status"
     t.integer "srch_age"
-    t.string "srch_assigned_user_names", default: [], array: true
     t.string "srch_owned_by_groups", default: [], array: true
     t.string "srch_transferred_to_users", default: [], array: true
     t.string "srch_transferred_to_user_groups", default: [], array: true
@@ -516,6 +515,7 @@ ActiveRecord::Schema.define(version: 2025_05_12_000000) do
     t.string "srch_associated_user_groups", default: [], array: true
     t.string "srch_armed_force_group_party_names", default: [], array: true
     t.string "srch_violation_with_verification_status", default: [], array: true
+    t.string "srch_assigned_user_names", default: [], array: true
     t.index "((data ->> 'incident_id'::text))", name: "incidents_incident_id_unique_idx", unique: true
     t.index "((phonetic_data -> 'tokens'::text))", name: "incidents_phonetic_tokens_idx", using: :gin
     t.index ["data"], name: "index_incidents_on_data", using: :gin
@@ -645,13 +645,13 @@ ActiveRecord::Schema.define(version: 2025_05_12_000000) do
     t.boolean "srch_record_state", default: false
     t.string "srch_location_current"
     t.boolean "srch_not_edited_by_owner", default: false
-    t.string "srch_owned_by"
-    t.string "srch_owned_by_agency_id"
-    t.string "srch_assigned_user_names", default: [], array: true
     t.string "srch_owned_by_groups", default: [], array: true
     t.string "srch_associated_user_agencies", default: [], array: true
     t.string "srch_associated_user_names", default: [], array: true
     t.string "srch_associated_user_groups", default: [], array: true
+    t.string "srch_owned_by"
+    t.string "srch_owned_by_agency_id"
+    t.string "srch_assigned_user_names", default: [], array: true
     t.index "((phonetic_data -> 'tokens'::text))", name: "registry_records_phonetic_tokens_idx", using: :gin
     t.index ["data"], name: "index_registry_records_on_data", using: :gin
   end
@@ -793,13 +793,13 @@ ActiveRecord::Schema.define(version: 2025_05_12_000000) do
     t.boolean "srch_record_state", default: false
     t.boolean "srch_flagged", default: false
     t.boolean "srch_not_edited_by_owner", default: false
-    t.string "srch_owned_by"
-    t.string "srch_owned_by_agency_id"
-    t.string "srch_assigned_user_names", default: [], array: true
     t.string "srch_owned_by_groups", default: [], array: true
     t.string "srch_associated_user_agencies", default: [], array: true
     t.string "srch_associated_user_names", default: [], array: true
     t.string "srch_associated_user_groups", default: [], array: true
+    t.string "srch_owned_by"
+    t.string "srch_owned_by_agency_id"
+    t.string "srch_assigned_user_names", default: [], array: true
     t.index "((data ->> 'tracing_request_id'::text))", name: "tracing_requests_tracing_request_id_unique_idx", unique: true
     t.index "((phonetic_data -> 'tokens'::text))", name: "tracing_requests_phonetic_tokens_idx", using: :gin
     t.index ["data"], name: "index_tracing_requests_on_data", using: :gin

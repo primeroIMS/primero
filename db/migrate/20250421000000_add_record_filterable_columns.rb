@@ -38,7 +38,6 @@ class AddRecordFilterableColumns < ActiveRecord::Migration[6.1]
     add_column :cases, :srch_closure_problems_severity_int, :integer
     add_column :cases, :srch_begin_safety_plan_prompt, :boolean, default: false
     add_column :cases, :srch_disability_status_yes_no, :string
-    add_column :cases, :srch_assigned_user_names, :string, array: true, default: []
     add_column :cases, :srch_owned_by_groups, :string, array: true, default: []
     add_column :cases, :srch_associated_user_agencies, :string, array: true, default: []
     add_column :cases, :srch_associated_user_names, :string, array: true, default: []
@@ -66,7 +65,6 @@ class AddRecordFilterableColumns < ActiveRecord::Migration[6.1]
     add_column :incidents, :srch_not_edited_by_owner, :boolean, default: false
     add_column :incidents, :srch_status, :string
     add_column :incidents, :srch_age, :integer
-    add_column :incidents, :srch_assigned_user_names, :string, array: true, default: []
     add_column :incidents, :srch_owned_by_groups, :string, array: true, default: []
     add_column :incidents, :srch_transferred_to_users, :string, array: true, default: []
     add_column :incidents, :srch_transferred_to_user_groups, :string, array: true, default: []
@@ -82,9 +80,6 @@ class AddRecordFilterableColumns < ActiveRecord::Migration[6.1]
     add_column :tracing_requests, :srch_record_state, :boolean, default: false
     add_column :tracing_requests, :srch_flagged, :boolean, default: false
     add_column :tracing_requests, :srch_not_edited_by_owner, :boolean, default: false
-    add_column :tracing_requests, :srch_owned_by, :string
-    add_column :tracing_requests, :srch_owned_by_agency_id, :string
-    add_column :tracing_requests, :srch_assigned_user_names, :string, array: true, default: []
     add_column :tracing_requests, :srch_owned_by_groups, :string, array: true, default: []
     add_column :tracing_requests, :srch_associated_user_agencies, :string, array: true, default: []
     add_column :tracing_requests, :srch_associated_user_names, :string, array: true, default: []
@@ -97,9 +92,6 @@ class AddRecordFilterableColumns < ActiveRecord::Migration[6.1]
     add_column :families, :srch_flagged, :boolean, default: false
     add_column :families, :srch_not_edited_by_owner, :boolean, default: false
     add_column :families, :srch_family_location_current, :string
-    add_column :families, :srch_owned_by, :string
-    add_column :families, :srch_owned_by_agency_id, :string
-    add_column :families, :srch_assigned_user_names, :string, array: true, default: []
     add_column :families, :srch_owned_by_groups, :string, array: true, default: []
     add_column :families, :srch_associated_user_agencies, :string, array: true, default: []
     add_column :families, :srch_associated_user_names, :string, array: true, default: []
@@ -111,9 +103,6 @@ class AddRecordFilterableColumns < ActiveRecord::Migration[6.1]
     add_column :registry_records, :srch_record_state, :boolean, default: false
     add_column :registry_records, :srch_location_current, :string
     add_column :registry_records, :srch_not_edited_by_owner, :boolean, default: false
-    add_column :registry_records, :srch_owned_by, :string
-    add_column :registry_records, :srch_owned_by_agency_id, :string
-    add_column :registry_records, :srch_assigned_user_names, :string, array: true, default: []
     add_column :registry_records, :srch_owned_by_groups, :string, array: true, default: []
     add_column :registry_records, :srch_associated_user_agencies, :string, array: true, default: []
     add_column :registry_records, :srch_associated_user_names, :string, array: true, default: []

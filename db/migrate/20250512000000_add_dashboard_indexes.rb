@@ -61,15 +61,17 @@ class AddDashboardIndexes < ActiveRecord::Migration[6.1]
         pending: "srch_transfer_status IS NOT NULL AND srch_transfer_status = 'in_progress'",
         rejected: "srch_transfer_status IS NOT NULL AND srch_transfer_status = 'rejected'"
       }
+    },
+    referrals: {
+      field_names: %i[srch_record_state srch_status srch_referred_users_present srch_owned_by],
+      where: {
+        users_present: 'srch_referred_users_present IS NOT NULL AND srch_referred_users_present = TRUE'
+      }
     }
-  }
+  }.freeze
 
   SHARED_WITH_ME_NEW_REFERRALS_FIELD_NAMES = %i[
     srch_record_state srch_status srch_referred_users srch_last_updated_by
-  ].freeze
-
-  SHARED_WITH_OTHERS_REFERRALS_FIELD_NAMES = %i[
-    srch_record_state srch_status srch_referred_users_present srch_owned_by
   ].freeze
 
   SHARED_WITH_ME_TRANSFERS_AWAITING_FIELD_NAMES = %i[
@@ -133,19 +135,6 @@ class AddDashboardIndexes < ActiveRecord::Migration[6.1]
     add_index :cases,
               %i[srch_associated_user_agencies] + SHARED_WITH_ME_NEW_REFERRALS_FIELD_NAMES,
               name: 'shared_with_me_new_referrals_dashboard_agency_idx'
-
-    add_index :cases,
-              %i[srch_associated_user_names] + SHARED_WITH_OTHERS_REFERRALS_FIELD_NAMES,
-              name: 'shared_with_others_referrals_dashboard_user_idx',
-              where: 'srch_referred_users_present IS NOT NULL AND srch_referred_users_present = TRUE'
-    add_index :cases,
-              %i[srch_associated_user_groups] + SHARED_WITH_OTHERS_REFERRALS_FIELD_NAMES,
-              name: 'shared_with_others_referrals_dashboard_group_idx',
-              where: 'srch_referred_users_present IS NOT NULL AND srch_referred_users_present = TRUE'
-    add_index :cases,
-              %i[srch_associated_user_agencies] + SHARED_WITH_OTHERS_REFERRALS_FIELD_NAMES,
-              name: 'shared_with_others_referrals_dashboard_agency_idx',
-              where: 'srch_referred_users_present IS NOT NULL AND srch_referred_users_present = TRUE'
 
     add_index :cases,
               %i[srch_associated_user_names] + SHARED_WITH_ME_TRANSFERS_AWAITING_FIELD_NAMES,

@@ -5,15 +5,15 @@ class Indicators::SearchablePivot < Indicators::IndicatorPivot
   attr_accessor :searchable_column_name
 
   def select
-    return ActiveRecord::Base.sanitize_sql_array(['pivot?', index]) if multivalue?
+    return ActiveRecord::Base.sanitize_sql_array(['pivot?', number]) if multivalue?
     return select_location_pivot if location?
 
-    ActiveRecord::Base.sanitize_sql_array(["#{safe_column_name} AS pivot?", index])
+    ActiveRecord::Base.sanitize_sql_array(["#{safe_column_name} AS pivot?", number])
   end
 
   def select_location_pivot
     ActiveRecord::Base.sanitize_sql_array(
-      [%(reporting_locations.reporting_location_code AS pivot:index), { index: }]
+      [%(reporting_locations.reporting_location_code AS pivot:number), { number: }]
     )
   end
 
@@ -37,13 +37,13 @@ class Indicators::SearchablePivot < Indicators::IndicatorPivot
 
   def join_multivalue(indicator_query)
     indicator_query.joins(
-      ActiveRecord::Base.sanitize_sql_array(["CROSS JOIN UNNEST(#{safe_column_name}) AS pivot?", index])
+      ActiveRecord::Base.sanitize_sql_array(["CROSS JOIN UNNEST(#{safe_column_name}) AS pivot?", number])
     )
   end
 
   def constraint_values(indicator_query, managed_user_names)
     if multivalue?
-      return indicator_query.where(ActiveRecord::Base.sanitize_sql_array(['pivot? IN (?)', index, managed_user_names]))
+      return indicator_query.where(ActiveRecord::Base.sanitize_sql_array(['pivot? IN (?)', number, managed_user_names]))
     end
 
     indicator_query.where(

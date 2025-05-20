@@ -24,10 +24,10 @@ module Indicators
       pivots.map.with_index(1) do |pivot, index|
         if record_model.searchable_field_names.include?(pivot[:field_name])
           searchable_column_name = record_model.searchable_column_name(pivot[:field_name])
-          next SearchablePivot.new(pivot.merge(index:, searchable_column_name:))
+          next SearchablePivot.new(pivot.merge(number: index, searchable_column_name:))
         end
 
-        JsonPivot.new(pivot.merge(index:))
+        JsonPivot.new(pivot.merge(number: index))
       end
     end
 

@@ -26,6 +26,7 @@ class SearchFilters::NumericRange < SearchFilters::SearchFilter
     )
   end
 
+  # We are not using this at the moment, but it could be useful when doing aggregates for age groupings
   def searchable_array_query
     ActiveRecord::Base.sanitize_sql_for_conditions(
       ["#{safe_search_column} IS NOT NULL AND INT4RANGE(?, ?, '[]') @> ANY(#{safe_search_column})", from, to]
