@@ -4,6 +4,7 @@ import { RECORD_PATH } from "../../../config";
 import { DB_COLLECTIONS_NAMES } from "../../../db";
 
 import actions from "./actions";
+import { DASHBOARD_GROUP_NAMES } from "./constants";
 
 export const fetchFlags = (recordType, activeOnly = false) => {
   const commonPath = `record_type=${recordType}`;
@@ -15,95 +16,6 @@ export const fetchFlags = (recordType, activeOnly = false) => {
     type: actions.DASHBOARD_FLAGS,
     api: {
       path
-    }
-  };
-};
-
-export const fetchCasesByStatus = () => {
-  return {
-    type: actions.CASES_BY_STATUS,
-    payload: {
-      casesByStatus: {
-        open: "100",
-        closed: "100"
-      }
-    }
-  };
-};
-
-export const fetchCasesByCaseWorker = () => {
-  return {
-    type: actions.CASES_BY_CASE_WORKER,
-    payload: {
-      casesByCaseWorker: [
-        {
-          case_worker: "Case Worker 1",
-          assessment: "2",
-          case_plan: "1",
-          follow_up: "0",
-          services: "1"
-        },
-        {
-          case_worker: "Case Worker 2",
-          assessment: "2",
-          case_plan: "1",
-          follow_up: "0",
-          services: "1"
-        }
-      ]
-    }
-  };
-};
-
-export const fetchCasesRegistration = () => {
-  return {
-    type: actions.CASES_REGISTRATION,
-    payload: {
-      casesRegistration: {
-        jan: 150,
-        feb: 100,
-        mar: 50,
-        apr: 120,
-        may: 200,
-        jun: 100,
-        jul: 80,
-        aug: 50,
-        sep: 120
-      }
-    }
-  };
-};
-
-export const fetchCasesOverview = () => {
-  return {
-    type: actions.CASES_OVERVIEW,
-    payload: {
-      casesOverview: {
-        transfers: 4,
-        waiting: 1,
-        pending: 1,
-        rejected: 1
-      }
-    }
-  };
-};
-
-export const fetchServicesStatus = () => {
-  return {
-    type: actions.SERVICES_STATUS,
-    payload: {
-      services: {
-        caseManagement: [
-          { status: "in_progress", high: 4, medium: 0, low: 1 },
-          { status: "near_deadline", high: 1, medium: 0, low: 0 },
-          { status: "overdue", high: 1, medium: 0, low: 1 }
-        ],
-        screening: [
-          { status: "in_progress", high: 4, medium: 0, low: 1 },
-          { status: "near_deadline", high: 1, medium: 0, low: 0 },
-          { status: "overdue", high: 1, medium: 0, low: 1 }
-        ]
-      }
     }
   };
 };
@@ -122,5 +34,141 @@ export const fetchDashboards = () => ({
     db: {
       collection: DB_COLLECTIONS_NAMES.DASHBOARDS
     }
+  }
+});
+
+export const fetchDashboardOvierview = () => ({
+  type: actions.DASHBOARD_OVERVIEW,
+  api: {
+    path: RECORD_PATH.dashboards,
+    params: { names: DASHBOARD_GROUP_NAMES.overview }
+  }
+});
+
+export const fetchDashboardActionNeeded = () => ({
+  type: actions.DASHBOARD_ACTION_NEEDED,
+  api: {
+    path: RECORD_PATH.dashboards,
+    params: { names: DASHBOARD_GROUP_NAMES.action_needed }
+  }
+});
+
+export const fetchDashboardWorkflow = () => ({
+  type: actions.DASHBOARD_WORKFLOW,
+  api: {
+    path: RECORD_PATH.dashboards,
+    params: { names: DASHBOARD_GROUP_NAMES.workflow }
+  }
+});
+
+export const fetchDashboardApprovals = primeroModules => ({
+  type: actions.DASHBOARD_APPROVALS,
+  api: {
+    path: RECORD_PATH.dashboards,
+    params: {
+      names: DASHBOARD_GROUP_NAMES.approvals.flatMap(approval =>
+        primeroModules.reduce((acc, primeroModule) => {
+          acc.push(`${approval}.${primeroModule}`);
+
+          return acc;
+        }, [])
+      )
+    }
+  }
+});
+
+export const fetchDashboardCasesToAssign = () => ({
+  type: actions.DASHBOARD_CASES_TO_ASSIGN,
+  api: {
+    path: RECORD_PATH.dashboards,
+    params: { names: DASHBOARD_GROUP_NAMES.cases_to_assign }
+  }
+});
+
+export const fetchReferralsTransfers = () => ({
+  type: actions.DASHBOARD_REFERRALS_TRANSFERS,
+  api: {
+    path: RECORD_PATH.dashboards,
+    params: { names: DASHBOARD_GROUP_NAMES.referrals_transfers }
+  }
+});
+
+export const fetchDashboardSharedFromMyTeam = () => ({
+  type: actions.DASHBOARD_SHARED_FROM_MY_TEAM,
+  api: {
+    path: RECORD_PATH.dashboards,
+    params: { names: DASHBOARD_GROUP_NAMES.shared_from_my_team }
+  }
+});
+
+export const fetchDashboardSharedWithMyTeam = () => ({
+  type: actions.DASHBOARD_SHARED_WITH_MY_TEAM,
+  api: {
+    path: RECORD_PATH.dashboards,
+    params: { names: DASHBOARD_GROUP_NAMES.shared_with_my_team }
+  }
+});
+
+export const fetchDashboardOverdueTasks = () => ({
+  type: actions.DASHBOARD_OVERDUE_TASKS,
+  api: {
+    path: RECORD_PATH.dashboards,
+    params: { names: DASHBOARD_GROUP_NAMES.overdue_tasks }
+  }
+});
+
+export const fetchDashboardCasesBySocialWorker = () => ({
+  type: actions.DASHBOARD_CASES_BY_SOCIAL_WORKER,
+  api: {
+    path: RECORD_PATH.dashboards,
+    params: { names: DASHBOARD_GROUP_NAMES.cases_by_social_worker }
+  }
+});
+
+export const fetchDashboardWorkflowTeam = () => ({
+  type: actions.DASHBOARD_WORKFLOW_TEAM,
+  api: {
+    path: RECORD_PATH.dashboards,
+    params: { names: DASHBOARD_GROUP_NAMES.workflow_team }
+  }
+});
+
+export const fetchDashboardReportingLocation = () => ({
+  type: actions.DASHBOARD_REPORTING_LOCATION,
+  api: {
+    path: RECORD_PATH.dashboards,
+    params: { names: DASHBOARD_GROUP_NAMES.reporting_location }
+  }
+});
+
+export const fetchDashboardProtectionConcerns = () => ({
+  type: actions.DASHBOARD_PROTECTION_CONCERNS,
+  api: {
+    path: RECORD_PATH.dashboards,
+    params: { names: DASHBOARD_GROUP_NAMES.protection_concerns }
+  }
+});
+
+export const fetchDashboardViolationsCategoryVerificationStatus = () => ({
+  type: actions.DASHBOARD_VIOLATIONS_CATEGORY_VERIFICATION_STATUS,
+  api: {
+    path: RECORD_PATH.dashboards,
+    params: { names: DASHBOARD_GROUP_NAMES.violations_category_verification_status }
+  }
+});
+
+export const fetchDashboardViolationsCategoryRegion = () => ({
+  type: actions.DASHBOARD_VIOLATIONS_CATEGORY_REGION,
+  api: {
+    path: RECORD_PATH.dashboards,
+    params: { names: DASHBOARD_GROUP_NAMES.violations_category_region }
+  }
+});
+
+export const fetchDashboardPerpetratorArmedForceGroupPartyNames = () => ({
+  type: actions.DASHBOARD_PERPETRATOR_ARMED_FORCE_GROUP_PARTY_NAMES,
+  api: {
+    path: RECORD_PATH.dashboards,
+    params: { names: DASHBOARD_GROUP_NAMES.perpetrator_armed_force_group_party_names }
   }
 });

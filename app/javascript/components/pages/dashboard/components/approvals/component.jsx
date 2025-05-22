@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import PropTypes from "prop-types";
+import { fromJS } from "immutable";
 import { Fragment } from "react";
 
 import Permission, {
@@ -11,7 +11,7 @@ import Permission, {
   DASH_APPROVALS_PENDING
 } from "../../../../permissions";
 import { OptionsBox } from "../../../../dashboard";
-import { DASHBOARD_TYPES } from "../../constants";
+import { DASHBOARD_GROUP, DASHBOARD_TYPES } from "../../constants";
 import { useI18n } from "../../../../i18n";
 import { dashboardType, toApprovalsManager } from "../../utils";
 import {
@@ -24,7 +24,8 @@ import {
   getApprovalsCasePlan,
   getApprovalsClosure,
   getApprovalsActionPlan,
-  getApprovalsGbvClosure
+  getApprovalsGbvClosure,
+  getDashboardsByGroup
 } from "../../selectors";
 import { selectUserModules, useApp } from "../../../../application";
 import { useMemoizedSelector } from "../../../../../libs";
@@ -32,7 +33,7 @@ import css from "../styles.css";
 
 import { NAME } from "./constants";
 
-function Component({ loadingIndicator }) {
+function Component() {
   const i18n = useI18n();
   const { approvalsLabels } = useApp();
 
@@ -53,6 +54,12 @@ function Component({ loadingIndicator }) {
   });
 
   const userModules = useMemoizedSelector(state => selectUserModules(state));
+  const loading = useMemoizedSelector(state =>
+    getDashboardsByGroup(state, DASHBOARD_GROUP.approvals).get("loading", false)
+  );
+  const hasData = useMemoizedSelector(
+    state => !getDashboardsByGroup(state, DASHBOARD_GROUP.approvals).get("data", fromJS([])).isEmpty()
+  );
   const approvalsAssessmentPending = useMemoizedSelector(state => getApprovalsAssessmentPending(state));
   const approvalsCasePlanPending = useMemoizedSelector(state => getApprovalsClosurePending(state));
   const approvalsClosurePending = useMemoizedSelector(state => getApprovalsCasePlanPending(state));
@@ -63,20 +70,6 @@ function Component({ loadingIndicator }) {
   const approvalsClosure = useMemoizedSelector(state => getApprovalsClosure(state));
   const approvalsActionPlan = useMemoizedSelector(state => getApprovalsActionPlan(state));
   const approvalsGbvClosure = useMemoizedSelector(state => getApprovalsGbvClosure(state));
-
-  const approvalsDashHasData = [
-    approvalsAssessmentPending,
-    approvalsCasePlanPending,
-    approvalsClosurePending,
-    approvalsActionPlanPending,
-    approvalsGbvClosurePending,
-    approvalsAssessment,
-    approvalsGbvClosure,
-    approvalsActionPlan,
-    approvalsGbvClosure
-  ].some(selector => {
-    return Boolean(Object.values(selector).some(subSelector => subSelector?.size));
-  });
 
   const renderDashboards = primeroModule => {
     const moduleID = primeroModule.unique_id;
@@ -171,7 +164,7 @@ function Component({ loadingIndicator }) {
 
   return (
     <Permission resources={RESOURCES.dashboards} actions={DASH_APPROVALS}>
-      <OptionsBox title={i18n.t("dashboard.approvals")} hasData={approvalsDashHasData} {...loadingIndicator}>
+      <OptionsBox title={i18n.t("dashboard.approvals")} hasData={hasData && !loading} loading={loading}>
         <div className={css.content}>{userModules.map(userModule => renderDashboards(userModule))}</div>
       </OptionsBox>
     </Permission>
@@ -179,10 +172,5 @@ function Component({ loadingIndicator }) {
 }
 
 Component.displayName = NAME;
-
-Component.propTypes = {
-  loadingIndicator: PropTypes.object,
-  userPermissions: PropTypes.object
-};
 
 export default Component;

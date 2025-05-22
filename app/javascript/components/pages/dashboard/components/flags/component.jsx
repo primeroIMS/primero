@@ -1,6 +1,5 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 
@@ -12,13 +11,18 @@ import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 import { RECORD_PATH } from "../../../../../config";
 import { useMemoizedSelector } from "../../../../../libs";
+import { getLoading } from "../../../../index-table";
+import { getErrors } from "../../../../record-form";
+import NAMESPACE from "../../namespace";
 
 import css from "./styles.css";
 import { NAME } from "./constants";
 
-function Component({ loadingIndicator }) {
+function Component() {
   const i18n = useI18n();
 
+  const loading = useMemoizedSelector(state => getLoading(state, [NAMESPACE, "flags"]));
+  const errors = useMemoizedSelector(state => getErrors(state, [NAMESPACE, "flags"]));
   const flags = useMemoizedSelector(state => getDashboardFlags(state));
 
   const dispatch = useDispatch();
@@ -43,9 +47,10 @@ function Component({ loadingIndicator }) {
       <Permission resources={RESOURCES.dashboards} actions={ACTIONS.DASH_FLAGS}>
         <OptionsBox
           title={i18n.t("dashboard.flagged_cases")}
-          hasData={Boolean(flags.size)}
+          hasData={Boolean(flags.size) && !loading}
           footer={renderSeeAll}
-          {...loadingIndicator}
+          loading={loading}
+          errors={errors}
         >
           <FlagBox flags={flags} />
         </OptionsBox>
@@ -55,9 +60,5 @@ function Component({ loadingIndicator }) {
 }
 
 Component.displayName = NAME;
-
-Component.propTypes = {
-  loadingIndicator: PropTypes.object
-};
 
 export default Component;
