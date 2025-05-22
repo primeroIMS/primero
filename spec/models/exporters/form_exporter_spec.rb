@@ -284,6 +284,48 @@ module Exporters
       end
     end
 
+    context 'when forms have duplicate names' do
+      before do
+        clean_data(Field, FormSection, PrimeroModule)
+        form1 = FormSection.new(
+          name: "cases_test_form", parent_form: 'case', visible: true,
+          order_form_group: 2, order: 0, order_subform: 0, form_group_id: 'form_group1',
+          unique_id: 'basic_identity'
+        )
+        form1.fields << Field.new(
+          name: 'basic_identity_field_1',
+          type: Field::TEXT_FIELD,
+          display_name: 'basic_identity field'
+        )
+        form1.save!
+
+        form2 = FormSection.new(
+          name: 'Cases_test_form', parent_form: 'case', visible: true,
+          order_form_group: 1, order: 0, order_subform: 0, form_group_id: 'form_group2',
+          unique_id: 'cases_test_form_2'
+        )
+        form2.fields << Field.new(
+          name: 'cases_test_form_2_field_2',
+          type: Field::TEXT_FIELD,
+          display_name: 'cases_test_form_2 field'
+        )
+        form2.save!
+
+        create(:primero_module, unique_id: 'primeromodule-cp', name: 'CP', form_sections: [form1, form2])
+
+        exporter = Exporters::FormExporter.new
+        exporter.export
+        @book = Roo::Spreadsheet.open(exporter.file_name)
+
+        @test_xlsx_files << exporter.file_name
+      end
+
+      it 'export sheets with duplicate form names' do
+        expected_sheets = ["Key", "Primero Forms", "Cases_test_form", "cases_test_form1", "lookups"]
+        expect(@book.sheets).to match_array(expected_sheets)
+      end
+    end
+
     context 'when fields has special option_strings_source' do
       before do
         clean_data(Field, FormSection, PrimeroModule)
