@@ -31,6 +31,12 @@ module Normalizeable
     def searchable_field_map
       {}
     end
+
+    def searchable_column_name(field_name)
+      return unless searchable_field_name?(field_name)
+
+      searchable_field_map&.dig(field_name, 'name') || "srch_#{field_name}"
+    end
   end
 
   def save_searchable_fields

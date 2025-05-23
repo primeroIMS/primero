@@ -34,7 +34,7 @@ models.map(&:constantize).each do |model|
 
     searchable_hashes = records.map do |record|
       model.searchable_field_names.each_with_object({}) do |field_name, memo|
-        searchable_column = model.searchable_field_map.dig(field_name, 'name') || "srch_#{field_name}"
+        searchable_column = model.searchable_column_name(field_name)
         memo[searchable_column] = record.data[field_name]
         memo[:id] = record.id
       end

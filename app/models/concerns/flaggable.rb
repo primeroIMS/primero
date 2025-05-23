@@ -45,6 +45,8 @@ module Flaggable
   end
 
   def flag_count
+    return flags.reject(&:removed).size if new_record?
+
     active_flags.size
   end
 

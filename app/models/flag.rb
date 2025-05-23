@@ -13,31 +13,24 @@ class Flag < ApplicationRecord
   # TODO: Rewrite these queries when we start using record_uuid
   scope :join_record, lambda { |record_type|
     joins(
-      ActiveRecord::Base.sanitize_sql(
-        "INNER JOIN #{ActiveRecord::Base.connection.quote_column_name(record_type)} ON \
-        CAST (#{ActiveRecord::Base.connection.quote_column_name(record_type)}.id as varchar) = \
-        CAST (flags.record_id as varchar)"
+      ActiveRecord::Base.sanitize_sql_array(
+        ['INNER JOIN %s ON %s.id = CAST(flags.record_id AS UUID)', record_type, record_type]
       )
     )
   }
 
   scope :by_record_associated_user, lambda { |params|
-    owner_json = params[:owner].to_json
     join_record(params[:type]).where(
-      "data %s '$[*] %s (@.assigned_user_names == %s || @.owned_by == %s)'", '@?', '?', owner_json, owner_json
+      'srch_assigned_user_names && ARRAY[:owner]::VARCHAR[] OR srch_owned_by = :owner', owner: params[:owner]
     )
   }
 
   scope :by_record_associated_groups, lambda { |params|
-    groups = params[:group].map do |group|
-      ActiveRecord::Base.sanitize_sql_for_conditions(['@ == %s', group.to_json])
-    end.join('||')
-
-    join_record(params[:type]).where("data %s '$.associated_user_groups %s (%s)'", '@?', '?', groups)
+    join_record(params[:type]).where('srch_associated_user_groups && ARRAY[?]::VARCHAR[]', params[:group])
   }
 
   scope :by_record_agency, lambda { |params|
-    join_record(params[:type]).where("data %s '$.owned_by_agency_id %s (@ == %s)'", '@?', '?', params[:agency].to_json)
+    join_record(params[:type]).where('srch_owned_by_agency_id = ?', params[:agency])
   }
 
   validates :message, presence: { message: 'errors.models.flags.message' }
