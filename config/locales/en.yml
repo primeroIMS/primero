@@ -3250,6 +3250,12 @@ en:
             explanation: Allows a user to search for and link an existing Family Record to their Case.
               Also allows users to un-link a Family Record from a Case.
             label: Link / Unlink Family Record from Case
+          view_case_relationships:
+            explanation: Allows a user to view a list of all Cases linked to the current Case.
+            label: View linked Cases
+          create_case_relationships:
+            explanation: Allows a user updating their Case to search for another, existing Case and link it to their Case. Also allows users to un-link this second Case from their Case.
+            label: Link/Unlink Case to another Case
         explanation: Represents an individual child, survivor, or other beneficiary.
         label: Case
       dashboard:

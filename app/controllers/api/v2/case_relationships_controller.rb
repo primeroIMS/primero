@@ -5,7 +5,7 @@
 # API endpoint for case relationships
 class Api::V2::CaseRelationshipsController < Api::V2::RecordResourceController
   def index
-    authorize! :read, @record
+    authorize! :view_case_relationships, @record
     @case_relationships = CaseRelationship.list(@record.id, params[:relationship_type])
     render 'api/v2/case_relationships/index'
   end
@@ -21,7 +21,7 @@ class Api::V2::CaseRelationshipsController < Api::V2::RecordResourceController
   end
 
   def destroy
-    authorize! :remove_case_relationships, @record
+    authorize! :create_case_relationships, @record
     @case_relationship = CaseRelationship.find(params[:id])
     @case_relationship.update(disabled: true)
     @case_relationship.save!

@@ -16,7 +16,7 @@ describe Api::V2::CaseRelationshipsController, type: :request do
       resource: Permission::CASE,
       actions: [
         Permission::READ, Permission::WRITE, Permission::CREATE,
-        Permission::CREATE_CASE_RELATIONSHIPS, Permission::REMOVE_CASE_RELATIONSHIPS
+        Permission::CREATE_CASE_RELATIONSHIPS, Permission::VIEW_CASE_RELATIONSHIPS
       ]
     )
     @role = Role.new(permissions: [@permission_case_relationships], modules: [@primero_module])
