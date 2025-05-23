@@ -128,8 +128,8 @@ module Exporters
           before do
             @admin_actions = []
             @workbook.each_row_streaming { |row| @admin_actions << row[0]&.value if row[1]&.value == '✔' }
-            @permission_actions_translation = @permission_actions_translation << FormSection.first.name
-            @permission_actions_translation = @permission_actions_translation << 'Access only my records or user'
+            @permission_actions_translation <<= FormSection.first.name
+            @permission_actions_translation <<= 'Access only my records or user'
           end
 
           it 'has all of the actions' do
