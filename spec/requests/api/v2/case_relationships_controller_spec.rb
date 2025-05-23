@@ -16,7 +16,7 @@ describe Api::V2::CaseRelationshipsController, type: :request do
       resource: Permission::CASE,
       actions: [
         Permission::READ, Permission::WRITE, Permission::CREATE,
-        Permission::CREATE_CASE_RELATIONSHIPS, Permission::VIEW_CASE_RELATIONSHIPS
+        Permission::UPDATE_CASE_RELATIONSHIPS, Permission::VIEW_CASE_RELATIONSHIPS
       ]
     )
     @role = Role.new(permissions: [@permission_case_relationships], modules: [@primero_module])
@@ -40,19 +40,19 @@ describe Api::V2::CaseRelationshipsController, type: :request do
 
     @case_relationship1 = CaseRelationship.new_case_relationship(primary_case_id: @case1.id,
                                                                  related_case_id: @farmer1.id,
-                                                                 type: 'farmer_on')
+                                                                 relationship_type: 'farmer_on')
     @case_relationship2 = CaseRelationship.new_case_relationship(primary_case_id: @case3.id,
                                                                  related_case_id: @farmer1.id,
-                                                                 type: 'farmer_on')
+                                                                 relationship_type: 'farmer_on')
     @case_relationship3 = CaseRelationship.new_case_relationship(primary_case_id: @farmer2.id,
                                                                  related_case_id: @case2.id,
-                                                                 type: 'farm_for')
+                                                                 relationship_type: 'farm_for')
     @case_relationship4 = CaseRelationship.new_case_relationship(primary_case_id: @farmer2.id,
                                                                  related_case_id: @case4.id,
-                                                                 type: 'farm_for')
+                                                                 relationship_type: 'farm_for')
     @case_relationship5 = CaseRelationship.new_case_relationship(primary_case_id: @farmer2.id,
                                                                  related_case_id: @case3.id,
-                                                                 type: 'farm_for')
+                                                                 relationship_type: 'farm_for')
     @case_relationship5.disabled = true
 
     [@case_relationship1, @case_relationship2, @case_relationship3, @case_relationship4,
@@ -97,6 +97,7 @@ describe Api::V2::CaseRelationshipsController, type: :request do
       post("/api/v2/cases/#{case1.id}/case_relationships", params:)
 
       expect(response).to have_http_status(200)
+      puts json
       expect(json['data']['case_id']).to eq(farmer.id.to_s)
       expect(json['data']['relationship_type']).to eq('farmer_on')
     end

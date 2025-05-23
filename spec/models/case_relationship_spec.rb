@@ -12,24 +12,25 @@ RSpec.describe CaseRelationship, type: :model do
 
   it 'creates a valid relationship' do
     case_relationship = CaseRelationship.new_case_relationship(primary_case_id: @case1.id, related_case_id: @case2.id,
-                                                               type: 'farmer_on')
+                                                               relationship_type: 'farmer_on')
     expect(case_relationship).to be_valid
-    expect(case_relationship.attributes).to include({ 'case_id_1' => @case1.id, 'case_id_2' => @case2.id, 'relationship_type' => 'farmer_on',
+    expect(case_relationship.attributes).to include({ 'case_id_1' => @case1.id, 'case_id_2' => @case2.id,
+                                                      'relationship_type' => 'farmer_on',
                                                       'disabled' => false })
   end
 
   describe '#list' do
     before do
       @case_relationship1 = CaseRelationship.new_case_relationship(primary_case_id: @case1.id, related_case_id: @farmer1.id,
-                                                                   type: 'farmer_on')
+                                                                   relationship_type: 'farmer_on')
       @case_relationship2 = CaseRelationship.new_case_relationship(primary_case_id: @case3.id, related_case_id: @farmer1.id,
-                                                                   type: 'farmer_on')
+                                                                   relationship_type: 'farmer_on')
       @case_relationship3 = CaseRelationship.new_case_relationship(primary_case_id: @farmer2.id, related_case_id: @case2.id,
-                                                                   type: 'farm_for')
+                                                                   relationship_type: 'farm_for')
       @case_relationship4 = CaseRelationship.new_case_relationship(primary_case_id: @farmer2.id, related_case_id: @case4.id,
-                                                                   type: 'farm_for')
+                                                                   relationship_type: 'farm_for')
       @case_relationship5 = CaseRelationship.new_case_relationship(primary_case_id: @farmer2.id, related_case_id: @case3.id,
-                                                                   type: 'farm_for')
+                                                                   relationship_type: 'farm_for')
       @case_relationship5.disabled = true
 
       [@case_relationship1, @case_relationship2, @case_relationship3, @case_relationship4,

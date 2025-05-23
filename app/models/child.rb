@@ -403,9 +403,5 @@ class Child < ApplicationRecord
 
     self.family_number = family_number
   end
-
-  def case_relationships
-    CaseRelationship.list(id)
-  end
 end
 # rubocop:enable Metrics/ClassLength

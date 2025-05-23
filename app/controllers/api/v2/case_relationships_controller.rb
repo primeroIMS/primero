@@ -11,17 +11,17 @@ class Api::V2::CaseRelationshipsController < Api::V2::RecordResourceController
   end
 
   def create
-    authorize! :create_case_relationships, @record
+    authorize! :update_case_relationships, @record
     @case_relationship = CaseRelationship.new_case_relationship(primary_case_id: @record.id,
                                                                 related_case_id: permitted_params[:case_id],
-                                                                type: permitted_params[:relationship_type])
+                                                                relationship_type: permitted_params[:relationship_type])
     @case_relationship.save!
     updates_for_record(@record)
     render 'api/v2/case_relationships/create'
   end
 
   def destroy
-    authorize! :create_case_relationships, @record
+    authorize! :update_case_relationships, @record
     @case_relationship = CaseRelationship.find(params[:id])
     @case_relationship.update(disabled: true)
     @case_relationship.save!

@@ -12,9 +12,11 @@ class CaseRelationship < ApplicationRecord
   validates_presence_of :case_id_1, :case_id_2, :relationship_type
   validate :valid_relationship_type
 
-  scope :list, lambda { |case_id, type|
-    query_field = RELATIONSHIP_MAP[type] ? 'case_id_2' : 'case_id_1'
-    where("#{query_field} = :id", id: case_id).where(disabled: false).order(created_at: :desc)
+  scope :list, lambda { |case_id, relationship_type|
+    query_field = RELATIONSHIP_MAP[relationship_type] ? 'case_id_2' : 'case_id_1'
+    where(query_field => case_id)
+      .where(disabled: false, relationship_type: RELATIONSHIP_MAP[relationship_type] || relationship_type)
+      .order(created_at: :desc)
   }
 
   def valid_relationship_type
@@ -23,12 +25,12 @@ class CaseRelationship < ApplicationRecord
     errors.add(:relationship_type, I18n.t('errors.models.case_relationship.relationship_type'))
   end
 
-  def self.new_case_relationship(primary_case_id:, related_case_id:, type:)
-    mapped_relationship = RELATIONSHIP_MAP[type]
+  def self.new_case_relationship(primary_case_id:, related_case_id:, relationship_type:)
+    mapped_relationship = RELATIONSHIP_MAP[relationship_type]
     new(
       case_id_1: mapped_relationship.present? ? related_case_id : primary_case_id,
       case_id_2: mapped_relationship.present? ? primary_case_id : related_case_id,
-      relationship_type: RELATIONSHIP_MAP[type] || type,
+      relationship_type: mapped_relationship || relationship_type,
       disabled: false
     )
   end
