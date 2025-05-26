@@ -368,11 +368,6 @@ module Exporters
         workbook = Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
         expect(workbook.sheets.size).to eq(2)
         model = @record_with_all_fields.first
-        puts "Expected:"
-        pp expected
-
-        puts "Got:"
-        pp actual
 
         expect(workbook.sheet(0).row(2)).to eq(
           [
@@ -380,7 +375,7 @@ module Exporters
             I18n.l(model.data['date_of_birth']), 'F', 'Ethnicity3', 'andorra', 'divorced_separated', 'refugee',
             'mental_disability', 'separated_child', 'During Flight', 'afternoon', 'garden', 'Guinea', 'Kindia', 'town',
             'sexual_assault', 'type_of_practice_1', 'false', 'forced_conscription', 'non-gbvims-org', 'true', 2,
-            'M and F', 'Yes', 'Age 18-25', 'supervisor_employer', 'Occupation 2', 'police_other_service',
+            'M and F', 'Yes', '18_25', 'supervisor_employer', 'Occupation 2', 'police_other_service',
             'services_already_received_from_another_agency', 'service_provided_by_your_agency',
             'service_not_applicable', 'No', 'service_not_applicable',
             'referral_declined_by_survivor', 'service_not_applicable', 'services_already_received_from_another_agency',
