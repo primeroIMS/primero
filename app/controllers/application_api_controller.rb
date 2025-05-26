@@ -26,6 +26,7 @@ class ApplicationApiController < ActionController::API
   end
 
   def record_id
+    return request.path.split('/')[4] if action_name == 'traces'
     return unless params[:id].is_a?(String)
 
     params[:id]
