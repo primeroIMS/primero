@@ -98,7 +98,8 @@ export const DASHBOARD_GROUP = Object.freeze({
   protection_concerns: "protection_concerns",
   violations_category_verification_status: "violations_category_verification_status",
   violations_category_region: "violations_category_region",
-  perpetrator_armed_force_group_party_names: "perpetrator_armed_force_group_party_names"
+  perpetrator_armed_force_group_party_names: "perpetrator_armed_force_group_party_names",
+  flags: "flags"
 });
 
 export const DASHBOARD_GROUP_NAMES = Object.freeze({

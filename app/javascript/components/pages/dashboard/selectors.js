@@ -150,7 +150,8 @@ export const getSharedFromMyTeam = state =>
 export const getSharedWithMyTeam = state =>
   getDashboardByGroupAndName(state, DASHBOARD_GROUP.shared_with_my_team, DASHBOARD_NAMES.SHARED_WITH_MY_TEAM);
 
-export const getCaseIncidentOverview = state => getDashboardByName(state, DASHBOARD_NAMES.CASE_INCIDENT_OVERVIEW);
+export const getCaseIncidentOverview = state =>
+  getDashboardByGroupAndName(state, DASHBOARD_GROUP.overview, DASHBOARD_NAMES.CASE_INCIDENT_OVERVIEW);
 
 export const getCasesBySocialWorker = state =>
   getDashboardByGroupAndName(state, DASHBOARD_GROUP.cases_by_social_worker, DASHBOARD_NAMES.CASES_BY_SOCIAL_WORKER);

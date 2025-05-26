@@ -11,8 +11,6 @@ const DEFAULT_STATE = Map({});
 
 const reducer = (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
-    case actions.DASHBOARD_FLAGS:
-      return state.set("flags", fromJS(payload));
     case actions.DASHBOARD_OVERVIEW_STARTED:
       return state
         .setIn([DASHBOARD_GROUP.overview, "loading"], true)
@@ -158,7 +156,6 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         .setIn([DASHBOARD_GROUP.reporting_location, "errors"], true);
     case actions.DASHBOARD_REPORTING_LOCATION_FINISHED:
       return state.setIn([DASHBOARD_GROUP.reporting_location, "loading"], false);
-
     case actions.DASHBOARD_PROTECTION_CONCERNS_STARTED:
       return state
         .setIn([DASHBOARD_GROUP.protection_concerns, "loading"], true)
@@ -208,18 +205,18 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
     case actions.DASHBOARD_PERPETRATOR_ARMED_FORCE_GROUP_PARTY_NAMES_FINISHED:
       return state.setIn([DASHBOARD_GROUP.perpetrator_armed_force_group_party_names, "loading"], false);
     case actions.DASHBOARD_FLAGS_STARTED:
-      return state.setIn(["flags", "loading"], fromJS(payload)).setIn(["flags", "errors"], false);
+      return state.setIn([DASHBOARD_GROUP.flags, "loading"], true).setIn([DASHBOARD_GROUP.flags, "errors"], false);
     case actions.DASHBOARD_FLAGS_SUCCESS: {
       const orderedArray = orderBy(payload.data, dateObj => new Date(dateObj[DASHBOARD_FLAGS_SORT_FIELD]), [
         DASHBOARD_FLAGS_SORT_ORDER
       ]);
 
-      return state.setIn(["flags", "data"], fromJS(orderedArray));
+      return state.setIn([DASHBOARD_GROUP.flags, "data"], fromJS(orderedArray));
     }
     case actions.DASHBOARD_FLAGS_FINISHED:
-      return state.setIn(["flags", "loading"], fromJS(payload));
+      return state.setIn([DASHBOARD_GROUP.flags, "loading"], false);
     case actions.DASHBOARD_FLAGS_FAILURE:
-      return state.setIn(["flags", "errors"], true);
+      return state.setIn([DASHBOARD_GROUP.flags, "errors"], true);
     case actions.OPEN_PAGE_ACTIONS:
       return state.set("isOpenPageActions", fromJS(payload));
     case "user/LOGOUT_SUCCESS":

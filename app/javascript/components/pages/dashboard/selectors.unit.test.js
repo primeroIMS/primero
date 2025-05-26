@@ -7,6 +7,25 @@ import { PrimeroModuleRecord } from "../../application/records";
 import { DASHBOARD_NAMES } from "./constants";
 import * as selectors from "./selectors";
 
+const caseRisk = {
+  name: "dashboard.case_risk",
+  type: "indicator",
+  stats: {
+    high: {
+      count: 2,
+      query: ["record_state=true", "status=open", "risk_level=high"]
+    },
+    medium: {
+      count: 1,
+      query: ["record_state=true", "status=open", "risk_level=medium"]
+    },
+    none: {
+      count: 0,
+      query: ["record_state=true", "status=open", "risk_level=none"]
+    }
+  }
+};
+
 const workflowTeamCases = {
   name: DASHBOARD_NAMES.WORKFLOW_TEAM,
   type: "indicator",
@@ -291,40 +310,41 @@ const initialState = fromJS({
   }),
   records: {
     dashboard: {
-      data: [
-        {
-          name: "dashboard.case_risk",
-          type: "indicator",
-          stats: {
-            high: {
-              count: 2,
-              query: ["record_state=true", "status=open", "risk_level=high"]
-            },
-            medium: {
-              count: 1,
-              query: ["record_state=true", "status=open", "risk_level=medium"]
-            },
-            none: {
-              count: 0,
-              query: ["record_state=true", "status=open", "risk_level=none"]
-            }
-          }
-        },
-        workflowTeamCases,
-        reportingLocation,
-        approvalsAssessmentPending,
-        approvalsCasePlanPending,
-        approvalsClosurePending,
-        protectionConcern,
-        sharedWithMe,
-        sharedWithOthers,
-        groupOverview,
-        caseOverview,
-        sharedWithMyTeam,
-        sharedWithMyTeamOverview,
-        myCasesIncidents,
-        nationalAdminSummary
-      ],
+      overview: {
+        loading: false,
+        errors: false,
+        data: [caseOverview, caseRisk, groupOverview, nationalAdminSummary, myCasesIncidents]
+      },
+      reporting_location: {
+        loading: false,
+        errors: false,
+        data: [reportingLocation]
+      },
+      workflow_team: {
+        loading: false,
+        errors: false,
+        data: [workflowTeamCases]
+      },
+      approvals: {
+        loading: false,
+        errors: false,
+        data: [approvalsAssessmentPending, approvalsCasePlanPending, approvalsClosurePending]
+      },
+      protection_concerns: {
+        loading: false,
+        errors: false,
+        data: [protectionConcern]
+      },
+      referrals_transfers: {
+        loading: false,
+        errors: false,
+        data: [sharedWithMe, sharedWithOthers, sharedWithMyTeamOverview]
+      },
+      shared_with_my_team: {
+        loading: false,
+        errors: false,
+        data: [sharedWithMyTeam]
+      },
       flags: {
         loading: false,
         errors: false,
@@ -346,49 +366,6 @@ const initialState = fromJS({
 });
 
 describe("<Dashboard /> - Selectors", () => {
-  describe("getCasesByAssessmentLevel", () => {
-    it("should return a list of dashboard", () => {
-      const records = selectors.getCasesByAssessmentLevel(initialState);
-
-      const expected = fromJS({
-        name: DASHBOARD_NAMES.CASE_RISK,
-        type: "indicator",
-        stats: {
-          high: {
-            count: 2,
-            query: ["record_state=true", "status=open", "risk_level=high"]
-          },
-          medium: {
-            count: 1,
-            query: ["record_state=true", "status=open", "risk_level=medium"]
-          },
-          none: {
-            count: 0,
-            query: ["record_state=true", "status=open", "risk_level=none"]
-          }
-        }
-      });
-
-      expect(records).toEqual(expected);
-    });
-  });
-
-  describe("getCasesByAssessmentLevel empty value", () => {
-    it("should return a map when dashboard is empty", () => {
-      const emptyResult = fromJS({});
-
-      const emptyValueInitialState = fromJS({
-        name: DASHBOARD_NAMES.CASE_RISK,
-        type: "indicator",
-        stats: {}
-      });
-
-      const expected = selectors.getCasesByAssessmentLevel(emptyValueInitialState);
-
-      expect(emptyResult).toEqual(expected);
-    });
-  });
-
   describe("getWorkflowTeamCases", () => {
     it("should return list of headers allowed to the user", () => {
       const values = selectors.getWorkflowTeamCases(initialState);

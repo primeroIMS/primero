@@ -70,7 +70,7 @@ describe("<Dashboard />", () => {
     });
 
     it("should render a <SharedFromMyTeam /> component", () => {
-      expect(screen.queryAllByText(/dashboard.dash_shared_from_my_team/i)).toHaveLength(3);
+      expect(screen.queryAllByText(/dashboard.dash_shared_from_my_team/i)).toHaveLength(1);
     });
 
     it("should render a <WorkflowIndividualCases /> component", () => {
@@ -86,7 +86,7 @@ describe("<Dashboard />", () => {
     });
 
     it("should render a <WorkflowTeamCases /> component", () => {
-      expect(screen.queryAllByText(/dashboard.workflow_team/i)).toHaveLength(3);
+      expect(screen.queryAllByText(/dashboard.workflow_team/i)).toHaveLength(1);
     });
 
     it("should render a <ReportingLocation /> component", () => {
@@ -94,7 +94,7 @@ describe("<Dashboard />", () => {
     });
 
     it("should render a <ProtectionConcern /> component", () => {
-      expect(screen.queryAllByText(/dashboard.protection_concerns/i)).toHaveLength(3);
+      expect(screen.queryAllByText(/dashboard.protection_concerns/i)).toHaveLength(1);
     });
   });
 
