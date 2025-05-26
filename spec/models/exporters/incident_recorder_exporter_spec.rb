@@ -109,156 +109,156 @@ module Exporters
       Location.create!(placename: 'Guinea', type: 'county', location_code: 'GUI')
       Location.create!(placename: 'Kindia', type: 'district', location_code: 'GUI123', hierarchy_path: 'GUI.GUI123')
 
-        incident_c = Incident.create!(
-          data: {
-            age: 14,
-            sex: 'female',
-            status: 'open',
-            owned_by: @user.user_name,
-            religion: 'religion4',
-            short_id: '61246a4',
-            estimated: false,
-            ethnicity: 'ethnicity3',
-            module_id: 'primeromodule-gbv',
-            created_by: 'primero',
-            incident_id: '881d482d-3a36-4e65-8de4-72bd461246a4',
-            nationality: 'nationality2',
-            record_state: true,
-            date_of_birth: '2006-03-02',
-            incident_code: '61246a4',
-            incident_date: '2020-03-01',
-            incidentid_ir: '111-22-ir',
-            survivor_code: '111-222',
-            disability_type: 'mental_disability',
-            maritial_status: 'divorced_separated',
-            consent_reporting: true,
-            country_of_origin: 'andorra',
-            incident_location: 'GUI123',
-            incident_camp_town: 'town',
-            incident_timeofday: 'afternoon',
-            non_gbv_type_notes: 'non',
-            owned_by_agency_id: 1,
-            alleged_perpetrator:
-              [
-                {
-                  age_group: '18_25',
-                  unique_id: '3341413f-15e4-411c-8158-5535e4cf2fae',
-                  perpetrator_sex: 'male',
-                  former_perpetrator: 'true',
-                  perpetrator_ethnicity: 'ethnicity4',
-                  perpetrator_occupation: 'occupation_1',
-                  perpetrator_nationality: 'nationality2',
-                  perpetrator_relationship: 'supervisor_employer'
-                },
-                {
-                  age_group: '18_30',
-                  unique_id: '3341413f-154e-411c-8158-5535e4cf2fae',
-                  perpetrator_sex: 'female',
-                  former_perpetrator: 'true',
-                  primary_perpetrator: 'primary',
-                  perpetrator_ethnicity: 'ethnicity4',
-                  perpetrator_occupation: 'occupation_2',
-                  perpetrator_nationality: 'nationality3',
-                  perpetrator_relationship: 'supervisor_employer'
-                }
-              ],
-            displacement_status: 'refugee',
-            previously_owned_by: 'primero',
-            created_organization: Agency.last.unique_id,
-            date_of_first_report: '2020-03-02',
-            incident_description: 'test account',
-            displacement_incident: 'during_flight',
-            goods_money_exchanged: false,
-            service_referred_from: 'police_other_service',
-            gbv_previous_incidents: true,
-            gbv_reported_elsewhere: 'non-gbvims-org',
-            incident_location_type: 'garden',
-            gbv_sexual_violence_type: 'sexual_assault',
-            service_safehouse_location: 'loc',
-            service_safehouse_provider: 'provider',
-            service_safehouse_referral: 'services_already_received_from_another_agency',
-            service_referred_from_other: 'asdfasdf',
-            harmful_traditional_practice: 'type_of_practice_1',
-            unaccompanied_separated_status: 'separated_child',
-            service_safehouse_referral_notes: 'note',
-            abduction_status_time_of_incident: 'forced_conscription',
-            service_safehouse_appointment_date: '2020-06-23',
-            service_safehouse_appointment_time: 'time',
-            livelihoods_services_subform_section:
-              [
-                {
-                  unique_id: 'cfdbcb5f-02c7-4fd7-b56a-2e453647c5d7',
-                  service_livelihoods_location: 'kmlfdjgr',
-                  service_livelihoods_provider: 'i39',
-                  service_livelihoods_referral: 'service_not_applicable',
-                  service_livelihoods_referral_notes: 'kjfig',
-                  service_livelihoods_appointment_date: '2020-06-14T22:07:00.000Z',
-                  service_livelihoods_appointment_time: 'sdrtyio'
-                }
-              ],
-            health_medical_referral_subform_section:
-              [
-                {
-                  unique_id: 'b569d95b-08f3-4433-8ffd-0cf136f3a6dd',
-                  service_medical_location: 'sdfgt',
-                  service_medical_provider: 'asdf',
-                  service_medical_referral: 'service_provided_by_your_agency',
-                  service_medical_referral_notes: 'd',
-                  service_medical_appointment_date: '2020-06-23T22:06:39.023Z',
-                  service_medical_appointment_time: 'asdf'
-                }
-              ],
-            child_protection_services_subform_section:
-              [
-                {
-                  unique_id: '97e391c7-45cf-4d25-a7f6-e894bb2401e7',
-                  service_protection_location: 'oifgut',
-                  service_protection_provider: 'klwfjir',
-                  service_protection_referral: 'services_already_received_from_another_agency',
-                  service_protection_referral_notes: ',fmdkjjnd;fskj',
-                  service_protection_appointment_date: '2020-06-22T22:07:00.000Z',
-                  service_protection_appointment_time: 'dsfgtoi'
-                }
-              ],
-            legal_assistance_services_subform_section:
-              [
-                {
-                  unique_id: '872fd2ca-57db-42f8-a86a-f994d2558552',
-                  pursue_legal_action: 'false',
-                  service_legal_location: 'kjcviu',
-                  service_legal_provider: 'vkcjbh',
-                  service_legal_referral: 'service_not_applicable',
-                  service_legal_referral_notes: 'jri',
-                  service_legal_appointment_date: '2020-06-20T22:07:09.304Z',
-                  service_legal_appointment_time: 'asdfgh n'
-                }
-              ],
-            psychosocial_counseling_services_subform_section:
-              [
-                {
-                  unique_id: 'bf14784d-42f6-497f-9955-79a555ccf592',
-                  service_psycho_provider: 'rtiu',
-                  service_psycho_referral: 'service_not_applicable',
-                  service_psycho_referral_notes: 'nfbgiu',
-                  service_psycho_appointment_date: '2020-06-02T22:06:00.000Z',
-                  service_psycho_appointment_time: 'asdf',
-                  service_psycho_service_location: 'xcmvn'
-                }
-              ],
-            police_or_other_type_of_security_services_subform_section:
-              [
-                {
-                  unique_id: 'e12082d3-b290-4832-be11-ac3e891c1dfe',
-                  service_police_location: 'igro',
-                  service_police_provider: 'vjkobi04',
-                  service_police_referral: 'referral_declined_by_survivor',
-                  service_police_referral_notes: 'kjsdfgh oiew',
-                  service_police_appointment_date: '2020-06-14T22:07:00.000Z',
-                  service_police_appointment_time: 'errt5y'
-                }
-              ]
-          }
-        )
+      incident_c = Incident.create!(
+        data: {
+          age: 14,
+          sex: 'female',
+          status: 'open',
+          owned_by: @user.user_name,
+          religion: 'religion4',
+          short_id: '61246a4',
+          estimated: false,
+          ethnicity: 'ethnicity3',
+          module_id: 'primeromodule-gbv',
+          created_by: 'primero',
+          incident_id: '881d482d-3a36-4e65-8de4-72bd461246a4',
+          nationality: 'nationality2',
+          record_state: true,
+          date_of_birth: '2006-03-02',
+          incident_code: '61246a4',
+          incident_date: '2020-03-01',
+          incidentid_ir: '111-22-ir',
+          survivor_code: '111-222',
+          disability_type: 'mental_disability',
+          maritial_status: 'divorced_separated',
+          consent_reporting: true,
+          country_of_origin: 'andorra',
+          incident_location: 'GUI123',
+          incident_camp_town: 'town',
+          incident_timeofday: 'afternoon',
+          non_gbv_type_notes: 'non',
+          owned_by_agency_id: 1,
+          alleged_perpetrator:
+            [
+              {
+                age_group: '18_25',
+                unique_id: '3341413f-15e4-411c-8158-5535e4cf2fae',
+                perpetrator_sex: 'male',
+                former_perpetrator: 'true',
+                perpetrator_ethnicity: 'ethnicity4',
+                perpetrator_occupation: 'occupation_1',
+                perpetrator_nationality: 'nationality2',
+                perpetrator_relationship: 'supervisor_employer'
+              },
+              {
+                age_group: '18_30',
+                unique_id: '3341413f-154e-411c-8158-5535e4cf2fae',
+                perpetrator_sex: 'female',
+                former_perpetrator: 'true',
+                primary_perpetrator: 'primary',
+                perpetrator_ethnicity: 'ethnicity4',
+                perpetrator_occupation: 'occupation_2',
+                perpetrator_nationality: 'nationality3',
+                perpetrator_relationship: 'supervisor_employer'
+              }
+            ],
+          displacement_status: 'refugee',
+          previously_owned_by: 'primero',
+          created_organization: Agency.last.unique_id,
+          date_of_first_report: '2020-03-02',
+          incident_description: 'test account',
+          displacement_incident: 'during_flight',
+          goods_money_exchanged: false,
+          service_referred_from: 'police_other_service',
+          gbv_previous_incidents: true,
+          gbv_reported_elsewhere: 'non-gbvims-org',
+          incident_location_type: 'garden',
+          gbv_sexual_violence_type: 'sexual_assault',
+          service_safehouse_location: 'loc',
+          service_safehouse_provider: 'provider',
+          service_safehouse_referral: 'services_already_received_from_another_agency',
+          service_referred_from_other: 'asdfasdf',
+          harmful_traditional_practice: 'type_of_practice_1',
+          unaccompanied_separated_status: 'separated_child',
+          service_safehouse_referral_notes: 'note',
+          abduction_status_time_of_incident: 'forced_conscription',
+          service_safehouse_appointment_date: '2020-06-23',
+          service_safehouse_appointment_time: 'time',
+          livelihoods_services_subform_section:
+            [
+              {
+                unique_id: 'cfdbcb5f-02c7-4fd7-b56a-2e453647c5d7',
+                service_livelihoods_location: 'kmlfdjgr',
+                service_livelihoods_provider: 'i39',
+                service_livelihoods_referral: 'service_not_applicable',
+                service_livelihoods_referral_notes: 'kjfig',
+                service_livelihoods_appointment_date: '2020-06-14T22:07:00.000Z',
+                service_livelihoods_appointment_time: 'sdrtyio'
+              }
+            ],
+          health_medical_referral_subform_section:
+            [
+              {
+                unique_id: 'b569d95b-08f3-4433-8ffd-0cf136f3a6dd',
+                service_medical_location: 'sdfgt',
+                service_medical_provider: 'asdf',
+                service_medical_referral: 'service_provided_by_your_agency',
+                service_medical_referral_notes: 'd',
+                service_medical_appointment_date: '2020-06-23T22:06:39.023Z',
+                service_medical_appointment_time: 'asdf'
+              }
+            ],
+          child_protection_services_subform_section:
+            [
+              {
+                unique_id: '97e391c7-45cf-4d25-a7f6-e894bb2401e7',
+                service_protection_location: 'oifgut',
+                service_protection_provider: 'klwfjir',
+                service_protection_referral: 'services_already_received_from_another_agency',
+                service_protection_referral_notes: ',fmdkjjnd;fskj',
+                service_protection_appointment_date: '2020-06-22T22:07:00.000Z',
+                service_protection_appointment_time: 'dsfgtoi'
+              }
+            ],
+          legal_assistance_services_subform_section:
+            [
+              {
+                unique_id: '872fd2ca-57db-42f8-a86a-f994d2558552',
+                pursue_legal_action: 'false',
+                service_legal_location: 'kjcviu',
+                service_legal_provider: 'vkcjbh',
+                service_legal_referral: 'service_not_applicable',
+                service_legal_referral_notes: 'jri',
+                service_legal_appointment_date: '2020-06-20T22:07:09.304Z',
+                service_legal_appointment_time: 'asdfgh n'
+              }
+            ],
+          psychosocial_counseling_services_subform_section:
+            [
+              {
+                unique_id: 'bf14784d-42f6-497f-9955-79a555ccf592',
+                service_psycho_provider: 'rtiu',
+                service_psycho_referral: 'service_not_applicable',
+                service_psycho_referral_notes: 'nfbgiu',
+                service_psycho_appointment_date: '2020-06-02T22:06:00.000Z',
+                service_psycho_appointment_time: 'asdf',
+                service_psycho_service_location: 'xcmvn'
+              }
+            ],
+          police_or_other_type_of_security_services_subform_section:
+            [
+              {
+                unique_id: 'e12082d3-b290-4832-be11-ac3e891c1dfe',
+                service_police_location: 'igro',
+                service_police_provider: 'vjkobi04',
+                service_police_referral: 'referral_declined_by_survivor',
+                service_police_referral_notes: 'kjsdfgh oiew',
+                service_police_appointment_date: '2020-06-14T22:07:00.000Z',
+                service_police_appointment_time: 'errt5y'
+              }
+            ]
+        }
+      )
       @record_with_all_fields = [incident_c]
     end
 
