@@ -102,7 +102,7 @@ export const DASHBOARD_GROUP = Object.freeze({
   flags: "flags"
 });
 
-export const DASHBOARD_GROUP_NAMES = Object.freeze({
+export const DASHBOARD_NAMES_FOR_GROUP = Object.freeze({
   [DASHBOARD_GROUP.overview]: [
     "case_overview",
     "case_risk",

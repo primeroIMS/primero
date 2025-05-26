@@ -32,26 +32,8 @@ import {
   WorkflowIndividualCases,
   WorkflowTeamCases
 } from "./components";
-import { NAME } from "./constants";
-import {
-  fetchDashboardActionNeeded,
-  fetchDashboardApprovals,
-  fetchDashboardCasesBySocialWorker,
-  fetchDashboardCasesToAssign,
-  fetchDashboardOverdueTasks,
-  fetchDashboardOvierview,
-  fetchDashboardPerpetratorArmedForceGroupPartyNames,
-  fetchDashboardProtectionConcerns,
-  fetchDashboardReportingLocation,
-  fetchDashboardSharedFromMyTeam,
-  fetchDashboardSharedWithMyTeam,
-  fetchDashboardViolationsCategoryRegion,
-  fetchDashboardViolationsCategoryVerificationStatus,
-  fetchDashboardWorkflow,
-  fetchDashboardWorkflowTeam,
-  fetchFlags,
-  fetchReferralsTransfers
-} from "./action-creators";
+import { DASHBOARD_GROUP, NAME } from "./constants";
+import { fetchDashboardApprovals, fetchDashboards, fetchFlags } from "./action-creators";
 import css from "./styles.css";
 import permittedDashboards from "./utils/permitted-dashboards";
 
@@ -151,74 +133,50 @@ function Dashboard() {
   const xlSizeFlags = permittedColumnDashboards.length > 0 ? 3 : 12;
   const mdSizeFlags = permittedColumnDashboards.length > 0 ? 4 : 12;
 
+  const dashboards = [
+    { group: DASHBOARD_GROUP.action_needed, permitted: canSeeActionNeededDashboards },
+    { group: DASHBOARD_GROUP.overview, permitted: canSeeOverviewDashboard },
+    { group: DASHBOARD_GROUP.workflow, permitted: canSeeWorkflowDashboard },
+    {
+      group: DASHBOARD_GROUP.approvals,
+      permitted: canSeeApprovalsDashboard,
+      fetchAction: fetchDashboardApprovals(currentUserModules)
+    },
+    { group: DASHBOARD_GROUP.referrals_transfers, permitted: showReferralsDashboard || showTransferDashboard },
+    { group: DASHBOARD_GROUP.cases_to_assign, permitted: canSeeCasesToAssignDashboard },
+    { group: DASHBOARD_GROUP.shared_from_my_team, permitted: canSeeSharedFromMyTeamDashboard },
+    { group: DASHBOARD_GROUP.shared_with_my_team, permitted: canSeeSharedWithMyTeamDashboard },
+    { group: DASHBOARD_GROUP.overdue_tasks, permitted: canSeeOverdueTasksDashboard },
+    { group: DASHBOARD_GROUP.cases_by_social_worker, permitted: canSeeCasesBySocialWorkerDashboard },
+    { group: DASHBOARD_GROUP.workflow_team, permitted: canSeeWorkflowTeamDashboard },
+    { group: DASHBOARD_GROUP.reporting_location, permitted: canSeeReportingLocationDashboard },
+    { group: DASHBOARD_GROUP.protection_concerns, permitted: canSeeProtectionConcernsDashboard },
+    {
+      group: DASHBOARD_GROUP.violations_category_verification_status,
+      permitted: canSeeViolationsCategoryVerificationStatusDashboard
+    },
+    { group: DASHBOARD_GROUP.violations_category_region, permitted: canSeeViolationsCategoryRegionDashboard },
+    {
+      group: DASHBOARD_GROUP.perpetrator_armed_force_group_party_names,
+      permitted: canSeePerpetratorArmedForceGroupPartyNames
+    },
+    {
+      group: DASHBOARD_GROUP.flags,
+      permitted: canFetchFlags,
+      fetchAction: fetchFlags(RECORD_PATH.cases, true)
+    }
+  ];
+
   useEffect(() => {
-    if (canSeeActionNeededDashboards) {
-      dispatch(fetchDashboardActionNeeded());
-    }
-
-    if (canSeeOverviewDashboard) {
-      dispatch(fetchDashboardOvierview());
-    }
-
-    if (canSeeWorkflowDashboard) {
-      dispatch(fetchDashboardWorkflow());
-    }
-
-    if (canSeeApprovalsDashboard) {
-      dispatch(fetchDashboardApprovals(currentUserModules));
-    }
-
-    if (canSeeReferrals || canSeeTransfers) {
-      dispatch(fetchReferralsTransfers());
-    }
-
-    if (canSeeCasesToAssignDashboard) {
-      dispatch(fetchDashboardCasesToAssign());
-    }
-
-    if (canSeeSharedFromMyTeamDashboard) {
-      dispatch(fetchDashboardSharedFromMyTeam());
-    }
-
-    if (canSeeSharedWithMyTeamDashboard) {
-      dispatch(fetchDashboardSharedWithMyTeam());
-    }
-
-    if (canSeeOverdueTasksDashboard) {
-      dispatch(fetchDashboardOverdueTasks());
-    }
-
-    if (canSeeCasesBySocialWorkerDashboard) {
-      dispatch(fetchDashboardCasesBySocialWorker());
-    }
-
-    if (canSeeWorkflowTeamDashboard) {
-      dispatch(fetchDashboardWorkflowTeam());
-    }
-
-    if (canSeeReportingLocationDashboard) {
-      dispatch(fetchDashboardReportingLocation());
-    }
-
-    if (canSeeProtectionConcernsDashboard) {
-      dispatch(fetchDashboardProtectionConcerns());
-    }
-
-    if (canSeeViolationsCategoryVerificationStatusDashboard) {
-      dispatch(fetchDashboardViolationsCategoryVerificationStatus());
-    }
-
-    if (canSeeViolationsCategoryRegionDashboard) {
-      dispatch(fetchDashboardViolationsCategoryRegion());
-    }
-
-    if (canSeePerpetratorArmedForceGroupPartyNames) {
-      dispatch(fetchDashboardPerpetratorArmedForceGroupPartyNames());
-    }
-
-    if (canFetchFlags) {
-      dispatch(fetchFlags(RECORD_PATH.cases, true));
-    }
+    dashboards.forEach(dashboard => {
+      if (dashboard.permitted) {
+        if (dashboard.fetchAction) {
+          dispatch(dashboard.fetchAction);
+        } else {
+          dispatch(fetchDashboards({ group: dashboard.group }));
+        }
+      }
+    });
   }, []);
 
   return (
