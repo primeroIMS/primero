@@ -215,7 +215,7 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
     def incident_recorder_age_groups
       @incident_recorder_age_groups ||= build_incident_recorder_age_groups
     end
- 
+
     def build_incident_recorder_age_groups
       age_group_label = I18n.t('exports.incident_recorder_xls.age_group.age', **locale_hash)
       base_groups = Lookup.values('lookup-perpetrator-age-group').each_with_object({}) do |entry, hash|
