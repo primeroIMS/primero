@@ -15,38 +15,40 @@ describe("<ProtectionConcern> - pages/dashboard/components/protection-concern", 
   const state = fromJS({
     records: {
       dashboard: {
-        data: [
-          {
-            name: "dashboard.dash_protection_concerns",
-            type: "indicator",
-            indicators: {
-              protection_concerns_open_cases: {
-                statelessness: {
-                  count: 2,
-                  query: []
-                }
-              },
-              protection_concerns_new_this_week: {
-                statelessness: {
-                  count: 1,
-                  query: []
-                }
-              },
-              protection_concerns_all_cases: {
-                statelessness: {
-                  count: 4,
-                  query: []
-                }
-              },
-              protection_concerns_closed_this_week: {
-                statelessness: {
-                  count: 1,
-                  query: []
+        protection_concerns: {
+          data: [
+            {
+              name: "dashboard.dash_protection_concerns",
+              type: "indicator",
+              indicators: {
+                protection_concerns_open_cases: {
+                  statelessness: {
+                    count: 2,
+                    query: []
+                  }
+                },
+                protection_concerns_new_this_week: {
+                  statelessness: {
+                    count: 1,
+                    query: []
+                  }
+                },
+                protection_concerns_all_cases: {
+                  statelessness: {
+                    count: 4,
+                    query: []
+                  }
+                },
+                protection_concerns_closed_this_week: {
+                  statelessness: {
+                    count: 1,
+                    query: []
+                  }
                 }
               }
             }
-          }
-        ]
+          ]
+        }
       }
     },
     user: {
@@ -67,22 +69,10 @@ describe("<ProtectionConcern> - pages/dashboard/components/protection-concern", 
   });
 
   describe("when the data is loading", () => {
-    const props = {
-      loadingIndicator: {
-        overlay: true,
-        type: "NAMESPACE",
-        loading: true,
-        errors: false
-      }
-    };
-
     it("renders a <LoadingIndicator />", () => {
-      mountedComponent(<ProtectionConcern {...props} />, {
+      mountedComponent(<ProtectionConcern />, {
         records: {
-          dashboard: {
-            data: [],
-            loading: true
-          }
+          dashboard: { protection_concerns: { loading: true, data: [], errors: false } }
         },
         user: {
           permissions

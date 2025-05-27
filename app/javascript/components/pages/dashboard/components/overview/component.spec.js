@@ -24,72 +24,78 @@ describe("<Overview> - pages/dashboard/components/overview", () => {
     const state = fromJS({
       records: {
         dashboard: {
-          data: [
-            {
-              name: "dashboard.dash_shared_with_me",
-              type: "indicator",
-              indicators: {
-                shared_with_me_total_referrals: {
-                  count: 0,
-                  query: ["record_state=true", "status=open"]
-                },
-                shared_with_me_new_referrals: {
-                  count: 0,
-                  query: ["record_state=true", "status=open", "not_edited_by_owner=true"]
-                },
-                shared_with_me_transfers_awaiting_acceptance: {
-                  count: 0,
-                  query: ["record_state=true", "status=open"]
+          referral_transfers: {
+            data: [
+              {
+                name: "dashboard.dash_shared_with_me",
+                type: "indicator",
+                indicators: {
+                  shared_with_me_total_referrals: {
+                    count: 0,
+                    query: ["record_state=true", "status=open"]
+                  },
+                  shared_with_me_new_referrals: {
+                    count: 0,
+                    query: ["record_state=true", "status=open", "not_edited_by_owner=true"]
+                  },
+                  shared_with_me_transfers_awaiting_acceptance: {
+                    count: 0,
+                    query: ["record_state=true", "status=open"]
+                  }
+                }
+              },
+              {
+                name: "dashboard.dash_shared_with_others",
+                type: "indicator",
+                indicators: {
+                  shared_with_others_referrals: {
+                    count: 0,
+                    query: ["owned_by=primero_cp", "record_state=true", "status=open", "referred_users_present=true"]
+                  },
+                  shared_with_others_pending_transfers: {
+                    count: 0,
+                    query: ["owned_by=primero_cp", "record_state=true", "status=open", "transfer_status=in_progress"]
+                  },
+                  shared_with_others_rejected_transfers: {
+                    count: 0,
+                    query: ["owned_by=primero_cp", "record_state=true", "status=open", "transfer_status=rejected"]
+                  }
                 }
               }
-            },
-            {
-              name: "dashboard.dash_shared_with_others",
-              type: "indicator",
-              indicators: {
-                shared_with_others_referrals: {
-                  count: 0,
-                  query: ["owned_by=primero_cp", "record_state=true", "status=open", "referred_users_present=true"]
-                },
-                shared_with_others_pending_transfers: {
-                  count: 0,
-                  query: ["owned_by=primero_cp", "record_state=true", "status=open", "transfer_status=in_progress"]
-                },
-                shared_with_others_rejected_transfers: {
-                  count: 0,
-                  query: ["owned_by=primero_cp", "record_state=true", "status=open", "transfer_status=rejected"]
+            ]
+          },
+          overview: {
+            data: [
+              {
+                name: "dashboard.dash_group_overview",
+                type: "indicator",
+                indicators: {
+                  group_overview_open: {
+                    count: 5,
+                    query: ["record_state=true", "status=open"]
+                  },
+                  group_overview_closed: {
+                    count: 0,
+                    query: ["record_state=true", "status=closed"]
+                  }
+                }
+              },
+              {
+                name: "dashboard.case_overview",
+                type: "indicator",
+                indicators: {
+                  open: {
+                    count: 5,
+                    query: ["record_state=true", "status=open"]
+                  },
+                  closed: {
+                    count: 0,
+                    query: ["record_state=true", "status=closed"]
+                  }
                 }
               }
-            },
-            {
-              name: "dashboard.dash_group_overview",
-              type: "indicator",
-              indicators: {
-                group_overview_open: {
-                  count: 5,
-                  query: ["record_state=true", "status=open"]
-                },
-                group_overview_closed: {
-                  count: 0,
-                  query: ["record_state=true", "status=closed"]
-                }
-              }
-            },
-            {
-              name: "dashboard.case_overview",
-              type: "indicator",
-              indicators: {
-                open: {
-                  count: 5,
-                  query: ["record_state=true", "status=open"]
-                },
-                closed: {
-                  count: 0,
-                  query: ["record_state=true", "status=closed"]
-                }
-              }
-            }
-          ]
+            ]
+          }
         }
       },
       user: {
@@ -135,27 +141,10 @@ describe("<Overview> - pages/dashboard/components/overview", () => {
   });
 
   describe("when the data is loading", () => {
-    const loadingProps = {
-      loadingIndicator: {
-        overlay: true,
-        type: "NAMESPACE",
-        loading: true,
-        errors: false
-      },
-      userPermissions: permissions
-    };
-
     it("renders a <LoadingIndicator />", () => {
-      mountedComponent(<Overview {...loadingProps} />, {
-        records: {
-          dashboard: {
-            data: [],
-            loading: true
-          }
-        },
-        user: {
-          permissions
-        }
+      mountedComponent(<Overview />, {
+        records: { dashboard: { overview: { data: [], loading: true, errors: false } } },
+        user: { permissions }
       });
 
       expect(screen.getByRole("progressbar")).toBeInTheDocument();
@@ -167,22 +156,24 @@ describe("<Overview> - pages/dashboard/components/overview", () => {
       mountedComponent(<Overview />, {
         records: {
           dashboard: {
-            data: [
-              {
-                name: "dashboard.case_overview",
-                type: "indicator",
-                indicators: {
-                  open: {
-                    count: 5,
-                    query: ["record_state=true", "status=open"]
-                  },
-                  closed: {
-                    count: 0,
-                    query: ["record_state=true", "status=closed"]
+            overview: {
+              data: [
+                {
+                  name: "dashboard.case_overview",
+                  type: "indicator",
+                  indicators: {
+                    open: {
+                      count: 5,
+                      query: ["record_state=true", "status=open"]
+                    },
+                    closed: {
+                      count: 0,
+                      query: ["record_state=true", "status=closed"]
+                    }
                   }
                 }
-              }
-            ]
+              ]
+            }
           }
         },
         user: {

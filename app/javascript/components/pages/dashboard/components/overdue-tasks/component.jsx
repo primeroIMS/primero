@@ -27,7 +27,7 @@ function Component() {
     getDashboardsByGroup(state, DASHBOARD_GROUP.overdue_tasks).get("loading", false)
   );
   const hasData = useMemoizedSelector(
-    state => !getDashboardsByGroup(state, DASHBOARD_GROUP.overview).get("data", fromJS([])).isEmpty()
+    state => !getDashboardsByGroup(state, DASHBOARD_GROUP.overdue_tasks).get("data", fromJS([])).isEmpty()
   );
   const casesByTaskOverdueAssessment = useMemoizedSelector(state => getCasesByTaskOverdueAssessment(state));
   const casesByTaskOverdueCasePlan = useMemoizedSelector(state => getCasesByTaskOverdueCasePlan(state));

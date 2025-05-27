@@ -14,11 +14,6 @@ describe("<Dashboard /> - index", () => {
       "namespace",
       "reducer",
       "selectFlags",
-      "selectCasesByStatus",
-      "selectCasesByCaseWorker",
-      "selectCasesRegistration",
-      "selectCasesOverview",
-      "selectServicesStatus",
       "selectIsOpenPageActions",
       "fetchDashboards",
       "DASHBOARD_NAMES"

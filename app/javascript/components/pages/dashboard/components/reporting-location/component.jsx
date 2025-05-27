@@ -17,7 +17,7 @@ function Component() {
   const i18n = useI18n();
 
   const loading = useMemoizedSelector(state =>
-    getDashboardsByGroup(state, DASHBOARD_GROUP.reportingLocation).get("loading", false)
+    getDashboardsByGroup(state, DASHBOARD_GROUP.reporting_location).get("loading", false)
   );
   const locations = useMemoizedSelector(state => getLocations(state));
   const reportingLocationConfig = useMemoizedSelector(state => getReportingLocationConfig(state));

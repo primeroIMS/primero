@@ -19,56 +19,58 @@ describe("<OverdueTasks> - pages/dashboard/components/overdue-tasks", () => {
   const state = fromJS({
     records: {
       dashboard: {
-        data: [
-          {
-            name: "dashboard.cases_by_task_overdue_assessment",
-            type: "indicator",
-            indicators: {
-              tasks_overdue_assessment: {
-                primero: {
-                  count: 0,
-                  query: ["record_state=true"]
+        overdue_tasks: {
+          data: [
+            {
+              name: "dashboard.cases_by_task_overdue_assessment",
+              type: "indicator",
+              indicators: {
+                tasks_overdue_assessment: {
+                  primero: {
+                    count: 0,
+                    query: ["record_state=true"]
+                  }
+                }
+              }
+            },
+            {
+              name: "dashboard.cases_by_task_overdue_case_plan",
+              type: "indicator",
+              indicators: {
+                tasks_overdue_case_plan: {
+                  primero: {
+                    count: 0,
+                    query: ["record_state=true"]
+                  }
+                }
+              }
+            },
+            {
+              name: "dashboard.cases_by_task_overdue_services",
+              type: "indicator",
+              indicators: {
+                tasks_overdue_services: {
+                  primero: {
+                    count: 0,
+                    query: ["record_state=true"]
+                  }
+                }
+              }
+            },
+            {
+              name: "dashboard.cases_by_task_overdue_followups",
+              type: "indicator",
+              indicators: {
+                tasks_overdue_followups: {
+                  primero: {
+                    count: 0,
+                    query: ["record_state=true"]
+                  }
                 }
               }
             }
-          },
-          {
-            name: "dashboard.cases_by_task_overdue_case_plan",
-            type: "indicator",
-            indicators: {
-              tasks_overdue_case_plan: {
-                primero: {
-                  count: 0,
-                  query: ["record_state=true"]
-                }
-              }
-            }
-          },
-          {
-            name: "dashboard.cases_by_task_overdue_services",
-            type: "indicator",
-            indicators: {
-              tasks_overdue_services: {
-                primero: {
-                  count: 0,
-                  query: ["record_state=true"]
-                }
-              }
-            }
-          },
-          {
-            name: "dashboard.cases_by_task_overdue_followups",
-            type: "indicator",
-            indicators: {
-              tasks_overdue_followups: {
-                primero: {
-                  count: 0,
-                  query: ["record_state=true"]
-                }
-              }
-            }
-          }
-        ]
+          ]
+        }
       }
     },
     user: {
@@ -112,26 +114,10 @@ describe("<OverdueTasks> - pages/dashboard/components/overdue-tasks", () => {
   });
 
   describe("when the data is loading", () => {
-    const props = {
-      loadingIndicator: {
-        overlay: true,
-        type: "NAMESPACE",
-        loading: true,
-        errors: false
-      }
-    };
-
     it("renders a <LoadingIndicator />", () => {
-      mountedComponent(<OverdueTasks {...props} />, {
-        records: {
-          dashboard: {
-            data: [],
-            loading: true
-          }
-        },
-        user: {
-          permissions
-        }
+      mountedComponent(<OverdueTasks />, {
+        records: { dashboard: { overdue_tasks: { data: [], loading: true } } },
+        user: { permissions }
       });
       expect(screen.getByRole("progressbar")).toBeInTheDocument();
     });

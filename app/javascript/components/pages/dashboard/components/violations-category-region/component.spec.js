@@ -16,46 +16,48 @@ describe("<ViolationsCategoryRegion> - pages/dashboard/components/violations-cat
   const state = fromJS({
     records: {
       dashboard: {
-        data: [
-          {
-            name: "dashboard.dash_violations_category_region",
-            type: "indicator",
-            indicators: {
-              violations_category_region: {
-                region_1: {
-                  killing_verified: {
-                    count: 5,
-                    query: ["record_state=true", "category=killing_verified"]
+        violations_category_region: {
+          data: [
+            {
+              name: "dashboard.dash_violations_category_region",
+              type: "indicator",
+              indicators: {
+                violations_category_region: {
+                  region_1: {
+                    killing_verified: {
+                      count: 5,
+                      query: ["record_state=true", "category=killing_verified"]
+                    },
+                    maiming_verified: {
+                      count: 2,
+                      query: ["record_state=true", "category=maiming_verified"]
+                    }
                   },
-                  maiming_verified: {
-                    count: 2,
-                    query: ["record_state=true", "category=maiming_verified"]
-                  }
-                },
-                region_2: {
-                  killing_verified: {
-                    count: 0,
-                    query: ["record_state=true", "category=killing_verified"]
+                  region_2: {
+                    killing_verified: {
+                      count: 0,
+                      query: ["record_state=true", "category=killing_verified"]
+                    },
+                    maiming_verified: {
+                      count: 1,
+                      query: ["record_state=true", "category=maiming_verified"]
+                    }
                   },
-                  maiming_verified: {
-                    count: 1,
-                    query: ["record_state=true", "category=maiming_verified"]
-                  }
-                },
-                "": {
-                  killing_verified: {
-                    count: 0,
-                    query: ["record_state=true", "category=killing_verified"]
-                  },
-                  maiming_verified: {
-                    count: 0,
-                    query: ["record_state=true", "category=maiming_verified"]
+                  "": {
+                    killing_verified: {
+                      count: 0,
+                      query: ["record_state=true", "category=killing_verified"]
+                    },
+                    maiming_verified: {
+                      count: 0,
+                      query: ["record_state=true", "category=maiming_verified"]
+                    }
                   }
                 }
               }
             }
-          }
-        ]
+          ]
+        }
       }
     },
     user: {
@@ -122,26 +124,10 @@ describe("<ViolationsCategoryRegion> - pages/dashboard/components/violations-cat
   });
 
   describe("when the data is loading", () => {
-    const props = {
-      loadingIndicator: {
-        overlay: true,
-        type: "NAMESPACE",
-        loading: true,
-        errors: false
-      }
-    };
-
     it("renders a <LoadingIndicator />", () => {
-      mountedComponent(<ViolationsCategoryRegion {...props} />, {
-        records: {
-          dashboard: {
-            data: [],
-            loading: true
-          }
-        },
-        user: {
-          permissions
-        }
+      mountedComponent(<ViolationsCategoryRegion />, {
+        records: { dashboard: { violations_category_region: { data: [], loading: true } } },
+        user: { permissions }
       });
 
       expect(screen.getByRole("progressbar")).toBeInTheDocument();
