@@ -19,6 +19,7 @@ export const ACTIONS = {
   CONSENT_OVERRIDE: "consent_override",
   COPY: "copy",
   CREATE: "create",
+  CREATE_CASE_FROM_REFERRAL: "create_case_from_referral",
   DASH_APPROVALS_ACTION_PLAN_PENDING: "approvals_action_plan_pending",
   DASH_APPROVALS_ACTION_PLAN: "approvals_action_plan",
   DASH_APPROVALS_ASSESSMENT_PENDING: "approvals_assessment_pending",
@@ -123,7 +124,8 @@ export const ACTIONS = {
   WRITE: "write",
   VIEW_FAMILY_RECORD: "view_family_record",
   LINK_FAMILY_RECORD: "link_family_record",
-  REMOVE_ALERT: "remove_alert"
+  REMOVE_ALERT: "remove_alert",
+  PROTECTION_OUTCOMES: "protection_outcomes"
 };
 
 export const MANAGE = [ACTIONS.MANAGE];
@@ -191,7 +193,8 @@ export const READ_MANAGED_REPORTS = [
   ACTIONS.GBV_STATISTICS,
   ACTIONS.VIOLATIONS,
   ACTIONS.WORKFLOW_REPORT,
-  ACTIONS.REFERRALS_TRANSFERS_REPORT
+  ACTIONS.REFERRALS_TRANSFERS_REPORT,
+  ACTIONS.PROTECTION_OUTCOMES
 ];
 
 export const EXPORT_CUSTOM = [...MANAGE, ACTIONS.EXPORT_CUSTOM];

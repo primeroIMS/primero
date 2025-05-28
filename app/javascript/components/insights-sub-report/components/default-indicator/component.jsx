@@ -11,6 +11,8 @@ import BarChartGraphic from "../../../charts/bar-chart";
 function Component({
   ageRanges,
   displayGraph,
+  cellValueRender,
+  chartValueRender,
   emptyMessage,
   groupedBy,
   hasTotalColumn,
@@ -48,6 +50,7 @@ function Component({
             lookupValues: lookups[valueKey],
             incompleteDataLabel
           })}
+          valueRender={chartValueRender}
           showDetails
           hideLegend
           reverse={isRtl}
@@ -55,6 +58,7 @@ function Component({
       )}
       <TableComponent
         useInsightsHeader
+        valueRender={cellValueRender}
         columns={buildInsightColumns[insightMetadata.get("table_type")]({
           value,
           isGrouped,
@@ -93,6 +97,8 @@ Component.displayName = "DefaultIndicator";
 
 Component.propTypes = {
   ageRanges: PropTypes.array,
+  cellValueRender: PropTypes.func,
+  chartValueRender: PropTypes.func,
   displayGraph: PropTypes.bool,
   emptyMessage: PropTypes.string,
   groupedBy: PropTypes.string,

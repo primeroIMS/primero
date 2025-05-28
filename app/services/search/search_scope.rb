@@ -6,8 +6,8 @@
 class Search::SearchScope < ValueObject
   attr_accessor :scope, :user_scope, :module_scope
 
-  def self.apply(scope, query)
-    new(scope:).apply(query)
+  def self.scope_filters(scope)
+    new(scope:).scope_filters
   end
 
   def initialize(args = {})
@@ -16,46 +16,45 @@ class Search::SearchScope < ValueObject
     self.module_scope = args[:module_scope] || scope&.dig(:module)
   end
 
-  def apply(query)
-    @query = query
-    @query = apply_user_scope
-    @query = apply_module_scope
-    @query
+  def scope_filters
+    filters = []
+    filters << user_scope_filter if user_scope.present?
+    filters << module_scope_filter if module_scope.present?
+
+    filters
   end
 
-  private
-
-  def apply_user_scope
-    return @query unless user_scope.present?
+  def user_scope_filter
+    return unless user_scope.present?
 
     if user_scope['user'].present?
-      apply_user_associated_scope
+      self_scope_filter
     elsif user_scope['agency'].present?
-      apply_agency_associated_scope
+      agency_scope_filter
     elsif user_scope['group'].present?
-      apply_group_associated_scope
-    else
-      @query
+      group_scope_filter
     end
   end
 
-  def apply_user_associated_scope
-    @query.where(SearchFilters::TextValue.new(field_name: 'associated_user_names', value: user_scope['user']).query)
-  end
-
-  def apply_agency_associated_scope
-    @query.where(
-      SearchFilters::TextValue.new(field_name: 'associated_user_agencies', value: user_scope['agency']).query
+  def self_scope_filter
+    SearchFilters::TextValue.new(
+      field_name: 'associated_user_names', value: user_scope['user']
     )
   end
 
-  def apply_group_associated_scope
-    @query.where(SearchFilters::TextList.new(field_name: 'associated_user_groups', values: user_scope['group']).query)
+  def agency_scope_filter
+    SearchFilters::TextValue.new(
+      field_name: 'associated_user_agencies', value: user_scope['agency']
+    )
   end
 
-  def apply_module_scope
-    return @query unless module_scope.present?
+  def group_scope_filter
+    SearchFilters::TextList.new(
+      field_name: 'associated_user_groups', values: user_scope['group']
+    )
+  end
 
-    @query.where(SearchFilters::TextList.new(field_name: 'module_id', values: module_scope).query)
+  def module_scope_filter
+    SearchFilters::TextList.new(field_name: 'module_id', values: module_scope)
   end
 end

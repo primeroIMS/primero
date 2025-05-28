@@ -13,6 +13,7 @@ import buildSelectedIds from "../utils/build-selected-ids";
 import { usePermissions, RESOURCES, CONSENT_OVERRIDE } from "../../permissions";
 import { useIncidentFromCase } from "../../incidents-from-case";
 import { RECORD_TYPES } from "../../../config";
+import { getAllowCaseCreationFromReferral } from "../../application/selectors";
 
 import { NAME, REFERRAL_FORM_ID, TRANSFER_FORM_ID, MAX_BULK_RECORDS } from "./constants";
 import { hasProvidedConsent } from "./components/utils";
@@ -36,6 +37,7 @@ function Transitions({
   const assignFormikRef = useRef();
   const [disabledReferButton, setDisabledReferButton] = useState(false);
   const [disabledTransferButton, setDisabledTransferButton] = useState(false);
+  const allowCaseCreationFromReferral = useMemoizedSelector(state => getAllowCaseCreationFromReferral(state));
 
   const transitionDialogOpen = dialog => currentDialog === dialog && open;
 
@@ -88,6 +90,7 @@ function Transitions({
           disabled={disabledReferButton}
           setDisabled={setDisabledReferButton}
           handleClose={close}
+          allowCaseCreationFromReferral={allowCaseCreationFromReferral}
         />
       );
     }

@@ -81,7 +81,7 @@ class SystemSettings < ApplicationRecord
   end
 
   def reporting_location_config=(config)
-    super((reporting_location_config || {}).to_h.merge(config&.to_h))
+    super((reporting_location_config || {}).to_h.symbolize_keys.deep_merge(config&.to_h&.symbolize_keys))
   end
 
   def incident_reporting_location_config
@@ -154,6 +154,10 @@ class SystemSettings < ApplicationRecord
 
   def primero_promote_config
     super || []
+  end
+
+  def create_case_from_referral?
+    Role.create_case_from_referral?
   end
 
   class << self

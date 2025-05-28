@@ -1,11 +1,13 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 /* eslint-disable import/prefer-default-export */
+import { push } from "connected-react-router";
 
-import { ACCEPTED, REJECTED, DONE } from "../../../../config";
+import { ACCEPTED, REJECTED, DONE, RECORD_TYPES_PLURAL } from "../../../../config";
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
-import { CLEAR_DIALOG, SET_DIALOG_PENDING } from "../../../action-dialog";
+import { CLEAR_DIALOG, clearDialog, SET_DIALOG_PENDING } from "../../../action-dialog";
 import { redirectCheckAccessDenied } from "../../utils";
+import { setTempInitialValues } from "../../../record-form/action-creators";
 
 import actions from "./actions";
 
@@ -58,3 +60,9 @@ export const referralRejected = ({ data, ...rest }) =>
 
 export const referralAccepted = params =>
   referralAction(actions.REFERRAL_ACCEPTED, { data: { status: ACCEPTED }, ...params });
+
+export const referralCaseCreation = payload => async dispatch => {
+  dispatch(setTempInitialValues(payload));
+  dispatch(clearDialog());
+  dispatch(push(`/${RECORD_TYPES_PLURAL.case}/${payload.module_id}/new`));
+};

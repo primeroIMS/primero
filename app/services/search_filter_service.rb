@@ -19,94 +19,76 @@ class SearchFilterService
     def boolean?(value)
       [TrueClass, FalseClass].any? { |klass| value.is_a?(klass) }
     end
+
+    def range_class(value)
+      if value['from'].is_a?(Numeric)
+        SearchFilters::NumericRange
+      elsif value['from'].respond_to?(:strftime)
+        SearchFilters::DateRange
+      end
+    end
+  end
+
+  def build_filters(params)
+    params.map { |key, value| build_filter(key, value) }.compact
   end
 
   # rubocop:disable Metrics/AbcSize
   # rubocop:disable Metrics/CyclomaticComplexity
   # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/PerceivedComplexity
-  def build_filters(params)
-    params.map do |key, value|
-      if key == 'id'
-        build_id_filter(key, value)
-      elsif key == 'or'
-        build_or_filter(value)
-      elsif key == 'not'
-        build_not_filter(value.keys.first, value.values.first)
-      elsif key.starts_with?('loc:')
-        build_location_filter(key, value)
-      elsif value.is_a?(Hash)
-        if value['from'].is_a?(Numeric)
-          SearchFilters::NumericRange.new(field_name: key, from: value['from'], to: value['to'])
-        elsif value['from'].respond_to?(:strftime)
-          SearchFilters::DateRange.new(field_name: key, from: value['from'], to: value['to'])
-        end
-      elsif value.is_a?(Array)
-        build_array_filter(key, value)
-      elsif SearchFilterService.boolean?(value)
-        SearchFilters::BooleanValue.new(field_name: key, value:)
-      elsif value.is_a?(String)
-        SearchFilters::TextValue.new(field_name: key, value:)
-      else
-        SearchFilters::Value.new(field_name: key, value:)
-      end
-    end.compact
+  def build_filter(key, value)
+    if key == 'id'
+      build_id_filter(key, value)
+    elsif key == 'or'
+      build_or_filter(value)
+    elsif key == 'not'
+      SearchFilters::Not.new(filter: build_filter(value.keys.first, value.values.first))
+    elsif key.starts_with?('loc:')
+      build_location_filter(key, value)
+    elsif value.is_a?(Hash)
+      self.class.range_class(value)&.new(field_name: key, from: value['from'], to: value['to'])
+    elsif value.is_a?(Array)
+      build_array_filter(key, value)
+    elsif SearchFilterService.boolean?(value)
+      SearchFilters::BooleanValue.new(field_name: key, value:)
+    elsif value.is_a?(String)
+      SearchFilters::TextValue.new(field_name: key, value:)
+    else
+      SearchFilters::Value.new(field_name: key, value:)
+    end
   end
   # rubocop:enable Metrics/AbcSize
   # rubocop:enable Metrics/CyclomaticComplexity
   # rubocop:enable Metrics/MethodLength
   # rubocop:enable Metrics/PerceivedComplexity
 
-  # rubocop:disable Metrics/MethodLength
-  def build_not_filter(field_name, value)
-    if field_name == 'id'
-      build_id_filter(field_name, value, true)
-    elsif field_name.starts_with?('loc:')
-      build_location_filter(field_name, value, true)
-    elsif value.is_a?(Array)
-      build_array_filter(field_name, value, true)
-    elsif SearchFilterService.boolean?(value)
-      SearchFilters::BooleanValue.new(field_name:, value:, not_filter: true)
-    elsif value.is_a?(String)
-      SearchFilters::TextValue.new(field_name:, value:, not_filter: true)
-    else
-      SearchFilters::Value.new(field_name:, value:, not_filter: true)
-    end
-  end
-  # rubocop:enable Metrics/MethodLength
-
-  def build_array_filter(field_name, value, not_filter = false)
+  def build_array_filter(field_name, value)
     if value.first.is_a?(Hash)
-      build_range_list_filter(field_name, value, not_filter)
+      build_range_list_filter(field_name, value)
     elsif SearchFilterService.boolean?(value.first)
-      SearchFilters::BooleanList.new(field_name:, values: value, not_filter:)
+      SearchFilters::BooleanList.new(field_name:, values: value)
     elsif value.first.is_a?(String)
-      SearchFilters::TextList.new(field_name:, values: value, not_filter:)
+      SearchFilters::TextList.new(field_name:, values: value)
     else
-      SearchFilters::ValueList.new(field_name:, values: value, not_filter:)
+      SearchFilters::ValueList.new(field_name:, values: value)
     end
   end
 
-  def build_range_list_filter(field_name, value, not_filter = false)
-    if value.first['from'].is_a?(Numeric)
-      SearchFilters::RangeList.new(field_name:, values: value, range_type: SearchFilters::NumericRange, not_filter:)
-    elsif value.first['from'].respond_to?(:strftime)
-      SearchFilters::RangeList.new(field_name:, values: value, range_type: SearchFilters::DateRange, not_filter:)
-    else
-      raise(Errors::InvalidPrimeroEntityType, 'Filter is not valid')
-    end
+  def build_range_list_filter(field_name, value)
+    SearchFilters::RangeList.new(field_name:, values: value)
   end
 
-  def build_location_filter(field_name, value, not_filter = false)
-    return SearchFilters::LocationList.new(field_name:, values: value, not_filter:) if value.is_a?(Array)
+  def build_location_filter(field_name, value)
+    return SearchFilters::LocationList.new(field_name:, values: value) if value.is_a?(Array)
 
-    SearchFilters::LocationValue.new(field_name:, value:, not_filter:)
+    SearchFilters::LocationValue.new(field_name:, value:)
   end
 
-  def build_id_filter(field_name, value, not_filter = false)
-    return SearchFilters::IdListFilter.new(field_name:, values: value, not_filter:) if value.is_a?(Array)
+  def build_id_filter(field_name, value)
+    return SearchFilters::IdListFilter.new(field_name:, values: value) if value.is_a?(Array)
 
-    SearchFilters::IdFilter.new(field_name:, value:, not_filter:)
+    SearchFilters::IdFilter.new(field_name:, value:)
   end
 
   def build_or_filter(value)
@@ -128,6 +110,6 @@ class SearchFilterService
   end
 
   def filterable_id_fields
-    @filterable_id_fields = FILTERABLE_MODELS.map(&:filterable_id_fields).flatten
+    @filterable_id_fields ||= FILTERABLE_MODELS.map(&:filterable_id_fields).flatten
   end
 end

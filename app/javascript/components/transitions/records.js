@@ -23,5 +23,6 @@ export const TransitionRecord = Record({
   remote: true,
   transitioned_to_agency: null,
   rejection_note: null,
-  user_can_accept_or_reject: null
+  user_can_accept_or_reject: null,
+  allow_case_creation: false
 });

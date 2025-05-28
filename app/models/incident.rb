@@ -21,6 +21,7 @@ class Incident < ApplicationRecord
   include MonitoringReportingMechanism
   include LocationCacheable
   include PhoneticSearchable
+  include Normalizeable
 
   store_accessor(
     :data,
@@ -79,6 +80,7 @@ class Incident < ApplicationRecord
   after_initialize :set_unique_id
   before_save :copy_from_case
   before_save :calculate_incident_date_derived
+  before_save :save_searchable_fields
   # TODO: Reconsider whether this is necessary.
   # We will only be creating an incident from a case using a special business logic that
   # will certainly trigger a reindex on the case

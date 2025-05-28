@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_02_21_221207) do
+ActiveRecord::Schema.define(version: 2025_05_19_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -142,12 +142,138 @@ ActiveRecord::Schema.define(version: 2025_02_21_221207) do
     t.uuid "registry_record_id"
     t.uuid "family_id"
     t.jsonb "phonetic_data"
+    t.integer "srch_age"
+    t.datetime "srch_created_at"
+    t.datetime "srch_registration_date"
+    t.string "srch_name"
+    t.string "srch_module_id"
+    t.string "srch_location_current"
+    t.string "srch_client_code"
+    t.datetime "srch_date_closure"
+    t.string "srch_owned_by"
+    t.string "srch_owned_by_agency_id"
+    t.string "srch_owned_by_location"
+    t.string "srch_last_updated_by"
+    t.boolean "srch_record_state", default: false
+    t.boolean "srch_consent_reporting", default: false
+    t.string "srch_status"
+    t.string "srch_risk_level"
+    t.string "srch_workflow"
+    t.boolean "srch_not_edited_by_owner", default: false
+    t.boolean "srch_flagged", default: false
+    t.string "srch_approval_status_assessment"
+    t.string "srch_approval_status_case_plan"
+    t.string "srch_approval_status_closure"
+    t.string "srch_approval_status_action_plan"
+    t.string "srch_approval_status_gbv_closure"
+    t.datetime "srch_reassigned_transferred_on"
+    t.boolean "srch_referred_users_present", default: false
+    t.boolean "srch_has_incidents", default: false
+    t.string "srch_transfer_status"
+    t.string "srch_gender"
+    t.integer "srch_psychsocial_assessment_score_initial"
+    t.integer "srch_psychsocial_assessment_score_most_recent"
+    t.integer "srch_client_summary_worries_severity_int"
+    t.integer "srch_closure_problems_severity_int"
+    t.boolean "srch_begin_safety_plan_prompt", default: false
+    t.string "srch_disability_status_yes_no"
+    t.string "srch_owned_by_groups", default: [], array: true
+    t.string "srch_associated_user_agencies", default: [], array: true
+    t.string "srch_associated_user_names", default: [], array: true
+    t.string "srch_associated_user_groups", default: [], array: true
+    t.string "srch_transferred_to_users", default: [], array: true
+    t.string "srch_transferred_to_user_groups", default: [], array: true
+    t.string "srch_referred_users", default: [], array: true
+    t.string "srch_current_alert_types", default: [], array: true
+    t.datetime "srch_case_plan_due_dates", default: [], array: true
+    t.datetime "srch_service_due_dates", default: [], array: true
+    t.datetime "srch_assessment_due_dates", default: [], array: true
+    t.datetime "srch_followup_due_dates", default: [], array: true
+    t.string "srch_protection_concerns", default: [], array: true
+    t.string "srch_protection_risks", default: [], array: true
+    t.string "srch_next_steps", default: [], array: true
+    t.string "srch_assigned_user_names", default: [], array: true
     t.index "((data ->> 'case_id'::text))", name: "cases_case_id_unique_idx", unique: true
     t.index "((phonetic_data -> 'tokens'::text))", name: "cases_phonetic_tokens_idx", using: :gin
     t.index ["data"], name: "index_cases_on_data", using: :gin
     t.index ["duplicate_case_id"], name: "index_cases_on_duplicate_case_id"
     t.index ["family_id"], name: "index_cases_on_family_id"
     t.index ["registry_record_id"], name: "index_cases_on_registry_record_id"
+    t.index ["srch_associated_user_agencies", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_action_plan", "srch_module_id"], name: "approvals_action_plan_approved_dashboard_agency_idx", where: "((srch_approval_status_action_plan IS NOT NULL) AND ((srch_approval_status_action_plan)::text = 'approved'::text))"
+    t.index ["srch_associated_user_agencies", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_action_plan", "srch_module_id"], name: "approvals_action_plan_pending_dashboard_agency_idx", where: "((srch_approval_status_action_plan IS NOT NULL) AND ((srch_approval_status_action_plan)::text = 'pending'::text))"
+    t.index ["srch_associated_user_agencies", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_action_plan", "srch_module_id"], name: "approvals_action_plan_rejected_dashboard_agency_idx", where: "((srch_approval_status_action_plan IS NOT NULL) AND ((srch_approval_status_action_plan)::text = 'rejected'::text))"
+    t.index ["srch_associated_user_agencies", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_assessment", "srch_module_id"], name: "approvals_assessment_approved_dashboard_agency_idx", where: "((srch_approval_status_assessment IS NOT NULL) AND ((srch_approval_status_assessment)::text = 'approved'::text))"
+    t.index ["srch_associated_user_agencies", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_assessment", "srch_module_id"], name: "approvals_assessment_pending_dashboard_agency_idx", where: "((srch_approval_status_assessment IS NOT NULL) AND ((srch_approval_status_assessment)::text = 'pending'::text))"
+    t.index ["srch_associated_user_agencies", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_assessment", "srch_module_id"], name: "approvals_assessment_rejected_dashboard_agency_idx", where: "((srch_approval_status_assessment IS NOT NULL) AND ((srch_approval_status_assessment)::text = 'rejected'::text))"
+    t.index ["srch_associated_user_agencies", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_case_plan", "srch_module_id"], name: "approvals_case_plan_approved_dashboard_agency_idx", where: "((srch_approval_status_case_plan IS NOT NULL) AND ((srch_approval_status_case_plan)::text = 'approved'::text))"
+    t.index ["srch_associated_user_agencies", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_case_plan", "srch_module_id"], name: "approvals_case_plan_pending_dashboard_agency_idx", where: "((srch_approval_status_case_plan IS NOT NULL) AND ((srch_approval_status_case_plan)::text = 'pending'::text))"
+    t.index ["srch_associated_user_agencies", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_case_plan", "srch_module_id"], name: "approvals_case_plan_rejected_dashboard_agency_idx", where: "((srch_approval_status_case_plan IS NOT NULL) AND ((srch_approval_status_case_plan)::text = 'rejected'::text))"
+    t.index ["srch_associated_user_agencies", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_closure", "srch_module_id"], name: "approvals_closure_approved_dashboard_agency_idx", where: "((srch_approval_status_closure IS NOT NULL) AND ((srch_approval_status_closure)::text = 'approved'::text))"
+    t.index ["srch_associated_user_agencies", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_closure", "srch_module_id"], name: "approvals_closure_pending_dashboard_agency_idx", where: "((srch_approval_status_closure IS NOT NULL) AND ((srch_approval_status_closure)::text = 'pending'::text))"
+    t.index ["srch_associated_user_agencies", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_closure", "srch_module_id"], name: "approvals_closure_rejected_dashboard_agency_idx", where: "((srch_approval_status_closure IS NOT NULL) AND ((srch_approval_status_closure)::text = 'rejected'::text))"
+    t.index ["srch_associated_user_agencies", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_gbv_closure", "srch_module_id"], name: "approvals_gbv_closure_approved_dashboard_agency_idx", where: "((srch_approval_status_gbv_closure IS NOT NULL) AND ((srch_approval_status_gbv_closure)::text = 'approved'::text))"
+    t.index ["srch_associated_user_agencies", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_gbv_closure", "srch_module_id"], name: "approvals_gbv_closure_pending_dashboard_agency_idx", where: "((srch_approval_status_gbv_closure IS NOT NULL) AND ((srch_approval_status_gbv_closure)::text = 'pending'::text))"
+    t.index ["srch_associated_user_agencies", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_gbv_closure", "srch_module_id"], name: "approvals_gbv_closure_rejected_dashboard_agency_idx", where: "((srch_approval_status_gbv_closure IS NOT NULL) AND ((srch_approval_status_gbv_closure)::text = 'rejected'::text))"
+    t.index ["srch_associated_user_agencies", "srch_owned_by", "srch_record_state", "srch_status", "srch_module_id", "srch_workflow"], name: "workflow_dashboard_agency_idx"
+    t.index ["srch_associated_user_agencies", "srch_record_state", "srch_status", "srch_not_edited_by_owner"], name: "new_or_updated_dashboard_agency_idx", where: "((srch_record_state IS NOT NULL) AND (srch_record_state = true) AND ((srch_status IS NOT NULL) AND ((srch_status)::text = 'open'::text)) AND ((srch_not_edited_by_owner IS NOT NULL) AND (srch_not_edited_by_owner = true)))"
+    t.index ["srch_associated_user_agencies", "srch_record_state", "srch_status", "srch_referred_users", "srch_last_updated_by"], name: "shared_with_me_new_referrals_dashboard_agency_idx"
+    t.index ["srch_associated_user_agencies", "srch_record_state", "srch_status", "srch_referred_users_present", "srch_owned_by"], name: "shared_with_others_referrals_users_present_dashboard_agency_idx", where: "((srch_referred_users_present IS NOT NULL) AND (srch_referred_users_present = true))"
+    t.index ["srch_associated_user_agencies", "srch_record_state", "srch_status", "srch_risk_level"], name: "risk_level_dashboard_agency_idx"
+    t.index ["srch_associated_user_agencies", "srch_record_state", "srch_status", "srch_transfer_status", "srch_owned_by"], name: "shared_with_others_transfers_pending_dashboard_agency_idx", where: "((srch_transfer_status IS NOT NULL) AND ((srch_transfer_status)::text = 'in_progress'::text))"
+    t.index ["srch_associated_user_agencies", "srch_record_state", "srch_status", "srch_transfer_status", "srch_owned_by"], name: "shared_with_others_transfers_rejected_dashboard_agency_idx", where: "((srch_transfer_status IS NOT NULL) AND ((srch_transfer_status)::text = 'rejected'::text))"
+    t.index ["srch_associated_user_agencies", "srch_record_state", "srch_status", "srch_transferred_to_users"], name: "shared_with_me_transfers_awaiting_dashboard_agency_idx"
+    t.index ["srch_associated_user_groups", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_action_plan", "srch_module_id"], name: "approvals_action_plan_approved_dashboard_group_idx", where: "((srch_approval_status_action_plan IS NOT NULL) AND ((srch_approval_status_action_plan)::text = 'approved'::text))"
+    t.index ["srch_associated_user_groups", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_action_plan", "srch_module_id"], name: "approvals_action_plan_pending_dashboard_group_idx", where: "((srch_approval_status_action_plan IS NOT NULL) AND ((srch_approval_status_action_plan)::text = 'pending'::text))"
+    t.index ["srch_associated_user_groups", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_action_plan", "srch_module_id"], name: "approvals_action_plan_rejected_dashboard_group_idx", where: "((srch_approval_status_action_plan IS NOT NULL) AND ((srch_approval_status_action_plan)::text = 'rejected'::text))"
+    t.index ["srch_associated_user_groups", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_assessment", "srch_module_id"], name: "approvals_assessment_approved_dashboard_group_idx", where: "((srch_approval_status_assessment IS NOT NULL) AND ((srch_approval_status_assessment)::text = 'approved'::text))"
+    t.index ["srch_associated_user_groups", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_assessment", "srch_module_id"], name: "approvals_assessment_pending_dashboard_group_idx", where: "((srch_approval_status_assessment IS NOT NULL) AND ((srch_approval_status_assessment)::text = 'pending'::text))"
+    t.index ["srch_associated_user_groups", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_assessment", "srch_module_id"], name: "approvals_assessment_rejected_dashboard_group_idx", where: "((srch_approval_status_assessment IS NOT NULL) AND ((srch_approval_status_assessment)::text = 'rejected'::text))"
+    t.index ["srch_associated_user_groups", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_case_plan", "srch_module_id"], name: "approvals_case_plan_approved_dashboard_group_idx", where: "((srch_approval_status_case_plan IS NOT NULL) AND ((srch_approval_status_case_plan)::text = 'approved'::text))"
+    t.index ["srch_associated_user_groups", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_case_plan", "srch_module_id"], name: "approvals_case_plan_pending_dashboard_group_idx", where: "((srch_approval_status_case_plan IS NOT NULL) AND ((srch_approval_status_case_plan)::text = 'pending'::text))"
+    t.index ["srch_associated_user_groups", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_case_plan", "srch_module_id"], name: "approvals_case_plan_rejected_dashboard_group_idx", where: "((srch_approval_status_case_plan IS NOT NULL) AND ((srch_approval_status_case_plan)::text = 'rejected'::text))"
+    t.index ["srch_associated_user_groups", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_closure", "srch_module_id"], name: "approvals_closure_approved_dashboard_group_idx", where: "((srch_approval_status_closure IS NOT NULL) AND ((srch_approval_status_closure)::text = 'approved'::text))"
+    t.index ["srch_associated_user_groups", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_closure", "srch_module_id"], name: "approvals_closure_pending_dashboard_group_idx", where: "((srch_approval_status_closure IS NOT NULL) AND ((srch_approval_status_closure)::text = 'pending'::text))"
+    t.index ["srch_associated_user_groups", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_closure", "srch_module_id"], name: "approvals_closure_rejected_dashboard_group_idx", where: "((srch_approval_status_closure IS NOT NULL) AND ((srch_approval_status_closure)::text = 'rejected'::text))"
+    t.index ["srch_associated_user_groups", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_gbv_closure", "srch_module_id"], name: "approvals_gbv_closure_approved_dashboard_group_idx", where: "((srch_approval_status_gbv_closure IS NOT NULL) AND ((srch_approval_status_gbv_closure)::text = 'approved'::text))"
+    t.index ["srch_associated_user_groups", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_gbv_closure", "srch_module_id"], name: "approvals_gbv_closure_pending_dashboard_group_idx", where: "((srch_approval_status_gbv_closure IS NOT NULL) AND ((srch_approval_status_gbv_closure)::text = 'pending'::text))"
+    t.index ["srch_associated_user_groups", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_gbv_closure", "srch_module_id"], name: "approvals_gbv_closure_rejected_dashboard_group_idx", where: "((srch_approval_status_gbv_closure IS NOT NULL) AND ((srch_approval_status_gbv_closure)::text = 'rejected'::text))"
+    t.index ["srch_associated_user_groups", "srch_owned_by", "srch_record_state", "srch_status", "srch_module_id", "srch_workflow"], name: "workflow_dashboard_group_idx"
+    t.index ["srch_associated_user_groups", "srch_record_state", "srch_status", "srch_not_edited_by_owner"], name: "new_or_updated_dashboard_group_idx", where: "((srch_record_state IS NOT NULL) AND (srch_record_state = true) AND ((srch_status IS NOT NULL) AND ((srch_status)::text = 'open'::text)) AND ((srch_not_edited_by_owner IS NOT NULL) AND (srch_not_edited_by_owner = true)))"
+    t.index ["srch_associated_user_groups", "srch_record_state", "srch_status", "srch_referred_users", "srch_last_updated_by"], name: "shared_with_me_new_referrals_dashboard_group_idx"
+    t.index ["srch_associated_user_groups", "srch_record_state", "srch_status", "srch_referred_users_present", "srch_owned_by"], name: "shared_with_others_referrals_users_present_dashboard_group_idx", where: "((srch_referred_users_present IS NOT NULL) AND (srch_referred_users_present = true))"
+    t.index ["srch_associated_user_groups", "srch_record_state", "srch_status", "srch_risk_level"], name: "risk_level_dashboard_group_idx"
+    t.index ["srch_associated_user_groups", "srch_record_state", "srch_status", "srch_transfer_status", "srch_owned_by"], name: "shared_with_others_transfers_pending_dashboard_group_idx", where: "((srch_transfer_status IS NOT NULL) AND ((srch_transfer_status)::text = 'in_progress'::text))"
+    t.index ["srch_associated_user_groups", "srch_record_state", "srch_status", "srch_transfer_status", "srch_owned_by"], name: "shared_with_others_transfers_rejected_dashboard_group_idx", where: "((srch_transfer_status IS NOT NULL) AND ((srch_transfer_status)::text = 'rejected'::text))"
+    t.index ["srch_associated_user_groups", "srch_record_state", "srch_status", "srch_transferred_to_users"], name: "shared_with_me_transfers_awaiting_dashboard_group_idx"
+    t.index ["srch_associated_user_names", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_action_plan", "srch_module_id"], name: "approvals_action_plan_approved_dashboard_user_idx", where: "((srch_approval_status_action_plan IS NOT NULL) AND ((srch_approval_status_action_plan)::text = 'approved'::text))"
+    t.index ["srch_associated_user_names", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_action_plan", "srch_module_id"], name: "approvals_action_plan_pending_dashboard_user_idx", where: "((srch_approval_status_action_plan IS NOT NULL) AND ((srch_approval_status_action_plan)::text = 'pending'::text))"
+    t.index ["srch_associated_user_names", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_action_plan", "srch_module_id"], name: "approvals_action_plan_rejected_dashboard_user_idx", where: "((srch_approval_status_action_plan IS NOT NULL) AND ((srch_approval_status_action_plan)::text = 'rejected'::text))"
+    t.index ["srch_associated_user_names", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_assessment", "srch_module_id"], name: "approvals_assessment_approved_dashboard_user_idx", where: "((srch_approval_status_assessment IS NOT NULL) AND ((srch_approval_status_assessment)::text = 'approved'::text))"
+    t.index ["srch_associated_user_names", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_assessment", "srch_module_id"], name: "approvals_assessment_pending_dashboard_user_idx", where: "((srch_approval_status_assessment IS NOT NULL) AND ((srch_approval_status_assessment)::text = 'pending'::text))"
+    t.index ["srch_associated_user_names", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_assessment", "srch_module_id"], name: "approvals_assessment_rejected_dashboard_user_idx", where: "((srch_approval_status_assessment IS NOT NULL) AND ((srch_approval_status_assessment)::text = 'rejected'::text))"
+    t.index ["srch_associated_user_names", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_case_plan", "srch_module_id"], name: "approvals_case_plan_approved_dashboard_user_idx", where: "((srch_approval_status_case_plan IS NOT NULL) AND ((srch_approval_status_case_plan)::text = 'approved'::text))"
+    t.index ["srch_associated_user_names", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_case_plan", "srch_module_id"], name: "approvals_case_plan_pending_dashboard_user_idx", where: "((srch_approval_status_case_plan IS NOT NULL) AND ((srch_approval_status_case_plan)::text = 'pending'::text))"
+    t.index ["srch_associated_user_names", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_case_plan", "srch_module_id"], name: "approvals_case_plan_rejected_dashboard_user_idx", where: "((srch_approval_status_case_plan IS NOT NULL) AND ((srch_approval_status_case_plan)::text = 'rejected'::text))"
+    t.index ["srch_associated_user_names", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_closure", "srch_module_id"], name: "approvals_closure_approved_dashboard_user_idx", where: "((srch_approval_status_closure IS NOT NULL) AND ((srch_approval_status_closure)::text = 'approved'::text))"
+    t.index ["srch_associated_user_names", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_closure", "srch_module_id"], name: "approvals_closure_pending_dashboard_user_idx", where: "((srch_approval_status_closure IS NOT NULL) AND ((srch_approval_status_closure)::text = 'pending'::text))"
+    t.index ["srch_associated_user_names", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_closure", "srch_module_id"], name: "approvals_closure_rejected_dashboard_user_idx", where: "((srch_approval_status_closure IS NOT NULL) AND ((srch_approval_status_closure)::text = 'rejected'::text))"
+    t.index ["srch_associated_user_names", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_gbv_closure", "srch_module_id"], name: "approvals_gbv_closure_approved_dashboard_user_idx", where: "((srch_approval_status_gbv_closure IS NOT NULL) AND ((srch_approval_status_gbv_closure)::text = 'approved'::text))"
+    t.index ["srch_associated_user_names", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_gbv_closure", "srch_module_id"], name: "approvals_gbv_closure_pending_dashboard_user_idx", where: "((srch_approval_status_gbv_closure IS NOT NULL) AND ((srch_approval_status_gbv_closure)::text = 'pending'::text))"
+    t.index ["srch_associated_user_names", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_gbv_closure", "srch_module_id"], name: "approvals_gbv_closure_rejected_dashboard_user_idx", where: "((srch_approval_status_gbv_closure IS NOT NULL) AND ((srch_approval_status_gbv_closure)::text = 'rejected'::text))"
+    t.index ["srch_associated_user_names", "srch_owned_by", "srch_record_state", "srch_status", "srch_module_id", "srch_workflow"], name: "workflow_dashboard_user_idx"
+    t.index ["srch_associated_user_names", "srch_record_state", "srch_status", "srch_not_edited_by_owner"], name: "new_or_updated_dashboard_user_idx", where: "((srch_record_state IS NOT NULL) AND (srch_record_state = true) AND ((srch_status IS NOT NULL) AND ((srch_status)::text = 'open'::text)) AND ((srch_not_edited_by_owner IS NOT NULL) AND (srch_not_edited_by_owner = true)))"
+    t.index ["srch_associated_user_names", "srch_record_state", "srch_status", "srch_referred_users", "srch_last_updated_by"], name: "shared_with_me_new_referrals_dashboard_user_idx"
+    t.index ["srch_associated_user_names", "srch_record_state", "srch_status", "srch_referred_users_present", "srch_owned_by"], name: "shared_with_others_referrals_users_present_dashboard_user_idx", where: "((srch_referred_users_present IS NOT NULL) AND (srch_referred_users_present = true))"
+    t.index ["srch_associated_user_names", "srch_record_state", "srch_status", "srch_risk_level"], name: "risk_level_dashboard_user_idx"
+    t.index ["srch_associated_user_names", "srch_record_state", "srch_status", "srch_transfer_status", "srch_owned_by"], name: "shared_with_others_transfers_pending_dashboard_user_idx", where: "((srch_transfer_status IS NOT NULL) AND ((srch_transfer_status)::text = 'in_progress'::text))"
+    t.index ["srch_associated_user_names", "srch_record_state", "srch_status", "srch_transfer_status", "srch_owned_by"], name: "shared_with_others_transfers_rejected_dashboard_user_idx", where: "((srch_transfer_status IS NOT NULL) AND ((srch_transfer_status)::text = 'rejected'::text))"
+    t.index ["srch_associated_user_names", "srch_record_state", "srch_status", "srch_transferred_to_users"], name: "shared_with_me_transfers_awaiting_dashboard_user_idx"
+    t.index ["srch_created_at"], name: "cases_srch_created_at_idx"
+    t.index ["srch_date_closure"], name: "cases_srch_date_closure_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_agencies"], name: "cases_default_associated_user_agencies_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_groups"], name: "cases_default_associated_user_groups_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_names"], name: "cases_default_associated_user_names_idx"
+    t.index ["srch_registration_date"], name: "cases_srch_registration_date_idx"
   end
 
   create_table "codes_of_conduct", force: :cascade do |t|
@@ -201,8 +327,27 @@ ActiveRecord::Schema.define(version: 2025_02_21_221207) do
   create_table "families", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.jsonb "data", default: {}
     t.jsonb "phonetic_data"
+    t.datetime "srch_created_at"
+    t.datetime "srch_family_registration_date"
+    t.string "srch_status"
+    t.boolean "srch_record_state", default: false
+    t.boolean "srch_flagged", default: false
+    t.boolean "srch_not_edited_by_owner", default: false
+    t.string "srch_family_location_current"
+    t.string "srch_owned_by_groups", default: [], array: true
+    t.string "srch_associated_user_agencies", default: [], array: true
+    t.string "srch_associated_user_names", default: [], array: true
+    t.string "srch_associated_user_groups", default: [], array: true
+    t.string "srch_owned_by"
+    t.string "srch_owned_by_agency_id"
+    t.string "srch_assigned_user_names", default: [], array: true
     t.index "((phonetic_data -> 'tokens'::text))", name: "families_tokens_idx", using: :gin
     t.index ["data"], name: "index_families_on_data", using: :gin
+    t.index ["srch_created_at"], name: "families_created_at_idx"
+    t.index ["srch_family_registration_date"], name: "families_family_registration_date_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_agencies"], name: "families_default_associated_user_agencies_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_groups"], name: "families_default_associated_user_groups_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_names"], name: "families_default_associated_user_names_idx"
   end
 
   create_table "fields", id: :serial, force: :cascade do |t|
@@ -253,6 +398,7 @@ ActiveRecord::Schema.define(version: 2025_02_21_221207) do
     t.index ["name"], name: "index_fields_on_name"
     t.index ["subform_summary"], name: "index_fields_on_subform_summary", using: :gin
     t.index ["type"], name: "index_fields_on_type"
+    t.index ["updated_at"], name: "index_fields_on_updated_at"
   end
 
   create_table "flags", id: :serial, force: :cascade do |t|
@@ -350,10 +496,35 @@ ActiveRecord::Schema.define(version: 2025_02_21_221207) do
     t.jsonb "data", default: {}
     t.uuid "incident_case_id"
     t.jsonb "phonetic_data"
+    t.datetime "srch_created_at"
+    t.datetime "srch_incident_date"
+    t.string "srch_incident_location"
+    t.string "srch_module_id"
+    t.string "srch_owned_by"
+    t.string "srch_owned_by_agency_id"
+    t.boolean "srch_record_state", default: false
+    t.boolean "srch_flagged", default: false
+    t.boolean "srch_not_edited_by_owner", default: false
+    t.string "srch_status"
+    t.integer "srch_age"
+    t.string "srch_owned_by_groups", default: [], array: true
+    t.string "srch_transferred_to_users", default: [], array: true
+    t.string "srch_transferred_to_user_groups", default: [], array: true
+    t.string "srch_associated_user_agencies", default: [], array: true
+    t.string "srch_associated_user_names", default: [], array: true
+    t.string "srch_associated_user_groups", default: [], array: true
+    t.string "srch_armed_force_group_party_names", default: [], array: true
+    t.string "srch_violation_with_verification_status", default: [], array: true
+    t.string "srch_assigned_user_names", default: [], array: true
     t.index "((data ->> 'incident_id'::text))", name: "incidents_incident_id_unique_idx", unique: true
     t.index "((phonetic_data -> 'tokens'::text))", name: "incidents_phonetic_tokens_idx", using: :gin
     t.index ["data"], name: "index_incidents_on_data", using: :gin
     t.index ["incident_case_id"], name: "index_incidents_on_incident_case_id"
+    t.index ["srch_created_at"], name: "incidents_srch_created_at_idx"
+    t.index ["srch_incident_date"], name: "incidents_srch_incident_date_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_agencies"], name: "incidents_default_associated_user_agencies_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_groups"], name: "incidents_default_associated_user_groups_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_names"], name: "incidents_default_associated_user_names_idx"
   end
 
   create_table "individual_victims", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -468,6 +639,19 @@ ActiveRecord::Schema.define(version: 2025_02_21_221207) do
   create_table "registry_records", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.jsonb "data", default: {}
     t.jsonb "phonetic_data"
+    t.datetime "srch_created_at"
+    t.datetime "srch_registration_date"
+    t.string "srch_status"
+    t.boolean "srch_record_state", default: false
+    t.string "srch_location_current"
+    t.boolean "srch_not_edited_by_owner", default: false
+    t.string "srch_owned_by_groups", default: [], array: true
+    t.string "srch_associated_user_agencies", default: [], array: true
+    t.string "srch_associated_user_names", default: [], array: true
+    t.string "srch_associated_user_groups", default: [], array: true
+    t.string "srch_owned_by"
+    t.string "srch_owned_by_agency_id"
+    t.string "srch_assigned_user_names", default: [], array: true
     t.index "((phonetic_data -> 'tokens'::text))", name: "registry_records_phonetic_tokens_idx", using: :gin
     t.index ["data"], name: "index_registry_records_on_data", using: :gin
   end
@@ -603,9 +787,27 @@ ActiveRecord::Schema.define(version: 2025_02_21_221207) do
   create_table "tracing_requests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.jsonb "data", default: {}
     t.jsonb "phonetic_data"
+    t.datetime "srch_created_at"
+    t.datetime "srch_inquiry_date"
+    t.string "srch_status"
+    t.boolean "srch_record_state", default: false
+    t.boolean "srch_flagged", default: false
+    t.boolean "srch_not_edited_by_owner", default: false
+    t.string "srch_owned_by_groups", default: [], array: true
+    t.string "srch_associated_user_agencies", default: [], array: true
+    t.string "srch_associated_user_names", default: [], array: true
+    t.string "srch_associated_user_groups", default: [], array: true
+    t.string "srch_owned_by"
+    t.string "srch_owned_by_agency_id"
+    t.string "srch_assigned_user_names", default: [], array: true
     t.index "((data ->> 'tracing_request_id'::text))", name: "tracing_requests_tracing_request_id_unique_idx", unique: true
     t.index "((phonetic_data -> 'tokens'::text))", name: "tracing_requests_phonetic_tokens_idx", using: :gin
     t.index ["data"], name: "index_tracing_requests_on_data", using: :gin
+    t.index ["srch_created_at"], name: "tracing_requests_srch_created_at_idx"
+    t.index ["srch_inquiry_date"], name: "tracing_requests_srch_inquiry_date_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_agencies"], name: "tracing_requests_default_associated_user_agencies_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_groups"], name: "tracing_requests_default_associated_user_groups_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_names"], name: "tracing_requests_default_associated_user_names_idx"
   end
 
   create_table "transitions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -636,6 +838,7 @@ ActiveRecord::Schema.define(version: 2025_02_21_221207) do
     t.string "transitioned_to_user_agency"
     t.string "transitioned_to_user_groups", array: true
     t.string "authorized_role_unique_id"
+    t.boolean "allow_case_creation", default: false, null: false
     t.index ["authorized_role_unique_id"], name: "index_transitions_on_authorized_role_unique_id"
     t.index ["id", "type"], name: "index_transitions_on_id_and_type"
     t.index ["record_type", "record_id"], name: "index_transitions_on_record_type_and_record_id"

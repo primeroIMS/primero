@@ -597,6 +597,10 @@ export const getPreviousRecordType = state => {
   return state.getIn([NAMESPACE, "previousRecord", "recordType"]);
 };
 
+export const getInitalValuesFromStore = state => {
+  return state.getIn([NAMESPACE, "tempInitialValues"]);
+};
+
 export const getWritableFields = createCachedSelector(
   (state, query) => getRecordForms(state, { ...query, writable: true, checkPermittedForms: true }),
   formSections => formSections.flatMap(formSection => formSection.fields)

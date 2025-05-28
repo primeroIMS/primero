@@ -26,7 +26,8 @@ export const FIELDS = Object.freeze({
   TRANSITIONED_TO_REMOTE: "transitioned_to_remote",
   NOTES: "notes",
   FILENAME: CUSTOM_EXPORT_FILE_NAME_FIELD,
-  SERVICE_RECORD_ID: "service_record_id"
+  SERVICE_RECORD_ID: "service_record_id",
+  ALLOW_CASE_CREATION: "allow_case_creation"
 });
 
 export const USER_FIELDS = Object.freeze({

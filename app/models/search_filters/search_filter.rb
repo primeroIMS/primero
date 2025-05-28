@@ -2,32 +2,63 @@
 
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-# Superclass for all SearchFilter objects that transform API query parameters into Sunspot queries
+# Superclass for all SearchFilter objects that transform API query parameters into sql queries
 class SearchFilters::SearchFilter < ValueObject
   OPERATORS = %w[= > < >= <=].freeze
 
-  attr_accessor :field_name, :not_filter, :column_name
+  attr_accessor :field_name, :json_column, :table_name
 
   def initialize(args = {})
     super(args)
     @safe_operator = OPERATORS.include?(args[:operator]) ? args[:operator] : '='
+    self.json_column = args[:json_column] || 'data'
+    self.table_name = args[:table_name] || ''
   end
 
-  def query
-    raise NotImplementedError
-  end
+  def safe_json_column
+    return ActiveRecord::Base.sanitize_sql_for_conditions(['%s', json_column]) unless table_name.present?
 
-  def json_path_query
-    "data @? '#{json_field_query} ? (#{json_path_value})'"
+    ActiveRecord::Base.sanitize_sql_for_conditions(['%s.%s', table_name, json_column])
   end
 
   def json_field_query
     ActiveRecord::Base.sanitize_sql_for_conditions(['$.%s', field_name])
   end
 
-  def json_path_value
-    operator = @safe_operator == '=' ? '==' : @safe_operator
-    ActiveRecord::Base.sanitize_sql_for_conditions(['@ %s %s', operator, value])
+  def safe_search_column
+    return ActiveRecord::Base.sanitize_sql_for_conditions(['%s', searchable_field_name]) unless table_name.present?
+
+    ActiveRecord::Base.sanitize_sql_for_conditions(['%s.%s', table_name, searchable_field_name])
+  end
+
+  def query(record_class = nil)
+    return searchable_query(record_class) if searchable_field_name?(record_class)
+
+    json_path_query
+  end
+
+  def json_path_query
+    raise NotImplementedError
+  end
+
+  def searchable_query
+    raise NotImplementedError
+  end
+
+  def searchable_field_name
+    "srch_#{field_name}"
+  end
+
+  def searchable_field_name?(record_class)
+    return false unless record_class.present?
+
+    record_class.searchable_field_name?(field_name)
+  end
+
+  def array_field?(record_class)
+    return false unless record_class.present?
+
+    record_class.columns_hash["srch_#{field_name}"].array
   end
 
   def to_json(_obj)

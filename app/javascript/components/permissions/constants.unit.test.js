@@ -104,6 +104,7 @@ describe("Verifying config constant", () => {
       "LINK_FAMILY_RECORD",
       "MANAGE",
       "MARK_FOR_OFFLINE",
+      "PROTECTION_OUTCOMES",
       "READ",
       "RECEIVE_REFERRAL",
       "RECEIVE_TRANSFER",
@@ -129,7 +130,8 @@ describe("Verifying config constant", () => {
       "VIEW_REGISTRY_RECORD",
       "VIOLATIONS",
       "WRITE",
-      "REMOVE_ALERT"
+      "REMOVE_ALERT",
+      "CREATE_CASE_FROM_REFERRAL"
     ].forEach(property => {
       expect(permissions).toHaveProperty(property);
       expect(typeof permissions[property]).toBe("string");

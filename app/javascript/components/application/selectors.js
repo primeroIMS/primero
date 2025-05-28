@@ -54,8 +54,11 @@ export const selectUserModules = state =>
     return userModules ? userModules.includes(m.unique_id) : false;
   });
 
-export const selectModule = (state, id) =>
-  selectUserModules(state).find(userModule => userModule.unique_id === id, null, fromJS({}));
+export const selectModule = (state, id, fromUserModule = true) => {
+  const moduleState = fromUserModule ? selectUserModules(state) : selectModules(state);
+
+  return moduleState.find(userModule => userModule.unique_id === id, null, fromJS({}));
+};
 
 export const getWorkflowLabels = (state, id, recordType) => {
   if (id) {
@@ -229,6 +232,9 @@ export const getMaximumUsersWarning = state => state.getIn([NAMESPACE, "systemOp
 
 export const getMaximumAttachmentsPerRecord = state =>
   state.getIn([NAMESPACE, "systemOptions", "maximum_attachments_per_record"]);
+
+export const getAllowCaseCreationFromReferral = state =>
+  state.getIn([NAMESPACE, "systemOptions", "allow_case_creation_from_referral"]);
 
 export const getTheme = state => state.getIn([NAMESPACE, "theme"], fromJS({}));
 

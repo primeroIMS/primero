@@ -2,12 +2,28 @@
 
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-# Transform API query parameter field_name=value into a Sunspot query
+# Transform API query parameter field_name=value into a sql query
 class SearchFilters::Value < SearchFilters::SearchFilter
   attr_accessor :value
 
-  def query
-    json_path_query
+  def json_path_query
+    "#{safe_json_column} @? '#{json_field_query} ? (#{json_path_predicate})'"
+  end
+
+  def json_path_predicate
+    # TODO: Remove @safe_operator?
+    operator = @safe_operator == '=' ? '==' : @safe_operator
+    ActiveRecord::Base.sanitize_sql_for_conditions(['@ %s %s', operator, value])
+  end
+
+  def searchable_query(record_class)
+    ActiveRecord::Base.sanitize_sql_for_conditions([searchable_predicate(record_class), value])
+  end
+
+  def searchable_predicate(record_class)
+    return "#{safe_search_column} IS NOT NULL AND #{safe_search_column} = ?" unless array_field?(record_class)
+
+    "#{safe_search_column} IS NOT NULL AND #{safe_search_column} && array[?]"
   end
 
   def as_location_filter(record_class)
@@ -39,8 +55,6 @@ class SearchFilters::Value < SearchFilters::SearchFilter
   end
 
   def to_s
-    return "#{field_name}=#{value}" unless not_filter
-
-    "not[#{field_name}]=#{value}"
+    "#{field_name}=#{value}"
   end
 end

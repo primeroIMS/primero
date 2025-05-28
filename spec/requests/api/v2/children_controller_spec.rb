@@ -409,7 +409,7 @@ describe Api::V2::ChildrenController, type: :request do
       allow(Rails.logger).to receive(:error).and_return(nil)
       login_for_test
 
-      get '/api/v2/cases?associated_user_names=List["user1"]'
+      get '/api/v2/cases?service_implemented_day_times=List["user1"]'
       expect(response).to have_http_status(200)
       expect(json['metadata']['total']).to eq(0)
       expect(json['data']).to be_empty

@@ -14,6 +14,7 @@ class Family < ApplicationRecord
   include EagerLoadable
   include LocationCacheable
   include PhoneticSearchable
+  include Normalizeable
 
   store_accessor(
     :data,
@@ -23,6 +24,8 @@ class Family < ApplicationRecord
   )
 
   has_many :cases, class_name: 'Child', foreign_key: :family_id
+
+  before_save :save_searchable_fields
 
   alias family_details_section family_members
 

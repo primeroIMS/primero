@@ -48,6 +48,7 @@ class Child < ApplicationRecord
   include PhoneticSearchable
   include ReportableLocation
   include SubformSummarizable
+  include Normalizeable
 
   # rubocop:disable Naming/VariableNumber
   store_accessor(
@@ -105,7 +106,7 @@ class Child < ApplicationRecord
     common_summary_fields + %w[
       case_id_display name survivor_code_no age sex registration_date
       hidden_name workflow case_status_reopened module_id registry_record_id
-      client_code gender reporting_location_hierarchy
+      client_code gender reporting_location_hierarchy location_current
     ]
   end
 
@@ -162,6 +163,7 @@ class Child < ApplicationRecord
   before_save :calculate_followup_due_dates
   before_save :calculate_tracing_dates
   before_save :calculate_reunification_dates
+  before_save :save_searchable_fields
   before_create :hide_name
   after_save :save_incidents
 
@@ -212,6 +214,16 @@ class Child < ApplicationRecord
 
   def self.nested_reportable_types
     [ReportableProtectionConcern, ReportableService, ReportableFollowUp]
+  end
+
+  # The field names end with an `_int` suffix in case we need to index their string version.
+  def self.searchable_field_map
+    {
+      'closure_problems_severity' => { 'name' => 'srch_closure_problems_severity_int', 'type' => 'integer' },
+      'client_summary_worries_severity' => {
+        'name' => 'srch_client_summary_worries_severity_int', 'type' => 'integer'
+      }
+    }
   end
 
   def validate_date_of_birth
@@ -313,7 +325,6 @@ class Child < ApplicationRecord
   end
 
   def calculate_assessment_due_dates
-    # TODO: Tests fail if I don't have a flat_map here
     self.assessment_due_dates = Tasks::AssessmentTask.from_case(self).map(&:due_date).compact
 
     assessment_due_dates
@@ -326,7 +337,7 @@ class Child < ApplicationRecord
   end
 
   def calculate_followup_due_dates
-    self.followup_due_dates = Tasks::FollowUpTask.from_case(self).map(&:due_date).compact
+    self.followup_due_dates = Tasks::FollowUpTask.from_case(self).map(&:due_date).compact.uniq
 
     followup_due_dates
   end

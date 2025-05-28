@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fromJS, List } from "immutable";
 import { useDispatch } from "react-redux";
@@ -32,7 +32,7 @@ import {
 } from "./utils";
 import { getInsight, getInsightFilter, getIsGroupedInsight } from "./selectors";
 import namespace from "./namespace";
-import { GROUPED_BY_FILTER, NAME, GHN_VIOLATIONS_INDICATORS_IDS } from "./constants";
+import { GROUPED_BY_FILTER, NAME, GHN_VIOLATIONS_INDICATORS_IDS, PERCENTAGE_INDICATORS } from "./constants";
 import css from "./styles.css";
 import { setSubReport } from "./action-creators";
 import getSubcolumnItems from "./utils/get-subcolumn-items";
@@ -104,7 +104,7 @@ function Component() {
   const incompleteDataLabel = i18n.t("managed_reports.incomplete_data");
 
   const translateId = valueID => {
-    if (isNil(valueID)) {
+    if (isNil(valueID) || valueID === "incomplete_data") {
       return incompleteDataLabel;
     }
 
@@ -147,12 +147,15 @@ function Component() {
 
   const currentGroupBy = prevGroupIdSample !== groupIdSample ? groupedBy : prevGroupedBy;
 
+  const cellRender = useCallback((val, index) => (index === 0 ? val : `${val}%`), []);
+  const chartRender = useCallback(val => `${val}%`, []);
+
   return (
     <div className={css.container}>
       <LoadingIndicator
         overlay
         emptyMessage={emptyMessage}
-        hasData={hasData}
+        hasData={hasData && !loading}
         type={namespace}
         loading={loading}
         errors={errors}
@@ -210,8 +213,12 @@ function Component() {
                   indicatorsSubcolumns,
                   totalText,
                   indicatorSubColumnKeys,
-                  includeAllSubColumns: !isReferralsTransferSubreport
+                  includeAllSubColumns: !isReferralsTransferSubreport,
+                  incompleteDataLabel
                 });
+
+                const cellValueRender = PERCENTAGE_INDICATORS.includes(valueKey) ? cellRender : null;
+                const chartValueRender = PERCENTAGE_INDICATORS.includes(valueKey) ? chartRender : null;
 
                 return (
                   <Indicator
@@ -234,6 +241,8 @@ function Component() {
                     totalText={GHN_VIOLATIONS_INDICATORS_IDS.includes(valueKey) ? violationsText : totalText}
                     subColumnItems={subColumnItems}
                     hasTotalColumn={hasTotalColumn}
+                    cellValueRender={cellValueRender}
+                    chartValueRender={chartValueRender}
                   />
                 );
               })}

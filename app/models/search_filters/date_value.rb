@@ -7,7 +7,7 @@ class SearchFilters::DateValue < SearchFilters::Value
   attr_accessor :date_include_time
 
   # rubocop:disable Metrics/MethodLength
-  def query
+  def json_path_query
     ActiveRecord::Base.sanitize_sql_for_conditions(
       [
         %(
@@ -28,5 +28,9 @@ class SearchFilters::DateValue < SearchFilters::Value
 
   def date_include_time?
     date_include_time || value.is_a?(Time)
+  end
+
+  def search_column_query
+    ActiveRecord::Base.sanitize_sql_for_conditions(["#{safe_search_column} = ?", value])
   end
 end

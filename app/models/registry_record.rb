@@ -18,6 +18,7 @@ class RegistryRecord < ApplicationRecord
   include EagerLoadable
   include LocationCacheable
   include PhoneticSearchable
+  include Normalizeable
 
   store_accessor(
     :data,
@@ -26,6 +27,8 @@ class RegistryRecord < ApplicationRecord
   )
 
   has_many :cases, class_name: 'Child', foreign_key: :registry_record_id
+
+  before_save :save_searchable_fields
 
   class << self
     def registry_types

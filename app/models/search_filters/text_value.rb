@@ -4,11 +4,13 @@
 
 # Transform API query parameter field_name=value into a sql query
 class SearchFilters::TextValue < SearchFilters::Value
-  def query
-    json_path_query
+  def json_path_predicate
+    ActiveRecord::Base.sanitize_sql_for_conditions(['@ == "%s"', value])
   end
 
-  def json_path_value
-    ActiveRecord::Base.sanitize_sql_for_conditions(['@ == "%s"', value])
+  def searchable_predicate(record_class)
+    return super unless array_field?(record_class)
+
+    "#{safe_search_column} && ARRAY[?]::VARCHAR[]"
   end
 end
