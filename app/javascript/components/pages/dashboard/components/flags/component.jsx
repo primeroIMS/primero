@@ -3,7 +3,7 @@
 import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 
-import { getDashboardFlags } from "../../selectors";
+import { getDashboardFlags, getDashboardFlagsTotal } from "../../selectors";
 import { useI18n } from "../../../../i18n";
 import Permission, { RESOURCES, ACTIONS } from "../../../../permissions";
 import { OptionsBox, FlagBox } from "../../../../dashboard";
@@ -24,6 +24,7 @@ function Component() {
   const loading = useMemoizedSelector(state => getLoading(state, [NAMESPACE, "flags"]));
   const errors = useMemoizedSelector(state => getErrors(state, [NAMESPACE, "flags"]));
   const flags = useMemoizedSelector(state => getDashboardFlags(state));
+  const total = useMemoizedSelector(state => getDashboardFlagsTotal(state));
 
   const dispatch = useDispatch();
   const handleSeeAll = () => dispatch(push(`${RECORD_PATH.cases}?flagged[0]=true`));
@@ -32,7 +33,7 @@ function Component() {
     <div className={css.seeAll}>
       <ActionButton
         id="dashboard.link_see_all"
-        text={`${i18n.t("dashboard.link_see_all")} (${flags.size})`}
+        text={`${i18n.t("dashboard.link_see_all")} (${total})`}
         type={ACTION_BUTTON_TYPES.default}
         isTransparent
         noTranslate

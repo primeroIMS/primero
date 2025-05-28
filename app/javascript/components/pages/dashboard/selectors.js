@@ -169,6 +169,8 @@ export const getDashboardFlags = (state, excludeResolved = false) => {
   return flags;
 };
 
+export const getDashboardFlagsTotal = state => state.getIn(["records", NAMESPACE, "flags", "metadata", "total"], 0);
+
 export const getDashboardFlagsLoading = state => state.getIn(["records", NAMESPACE, "flags", "loading"], false);
 
 export const getCasesToAssign = state =>

@@ -7,7 +7,7 @@ import actions from "./actions";
 import { DASHBOARD_GROUP, DASHBOARD_NAMES_FOR_GROUP } from "./constants";
 
 export const fetchFlags = (recordType, activeOnly = false) => {
-  const commonPath = `record_type=${recordType}`;
+  const commonPath = `record_type=${recordType}&per=10`;
   const path = activeOnly
     ? `${RECORD_PATH.flags}?active_only=true&${commonPath}`
     : `${RECORD_PATH.flags}?${commonPath}`;

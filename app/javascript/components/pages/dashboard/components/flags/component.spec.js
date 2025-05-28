@@ -38,7 +38,12 @@ describe("<Flags> - pages/dashboard/components/flags", () => {
               flagged_by: "primero_test",
               short_id: "33e620e"
             }
-          ]
+          ],
+          metadata: {
+            total: 1,
+            per: 10,
+            page: 1
+          }
         }
       }
     },

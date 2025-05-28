@@ -211,7 +211,9 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         DASHBOARD_FLAGS_SORT_ORDER
       ]);
 
-      return state.setIn([DASHBOARD_GROUP.flags, "data"], fromJS(orderedArray));
+      return state
+        .setIn([DASHBOARD_GROUP.flags, "data"], fromJS(orderedArray))
+        .setIn([DASHBOARD_GROUP.flags, "metadata"], fromJS(payload.metadata));
     }
     case actions.DASHBOARD_FLAGS_FINISHED:
       return state.setIn([DASHBOARD_GROUP.flags, "loading"], false);

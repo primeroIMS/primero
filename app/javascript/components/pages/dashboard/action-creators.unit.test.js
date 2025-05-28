@@ -34,7 +34,7 @@ describe("<Dashboard /> - Action Creators", () => {
   });
 
   describe("fetchFlags", () => {
-    const commonPath = "record_type=cases";
+    const commonPath = "record_type=cases&per=10";
 
     describe("when only activeFlags is false", () => {
       it("returns the correct object", () => {
