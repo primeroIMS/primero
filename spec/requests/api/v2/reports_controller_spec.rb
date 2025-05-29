@@ -106,6 +106,7 @@ describe Api::V2::ReportsController, type: :request do
 
     @child_concerns1 = Child.new_with_user(@test_user1,
                                            protection_concerns: %w[trafficked_smuggled sexually_exploited migrant],
+                                           module_id: PrimeroModule::CP,
                                            services_section:
                                            [
                                              {
@@ -120,6 +121,7 @@ describe Api::V2::ReportsController, type: :request do
 
     @child_concerns2 = Child.new_with_user(@test_user2,
                                            protection_concerns: %w[trafficked_smuggled sexually_exploited migrant],
+                                           module_id: PrimeroModule::CP,
                                            services_section:
                                            [
                                              {

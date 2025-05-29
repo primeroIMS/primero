@@ -223,7 +223,8 @@ class Report < ApplicationRecord
       search_filters.each { |filter| filter_query = filter_query.where(filter.query) }
     end
 
-    apply_permission_filter(filter_query)
+    filter_query = apply_permission_filter(filter_query)
+    apply_module_filter(filter_query)
   end
 
   def apply_filters_for_nested_model(query)
@@ -239,6 +240,10 @@ class Report < ApplicationRecord
     return query unless permission_filter.present?
 
     query.where(Reports::FilterFieldQuery.build(permission_filter:))
+  end
+
+  def apply_module_filter(query)
+    query.where(srch_module_id: module_id)
   end
 
   def age_field?(field)
