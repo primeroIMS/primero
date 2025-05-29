@@ -1415,6 +1415,16 @@ describe Api::V2::ChildrenController, type: :request do
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq('/api/v2/cases/thisdoesntexist/traces')
     end
+
+    it 'use record_id for audit log' do
+      ActiveJob::Base.queue_adapter = :test
+      allow(AuditLogJob).to receive(:perform_later)
+      login_for_test(permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::READ])])
+
+      get "/api/v2/cases/#{@case4.id}/traces"
+
+      expect(AuditLogJob).to have_received(:perform_later).with(hash_including(record_id: @case4.id))
+    end
   end
 
   describe 'POST /api/v2/cases/:id/family' do
