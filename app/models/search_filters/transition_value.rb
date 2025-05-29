@@ -4,7 +4,8 @@
 
 # This filter selects by the transitioned_to field on related transitions.
 class SearchFilters::TransitionValue < SearchFilters::Value
-  def query(record_class) # rubocop:disable Metrics/MethodLength this is pretty much just a long SQL template
+  # rubocop:disable Metrics/MethodLength this is pretty much just a long SQL template
+  def query(record_class)
     ActiveRecord::Base.sanitize_sql_for_conditions(
       [
         %(
@@ -12,14 +13,13 @@ class SearchFilters::TransitionValue < SearchFilters::Value
           SELECT 1
           FROM transitions as transitions
           WHERE transitions.type = :transition_type
-          AND #{record_class.table_name}.id::varchar = transitions.record_id
+          AND #{record_class.table_name}.id = transitions.record_id::uuid
           AND transitions.transitioned_to = :value
         )
         ),
-        { transition_type: field_name, record_class:, value: }
+        { transition_type: field_name, value: }
       ]
     )
   end
+  # rubocop:enable Metrics/MethodLength
 end
-
-# AND id = transitions.record_id
