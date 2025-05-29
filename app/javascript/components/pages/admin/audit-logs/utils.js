@@ -4,6 +4,16 @@ import { FILTER_TYPES } from "../../../index-filters";
 
 import { AUDIT_LOG_ACTIONS, RECORD_TYPE, TIMESTAMP, USER_NAME } from "./constants";
 
+function calculateApprovalLabel(approvalAction) {
+  const match = approvalAction.match(/^(.*)_(approved|rejected|requested)$/);
+
+  if (match) {
+    return match[1];
+  }
+
+  return null;
+}
+
 function parseAuditLogOptions(i18n, options, key) {
   return (
     options?.reduce(
@@ -11,7 +21,9 @@ function parseAuditLogOptions(i18n, options, key) {
         ...prev,
         {
           id: current,
-          display_name: i18n.t(`logger.${key}.${current}`)
+          display_name: i18n.t(`logger.${key}.${current}`, {
+            approval_label: i18n.t(`cases.${calculateApprovalLabel(current)}`)
+          })
         }
       ],
       []
