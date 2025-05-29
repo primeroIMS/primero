@@ -41,4 +41,10 @@ class Api::V2::ChildrenController < ApplicationApiController
     data = params.require(:data).permit(:family_detail_id).to_h
     @family_params = data.merge(case_id: params.require(:case_id))
   end
+
+  def record_id
+    return @record_id ||= request.path.split('/')[4] if action_name == 'traces'
+
+    super
+  end
 end
