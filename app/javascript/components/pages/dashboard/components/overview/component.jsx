@@ -1,7 +1,5 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { fromJS } from "immutable";
-
 import Permission, { RESOURCES, ACTIONS, usePermissions } from "../../../../permissions";
 import { OptionsBox } from "../../../../dashboard";
 import { INDICATOR_NAMES, DASHBOARD_TYPES, DASHBOARD_GROUP } from "../../constants";
@@ -12,7 +10,8 @@ import {
   getCaseOverview,
   getCaseIncidentOverview,
   getNationalAdminSummary,
-  getDashboardsByGroup
+  getIsDashboardGroupLoading,
+  getDashboardGroupHasData
 } from "../../selectors";
 import { getOption } from "../../../../record-form";
 import { LOOKUPS } from "../../../../../config";
@@ -25,12 +24,8 @@ import { NAME } from "./constants";
 function Component() {
   const i18n = useI18n();
 
-  const loading = useMemoizedSelector(state =>
-    getDashboardsByGroup(state, DASHBOARD_GROUP.overview).get("loading", false)
-  );
-  const hasData = useMemoizedSelector(
-    state => !getDashboardsByGroup(state, DASHBOARD_GROUP.overview).get("data", fromJS([])).isEmpty()
-  );
+  const loading = useMemoizedSelector(state => getIsDashboardGroupLoading(state, DASHBOARD_GROUP.overview));
+  const hasData = useMemoizedSelector(state => getDashboardGroupHasData(state, DASHBOARD_GROUP.overview));
   const casesByRiskLevel = useMemoizedSelector(state => getCasesByRiskLevel(state));
   const groupOverview = useMemoizedSelector(state => getGroupOverview(state));
   const caseOverview = useMemoizedSelector(state => getCaseOverview(state));

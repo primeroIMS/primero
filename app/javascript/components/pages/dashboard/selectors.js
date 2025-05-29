@@ -188,3 +188,8 @@ export const getActionNeededTransferAwaitingAcceptance = state =>
     DASHBOARD_GROUP.action_needed,
     DASHBOARD_NAMES.ACTION_NEEDED_NEW_TRANSFER_AWAITING_ACCEPTANCE
   );
+
+export const getIsDashboardGroupLoading = (state, group) => getDashboardsByGroup(state, group).get("loading", false);
+
+export const getDashboardGroupHasData = (state, group) =>
+  !getDashboardsByGroup(state, group).get("data", fromJS([])).isEmpty();

@@ -2,7 +2,7 @@
 
 import PropTypes from "prop-types";
 
-import { getDashboardsByGroup, getProtectionConcerns } from "../../selectors";
+import { getIsDashboardGroupLoading, getProtectionConcerns } from "../../selectors";
 import { useI18n } from "../../../../i18n";
 import { toProtectionConcernTable } from "../../utils";
 import Permission, { RESOURCES, ACTIONS } from "../../../../permissions";
@@ -16,10 +16,7 @@ import { NAME } from "./constants";
 
 function Component() {
   const i18n = useI18n();
-
-  const loading = useMemoizedSelector(state =>
-    getDashboardsByGroup(state, DASHBOARD_GROUP.protection_concerns).get("loading", false)
-  );
+  const loading = useMemoizedSelector(state => getIsDashboardGroupLoading(state, DASHBOARD_GROUP.protection_concerns));
   const protectionConcerns = useMemoizedSelector(state => getProtectionConcerns(state));
   const protectionConcernsLookup = useMemoizedSelector(state =>
     getOption(state, LOOKUPS.protection_concerns, i18n.locale)

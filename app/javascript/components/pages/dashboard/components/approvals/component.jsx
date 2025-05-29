@@ -1,6 +1,5 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { fromJS } from "immutable";
 import { Fragment } from "react";
 
 import Permission, {
@@ -25,7 +24,8 @@ import {
   getApprovalsClosure,
   getApprovalsActionPlan,
   getApprovalsGbvClosure,
-  getDashboardsByGroup
+  getIsDashboardGroupLoading,
+  getDashboardGroupHasData
 } from "../../selectors";
 import { selectUserModules, useApp } from "../../../../application";
 import { useMemoizedSelector } from "../../../../../libs";
@@ -54,12 +54,8 @@ function Component() {
   });
 
   const userModules = useMemoizedSelector(state => selectUserModules(state));
-  const loading = useMemoizedSelector(state =>
-    getDashboardsByGroup(state, DASHBOARD_GROUP.approvals).get("loading", false)
-  );
-  const hasData = useMemoizedSelector(
-    state => !getDashboardsByGroup(state, DASHBOARD_GROUP.approvals).get("data", fromJS([])).isEmpty()
-  );
+  const loading = useMemoizedSelector(state => getIsDashboardGroupLoading(state, DASHBOARD_GROUP.approvals));
+  const hasData = useMemoizedSelector(state => getDashboardGroupHasData(state, DASHBOARD_GROUP.approvals));
   const approvalsAssessmentPending = useMemoizedSelector(state => getApprovalsAssessmentPending(state));
   const approvalsCasePlanPending = useMemoizedSelector(state => getApprovalsClosurePending(state));
   const approvalsClosurePending = useMemoizedSelector(state => getApprovalsCasePlanPending(state));

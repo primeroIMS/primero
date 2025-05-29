@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { getDashboardsByGroup, getSharedFromMyTeam } from "../../selectors";
+import { getIsDashboardGroupLoading, getSharedFromMyTeam } from "../../selectors";
 import { useI18n } from "../../../../i18n";
 import { teamSharingTable } from "../../utils";
 import Permission, { RESOURCES, ACTIONS } from "../../../../permissions";
@@ -13,10 +13,7 @@ import { NAME } from "./constants";
 
 function Component() {
   const i18n = useI18n();
-
-  const loading = useMemoizedSelector(state =>
-    getDashboardsByGroup(state, DASHBOARD_GROUP.shared_from_my_team).get("loading", false)
-  );
+  const loading = useMemoizedSelector(state => getIsDashboardGroupLoading(state, DASHBOARD_GROUP.shared_from_my_team));
   const sharedFromMyTeam = useMemoizedSelector(state => getSharedFromMyTeam(state));
 
   const sharedFromMyTeamProps = {

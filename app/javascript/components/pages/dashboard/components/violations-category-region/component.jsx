@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { getDashboardsByGroup, getViolationsCategoryRegion } from "../../selectors";
+import { getIsDashboardGroupLoading, getViolationsCategoryRegion } from "../../selectors";
 import { useI18n } from "../../../../i18n";
 import { toListTable } from "../../utils";
 import Permission, { RESOURCES, ACTIONS } from "../../../../permissions";
@@ -26,7 +26,7 @@ function Component() {
     useReportingLocationName: true
   });
   const loading = useMemoizedSelector(state =>
-    getDashboardsByGroup(state, DASHBOARD_GROUP.violations_category_region).get("loading", false)
+    getIsDashboardGroupLoading(state, DASHBOARD_GROUP.violations_category_region)
   );
   const violationsCategoryRegion = useMemoizedSelector(state => getViolationsCategoryRegion(state));
 

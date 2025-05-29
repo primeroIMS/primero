@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { getDashboardsByGroup, getWorkflowIndividualCases } from "../../selectors";
+import { getIsDashboardGroupLoading, getWorkflowIndividualCases } from "../../selectors";
 import { useI18n } from "../../../../i18n";
 import Permission, { RESOURCES, ACTIONS } from "../../../../permissions";
 import { OptionsBox } from "../../../../dashboard";
@@ -16,9 +16,7 @@ import WorkFlowStep from "./components";
 function Component() {
   const i18n = useI18n();
 
-  const loading = useMemoizedSelector(state =>
-    getDashboardsByGroup(state, DASHBOARD_GROUP.workflow).get("loading", false)
-  );
+  const loading = useMemoizedSelector(state => getIsDashboardGroupLoading(state, DASHBOARD_GROUP.workflow));
   const workflowLabels = useMemoizedSelector(state => getAllWorkflowLabels(state, RECORD_TYPES.cases));
   const casesWorkflow = useMemoizedSelector(state => getWorkflowIndividualCases(state));
   const hasData = Boolean(casesWorkflow.size) && !loading;

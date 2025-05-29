@@ -9,7 +9,7 @@ import { DASHBOARD_GROUP, DASHBOARD_TYPES } from "../../constants";
 import { useI18n } from "../../../../i18n";
 import { permittedSharedWithMe, filterIndicatorsByKey } from "../../utils";
 import {
-  getDashboardsByGroup,
+  getIsDashboardGroupLoading,
   getSharedWithMe,
   getSharedWithMyTeamOverview,
   getSharedWithOthers
@@ -22,9 +22,7 @@ const sharedWithOthersIndicators = ["shared_with_others_pending_transfers", "sha
 
 function Component({ userPermissions }) {
   const i18n = useI18n();
-  const loading = useMemoizedSelector(state =>
-    getDashboardsByGroup(state, DASHBOARD_GROUP.referrals_transfers).get("loading", false)
-  );
+  const loading = useMemoizedSelector(state => getIsDashboardGroupLoading(state, DASHBOARD_GROUP.referrals_transfers));
   const sharedWithMe = useMemoizedSelector(state => getSharedWithMe(state));
   const sharedWithOthers = useMemoizedSelector(state => getSharedWithOthers(state));
   const sharedWithMyTeamOverview = useMemoizedSelector(state => getSharedWithMyTeamOverview(state));

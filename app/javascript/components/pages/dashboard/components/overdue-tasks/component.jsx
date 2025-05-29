@@ -1,13 +1,12 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { fromJS } from "immutable";
-
 import {
   getCasesByTaskOverdueAssessment,
   getCasesByTaskOverdueCasePlan,
   getCasesByTaskOverdueServices,
   getCasesByTaskOverdueFollowups,
-  getDashboardsByGroup
+  getIsDashboardGroupLoading,
+  getDashboardGroupHasData
 } from "../../selectors";
 import { useI18n } from "../../../../i18n";
 import { toTasksOverdueTable } from "../../utils";
@@ -22,13 +21,8 @@ import { NAME } from "./constants";
 
 function Component() {
   const i18n = useI18n();
-
-  const loading = useMemoizedSelector(state =>
-    getDashboardsByGroup(state, DASHBOARD_GROUP.overdue_tasks).get("loading", false)
-  );
-  const hasData = useMemoizedSelector(
-    state => !getDashboardsByGroup(state, DASHBOARD_GROUP.overdue_tasks).get("data", fromJS([])).isEmpty()
-  );
+  const loading = useMemoizedSelector(state => getIsDashboardGroupLoading(state, DASHBOARD_GROUP.overdue_tasks));
+  const hasData = useMemoizedSelector(state => getDashboardGroupHasData(state, DASHBOARD_GROUP.overdue_tasks));
   const casesByTaskOverdueAssessment = useMemoizedSelector(state => getCasesByTaskOverdueAssessment(state));
   const casesByTaskOverdueCasePlan = useMemoizedSelector(state => getCasesByTaskOverdueCasePlan(state));
   const casesByTaskOverdueServices = useMemoizedSelector(state => getCasesByTaskOverdueServices(state));

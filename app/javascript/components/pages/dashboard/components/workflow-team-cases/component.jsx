@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { getDashboardsByGroup, getWorkflowTeamCases } from "../../selectors";
+import { getIsDashboardGroupLoading, getWorkflowTeamCases } from "../../selectors";
 import { useI18n } from "../../../../i18n";
 import { toListTable } from "../../utils";
 import Permission, { RESOURCES, ACTIONS } from "../../../../permissions";
@@ -15,10 +15,7 @@ import { NAME } from "./constants";
 
 function Component() {
   const i18n = useI18n();
-
-  const loading = useMemoizedSelector(state =>
-    getDashboardsByGroup(state, DASHBOARD_GROUP.workflow_team).get("loading", false)
-  );
+  const loading = useMemoizedSelector(state => getIsDashboardGroupLoading(state, DASHBOARD_GROUP.workflow_team));
   const userModules = useMemoizedSelector(state => selectUserModules(state));
   const workflowLabels = useMemoizedSelector(state => getAllWorkflowLabels(state, RECORD_TYPES.cases));
   const casesWorkflowTeam = useMemoizedSelector(state => getWorkflowTeamCases(state));

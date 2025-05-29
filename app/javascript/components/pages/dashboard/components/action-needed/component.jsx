@@ -7,7 +7,8 @@ import {
   getActionNeededNewReferrals,
   getActionNeededNewUpdated,
   getActionNeededTransferAwaitingAcceptance,
-  getDashboardsByGroup
+  getDashboardGroupHasData,
+  getIsDashboardGroupLoading
 } from "../../selectors";
 import { DASHBOARD_GROUP, DASHBOARD_TYPES } from "../../constants";
 import Permission, { RESOURCES, ACTIONS } from "../../../../permissions";
@@ -19,17 +20,12 @@ import { ACTION_NEEDED_DASHBOARD } from "../../../../permissions/constants";
 function Component() {
   const i18n = useI18n();
 
-  const loading = useMemoizedSelector(state =>
-    getDashboardsByGroup(state, DASHBOARD_GROUP.action_needed).get("loading", false)
-  );
+  const loading = useMemoizedSelector(state => getIsDashboardGroupLoading(state, DASHBOARD_GROUP.action_needed));
+  const hasData = useMemoizedSelector(state => getDashboardGroupHasData(state, DASHBOARD_GROUP.action_needed));
   const actionNeededNewUpdated = useMemoizedSelector(state => getActionNeededNewUpdated(state));
   const actionNeededNewReferrals = useMemoizedSelector(state => getActionNeededNewReferrals(state));
   const actionNeededTransferAwaitingAcceptance = useMemoizedSelector(state =>
     getActionNeededTransferAwaitingAcceptance(state)
-  );
-
-  const actionNeededHasData = Boolean(
-    actionNeededNewUpdated.size || actionNeededNewReferrals.size || actionNeededTransferAwaitingAcceptance.size
   );
 
   const columns = useMemo(
@@ -65,16 +61,12 @@ function Component() {
         }
       ]
     ],
-    [actionNeededHasData]
+    [hasData]
   );
 
   return (
     <Permission resources={RESOURCES.dashboards} actions={ACTION_NEEDED_DASHBOARD}>
-      <OptionsBox
-        title={i18n.t("dashboard.action_needed.header")}
-        loading={loading}
-        hasData={actionNeededHasData && !loading}
-      >
+      <OptionsBox title={i18n.t("dashboard.action_needed.header")} loading={loading} hasData={hasData && !loading}>
         <DashboardColumns columns={columns} keepRows />
       </OptionsBox>
     </Permission>

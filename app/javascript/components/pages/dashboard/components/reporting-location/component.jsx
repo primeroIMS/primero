@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { getDashboardsByGroup, getReportingLocation } from "../../selectors";
+import { getIsDashboardGroupLoading, getReportingLocation } from "../../selectors";
 import { useI18n } from "../../../../i18n";
 import { toReportingLocationTable } from "../../utils";
 import Permission, { RESOURCES, ACTIONS } from "../../../../permissions";
@@ -15,10 +15,7 @@ import { NAME } from "./constants";
 
 function Component() {
   const i18n = useI18n();
-
-  const loading = useMemoizedSelector(state =>
-    getDashboardsByGroup(state, DASHBOARD_GROUP.reporting_location).get("loading", false)
-  );
+  const loading = useMemoizedSelector(state => getIsDashboardGroupLoading(state, DASHBOARD_GROUP.reporting_location));
   const locations = useMemoizedSelector(state => getLocations(state));
   const reportingLocationConfig = useMemoizedSelector(state => getReportingLocationConfig(state));
   const reportingLocation = useMemoizedSelector(state => getReportingLocation(state));

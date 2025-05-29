@@ -2,7 +2,7 @@
 
 import PropTypes from "prop-types";
 
-import { getCasesBySocialWorker, getDashboardsByGroup } from "../../selectors";
+import { getCasesBySocialWorker, getIsDashboardGroupLoading } from "../../selectors";
 import { useI18n } from "../../../../i18n";
 import { toCasesBySocialWorkerTable } from "../../utils";
 import Permission, { RESOURCES, ACTIONS } from "../../../../permissions";
@@ -17,7 +17,7 @@ function Component() {
   const i18n = useI18n();
 
   const loading = useMemoizedSelector(state =>
-    getDashboardsByGroup(state, DASHBOARD_GROUP.cases_by_social_worker).get("loading", false)
+    getIsDashboardGroupLoading(state, DASHBOARD_GROUP.cases_by_social_worker)
   );
   const data = useMemoizedSelector(state => getCasesBySocialWorker(state));
 

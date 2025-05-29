@@ -8,7 +8,7 @@ import { OptionsBox } from "../../../../dashboard";
 import { DASHBOARD_GROUP, DASHBOARD_TYPES } from "../../constants";
 import { useI18n } from "../../../../i18n";
 import { permittedSharedWithMe, filterIndicatorsByKey } from "../../utils";
-import { getDashboardsByGroup, getSharedWithMe, getSharedWithOthers } from "../../selectors";
+import { getIsDashboardGroupLoading, getSharedWithMe, getSharedWithOthers } from "../../selectors";
 import { useMemoizedSelector } from "../../../../../libs";
 import DashboardColumns from "../../../../dashboard/dashboard-columns";
 
@@ -21,9 +21,7 @@ function Component({ userPermissions }) {
   const canSeeSharedWithOthers = usePermissions(RESOURCES.dashboards, [ACTIONS.DASH_SHARED_WITH_OTHERS]);
   const sharedWithMe = useMemoizedSelector(state => getSharedWithMe(state));
   const sharedWithOthers = useMemoizedSelector(state => getSharedWithOthers(state));
-  const loading = useMemoizedSelector(state =>
-    getDashboardsByGroup(state, DASHBOARD_GROUP.referrals_transfers).get("loading", false)
-  );
+  const loading = useMemoizedSelector(state => getIsDashboardGroupLoading(state, DASHBOARD_GROUP.referrals_transfers));
 
   const referralsDashHasData = Boolean(sharedWithMe.size || sharedWithOthers.size);
 

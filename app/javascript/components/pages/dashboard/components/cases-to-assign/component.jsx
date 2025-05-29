@@ -7,7 +7,7 @@ import { LOOKUPS, ROUTES } from "../../../../../config";
 import { OptionsBox, DashboardTable } from "../../../../dashboard";
 import { useI18n } from "../../../../i18n";
 import { useMemoizedSelector } from "../../../../../libs";
-import { getCasesToAssign, getDashboardsByGroup } from "../../selectors";
+import { getCasesToAssign, getIsDashboardGroupLoading } from "../../selectors";
 import { toCasesToAssignTable } from "../../utils";
 import useOptions from "../../../../form/use-options";
 import { DASHBOARD_GROUP } from "../../constants";
@@ -16,9 +16,8 @@ import { NAME } from "./constants";
 
 function Component() {
   const i18n = useI18n();
-  const loading = useMemoizedSelector(state =>
-    getDashboardsByGroup(state, DASHBOARD_GROUP.cases_to_assign).get("loading", false)
-  );
+
+  const loading = useMemoizedSelector(state => getIsDashboardGroupLoading(state, DASHBOARD_GROUP.cases_to_assign));
   const casesToAssign = useMemoizedSelector(state => getCasesToAssign(state));
   const options = useOptions({ source: LOOKUPS.risk_level });
 

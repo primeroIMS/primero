@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { getDashboardsByGroup, getPerpetratorArmedForceGroupPartyNames } from "../../selectors";
+import { getIsDashboardGroupLoading, getPerpetratorArmedForceGroupPartyNames } from "../../selectors";
 import { useI18n } from "../../../../i18n";
 import toFacetedTable from "../../utils/to-faceted-table";
 import Permission, { RESOURCES, ACTIONS } from "../../../../permissions";
@@ -16,9 +16,8 @@ function Component() {
   const i18n = useI18n();
 
   const armedForceGroupOrOtherParty = useOptions({ source: LOOKUPS.armed_force_group_or_other_party });
-
   const loading = useMemoizedSelector(state =>
-    getDashboardsByGroup(state, DASHBOARD_GROUP.perpetrator_armed_force_group_party_names).get("loading", false)
+    getIsDashboardGroupLoading(state, DASHBOARD_GROUP.perpetrator_armed_force_group_party_names)
   );
   const perpetratorArmedForceGroupPartyNames = useMemoizedSelector(state =>
     getPerpetratorArmedForceGroupPartyNames(state)
