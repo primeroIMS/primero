@@ -13,11 +13,12 @@ class SearchFilters::TransitionValue < SearchFilters::Value
           SELECT 1
           FROM transitions as transitions
           WHERE transitions.type = :transition_type
+          AND transitions.record_type = :record_type
           AND #{record_class.table_name}.id = transitions.record_id::uuid
           AND transitions.transitioned_to = :value
         )
         ),
-        { transition_type: field_name, value: }
+        { transition_type: field_name, record_type: record_class.name, value: }
       ]
     )
   end
