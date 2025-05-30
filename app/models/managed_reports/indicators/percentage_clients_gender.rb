@@ -40,6 +40,7 @@ class ManagedReports::Indicators::PercentageClientsGender < ManagedReports::SqlR
         ManagedReports::FilterService.reporting_location(params['location']),
         ManagedReports::FilterService.to_datetime(filter_date(params)),
         ManagedReports::FilterService.consent_reporting,
+        ManagedReports::FilterService.module_id(params['module_id']),
         ManagedReports::FilterService.scope(current_user)
       ].compact
       return unless filters.present?

@@ -6,10 +6,19 @@ require 'rails_helper'
 
 describe ManagedReports::Indicators::ImprovedWellbeingAfterSupport do
   before do
-    clean_data(Child)
+    clean_data(Child, PrimeroModule)
+
+    module1 = PrimeroModule.create!(
+      unique_id: 'primeromodule-cp-a', name: 'CPA', associated_record_types: %w[case]
+    )
+
+    module2 = PrimeroModule.create!(
+      unique_id: 'primeromodule-cp-b', name: 'CPB', associated_record_types: %w[case]
+    )
 
     Child.create!(
       data: {
+        module_id: module1.unique_id,
         gender: 'male',
         next_steps: ['a_continue_protection_assessment'],
         registration_date: '2021-10-05',
@@ -20,6 +29,7 @@ describe ManagedReports::Indicators::ImprovedWellbeingAfterSupport do
     )
     Child.create!(
       data: {
+        module_id: module1.unique_id,
         gender: 'male',
         next_steps: ['a_continue_protection_assessment'],
         registration_date: '2021-10-08',
@@ -30,6 +40,7 @@ describe ManagedReports::Indicators::ImprovedWellbeingAfterSupport do
     )
     Child.create!(
       data: {
+        module_id: module2.unique_id,
         gender: 'male',
         next_steps: ['a_continue_protection_assessment'],
         registration_date: '2021-11-07',
@@ -39,6 +50,7 @@ describe ManagedReports::Indicators::ImprovedWellbeingAfterSupport do
       }
     )
     Child.create!(
+      module_id: module2.unique_id,
       data: {
         gender: 'female',
         next_steps: ['a_continue_protection_assessment'],
@@ -163,6 +175,25 @@ describe ManagedReports::Indicators::ImprovedWellbeingAfterSupport do
               group_id: '2021-10-10 - 2021-10-16',
               data: []
             }
+          ]
+        )
+      end
+    end
+  end
+
+  describe 'module_id' do
+    context 'when set' do
+      it 'should return results by module' do
+        report_data = ManagedReports::Indicators::ImprovedWellbeingAfterSupport.build(
+          nil,
+          {
+            'module_id' => SearchFilters::Value.new(field_name: 'module_id', value: 'primeromodule-cp-a')
+          }
+        ).data
+
+        expect(report_data).to match_array(
+          [
+            { id: 'improve_by_at_least_3_points', male: 100.00, total: 100.00 }
           ]
         )
       end

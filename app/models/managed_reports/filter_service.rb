@@ -35,6 +35,12 @@ class ManagedReports::FilterService
       SearchFilters::LocationValue.new(field_name: 'owned_by_location', value: location_param.value)
     end
 
+    def module_id(module_id_params)
+      return unless module_id_params.present?
+
+      SearchFilters::Value.new(field_name: 'module_id', value: module_id_params.value)
+    end
+
     def scope(current_user)
       return if current_user.blank? || current_user.managed_report_scope_all?
 

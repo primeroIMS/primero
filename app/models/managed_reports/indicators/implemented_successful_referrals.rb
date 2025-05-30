@@ -49,6 +49,7 @@ class ManagedReports::Indicators::ImplementedSuccessfulReferrals < ManagedReport
       filters = [
         params['status'],
         ManagedReports::FilterService.consent_reporting,
+        ManagedReports::FilterService.module_id(params['module_id']),
         ManagedReports::FilterService.scope(current_user),
         ManagedReports::FilterService.reporting_location(params['location'])
       ].compact
