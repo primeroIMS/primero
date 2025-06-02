@@ -27,7 +27,7 @@ class ManagedReport < ValueObject
         description: 'managed_reports.protection_concerns.description',
         subreports: %w[protection_concerns],
         permitted_filters: [
-          :grouped_by, :by, :created_by_groups, :owned_by_groups,
+          :grouped_by, :by, :created_by_groups, :owned_by_groups, :module_id,
           :created_organization, :owned_by_agency_id, { status: {}, registration_date: {}, protection_concerns: {} }
         ],
         module_id: PrimeroModule::CP
@@ -38,7 +38,7 @@ class ManagedReport < ValueObject
         description: 'managed_reports.reporting_locations.description',
         subreports: %w[reporting_locations],
         permitted_filters: [
-          :grouped_by, :by, :created_by_groups, :owned_by_groups,
+          :grouped_by, :by, :created_by_groups, :owned_by_groups, :module_id,
           :created_organization, :owned_by_agency_id, :location, { status: {}, registration_date: {} }
         ],
         module_id: PrimeroModule::CP
@@ -49,7 +49,7 @@ class ManagedReport < ValueObject
         description: 'managed_reports.followups.description',
         subreports: %w[followups],
         permitted_filters: [
-          :grouped_by, :by, :created_by_groups, :owned_by_groups,
+          :grouped_by, :by, :created_by_groups, :owned_by_groups, :module_id,
           :created_organization, :owned_by_agency_id, { status: {}, followup_date: {}, followup_type: {} }
         ],
         module_id: PrimeroModule::CP
@@ -61,7 +61,7 @@ class ManagedReport < ValueObject
         subreports: %w[services],
         permitted_filters: [
           :grouped_by, :by, :created_by_groups, :owned_by_groups,
-          :created_organization, :owned_by_agency_id,
+          :created_organization, :owned_by_agency_id, :module_id,
           { status: {}, service_implemented_day_time: {}, service_type: {} }
         ],
         module_id: PrimeroModule::CP
@@ -95,7 +95,7 @@ class ManagedReport < ValueObject
         subreports: %w[total_transfers total_referrals],
         permitted_filters: [
           :grouped_by, :by, :created_by_groups, :owned_by_groups, :created_organization, :owned_by_agency_id,
-          { status: {}, created_at: {}, referral_transfer_status: {} }
+          { status: {}, created_at: {}, referral_transfer_status: {} }, :module_id
         ],
         module_id: PrimeroModule::CP
       ),
@@ -106,7 +106,7 @@ class ManagedReport < ValueObject
         subreports: %w[cases_violence_type incidents_violence_type],
         permitted_filters: [
           :grouped_by, :by, :created_by_groups, :cp_incident_violence_type, :owned_by_groups,
-          :created_organization, :owned_by_agency_id, { status: {}, registration_date: {} }
+          :created_organization, :owned_by_agency_id, { status: {}, registration_date: {} }, :module_id
         ],
         module_id: PrimeroModule::CP
       ),
@@ -154,9 +154,9 @@ class ManagedReport < ValueObject
         description: 'managed_reports.protection_outcomes.description',
         subreports: %w[improved_psychosocial_wellbeing impacted_protection_risks],
         permitted_filters: [
-          :grouped_by, :by, { status: {}, registration_date: {}, date_closure: {} }
+          :grouped_by, :by, { status: {}, registration_date: {}, date_closure: {} }, :module_id
         ],
-        module_id: 'primeromodule-pcm' # TODO: What to do?
+        module_id: 'primeromodule-pcm'
       ),
       Permission::PROCESS_QUALITY_TOTAL_CASES => ManagedReport.new(
         id: 'process_quality_total_cases',
@@ -164,9 +164,9 @@ class ManagedReport < ValueObject
         description: 'managed_reports.process_quality_total_cases.description',
         subreports: %w[process_quality_total_cases],
         permitted_filters: [
-          :grouped_by, :by, { status: {}, registration_date: {}, date_closure: {} }
+          :grouped_by, :by, { status: {}, registration_date: {}, date_closure: {} }, :module_id
         ],
-        module_id: 'primeromodule-pcm' # TODO: What to do?
+        module_id: 'primeromodule-pcm'
       ),
       Permission::PROCESS_QUALITY_AVERAGE_CASES => ManagedReport.new(
         id: 'process_quality_average_cases',
@@ -174,9 +174,9 @@ class ManagedReport < ValueObject
         description: 'managed_reports.process_quality_average_cases.description',
         subreports: %w[process_quality_average_cases],
         permitted_filters: [
-          :grouped_by, :by, { status: {}, registration_date: {}, date_closure: {} }
+          :grouped_by, :by, { status: {}, registration_date: {}, date_closure: {} }, :module_id
         ],
-        module_id: 'primeromodule-pcm' # TODO: What to do?
+        module_id: 'primeromodule-pcm'
       ),
       Permission::PROCESS_QUALITY_SUCCESSFUL_REFERRALS => ManagedReport.new(
         id: 'process_quality_successful_referrals',
@@ -186,9 +186,9 @@ class ManagedReport < ValueObject
         permitted_filters: [
           :grouped_by, :by, :location, :service_type, {
             status: {}, service_response_day_time: {}, referral_created_at: {}
-          }
+          }, :module_id
         ],
-        module_id: 'primeromodule-pcm' # TODO: What to do?
+        module_id: 'primeromodule-pcm'
       ),
       Permission::PROCESS_QUALITY_IMPLEMENTED_REFERRALS => ManagedReport.new(
         id: 'process_quality_implemented_referrals',
@@ -196,9 +196,9 @@ class ManagedReport < ValueObject
         description: 'managed_reports.process_quality_implemented_referrals.description',
         subreports: %w[process_quality_implemented_referrals],
         permitted_filters: [
-          :grouped_by, :by, :location, :service_type, { status: {}, service_implemented_day_time: {} }
+          :grouped_by, :by, :location, :service_type, { status: {}, service_implemented_day_time: {} }, :module_id
         ],
-        module_id: 'primeromodule-pcm' # TODO: What to do?
+        module_id: 'primeromodule-pcm'
       ),
       Permission::CASE_CHARACTERISTICS => ManagedReport.new(
         id: 'case_characteristics',
@@ -208,9 +208,9 @@ class ManagedReport < ValueObject
           case_protection_risk case_risk_level case_duration clients_disability case_safety_plan clients_gender
         ],
         permitted_filters: [
-          :grouped_by, :by, :location, { status: {}, registration_date: {}, date_closure: {} }
+          :grouped_by, :by, :location, { status: {}, registration_date: {}, date_closure: {} }, :module_id
         ],
-        module_id: 'primeromodule-pcm' # TODO: What to do?
+        module_id: 'primeromodule-pcm'
       )
     }.freeze
   end

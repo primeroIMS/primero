@@ -41,6 +41,7 @@ class ManagedReports::Indicators::PercentageCasesSafetyPlan < ManagedReports::Sq
         params['status'],
         ManagedReports::FilterService.reporting_location(params['location']),
         ManagedReports::FilterService.to_datetime(filter_date(params)),
+        ManagedReports::FilterService.module_id(params['module_id']),
         ManagedReports::FilterService.consent_reporting,
         ManagedReports::FilterService.scope(current_user)
       ].compact

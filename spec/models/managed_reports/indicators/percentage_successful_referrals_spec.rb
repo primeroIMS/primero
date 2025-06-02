@@ -5,11 +5,24 @@
 require 'rails_helper'
 
 describe ManagedReports::Indicators::PercentageSuccessfulReferrals do
+  let(:module1) do
+    PrimeroModule.create!(
+      unique_id: 'primeromodule-cp-a', name: 'CPA', associated_record_types: %w[case]
+    )
+  end
+
+  let(:module2) do
+    PrimeroModule.create!(
+      unique_id: 'primeromodule-cp-b', name: 'CPB', associated_record_types: %w[case]
+    )
+  end
+
   let(:role1) do
     Role.create!(
       name: 'Role 1',
       unique_id: 'role-1',
       group_permission: Permission::SELF,
+      modules: [module1, module2],
       permissions: [
         Permission.new(
           resource: Permission::CASE,
@@ -49,6 +62,7 @@ describe ManagedReports::Indicators::PercentageSuccessfulReferrals do
     child1 = Child.new_with_user(
       user1,
       gender: 'male',
+      module_id: module1.unique_id,
       registration_date: '2021-10-05',
       services_section: [
         {
@@ -74,6 +88,7 @@ describe ManagedReports::Indicators::PercentageSuccessfulReferrals do
     child2 = Child.new_with_user(
       user1,
       gender: 'male',
+      module_id: module1.unique_id,
       registration_date: '2021-10-08',
       consent_reporting: true,
       services_section: [
@@ -102,6 +117,7 @@ describe ManagedReports::Indicators::PercentageSuccessfulReferrals do
     child3 = Child.new_with_user(
       user1,
       gender: 'male',
+      module_id: module2.unique_id,
       registration_date: '2021-11-07',
       services_section: [
         {
@@ -129,6 +145,7 @@ describe ManagedReports::Indicators::PercentageSuccessfulReferrals do
     child4 = Child.new_with_user(
       user2,
       gender: 'female',
+      module_id: module2.unique_id,
       registration_date: '2021-10-08',
       consent_reporting: true,
       services_section: [
@@ -250,7 +267,7 @@ describe ManagedReports::Indicators::PercentageSuccessfulReferrals do
   end
 
   before do
-    clean_data(Alert, Lookup, UserGroup, User, Agency, Role, Referral, Child)
+    clean_data(Alert, Lookup, UserGroup, User, Agency, Role, Referral, Incident, Child, PrimeroModule)
     referral1
     referral2
     referral3
@@ -261,7 +278,7 @@ describe ManagedReports::Indicators::PercentageSuccessfulReferrals do
   end
 
   after do
-    clean_data(Alert, Lookup, UserGroup, User, Agency, Role, Referral, Child)
+    clean_data(Alert, Lookup, UserGroup, User, Agency, Role, Referral, Incident, Child, PrimeroModule)
   end
 
   it 'returns data for average_cases_per_case_worker indicator' do
@@ -532,6 +549,26 @@ describe ManagedReports::Indicators::PercentageSuccessfulReferrals do
               group_id: '2021-10-10 - 2021-10-16',
               data: [{ id: 'not_implemented', female: 100.0, total: 100.0 }]
             }
+          ]
+        )
+      end
+    end
+  end
+
+  describe 'module_id' do
+    context 'when set' do
+      it 'should return results by module' do
+        data = ManagedReports::Indicators::PercentageSuccessfulReferrals.build(
+          nil,
+          {
+            'module_id' => SearchFilters::Value.new(field_name: 'module_id', value: 'primeromodule-cp-a')
+          }
+        ).data
+
+        expect(data).to match_array(
+          [
+            { id: 'implemented', male: 33.33, total: 33.33 },
+            { id: 'not_implemented', male: 66.67, total: 66.67 }
           ]
         )
       end

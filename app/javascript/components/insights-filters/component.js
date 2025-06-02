@@ -111,6 +111,13 @@ function Component({ id, subReport, toggleControls }) {
     getInsights(formMethods.getValues());
   }, [subReport]);
 
+  useEffect(() => {
+    if (app.userModules.size <= 1) {
+      formMethods.register(MODULE_ID);
+      formMethods.setValue(MODULE_ID, app.userModules.getIn([0, "unique_id"]));
+    }
+  }, [app.userModules.size]);
+
   if (isEmpty(insightsConfig.filters)) {
     return null;
   }
@@ -120,16 +127,16 @@ function Component({ id, subReport, toggleControls }) {
   );
 
   const submit = data => {
-    getInsights(
-      compactBlank({ module_id: app.userModules.size <= 1 ? app.userModules.getIn([0, "unique_id"]) : null, ...data })
-    );
+    getInsights(compactBlank(data));
   };
 
   const filterInputs = (filterGroup = CONTROLS_GROUP) =>
     insightsConfigFilters[filterGroup]?.map(filter => {
       const FilterInput = filter?.watchedInputs ? WatchedFormSectionField : FormSectionField;
 
-      if (app.userModules.size <= 1 && filter.name === MODULE_ID) return false;
+      if (app.userModules.size <= 1 && filter.name === MODULE_ID) {
+        return false;
+      }
 
       if (filter && filter.name === WORKFLOW) {
         // eslint-disable-next-line no-param-reassign

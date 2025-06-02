@@ -5,9 +5,22 @@
 require 'rails_helper'
 
 describe ManagedReports::Indicators::PercentageCasesRiskLevel do
+  let(:module1) do
+    PrimeroModule.create!(
+      unique_id: 'primeromodule-cp-a', name: 'CPA', associated_record_types: %w[case]
+    )
+  end
+
+  let(:module2) do
+    PrimeroModule.create!(
+      unique_id: 'primeromodule-cp-b', name: 'CPB', associated_record_types: %w[case]
+    )
+  end
+
   let(:child1) do
     Child.create!(
       data: {
+        module_id: module1.unique_id,
         gender: 'male',
         registration_date: '2021-10-05',
         next_steps: ['a_continue_protection_assessment'],
@@ -21,6 +34,7 @@ describe ManagedReports::Indicators::PercentageCasesRiskLevel do
     Child.create!(
       data: {
         gender: 'male',
+        module_id: module1.unique_id,
         registration_date: '2021-10-08',
         next_steps: ['a_continue_protection_assessment'],
         risk_level: 'medium'
@@ -31,6 +45,7 @@ describe ManagedReports::Indicators::PercentageCasesRiskLevel do
   let(:child3) do
     Child.create!(
       data: {
+        module_id: module2.unique_id,
         gender: 'male',
         registration_date: '2021-11-07',
         next_steps: ['a_continue_protection_assessment']
@@ -41,6 +56,7 @@ describe ManagedReports::Indicators::PercentageCasesRiskLevel do
   let(:child4) do
     Child.create!(
       data: {
+        module_id: module2.unique_id,
         gender: 'female',
         registration_date: '2021-11-12',
         next_steps: ['a_continue_protection_assessment'],
@@ -53,6 +69,7 @@ describe ManagedReports::Indicators::PercentageCasesRiskLevel do
   let(:child5) do
     Child.create!(
       data: {
+        module_id: module2.unique_id,
         gender: 'female',
         registration_date: '2021-10-09',
         next_steps: ['a_continue_protection_assessment'],
@@ -62,7 +79,7 @@ describe ManagedReports::Indicators::PercentageCasesRiskLevel do
   end
 
   before do
-    clean_data(Alert, Lookup, UserGroup, User, Agency, Role, Child)
+    clean_data(Alert, Lookup, UserGroup, User, Agency, Role, Child, PrimeroModule)
     child1
     child2
     child3
@@ -71,7 +88,7 @@ describe ManagedReports::Indicators::PercentageCasesRiskLevel do
   end
 
   after do
-    clean_data(Alert, Lookup, UserGroup, User, Agency, Role, Child)
+    clean_data(Alert, Lookup, UserGroup, User, Agency, Role, Child, PrimeroModule)
   end
 
   it 'returns data for percentage_cases_risk_level indicator' do
@@ -239,6 +256,26 @@ describe ManagedReports::Indicators::PercentageCasesRiskLevel do
               group_id: '2021-10-10 - 2021-10-16',
               data: match_array([])
             }
+          ]
+        )
+      end
+    end
+  end
+
+  describe 'module_id' do
+    context 'when set' do
+      it 'should return results by module' do
+        report_data = ManagedReports::Indicators::PercentageCasesRiskLevel.build(
+          nil,
+          {
+            'module_id' => SearchFilters::Value.new(field_name: 'module_id', value: 'primeromodule-cp-a')
+          }
+        ).data
+
+        expect(report_data).to match_array(
+          [
+            { id: 'high', male: 50.00, total: 50.00 },
+            { id: 'medium', male: 50.00, total: 50.00 }
           ]
         )
       end

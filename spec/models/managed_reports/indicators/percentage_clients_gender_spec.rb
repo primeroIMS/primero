@@ -5,9 +5,22 @@
 require 'rails_helper'
 
 describe ManagedReports::Indicators::PercentageClientsGender do
+  let(:module1) do
+    PrimeroModule.create!(
+      unique_id: 'primeromodule-cp-a', name: 'CPA', associated_record_types: %w[case]
+    )
+  end
+
+  let(:module2) do
+    PrimeroModule.create!(
+      unique_id: 'primeromodule-cp-b', name: 'CPB', associated_record_types: %w[case]
+    )
+  end
+
   let(:child1) do
     Child.create!(
       data: {
+        module_id: module1.unique_id,
         sex: 'male',
         registration_date: '2021-10-05',
         status: 'open',
@@ -21,6 +34,7 @@ describe ManagedReports::Indicators::PercentageClientsGender do
   let(:child2) do
     Child.create!(
       data: {
+        module_id: module1.unique_id,
         sex: 'male',
         registration_date: '2021-10-08',
         status: 'open',
@@ -33,6 +47,7 @@ describe ManagedReports::Indicators::PercentageClientsGender do
   let(:child3) do
     Child.create!(
       data: {
+        module_id: module2.unique_id,
         sex: 'male',
         registration_date: '2021-11-07',
         status: 'open',
@@ -44,6 +59,7 @@ describe ManagedReports::Indicators::PercentageClientsGender do
   let(:child4) do
     Child.create!(
       data: {
+        module_id: module2.unique_id,
         sex: 'female',
         registration_date: '2021-11-12',
         next_steps: ['a_continue_protection_assessment'],
@@ -67,7 +83,7 @@ describe ManagedReports::Indicators::PercentageClientsGender do
   end
 
   before do
-    clean_data(Alert, Lookup, UserGroup, User, Agency, Role, Child)
+    clean_data(Alert, Lookup, UserGroup, User, Agency, Role, Child, PrimeroModule)
     DateTime.stub(:now).and_return(Time.utc(2022, 2, 15, 14, 5, 0))
     child1
     child2
@@ -77,7 +93,7 @@ describe ManagedReports::Indicators::PercentageClientsGender do
   end
 
   after do
-    clean_data(Alert, Lookup, UserGroup, User, Agency, Role, Child)
+    clean_data(Alert, Lookup, UserGroup, User, Agency, Role, Child, PrimeroModule)
   end
 
   it 'returns data for percentage_clients_gender indicator' do
@@ -215,6 +231,26 @@ describe ManagedReports::Indicators::PercentageClientsGender do
               group_id: '2021-10-10 - 2021-10-16',
               data: []
             }
+          ]
+        )
+      end
+    end
+  end
+
+  describe 'module_id' do
+    context 'when set' do
+      it 'should return results by module' do
+        report_data = ManagedReports::Indicators::PercentageClientsGender.build(
+          nil,
+          {
+            'module_id' => SearchFilters::Value.new(field_name: 'module_id', value: 'primeromodule-cp-a')
+          }
+        ).data
+
+        expect(report_data).to match_array(
+          [
+            { id: 'gender_1', total: 50.00 },
+            { id: 'gender_3', total: 50.00 }
           ]
         )
       end

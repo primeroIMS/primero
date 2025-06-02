@@ -6,10 +6,19 @@ require 'rails_helper'
 
 describe ManagedReports::Indicators::LessImpactedAfterSupport do
   before do
-    clean_data(Child)
+    clean_data(Child, PrimeroModule)
+
+    module1 = PrimeroModule.create!(
+      unique_id: 'primeromodule-cp-a', name: 'CPA', associated_record_types: %w[case]
+    )
+
+    module2 = PrimeroModule.create!(
+      unique_id: 'primeromodule-cp-b', name: 'CPB', associated_record_types: %w[case]
+    )
 
     Child.create!(
       data: {
+        module_id: module1.unique_id,
         gender: 'male',
         next_steps: ['a_continue_protection_assessment'],
         registration_date: '2021-10-05',
@@ -19,6 +28,7 @@ describe ManagedReports::Indicators::LessImpactedAfterSupport do
     )
     Child.create!(
       data: {
+        module_id: module1.unique_id,
         gender: 'male',
         consent_reporting: true,
         next_steps: ['a_continue_protection_assessment'],
@@ -29,6 +39,7 @@ describe ManagedReports::Indicators::LessImpactedAfterSupport do
     )
     Child.create!(
       data: {
+        module_id: module2.unique_id,
         gender: 'male',
         consent_reporting: true,
         next_steps: ['a_continue_protection_assessment'],
@@ -39,6 +50,7 @@ describe ManagedReports::Indicators::LessImpactedAfterSupport do
     )
     Child.create!(
       data: {
+        module_id: module2.unique_id,
         gender: 'female',
         next_steps: ['a_continue_protection_assessment'],
         registration_date: '2021-10-08',
@@ -48,6 +60,7 @@ describe ManagedReports::Indicators::LessImpactedAfterSupport do
     )
     Child.create!(
       data: {
+        module_id: module2.unique_id,
         gender: 'female',
         consent_reporting: true,
         next_steps: ['a_continue_protection_assessment'],
@@ -204,6 +217,25 @@ describe ManagedReports::Indicators::LessImpactedAfterSupport do
               group_id: '2021-10-10 - 2021-10-16',
               data: []
             }
+          ]
+        )
+      end
+    end
+  end
+
+  describe 'module_id' do
+    context 'when set' do
+      it 'should return results by module' do
+        report_data = ManagedReports::Indicators::LessImpactedAfterSupport.build(
+          nil,
+          {
+            'module_id' => SearchFilters::Value.new(field_name: 'module_id', value: 'primeromodule-cp-a')
+          }
+        ).data
+
+        expect(report_data).to match_array(
+          [
+            { id: 'clients_report_less_impacted', male: 100.0, total: 100.0 }
           ]
         )
       end

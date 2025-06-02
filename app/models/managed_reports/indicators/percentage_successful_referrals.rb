@@ -67,6 +67,7 @@ class ManagedReports::Indicators::PercentageSuccessfulReferrals < ManagedReports
         params['status'],
         ManagedReports::FilterService.reporting_location(params['location']),
         ManagedReports::FilterService.consent_reporting,
+        ManagedReports::FilterService.module_id(params['module_id']),
         ManagedReports::FilterService.scope(current_user)
       ].compact
       return unless filters.present?

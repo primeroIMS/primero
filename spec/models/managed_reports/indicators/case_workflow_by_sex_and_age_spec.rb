@@ -6,14 +6,23 @@ require 'rails_helper'
 
 describe ManagedReports::Indicators::CaseWorkflowBySexAndAge do
   before do
-    clean_data(Incident, Child, UserGroup, User, Agency, Role)
+    clean_data(Incident, Child, UserGroup, User, Agency, Role, PrimeroModule)
 
     SystemSettings.stub(:primary_age_ranges).and_return([0..5, 6..11, 12..17, 18..AgeRange::MAX])
+
+    module1 = PrimeroModule.create!(
+      unique_id: 'primeromodule-cp-a', name: 'CPA', associated_record_types: %w[case]
+    )
+
+    module2 = PrimeroModule.create!(
+      unique_id: 'primeromodule-cp-b', name: 'CPB', associated_record_types: %w[case]
+    )
 
     self_role = Role.create!(
       name: 'Self Role 1',
       unique_id: 'self-role-1',
       group_permission: Permission::SELF,
+      modules: [module1, module2],
       permissions: [
         Permission.new(
           resource: Permission::MANAGED_REPORT,
@@ -27,6 +36,7 @@ describe ManagedReports::Indicators::CaseWorkflowBySexAndAge do
       name: 'Group Role 1',
       unique_id: 'group-role-1',
       group_permission: Permission::GROUP,
+      modules: [module1, module2],
       permissions: [
         Permission.new(
           resource: Permission::MANAGED_REPORT,
@@ -40,6 +50,7 @@ describe ManagedReports::Indicators::CaseWorkflowBySexAndAge do
       name: 'Agency Role 1',
       unique_id: 'agency-role-1',
       group_permission: Permission::AGENCY,
+      modules: [module1, module2],
       permissions: [
         Permission.new(
           resource: Permission::MANAGED_REPORT,
@@ -53,6 +64,7 @@ describe ManagedReports::Indicators::CaseWorkflowBySexAndAge do
       name: 'All Role 1',
       unique_id: 'all-role-1',
       group_permission: Permission::ALL,
+      modules: [module1, module2],
       permissions: [
         Permission.new(
           resource: Permission::MANAGED_REPORT,
@@ -103,28 +115,32 @@ describe ManagedReports::Indicators::CaseWorkflowBySexAndAge do
       role: all_role
     )
 
-    incident1 = Incident.create!(data: { cp_incident_violence_type: 'violence_type_1' })
-    incident2 = Incident.create!(data: { cp_incident_violence_type: 'violence_type_2' })
-    incident3 = Incident.create!(data: { cp_incident_violence_type: 'violence_type_3' })
-    incident4 = Incident.create!(data: { cp_incident_violence_type: 'violence_type_1' })
+    incident1 = Incident.create!(data: { cp_incident_violence_type: 'violence_type_1', module_id: module1.id })
+    incident2 = Incident.create!(data: { cp_incident_violence_type: 'violence_type_2', module_id: module1.id })
+    incident3 = Incident.create!(data: { cp_incident_violence_type: 'violence_type_3', module_id: module2.id })
+    incident4 = Incident.create!(data: { cp_incident_violence_type: 'violence_type_1', module_id: module2.id })
 
     @case1 = Child.new_with_user(
-      @self_user, { registration_date: Date.new(2022, 3, 10), sex: 'female', age: 5, workflow: 'open' }
+      @self_user, { module_id: module1.unique_id, registration_date: Date.new(2022, 3, 10), sex: 'female', age: 5,
+                    workflow: 'open' }
     )
     @case1.incidents = [incident1]
     @case1.save!
     @case2 = Child.new_with_user(
-      @group_user, { registration_date: Date.new(2023, 4, 18), sex: 'male', age: 10, workflow: 'closed' }
+      @group_user, { module_id: module1.unique_id, registration_date: Date.new(2023, 4, 18), sex: 'male', age: 10,
+                     workflow: 'closed' }
     )
     @case2.incidents = [incident2]
     @case2.save!
     @case3 = Child.new_with_user(
-      @agency_user, { registration_date: Date.new(2022, 3, 8), sex: 'male', age: 18, workflow: 'open' }
+      @agency_user, { module_id: module2.unique_id, registration_date: Date.new(2022, 3, 8), sex: 'male', age: 18,
+                      workflow: 'open' }
     )
     @case3.incidents = [incident3]
     @case3.save!
     @case4 = Child.new_with_user(
-      @all_user, {  registration_date: Date.new(2023, 4, 25), sex: 'female', age: 2, workflow: 'closed' }
+      @all_user, {  module_id: module2.unique_id, registration_date: Date.new(2023, 4, 25), sex: 'female', age: 2,
+                    workflow: 'closed' }
     )
     @case4.incidents = [incident4]
     @case4.save!
@@ -135,9 +151,9 @@ describe ManagedReports::Indicators::CaseWorkflowBySexAndAge do
 
     expect(report_data).to match_array(
       [
-        { id: 'female', "0 - 5": 2, total: 2 },
-        { id: 'male', "6 - 11": 1, "18+": 1, total: 2 },
-        { id: 'total', "0 - 5": 2, "6 - 11": 1, "18+": 1, total: 4 }
+        { id: 'female', '0 - 5': 2, total: 2 },
+        { id: 'male', '6 - 11': 1, '18+': 1, total: 2 },
+        { id: 'total', '0 - 5': 2, '6 - 11': 1, '18+': 1, total: 4 }
       ]
     )
   end
@@ -151,8 +167,8 @@ describe ManagedReports::Indicators::CaseWorkflowBySexAndAge do
 
       expect(report_data).to match_array(
         [
-          { id: 'female', "0 - 5": 1, total: 1 },
-          { id: 'total', "0 - 5": 1, total: 1 }
+          { id: 'female', '0 - 5': 1, total: 1 },
+          { id: 'total', '0 - 5': 1, total: 1 }
         ]
       )
     end
@@ -162,9 +178,9 @@ describe ManagedReports::Indicators::CaseWorkflowBySexAndAge do
 
       expect(report_data).to match_array(
         [
-          { id: 'female', "0 - 5": 2, total: 2 },
-          { id: 'male', "6 - 11": 1, total: 1 },
-          { id: 'total', "0 - 5": 2, "6 - 11": 1, total: 3 }
+          { id: 'female', '0 - 5': 2, total: 2 },
+          { id: 'male', '6 - 11': 1, total: 1 },
+          { id: 'total', '0 - 5': 2, '6 - 11': 1, total: 3 }
         ]
       )
     end
@@ -174,9 +190,9 @@ describe ManagedReports::Indicators::CaseWorkflowBySexAndAge do
 
       expect(report_data).to match_array(
         [
-          { id: 'female', "0 - 5": 1, total: 1 },
-          { id: 'male', "18+": 1, total: 1 },
-          { id: 'total', "0 - 5": 1, "18+": 1, total: 2 }
+          { id: 'female', '0 - 5': 1, total: 1 },
+          { id: 'male', '18+': 1, total: 1 },
+          { id: 'total', '0 - 5': 1, '18+': 1, total: 2 }
         ]
       )
     end
@@ -308,6 +324,27 @@ describe ManagedReports::Indicators::CaseWorkflowBySexAndAge do
                 { id: 'total', '0 - 5': 1, '18+': 1, total: 2 }
               ]
             }
+          ]
+        )
+      end
+    end
+  end
+
+  describe 'module_id' do
+    context 'when set' do
+      it 'should return results by module' do
+        data = ManagedReports::Indicators::CaseWorkflowBySexAndAge.build(
+          nil,
+          {
+            'module_id' => SearchFilters::Value.new(field_name: 'module_id', value: 'primeromodule-cp-a')
+          }
+        ).data
+
+        expect(data).to match_array(
+          [
+            { id: 'female', '0 - 5': 1, total: 1 },
+            { id: 'male', '6 - 11': 1, total: 1 },
+            { id: 'total', '0 - 5': 1, '6 - 11': 1, total: 2 }
           ]
         )
       end
