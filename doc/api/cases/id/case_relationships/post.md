@@ -38,6 +38,7 @@ Create a new case relationship on a case. Returns the created case relationship.
       "id": "b3222e84-a5d7-4692-a643-1ab3d41f17d6",
       "case_id": "a7a6ffcd-4350-4a5a-900b-f1fc46c3a1c2" ,
       "relationship_type": "farmer_on",
+      "primary": true,
       "data": {},
     },
 }
