@@ -7,9 +7,10 @@ require 'rails_helper'
 module Importers
   describe CsvHxlLocationImporter do
     before do
-      clean_data(Location)
+      clean_data(Location, SystemSettings)
 
       I18n.stub(:available_locales).and_return(%i[en ar-LB])
+      SystemSettings.create!
     end
 
     context 'when input file exists' do
@@ -87,7 +88,7 @@ module Importers
     end
 
     after do
-      clean_data(Location)
+      clean_data(Location, SystemSettings)
     end
   end
 end
