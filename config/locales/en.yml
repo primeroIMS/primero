@@ -2020,7 +2020,58 @@ en:
         'false': Rejecting
         gbv_closure: GBV Closure form
         'true': Approving
+    action_plan_approved: "%{approval_label} approved for"
+    action_plan_requested: "%{approval_label} requested for"
+    action_plan_rejected: "Action Plan rejected for"
+    assessment_approved: "%{approval_label} approved for"
+    assessment_rejected: Reject Assessment approval
+    assessment_requested: "%{approval_label} requested for"
+    assign_to: List users for record assignment
+    assign: Assign
+    attach: Add attachment
+    bulk_index: List all
+    by_user: by user
+    case_plan_approved: "%{approval_label} approved for"
+    case_plan_requested: "%{approval_label} requested for"
+    case_plan_rejected: Reject Case Plan approval
+    close: Close
+    closure_approved: "%{approval_label} approved for"
+    closure_rejected: Reject Closure approval
+    closure_requested: "%{approval_label} requested for"
+    consent_count: Consent Count
+    copy: Copying
+    create: Creating
+    create_subform: Creating Subform
+    destroy: Deleting
+    detach: Remove attachment
+    edit: Editing
+    enable_disable_record: Enable / disable
+    export: Exporting data for
+    family: Family Record
+    flag: Flagging
+    flag_records: Flagging
+    gbv_closure_approved: "%{approval_label} approved for"
+    gbv_closure_requested: "%{approval_label} requested for"
+    gbv_closure_rejected: "GBV Closure rejected for"
+    graph_data: Viewing graph data
+    hide_name:
+      protect: Hide Name
+      view: View Name
+    import: Import
+    incident_details_from_case: Add Incident to Case from list view
+    index: Listing Records
+    list: List
+    login: Login
+    logout: Logout
+    lookups_for_field: Lookups for field
+    mark_for_mobile:
+      'false': Un-Mark for mobile
+      'true': Mark for mobile
+    match_record: Matching Record
     password_reset: Password reset
+    permitted_field_list: Permitted field list
+    quick_view: Viewing Quick View
+    reassign: Assigning
     resources:
       activity_log: Activity Log
       audit_log: Audit log
@@ -2046,10 +2097,48 @@ en:
       code_of_conduct: Code of conduct
       task: Task
       tracing_request: Tracing Request
-      managed_report: Insights v
+      managed_report: Insights
+    record_state:
+      'false': Disabling
+      'true': Enabling
+    refer: Refer
+    refer_accepted: Refer accepted
+    refer_to: Search for Referral recipient
+    referral: Referring
+    refer_revoke: Revoke referral
+    refer_rejected: Reject referral
+    refer_accpeted: Accept referral
+    refer_done: Mark referral as done
+    relinquish_referral: Relinquish referral Done
+    reopen: Reopen
+    reopen_case: Reopening
+    request_approval:
+      action_plan: Request Approval for the Action Plan form
+      bia: Request Approval for the BIA form
+      case_plan: Request Approval for the Case Plan form
+      closure: Request Approval for the Closure form
+      gbv_closure: Request Approval for the GBV Closure form
+    request_transfer: Sending Transfer Request
+    request_transfer_view: Viewing Request Transfer
+    save_subform: Saving Subform
+    search: API Search
+    show: Viewing
+    show_alerts: View alerts for
     timestamp: Timestamp
     to: to
     to_user: to user
+    traces: View traces
+    transfer: Transfering
+    transfer_to: List users for record transfer
+    transfer_status:
+      Accepted: Accepted Transfer
+      Rejected: Rejected Transfer
+    transfer_accepted: Accept transfer
+    transfer_rejected: Reject transfer
+    transfer_request: Request transfer
+    transfer_revoked: Revoke transfer
+    unflag: Unflagging
+    update: Updating
   login:
     label: Login
     password:
