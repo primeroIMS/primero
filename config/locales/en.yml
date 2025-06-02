@@ -1921,6 +1921,14 @@ en:
       assign: Assign
       assign_to: List users for record assignment
       attach: Add attachment
+      approve_form:
+        action_plan: Action Plan form
+        bia: BIA form
+        case_plan: Case Plan form
+        closure: Closure form
+        'false': Rejecting
+        gbv_closure: GBV Closure form
+        'true': Approving
       bulk_assign: Bulk assign
       bulk_create: Bulk create
       bulk_index: Bulk index
@@ -2012,14 +2020,15 @@ en:
       update_bulk: Bulk Update
       user_password_reset_request: User password reset request
       webhook: Webhook
-      approve_form:
-        action_plan: Action Plan form
-        bia: BIA form
-        case_plan: Case Plan form
-        closure: Closure form
-        'false': Rejecting
-        gbv_closure: GBV Closure form
-        'true': Approving
+    add_note: Add note
+    approve_form:
+      action_plan: Action Plan form
+      bia: BIA form
+      case_plan: Case Plan form
+      closure: Closure form
+      'false': Rejecting
+      gbv_closure: GBV Closure form
+      'true': Approving
     action_plan_approved: "%{approval_label} approved for"
     action_plan_requested: "%{approval_label} requested for"
     action_plan_rejected: "Action Plan rejected for"
