@@ -8,12 +8,14 @@ require 'rails_helper'
 describe Report do
   before :all do
     clean_data(PrimeroModule, PrimeroProgram, FormSection, Field, Child)
-    @module = create :primero_module
   end
+
+  let(:module1) { create :primero_module }
+  let(:module2) { create :primero_module }
 
   it 'must have a name' do
     r = Report.new(
-      record_type: 'case', unique_id: 'report-test', aggregate_by: %w[a b], module_id: @module.unique_id
+      record_type: 'case', unique_id: 'report-test', aggregate_by: %w[a b], module_id: module1.unique_id
     )
     expect(r.valid?).to be_falsey
     r.name = 'Test'
@@ -22,7 +24,7 @@ describe Report do
 
   it "must have an 'aggregate_by' value" do
     r = Report.new(
-      name: 'Test', unique_id: 'report-test', record_type: 'case', module_id: @module.unique_id
+      name: 'Test', unique_id: 'report-test', record_type: 'case', module_id: module1.unique_id
     )
     expect(r.valid?).to be_falsey
     r.aggregate_by = %w[a b]
@@ -31,7 +33,7 @@ describe Report do
 
   it 'must have a record type associated with itself' do
     r = Report.new(
-      name: 'Test', aggregate_by: %w[a b], module_id: @module.unique_id, unique_id: 'report-test'
+      name: 'Test', aggregate_by: %w[a b], module_id: module1.unique_id, unique_id: 'report-test'
     )
     expect(r.valid?).to be_falsey
     r.record_type = 'case'
@@ -69,7 +71,7 @@ describe Report do
 
     it 'generates a unique id' do
       r = Report.create!(
-        name: 'Test', record_type: 'case', aggregate_by: %w[a b], module_id: @module.unique_id
+        name: 'Test', record_type: 'case', aggregate_by: %w[a b], module_id: module1.unique_id
       )
       expect(r.unique_id).to match(/^report-test-[0-9a-f]{7}$/)
     end
@@ -97,7 +99,7 @@ describe Report do
   describe 'is_graph' do
     context 'when is_graph is in params' do
       before do
-        @report = Report.new(name: 'Test', unique_id: 'report-test', record_type: 'case', module_id: @module.unique_id,
+        @report = Report.new(name: 'Test', unique_id: 'report-test', record_type: 'case', module_id: module1.unique_id,
                              is_graph: true)
       end
 
@@ -112,7 +114,7 @@ describe Report do
 
     context 'when graph is in params' do
       before do
-        @report = Report.new(name: 'Test', unique_id: 'report-test', record_type: 'case', module_id: @module.unique_id,
+        @report = Report.new(name: 'Test', unique_id: 'report-test', record_type: 'case', module_id: module1.unique_id,
                              graph: true)
       end
 
@@ -127,7 +129,7 @@ describe Report do
 
     context 'when is_graph is updated' do
       before :each do
-        @report = Report.new(name: 'Test', unique_id: 'report-test', record_type: 'case', module_id: @module.unique_id,
+        @report = Report.new(name: 'Test', unique_id: 'report-test', record_type: 'case', module_id: module1.unique_id,
                              is_graph: false)
       end
 
@@ -148,7 +150,7 @@ describe Report do
 
     context 'when graph is updated' do
       before :each do
-        @report = Report.new(name: 'Test', unique_id: 'report-test', record_type: 'case', module_id: @module.unique_id,
+        @report = Report.new(name: 'Test', unique_id: 'report-test', record_type: 'case', module_id: module1.unique_id,
                              graph: false)
       end
 
@@ -195,9 +197,9 @@ describe Report do
         name: 'sex', display_name: 'sex', type: Field::SELECT_BOX, option_strings_source: 'lookup lookup-sex'
       )
 
-      Child.create!(data: { sex: 'female', module_id: @module.unique_id })
-      Child.create!(data: { sex: 'female', module_id: @module.unique_id })
-      Child.create!(data: { sex: 'female', module_id: @module.unique_id })
+      Child.create!(data: { sex: 'female', module_id: module1.unique_id })
+      Child.create!(data: { sex: 'female', module_id: module1.unique_id })
+      Child.create!(data: { sex: 'female', module_id: module1.unique_id })
     end
 
     context 'when it is true' do
@@ -206,7 +208,7 @@ describe Report do
           name: 'Test',
           unique_id: 'report-test',
           record_type: 'case',
-          module_id: @module.unique_id,
+          module_id: module1.unique_id,
           graph: true,
           exclude_empty_rows: true,
           aggregate_by: ['sex'],
@@ -229,7 +231,7 @@ describe Report do
           name: 'Test',
           unique_id: 'report-test',
           record_type: 'case',
-          module_id: @module.unique_id,
+          module_id: module1.unique_id,
           graph: true,
           exclude_empty_rows: false,
           aggregate_by: ['sex'],
@@ -287,10 +289,10 @@ describe Report do
         name: 'status', display_name: 'status', type: Field::SELECT_BOX, option_strings_source: 'lookup lookup-status'
       )
 
-      Child.create!(data: { status: 'closed', worklow: 'closed', sex: 'female', module_id: @module.unique_id })
-      Child.create!(data: { status: 'closed', worklow: 'closed', sex: 'female', module_id: @module.unique_id })
-      Child.create!(data: { status: 'open', worklow: 'open', sex: 'female', module_id: @module.unique_id })
-      Child.create!(data: { status: 'closed', worklow: 'closed', sex: 'male', module_id: @module.unique_id })
+      Child.create!(data: { status: 'closed', worklow: 'closed', sex: 'female', module_id: module1.unique_id })
+      Child.create!(data: { status: 'closed', worklow: 'closed', sex: 'female', module_id: module1.unique_id })
+      Child.create!(data: { status: 'open', worklow: 'open', sex: 'female', module_id: module1.unique_id })
+      Child.create!(data: { status: 'closed', worklow: 'closed', sex: 'male', module_id: module1.unique_id })
     end
 
     context 'when it has filter' do
@@ -299,7 +301,7 @@ describe Report do
           name: 'Test',
           unique_id: 'report-test',
           record_type: 'case',
-          module_id: @module.unique_id,
+          module_id: module1.unique_id,
           graph: true,
           exclude_empty_rows: true,
           aggregate_by: ['sex'],
@@ -327,7 +329,7 @@ describe Report do
           name: 'Test - filter with two values',
           unique_id: 'report-test',
           record_type: 'case',
-          module_id: @module.unique_id,
+          module_id: module1.unique_id,
           graph: true,
           exclude_empty_rows: true,
           aggregate_by: %w[sex status],
@@ -399,7 +401,7 @@ describe Report do
 
       Child.create!(
         data: {
-          status: 'open', worklow: 'open', sex: 'female', module_id: @module.unique_id,
+          status: 'open', worklow: 'open', sex: 'female', module_id: module1.unique_id,
           services_section: [
             {
               unique_id: '1', service_type: 'alternative_care',
@@ -418,7 +420,7 @@ describe Report do
       Report.new(
         name: 'Services',
         record_type: 'reportable_service',
-        module_id: @module.unique_id,
+        module_id: module1.unique_id,
         aggregate_by: ['service_type'],
         disaggregate_by: ['service_implemented'],
         permission_filter: { 'attribute' => 'associated_user_agencies', 'value' => [agency_with_space.unique_id] }
@@ -451,28 +453,28 @@ describe Report do
       user.save(validate: false) && user
     end
 
-    let(:child_1) do
+    let(:child1) do
       Child.create!(
         data: {
-          status: 'open', worklow: 'open', sex: 'male', module_id: @module.unique_id,
+          status: 'open', worklow: 'open', sex: 'male', module_id: module1.unique_id,
           owned_by: case_worker_1.user_name
         }
       )
     end
 
-    let(:child_2) do
+    let(:child2) do
       Child.create!(
         data: {
-          status: 'open', worklow: 'open', sex: 'female', module_id: @module.unique_id,
+          status: 'open', worklow: 'open', sex: 'female', module_id: module1.unique_id,
           owned_by: case_worker_2.user_name
         }
       )
     end
 
-    let(:child_3) do
+    let(:child3) do
       Child.create!(
         data: {
-          status: 'closed', worklow: 'closed', sex: 'female', module_id: @module.unique_id,
+          status: 'closed', worklow: 'closed', sex: 'female', module_id: module1.unique_id,
           owned_by: case_worker_3.user_name
         }
       )
@@ -514,16 +516,16 @@ describe Report do
         option_strings_source: 'UserGroup'
       )
 
-      child_1
-      child_2
-      child_3
+      child1
+      child2
+      child3
     end
 
     let(:report) do
       Report.new(
         name: 'Report by Status and Sex',
         record_type: 'case',
-        module_id: @module.unique_id,
+        module_id: module1.unique_id,
         aggregate_by: ['status'],
         disaggregate_by: ['sex'],
         permission_filter: { 'attribute' => 'owned_by_groups', 'value' => [group_1.unique_id, group_3.unique_id] }
@@ -591,7 +593,7 @@ describe Report do
 
       Child.create!(
         data: {
-          status: 'open', worklow: 'open', sex: 'female', module_id: @module.unique_id,
+          status: 'open', worklow: 'open', sex: 'female', module_id: module1.unique_id,
           owned_by: 'user_owner', services_section: [
             {
               unique_id: 'f0a0f184-ab1d-4e02-a56b-9e1a1836b903',
@@ -617,7 +619,7 @@ describe Report do
       report = Report.new(
         name: 'Report by Status and Sex',
         record_type: 'reportable_service',
-        module_id: @module.unique_id,
+        module_id: module1.unique_id,
         aggregate_by: ['service_implementing_agency'],
         disaggregate_by: ['service_type']
       )
@@ -632,28 +634,28 @@ describe Report do
   end
 
   describe 'datetimes' do
-    let(:child_1) do
+    let(:child1) do
       Child.create!(
         data: {
-          status: 'open', worklow: 'open', sex: 'male', module_id: @module.unique_id,
+          status: 'open', worklow: 'open', sex: 'male', module_id: module1.unique_id,
           created_at: '2021-09-12T06:32:10.000Z', custom_ec4b5a0: 'green'
         }
       )
     end
 
-    let(:child_2) do
+    let(:child2) do
       Child.create!(
         data: {
-          status: 'open', worklow: 'open', sex: 'female', module_id: @module.unique_id,
+          status: 'open', worklow: 'open', sex: 'female', module_id: module1.unique_id,
           created_at: '2022-10-10T04:32:10.000Z', custom_ec4b5a0: 'red'
         }
       )
     end
 
-    let(:child_3) do
+    let(:child3) do
       Child.create!(
         data: {
-          status: 'open', worklow: 'open', sex: 'female', module_id: @module.unique_id,
+          status: 'open', worklow: 'open', sex: 'female', module_id: module1.unique_id,
           created_at: '2022-10-05T04:32:10.000Z', custom_ec4b5a0: 'blue', custom_abc4x5a1: 'PR01'
         }
       )
@@ -703,16 +705,16 @@ describe Report do
         date_include_time: true
       )
 
-      child_1
-      child_2
-      child_3
+      child1
+      child2
+      child3
     end
 
     let(:report) do
       Report.new(
         name: 'Report by Created at and Sex',
         record_type: 'case',
-        module_id: @module.unique_id,
+        module_id: module1.unique_id,
         aggregate_by: ['sex'],
         disaggregate_by: ['created_at'],
         group_dates_by: Report::DAY
@@ -723,7 +725,7 @@ describe Report do
       Report.new(
         name: 'Report by Sex and Custom Field',
         record_type: 'case',
-        module_id: @module.unique_id,
+        module_id: module1.unique_id,
         aggregate_by: ['custom_ec4b5a0'],
         disaggregate_by: ['sex']
       )
@@ -733,7 +735,7 @@ describe Report do
       Report.new(
         name: 'Report by Custom Location and Sex',
         record_type: 'case',
-        module_id: @module.unique_id,
+        module_id: module1.unique_id,
         aggregate_by: ['loc:custom_abc4x5a11'],
         disaggregate_by: ['sex']
       )
@@ -743,7 +745,7 @@ describe Report do
       Report.new(
         name: 'Report by Created at and Sex with Filter',
         record_type: 'case',
-        module_id: @module.unique_id,
+        module_id: module1.unique_id,
         aggregate_by: ['sex'],
         disaggregate_by: ['created_at'],
         group_dates_by: Report::DAY,
@@ -811,6 +813,69 @@ describe Report do
       expect(report_with_custom_location_field.build_report).to eq(
         { 'PR01' => { '_total' => 1, 'female' => { '_total' => 1 }, 'male' => { '_total' => 0 } } }
       )
+    end
+  end
+
+  describe 'records match the module in the report' do
+    let(:child1) do
+      Child.create!(
+        data: { status: 'open', record_state: true, module_id: module1.unique_id, registration_date: '2021-10-15' }
+      )
+    end
+
+    let(:child2) do
+      Child.create!(
+        data: { status: 'open', record_state: true, module_id: module2.unique_id, registration_date: '2021-10-15' }
+      )
+    end
+
+    let(:registration_report) do
+      Report.create!(
+        name_all: 'Registration',
+        description_all: 'Case registrations over time',
+        module_id: module2.unique_id,
+        record_type: 'case',
+        aggregate_by: ['registration_date'],
+        group_dates_by: 'month',
+        filters: [
+          { 'attribute' => 'status', 'value' => [Record::STATUS_OPEN] },
+          { 'attribute' => 'record_state', 'value' => ['true'] }
+        ],
+        is_graph: true,
+        editable: false
+      )
+    end
+
+    let(:status_field) do
+      Field.create!(
+        name: 'status', display_name: 'status', type: Field::TEXT_FIELD
+      )
+    end
+
+    let(:record_state_field) do
+      Field.create!(
+        name: 'record_state', display_name: 'record_state', type: Field::TICK_BOX
+      )
+    end
+
+    let(:registration_date_field) do
+      Field.create!(
+        name: 'registration_date', display_name: 'registration_date', type: Field::DATE_FIELD
+      )
+    end
+
+    before do
+      clean_data(User, UserGroup, Field, Lookup, Location, Child, Report)
+      child1
+      child2
+      status_field
+      record_state_field
+      registration_date_field
+      registration_report
+    end
+
+    it 'returns the total for records that match the module' do
+      expect(registration_report.build_report).to eq({ '2021-Oct' => { '_total' => 1 } })
     end
   end
 end
