@@ -20,6 +20,14 @@ class Api::V2::CaseRelationshipsController < Api::V2::RecordResourceController
     render 'api/v2/case_relationships/create'
   end
 
+  def update
+    authorize! :update_case_relationships, @record
+    @case_relationship = CaseRelationship.find(params[:id])
+    @case_relationship.update(primary: permitted_params[:primary])
+    updates_for_record(@record)
+    render 'api/v2/case_relationships/update'
+  end
+
   def destroy
     authorize! :update_case_relationships, @record
     @case_relationship = CaseRelationship.find(params[:id])
@@ -31,6 +39,6 @@ class Api::V2::CaseRelationshipsController < Api::V2::RecordResourceController
   private
 
   def permitted_params
-    params.require(:data).permit(:case_id, :relationship_type)
+    params.require(:data).permit(:case_id, :relationship_type, :primary)
   end
 end

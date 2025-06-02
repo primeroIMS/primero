@@ -137,6 +137,18 @@ describe Api::V2::CaseRelationshipsController, type: :request do
     end
   end
 
+  describe 'PATCH /api/v2/:recordType/:recordId/case_relationships' do
+    it 'disables a case_relationship to a case' do
+      sign_in(@user)
+      params = { data: { primary: true } }
+      patch("/api/v2/cases/#{@case2.id}/case_relationships/#{@case_relationship3.id}", params:)
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['case_id']).to eq(@farmer2.id.to_s)
+      expect(json['data']['primary']).to eq(true)
+    end
+  end
+
   describe 'DELETE /api/v2/:recordType/:recordId/case_relationships' do
     it 'disables a case_relationship to a case' do
       sign_in(@user)

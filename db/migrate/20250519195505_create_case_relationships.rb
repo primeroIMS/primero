@@ -6,6 +6,7 @@ class CreateCaseRelationships < ActiveRecord::Migration[6.1]
       t.uuid :case_id_2
       t.string :relationship_type
       t.boolean :disabled
+      t.boolean :primary
 
       t.timestamps
     end

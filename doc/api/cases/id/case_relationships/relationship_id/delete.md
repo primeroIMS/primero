@@ -20,14 +20,6 @@
 
 **Content** :
 
-```json
-{
-  "data": {
-    "id": "b3222e84-a5d7-4692-a643-1ab3d41f17d6",
-    "relationship_type": "farmer_on"
-   }
-}
-```
 
 ## Error Response
 

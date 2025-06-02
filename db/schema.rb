@@ -139,6 +139,7 @@ ActiveRecord::Schema.define(version: 2025_05_19_195505) do
     t.uuid "case_id_2"
     t.string "relationship_type"
     t.boolean "disabled"
+    t.boolean "primary"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["case_id_1", "case_id_2"], name: "index_case_relationships_on_case_id_1_and_case_id_2", unique: true
