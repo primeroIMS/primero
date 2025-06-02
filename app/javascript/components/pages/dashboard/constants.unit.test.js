@@ -11,6 +11,8 @@ describe("Verifying config constant", () => {
       "DASHBOARD_FLAGS_SORT_ORDER",
       "DASHBOARD_NAMES",
       "DASHBOARD_TYPES",
+      "DASHBOARD_GROUP",
+      "DASHBOARD_NAMES_FOR_GROUP",
       "INDICATOR_NAMES",
       "MAX_VISIBLE_DASHBOARDS",
       "NAME",

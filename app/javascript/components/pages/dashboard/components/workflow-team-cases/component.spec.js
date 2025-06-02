@@ -42,58 +42,60 @@ describe("<WorkflowTeamCases> - pages/dashboard/components/workflow-team-cases",
     const state = fromJS({
       records: {
         dashboard: {
-          data: [
-            {
-              name: "dashboard.workflow_team",
-              type: "indicator",
-              indicators: {
-                "workflow_team_primeromodule-cp": {
-                  primero_cp: {
-                    new: {
-                      count: 5,
-                      query: ["record_state=true", "workflow=new"]
+          workflow_team: {
+            data: [
+              {
+                name: "dashboard.workflow_team",
+                type: "indicator",
+                indicators: {
+                  "workflow_team_primeromodule-cp": {
+                    primero_cp: {
+                      new: {
+                        count: 5,
+                        query: ["record_state=true", "workflow=new"]
+                      },
+                      case_plan: {
+                        count: 2,
+                        query: ["record_state=true", "workflow=case_plan"]
+                      },
+                      response_type1: {
+                        count: 0,
+                        query: ["record_state=true", "workflow=response_type1"]
+                      }
                     },
-                    case_plan: {
-                      count: 2,
-                      query: ["record_state=true", "workflow=case_plan"]
+                    primero_mgr_cp: {
+                      new: {
+                        count: 0,
+                        query: ["record_state=true", "workflow=new"]
+                      },
+                      case_plan: {
+                        count: 1,
+                        query: ["record_state=true", "workflow=case_plan"]
+                      },
+                      response_type1: {
+                        count: 4,
+                        query: ["record_state=true", "workflow=response_type1"]
+                      }
                     },
-                    response_type1: {
-                      count: 0,
-                      query: ["record_state=true", "workflow=response_type1"]
-                    }
-                  },
-                  primero_mgr_cp: {
-                    new: {
-                      count: 0,
-                      query: ["record_state=true", "workflow=new"]
-                    },
-                    case_plan: {
-                      count: 1,
-                      query: ["record_state=true", "workflow=case_plan"]
-                    },
-                    response_type1: {
-                      count: 4,
-                      query: ["record_state=true", "workflow=response_type1"]
-                    }
-                  },
-                  "": {
-                    new: {
-                      count: 0,
-                      query: ["record_state=true", "workflow=new"]
-                    },
-                    case_plan: {
-                      count: 0,
-                      query: ["record_state=true", "workflow=case_plan"]
-                    },
-                    response_type1: {
-                      count: 0,
-                      query: ["record_state=true", "workflow=response_type1"]
+                    "": {
+                      new: {
+                        count: 0,
+                        query: ["record_state=true", "workflow=new"]
+                      },
+                      case_plan: {
+                        count: 0,
+                        query: ["record_state=true", "workflow=case_plan"]
+                      },
+                      response_type1: {
+                        count: 0,
+                        query: ["record_state=true", "workflow=response_type1"]
+                      }
                     }
                   }
                 }
               }
-            }
-          ]
+            ]
+          }
         }
       },
       ...userData
@@ -126,22 +128,8 @@ describe("<WorkflowTeamCases> - pages/dashboard/components/workflow-team-cases",
 
   describe("when the data is loading", () => {
     it("renders a <LoadingIndicator />", () => {
-      const props = {
-        loadingIndicator: {
-          overlay: true,
-          type: "NAMESPACE",
-          loading: true,
-          errors: false
-        }
-      };
-
-      mountedComponent(<WorkflowTeamCases {...props} />, {
-        records: {
-          dashboard: {
-            data: [],
-            loading: true
-          }
-        },
+      mountedComponent(<WorkflowTeamCases />, {
+        records: { dashboard: { workflow_team: { loading: true, data: [], errors: false } } },
         ...userData
       });
 

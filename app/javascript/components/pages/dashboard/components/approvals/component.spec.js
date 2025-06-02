@@ -24,68 +24,70 @@ describe("<Approvals> - pages/dashboard/components/reporting-location", () => {
     const state = fromJS({
       records: {
         dashboard: {
-          data: [
-            {
-              name: "dashboard.approvals_assessment.primeromodule-cp",
-              type: "indicator",
-              indicators: {
-                approval_assessment_pending: {
-                  count: 1,
-                  query: []
+          approvals: {
+            data: [
+              {
+                name: "dashboard.approvals_assessment.primeromodule-cp",
+                type: "indicator",
+                indicators: {
+                  approval_assessment_pending: {
+                    count: 1,
+                    query: []
+                  }
+                }
+              },
+              {
+                name: "dashboard.approvals_case_plan.primeromodule-cp",
+                type: "indicator",
+                indicators: {
+                  approval_case_plan_pending: {
+                    count: 2,
+                    query: []
+                  }
+                }
+              },
+              {
+                name: "dashboard.approvals_closure.primeromodule-cp",
+                type: "indicator",
+                indicators: {
+                  approval_closure_pending: {
+                    count: 3,
+                    query: []
+                  }
+                }
+              },
+              {
+                name: "dashboard.approvals_action_plan.primeromodule-cp",
+                type: "indicator",
+                indicators: {
+                  approval_action_plan_pending: {
+                    count: 4,
+                    query: []
+                  }
+                }
+              },
+              {
+                name: "dashboard.approvals_gbv_closure.primeromodule-cp",
+                type: "indicator",
+                indicators: {
+                  approval_gbv_closure_pending: {
+                    count: 5,
+                    query: []
+                  }
+                }
+              },
+              {
+                name: "dashboard.approvals_assessment_pending.primeromodule-cp",
+                type: "indicator",
+                indicators: {
+                  approval_assessment_pending_group: {
+                    count: 1,
+                    query: []
+                  }
                 }
               }
-            },
-            {
-              name: "dashboard.approvals_case_plan.primeromodule-cp",
-              type: "indicator",
-              indicators: {
-                approval_case_plan_pending: {
-                  count: 2,
-                  query: []
-                }
-              }
-            },
-            {
-              name: "dashboard.approvals_closure.primeromodule-cp",
-              type: "indicator",
-              indicators: {
-                approval_closure_pending: {
-                  count: 3,
-                  query: []
-                }
-              }
-            },
-            {
-              name: "dashboard.approvals_action_plan.primeromodule-cp",
-              type: "indicator",
-              indicators: {
-                approval_action_plan_pending: {
-                  count: 4,
-                  query: []
-                }
-              }
-            },
-            {
-              name: "dashboard.approvals_gbv_closure.primeromodule-cp",
-              type: "indicator",
-              indicators: {
-                approval_gbv_closure_pending: {
-                  count: 5,
-                  query: []
-                }
-              }
-            },
-            {
-              name: "dashboard.approvals_assessment_pending.primeromodule-cp",
-              type: "indicator",
-              indicators: {
-                approval_assessment_pending_group: {
-                  count: 1,
-                  query: []
-                }
-              }
-            }
-          ]
+            ]
+          }
         }
       },
       user: {
@@ -137,27 +139,10 @@ describe("<Approvals> - pages/dashboard/components/reporting-location", () => {
   });
 
   describe("when the data is loading", () => {
-    const props = {
-      loadingIndicator: {
-        overlay: true,
-        type: "NAMESPACE",
-        loading: true,
-        errors: false
-      }
-    };
-
     it("renders a <LoadingIndicator />", () => {
-      mountedComponent(<Approvals {...props} />, {
-        records: {
-          dashboard: {
-            data: [],
-            loading: true
-          }
-        },
-        user: {
-          permissions,
-          modules: ["primeromodule-cp"]
-        },
+      mountedComponent(<Approvals />, {
+        records: { dashboard: { approvals: { data: [], loading: true } } },
+        user: { permissions, modules: ["primeromodule-cp"] },
         application: {
           modules: [
             PrimeroModuleRecord({

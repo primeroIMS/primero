@@ -1,6 +1,5 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import PropTypes from "prop-types";
 import { fromJS } from "immutable";
 
 import Permission, { RESOURCES, ACTIONS } from "../../../../permissions";
@@ -8,14 +7,17 @@ import { LOOKUPS, ROUTES } from "../../../../../config";
 import { OptionsBox, DashboardTable } from "../../../../dashboard";
 import { useI18n } from "../../../../i18n";
 import { useMemoizedSelector } from "../../../../../libs";
-import { getCasesToAssign } from "../../selectors";
+import { getCasesToAssign, getIsDashboardGroupLoading } from "../../selectors";
 import { toCasesToAssignTable } from "../../utils";
 import useOptions from "../../../../form/use-options";
+import { DASHBOARD_GROUP } from "../../constants";
 
 import { NAME } from "./constants";
 
-function Component({ loadingIndicator }) {
+function Component() {
   const i18n = useI18n();
+
+  const loading = useMemoizedSelector(state => getIsDashboardGroupLoading(state, DASHBOARD_GROUP.cases_to_assign));
   const casesToAssign = useMemoizedSelector(state => getCasesToAssign(state));
   const options = useOptions({ source: LOOKUPS.risk_level });
 
@@ -25,7 +27,7 @@ function Component({ loadingIndicator }) {
 
   return (
     <Permission resources={RESOURCES.dashboards} actions={[ACTIONS.DASH_CASES_TO_ASSIGN]}>
-      <OptionsBox title={i18n.t("dashboard.cases_to_assign")} hasData={hasData} {...loadingIndicator}>
+      <OptionsBox title={i18n.t("dashboard.cases_to_assign")} hasData={hasData && !loading} loading={loading}>
         <DashboardTable
           pathname={ROUTES.cases}
           title={i18n.t("dashboard.cases_to_assign")}
@@ -37,9 +39,5 @@ function Component({ loadingIndicator }) {
 }
 
 Component.displayName = NAME;
-
-Component.propTypes = {
-  loadingIndicator: PropTypes.object
-};
 
 export default Component;

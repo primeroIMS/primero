@@ -55,9 +55,9 @@ module Indicators
       indicator_pivots.each do |pivot|
         indicator_query = pivot.join_multivalue(indicator_query) if pivot.multivalue?
         indicator_query = pivot.join_location_pivot(indicator_query) if pivot.location?
-        return indicator_query unless pivot.constrained? && managed_user_names.present?
+        next unless pivot.constrained? && managed_user_names.present?
 
-        pivot.constraint_values(indicator_query, managed_user_names)
+        indicator_query = pivot.constraint_values(indicator_query, managed_user_names)
       end
 
       indicator_query

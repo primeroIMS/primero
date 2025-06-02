@@ -81,3 +81,72 @@ export const RISK_LEVELS = Object.freeze({
 });
 
 export const MAX_VISIBLE_DASHBOARDS = 2;
+
+export const DASHBOARD_GROUP = Object.freeze({
+  overview: "overview",
+  action_needed: "action_needed",
+  overdue_tasks: "overdue_tasks",
+  workflow: "workflow",
+  approvals: "approvals",
+  referrals_transfers: "referrals_transfers",
+  shared_from_my_team: "shared_from_my_team",
+  shared_with_my_team: "shared_with_my_team",
+  cases_to_assign: "cases_to_assign",
+  cases_by_social_worker: "cases_by_social_worker",
+  workflow_team: "workflow_team",
+  reporting_location: "reporting_location",
+  protection_concerns: "protection_concerns",
+  violations_category_verification_status: "violations_category_verification_status",
+  violations_category_region: "violations_category_region",
+  perpetrator_armed_force_group_party_names: "perpetrator_armed_force_group_party_names",
+  flags: "flags"
+});
+
+export const DASHBOARD_NAMES_FOR_GROUP = Object.freeze({
+  [DASHBOARD_GROUP.overview]: [
+    "case_overview",
+    "case_risk",
+    "dash_group_overview",
+    "dash_case_incident_overview",
+    "dash_national_admin_summary"
+  ],
+  [DASHBOARD_GROUP.action_needed]: [
+    "action_needed_new_updated",
+    "action_needed_new_referrals",
+    "action_needed_transfer_awaiting_acceptance"
+  ],
+  [DASHBOARD_GROUP.overdue_tasks]: [
+    "cases_by_task_overdue_assessment",
+    "cases_by_task_overdue_case_plan",
+    "cases_by_task_overdue_followups",
+    "cases_by_task_overdue_services"
+  ],
+  [DASHBOARD_GROUP.approvals]: [
+    "approvals_action_plan_pending",
+    "approvals_assessment_pending",
+    "approvals_case_plan_pending",
+    "approvals_closure_pending",
+    "approvals_gbv_closure_pending",
+    "approvals_action_plan",
+    "approvals_assessment",
+    "approvals_case_plan",
+    "approvals_closure",
+    "approvals_gbv_closure"
+  ],
+  [DASHBOARD_GROUP.referrals_transfers]: [
+    "dash_shared_with_me",
+    "dash_shared_with_others",
+    "dash_shared_with_my_team_overview"
+  ],
+  [DASHBOARD_GROUP.workflow]: ["workflow"],
+  [DASHBOARD_GROUP.cases_to_assign]: ["dash_cases_to_assign"],
+  [DASHBOARD_GROUP.shared_from_my_team]: ["dash_shared_from_my_team"],
+  [DASHBOARD_GROUP.shared_with_my_team]: ["dash_shared_with_my_team"],
+  [DASHBOARD_GROUP.cases_by_social_worker]: ["dash_cases_by_social_worker"],
+  [DASHBOARD_GROUP.workflow_team]: ["workflow_team"],
+  [DASHBOARD_GROUP.reporting_location]: ["reporting_location"],
+  [DASHBOARD_GROUP.protection_concerns]: ["dash_protection_concerns"],
+  [DASHBOARD_GROUP.violations_category_verification_status]: ["dash_violations_category_verification_status"],
+  [DASHBOARD_GROUP.violations_category_region]: ["dash_violations_category_region"],
+  [DASHBOARD_GROUP.perpetrator_armed_force_group_party_names]: ["dash_perpetrator_armed_force_group_party_names"]
+});

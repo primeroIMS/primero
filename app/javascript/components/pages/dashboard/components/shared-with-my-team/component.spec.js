@@ -14,21 +14,23 @@ describe("<SharedWithMyTeam> - pages/dashboard/components/shared-with-my-team", 
   const state = fromJS({
     records: {
       dashboard: {
-        data: [
-          {
-            name: "dashboard.dash_shared_with_my_team",
-            type: "indicator",
-            indicators: {
-              shared_with_my_team_referrals: {},
-              shared_with_my_team_pending_transfers: {
-                primero_cp: {
-                  count: 1,
-                  query: ["transferred_to_users = primero_cp"]
+        shared_with_my_team: {
+          data: [
+            {
+              name: "dashboard.dash_shared_with_my_team",
+              type: "indicator",
+              indicators: {
+                shared_with_my_team_referrals: {},
+                shared_with_my_team_pending_transfers: {
+                  primero_cp: {
+                    count: 1,
+                    query: ["transferred_to_users = primero_cp"]
+                  }
                 }
               }
             }
-          }
-        ]
+          ]
+        }
       }
     },
     user: {
@@ -58,26 +60,10 @@ describe("<SharedWithMyTeam> - pages/dashboard/components/shared-with-my-team", 
   });
 
   describe("when the data is loading", () => {
-    const props = {
-      loadingIndicator: {
-        overlay: true,
-        type: "NAMESPACE",
-        loading: true,
-        errors: false
-      }
-    };
-
     it("renders a <LoadingIndicator />", () => {
-      mountedComponent(<SharedWithMyTeam {...props} />, {
-        records: {
-          dashboard: {
-            data: [],
-            loading: true
-          }
-        },
-        user: {
-          permissions
-        }
+      mountedComponent(<SharedWithMyTeam />, {
+        records: { dashboard: { shared_with_my_team: { data: [], loading: true } } },
+        user: { permissions }
       });
 
       expect(screen.getByRole("progressbar")).toBeInTheDocument();

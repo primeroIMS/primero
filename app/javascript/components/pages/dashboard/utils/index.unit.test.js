@@ -13,7 +13,6 @@ describe("index - pages/dashboard/utils/", () => {
       "dashboardType",
       "filterIndicatorsByKey",
       "permittedSharedWithMe",
-      "taskOverdueHasData",
       "teamSharingTable",
       "toApprovalsManager",
       "toCasesBySocialWorkerTable",

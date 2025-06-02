@@ -70,7 +70,7 @@ describe("<Dashboard />", () => {
     });
 
     it("should render a <SharedFromMyTeam /> component", () => {
-      expect(screen.queryAllByText(/dashboard.dash_shared_from_my_team/i)).toHaveLength(3);
+      expect(screen.queryAllByText(/dashboard.dash_shared_from_my_team/i)).toHaveLength(1);
     });
 
     it("should render a <WorkflowIndividualCases /> component", () => {
@@ -86,7 +86,7 @@ describe("<Dashboard />", () => {
     });
 
     it("should render a <WorkflowTeamCases /> component", () => {
-      expect(screen.queryAllByText(/dashboard.workflow_team/i)).toHaveLength(3);
+      expect(screen.queryAllByText(/dashboard.workflow_team/i)).toHaveLength(1);
     });
 
     it("should render a <ReportingLocation /> component", () => {
@@ -94,13 +94,29 @@ describe("<Dashboard />", () => {
     });
 
     it("should render a <ProtectionConcern /> component", () => {
-      expect(screen.queryAllByText(/dashboard.protection_concerns/i)).toHaveLength(3);
+      expect(screen.queryAllByText(/dashboard.protection_concerns/i)).toHaveLength(1);
     });
   });
 
   describe("when a user has SHARED_WITH_ME permission", () => {
     const stateSharedWithMe = fromJS({
-      user: { permissions: { dashboards: [ACTIONS.DASH_SHARED_WITH_ME] } }
+      user: { permissions: { dashboards: [ACTIONS.DASH_SHARED_WITH_ME] } },
+      records: {
+        dashboard: {
+          referrals_transfers: {
+            data: [
+              {
+                name: "dashboard.dash_shared_with_me",
+                type: "indicator",
+                indicators: {
+                  shared_with_me_total_referrals: { count: 0, query: [] },
+                  shared_with_me_new_referrals: { count: 0, query: [] }
+                }
+              }
+            ]
+          }
+        }
+      }
     });
 
     it("renders a <Referrals /> component and dashboard for a user with the RECEIVE_REFERRAL permission", () => {
@@ -144,7 +160,24 @@ describe("<Dashboard />", () => {
 
   describe("when a user has DASH_SHARED_WITH_OTHERS permission", () => {
     const stateSharedWithOther = fromJS({
-      user: { permissions: { dashboards: [ACTIONS.DASH_SHARED_WITH_OTHERS] } }
+      user: { permissions: { dashboards: [ACTIONS.DASH_SHARED_WITH_OTHERS] } },
+      records: {
+        dashboard: {
+          referrals_transfers: {
+            data: [
+              {
+                name: "dashboard.dash_shared_with_others",
+                type: "indicator",
+                indicators: {
+                  shared_with_others_referrals: { count: 0, query: [] },
+                  shared_with_others_pending_transfers: { count: 0, query: [] },
+                  shared_with_others_rejected_transfers: { count: 0, query: [] }
+                }
+              }
+            ]
+          }
+        }
+      }
     });
 
     it("renders a <Referrals /> component", () => {
@@ -164,7 +197,22 @@ describe("<Dashboard />", () => {
 
   describe("when a user has DASH_SHARED_WITH_MY_TEAM_OVERVIEW permission", () => {
     const stateSharedWithMyTeamOverview = fromJS({
-      user: { permissions: { dashboards: [ACTIONS.DASH_SHARED_WITH_MY_TEAM_OVERVIEW] } }
+      user: { permissions: { dashboards: [ACTIONS.DASH_SHARED_WITH_MY_TEAM_OVERVIEW] } },
+      records: {
+        dashboard: {
+          referrals_transfers: {
+            data: [
+              {
+                name: "dashboard.dash_shared_with_my_team_overview",
+                type: "indicator",
+                indicators: {
+                  shared_with_my_team_pending_transfers_overview: { count: 0, query: [] }
+                }
+              }
+            ]
+          }
+        }
+      }
     });
 
     it("renders a <Transfer /> component with the dashboard", () => {
@@ -198,7 +246,26 @@ describe("<Dashboard />", () => {
 
   describe("when a user has DASH_CASE_RISK permission", () => {
     const stateCaseRisk = fromJS({
-      user: { permissions: { dashboards: [ACTIONS.DASH_CASE_RISK] } }
+      user: { permissions: { dashboards: [ACTIONS.DASH_CASE_RISK] } },
+      records: {
+        dashboard: {
+          overview: {
+            data: [
+              {
+                name: "dashboard.case_risk",
+                type: "indicator",
+                indicators: {
+                  risk_level: {
+                    high: { count: 0, query: [] },
+                    low: { count: 0, query: [] },
+                    medium: { count: 0, query: [] }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
     });
 
     it("renders the group overview dashboard", () => {
@@ -210,7 +277,23 @@ describe("<Dashboard />", () => {
 
   describe("when a user has DASH_GROUP_OVERVIEW permission", () => {
     const stateGroupOverview = fromJS({
-      user: { permissions: { dashboards: [ACTIONS.DASH_GROUP_OVERVIEW] } }
+      user: { permissions: { dashboards: [ACTIONS.DASH_GROUP_OVERVIEW] } },
+      records: {
+        dashboard: {
+          overview: {
+            data: [
+              {
+                name: "dashboard.dash_group_overview",
+                type: "indicator",
+                indicators: {
+                  group_overview_open: { count: 0, query: [] },
+                  group_overview_closed: { count: 0, query: [] }
+                }
+              }
+            ]
+          }
+        }
+      }
     });
 
     it("renders the group overview dashboard", () => {
@@ -222,7 +305,26 @@ describe("<Dashboard />", () => {
 
   describe("when a user has DASH_CASE_INCIDENT_OVERVIEW permission", () => {
     const stateCaseIncidentOverview = fromJS({
-      user: { permissions: { dashboards: [ACTIONS.DASH_CASE_INCIDENT_OVERVIEW] } }
+      user: { permissions: { dashboards: [ACTIONS.DASH_CASE_INCIDENT_OVERVIEW] } },
+      records: {
+        dashboard: {
+          overview: {
+            data: [
+              {
+                name: "dashboard.dash_case_incident_overview",
+                type: "indicator",
+                indicators: {
+                  total: { count: 0, query: [] },
+                  new_or_updated: { count: 0, query: [] },
+                  with_incidents: { count: 0, query: [] },
+                  with_new_incidents: { count: 0, query: [] },
+                  without_incidents: { count: 0, query: [] }
+                }
+              }
+            ]
+          }
+        }
+      }
     });
 
     it("renders the case incident overview dashboard", () => {
@@ -234,7 +336,26 @@ describe("<Dashboard />", () => {
 
   describe("when a user has DASH_NATIONAL_ADMIN_SUMMARY permission", () => {
     const stateNationalAdminSummary = fromJS({
-      user: { permissions: { dashboards: [ACTIONS.DASH_NATIONAL_ADMIN_SUMMARY] } }
+      user: { permissions: { dashboards: [ACTIONS.DASH_NATIONAL_ADMIN_SUMMARY] } },
+      records: {
+        dashboard: {
+          overview: {
+            data: [
+              {
+                name: "dashboard.dash_national_admin_summary",
+                type: "indicator",
+                indicators: {
+                  open: { count: 0, query: [] },
+                  new_last_week: { count: 0, query: [] },
+                  new_this_week: { count: 0, query: [] },
+                  closed_last_week: { count: 0, query: [] },
+                  closed_this_week: { count: 0, query: [] }
+                }
+              }
+            ]
+          }
+        }
+      }
     });
 
     it("renders the case incident overview dashboard", () => {

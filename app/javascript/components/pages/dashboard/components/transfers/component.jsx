@@ -5,18 +5,24 @@ import PropTypes from "prop-types";
 
 import Permission, { usePermissions, RESOURCES, ACTIONS } from "../../../../permissions";
 import { OptionsBox } from "../../../../dashboard";
-import { DASHBOARD_TYPES } from "../../constants";
+import { DASHBOARD_GROUP, DASHBOARD_TYPES } from "../../constants";
 import { useI18n } from "../../../../i18n";
 import { permittedSharedWithMe, filterIndicatorsByKey } from "../../utils";
-import { getSharedWithMe, getSharedWithMyTeamOverview, getSharedWithOthers } from "../../selectors";
+import {
+  getIsDashboardGroupLoading,
+  getSharedWithMe,
+  getSharedWithMyTeamOverview,
+  getSharedWithOthers
+} from "../../selectors";
 import { useMemoizedSelector } from "../../../../../libs";
 import DashboardColumns from "../../../../dashboard/dashboard-columns";
 
 const sharedWithMeIndicators = ["shared_with_me_transfers_awaiting_acceptance"];
 const sharedWithOthersIndicators = ["shared_with_others_pending_transfers", "shared_with_others_rejected_transfers"];
 
-function Component({ loadingIndicator, userPermissions }) {
+function Component({ userPermissions }) {
   const i18n = useI18n();
+  const loading = useMemoizedSelector(state => getIsDashboardGroupLoading(state, DASHBOARD_GROUP.referrals_transfers));
   const sharedWithMe = useMemoizedSelector(state => getSharedWithMe(state));
   const sharedWithOthers = useMemoizedSelector(state => getSharedWithOthers(state));
   const sharedWithMyTeamOverview = useMemoizedSelector(state => getSharedWithMyTeamOverview(state));
@@ -84,8 +90,8 @@ function Component({ loadingIndicator, userPermissions }) {
     <Permission resources={RESOURCES.dashboards} actions={dashboardActions}>
       <OptionsBox
         title={i18n.t("dashboard.action_needed.transfers")}
-        hasData={transfersDashHasData || false}
-        {...loadingIndicator}
+        hasData={transfersDashHasData && !loading}
+        loading={loading}
       >
         <DashboardColumns columns={columns} />
       </OptionsBox>
@@ -96,7 +102,6 @@ function Component({ loadingIndicator, userPermissions }) {
 Component.displayName = "Transfers";
 
 Component.propTypes = {
-  loadingIndicator: PropTypes.object,
   userPermissions: PropTypes.object
 };
 

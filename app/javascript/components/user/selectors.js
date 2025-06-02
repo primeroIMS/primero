@@ -65,3 +65,5 @@ export const getNotificationSubscription = state => state.getIn([NAMESPACE, "not
 export const getManagedReportScope = state => state.getIn([NAMESPACE, "managedReportScope"], null);
 
 export const getIsManagedReportScopeAll = state => getManagedReportScope(state) === MANAGED_REPORT_SCOPE.ALL;
+
+export const getCurrentUserModules = state => state.getIn([NAMESPACE, "modules"], fromJS([]));

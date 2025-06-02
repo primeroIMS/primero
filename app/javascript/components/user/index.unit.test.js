@@ -20,6 +20,7 @@ describe("User - index", () => {
       "getCurrentUserGroupPermission",
       "getCurrentUserGroupsUniqueIds",
       "getCurrentUserUserGroups",
+      "getCurrentUserModules",
       "getIsAuthenticated",
       "getIsManagedReportScopeAll",
       "getManagedReportScope",
