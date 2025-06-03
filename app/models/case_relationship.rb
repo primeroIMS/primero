@@ -3,7 +3,6 @@
 # Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
 
 # Model for case relationships
-# rubocop:disable Naming/VariableNumber
 class CaseRelationship < ApplicationRecord
   RELATIONSHIP_MAP = {
     'farm_for' => 'farmer_on'
@@ -46,4 +45,3 @@ class CaseRelationship < ApplicationRecord
     child_id == from_case_id ? to_case_id : from_case_id
   end
 end
-# rubocop:enable Naming/VariableNumber
