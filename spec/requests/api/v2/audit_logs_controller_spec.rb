@@ -83,7 +83,7 @@ describe Api::V2::AuditLogsController, type: :request do
       expect(log_b['display_name']).to eq(@user_b.user_name)
       expect(log_b['action']).to eq(@audit_log_b.action)
       expect(log_a['action']).to eq('login')
-      expect(log_a['log_message']).to eq({ 'prefix' => { 'key' => 'logger.login', 'approval_type' => nil },
+      expect(log_a['log_message']).to eq({ 'prefix' => { 'key' => 'logger.actions.login', 'approval_type' => nil },
                                            'identifier' => "User '#{@user_a.id}'",
                                            'suffix' => { 'key' => 'logger.by_user', 'user' => 'test_user_a' } })
     end
@@ -109,7 +109,7 @@ describe Api::V2::AuditLogsController, type: :request do
 
       log_c = json['data'].select { |al| al['id'] == @audit_log_c.id }.first
       expect(log_c['action']).to eq('login')
-      expect(log_c['log_message']).to eq({ 'prefix' => { 'key' => 'logger.login', 'approval_type' => nil },
+      expect(log_c['log_message']).to eq({ 'prefix' => { 'key' => 'logger.actions.login', 'approval_type' => nil },
                                            'identifier' => "User '#{@user_b.id}'",
                                            'suffix' => { 'key' => 'logger.by_user', 'user' => 'test_user_2' } })
     end
@@ -157,7 +157,7 @@ describe Api::V2::AuditLogsController, type: :request do
 
         log_approval = json['data'].select { |al| al['id'] == @audit_log_approval.id }.first
         expect(log_approval['action']).to eq('assessment_requested')
-        expect(log_approval['log_message']).to eq({ 'prefix' => { 'key' => 'logger.assessment_requested',
+        expect(log_approval['log_message']).to eq({ 'prefix' => { 'key' => 'logger.actions.assessment_requested',
                                                                   'approval_type' => 'assessment' },
                                                     'identifier' => "Child '#{@case1.display_id}'",
                                                     'suffix' => { 'key' => 'logger.by_user',

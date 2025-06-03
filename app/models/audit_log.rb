@@ -100,7 +100,7 @@ class AuditLog < ApplicationRecord
 
   def log_message
     log_message_hash = {}
-    log_message_hash[:prefix] = { key: "logger.#{action}", approval_type: }
+    log_message_hash[:prefix] = { key: "logger.actions.#{action}", approval_type: }
     log_message_hash[:identifier] = display_id.present? ? "#{record_type} '#{display_id}'" : record_type
     log_message_hash[:suffix] = {
       key: 'logger.by_user',

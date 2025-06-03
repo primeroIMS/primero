@@ -84,7 +84,10 @@ describe("<AuditLogs /> - Helpers", () => {
           name: "audit_log.action",
           field_name: "audit_log_actions",
           option_strings_source: null,
-          options: [],
+          options: [
+            { display_name: "logger.actions.traces", id: "traces" },
+            { display_name: "logger.actions.assessment_requested", id: "assessment_requested" }
+          ],
           type: FILTER_TYPES.MULTI_SELECT,
           multiple: true
         },
@@ -98,7 +101,9 @@ describe("<AuditLogs /> - Helpers", () => {
         }
       ];
 
-      expect(helper.getFilters(data, { t: value => value, locale: "en" })).toEqual(expected);
+      expect(helper.getFilters(data, { t: value => value, locale: "en" }, ["traces", "assessment_requested"])).toEqual(
+        expected
+      );
     });
   });
 });
