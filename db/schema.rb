@@ -135,16 +135,16 @@ ActiveRecord::Schema.define(version: 2025_05_19_195505) do
   end
 
   create_table "case_relationships", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "case_id_1"
-    t.uuid "case_id_2"
+    t.uuid "from_case_id"
+    t.uuid "to_case_id"
     t.string "relationship_type"
     t.boolean "disabled"
     t.boolean "primary"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["case_id_1", "case_id_2"], name: "index_case_relationships_on_case_id_1_and_case_id_2", unique: true
-    t.index ["case_id_1"], name: "index_case_relationships_on_case_id_1"
-    t.index ["case_id_2"], name: "index_case_relationships_on_case_id_2"
+    t.index ["from_case_id", "to_case_id"], name: "index_case_relationships_on_from_case_id_and_to_case_id", unique: true
+    t.index ["from_case_id"], name: "index_case_relationships_on_from_case_id"
+    t.index ["to_case_id"], name: "index_case_relationships_on_to_case_id"
   end
 
   create_table "cases", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

@@ -14,7 +14,7 @@ RSpec.describe CaseRelationship, type: :model do
     case_relationship = CaseRelationship.new_case_relationship(primary_case_id: @case1.id, related_case_id: @case2.id,
                                                                relationship_type: 'farmer_on')
     expect(case_relationship).to be_valid
-    expect(case_relationship.attributes).to include({ 'case_id_1' => @case1.id, 'case_id_2' => @case2.id,
+    expect(case_relationship.attributes).to include({ 'from_case_id' => @case1.id, 'to_case_id' => @case2.id,
                                                       'relationship_type' => 'farmer_on',
                                                       'disabled' => false })
   end
@@ -38,6 +38,7 @@ RSpec.describe CaseRelationship, type: :model do
     end
 
     it 'returns a list of case relationships by relationship type' do
+      binding.pry
       expect(CaseRelationship.list(@farmer2, 'farm_for')).to match_array([@case_relationship3, @case_relationship4])
       expect(CaseRelationship.list(@case1, 'farmer_on')).to match_array([@case_relationship1])
     end
@@ -54,8 +55,8 @@ RSpec.describe CaseRelationship, type: :model do
       case_relationship = CaseRelationship.new
       case_relationship.valid?
       expect(case_relationship.errors[:relationship_type]).to include("can't be blank")
-      expect(case_relationship.errors[:case_id_1]).to include("can't be blank")
-      expect(case_relationship.errors[:case_id_2]).to include("can't be blank")
+      expect(case_relationship.errors[:from_case_id]).to include("can't be blank")
+      expect(case_relationship.errors[:to_case_id]).to include("can't be blank")
     end
   end
 
