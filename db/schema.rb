@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_05_19_000000) do
+ActiveRecord::Schema.define(version: 2025_05_19_195505) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -132,6 +132,19 @@ ActiveRecord::Schema.define(version: 2025_05_19_000000) do
     t.string "file_name"
     t.string "password_ciphertext"
     t.string "type"
+  end
+
+  create_table "case_relationships", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "from_case_id"
+    t.uuid "to_case_id"
+    t.string "relationship_type"
+    t.boolean "disabled"
+    t.boolean "primary"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["from_case_id", "to_case_id"], name: "index_case_relationships_on_from_case_id_and_to_case_id", unique: true
+    t.index ["from_case_id"], name: "index_case_relationships_on_from_case_id"
+    t.index ["to_case_id"], name: "index_case_relationships_on_to_case_id"
   end
 
   create_table "cases", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
