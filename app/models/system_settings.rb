@@ -24,6 +24,8 @@ class SystemSettings < ApplicationRecord
 
   localize_properties %i[welcome_email_text approvals_labels]
 
+  has_one_attached :location_file
+
   validate :validate_reporting_location,
            if: ->(system_setting) { system_setting.reporting_location_config.present? }
 

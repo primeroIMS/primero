@@ -6,23 +6,22 @@ require 'rails_helper'
 
 describe GenerateLocationFilesService do
   before :each do
-    clean_data(Location)
-  end
-
-  let(:file) do
+    clean_data(Location, SystemSettings)
+    SystemSettings.create!
     GenerateLocationFilesService.generate
   end
 
   let(:json) do
-    JSON.parse(File.read(file))
+    JSON.parse(SystemSettings.current.location_file.download)
   end
 
-  it 'generates a file' do
-    expect(File.exist?(file)).to be_truthy
+  it 'generates a active storage file on SystemSettings' do
+    expect(SystemSettings.current.location_file).to be_truthy
   end
 
   context 'no locations' do
     it 'contains an empty array' do
+
       expect(json).to eq('data' => [])
     end
   end
@@ -33,6 +32,8 @@ describe GenerateLocationFilesService do
         placename_en: 'GHANA', location_code: 'GH', admin_level: 0,
         type: 'country', hierarchy_path: 'GH'
       )
+
+      GenerateLocationFilesService.generate
     end
 
     it 'contains location JSON text' do
@@ -42,7 +43,6 @@ describe GenerateLocationFilesService do
   end
 
   after :each do
-    FileUtils.rm_f(file)
-    clean_data(Location)
+    clean_data(Location, SystemSettings)
   end
 end
