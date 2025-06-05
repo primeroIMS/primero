@@ -213,28 +213,40 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
     end
 
     def incident_recorder_age_groups
-      @incident_recorder_age_groups ||= build_incident_recorder_age_groups
+      @incident_recorder_age_groups ||= build_incident_age_groups
     end
 
-    def build_incident_recorder_age_groups
-      age_group_label = I18n.t('exports.incident_recorder_xls.age_group.age', **locale_hash)
-      locale = locale_hash[:locale].to_s
-      lookup_options = get_lookup_options()
-      base_groups = lookup_options.each_with_object({}) do |entry, hash|
-        display_text = entry['display_text']
-        text = display_text.is_a?(Hash) ? display_text[locale] : display_text
-        hash[entry['id']] = "#{age_group_label} #{text}"
-      end
+    def build_incident_age_groups
+      age_group_label = fetch_age_group_label
+      base_groups = build_base_age_groups(age_group_label)
+      merge_additional_age_groups(base_groups)
+    end
 
-      base_groups.merge(
+    def fetch_age_group_label
+      I18n.t('exports.incident_recorder_xls.age_group.age', **locale_hash)
+    end
+
+    def build_base_age_groups(label)
+      lookup_options.each_with_object({}) do |entry, hash|
+        hash[entry['id']] = "#{label} #{translated_text(entry)}"
+      end
+    end
+
+    def translated_text(entry)
+      display_text = entry['display_text']
+      display_text.is_a?(Hash) ? display_text[locale_hash[:locale].to_s] : display_text
+    end
+
+    def merge_additional_age_groups(groups)
+      groups.merge(
         '61' => I18n.t('exports.incident_recorder_xls.age_group.61_older', **locale_hash),
         'unknown' => I18n.t('exports.incident_recorder_xls.age_group.unknown', **locale_hash)
       )
     end
 
-    def get_lookup_options()
+    def lookup_options
       fs = FormSection.find_by(unique_id: 'alleged_perpetrator')
-      field = Field.find_by(name: "age_group", form_section_id: fs&.id)
+      field = Field.find_by(name: 'age_group', form_section_id: fs&.id)
       return [] unless field
 
       field.option_strings_text_i18n.presence || Lookup.values(field.option_strings_source.split[1])
