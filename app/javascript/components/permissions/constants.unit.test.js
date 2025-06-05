@@ -120,6 +120,7 @@ describe("Verifying config constant", () => {
       "REQUEST_APPROVAL_GBV_CLOSURE",
       "REQUEST_TRANSFER",
       "SEARCH_OWNED_BY_OTHERS",
+      "SELF_APPROVE",
       "SERVICES_SECTION_FROM_CASE",
       "WORKFLOW_REPORT",
       "SYNC_EXTERNAL",
