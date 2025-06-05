@@ -218,13 +218,26 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
 
     def build_incident_recorder_age_groups
       age_group_label = I18n.t('exports.incident_recorder_xls.age_group.age', **locale_hash)
-      base_groups = Lookup.values('lookup-perpetrator-age-group').each_with_object({}) do |entry, hash|
-        hash[entry['id']] = "#{age_group_label} #{entry['display_text']}"
+      locale = locale_hash[:locale].to_s
+      lookup_options = get_lookup_options()
+      base_groups = lookup_options.each_with_object({}) do |entry, hash|
+        display_text = entry['display_text']
+        text = display_text.is_a?(Hash) ? display_text[locale] : display_text
+        hash[entry['id']] = "#{age_group_label} #{text}"
       end
+
       base_groups.merge(
         '61' => I18n.t('exports.incident_recorder_xls.age_group.61_older', **locale_hash),
         'unknown' => I18n.t('exports.incident_recorder_xls.age_group.unknown', **locale_hash)
       )
+    end
+
+    def get_lookup_options()
+      fs = FormSection.find_by(unique_id: 'alleged_perpetrator')
+      field = Field.find_by(name: "age_group", form_section_id: fs&.id)
+      return [] unless field
+
+      field.option_strings_text_i18n.presence || Lookup.values(field.option_strings_source.split[1])
     end
 
     def incident_recorder_age_type(perpetrators)
