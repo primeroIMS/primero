@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import AddIcon from "@mui/icons-material/Add";
+import { isImmutable } from "immutable";
 
 import SubformDrawer from "../record-form/form/subforms/subform-drawer";
 import { useI18n } from "../i18n";
@@ -45,7 +46,12 @@ function Component({
   showHeader,
   showSelectButton,
   validatedFieldNames = [],
-  values
+  values,
+  shouldFetchRecord = true,
+  recordHeader,
+  i18nKeys = {},
+  useRecordViewForms,
+  usePhoneticSearch
 }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -55,8 +61,9 @@ function Component({
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [searchParams, setSearchParams] = useState({});
   const [drawerTitle, setDrawerTitle] = useState("");
+  const [linkCaseID, setLinkCaseID] = useState(null);
 
-  const fieldValue = values[linkField];
+  const fieldValue = linkField ? values[linkField] : values;
 
   const record = useMemoizedSelector(state =>
     selectRecord(state, { isEditOrShow: true, recordType: RECORD_TYPES_PLURAL[linkedRecordType], id: fieldValue })
@@ -94,7 +101,8 @@ function Component({
     setDrawerOpen(true);
   };
 
-  const handleOpenMatch = async () => {
+  const handleOpenMatch = async id => {
+    setLinkCaseID(id || fieldValue);
     await setComponent(2);
     setDrawerOpen(true);
   };
@@ -134,7 +142,7 @@ function Component({
   }, [drawerOpen]);
 
   useEffect(() => {
-    if (record.isEmpty() && fieldValue && online) {
+    if (record.isEmpty() && fieldValue && online && shouldFetchRecord) {
       dispatch(fetchRecord(RECORD_TYPES_PLURAL[linkedRecordType], fieldValue));
     }
   }, [fieldValue, online, record.isEmpty()]);
@@ -147,6 +155,22 @@ function Component({
 
   const subformTitle = mode.isEdit ? i18n.t("fields.add_field_type", { file_type: formName }) : formName;
 
+  const hasData = (isImmutable(fieldValue) && fieldValue?.size > 0) || (!isImmutable(fieldValue) && fieldValue);
+
+  function recordSlot() {
+    return recordHeader ? (
+      recordHeader({ values, record, headerFieldNames, linkedRecordType, handleOpenMatch })
+    ) : (
+      <RecordHeader
+        record={record}
+        values={values}
+        fieldNames={headerFieldNames}
+        linkedRecordType={linkedRecordType}
+        handleOpenMatch={handleOpenMatch}
+      />
+    );
+  }
+
   return (
     <>
       <RecordFormTitle mobileDisplay={mobileDisplay} handleToggleNav={handleToggleNav} displayText={formName} />
@@ -154,34 +178,25 @@ function Component({
         <div>
           <h3 className={css.subformTitle}>{subformTitle}</h3>
         </div>
-        {showAddNew && !fieldValue && !mode.isShow && (
+        {/* TODO: Fix logic -> (use the following for case-family, use below for case-relationships) showAddNew && !fieldValue && !mode.isShow */}
+        {showAddNew && !mode.isShow && (
           <div>
             <ActionButton
               type={ACTION_BUTTON_TYPES.default}
-              text="case.add_new"
+              text={i18nKeys?.addNew || "case.add_new"}
               rest={{ onClick: handleAddNew }}
               icon={<AddIcon />}
             />
           </div>
         )}
       </div>
-      {showHeader &&
-        (fieldValue ? (
-          <RecordHeader
-            record={record}
-            values={values}
-            fieldNames={headerFieldNames}
-            linkedRecordType={linkedRecordType}
-            handleOpenMatch={handleOpenMatch}
-          />
-        ) : (
-          <SubformEmptyData subformName={formName} single />
-        ))}
+
+      {showHeader && (hasData ? recordSlot() : <SubformEmptyData subformName={formName} single />)}
 
       <SubformDrawer open={drawerOpen} cancelHandler={handleCancel} title={drawerTitle}>
         {drawerOpen && (
           <RenderComponents
-            id={fieldValue}
+            id={linkCaseID}
             formId={formId}
             setSearchParams={handleSetSearchParams}
             setComponent={handleSetComponent}
@@ -208,6 +223,9 @@ function Component({
             linkField={linkField}
             linkFieldDisplay={linkFieldDisplay}
             phoneticFieldNames={phoneticFieldNames}
+            i18nKeys={i18nKeys}
+            useRecordViewForms={useRecordViewForms}
+            usePhoneticSearch={usePhoneticSearch}
           />
         )}
       </SubformDrawer>

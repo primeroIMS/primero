@@ -3,6 +3,7 @@
 import PropTypes from "prop-types";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import SearchIcon from "@mui/icons-material/Search";
+import { useForm, FormProvider } from "react-hook-form";
 
 import { useMemoizedSelector } from "../../../libs";
 import ActionButton, { ACTION_BUTTON_TYPES } from "../../action-button";
@@ -12,6 +13,8 @@ import { useI18n } from "../../i18n";
 import css from "../../record-form/form/subforms/styles.css";
 import { FORM_ID, REGISTRY_LOCATION_CURRENT, SEARCH_BY } from "../constants";
 import { buildSearchParams, buildValidation } from "../utils";
+import SearchBox from "../../index-filters/components/search-box/component";
+import notPropagatedOnSubmit from "../../form/utils/not-propagated-on-submit";
 
 function Component({
   fields,
@@ -25,7 +28,9 @@ function Component({
   setComponent,
   setDrawerTitle,
   setSearchParams,
-  validatedFieldNames
+  validatedFieldNames,
+  i18nKeys,
+  usePhoneticSearch = false
 }) {
   const i18n = useI18n();
 
@@ -34,7 +39,9 @@ function Component({
   redirectIfNotAllowed(permissions.writeRegistryRecord);
 
   setDrawerTitle("search_for", {
-    record_type: noForm ? i18n.t("navigation.registry_records") : registryType.getIn(["display_text", i18n.locale], "")
+    record_type: noForm
+      ? i18n.t(i18nKeys?.searchTitle || "case.search_for_registry_record")
+      : registryType.getIn(["display_text", i18n.locale], "")
   });
 
   const handleSearch = async data => {
@@ -82,6 +89,10 @@ function Component({
 
   const validationSchema = buildValidation(formFields[0].fields, searchByRequiredMessage);
 
+  const methods = useForm({
+    shouldUnregister: false
+  });
+
   return (
     <>
       <div className={css.subformFieldArrayContainer}>
@@ -91,14 +102,24 @@ function Component({
           rest={{ onClick: handleCancel }}
           icon={<ArrowBackIosIcon />}
         />
-        <ActionButton
-          type={ACTION_BUTTON_TYPES.default}
-          text="navigation.search"
-          rest={{ form: FORM_ID, type: "submit" }}
-          icon={<SearchIcon />}
-        />
+        {usePhoneticSearch || (
+          <ActionButton
+            type={ACTION_BUTTON_TYPES.default}
+            text="navigation.search"
+            rest={{ form: FORM_ID, type: "submit" }}
+            icon={<SearchIcon />}
+          />
+        )}
       </div>
-      <Form formID={FORM_ID} formSections={formFields} onSubmit={handleSearch} validations={validationSchema} />
+      {usePhoneticSearch ? (
+        <FormProvider {...methods}>
+          <form onSubmit={notPropagatedOnSubmit(methods.handleSubmit, handleSearch)} id="search">
+            <SearchBox />
+          </form>
+        </FormProvider>
+      ) : (
+        <Form formID={FORM_ID} formSections={formFields} onSubmit={handleSearch} validations={validationSchema} />
+      )}
     </>
   );
 }

@@ -4,34 +4,26 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { fromJS } from "immutable";
 
-import { RECORD_TYPES } from "../../../config";
 import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
 import { usePermissions, ACTIONS } from "../../permissions";
-import { reduceMapToObject, useMemoizedSelector } from "../../../libs";
-import { getMiniFormFields } from "../../record-form";
+import { reduceMapToObject } from "../../../libs";
 import Form, { AUDIO_RECORD_FIELD, FORM_MODE_SHOW, PHOTO_RECORD_FIELD } from "../../form";
-import { getCommonMiniFormFields } from "../../record-form/selectors";
 
-import viewModalForm from "./form";
 import TransferRequest from "./transfer-request";
-import { COMMON_FIELD_NAMES, FORM_ID, NAME } from "./constants";
+import { FORM_ID, NAME } from "./constants";
+import useViewModalForms from "./use-view-modal-forms";
 
 function ViewModal({ close, openViewModal, currentRecord, recordType }) {
   const i18n = useI18n();
   const [sendRequest, setSendRequest] = useState(false);
 
-  const commonFieldNames = Object.values(COMMON_FIELD_NAMES);
-  const miniFormFields = useMemoizedSelector(state =>
-    getMiniFormFields(state, RECORD_TYPES[recordType], currentRecord?.get("module_id"), commonFieldNames)
-  );
-  const commonMiniFormFields = useMemoizedSelector(state =>
-    getCommonMiniFormFields(state, RECORD_TYPES[recordType], currentRecord?.get("module_id"), commonFieldNames)
-  );
-
   const canRequestTransfer = usePermissions(recordType, [ACTIONS.MANAGE, ACTIONS.REQUEST_TRANSFER]);
 
-  const form = viewModalForm(i18n, commonMiniFormFields, miniFormFields);
+  const { miniFormFields, forms: form } = useViewModalForms({
+    record: currentRecord,
+    recordType
+  });
 
   const handleOk = () => {
     setSendRequest(true);

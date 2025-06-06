@@ -35,7 +35,9 @@ function Component({
   setComponent,
   setDrawerTitle,
   setFieldValue,
-  showSelectButton = false
+  showSelectButton = false,
+  i18nKeys,
+  useRecordViewForms
 }) {
   setDrawerTitle("results");
   redirectIfNotAllowed(permissions.writeRegistryRecord);
@@ -107,6 +109,8 @@ function Component({
         showSelectButton={showSelectButton}
         linkField={linkField}
         linkFieldDisplay={linkFieldDisplay}
+        i18nKeys={i18nKeys}
+        useRecordViewForms={useRecordViewForms}
       />
     );
   }

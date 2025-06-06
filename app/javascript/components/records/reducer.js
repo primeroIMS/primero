@@ -75,7 +75,11 @@ import {
   CREATE_CASE_FROM_FAMILY_DETAIL_STARTED,
   CREATE_CASE_FROM_FAMILY_DETAIL_SUCCESS,
   CREATE_CASE_FROM_FAMILY_DETAIL_FAILURE,
-  CREATE_CASE_FROM_FAMILY_DETAIL_FINISHED
+  CREATE_CASE_FROM_FAMILY_DETAIL_FINISHED,
+  FETCH_RECORD_RELATIONSHIPS_SUCCESS,
+  FETCH_RECORD_RELATIONSHIPS_STARTED,
+  FETCH_RECORD_RELATIONSHIPS_FINISHED,
+  FETCH_RECORD_RELATIONSHIPS_FAILURE
 } from "./actions";
 
 const DEFAULT_STATE = Map({ data: List([]) });
@@ -406,6 +410,14 @@ export default namespace =>
         return state.set("data", fromJS(payload.data));
       case `${namespace}/${FETCH_LINK_INCIDENT_TO_CASE_DATA_FINISHED}`:
         return state.set("loading", false);
+      case `${namespace}/${FETCH_RECORD_RELATIONSHIPS_SUCCESS}`:
+        return state.setIn(["relationships", "data"], fromJS(payload.data || []));
+      case `${namespace}/${FETCH_RECORD_RELATIONSHIPS_STARTED}`:
+        return state.setIn(["relationships", "isLoading"], true);
+      case `${namespace}/${FETCH_RECORD_RELATIONSHIPS_FINISHED}`:
+        return state.setIn(["relationships", "isLoading"], false);
+      case `${namespace}/${FETCH_RECORD_RELATIONSHIPS_FAILURE}`:
+        return state.setIn(["relationships", "isLoading"], false).setIn(["relationships", "errors"], true);
       default:
         return state;
     }

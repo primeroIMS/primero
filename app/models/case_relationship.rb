@@ -44,4 +44,8 @@ class CaseRelationship < ApplicationRecord
   def case_id(child_id)
     child_id == from_case_id ? to_case_id : from_case_id
   end
+
+  def related_case(child_id)
+    child_id == from_case_id ? to_case : from_case
+  end
 end

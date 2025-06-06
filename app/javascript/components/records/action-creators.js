@@ -45,7 +45,8 @@ import {
   FETCH_LINK_INCIDENT_TO_CASE_DATA,
   CREATE_CASE_FROM_FAMILY_DETAIL,
   DELETE_ALERT_FROM_RECORD,
-  DELETE_ALERT_FROM_RECORD_SUCCESS
+  DELETE_ALERT_FROM_RECORD_SUCCESS,
+  FETCH_RECORD_RELATIONSHIPS
 } from "./actions";
 
 const getSuccessCallback = ({
@@ -478,3 +479,12 @@ export const createCaseFromFamilyDetail = ({ caseId, familyDetailId }) => ({
     ]
   }
 });
+
+export const fetchRecordRelationships = (caseID, relationshipType) => {
+  return {
+    type: `cases/${FETCH_RECORD_RELATIONSHIPS}`,
+    api: {
+      path: `${RECORD_PATH.cases}/${caseID}/case_relationships/?relationship_type=${relationshipType}`
+    }
+  };
+};

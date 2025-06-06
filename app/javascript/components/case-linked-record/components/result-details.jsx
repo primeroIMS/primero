@@ -13,8 +13,10 @@ import { useMemoizedSelector } from "../../../libs";
 import { RECORD_TYPES_PLURAL } from "../../../config";
 import ActionButton, { ACTION_BUTTON_TYPES } from "../../action-button";
 import css from "../../record-form/form/subforms/styles.css";
-import { fetchRecord, selectRecord } from "../../records";
+import { fetchRecord, getLoadingRecordState, selectRecord } from "../../records";
 import Form, { FORM_MODE_SHOW, LINK_FIELD } from "../../form";
+import useViewModalForms from "../../record-list/view-modal/use-view-modal-forms";
+import LoadingIndicator from "../../loading-indicator";
 
 function Component({
   formName,
@@ -31,12 +33,14 @@ function Component({
   setDrawerTitle,
   setFieldValue,
   shouldSelect = false,
-  showSelectButton = false
+  showSelectButton = false,
+  useRecordViewForms = false
 }) {
   setDrawerTitle(formName, {}, false);
   redirectIfNotAllowed(permissions.writeReadRegistryRecord);
 
   const dispatch = useDispatch();
+  const pluralRecordType = RECORD_TYPES_PLURAL[linkedRecordType];
 
   let formSection = useMemoizedSelector(state =>
     getRecordFormsByUniqueId(state, {
@@ -54,7 +58,7 @@ function Component({
         "fields",
         formSection.fields.map(field => {
           if (field.name === linkFieldDisplay) {
-            return field.set("type", LINK_FIELD).set("href", `/${RECORD_TYPES_PLURAL[linkedRecordType]}/${id}`);
+            return field.set("type", LINK_FIELD).set("href", `/${pluralRecordType}/${id}`);
           }
 
           return field;
@@ -66,12 +70,17 @@ function Component({
   }, [linkFieldDisplay]);
 
   const record = useMemoizedSelector(state =>
-    selectRecord(state, { isEditOrShow: true, recordType: RECORD_TYPES_PLURAL[linkedRecordType], id })
+    selectRecord(state, { isEditOrShow: true, recordType: pluralRecordType, id })
   );
+  const recordLoading = useMemoizedSelector(state => getLoadingRecordState(state, pluralRecordType));
+
+  const { forms } = useViewModalForms({ record, recordType: pluralRecordType });
+
+  const formSections = useRecordViewForms ? forms : [formSection];
 
   useEffect(() => {
     if (linkedRecordType) {
-      dispatch(fetchRecord(RECORD_TYPES_PLURAL[linkedRecordType], id));
+      dispatch(fetchRecord(pluralRecordType, id));
     }
   }, [linkedRecordType]);
 
@@ -89,7 +98,7 @@ function Component({
   };
 
   return (
-    <>
+    <LoadingIndicator hasData={record.size > 0} loading={recordLoading}>
       {!record.get("enabled") && <DisabledRecordIndicator recordType={linkedRecordType} />}
       <div className={css.subformFieldArrayContainer}>
         <ActionButton
@@ -111,12 +120,12 @@ function Component({
         <Form
           useCancelPrompt={false}
           mode={FORM_MODE_SHOW}
-          formSections={[formSection]}
+          formSections={formSections}
           initialValues={record.toJS()}
           showTitle={false}
         />
       )}
-    </>
+    </LoadingIndicator>
   );
 }
 

@@ -124,3 +124,6 @@ export const getSelectedRecordData = (state, recordType) => {
 
 export const getCaseFormFamilyMemberLoading = (state, recordType) =>
   state.getIn(["records", recordType, "case_from_family", "loading"], false);
+
+export const getRecordRelationships = (state, recordType = "cases") =>
+  state.getIn(["records", recordType, "relationships", "data"], fromJS([]));
