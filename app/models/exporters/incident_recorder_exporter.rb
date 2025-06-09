@@ -213,16 +213,43 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
     end
 
     def incident_recorder_age_groups
-      age_group_label = I18n.t('exports.incident_recorder_xls.age_group.age', **locale_hash)
-      @incident_recorder_age_groups ||= {
-        '0_11' => "#{age_group_label} 0 - 11",
-        '12_17' => "#{age_group_label} 12 - 17",
-        '18_25' => "#{age_group_label} 18 - 25",
-        '26_40' => "#{age_group_label} 26 - 40",
-        '41_60' => "#{age_group_label} 41 - 60",
+      @incident_recorder_age_groups ||= build_incident_age_groups
+    end
+
+    def build_incident_age_groups
+      age_group_label = fetch_age_group_label
+      base_groups = build_base_age_groups(age_group_label)
+      merge_additional_age_groups(base_groups)
+    end
+
+    def fetch_age_group_label
+      I18n.t('exports.incident_recorder_xls.age_group.age', **locale_hash)
+    end
+
+    def build_base_age_groups(label)
+      lookup_options.each_with_object({}) do |entry, hash|
+        hash[entry['id']] = "#{label} #{translated_text(entry)}"
+      end
+    end
+
+    def translated_text(entry)
+      display_text = entry['display_text']
+      display_text.is_a?(Hash) ? display_text[locale_hash[:locale].to_s] : display_text
+    end
+
+    def merge_additional_age_groups(groups)
+      groups.merge(
         '61' => I18n.t('exports.incident_recorder_xls.age_group.61_older', **locale_hash),
         'unknown' => I18n.t('exports.incident_recorder_xls.age_group.unknown', **locale_hash)
-      }
+      )
+    end
+
+    def lookup_options
+      fs = FormSection.find_by(unique_id: 'alleged_perpetrator')
+      field = Field.find_by(name: 'age_group', form_section_id: fs&.id)
+      return [] unless field
+
+      field.option_strings_text_i18n.presence || Lookup.values(field.option_strings_source.split[1])
     end
 
     def incident_recorder_age_type(perpetrators)
