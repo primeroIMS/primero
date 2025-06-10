@@ -14,7 +14,7 @@ definitions:
           - bundler
     - step: &client-test
         name: Client tests
-        image: node:22.13.1
+        image: node:22.15.1
         size: 2x
         script:
           - npm config set legacy-peer-deps true
