@@ -38,7 +38,6 @@ RSpec.describe CaseRelationship, type: :model do
     end
 
     it 'returns a list of case relationships by relationship type' do
-      binding.pry
       expect(CaseRelationship.list(@farmer2, 'farm_for')).to match_array([@case_relationship3, @case_relationship4])
       expect(CaseRelationship.list(@case1, 'farmer_on')).to match_array([@case_relationship1])
     end

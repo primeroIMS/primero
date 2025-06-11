@@ -8,9 +8,7 @@ Rails.application.config.after_initialize do
   begin
     if ActiveRecord::Base.connection.table_exists?(:locations) &&
        ActiveRecord::Base.connection.table_exists?(:system_settings)
-      count_locations = ActiveRecord::Base.connection
-                                                .select_all('SELECT COUNT(id) FROM locations')
-                                                .rows.flatten.first
+      count_locations = ActiveRecord::Base.connection.select_all('SELECT COUNT(id) FROM locations').rows.flatten.first
       system_settings = ActiveRecord::Base.connection.execute(
         "
           SELECT attachments.id IS NOT NULL AS has_locations_attachment

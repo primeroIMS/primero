@@ -16,6 +16,7 @@ import useMemoizedSelector from "../../libs/use-memoized-selector";
 import useIncidentFromCase from "../records/use-incident-form-case";
 import { getRecordFormsByUniqueIdWithFallback, getServicesRecordForm } from "../record-form/selectors";
 import { selectRecordsByIndexes } from "../records";
+import { currentUser } from "../user";
 
 import { INCIDENT_SUBFORM, INCIDENTS_SUBFORM_NAME } from "./add-incident/constants";
 import { SERVICES_SUBFORM_NAME } from "./add-service/constants";
@@ -90,6 +91,7 @@ function Container({
       fallbackModule: MODULES.CP
     })
   );
+  const user = useMemoizedSelector(state => currentUser(state));
 
   const handleDialogClick = dialog => {
     setDialog({ dialog, open: true });
@@ -107,6 +109,7 @@ function Container({
     canAddNotes,
     canAddService,
     canApprove,
+    canSelfApprove,
     canApproveActionPlan,
     canApproveBia,
     canApproveCasePlan,
@@ -157,7 +160,7 @@ function Container({
     canAddIncident,
     canAddNotes,
     canAddService,
-    canApprove,
+    canApprove: record?.get("owned_by") === user ? canApprove && canSelfApprove : canApprove,
     canAssign,
     canCreateIncident,
     canEnable,

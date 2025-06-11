@@ -68,6 +68,7 @@ describe("<RecordActions /> - Constants", () => {
         "canRequestCasePlan",
         "canRequestClosure",
         "canRequestGbvClosure",
+        "canSelfApprove",
         "canShowExports",
         "canTransfer",
         "canMarkForOffline",

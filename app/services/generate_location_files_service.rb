@@ -18,8 +18,9 @@ class GenerateLocationFilesService
         'FROM (SELECT id, location_code AS code, type, admin_level, name_i18n AS name, disabled FROM locations) loc'
       )
 
-      SystemSettings.current.location_file
-        .attach(io:  StringIO.new(locations_data_json[0]['json_build_object']), filename: 'locations.json')
+      SystemSettings.current.location_file.attach(
+        io: StringIO.new(locations_data_json[0]['json_build_object']), filename: 'locations.json'
+      )
     end
   end
 end
