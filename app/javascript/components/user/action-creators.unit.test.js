@@ -148,6 +148,9 @@ describe("User - Action Creators", () => {
       api: {
         path: "http://localhost/test-locations.json",
         external: true,
+        requestHeaders: {
+          Accept: "application/json"
+        },
         db: {
           collection: "locations",
           alwaysCache: false,

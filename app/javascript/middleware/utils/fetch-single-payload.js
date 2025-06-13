@@ -58,7 +58,9 @@ const fetchSinglePayload = async (action, store, options) => {
       configurationCallback,
       db,
       external,
-      queueAttachments
+      queueAttachments,
+      requestHeaders,
+      mode
     },
     fromQueue,
     fromAttachment
@@ -73,6 +75,7 @@ const fetchSinglePayload = async (action, store, options) => {
   const fetchOptions = {
     ...DEFAULT_FETCH_OPTIONS,
     method,
+    mode,
     signal: controller.signal,
     ...((formData || body) && {
       body: JSON.stringify(formData ? { data: formData } : body)
@@ -88,7 +91,7 @@ const fetchSinglePayload = async (action, store, options) => {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  fetchOptions.headers = new Headers(Object.assign(fetchOptions.headers, headers));
+  fetchOptions.headers = new Headers(Object.assign(fetchOptions.headers, headers, requestHeaders));
 
   const urlParams = isImmutable(params) ? params.toJS() : params;
 
