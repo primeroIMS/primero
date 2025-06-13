@@ -21,6 +21,7 @@ class GenerateLocationFilesService
       SystemSettings.current.location_file.attach(
         io: StringIO.new(locations_data_json[0]['json_build_object']), filename: 'locations.json'
       )
+      SystemSettings.current.save!
     end
   end
 end

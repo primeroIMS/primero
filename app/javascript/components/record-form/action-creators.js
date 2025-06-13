@@ -13,6 +13,10 @@ const fetchLocations = () => ({
   api: {
     path: `${window.location.origin}${window.locationManifest}`,
     external: true,
+    headers: {
+      Accept: "application/json"
+    },
+    mode: "cors",
     db: {
       collection: DB_COLLECTIONS_NAMES.LOCATIONS,
       alwaysCache: false,
