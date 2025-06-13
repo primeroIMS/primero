@@ -138,8 +138,8 @@ ActiveRecord::Schema.define(version: 2025_05_19_195505) do
     t.uuid "from_case_id"
     t.uuid "to_case_id"
     t.string "relationship_type"
-    t.boolean "disabled"
-    t.boolean "primary"
+    t.boolean "disabled", default: false, null: false
+    t.boolean "primary", default: false, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["from_case_id", "to_case_id"], name: "index_case_relationships_on_from_case_id_and_to_case_id", unique: true
@@ -967,6 +967,8 @@ ActiveRecord::Schema.define(version: 2025_05_19_195505) do
   add_foreign_key "agencies_user_groups", "user_groups"
   add_foreign_key "alerts", "agencies"
   add_foreign_key "alerts", "users"
+  add_foreign_key "case_relationships", "cases", column: "from_case_id"
+  add_foreign_key "case_relationships", "cases", column: "to_case_id"
   add_foreign_key "cases", "cases", column: "duplicate_case_id"
   add_foreign_key "cases", "families"
   add_foreign_key "cases", "registry_records"
