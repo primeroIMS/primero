@@ -1,48 +1,29 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
+import { useEffect } from "react";
 import PropTypes from "prop-types";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import SearchIcon from "@mui/icons-material/Search";
-import { useForm, FormProvider } from "react-hook-form";
 
-import { useMemoizedSelector } from "../../../libs";
-import ActionButton, { ACTION_BUTTON_TYPES } from "../../action-button";
-import { getRegistryTypes } from "../../application/selectors";
 import Form, { FieldRecord, FormSectionRecord, SELECT_FIELD } from "../../form";
 import { useI18n } from "../../i18n";
-import css from "../../record-form/form/subforms/styles.css";
 import { FORM_ID, REGISTRY_LOCATION_CURRENT, SEARCH_BY } from "../constants";
 import { buildSearchParams, buildValidation } from "../utils";
-import SearchBox from "../../index-filters/components/search-box/component";
-import notPropagatedOnSubmit from "../../form/utils/not-propagated-on-submit";
 
 function Component({
   fields,
   formId,
-  handleCancel,
   locale,
-  noForm = false,
   permissions,
   phoneticFieldNames = [],
   redirectIfNotAllowed,
   setComponent,
-  setDrawerTitle,
   setSearchParams,
-  validatedFieldNames,
-  i18nKeys,
-  usePhoneticSearch = false
+  validatedFieldNames
 }) {
   const i18n = useI18n();
 
-  const registryType = useMemoizedSelector(state => getRegistryTypes(state, "farmer"));
-
-  redirectIfNotAllowed(permissions.writeRegistryRecord);
-
-  setDrawerTitle("search_for", {
-    record_type: noForm
-      ? i18n.t(i18nKeys?.searchTitle || "case.search_for_registry_record")
-      : registryType.getIn(["display_text", i18n.locale], "")
-  });
+  useEffect(() => {
+    redirectIfNotAllowed(permissions.writeRegistryRecord);
+  }, []);
 
   const handleSearch = async data => {
     // eslint-disable-next-line camelcase
@@ -89,39 +70,7 @@ function Component({
 
   const validationSchema = buildValidation(formFields[0].fields, searchByRequiredMessage);
 
-  const methods = useForm({
-    shouldUnregister: false
-  });
-
-  return (
-    <>
-      <div className={css.subformFieldArrayContainer}>
-        <ActionButton
-          type={ACTION_BUTTON_TYPES.default}
-          text="case.back_to_case"
-          rest={{ onClick: handleCancel }}
-          icon={<ArrowBackIosIcon />}
-        />
-        {usePhoneticSearch || (
-          <ActionButton
-            type={ACTION_BUTTON_TYPES.default}
-            text="navigation.search"
-            rest={{ form: FORM_ID, type: "submit" }}
-            icon={<SearchIcon />}
-          />
-        )}
-      </div>
-      {usePhoneticSearch ? (
-        <FormProvider {...methods}>
-          <form onSubmit={notPropagatedOnSubmit(methods.handleSubmit, handleSearch)} id="search">
-            <SearchBox />
-          </form>
-        </FormProvider>
-      ) : (
-        <Form formID={FORM_ID} formSections={formFields} onSubmit={handleSearch} validations={validationSchema} />
-      )}
-    </>
-  );
+  return <Form formID={FORM_ID} formSections={formFields} onSubmit={handleSearch} validations={validationSchema} />;
 }
 
 Component.displayName = "SearchForm";
@@ -129,7 +78,6 @@ Component.displayName = "SearchForm";
 Component.propTypes = {
   fields: PropTypes.object.isRequired,
   formId: PropTypes.string.isRequired,
-  handleCancel: PropTypes.func.isRequired,
   locale: PropTypes.string.isRequired,
   noForm: PropTypes.bool,
   permissions: PropTypes.object.isRequired,

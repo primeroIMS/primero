@@ -2,6 +2,7 @@
 
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
+import isEmpty from "lodash/isEmpty";
 import { useEffect, useMemo } from "react";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import CheckIcon from "@mui/icons-material/Check";
@@ -15,29 +16,26 @@ import ActionButton, { ACTION_BUTTON_TYPES } from "../../action-button";
 import css from "../../record-form/form/subforms/styles.css";
 import { fetchRecord, getLoadingRecordState, selectRecord } from "../../records";
 import Form, { FORM_MODE_SHOW, LINK_FIELD } from "../../form";
-import useViewModalForms from "../../record-list/view-modal/use-view-modal-forms";
 import LoadingIndicator from "../../loading-indicator";
 
 function Component({
-  formName,
   handleCancel,
   handleReturn,
+  handleSelection,
   id,
   linkedRecordFormUniqueId,
   linkedRecordType,
-  linkField,
   linkFieldDisplay,
   permissions,
   primeroModule,
   redirectIfNotAllowed,
-  setDrawerTitle,
-  setFieldValue,
   shouldSelect = false,
   showSelectButton = false,
-  useRecordViewForms = false
+  recordViewForms = []
 }) {
-  setDrawerTitle(formName, {}, false);
-  redirectIfNotAllowed(permissions.writeReadRegistryRecord);
+  useEffect(() => {
+    redirectIfNotAllowed(permissions.writeReadRegistryRecord);
+  }, []);
 
   const dispatch = useDispatch();
   const pluralRecordType = RECORD_TYPES_PLURAL[linkedRecordType];
@@ -74,9 +72,9 @@ function Component({
   );
   const recordLoading = useMemoizedSelector(state => getLoadingRecordState(state, pluralRecordType));
 
-  const { forms } = useViewModalForms({ record, recordType: pluralRecordType });
+  const formSections = isEmpty(recordViewForms) ? [formSection] : recordViewForms;
 
-  const formSections = useRecordViewForms ? forms : [formSection];
+  const handleSelect = () => handleSelection(record);
 
   useEffect(() => {
     if (linkedRecordType) {
@@ -88,14 +86,6 @@ function Component({
   const selectButtonIcon = shouldSelect ? <CheckIcon /> : <BlockIcon />;
   const backButtonText = shouldSelect ? "case.back_to_results" : "case.back_to_case";
   const backButtonFunc = shouldSelect ? handleReturn : handleCancel;
-
-  const handleSelection = () => {
-    [[linkField, shouldSelect ? id : null]].forEach(([key, value]) => {
-      setFieldValue(key, value);
-    });
-
-    handleCancel();
-  };
 
   return (
     <LoadingIndicator hasData={record.size > 0} loading={recordLoading}>
@@ -111,20 +101,18 @@ function Component({
           <ActionButton
             type={ACTION_BUTTON_TYPES.default}
             text={selectButtonText}
-            onClick={handleSelection}
+            onClick={handleSelect}
             icon={selectButtonIcon}
           />
         )}
       </div>
-      {formSection?.unique_id && (
-        <Form
-          useCancelPrompt={false}
-          mode={FORM_MODE_SHOW}
-          formSections={formSections}
-          initialValues={record.toJS()}
-          showTitle={false}
-        />
-      )}
+      <Form
+        useCancelPrompt={false}
+        mode={FORM_MODE_SHOW}
+        formSections={formSections}
+        initialValues={record.toJS()}
+        showTitle={false}
+      />
     </LoadingIndicator>
   );
 }
@@ -135,16 +123,16 @@ Component.propTypes = {
   formName: PropTypes.string,
   handleCancel: PropTypes.func.isRequired,
   handleReturn: PropTypes.func,
+  handleSelection: PropTypes.func,
   id: PropTypes.string.isRequired,
   linkedRecordFormUniqueId: PropTypes.string.isRequired,
   linkedRecordType: PropTypes.string.isRequired,
-  linkField: PropTypes.string.isRequired,
   linkFieldDisplay: PropTypes.string.isRequired,
   permissions: PropTypes.object.isRequired,
   primeroModule: PropTypes.string.isRequired,
+  recordViewForms: PropTypes.array,
   redirectIfNotAllowed: PropTypes.func.isRequired,
   setDrawerTitle: PropTypes.func.isRequired,
-  setFieldValue: PropTypes.func,
   shouldSelect: PropTypes.bool,
   showSelectButton: PropTypes.bool
 };

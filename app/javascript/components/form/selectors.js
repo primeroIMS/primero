@@ -42,6 +42,7 @@ const defaultCacheSelectorOptions = {
 };
 
 const lookupsList = memoize(state => state.getIn(["forms", "options", "lookups"], fromJS([])));
+const userModuleUniqueIds = state => state.getIn(["user", "modules"], fromJS([]));
 const moduleList = state => state.getIn(["application", "modules"], fromJS([]));
 const formSectionList = state => state.getIn(["records", "admin", "forms", "formSections"], fromJS([]));
 const referralUserList = state => state.getIn(["records", "transitions", "referral", "users"], fromJS([]));
@@ -255,6 +256,21 @@ const modules = createCachedSelector(moduleList, data => {
     ],
     []
   );
+})(defaultCacheSelectorOptions);
+
+const userModules = createCachedSelector(moduleList, userModuleUniqueIds, (appModules, currentUserModuleUniqueIds) => {
+  return appModules
+    .filter(current => currentUserModuleUniqueIds.includes(current.get("unique_id")))
+    .reduce(
+      (prev, current) => [
+        ...prev,
+        {
+          id: current.get("unique_id"),
+          display_text: current.get("name")
+        }
+      ],
+      []
+    );
 })(defaultCacheSelectorOptions);
 
 const lookupValues = createCachedSelector(
@@ -513,6 +529,8 @@ export const getOptions = source => {
       return reportingLocations;
     case OPTION_TYPES.MODULE:
       return modules;
+    case OPTION_TYPES.USER_MODULE:
+      return userModules;
     case OPTION_TYPES.FORM_GROUP:
       return formGroups;
     case OPTION_TYPES.LOOKUPS:

@@ -4,22 +4,20 @@ import { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import AddIcon from "@mui/icons-material/Add";
-import { isImmutable } from "immutable";
 
 import SubformDrawer from "../record-form/form/subforms/subform-drawer";
 import { useI18n } from "../i18n";
 import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { getRecordFieldsByName, getRecordFormsByUniqueId } from "../record-form/selectors";
-import { CASE, RECORD_TYPES_PLURAL } from "../../config";
+import { CASE } from "../../config";
 import ActionButton, { ACTION_BUTTON_TYPES } from "../action-button";
-import SubformEmptyData from "../record-form/form/subforms/subform-empty-data";
 import { enqueueSnackbar } from "../notifier";
-import { fetchRecord, selectRecord } from "../records";
 import { useApp } from "../application";
 import RecordFormTitle from "../record-form/form/record-form-title";
 import css from "../record-form/form/subforms/styles.css";
 
 import RecordHeader from "./components/record-header";
+import SearchPanel from "./components/search-panel";
 import SearchForm from "./components/search-form";
 import Results from "./components/results";
 import ResultDetails from "./components/result-details";
@@ -42,16 +40,21 @@ function Component({
   recordType,
   searchFieldNames,
   setFieldValue,
-  showAddNew,
+  showAddNew = false,
   showHeader,
   showSelectButton,
   validatedFieldNames = [],
-  values,
+  idField = "id",
+  SearchFormComponent = SearchForm,
   shouldFetchRecord = true,
-  recordHeader,
   i18nKeys = {},
-  useRecordViewForms,
-  usePhoneticSearch
+  recordViewForms,
+  columns,
+  linkedRecords = [],
+  onRecordSelect,
+  onRecordDeselect,
+  isRecordSelectable,
+  drawerTitles
 }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -60,14 +63,8 @@ function Component({
   const [component, setComponent] = useState(0);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [searchParams, setSearchParams] = useState({});
-  const [drawerTitle, setDrawerTitle] = useState("");
-  const [linkCaseID, setLinkCaseID] = useState(null);
-
-  const fieldValue = linkField ? values[linkField] : values;
-
-  const record = useMemoizedSelector(state =>
-    selectRecord(state, { isEditOrShow: true, recordType: RECORD_TYPES_PLURAL[linkedRecordType], id: fieldValue })
-  );
+  const [detailsID, setDetailsID] = useState(null);
+  const [shouldSelect, setShouldSelect] = useState(null);
 
   const caseLinkedForm = useMemoizedSelector(state =>
     getRecordFormsByUniqueId(state, {
@@ -101,8 +98,37 @@ function Component({
     setDrawerOpen(true);
   };
 
+  const handleOnRecordSelect = linkedRecord => {
+    if (onRecordSelect) {
+      onRecordSelect(linkedRecord);
+    } else {
+      setFieldValue(linkField, linkedRecord.get("id"));
+    }
+  };
+
+  const handleOnRecordDeselect = linkedRecord => {
+    if (onRecordDeselect) {
+      onRecordDeselect(linkedRecord);
+    } else {
+      setFieldValue(linkField, null);
+    }
+
+    setDetailsID(null);
+  };
+
+  const handleSelection = linkedRecord => {
+    if (shouldSelect) {
+      handleOnRecordSelect(linkedRecord);
+    } else {
+      handleOnRecordDeselect(linkedRecord);
+    }
+
+    handleCancel();
+  };
+
   const handleOpenMatch = async id => {
-    setLinkCaseID(id || fieldValue);
+    setDetailsID(id);
+    setShouldSelect(false);
     await setComponent(2);
     setDrawerOpen(true);
   };
@@ -128,12 +154,10 @@ function Component({
     [component]
   );
 
-  const handleSetDrawerTitle = useCallback(
-    (key, options = {}, translate = true) => {
-      setDrawerTitle(translate ? i18n.t(`${recordType}.${key}`, options) : key);
-    },
-    [drawerTitle]
-  );
+  const handleReturnToResults = useCallback(() => {
+    setDetailsID(null);
+    setComponent(1);
+  }, [setDetailsID]);
 
   useEffect(() => {
     if (!drawerOpen) {
@@ -142,34 +166,17 @@ function Component({
   }, [drawerOpen]);
 
   useEffect(() => {
-    if (record.isEmpty() && fieldValue && online && shouldFetchRecord) {
-      dispatch(fetchRecord(RECORD_TYPES_PLURAL[linkedRecordType], fieldValue));
+    if (detailsID) {
+      setComponent(2);
     }
-  }, [fieldValue, online, record.isEmpty()]);
-
-  const RenderComponents = {
-    0: SearchForm,
-    1: Results,
-    2: ResultDetails
-  }[component];
+  }, [detailsID]);
 
   const subformTitle = mode.isEdit ? i18n.t("fields.add_field_type", { file_type: formName }) : formName;
-
-  const hasData = (isImmutable(fieldValue) && fieldValue?.size > 0) || (!isImmutable(fieldValue) && fieldValue);
-
-  function recordSlot() {
-    return recordHeader ? (
-      recordHeader({ values, record, headerFieldNames, linkedRecordType, handleOpenMatch })
-    ) : (
-      <RecordHeader
-        record={record}
-        values={values}
-        fieldNames={headerFieldNames}
-        linkedRecordType={linkedRecordType}
-        handleOpenMatch={handleOpenMatch}
-      />
-    );
-  }
+  const searchTitle = caseLinkedForm.i18nName
+    ? drawerTitles.search || i18n.t(`${recordType}.search_for`, { record_type: i18n.t("case.label") })
+    : drawerTitles.searchNoForm;
+  const resultsTitle = drawerTitles.results || i18n.t(`${recordType}.results`);
+  const detailsTitle = drawerTitles.details || formName;
 
   return (
     <>
@@ -178,8 +185,7 @@ function Component({
         <div>
           <h3 className={css.subformTitle}>{subformTitle}</h3>
         </div>
-        {/* TODO: Fix logic -> (use the following for case-family, use below for case-relationships) showAddNew && !fieldValue && !mode.isShow */}
-        {showAddNew && !mode.isShow && (
+        {showAddNew && (
           <div>
             <ActionButton
               type={ACTION_BUTTON_TYPES.default}
@@ -191,43 +197,74 @@ function Component({
         )}
       </div>
 
-      {showHeader && (hasData ? recordSlot() : <SubformEmptyData subformName={formName} single />)}
+      {showHeader && (
+        <RecordHeader
+          fieldNames={headerFieldNames}
+          linkedRecordType={linkedRecordType}
+          handleOpenMatch={handleOpenMatch}
+          linkedRecords={linkedRecords}
+          idField={idField}
+          formName={formName}
+        />
+      )}
 
-      <SubformDrawer open={drawerOpen} cancelHandler={handleCancel} title={drawerTitle}>
-        {drawerOpen && (
-          <RenderComponents
-            id={linkCaseID}
-            formId={formId}
-            setSearchParams={handleSetSearchParams}
-            setComponent={handleSetComponent}
-            setDrawerTitle={handleSetDrawerTitle}
-            handleCancel={handleCancel}
-            fields={fields}
-            searchParams={searchParams}
-            recordType={recordType}
-            linkedRecordType={linkedRecordType}
-            primeroModule={primeroModule}
-            mode={mode}
-            locale={i18n.locale}
-            permissions={permissions}
-            redirectIfNotAllowed={redirectIfNotAllowed}
-            setFieldValue={setFieldValue}
-            showSelectButton={showSelectButton}
-            formName={formName}
-            noForm={caseLinkedForm.i18nName}
-            online={online}
-            caseFormUniqueId={caseFormUniqueId}
-            linkedRecordFormUniqueId={linkedRecordFormUniqueId}
-            searchFieldNames={searchFieldNames}
-            validatedFieldNames={validatedFieldNames}
-            linkField={linkField}
-            linkFieldDisplay={linkFieldDisplay}
-            phoneticFieldNames={phoneticFieldNames}
-            i18nKeys={i18nKeys}
-            useRecordViewForms={useRecordViewForms}
-            usePhoneticSearch={usePhoneticSearch}
-          />
-        )}
+      <SubformDrawer open={drawerOpen && component === 0} cancelHandler={handleCancel} title={searchTitle}>
+        <SearchPanel
+          handleCancel={handleCancel}
+          searchFormComponent={
+            <SearchFormComponent
+              fields={fields}
+              formId={formId}
+              locale={i18n.locale}
+              permissions={permissions}
+              phoneticFieldNames={phoneticFieldNames}
+              redirectIfNotAllowed={redirectIfNotAllowed}
+              setComponent={handleSetComponent}
+              setSearchParams={handleSetSearchParams}
+              validatedFieldNames={validatedFieldNames}
+            />
+          }
+        />
+      </SubformDrawer>
+
+      <SubformDrawer open={drawerOpen && component === 1} cancelHandler={handleCancel} title={resultsTitle}>
+        <Results
+          fields={fields}
+          handleCancel={handleCancel}
+          linkedRecordType={linkedRecordType}
+          locale={i18n.locale}
+          online={online}
+          searchParams={searchParams}
+          setComponent={setComponent}
+          permissions={permissions}
+          recordType={recordType}
+          columns={columns}
+          redirectIfNotAllowed={redirectIfNotAllowed}
+          setDetailsID={setDetailsID}
+          setShouldSelect={setShouldSelect}
+          isRecordSelectable={isRecordSelectable}
+        />
+      </SubformDrawer>
+
+      <SubformDrawer open={drawerOpen && component === 2} cancelHandler={handleCancel} title={detailsTitle}>
+        <ResultDetails
+          id={detailsID}
+          formName={formName}
+          handleCancel={handleCancel}
+          handleReturn={handleReturnToResults}
+          handleSelection={handleSelection}
+          linkedRecordFormUniqueId={linkedRecordFormUniqueId}
+          linkedRecordType={linkedRecordType}
+          linkField={linkField}
+          linkFieldDisplay={linkFieldDisplay}
+          permissions={permissions}
+          primeroModule={primeroModule}
+          redirectIfNotAllowed={redirectIfNotAllowed}
+          setFieldValue={setFieldValue}
+          showSelectButton={showSelectButton}
+          recordViewForms={recordViewForms}
+          shouldSelect={shouldSelect}
+        />
       </SubformDrawer>
     </>
   );
@@ -237,6 +274,7 @@ Component.displayName = "CaseLinkedRecord";
 
 Component.propTypes = {
   caseFormUniqueId: PropTypes.string.isRequired,
+  drawerTitles: PropTypes.object.isRequired,
   formId: PropTypes.string.isRequired,
   handleToggleNav: PropTypes.func.isRequired,
   headerFieldNames: PropTypes.array.isRequired,
@@ -256,8 +294,7 @@ Component.propTypes = {
   showAddNew: PropTypes.bool.isRequired,
   showHeader: PropTypes.bool.isRequired,
   showSelectButton: PropTypes.bool.isRequired,
-  validatedFieldNames: PropTypes.array.isRequired,
-  values: PropTypes.object.isRequired
+  validatedFieldNames: PropTypes.array.isRequired
 };
 
 export default Component;

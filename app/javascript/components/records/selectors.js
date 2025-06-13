@@ -125,5 +125,15 @@ export const getSelectedRecordData = (state, recordType) => {
 export const getCaseFormFamilyMemberLoading = (state, recordType) =>
   state.getIn(["records", recordType, "case_from_family", "loading"], false);
 
-export const getRecordRelationships = (state, recordType = "cases") =>
-  state.getIn(["records", recordType, "relationships", "data"], fromJS([]));
+export const getRecordRelationships = (state, query) => {
+  const { recordType, includeDisabled } = query;
+
+  const relationships = state.getIn(["records", recordType, "relationships", "data"], fromJS([]));
+
+  return includeDisabled
+    ? relationships
+    : relationships.filter(relationship => relationship.get("disabled", false) === false);
+};
+
+export const getRecordRelationshipsLoading = (state, recordType = "cases") =>
+  state.getIn(["records", recordType, "relationships", "loading"], false);
