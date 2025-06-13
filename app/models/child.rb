@@ -72,7 +72,7 @@ class Child < ApplicationRecord
     :duplicate, :cp_case_plan_subform_case_plan_interventions, :has_case_plan,
     :family_member_id, :family_id_display, :family_number, :has_incidents, :assessment_due_dates,
     :case_plan_due_dates, :followup_due_dates, :reunification_details_section, :reunification_dates,
-    :tracing_actions_section, :tracing_dates
+    :tracing_actions_section, :tracing_dates, :case_type
   )
   # rubocop:enable Naming/VariableNumber
 
@@ -164,6 +164,7 @@ class Child < ApplicationRecord
   before_save :calculate_tracing_dates
   before_save :calculate_reunification_dates
   before_save :save_searchable_fields
+  before_save :stamp_case_type
   before_create :hide_name
   after_save :save_incidents
 
@@ -402,6 +403,10 @@ class Child < ApplicationRecord
     return unless family.present?
 
     self.family_number = family_number
+  end
+
+  def stamp_case_type
+    self.case_type = PrimeroModule.find_by(unique_id: module_id).case_type || PrimeroModule::DEFAULT_CASE_TYPE
   end
 end
 # rubocop:enable Metrics/ClassLength

@@ -12,6 +12,7 @@ class PrimeroModule < ApplicationRecord
   GBV = 'primeromodule-gbv'
   MRM = 'primeromodule-mrm'
 
+  DEFAULT_CASE_TYPE = 'person'
   DEFAULT_CONSENT_FORM = 'consent'
   DEFAULT_SERVICES_FORM = 'services'
 
@@ -66,7 +67,7 @@ class PrimeroModule < ApplicationRecord
     :list_filters, :list_headers, :approval_forms_to_alert,
     :approvals_labels_i18n, :changes_field_to_form, :search_and_create_workflow,
     :violation_type_field, :creation_field_map, :data_protection_case_create_field_names,
-    :age_ranges, :workflow_lookup, :response_type_lookup
+    :age_ranges, :workflow_lookup, :response_type_lookup, :case_type
   )
 
   localize_jsonb_properties %i[approvals_labels]
@@ -163,6 +164,7 @@ class PrimeroModule < ApplicationRecord
     self.services_form ||= DEFAULT_SERVICES_FORM
     self.response_type_lookup ||= Workflow::LOOKUP_RESPONSE_TYPES
     self.workflow_lookup ||= Workflow::LOOKUP_WORKFLOW
+    self.case_type ||= DEFAULT_CASE_TYPE
   end
 
   def set_unique_id
