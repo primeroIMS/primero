@@ -151,6 +151,7 @@ describe("User - Action Creators", () => {
         headers: {
           Accept: "application/json"
         },
+        mode: "cors",
         db: {
           collection: "locations",
           alwaysCache: false,
