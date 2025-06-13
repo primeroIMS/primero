@@ -43,28 +43,24 @@ const fetchSinglePayload = async (action, store, options) => {
     controller.abort("timeout");
   }, FETCH_TIMEOUT);
 
+  const { type, api, fromQueue, fromAttachment } = action;
+
   const {
-    type,
-    api: {
-      id,
-      recordType,
-      path,
-      body,
-      params,
-      method,
-      normalizeFunc,
-      successCallback,
-      failureCallback,
-      configurationCallback,
-      db,
-      external,
-      queueAttachments,
-      requestHeaders,
-      mode
-    },
-    fromQueue,
-    fromAttachment
-  } = action;
+    id,
+    recordType,
+    path,
+    body,
+    params,
+    method,
+    normalizeFunc,
+    successCallback,
+    failureCallback,
+    configurationCallback,
+    db,
+    external,
+    queueAttachments,
+    mode
+  } = api;
 
   const [attachments, formData] = queueAttachments
     ? partitionObject(body?.data, (value, key) =>
@@ -91,7 +87,7 @@ const fetchSinglePayload = async (action, store, options) => {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  fetchOptions.headers = new Headers(Object.assign(fetchOptions.headers, headers, requestHeaders));
+  fetchOptions.headers = new Headers(Object.assign(fetchOptions.headers, headers, api.headers));
 
   const urlParams = isImmutable(params) ? params.toJS() : params;
 
