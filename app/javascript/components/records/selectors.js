@@ -137,3 +137,15 @@ export const getRecordRelationships = (state, query) => {
 
 export const getRecordRelationshipsLoading = (state, recordType = "cases") =>
   state.getIn(["records", recordType, "relationships", "loading"], false);
+
+export const getRelatedRecord = (state, query = {}) => {
+  const { recordType, id } = query;
+
+  const index = state
+    .getIn(["records", recordType, "related_records", "data"], fromJS([]))
+    .findIndex(r => r.get("id") === id);
+
+  if (index < 0) return fromJS({});
+
+  return state.getIn(["records", recordType, "related_records", "data", index], Map({}));
+};

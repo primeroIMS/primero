@@ -3,6 +3,7 @@
 import PropTypes from "prop-types";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { fromJS } from "immutable";
 
 import { useI18n } from "../i18n";
 import { CASE_RELATIONSHIPS, RECORD_PATH, RECORD_TYPES, RECORD_TYPES_PLURAL } from "../../config";
@@ -18,6 +19,8 @@ import { useMemoizedSelector } from "../../libs";
 import useRecordHeaders from "../record-list/use-record-headers";
 import { buildTableColumns } from "../record-list";
 import useViewModalForms from "../record-list/view-modal/use-view-modal-forms";
+import { getFieldByName } from "../record-form/selectors";
+import { FormSectionRecord } from "../form";
 
 import SearchForm from "./components/search-form";
 
@@ -38,6 +41,9 @@ function Component({ handleToggleNav, mobileDisplay, mode, primeroModule, record
   });
   const recordRelationships = useMemoizedSelector(state =>
     getRecordRelationships(state, { recordType: RECORD_TYPES_PLURAL[linkedRecordType] })
+  );
+  const caseIdDisplayField = useMemoizedSelector(state =>
+    getFieldByName(state, "case_id_display", primeroModule, linkedRecordType)
   );
 
   const { headers } = useRecordHeaders({
@@ -65,6 +71,10 @@ function Component({ handleToggleNav, mobileDisplay, mode, primeroModule, record
   const searchTitle = i18n.t(`${recordType}.search_for`, { record_type: i18n.t("case.label") });
 
   const { forms } = useViewModalForms({ record, recordType: RECORD_PATH.cases });
+
+  const formSections = fromJS([
+    FormSectionRecord({ unique_id: "record_identification", fields: [caseIdDisplayField] })
+  ]).concat(forms);
 
   const onRecordSelect = linkedRecord => {
     dispatch(
@@ -124,7 +134,7 @@ function Component({ handleToggleNav, mobileDisplay, mode, primeroModule, record
       drawerTitles={{ search: searchTitle }}
       i18nKeys={{ addNew: "case_relationships.add_new" }}
       SearchFormComponent={SearchForm}
-      recordViewForms={forms}
+      recordViewForms={formSections}
       onRecordSelect={onRecordSelect}
       onRecordDeselect={onRecordDeselect}
       isRecordSelectable={selectableOpts.isRecordSelectable}

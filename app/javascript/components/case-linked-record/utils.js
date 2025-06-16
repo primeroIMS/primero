@@ -3,6 +3,8 @@
 /* eslint-disable import/prefer-default-export */
 import { object, string } from "yup";
 
+import { LINK_FIELD } from "../form";
+
 export const buildValidation = (fields, searchByRequiredMessage) => {
   const selectableFields = fields[0].option_strings_text.map(option => [option.id, option.display_text]);
 
@@ -25,3 +27,18 @@ export const buildSearchParams = (params, phoneticFieldNames) =>
 
     return { ...acc, [key]: value };
   }, {});
+
+export const setupLinkField = ({ formSections, recordType, linkFieldDisplay, id }) => {
+  return formSections.map(formSection =>
+    formSection.set(
+      "fields",
+      formSection.fields.map(field => {
+        if (field.name === linkFieldDisplay) {
+          return field.set("type", LINK_FIELD).set("href", `/${recordType}/${id}`);
+        }
+
+        return field;
+      })
+    )
+  );
+};

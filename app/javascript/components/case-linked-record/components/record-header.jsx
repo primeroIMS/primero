@@ -78,6 +78,7 @@ Component.displayName = "RecordHeader";
 
 Component.propTypes = {
   fieldNames: PropTypes.array.isRequired,
+  formName: PropTypes.string.isRequired,
   handleOpenMatch: PropTypes.func.isRequired,
   idField: PropTypes.string.isRequired,
   linkedRecords: PropTypes.object.isRequired,

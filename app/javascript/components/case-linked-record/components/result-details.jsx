@@ -3,7 +3,7 @@
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import CheckIcon from "@mui/icons-material/Check";
 import BlockIcon from "@mui/icons-material/Block";
@@ -14,9 +14,10 @@ import { useMemoizedSelector } from "../../../libs";
 import { RECORD_TYPES_PLURAL } from "../../../config";
 import ActionButton, { ACTION_BUTTON_TYPES } from "../../action-button";
 import css from "../../record-form/form/subforms/styles.css";
-import { fetchRecord, getLoadingRecordState, selectRecord } from "../../records";
-import Form, { FORM_MODE_SHOW, LINK_FIELD } from "../../form";
+import { fetchRecord, getLoadingRecordState, getRelatedRecord, selectRecord } from "../../records";
+import Form, { FORM_MODE_SHOW } from "../../form";
 import LoadingIndicator from "../../loading-indicator";
+import { setupLinkField } from "../utils";
 
 function Component({
   handleCancel,
@@ -31,7 +32,8 @@ function Component({
   redirectIfNotAllowed,
   shouldSelect = false,
   showSelectButton = false,
-  recordViewForms = []
+  recordViewForms = [],
+  shouldFetchRecord = true
 }) {
   useEffect(() => {
     redirectIfNotAllowed(permissions.writeReadRegistryRecord);
@@ -40,7 +42,7 @@ function Component({
   const dispatch = useDispatch();
   const pluralRecordType = RECORD_TYPES_PLURAL[linkedRecordType];
 
-  let formSection = useMemoizedSelector(state =>
+  const formSection = useMemoizedSelector(state =>
     getRecordFormsByUniqueId(state, {
       checkVisible: false,
       formName: linkedRecordFormUniqueId,
@@ -50,37 +52,34 @@ function Component({
     })
   );
 
-  formSection = useMemo(() => {
-    if (linkFieldDisplay) {
-      formSection = formSection.set(
-        "fields",
-        formSection.fields.map(field => {
-          if (field.name === linkFieldDisplay) {
-            return field.set("type", LINK_FIELD).set("href", `/${pluralRecordType}/${id}`);
-          }
-
-          return field;
-        })
-      );
-    }
-
-    return formSection;
-  }, [linkFieldDisplay]);
-
-  const record = useMemoizedSelector(state =>
+  const selectedRecord = useMemoizedSelector(state =>
     selectRecord(state, { isEditOrShow: true, recordType: pluralRecordType, id })
   );
+
+  const relatedRecord = useMemoizedSelector(state => getRelatedRecord(state, { recordType: pluralRecordType, id }));
+
+  const record = shouldFetchRecord ? selectedRecord : relatedRecord;
+
   const recordLoading = useMemoizedSelector(state => getLoadingRecordState(state, pluralRecordType));
 
-  const formSections = isEmpty(recordViewForms) ? [formSection] : recordViewForms;
+  const forms = isEmpty(recordViewForms) ? [formSection] : recordViewForms;
+
+  const formSections = record.get("record_in_scope", false)
+    ? setupLinkField({
+        formSections: forms,
+        recordType: pluralRecordType,
+        linkFieldDisplay,
+        id
+      })
+    : forms;
 
   const handleSelect = () => handleSelection(record);
 
   useEffect(() => {
-    if (linkedRecordType) {
+    if (linkedRecordType && shouldFetchRecord) {
       dispatch(fetchRecord(pluralRecordType, id));
     }
-  }, [linkedRecordType]);
+  }, [linkedRecordType, shouldFetchRecord]);
 
   const selectButtonText = shouldSelect ? "case.select" : "case.deselect";
   const selectButtonIcon = shouldSelect ? <CheckIcon /> : <BlockIcon />;
@@ -120,7 +119,6 @@ function Component({
 Component.displayName = "ResultDetails";
 
 Component.propTypes = {
-  formName: PropTypes.string,
   handleCancel: PropTypes.func.isRequired,
   handleReturn: PropTypes.func,
   handleSelection: PropTypes.func,
@@ -132,7 +130,7 @@ Component.propTypes = {
   primeroModule: PropTypes.string.isRequired,
   recordViewForms: PropTypes.array,
   redirectIfNotAllowed: PropTypes.func.isRequired,
-  setDrawerTitle: PropTypes.func.isRequired,
+  shouldFetchRecord: PropTypes.bool,
   shouldSelect: PropTypes.bool,
   showSelectButton: PropTypes.bool
 };

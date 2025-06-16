@@ -92,10 +92,12 @@ function Component({
 
   const handleCancel = () => {
     setDrawerOpen(false);
+    setDetailsID(null);
   };
 
   const handleAddNew = () => {
     setDrawerOpen(true);
+    setDetailsID(null);
   };
 
   const handleOnRecordSelect = linkedRecord => {
@@ -255,6 +257,7 @@ function Component({
           handleSelection={handleSelection}
           linkedRecordFormUniqueId={linkedRecordFormUniqueId}
           linkedRecordType={linkedRecordType}
+          recordType={recordType}
           linkField={linkField}
           linkFieldDisplay={linkFieldDisplay}
           permissions={permissions}
@@ -264,6 +267,7 @@ function Component({
           showSelectButton={showSelectButton}
           recordViewForms={recordViewForms}
           shouldSelect={shouldSelect}
+          shouldFetchRecord={shouldFetchRecord}
         />
       </SubformDrawer>
     </>

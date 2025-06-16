@@ -38,7 +38,11 @@ function Component({
   const params = metadata?.merge({ ...searchParams, fields: "short" });
 
   const handleRowClick = record => {
-    if (isRecordSelectable(record)) {
+    if (isRecordSelectable) {
+      if (isRecordSelectable(record)) {
+        setDetailsID(record.get("id"));
+      }
+    } else {
       setDetailsID(record.get("id"));
     }
   };
