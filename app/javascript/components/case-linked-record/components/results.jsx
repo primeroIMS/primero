@@ -15,8 +15,10 @@ import css from "../../record-form/form/subforms/styles.css";
 import { fetchRelatedRecords } from "../../records";
 
 function Component({
+  columns,
   fields,
   handleCancel,
+  isRecordSelectable,
   linkedRecordType,
   locale,
   online,
@@ -25,10 +27,8 @@ function Component({
   redirectIfNotAllowed,
   searchParams = {},
   setComponent,
-  setShouldSelect,
-  columns,
   setDetailsID,
-  isRecordSelectable
+  setShouldSelect
 }) {
   const dispatch = useDispatch();
   const metadata = useMemoizedSelector(state => getMetadata(state, RECORD_TYPES_PLURAL[linkedRecordType]));
@@ -110,9 +110,11 @@ function Component({
 Component.displayName = "Results";
 
 Component.propTypes = {
+  columns: PropTypes.array,
   fields: PropTypes.object.isRequired,
   formName: PropTypes.string,
   handleCancel: PropTypes.func.isRequired,
+  isRecordSelectable: PropTypes.func,
   linkedRecordFormUniqueId: PropTypes.string,
   linkedRecordNamespace: PropTypes.string,
   linkedRecordType: PropTypes.string.isRequired,
@@ -127,9 +129,11 @@ Component.propTypes = {
   redirectIfNotAllowed: PropTypes.func.isRequired,
   searchParams: PropTypes.object,
   setComponent: PropTypes.func.isRequired,
+  setDetailsID: PropTypes.func.isRequired,
   setDrawerTitle: PropTypes.func.isRequired,
   setFieldValue: PropTypes.func.isRequired,
   setSearchParams: PropTypes.func.isRequired,
+  setShouldSelect: PropTypes.func.isRequired,
   showSelectButton: PropTypes.func.isRequired
 };
 

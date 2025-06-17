@@ -23,7 +23,7 @@ import Summary from "../../../summary";
 import CaseRegistry from "../../../case-registry";
 import CaseFamily from "../../../case-family";
 import SummaryIncidentMRM from "../../../summary-incident-mrm";
-import { CaseRelationships } from "../../../case-relationships";
+import CaseRelationships from "../../../case-relationships";
 
 const externalForms =
   ({

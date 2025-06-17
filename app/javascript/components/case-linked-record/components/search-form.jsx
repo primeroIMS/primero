@@ -79,12 +79,10 @@ Component.propTypes = {
   fields: PropTypes.object.isRequired,
   formId: PropTypes.string.isRequired,
   locale: PropTypes.string.isRequired,
-  noForm: PropTypes.bool,
   permissions: PropTypes.object.isRequired,
   phoneticFieldNames: PropTypes.array.isRequired,
   redirectIfNotAllowed: PropTypes.func.isRequired,
   setComponent: PropTypes.func.isRequired,
-  setDrawerTitle: PropTypes.func.isRequired,
   setSearchParams: PropTypes.func.isRequired,
   validatedFieldNames: PropTypes.array.isRequired
 };

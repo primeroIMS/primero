@@ -3,7 +3,7 @@
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import CheckIcon from "@mui/icons-material/Check";
 import BlockIcon from "@mui/icons-material/Block";

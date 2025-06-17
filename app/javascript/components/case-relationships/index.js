@@ -1,1 +1,1 @@
-export { default as CaseRelationships } from "./component";
+export { default } from "./component";
