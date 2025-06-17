@@ -51,7 +51,7 @@ export default (i18n, commonFields, miniFormFields) =>
     }),
     FormSectionRecord({
       unique_id: "full_name",
-      fields: [{ row: [commonFields.get(COMMON_FIELD_NAMES.NAME)] }]
+      fields: commonFields.get(COMMON_FIELD_NAMES.NAME) ? [{ row: [commonFields.get(COMMON_FIELD_NAMES.NAME)] }] : []
     }),
     ...commonFieldsForm(commonFields),
     FormSectionRecord({
