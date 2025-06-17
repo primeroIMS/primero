@@ -406,7 +406,7 @@ class Child < ApplicationRecord
   end
 
   def stamp_case_type
-    self.case_type = PrimeroModule.find_by(unique_id: module_id).case_type || PrimeroModule::DEFAULT_CASE_TYPE
+    self.case_type = PrimeroModule.find_by(unique_id: module_id)&.case_type || PrimeroModule::DEFAULT_CASE_TYPE
   end
 end
 # rubocop:enable Metrics/ClassLength

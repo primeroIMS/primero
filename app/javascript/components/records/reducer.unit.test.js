@@ -21,7 +21,7 @@ describe("<RecordList /> - Reducers", () => {
   });
 
   it("should handle RECORDS_FAILURE", () => {
-    const expected = Map({ errors: true });
+    const expected = Map({ errors: true, loading: false });
     const action = {
       type: "TestRecordType/RECORDS_FAILURE",
       payload: ["some error"]
