@@ -2950,6 +2950,10 @@ en:
             explanation: Allows a manager to approve the %{approval_label} for their
               case workers' cases.
             label: Approve %{approval_label} form
+          self_approve:
+            explanation: By default, users cannot approve their own Cases. With this permission,
+              a user can approve any case to which they have access, even if they are the record owner.
+            label: Approve my own Cases
           assign:
             explanation: Allows a user to send a case from its original record owner
               to any other user in the system. No child consent is needed for this

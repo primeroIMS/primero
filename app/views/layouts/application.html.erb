@@ -20,7 +20,7 @@
 <body dir="ltr">
   <div id="root"></div>
   <%= javascript_tag nonce: true do %>
-    window.locationManifest = <%= available_locations %>
+    window.locationManifest = "<%= available_locations %>"
     window.useTheme = <%= @theme.present? %>
     window.themeRevision = "<%= @theme.revision %>"
   <% end %>

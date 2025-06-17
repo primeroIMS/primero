@@ -7,7 +7,8 @@ require 'rails_helper'
 describe Import do
   describe 'import locations' do
     before(:each) do
-      clean_data(Location)
+      clean_data(Location, SystemSettings)
+      SystemSettings.create!
     end
 
     context 'when input contains valid rows' do
@@ -28,7 +29,7 @@ describe Import do
     end
 
     after do
-      clean_data(Location)
+      clean_data(Location, SystemSettings)
     end
   end
 end

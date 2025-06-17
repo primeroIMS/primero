@@ -101,6 +101,35 @@ describe Api::V2::ApprovalsController, type: :request do
       end
     end
 
+    it 'successfully approves own cases' do
+      login_for_test(
+        user_name: 'user1',
+        permissions:[
+          Permission.new(resource: Permission::CASE, actions: [approval_permission, Permission::SELF_APPROVE])
+        ]
+      )
+
+      params = { data: { approval_status: Approval::APPROVAL_STATUS_APPROVED, notes: 'some notes' } }
+
+      patch("/api/v2/cases/#{@case.id}/approvals/#{approval_id}", params:)
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['record']['id']).to eq(@case.id.to_s)
+      expect(json['data']['record']['approval_subforms'].size).to eq(2)
+      expect(json['data']['record']['approval_subforms'][1]['approval_response_for']).to eq(approval_id)
+      expect(json['data']['record']['approval_subforms'][1]['approval_status']).to eq(
+        Approval::APPROVAL_STATUS_APPROVED
+      )
+      expect(json['data']['record']['approval_subforms'][1]['approval_date']).to eq(Date.today.to_s)
+      expect(json['data']['record']['approval_subforms'][1]['approved_by']).to eq('user1')
+      expect(json['data']['record']['approval_subforms'][1]['approval_manager_comments']).to eq(params[:data][:notes])
+      if approval_id == Approval::CASE_PLAN
+        expect(json['data']['record']['approval_subforms'][1]['approval_for_type']).to eq(approval_type)
+      else
+        expect(json['data']['record']['approval_subforms'][1]['approval_for_type']).to be_nil
+      end
+    end
+
     it 'should successfully be approved without previous approvals' do
       @case.approval_subforms = nil
       @case.save!
@@ -180,6 +209,35 @@ describe Api::V2::ApprovalsController, type: :request do
         expect(json['data']['record']['approval_subforms'][1]['approval_for_type']).to be_nil
       end
     end
+
+    it 'successfully rejects own cases' do
+      login_for_test(
+        user_name: 'user1',
+        permissions:[
+          Permission.new(resource: Permission::CASE, actions: [approval_permission, Permission::SELF_APPROVE])
+        ]
+      )
+
+      params = { data: { approval_status: Approval::APPROVAL_STATUS_REJECTED, notes: 'some notes' } }
+
+      patch("/api/v2/cases/#{@case.id}/approvals/#{approval_id}", params:)
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['record']['id']).to eq(@case.id.to_s)
+      expect(json['data']['record']['approval_subforms'].size).to eq(2)
+      expect(json['data']['record']['approval_subforms'][1]['approval_response_for']).to eq(approval_id)
+      expect(json['data']['record']['approval_subforms'][1]['approval_status']).to eq(
+        Approval::APPROVAL_STATUS_REJECTED
+      )
+      expect(json['data']['record']['approval_subforms'][1]['approval_date']).to eq(Date.today.to_s)
+      expect(json['data']['record']['approval_subforms'][1]['approved_by']).to eq('user1')
+      expect(json['data']['record']['approval_subforms'][1]['approval_manager_comments']).to eq(params[:data][:notes])
+      if approval_id == Approval::CASE_PLAN
+        expect(json['data']['record']['approval_subforms'][1]['approval_for_type']).to eq(approval_type)
+      else
+        expect(json['data']['record']['approval_subforms'][1]['approval_for_type']).to be_nil
+      end
+    end
   end
 
   shared_examples 'forbidden approval request' do
@@ -221,6 +279,21 @@ describe Api::V2::ApprovalsController, type: :request do
       expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case.id}/approvals/#{approval_id}")
       expect(json['errors'][0]['message']).to eq('Forbidden')
     end
+
+    it 'returns forbidden if a user can not approve its own cases' do
+      login_for_test(
+        user_name: 'user1', permissions:[Permission.new(resource: Permission::CASE, actions: [approval_permission])]
+      )
+
+      params = { data: { approval_status: Approval::APPROVAL_STATUS_APPROVED, notes: 'some notes' } }
+
+      patch("/api/v2/cases/#{@case.id}/approvals/#{approval_id}", params:)
+
+      expect(response).to have_http_status(403)
+      expect(json['errors'][0]['status']).to eq(403)
+      expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case.id}/approvals/#{approval_id}")
+      expect(json['errors'][0]['message']).to eq('Forbidden')
+    end
   end
 
   let(:json) { JSON.parse(response.body) }
@@ -246,10 +319,12 @@ describe Api::V2::ApprovalsController, type: :request do
       it_behaves_like 'forbidden approval request'
 
       it_behaves_like 'forbidden approval' do
+        let(:approval_permission) { Permission::APPROVE_ASSESSMENT }
         let(:approval_status) { Approval::APPROVAL_STATUS_APPROVED }
       end
 
       it_behaves_like 'forbidden approval' do
+        let(:approval_permission) { Permission::APPROVE_ASSESSMENT }
         let(:approval_status) { Approval::APPROVAL_STATUS_REJECTED }
       end
     end
@@ -273,10 +348,12 @@ describe Api::V2::ApprovalsController, type: :request do
       it_behaves_like 'forbidden approval request'
 
       it_behaves_like 'forbidden approval' do
+        let(:approval_permission) { Permission::APPROVE_CASE_PLAN }
         let(:approval_status) { Approval::APPROVAL_STATUS_APPROVED }
       end
 
       it_behaves_like 'forbidden approval' do
+        let(:approval_permission) { Permission::APPROVE_CASE_PLAN }
         let(:approval_status) { Approval::APPROVAL_STATUS_REJECTED }
       end
     end
@@ -298,10 +375,12 @@ describe Api::V2::ApprovalsController, type: :request do
       it_behaves_like 'forbidden approval request'
 
       it_behaves_like 'forbidden approval' do
+        let(:approval_permission) { Permission::APPROVE_CLOSURE }
         let(:approval_status) { Approval::APPROVAL_STATUS_APPROVED }
       end
 
       it_behaves_like 'forbidden approval' do
+        let(:approval_permission) { Permission::APPROVE_CLOSURE }
         let(:approval_status) { Approval::APPROVAL_STATUS_REJECTED }
       end
     end

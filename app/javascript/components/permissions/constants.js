@@ -113,6 +113,7 @@ export const ACTIONS = {
   REQUEST_APPROVAL_GBV_CLOSURE: "request_approval_gbv_closure",
   REQUEST_TRANSFER: "request_transfer",
   SEARCH_OWNED_BY_OTHERS: "search_owned_by_others",
+  SELF_APPROVE: "self_approve",
   SERVICES_SECTION_FROM_CASE: "services_section_from_case",
   SYNC_EXTERNAL: "sync_external",
   TRANSFER: "transfer",
