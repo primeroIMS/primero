@@ -51,8 +51,7 @@ import {
   FETCH_RELATED_RECORDS,
   ADD_RECORD_RELATIONSHIP,
   REMOVE_RECORD_RELATIONSHIP,
-  CLEAR_RECORD_RELATIONSHIPS,
-  FETCH_RELATED_RECORD
+  CLEAR_RECORD_RELATIONSHIPS
 } from "./actions";
 
 const getSuccessCallback = ({
@@ -155,7 +154,7 @@ const saveRelationshipCallback = ({ id, recordType, relationship }) => {
   const basePath = `${recordType.toLowerCase()}/${id}/case_relationships`;
   const relationshipId = relationship.get("id");
   const data = relationshipId
-    ? { primary: relationship.get("primary", false) }
+    ? { primary: relationship.get("primary", false), disabled: relationship.get("disabled", false) }
     : { case_id: relationship.get("case_id"), relationship_type: relationship.get("relationship_type") };
 
   return {
@@ -240,7 +239,7 @@ export const saveRecord = (
   const isTracingRequest = RECORD_TYPES[recordType] === RECORD_TYPES.tracing_requests;
   const isUpdate = saveMethod === SAVE_METHODS.update;
   const relationshipCallbacks = relationshipsToSave.map(relationship => {
-    if (relationship.get("disabled", false)) {
+    if (relationship.get("disabled", false) && relationship.get("changed", false)) {
       return deleteRelationshipCallback({ id, recordType, relationship });
     }
 

@@ -3,7 +3,7 @@
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import CheckIcon from "@mui/icons-material/Check";
 import BlockIcon from "@mui/icons-material/Block";
@@ -56,7 +56,9 @@ function Component({
     selectRecord(state, { isEditOrShow: true, recordType: pluralRecordType, id })
   );
 
-  const relatedRecord = useMemoizedSelector(state => getRelatedRecord(state, { recordType: pluralRecordType, id }));
+  const relatedRecord = useMemoizedSelector(state =>
+    getRelatedRecord(state, { recordType: pluralRecordType, fromRelationship: !shouldSelect, id })
+  );
 
   const record = shouldFetchRecord ? selectedRecord : relatedRecord;
 

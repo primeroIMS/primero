@@ -22,8 +22,7 @@ class CaseRelationship < ApplicationRecord
   scope :list, lambda { |case_id, relationship_type|
     where(
       RELATIONSHIP_FIELD_MAP[relationship_type] => case_id,
-      relationship_type: RELATIONSHIP_MAP[relationship_type] || relationship_type,
-      disabled: false
+      relationship_type: RELATIONSHIP_MAP[relationship_type] || relationship_type
     ).order(created_at: :desc)
   }
 

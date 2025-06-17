@@ -98,7 +98,7 @@ export default namespace =>
       case `${namespace}/${RECORD_STARTED}`:
         return state.set("loading", fromJS(payload)).set("errors", false);
       case `${namespace}/${RECORDS_FAILURE}`:
-        return state.set("errors", true);
+        return state.set("errors", true).set("loading", false);
       case `${namespace}/${MARK_FOR_OFFLINE_STARTED}`: {
         return state.set("markForMobileLoading", true);
       }
@@ -440,7 +440,7 @@ export default namespace =>
           if (relationships.some(relationship => relationship.get("case_id") === id)) {
             return relationships.reduce((memo, relationship) => {
               if (relationship.get("case_id") === id && relationship.get("disabled") === true) {
-                return memo.push(relationship.set("disabled", false));
+                return memo.push(relationship.set("disabled", false).set("changed", true));
               }
 
               return memo.push(relationship);
@@ -459,7 +459,7 @@ export default namespace =>
           relationships.reduce((memo, relationship) => {
             if (relationship.get("case_id") === id) {
               if (relationship.get("id")) {
-                return memo.push(relationship.set("disabled", true));
+                return memo.push(relationship.set("disabled", true).set("changed", true));
               }
 
               return memo;

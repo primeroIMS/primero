@@ -18,7 +18,7 @@ import { RECORD_TYPES, RECORD_TYPES_PLURAL, REFERRAL, RECORD_PATH } from "../../
 import {
   getIsProcessingSomeAttachment,
   getLoadingRecordState,
-  getRecordRelationships
+  getRecordRelationshipsToSave
 } from "../../../records/selectors";
 import { clearRecordAttachments, clearRecordRelationships, fetchRecordsAlerts } from "../../../records/action-creators";
 import useIncidentFromCase from "../../../records/use-incident-form-case";
@@ -97,7 +97,7 @@ function Component({
     getIsServicesForm(state, { recordType, primeroModule: selectedModule.primeroModule, formName: selectedForm })
   );
   const relationshipsToSave = useMemoizedSelector(state =>
-    getRecordRelationships(state, { recordType: RECORD_TYPES_PLURAL.case, includeDisabled: true })
+    getRecordRelationshipsToSave(state, RECORD_TYPES_PLURAL.case)
   );
 
   const handleFormSubmit = e => {

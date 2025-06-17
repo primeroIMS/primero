@@ -135,11 +135,27 @@ export const getRecordRelationships = (state, query) => {
     : relationships.filter(relationship => relationship.get("disabled", false) === false);
 };
 
+export const getRecordRelationshipsToSave = (state, recordType) => {
+  const relationships = state.getIn(["records", recordType, "relationships", "data"], fromJS([]));
+
+  return relationships.filter(relationship => relationship.get("changed", false) || !relationship.get("id"));
+};
+
+export const getRecordRelationship = (state, query) => {
+  const relationships = getRecordRelationships(state, query);
+
+  return relationships.find(relationship => relationship.get("case_id") === query.caseId);
+};
+
 export const getRecordRelationshipsLoading = (state, recordType = "cases") =>
   state.getIn(["records", recordType, "relationships", "loading"], false);
 
 export const getRelatedRecord = (state, query = {}) => {
-  const { recordType, id } = query;
+  const { recordType, id, fromRelationship } = query;
+
+  if (fromRelationship) {
+    return getRecordRelationship(state, { recordType, caseId: id })?.get("data") || fromJS({});
+  }
 
   const index = state
     .getIn(["records", recordType, "related_records", "data"], fromJS([]))
