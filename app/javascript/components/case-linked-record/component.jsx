@@ -44,6 +44,7 @@ function Component({
   mode,
   onRecordDeselect,
   onRecordSelect,
+  onResultClick,
   permissions,
   phoneticFieldNames = [],
   primeroModule,
@@ -217,22 +218,19 @@ function Component({
       )}
 
       <SubformDrawer open={drawerOpen && component === 0} cancelHandler={handleCancel} title={searchTitle}>
-        <SearchPanel
-          handleCancel={handleCancel}
-          searchFormComponent={
-            <SearchFormComponent
-              fields={fields}
-              formId={formId}
-              locale={i18n.locale}
-              permissions={permissions}
-              phoneticFieldNames={phoneticFieldNames}
-              redirectIfNotAllowed={redirectIfNotAllowed}
-              setComponent={handleSetComponent}
-              setSearchParams={handleSetSearchParams}
-              validatedFieldNames={validatedFieldNames}
-            />
-          }
-        />
+        <SearchPanel handleCancel={handleCancel}>
+          <SearchFormComponent
+            fields={fields}
+            formId={formId}
+            locale={i18n.locale}
+            permissions={permissions}
+            phoneticFieldNames={phoneticFieldNames}
+            redirectIfNotAllowed={redirectIfNotAllowed}
+            setComponent={handleSetComponent}
+            setSearchParams={handleSetSearchParams}
+            validatedFieldNames={validatedFieldNames}
+          />
+        </SearchPanel>
       </SubformDrawer>
 
       <SubformDrawer open={drawerOpen && component === 1} cancelHandler={handleCancel} title={resultsTitle}>
@@ -251,6 +249,7 @@ function Component({
           setDetailsID={setDetailsID}
           setShouldSelect={setShouldSelect}
           isRecordSelectable={isRecordSelectable}
+          onResultClick={onResultClick}
         />
       </SubformDrawer>
 
@@ -303,6 +302,7 @@ Component.propTypes = {
   mode: PropTypes.object.isRequired,
   onRecordDeselect: PropTypes.func,
   onRecordSelect: PropTypes.func,
+  onResultClick: PropTypes.func,
   permissions: PropTypes.object.isRequired,
   phoneticFieldNames: PropTypes.array.isRequired,
   primeroModule: PropTypes.string.isRequired,

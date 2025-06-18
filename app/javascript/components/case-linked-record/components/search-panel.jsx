@@ -8,7 +8,7 @@ import css from "../../record-form/form/subforms/styles.css";
 import ActionButton, { ACTION_BUTTON_TYPES } from "../../action-button";
 import { FORM_ID } from "../constants";
 
-function Component({ handleCancel, searchFormComponent }) {
+function Component({ handleCancel, children }) {
   return (
     <>
       <div className={css.subformFieldArrayContainer}>
@@ -25,7 +25,7 @@ function Component({ handleCancel, searchFormComponent }) {
           icon={<SearchIcon />}
         />
       </div>
-      {searchFormComponent}
+      {children}
     </>
   );
 }
@@ -33,8 +33,8 @@ function Component({ handleCancel, searchFormComponent }) {
 Component.displayName = "SearchPanel";
 
 Component.propTypes = {
-  handleCancel: PropTypes.func.isRequired,
-  searchFormComponent: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
+  handleCancel: PropTypes.func.isRequired
 };
 
 export default Component;

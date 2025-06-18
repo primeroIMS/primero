@@ -22,6 +22,7 @@ function Component({
   linkedRecordType,
   locale,
   online,
+  onResultClick,
   permissions,
   recordType,
   redirectIfNotAllowed,
@@ -37,13 +38,21 @@ function Component({
 
   const params = metadata?.merge({ ...searchParams, fields: "short" });
 
+  const handleResultClick = record => {
+    if (onResultClick) {
+      onResultClick(record);
+    }
+  };
+
   const handleRowClick = record => {
     if (isRecordSelectable) {
       if (isRecordSelectable(record)) {
         setDetailsID(record.get("id"));
+        handleResultClick(record);
       }
     } else {
       setDetailsID(record.get("id"));
+      handleResultClick(record);
     }
   };
 
@@ -123,6 +132,7 @@ Component.propTypes = {
   locale: PropTypes.string.isRequired,
   mode: PropTypes.object.isRequired,
   online: PropTypes.bool.isRequired,
+  onResultClick: PropTypes.func,
   permissions: PropTypes.object.isRequired,
   primeroModule: PropTypes.string.isRequired,
   recordType: PropTypes.string.isRequired,

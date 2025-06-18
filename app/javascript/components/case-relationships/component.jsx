@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { fromJS } from "immutable";
 
@@ -35,6 +35,7 @@ function Component({ handleToggleNav, mobileDisplay, mode, primeroModule, record
   const i18n = useI18n();
   const dispatch = useDispatch();
   const linkedRecordType = RECORD_TYPES.cases;
+  const [selectedRecord, setSelectedRecord] = useState(null);
   const { updateCaseRelationships, viewCaseRelationships } = usePermissions(RESOURCES.cases, {
     updateCaseRelationships: UPDATE_CASE_RELATIONSHIPS,
     viewCaseRelationships: VIEW_CASE_RELATIONSHIPS
@@ -76,7 +77,11 @@ function Component({ handleToggleNav, mobileDisplay, mode, primeroModule, record
 
   const searchTitle = i18n.t(`${recordType}.search_for`, { record_type: i18n.t("case.label") });
 
-  const { forms } = useViewModalForms({ record, recordType: RECORD_PATH.cases });
+  const { forms } = useViewModalForms({ record: selectedRecord, recordType: RECORD_PATH.cases, useRows: false });
+
+  const onResultClick = current => {
+    setSelectedRecord(current);
+  };
 
   const formSections = fromJS([
     FormSectionRecord({ unique_id: "record_identification", fields: [caseIdDisplayField] })
@@ -145,6 +150,7 @@ function Component({ handleToggleNav, mobileDisplay, mode, primeroModule, record
       onRecordSelect={onRecordSelect}
       onRecordDeselect={onRecordDeselect}
       isRecordSelectable={selectableOpts.isRecordSelectable}
+      onResultClick={onResultClick}
     />
   );
 }
