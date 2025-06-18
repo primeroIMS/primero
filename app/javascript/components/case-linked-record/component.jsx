@@ -7,7 +7,8 @@ import AddIcon from "@mui/icons-material/Add";
 
 import SubformDrawer from "../record-form/form/subforms/subform-drawer";
 import { useI18n } from "../i18n";
-import useMemoizedSelector from "../../libs/use-memoized-selector";
+import { ConditionalWrapper, useMemoizedSelector } from "../../libs";
+import DisableOffline from "../disable-offline";
 import { getRecordFieldsByName, getRecordFormsByUniqueId } from "../record-form/selectors";
 import { CASE } from "../../config";
 import ActionButton, { ACTION_BUTTON_TYPES } from "../action-button";
@@ -25,6 +26,7 @@ import ResultDetails from "./components/result-details";
 function Component({
   caseFormUniqueId,
   columns,
+  disableOffline = {},
   drawerTitles,
   formId,
   handleToggleNav,
@@ -188,14 +190,18 @@ function Component({
           <h3 className={css.subformTitle}>{subformTitle}</h3>
         </div>
         {showAddNew && (
-          <div>
+          <ConditionalWrapper
+            condition={disableOffline?.addNew && !online}
+            wrapper={DisableOffline}
+            offlineTextKey="unavailable_offline"
+          >
             <ActionButton
               type={ACTION_BUTTON_TYPES.default}
               text={i18nKeys?.addNew || "case.add_new"}
               rest={{ onClick: handleAddNew }}
               icon={<AddIcon />}
             />
-          </div>
+          </ConditionalWrapper>
         )}
       </div>
 
@@ -279,6 +285,7 @@ Component.displayName = "CaseLinkedRecord";
 Component.propTypes = {
   caseFormUniqueId: PropTypes.string.isRequired,
   columns: PropTypes.array,
+  disableOffline: PropTypes.object,
   drawerTitles: PropTypes.object.isRequired,
   formId: PropTypes.string.isRequired,
   handleToggleNav: PropTypes.func.isRequired,

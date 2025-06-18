@@ -108,6 +108,7 @@ function Component({ handleToggleNav, mobileDisplay, mode, primeroModule, record
 
   return (
     <CaseLinkedRecord
+      disableOffline={{ addNew: true }}
       linkedRecords={recordRelationships}
       mode={mode}
       idField="case_id"
