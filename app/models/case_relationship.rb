@@ -15,6 +15,7 @@ class CaseRelationship < ApplicationRecord
 
   validates_presence_of :from_case_id, :to_case_id, :relationship_type
   validate :valid_relationship_type
+  validate :validate_not_linked_to_self
 
   belongs_to :from_case, class_name: 'Child', foreign_key: :from_case_id
   belongs_to :to_case, class_name: 'Child', foreign_key: :to_case_id
@@ -52,5 +53,11 @@ class CaseRelationship < ApplicationRecord
 
   def related_case(child_id)
     child_id == from_case_id ? to_case : from_case
+  end
+
+  def validate_not_linked_to_self
+    return true if from_case_id != to_case_id
+
+    errors.add(:to_case_id, I18n.t('errors.models.case_relationship.not_linked_to_self'))
   end
 end

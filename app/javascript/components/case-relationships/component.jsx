@@ -53,8 +53,14 @@ function Component({ handleToggleNav, mobileDisplay, mode, primeroModule, record
 
   const selectableOpts = {
     isRecordSelectable: currentRecord =>
-      !recordRelationships.some(relationship => relationship.get("case_id") === currentRecord.get("id")),
-    messageKey: "already_linked"
+      currentRecord.get("id") !== record.get("id") &&
+      !recordRelationships.some(relationship => {
+        return [currentRecord.get("id")].includes(relationship.get("case_id"));
+      }),
+    messageKey: currentRecord =>
+      currentRecord.get("id") === record.get("id")
+        ? "errors.models.case_relationship.not_linked_to_self"
+        : "already_linked"
   };
 
   const tableColumns = buildTableColumns(

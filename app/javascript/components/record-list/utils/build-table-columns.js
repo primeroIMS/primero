@@ -28,9 +28,11 @@ export default (
 
   const rowAvailable = (rowIndex, data) => {
     if (selectableOpts.isRecordSelectable) {
+      const currentRecord = data.getIn(["data", rowIndex], fromJS({}));
+
       return {
-        rowAvailable: selectableOpts.isRecordSelectable(data.getIn(["data", rowIndex], fromJS({}))),
-        offlineTextKey: selectableOpts.messageKey
+        rowAvailable: selectableOpts.isRecordSelectable(currentRecord),
+        offlineTextKey: selectableOpts.messageKey(currentRecord)
       };
     }
 

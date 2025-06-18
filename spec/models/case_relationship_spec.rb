@@ -64,6 +64,15 @@ RSpec.describe CaseRelationship, type: :model do
       expect(case_relationship.errors[:from_case_id]).to include("can't be blank")
       expect(case_relationship.errors[:to_case_id]).to include("can't be blank")
     end
+
+    it 'rejects to link a case to itself' do
+      case_relationship = CaseRelationship.new_case_relationship(
+        primary_case_id: @case1.id, related_case_id: @case1.id, relationship_type: 'farmer_on'
+      )
+      case_relationship.save
+
+      expect(case_relationship.errors[:to_case_id]).to include("A case cannot be linked to itself.")
+    end
   end
 
   after do
