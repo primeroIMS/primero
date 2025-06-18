@@ -25,7 +25,7 @@ class Api::V2::CaseRelationshipsController < Api::V2::RecordResourceController
   def update
     authorize! :update_case_relationships, @record
     @case_relationship = CaseRelationship.find(params[:id])
-    @case_relationship.update({ primary: permitted_params[:primary], disabled: permitted_params[:disabled]}.compact)
+    @case_relationship.update({ primary: permitted_params[:primary], disabled: permitted_params[:disabled] }.compact)
     updates_for_record(@record)
     render 'api/v2/case_relationships/update'
   end
