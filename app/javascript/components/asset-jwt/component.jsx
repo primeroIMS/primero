@@ -41,7 +41,7 @@ function Component({ src, alt, className, type = "image", id }) {
     if (isIDP) {
       fetchImage();
     }
-  }, []);
+  }, [src, isIDP, isBase64]);
 
   if (type === "audio") {
     return (
