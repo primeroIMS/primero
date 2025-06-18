@@ -157,6 +157,7 @@ describe Api::V2::CaseRelationshipsController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data']['case_id']).to eq(@farmer2.id.to_s)
       expect(json['data']['relationship_type']).to eq('farmer_on')
+      expect(json['data']['disabled']).to eq(true)
     end
   end
 

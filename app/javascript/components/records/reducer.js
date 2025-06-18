@@ -448,7 +448,13 @@ export default namespace =>
           }
 
           return relationships.push(
-            fromJS({ case_id: id, relationship_type: relationshipType, primary: false, data: linkedRecord })
+            fromJS({
+              case_id: id,
+              relationship_type: relationshipType,
+              primary: false,
+              disabled: false,
+              data: linkedRecord
+            })
           );
         });
       }
