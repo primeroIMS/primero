@@ -57,7 +57,8 @@ function Referrals({
   const recordTypesForms = useMemoizedSelector(state =>
     getRecordForms(state, {
       recordType: RECORD_TYPES[recordType],
-      primeroModule: record?.get("module_id")
+      primeroModule: record?.get("module_id"),
+      includeDefaultForms: false
     })
   );
 
