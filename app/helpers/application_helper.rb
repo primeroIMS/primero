@@ -22,9 +22,10 @@ module ApplicationHelper
   end
 
   def available_locations
-    return '' unless SystemSettings.current.location_file.attached?
+    system_settings = SystemSettings.first
+    return '' unless system_settings.location_file.attached?
 
-    rails_blob_path(SystemSettings.current.location_file, only_path: true)
+    rails_blob_path(system_settings.location_file, only_path: true)
   end
 
   def csp_property_meta_tag
