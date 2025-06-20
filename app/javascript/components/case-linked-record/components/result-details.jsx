@@ -2,7 +2,8 @@
 
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
-import { useEffect, useMemo } from "react";
+import isEmpty from "lodash/isEmpty";
+import { useEffect } from "react";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import CheckIcon from "@mui/icons-material/Check";
 import BlockIcon from "@mui/icons-material/Block";
@@ -13,32 +14,35 @@ import { useMemoizedSelector } from "../../../libs";
 import { RECORD_TYPES_PLURAL } from "../../../config";
 import ActionButton, { ACTION_BUTTON_TYPES } from "../../action-button";
 import css from "../../record-form/form/subforms/styles.css";
-import { fetchRecord, selectRecord } from "../../records";
-import Form, { FORM_MODE_SHOW, LINK_FIELD } from "../../form";
+import { fetchRecord, getLoadingRecordState, getRelatedRecord, selectRecord } from "../../records";
+import Form, { FORM_MODE_SHOW } from "../../form";
+import LoadingIndicator from "../../loading-indicator";
+import { setupLinkField } from "../utils";
 
 function Component({
-  formName,
   handleCancel,
   handleReturn,
+  handleSelection,
   id,
   linkedRecordFormUniqueId,
   linkedRecordType,
-  linkField,
   linkFieldDisplay,
   permissions,
   primeroModule,
   redirectIfNotAllowed,
-  setDrawerTitle,
-  setFieldValue,
   shouldSelect = false,
-  showSelectButton = false
+  showSelectButton = false,
+  recordViewForms = [],
+  shouldFetchRecord = true
 }) {
-  setDrawerTitle(formName, {}, false);
-  redirectIfNotAllowed(permissions.writeReadRegistryRecord);
+  useEffect(() => {
+    redirectIfNotAllowed(permissions.writeReadRegistryRecord);
+  }, []);
 
   const dispatch = useDispatch();
+  const pluralRecordType = RECORD_TYPES_PLURAL[linkedRecordType];
 
-  let formSection = useMemoizedSelector(state =>
+  const formSection = useMemoizedSelector(state =>
     getRecordFormsByUniqueId(state, {
       checkVisible: false,
       formName: linkedRecordFormUniqueId,
@@ -48,48 +52,44 @@ function Component({
     })
   );
 
-  formSection = useMemo(() => {
-    if (linkFieldDisplay) {
-      formSection = formSection.set(
-        "fields",
-        formSection.fields.map(field => {
-          if (field.name === linkFieldDisplay) {
-            return field.set("type", LINK_FIELD).set("href", `/${RECORD_TYPES_PLURAL[linkedRecordType]}/${id}`);
-          }
-
-          return field;
-        })
-      );
-    }
-
-    return formSection;
-  }, [linkFieldDisplay]);
-
-  const record = useMemoizedSelector(state =>
-    selectRecord(state, { isEditOrShow: true, recordType: RECORD_TYPES_PLURAL[linkedRecordType], id })
+  const selectedRecord = useMemoizedSelector(state =>
+    selectRecord(state, { isEditOrShow: true, recordType: pluralRecordType, id })
   );
 
+  const relatedRecord = useMemoizedSelector(state =>
+    getRelatedRecord(state, { recordType: pluralRecordType, fromRelationship: !shouldSelect, id })
+  );
+
+  const record = shouldFetchRecord ? selectedRecord : relatedRecord;
+
+  const recordLoading = useMemoizedSelector(state => getLoadingRecordState(state, pluralRecordType));
+
+  const forms = isEmpty(recordViewForms) ? [formSection] : recordViewForms;
+
+  const formSections = record.get("record_in_scope", false)
+    ? setupLinkField({
+        formSections: forms,
+        recordType: pluralRecordType,
+        linkFieldDisplay,
+        id
+      })
+    : forms;
+
+  const handleSelect = () => handleSelection(record);
+
   useEffect(() => {
-    if (linkedRecordType) {
-      dispatch(fetchRecord(RECORD_TYPES_PLURAL[linkedRecordType], id));
+    if (linkedRecordType && shouldFetchRecord) {
+      dispatch(fetchRecord(pluralRecordType, id));
     }
-  }, [linkedRecordType]);
+  }, [linkedRecordType, shouldFetchRecord]);
 
   const selectButtonText = shouldSelect ? "case.select" : "case.deselect";
   const selectButtonIcon = shouldSelect ? <CheckIcon /> : <BlockIcon />;
   const backButtonText = shouldSelect ? "case.back_to_results" : "case.back_to_case";
   const backButtonFunc = shouldSelect ? handleReturn : handleCancel;
 
-  const handleSelection = () => {
-    [[linkField, shouldSelect ? id : null]].forEach(([key, value]) => {
-      setFieldValue(key, value);
-    });
-
-    handleCancel();
-  };
-
   return (
-    <>
+    <LoadingIndicator hasData={record.size > 0} loading={recordLoading}>
       {!record.get("enabled") && <DisabledRecordIndicator recordType={linkedRecordType} />}
       <div className={css.subformFieldArrayContainer}>
         <ActionButton
@@ -102,40 +102,37 @@ function Component({
           <ActionButton
             type={ACTION_BUTTON_TYPES.default}
             text={selectButtonText}
-            onClick={handleSelection}
+            onClick={handleSelect}
             icon={selectButtonIcon}
           />
         )}
       </div>
-      {formSection?.unique_id && (
-        <Form
-          useCancelPrompt={false}
-          mode={FORM_MODE_SHOW}
-          formSections={[formSection]}
-          initialValues={record.toJS()}
-          showTitle={false}
-        />
-      )}
-    </>
+      <Form
+        useCancelPrompt={false}
+        mode={FORM_MODE_SHOW}
+        formSections={formSections}
+        initialValues={record.toJS()}
+        showTitle={false}
+      />
+    </LoadingIndicator>
   );
 }
 
 Component.displayName = "ResultDetails";
 
 Component.propTypes = {
-  formName: PropTypes.string,
   handleCancel: PropTypes.func.isRequired,
   handleReturn: PropTypes.func,
+  handleSelection: PropTypes.func,
   id: PropTypes.string.isRequired,
   linkedRecordFormUniqueId: PropTypes.string.isRequired,
   linkedRecordType: PropTypes.string.isRequired,
-  linkField: PropTypes.string.isRequired,
   linkFieldDisplay: PropTypes.string.isRequired,
   permissions: PropTypes.object.isRequired,
   primeroModule: PropTypes.string.isRequired,
+  recordViewForms: PropTypes.array,
   redirectIfNotAllowed: PropTypes.func.isRequired,
-  setDrawerTitle: PropTypes.func.isRequired,
-  setFieldValue: PropTypes.func,
+  shouldFetchRecord: PropTypes.bool,
   shouldSelect: PropTypes.bool,
   showSelectButton: PropTypes.bool
 };

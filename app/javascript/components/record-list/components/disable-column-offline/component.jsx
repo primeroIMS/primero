@@ -7,7 +7,14 @@ import { ConditionalWrapper } from "../../../../libs";
 import DisableOffline from "../../../disable-offline";
 import DateColumn from "../date-column";
 
-function DisableColumnOffline({ component, value, withTime, rowAvailable, type }) {
+function DisableColumnOffline({
+  component,
+  value,
+  withTime,
+  rowAvailable,
+  type,
+  offlineTextKey = "unavailable_offline"
+}) {
   const parsedValue = Array.isArray(value) ? value.join(", ") : value;
   const columnValue = isNil(parsedValue) ? "" : parsedValue;
 
@@ -21,7 +28,7 @@ function DisableColumnOffline({ component, value, withTime, rowAvailable, type }
     <ConditionalWrapper
       condition={!rowAvailable}
       wrapper={DisableOffline}
-      offlineTextKey="unavailable_offline"
+      offlineTextKey={offlineTextKey}
       overrideCondition={!rowAvailable}
     >
       {wrappedContent}
@@ -33,6 +40,7 @@ DisableColumnOffline.displayName = "DisableColumnOffline";
 
 DisableColumnOffline.propTypes = {
   component: PropTypes.node,
+  offlineTextKey: PropTypes.string,
   rowAvailable: PropTypes.bool,
   type: PropTypes.string,
   value: PropTypes.oneOf([PropTypes.array, PropTypes.string, PropTypes.node]),

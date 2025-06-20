@@ -75,7 +75,18 @@ import {
   CREATE_CASE_FROM_FAMILY_DETAIL_STARTED,
   CREATE_CASE_FROM_FAMILY_DETAIL_SUCCESS,
   CREATE_CASE_FROM_FAMILY_DETAIL_FAILURE,
-  CREATE_CASE_FROM_FAMILY_DETAIL_FINISHED
+  CREATE_CASE_FROM_FAMILY_DETAIL_FINISHED,
+  FETCH_RECORD_RELATIONSHIPS_SUCCESS,
+  FETCH_RECORD_RELATIONSHIPS_STARTED,
+  FETCH_RECORD_RELATIONSHIPS_FINISHED,
+  FETCH_RECORD_RELATIONSHIPS_FAILURE,
+  FETCH_RELATED_RECORDS_STARTED,
+  FETCH_RELATED_RECORDS_SUCCESS,
+  FETCH_RELATED_RECORDS_FINISHED,
+  FETCH_RELATED_RECORDS_FAILURE,
+  ADD_RECORD_RELATIONSHIP,
+  REMOVE_RECORD_RELATIONSHIP,
+  CLEAR_RECORD_RELATIONSHIPS
 } from "./actions";
 
 const DEFAULT_STATE = Map({ data: List([]) });
@@ -87,7 +98,7 @@ export default namespace =>
       case `${namespace}/${RECORD_STARTED}`:
         return state.set("loading", fromJS(payload)).set("errors", false);
       case `${namespace}/${RECORDS_FAILURE}`:
-        return state.set("errors", true);
+        return state.set("errors", true).set("loading", false);
       case `${namespace}/${MARK_FOR_OFFLINE_STARTED}`: {
         return state.set("markForMobileLoading", true);
       }
@@ -406,6 +417,67 @@ export default namespace =>
         return state.set("data", fromJS(payload.data));
       case `${namespace}/${FETCH_LINK_INCIDENT_TO_CASE_DATA_FINISHED}`:
         return state.set("loading", false);
+      case `${namespace}/${FETCH_RECORD_RELATIONSHIPS_SUCCESS}`:
+        return state.setIn(["relationships", "data"], fromJS(payload.data || []));
+      case `${namespace}/${FETCH_RECORD_RELATIONSHIPS_STARTED}`:
+        return state.setIn(["relationships", "loading"], true);
+      case `${namespace}/${FETCH_RECORD_RELATIONSHIPS_FINISHED}`:
+        return state.setIn(["relationships", "loading"], false);
+      case `${namespace}/${FETCH_RECORD_RELATIONSHIPS_FAILURE}`:
+        return state.setIn(["relationships", "loading"], false).setIn(["relationships", "errors"], true);
+      case `${namespace}/${FETCH_RELATED_RECORDS_STARTED}`:
+        return state.setIn(["related_records", "loading"], payload).set("errors", false);
+      case `${namespace}/${FETCH_RELATED_RECORDS_SUCCESS}`:
+        return state.setIn(["related_records", "data"], fromJS(payload.data));
+      case `${namespace}/${FETCH_RELATED_RECORDS_FINISHED}`:
+        return state.setIn(["related_records", "loading"], false);
+      case `${namespace}/${FETCH_RELATED_RECORDS_FAILURE}`:
+        return state.setIn(["related_records", "loading"], false).set(["related_records", "errors"], true);
+      case `${namespace}/${ADD_RECORD_RELATIONSHIP}`: {
+        const { id, relationshipType, linkedRecord } = payload;
+
+        return state.updateIn(["relationships", "data"], relationships => {
+          if (relationships.some(relationship => relationship.get("case_id") === id)) {
+            return relationships.reduce((memo, relationship) => {
+              if (relationship.get("case_id") === id && relationship.get("disabled") === true) {
+                return memo.push(relationship.set("disabled", false).set("changed", true));
+              }
+
+              return memo.push(relationship);
+            }, fromJS([]));
+          }
+
+          return relationships.push(
+            fromJS({
+              case_id: id,
+              relationship_type: relationshipType,
+              primary: false,
+              disabled: false,
+              data: linkedRecord
+            })
+          );
+        });
+      }
+      case `${namespace}/${REMOVE_RECORD_RELATIONSHIP}`: {
+        const { id } = payload;
+
+        return state.updateIn(["relationships", "data"], relationships =>
+          relationships.reduce((memo, relationship) => {
+            if (relationship.get("case_id") === id) {
+              if (relationship.get("id")) {
+                return memo.push(relationship.set("disabled", true).set("changed", true));
+              }
+
+              return memo;
+            }
+
+            return memo.push(relationship);
+          }, fromJS([]))
+        );
+      }
+      case `${namespace}/${CLEAR_RECORD_RELATIONSHIPS}`: {
+        return state.set("relationships", fromJS({}));
+      }
       default:
         return state;
     }

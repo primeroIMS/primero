@@ -2,6 +2,7 @@
 
 import startsWith from "lodash/startsWith";
 import compact from "lodash/compact";
+import { fromJS } from "immutable";
 
 import { DB_COLLECTIONS_NAMES, IDB_SAVEABLE_RECORD_TYPES } from "../../db";
 import { ENQUEUE_SNACKBAR, generate } from "../notifier";
@@ -45,7 +46,12 @@ import {
   FETCH_LINK_INCIDENT_TO_CASE_DATA,
   CREATE_CASE_FROM_FAMILY_DETAIL,
   DELETE_ALERT_FROM_RECORD,
-  DELETE_ALERT_FROM_RECORD_SUCCESS
+  DELETE_ALERT_FROM_RECORD_SUCCESS,
+  FETCH_RECORD_RELATIONSHIPS,
+  FETCH_RELATED_RECORDS,
+  ADD_RECORD_RELATIONSHIP,
+  REMOVE_RECORD_RELATIONSHIP,
+  CLEAR_RECORD_RELATIONSHIPS
 } from "./actions";
 
 const getSuccessCallback = ({
@@ -136,6 +142,31 @@ const markForOfflineAction = (recordType, ids, includeSuccessCallbacks = true) =
   };
 };
 
+const deleteRelationshipCallback = ({ id, recordType, relationship }) => ({
+  action: `${recordType}/DELETE_RECORD_RELATIONSHIP`,
+  api: {
+    path: `${recordType.toLowerCase()}/${id}/case_relationships/${relationship.get("id")}`,
+    method: METHODS.DELETE
+  }
+});
+
+const saveRelationshipCallback = ({ id, recordType, relationship }) => {
+  const basePath = `${recordType.toLowerCase()}/${id}/case_relationships`;
+  const relationshipId = relationship.get("id");
+  const data = relationshipId
+    ? { primary: relationship.get("primary", false), disabled: relationship.get("disabled", false) }
+    : { case_id: relationship.get("case_id"), relationship_type: relationship.get("relationship_type") };
+
+  return {
+    action: `${recordType}/SAVE_RECORD_RELATIONSHIP`,
+    api: {
+      path: relationshipId ? `${basePath}/${relationshipId}` : basePath,
+      method: relationshipId ? METHODS.PATCH : METHODS.POST,
+      params: { data }
+    }
+  };
+};
+
 export const clearMetadata = recordType => ({
   type: `${recordType}/${CLEAR_METADATA}`
 });
@@ -200,12 +231,20 @@ export const saveRecord = (
   willRedirectToIncident = false,
   moduleID,
   incidentPath = "",
-  skipRecordAlerts = false
+  skipRecordAlerts = false,
+  relationshipsToSave = fromJS([])
 ) => {
   const fetchRecordsAlertsCallback =
     id && !skipRecordAlerts && saveMethod === SAVE_METHODS.update ? [fetchRecordsAlerts(recordType, id, true)] : [];
   const isTracingRequest = RECORD_TYPES[recordType] === RECORD_TYPES.tracing_requests;
   const isUpdate = saveMethod === SAVE_METHODS.update;
+  const relationshipCallbacks = relationshipsToSave.map(relationship => {
+    if (relationship.get("disabled", false) && relationship.get("changed", false)) {
+      return deleteRelationshipCallback({ id, recordType, relationship });
+    }
+
+    return saveRelationshipCallback({ id, recordType, relationship });
+  });
 
   return {
     type: `${recordType}/${SAVE_RECORD}`,
@@ -230,7 +269,8 @@ export const saveRecord = (
           id
         }),
         ...(isTracingRequest && isUpdate && id ? [fetchTracingRequestTraces(id, true)] : []),
-        ...fetchRecordsAlertsCallback
+        ...fetchRecordsAlertsCallback,
+        ...relationshipCallbacks
       ],
       db: {
         collection: DB_COLLECTIONS_NAMES.RECORDS,
@@ -477,4 +517,36 @@ export const createCaseFromFamilyDetail = ({ caseId, familyDetailId }) => ({
       }
     ]
   }
+});
+
+export const fetchRecordRelationships = (caseID, relationshipType) => {
+  return {
+    type: `cases/${FETCH_RECORD_RELATIONSHIPS}`,
+    api: {
+      path: `${RECORD_PATH.cases}/${caseID}/case_relationships/?relationship_type=${relationshipType}`
+    }
+  };
+};
+
+export const fetchRelatedRecords = ({ recordType, relatedRecordType, data }) => ({
+  type: `${recordType}/${FETCH_RELATED_RECORDS}`,
+  api: {
+    path: `/${relatedRecordType.toLowerCase()}`,
+    params: data
+  }
+});
+
+export const addRecordRelationship = ({ recordType, linkedRecordType, linkedRecord, id, relationshipType }) => ({
+  type: `${recordType}/${ADD_RECORD_RELATIONSHIP}`,
+  payload: { id, recordType: linkedRecordType, relationshipType, linkedRecord }
+});
+
+export const removeRecordRelationship = ({ recordType, linkedRecordType, linkedRecord, id, relationshipType }) => ({
+  type: `${recordType}/${REMOVE_RECORD_RELATIONSHIP}`,
+  payload: { id, recordType: linkedRecordType, relationshipType, linkedRecord }
+});
+
+export const clearRecordRelationships = (recordId, recordType) => ({
+  type: `${recordType}/${CLEAR_RECORD_RELATIONSHIPS}`,
+  payload: { id: recordId, recordType }
 });

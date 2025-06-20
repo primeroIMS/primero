@@ -23,7 +23,9 @@ import {
   getMatchedTraces,
   getLoadingCasesPotentialMatches,
   getMatchedTrace,
-  getMarkForMobileLoading
+  getMarkForMobileLoading,
+  getRecordRelationshipsToSave,
+  getRelatedRecord
 } from "./selectors";
 
 const record = {
@@ -490,6 +492,94 @@ describe("Records - Selectors", () => {
 
     it("should return empty object", () => {
       expect(getMatchedTrace(stateWithoutRecords).size).toBe(0);
+    });
+  });
+
+  describe("getRecordRelationshipsToSave", () => {
+    it("returns the relationships to save", () => {
+      const relationshipsToSave = [
+        {
+          case_id: "25164424-4be2-11f0-9b24-7c10c98b54af",
+          disabled: false,
+          primary: false,
+          relationship_type: "farmer_on",
+          data: { id: "25164424-4be2-11f0-9b24-7c10c98b54af", short_id: "251644" }
+        },
+        {
+          id: "b57357b4-4be2-11f0-9acf-7c10c98b54af",
+          case_id: "bbed30b0-4be2-11f0-8f97-7c10c98b54af",
+          disabled: true,
+          changed: true,
+          primary: false,
+          relationship_type: "farmer_on",
+          data: { id: "bbed30b0-4be2-11f0-8f97-7c10c98b54af", short_id: "bbed30" }
+        }
+      ];
+
+      const state = fromJS({
+        records: {
+          testType: {
+            relationships: {
+              data: [
+                {
+                  id: "8042940c-4bdc-11f0-a5aa-7c10c98b54af",
+                  case_id: "746a714a-4bdc-11f0-9d66-7c10c98b54af",
+                  disabled: false,
+                  primary: false,
+                  relationship_type: "farmer_on",
+                  data: { id: "746a714a-4bdc-11f0-9d66-7c10c98b54af", short_id: "746a71" }
+                },
+                ...relationshipsToSave
+              ]
+            }
+          }
+        }
+      });
+
+      expect(getRecordRelationshipsToSave(state, "testType")).toEqual(fromJS(relationshipsToSave));
+    });
+  });
+
+  describe("getRelatedRecord", () => {
+    const state = fromJS({
+      records: {
+        testType: {
+          relationships: {
+            data: [
+              {
+                id: "8042940c-4bdc-11f0-a5aa-7c10c98b54af",
+                case_id: "746a714a-4bdc-11f0-9d66-7c10c98b54af",
+                disabled: false,
+                primary: false,
+                relationship_type: "farmer_on",
+                data: { id: "746a714a-4bdc-11f0-9d66-7c10c98b54af", short_id: "746a71" }
+              }
+            ]
+          },
+          related_records: {
+            data: [{ id: "bbed30b0-4be2-11f0-8f97-7c10c98b54af", short_id: "bbed30" }]
+          }
+        }
+      }
+    });
+
+    it("returns record from a relationship", () => {
+      expect(
+        getRelatedRecord(state, {
+          recordType: "testType",
+          id: "746a714a-4bdc-11f0-9d66-7c10c98b54af",
+          fromRelationship: true
+        })
+      ).toEqual(fromJS({ id: "746a714a-4bdc-11f0-9d66-7c10c98b54af", short_id: "746a71" }));
+    });
+
+    it("returns record from related_records", () => {
+      expect(
+        getRelatedRecord(state, {
+          recordType: "testType",
+          id: "bbed30b0-4be2-11f0-8f97-7c10c98b54af"
+        })
+      ).toEqual(fromJS({ id: "bbed30b0-4be2-11f0-8f97-7c10c98b54af", short_id: "bbed30" }));
     });
   });
 });

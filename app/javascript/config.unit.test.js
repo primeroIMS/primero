@@ -32,6 +32,7 @@ describe("Verifying config constant", () => {
       "APPROVALS_TYPES",
       "CASE",
       "CASES",
+      "CASE_RELATIONSHIPS",
       "CHANGE_LOGS",
       "CODE_FIELD",
       "CODE_OF_CONDUCT_DATE_FORMAT",

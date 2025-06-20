@@ -12,12 +12,32 @@ import { ALERTS_COLUMNS, ALERTS, ID_COLUMNS, COMPLETE } from "../constants";
 import PhotoColumnBody from "../components/photo-column-body";
 import DisableColumnOffline from "../components/disable-column-offline";
 
-export default (allowedColumns, i18n, recordType, css, recordAvailable, online, phonetic = false) => {
+export default (
+  allowedColumns,
+  i18n,
+  recordType,
+  css,
+  recordAvailable,
+  online,
+  phonetic = false,
+  selectableOpts = {}
+) => {
   const iconColumns = Object.values(ALERTS_COLUMNS);
   // eslint-disable-next-line react/display-name, jsx-a11y/control-has-associated-label
   const emptyHeader = name => <th key={name} className={css.overdueHeading} />;
 
-  const rowAvailable = (rowIndex, data) => recordAvailable(data.getIn(["data", rowIndex], fromJS({}))) || online;
+  const rowAvailable = (rowIndex, data) => {
+    if (selectableOpts.isRecordSelectable) {
+      const currentRecord = data.getIn(["data", rowIndex], fromJS({}));
+
+      return {
+        rowAvailable: selectableOpts.isRecordSelectable(currentRecord),
+        offlineTextKey: selectableOpts.messageKey(currentRecord)
+      };
+    }
+
+    return { rowAvailable: recordAvailable(data.getIn(["data", rowIndex], fromJS({}))) || online };
+  };
 
   const tableColumns = data => {
     let columns = allowedColumns
@@ -36,30 +56,20 @@ export default (allowedColumns, i18n, recordType, css, recordAvailable, online, 
                 customBodyRender: (value, { rowIndex }) => (
                   <DisableColumnOffline
                     component={<PhotoColumnBody value={value} css={css} />}
-                    rowAvailable={rowAvailable(rowIndex, data)}
+                    {...rowAvailable(rowIndex, data)}
                   />
                 )
               };
             case "registration_date":
               return {
                 customBodyRender: (value, { rowIndex }) => (
-                  <DisableColumnOffline
-                    value={value}
-                    withTime={false}
-                    rowAvailable={rowAvailable(rowIndex, data)}
-                    type="date"
-                  />
+                  <DisableColumnOffline value={value} withTime={false} {...rowAvailable(rowIndex, data)} type="date" />
                 )
               };
             case "case_opening_date":
               return {
                 customBodyRender: (value, { rowIndex }) => (
-                  <DisableColumnOffline
-                    value={value}
-                    withTime
-                    type="date"
-                    rowAvailable={rowAvailable(rowIndex, data)}
-                  />
+                  <DisableColumnOffline value={value} withTime type="date" {...rowAvailable(rowIndex, data)} />
                 )
               };
             case "id":
@@ -70,7 +80,7 @@ export default (allowedColumns, i18n, recordType, css, recordAvailable, online, 
 
                   return (
                     <div className={css.id}>
-                      <DisableColumnOffline value={idValue} rowAvailable={rowAvailable(rowIndex, data)} />
+                      <DisableColumnOffline value={idValue} {...rowAvailable(rowIndex, data)} />
                     </div>
                   );
                 }
@@ -97,8 +107,8 @@ export default (allowedColumns, i18n, recordType, css, recordAvailable, online, 
                   <Tooltip open title="Sort disabled when searching by name fields">
                     <DisableColumnOffline
                       value={value}
-                      rowAvailable={rowAvailable(rowIndex, data)}
                       type={name.includes("date") ? "date" : ""}
+                      {...rowAvailable(rowIndex, data)}
                     />
                   </Tooltip>
                 )
@@ -176,7 +186,7 @@ export default (allowedColumns, i18n, recordType, css, recordAvailable, online, 
                     {flagIcon}
                   </div>
                 }
-                rowAvailable={rowAvailable(rowIndex, data)}
+                {...rowAvailable(rowIndex, data)}
               />
             );
           }

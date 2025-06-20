@@ -6,6 +6,7 @@ import { mapEntriesToRecord } from "../../libs";
 import { ACTIONS } from "../permissions";
 import {
   APPROVALS,
+  CASE_RELATIONSHIPS,
   CHANGE_LOGS,
   IDENTIFICATION_REGISTRATION,
   INCIDENT_FROM_CASE,
@@ -1062,6 +1063,7 @@ describe("<RecordForm /> - Selectors", () => {
           "Approvals from State",
           "Record Owner from State",
           "change_logs.label",
+          "forms.record_types.case_relationships",
           "forms.record_types.referrals",
           "forms.record_types.transfers_assignments"
         ])
@@ -1086,6 +1088,7 @@ describe("<RecordForm /> - Selectors", () => {
       fromJS([
         "change_logs.label",
         "forms.record_types.approvals",
+        "forms.record_types.case_relationships",
         "forms.record_types.record_information",
         "forms.record_types.referrals",
         "forms.record_types.transfers_assignments",
@@ -1108,7 +1111,15 @@ describe("<RecordForm /> - Selectors", () => {
         .sort();
 
       expect(result).toEqual(
-        fromJS([APPROVALS, CHANGE_LOGS, INCIDENT_FROM_CASE, RECORD_OWNER, REFERRAL, TRANSFERS_ASSIGNMENTS])
+        fromJS([
+          APPROVALS,
+          CASE_RELATIONSHIPS,
+          CHANGE_LOGS,
+          INCIDENT_FROM_CASE,
+          RECORD_OWNER,
+          REFERRAL,
+          TRANSFERS_ASSIGNMENTS
+        ])
       );
     });
   });

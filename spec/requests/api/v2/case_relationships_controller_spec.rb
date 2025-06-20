@@ -8,7 +8,7 @@ describe Api::V2::CaseRelationshipsController, type: :request do
   include ActiveJob::TestHelper
 
   before :each do
-    clean_data(Child, CaseRelationship, User, Role, PrimeroModule, UserGroup)
+    clean_data(CaseRelationship, Child, User, Role, PrimeroModule, UserGroup)
 
     @primero_module = PrimeroModule.new(name: 'CP')
     @primero_module.save(validate: false)
@@ -38,21 +38,21 @@ describe Api::V2::CaseRelationshipsController, type: :request do
     @farmer2 = Child.create!(data: { name: 'Test5', age: 5, sex: 'male', owned_by: 'user',
                                      module_id: @primero_module.unique_id })
 
-    @case_relationship1 = CaseRelationship.new_case_relationship(primary_case_id: @case1.id,
-                                                                 related_case_id: @farmer1.id,
-                                                                 relationship_type: 'farmer_on')
-    @case_relationship2 = CaseRelationship.new_case_relationship(primary_case_id: @case3.id,
-                                                                 related_case_id: @farmer1.id,
-                                                                 relationship_type: 'farmer_on')
-    @case_relationship3 = CaseRelationship.new_case_relationship(primary_case_id: @farmer2.id,
-                                                                 related_case_id: @case2.id,
-                                                                 relationship_type: 'farm_for')
-    @case_relationship4 = CaseRelationship.new_case_relationship(primary_case_id: @farmer2.id,
-                                                                 related_case_id: @case4.id,
-                                                                 relationship_type: 'farm_for')
-    @case_relationship5 = CaseRelationship.new_case_relationship(primary_case_id: @farmer2.id,
-                                                                 related_case_id: @case3.id,
-                                                                 relationship_type: 'farm_for')
+    @case_relationship1 = CaseRelationship.new_case_relationship(
+      primary_case_id: @case1.id, related_case_id: @farmer1.id, relationship_type: 'farmer_on'
+    )
+    @case_relationship2 = CaseRelationship.new_case_relationship(
+      primary_case_id: @case3.id, related_case_id: @farmer1.id, relationship_type: 'farmer_on'
+    )
+    @case_relationship3 = CaseRelationship.new_case_relationship(
+      primary_case_id: @farmer2.id, related_case_id: @case2.id, relationship_type: 'farm_for'
+    )
+    @case_relationship4 = CaseRelationship.new_case_relationship(
+      primary_case_id: @farmer2.id, related_case_id: @case4.id, relationship_type: 'farm_for'
+    )
+    @case_relationship5 = CaseRelationship.new_case_relationship(
+      primary_case_id: @farmer2.id, related_case_id: @case3.id, relationship_type: 'farm_for'
+    )
     @case_relationship5.disabled = true
 
     [@case_relationship1, @case_relationship2, @case_relationship3, @case_relationship4,
@@ -68,11 +68,11 @@ describe Api::V2::CaseRelationshipsController, type: :request do
       get "/api/v2/cases/#{@farmer2.id}/case_relationships?relationship_type=farm_for"
 
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(2)
-      expect(json['data'][0]['case_id']).to eq(@case4.id.to_s)
-      expect(json['data'][0]['relationship_type']).to eq('farm_for')
-      expect(json['data'][1]['case_id']).to eq(@case2.id.to_s)
-      expect(json['data'][1]['relationship_type']).to eq('farm_for')
+      expect(json['data'].size).to eq(3)
+      expect(json['data'].map{ |elem| elem['case_id'] }).to match_array(
+        [@case2.id.to_s, @case3.id.to_s, @case4.id.to_s]
+      )
+      expect(json['data'].map{ |elem| elem['relationship_type'] }).to match_array(%w[farm_for farm_for farm_for])
     end
 
     it "get a forbidden message if the user doesn't have case relationship permission" do
@@ -157,6 +157,7 @@ describe Api::V2::CaseRelationshipsController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data']['case_id']).to eq(@farmer2.id.to_s)
       expect(json['data']['relationship_type']).to eq('farmer_on')
+      expect(json['data']['disabled']).to eq(true)
     end
   end
 
@@ -167,6 +168,6 @@ describe Api::V2::CaseRelationshipsController, type: :request do
 
   after do
     clear_enqueued_jobs
-    clean_data(Child, CaseRelationship)
+    clean_data(CaseRelationship, Child)
   end
 end

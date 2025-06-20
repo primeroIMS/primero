@@ -15,8 +15,12 @@ import PageContainer from "../../../page";
 import LoadingIndicator from "../../../loading-indicator";
 import { clearSelectedRecord, fetchRecord, saveRecord, setSelectedRecord } from "../../../records";
 import { RECORD_TYPES, RECORD_TYPES_PLURAL, REFERRAL, RECORD_PATH } from "../../../../config";
-import { getIsProcessingSomeAttachment, getLoadingRecordState } from "../../../records/selectors";
-import { clearRecordAttachments, fetchRecordsAlerts } from "../../../records/action-creators";
+import {
+  getIsProcessingSomeAttachment,
+  getLoadingRecordState,
+  getRecordRelationshipsToSave
+} from "../../../records/selectors";
+import { clearRecordAttachments, clearRecordRelationships, fetchRecordsAlerts } from "../../../records/action-creators";
 import useIncidentFromCase from "../../../records/use-incident-form-case";
 import SaveAndRedirectDialog from "../../../save-and-redirect-dialog";
 import { fetchReferralUsers } from "../../../record-actions/transitions/action-creators";
@@ -92,6 +96,9 @@ function Component({
   const isServicesForm = useMemoizedSelector(state =>
     getIsServicesForm(state, { recordType, primeroModule: selectedModule.primeroModule, formName: selectedForm })
   );
+  const relationshipsToSave = useMemoizedSelector(state =>
+    getRecordRelationshipsToSave(state, RECORD_TYPES_PLURAL.case)
+  );
 
   const handleFormSubmit = e => {
     if (submitForm) {
@@ -152,14 +159,15 @@ function Component({
               saveBeforeIncidentRedirect,
               selectedModule.primeroModule,
               incidentPath,
-              i18n.t("offline_submitted_changes")
+              i18n.t("offline_submitted_changes"),
+              relationshipsToSave
             )
           );
         });
         // TODO: Set this if there are any errors on validations
         // setSubmitting(false);
       },
-      [saveBeforeIncidentRedirect]
+      [saveBeforeIncidentRedirect, relationshipsToSave]
     ),
     bindSubmitForm: boundSubmitForm => {
       submitForm = boundSubmitForm;
@@ -226,6 +234,7 @@ function Component({
 
         if (params.id) {
           dispatch(clearRecordAttachments(params.id, params.recordType));
+          dispatch(clearRecordRelationships(params.id, params.recordType));
         }
       });
     };

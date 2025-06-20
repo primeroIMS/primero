@@ -27,36 +27,41 @@ describe("records - Action Creators", () => {
     });
 
     [
+      "addRecordRelationship",
       "clearCaseFromIncident",
       "clearMatchedTraces",
       "clearMetadata",
       "clearPotentialMatches",
       "clearRecordAttachments",
+      "clearRecordRelationships",
       "clearSelectedCasePotentialMatch",
       "clearSelectedRecord",
       "createCaseFromFamilyDetail",
       "createCaseFromFamilyMember",
+      "deleteAlertFromRecord",
       "externalSync",
       "fetchCasesPotentialMatches",
       "fetchIncidentFromCase",
       "fetchIncidentwitCaseId",
+      "fetchLinkIncidentToCaseData",
       "fetchMatchedTraces",
       "fetchRecord",
+      "fetchRecordRelationships",
       "fetchRecordsAlerts",
+      "fetchRelatedRecords",
       "fetchTracePotentialMatches",
       "fetchTracingRequestTraces",
+      "linkIncidentToCase",
       "markForOffline",
       "offlineIncidentFromCase",
+      "removeRecordRelationship",
       "saveRecord",
       "setCaseIdForIncident",
       "setMachedCaseForTrace",
       "setSelectedCasePotentialMatch",
       "setSelectedPotentialMatch",
       "setSelectedRecord",
-      "unMatchCaseForTrace",
-      "deleteAlertFromRecord",
-      "linkIncidentToCase",
-      "fetchLinkIncidentToCaseData"
+      "unMatchCaseForTrace"
     ].forEach(property => {
       expect(creators).toHaveProperty(property);
       expect(creators[property]).toBeInstanceOf(Function);

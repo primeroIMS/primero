@@ -126,7 +126,9 @@ export const ACTIONS = {
   VIEW_FAMILY_RECORD: "view_family_record",
   LINK_FAMILY_RECORD: "link_family_record",
   REMOVE_ALERT: "remove_alert",
-  PROTECTION_OUTCOMES: "protection_outcomes"
+  PROTECTION_OUTCOMES: "protection_outcomes",
+  UPDATE_CASE_RELATIONSHIPS: "update_case_relationships",
+  VIEW_CASE_RELATIONSHIPS: "view_case_relationships"
 };
 
 export const MANAGE = [ACTIONS.MANAGE];
@@ -385,3 +387,7 @@ export const LINK_FAMILY_RECORD_FROM_CASE = [...MANAGE, ACTIONS.LINK_FAMILY_RECO
 export const VIEW_FAMILY_RECORD_FROM_CASE = [...MANAGE, ACTIONS.VIEW_FAMILY_RECORD];
 
 export const REMOVE_ALERT = [...MANAGE, ACTIONS.REMOVE_ALERT];
+
+export const VIEW_CASE_RELATIONSHIPS = [...MANAGE, ACTIONS.VIEW_CASE_RELATIONSHIPS];
+
+export const UPDATE_CASE_RELATIONSHIPS = [...MANAGE, ACTIONS.UPDATE_CASE_RELATIONSHIPS];

@@ -44,6 +44,7 @@ function Datatable({
   setSelectedRecords,
   showCustomToolbar,
   targetRecordType,
+  translateAsRecordType,
   title,
   customToolbarSelect = null,
   useReportingLocations
@@ -77,7 +78,7 @@ function Datatable({
     RECORD_PATH.tracing_requests,
     RECORD_PATH.registry_records,
     RECORD_PATH.families
-  ].includes(recordType);
+  ].includes(translateAsRecordType || recordType);
 
   const translatedRecords = useTranslatedRecords({
     records,
@@ -86,7 +87,7 @@ function Datatable({
     columnsName,
     validRecordTypes,
     useReportingLocations,
-    recordType
+    recordType: translateAsRecordType || recordType
   });
 
   useEffect(() => {
@@ -290,6 +291,7 @@ Datatable.propTypes = {
   showCustomToolbar: PropTypes.bool,
   targetRecordType: PropTypes.string,
   title: PropTypes.string,
+  translateAsRecordType: PropTypes.string,
   useReportingLocations: PropTypes.bool
 };
 

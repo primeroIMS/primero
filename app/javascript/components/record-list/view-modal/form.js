@@ -7,53 +7,51 @@ import { FieldRecord, FormSectionRecord, OPTION_TYPES, SELECT_FIELD, TEXT_FIELD 
 
 import { COMMON_FIELD_NAMES, OWNABLE_FIELD_NAMES } from "./constants";
 
-const commonFieldsForm = commonFields =>
+const selectedCommonFields = fields => [
+  fields.get(COMMON_FIELD_NAMES.SEX),
+  fields.get(COMMON_FIELD_NAMES.DATE_OF_BIRTH),
+  fields.get(COMMON_FIELD_NAMES.AGE),
+  fields.get(COMMON_FIELD_NAMES.ESTIMATED)
+];
+
+const commonFieldsForm = (commonFields, useRows = true) =>
   commonFields.isEmpty()
     ? []
     : [
         FormSectionRecord({
           unique_id: "common",
-          fields: [
-            {
-              row: compact([
-                commonFields.get(COMMON_FIELD_NAMES.SEX),
-                commonFields.get(COMMON_FIELD_NAMES.DATE_OF_BIRTH),
-                commonFields.get(COMMON_FIELD_NAMES.AGE),
-                commonFields.get(COMMON_FIELD_NAMES.ESTIMATED)
-              ])
-            }
-          ]
+          fields: [useRows ? { row: compact(selectedCommonFields(commonFields)) } : selectedCommonFields]
         })
       ];
 
-export default (i18n, commonFields, miniFormFields) =>
+const ownerFields = ownershipDisplayNames => [
+  FieldRecord({
+    display_name: ownershipDisplayNames[OWNABLE_FIELD_NAMES.OWNED_BY],
+    name: OWNABLE_FIELD_NAMES.OWNED_BY,
+    type: TEXT_FIELD
+  }),
+  FieldRecord({
+    display_name: ownershipDisplayNames[OWNABLE_FIELD_NAMES.OWNED_BY_AGENCY],
+    name: OWNABLE_FIELD_NAMES.OWNED_BY_AGENCY,
+    type: SELECT_FIELD,
+    option_strings_source: OPTION_TYPES.AGENCY,
+    option_strings_source_id_key: "unique_id"
+  })
+];
+
+const commonNameFields = fields => (fields.get(COMMON_FIELD_NAMES.NAME) ? [fields.get(COMMON_FIELD_NAMES.NAME)] : []);
+
+export default ({ ownershipDisplayNames = {}, commonFields, miniFormFields, useRows = true }) =>
   fromJS([
     FormSectionRecord({
       unique_id: "owner_info",
-      fields: [
-        {
-          row: [
-            FieldRecord({
-              display_name: i18n.t("cases.case_worker_code"),
-              name: OWNABLE_FIELD_NAMES.OWNED_BY,
-              type: TEXT_FIELD
-            }),
-            FieldRecord({
-              display_name: i18n.t("cases.agency"),
-              name: OWNABLE_FIELD_NAMES.OWNED_BY_AGENCY,
-              type: SELECT_FIELD,
-              option_strings_source: OPTION_TYPES.AGENCY,
-              option_strings_source_id_key: "unique_id"
-            })
-          ]
-        }
-      ]
+      fields: useRows ? [{ row: ownerFields(ownershipDisplayNames) }] : ownerFields(ownershipDisplayNames)
     }),
     FormSectionRecord({
       unique_id: "full_name",
-      fields: [{ row: [commonFields.get(COMMON_FIELD_NAMES.NAME)] }]
+      fields: useRows ? [{ row: commonNameFields(commonFields) }] : commonNameFields(commonFields)
     }),
-    ...commonFieldsForm(commonFields),
+    ...commonFieldsForm(commonFields, useRows),
     FormSectionRecord({
       unique_id: "mini_form",
       fields: miniFormFields.valueSeq()

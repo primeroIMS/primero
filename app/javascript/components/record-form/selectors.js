@@ -566,6 +566,13 @@ export const getMiniFormFields = (state, recordType, primeroModule, excludeField
 
   return (recordForms || fromJS([]))
     .flatMap(form => form.get("fields"))
+    .reduce((acc, field) => {
+      if (acc.some(current => current.name === field.name)) {
+        return acc;
+      }
+
+      return acc.push(field);
+    }, fromJS([]))
     .filter(
       field =>
         field.show_on_minify_form &&

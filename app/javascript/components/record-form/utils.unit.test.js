@@ -5,6 +5,7 @@ import { fromJS } from "immutable";
 
 import {
   APPROVALS,
+  CASE_RELATIONSHIPS,
   CHANGE_LOGS,
   FAMILY_FROM_CASE,
   INCIDENT_FROM_CASE,
@@ -566,6 +567,7 @@ describe("<RecordForms /> - utils", () => {
         CHANGE_LOGS,
         REGISTRY_FROM_CASE,
         FAMILY_FROM_CASE,
+        CASE_RELATIONSHIPS,
         SUMMARY_INCIDENT_MRM
       ]);
     });

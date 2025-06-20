@@ -12,7 +12,8 @@ import {
   SUMMARY,
   RECORD_TYPES_PLURAL,
   REGISTRY_FROM_CASE,
-  SUMMARY_INCIDENT_MRM
+  SUMMARY_INCIDENT_MRM,
+  CASE_RELATIONSHIPS
 } from "../../../../config";
 import RecordOwner from "../../../record-owner";
 import Approvals from "../../../approvals";
@@ -22,6 +23,7 @@ import Summary from "../../../summary";
 import CaseRegistry from "../../../case-registry";
 import CaseFamily from "../../../case-family";
 import SummaryIncidentMRM from "../../../summary-incident-mrm";
+import CaseRelationships from "../../../case-relationships";
 
 const externalForms =
   ({
@@ -116,6 +118,18 @@ const externalForms =
       ),
       [FAMILY_FROM_CASE]: (
         <CaseFamily
+          values={values}
+          record={record}
+          mode={containerMode}
+          mobileDisplay={mobileDisplay}
+          handleToggleNav={handleToggleNav}
+          primeroModule={primeroModule}
+          recordType={recordType}
+          setFieldValue={setFieldValue}
+        />
+      ),
+      [CASE_RELATIONSHIPS]: (
+        <CaseRelationships
           values={values}
           record={record}
           mode={containerMode}

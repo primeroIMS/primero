@@ -17,7 +17,8 @@ import {
   SUMMARY,
   SUMMARY_INCIDENT_MRM,
   TRANSFERS_ASSIGNMENTS,
-  INCIDENT_TRANSFERS_ASSIGNMENTS
+  INCIDENT_TRANSFERS_ASSIGNMENTS,
+  CASE_RELATIONSHIPS
 } from "../../../../config";
 import generateKey from "../../../charts/table-values/utils";
 import { FormSectionRecord } from "../../records";
@@ -160,6 +161,20 @@ export default (locale, query) => {
       name: { [locale]: "forms.record_types.family_record" },
       order: 3,
       form_group_id: IDENTIFICATION_REGISTRATION,
+      fields: [],
+      order_form_group: 1,
+      is_first_tab: true,
+      core_form: true,
+      i18nName: true,
+      visible: true,
+      parent_form: RECORD_TYPES.cases
+    }),
+    [CASE_RELATIONSHIPS]: FormSectionRecord({
+      id: generateKey(),
+      unique_id: CASE_RELATIONSHIPS,
+      name: { [locale]: "forms.record_types.case_relationships" },
+      order: 4,
+      form_group_id: RECORD_INFORMATION_GROUP,
       fields: [],
       order_form_group: 1,
       is_first_tab: true,

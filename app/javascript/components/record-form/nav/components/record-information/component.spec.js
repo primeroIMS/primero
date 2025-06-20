@@ -42,6 +42,6 @@ describe("<RecordInformation />", () => {
   });
 
   it("renders a NavItem component />", () => {
-    expect(screen.getAllByRole("button")).toHaveLength(7);
+    expect(screen.getAllByRole("button")).toHaveLength(8);
   });
 });

@@ -237,6 +237,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
           { 'owned_by' => { 'from' => nil, 'to' => 'faketest' } },
           { 'short_id' => { 'from' => nil, 'to' => Child.first.short_id } },
           { 'workflow' => { 'from' => nil, 'to' => 'new' } },
+          { 'case_type' => {"from"=>nil, "to"=>"person" } },
           { 'has_photo' => { 'from' => nil, 'to' => false } },
           { 'posted_at' => { 'from' => nil, 'to' => Child.first.posted_at.strftime('%Y-%m-%dT%H:%M:%S.%LZ') } },
           { 'created_at' => { 'from' => nil, 'to' => Child.first.created_at.strftime('%Y-%m-%dT%H:%M:%S.%LZ') } },

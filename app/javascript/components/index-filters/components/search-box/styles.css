@@ -6,6 +6,11 @@
   margin-bottom: 10px;
 }
 
+.searchContainerFullWidth {
+  background-color: var(--c-white);
+  margin-bottom: 10px;
+}
+
 .searchIconButton {
   padding: 6px;
   margin-left: 5px;

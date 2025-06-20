@@ -8,17 +8,23 @@ class CaseRelationship < ApplicationRecord
     'farm_for' => 'farmer_on'
   }.freeze
 
+  RELATIONSHIP_FIELD_MAP = {
+    'farmer_on' => 'from_case_id',
+    'farm_for' => 'to_case_id'
+  }.freeze
+
   validates_presence_of :from_case_id, :to_case_id, :relationship_type
   validate :valid_relationship_type
+  validate :validate_not_linked_to_self
 
   belongs_to :from_case, class_name: 'Child', foreign_key: :from_case_id
   belongs_to :to_case, class_name: 'Child', foreign_key: :to_case_id
 
   scope :list, lambda { |case_id, relationship_type|
-    query_field = RELATIONSHIP_MAP[relationship_type] ? 'to_case_id' : 'from_case_id'
-    where(query_field => case_id)
-      .where(disabled: false, relationship_type: RELATIONSHIP_MAP[relationship_type] || relationship_type)
-      .order(created_at: :desc)
+    where(
+      RELATIONSHIP_FIELD_MAP[relationship_type] => case_id,
+      relationship_type: RELATIONSHIP_MAP[relationship_type] || relationship_type
+    ).order(created_at: :desc)
   }
 
   def valid_relationship_type
@@ -43,5 +49,15 @@ class CaseRelationship < ApplicationRecord
 
   def case_id(child_id)
     child_id == from_case_id ? to_case_id : from_case_id
+  end
+
+  def related_case(child_id)
+    child_id == from_case_id ? to_case : from_case
+  end
+
+  def validate_not_linked_to_self
+    return true if from_case_id != to_case_id
+
+    errors.add(:to_case_id, I18n.t('errors.models.case_relationship.not_linked_to_self'))
   end
 end
