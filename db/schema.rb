@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_05_19_195505) do
+ActiveRecord::Schema.define(version: 2025_06_23_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -529,6 +529,11 @@ ActiveRecord::Schema.define(version: 2025_05_19_195505) do
     t.string "srch_armed_force_group_party_names", default: [], array: true
     t.string "srch_violation_with_verification_status", default: [], array: true
     t.string "srch_assigned_user_names", default: [], array: true
+    t.datetime "srch_incident_date_derived"
+    t.string "srch_gbv_sexual_violence_type"
+    t.string "srch_cp_sexual_violence_type"
+    t.string "srch_owned_by_agency_office"
+    t.string "srch_unaccompanied_separated_status"
     t.index "((data ->> 'incident_id'::text))", name: "incidents_incident_id_unique_idx", unique: true
     t.index "((phonetic_data -> 'tokens'::text))", name: "incidents_phonetic_tokens_idx", using: :gin
     t.index ["data"], name: "index_incidents_on_data", using: :gin
