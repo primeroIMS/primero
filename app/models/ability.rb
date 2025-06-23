@@ -20,6 +20,7 @@ class Ability
     can_read_reports
     can_show_user
     can_edit_user
+    can_read_system_settings
     initialize_permissions(user)
     configure_exports
     baseline_permissions
@@ -221,6 +222,10 @@ class Ability
     can [:read_reports], Report do |report|
       can?(:read, report) || can?(:group_read, report) || can?(:agency_read, report)
     end
+  end
+
+  def can_read_system_settings
+    can :read, SystemSettings
   end
 
   def can_show_user
