@@ -121,4 +121,8 @@ describe("<UsersList />", () => {
       expect(screen.queryByText("users.alerts.total_users_created")).toBeNull();
     });
   });
+
+  it("should render <SearchBox /> component", () => {
+    expect(screen.queryByText("users.filters.search")).toBeInTheDocument();
+  });
 });
