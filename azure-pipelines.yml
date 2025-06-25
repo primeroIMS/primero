@@ -31,7 +31,7 @@ jobs:
         displayName: 'Make required directories and copy files'
       - task: NodeTool@0
         inputs:
-          versionSpec: '22.13.1'
+          versionSpec: '22.15.1'
         displayName: 'Install node'
       - bash: npm config set legacy-peer-deps true && npm ci
         displayName: 'Install npm packages'
