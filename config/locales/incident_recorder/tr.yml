@@ -1,0 +1,78 @@
+tr:
+  permissions:
+    permission:
+      export_incident_recorder_xls: "Olay kaydedici XLS'yi dışa aktar"
+  exports:
+    incident_recorder_xls:
+      all: Olay Kaydedici
+      one: Olay Kaydedici
+      selected: Olay Kaydedici olarak seçildi
+      'yes': "Evet"
+      'no': "Hayır"
+      gender:
+        male: "E"
+        female: "K"
+        both: "E ve K"
+      age_group:
+        age: "Yaş"
+        61_older: "61 ve üstü"
+        unknown: "Bilinmiyor"
+        header: "FAİL ZANLILARININ YAŞ GRUBU"
+      age_type:
+        adult: "Yetişkin"
+        minor: "18 yaş altı"
+        both: "Yetişkin ve 18 yaş altı"
+        unknown: "Bilinmiyor"
+        header: "FAİL ZANLILARININ YAŞ TÜRÜ"
+      service_referral:
+        undecided: "Karar verilmedi"
+      headers:
+        incident_id: "OLAY KİMLİĞİ"
+        survivor_code: "MARUZ KALAN KODU"
+        case_manager_code: "VAKA YÖNETİCİSİ KODU"
+        case_worker_code: "VAKA ÇALIŞANI KODU"
+        date_of_interview: "GÖRÜŞME TARİHİ"
+        date_of_incident: "OLAY TARİHİ"
+        date_of_birth: "DOĞUM TARİHİ"
+        sex: "CİNSİYET"
+        ethnicity: "ETNİK KÖKEN"
+        country_of_origin: "MENŞE ÜLKE"
+        marital_status: "MEDENİ DURUM"
+        displacement_status: "RAPOR ZAMANINDAKİ YERİNDEN EDİLME DURUMU"
+        disability_type: "ENGELLİ BİREY Mİ?"
+        unaccompanied_separated_status: "REFAKATSİZ VEYA AİLESİNDEN AYRI DÜŞMÜŞ BİR ÇOCUK MU?"
+        stage_of_displacement: "OLAY ZAMANINDAKİ YERİNDEN EDİLME DURUMU"
+        time_of_day: "OLAYIN OLDUĞU SAAT"
+        location: "OLAYIN KONUMU"
+        county: "OLAYIN OLDUĞU ÜLKE"
+        district: "OLAYIN OLDUĞU BÖLGE"
+        camp_town: "OLAYIN OLDUĞU KAMP/KASABA"
+        camp: "OLAYIN OLDUĞU KAMP"
+        gbv_type: "TCDŞ TÜRÜ"
+        harmful_traditional_practice: "ZARARLI GELENEKSEL UYGULAMALAR"
+        goods_money_exchanged: "PARA, MAL, FAYDA VE/VEYA HİZMET DEĞİŞİMİ YAPILDI MI?"
+        abduction_type: "KAÇIRILMA TÜRÜ"
+        previously_reported: "BU OLAY DAHA ÖNCE RAPORLANMIŞ MI?"
+        gbv_previous_incidents: "DAHA ÖNCE YAŞANMIŞ TCDŞ OLAYI VAR MI?"
+        number_primary_perpetrators: "Hayır. ASIL FAİL(LER) OLDUĞU İDDİA EDİLEN ZANLILAR"
+        perpetrator:
+          sex: "FAİL ZANLILARIN CİNSİYETİ"
+          former: "BU FAİLİN DÂHİL OLDUĞU ÖNCEKİ BİR OLAY"
+          relationship: "FAİL ZANLISI VE MARUZ KALAN ARASINDAKİ İLİŞKİ"
+          occupation: "FAİL ZANLISININ MESLEĞİ"
+          age_group: "FAİL ZANLISININ YAŞ GRUBU"
+          age_type: "FAİL ZANLILARININ YAŞ TÜRÜ"
+        service:
+          referred_from: "NEREDEN YÖNLENDİRİLDİ?"
+          safehouse_referral: "GÜVENLİ EV/BARINAK"
+          medical_referral: "SAĞLIK HİZMETLERİ/TIBBİ HİZMETLER"
+          psycho_referral: "PSİKOSOSYAL HİZMETLER"
+          wants_legal_action: "HUKUKİ EYLEME GEÇMEK İSTİYOR MU?"
+          legal_referral: "HUKUKİ YARDIM HİZMETLERİ"
+          police_referral: "POLİS/DİĞER GÜVENLİK AKTÖRLERİ"
+          livelihoods_referral: "GEÇİM KAYNAKALRI PROGRAMI"
+          protection_referral: "ÇOCUK KORUMA HİZMETLERİ/EĞİTİM HİZMETLERİ"
+        consent: "ONAM VERİLDİ"
+        agency_code: "RAPORLAYAN KURUM KODU"
+      number_primary_perpetrators:
+        more_than_three: "3'ten fazla"
