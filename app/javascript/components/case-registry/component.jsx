@@ -68,7 +68,7 @@ function Component({ handleToggleNav, mobileDisplay, mode, primeroModule, record
       searchFieldNames={REGISTRY_SEARCH_FIELDS}
       validatedFieldNames={[REGISTRY_NAME, REGISTRY_NO]}
       showHeader={writeReadRegistryRecord}
-      showAddNew={writeRegistryRecord && !registryId && !mode.isShow}
+      addNewProps={{ show: writeRegistryRecord && !registryId && !mode.isShow }}
       showSelectButton={writeRegistryRecord && !mode.isShow}
       permissions={{ writeRegistryRecord, writeReadRegistryRecord }}
       isPermitted={writeRegistryRecord}

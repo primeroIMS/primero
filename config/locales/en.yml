@@ -577,7 +577,9 @@ en:
     sort_by: Sort By
   case_relationships:
     search_for: Search For %{record_type}
-    add_new: Add
+    add_new:
+      label: Add
+      disabled: Please save your Case. You may then edit it and link it to other Cases.
   change_logs:
     filters:
       form: Form
