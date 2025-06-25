@@ -57,17 +57,28 @@ class PermittedUsersService
 
     query_filters = build_query_filters(filters)
     users_query = users_query.joins(:user_groups) if query_filters[:user_groups].present?
+
+    users_query = build_search_query(users_query, filters[:query])
     users_query.where(query_filters)
   end
 
   def build_query_filters(filters)
-    query_filters = filters.compact
+    query_filters = filters.except(:query).compact
     query_filters['disabled'] = query_filters['disabled'].values if query_filters['disabled'].present?
     user_group_ids = query_filters.delete('user_group_ids')
 
     return query_filters if user_group_ids.blank?
 
     query_filters.merge(user_groups: { unique_id: user_group_ids })
+  end
+
+  def build_search_query(users_query, query_filter)
+    return users_query if query_filter.blank?
+
+    users_query.where(
+      'user_name ILIKE :value OR full_name ILIKE :value',
+      value: "%#{ActiveRecord::Base.sanitize_sql_like(query_filter)}%"
+    )
   end
 
   def build_pagination(pagination = nil)

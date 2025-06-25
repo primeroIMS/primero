@@ -396,6 +396,20 @@ describe Api::V2::UsersController, type: :request do
       expect(json['data'][0]['id']).to eq(@user_a.id)
       expect(json['data'][0]['user_name']).to eq(@user_a.user_name)
     end
+
+    it 'Searching by username or full_name' do
+      login_for_test(permissions: @admin_user_permissions, group_permission: Permission::ADMIN_ONLY)
+
+      params = {
+        query: 'Admin'
+      }
+
+      get('/api/v2/users', params:)
+
+      expect(response).to have_http_status(200)
+      expect(json['data'].count).to eq(2)
+      expect(json['data'].map { |uz| uz['id'] }).to match_array([@admin_user_a.id, @admin_user_b.id])
+    end
   end
 
   describe 'GET /api/v2/users/:id' do
