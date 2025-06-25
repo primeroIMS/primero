@@ -11,10 +11,14 @@ import FormSectionField from "../../form/components/form-section-field";
 import { FieldRecord, OPTION_TYPES, SELECT_FIELD } from "../../form";
 import { compactBlank } from "../../record-form/utils";
 
-function Component({ setComponent, setSearchParams }) {
+const CASE_TYPE_FOR_SEARCH = Object.freeze({ person: "farm", farm: "person" });
+
+function Component({ recordCaseType, setComponent, setSearchParams }) {
   const i18n = useI18n();
 
   const methods = useForm({ shouldUnregister: false });
+
+  const caseType = CASE_TYPE_FOR_SEARCH[recordCaseType || "person"];
 
   const primeroModuleField = FieldRecord({
     name: "module_id",
@@ -24,7 +28,7 @@ function Component({ setComponent, setSearchParams }) {
   });
 
   const handleSearch = async data => {
-    await setSearchParams(compactBlank(data));
+    await setSearchParams({ ...compactBlank(data), case_type: caseType });
     setComponent(1);
   };
 
@@ -41,8 +45,8 @@ function Component({ setComponent, setSearchParams }) {
 Component.displayName = "RelationshipSearchForm";
 
 Component.propTypes = {
+  recordCaseType: PropTypes.string.isRequired,
   setComponent: PropTypes.func.isRequired,
-  setDrawerTitle: PropTypes.func.isRequired,
   setSearchParams: PropTypes.func.isRequired
 };
 

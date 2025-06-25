@@ -128,6 +128,7 @@ function Component({ handleToggleNav, mobileDisplay, mode, primeroModule, record
       handleToggleNav={handleToggleNav}
       primeroModule={primeroModule}
       recordType={recordType}
+      recordCaseType={record?.get("case_type")}
       linkedRecordType={linkedRecordType}
       setFieldValue={setFieldValue}
       linkFieldDisplay="case_id_display"

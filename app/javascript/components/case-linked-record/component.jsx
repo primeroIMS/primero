@@ -48,6 +48,7 @@ function Component({
   permissions,
   phoneticFieldNames = [],
   primeroModule,
+  recordCaseType,
   recordType,
   recordViewForms,
   searchFieldNames,
@@ -225,6 +226,7 @@ function Component({
             locale={i18n.locale}
             permissions={permissions}
             phoneticFieldNames={phoneticFieldNames}
+            recordCaseType={recordCaseType}
             redirectIfNotAllowed={redirectIfNotAllowed}
             setComponent={handleSetComponent}
             setSearchParams={handleSetSearchParams}
@@ -306,6 +308,7 @@ Component.propTypes = {
   permissions: PropTypes.object.isRequired,
   phoneticFieldNames: PropTypes.array.isRequired,
   primeroModule: PropTypes.string.isRequired,
+  recordCaseType: PropTypes.string,
   recordType: PropTypes.string.isRequired,
   recordViewForms: PropTypes.array,
   searchFieldNames: PropTypes.array.isRequired,
