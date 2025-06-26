@@ -70,4 +70,16 @@ describe("<AdminFilters /> - pages/admin/components/filters/component", () => {
       expect(selectFilterComponents).toHaveLength(1);
     });
   });
+
+  it("should render <SearchBox /> component", () => {
+    const searchBoxProps = {
+      ...props,
+      showSearchField: true,
+      searchFieldLabel: "This is a label"
+    };
+
+    mountedComponent(<AdminFilters {...searchBoxProps} />);
+
+    expect(screen.queryByText("This is a label")).toBeInTheDocument();
+  });
 });

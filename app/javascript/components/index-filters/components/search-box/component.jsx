@@ -7,6 +7,7 @@ import { IconButton, InputBase, InputAdornment } from "@mui/material";
 import { cx } from "@emotion/css";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
+import isEmpty from "lodash/isEmpty";
 
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import ActionButton from "../../../action-button";
@@ -23,12 +24,12 @@ const FIELD_NAME_QUERY = "query";
 const FIELD_NAME_ID_SEARCH = "id_search";
 const PHONETIC_FIELD_NAME = "phonetic";
 
-function SearchBox({ showSearchButton = true, useFullWidth = false }) {
+function SearchBox({ showSearchButton = true, useFullWidth = false, searchFieldLabel, showSearchNameToggle = true }) {
   const i18n = useI18n();
 
   const { register, unregister, setValue } = useFormContext();
   const watchPhonetic = useWatch({ name: PHONETIC_FIELD_NAME, defaultValue: false });
-  const searchTitle = i18n.t(searchTitleI18nKey(watchPhonetic));
+  const searchTitle = isEmpty(searchFieldLabel) ? i18n.t(searchTitleI18nKey(watchPhonetic)) : searchFieldLabel;
   const [inputValue, setInputValue] = useState();
   const [switchValue, setSwitchValue] = useState();
   const valueRef = useRef();
@@ -112,7 +113,7 @@ function SearchBox({ showSearchButton = true, useFullWidth = false }) {
         />
       </div>
       <div className={css.searchActions}>
-        <SearchNameToggle handleChange={handleSwitchChange} value={switchValue} />
+        {showSearchNameToggle && <SearchNameToggle handleChange={handleSwitchChange} value={switchValue} />}
         {showSearchButton && (
           <ActionButton
             icon={<SearchIcon />}
@@ -130,7 +131,9 @@ function SearchBox({ showSearchButton = true, useFullWidth = false }) {
 SearchBox.displayName = "SearchBox";
 
 SearchBox.propTypes = {
+  searchFieldLabel: PropTypes.string,
   showSearchButton: PropTypes.bool,
+  showSearchNameToggle: PropTypes.bool,
   useFullWidth: PropTypes.bool
 };
 

@@ -131,4 +131,12 @@ describe PermittedUsersService do
 
     expect(users[:users].map(&:user_name)).to match_array(%w[user1 user2 user3 user5 admin_user super_user user4])
   end
+
+  it 'search users by full_name' do
+    users = PermittedUsersService.new(@super_user).find_permitted_users(
+      { query: 'Admin' }, nil, { order_by: 'agency_id' }
+    )
+
+    expect(users[:users].map(&:user_name)).to match_array(%w[admin_user])
+  end
 end

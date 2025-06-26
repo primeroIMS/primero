@@ -12,6 +12,7 @@ import { currentUser } from "../../../user";
 import FilterContainer from "../../../record-list/components/filter-container";
 import Actions from "../../../index-filters/components/actions";
 import { useMemoizedSelector, useThemeHelper } from "../../../../libs";
+import SearchBox from "../../../index-filters/components/search-box";
 
 import { FILTERS_DRAWER, NAME } from "./constants";
 import css from "./styles.css";
@@ -24,7 +25,9 @@ function Component({
   defaultFilters = {},
   initialFilters = {},
   showDrawer = false,
-  noMargin = false
+  noMargin = false,
+  searchFieldLabel,
+  showSearchField = false
 }) {
   const methods = useForm();
 
@@ -94,6 +97,9 @@ function Component({
         <div className={css.filtersContainer} role="form">
           <FormProvider {...methods} user={userName}>
             <form onSubmit={methods.handleSubmit(handleOnSubmit)}>
+              {showSearchField && (
+                <SearchBox showSearchNameToggle={false} searchFieldLabel={searchFieldLabel} useFullWidth={noMargin} />
+              )}
               <Actions handleClear={onClear} />
               {renderFilters()}
             </form>
@@ -115,7 +121,9 @@ Component.propTypes = {
   mobileDisplay: PropTypes.bool,
   noMargin: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,
-  showDrawer: PropTypes.bool
+  searchFieldLabel: PropTypes.string,
+  showDrawer: PropTypes.bool,
+  showSearchField: PropTypes.bool
 };
 
 export default Component;
