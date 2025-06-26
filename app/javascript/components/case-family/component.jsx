@@ -59,7 +59,7 @@ function Component({ handleToggleNav, mobileDisplay, mode, primeroModule, record
       searchFieldNames={[FAMILY_NUMBER, FAMILY_NAME]}
       validatedFieldNames={[FAMILY_NUMBER, FAMILY_NAME]}
       showHeader={viewFamilyRecord || linkFamilyRecord}
-      showAddNew={linkFamilyRecord && !familyId && !mode.isShow}
+      addNewProps={{ show: linkFamilyRecord && !familyId && !mode.isShow }}
       showSelectButton={linkFamilyRecord && !mode.isShow}
       permissions={{ linkFamilyRecord, viewFamilyRecord }}
       isPermitted={linkFamilyRecord || viewFamilyRecord}

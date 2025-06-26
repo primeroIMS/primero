@@ -109,6 +109,15 @@ function Component({ handleToggleNav, mobileDisplay, mode, primeroModule, record
     );
   };
 
+  const addNewProps = {
+    show: updateCaseRelationships && !mode.isShow,
+    disable: mode.isNew,
+    i18nKeys: {
+      label: "case_relationships.add_new.label",
+      disableTooltip: "case_relationships.add_new.disabled"
+    }
+  };
+
   useEffect(() => {
     if ((viewCaseRelationships || updateCaseRelationships) && record?.get("id")) {
       dispatch(
@@ -144,7 +153,7 @@ function Component({ handleToggleNav, mobileDisplay, mode, primeroModule, record
       phoneticFieldNames={LINKED_RECORD_FIELD_NAMES}
       shouldFetchRecord={false}
       drawerTitles={{ search: searchTitle }}
-      i18nKeys={{ addNew: "case_relationships.add_new" }}
+      addNewProps={addNewProps}
       SearchFormComponent={SearchForm}
       recordViewForms={formSections}
       onRecordSelect={onRecordSelect}
