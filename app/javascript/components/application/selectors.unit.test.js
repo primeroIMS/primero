@@ -2,7 +2,7 @@
 
 import { fromJS } from "immutable";
 
-import { RECORD_TYPES, MODULES } from "../../config";
+import { RECORD_TYPES, MODULES, RECORD_TYPES_PLURAL } from "../../config";
 import { GROUP_PERMISSIONS, ACTIONS } from "../permissions";
 import { FieldRecord } from "../form";
 
@@ -671,6 +671,54 @@ describe("Application - Selectors", () => {
 
     it("should return false when there are not users in store", () => {
       const values = selectors.getListHeaders(fromJS({}));
+
+      expect(values.size).toBe(0);
+    });
+  });
+
+  describe("getListHeadersByRecordAndCaseType", () => {
+    const cases = fromJS([
+      { name: "id", field_name: "case_id_display", id_search: false },
+      { name: "name", field_name: "name", id_search: false }
+    ]);
+
+    it("should return list of headers allowed to the user", () => {
+      const values = selectors.getListHeadersByRecordAndCaseType(
+        fromJS({
+          application: {
+            modules: [
+              {
+                unique_id: "module-test-1",
+                options: { case_type: "person" },
+                list_headers: { cases: ["case_id_display", "name"] }
+              },
+              {
+                unique_id: "module-test-2",
+                options: { case_type: "farm" },
+                list_headers: { cases: ["case_id_display"] }
+              }
+            ]
+          },
+          user: {
+            listHeaders: {
+              cases
+            }
+          }
+        }),
+        {
+          caseType: "farm",
+          recordType: RECORD_TYPES_PLURAL.case
+        }
+      );
+
+      expect(values).toEqual(fromJS([{ name: "id", field_name: "case_id_display", id_search: false }]));
+    });
+
+    it("should return false when there are not users in store", () => {
+      const values = selectors.getListHeadersByRecordAndCaseType(fromJS({}), {
+        caseType: "person",
+        recordType: RECORD_TYPES_PLURAL.case
+      });
 
       expect(values.size).toBe(0);
     });
