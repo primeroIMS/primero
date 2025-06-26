@@ -50,6 +50,7 @@ function Component({
   primeroModule,
   recordType,
   recordViewForms,
+  searchCaseType,
   searchFieldNames,
   SearchFormComponent = SearchForm,
   setFieldValue,
@@ -227,6 +228,7 @@ function Component({
             locale={i18n.locale}
             permissions={permissions}
             phoneticFieldNames={phoneticFieldNames}
+            searchCaseType={searchCaseType}
             redirectIfNotAllowed={redirectIfNotAllowed}
             setComponent={handleSetComponent}
             setSearchParams={handleSetSearchParams}
@@ -310,6 +312,7 @@ Component.propTypes = {
   primeroModule: PropTypes.string.isRequired,
   recordType: PropTypes.string.isRequired,
   recordViewForms: PropTypes.array,
+  searchCaseType: PropTypes.string,
   searchFieldNames: PropTypes.array.isRequired,
   SearchFormComponent: PropTypes.object,
   setFieldValue: PropTypes.func.isRequired,

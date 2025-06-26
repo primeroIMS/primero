@@ -303,3 +303,18 @@ export const getListHeaders = (state, namespace) => {
 
   return listHeaders;
 };
+
+export const getListHeadersByRecordAndCaseType = (state, { caseType, recordType, excludes = [] }) => {
+  const listHeaders = state.getIn(["user", "listHeaders", recordType], List([]));
+
+  const caseTypelistHeaders =
+    selectModules(state)
+      .find(primeroModule => primeroModule.getIn(["options", "case_type"], "person") === caseType)
+      ?.getIn(["list_headers", recordType]) || fromJS([]);
+
+  const headers = caseTypelistHeaders
+    ? listHeaders.filter(header => caseTypelistHeaders.includes(header.get("field_name")))
+    : List();
+
+  return headers.filter(header => !excludes.includes(header.get("field_name")));
+};
