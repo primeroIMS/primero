@@ -47,12 +47,13 @@ export const selectAuditLogRecordTypes = state => state.getIn([NAMESPACE, "audit
 
 export const selectLocales = state => state.getIn([NAMESPACE, "primero", "locales"], fromJS([]));
 
-export const selectUserModules = state =>
-  state.getIn([NAMESPACE, "modules"], Map({})).filter(m => {
+export const selectUserModules = state => {
+  return state.getIn([NAMESPACE, "modules"], Map({})).filter(m => {
     const userModules = state.getIn(["user", "modules"], null);
 
     return userModules ? userModules.includes(m.unique_id) : false;
   });
+};
 
 export const selectModule = (state, id, fromUserModule = true) => {
   const moduleState = fromUserModule ? selectUserModules(state) : selectModules(state);
@@ -246,6 +247,8 @@ export const getSiteTitle = state => state.getIn([NAMESPACE, "theme", "siteTitle
 
 export const getThemeLogos = state => state.getIn([NAMESPACE, "theme", "images", "logos"], {});
 
+export const getFieldLabels = state => state.getIn([NAMESPACE, "fieldLabels"], fromJS({}));
+
 export const getAppData = memoize(state => {
   const modules = selectModules(state);
   const userModules = selectUserModules(state);
@@ -260,6 +263,7 @@ export const getAppData = memoize(state => {
   const showPoweredByPrimero = getShowPoweredByPrimero(state);
   const hasLoginLogo = getLoginBackground(state);
   const maximumttachmentsPerRecord = getMaximumAttachmentsPerRecord(state);
+  const fieldLabels = getFieldLabels(state);
 
   return {
     modules,
@@ -274,7 +278,8 @@ export const getAppData = memoize(state => {
     useContainedNavStyle,
     showPoweredByPrimero,
     hasLoginLogo,
-    maximumttachmentsPerRecord
+    maximumttachmentsPerRecord,
+    fieldLabels
   };
 });
 

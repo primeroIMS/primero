@@ -21,6 +21,7 @@ import { buildTableColumns } from "../record-list";
 import useViewModalForms from "../record-list/view-modal/use-view-modal-forms";
 import { getFieldByName } from "../record-form/selectors";
 import { FormSectionRecord } from "../form";
+import useSystemStrings from "../application/use-system-strings";
 
 import SearchForm from "./components/search-form";
 
@@ -34,6 +35,7 @@ const RELATIONSHIP_TYPE_FOR_CASE_TYPE = Object.freeze({ person: "farmer_on", far
 function Component({ handleToggleNav, mobileDisplay, mode, primeroModule, record, recordType, setFieldValue }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
+  const { label } = useSystemStrings("listHeader");
   const linkedRecordType = RECORD_TYPES.cases;
   const [selectedRecord, setSelectedRecord] = useState(null);
   const { updateCaseRelationships, viewCaseRelationships } = usePermissions(RESOURCES.cases, {
@@ -72,7 +74,8 @@ function Component({ handleToggleNav, mobileDisplay, mode, primeroModule, record
     () => true,
     true,
     false,
-    selectableOpts
+    selectableOpts,
+    label
   );
 
   const searchTitle = i18n.t(`${recordType}.search_for`, { record_type: i18n.t("case.label") });
