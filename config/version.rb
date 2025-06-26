@@ -3,5 +3,5 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 class Primero::Application
-  VERSION = '2.12.4'
+  VERSION = '2.12.4.1'
 end
