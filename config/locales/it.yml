@@ -186,10 +186,12 @@ it:
     child_functioning:
       date: "Data"
       age: "Età"
+    clear_filter: Cancella
     export: Esporta
     mark_for_offline:
       title: Contrassegna per offline
     filter_by:
+      3month_inactivity: Non aggiornato da 3+ mesi
       age_range: Fasce di età
       agency: Agenzia
       current_location: Posizione Attuale
@@ -203,17 +205,22 @@ it:
       low: Basso
       male: Maschio
       mobile_label: Contrassegna per offline
+      my_cases: I miei casi
+      no_activity: Nessuna attività registrata
       open: Aperto
       other: Altro
       photo: Foto
       registration_date: Data di registrazione
       sex: Sesso
       social_worker: Campo/Caso/Operatore
+      workflow: Casi per flusso di lavoro
       module_id: Modulo
     full_name: Nome Completo
     label: Casi
     location_current: Posizione
     name: Nome
+    notes_dialog_title: Aggiungi note
+    notes_form_notes: Note
     order_by:
       name: Nome
     photo: Foto
@@ -243,6 +250,7 @@ it:
     info_label: Codice di condotta
   dashboard:
     action_needed:
+      header: Richiesta azione
       new: Nuovo
       cases: Casi
     cases_by_social_worker_total: Totale
@@ -283,8 +291,13 @@ it:
     immediate_response: Risposta immediata
     in_progress: In corso
     name: Nome
+    new_or_updated: Nuovo o Aggiornato
     registration: Data di registrazione
     shared_with_me_new_referrals: Nuovo
+    shared_with_me_total_referrals: Totale
+    shared_with_others_referrals: Totale
+    total: Totale
+    total_cases: Casi Totali
   disabled:
     status:
       disabled: Disabilitato
@@ -462,8 +475,10 @@ it:
     name: Nome
     remove_attachment_confirmation: Sei sicuro di voler rimuovere questo allegato?
     select_multiple: Seleziona tutte le opzioni valide
+    select_single: (Seleziona...)
   filters:
     apply_filters: Applica
+    clear_filters: Cancella
     save_filters: Salva
   flags:
     flags_tab: Contrassegnati
@@ -485,7 +500,9 @@ it:
     form_description: Descrizione
     module: Modulo
     record_type: Tipo di documento
+    select_label: Seleziona
     settings: Impostazioni
+    subform_need_to_be_added: Aggiungere
     conditions:
       field_name: Nome campo
   incidents:
@@ -503,12 +520,14 @@ it:
     name: Nome
   logger:
     actions:
+      add_note: Aggiungi note
       export: Esporta
       login: Accedi
       logout: Disconnettiti
       password_reset: Reset della password
       password_reset_request: Richiesta di reset della password
       user_password_reset_request: Richiesta di reset della password utente
+    add_note: Aggiungi note
     logout: Disconnettiti
     mark_for_mobile:
       'true': Contrassegna per offline
@@ -541,6 +560,7 @@ it:
     enabled_label: Abilitato?
     name: Nome
   managed_reports:
+    total: Totale
     filter_by:
       module_id: Modulo
       agency: Agenzia
@@ -570,6 +590,12 @@ it:
     reporting_locations_report:
       filter_options:
         registration_date: Data di registrazione
+    ghn_report:
+      sub_reports:
+        total: Totale
+    violations:
+      sub_reports:
+        total: Totale
     workflow_report:
       filter_options:
         registration_date: Data di registrazione
@@ -605,8 +631,12 @@ it:
     case_characteristics:
       filter_options:
         registration_date: Data di registrazione
+  usage_report:
+    export:
+      cases_total: Casi Totali
   messages:
     record_list:
+      no_match: Nessun risultato corrispondente
       rows_per_page: Righe per pagina
   navigation:
     bulk_exports: Esporta
@@ -682,10 +712,16 @@ it:
         label: Agenzia
       case:
         actions:
+          add_note:
+            label: Aggiungere nota
           sync_mobile:
             label: Contrassegna per offline
           mark_for_offline:
             label: Contrassegna per offline
+      dashboard:
+        actions:
+          action_needed_new_updated:
+            label: 'Richiesta azione: Nuovo o Aggiornato'
       disabled:
         label: Disabilitato
       module:
@@ -736,6 +772,7 @@ it:
     type_of_referral_required: La tipologia di referral è richiesta
     agency_label: Agenzia
     location_label: Posizione
+    notes_label: Note
   report:
     aggregate_by: Gruppo per riga
     date_ranges:
@@ -802,6 +839,7 @@ it:
   saved_search:
     saved_searches_tab: Ricerca salvata
   saved_searches:
+    no_save_searches: Nessuna ricerca salvata
     save_search: Ricerca salvata
   settings:
     navigation:
@@ -839,8 +877,11 @@ it:
   transfer:
     agency_label: Agenzia
     location_label: Posizione
+    notes_label: Note
+    select_label: Seleziona...
   transition:
     agency_label: Agenzia
+    notes: Note
   user:
     disabled: Disabilitato
     location: Posizione
