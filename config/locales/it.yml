@@ -194,9 +194,10 @@ it:
       3month_inactivity: Non aggiornato da 3+ mesi
       age_range: Fasce di età
       agency: Agenzia
+      by_date: Per Data
       current_location: Posizione Attuale
       date: Data
-      district: Distretto
+      district: Comune
       duplicate: Doppione
       enabled_disabled: Abilitato / Disabilitato
       female: Femmina
@@ -204,6 +205,7 @@ it:
       high: Alto
       low: Basso
       male: Maschio
+      medium: Medio
       mobile_label: Contrassegna per offline
       my_cases: I miei casi
       no_activity: Nessuna attività registrata
@@ -211,6 +213,7 @@ it:
       other: Altro
       photo: Foto
       registration_date: Data di registrazione
+      risk_level: Livello di rischio
       sex: Sesso
       social_worker: Campo/Caso/Operatore
       workflow: Casi per flusso di lavoro
@@ -290,6 +293,8 @@ it:
     high_risk: Alta priorità
     immediate_response: Risposta immediata
     in_progress: In corso
+    low_level: Basso
+    medium_level: Medio
     name: Nome
     new_or_updated: Nuovo o Aggiornato
     registration: Data di registrazione
@@ -479,6 +484,8 @@ it:
   filters:
     apply_filters: Applica
     clear_filters: Cancella
+    less: Vedi meno ...
+    more: Continua…
     save_filters: Salva
   flags:
     flags_tab: Contrassegnati
@@ -503,6 +510,7 @@ it:
     select_label: Seleziona
     settings: Impostazioni
     subform_need_to_be_added: Aggiungere
+    subform_not_found: '%{subform_name} non trovati. '
     conditions:
       field_name: Nome campo
   incidents:
@@ -515,7 +523,7 @@ it:
       apply: 'Applica'
   location:
     base_types:
-      district: Distretto
+      district: Comune
     label: Posizione
     name: Nome
   logger:
@@ -848,6 +856,10 @@ it:
     title: Impostazioni
   task:
     name: Nome
+    priorities:
+      high_level: Alto
+      low_level: Basso
+      medium_level: Medio
   tracing_requests:
     filter_by:
       by_date: Per Data
