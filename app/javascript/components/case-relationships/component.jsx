@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { fromJS } from "immutable";
 
 import { useI18n } from "../i18n";
+import { getListHeadersByRecordAndCaseType } from "../application/selectors";
 import { CASE_RELATIONSHIPS, RECORD_PATH, RECORD_TYPES, RECORD_TYPES_PLURAL } from "../../config";
 import { UPDATE_CASE_RELATIONSHIPS, VIEW_CASE_RELATIONSHIPS, RESOURCES, usePermissions } from "../permissions";
 import CaseLinkedRecord from "../case-linked-record";
@@ -16,7 +17,6 @@ import {
   removeRecordRelationship
 } from "../records";
 import { useMemoizedSelector } from "../../libs";
-import useRecordHeaders from "../record-list/use-record-headers";
 import { buildTableColumns } from "../record-list";
 import useViewModalForms from "../record-list/view-modal/use-view-modal-forms";
 import { getFieldByName } from "../record-form/selectors";
@@ -31,28 +31,36 @@ const LINKED_RECORD_FIELD_NAMES = Object.freeze([
   ["data", "module_id"]
 ]);
 const RELATIONSHIP_TYPE_FOR_CASE_TYPE = Object.freeze({ person: "farmer_on", farm: "farm_for" });
+const CASE_TYPE_FOR_SEARCH = Object.freeze({ person: "farm", farm: "person" });
 
 function Component({ handleToggleNav, mobileDisplay, mode, primeroModule, record, recordType, setFieldValue }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { label } = useSystemStrings("listHeader");
   const linkedRecordType = RECORD_TYPES.cases;
+  const linkedRecordTypePlural = RECORD_TYPES_PLURAL[linkedRecordType];
   const [selectedRecord, setSelectedRecord] = useState(null);
   const { updateCaseRelationships, viewCaseRelationships } = usePermissions(RESOURCES.cases, {
     updateCaseRelationships: UPDATE_CASE_RELATIONSHIPS,
     viewCaseRelationships: VIEW_CASE_RELATIONSHIPS
   });
   const recordRelationships = useMemoizedSelector(state =>
-    getRecordRelationships(state, { recordType: RECORD_TYPES_PLURAL[linkedRecordType] })
+    getRecordRelationships(state, { recordType: linkedRecordTypePlural })
   );
   const caseIdDisplayField = useMemoizedSelector(state =>
     getFieldByName(state, "case_id_display", primeroModule, linkedRecordType)
   );
 
-  const { headers } = useRecordHeaders({
-    recordType: RECORD_TYPES_PLURAL[recordType],
-    excludes: ["complete", "alert_count", "flag_count", "photo"]
-  });
+  const recordCaseType = record?.get("case_type") || "person";
+  const searchCaseType = CASE_TYPE_FOR_SEARCH[recordCaseType];
+
+  const headers = useMemoizedSelector(state =>
+    getListHeadersByRecordAndCaseType(state, {
+      caseType: searchCaseType,
+      recordType: RECORD_TYPES_PLURAL[linkedRecordType],
+      excludes: ["complete", "alert_count", "flag_count", "photo"]
+    })
+  );
 
   const selectableOpts = {
     isRecordSelectable: currentRecord =>
@@ -112,6 +120,15 @@ function Component({ handleToggleNav, mobileDisplay, mode, primeroModule, record
     );
   };
 
+  const addNewProps = {
+    show: updateCaseRelationships && !mode.isShow,
+    disable: mode.isNew,
+    i18nKeys: {
+      label: "case_relationships.add_new.label",
+      disableTooltip: "case_relationships.add_new.disabled"
+    }
+  };
+
   useEffect(() => {
     if ((viewCaseRelationships || updateCaseRelationships) && record?.get("id")) {
       dispatch(
@@ -131,6 +148,7 @@ function Component({ handleToggleNav, mobileDisplay, mode, primeroModule, record
       handleToggleNav={handleToggleNav}
       primeroModule={primeroModule}
       recordType={recordType}
+      searchCaseType={searchCaseType}
       linkedRecordType={linkedRecordType}
       setFieldValue={setFieldValue}
       linkFieldDisplay="case_id_display"
@@ -147,7 +165,7 @@ function Component({ handleToggleNav, mobileDisplay, mode, primeroModule, record
       phoneticFieldNames={LINKED_RECORD_FIELD_NAMES}
       shouldFetchRecord={false}
       drawerTitles={{ search: searchTitle }}
-      i18nKeys={{ addNew: "case_relationships.add_new" }}
+      addNewProps={addNewProps}
       SearchFormComponent={SearchForm}
       recordViewForms={formSections}
       onRecordSelect={onRecordSelect}

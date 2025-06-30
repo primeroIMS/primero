@@ -141,7 +141,7 @@ function Container() {
             <IndexTable title={i18n.t("users.label")} {...tableOptions} showCustomToolbar renderTitleMessage />
           </Grid>
           <Grid item xs={12} sm={4}>
-            <FiltersForm {...filterProps} noMargin />
+            <FiltersForm {...filterProps} noMargin searchFieldLabel={i18n.t("users.filters.search")} showSearchField />
           </Grid>
         </Grid>
       </PageContent>

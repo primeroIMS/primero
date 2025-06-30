@@ -577,7 +577,9 @@ en:
     sort_by: Sort By
   case_relationships:
     search_for: Search For %{record_type}
-    add_new: Add
+    add_new:
+      label: Add
+      disabled: Please save your Case. You may then edit it and link it to other Cases.
   change_logs:
     filters:
       form: Form
@@ -4859,6 +4861,8 @@ en:
       total_users_created: You have created %{total_enabled} out of your implementation's permitted %{maximum_users} enabled Users.
       limit_user_reached: You have reached your limit of %{maximum_users} enabled Users. You must disable one or more Users before creating more.
       limit_user_reached_on_enable: You have reached your limit of %{maximum_users} enabled Users. You must disable one or more Users before creating or enabling more.
+    filters:
+      search: Search by user’s full name or username
   devise:
     failure:
       already_authenticated: "You are already signed in."

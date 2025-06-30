@@ -24,6 +24,7 @@ import Results from "./components/results";
 import ResultDetails from "./components/result-details";
 
 function Component({
+  addNewProps = {},
   caseFormUniqueId,
   columns,
   disableOffline = {},
@@ -31,7 +32,6 @@ function Component({
   formId,
   handleToggleNav,
   headerFieldNames,
-  i18nKeys = {},
   idField = "id",
   isPermitted,
   isRecordSelectable,
@@ -50,11 +50,11 @@ function Component({
   primeroModule,
   recordType,
   recordViewForms,
+  searchCaseType,
   searchFieldNames,
   SearchFormComponent = SearchForm,
   setFieldValue,
   shouldFetchRecord = true,
-  showAddNew = false,
   showHeader,
   showSelectButton,
   validatedFieldNames = []
@@ -182,6 +182,7 @@ function Component({
     : drawerTitles.searchNoForm;
   const resultsTitle = drawerTitles.results || i18n.t(`${recordType}.results`);
   const detailsTitle = drawerTitles.details || formName;
+  const disableAddNewTitle = addNewProps?.i18nKeys?.disableTooltip ? i18n.t(addNewProps.i18nKeys.disableTooltip) : "";
 
   return (
     <>
@@ -190,7 +191,7 @@ function Component({
         <div>
           <h3 className={css.subformTitle}>{subformTitle}</h3>
         </div>
-        {showAddNew && (
+        {addNewProps?.show && (
           <ConditionalWrapper
             condition={disableOffline?.addNew && !online}
             wrapper={DisableOffline}
@@ -198,9 +199,11 @@ function Component({
           >
             <ActionButton
               type={ACTION_BUTTON_TYPES.default}
-              text={i18nKeys?.addNew || "case.add_new"}
+              text={addNewProps?.i18nKeys?.label || "case.add_new"}
               rest={{ onClick: handleAddNew }}
               icon={<AddIcon />}
+              disabled={addNewProps?.disable}
+              tooltip={addNewProps?.disable && disableAddNewTitle}
             />
           </ConditionalWrapper>
         )}
@@ -225,6 +228,7 @@ function Component({
             locale={i18n.locale}
             permissions={permissions}
             phoneticFieldNames={phoneticFieldNames}
+            searchCaseType={searchCaseType}
             redirectIfNotAllowed={redirectIfNotAllowed}
             setComponent={handleSetComponent}
             setSearchParams={handleSetSearchParams}
@@ -282,6 +286,7 @@ function Component({
 Component.displayName = "CaseLinkedRecord";
 
 Component.propTypes = {
+  addNewProps: PropTypes.object.isRequired,
   caseFormUniqueId: PropTypes.string.isRequired,
   columns: PropTypes.array,
   disableOffline: PropTypes.object,
@@ -289,7 +294,6 @@ Component.propTypes = {
   formId: PropTypes.string.isRequired,
   handleToggleNav: PropTypes.func.isRequired,
   headerFieldNames: PropTypes.array.isRequired,
-  i18nKeys: PropTypes.object,
   idField: PropTypes.string,
   isPermitted: PropTypes.bool.isRequired,
   isRecordSelectable: PropTypes.func,
@@ -308,11 +312,11 @@ Component.propTypes = {
   primeroModule: PropTypes.string.isRequired,
   recordType: PropTypes.string.isRequired,
   recordViewForms: PropTypes.array,
+  searchCaseType: PropTypes.string,
   searchFieldNames: PropTypes.array.isRequired,
   SearchFormComponent: PropTypes.object,
   setFieldValue: PropTypes.func.isRequired,
   shouldFetchRecord: PropTypes.bool.isRequired,
-  showAddNew: PropTypes.bool.isRequired,
   showHeader: PropTypes.bool.isRequired,
   showSelectButton: PropTypes.bool.isRequired,
   validatedFieldNames: PropTypes.array.isRequired
