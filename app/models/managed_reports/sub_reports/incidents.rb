@@ -58,5 +58,30 @@ class ManagedReports::SubReports::Incidents < ManagedReports::SubReport
       ManagedReports::Indicators::PerpetratorOccupation.id => 'lookup-perpetrator-occupation'
     }.freeze
   end
+
+  def indicators_rows
+    services_provided_rows = %w[
+      service_safehouse_referral service_medical_referral service_psycho_referral service_legal_referral
+      service_police_referral service_livelihoods_referral service_protection_referral
+    ].map { |id| { id:, display_text: row_display_texts(id) } }
+
+    age_ranges = AgeRangeService.primary_age_ranges(params['module_id']&.value).map do |age_range|
+      { 'id' => age_range.to_s, 'display_text' => age_range.to_s }
+    end
+
+    {
+      ManagedReports::Indicators::SurvivorsNumberOfServicesProvided.id => services_provided_rows,
+      ManagedReports::Indicators::SurvivorsNumberOfServicesProvidedOther.id => services_provided_rows,
+      ManagedReports::Indicators::SurvivorsAge.id => age_ranges
+    }
+  end
   # rubocop:enable Metrics/MethodLength
+
+  private
+
+  def row_display_texts(id)
+    I18n.available_locales.each_with_object({}) do |locale, memo|
+      memo[locale] = I18n.t("managed_reports.gbv_statistics.sub_reports.#{id}", locale:)
+    end
+  end
 end

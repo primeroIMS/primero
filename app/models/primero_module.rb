@@ -124,9 +124,8 @@ class PrimeroModule < ApplicationRecord
     all.pluck(:unique_id)
   end
 
-  def self.age_ranges(module_id)
-    ranges = find_by(unique_id: module_id)&.age_ranges
-    return [] unless ranges.present?
+  def generate_age_ranges
+    return [] unless age_ranges.present?
 
     ranges&.map do |age_range|
       min, max = age_range.split('..').map(&:to_i)
