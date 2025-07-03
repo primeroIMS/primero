@@ -84,6 +84,8 @@ const stateWithRecords = fromJS({
         }
       }
     ],
+    exactSearchFields: { cases: ["long_id", "short_id", "case_id"] },
+    phoneticSearchFields: { cases: ["name", "name_other"] },
     reportingLocationConfig: {
       field_key: "owned_by_location",
       admin_level: 2,
@@ -721,6 +723,24 @@ describe("Application - Selectors", () => {
       });
 
       expect(values.size).toBe(0);
+    });
+  });
+
+  describe("getExactSearchFields", () => {
+    it("should return exact search fields", () => {
+      const expected = fromJS({ cases: ["long_id", "short_id", "case_id"] });
+      const result = selectors.getExactSearchFields(stateWithRecords);
+
+      expect(result).toEqual(expected);
+    });
+  });
+
+  describe("getPhoneticSearchFields", () => {
+    it("should return exact search fields", () => {
+      const expected = fromJS({ cases: ["name", "name_other"] });
+      const result = selectors.getPhoneticSearchFields(stateWithRecords);
+
+      expect(result).toEqual(expected);
     });
   });
 });

@@ -318,3 +318,7 @@ export const getListHeadersByRecordAndCaseType = (state, { caseType, recordType,
 
   return headers.filter(header => !excludes.includes(header.get("field_name")));
 };
+
+export const getExactSearchFields = state => state.getIn([NAMESPACE, "exactSearchFields"], fromJS({}));
+
+export const getPhoneticSearchFields = state => state.getIn([NAMESPACE, "phoneticSearchFields"], fromJS({}));
