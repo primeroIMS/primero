@@ -5,10 +5,6 @@ import { mountedFormComponent, screen } from "../../../../test-utils";
 import SearchBox from "./component";
 
 describe("<SearchBox /> index-filters/components/toogle-tooltip", () => {
-  const props = {
-    isPhonetic: true
-  };
-
   it("when isPhonetic", () => {
     mountedFormComponent(<SearchBox isPhonetic searchFieldTooltips={["sample1", "sample2"]} />, {
       includeFormProvider: true

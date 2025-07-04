@@ -157,7 +157,7 @@ describe("<IndexFilters /> - Selectors", () => {
     it("when recordType is empty should return empty", () => {
       const records = getTooltipFields(state, "", false);
 
-      expect(records.length).toBe(0);
+      expect(records).toBeNull();
     });
   });
 });
