@@ -25,7 +25,7 @@ describe("<IndexFilters>/utils - buildNameFilter", () => {
           en: "Name (from SYS Settings)"
         },
 
-        risk_level: {
+        "dashboard.case_risk": {
           en: "Risk Level (from SYS Settings)"
         }
       })

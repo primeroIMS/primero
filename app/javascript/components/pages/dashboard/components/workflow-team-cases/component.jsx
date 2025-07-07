@@ -10,11 +10,13 @@ import { selectUserModules } from "../../../../application";
 import { useMemoizedSelector } from "../../../../../libs";
 import { getAllWorkflowLabels } from "../../../../application/selectors";
 import { DASHBOARD_GROUP } from "../../constants";
+import useSystemStrings, { DASHBOARD } from "../../../../application/use-system-strings";
 
 import { NAME } from "./constants";
 
 function Component() {
   const i18n = useI18n();
+  const { label } = useSystemStrings(DASHBOARD);
   const loading = useMemoizedSelector(state => getIsDashboardGroupLoading(state, DASHBOARD_GROUP.workflow_team));
   const userModules = useMemoizedSelector(state => selectUserModules(state));
   const workflowLabels = useMemoizedSelector(state => getAllWorkflowLabels(state, RECORD_TYPES.cases));
@@ -23,7 +25,7 @@ function Component() {
   return userModules.map(userModule => {
     const title =
       userModules.size === 1
-        ? i18n.t("dashboard.workflow_team")
+        ? label("dashboard.workflow_team")
         : i18n.t("dashboard.workflow_team_module", { module_name: userModule.name });
     const labels = workflowLabels.filter(moduleWorkflow => moduleWorkflow?.[2] === userModule.unique_id)?.[0];
 

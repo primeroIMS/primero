@@ -17,6 +17,7 @@ import { getOptionFromAppModule } from "../application/selectors";
 import { SEARCH_OR_CREATE_FILTERS } from "../record-list/constants";
 import { applyFilters } from "../index-filters";
 import { setRedirectedToCreateNewRecord } from "../record-form/action-creators";
+import useSystemStrings, { PAGE } from "../application/use-system-strings";
 
 import { ConsentPrompt, SearchPrompt } from "./components";
 import { NAME, DATA_PROTECTION_FIELDS } from "./constants";
@@ -25,6 +26,7 @@ import css from "./styles.css";
 function Component({ open, onClose, recordType, primeroModule }) {
   const i18n = useI18n();
 
+  const { label } = useSystemStrings(PAGE);
   const dispatch = useDispatch();
   const [openConsentPrompt, setOpenConsentPrompt] = useState(false);
   const [searchValue, setSearchValue] = useState("");
@@ -89,7 +91,7 @@ function Component({ open, onClose, recordType, primeroModule }) {
     <Drawer anchor="right" open={open} onClose={handleCloseDrawer} classes={{ paper: css.subformDrawer }}>
       <div className={css.container}>
         <div className={css.title}>
-          <h2>{i18n.t("case.create_new_case")}</h2>
+          <h2>{label("case.create_new_case")}</h2>
           <ActionButton
             icon={<CloseIcon />}
             text="cancel"

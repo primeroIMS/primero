@@ -11,7 +11,7 @@ import { useI18n } from "../../i18n";
 import buildNameFilter from "../utils/build-name-filter";
 import { useApp } from "../../application";
 import { useThemeHelper } from "../../../libs";
-import useSystemStrings from "../../application/use-system-strings";
+import useSystemStrings, { FILTER } from "../../application/use-system-strings";
 
 import css from "./styles.css";
 
@@ -23,7 +23,7 @@ function Panel({ filter, getValues, selectedDefaultValueField, handleReset, more
   const i18n = useI18n();
   const { approvalsLabels } = useApp();
   const [open, setOpen] = useState(false);
-  const { label } = useSystemStrings("filter");
+  const { label } = useSystemStrings(FILTER);
   const handleChange = () => {
     setOpen(!open);
   };
