@@ -13,28 +13,24 @@ class ManagedReports::Indicators::PerpetratorOccupation < ManagedReports::SqlRep
     def sql(current_user, params = {})
       date_param = filter_date(params)
       %{
-        select
-          alleged_perpetrator.perpetrator_occupation as id,
-          #{grouped_date_query(params['grouped_by'], date_param)&.concat(' as group_id,')}
-          count(*) as total
-        from incidents,
-        jsonb_to_recordset(data #> '{alleged_perpetrator}') as alleged_perpetrator(
-          age_group text,
-          unique_id text,
-          primary_perpetrator text,
-          perpetrator_sex text,
-          former_perpetrator boolean,
-          perpetrator_ethnicity text,
-          perpetrator_occupation text,
-          perpetrator_nationality text,
-          perpetrator_relationship text
-        )
-        where data ->> 'alleged_perpetrator' is not null
-        and alleged_perpetrator.primary_perpetrator = 'primary'
-        #{date_range_query(date_param)&.prepend('and ')}
-        #{equal_value_query(params['module_id'])&.prepend('and ')}
-        #{user_scope_query(current_user)&.prepend('and ')}
-        group by alleged_perpetrator.perpetrator_occupation
+        SELECT
+          alleged_perpetrators.perpetrator_occupation AS id,
+          #{grouped_date_query(params['grouped_by'], date_param)&.concat(' AS group_id,')}
+          COUNT(*) AS total
+        FROM incidents
+        CROSS JOIN LATERAL(
+          SELECT
+            perpetrators->>'perpetrator_occupation' AS perpetrator_occupation
+          FROM JSONB_ARRAY_ELEMENTS(data->'alleged_perpetrator') AS perpetrators
+          WHERE perpetrators->>'primary_perpetrator' = 'primary'
+        ) AS alleged_perpetrators
+        WHERE data @? '$[*] ? (@.consent_reporting  == "true") ? (
+          !exists(@.gbv_reported_elsewhere) || @.gbv_reported_elsewhere != "gbvims-org"
+        )'
+        #{date_range_query(date_param)&.prepend('AND ')}
+        #{equal_value_query(params['module_id'])&.prepend('AND ')}
+        #{user_scope_query(current_user)&.prepend('AND ')}
+        GROUP BY alleged_perpetrators.perpetrator_occupation
         #{grouped_date_query(params['grouped_by'], date_param)&.prepend(', ')}
       }
     end
