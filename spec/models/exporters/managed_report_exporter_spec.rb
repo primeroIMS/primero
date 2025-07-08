@@ -153,6 +153,7 @@ describe Exporters::ManagedReportExporter do
         incident_timeofday: 'morning',
         incident_location_type: 'forest',
         age: 3,
+        consent_reporting: 'true',
         service_referred_from: 'unknown',
         alleged_perpetrator: [
           {
@@ -176,6 +177,7 @@ describe Exporters::ManagedReportExporter do
         incident_location_type: 'garden',
         goods_money_exchanged: true,
         age: 7,
+        consent_reporting: 'true',
         alleged_perpetrator: [
           {
             primary_perpetrator: 'primary',
@@ -197,10 +199,11 @@ describe Exporters::ManagedReportExporter do
         gbv_sexual_violence_type: 'rape',
         incident_date: Date.today,
         module_id: 'primeromodule-gbv',
-        gbv_previous_incidents: true,
+        gbv_previous_incidents: 'true',
         incident_timeofday: 'afternoon',
         incident_location_type: 'school',
         age: 2,
+        consent_reporting: 'true',
         health_medical_referral_subform_section: [{ unique_id: '001', service_medical_referral: 'referred' }],
         alleged_perpetrator: [
           {
@@ -1098,10 +1101,18 @@ describe Exporters::ManagedReportExporter do
             ].map(&:with_indifferent_access)
           )
 
-          incident1 = Incident.create!(data: { incident_date: Date.new(2022, 5, 8), status: 'open' })
-          incident2 = Incident.create!(data: { incident_date: Date.new(2022, 2, 8), status: 'open' })
-          incident3 = Incident.create!(data: { incident_date: Date.new(2022, 3, 18), status: 'open' })
-          incident4 = Incident.create!(data: { incident_date: Date.new(2022, 4, 28), status: 'open' })
+          incident1 = Incident.create!(
+            data: { incident_date: Date.new(2022, 5, 8), status: 'open', consent_reporting: 'true' }
+          )
+          incident2 = Incident.create!(
+            data: { incident_date: Date.new(2022, 2, 8), status: 'open', consent_reporting: 'true' }
+          )
+          incident3 = Incident.create!(
+            data: { incident_date: Date.new(2022, 3, 18), status: 'open', consent_reporting: 'true' }
+          )
+          incident4 = Incident.create!(
+            data: { incident_date: Date.new(2022, 4, 28), status: 'open', consent_reporting: 'true' }
+          )
 
           violation1 = Violation.create!(
             data: {

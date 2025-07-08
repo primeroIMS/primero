@@ -121,7 +121,8 @@ describe ManagedReports::Indicators::SurvivorsVulnerablePopulations do
       {
         disability_type: 'true',
         unaccompanied_separated_status: 'separated_child',
-        incident_date: Date.new(2020, 8, 12)
+        incident_date: Date.new(2020, 8, 12),
+        consent_reporting: 'true'
       }
     ).save!
     Incident.new_with_user(
@@ -129,7 +130,8 @@ describe ManagedReports::Indicators::SurvivorsVulnerablePopulations do
       {
         disability_type: 'true',
         unaccompanied_separated_status: 'separated_child',
-        incident_date: Date.new(2020, 9, 12)
+        incident_date: Date.new(2020, 9, 12),
+        consent_reporting: 'true'
       }
     ).save!
     Incident.new_with_user(
@@ -137,14 +139,16 @@ describe ManagedReports::Indicators::SurvivorsVulnerablePopulations do
       {
         disability_type: 'true',
         unaccompanied_separated_status: 'unaccompanied_minor',
-        incident_date: Date.new(2021, 1, 12)
+        incident_date: Date.new(2021, 1, 12),
+        consent_reporting: 'true'
       }
     ).save!
     Incident.new_with_user(
       all_user,
       {
         unaccompanied_separated_status: 'other_vulnerable_child',
-        incident_date: Date.new(2021, 2, 12)
+        incident_date: Date.new(2021, 2, 12),
+        consent_reporting: 'true'
       }
     ).save!
     Incident.new_with_user(
@@ -152,14 +156,16 @@ describe ManagedReports::Indicators::SurvivorsVulnerablePopulations do
       {
         disability_type: 'true',
         unaccompanied_separated_status: 'other_vulnerable_child',
-        incident_date: Date.new(2021, 3, 12)
+        incident_date: Date.new(2021, 3, 12),
+        consent_reporting: 'true'
       }
     ).save!
     Incident.new_with_user(
       all_user,
       {
         unaccompanied_separated_status: 'no',
-        incident_date: Date.new(2021, 3, 10)
+        incident_date: Date.new(2021, 3, 10),
+        consent_reporting: 'true'
       }
     ).save!
   end

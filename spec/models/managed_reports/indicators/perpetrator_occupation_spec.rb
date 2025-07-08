@@ -104,6 +104,7 @@ describe ManagedReports::Indicators::PerpetratorOccupation do
     Incident.new_with_user(
       @self_user,
       incident_date: Date.new(2020, 8, 12),
+      consent_reporting: 'true',
       alleged_perpetrator: [
         { 'perpetrator_occupation' => 'occupation_1', 'primary_perpetrator' => 'primary' },
         { 'perpetrator_occupation' => 'occupation_2', 'primary_perpetrator' => 'primary' }
@@ -112,6 +113,7 @@ describe ManagedReports::Indicators::PerpetratorOccupation do
     Incident.new_with_user(
       @group_user,
       incident_date: Date.new(2020, 9, 12),
+      consent_reporting: 'true',
       alleged_perpetrator: [
         { 'perpetrator_occupation' => 'occupation_2', 'primary_perpetrator' => 'primary' }
       ]
@@ -119,6 +121,7 @@ describe ManagedReports::Indicators::PerpetratorOccupation do
     Incident.new_with_user(
       @agency_user,
       incident_date: Date.new(2021, 1, 12),
+      consent_reporting: 'true',
       alleged_perpetrator: [
         { 'perpetrator_occupation' => 'occupation_3', 'primary_perpetrator' => 'primary' }
       ]
@@ -126,6 +129,7 @@ describe ManagedReports::Indicators::PerpetratorOccupation do
     Incident.new_with_user(
       @all_user,
       incident_date: Date.new(2021, 2, 12),
+      consent_reporting: 'true',
       alleged_perpetrator: [
         { 'perpetrator_occupation' => 'occupation_4', 'primary_perpetrator' => 'primary' },
         { 'perpetrator_occupation' => 'occupation_4', 'primary_perpetrator' => 'primary' },

@@ -103,23 +103,23 @@ describe ManagedReports::Indicators::GBVSexualViolenceType do
 
     Incident.new_with_user(
       @self_user,
-      { incident_date: Date.new(2020, 8, 12), gbv_sexual_violence_type: 'rape' }
+      { incident_date: Date.new(2020, 8, 12), gbv_sexual_violence_type: 'rape', consent_reporting: 'true' }
     ).save!
     Incident.new_with_user(
       @group_user,
-      { incident_date: Date.new(2021, 9, 8), gbv_sexual_violence_type: 'sexual_assault' }
+      { incident_date: Date.new(2021, 9, 8), gbv_sexual_violence_type: 'sexual_assault', consent_reporting: 'true' }
     ).save!
     Incident.new_with_user(
       @agency_user,
-      { incident_date: Date.new(2021, 9, 10), gbv_sexual_violence_type: 'physical_assault' }
+      { incident_date: Date.new(2021, 9, 10), gbv_sexual_violence_type: 'physical_assault', consent_reporting: 'true' }
     ).save!
     Incident.new_with_user(
       @all_user,
-      { incident_date: Date.new(2020, 9, 12), gbv_sexual_violence_type: 'rape' }
+      { incident_date: Date.new(2020, 9, 12), gbv_sexual_violence_type: 'rape', consent_reporting: 'true' }
     ).save!
     Incident.new_with_user(
       @all_user,
-      { incident_date: Date.new(2022, 10, 8), gbv_sexual_violence_type: 'physical_assault' }
+      { incident_date: Date.new(2022, 10, 8), gbv_sexual_violence_type: 'physical_assault', consent_reporting: 'true' }
     ).save!
   end
 

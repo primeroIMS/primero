@@ -103,19 +103,19 @@ describe ManagedReports::Indicators::TotalIncidents do
 
     Incident.new_with_user(
       @self_user,
-      incident_date: Date.new(2021, 8, 12), date_of_first_report: Date.new(2020, 8, 10)
+      incident_date: Date.new(2021, 8, 12), date_of_first_report: Date.new(2020, 8, 10), consent_reporting: 'true'
     ).save!
     Incident.new_with_user(
       @group_user,
-      incident_date: Date.new(2021, 9, 8), date_of_first_report: Date.new(2020, 9, 8)
+      incident_date: Date.new(2021, 9, 8), date_of_first_report: Date.new(2020, 9, 8), consent_reporting: 'true'
     ).save!
     Incident.new_with_user(
       @agency_user,
-      incident_date: Date.new(2020, 10, 10), date_of_first_report: Date.new(2020, 10, 5)
+      incident_date: Date.new(2020, 10, 10), date_of_first_report: Date.new(2020, 10, 5), consent_reporting: 'true'
     ).save!
     Incident.new_with_user(
       @all_user,
-      incident_date: Date.new(2020, 10, 10), date_of_first_report: Date.new(2020, 10, 8)
+      incident_date: Date.new(2020, 10, 10), date_of_first_report: Date.new(2020, 10, 8), consent_reporting: 'true'
     ).save!
   end
 

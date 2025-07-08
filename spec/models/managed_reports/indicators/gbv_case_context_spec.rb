@@ -107,6 +107,7 @@ describe ManagedReports::Indicators::GBVCaseContext do
         incident_date: Date.new(2020, 8, 12),
         age: 5,
         gbv_sexual_violence_type: GenderBasedViolence::RAPE,
+        consent_reporting: 'true',
         alleged_perpetrator: [
           { unique_id: '0001', perpetrator_relationship: GenderBasedViolence::INTIMATE_PARTNER_FORMER_PARTNER }
         ]
@@ -118,6 +119,7 @@ describe ManagedReports::Indicators::GBVCaseContext do
         incident_date: Date.new(2021, 9, 8),
         age: 2,
         goods_money_exchanged: true,
+        consent_reporting: 'true',
         gbv_sexual_violence_type: GenderBasedViolence::SEXUAL_ASSAULT
       }
     ).save!
@@ -126,6 +128,7 @@ describe ManagedReports::Indicators::GBVCaseContext do
       {
         incident_date: Date.new(2021, 9, 10),
         age: 8,
+        consent_reporting: 'true',
         gbv_sexual_violence_type: GenderBasedViolence::FORCED_MARRIAGE
       }
     ).save!
@@ -135,6 +138,7 @@ describe ManagedReports::Indicators::GBVCaseContext do
         incident_date: Date.new(2020, 9, 12),
         age: 8,
         abduction_status_time_of_incident: 'status_1',
+        consent_reporting: 'true',
         gbv_sexual_violence_type: GenderBasedViolence::RAPE
       }
     ).save!
@@ -145,6 +149,7 @@ describe ManagedReports::Indicators::GBVCaseContext do
         age: 8,
         abduction_status_time_of_incident: 'status_1',
         gbv_sexual_violence_type: GenderBasedViolence::RAPE,
+        consent_reporting: 'true',
         harmful_traditional_practice: 'practice_1'
       }
     ).save!

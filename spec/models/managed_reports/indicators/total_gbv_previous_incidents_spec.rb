@@ -103,19 +103,19 @@ describe ManagedReports::Indicators::TotalGBVPreviousIncidents do
 
     Incident.new_with_user(
       @self_user,
-      { incident_date: Date.new(2021, 8, 9), gbv_previous_incidents: true }
+      { incident_date: Date.new(2021, 8, 9), gbv_previous_incidents: 'true', consent_reporting: 'true' }
     ).save!
     Incident.new_with_user(
       @group_user,
-      { incident_date: Date.new(2021, 8, 12), gbv_previous_incidents: true }
+      { incident_date: Date.new(2021, 8, 12), gbv_previous_incidents: 'true', consent_reporting: 'true' }
     ).save!
     Incident.new_with_user(
       @agency_user,
-      { incident_date: Date.new(2020, 9, 8), gbv_previous_incidents: true }
+      { incident_date: Date.new(2020, 9, 8), gbv_previous_incidents: 'true', consent_reporting: 'true' }
     ).save!
     Incident.new_with_user(
       @all_user,
-      { incident_date: Date.new(2020, 10, 10) }
+      { incident_date: Date.new(2020, 10, 10), consent_reporting: 'true' }
     ).save!
   end
 

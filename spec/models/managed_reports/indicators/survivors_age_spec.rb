@@ -118,11 +118,21 @@ describe ManagedReports::Indicators::SurvivorsAge do
 
     SystemSettings.stub(:primary_age_ranges).and_return([0..5, 6..11, 12..17, 18..AgeRange::MAX])
 
-    Incident.new_with_user(self_user, { age: 2, incident_date: Date.new(2020, 8, 12) }).save!
-    Incident.new_with_user(group_user, { age: 11, incident_date: Date.new(2020, 9, 12) }).save!
-    Incident.new_with_user(agency_user, { age: 15, incident_date: Date.new(2021, 1, 12) }).save!
-    Incident.new_with_user(all_user, { age: 19, incident_date: Date.new(2021, 2, 12) }).save!
-    Incident.new_with_user(all_user, { age: 19, incident_date: Date.new(2021, 3, 12) }).save!
+    Incident.new_with_user(
+      self_user, { age: 2, incident_date: Date.new(2020, 8, 12), consent_reporting: 'true' }
+    ).save!
+    Incident.new_with_user(
+      group_user, { age: 11, incident_date: Date.new(2020, 9, 12), consent_reporting: 'true' }
+    ).save!
+    Incident.new_with_user(
+      agency_user, { age: 15, incident_date: Date.new(2021, 1, 12), consent_reporting: 'true' }
+    ).save!
+    Incident.new_with_user(
+      all_user, { age: 19, incident_date: Date.new(2021, 2, 12), consent_reporting: 'true' }
+    ).save!
+    Incident.new_with_user(
+      all_user, { age: 19, incident_date: Date.new(2021, 3, 12), consent_reporting: 'true' }
+    ).save!
   end
 
   it 'returns data for the survivors age indicator' do

@@ -103,19 +103,19 @@ describe ManagedReports::Indicators::IncidentsFirstPointOfContact do
 
     Incident.new_with_user(
       @self_user,
-      incident_date: Date.new(2021, 8, 12), service_referred_from: 'self_referral'
+      incident_date: Date.new(2021, 8, 12), service_referred_from: 'self_referral', consent_reporting: 'true'
     ).save!
     Incident.new_with_user(
       @group_user,
-      incident_date: Date.new(2021, 9, 8), service_referred_from: 'self_referral'
+      incident_date: Date.new(2021, 9, 8), service_referred_from: 'self_referral', consent_reporting: 'true'
     ).save!
     Incident.new_with_user(
       @agency_user,
-      incident_date: Date.new(2020, 10, 10), service_referred_from: 'self_referral'
+      incident_date: Date.new(2020, 10, 10), service_referred_from: 'self_referral', consent_reporting: 'true'
     ).save!
     Incident.new_with_user(
       @all_user,
-      incident_date: Date.new(2020, 10, 10)
+      incident_date: Date.new(2020, 10, 10), consent_reporting: 'true'
     ).save!
   end
 
