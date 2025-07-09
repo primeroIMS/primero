@@ -15,36 +15,41 @@ class ManagedReports::Indicators::SurvivorsVulnerablePopulations < ManagedReport
     # rubocop:disable Metrics/PerceivedComplexity
     def sql(current_user, params = {})
       date_param = filter_date(params)
+      grouped_query = grouped_date_query(params['grouped_by'], date_param)
+      group_column = grouped_query.present? ? 'group_id' : nil
       %{
+        WITH filtered_incidents AS (
+          SELECT
+            id,
+            #{grouped_query&.dup&.concat(' AS group_id,')}
+            data
+          FROM incidents
+          WHERE data @? '$[*] ? (@.consent_reporting  == "true")'
+          #{date_range_query(date_param)&.prepend('AND ')}
+          #{equal_value_query(params['module_id'])&.prepend('AND ')}
+          #{user_scope_query(current_user)&.prepend('AND ')}
+        )
         SELECT
           *
         FROM (
           SELECT
             'survivors_disability_type' AS id,
-            #{grouped_date_query(params['grouped_by'], date_param)&.concat(' AS group_id,')}
+            #{group_column&.dup&.+(',')}
             COUNT(*) AS total
-          FROM incidents
-          WHERE data @? '$[*] ? (@.disability_type == "true" && @.consent_reporting  == "true")'
-          #{date_range_query(date_param)&.prepend('AND ')}
-          #{equal_value_query(params['module_id'])&.prepend('AND ')}
-          #{user_scope_query(current_user)&.prepend('AND ')}
-          #{grouped_date_query(params['grouped_by'], date_param)&.prepend('group by ')}
+          FROM filtered_incidents
+          WHERE data @? '$[*] ? (@.disability_type == "true")'
+          #{group_column&.dup&.prepend('GROUP BY ')}
           UNION
           SELECT
             data ->> 'unaccompanied_separated_status' AS id,
-            #{grouped_date_query(params['grouped_by'], date_param)&.concat(' AS group_id,')}
+            #{group_column&.dup&.+(',')}
             COUNT(*) AS total
-          FROM incidents
+          FROM filtered_incidents
           WHERE data @? '$[*] ? (
-            @.consent_reporting  == "true" &&
             @.unaccompanied_separated_status != null &&
             @.unaccompanied_separated_status != "no"
           )'
-          #{date_range_query(date_param)&.prepend('AND ')}
-          #{equal_value_query(params['module_id'])&.prepend('AND ')}
-          #{user_scope_query(current_user)&.prepend('AND ')}
-          GROUP BY data ->> 'unaccompanied_separated_status'
-          #{grouped_date_query(params['grouped_by'], date_param)&.prepend(', ')}
+          GROUP BY data ->> 'unaccompanied_separated_status' #{group_column&.dup&.prepend(',')}
         ) AS survivors
         ORDER BY id
       }
