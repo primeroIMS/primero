@@ -121,6 +121,15 @@ describe ManagedReports::Indicators::ElapsedReportingTime do
       @all_user,
       { incident_date: Date.new(2022, 8, 8), date_of_first_report: Date.new(2022, 10, 8), consent_reporting: 'true' }
     ).save!
+    Incident.new_with_user(
+      @all_user,
+      {
+        incident_date: Date.new(2022, 8, 8),
+        date_of_first_report: Date.new(2022, 10, 8),
+        consent_reporting: 'true',
+        gbv_reported_elsewhere: 'gbvims-org'
+      }
+    ).save!
   end
 
   it 'returns the number of incidents grouped by elapsed_reporting_time' do

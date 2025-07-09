@@ -117,6 +117,10 @@ describe ManagedReports::Indicators::TotalGBVPreviousIncidents do
       @all_user,
       { incident_date: Date.new(2020, 10, 10), consent_reporting: 'true' }
     ).save!
+    Incident.new_with_user(
+      @all_user,
+      { incident_date: Date.new(2020, 10, 10), consent_reporting: 'true', gbv_reported_elsewhere: 'gbvims-org' }
+    ).save!
   end
 
   it 'returns the total number of incidents with previous incidents' do

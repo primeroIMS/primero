@@ -136,6 +136,17 @@ describe ManagedReports::Indicators::PerpetratorOccupation do
         { 'perpetrator_occupation' => 'occupation_4', 'primary_perpetrator' => 'primary' }
       ]
     ).save!
+    Incident.new_with_user(
+      @all_user,
+      incident_date: Date.new(2021, 2, 12),
+      consent_reporting: 'true',
+      gbv_reported_elsewhere: 'gbvims-org',
+      alleged_perpetrator: [
+        { 'perpetrator_occupation' => 'occupation_4', 'primary_perpetrator' => 'primary' },
+        { 'perpetrator_occupation' => 'occupation_4', 'primary_perpetrator' => 'primary' },
+        { 'perpetrator_occupation' => 'occupation_4', 'primary_perpetrator' => 'primary' }
+      ]
+    ).save!
   end
 
   it 'returns the number of incidents grouped by perpetrator_occupation' do

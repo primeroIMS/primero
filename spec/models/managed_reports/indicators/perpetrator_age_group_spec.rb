@@ -133,6 +133,16 @@ describe ManagedReports::Indicators::PerpetratorAgeGroup do
         { 'age_group' => '61', 'primary_perpetrator' => 'primary' }
       ]
     ).save!
+    Incident.new_with_user(
+      @all_user,
+      incident_date: Date.new(2021, 2, 12),
+      gbv_reported_elsewhere: 'gbvims-org',
+      consent_reporting: 'true',
+      alleged_perpetrator: [
+        { 'age_group' => '61', 'primary_perpetrator' => 'primary' },
+        { 'age_group' => '61', 'primary_perpetrator' => 'primary' }
+      ]
+    ).save!
   end
 
   it 'returns the number of incidents grouped by age_group' do

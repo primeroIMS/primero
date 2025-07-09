@@ -153,6 +153,18 @@ describe ManagedReports::Indicators::GBVCaseContext do
         harmful_traditional_practice: 'practice_1'
       }
     ).save!
+    Incident.new_with_user(
+      @all_user,
+      {
+        incident_date: Date.new(2022, 10, 8),
+        age: 8,
+        abduction_status_time_of_incident: 'status_1',
+        gbv_sexual_violence_type: GenderBasedViolence::RAPE,
+        consent_reporting: 'true',
+        harmful_traditional_practice: 'practice_1',
+        gbv_reported_elsewhere: 'gbvims-org'
+      }
+    ).save!
   end
 
   it 'returns the number of incidents grouped by incident_timeofday' do

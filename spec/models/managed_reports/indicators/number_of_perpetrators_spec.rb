@@ -133,6 +133,17 @@ describe ManagedReports::Indicators::NumberOfPerpetrators do
         { unique_id: '13cfd918-3c69-4baa-b1cc-6c9a1cd9ea15' }
       ]
     ).save!
+    Incident.new_with_user(
+      @all_user,
+      incident_date: Date.new(2021, 2, 12),
+      consent_reporting: 'true',
+      gbv_reported_elsewhere: 'gbvims-org',
+      alleged_perpetrator: [
+        { unique_id: '11cfd918-3c69-4baa-b1cc-6c9a1cd9ea31' },
+        { unique_id: '12cfd918-3c69-4baa-b1cc-6c9a1cd9ea15' },
+        { unique_id: '13cfd918-3c69-4baa-b1cc-6c9a1cd9ea15' }
+      ]
+    ).save!
   end
 
   it 'returns the number of incidents grouped by number of perpetrators' do

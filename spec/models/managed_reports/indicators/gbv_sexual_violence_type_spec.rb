@@ -121,6 +121,15 @@ describe ManagedReports::Indicators::GBVSexualViolenceType do
       @all_user,
       { incident_date: Date.new(2022, 10, 8), gbv_sexual_violence_type: 'physical_assault', consent_reporting: 'true' }
     ).save!
+    Incident.new_with_user(
+      @all_user,
+      {
+        incident_date: Date.new(2022, 10, 8),
+        gbv_sexual_violence_type: 'physical_assault',
+        consent_reporting: 'true',
+        gbv_reported_elsewhere: 'gbvims-org'
+      }
+    ).save!
   end
 
   it 'returns the number of incidents grouped by gbv_sexual_violence_type' do

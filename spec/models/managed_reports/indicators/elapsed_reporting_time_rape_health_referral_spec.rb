@@ -166,6 +166,20 @@ describe ManagedReports::Indicators::ElapsedReportingTimeRapeHealthReferral do
           ]
       }
     ).save!
+    Incident.new_with_user(
+      @all_user,
+      {
+        incident_date: Date.new(2022, 8, 8),
+        date_of_first_report: Date.new(2022, 10, 8),
+        gbv_sexual_violence_type: 'rape',
+        consent_reporting: 'true',
+        gbv_reported_elsewhere: 'gbvims-org',
+        health_medical_referral_subform_section:
+          [
+            { unique_id: '001', service_medical_referral: 'service_unavailable' }
+          ]
+      }
+    ).save!
   end
 
   it 'returns the number of incidents grouped by elapsed_reporting_time' do
