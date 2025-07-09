@@ -34,7 +34,7 @@ describe("application/use-system-string.js", () => {
         name: {
           en: "Name (from SYS Settings)"
         },
-        risk_level: {
+        "dashboard.case_risk": {
           en: "Risk Level (from SYS Settings)"
         }
       }
@@ -47,7 +47,7 @@ describe("application/use-system-string.js", () => {
         name: {
           en: "Name (from SYS Settings)"
         },
-        risk_level: {
+        "dashboard.case_risk": {
           en: "Risk Level (from SYS Settings)"
         }
       })
@@ -66,7 +66,7 @@ describe("application/use-system-string.js", () => {
     const { act, result } = setupHook(() => useSystemStrings("dashboard"), state);
 
     act(() => {
-      expect(result.current.label("risk_level")).toEqual("Risk Level (from SYS Settings)");
+      expect(result.current.label("dashboard.case_risk")).toEqual("Risk Level (from SYS Settings)");
     });
   });
 

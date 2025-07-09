@@ -16,7 +16,7 @@ import { LOOKUPS, RECORD_TYPES, FETCH_PARAM } from "../../../config";
 import { setSelectedForm } from "../../record-form/action-creators";
 import { useMetadata } from "../../records";
 import { useMemoizedSelector, displayNameHelper } from "../../../libs";
-import useSystemStrings from "../../application/use-system-strings";
+import useSystemStrings, { LIST_HEADER } from "../../application/use-system-strings";
 
 import { getMetadata, selectListHeaders } from "./selectors";
 import { fetchTasks } from "./action-creators";
@@ -26,7 +26,7 @@ import { getTranslatedValue } from "./utils";
 
 function TaskList() {
   const i18n = useI18n();
-  const { label } = useSystemStrings("listHeader");
+  const { label } = useSystemStrings(LIST_HEADER);
   const recordType = "tasks";
   const dispatch = useDispatch();
 
