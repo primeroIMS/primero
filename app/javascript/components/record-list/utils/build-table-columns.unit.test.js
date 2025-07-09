@@ -2,6 +2,10 @@
 
 import { fromJS } from "immutable";
 
+import useSystemStrings from "../../application/use-system-strings";
+import { setupHook } from "../../../test-utils";
+import { useApp } from "../../application";
+
 import buildTableColumns from "./build-table-columns";
 
 const i18n = {
@@ -12,10 +16,20 @@ const i18n = {
   }
 };
 
+jest.mock("../../application/use-app");
+
 describe("<RecordList />/utils - buildTableColumns", () => {
+  beforeEach(() => {
+    useApp.mockReturnValue({
+      fieldLabels: fromJS({})
+    });
+  });
+
   it("should return list of columns for table", () => {
+    const { result } = setupHook(() => useSystemStrings("listHeader"));
+
     const expected = [
-      { label: "James", name: "James", id: false, options: {} },
+      { label: "testRecordType.james", name: "James", id: false, options: {} },
       {
         label: "",
         name: "alert_count",
@@ -36,7 +50,17 @@ describe("<RecordList />/utils - buildTableColumns", () => {
       }
     ]);
 
-    const columns = buildTableColumns(listHeaders, i18n, "testRecordType", true)(fromJS([]));
+    const columns = buildTableColumns(
+      listHeaders,
+      i18n,
+      "testRecordType",
+      true,
+      null,
+      true,
+      false,
+      {},
+      result.current.label
+    )(fromJS([]));
 
     columns.forEach((v, k) => {
       expect(v.id).toBe(expected[k].id);

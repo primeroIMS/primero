@@ -30,6 +30,7 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         primary_age_range: primaryAgeRange,
         incident_reporting_location_config: incidentReportingLocationConfig,
         audit_log: auditLog,
+        field_labels: fieldLabels,
         exact_search_fields: exactSearchFields,
         phonetic_search_fields: phoneticSearchFields
       } = payload.data;
@@ -50,6 +51,7 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
           exportRequirePassword,
           primaryAgeRange,
           auditLog,
+          fieldLabels,
           exactSearchFields,
           phoneticSearchFields
         })

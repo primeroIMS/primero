@@ -11,6 +11,7 @@ import { useI18n } from "../../i18n";
 import buildNameFilter from "../utils/build-name-filter";
 import { useApp } from "../../application";
 import { useThemeHelper } from "../../../libs";
+import useSystemStrings from "../../application/use-system-strings";
 
 import css from "./styles.css";
 
@@ -22,7 +23,7 @@ function Panel({ filter, getValues, selectedDefaultValueField, handleReset, more
   const i18n = useI18n();
   const { approvalsLabels } = useApp();
   const [open, setOpen] = useState(false);
-
+  const { label } = useSystemStrings("filter");
   const handleChange = () => {
     setOpen(!open);
   };
@@ -33,7 +34,7 @@ function Panel({ filter, getValues, selectedDefaultValueField, handleReset, more
 
   const expanded = open || Object.keys(moreSectionFilters).includes(selectedDefaultValueField || fieldName);
 
-  const filterLabel = buildNameFilter(name, i18n, approvalsLabels);
+  const filterLabel = buildNameFilter(name, fieldName, label, approvalsLabels);
 
   return (
     <Accordion className={css.panel} elevation={0} expanded={expanded} onChange={handleChange}>
