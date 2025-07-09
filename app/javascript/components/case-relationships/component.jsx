@@ -21,6 +21,7 @@ import { buildTableColumns } from "../record-list";
 import useViewModalForms from "../record-list/view-modal/use-view-modal-forms";
 import { getFieldByName } from "../record-form/selectors";
 import { FormSectionRecord } from "../form";
+import useSystemStrings, { LIST_HEADER } from "../application/use-system-strings";
 
 import SearchForm from "./components/search-form";
 
@@ -35,6 +36,7 @@ const CASE_TYPE_FOR_SEARCH = Object.freeze({ person: "farm", farm: "person" });
 function Component({ handleToggleNav, mobileDisplay, mode, primeroModule, record, recordType, setFieldValue }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
+  const { label } = useSystemStrings(LIST_HEADER);
   const linkedRecordType = RECORD_TYPES.cases;
   const linkedRecordTypePlural = RECORD_TYPES_PLURAL[linkedRecordType];
   const [selectedRecord, setSelectedRecord] = useState(null);
@@ -80,7 +82,8 @@ function Component({ handleToggleNav, mobileDisplay, mode, primeroModule, record
     () => true,
     true,
     false,
-    selectableOpts
+    selectableOpts,
+    label
   );
 
   const searchTitle = i18n.t(`${recordType}.search_for`, { record_type: i18n.t("case.label") });

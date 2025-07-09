@@ -34,7 +34,7 @@ export default (lookups, indicatorsRows, translateId, key, value, property = "id
   }
 
   const translatedValue =
-    valueKeyLookups.find(lookup => lookup.id === value.get("id"))?.display_text || translateId(value.get("id"));
+    valueKeyLookups?.find(lookup => lookup.id === value.get("id"))?.display_text || translateId(value.get("id"));
 
   if (REPORTING_LOCATION_INSIGHTS.includes(key)) {
     return getReportingLocationValue(translatedValue);

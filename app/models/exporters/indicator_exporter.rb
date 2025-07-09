@@ -14,18 +14,46 @@ class Exporters::IndicatorExporter < ValueObject
   attr_accessor :key, :values, :current_row, :worksheet, :lookups, :grouped_by, :formats,
                 :managed_report, :locale, :workbook, :subcolumn_lookups, :indicator_rows,
                 :indicator_options, :subcolumn_options, :with_total_subcolumn, :indicator_subcolumns,
-                :table_data_rows
+                :table_data_rows, :include_zeros
 
   def initialize(args = {})
     super(args)
+    self.locale = args[:locale] || I18n.default_locale.to_s
     self.with_total_subcolumn = total_subcolumn?
     load_indicator_options
     load_subcolumn_options
   end
 
   def load_indicator_options
-    self.indicator_options = values.each { |option| option['display_text'] = value_display_text(option) }
+    self.indicator_options = if include_zeros && options_from_indicator.present?
+                               options_with_values
+                             else
+                               options_from_values
+                             end
     sort_options
+  end
+
+  def options_with_values
+    from_values = options_from_values
+    options = options_from_indicator.reject { |option| from_values.any? { |value| value['id'] == option['id'] } }
+    (options + from_values).map { |option| option.merge('total' => option['total'] || 0) }
+  end
+
+  def options_from_indicator
+    return lookups if lookups.present?
+    return [] unless indicator_rows.present?
+
+    indicator_rows.map do |elem|
+      next elem unless elem['display_text'].is_a?(Hash)
+
+      elem.merge('display_text' => elem['display_text'][locale])
+    end
+  end
+
+  def options_from_values
+    values.each_with_object([]) do |option, memo|
+      memo << option.merge('display_text' => value_display_text(option))
+    end
   end
 
   def load_subcolumn_options
@@ -190,7 +218,7 @@ class Exporters::IndicatorExporter < ValueObject
   def value_display_text(elem)
     return I18n.t('managed_reports.incomplete_data') if incomplete_data_value?(elem)
     return I18n.t('managed_reports.total') if total_value?(elem)
-    return display_text_from_translation(elem) if lookups.blank? && indicator_rows.blank?
+    return display_text_from_translation(elem) if translation?(elem)
 
     display_text_from_metadata(elem)
   end
@@ -201,6 +229,10 @@ class Exporters::IndicatorExporter < ValueObject
 
   def total_value?(value)
     value['id'] == 'total'
+  end
+
+  def translation?(elem)
+    I18n.exists?("managed_reports.#{managed_report.id}.sub_reports.#{elem['id']}", locale)
   end
 
   def display_text_from_translation(elem)
@@ -216,10 +248,14 @@ class Exporters::IndicatorExporter < ValueObject
   def display_text_from_indicator_row(elem)
     return unless indicator_rows.present?
 
-    indicator_rows.find do |indicator_row|
+    display_text = indicator_rows.find do |indicator_row|
       value = elem.is_a?(Hash) ? elem['id'] : elem
       indicator_row['id'] == value
-    end&.dig('display_text', locale)
+    end&.dig('display_text')
+
+    return display_text if display_text.is_a?(String)
+
+    display_text.dig('display_text', locale)
   end
 
   def display_text_from_lookup(elem, lookup_id = nil)
