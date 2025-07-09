@@ -10,12 +10,13 @@ import { OptionsBox, DashboardTable } from "../../../../dashboard";
 import { ROUTES } from "../../../../../config";
 import { useMemoizedSelector } from "../../../../../libs";
 import { DASHBOARD_GROUP } from "../../constants";
+import useSystemStrings, { DASHBOARD } from "../../../../application/use-system-strings";
 
 import { NAME } from "./constants";
 
 function Component() {
   const i18n = useI18n();
-
+  const { label } = useSystemStrings(DASHBOARD);
   const loading = useMemoizedSelector(state =>
     getIsDashboardGroupLoading(state, DASHBOARD_GROUP.cases_by_social_worker)
   );
@@ -28,13 +29,13 @@ function Component() {
   return (
     <Permission resources={RESOURCES.dashboards} actions={ACTIONS.DASH_CASES_BY_SOCIAL_WORKER}>
       <OptionsBox
-        title={i18n.t("dashboard.cases_by_social_worker")}
+        title={label("dashboard.cases_by_social_worker")}
         hasData={Boolean(data.size) && !loading}
         loading={loading}
       >
         <DashboardTable
           pathname={ROUTES.cases}
-          title={i18n.t("dashboard.cases_by_social_worker")}
+          title={label("dashboard.cases_by_social_worker")}
           {...casesBySocialWorkerProps}
         />
       </OptionsBox>

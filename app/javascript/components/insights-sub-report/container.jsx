@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import { fromJS, List } from "immutable";
+import { fromJS } from "immutable";
 import { useDispatch } from "react-redux";
 import isNil from "lodash/isNil";
 import isString from "lodash/isString";
@@ -36,6 +36,7 @@ import { GROUPED_BY_FILTER, NAME, GHN_VIOLATIONS_INDICATORS_IDS, PERCENTAGE_INDI
 import css from "./styles.css";
 import { setSubReport } from "./action-creators";
 import getSubcolumnItems from "./utils/get-subcolumn-items";
+import hasTotalColumn from "./utils/has-total-column";
 
 function Component() {
   const { id, subReport } = useParams();
@@ -195,18 +196,11 @@ function Component() {
               .get("aggregate", fromJS({}))
               .entrySeq()
               .map(([valueKey, value]) => {
-                const hasTotalColumn = isGrouped
-                  ? value.some(
-                      elem =>
-                        List.isList(elem.get("data")) &&
-                        elem.get("data", fromJS([])).some(row => !isNil(row.get("total")))
-                    )
-                  : value.some(row => !isNil(row.get("total")));
-
+                const indicatorHasTotalColumn = hasTotalColumn(isGrouped, value);
                 const indicatorSubColumnKeys = getIndicatorSubcolumnKeys(value);
                 const Indicator = getIndicator(valueKey);
                 const subColumnItems = getSubcolumnItems({
-                  hasTotalColumn,
+                  hasTotalColumn: indicatorHasTotalColumn,
                   subColumnLookups,
                   valueKey,
                   ageRanges,
@@ -225,6 +219,7 @@ function Component() {
                     key={valueKey}
                     valueKey={valueKey}
                     value={value}
+                    includeZeros={insight.get("include_zeros", false)}
                     ageRanges={ageRanges}
                     displayGraph={displayGraph}
                     emptyMessage={emptyMessage}
@@ -240,7 +235,7 @@ function Component() {
                     TableComponent={TableComponent}
                     totalText={GHN_VIOLATIONS_INDICATORS_IDS.includes(valueKey) ? violationsText : totalText}
                     subColumnItems={subColumnItems}
-                    hasTotalColumn={hasTotalColumn}
+                    hasTotalColumn={indicatorHasTotalColumn}
                     cellValueRender={cellValueRender}
                     chartValueRender={chartValueRender}
                   />

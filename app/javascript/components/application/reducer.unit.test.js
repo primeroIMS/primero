@@ -103,6 +103,8 @@ describe("Application - Reducers", () => {
         label_keys: ["district"]
       },
       primaryAgeRange: "primero",
+      exactSearchFields: { cases: ["long_id", "short_id", "case_id"] },
+      phoneticSearchFields: { cases: ["name", "name_other"] },
       ageRanges: {
         primero: ["0..5", "6..11", "12..17", "18..999"]
       },
@@ -199,6 +201,8 @@ describe("Application - Reducers", () => {
           age_ranges: {
             primero: ["0..5", "6..11", "12..17", "18..999"]
           },
+          exact_search_fields: { cases: ["long_id", "short_id", "case_id"] },
+          phonetic_search_fields: { cases: ["name", "name_other"] },
           export_require_password: true,
           approvals_labels: {
             closure: {

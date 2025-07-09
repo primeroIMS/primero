@@ -435,7 +435,7 @@ export const INSIGHTS_CONFIG = {
     defaultFilterValues: {
       [GROUPED_BY]: MONTH,
       [DATE_RANGE]: LAST_MONTH,
-      [DATE]: INCIDENT_DATE
+      [DATE]: DATE_OF_FIRST_REPORT
     },
     filters: [
       SHARED_FILTERS[GROUPED_BY],

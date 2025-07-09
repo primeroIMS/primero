@@ -141,7 +141,7 @@ function Component({ recordType, setSelectedRecords, metadata }) {
     <div className={css.root} data-testid="filters">
       <FormProvider {...methods} user={userName}>
         <form onSubmit={methods.handleSubmit(handleSubmit)}>
-          <SearchBox />
+          <SearchBox recordType={recordType} />
           <div className={css.tabContainer}>
             <Tabs value={tabIndex} onChange={handleChangeTabs} classes={{ root: css.tabs }} variant="fullWidth">
               {tabs.map(({ name, selected, ...rest }) => (

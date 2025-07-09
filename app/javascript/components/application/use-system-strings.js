@@ -1,3 +1,5 @@
+import isEmpty from "lodash/isEmpty";
+
 import { useMemoizedSelector } from "../../libs";
 import { useI18n } from "../i18n";
 
@@ -12,19 +14,56 @@ const ALLOWED_FILTER_KEYS = [
   "record_owner",
   "current_location",
   "protection_status",
-  "violence_type"
+  "violence_type",
+  "workflow",
+  "referred_cases",
+  "my_cases"
 ];
-const ALLOWED_LIST_HEADER_KEYS = ["name", "record_owner", "client_code", "current_location", "violence_type"];
-const ALLOWED_DASHBOARD_KEYS = ["protection_concerns", "risk_level"];
+const ALLOWED_LIST_HEADER_KEYS = ["name", "record_owner", "client_code", "current_location", "violence_type", "label"];
+const ALLOWED_DASHBOARD_KEYS = [
+  "dashboard.protection_concerns",
+  "dashboard.case_risk",
+  "dashboard.flagged_cases",
+  "dashboard.action_needed.cases",
+  "dashboard.case_overview",
+  "dashboard.dash_group_overview",
+  "dashboard.workflow_team",
+  "dashboard.cases_by_social_worker"
+];
+const ALLOWED_NAVIGATION_KEYS = ["navigation.cases"];
+const ALLOWED_ACTION_BUTTON_KEYS = ["case.skip_and_create"];
+const ALLOWED_PAGE_KEYS = [
+  "cases.label",
+  "case.create_new_case",
+  "cases.register_new_case",
+  "cases.show_case",
+  "cases.selected_all_records",
+  "cases.selected_records",
+  "cases.selected_records_assign",
+  "case.skip_and_create"
+];
+
+const FILTER = "filter";
+const LIST_HEADER = "listHeader";
+const DASHBOARD = "dashboard";
+const NAVIGATION = "navigation";
+const PAGE = "page";
+const ACTION_BUTTON = "actionButton";
 
 function selectAllowedFeatureKeys(feature) {
   switch (feature) {
-    case "filter":
+    case FILTER:
       return ALLOWED_FILTER_KEYS;
-    case "listHeader":
+    case LIST_HEADER:
       return ALLOWED_LIST_HEADER_KEYS;
-    case "dashboard":
+    case DASHBOARD:
       return ALLOWED_DASHBOARD_KEYS;
+    case NAVIGATION:
+      return ALLOWED_NAVIGATION_KEYS;
+    case PAGE:
+      return ALLOWED_PAGE_KEYS;
+    case ACTION_BUTTON:
+      return ALLOWED_ACTION_BUTTON_KEYS;
     default:
       return [];
   }
@@ -35,26 +74,45 @@ function useSystemStrings(feature) {
   const { fieldLabels } = useApp();
   const userModules = useMemoizedSelector(state => selectUserModules(state));
 
+  function interpolate(message, options) {
+    return i18n.interpolate(message, options);
+  }
+
   return {
-    label: (key, fallbackI18nKey) => {
+    label: (key, fallbackI18nKey, options = {}) => {
       if (feature) {
-        const systemOrDefaultFieldLabel = fieldLabels.getIn([key, i18n.locale], i18n.t(fallbackI18nKey || key));
+        const systemOrDefaultFieldLabel = fieldLabels.getIn(
+          [key, i18n.locale],
+          i18n.t(fallbackI18nKey || key, options)
+        );
         const allowedKeys = selectAllowedFeatureKeys(feature);
 
         if (allowedKeys.includes(key)) {
           if (userModules.size === 1) {
-            return userModules.first().getIn(["field_labels", key, i18n.locale], systemOrDefaultFieldLabel);
+            const message = userModules.first().getIn(["field_labels", key, i18n.locale], systemOrDefaultFieldLabel);
+
+            if (!isEmpty(options)) {
+              return interpolate(message, options);
+            }
+
+            return message;
+          }
+
+          if (!isEmpty(options)) {
+            return interpolate(systemOrDefaultFieldLabel, options);
           }
 
           return systemOrDefaultFieldLabel;
         }
 
-        return i18n.t(fallbackI18nKey || key);
+        return i18n.t(fallbackI18nKey || key, options);
       }
 
-      return i18n.t(fallbackI18nKey || key);
+      return i18n.t(fallbackI18nKey || key, options);
     }
   };
 }
 
 export default useSystemStrings;
+
+export { FILTER, LIST_HEADER, DASHBOARD, NAVIGATION, PAGE, ACTION_BUTTON };

@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import isString from "lodash/isString";
 
 import { useApp } from "../application/use-app";
-import { useI18n } from "../i18n";
+import useSystemStrings, { ACTION_BUTTON } from "../application/use-system-strings";
 
 import { buttonType } from "./utils";
 import { NAME, ACTION_BUTTON_TYPES } from "./constants";
@@ -26,12 +26,12 @@ function Component({
   ...options
 }) {
   const { disabledApplication } = useApp();
-  const i18n = useI18n();
+  const { label } = useSystemStrings(ACTION_BUTTON);
   const ButtonType = buttonType(type);
   const isDisabled = (disabledApplication || disabled) && { disabled: disabledApplication || disabled };
   const isPending = Boolean(pending);
   const buttonID = id || text;
-  const buttonText = !noTranslate && isString(text) ? i18n.t(text) : text;
+  const buttonText = !noTranslate && isString(text) ? label(text) : text;
 
   const { hide, ...restBtnProps } = rest;
 

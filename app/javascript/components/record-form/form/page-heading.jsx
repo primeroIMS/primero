@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 
 import Permission, { READ_RECORDS, SHOW_SYNC_EXTERNAL } from "../../permissions";
 import { RECORD_PATH } from "../../../config";
+import useSystemStrings, { PAGE } from "../../application/use-system-strings";
 
 import { RECORD_FORM_TOOLBAR_PAGE_HEADING_NAME } from "./constants";
 import { SyncRecord } from "./components";
@@ -26,10 +27,12 @@ function Component({
 }) {
   let heading = "";
 
+  const { label } = useSystemStrings(PAGE);
+
   if (mode.isNew) {
-    heading = i18n.t(`${params.recordType}.register_new_${recordType}`);
+    heading = label(`${params.recordType}.register_new_${recordType}`);
   } else if (mode.isEdit || mode.isShow) {
-    heading = i18n.t(`${params.recordType}.show_${recordType}`, {
+    heading = label(`${params.recordType}.show_${recordType}`, "", {
       short_id: params.recordType === RECORD_PATH.cases && caseIdDisplay ? caseIdDisplay : shortId || "-------"
     });
   }

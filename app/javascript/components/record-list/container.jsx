@@ -22,7 +22,7 @@ import { useMetadata } from "../records";
 import { useApp } from "../application";
 import { usePermissions, ACTIONS } from "../permissions";
 import PageContainer, { PageContent } from "../page";
-import useSystemStrings from "../application/use-system-strings";
+import useSystemStrings, { LIST_HEADER, PAGE } from "../application/use-system-strings";
 
 import { NAME, DEFAULT_FILTERS } from "./constants";
 import { buildTableColumns } from "./utils";
@@ -37,7 +37,8 @@ import useRecordHeaders from "./use-record-headers";
 function Container({ match, location }) {
   const { mobileDisplay, tabletDisplay } = useThemeHelper();
   const i18n = useI18n();
-  const { label } = useSystemStrings("listHeader");
+  const { label } = useSystemStrings(LIST_HEADER);
+  const { label: pageLabel } = useSystemStrings(PAGE);
   const currentQueryString = location.search.replace("?", "");
   const { online } = useApp();
   const { url } = match;
@@ -151,7 +152,7 @@ function Container({ match, location }) {
     setSelectedRecords(ids);
   }, []);
 
-  const title = i18n.t(`${recordType}.label`);
+  const title = pageLabel(`${recordType}.label`);
 
   return (
     <>
