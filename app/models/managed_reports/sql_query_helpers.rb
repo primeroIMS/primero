@@ -211,16 +211,9 @@ module ManagedReports::SqlQueryHelpers
       { date_field: field_name, format: Report::DATE_TIME_FORMAT }
     end
 
-    def module_age_range(module_id = nil)
-      module_age_ranges = PrimeroModule.age_ranges(module_id&.value)
-      return module_age_ranges if module_age_ranges.present?
-
-      SystemSettings.primary_age_ranges
-    end
-
     # rubocop:disable Metrics/MethodLength
     def age_ranges_query(field_name: 'age', table_name: nil, is_json_field: true, module_id: nil)
-      age_ranges = module_age_range(module_id)
+      age_ranges = AgeRangeService.primary_age_ranges(module_id&.value)
       age_ranges&.reduce("CASE \n") do |acc, range|
         column = age_range_column(field_name, table_name, is_json_field)
 
