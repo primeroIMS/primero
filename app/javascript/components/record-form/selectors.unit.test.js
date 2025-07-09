@@ -166,6 +166,34 @@ const fields = {
     required: true,
     date_validation: "default_date_validation",
     href: null
+  },
+  3: {
+    name: "short_id",
+    type: "text_field",
+    editable: true,
+    disabled: null,
+    visible: true,
+    display_name: {
+      en: "Short ID",
+      es: ""
+    },
+    required: true,
+    module_ids: ["primeromodule-pcm"],
+    parent_form: "case"
+  },
+  4: {
+    name: "random_field",
+    type: "text_field",
+    editable: true,
+    disabled: null,
+    visible: true,
+    display_name: {
+      en: "Random Field",
+      es: ""
+    },
+    required: true,
+    module_ids: ["primeromodule-pcm"],
+    parent_form: "incident"
   }
 };
 const serviceTypeLookup = {
@@ -897,6 +925,18 @@ describe("<RecordForm /> - Selectors", () => {
     it("should return the field if exists", () => {
       const expected = R.FieldRecord(fields["1"]);
       const result = selectors.getFieldByName(stateWithRecords, "name_first");
+
+      expect(result).toEqual(expected);
+    });
+
+    it("should return the field filtered by module", () => {
+      const expected = fromJS({ 3: R.FieldRecord(fields["3"]) });
+      const result = selectors.getFieldByName(
+        stateWithRecords,
+        ["short_id", "random_field"],
+        ["primeromodule-pcm"],
+        "case"
+      );
 
       expect(result).toEqual(expected);
     });

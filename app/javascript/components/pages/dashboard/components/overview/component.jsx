@@ -18,11 +18,13 @@ import { LOOKUPS } from "../../../../../config";
 import { useMemoizedSelector } from "../../../../../libs";
 import DashboardColumns from "../../../../dashboard/dashboard-columns";
 import { OVERVIEW_DASHBOARD } from "../../../../permissions/constants";
+import useSystemStrings from "../../../../application/use-system-strings";
 
 import { NAME } from "./constants";
 
 function Component() {
   const i18n = useI18n();
+  const { label } = useSystemStrings("dashboard");
 
   const loading = useMemoizedSelector(state => getIsDashboardGroupLoading(state, DASHBOARD_GROUP.overview));
   const hasData = useMemoizedSelector(state => getDashboardGroupHasData(state, DASHBOARD_GROUP.overview));
@@ -62,7 +64,7 @@ function Component() {
         actions: ACTIONS.DASH_CASE_RISK,
         options: {
           data: casesByRiskLevel,
-          sectionTitle: i18n.t("dashboard.case_risk"),
+          sectionTitle: label("risk_level", "dashboard.case_risk"),
           indicator: INDICATOR_NAMES.RISK_LEVEL,
           lookup: labelsRiskLevel
         }

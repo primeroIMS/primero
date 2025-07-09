@@ -22,6 +22,7 @@ import { useMetadata } from "../records";
 import { useApp } from "../application";
 import { usePermissions, ACTIONS } from "../permissions";
 import PageContainer, { PageContent } from "../page";
+import useSystemStrings from "../application/use-system-strings";
 
 import { NAME, DEFAULT_FILTERS } from "./constants";
 import { buildTableColumns } from "./utils";
@@ -36,6 +37,7 @@ import useRecordHeaders from "./use-record-headers";
 function Container({ match, location }) {
   const { mobileDisplay, tabletDisplay } = useThemeHelper();
   const i18n = useI18n();
+  const { label } = useSystemStrings("listHeader");
   const currentQueryString = location.search.replace("?", "");
   const { online } = useApp();
   const { url } = match;
@@ -141,8 +143,8 @@ function Container({ match, location }) {
   const phonetic = useMemo(() => queryParams.phonetic === "true", [queryParams.phonetic]);
 
   const columns = useMemo(
-    () => buildTableColumns(headers, i18n, recordType, css, recordAvailable, online, phonetic),
-    [online, headers, recordType, phonetic]
+    () => buildTableColumns(headers, i18n, recordType, css, recordAvailable, online, phonetic, {}, label),
+    [online, headers, recordType, phonetic, label]
   );
 
   const handleSelectedRecords = useCallback(ids => {

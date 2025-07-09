@@ -35,7 +35,9 @@ describe("<Application /> - index", () => {
       "ApplicationProvider",
       "getAppData",
       "getWebpushConfig",
-      "getListHeaders"
+      "getListHeaders",
+      "getExactSearchFields",
+      "getPhoneticSearchFields"
     ].forEach(property => {
       expect(indexValues).toHaveProperty(property);
       delete indexValues[property];

@@ -22,10 +22,12 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
     self.parent_groups = grouped_by_week? ? groups.keys : groups.keys.sort { |year1, year2| year1.to_i <=> year2.to_i }
   end
 
-  def load_indicator_options
-    self.indicator_options = values.map { |elem| elem['data'] }.flatten.uniq { |elem| elem['id'] }
-    sort_options
-    indicator_options.each { |option| option['display_text'] = value_display_text(option) }
+  def options_from_values
+    values.map { |elem| elem['data'] }.flatten.each_with_object([]) do |elem, memo|
+      next if memo.any? { |current| current['id'] == elem['id'] }
+
+      memo << elem.merge('display_text' => value_display_text(elem))
+    end
   end
 
   def calculate_groups

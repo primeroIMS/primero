@@ -16,6 +16,7 @@ function Component({
   emptyMessage,
   groupedBy,
   hasTotalColumn,
+  includeZeros,
   incompleteDataLabel,
   indicatorsRows,
   insightMetadata,
@@ -82,7 +83,8 @@ function Component({
           indicatorRows: indicatorsRows[valueKey],
           incompleteDataLabel,
           subColumnItems,
-          hasTotalColumn
+          hasTotalColumn,
+          includeZeros
         })}
         showPlaceholder
         name={namespace}
@@ -103,6 +105,7 @@ Component.propTypes = {
   emptyMessage: PropTypes.string,
   groupedBy: PropTypes.string,
   hasTotalColumn: PropTypes.bool,
+  includeZeros: PropTypes.bool,
   incompleteDataLabel: PropTypes.string,
   indicatorsRows: PropTypes.object,
   insightMetadata: PropTypes.object,
