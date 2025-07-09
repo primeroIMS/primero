@@ -18,18 +18,21 @@ import {
 } from "../utils";
 import handleFilterChange, { getFilterProps } from "../value-handlers";
 import { useMemoizedSelector } from "../../../../../libs";
+import useSystemStrings, { FILTER } from "../../../../application/use-system-strings";
 
 import { NAME } from "./constants";
 
 function Component({ filter, moreSectionFilters = {}, setMoreSectionFilters, mode, reset, setReset }) {
   const i18n = useI18n();
+  const { label } = useSystemStrings(FILTER);
   const { register, unregister, setValue, user, getValues } = useFormContext();
   const valueRef = useRef();
 
   const { options, fieldName, optionStringsSource, isObject } = getFilterProps({
     filter,
     user,
-    i18n
+    i18n,
+    label
   });
 
   const defaultValue = isObject ? {} : [];
