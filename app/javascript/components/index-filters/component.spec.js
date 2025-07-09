@@ -43,6 +43,12 @@ describe("<IndexFitlers>", () => {
     expect(screen.getByText("filters.clear_filters")).toBeInTheDocument();
   });
 
+  it("renders SearchBox", () => {
+    mountedComponent(<IndexFilters {...props} />, state);
+    expect(screen.getByText("navigation.search")).toBeInTheDocument();
+    expect(screen.getByText("navigation.phonetic_search.help_text")).toBeInTheDocument();
+  });
+
   it("clear filters button is clicked", async () => {
     const clearFiltersSpy = jest.fn();
     const propFilters = {
