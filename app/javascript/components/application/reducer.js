@@ -49,7 +49,7 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
           exportRequirePassword,
           primaryAgeRange,
           auditLog,
-          fieldLabels
+          fieldLabels: fieldLabels ?? fromJS({})
         })
       );
     }
