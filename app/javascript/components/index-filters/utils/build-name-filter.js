@@ -2,7 +2,7 @@
 
 import { APPROVALS, APPROVALS_TYPES } from "../../../config";
 
-export default (item, i18n, approvalsLabels) => {
+export default (item, fieldName, label, approvalsLabels) => {
   switch (item) {
     case `${APPROVALS}.${APPROVALS_TYPES.assessment}`:
       return approvalsLabels.getIn(["default", APPROVALS_TYPES.assessment]);
@@ -15,6 +15,6 @@ export default (item, i18n, approvalsLabels) => {
     case `${APPROVALS}.${APPROVALS_TYPES.gbv_closure}`:
       return approvalsLabels.getIn(["default", APPROVALS_TYPES.gbv_closure]);
     default:
-      return i18n.t(item);
+      return label(fieldName, item);
   }
 };
