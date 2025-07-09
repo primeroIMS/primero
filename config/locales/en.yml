@@ -2403,7 +2403,7 @@ en:
         combined: General Statistics
         total: New GBV Incidents Reported
         gbv_sexual_violence: Survivor Statistics - Number of Incidents of Sexual Violence Reported
-        gbv_previous_incidents: New Incidents of Sexual Violence Reported
+        gbv_previous_incidents: Number of Incidents Reported by Survivors with Prior GBV Incidents
         gbv_sexual_violence_type: Incident Statistics - Type of GBV
         incident_timeofday: Incident Statistics - Incident Time of Day
         elapsed_reporting_time: Incident Statistics - Time Between Incident and Report Date

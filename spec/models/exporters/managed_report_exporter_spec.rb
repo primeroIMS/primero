@@ -273,7 +273,7 @@ describe Exporters::ManagedReportExporter do
           expect(workbook.sheet(0).row(5)).to eq(['General Statistics', nil])
           expect(workbook.sheet(0).row(6)).to eq([nil, 'Total'])
           expect(workbook.sheet(0).row(7)).to eq(['New GBV Incidents Reported', 3])
-          expect(workbook.sheet(0).row(8)).to eq(['New Incidents of Sexual Violence Reported', 1])
+          expect(workbook.sheet(0).row(8)).to eq(['Number of Incidents Reported by Survivors with Prior GBV Incidents', 1])
           expect(workbook.sheet(0).row(11)).to eq(['Survivor Statistics - Sex of survivors', nil])
           expect(workbook.sheet(0).row(12)).to eq([nil, 'Total'])
           expect(workbook.sheet(0).row(13)).to eq(['Male', 0])
@@ -509,7 +509,7 @@ describe Exporters::ManagedReportExporter do
               ['New GBV Incidents Reported', 0, 0, 3, 0, 0]
             )
             expect(workbook_grouped.sheet(0).row(8)).to match_array(
-              ['New Incidents of Sexual Violence Reported', 0, 0, 1, 0, 0]
+              ['Number of Incidents Reported by Survivors with Prior GBV Incidents', 0, 0, 1, 0, 0]
             )
             expect(workbook_grouped.sheet(0).row(11)).to match_array(
               ['Survivor Statistics - Sex of survivors', nil, nil, nil, nil, nil]
@@ -753,7 +753,7 @@ describe Exporters::ManagedReportExporter do
               ['New GBV Incidents Reported', 0, 3]
             )
             expect(workbook_grouped.sheet(0).row(8)).to match_array(
-              ['New Incidents of Sexual Violence Reported', 0, 1]
+              ['Number of Incidents Reported by Survivors with Prior GBV Incidents', 0, 1]
             )
             expect(workbook_grouped.sheet(0).row(11)).to match_array(
               ['Survivor Statistics - Sex of survivors', nil, nil]
@@ -985,7 +985,7 @@ describe Exporters::ManagedReportExporter do
               ['New GBV Incidents Reported', 3]
             )
             expect(workbook_grouped.sheet(0).row(8)).to match_array(
-              ['New Incidents of Sexual Violence Reported', 1]
+              ['Number of Incidents Reported by Survivors with Prior GBV Incidents', 1]
             )
             expect(workbook_grouped.sheet(0).row(11)).to match_array(
               ['Survivor Statistics - Sex of survivors', nil]
@@ -1384,7 +1384,7 @@ describe Exporters::ManagedReportExporter do
       it 'should export indicators in the correct order' do
         expect(workbook.sheet(0).row(5).at(0)).to eq('General Statistics')
         expect(workbook.sheet(0).row(7).at(0)).to eq('New GBV Incidents Reported')
-        expect(workbook.sheet(0).row(8).at(0)).to eq('New Incidents of Sexual Violence Reported')
+        expect(workbook.sheet(0).row(8).at(0)).to eq('Number of Incidents Reported by Survivors with Prior GBV Incidents')
         expect(workbook.sheet(0).row(11).at(0)).to eq('Survivor Statistics - Sex of survivors')
         expect(workbook.sheet(0).row(41).at(0)).to eq('Survivor Statistics - Age of survivors')
         expect(workbook.sheet(0).row(73).at(0)).to eq('Survivor Statistics - Marital Status of Survivors')
@@ -1474,7 +1474,7 @@ describe Exporters::ManagedReportExporter do
             ['New GBV Incidents Reported']
           )
           expect(workbook_no_data.sheet(0).row(8)).to match_array(
-            ['New Incidents of Sexual Violence Reported']
+            ['Number of Incidents Reported by Survivors with Prior GBV Incidents']
           )
           expect(workbook_no_data.sheet(0).row(13).at(0)).to eq('Survivor Statistics - Age of survivors')
           expect(workbook_no_data.sheet(0).row(15).at(0)).to eq('Survivor Statistics - Marital Status of Survivors')
