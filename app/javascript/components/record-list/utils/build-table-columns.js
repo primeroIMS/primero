@@ -20,7 +20,8 @@ export default (
   recordAvailable,
   online,
   phonetic = false,
-  selectableOpts = {}
+  selectableOpts = {},
+  label
 ) => {
   const iconColumns = Object.values(ALERTS_COLUMNS);
   // eslint-disable-next-line react/display-name, jsx-a11y/control-has-associated-label
@@ -117,7 +118,9 @@ export default (
         })(column.get("name"));
 
         return {
-          label: [...iconColumns].includes(column.get("name")) ? " " : i18n.t(`${recordType}.${column.get("name")}`),
+          label: [...iconColumns].includes(column.get("name"))
+            ? " "
+            : label(column.get("name"), `${recordType}.${column.get("name")}`),
           name: column.get("field_name") || " ",
           id: column.get("id_search"),
           options: {
