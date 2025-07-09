@@ -19,7 +19,15 @@ const ALLOWED_FILTER_KEYS = [
   "referred_cases",
   "my_cases"
 ];
-const ALLOWED_LIST_HEADER_KEYS = ["name", "record_owner", "client_code", "current_location", "violence_type", "label"];
+const ALLOWED_LIST_HEADER_KEYS = [
+  "priority",
+  "name",
+  "record_owner",
+  "client_code",
+  "current_location",
+  "violence_type",
+  "label"
+];
 const ALLOWED_DASHBOARD_KEYS = [
   "dashboard.protection_concerns",
   "dashboard.case_risk",
