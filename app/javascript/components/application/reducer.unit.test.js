@@ -88,6 +88,7 @@ describe("Application - Reducers", () => {
         }
       ],
       defaultLocale: "en",
+      auditLog: undefined,
       baseLanguage: "en",
       primeroVersion: "2.0.0.1",
       reportingLocationConfig: {
@@ -96,6 +97,7 @@ describe("Application - Reducers", () => {
         admin_level_map: { 1: ["province"], 2: ["district"] },
         label_keys: ["district"]
       },
+      fieldLabels: {},
       incidentReportingLocationConfig: {
         admin_level: 2,
         field_key: "owned_by_location",
