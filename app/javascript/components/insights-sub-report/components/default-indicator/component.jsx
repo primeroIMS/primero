@@ -90,6 +90,7 @@ function Component({
         name={namespace}
         emptyMessage={emptyMessage}
         subColumnItemsSize={subColumnItems?.length}
+        hasTotalColumn={hasTotalColumn}
       />
     </div>
   );

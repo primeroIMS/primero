@@ -11,7 +11,7 @@ import { useI18n } from "../../../i18n";
 import css from "./styles.css";
 import { NAME } from "./constants";
 
-function InsightsTableHeaderSubItems({ addEmptyCell = true, groupedSubItemcolumns }) {
+function InsightsTableHeaderSubItems({ addEmptyCell = true, groupedSubItemcolumns, withTotals = false }) {
   const i18n = useI18n();
 
   if (isEmpty(groupedSubItemcolumns)) {
@@ -24,7 +24,7 @@ function InsightsTableHeaderSubItems({ addEmptyCell = true, groupedSubItemcolumn
       {Object.entries(groupedSubItemcolumns).flatMap(([parent, subItemsColumns]) =>
         subItemsColumns.map((subItem, index) => {
           const cellClass = cx({
-            [css.tableCell]: (index + 1) % subItemsColumns?.length === 0,
+            [css.tableCell]: withTotals && (index + 1) % subItemsColumns?.length === 0,
             [css.tableCellCenterClass]: true
           });
 
@@ -47,7 +47,8 @@ InsightsTableHeaderSubItems.displayName = NAME;
 
 InsightsTableHeaderSubItems.propTypes = {
   addEmptyCell: PropTypes.bool,
-  groupedSubItemcolumns: PropTypes.object
+  groupedSubItemcolumns: PropTypes.object,
+  withTotals: PropTypes.bool
 };
 
 export default InsightsTableHeaderSubItems;
