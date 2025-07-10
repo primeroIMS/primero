@@ -9,7 +9,7 @@ import { useApp } from "./use-app";
 const ALLOWED_FILTER_KEYS = [
   "protection_concerns",
   "risk_level",
-  "protection_risk",
+  "protection_risks",
   "self_harm_risk",
   "record_owner",
   "current_location",
