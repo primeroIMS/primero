@@ -49,6 +49,7 @@ function Component({
             groupedBy,
             ageRanges,
             lookupValues: lookups[valueKey],
+            indicatorRows: indicatorsRows[valueKey],
             incompleteDataLabel
           })}
           valueRender={chartValueRender}
