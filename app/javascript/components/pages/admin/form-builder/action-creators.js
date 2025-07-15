@@ -5,7 +5,6 @@ import isEmpty from "lodash/isEmpty";
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 import { METHODS, RECORD_PATH, SAVE_METHODS } from "../../../../config";
 import { fetchForms } from "../forms-list/action-creators";
-import { compactBlank } from "../../../record-form/utils";
 
 import { getFormRequestPath } from "./utils";
 import actions from "./actions";
