@@ -50,6 +50,7 @@ const ALLOWED_PAGE_KEYS = [
   "cases.selected_records_assign",
   "case.skip_and_create"
 ];
+const ALLOWED_FORM_KEYS = ["incidents.type_violence"];
 
 const FILTER = "filter";
 const LIST_HEADER = "listHeader";
@@ -57,6 +58,7 @@ const DASHBOARD = "dashboard";
 const NAVIGATION = "navigation";
 const PAGE = "page";
 const ACTION_BUTTON = "actionButton";
+const FORMS = "form";
 
 function selectAllowedFeatureKeys(feature) {
   switch (feature) {
@@ -72,6 +74,8 @@ function selectAllowedFeatureKeys(feature) {
       return ALLOWED_PAGE_KEYS;
     case ACTION_BUTTON:
       return ALLOWED_ACTION_BUTTON_KEYS;
+    case FORMS:
+      return ALLOWED_FORM_KEYS;
     default:
       return [];
   }
@@ -123,4 +127,4 @@ function useSystemStrings(feature) {
 
 export default useSystemStrings;
 
-export { FILTER, LIST_HEADER, DASHBOARD, NAVIGATION, PAGE, ACTION_BUTTON };
+export { FILTER, LIST_HEADER, DASHBOARD, NAVIGATION, PAGE, ACTION_BUTTON, FORMS };
