@@ -127,7 +127,7 @@ class PrimeroModule < ApplicationRecord
   def generate_age_ranges
     return [] unless age_ranges.present?
 
-    ranges&.map do |age_range|
+    age_ranges&.map do |age_range|
       min, max = age_range.split('..').map(&:to_i)
       AgeRange.new(min, max)
     end
