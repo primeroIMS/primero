@@ -116,11 +116,21 @@ describe ManagedReports::Indicators::SurvivorsDisplacementStatus do
   before do
     clean_data(Incident, UserGroup, User, Agency, Role)
 
-    Incident.new_with_user(self_user, { displacement_status: 'status_1', incident_date: Date.new(2020, 8, 12) }).save!
-    Incident.new_with_user(group_user, { displacement_status: 'status_2', incident_date: Date.new(2020, 9, 12) }).save!
-    Incident.new_with_user(agency_user, { displacement_status: 'status_2', incident_date: Date.new(2021, 1, 12) }).save!
-    Incident.new_with_user(all_user, { displacement_status: 'status_3', incident_date: Date.new(2021, 2, 12) }).save!
-    Incident.new_with_user(all_user, { displacement_status: 'status_3', incident_date: Date.new(2021, 3, 12) }).save!
+    Incident.new_with_user(
+      self_user, { displacement_status: 'status_1', incident_date: Date.new(2020, 8, 12), consent_reporting: 'true' }
+    ).save!
+    Incident.new_with_user(
+      group_user, { displacement_status: 'status_2', incident_date: Date.new(2020, 9, 12), consent_reporting: 'true' }
+    ).save!
+    Incident.new_with_user(
+      agency_user, { displacement_status: 'status_2', incident_date: Date.new(2021, 1, 12), consent_reporting: 'true' }
+    ).save!
+    Incident.new_with_user(
+      all_user, { displacement_status: 'status_3', incident_date: Date.new(2021, 2, 12), consent_reporting: 'true' }
+    ).save!
+    Incident.new_with_user(
+      all_user, { displacement_status: 'status_3', incident_date: Date.new(2021, 3, 12), consent_reporting: 'true' }
+    ).save!
   end
 
   it 'returns data for the survivors displacement status indicator' do

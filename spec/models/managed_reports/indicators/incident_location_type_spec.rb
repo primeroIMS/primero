@@ -121,6 +121,10 @@ describe ManagedReports::Indicators::IncidentLocationType do
       @all_user,
       { incident_date: Date.new(2022, 10, 8), incident_location_type: 'farm' }
     ).save!
+    Incident.new_with_user(
+      @all_user,
+      { incident_date: Date.new(2022, 10, 8), incident_location_type: 'farm', gbv_reported_elsewhere: 'gbvims-org' }
+    ).save!
   end
 
   it 'returns the number of incidents grouped by incident_location_type' do

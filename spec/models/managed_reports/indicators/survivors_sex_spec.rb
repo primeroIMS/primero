@@ -116,11 +116,21 @@ describe ManagedReports::Indicators::SurvivorsSex do
   before do
     clean_data(Incident, UserGroup, User, Agency, Role)
 
-    Incident.new_with_user(self_user, { sex: 'male', incident_date: Date.new(2020, 8, 12) }).save!
-    Incident.new_with_user(group_user, { sex: 'female', incident_date: Date.new(2020, 9, 12) }).save!
-    Incident.new_with_user(agency_user, { sex: 'male', incident_date: Date.new(2021, 1, 12) }).save!
-    Incident.new_with_user(all_user, { sex: 'female', incident_date: Date.new(2021, 2, 12) }).save!
-    Incident.new_with_user(all_user, { sex: 'female', incident_date: Date.new(2021, 3, 12) }).save!
+    Incident.new_with_user(
+      self_user, { sex: 'male', incident_date: Date.new(2020, 8, 12), consent_reporting: 'true' }
+    ).save!
+    Incident.new_with_user(
+      group_user, { sex: 'female', incident_date: Date.new(2020, 9, 12), consent_reporting: 'true' }
+    ).save!
+    Incident.new_with_user(
+      agency_user, { sex: 'male', incident_date: Date.new(2021, 1, 12), consent_reporting: 'true' }
+    ).save!
+    Incident.new_with_user(
+      all_user, { sex: 'female', incident_date: Date.new(2021, 2, 12), consent_reporting: 'true' }
+    ).save!
+    Incident.new_with_user(
+      all_user, { sex: 'female', incident_date: Date.new(2021, 3, 12), consent_reporting: 'true' }
+    ).save!
   end
 
   it 'returns data for the survivors sex indicator' do

@@ -105,6 +105,7 @@ describe ManagedReports::Indicators::SurvivorsNumberOfServicesProvided do
       @self_user,
       incident_date: Date.new(2021, 2, 12),
       service_safehouse_referral: 'service_provided_by_your_agency',
+      consent_reporting: 'true',
       health_medical_referral_subform_section:
         [
           { unique_id: '001', service_medical_referral: 'service_provided_by_your_agency' },
@@ -115,6 +116,7 @@ describe ManagedReports::Indicators::SurvivorsNumberOfServicesProvided do
       @group_user,
       incident_date: Date.new(2021, 1, 8),
       service_safehouse_referral: 'service_provided_by_your_agency',
+      consent_reporting: 'true',
       psychosocial_counseling_services_subform_section:
         [
           { unique_id: '001', service_psycho_referral: 'service_provided_by_your_agency' }
@@ -124,6 +126,7 @@ describe ManagedReports::Indicators::SurvivorsNumberOfServicesProvided do
       @agency_user,
       incident_date: Date.new(2020, 10, 10),
       service_safehouse_referral: 'service_provided_by_your_agency',
+      consent_reporting: 'true',
       legal_assistance_services_subform_section:
         [
           { unique_id: '001', service_legal_referral: 'service_provided_by_your_agency' }
@@ -133,6 +136,7 @@ describe ManagedReports::Indicators::SurvivorsNumberOfServicesProvided do
       @all_user,
       incident_date: Date.new(2020, 10, 10),
       service_safehouse_referral: 'service_provided_by_your_agency',
+      consent_reporting: 'true',
       police_or_other_type_of_security_services_subform_section:
         [
           { unique_id: '001', service_police_referral: 'service_provided_by_your_agency' }

@@ -107,6 +107,7 @@ describe ManagedReports::Indicators::ElapsedReportingTimeRapeHealthReferral do
         incident_date: Date.new(2020, 8, 10),
         date_of_first_report: Date.new(2020, 8, 12),
         gbv_sexual_violence_type: 'rape',
+        consent_reporting: 'true',
         health_medical_referral_subform_section:
           [
             { unique_id: '001', service_medical_referral: 'referred' }
@@ -119,6 +120,7 @@ describe ManagedReports::Indicators::ElapsedReportingTimeRapeHealthReferral do
         incident_date: Date.new(2021, 9, 3),
         date_of_first_report: Date.new(2021, 9, 8),
         gbv_sexual_violence_type: 'rape',
+        consent_reporting: 'true',
         health_medical_referral_subform_section:
           [
             { unique_id: '001', service_medical_referral: 'referred' }
@@ -131,6 +133,7 @@ describe ManagedReports::Indicators::ElapsedReportingTimeRapeHealthReferral do
         incident_date: Date.new(2021, 9, 9),
         date_of_first_report: Date.new(2021, 9, 10),
         gbv_sexual_violence_type: 'rape',
+        consent_reporting: 'true',
         health_medical_referral_subform_section:
           [
             { unique_id: '001', service_medical_referral: 'service_provided_by_your_agency' }
@@ -143,6 +146,7 @@ describe ManagedReports::Indicators::ElapsedReportingTimeRapeHealthReferral do
         incident_date: Date.new(2020, 8, 12),
         date_of_first_report: Date.new(2020, 9, 12),
         gbv_sexual_violence_type: 'rape',
+        consent_reporting: 'true',
         health_medical_referral_subform_section:
           [
             { unique_id: '001', service_medical_referral: 'service_provided_by_your_agency' }
@@ -155,6 +159,21 @@ describe ManagedReports::Indicators::ElapsedReportingTimeRapeHealthReferral do
         incident_date: Date.new(2022, 8, 8),
         date_of_first_report: Date.new(2022, 10, 8),
         gbv_sexual_violence_type: 'rape',
+        consent_reporting: 'true',
+        health_medical_referral_subform_section:
+          [
+            { unique_id: '001', service_medical_referral: 'service_unavailable' }
+          ]
+      }
+    ).save!
+    Incident.new_with_user(
+      @all_user,
+      {
+        incident_date: Date.new(2022, 8, 8),
+        date_of_first_report: Date.new(2022, 10, 8),
+        gbv_sexual_violence_type: 'rape',
+        consent_reporting: 'true',
+        gbv_reported_elsewhere: 'gbvims-org',
         health_medical_referral_subform_section:
           [
             { unique_id: '001', service_medical_referral: 'service_unavailable' }

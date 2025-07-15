@@ -103,23 +103,23 @@ describe ManagedReports::Indicators::IncidentTimeofday do
 
     Incident.new_with_user(
       @self_user,
-      { incident_date: Date.new(2020, 8, 12), incident_timeofday: 'morning' }
+      { incident_date: Date.new(2020, 8, 12), incident_timeofday: 'morning', consent_reporting: 'true' }
     ).save!
     Incident.new_with_user(
       @group_user,
-      { incident_date: Date.new(2021, 9, 8), incident_timeofday: 'afternoon' }
+      { incident_date: Date.new(2021, 9, 8), incident_timeofday: 'afternoon', consent_reporting: 'true' }
     ).save!
     Incident.new_with_user(
       @agency_user,
-      { incident_date: Date.new(2021, 9, 10), incident_timeofday: 'evening_night' }
+      { incident_date: Date.new(2021, 9, 10), incident_timeofday: 'evening_night', consent_reporting: 'true' }
     ).save!
     Incident.new_with_user(
       @all_user,
-      { incident_date: Date.new(2020, 9, 12), incident_timeofday: 'afternoon' }
+      { incident_date: Date.new(2020, 9, 12), incident_timeofday: 'afternoon', consent_reporting: 'true' }
     ).save!
     Incident.new_with_user(
       @all_user,
-      { incident_date: Date.new(2022, 10, 8), incident_timeofday: 'unknown' }
+      { incident_date: Date.new(2022, 10, 8), incident_timeofday: 'unknown', consent_reporting: 'true' }
     ).save!
   end
 

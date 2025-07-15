@@ -104,11 +104,13 @@ describe ManagedReports::Indicators::PerpetratorAgeGroup do
     Incident.new_with_user(
       @self_user,
       incident_date: Date.new(2020, 8, 12),
+      consent_reporting: 'true',
       alleged_perpetrator: [{ 'age_group' => '0_11', 'primary_perpetrator' => 'primary' }]
     ).save!
     Incident.new_with_user(
       @group_user,
       incident_date: Date.new(2020, 9, 12),
+      consent_reporting: 'true',
       alleged_perpetrator: [
         { 'age_group' => '12_17', 'primary_perpetrator' => 'primary' },
         { 'age_group' => '18_25', 'primary_perpetrator' => 'primary' }
@@ -117,6 +119,7 @@ describe ManagedReports::Indicators::PerpetratorAgeGroup do
     Incident.new_with_user(
       @agency_user,
       incident_date: Date.new(2021, 1, 12),
+      consent_reporting: 'true',
       alleged_perpetrator: [
         { 'age_group' => '18_25', 'primary_perpetrator' => 'primary' }
       ]
@@ -124,6 +127,17 @@ describe ManagedReports::Indicators::PerpetratorAgeGroup do
     Incident.new_with_user(
       @all_user,
       incident_date: Date.new(2021, 2, 12),
+      consent_reporting: 'true',
+      alleged_perpetrator: [
+        { 'age_group' => '61', 'primary_perpetrator' => 'primary' },
+        { 'age_group' => '61', 'primary_perpetrator' => 'primary' }
+      ]
+    ).save!
+    Incident.new_with_user(
+      @all_user,
+      incident_date: Date.new(2021, 2, 12),
+      gbv_reported_elsewhere: 'gbvims-org',
+      consent_reporting: 'true',
       alleged_perpetrator: [
         { 'age_group' => '61', 'primary_perpetrator' => 'primary' },
         { 'age_group' => '61', 'primary_perpetrator' => 'primary' }

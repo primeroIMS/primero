@@ -104,6 +104,7 @@ describe ManagedReports::Indicators::NumberOfPerpetrators do
     Incident.new_with_user(
       @self_user,
       incident_date: Date.new(2020, 8, 12),
+      consent_reporting: 'true',
       alleged_perpetrator:
       [
         { unique_id: '10cfd918-3c69-4baa-b1cc-6c9a1cd9ea10' },
@@ -113,16 +114,30 @@ describe ManagedReports::Indicators::NumberOfPerpetrators do
     Incident.new_with_user(
       @group_user,
       incident_date: Date.new(2020, 9, 12),
+      consent_reporting: 'true',
       alleged_perpetrator: [{ unique_id: '10cfd918-3c69-4baa-b1cc-6c9a1cd9ea31' }]
     ).save!
     Incident.new_with_user(
       @agency_user,
       incident_date: Date.new(2021, 1, 12),
+      consent_reporting: 'true',
       alleged_perpetrator: [{ unique_id: '10cfd918-3c69-4baa-b1cc-6c9a1cd9ea31' }]
     ).save!
     Incident.new_with_user(
       @all_user,
       incident_date: Date.new(2021, 2, 12),
+      consent_reporting: 'true',
+      alleged_perpetrator: [
+        { unique_id: '11cfd918-3c69-4baa-b1cc-6c9a1cd9ea31' },
+        { unique_id: '12cfd918-3c69-4baa-b1cc-6c9a1cd9ea15' },
+        { unique_id: '13cfd918-3c69-4baa-b1cc-6c9a1cd9ea15' }
+      ]
+    ).save!
+    Incident.new_with_user(
+      @all_user,
+      incident_date: Date.new(2021, 2, 12),
+      consent_reporting: 'true',
+      gbv_reported_elsewhere: 'gbvims-org',
       alleged_perpetrator: [
         { unique_id: '11cfd918-3c69-4baa-b1cc-6c9a1cd9ea31' },
         { unique_id: '12cfd918-3c69-4baa-b1cc-6c9a1cd9ea15' },

@@ -13,28 +13,24 @@ class ManagedReports::Indicators::PerpetratorRelationship < ManagedReports::SqlR
     def sql(current_user, params = {})
       date_param = filter_date(params)
       %{
-        select
-          alleged_perpetrator.perpetrator_relationship as id,
-          #{grouped_date_query(params['grouped_by'], date_param)&.concat(' as group_id,')}
-          count(*) as total
-        from incidents,
-        jsonb_to_recordset(data #> '{alleged_perpetrator}') as alleged_perpetrator(
-          age_group text,
-          unique_id text,
-          primary_perpetrator text,
-          perpetrator_sex text,
-          former_perpetrator boolean,
-          perpetrator_ethnicity text,
-          perpetrator_occupation text,
-          perpetrator_nationality text,
-          perpetrator_relationship text
-        )
-        where data ->> 'alleged_perpetrator' is not null
-        and alleged_perpetrator.primary_perpetrator = 'primary'
+        SELECT
+          alleged_perpetrators.perpetrator_relationship AS id,
+          #{grouped_date_query(params['grouped_by'], date_param)&.concat(' AS group_id,')}
+          COUNT(*) AS total
+        FROM incidents
+        CROSS JOIN LATERAL(
+          SELECT
+            perpetrators->>'perpetrator_relationship' AS perpetrator_relationship
+          FROM jsonb_array_elements(data->'alleged_perpetrator') AS perpetrators
+          WHERE perpetrators->>'primary_perpetrator' = 'primary'
+        ) AS alleged_perpetrators
+        WHERE data @? '$[*] ? (@.consent_reporting  == "true") ? (
+          !exists(@.gbv_reported_elsewhere) || @.gbv_reported_elsewhere != "gbvims-org"
+        )'
         #{date_range_query(date_param)&.prepend('and ')}
         #{equal_value_query(params['module_id'])&.prepend('and ')}
         #{user_scope_query(current_user)&.prepend('and ')}
-        group by alleged_perpetrator.perpetrator_relationship
+        GROUP BY alleged_perpetrators.perpetrator_relationship
         #{grouped_date_query(params['grouped_by'], date_param)&.prepend(', ')}
       }
     end

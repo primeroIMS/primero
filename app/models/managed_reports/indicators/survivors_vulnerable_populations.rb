@@ -15,35 +15,43 @@ class ManagedReports::Indicators::SurvivorsVulnerablePopulations < ManagedReport
     # rubocop:disable Metrics/PerceivedComplexity
     def sql(current_user, params = {})
       date_param = filter_date(params)
+      grouped_query = grouped_date_query(params['grouped_by'], date_param)
+      group_column = grouped_query.present? ? 'group_id' : nil
       %{
-        select
+        WITH filtered_incidents AS (
+          SELECT
+            id,
+            #{grouped_query&.dup&.concat(' AS group_id,')}
+            data
+          FROM incidents
+          WHERE data @? '$[*] ? (@.consent_reporting  == "true")'
+          #{date_range_query(date_param)&.prepend('AND ')}
+          #{equal_value_query(params['module_id'])&.prepend('AND ')}
+          #{user_scope_query(current_user)&.prepend('AND ')}
+        )
+        SELECT
           *
-        from (
-          select
-            'survivors_disability_type' as id,
-            #{grouped_date_query(params['grouped_by'], date_param)&.concat(' as group_id,')}
-            count(*) as total
-          from incidents
-          where data ->> 'disability_type' = 'true'
-          #{date_range_query(date_param)&.prepend('and ')}
-          #{equal_value_query(params['module_id'])&.prepend('and ')}
-          #{user_scope_query(current_user)&.prepend('and ')}
-          #{grouped_date_query(params['grouped_by'], date_param)&.prepend('group by ')}
-          union
-          select
-            data ->> 'unaccompanied_separated_status' as id,
-            #{grouped_date_query(params['grouped_by'], date_param)&.concat(' as group_id,')}
-            count(*) as total
-          from incidents
-          where data ->> 'unaccompanied_separated_status' is not null
-          and data ->> 'unaccompanied_separated_status' <> 'no'
-          #{date_range_query(date_param)&.prepend('and ')}
-          #{equal_value_query(params['module_id'])&.prepend('and ')}
-          #{user_scope_query(current_user)&.prepend('and ')}
-          group by data ->> 'unaccompanied_separated_status'
-          #{grouped_date_query(params['grouped_by'], date_param)&.prepend(', ')}
-        ) as survivors
-        order by id
+        FROM (
+          SELECT
+            'survivors_disability_type' AS id,
+            #{group_column&.dup&.+(',')}
+            COUNT(*) AS total
+          FROM filtered_incidents
+          WHERE data @? '$[*] ? (@.disability_type == "true")'
+          #{group_column&.dup&.prepend('GROUP BY ')}
+          UNION
+          SELECT
+            data ->> 'unaccompanied_separated_status' AS id,
+            #{group_column&.dup&.+(',')}
+            COUNT(*) AS total
+          FROM filtered_incidents
+          WHERE data @? '$[*] ? (
+            @.unaccompanied_separated_status != null &&
+            @.unaccompanied_separated_status != "no"
+          )'
+          GROUP BY data ->> 'unaccompanied_separated_status' #{group_column&.dup&.prepend(',')}
+        ) AS survivors
+        ORDER BY id
       }
     end
     # rubocop:enable Metrics/AbcSize

@@ -13,16 +13,16 @@ class ManagedReports::Indicators::SurvivorsAge < ManagedReports::SqlReportIndica
     def sql(current_user, params = {})
       date_param = filter_date(params)
       %{
-        select
-          #{age_ranges_query(module_id: params['module_id'])} as id,
-          #{grouped_date_query(params['grouped_by'], date_param)&.concat(' as group_id,')}
-          count(*) as total
-        from incidents
-        where data ->> 'age' is not null
-        #{date_range_query(date_param)&.prepend('and ')}
-        #{equal_value_query(params['module_id'])&.prepend('and ')}
-        #{user_scope_query(current_user)&.prepend('and ')}
-        group by #{age_ranges_query(module_id: params['module_id'])}
+        SELECT
+          #{age_ranges_query(module_id: params['module_id'])} AS id,
+          #{grouped_date_query(params['grouped_by'], date_param)&.concat(' AS group_id,')}
+          COUNT(*) AS total
+        FROM incidents
+        WHERE data @? '$[*] ? (@.age != null && @.consent_reporting == "true")'
+        #{date_range_query(date_param)&.prepend('AND ')}
+        #{equal_value_query(params['module_id'])&.prepend('AND ')}
+        #{user_scope_query(current_user)&.prepend('AND ')}
+        GROUP BY #{age_ranges_query(module_id: params['module_id'])}
         #{grouped_date_query(params['grouped_by'], date_param)&.prepend(', ')}
       }
     end

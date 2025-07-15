@@ -9,21 +9,26 @@ class ManagedReports::Indicators::TotalGBVSexualViolence < ManagedReports::SqlRe
       'gbv_sexual_violence'
     end
 
+    # rubocop:disable Metrics/MethodLength
     def sql(current_user, params = {})
       date_param = filter_date(params)
       %{
-        select
-         'incidents' as id,
-          #{grouped_date_query(params['grouped_by'], date_param)&.concat(' as group_id,')}
-          count(*) as total
+        SELECT
+         'incidents' AS id,
+          #{grouped_date_query(params['grouped_by'], date_param)&.concat(' AS group_id,')}
+          count(*) AS total
         from  incidents
-        where data ->> 'gbv_sexual_violence_type' != 'non-gbv'
-        and data ->> 'gbv_sexual_violence_type' is not null
-        #{date_range_query(date_param)&.prepend('and ')}
-        #{equal_value_query(params['module_id'])&.prepend('and ')}
-        #{user_scope_query(current_user)&.prepend('and ')}
-        #{grouped_date_query(params['grouped_by'], date_param)&.prepend('group by ')}
+        WHERE data @? '$[*] ? (
+          @.consent_reporting == "true" && @.gbv_sexual_violence_type != null && @.gbv_sexual_violence_type != "non-gbv"
+        ) ? (
+          !exists(@.gbv_reported_elsewhere) || @.gbv_reported_elsewhere != "gbvims-org"
+        )'
+        #{date_range_query(date_param)&.prepend('AND ')}
+        #{equal_value_query(params['module_id'])&.prepend('AND ')}
+        #{user_scope_query(current_user)&.prepend('AND ')}
+        #{grouped_date_query(params['grouped_by'], date_param)&.prepend('GROUP BY ')}
       }
     end
+    # rubocop:enable Metrics/MethodLength
   end
 end
