@@ -12,6 +12,7 @@ import css from "./styles.css";
 
 function TableValues({
   columns,
+  headerTitle,
   values,
   showPlaceholder = false,
   name = "",
@@ -30,7 +31,12 @@ function TableValues({
       ) : (
         <Table className={css.table}>
           <TableHead className={css.tableHeader}>
-            <Header columns={columns} subColumnItemsSize={subColumnItemsSize} withTotals={hasTotalColumn} />
+            <Header
+              columns={columns}
+              subColumnItemsSize={subColumnItemsSize}
+              headerTitle={headerTitle}
+              withTotals={hasTotalColumn}
+            />
           </TableHead>
           <TableBody>
             <TableRows
@@ -52,6 +58,7 @@ TableValues.propTypes = {
   columns: PropTypes.array,
   emptyMessage: PropTypes.string,
   hasTotalColumn: PropTypes.bool,
+  headerTitle: PropTypes.string,
   name: PropTypes.string,
   showPlaceholder: PropTypes.bool,
   subColumnItemsSize: PropTypes.number,

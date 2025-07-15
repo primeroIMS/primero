@@ -16,6 +16,7 @@ function Component({
   emptyMessage,
   groupedBy,
   hasTotalColumn,
+  headerTitle,
   includeZeros,
   incompleteDataLabel,
   indicatorsRows,
@@ -61,6 +62,7 @@ function Component({
       <TableComponent
         useInsightsHeader
         valueRender={cellValueRender}
+        headerTitle={headerTitle}
         columns={buildInsightColumns[insightMetadata.get("table_type")]({
           value,
           isGrouped,
@@ -107,6 +109,7 @@ Component.propTypes = {
   emptyMessage: PropTypes.string,
   groupedBy: PropTypes.string,
   hasTotalColumn: PropTypes.bool,
+  headerTitle: PropTypes.string,
   includeZeros: PropTypes.bool,
   incompleteDataLabel: PropTypes.string,
   indicatorsRows: PropTypes.object,

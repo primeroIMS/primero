@@ -65,6 +65,7 @@ function DateFieldPicker({
       ...textInputProps,
       "data-testid": dateIncludeTime ? "date-time-picker" : "date-picker",
       helperText: helpText,
+      label,
       InputProps: {
         readOnly: textInputProps?.readOnly
       },

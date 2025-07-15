@@ -3,6 +3,7 @@
 import PropTypes from "prop-types";
 import { TableCell, TableRow } from "@mui/material";
 import isNil from "lodash/isNil";
+import isEmpty from "lodash/isEmpty";
 import { cx } from "@emotion/css";
 
 import InsightsTableHeaderSubItems from "../insights-table-header-sub-items";
@@ -11,10 +12,11 @@ import { buildGroupedSubItemColumns } from "../../utils";
 import css from "./styles.css";
 import { NAME } from "./constants";
 
-function InsightsTableHeader({ addEmptyCell = true, columns, subColumnItemsSize, withTotals }) {
+function InsightsTableHeader({ addEmptyCell = true, columns, headerTitle, subColumnItemsSize, withTotals }) {
   const groupedSubcolumns = columns.reduce((acc, column) => ({ ...acc, [column.label]: column.items }), {});
-  const groupedSubItemcolumns = buildGroupedSubItemColumns(columns);
-  const classesEmptyCell = cx({ [css.emptyCell]: Boolean(subColumnItemsSize) });
+  const groupedSubItemColumns = buildGroupedSubItemColumns(columns);
+  const classesEmptyCell = cx({ [css.emptyCell]: Boolean(subColumnItemsSize), [css.emptyHeader]: true });
+  const hasGroupedColumns = !isEmpty(groupedSubItemColumns);
   const subcolumnsNumber = Object.values(groupedSubcolumns)
     .flat()
     .some(subcolumn => !isNil(subcolumn));
@@ -22,7 +24,8 @@ function InsightsTableHeader({ addEmptyCell = true, columns, subColumnItemsSize,
   return (
     <>
       <TableRow className={css.tableRowHeader}>
-        {addEmptyCell && <TableCell className={classesEmptyCell} />}
+        {addEmptyCell && !headerTitle && <TableCell className={classesEmptyCell} />}
+        {headerTitle && <TableCell>{headerTitle}</TableCell>}
         {columns.map(column => (
           <TableCell key={column.label} colSpan={column.colspan || column.items?.length}>
             {column.label}
@@ -36,7 +39,7 @@ function InsightsTableHeader({ addEmptyCell = true, columns, subColumnItemsSize,
             subcolumns.map(subcolumn => (
               <TableCell
                 key={`${parent}-${subcolumn}`}
-                colSpan={groupedSubItemcolumns[`${parent}-${subcolumn}`]?.length}
+                colSpan={groupedSubItemColumns[`${parent}-${subcolumn}`]?.length}
               >
                 {subcolumn}
               </TableCell>
@@ -44,7 +47,9 @@ function InsightsTableHeader({ addEmptyCell = true, columns, subColumnItemsSize,
           )}
         </TableRow>
       )}
-      <InsightsTableHeaderSubItems groupedSubItemcolumns={groupedSubItemcolumns} withTotals={withTotals} />
+      {hasGroupedColumns && (
+        <InsightsTableHeaderSubItems groupedSubItemColumns={groupedSubItemColumns} withTotals={withTotals} />
+      )}
     </>
   );
 }
@@ -54,6 +59,7 @@ InsightsTableHeader.displayName = NAME;
 InsightsTableHeader.propTypes = {
   addEmptyCell: PropTypes.bool,
   columns: PropTypes.array,
+  headerTitle: PropTypes.string,
   subColumnItemsSize: PropTypes.number,
   withTotals: PropTypes.bool
 };

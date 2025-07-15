@@ -11,6 +11,7 @@ import { NAME_DETAIL } from "../../constants";
 import DisplayData from "../../../display-data";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
+import useSystemStrings, { FORMS } from "../../../application/use-system-strings";
 
 import { EDIT, VIEW } from "./constants";
 
@@ -25,6 +26,7 @@ function Component({
   dirty = false
 }) {
   const i18n = useI18n();
+  const { label } = useSystemStrings(FORMS);
   const canViewIncidents = usePermissions(RESOURCES.incidents, READ_RECORDS);
   const canEditIncidents = usePermissions(RESOURCES.incidents, WRITE_RECORDS);
 
@@ -80,7 +82,7 @@ function Component({
             <DisplayData label={incidentDateLabel} value={incidentDate} />
           </Grid>
           <Grid item md={6} xs={12}>
-            <DisplayData label={incidentTypeLabel} value={incidentType} />
+            <DisplayData label={label(incidentTypeLabel)} value={incidentType} noTranslate />
           </Grid>
         </Grid>
         <Grid item md={2} xs={12}>

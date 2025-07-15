@@ -32,7 +32,13 @@ import {
 } from "./utils";
 import { getInsight, getInsightFilter, getIsGroupedInsight } from "./selectors";
 import namespace from "./namespace";
-import { GROUPED_BY_FILTER, NAME, GHN_VIOLATIONS_INDICATORS_IDS, PERCENTAGE_INDICATORS } from "./constants";
+import {
+  GROUPED_BY_FILTER,
+  NAME,
+  GHN_VIOLATIONS_INDICATORS_IDS,
+  PERCENTAGE_INDICATORS,
+  HEADER_TITLE_KEYS
+} from "./constants";
 import css from "./styles.css";
 import { setSubReport } from "./action-creators";
 import getSubcolumnItems from "./utils/get-subcolumn-items";
@@ -71,6 +77,7 @@ function Component() {
       .entrySeq()
       .reduce((acc, [key, elems]) => ({ ...acc, [key]: transformOptions(elems, i18n.locale) }), {});
   }, [indicatorsRows, i18n.locale]);
+  const headerKeys = HEADER_TITLE_KEYS[insight.get("id")] || {};
 
   const optionValues = Object.values(OPTION_TYPES);
   const indicatorsSubcolumns = insightMetadata.get("indicators_subcolumns", fromJS({}));
@@ -211,6 +218,7 @@ function Component() {
                   incompleteDataLabel
                 });
 
+                const headerTitle = headerKeys[valueKey] ? i18n.t(headerKeys[valueKey]) : null;
                 const cellValueRender = PERCENTAGE_INDICATORS.includes(valueKey) ? cellRender : null;
                 const chartValueRender = PERCENTAGE_INDICATORS.includes(valueKey) ? chartRender : null;
 
@@ -231,6 +239,7 @@ function Component() {
                     indicatorsRows={indicatorsRowsAsOptions}
                     lookupValue={lookupValue}
                     namespace={namespace}
+                    headerTitle={headerTitle}
                     subReportTitle={subReportTitle}
                     TableComponent={TableComponent}
                     totalText={GHN_VIOLATIONS_INDICATORS_IDS.includes(valueKey) ? violationsText : totalText}

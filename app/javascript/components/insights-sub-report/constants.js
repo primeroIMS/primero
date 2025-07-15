@@ -27,3 +27,19 @@ export const PERCENTAGE_INDICATORS = [
   "percentage_cases_safety_plan",
   "percentage_clients_gender"
 ];
+
+export const HEADER_TITLE_KEYS = Object.freeze({
+  gbv_statistics: {
+    sex: "managed_reports.gbv_statistics.header_title.sex",
+    age: "managed_reports.gbv_statistics.header_title.age",
+    marital_status: "managed_reports.gbv_statistics.header_title.marital_status",
+    displacement_status: "managed_reports.gbv_statistics.header_title.displacement_status",
+    displacement_incident: "managed_reports.gbv_statistics.header_title.displacement_incident",
+    gbv_sexual_violence_type: "managed_reports.gbv_statistics.header_title.gbv_sexual_violence_type",
+    incident_timeofday: "managed_reports.gbv_statistics.header_title.incident_timeofday",
+    incident_location_type: "managed_reports.gbv_statistics.header_title.incident_location_type",
+    perpetrator_relationship: "managed_reports.gbv_statistics.header_title.perpetrator_relationship",
+    perpetrator_age_group: "managed_reports.gbv_statistics.header_title.perpetrator_age_group",
+    perpetrator_occupation: "managed_reports.gbv_statistics.header_title.perpetrator_occupation"
+  }
+});

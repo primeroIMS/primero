@@ -2433,6 +2433,18 @@ en:
         service_protection_referral: Child Protection Services
         vulnerable_populations: Survivor Statistics - Vulnerable Populations
         survivors_disability_type: With Disabilities
+      header_title:
+        sex: Sex of survivors
+        age: Age of survivors
+        marital_status: Marital Status
+        displacement_status: Displacement Status at time of report
+        displacement_incident: Stage of displacement at time of incident
+        gbv_sexual_violence_type: Type of incident violence
+        incident_timeofday: Time of day that the incident took place
+        incident_location_type: Type of place where the incident took place
+        perpetrator_relationship: Alleged perpetrator relationship with survivor
+        perpetrator_age_group: Age group of alleged perpetrator
+        perpetrator_occupation: Main occupation of alleged perpetrator
     workflow_report:
       name: Workflow
       description: Cases and Incidents with the selected Workflow Status, broken down by age and sex.
