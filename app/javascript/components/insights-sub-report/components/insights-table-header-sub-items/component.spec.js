@@ -7,7 +7,7 @@ import InsightsTableHeaderSubItems from "./component";
 describe("<InsightsTableHeaderSubItems />", () => {
   const props = {
     addEmptyCell: true,
-    groupedSubItemcolumns: {
+    groupedSubItemColumns: {
       "2021-Q2": ["boys", "girls", "unknown", "total"],
       "2021-Q3": ["boys", "girls", "unknown", "total"],
       "2021-Q4": ["boys", "girls", "unknown", "total"]

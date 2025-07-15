@@ -7,7 +7,7 @@
 }
 
 .tableRowHeader {
-  & th:not(:first-child) {
+  & th {
     background-color: var(--c-light-grey);
     font-weight: bold;
     border-left: 1px solid var(--c-light-grey-2);
@@ -20,4 +20,10 @@
 
 .emptyCell {
   min-width: 11em;
+}
+
+th{
+  &.emptyHeader {
+    background-color: var(--c-white);
+  }
 }

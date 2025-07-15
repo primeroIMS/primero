@@ -10,6 +10,7 @@ describe("<InsightsSubReport /> - constants", () => {
     [
       "COMBINED_INDICATORS",
       "GROUPED_BY_FILTER",
+      "HEADER_TITLE_KEYS",
       "NAME",
       "GHN_VIOLATIONS_INDICATORS_IDS",
       "REPORTING_LOCATION_INSIGHTS",
