@@ -98,7 +98,7 @@ function Component({ mode }) {
       onSubmit: formData => {
         const parentFormParams = calculateFormParams({ id, formData, formMode, i18n });
         const subforms = selectedSubforms;
-
+        console.log(subforms)
         if (!subforms.isEmpty()) {
           dispatch(saveSubforms(subforms, parentFormParams));
         } else {

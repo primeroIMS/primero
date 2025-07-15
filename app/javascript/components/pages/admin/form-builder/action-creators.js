@@ -5,6 +5,7 @@ import isEmpty from "lodash/isEmpty";
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
 import { METHODS, RECORD_PATH, SAVE_METHODS } from "../../../../config";
 import { fetchForms } from "../forms-list/action-creators";
+import { compactBlank } from "../../../record-form/utils";
 
 import { getFormRequestPath } from "./utils";
 import actions from "./actions";
@@ -80,7 +81,7 @@ export const saveForm = ({ id, body, saveMethod, message }) => {
 export const saveSubforms = (subforms, { id, body, saveMethod, message }) => {
   const subformsRequest = subforms.reduce((prev, current) => {
     const subfomBody = {
-      data: current
+      data: current.toSeq().filter(Boolean)
     };
     const subformID = current?.get("id");
 
