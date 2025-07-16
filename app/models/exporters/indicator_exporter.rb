@@ -5,6 +5,8 @@
 # Class to export an Indicator
 # rubocop:disable Metrics/ClassLength
 class Exporters::IndicatorExporter < ValueObject
+  include Writexlsx::Utility
+
   INITIAL_CHART_WIDTH = 384
   INITIAL_CHART_HEIGHT = 460
   EXCEL_COLUMN_WIDTH = 64
@@ -147,13 +149,90 @@ class Exporters::IndicatorExporter < ValueObject
   end
 
   def build_series
-    [
-      {
-        categories: [worksheet.name] + table_data_rows + [0, 0],
-        values: [worksheet.name] + table_data_rows + [columns_number, columns_number],
-        points: Exporters::ManagedReportExporter::CHART_COLORS.values.map { |color| { fill: { color: } } }
+    colors = Exporters::ManagedReportExporter::CHART_COLORS.values
+    options_size = subcolumn_options.present? ? indicator_options.size + 1 : indicator_options.size
+    header_row = current_row - options_size
+    categories_row = header_row - 1
+    if subcolumn_options.present?
+      subcolumn_options_to_series(colors, categories_row, header_row)
+    else
+      options_to_series(colors, categories_row, header_row)
+    end
+  end
+
+  def subcolumn_options_to_series(colors, categories_row, header_row)
+    indicator_options.each_with_object([]).with_index do |(option, memo), option_index|
+      next if option['separator'] == true
+
+      series_data = generate_series_data(categories_row, header_row, option_index)
+      memo << {
+        name: option['display_text'],
+        fill: { color: colors.at(option_index) },
+        categories: series_categories(series_data),
+        values: series_values(series_data),
+        points: [{ fill: { color: colors.at(option_index) } }]
       }
-    ]
+    end
+  end
+
+  def options_to_series(colors, categories_row, header_row)
+    indicator_options.each_with_object([]).with_index do |(option, memo), index|
+      next if option['separator'] == true
+
+      row_value = serie_row_value(header_row, index)
+      end_column = serie_end_column(index)
+      memo << {
+        name: option['display_text'], fill: { color: colors.at(index) },
+        categories: [worksheet.name, categories_row, categories_row, 1, end_column],
+        values: [worksheet.name, row_value, row_value, serie_start_column, end_column],
+        points: [{ fill: { color: colors.at(index) } }]
+      }
+    end
+  end
+
+  def generate_series_data(categories_row, header_row, option_index)
+    row_value = serie_row_value(header_row, option_index)
+    start_column = (subcolumn_options.size) + 1
+    end_column = subcolumn_options.size
+
+    {
+      categories: [[categories_row, categories_row, start_column, start_column]],
+      values: [[row_value, row_value, end_column, end_column]]
+    }
+  end
+
+  def series_categories(series_data)
+    categories = series_data[:categories].map do |category|
+      "#{quote_sheetname(worksheet.name)}!#{xl_range(*category)}"
+    end.join(',')
+    return "=(#{categories})" unless series_data[:categories].size == 1
+
+    categories
+  end
+
+  def series_values(series_data)
+    values = series_data[:values].map do |value|
+      "#{quote_sheetname(worksheet.name)}!#{xl_range(*value)}"
+    end.join(',')
+
+    return "=(#{values})" unless series_data[:values].size == 1
+
+    values
+  end
+
+  def serie_row_value(header_row, index)
+    row_value = header_row + index
+    row_value += 1 if subcolumn_options.present?
+    row_value
+  end
+
+  def serie_end_column(index)
+    end_column = subcolumn_options.present? ? subcolumn_options.size : columns_number
+    subcolumn_options.present? ? subcolumn_options.size * (index + 1) : end_column
+  end
+
+  def serie_start_column
+    subcolumn_options.present? ? subcolumn_options.size : 1
   end
 
   def chart_size

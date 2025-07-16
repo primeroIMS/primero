@@ -5,8 +5,6 @@
 # Class to export an Indicator
 # rubocop:disable Metrics/ClassLength
 class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
-  include Writexlsx::Utility
-
   GROUPED_CHART_WIDTH = 566
   GROUPED_BY = { month: 'month', year: 'year', quarter: 'quarter', week: 'week' }.freeze
 
@@ -227,7 +225,7 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
 
   def write_columns_data(group_data, initial_index, group_index)
     indicator_options.each_with_index do |option, option_index|
-      next if option['seprarator'] == true
+      next if option['separator'] == true
 
       cell_format = option == indicator_options.last ? formats[:blue_bottom_border] : formats[:black]
       write_column_data(
@@ -303,31 +301,6 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
     GROUPED_CHART_WIDTH + (columns_number * EXCEL_COLUMN_WIDTH)
   end
 
-  def build_series
-    colors = Exporters::ManagedReportExporter::CHART_COLORS.values
-    options_size = subcolumn_options.present? ? indicator_options.size + 1 : indicator_options.size
-    header_row = current_row - options_size
-    categories_row = header_row - 1
-    if subcolumn_options.present?
-      subcolumn_options_to_series(colors, categories_row, header_row)
-    else
-      options_to_series(colors, categories_row, header_row)
-    end
-  end
-
-  def subcolumn_options_to_series(colors, categories_row, header_row)
-    indicator_options.map.with_index do |option, option_index|
-      series_data = generate_series_data(categories_row, header_row, option_index)
-      {
-        name: option['display_text'],
-        fill: { color: colors.at(option_index) },
-        categories: series_categories(series_data),
-        values: series_values(series_data),
-        points: [{ fill: { color: colors.at(option_index) } }]
-      }
-    end
-  end
-
   def generate_series_data(categories_row, header_row, option_index)
     series_groups.each_with_object(categories: [], values: []).with_index do |(_elem, memo), group_index|
       row_value = serie_row_value(header_row, option_index)
@@ -340,53 +313,6 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
 
   def series_groups
     grouped_by_year? ? parent_groups : groups.values.flatten
-  end
-
-  def series_categories(series_data)
-    categories = series_data[:categories].map do |category|
-      "#{quote_sheetname(worksheet.name)}!#{xl_range(*category)}"
-    end.join(',')
-    return "=(#{categories})" unless series_data[:categories].size == 1
-
-    categories
-  end
-
-  def series_values(series_data)
-    values = series_data[:values].map do |value|
-      "#{quote_sheetname(worksheet.name)}!#{xl_range(*value)}"
-    end.join(',')
-
-    return "=(#{values})" unless series_data[:values].size == 1
-
-    values
-  end
-
-  def options_to_series(colors, categories_row, header_row)
-    indicator_options.each_with_index.map do |option, index|
-      row_value = serie_row_value(header_row, index)
-      end_column = serie_end_column(index)
-      {
-        name: option['display_text'], fill: { color: colors.at(index) },
-        categories: [worksheet.name, categories_row, categories_row, 1, end_column],
-        values: [worksheet.name, row_value, row_value, serie_start_column, end_column],
-        points: [{ fill: { color: colors.at(index) } }]
-      }
-    end
-  end
-
-  def serie_start_column
-    subcolumn_options.present? ? subcolumn_options.size : 1
-  end
-
-  def serie_end_column(index)
-    end_column = subcolumn_options.present? ? subcolumn_options.size : columns_number
-    subcolumn_options.present? ? subcolumn_options.size * (index + 1) : end_column
-  end
-
-  def serie_row_value(header_row, index)
-    row_value = header_row + index
-    row_value += 1 if subcolumn_options.present?
-    row_value
   end
 
   def grouped_subcolumn_total(group_data, option)
