@@ -169,13 +169,26 @@ class Exporters::IndicatorExporter < ValueObject
 
   def write_indicator_data
     indicator_options.each do |option|
-      if option == indicator_options.last
+      if option['separator'] == true
+        write_option_separator(option, current_row)
+      elsif option == indicator_options.last
         write_indicator_last_row(option)
       else
         write_indicator_row(option)
       end
       self.current_row += 1
     end
+  end
+
+  def write_option_separator(option, row_index)
+    worksheet.merge_range(
+      row_index,
+      0,
+      row_index,
+      columns_number,
+      option['display_text'],
+      formats[:bold_blue]
+    )
   end
 
   def write_indicator_row(elem)
@@ -274,7 +287,7 @@ class Exporters::IndicatorExporter < ValueObject
   end
 
   def sort_options
-    return sort_options_age_ranges if key == 'age'
+    return sort_options_age_ranges if key == 'age' && managed_report.id != 'gbv_statistics'
     return if lookups.is_a?(LocationService)
 
     sort_options_lookups if lookups.present?

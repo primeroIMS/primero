@@ -9,23 +9,37 @@ class ManagedReports::Indicators::SurvivorsAge < ManagedReports::SqlReportIndica
       'age'
     end
 
-    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/MethodLength
+    # rubocop:disable Metrics/CyclomaticComplexity
     def sql(current_user, params = {})
       date_param = filter_date(params)
+      group_query = grouped_date_query(params['grouped_by'], date_param)
       %{
+        WITH filtered_incidents AS (
+          SELECT
+            #{group_query&.dup&.concat(' AS group_id,')}
+            CASE
+              WHEN srch_age IS NULL THEN 'incomplete_data'
+              WHEN INT4RANGE(0, 11, '[]') @> CAST(srch_age AS INTEGER) THEN '0 - 11'
+              WHEN INT4RANGE(12, 17, '[]') @> CAST(srch_age AS INTEGER) THEN '12 - 17'
+              WHEN INT4RANGE(10, 19, '[]') @> CAST(srch_age AS INTEGER) THEN '10 - 19'
+              WHEN INT4RANGE(50, 999, '[]') @> CAST(srch_age AS INTEGER) THEN '50+'
+            END AS age_range
+          FROM incidents
+          WHERE data @? '$[*] ? (@.consent_reporting == "true")'
+          #{date_range_query(date_param)&.prepend('AND ')}
+          #{equal_value_query(params['module_id'])&.prepend('AND ')}
+          #{user_scope_query(current_user)&.prepend('AND ')}
+        )
         SELECT
-          #{age_ranges_query(module_id: params['module_id'])} AS id,
-          #{grouped_date_query(params['grouped_by'], date_param)&.concat(' AS group_id,')}
+          #{'group_id,' if group_query.present?}
+          age_range AS id,
           COUNT(*) AS total
-        FROM incidents
-        WHERE data @? '$[*] ? (@.age != null && @.consent_reporting == "true")'
-        #{date_range_query(date_param)&.prepend('AND ')}
-        #{equal_value_query(params['module_id'])&.prepend('AND ')}
-        #{user_scope_query(current_user)&.prepend('AND ')}
-        GROUP BY #{age_ranges_query(module_id: params['module_id'])}
-        #{grouped_date_query(params['grouped_by'], date_param)&.prepend(', ')}
+        FROM filtered_incidents
+        GROUP BY #{'group_id,' if group_query.present?} age_range
       }
     end
-    # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/CyclomaticComplexity
+    # rubocop:enable Metrics/MethodLength
   end
 end

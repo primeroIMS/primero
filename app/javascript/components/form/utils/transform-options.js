@@ -13,7 +13,8 @@ export default (options, locale) => {
       {
         ...current,
         id: get(current, "id"),
-        display_text: displayNameHelper(displayText, locale) || displayText
+        display_text: displayNameHelper(displayText, locale) || displayText,
+        separator: get(current, "separator")
       }
     ];
   }, []);

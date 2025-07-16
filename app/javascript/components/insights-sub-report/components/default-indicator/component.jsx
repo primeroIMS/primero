@@ -29,11 +29,13 @@ function Component({
   subReportTitle,
   TableComponent,
   totalText,
+  useAgeRows = false,
   value,
   valueKey
 }) {
   const i18n = useI18n();
   const isRtl = useMemo(() => i18n.dir === "rtl", [i18n.dir]);
+  const indicatorRows = indicatorsRows[valueKey];
 
   return (
     <div className={css.section}>
@@ -50,7 +52,7 @@ function Component({
             groupedBy,
             ageRanges,
             lookupValues: lookups[valueKey],
-            indicatorRows: indicatorsRows[valueKey],
+            indicatorRows,
             incompleteDataLabel
           })}
           valueRender={chartValueRender}
@@ -83,17 +85,19 @@ function Component({
           groupedBy,
           ageRanges,
           lookupValues: lookups[valueKey],
-          indicatorRows: indicatorsRows[valueKey],
+          indicatorRows,
           incompleteDataLabel,
           subColumnItems,
           hasTotalColumn,
           includeZeros
         })}
+        useAgeRows={useAgeRows}
         showPlaceholder
         name={namespace}
         emptyMessage={emptyMessage}
         subColumnItemsSize={subColumnItems?.length}
-        hasTotalColumn={hasTotalColumn}
+        withTotals={hasTotalColumn}
+        indicatorRows={indicatorsRows}
       />
     </div>
   );
@@ -122,6 +126,7 @@ Component.propTypes = {
   subReportTitle: PropTypes.func,
   TableComponent: PropTypes.node,
   totalText: PropTypes.string,
+  useAgeRows: PropTypes.bool,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   valueKey: PropTypes.string
 };

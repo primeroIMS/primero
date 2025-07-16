@@ -13,12 +13,12 @@ import LoadingIndicator from "../loading-indicator";
 import { useI18n } from "../i18n";
 import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { clearSelectedReport } from "../reports-form/action-creators";
-import TableValues from "../charts/table-values";
 import useOptions from "../form/use-options";
 import transformOptions from "../form/utils/transform-options";
 import { OPTION_TYPES } from "../form/constants";
 import { REFERRAL_TRANSFERS_SUBREPORTS } from "../../config";
 
+import InsightTableValues from "./components/table-values";
 import DefaultIndicator from "./components/default-indicator";
 import MultipleViolationsIndicator from "./components/multiple-violations-indicator";
 import {
@@ -129,8 +129,8 @@ function Component() {
   const ageRanges = (primaryAgeRanges || fromJS([])).reduce((acc, range) => acc.concat(formatAgeRange(range)), []);
 
   const TableComponent = {
-    ghn_report: TableValues,
-    default: TableValues
+    ghn_report: InsightTableValues,
+    default: InsightTableValues
   }[insightMetadata.get("table_type")];
 
   const hasData = !!insight.getIn(["report_data", subReport], false);
@@ -157,6 +157,7 @@ function Component() {
 
   const cellRender = useCallback((val, index) => (index === 0 ? val : `${val}%`), []);
   const chartRender = useCallback(val => `${val}%`, []);
+  const includeZeros = insight.get("include_zeros", false);
 
   return (
     <div className={css.container}>
@@ -174,8 +175,7 @@ function Component() {
             {singleInsightsTableData.size > 0 && (
               <>
                 <h3 className={css.sectionTitle}>{subReportTitle("combined")}</h3>
-                <TableValues
-                  useInsightsHeader
+                <InsightTableValues
                   columns={buildInsightColumns[insightMetadata.get("table_type")]({
                     value: singleInsightsTableData,
                     isGrouped,
@@ -227,7 +227,7 @@ function Component() {
                     key={valueKey}
                     valueKey={valueKey}
                     value={value}
-                    includeZeros={insight.get("include_zeros", false)}
+                    includeZeros={includeZeros}
                     ageRanges={ageRanges}
                     displayGraph={displayGraph}
                     emptyMessage={emptyMessage}

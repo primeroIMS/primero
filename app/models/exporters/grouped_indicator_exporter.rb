@@ -87,11 +87,26 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
   end
 
   def write_indicator_options
-    display_texts = indicator_options.map { |option| option['display_text'] }
-    display_texts.each_with_index do |display_text, index|
-      cell_format = display_text == display_texts.last ? formats[:bold_black_blue_bottom_border] : formats[:bold_black]
-      worksheet.write(current_row + index, 0, display_text, cell_format)
+    indicator_options.each_with_index do |option, index|
+      row_index = current_row + index
+      next write_option_separator(option, row_index) if option['separator'] == true
+
+      cell_format = formats[:bold_black]
+      cell_format = formats[:bold_black_blue_bottom_border] if option == indicator_options.last
+
+      worksheet.write(row_index, 0, option['display_text'], cell_format)
     end
+  end
+
+  def write_option_separator(option, row_index)
+    worksheet.merge_range(
+      row_index,
+      0,
+      row_index,
+      columns_number * subitems_size,
+      option['display_text'],
+      formats[:bold_blue]
+    )
   end
 
   def subitems_size
@@ -212,6 +227,8 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
 
   def write_columns_data(group_data, initial_index, group_index)
     indicator_options.each_with_index do |option, option_index|
+      next if option['seprarator'] == true
+
       cell_format = option == indicator_options.last ? formats[:blue_bottom_border] : formats[:black]
       write_column_data(
         {
