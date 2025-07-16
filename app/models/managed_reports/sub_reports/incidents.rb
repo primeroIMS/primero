@@ -77,6 +77,12 @@ class ManagedReports::SubReports::Incidents < ManagedReports::SubReport
   end
   # rubocop:enable Metrics/MethodLength
 
+  def indicators_subcolumns
+    {
+      ManagedReports::Indicators::SurvivorsNumberOfServicesProvidedOther.id => 'lookup-service-referred'
+    }
+  end
+
   private
 
   def row_display_texts(id)

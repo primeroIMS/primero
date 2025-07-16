@@ -12,7 +12,7 @@ import { buildGroupedSubItemColumns } from "../../utils";
 import css from "./styles.css";
 import { NAME } from "./constants";
 
-function InsightsTableHeader({ addEmptyCell = true, columns, headerTitle, subColumnItemsSize }) {
+function InsightsTableHeader({ addEmptyCell = true, columns, headerTitle, subColumnItemsSize, withTotals }) {
   const groupedSubcolumns = columns.reduce((acc, column) => ({ ...acc, [column.label]: column.items }), {});
   const groupedSubItemColumns = buildGroupedSubItemColumns(columns);
   const classesEmptyCell = cx({ [css.emptyCell]: Boolean(subColumnItemsSize), [css.emptyHeader]: true });
@@ -47,8 +47,9 @@ function InsightsTableHeader({ addEmptyCell = true, columns, headerTitle, subCol
           )}
         </TableRow>
       )}
-
-      {hasGroupedColumns && <InsightsTableHeaderSubItems groupedSubItemColumns={groupedSubItemColumns} />}
+      {hasGroupedColumns && (
+        <InsightsTableHeaderSubItems groupedSubItemColumns={groupedSubItemColumns} withTotals={withTotals} />
+      )}
     </>
   );
 }
@@ -59,7 +60,8 @@ InsightsTableHeader.propTypes = {
   addEmptyCell: PropTypes.bool,
   columns: PropTypes.array,
   headerTitle: PropTypes.string,
-  subColumnItemsSize: PropTypes.number
+  subColumnItemsSize: PropTypes.number,
+  withTotals: PropTypes.bool
 };
 
 export default InsightsTableHeader;

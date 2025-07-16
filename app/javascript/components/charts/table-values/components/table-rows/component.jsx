@@ -10,7 +10,7 @@ import generateKey from "../../utils";
 import css from "./styles.css";
 import { NAME } from "./constants";
 
-function Component({ values = [], subColumnItemsSize, valueRender = null }) {
+function Component({ values = [], subColumnItemsSize, valueRender = null, withTotals = false }) {
   const i18n = useI18n();
   const totalText = i18n.t("managed_reports.total");
 
@@ -24,7 +24,8 @@ function Component({ values = [], subColumnItemsSize, valueRender = null }) {
           const cellClass =
             subColumnItemsSize &&
             cx({
-              [css.tableCell]: (index % subColumnItemsSize === 0 && index !== 0) || row[0] === totalText,
+              [css.tableCell]:
+                withTotals && ((index % subColumnItemsSize === 0 && index !== 0) || row[0] === totalText),
               [css.tableCellSize]: Boolean(subColumnItemsSize) && index > 0
             });
 
@@ -46,7 +47,8 @@ Component.displayName = NAME;
 Component.propTypes = {
   subColumnItemsSize: PropTypes.number,
   valueRender: PropTypes.func,
-  values: PropTypes.array
+  values: PropTypes.array,
+  withTotals: PropTypes.bool
 };
 
 export default Component;

@@ -50,6 +50,7 @@ function Component({
             groupedBy,
             ageRanges,
             lookupValues: lookups[valueKey],
+            indicatorRows: indicatorsRows[valueKey],
             incompleteDataLabel
           })}
           valueRender={chartValueRender}
@@ -92,6 +93,7 @@ function Component({
         name={namespace}
         emptyMessage={emptyMessage}
         subColumnItemsSize={subColumnItems?.length}
+        hasTotalColumn={hasTotalColumn}
       />
     </div>
   );

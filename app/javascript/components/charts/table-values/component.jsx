@@ -19,7 +19,8 @@ function TableValues({
   emptyMessage = "",
   useInsightsHeader = false,
   subColumnItemsSize,
-  valueRender = null
+  valueRender = null,
+  hasTotalColumn = false
 }) {
   const Header = useInsightsHeader ? InsightsTableHeader : TableHeader;
 
@@ -30,10 +31,20 @@ function TableValues({
       ) : (
         <Table className={css.table}>
           <TableHead className={css.tableHeader}>
-            <Header columns={columns} subColumnItemsSize={subColumnItemsSize} headerTitle={headerTitle} />
+            <Header
+              columns={columns}
+              subColumnItemsSize={subColumnItemsSize}
+              headerTitle={headerTitle}
+              withTotals={hasTotalColumn}
+            />
           </TableHead>
           <TableBody>
-            <TableRows valueRender={valueRender} values={values} subColumnItemsSize={subColumnItemsSize} />
+            <TableRows
+              valueRender={valueRender}
+              values={values}
+              subColumnItemsSize={subColumnItemsSize}
+              withTotals={hasTotalColumn}
+            />
           </TableBody>
         </Table>
       )}
@@ -46,6 +57,7 @@ TableValues.displayName = "TableValues";
 TableValues.propTypes = {
   columns: PropTypes.array,
   emptyMessage: PropTypes.string,
+  hasTotalColumn: PropTypes.bool,
   headerTitle: PropTypes.string,
   name: PropTypes.string,
   showPlaceholder: PropTypes.bool,
