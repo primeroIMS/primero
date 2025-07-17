@@ -1,17 +1,14 @@
 import isEmpty from "lodash/isEmpty";
 
 import getSubcolumnValues from "./get-subcolumn-values";
+import fillMissingRows from "./fill-missing-rows";
 
-export default ({ data, key, getLookupValue, subColumnItems, rowTitles }) => {
-  const rowWithValues = data
+export default ({ data, key, getLookupValue, subColumnItems = [], rowTitles = [] }) => {
+  const subcolumnValues = data
     .flatMap(value => getSubcolumnValues({ key, data: value.get("data"), getLookupValue, subColumnItems }))
     .toArray();
 
-  if (isEmpty(rowTitles)) return rowWithValues;
+  if (isEmpty(rowTitles)) return subcolumnValues;
 
-  const missingTitles = (rowTitles || []).filter(title => !rowWithValues.some(row => row[0] === title));
-  const rowLength = rowWithValues[0]?.length || 1;
-  const rowValues = new Array(rowLength - 1).fill(0, 0, rowLength - 1);
-
-  return rowWithValues.concat(missingTitles.map(title => [title].concat(rowValues)));
+  return fillMissingRows(subcolumnValues, rowTitles);
 };

@@ -1,12 +1,14 @@
 import isEmpty from "lodash/isEmpty";
 
-export default ({ getLookupValue, data, key, subColumnItems = [] }) =>
-  data
-    .map(value => {
-      const lookupValue = getLookupValue(key, value);
-      const subcolumnValues = subColumnItems.map(subcolumn => value.get(subcolumn.id, 0));
-      const totalValue = !isEmpty(subColumnItems) ? [] : [value.get("total")];
+import { reduceMapToObject } from "../../../libs";
 
-      return { colspan: 0, row: [lookupValue, ...subcolumnValues, ...totalValue] };
-    })
-    .toArray();
+import getSubcolumnValues from "./get-subcolumn-values";
+import fillMissingRows from "./fill-missing-rows";
+
+export default ({ getLookupValue, data, key, subColumnItems = [], rowTitles = [] }) => {
+  const subcolumnValues = reduceMapToObject(getSubcolumnValues({ key, data, getLookupValue, subColumnItems })) || [];
+
+  const rows = isEmpty(rowTitles) ? subcolumnValues : fillMissingRows(subcolumnValues, rowTitles);
+
+  return rows.reduce((memo, row) => [...memo, { colspan: 0, row }], []);
+};
