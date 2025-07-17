@@ -32,7 +32,6 @@ export default {
     totalText,
     subColumnItems = [],
     indicatorRows,
-    hasTotalColumn,
     includeZeros = false
   }) => {
     if (data === 0) return [];
@@ -59,8 +58,8 @@ export default {
 
     const generatedRows =
       isGrouped && groupedBy
-        ? buildGroupedRows({ data, key, getLookupValue, groupedBy, subColumnItems, hasTotalColumn, rowTitles })
-        : buildSingleRows({ data, getLookupValue, key, subColumnItems, hasTotalColumn, rowTitles });
+        ? buildGroupedRows({ data, key, getLookupValue, groupedBy, subColumnItems, rowTitles })
+        : buildSingleRows({ data, getLookupValue, key, subColumnItems, rowTitles });
 
     const rows = generatedRows.map(current => ({ ...current, separator: separators?.includes(current.row[0]) }));
 

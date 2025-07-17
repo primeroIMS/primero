@@ -96,6 +96,7 @@ function Component() {
   const emptyMessage = i18n.t("managed_reports.no_data_table");
   const totalText = i18n.t("managed_reports.total");
   const violationsText = i18n.t("managed_reports.violations_total");
+  const tableType = insightMetadata?.get("table_type") || "default";
 
   const reportData = useMemo(() => buildReportData(insight, subReport), [insight, subReport]);
 
@@ -130,7 +131,7 @@ function Component() {
   const TableComponent = {
     ghn_report: InsightTableValues,
     default: InsightTableValues
-  }[insightMetadata.get("table_type")];
+  }[tableType];
 
   const hasData = !!insight.getIn(["report_data", subReport], false);
 
@@ -171,32 +172,30 @@ function Component() {
         <div className={css.subReportContent}>
           <div>
             <h2 className={css.description}>{i18n.t(insight.get("description"))}</h2>
-            {singleInsightsTableData.size > 0 && (
-              <>
-                <h3 className={css.sectionTitle}>{subReportTitle("combined")}</h3>
-                <InsightTableValues
-                  columns={buildInsightColumns[insightMetadata.get("table_type")]({
-                    value: singleInsightsTableData,
-                    isGrouped,
-                    groupedBy: currentGroupBy,
-                    localizeDate: i18n.localizeDate,
-                    totalText,
-                    incompleteDataLabel
-                  })}
-                  values={buildInsightValues[insightMetadata.get("table_type")]({
-                    getLookupValue: lookupValue,
-                    data: singleInsightsTableData,
-                    totalText,
-                    isGrouped,
-                    groupedBy: currentGroupBy,
-                    incompleteDataLabel
-                  })}
-                  showPlaceholder
-                  name={namespace}
-                  emptyMessage={emptyMessage}
-                />
-              </>
-            )}
+            <>
+              <h3 className={css.sectionTitle}>{subReportTitle("combined")}</h3>
+              <InsightTableValues
+                columns={buildInsightColumns[tableType]({
+                  value: singleInsightsTableData,
+                  isGrouped,
+                  groupedBy: currentGroupBy,
+                  localizeDate: i18n.localizeDate,
+                  totalText,
+                  incompleteDataLabel
+                })}
+                values={buildInsightValues[tableType]({
+                  getLookupValue: lookupValue,
+                  data: singleInsightsTableData,
+                  totalText,
+                  isGrouped,
+                  groupedBy: currentGroupBy,
+                  incompleteDataLabel
+                })}
+                showPlaceholder
+                name={namespace}
+                emptyMessage={emptyMessage}
+              />
+            </>
 
             {reportData
               .get("aggregate", fromJS({}))

@@ -36,6 +36,7 @@ function Component({
   const i18n = useI18n();
   const isRtl = useMemo(() => i18n.dir === "rtl", [i18n.dir]);
   const indicatorRows = indicatorsRows[valueKey];
+  const tableType = insightMetadata.get("table_type");
 
   return (
     <div className={css.section}>
@@ -65,7 +66,7 @@ function Component({
         useInsightsHeader
         valueRender={cellValueRender}
         headerTitle={headerTitle}
-        columns={buildInsightColumns[insightMetadata.get("table_type")]({
+        columns={buildInsightColumns[tableType]({
           value,
           isGrouped,
           groupedBy,
@@ -76,7 +77,7 @@ function Component({
           subColumnItems,
           hasTotalColumn
         })}
-        values={buildInsightValues[insightMetadata.get("table_type")]({
+        values={buildInsightValues[tableType]({
           getLookupValue: lookupValue,
           data: value,
           key: valueKey,
