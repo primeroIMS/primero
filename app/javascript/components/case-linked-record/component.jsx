@@ -277,6 +277,7 @@ function Component({
           recordViewForms={recordViewForms}
           shouldSelect={shouldSelect}
           shouldFetchRecord={shouldFetchRecord}
+          onResultClick={onResultClick}
         />
       </SubformDrawer>
     </>
