@@ -353,8 +353,6 @@ describe Api::V2::RecordHistoriesController, type: :request do
           { 'transferred_to_user_groups' => { 'from' => nil, 'to' => [] } }
         ]
       }
-      puts json['data'].count
-      puts json['data']
       expect(json['data'][0]).to eq(record_history_b.deep_stringify_keys)
     end
 
