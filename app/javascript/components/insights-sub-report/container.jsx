@@ -172,30 +172,32 @@ function Component() {
         <div className={css.subReportContent}>
           <div>
             <h2 className={css.description}>{i18n.t(insight.get("description"))}</h2>
-            <>
-              <h3 className={css.sectionTitle}>{subReportTitle("combined")}</h3>
-              <InsightTableValues
-                columns={buildInsightColumns[tableType]({
-                  value: singleInsightsTableData,
-                  isGrouped,
-                  groupedBy: currentGroupBy,
-                  localizeDate: i18n.localizeDate,
-                  totalText,
-                  incompleteDataLabel
-                })}
-                values={buildInsightValues[tableType]({
-                  getLookupValue: lookupValue,
-                  data: singleInsightsTableData,
-                  totalText,
-                  isGrouped,
-                  groupedBy: currentGroupBy,
-                  incompleteDataLabel
-                })}
-                showPlaceholder
-                name={namespace}
-                emptyMessage={emptyMessage}
-              />
-            </>
+            {singleInsightsTableData.size > 0 && (
+              <>
+                <h3 className={css.sectionTitle}>{subReportTitle("combined")}</h3>
+                <InsightTableValues
+                  columns={buildInsightColumns[tableType]({
+                    value: singleInsightsTableData,
+                    isGrouped,
+                    groupedBy: currentGroupBy,
+                    localizeDate: i18n.localizeDate,
+                    totalText,
+                    incompleteDataLabel
+                  })}
+                  values={buildInsightValues[tableType]({
+                    getLookupValue: lookupValue,
+                    data: singleInsightsTableData,
+                    totalText,
+                    isGrouped,
+                    groupedBy: currentGroupBy,
+                    incompleteDataLabel
+                  })}
+                  showPlaceholder
+                  name={namespace}
+                  emptyMessage={emptyMessage}
+                />
+              </>
+            )}
 
             {reportData
               .get("aggregate", fromJS({}))
