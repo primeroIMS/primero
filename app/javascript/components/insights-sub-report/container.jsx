@@ -14,7 +14,6 @@ import { useI18n } from "../i18n";
 import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { clearSelectedReport } from "../reports-form/action-creators";
 import useOptions from "../form/use-options";
-import transformOptions from "../form/utils/transform-options";
 import { OPTION_TYPES } from "../form/constants";
 import { REFERRAL_TRANSFERS_SUBREPORTS } from "../../config";
 
@@ -43,6 +42,7 @@ import css from "./styles.css";
 import { setSubReport } from "./action-creators";
 import getSubcolumnItems from "./utils/get-subcolumn-items";
 import hasTotalColumn from "./utils/has-total-column";
+import transformIndicatorsRows from "./utils/transform-indicators-rows";
 
 function Component() {
   const { id, subReport } = useParams();
@@ -72,11 +72,10 @@ function Component() {
   const insightLookups = insightMetadata.get("lookups", fromJS({})).entrySeq().toArray();
   const displayGraph = insightMetadata.get("display_graph", true);
   const indicatorsRows = insightMetadata.get("indicators_rows", fromJS({}));
-  const indicatorsRowsAsOptions = useMemo(() => {
-    return indicatorsRows
-      .entrySeq()
-      .reduce((acc, [key, elems]) => ({ ...acc, [key]: transformOptions(elems, i18n.locale) }), {});
-  }, [indicatorsRows, i18n.locale]);
+  const indicatorsRowsAsOptions = useMemo(
+    () => transformIndicatorsRows(indicatorsRows, i18n.locale),
+    [indicatorsRows, i18n.locale]
+  );
   const headerKeys = HEADER_TITLE_KEYS[insight.get("id")] || {};
 
   const optionValues = Object.values(OPTION_TYPES);

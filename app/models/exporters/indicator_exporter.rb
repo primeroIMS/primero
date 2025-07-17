@@ -165,13 +165,9 @@ class Exporters::IndicatorExporter < ValueObject
       next if option['separator'] == true
 
       series_data = generate_series_data(categories_row, header_row, option_index)
-      memo << {
-        name: option['display_text'],
-        fill: { color: colors.at(option_index) },
-        categories: series_categories(series_data),
-        values: series_values(series_data),
-        points: [{ fill: { color: colors.at(option_index) } }]
-      }
+      color = colors.at(option_index)
+      memo << { name: option['display_text'], fill: { color: }, points: [{ fill: { color: } }],
+                categories: series_categories(series_data), values: series_values(series_data) }
     end
   end
 
@@ -179,20 +175,18 @@ class Exporters::IndicatorExporter < ValueObject
     indicator_options.each_with_object([]).with_index do |(option, memo), index|
       next if option['separator'] == true
 
+      color = colors.at(index)
       row_value = serie_row_value(header_row, index)
       end_column = serie_end_column(index)
-      memo << {
-        name: option['display_text'], fill: { color: colors.at(index) },
-        categories: [worksheet.name, categories_row, categories_row, 1, end_column],
-        values: [worksheet.name, row_value, row_value, serie_start_column, end_column],
-        points: [{ fill: { color: colors.at(index) } }]
-      }
+      memo << { name: option['display_text'], fill: { color: }, points: [{ fill: { color: } }],
+                categories: [worksheet.name, categories_row, categories_row, 1, end_column],
+                values: [worksheet.name, row_value, row_value, serie_start_column, end_column] }
     end
   end
 
   def generate_series_data(categories_row, header_row, option_index)
     row_value = serie_row_value(header_row, option_index)
-    start_column = (subcolumn_options.size) + 1
+    start_column = subcolumn_options.size + 1
     end_column = subcolumn_options.size
 
     {
@@ -345,9 +339,9 @@ class Exporters::IndicatorExporter < ValueObject
       indicator_row['id'] == value
     end&.dig('display_text')
 
-    return display_text if display_text.is_a?(String)
+    return display_text[locale] if display_text.is_a?(Hash)
 
-    display_text.dig('display_text', locale)
+    display_text
   end
 
   def display_text_from_lookup(elem, lookup_id = nil)

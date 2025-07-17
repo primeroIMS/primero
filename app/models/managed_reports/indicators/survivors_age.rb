@@ -19,11 +19,13 @@ class ManagedReports::Indicators::SurvivorsAge < ManagedReports::SqlReportIndica
           SELECT
             #{group_query&.dup&.concat(' AS group_id,')}
             CASE
-              WHEN srch_age IS NULL THEN 'incomplete_data'
-              WHEN INT4RANGE(0, 11, '[]') @> CAST(srch_age AS INTEGER) THEN '0 - 11'
-              WHEN INT4RANGE(12, 17, '[]') @> CAST(srch_age AS INTEGER) THEN '12 - 17'
-              WHEN INT4RANGE(10, 19, '[]') @> CAST(srch_age AS INTEGER) THEN '10 - 19'
-              WHEN INT4RANGE(50, 999, '[]') @> CAST(srch_age AS INTEGER) THEN '50+'
+              WHEN srch_age IS NULL THEN ARRAY['incomplete_data']
+              WHEN int4range(10, 11, '[]') @> srch_age THEN ARRAY['0 - 11', '10 - 19']
+              WHEN int4range(12, 17, '[]') @> srch_age THEN ARRAY['10 - 19', '12 - 17']
+              WHEN int4range(0, 11, '[]') @> srch_age THEN ARRAY['0 - 11']
+              WHEN int4range(10, 19, '[]') @> srch_age THEN ARRAY['10 - 19']
+              WHEN int4range(12, 17, '[]') @> srch_age THEN ARRAY['12 - 17']
+              WHEN int4range(50, 999, '[]') @> srch_age THEN ARRAY['50+']
             END AS age_range
           FROM incidents
           WHERE data @? '$[*] ? (@.consent_reporting == "true")'
@@ -33,10 +35,10 @@ class ManagedReports::Indicators::SurvivorsAge < ManagedReports::SqlReportIndica
         )
         SELECT
           #{'group_id,' if group_query.present?}
-          age_range AS id,
+          UNNEST(age_range) AS id,
           COUNT(*) AS total
         FROM filtered_incidents
-        GROUP BY #{'group_id,' if group_query.present?} age_range
+        GROUP BY #{'group_id,' if group_query.present?} UNNEST(age_range)
       }
     end
     # rubocop:enable Metrics/CyclomaticComplexity

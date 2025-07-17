@@ -51,7 +51,6 @@ TableValues.displayName = "TableValues";
 TableValues.propTypes = {
   columns: PropTypes.array,
   emptyMessage: PropTypes.string,
-  headerTitle: PropTypes.string,
   name: PropTypes.string,
   showPlaceholder: PropTypes.bool,
   subColumnItemsSize: PropTypes.number,
