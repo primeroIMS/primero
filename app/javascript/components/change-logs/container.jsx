@@ -9,51 +9,59 @@ import { OPTION_TYPES } from "../form/constants";
 import { useI18n } from "../i18n";
 import { getFields } from "../record-form";
 import RecordFormTitle from "../record-form/form/record-form-title";
-import { getRecordForms, getOptions as getLookups } from "../record-form/selectors";
+import { getOptions as getLookups } from "../record-form/selectors";
 import { useFormFilters } from "../form-filters";
-import { RECORD_TYPES } from "../../config";
 import useOptions from "../form/use-options";
+import ActionButton from "../action-button";
+import { ACTION_BUTTON_TYPES } from "../action-button/constants";
 
 import { fetchChangeLogs } from "./action-creators";
 import ChangeLog from "./components/change-log";
 import SubformDialog from "./components/subform-dialog";
 import { NAME } from "./constants";
-import { getChangeLogs } from "./selectors";
+import { getChangeLogs, getChangeLogLoading, getChangeLogMetadata } from "./selectors";
 import css from "./styles.css";
 
-function Container({
-  selectedForm,
-  recordID,
-  recordType,
-  primeroModule,
-  mobileDisplay,
-  handleToggleNav,
-  fetchable = false
-}) {
+function Container({ selectedForm, recordID, recordType, mobileDisplay, handleToggleNav, fetchable = false }) {
   const i18n = useI18n();
 
   const dispatch = useDispatch();
-  const { selectedFilters } = useFormFilters(selectedForm);
+  const { selectedFilters, clearFilters } = useFormFilters(selectedForm);
 
   const [open, setOpen] = useState(false);
   const [calculatingChangeLog, setCalculatingChangeLog] = useState(false);
   const [recordChanges, setRecordChanges] = useState({});
+  const [page, setPage] = useState(1);
+  const [more, setMore] = useState(false);
 
-  const forms = useMemoizedSelector(state =>
-    getRecordForms(state, { recordType: RECORD_TYPES[recordType], primeroModule })
-  );
-  const recordChangeLogs = useMemoizedSelector(state =>
-    getChangeLogs(state, recordID, recordType, forms, selectedFilters)
-  );
+  const recordChangeLogs = useMemoizedSelector(state => getChangeLogs(state, recordID, recordType));
+  const changeLogLoading = useMemoizedSelector(state => getChangeLogLoading(state));
+  const changeLogMetadata = useMemoizedSelector(state => getChangeLogMetadata(state));
 
   const allFields = useMemoizedSelector(state => getFields(state));
   const allAgencies = useOptions({ source: OPTION_TYPES.AGENCY, useUniqueId: true });
   const allLookups = useMemoizedSelector(state => getLookups(state));
   const locations = useOptions({ source: OPTION_TYPES.LOCATION });
 
+  const hasMore =
+    Boolean(changeLogMetadata.size) &&
+    changeLogMetadata.get("page") * changeLogMetadata.get("per") < changeLogMetadata.get("total");
+
+  const handleMore = () => {
+    const nextPage = page + 1;
+
+    setPage(nextPage);
+    setMore(!more);
+    dispatch(fetchChangeLogs(recordType, recordID, nextPage, selectedFilters));
+  };
+
+  useEffect(() => {
+    clearFilters();
+  }, []);
+
   useEffect(() => {
     if (fetchable && recordID) {
-      dispatch(fetchChangeLogs(recordType, recordID));
+      dispatch(fetchChangeLogs(recordType, recordID, page));
     }
   }, [recordID]);
 
@@ -74,6 +82,18 @@ function Container({
         displayText={i18n.t("change_logs.label")}
       />
       <ChangeLog {...sharedProps} recordChangeLogs={recordChangeLogs} setRecordChanges={setRecordChanges} />
+
+      <div className={css.moreBtn} data-testid="change-logs-more">
+        <ActionButton
+          text="filters.more"
+          type={ACTION_BUTTON_TYPES.default}
+          fullWidth
+          variant="outlined"
+          onClick={handleMore}
+          pending={changeLogLoading}
+          disabled={!hasMore}
+        />
+      </div>
       <SubformDialog
         {...sharedProps}
         open={open}
@@ -91,7 +111,6 @@ Container.propTypes = {
   forms: PropTypes.object,
   handleToggleNav: PropTypes.func.isRequired,
   mobileDisplay: PropTypes.bool.isRequired,
-  primeroModule: PropTypes.string,
   recordID: PropTypes.string,
   recordType: PropTypes.string.isRequired,
   selectedForm: PropTypes.string

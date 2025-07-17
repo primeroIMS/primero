@@ -168,6 +168,10 @@ describe("ChangeLogs - Container", () => {
     expect(screen.getAllByTestId("timeline")).toHaveLength(5);
   });
 
+  it("renders ActionButton", () => {
+    expect(screen.getByText("filters.more")).toBeInTheDocument();
+  });
+
   describe("when filters are selected", () => {
     it("renders only the selected field names", () => {
       const selectedForm = "changeLog";

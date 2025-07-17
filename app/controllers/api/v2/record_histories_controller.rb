@@ -9,8 +9,20 @@ class Api::V2::RecordHistoriesController < Api::V2::RecordResourceController
   def index
     authorize!(:read, @record)
     authorize!(:change_log, @record)
-    filter_record_histories = @record.ordered_histories
+
+    filter_record_histories = @record.filter_histories(**record_histories_filters)
     @total = filter_record_histories.size
     @record_histories = filter_record_histories.paginate(pagination)
+  end
+
+  def record_histories_params
+    params.permit(filters: { field_names: {}, form_unique_ids: {} })
+  end
+
+  def record_histories_filters
+    {
+      field_names: record_histories_params.dig(:filters, :field_names)&.values,
+      form_unique_ids: record_histories_params.dig(:filters, :form_unique_ids)&.values
+    }
   end
 end
