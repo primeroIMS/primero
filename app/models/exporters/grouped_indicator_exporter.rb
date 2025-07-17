@@ -65,6 +65,7 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
     write_grouped_table_header
     return if values.blank?
 
+    write_relevant_field
     write_grouped_headers
     write_indicator_options
     write_grouped_indicator_data

@@ -88,12 +88,24 @@ class Exporters::IndicatorExporter < ValueObject
   def write_table_header
     write_grey_row
     write_indicator_header
+    write_relevant_field
     write_total_row unless with_total_subcolumn
   end
 
   def write_grey_row
     worksheet.merge_range(current_row, 0, current_row, columns_number, '', formats[:grey_space])
     self.current_row += 1
+  end
+
+  def write_relevant_field
+    return unless I18n.exists?("managed_reports.#{managed_report.id}.header_title.#{key}", locale)
+
+    worksheet.write(
+      current_row,
+      0,
+      I18n.t("managed_reports.#{managed_report.id}.header_title.#{key}", locale:),
+      formats[:bold_blue]
+    )
   end
 
   def columns_number
