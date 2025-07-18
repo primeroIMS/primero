@@ -29,6 +29,7 @@ function Component({
   linkFieldDisplay,
   permissions,
   primeroModule,
+  onResultClick,
   redirectIfNotAllowed,
   shouldSelect = false,
   showSelectButton = false,
@@ -78,10 +79,14 @@ function Component({
   const handleSelect = () => handleSelection(record);
 
   useEffect(() => {
-    if (linkedRecordType && shouldFetchRecord) {
+    onResultClick(record);
+  }, [record]);
+
+  useEffect(() => {
+    if (id && pluralRecordType) {
       dispatch(fetchRecord(pluralRecordType, id));
     }
-  }, [linkedRecordType, shouldFetchRecord]);
+  }, [linkedRecordType, id, pluralRecordType]);
 
   const selectButtonText = shouldSelect ? "case.select" : "case.deselect";
   const selectButtonIcon = shouldSelect ? <CheckIcon /> : <BlockIcon />;
@@ -128,6 +133,7 @@ Component.propTypes = {
   linkedRecordFormUniqueId: PropTypes.string.isRequired,
   linkedRecordType: PropTypes.string.isRequired,
   linkFieldDisplay: PropTypes.string.isRequired,
+  onResultClick: PropTypes.func,
   permissions: PropTypes.object.isRequired,
   primeroModule: PropTypes.string.isRequired,
   recordViewForms: PropTypes.array,
