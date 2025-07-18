@@ -1,5 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
+import isEmpty from "lodash/isEmpty";
+
 import { WEEK, YEAR } from "../../insights/constants";
 
 import getGroupComparator from "./get-group-comparator";
@@ -45,6 +47,6 @@ export default {
 
     const columns = subColumnItems.map(elem => ({ label: elem.display_text }));
 
-    return hasTotalColumn ? columns : [...columns, { label: totalText }];
+    return hasTotalColumn && !isEmpty(subColumnItems) ? columns : [...columns, { label: totalText }];
   }
 };

@@ -63,11 +63,20 @@ class ManagedReports::SubReports::Incidents < ManagedReports::SubReport
     services_provided_rows = %w[
       service_safehouse_referral service_medical_referral service_psycho_referral service_legal_referral
       service_police_referral service_livelihoods_referral service_protection_referral
-    ].map { |id| { id:, display_text: row_display_texts(id) } }
+    ].map { |id| { id:, display_text: row_display_texts("services_provided.#{id}") } }
 
-    age_ranges = AgeRangeService.primary_age_ranges(params['module_id']&.value).map do |age_range|
-      { 'id' => age_range.to_s, 'display_text' => age_range.to_s }
-    end
+    age_ranges = [
+      {
+        id: 'children_17_younger',
+        display_text: row_display_texts('survivors_age.children_17_younger'),
+        separator: true
+      },
+      { id: '0 - 11', display_text: row_display_texts('survivors_age.age_0_11') },
+      { id: '12 - 17', display_text: row_display_texts('survivors_age.age_12_17') },
+      { id: 'adults_18_older', display_text: row_display_texts('survivors_age.adults_18_older'), separator: true },
+      { id: '50+', display_text: row_display_texts('survivors_age.age_50_more') },
+      { id: '10 - 19', display_text: row_display_texts('survivors_age.age_10_19') }
+    ]
 
     {
       ManagedReports::Indicators::SurvivorsNumberOfServicesProvided.id => services_provided_rows,
@@ -85,9 +94,9 @@ class ManagedReports::SubReports::Incidents < ManagedReports::SubReport
 
   private
 
-  def row_display_texts(id)
+  def row_display_texts(key)
     I18n.available_locales.each_with_object({}) do |locale, memo|
-      memo[locale] = I18n.t("managed_reports.gbv_statistics.sub_reports.#{id}", locale:)
+      memo[locale] = I18n.t("managed_reports.gbv_statistics.#{key}", locale:)
     end
   end
 end

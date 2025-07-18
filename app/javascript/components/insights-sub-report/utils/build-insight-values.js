@@ -32,7 +32,6 @@ export default {
     totalText,
     subColumnItems = [],
     indicatorRows,
-    hasTotalColumn,
     includeZeros = false
   }) => {
     if (data === 0) return [];
@@ -49,10 +48,20 @@ export default {
       rowTitles = !isEmpty(lookupDisplayTexts) ? lookupDisplayTexts : indicatorRowDisplaytexts;
     }
 
-    const rows =
+    const separators = indicatorRows?.reduce((acc, elem) => {
+      if (elem.separator) {
+        return [...acc, elem.display_text];
+      }
+
+      return acc;
+    }, []);
+
+    const generatedRows =
       isGrouped && groupedBy
-        ? buildGroupedRows({ data, key, getLookupValue, groupedBy, subColumnItems, hasTotalColumn, rowTitles })
-        : buildSingleRows({ data, getLookupValue, key, subColumnItems, hasTotalColumn, rowTitles });
+        ? buildGroupedRows({ data, key, getLookupValue, groupedBy, subColumnItems, rowTitles })
+        : buildSingleRows({ data, getLookupValue, key, subColumnItems, rowTitles });
+
+    const rows = generatedRows.map(current => ({ ...current, separator: separators?.includes(current.row[0]) }));
 
     if (!isEmpty(lookupDisplayTexts)) {
       const sortArray = [...lookupDisplayTexts, incompleteDataLabel, totalText];

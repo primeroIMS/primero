@@ -2424,6 +2424,9 @@ en:
         incidents_from_other_service_provider: Referral Statistics - Incidents Referred From Other Service Providers
         number_of_services_provided: Referral Statistics - Number of Services Provided for Incidents
         number_of_services_provided_other: Referral Statistics - New Incident Referrals to Other Service Providers
+        vulnerable_populations: Survivor Statistics - Vulnerable Populations
+        survivors_disability_type: With Disabilities
+      services_provided:
         service_safehouse_referral: Safe House/Safe Shelter Referral
         service_medical_referral: Health/Medical Referral
         service_psycho_referral: Psychosocial/Counseling Services
@@ -2431,8 +2434,13 @@ en:
         service_police_referral: Police or Other Type of Security Services
         service_livelihoods_referral: Livelihoods Services
         service_protection_referral: Child Protection Services
-        vulnerable_populations: Survivor Statistics - Vulnerable Populations
-        survivors_disability_type: With Disabilities
+      survivors_age:
+        age_0_11: 0-11 Yrs Old
+        age_12_17: 12-17 Yrs Old
+        age_10_19: Adolescent (10-19)
+        age_50_more: Elderly (50 & Older)
+        children_17_younger: Children - 17 Yrs & Younger
+        adults_18_older: Adults - 18 Yrs & Older
       header_title:
         sex: Sex of survivors
         age: Age of survivors
