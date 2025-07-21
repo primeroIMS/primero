@@ -8,14 +8,14 @@ class Api::V2::FlagsController < Api::V2::RecordResourceController
 
   def create
     authorize! :flag_record, @record
-    @flag = @record.add_flag!(params['data']['message'], params['data']['date'], current_user.user_name)
+    @flag = @record.add_flag!(permitted_create_params[:message], permitted_create_params[:date], current_user.user_name)
     updates_for_record(@record)
     render :create, status:
   end
 
   def update
-    authorize! :flag_resolve, @record
-    @flag = @record.remove_flag!(params['id'], current_user.user_name, params['data']['unflag_message'])
+    authorize!(flag_action.to_sym, @record)
+    @flag = @record.update_flag!(params['id'], current_user.user_name, permitted_update_params)
     updates_for_record(@record)
   end
 
@@ -38,5 +38,19 @@ class Api::V2::FlagsController < Api::V2::RecordResourceController
 
   def status
     params[:data][:id].present? ? 204 : 200
+  end
+
+  def permitted_create_params
+    @permitted_create_params ||= params.require(:data).permit(:message, :date)
+  end
+
+  def permitted_update_params
+    @permitted_update_params ||= params.require(:data).permit(:message, :date, :unflag_message)
+  end
+
+  def flag_action
+    return 'flag_update' unless permitted_update_params[:unflag_message].present?
+
+    'flag_resolve'
   end
 end
