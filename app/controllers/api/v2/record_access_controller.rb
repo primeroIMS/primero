@@ -16,7 +16,7 @@ class Api::V2::RecordAccessController < Api::V2::RecordResourceController
   end
 
   def access_log_params
-    params.permit(filters: [:from, :to, { actions: [] }])
+    params.permit(filters: { timestamp: %i[from to], actions: {} })
   end
 
   protected
@@ -30,5 +30,13 @@ class Api::V2::RecordAccessController < Api::V2::RecordResourceController
     filters[:actions] = actions if actions.present?
 
     filters
+  end
+
+  def from_param
+    params.dig(:filters, :timestamp, :from).present? ? Time.zone.parse(params.dig(:filters, :timestamp, :from)) : Time.at(0).to_datetime
+  end
+
+  def to_param
+    params.dig(:filters, :timestamp, :to).present? ? Time.zone.parse(params.dig(:filters, :timestamp, :to)) : DateTime.now.end_of_day
   end
 end
