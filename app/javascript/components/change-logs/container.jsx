@@ -13,7 +13,6 @@ import { getOptions as getLookups } from "../record-form/selectors";
 import { useFormFilters } from "../form-filters";
 import useOptions from "../form/use-options";
 import LoadMoreRecord from "../load-more-records";
-import { ACTION_BUTTON_TYPES } from "../action-button/constants";
 
 import { fetchChangeLogs } from "./action-creators";
 import ChangeLog from "./components/change-log";
