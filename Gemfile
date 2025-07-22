@@ -42,6 +42,7 @@ gem 'rack-attack',         '>= 6.6'    # Rack middleware to rate limit sensetive
 gem 'rails',               '6.1.7.10'
 gem 'rake',                '~> 13.0'
 gem 'rbnacl',              '>= 7.1.1'  # Libsodium Ruby binding. Used for encrypting export file passwords.
+gem 'resolv',              '>= 0.3.1'  # CVE-2025-24294
 gem 'rubyzip',             '~> 2.3',   # Zip and encrypt exported files
     require: 'zip'
 gem 'spreadsheet',         '~> 1.3'    # Read XLS spreadsheets for imports (not XLSX!). TODO: Different gem? Reconsider?
@@ -52,6 +53,7 @@ gem 'sunspot_rails',       '~> 2.6',    # Rails ODM bindings to Solr
 gem 'sunspot_solr',        '~> 2.6',    # Ruby bindings to Solr
     require: false
 gem 'text',                '~> 1.3'    # Phonetic Search Algorithms
+gem 'thor',                '>= 1.3.3'  # CVE-2025-54314
 gem 'twitter_cldr',        '~> 4.4'    # Localization for dates, money. TODO: Is this still used?
 gem 'tzinfo-data',         '~> 1.2023' # Timezone Data for TZInfo
 gem 'uri',                 '~> 0.13'   # CVE-2025-27221
