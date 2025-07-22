@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+# Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
 
 # API READ endpoint for Record Access
 class Api::V2::RecordAccessController < Api::V2::RecordResourceController
@@ -10,9 +10,9 @@ class Api::V2::RecordAccessController < Api::V2::RecordResourceController
   def index
     authorize_access!(:access_log)
 
-    @audit_logs = @record.access_log_filtered(**access_log_filters)
-    @total = @audit_logs.size
-    @audit_logs.paginate(pagination)
+    audit_logs_filtered = @record.access_log_filtered(**access_log_filters)
+    @total = audit_logs_filtered.size
+    @audit_logs = audit_logs_filtered.paginate(pagination)
   end
 
   def access_log_params
@@ -33,10 +33,18 @@ class Api::V2::RecordAccessController < Api::V2::RecordResourceController
   end
 
   def from_param
-    params.dig(:filters, :timestamp, :from).present? ? Time.zone.parse(params.dig(:filters, :timestamp, :from)) : Time.at(0).to_datetime
+    if params.dig(:filters, :timestamp, :from).present?
+      Time.zone.parse(params.dig(:filters, :timestamp, :from))
+    else
+      Time.at(0).to_datetime
+    end
   end
 
   def to_param
-    params.dig(:filters, :timestamp, :to).present? ? Time.zone.parse(params.dig(:filters, :timestamp, :to)) : DateTime.now.end_of_day
+    if params.dig(:filters, :timestamp, :to).present?
+      Time.zone.parse(params.dig(:filters, :timestamp, :to))
+    else
+      DateTime.now.end_of_day
+    end
   end
 end

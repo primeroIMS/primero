@@ -30,6 +30,7 @@ import CaseRelationships from "../../../case-relationships";
 const externalForms =
   ({
     approvalSubforms,
+    canSeeAccessLog,
     canSeeChangeLog,
     containerMode,
     handleCreateIncident,
@@ -158,6 +159,8 @@ const externalForms =
           recordType={RECORD_TYPES_PLURAL[recordType]}
           mobileDisplay={mobileDisplay}
           handleToggleNav={handleToggleNav}
+          selectedForm={selectedForm}
+          fetchable={canSeeChangeLog}
         />
       )
     }[externalFormSelected];
