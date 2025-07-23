@@ -21,6 +21,13 @@ class Api::V2::TokensController < Devise::SessionsController
   end
 
   # Overriding method called by Devise session destroy.
+  def verify_signed_out_user
+    return if IdentityProvider.mode_enabled?
+
+    super
+  end
+
+  # Overriding method called by Devise session destroy.
   def respond_to_on_destroy
     render json: {}
   end
