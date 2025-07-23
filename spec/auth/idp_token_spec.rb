@@ -113,8 +113,32 @@ describe IdpToken do
     end
   end
 
+  describe '.unique_id' do
+    let(:token_with_nonce) { IdpToken.new.tap { |t| t.payload = { 'nonce' => 'nonce' } } }
+    let(:token_with_jti_nonce) { IdpToken.new.tap { |t| t.payload = { 'nonce' => 'nonce', 'jti' => 'jti' } } }
+
+    it 'uses the nonce when the jti claim is blank' do
+      expect(token_with_nonce.unique_id).to eq('nonce')
+    end
+
+    it 'uses the jti when present' do
+      expect(token_with_jti_nonce.unique_id).to eq('jti')
+    end
+  end
+
+  describe '.activate!' do
+    before(:each) { allow(IdentityProvider).to receive(:jwks).and_return(@jwks) }
+    let(:token) { IdpToken.build(@valid_token) }
+
+    it "creates an associated session with this token's unique id as the session_id" do
+      token.activate!
+      expect(token.session.session_id) == token.unique_id
+    end
+  end
+
   after :each do
     clean_data(User, IdentityProvider)
+    Session.delete_all
   end
 
   private
