@@ -32,7 +32,7 @@ describe IdpToken do
     @jwk = JWT::JWK.new(@rsa_private)
     @jwks = { keys: [@jwk.export] }
     @header = { kid: @jwk.kid }
-    @payload = { aud: '123', iss: 'https://primeroims.org', emails: ['test@primero.org'] }
+    @payload = { aud: '123', iss: 'https://primeroims.org', emails: ['test@primero.org'], nonce: 'abc123' }
     @payload_capital_letters = { aud: '123', iss: 'https://primeroims.org', emails: ['UserTest@primero.org'] }
     @valid_token = valid_token @payload
     @valid_token_capital_letters = JWT.encode @payload_capital_letters, @rsa_private, 'RS256', @header
