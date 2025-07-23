@@ -26,7 +26,7 @@ class PermittedFormFieldsService
 
   UPDATE_FORBIDDEN_BY_TYPE = {
     case: %w[case_id case_id_display].freeze,
-    incident: %w[ncident_id incident_id_display].freeze,
+    incident: %w[incident_id incident_id_display].freeze,
     tracing_request: %w[tracing_request_id tracing_request_id_display].freeze,
     registry_record: %w[registry_id registry_id_display].freeze,
     family: %w[family_id family_id_display].freeze
@@ -64,7 +64,6 @@ class PermittedFormFieldsService
   end
 
   def permitted_fields_from_forms(roles, record_type, module_unique_id, action_name, visible_only = false)
-    # binding.pry
     fields = fetch_filtered_fields(roles, record_type, module_unique_id, visible_only)
     return fields unless writeable?(action_name)
 
