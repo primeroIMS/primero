@@ -392,7 +392,7 @@ describe Exporters::ManagedReportExporter do
 
           expect(workbook.sheet(0).row(368)).to eq(
             [
-              'Incident Statistics - Incidents of Rape, Time Elapsed (Health Service or Referral)',
+              'Incident Statistics - Incidents of Rape, Time Elapsed (Health Service or Referral Provided)',
               nil, nil, nil, nil
             ]
           )
@@ -714,7 +714,7 @@ describe Exporters::ManagedReportExporter do
 
             expect(workbook_grouped.sheet(0).row(232)).to match_array(
               [
-                'Incident Statistics - Incidents of Rape, Time Elapsed (Health Service or Referral)'
+                'Incident Statistics - Incidents of Rape, Time Elapsed (Health Service or Referral Provided)'
               ] + empty_columns_for_title
             )
             expect(workbook_grouped.sheet(0).row(233)).to match_array(year_range)
@@ -1067,7 +1067,7 @@ describe Exporters::ManagedReportExporter do
 
             expect(workbook_grouped.sheet(0).row(232)).to match_array(
               [
-                'Incident Statistics - Incidents of Rape, Time Elapsed (Health Service or Referral)'
+                'Incident Statistics - Incidents of Rape, Time Elapsed (Health Service or Referral Provided)'
               ] + empty_columns_for_title
             )
             expect(workbook_grouped.sheet(0).row(233)).to match_array(year_range)
@@ -1343,7 +1343,7 @@ describe Exporters::ManagedReportExporter do
 
             expect(workbook_grouped.sheet(0).row(232)).to match_array(
               [
-                'Incident Statistics - Incidents of Rape, Time Elapsed (Health Service or Referral)',
+                'Incident Statistics - Incidents of Rape, Time Elapsed (Health Service or Referral Provided)',
                 nil, nil, nil, nil
               ]
             )
@@ -1720,7 +1720,7 @@ describe Exporters::ManagedReportExporter do
           'Incident Statistics - Incidents of Rape, Time Elapsed between Incident and Report Date'
         )
         expect(workbook.sheet(0).row(368).at(0)).to eq(
-          'Incident Statistics - Incidents of Rape, Time Elapsed (Health Service or Referral)'
+          'Incident Statistics - Incidents of Rape, Time Elapsed (Health Service or Referral Provided)'
         )
         expect(workbook.sheet(0).row(400).at(0)).to eq('Incident Statistics - Incident Location')
         expect(workbook.sheet(0).row(430).at(0)).to eq('Perpetrator Statistics - Number of Primary Perpetrators')
@@ -1812,7 +1812,7 @@ describe Exporters::ManagedReportExporter do
             'Incident Statistics - Incidents of Rape, Time Elapsed between Incident and Report Date'
           )
           expect(workbook_no_data.sheet(0).row(35).at(0)).to eq(
-            'Incident Statistics - Incidents of Rape, Time Elapsed (Health Service or Referral)'
+            'Incident Statistics - Incidents of Rape, Time Elapsed (Health Service or Referral Provided)'
           )
           expect(workbook_no_data.sheet(0).row(37).at(0)).to eq('Incident Statistics - Incident Location')
           expect(workbook_no_data.sheet(0).row(39).at(0)).to eq(
