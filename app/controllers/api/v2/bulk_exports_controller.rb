@@ -54,10 +54,8 @@ class Api::V2::BulkExportsController < ApplicationApiController
 
   def export_params
     @export_params ||= params.require(:data).permit(
-      :record_type, :export_format,
-      :order, :query, :file_name, :password,
-      { custom_export_params: {} }, { filters: {} },
-      :match_criteria
+      :record_type, :export_format, :query, :file_name, :password, :match_criteria,
+      { custom_export_params: {} }, { filters: {} }, { order: {} }
     )
   end
 
