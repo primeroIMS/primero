@@ -3,7 +3,7 @@ aeb:
   accepted: موافقة
   cancel: إلغاء
   connection_lost: حاليا غير متصل بشبكة الانترنت
-  field_mode_offline: حاليا في مجال البيانات
+  field_mode_offline: حاليا غير متصل بشبكة الانترنت
   connected: متصل
   no_connection: غير متصل
   clear: مسح
@@ -13,7 +13,7 @@ aeb:
   minimum_reportable_fields: "الحد الأدنى من مجال البيانات القابلة للإبلاغ  %{record_type}"
   name: الاسم
   offline: غير متصل بشبكةالانترنت
-  field_mode: "وضع مجال البيانات: %{mode}"
+  field_mode: "فصل النظام عن شبكة الانترنت: %{mode}"
   field_mode_on: "فعال"
   field_mode_off: "غير فعال"
   unavailable_offline: غير متاح غير متصل بشبكة الانترنت
@@ -35,11 +35,11 @@ aeb:
   actions:
     approvals: الموافقات
     button: إجراءات
-    close: اغلاق
+    close: حفظ الملف
     description:
       invalid: سجل غير صحيح
       valid: سجل صحيح
-    disable: إلغاء
+    disable: إلغاء الملف
     enable: تفعيل
     incident_details_from_case: إضافة حادثة
     incident_from_case: إنشاء حادثة
@@ -61,7 +61,7 @@ aeb:
     agency_logos: شعارات المؤسسة
     code: رمز المؤسسة
     description: الوصف
-    disabled: غير مٌفعل
+    disabled: ملغى
     exclude_agency_from_lookups: استبعد هذه المؤسسة من عمليات ومجالات البحث النوعي
     exclude_agency_from_lookups_help: تحقق من هذه المؤسسة ان ليس لديها مستخدمون (على سبيل المثال ، تمت إضافة المؤسسة لكي يتم تطبيق الشعار على الملفات التي يتم تنزيلها
     label: المؤسسة
@@ -138,15 +138,15 @@ aeb:
     clear_default: مسح الافتراضي
     clear_selection: مسح الاختيار
     clear: مسح
-    close: اغلاق
+    close: حفظ الملف
     continue: استمر
     create_case: إنشاء ملف
     referral_create_case: إنشاء %{module_id} لملف
     create_incident: 'إنشاء حادثة '
     create_new_record: إنشاء %{model} جديد
     delete: حذف
-    disable: إيقاف
-    disable_photo_wall: تعطيل عرض الصور
+    disable: إلغاء الملف
+    disable_photo_wall: الغاء عرض الصور
     done: تم
     download: تحميل
     edit: تعديل
@@ -172,7 +172,7 @@ aeb:
     new: إنشاء ملف جديد
     ok: موافق
     print: 'طباعة '
-    reassign: تعيين
+    reassign: نقل ملف الطفل لمكتب آخر
     referral: 'إحالة '
     referral_again: إحالة مرة اخرى
     reject: رفض
@@ -227,10 +227,10 @@ aeb:
     details: تفاصيل
     select: اختيار
     deselect: ازالة الاختيار
-    enter_id_number: إدخال الإسم واللقب للبحث عن ملف الطفل
+    enter_id_number: إدخال هوية الطفل للبحث عن الملف
     id_search_no_results: لا يوجد تطابق في النظام مع  "%{search_query}". الرجاء إنشاء سجل جديد
     messages:
-      disabled: تم تعطيل الملف
+      disabled: إلغاء الملف
       update_success: 'تم تحديث الملف%{record_id} بنجاح.'
       update_success_queue: 'تم تحديث الملف%{record_id} بنجاح '
       creation_success: 'تم إنشاء ملف وضعية بنجاح.'
@@ -260,7 +260,7 @@ aeb:
     workflow:
       assessment: التقييم المعمق وتقدير وضع الطفل
       case_plan: تدابير الحماية لفائدة الطفل
-      closed: مغلقة
+      closed: ملفات تم حفظها
       created_on: تم تسجيل في
       in_progress: جاري
       new: ملف في مرحلة تسجيل وضعية الطفل والتقييم الأولي
@@ -300,17 +300,17 @@ aeb:
       age: "السن"
     clear_filter: مسح
     close_dialog: بالنقر على "تمّ" يتم حفظ الملف
-    close_dialog_title: اغلاق الحالة
-    close_success: تمّ إغلاق الحالة بنجاح
+    close_dialog_title: حفظ الملف
+    close_success: تمّ حفظ الملف بنجاح
     closure: اغلاق
     complete: متاح بدون الاتصال بالانترنت
     date_of_birth: 'تاريخ الميلاد '
-    disable_dialog: بالنقر على "تمّ" يصبح الملف غير مفعلة
-    disable_dialog_title: تعطيل الحالة
-    disable_success: تمّ تعطيل الحالة بنجاح
+    disable_dialog: بالنقر على "تمّ" يصبح الملف ملغى
+    disable_dialog_title: الغاء الملف
+    disable_success: تمّ الغاء الملف بنجاح
     enable_dialog: بالنقر على "تمّ" بصبح الملف مفعلاً
-    enable_dialog_title: تفعيل الحالة
-    enable_success: تمّ تفعيل الحالة بنجاح
+    enable_dialog_title: تفعيل الملف
+    enable_success: تمّ تفعيل الملف بنجاح
     export: تنزيل الملف
     mark_for_offline:
       title: وضع علامة على عدم الاتصال بالانترنت
@@ -334,16 +334,16 @@ aeb:
       by_date: حسب التاريخ
       case_open_date: تاريخ فتح الحالة
       case_plan: تدابير الحماية لفائدة الطفل
-      closed: مغلقة
+      closed: ملفات تم حفظها
       closure: اغلاق
       current_location: الموقع الحالي
       date: تاريخ
       displacement_status: وضع النزوح
-      district: المعتمديات
+      district: توزيع التعهدات حسب المعتمديات
       duplicate: نسخة
-      enabled_disabled: مُفعل/غير مُفعل
+      enabled_disabled: مُفعل/ملغى
       female: أنثى
-      flag: ملاحظات مدير المكتب
+      flag: ملاحظات رئيس المكتب
       flag_label: ملفات وضع هليها ملاحظات من قبل مدير المكتب
       gbv_closure: اغلاق العنف القائم على النوع الإجتماعي
       high: مرتفع
@@ -368,13 +368,13 @@ aeb:
       risk_level: وضع الطفل حسب نتيجة المتابعة
       sex: الجنس
       social_worker: مجال/حالة/أخصائي اجتماعي
-      status: مرحلة التعهد
+      status: الملفات قيد التعهد / المحفوظة
       transferred: ملف تم نقله
       type_of_risk: نوع المخاطر
       urgent_protection_concern: وضعية تهديد الأطفال الداهمة
       user_group: مجموعة مستخدمين
-      workflow: ملفات الأطفال حسب مسار التعهد
-      include_disabled: اضف الحالات التي تم الغائها
+      workflow: ملفات الأطفال حسب مراحل التدخل
+      include_disabled: اضف الملفات التي تم الغائها
     flag_summary: ملخص العلامات
     full_name: الإسم واللقب
     gbv_closure: اغلاق العنف القائم على النوع الإجتماعي
@@ -416,8 +416,8 @@ aeb:
     rejected_success_closure: '%{approval_label}- غير موافق عليها'
     rejected_success_gbv_closure: '%{approval_label}- غير موافق عليها'
     reopen_dialog: بالنقر على "تمّ" سيُصبح وضع هذه الحالة مفتوحًا
-    reopen_dialog_title: إعادة فتح الحالة
-    reopen_success: تمّت إعادة فتح المف بنجاح
+    reopen_dialog_title: إعادة فتح ملف
+    reopen_success: تمّت إعادة فتح الملف بنجاح
     request_approval_failure: حدث خطأ، يرجى الاتصال بالدعم الفني.
     request_approval_select: طلب الموافقة على
     request_approval_success_action_plan: طلب الموافقة على استمارة %{approval_label}
@@ -436,22 +436,22 @@ aeb:
     revoke_success_message: الحالة %{case_id}%{transition_type}%{recipient_username} التي يجب إلغاؤها.
     save_filter: تسجيل
     selected_all_records: اختيار كلّ %{total_records}الوضعيات التي تطابق هذا الاستعلام.
-    selected_records: '%{select_records} حالة (حالات) مختارة'
-    selected_records_assign: ' %{select_records}  حالة (حالات) مختارة'
+    selected_records: '%{select_records} ملف(ملفات) مختارة'
+    selected_records_assign: ' %{select_records}  ملف(ملفات) مختارة'
     sex: الجنس
-    show_case: 'معرّف الحالة: %{short_id}'
+    show_case: 'معرّف الملف: %{short_id}'
     social_worker: أخصائي اجتماعي
-    status: الوضع
+    status: مرحلة التعهد
     summary:
       label: ملخص
       find_match: إيجاد تطابق
       matched_trace: 'رقم التطابق %{trace_id}'
-      cannot_find_matches: لم يتمّ العثور على تطابق. لم يتمّ الحصول على رضا الحالة للكشف عن المعلومات لأغراض التتبع.
+      cannot_find_matches: لم يتمّ العثور على تطابق. لم يتمّ الحصول على رضا المعنيين للكشف عن المعلومات لأغراض التتبع.
       matched: تمّت المطابقة.
       fields:
         consent_for_tracing:
           label: تمّ الحصول على الرضا للكشف عن المعلومات لأغراض التتبع.
-          help_text: إذا كانت هذه الخانة "لا"، لن يظهر سجل حالة الطفل في التطابقات مع طلبات المستفسِر للتتبّع.
+          help_text: إذا كانت هذه الخانة "لا"، لن يظهر ملف الطفل في التطابقات مع طلبات المستفسِر للتتبّع.
         wishes_child_family_tracing:
           label: هل يريد الطفل تتبع أفراد الأسرة؟
         wishes_reunification:
@@ -466,13 +466,13 @@ aeb:
         child_wishes_link:
           label: راجع رغبات الطفل
     survivor_code: رمز الضحية
-    transfer_accepted: بالنقر على "موافقة" فإنك توافق على تحمّل مسؤولية هذه الحالة؛ وبمجرد النقر على "موافقة" ستصبح أنت المكلف بالسجل في النظام.
-    transfer_managed_user_accepted: إذا قمت بالنقر فوق "موافقة" ،%{transitioned_to} ستصبح مسؤولاً عن هذه الحالة ؛ بمجرد النقر فوق "موافقة" ، %{transitioned_to} ستصبح المكلف بالسجل في النظام.
-    transfer_managed_user_rejected: 'بالنقر فوق "رفض" ، فإنك تشير إلى أنك %{transitioned_to} غير مستعد لقبول المسؤولية عن هذه الحالة في الوقت الحالي. الرجاء إدخال سبب رفضك لهذه الحالة ؛ بمجرد النقر فوق "رفض" %{transitioned_to} لن تتمكن من الوصول إلى سجل هذه الحالة '
-    transfer_accepted_rejected: تمّ رفض عملية تحويل الحالة %{record_id}
-    transfer_accepted_success: تمّ قبول تحويل الحالة بنجاح.
+    transfer_accepted: بالنقر على "موافقة" فإنك توافق على تحمّل مسؤولية هذه الوضعية؛ وبمجرد النقر على "موافقة" ستصبح أنت المتعهد بالوضعية في النظام.
+    transfer_managed_user_accepted: إذا قمت بالنقر فوق "موافقة" ،%{transitioned_to} ستصبح مسؤولاً عن هذه الوضعية؛ بمجرد النقر فوق "موافقة" ، %{transitioned_to} ستصبح المتعهد بالوضعية.
+    transfer_managed_user_rejected: بالنقر فوق "رفض" ، فإنك تشير إلى أنك %{transitioned_to} غير مستعد للتعهد بالوضعية. الرجاء إدخال سبب رفضك لهذه الوضعية؛ بمجرد النقر فوق "رفض" %{transitioned_to} لن تتمكن من الوصول إلى ملف الوضعية.
+    transfer_accepted_rejected: تمّ رفض عملية الاحالة %{record_id}
+    transfer_accepted_success: تمّ قبول الاحالة بنجاح.
     transfer_reject_reason_label: سبب الرفض
-    transfer_rejected: يشير النقر على "رفض" إلى عدم استعدادك لتحمّل مسؤولية هذه الحالة في الوقت الحالي. يرجى إدخال سبب رفضك لهذه الحالة ؛ بمجرد النقر على "رفض" لن تتمكن من الاطلاع على سجل هذه الحالة.
+    transfer_rejected: يشير النقر على "رفض" إلى عدم استعدادك للتعهد بالوضعية. يرجى إدخال سبب رفضك لهذه الوضعية ؛ بمجرد النقر على "رفض" لن تتمكن من الاطلاع على الملف.
     view_name: عرض الاسم
     sort_by: ترتيب حسب
   change_logs:
@@ -493,9 +493,9 @@ aeb:
   children:
     selectable_date_options:
       assessment_requested_on: تاريخ تقييم وضع الطفل
-      closure_approved_date: 'تاريخ إغلاق ملف الحالة'
-      created_at: 'تاريخ فتح الحالة '
-      date_case_plan_initiated: تاريخ تدابير الحماية لفائدة الطفل
+      closure_approved_date: 'تاريخ حفظ الملف'
+      created_at: تاريخ التسجيل بالمنظومة
+      date_case_plan_initiated: تاريخ اتخاذ تدابير الحماية لفائدة الطفل
       date_of_creation: تاريخ الإنشاء
       registration_date: تارخ التسجيل
       followup_date: تاريخ المتابعة
@@ -596,8 +596,8 @@ aeb:
     awaiting_acceptance: في انتظار القبول
     cases_by_social_worker_total: المجموع
     cases_by_social_worker_new_or_updated: جديد
-    case_id: 'مُعرَف الحالة في النظام'
-    case_management_service: خدمة إدارة الحالة
+    case_id: 'مُعرَف ملف الوضعية في النظام'
+    case_management_service: التعهد بطفل
     case_overview: الوضعيات المتعهد بها
     case_plan: تدابير الحماية لفائدة الطفل
     case_risk: التقييم المعمق وتقدير وضع الطفل
@@ -608,12 +608,12 @@ aeb:
     case_worker: أخصائي اجتماعي
     cases_by_social_worker: الوضعيات بحسب مندوب حماية الطفولة المتعهد بها
     cases_by_task_overdue: الوضعيات التي تتطلب متابعة المتأخرة
-    cases_by_workflow: ملفات الأطفال حسب مسار التعهد
-    cases_this_week: الوضعيات الجديدة في هذا الأسبوع
+    cases_by_workflow: توزيع الملفات المتعهد بها بحسب مراحل التدخل
+    cases_this_week: الوضعيات الواردة هذا الأسبوع
     cases_to_assign: الوضعيات التي بانتظار تعيينها لمندوب حماية الطفولة
-    closed: مغلقة
-    closed_last_week: أُغلقت (الأسبوع الماضي)
-    closed_this_week: أُغلقت (هذا الاسبوع)
+    closed: ملفات تم حفظها
+    closed_last_week: ملفات تم حفظها (الأسبوع الماضي)
+    closed_this_week: ملفات تم حفظها (هذا الاسبوع)
     comprehensive_need_intervention: استجابة شاملة
     count_new_bia_approvals:
       zero: '%{stat}الجدي%{stat_type}الموافقات'
@@ -656,7 +656,7 @@ aeb:
       two: 'لديك %{stat} حالات مفتوحة '
       few: 'لديك %{stat} حالات مفتوحة '
       many: 'لديك %{stat} حالات مفتوحة '
-      other: لديك %{stat} ملف نعهد مفتوح
+      other: لديك %{stat} ملف تعهد مفتوح
     count_records_total:
       zero: لديك%{stat} إجمالي الحالات
       one: لديك%{stat} إجمالي الحالات
@@ -731,7 +731,7 @@ aeb:
     follow_up: متابعة ومراجعة وضعية الطفل
     forms: تبوبب الاستمارات
     geographic_area: المنطقة الجغرافية
-    group_overview_closed: مغلقة
+    group_overview_closed: ملفات تم حفظها
     group_overview_open: مفتوحة
     high_level: مرتفع
     high_risk: أولوية عالية
@@ -775,15 +775,15 @@ aeb:
     new: 'جديد '
     new_child_assigned_to_you: ملفات جديدة تم تعيينها لك
     new_incident: 'حوادث تم انشائها خلال هذا الاسبوع '
-    new_incident_assigned_to_you: حوادث تم تعيينها لك
+    new_incident_assigned_to_you: حوادث تم نقلها لك
     new_last_week: جديد (الاسبوع الماضي)
     new_or_updated: جديد
     new_referred: إحالات جديدة
     new_service_provision: 'تقديم خدمة '
     new_this_week: جديد(هذا الاسبوع)
     no_action_risk: لم يتم تحديدها
-    no_case_stats: لا يوجد إحصائيات حالة
-    no_caseworker_data: ' بيانات الأخصائي الاجتماعي غير موجودة'
+    no_case_stats: لا يوجد إحصائيات مرتبطة بالملف
+    no_caseworker_data: ' بيانات مندوب حماية الطفولة غير متوفرة'
     no_flagged_child: لا يوجد ملفات وضعت عليها ملاحظات
     no_flagged_incident: لا يوجد حوادث وضعت عليها ملاحظات مدير المكتب
     no_open_incidents: لا يوجد حوادث مفتوحة
@@ -799,7 +799,7 @@ aeb:
     open_incidents: حوادث مفتوحة
     outstanding_transfers: عمليات التحويل غير المنجزة
     overdue_activities: وضعيات حصل فيها تجاوز الآجال المحددة للمتابعة
-    overdue_cases_to_assign: 'الوضعيات التي تستوجب تعيين مندوب حماية الطفولة للتعهد بها '
+    overdue_cases_to_assign: 'الوضعيات التي تستوجب تكليف مندوب حماية الطفولة للتعهد بها '
     overdue_cases_to_assign_high: وصلتك هذه الوضعيات منذ اكثر من 1 ساعة
     overdue_cases_to_assign_low: وصلتك هذه الوضعيات منذ اكثر من ثلاث ساعات
     overview: لمحة عامّة
@@ -864,13 +864,13 @@ aeb:
       few: '%{case_worker} لديه %{stat} اجمالي حالات'
       many: '%{case_worker} لديه %{stat} اجمالي حالات'
       other: مجوع الوضعيات المتعهد بها من قبل %{case_worker} هو%{stat}
-    workflow: مسار التعهد
-    workflow_team: الوضعيات المتعهد بها من قبل اعضاء الفريق بحسب مسار التعهد
-    workflow_team_module: الوضعيات المتعهد بها من قبل اعضاء الفريق بحسب مسار التعهد  %{module_name}
+    workflow: توزيع الملفات المتعهد بها حسب مراحل التدخل
+    workflow_team: الوضعيات المتعهد بها من قبل اعضاء الفريق بحسب مراحل التدخل
+    workflow_team_module: الوضعيات المتعهد بها من قبل اعضاء الفريق بحسب مراحل التدخل %{module_name}
     you_have: 'لديك'
   disabled:
     status:
-      disabled: غير مٌفعل
+      disabled: ملغى
       enabled: مُفعلة
   email_notification:
     assign: 'المستخدم %{user} قد عيّن السجل التالي %{record_type} لك: %{record_id}'
@@ -882,6 +882,7 @@ aeb:
     transfer_request_subject: طلب نقل لملف طفل تم التعهد به
     transfer_request: 'مستخدم بريميرو %{user} من مؤسسة %{agency} يطلب أن تنقل ملكية هذا السجل من نوع %{record_type} ومعرّف %{record_id} بحيث يتمكنون من تقديم خدمات إدارة للشخص في منطقتهم. إذا كان التحويل مقبولا من طرفك، يرجى النقر على رابط معرف نوع السجل %{record_type} في هذا الايميل لفتح نوع السجل %{record_type} في بريميرو والبدء بعملية التحويل.'
     approval_request_html: 'المستخدم <strong> %{user} </strong> يطلب موافقة من نوع <strong> %{approval_type} </strong> بخصوص الحالة <strong> %{case_id} </strong>.'
+    assign_html: لقد تم نقل ملف من نوع %{record_type} (%{record_id}) من خلال %{user}. يرجى %{login_url} إلى حسابك لمراجعته.
     alert: 'تم تحديث% {record _ type}% {id} -% {form _ name}. يرجى تسجيل الدخول إلى Primero لمراجعة التغييرات.'
     alert_subject: '% {سجل _ نوع}:% {معرف} -% {شكل _ اسم} محدث'
   webpush_notification:
@@ -893,8 +894,8 @@ aeb:
       title: الرد بالموافقة
       body: لقد تلقت إحدى الوضعيات التي انت متعهد بها ردًا بالموافقة.
     assign:
-      title: تكليف جديد
-      body: لقد تلقيت تكليف بحالة جديدة
+      title: ملف طفل تم نقلها لك
+      body: تم نقل ملف لك
     referral:
       title: إحالة جديدة
       body: لقد تلقيت إحالة لحالة جديدة
@@ -1066,7 +1067,7 @@ aeb:
       summary_header:
         form_group: مجموعة استمارات بريميرو
         form: مجموعة استمارات بريميرو
-        status: الوضع
+        status: مرحلة التعهد
         notes: ملاحظات
     go_to_exports: 'انتقل إلى صفحة التنزيل '
     incident_recorder_xls:
@@ -1121,7 +1122,7 @@ aeb:
       female_abbreviation: أنثى
       headers:
         age: السن
-        case_status: 'وضع الحالة  '
+        case_status: الحالات بحسب مرحلة التعهد
         causes_of_separation: سبب الانفصال
         country_of_origin: البلد الأصلي
         cpims_code: رمز نظام المعلومات الخاص بحماية الطفل
@@ -1222,7 +1223,7 @@ aeb:
     default_value: القيمة المبدئية
     deleted: تم إلغاء المجال %{display_name}.
     detail: تفاصيل
-    disabled: غير مٌفعل
+    disabled: ملغى
     display_name: عرض الاسم
     document:
       comments: ملاحظات
@@ -1389,8 +1390,8 @@ aeb:
     record_type: نوع السجل
     record_types:
       approvals: الموافقات
-      case: حالة
-      child: حالة
+      case: 'وضعية '
+      child: وضعية
       incident: حادثة
       individual_victim: ضحية فردية
       potential_match: تشابه محتمل
@@ -1495,13 +1496,13 @@ aeb:
     tet: لغة التيتوم
   incident:
     code: رمز الحادثة
-    associated_case: "الحالة المرتبطة:"
-    link_incident_to_case: ربط الحادثة بحالة
-    link_incident_to_case_success: حادثة(حوداث) مرتبطة بحالة
+    associated_case: "الملفات المرتبطة بهذه الحادثة:"
+    link_incident_to_case: ربط الحادثة بالملف
+    link_incident_to_case_success: حادثة(حوداث) مرتبطة بالملف
     messages:
       creation_success: تم إنشاء سجل الحادثة بنجاح.
       creation_success_queue: تمّ إنشاء سجل الحادثة بنجاح في الخلفية
-      disabled: حادثة غير مٌفعل
+      disabled: حادثة ملغات
       update_success: 'تم تحديث الحادثة %{record_id} بنجاح.'
       update_success_queue: 'تم تحديث الحادثة %{record_id} بنجاح في الخلفية'
       bulk_assign_limit_try_again: لا يمكنك تعيين أكثر من 100 حادثة في وقت واحد. يرجى تحديد 100 حادثة أو أقل ثم المحاولة مرة أخرى.
@@ -1524,9 +1525,9 @@ aeb:
         denial_humanitarian_access: منع وصول الخدمات الإنسانية للأطفال
   incidents:
     change_status: تغُير في الوضع
-    disable_dialog: بالنقر على "تمّ" سيُصبح وضع هذه الحادثة معطّلًا.
-    disable_dialog_title: تعطيل الحادثة
-    disable_success: تمّ تعطيل الحادثة بنجاح
+    disable_dialog: بالنقر على "تمّ" تلغى الحادثة
+    disable_dialog_title: الغاء الحادثة
+    disable_success: تمّ الغاء الحادثة بنجاح
     enable_dialog: بالنقر على "تمّ" سيُصبح وضع هذه الحادثة مفعّلًا
     enable_dialog_title: تفعيل الحادثة
     enable_success: تمّ تفعيل الحوادث بنجاح
@@ -1615,9 +1616,9 @@ aeb:
     label: "نبض / مؤشرات الأداء الرئيسة"
     case_assessment: "التقييم المعمق وتقدير وضع الطفل"
     case_action_planning: "تدابير الحماية لفائدة الطفل"
-    case_action_plan_implementation: "تنفيذ خطة عمل الحالة"
+    case_action_plan_implementation: "تنفيذ تدابير الحماية المتخذة"
     case_follow_up: "متابعة ومراجعة وضعية الطفل"
-    case_closure: "إغلاق الحالة"
+    case_closure: "حفظ الملف"
     feedback: "تغذية راجعة"
     other: "أخرى"
     date_format: "%b %Y"
@@ -1705,30 +1706,30 @@ aeb:
 
     average_referrals:
       title: "9. متوسّط الإحالات"
-      label: "متوسط الإحالات لكلّ حالة"
+      label: "متوسط الإحالات لكلّ ملف"
       helptext: |+
-        يحسب هذا المؤشر متوسط عدد الإحالات لكل حالة مسجلة (لجميع الأنواع
-        من الخدمات) في جميع الحالات ، سواء كانت الحالة نشطة / مفتوحة أو مغلقة. يتضمن الإحالات
+        يحسب هذا المؤشر متوسط عدد الإحالات لكل الملفات مسجلة (لجميع الأنواع
+        من الخدمات) في جميع الملفات، سواء كانت الملفات مفتوحة أو ملفات تم حفظها. يتضمن الإحالات
         المسجلة في علامة تبويب الحالة ، وليس فقط الإحالات التي تتم من خلال النظام الأساسي
 
     referrals_per_service:
       title: "الإحالات لكلّ خدمة"
     average_followup_meetings_per_case:
-      title: "10. متوسط اجتماعات المتابعة لكل حالة"
+      title: "10. متوسط اجتماعات المتابعة لكل ملف"
       label: "متوسط لقائات متابعة ومراجعة وضعية الطفل لكل ملف"
       helptext: |
         يحتسب هذا المؤشر متوسط عدد اجتماعات المتابعة التي أجريت لكلّ حالة نشطة
         من قبل كلّ مندوب حماية الطفولة على المنصة. يتمّ اجتماع المتابعة بين مندوب حماية الطفولة والطفل
         بعد المقابلة الأوّليّة / الإشعار.
     time_from_case_open_to_close:
-      title: "11. الوقت المستغرق من فتح الحالة إلى اغلاقها"
+      title: "11. الوقت المستغرق من فتح المف حتى حفظه"
       time: "الوقت"
-      percent: "نسبة الحالات المئوية"
+      percent: "نسبة الملفات المئوية"
       helptext: "يقيس هذا المؤشر المدة التي تظلّ فيها الحالات مفتوحة، والمدة التي تستغرقها عملية إدارة الحالة\nمن الإشعار الأوّلي لمنظمة المستخدم حتى إغلاق الحالة. \nيتمّ تقسيم المدة الزمنية حسب الإطار الزمني التالي: أقل من شهر واحد ؛ بين 1 و 3 أشهر ؛ \nبين3-6 أشهر ؛ أكثر من 6 أشهر.\n"
     case_closure_rate:
-      title: "12. عداد إغلاق الحالات"
+      title: "12. عداد الملفات التي تم حفظها"
       reporting_site: "موقع الإشعار"
-      helptext: "يقيس هذا المؤشر عدد الحالات التي يتمّ إغلاقها شهريًا في كلّ موقع إشعار.\nيُشير موقع الإشعار إلى الموقع الذي تقدم فيه منظمة المستخدم الخدمات \nو حيث تم الإشعار عن الحالة إلى مزود الخدمة.\n"
+      helptext: "يقيس هذا المؤشر عدد الملفات التي يتمّ حفظها شهريًا في كلّ موقع إشعار.\nيُشير موقع الإشعار إلى الموقع الذي تقدم فيه منظمة المستخدم الخدمات \nو حيث تم الإشعار عن الوضعيات إلى مفدم الخدمة.\n"
     client_satisfaction_rate:
       title: "13. معدل رضا الوحدة الانسانية"
       label: "رضا الوحدة الانسانية"
@@ -1738,12 +1739,12 @@ aeb:
         والذين يشعرون بالرضا عن خدمات إدارة الحالة المقدّمة لهم.
         يتمّ إحتساب هذا المؤشر من خلال استكمال نموذج استبيان آراء الوحدة الانسانية على +GBVIMS من قبل موظف مختلف عن مندوب حماية الطفولة الذي قدّم الخدمة للطفل.
     supervisor_to_caseworker_ratio:
-      title: "14. عدد مندوبي حماية الطفولة لكل رئيس المكتب الجهوي لمندوب حماية الطفولة"
-      label: "عدد مندوبي حماية الطفولة لكل رئيس المكتب الجهوي لمندوب حماية الطفولة"
-      helptext: "يعكس هذا المؤشر عدد  مندوبي حماية الطفولة الذين يشرف عليهم رئيس المكتب الجهوي لمندوب حماية الطفولة: ويُعرف بعدد مندوبي حماية الطفولة لكل رئيس المكتب الجهوي لمندوب حماية الطفولة. \nيعتمد هذا الحساب على الأدوار المخصّصة من النظام على المنصّة.\n"
+      title: "14. عدد مندوبي حماية الطفولة لكل رئيس مكتب الجهوي لمندوب حماية الطفولة"
+      label: "عدد مندوبي حماية الطفولة لكل رئيس مكتب الجهوي لمندوب حماية الطفولة"
+      helptext: "يعكس هذا المؤشر عدد  مندوبي حماية الطفولة الذين يشرف عليهم رئيس المكتب الجهوي لمندوب حماية الطفولة: ويُعرف بعدد مندوبي حماية الطفولة لكل رئيس مكتب الجهوي لمندوب حماية الطفولة. \nيعتمد هذا الحساب على الأدوار المخصّصة من النظام على المنصّة.\n"
     case_load:
-      title: "15. عدد الحالات"
-      case_load: "عدد الحالات"
+      title: "15. عدد الملفات"
+      case_load: "عدد الملفات"
       percent: "النسبة المئوية لمندوبي حماية الطفولة  المتعهدين بالحالات"
       10cases: "أقل من 10 ملفات"
       20cases: "11 - 20 ملف"
@@ -1814,30 +1815,30 @@ aeb:
     no_location: يرجى اضافة المواقع قبل إنشاء أي حسابات مستخدمين.
     enable_title: تفعيل الموقع
     enable_text: هل أنت متأكد؟ إذا قمت بتفعيل المواقع المحددة ، فستظهر كخيارات في مجالات الموقع
-    disable_title: تعطيل الموقع
-    disable_text: هل أنت متأكد؟ إذا قمت بتعطيل المواقع المحددة ، فلن تظهر كخيارات في مجالات الموقع
+    disable_title: الغاء الموقع
+    disable_text: هل أنت متأكد؟ إذا قمت بالغاء المواقع المحدد ، فلن يظهر كخيار في مجالات الموقع
   logger:
     actions:
       _approved: تم الموافقة عليه
       _rejected: رُفضت
       _requested: مطلوب
       add_note: اضف ملاحظة
-      assign: تعيين
-      assign_to: يسند إلى
+      assign: نقل ملف الطفل لمكتب آخر
+      assign_to: ملف تم نقله لك
       attach: يربط
-      bulk_assign: تعيين بالجملة
+      bulk_assign: نقل مجموعة ملفات لمكتب آخر
       bulk_create: إنشاء مجمّع
       bulk_index: فهرس بالجملة
       case_plan_approved: تمت الموافقة على تدابير الحماية لفائدة الطفل
       case_plan_rejected: تم رفض تدابير الحماية لفائدة الطفل
       case_plan_requested: مطلوب تدابير الحماية لفائدة الطفل
-      close: غلق
+      close: حفظ الملف
       create: إنشاء
       create_bulk: إنشاء الجزء الأكبر
       delete: حذف
       destroy: هدم
       detach: فصل
-      enable_disable_record: تمكين تعطيل السجل
+      enable_disable_record: عرض الملفات الملغات
       export: تنزيل الملف
       flag: علامة
       import: 'إضافة محتوى أو ملف '
@@ -1858,11 +1859,11 @@ aeb:
       show: عرض
       show_alerts: عرض التنبيهات
       traces: آثار
-      transfer: تحويل
-      transfer_accepted: تم قبول التحويل
-      transfer_rejected: تم رفض عملية النقل
-      transfer_request: طلب تحويل
-      transfer_to: حول إلى
+      transfer: نقل ملف
+      transfer_accepted: تم قبول نقل الملف
+      transfer_rejected: تم رفض عملية نقل الملف
+      transfer_request: طلب نقل الملف
+      transfer_to: نقل ملف الى
       unflag: إزالة العلامة
       update: تحديث
       user_password_reset_request: طلب إعادة تعيين كلمة مرور المستخدم
@@ -1877,11 +1878,13 @@ aeb:
       'true': موافقة
     assessment_approved: "%{approval_label} تمتّ الموافقة عليه ل"
     assessment_requested: "%{approval_label} مطلوب لأجل"
+    assign_to: لائحة الملفات التي يجب نقلها لمكتب آخر
+    assign: نقل ملف الطفل لمكتب آخر
     bulk_index: قائمة كاملة
     by_user: من قبل المستخدم
     case_plan_approved: "%{approval_label} تمتّ الموافقة عليه ل"
     case_plan_requested: "%{approval_label} مطلوب ل"
-    close: اغلاق
+    close: حفظ الملف
     closure_approved: "%{approval_label} تمتّ الموافقة عليه لـ"
     closure_requested: "%{approval_label} مطلوب لـ"
     consent_count: عدد الموافقات
@@ -1890,7 +1893,7 @@ aeb:
     create_subform: جاري إنشاء الاستمارة الفرعية
     destroy: جاري الحذف
     edit: جاري التعديل
-    enable_disable_record: تفعيل/تعطيل
+    enable_disable_record: تفعيل/الغاء
     export: تنزيل بيانات إلى
     flag: وضع علامة
     flag_records: وضع علامة
@@ -1946,17 +1949,17 @@ aeb:
       closure: طلب مصادقة على استمارة إغلاق الملف
       gbv_closure: طلب الموافقة على استمارة إغلاق ملف العنف القائم على النوع الإجتماعي
     request_transfer: جاري إرسال طلب التحويل
-    request_transfer_view: جاري عرض طلب التحويل
+    request_transfer_view: عرض طلب نقل الملف
     save_subform: جاري حفظ الاستمارة الفرعية
     search: البحث عن واجهة برمجة التطبيقات
     show: جاري العرض
     show_alerts: عرض التنبيهات لـ
     to: الى
     to_user: للمستخدم
-    transfer: جاري التحويل
+    transfer: جاري نقل الملف
     transfer_status:
-      Accepted: التحويل المقبول
-      Rejected: عمليات النقل المرفوضة
+      Accepted: تم قبول نقل الملف
+      Rejected: تم رفض نقل الملف
     unflag: إزالة علامة
     update: جاري التحديث
   login:
@@ -2003,11 +2006,11 @@ aeb:
       violation_type: نوع الانتهاك
       status: مرحلة التعهد
       status_open: 'مفتوح '
-      status_closed: مغلق
+      status_closed: ملفات تم حفظها
       user_group: مجموعة مستخدمين
       agency: الهيئة
       by: بواسطة
-      workflow: مسار التعهد
+      workflow: مراحل التدخل
       cp_incident_violence_type: نوع العنف
       referral_transfer_status: وضعية الإحالة / النقل
       protection_concerns: وضعيات تهديد الأطفال
@@ -2016,7 +2019,7 @@ aeb:
       service_type: نوع الخدمة
     status_options:
       open: فتح
-      closed: اغلقت
+      closed: ملفات تم حفظها
     by_options:
       created_by_groups: مجموعات المستخدمين لمنشئ السجل
       owned_by_groups: مجموعات المستخدمين لصاحب السجل
@@ -2225,21 +2228,21 @@ aeb:
         vulnerable_populations: 'احصائيات الضحايا 8. جنس الضحايا '
         survivors_disability_type: مع اعاقات
     workflow_report:
-      name: مسار التعهد
-      description: الوضعيات المتهد بها والحوادث بحسب مسار التعهد  مقسمة حسب السن والجنس.
+      name: مراحل التدخل
+      description: الوضعيات المتهد بها والحوادث بحسب مراحل التدخل  مقسمة حسب السن والجنس.
       reports:
-        cases_workflow: الوضعيات المتهد بها بحسب مسار التعهد
-        incidents_workflow: الحوادث بحسب مسار التعهد
+        cases_workflow: الوضعيات المتهد بها بحسب مراحل التدخل
+        incidents_workflow: الحوادث بحسب مراحل التدخل
       filter_options:
         registration_date: تاريخ التسجيل
       sub_reports:
         case_workflow_by_sex_and_age: مجموع عدد الملفات حسب الجنس والسن
         incident_workflow_by_sex_and_age: مجموع عدد الحوادث حسب الجنس والسن
     cases_workflow_report:
-      name: ' مسار التعهد'
-      description: الحالات والحوادث مع أوضاع سير العمل المختارة، مقسمة حسب السن والجنس.
+      name: مراحل التدخل
+      description: الحالات والحوادث معمراحل التدخل ، مقسمة حسب السن والجنس.
       reports:
-        cases_workflow: الوضعيات المتهد بها بحسب مسار التعهد
+        cases_workflow: الوضعيات المتهد بها بحسب مراحل التدخل
       filter_options:
         registration_date: تاريخ التسجيل
       sub_reports:
@@ -2268,7 +2271,7 @@ aeb:
     success_message: تمّ إنشاء ملف تحضبراً لتنزيله
     process_quality_successful_referrals:
       filter_options:
-        case_status: الوضعيات بحسب وضع الملف
+        case_status: الوضعيات بحسب مرحلة التعهد
     process_quality_implemented_referrals:
       filter_options:
         case_status: الوضعيات بحسب مرحلة التعهد
@@ -2284,8 +2287,10 @@ aeb:
     instructions: 'لتنزيل التقرير اضغط على خانة تنزيل'
     export:
       users_total: مجموع المستخدمين
-      users_disabled: مستخدمين غير مٌفعلين
+      users_disabled: مستخدمين تم الغائهم
       cases_total: مجموع الملفات
+      cases_closed: ملفات تم حفظها
+      cases_closed_this_quarter: ملفات تم حفظها خلال هذا الربع من السنة
       services_total: مجموع الخدمات
       followups_total: مجموع نماذج متابعة ومراجعة وضعية الطفل
       incidents_total: مجموع الحوادث
@@ -2322,9 +2327,10 @@ aeb:
       no_match: عذراً، لم يتم العثور على بيانات مطابقة
       rows_per_page: عدد الأسطر في الصفحة الواحدة
       sort: فرز
+      sort_disabled_name_fields: فرز الملفات الملغات عند البحث بحسب الاسم
   navigation:
     bulk_exports: تنزيل الملف
-    cases: حالات
+    cases: الأطفال المسجلين بالمنظومة
     home: الصفحة الرئيسية
     key_performance_indicators: مؤشرات واحصائيات الأداء الرئيسة
     incidents: حوادث
@@ -2374,11 +2380,11 @@ aeb:
       approve_case_plan: الموافقة على %{approval_label}
       approve_closure: الموافقة على  الاستمارة%{approval_label}
       approve_gbv_closure: الموافقة على  الاستمارة%{approval_label}
-      assign: تعيين
+      assign: نقل ملف الطفل لمكتب آخر
       assign_within_agency: تعيين ضمن المؤسسة
       assign_within_user_group: تعيين ضمن مجموعة المستخدمين
       audit_log: سجل التدقيق
-      case: حالة
+      case: وضعية/ملف
       case_approvals: موافقات الحالة
       case_assignments_referrals_transfers: عمليات تحويل وإحالة وتعيين الحالة
       case_exports: تنزيل الملفات
@@ -2389,16 +2395,16 @@ aeb:
       cases_by_task_overdue_followups: عرض الملفات حسب خدمات التي تجاوز الآجال المحددة لمتابعتها
       cases_by_task_overdue_services: عرض الملفات حسب خدمات التي تجاوز الآجال المحددة لمتابعتها
       cases_managed_other_users: الحالات التي يديرها مستخدمون آخرون
-      close: اغلاق
+      close: حفظ الملف
       consent_override: تجاوز  مرحلة الموافقة
       copy: نسخ
       copy_of: نسخة من
       create: انشاء
       dash_case_incident_overview: ملفاتي/الحوادث
-      dash_cases_by_social_worker: عرض الحالات التي تولاها اخصائي الحالة
+      dash_cases_by_social_worker: عرض الحالات المتعهد بها لكل مندوب حماية الطفولة
       dash_cases_by_task_overdue: اطلاع على الملفات حسب  تجاوز الآجال المحددة للمتابعة
-      dash_cases_by_workflow: عرض ملفات الاطفال حسب مسار التعهد
-      dash_cases_to_assign: عرض الحالات التي بانتظار التعيين
+      dash_cases_by_workflow: الوضعيات بحسب مرحلة التعهد
+      dash_cases_to_assign: عرض الحالات التي بانتظار التكليف
       dash_group_overview: ملفاتي مجموعتي
       dash_manager_transfers: عرض عمليات النقل الخاصة برئيس المكتب الجهوي لمندوب حماية الطفولة
       dash_matching_results: عرض النتائج المتشابهة
@@ -2419,7 +2425,7 @@ aeb:
       delete: حذف
       display_view_page: إظهار صفحة العرض
       duplicate: البحث عن الملفات المسجلة على انها مكررة
-      enable_disable_record: تعطيل
+      enable_disable_record: الغاء الملف
       export_case_pdf: تنزيل ملف في صيغة pdf
       export_csv: تنزيل ملف بصيغة csv
       export_custom: عمليات تنزيل لخانات او نماذج محددة من ملف او اكثر
@@ -2456,7 +2462,7 @@ aeb:
       receive_referral: تلقّي الإحالة
       receive_transfer: استلام تحويل
       referral: يمكن استخدامه للإحالة
-      referral_from_service: إحالة حالة من استمارة الخدمة
+      referral_from_service: إحالة ملف من استمارة الخدمة
       registry_record: السجل
       remove_assigned_users: إزالة مستخدمين مخصصين آخرين (إحالات)
       reopen: إعادة فتح
@@ -2476,7 +2482,7 @@ aeb:
       search_owned_by_others: ابحث عن البيانات الحالة التي يملكها مستخدمين آخرين
       self: الوصول لبياناتي  أو المستخدم الخاص بي فقط
       service_provision_incident_details: أنظر زو إضافة تقديم الخدمة في نموذج تفاصيل الحادثة.
-      services_section_from_case: إضافة تقديم خدمة لحالة مستخدم آخر
+      services_section_from_case: إضافة تقديم خدمة لملف مستخدم آخر
       specific_roles: النفاذ إلى قائمة محددة من الأدوار
       sync_external: المزامنة مع نظام إدارة معلومات خارجي
       sync_mobile: وضع علامة على عدم الاتصال بالانترنت
@@ -2492,8 +2498,8 @@ aeb:
       view_protection_concerns_filter: عرض عامل التصفية الخاص بوضعيات تهديد الأطفال
       view_response: عرض الاستجابات
       webhook: الويب هوك
-      workflow: الوضعيات المتعهد بها من قبلي بحسب مسار التعهدن
-      workflow_team: الوضعيات المتعهد بها من قبل الفريق بحسب مسار التعهد
+      workflow: الوضعيات المتعهد بها من قبلي بحسب مراحل التدخل
+      workflow_team: الوضعيات المتعهد بها من قبل الفريق بحسب مراحل التدخل
       write: أكتب
       activity_log: سجل النشاطات
       remove_alert: إزالة التنبيه
@@ -2513,11 +2519,11 @@ aeb:
             explanation: القدرة على معرفة متوسط عدد الإحالات التي أجريت لكلّ نوع من الخدمات بالنسبة إلى كلّ الحالات النشطة التي يمكن للمستخدم الوصول إليها.
             label: متوسّط الإحالات
           kpi_case_closure_rate:
-            explanation: القدرة على معرفة عدد الحالات التي أُغلقت شهريًا في كلّ موقع.
+            explanation: القدرة على معرفة عدد الملفات التي حفظها شهريًا في كلّ موقع.
             label: عدد الحالات التي تم إغلاقها
           kpi_case_load:
             explanation: القدرة على معرفة متوسط عدد الحالات التي يتعهد بها كلّ مندوب لحماية الطفولة.
-            label: عدد الحالات
+            label: عدد الملفات
           kpi_client_satisfaction_rate:
             explanation: القدرة على معرفة معدّل الضحايا الذين استكملوا تعمير الاستبيان وعبروا عن رضاهم بالنسبة إلى كلّ حالة يمكن للمستخدم الوصول إليها.
             label: معدّل رضا العميل
@@ -2535,7 +2541,7 @@ aeb:
             label: التقدّم المُحرز نحو تحقيق الأهداف
           kpi_number_of_cases:
             explanation: القدرة على معرفة عدد الحالات الجديدة المبلَّغ عنها التي يتمّ فتحها شهريًا في كلّ موقع.
-            label: عدد الحالات
+            label: عدد الملفات
           kpi_number_of_incidents:
             explanation: القدرة على معرفة عدد الحوادث الجديدة المبلَّغ عنها التي يتمّ فتحها شهريًا في كلّ موقع.
             label: عدد الحوادث
@@ -2550,13 +2556,13 @@ aeb:
             label: معدل رئيس المكتب الجهوي لمندوب حماية الطفولة لكل مجموعة مندوبي حماية الطفولة
           kpi_time_from_case_open_to_close:
             explanation: القدرة على معرفة مدّة الإبقاء على الحالة مفتوحة بالنسبة إلى كلّ الحالات التي يمكن للمستخدم الوصول إليها.
-            label: ' الوقت المستغرق من فتح الحالة إلى اغلاقها'
+            label: ' الوقت المستغرق من فتح الملف حتى حفظه'
         label: مؤشّر الأداء الرئيسي
       agency:
         actions:
           assign:
             explanation: القدرة على اختيار الهيئة عند إنشاء حساب مستخدم أو تعديله. إذا كان لدى المستخدم الحالي هذا الإذن بالإضافة إلى إذن "قراءة الهيئة" للمستخدمين، فسيكون بإمكانه فقط إضافة مستخدم إلى وكالته الخاصة.
-            label: تعيين
+            label: نقل ملف الطفل لمكتب آخر
           create:
             explanation: القدرة على إنشاء وكالة
             label: إنشاء
@@ -2606,19 +2612,19 @@ aeb:
             label: الموافقة على استمارة %{approval_label}
           assign:
             explanation: يسمح للمستخدم بإرسال حالة من مالك السجل الأصلي إلى أي مستخدم آخر في النظام. لا حاجة لموافقة الطفل لهذا الإجراء. على عكس عمليات النقل التي لا يُمنح للمستلِم فيها الفرصة لقبول التعيين أو رفضه.
-            label: تعيين
+            label: نقل ملف الطفل لمكتب آخر
           assign_within_agency:
             explanation: يسمح للمستخدم بإرسال حالة من مالك السجل الأصلي إلى أي مستخدم آخر في وكالة المستخدم الحالية. لا حاجة لموافقة الطفل لهذا الإجراء. على عكس عمليات النقل التي لا يُمنح للمستلِم فيها الفرصة لقبول التعيين أو رفضه.
-            label: تعيين لمستخدم ضمن وكالتي
+            label: نقل ملف الطفل لمكتب آخر
           assign_within_user_group:
             explanation: يسمح للمستخدم بإرسال حالة من مالك السجل الأصلي إلى أي مستخدم آخر في مجموعات مستخدمي المستخدم الحالية. لا حاجة لموافقة الطفل لهذا الإجراء. على عكس عمليات النقل التي لا يُمنح المستلِم فيها الفرصة لقبول التعيين أو رفضه
-            label: تعيين لمستخدم ضمن مجموعة المستخدمين الخاصة بي
+            label: نقل ملف الطفل لمكتب آخر
           change_log:
             explanation: يمكن للمستخدم رؤية تاريخ التغييرات التي تم إجراؤها على السجل منذ إنشائه. ويتضمن القيم المسجلة لجميع المجالات.
             label: سجل التغيير
           close:
-            explanation: يسمح للمستخدم بتغيير وضع الحالة من مفتوح إلى مغلق.
-            label: اغلاق
+            explanation: يسمح للمستخدم بتغيير وضع الملف من مفتوح إلى تم حفظه.
+            label: حفظ الملف
           consent_override:
             explanation: يسمح للمستخدم بإجراء إحالة أو نقل لحالة لم تتم الموافقة عليها.
             label: تجاوز عدم الموافقة عند الإحالة أو النقل
@@ -2629,8 +2635,8 @@ aeb:
             explanation: إذا أجرى المستخدم بحثًا عن حالة ليس لديه إمكانية الوصول إليها، يسمح له هذا الإذن برؤية قسم  صغير يحتوي على المعلومات الأساسية عن الحالة، حتى ولو لم يتمكن المستخدم من النقر فوق الحالة للاطلاع على جميع معلوماتها. المجالات التي تظهر في "عرض النموذج" هي المجالات التي تمّ تشكيلها إلى "عرض في شكل قصير". هذا القسم مفيد أيضًا للمستخدمين الذين يقومون بتتبع أفراد الأسرة وإعادة لمّ الشمل نظرًا لأن "نموذج العرض" متاح للمستخدم لاستعماله عند مراجعة الحالات التي ظهرت على أنها "تطابقات محتملة" لطلب التتبّع.
             label: عرض صفحة العرض
           enable_disable_record:
-            explanation: القدرة على تعطيل أو تفعيل ملف. لا تظهر المفات"غير مٌفعلة" افتراضيًا في قائمة الحالات. يمكن للمستخدمين رؤية الحالات غير المٌفعلة في قائمة الحالات باستخدام عامل تصفية. نظرًا لأن النظام  لا يسمح للمستخدمين بحذف الحالات، قد يرغب المستخدم في تعطيل حالة كبديل. على سبيل المثال، إذا أنشأ المستخدم ملف عن طريق الخطأ، أو كانت الوضعية تحتوي على بيانات خاطئة، يتوجب على المستخدم تعطيلها.
-            label: تفعيل/تعطيل
+            explanation: القدرة على الغاء أو تفعيل ملف. لا تظهر المفات"الملغات" افتراضيًا في قائمة الملفات. يمكن للمستخدمين رؤية الملفات الملغات في قائمة الملفات باستخدام عامل تصفية. نظرًا لأن النظام  لا يسمح للمستخدمين بحذف الملفات، قد يرغب المستخدم في الغاء ملف . على سبيل المثال، إذا أنشأ المستخدم ملف عن طريق الخطأ، أو كانت الوضعية تحتوي على بيانات خاطئة، يتوجب على المستخدم تعطيلها.
+            label: تفعيل/الغاء
           export_case_pdf:
             explanation: يمكن للمستخدم إنشاء وتنزيل ملف PDF من قائمة الحالة أو صفحات عرض الحالة، والتي تحتوي على جميع الحقول التي يمكن للمستخدم الحالي الوصول إليها، والمرتبطة بحالة واحدة أو حالات متعددة أو جميع الحالات التي يمكن للمستخدم الوصول إليها. في ملف التنزيل PDF ، يتم سرد المعلومات أولاً حسب الحالة، ثم يتمّ تنظيمها بعد ذلك حسب الشكل الذي تظهر عليه المعلومات.
             label: تنزيل ملف الحالة في صيغة pdf
@@ -2707,7 +2713,7 @@ aeb:
             explanation: يسمح للمستخدم بإزالة المستخدمين الآخرين من حقل "المستخدمون الآخرون المعيّنون". يتمّ إدراج المستخدم هنا إذا تلقى إحالة أو تحويل للحالة ولكنّه لم يقبلها أو يرفضها بعد. عندما تقوم بإزالة مستخدم من حقل "المستخدمون الآخرون المعيّنون"، فإنك تزيل إمكانية وصولهم إلى الحالة. وبالتالي، يمكن للمستخدمين الذين لديهم هذا الإذن إزالة إمكانية الوصول إلى الحالة من المستخدمين الذين سبق لهم وتلقوا إحالات أو عمليات نحويل معلّقة للحالة. لاحظ أنّ هذا الإذن لا يعمل إلا إذا كان المستخدم الحالي لديه أيضًا القدرة على تعديل الحالة.
             label: إزالة المستخدمين المعيّنين الآخرين (استعادة الوصول إلى الحالة من المستخدمين المُحال إليهم)
           reopen:
-            explanation: يسمح للمستخدم بفتح حالة مغلقة حاليًّا
+            explanation: يسمح للمستخدم بفتح ملف تم حفظه
             label: إعادة فتح
           request_approval_action_plan:
             explanation: يسمح للمستخدم (عادة ما يكون مندوب حماية الطفولة) الطلب من رئيس المكتب الجهوي لمندوب حماية الطفولة الموافقة على حالتهم %{approval_label}.
@@ -2782,7 +2788,7 @@ aeb:
             explanation: يسمح للمستخدم بالبحث عن سجل العائلة الموجود وربطه بحالته. كما يسمح للمستخدمين بإلغاء ربط سجل العائلة من الحالة.
             label: ربط / إلغاء ربط سجل العائلة من الحالة
         explanation: يمثل طفلاً فرديًا أو ضحية أو مستفيد آخر.
-        label: حالة
+        label: الوضعيات
       dashboard:
         actions:
           action_needed_new_updated:
@@ -2850,18 +2856,18 @@ aeb:
             label: عرض الحالات حسب كل مندوب لحماية الطفولة
           dash_cases_to_assign:
             explanation: 'هام: للمديرين فقط. يعرض عدد الحالات التي يمتلكها المستخدم الحالي بشكل مباشر (يجب أن يكون مديرًا). تفترض لوحة المعلومات هذه أن المديرين لا يديرون حالاتهم الخاصة، وأنه إذا كان للمدير حالاته الخاصة، يجب عليه تعيين هذه الحالات لاخصائيين الحالة في فريقه.'
-            label: (للمديرين) الملفات التي أحتاج إلى تعيينها لأشخاص في فريقي
+            label: (للمديرين) الملفات التي أحتاج إلى نقلها لافراد في المكتب الوجاهي
           dash_flags:
             explanation: يعرض قائمة بالإشارات التي أضافها المستخدمون الآخرون إلى سجلاتي، بالإضافة إلى الإشارات التي أضفتها إلى سجلات المستخدمين الآخرين.
             label: السجلات التي وضعت عليها ملاحظات
           dash_group_overview:
-            explanation: يعرض للمدير عدد الحالات المفتوحة والمغلقة التي يديرها المستخدمون في فريقه.
+            explanation: يعرض للمدير عدد الملفات المفتوحة وتلك التي تم حفظها من قبل المستخدمون في المكتب الوجهي.
             label: ملفات مجموعتي
           dash_matching_results:
             explanation: إهمال. لوحة ملخص البيانات هذه غير وظيفية وستتم إزالتها في الإصدار 2.
             label: عرض النتائج المتطابقة
           dash_protection_concerns:
-            explanation: الجدول الذي يوضح عدد المفلاتبحسب وضعيات تهديد الأطفال. يمثل كلّ سطر في الجدول إحدىوضعيات تهديد الأطفال، بينما تشير الأعمدة إلى أوضاع مختلفة للملفات ("كلّ الملفات"، "الملفات المفتوحة للتعهد بطفل"، "الملفات الجديدة  التي تم انشائها هذا الأسبوع"، "الملافات التي تم حفظها هذا الأسبوع")
+            explanation: الجدول الذي يوضح عدد المفلاتر بحسب وضعيات تهديد الأطفال. يمثل كلّ سطر في الجدول إحدىوضعيات تهديد الأطفال، بينما تشير الأعمدة إلى أوضاع مختلفة للملفات ("كلّ الملفات"، "الملفات المفتوحة للتعهد بطفل"، "الملفات الجديدة  التي تم انشائها هذا الأسبوع"، "الملافات التي تم حفظها هذا الأسبوع")
             label: الملفات بحسب وضعيات تهديد الأطفال
           dash_protection_concerns_by_location:
             explanation: يشبه لوحة معلومات "عرض وضعيات تهديد الأطفال"، باستثناء أنه يمكن للمستخدم اختيار موقع من القائمة المنسدلة لإظهار إحصائيات حول انتشار وضعيات تهديد الأطفال في هذا الموقع فقط.
@@ -2903,22 +2909,22 @@ aeb:
             explanation: يسمح للمستخدم برؤية صفحة الوضعيات التي تتطلب متابعة. يجب أن تُستخدم من قبل مندوبي حماية الطفولة، حيث ستكون الأرقام مخصّصة للملفات التي تديرها مباشرة. يجب على رؤساء المكاتب الجهوية لمندوبي حماية الطفولة بدلاً من ذلك الحصول على لوحة المعلومات المرتبطة بـ "عرض الوضعيات التي تتطلب متابعة" ، لأن هذا يتيح لهم رؤية عمليات تعبئة النماذج التي حصل فيها تجاوز الآجال المحددة للمتابعة لكلّ مستخدم في مجموعات المستخدمين الخاصة بهم.
             label: صفحة عرض الوضعيات التي تتطلب متابعة
           dash_national_admin_summary:
-            explanation: 'يظهر إجمالي الملفات المفتوحة في النظام ، وعدد الملفات الجديدة التي تم إنشاؤها في كل من الأسبوعين الماضيين ، وعدد الحالات التي تم إغلاقها في كل من الأسبوعين الماضيين. '
+            explanation: 'يظهر إجمالي الملفات المفتوحة في النظام ، وعدد الملفات الجديدة التي تم إنشاؤها في كل من الأسبوعين الماضيين ، وعدد الملفات التي تم حفظها في كل من الأسبوعين الماضيين. '
             label: ملخص المسؤول
           view_response:
             explanation: لكلّ نوع من أنواع الاستجابة، يوضح عدد الملفات في كل مستوى من مستويات الخطورة التي لديها خدمات تحتاج للمتابعة أو حصل فيها تجاوز الآجال المحددة للمتابعة.
             label: عرض الاستجابات
           workflow:
-            explanation: عرض رسم بياني دائري يوضح عدد الوضعيات المتعهد بها بحسب مسار التعهد لمندوب حماية الطفولة برؤية
-            label: الملفات بحسب مسار التعهد
+            explanation: عرض رسم بياني دائري يوضح عدد الوضعيات المتعهد بها بحسب مراحل التدخل لمندوب حماية الطفولة برؤية
+            label: الملفات بحسب مراحل التدخل
           workflow_team:
             explanation: 'يسمح لرئيس المكتب الجهوي لمندوب حماية الطفولة برؤية جدول يوضح عدد حالات مندوبي حماية الطفولة في كلّ مرحلة من مراحل عملية إدارة الحالة.  '
-            label: الملفات بحسب مسار التعهد وبحسب مندوب حماية الطفولة المتهد بها
+            label: الملفات بحسب مراحل التدخل وبحسب مندوب حماية الطفولة المتهد بها
         explanation: تملي المعلومات الموجزة التي تظهر على الصفحة الرئيسية.
         label: لوحة المعلومات
       disabled:
-        explanation: إذا قمت بتعطيل هذا الدور، لن تستطيع تكليف مستخدم آخر به
-        label: غير مٌفعل
+        explanation: إذا قمت بالغاء هذا الدور، لن تستطيع تكليف مستخدم آخر به
+        label: ملغات
       referral_authorization:
         explanation: 'ويعني أن الدور سيظهر كخيار للقائمة المنسدلة "نوع الإحالة" عندما يقوم المستخدم بإجراء إحالة داخلية. إذا اختار المستخدم هذا الدور كنوع الإحالة، فلن يتمكن متلقي الإحالة من الوصول إلا إلى الاستمارات التي يمكن للدور المحدد الوصول إليها. لذا، على سبيل المثال، إذا اختار المستخدم "مقدم الخدمة الطبية" كنوع الإحالة، وكان لدور مقدم الخدمة الطبية حق الوصول فقط إلى استمارات البيانات الخاصة بالطفل ووضعية التهديد الموجبة للتدخل:، فلن يرى المستلم سوى هذه الاستمارات. '
         label: هل يمكن استخدام هذا الدور في القائمة المنسدلة "نوع الإحالة"؟
@@ -2968,7 +2974,7 @@ aeb:
         actions:
           assign:
             explanation: يسمح للمستخدم بإرسال حادثة من مالك السجل الأصلي إلى أي مستخدم آخر في النظام. لا يمكن تعيين الحوادث المرتبطة بالفعل بحالة ما؛ يجب عليك بدلاً من ذلك إعادة تعيين الحالة المرتبطة، مما سيؤدي إلى تحديث ملكية سجل الحادث.
-            label: تعيين
+            label: نقل ملف الطفل لمكتب آخر
           change_log:
             explanation: يمكن للمستخدم رؤية تاريخ التغييرات التي تم إجراؤها على السجل منذ إنشائه. يتضمن هذا القيم المسجلة لجميع الحقول.
             label: تغيير السجل
@@ -2976,8 +2982,8 @@ aeb:
             explanation: القدرة على إنشاء حادثة.
             label: إنشاء
           enable_disable_record:
-            explanation: القدرة على تعطيل أو تفعيل حادثة. لا تظهر الحوادث "غير المٌفعلة" بشكل افتراضي في قائمة الحوادث. يمكن للمستخدمين رؤية الحوادث غير المٌفعلة في قائمة الحوادث من خلال تطبيق عامل تصفية/فيلتر.
-            label: تفعيل/تعطيل
+            explanation: القدرة على الغاء أو تفعيل حادثة. لا تظهر الحوادث الملغات في قائمة الحوادث. يمكن للمستخدمين رؤية الحوادث الملغات في قائمة الحوادث من خلال تطبيق عامل تصفية/فيلتر.
+            label: تفعيل/الغاء
           export_case_pdf:
             explanation: يمكن للمستخدم إنشاء وتنزيل ملف في صيغة PDF من قائمة الحوادث أو صفحات عرض الحوادث، والتي تحتوي على جميع الخانات التي يمكن للمستخدم الحالي الوصول إليها، والمرتبطة بسجلّ واحد أو سجلات متعدّدة أو جميع السجلات التي يمكن للمستخدم الوصول إليها. في ملف المنزّل PDF، يتمّ سرد المعلومات أولاً حسب الحالة، ثم يتمّ تنظيمها بعد ذلك حسب الاستمارة الذي تظهر عليها المعلومات.
             label: تنزيل ملف او أكثر في صيغة PDF
@@ -3033,7 +3039,7 @@ aeb:
             explanation: يمكن لمستخدم MRM تغيير لائحة الانتهاكات.
             label: تحقق من آلية الرصد والابلاغ
           write:
-            explanation: القدرة على نقر زر "تعديل" وتحديث المعلومات عن الحادثة ثم النقر على "حفظ". تسمح أيضًا للمستخدم بتعطيل حادثة أو تفعيلها.
+            explanation: القدرة على نقر زر "تعديل" وتحديث المعلومات عن الحادثة ثم النقر على "حفظ". تسمح أيضًا للمستخدم بالغاء حادثة أو تفعيلها.
             label: تعديل
         explanation: يمثل حدثًا وقع. عادة ما تكون هذه حوادث إساءة أو عنف ، على الرغم من أنها يمكن أن تتوافق أيضًا مع أحداث مثل المواجهات مع سلطات إنفاذ القانون. غالبًا ما ترتبط الحوادث بالحالات.
         label: حادثة
@@ -3043,13 +3049,13 @@ aeb:
       managed_report:
         actions:
           reporting_locations_report:
-            label: موقع الإبلاغ (حالات)
+            label: موقع الإبلاغ (الملفات)
             explanation: القدرة على عرض إحصائيات حول عدد الحالات المسجلة خلال نطاق زمني معين، وتصفيتها حسب موقع الإبلاغ، ومقسمة حسب العمر والجنس. يسمح هذا الإذن أيضًا للمستخدم بتنزيل البيانات من Insight.
           followups_report:
             label: متابعة ومراجعة وضعية الطفل (الملفات)
             explanation: القدرة على عرض إحصائيات حول عدد المتابعات التي تم إجراؤها خلال نطاق زمني محدد، والتي تمت تصفيتها حسب نوع المتابعة، ومقسمة حسب السن والجنس. يسمح هذا الإذن أيضًا للمستخدم بتنزيل البيانات من Insight.
           services_report:
-            label: خدمات (حالات)
+            label: خدمات (الملفات)
             explanation: القدرة على عرض إحصائيات حول عدد الخدمات المقدمة خلال نطاق زمني معين، مفلترة حسب نوع الخدمة، ومقسمة حسب السن والجنس. يسمح هذا الإذن أيضًا للمستخدم بتنزيل البيانات من Insight.
           protection_concerns_report:
             label: وضعيات تهديد الأطفال (الملفات)
@@ -3075,11 +3081,11 @@ aeb:
             explanation: القدرة على الوصول إلى MRM Individual Children Insight.
             label: الأطفال الفرديين
           workflow_report:
-            label: مسار التعهد للوضعيات والحوادث
-            explanation: عرض إحصائيات للوضعيات والحوادث بحسب مسار التعهد الخاص بكل منهما. يسمح هذا الإذن أيضًا للمستخدم بتنزيل البيانات من Insight.
+            label: مراحل التدخل للوضعيات والحوادث
+            explanation: عرض إحصائيات للوضعيات والحوادث بحسب مراحل التدخل الخاصة بكل منهما. يسمح هذا الإذن أيضًا للمستخدم بتنزيل البيانات من Insight.
           cases_workflow_report:
-            label: الوضعيات المتهد بها بحسب مسار التعهد
-            explanation: عرض الإحصائيات حول الوضعيات المتهد بها بحسب مسار التعهد. يسمح هذا الإذن أيضًا للمستخدم يتنزيل البيانات من Insight.
+            label: الوضعيات المتهد بها بحسب مراحل التدخل
+            explanation: عرض الإحصائيات حول الوضعيات المتهد بها بحسب مراحل التدخل. يسمح هذا الإذن أيضًا للمستخدم يتنزيل البيانات من Insight.
           violence_type_report:
             label: نوع العنف (حالات وحوادث)
             explanation: القدرة على عرض إحصائيات عن نوع العنف. يسمح هذا الإذن أيضًا للمستخدم بتنزيل البيانات من Insight.
@@ -3146,7 +3152,7 @@ aeb:
             explanation: القدرة على إنشاء سجل التسجيل.
             label: إنشاء
           enable_disable_record:
-            explanation: القدرة على تعطيل أو تفعيل سجل التسجيل. لا تظهر السجلات "غير المٌفعلة" بشكل افتراضي في قائمة التسجيل. يمكن للمستخدمين رؤية سجلات التسجيل غير المٌفعلةفي قائمة التسجيل باستخدام  عامل تصفية/فيلتر.
+            explanation: القدرة على الغاء أو تفعيل سجل البحث عن طفل مفقود. لا تظهر السجلات الملغات بشكل افتراضي في قائمة السجلات. يمكن للمستخدمين رؤية السجلات الملغات في قائمة السجلات باستخدام  عامل تصفية/فيلتر.
             label: تفعيل/تعطيل
           export_csv:
             explanation: 'يمكن للمستخدم إنشاء وتنزيل ملف CSV من قائمة السجل أو صفحات عرض السجل ، والتي تحتوي على جميع الخانات التي يمكن للمستخدم الحالي الوصول إليها ، لسجل واحد أو متعدد أو جميع سجلات التسجيل التي يمكن للمستخدم الوصول إليها. ملاحظة: لا يعرض تنزيل CSV الأحرف غير اللاتينية (مثل العربية والبنغالية)'
@@ -3186,8 +3192,8 @@ aeb:
             explanation: القدرة على إنشاء سجل العائلة
             label: إنشاء
           enable_disable_record:
-            explanation: القدرة على تعطيل أو تفعيل ملف أسرة. لا تظهر ملفات الأسر"غير المٌفعلة" بشكل افتراضي في قائمة الأسر. يمكن للمستخدمين رؤية ملفات الأسرغير المٌفعلة في قائمة الأسر باستخدام عامل التصفية.
-            label: تفعيل / تعطيل
+            explanation: القدرة على الغاء أو تفعيل ملف أسرة. لا تظهر ملفات الأسر"الملغات" في قائمة ملفات الأسر. يمكن للمستخدمين رؤية ملفات الأسر الملغات في قائمة ملفات الأسر باستخدام عامل التصفية.
+            label: تفعيل / الغاء
           export_csv:
             explanation: 'يمكن للمستخدم إنشاء وتنزيل ملف في صيغة CSV من قائمة العائلة أو صفحات عرض الأسر، والتي تحتوي على جميع الخانات التي يمكن للمستخدم الحالي الوصول إليها، لاسرة واحد أو اكثر ا. ملاحظة: لا يعطي تنزيل CSV حروف غير لاتينية (مثل العربية)'
             label: تنزيل ملف أو اكثر في صيغة CSV
@@ -3225,10 +3231,10 @@ aeb:
             explanation: يسمح للمستخدم بتخزين سجلات العائلة مؤقتًا للاستخدام دون الاتصال بالإنترنت.
             label: وضع علامة لعدم الاتصال بالشبكة
           close:
-            explanation: يسمح للمستخدم بتعديل وضع ملف عائلة من مفتوح إلى مغلق.
-            label: غلق
+            explanation: يسمح للمستخدم بتعديل وضع ملف الاسرة من مفتوح إلى تم حفظه.
+            label: حفظ الملف
           reopen:
-            explanation: 'يسمح للمستخدم بفتح ملف عائلة يعتبر مغلقا حاليا '
+            explanation: يسمح للمستخدم باعادة فتح ملف عائلة تم حفظه
             label: إعادة فتح
           case_from_family:
             explanation: يسمح للمستخدمين بإنشاء حالة جديدة من استمارة فرعية لأفراد العائلة داخل سجل العائلة.
@@ -3263,7 +3269,7 @@ aeb:
         actions:
           assign:
             explanation: القدرة على اختيار دور عند إنشاء أو تعديل حساب مستخدم. هذا الإذن ضروري لأي دور يقوم بإنشاء أو تعديل حسابات المستخدمين.
-            label: تعيين
+            label: نقل ملف الطفل لمكتب آخر
           copy:
             explanation: القدرة على إنشاء نسخة من الدور. هذا مفيد لمسؤولي النظام الذين قد ينشئون عددًا من الأدوار المتشابهة جدًا  (مثل مزودي الخدمة).
             label: نسخ
@@ -3303,8 +3309,8 @@ aeb:
             explanation: القدرة على إنشاء طلب تتبّع
             label: إنشاء
           enable_disable_record:
-            explanation: القدرة على تعطيل أو تفعيل طلب تتبّع. لا تظهر طلبات التتبّع "غير المٌفعلة" بشكل افتراضي في قائمة طلبات التتبّع. يمكن للمستخدمين رؤية طلبات التتبّع غير المٌفعلة في قائمة طلبات التتبّع من خلال تطبيق عامل تصفية.
-            label: تفعيل/تعطيل
+            explanation: القدرة على الغاء أو تفعيل طلب تتبّع. لا تظهر طلبات التتبّع "الملغات" بشكل افتراضي في قائمة طلبات التتبّع. يمكن للمستخدمين رؤية طلبات التتبّع الملغات في قائمة طلبات التتبّع من خلال تطبيق عامل تصفية.
+            label: تفعيل/الغاء
           export_case_pdf:
             explanation: يمكن للمستخدم إنشاء وتنزيل ملف في صيغة PDF من قائمة طلبات التتبّع أو صفحات عرض طلبات التتبّع، والتي تحتوي على جميع الخانات التي يمكن للمستخدم الحالي الوصول إليها، والمرتبطة بسجلّ واحد أو سجلات متعدّدة أو جميع السجلات التي يمكن للمستخدم الوصول إليها. في ملف التنزيل بصيغة PDF، يتمّ سرد المعلومات أولاً حسب الحالة، ثم يتمّ تنظيمها بعد ذلك حسب الاستمارة الذي تظهر عليها المعلومات.
             label: تنزيل ملف في صيغة csv
@@ -3342,7 +3348,7 @@ aeb:
             explanation: القدرة على عرض طلب التتبع. يجب أن تتمتع الأدوار التي لها القدرة على رؤية طلبات التتبع أيضًا بالقدرة على رؤية نوع سجل التطابق المحتمل.
             label: عرض
           write:
-            explanation: القدرة على نقر زر "تعديل" وتحديث المعلومات عن طلب التتبّع ثم النقر على "حفظ". تسمح أيضًا للمستخدم بتعطيل طلب تتبّع أو تفعيله.
+            explanation: القدرة على نقر زر "تعديل" وتحديث المعلومات عن طلب التتبّع ثم النقر على "حفظ". تسمح أيضًا للمستخدم بالغاء طلب تتبّع أو تفعيله.
             label: تعديل
         explanation: يمثل فردًا يحاول تحديد مكانه وجمع شمله في حالة غير مصحوب أو منفصل.
         label: طلبات التتبع
@@ -3367,7 +3373,7 @@ aeb:
             explanation: القدرة على رؤية حسابات المستخدمين. بشكل افتراضي، كلّ مستخدم لديه القدرة على رؤية المعلومات المتعلقة بحسابه الخاص وتعديلها (مثل كلمة المرور والبريد الإلكتروني).
             label: عرض
           write:
-            explanation: القدرة على نقر زر "تعديل" في صفحة عرض المستخدم، وتحديث معلومات المستخدم، ثم الحفظ. يرجى ملاحظة أنّ هذا الإذن يمنحك أيضًا القدرة على تعطيل حسابات المستخدمين.
+            explanation: القدرة على نقر زر "تعديل" في صفحة عرض المستخدم، وتحديث معلومات المستخدم، ثم الحفظ. يرجى ملاحظة أنّ هذا الإذن يمنحك أيضًا القدرة على الغاء حسابات المستخدمين.
             label: تعديل
         explanation: يمثل حساب مستخدم فردي.
         label: المستخدمون
@@ -3375,7 +3381,7 @@ aeb:
         actions:
           assign:
             explanation: القدرة على اختيار مجموعات المستخدمين عند إنشاء  حساب المستخدم أو تعديله. يرجى ملاحظة أنه إذا كان لدى المستخدم الحالي مستوى الوصول فقط إلى "السجلات أو المستخدمين في مجموعتي"، سيكون قادرًا فقط على اختيار مجموعة واحدة أو أكثر من مجموعات المستخدمين * الخاصة بهم * لحساب المستخدم الذي يقومون بإنشائه أو تعديله. هذا يعني أن المدير الذي لديه القدرة على تعيين مجموعات مستخدمين سيكون قادرًا فقط على إضافة مستخدم إلى مجموعات المستخدمين التي ينتمي إليها المدير حاليًا. هذا الإذن ضروري لأي دور يقوم بإنشاء  حسابات المستخدمين أو تعديلها.
-            label: تعيين
+            label: نقل ملف الطفل لمكتب آخر
           create:
             explanation: القدرة على إنشاء مجموعة مستخدمين
             label: إنشاء
@@ -3438,13 +3444,13 @@ aeb:
   potential_matches:
     display: عرض النتائج المطابقة المحتملة لـ %{type} %{id}
   reassign:
-    multiple_error: حدث خطأ. لم يتم تعيين الحالة (الحالات) %{select_records}.
-    multiple_successfully: Primero يحدث في هذه الاثنات الحالات % {select _ records} . قد يستغرق تحديث كل هذه الحالات عدة دقائق.
+    multiple_error: حدث خطأ. لم يتم نقل ملف الطفل %{select_records} لمكتب آخر.
+    multiple_successfully: Primero يحدث في هذه الاثنات الملفات % {select _ records} . قد يستغرق تحديث كل هذه الملفات عدة دقائق.
     notes_label: ملاحظات
-    successfully: تمت إعادة التعيين بنجاح
+    successfully: تم نقل ملف الطفل لمكتب آخر بنجاح
     user_mandatory_label: يجب إدخال إسم المستلِم
     users_label: المستلِم
-    incident_from_case_warning: لا يمكنك تعيين هذه الحادثة، لأنها مرتبطة بالفعل بحالة ما. عندما تقوم بتعيين الحالة، يتم تعيين الحادث أيضًا.
+    incident_from_case_warning: لا يمكنك نقل هذه الحادثة، لأنها مرتبطة بملف. عندما تقوم لنقل الملف، يتم نقل الحادث أيضًا.
   record_information:
     assigned_user_names: 'المستخدمين الأخرين '
     created_at: تم إنشاء السجل في
@@ -3457,7 +3463,7 @@ aeb:
     owned_by_text: الحقل/حالة/اخصائي الحالة
     previously_owned_by: المستخدم السابق
     previously_owned_by_agency: 'الهيئة السابقة '
-    reassigned_tranferred_on: إعادة تعيين / نقل الملف في
+    reassigned_tranferred_on: إعادة نقل الملف في
     record_history_separator: تسجيل التاريخ
     last_updated_at: تاريخ اخر تحديث
     last_updated_by: 'اخر تحديث تم من قبل '
@@ -3495,8 +3501,8 @@ aeb:
       year: سنة
     description: الوصف
     disabled:
-      explanation: إذا قمت بتعطيل هذا التقرير، لن يظهر ضمن التقارير المتاحة.
-      label: غير مٌفعل
+      explanation: إذا قمت بالغاء هذا التقرير، لن يظهر ضمن التقارير المتاحة.
+      label: ملغات
     exclude_empty_rows: لا تعرض صفوف فارغة
     disaggregate_by: مجموعات حسب الأعمدة
     filters:
@@ -3574,7 +3580,7 @@ aeb:
     label: دور المستخدم
   saved_search:
     deleted: تم حذف البحث بنجاح
-    filters_tab: بحث النوعي
+    filters_tab: بحث نوعي
     no_filters: لم يتمّ اختيار أي مجالات بحث نوعي
     save_success: تم حفظ البحث بنجاح
     saved_searches_tab: عمليات البحث السابقة
@@ -3636,7 +3642,7 @@ aeb:
     case_audios: ملف صوتي لهذه الحالة
     messages:
       already_matched: يوجد بالفعل تطابقًا في النظام مع مستعلم يبحث عن هذا الطفل.
-      disabled: تمّ تعطيل طلب التتبع
+      disabled: تمّ الغاء طلب التتبع
       nothing_found: لم يتم العثور على شيء
       update_success: 'تم تحديث طلب التتبع %{record_id} بنجاح. '
       creation_success: 'تم إنشاء سجل طلب التتبع بنجاح. '
@@ -3648,12 +3654,12 @@ aeb:
     messages:
       update_success: 'تم تحديث سجل التسجيل %{record_id} بنجاح.'
       creation_success: 'تم إنشاء سجل التسجيل بنجاح.'
-      disabled: سجل التسجيل غير مٌفعلة
+      disabled: سجل البحث عن طفل مفقود ملغى
   tracing_requests:
     date_of_inquiry: تاريخ الاستعلام
-    disable_dialog_title: تعطيل طلب التتبع
-    disable_dialog: بالنقر على "تمّ" سيُصبح وضع طلب التتبّع غير مٌفعل.
-    disable_success: تمّ تعطيل طلب التتبع بنجاح
+    disable_dialog_title: الغاء طلب التتبع
+    disable_dialog: بالنقر على "تمّ" يلغى طلب التتبّع .
+    disable_success: تمّ الغاء طلب التتبع بنجاح
     enable_dialog: بالنقر على "تمّ" سيُصبح وضع طلب التتبّع هذا مفعّلاً.
     enable_dialog_title: تفعيل طلب التتبع
     enable_success: تمّ تفعيل طلب التتبع بنجاح
@@ -3663,7 +3669,7 @@ aeb:
       by_date: حسب التاريخ
       location_separation: موقع الإنفصال
       separation_cause: سبب الإنفصال
-      status: الوضع
+      status: مرحلة التعهد
     label: طلبات التتبع
     name_of_inquirer: إسم المُستفسر
     inquirer: المُستفسر
@@ -3686,8 +3692,8 @@ aeb:
     registration_date: تاريخ التسجيل
     selected_records: '%{select_records} تم تحديد سجل (سجلات) التسجيل'
     selected_all_records: 'حدد كافة السجلات %{total_records} التي تطابق هذا الاستعلام.'
-    disable_dialog_title: تعطيل سجل التسجيل
-    disable_dialog: سيؤدي النقر فوق "موافق" إلى تغيير حالة سجل التسجيل هذا إلى غير مٌفعل.
+    disable_dialog_title: الغاء سجل التسجيل
+    disable_dialog: سيؤدي النقر فوق "موافق" إلغاء السجل.
     disable_success: تم تعطيل سجل التسجيل بنجاح
     enable_dialog_title: تفعيل سجل التسجيل
     enable_dialog: سيؤدي النقر فوق "موافق" إلى تغيير وضع سجل التسجيل هذا إلى مفعل.
@@ -3695,7 +3701,7 @@ aeb:
     complete: متاح بدون الاتصال بالانترنت
     filter_by:
       by_date: حسب التاريخ
-      status: الوضع
+      status: مرحلة التعهد
     selectable_date_options:
       registration_date: تاريخ التسجيل
     show_registry_record: 'معرف سجل التسجيل: %{short_id}'
@@ -3717,7 +3723,7 @@ aeb:
     register_new_family: عائلة جديدة
     show_family: 'رقم ملف العائلة %{short_id}'
     disable_dialog_title: سجل عائلة معطل
-    disable_dialog: سيؤدي النقر فوق "موافق" إلى تغيير حالة هذه العائلة إلى "غير مٌفعل".
+    disable_dialog: سيؤدي النقر على"موافق" إلى الغاء ملف الاسرة.
     selected_records: '%{select_records} سجل (سجلات) عائلية تم اختيارها'
     selected_all_records: 'حدد جميع %{total_records} ملفات الأسر التي تطابق هذا الاستعلام.'
     mark_for_offline:
@@ -3739,7 +3745,7 @@ aeb:
     messages:
       update_success: 'تم تحديث ملف العائلة رقم % {record _ id} بنجاح.'
       creation_success: 'تم إنشاء سجل العائلة بنجاح.'
-      disabled: سجل العائلة غير مٌفعل
+      disabled: سجل العائلة غير ملغى
       confirm_create_case: هل تريد إنشاء حالة لهذا الشخص؟
   transfer:
     label: نقل
@@ -3758,10 +3764,10 @@ aeb:
     user_mandatory: المستلم مطلوب
     rejected_reason: سبب الرفض
   transfer_assignment:
-    title: عمليات النقل والتعيينات
+    title: عمليات النقل
   transition:
     agency_label: المؤسسة
-    assigned_by: تعيين من قِبَل
+    assigned_by: نقل ملف الطفل لمكتب آخر من قِبَل
     consent_individual_transfer_value:
       true_label: 'نعم'
       false_label: 'لا'
@@ -3788,8 +3794,8 @@ aeb:
       revoked: إلغاء
     transferred_by: ملف تم نقله من قبل
     type:
-      assign: تعيين
-      reassign: تعيين
+      assign: نقل ملف الطفل لمكتب آخر
+      reassign: نقل ملف الطفل لمكتب آخر
       referral: إحالة
       external_referral: إحالة خارجية
       transfer: تحويل
@@ -3797,7 +3803,7 @@ aeb:
   user:
     agency_office: مكتب المؤسسة (موقع العنف المبني على النوع الاجتماعي)
     code: 'رمز المستخدم '
-    disabled: غير مٌفعل
+    disabled: ملغى
     email: البريد الإلكتروني
     full_name: الإسم واللقب
     identity_provider: مزوّد الهويّة
@@ -3850,7 +3856,7 @@ aeb:
     notification_preferences:
       approval_request: 'طلب الموافقة (رئيس المكتب الجهوي لمندوب حماية الطفولة)'
       approval_response: 'الاستجابة للموافقة (مدير الحالة)'
-      transition_notification: 'التعيينات والانتقالات والإحالات'
+      transition_notification: 'الملفات المنقولة والمحالة'
       transfer_request: 'طلبات النقل'
     user_group_unique_ids: مجموعات المستخدمين
     user_name: اسم المستخدم
@@ -3878,8 +3884,8 @@ aeb:
     associated_agencies: المؤسسات المرتبطة بمجموعة المستخدمين هذه
     description: الوصف
     disabled:
-      explanation: إذا قمت بتعطيل مجموعة المستخدمين هذه، لن تتمكن من تعيينها إلى حسابات المستخدمين.
-      label: غير مٌفعل
+      explanation: إذا قمت بالغاء مجموعة المستخدمين هذه، لن تتمكن من تعيينها إلى حسابات المستخدمين.
+      label: ملغى
     messages:
       created: تم إنشاء مجموعة المستخدمين بنجاح.
       updated: تم تحديث مجموعة المستخدمين بنجاح.
@@ -3895,8 +3901,8 @@ aeb:
       agency: المؤسسة
     alerts:
       total_users_created: 'لقد قمت بإنشاء% {إجمالي _ تمكين} من التطبيق % {الحد الأقصى _ المستخدمين} '
-      limit_user_reached: لقد وصلت إلى حد% {الحد الأقصى _ المستخدمين} للمستخدمين. يجب عليك تعطيل مستخدم واحد أو أكثر قبل إنشاء المزيد.
-      limit_user_reached_on_enable: لقد وصلت إلى الحد الأقصى للمستخدمين %{maximum_users} . يجب عليك تعطيل مستخدم واحد أو أكثر قبل إنشاء أو تمكين المزيد.
+      limit_user_reached: لقد وصلت إلى حد% {الحد الأقصى _ المستخدمين} للمستخدمين. يجب عليك الغاء مستخدم واحد أو أكثر قبل إنشاء المزيد.
+      limit_user_reached_on_enable: لقد وصلت إلى الحد الأقصى للمستخدمين %{maximum_users} . يجب عليك الغاء مستخدم واحد أو أكثر قبل إنشاء أو تمكين المزيد.
   devise:
     failure:
       already_authenticated: "انت مُسجّل مسبقا."
