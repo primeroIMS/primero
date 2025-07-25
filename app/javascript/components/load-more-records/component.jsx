@@ -26,11 +26,11 @@ function Container({ selectedForm, recordID, recordType, loading, metadata, fetc
 
     setPage(nextPage);
     setMore(!more);
-    dispatch(fetchFn(recordType, recordID, nextPage, selectedFilters));
+    dispatch(fetchFn(recordType, recordID, nextPage, selectedFilters?.toJS()));
   };
 
   useEffect(() => {
-    if (fetchable && recordID) {
+    if (fetchable && recordID && page > FIRST_PAGE_RESULTS) {
       dispatch(fetchFn(recordType, recordID, page));
     }
   }, [recordID]);

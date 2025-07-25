@@ -5,7 +5,7 @@ import { fromJS } from "immutable";
 
 import LoadMoreRecords from "./component";
 
-describe("ChangeLogs - Container", () => {
+describe("LoadMoreRecords - Container", () => {
   beforeEach(() => {
     mountedComponent(
       <LoadMoreRecords
