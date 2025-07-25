@@ -32,7 +32,7 @@ describe IdpToken do
     @jwk = JWT::JWK.new(@rsa_private)
     @jwks = { keys: [@jwk.export] }
     @header = { kid: @jwk.kid }
-    @payload = { aud: '123', iss: 'https://primeroims.org', emails: ['test@primero.org'] }
+    @payload = { aud: '123', iss: 'https://primeroims.org', emails: ['test@primero.org'], nonce: 'abc123' }
     @payload_capital_letters = { aud: '123', iss: 'https://primeroims.org', emails: ['UserTest@primero.org'] }
     @valid_token = valid_token @payload
     @valid_token_capital_letters = JWT.encode @payload_capital_letters, @rsa_private, 'RS256', @header
@@ -113,8 +113,32 @@ describe IdpToken do
     end
   end
 
+  describe '.unique_id' do
+    let(:token_with_nonce) { IdpToken.new.tap { |t| t.payload = { 'nonce' => 'nonce' } } }
+    let(:token_with_jti_nonce) { IdpToken.new.tap { |t| t.payload = { 'nonce' => 'nonce', 'jti' => 'jti' } } }
+
+    it 'uses the nonce when the jti claim is blank' do
+      expect(token_with_nonce.unique_id).to eq('nonce')
+    end
+
+    it 'uses the jti when present' do
+      expect(token_with_jti_nonce.unique_id).to eq('jti')
+    end
+  end
+
+  describe '.activate!' do
+    before(:each) { allow(IdentityProvider).to receive(:jwks).and_return(@jwks) }
+    let(:token) { IdpToken.build(@valid_token) }
+
+    it "creates an associated session with this token's unique id as the session_id" do
+      token.activate!
+      expect(token.session.session_id) == token.unique_id
+    end
+  end
+
   after :each do
     clean_data(User, IdentityProvider)
+    Session.delete_all
   end
 
   private

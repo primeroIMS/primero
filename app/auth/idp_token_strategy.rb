@@ -20,11 +20,13 @@ class IdpTokenStrategy < Warden::Strategies::Base
   def authenticate!
     idp_token = IdpToken.build(token)
     return fail!('Invalid JWT token') unless idp_token.valid?
+    return fail!('Blacklisted JWT token') if idp_token.blacklisted?
 
     user = idp_token.user
     return fail!('Valid JWT does not correspond to user') unless user.present?
     return fail!('Valid JWT corresponds to disabled user') if user.disabled
 
+    idp_token.activate!
     success!(user)
   rescue StandardError => e
     fail!(e.message)
