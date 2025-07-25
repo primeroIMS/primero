@@ -9,7 +9,6 @@ import css from "../../styles.css";
 import { NAME } from "./constants";
 
 function Component({ recordAccessLogs }) {
-
   const renderItems = recordAccessLogs.map(item => <AccessLogItem item={item} key={item.get("id")} />);
 
   return <Timeline classes={{ root: css.root }}>{renderItems}</Timeline>;

@@ -29,7 +29,7 @@ function Component({ filter, mode, moreSectionFilters = {}, setMoreSectionFilter
   const queryString = location.search.replace("?", "");
   const queryParams = useMemo(() => qs.parse(queryString), [queryString]);
   const queryParamsKeys = useMemo(() => Object.keys(queryParams), [queryString]);
-  const selectedFieldDefaultValue = initialFilters?.[selectedField] ?? null
+  const selectedFieldDefaultValue = initialFilters?.[selectedField] ?? null;
 
   const setSecondaryValues = (name, values) => {
     setValue(name, getDatesValue(values, dateIncludeTime));
