@@ -1,16 +1,14 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+// Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
 import Timeline from "@mui/lab/Timeline";
 
-import { useI18n } from "../../../i18n";
 import AccessLogItem from "../access-log-item";
 import css from "../../styles.css";
 
 import { NAME } from "./constants";
 
 function Component({ recordAccessLogs }) {
-  const i18n = useI18n();
 
   const renderItems = recordAccessLogs.map(item => <AccessLogItem item={item} key={item.get("id")} />);
 

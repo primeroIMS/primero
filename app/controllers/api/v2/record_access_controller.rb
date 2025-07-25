@@ -16,7 +16,7 @@ class Api::V2::RecordAccessController < Api::V2::RecordResourceController
   end
 
   def access_log_params
-    params.permit(filters: { timestamp: %i[from to], actions: {} })
+    params.permit(:per, :page, filters: { timestamp: %i[from to], actions: {} })
   end
 
   protected

@@ -8,9 +8,7 @@ import TimelineSeparator from "@mui/lab/TimelineSeparator";
 import TimelineConnector from "@mui/lab/TimelineConnector";
 import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineDot from "@mui/lab/TimelineDot";
-import { ButtonBase } from "@mui/material";
 
-import generateKey from "../../../charts/table-values/utils";
 import { useI18n } from "../../../i18n";
 import { DateCell } from "../../../index-table";
 import css from "../../styles.css";

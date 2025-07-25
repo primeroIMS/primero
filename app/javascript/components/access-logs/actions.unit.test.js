@@ -2,16 +2,16 @@
 
 import actions from "./actions";
 
-describe("ChangeLogs - Actions", () => {
+describe("AccessLog - Actions", () => {
   it("should have known properties", () => {
     const clonedActions = { ...actions };
 
     [
-      "FETCH_CHANGE_LOGS",
-      "FETCH_CHANGE_LOGS_STARTED",
-      "FETCH_CHANGE_LOGS_SUCCESS",
-      "FETCH_CHANGE_LOGS_FAILURE",
-      "FETCH_CHANGE_LOGS_FINISHED"
+      "FETCH_ACCESS_LOGS",
+      "FETCH_ACCESS_LOGS_STARTED",
+      "FETCH_ACCESS_LOGS_SUCCESS",
+      "FETCH_ACCESS_LOGS_FAILURE",
+      "FETCH_ACCESS_LOGS_FINISHED"
     ].forEach(property => {
       expect(clonedActions).toHaveProperty(property);
       delete clonedActions[property];

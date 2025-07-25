@@ -1,30 +1,28 @@
 import { mountedComponent, screen } from "test-utils";
 
-import ChangeLogItem from ".";
+import { AccessLogsRecord } from "../../records";
 
-describe("ChangeLogItems - Component", () => {
-  const title = "Changed Nationality from Canada to Australia";
-  const user = "primero";
+import AccessLogItem from ".";
+
+describe("AccessLogItems - Component", () => {
   const props = {
-    item: {
-      title,
-      user,
-      date: "2020-08-11T10:27:33Z",
-      change: { from: "Canada", to: "Australia", name: "Field" }
-    }
+    item: AccessLogsRecord({
+      id: 83534,
+      timestamp: "2025-07-24T23:18:31.415Z",
+      full_name: "CP Manager",
+      user_name: "primero_mgr_cp",
+      action: "show",
+      role_name: "CP Manager",
+      record_type: "cases",
+      record_id: "854d2e0d-36e0-495e-8bee-3eda121e3738"
+    })
   };
 
   beforeEach(() => {
-    mountedComponent(<ChangeLogItem {...props} />);
+    mountedComponent(<AccessLogItem {...props} />);
   });
-  it("renders ChangeLogItem", () => {
-    const element = screen.getByText("Changed Nationality from Canada to Australia");
-
-    expect(element).toBeInTheDocument();
-  });
-
-  it("renders the change", () => {
-    const element = screen.getByText('change_logs.from "Canada" change_logs.to "Australia"');
+  it("renders AccessLogItem", () => {
+    const element = screen.getByText("CP Manager (primero_mgr_cp), CP Manager");
 
     expect(element).toBeInTheDocument();
   });

@@ -1,6 +1,6 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+// Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
 
-export const NAME = "ChangeLogFilters";
+export const NAME = "AccessLogFilters";
 
 export const FILTER_NAMES = Object.freeze({
   actions: "actions",
@@ -10,3 +10,4 @@ export const FILTER_NAMES = Object.freeze({
 export const ACTIONS = ["show", "update"];
 export const TIMESTAMP = "timestamp";
 export const FIRST_PAGE_RESULTS = 1;
+export const DAYS_AGO = 30;

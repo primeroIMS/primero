@@ -8,10 +8,12 @@ import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { useI18n } from "../i18n";
 import RecordFormTitle from "../record-form/form/record-form-title";
 import LoadMoreRecord from "../load-more-records";
+import { ACTIONS, FILTER_NAMES } from "../form-filters/components/access-log/constants";
+import { defaultDateValues } from "../form-filters/components/access-log/utils";
 
 import { fetchAccessLogs } from "./action-creators";
 import AccessLog from "./components/access-log";
-import { NAME } from "./constants";
+import { NAME, FIRST_PAGE_RESULTS } from "./constants";
 import { getAccessLogs, getAccessLogLoading, getAccessLogMetadata } from "./selectors";
 import css from "./styles.css";
 
@@ -23,10 +25,14 @@ function Container({ selectedForm, recordID, recordType, mobileDisplay, handleTo
   const recordAccessLogs = useMemoizedSelector(state => getAccessLogs(state, recordID, recordType));
   const accessLogLoading = useMemoizedSelector(state => getAccessLogLoading(state));
   const accessLogMetadata = useMemoizedSelector(state => getAccessLogMetadata(state));
+  const initialFilters = {
+    [FILTER_NAMES.actions]: ACTIONS,
+    [FILTER_NAMES.timestamp]: defaultDateValues()
+  };
 
   useEffect(() => {
     if (fetchable && recordID) {
-      dispatch(fetchAccessLogs(recordType, recordID));
+      dispatch(fetchAccessLogs(recordType, recordID, FIRST_PAGE_RESULTS, initialFilters));
     }
   }, [recordID]);
 

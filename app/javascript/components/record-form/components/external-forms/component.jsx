@@ -160,7 +160,7 @@ const externalForms =
           mobileDisplay={mobileDisplay}
           handleToggleNav={handleToggleNav}
           selectedForm={selectedForm}
-          fetchable={canSeeChangeLog}
+          fetchable={canSeeAccessLog}
         />
       )
     }[externalFormSelected];

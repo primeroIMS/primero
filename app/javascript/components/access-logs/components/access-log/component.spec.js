@@ -1,141 +1,47 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+// Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
 
 import { mountedComponent, screen } from "test-utils";
-import { fromJS, OrderedMap } from "immutable";
 
-import { FieldRecord } from "../../../record-form";
-import { ChangeLogsRecord } from "../../records";
+import { AccessLogsRecord } from "../../records";
 
-import ChangeLog from "./component";
+import AccessLog from "./component";
 
-describe("ChangeLog - Component", () => {
-  const allFields = OrderedMap({
-    0: FieldRecord({
-      id: 1,
-      name: "name_nickname",
-      type: "text_field",
-      editable: true,
-      disabled: null,
-      visible: true,
-      display_name: {
-        en: "Nickname"
-      },
-      subform_section_id: null,
-      help_text: {},
-      multi_select: null,
-      option_strings_source: null,
-      option_strings_text: null,
-      guiding_questions: "",
-      required: true,
-      date_validation: "default_date_validation"
-    }),
-    1: FieldRecord({
-      id: 1,
-      name: "nationality",
-      type: "select_box",
-      editable: true,
-      disabled: null,
-      visible: true,
-      display_name: {
-        en: "Nationality"
-      },
-      subform_section_id: null,
-      help_text: {},
-      multi_select: null,
-      option_strings_source: "lookup lookup-country",
-      option_strings_text: null,
-      guiding_questions: "",
-      required: true,
-      date_validation: "default_date_validation"
-    }),
-    2: FieldRecord({
-      id: 1,
-      name: "national_id_no",
-      type: "text_field",
-      editable: true,
-      disabled: null,
-      visible: true,
-      display_name: {
-        en: "National ID Number"
-      },
-      subform_section_id: null,
-      help_text: {},
-      multi_select: null,
-      option_strings_source: null,
-      option_strings_text: null,
-      guiding_questions: "",
-      required: true,
-      date_validation: "default_date_validation"
-    })
-  });
-
-  const allLookups = fromJS([
-    {
-      id: 2,
-      unique_id: "lookup-country",
-      name: {
-        en: "country",
-        values: [
-          {
-            id: "country_1",
-            display_text: {
-              en: "Country 1"
-            }
-          },
-          {
-            id: "country_2",
-            display_text: {
-              en: "Country 2"
-            }
-          }
-        ]
-      }
-    }
-  ]);
-
+describe("AccessLog - Component", () => {
   const props = {
-    allFields,
-    allLookups,
-    locations: {},
-    recordChangeLogs: fromJS([
-      ChangeLogsRecord({
+    recordAccessLogs: [
+      AccessLogsRecord({
         record_id: "38c82975-99aa-4798-9c3d-dabea104d992",
         record_type: "cases",
-        datetime: "2020-08-11T10:27:33Z",
+        timestamp: "2020-08-11T10:27:33Z",
         user_name: "primero",
+        full_name: "SuperUser",
         action: "update",
-        record_changes: [
-          {
-            nationality: { to: ["country_1", "country_2"], from: ["country_1"] }
-          },
-          { name_nickname: { to: "Pat", from: null } },
-          { national_id_no: { to: "0050M", from: null } }
-        ]
+        role_name: "My Role",
+        id: 2
       }),
-      ChangeLogsRecord({
+      AccessLogsRecord({
         record_id: "38c82975-99aa-4798-9c3d-dabea104d992",
         record_type: "cases",
-        datetime: "2020-08-10T18:27:33Z",
+        timestamp: "2020-08-10T18:27:33Z",
         user_name: "primero",
-        action: "create",
-        record_changes: []
+        full_name: "SuperUser",
+        action: "show",
+        role_name: "My Role",
+        id: 1
       })
-    ]),
-    setCalculatingChangeLog: () => {},
-    setOpen: () => {},
-    setRecordChanges: () => {}
+    ]
   };
 
   beforeEach(() => {
-    mountedComponent(<ChangeLog {...props} />);
+    mountedComponent(<AccessLog {...props} />);
   });
-  it("renders ChangeLog", () => {
-    const element = screen.getByText("change_logs.create");
+  it("renders AccessLog", () => {
+    const element = screen.getByText("access_log.show");
 
     expect(element).toBeInTheDocument();
   });
 
-  it("renders ChangeLogItem", () => {
-    expect(screen.getAllByTestId("timeline")).toHaveLength(4);
+  it("renders AccessLogItem", () => {
+    expect(screen.getAllByTestId("timeline")).toHaveLength(2);
   });
 });

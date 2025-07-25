@@ -13,27 +13,27 @@ import { handleMoreFiltersChange, resetSecondaryFilter, setMoreFilterOnPrimarySe
 
 import FieldSelect from "./field-select";
 import DatePickers from "./date-pickers";
-import { getDatesValue } from "./utils";
+import { getDatesValue, getValueSelectedField } from "./utils";
 import { NAME } from "./constants";
 
 function Component({ filter, mode, moreSectionFilters = {}, setMoreSectionFilters, reset, setReset }) {
   const i18n = useI18n();
 
-  const { register, setValue, getValues } = useFormContext();
+  const { register, setValue, getValues, initialFilters } = useFormContext();
   const [inputValue, setInputValue] = useState();
   const { options, field_name: fieldName, dateIncludeTime } = filter;
   const isDateFieldSelectable = Object.keys?.(options)?.length > 0;
-  const valueSelectedField = options?.[i18n.locale]?.filter(option =>
-    Object.keys(getValues({ nest: true })).includes(option.id)
-  )?.[0]?.id;
+  const valueSelectedField = getValueSelectedField(options, i18n.locale, initialFilters, getValues);
   const [selectedField, setSelectedField] = useState(valueSelectedField || "");
   const location = useLocation();
   const queryString = location.search.replace("?", "");
   const queryParams = useMemo(() => qs.parse(queryString), [queryString]);
   const queryParamsKeys = useMemo(() => Object.keys(queryParams), [queryString]);
+  const selectedFieldDefaultValue = initialFilters?.[selectedField] ?? null
 
   const setSecondaryValues = (name, values) => {
     setValue(name, getDatesValue(values, dateIncludeTime));
+
     setInputValue(getDatesValue(values, dateIncludeTime));
   };
 
@@ -111,6 +111,7 @@ function Component({ filter, mode, moreSectionFilters = {}, setMoreSectionFilter
           mode={mode}
           moreSectionFilters={moreSectionFilters}
           selectedField={selectedField}
+          selectedFieldDefaultValue={selectedFieldDefaultValue}
           setInputValue={setInputValue}
           setMoreSectionFilters={setMoreSectionFilters}
           setValue={setValue}

@@ -1,7 +1,6 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+// Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { fromJS } from "immutable";
 import { useDispatch } from "react-redux";
 
 import { useI18n } from "../../../i18n";
@@ -10,13 +9,13 @@ import FiltersForm from "../filters-form";
 import useFormFilters from "../../use-form-filters";
 import { fetchAccessLogs } from "../../../access-logs/action-creators";
 
-import { FILTER_NAMES, NAME } from "./constants";
-import { getFilters, onSubmitFn } from "./utils";
+import { FILTER_NAMES, NAME, ACTIONS } from "./constants";
+import { getFilters, onSubmitFn, defaultDateValues } from "./utils";
 
 function Component({ selectedForm, formMode, recordId, recordType, showDrawer }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const { setFormFilters, selectedFilters } = useFormFilters(selectedForm);
+  const { setFormFilters } = useFormFilters(selectedForm);
 
   const filters = getFilters(i18n);
 
@@ -24,24 +23,18 @@ function Component({ selectedForm, formMode, recordId, recordType, showDrawer })
     onSubmitFn({ filters: data, dispatch, fetchFn: fetchAccessLogs, setFormFilters, recordId, recordType });
 
   const initialFilters = {
-    [FILTER_NAMES.field_names]: (selectedFilters.get(FILTER_NAMES.field_names) || fromJS([])).reduce(
-      (acc, elem) => [...acc, elem],
-      []
-    ),
-    [FILTER_NAMES.form_unique_ids]: (selectedFilters.get(FILTER_NAMES.form_unique_ids) || fromJS([])).reduce(
-      (acc, elem) => [...acc, elem],
-      []
-    )
+    [FILTER_NAMES.actions]: ACTIONS,
+    [FILTER_NAMES.timestamp]: defaultDateValues()
   };
 
   return (
     !formMode.isNew && (
       <FiltersForm
-        clearFields={[FILTER_NAMES.form_unique_ids, FILTER_NAMES.field_names]}
+        clearFields={[FILTER_NAMES.actions, FILTER_NAMES.timestamp]}
         filters={filters}
         onSubmit={handleSubmit}
-        initialFilters={initialFilters}
         showDrawer={showDrawer}
+        initialFilters={initialFilters}
         closeDrawerOnSubmit
       />
     )
