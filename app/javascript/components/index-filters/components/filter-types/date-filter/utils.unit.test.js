@@ -20,4 +20,21 @@ describe("<IndexFitlers>/components/filter-types/<DateFilter> - utils", () => {
       expect(format(dateValue, "yyyy-MM-dd")).toBe(expected);
     });
   });
+
+  describe("getValueSelectedField", () => {
+    it("returns value selected", () => {
+      const options = {
+        en: [
+          { id: "opt1", display_name: "Option 1" },
+          { id: "opt2", display_name: "Option 12" }
+        ]
+      };
+      const initialFilters = { another: "value" };
+      const getValues = () => {
+        return { opt1: "Option 1" };
+      };
+
+      expect(utils.getValueSelectedField(options, "en", initialFilters, getValues)).toBe("opt1");
+    });
+  });
 });

@@ -3,7 +3,7 @@
 /* eslint-disable react/display-name */
 import Transitions from "../../../transitions";
 import {
-  ACCESS_LOG,
+  ACCESS_LOGS,
   APPROVALS,
   FAMILY_FROM_CASE,
   RECORD_OWNER,
@@ -153,7 +153,7 @@ const externalForms =
           values={values}
         />
       ),
-      [ACCESS_LOG]: (
+      [ACCESS_LOGS]: (
         <AccessLogs
           recordID={id}
           recordType={RECORD_TYPES_PLURAL[recordType]}

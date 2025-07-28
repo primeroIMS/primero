@@ -3,7 +3,7 @@
 import isEmpty from "lodash/isEmpty";
 
 import {
-  ACCESS_LOG,
+  ACCESS_LOGS,
   APPROVALS,
   CHANGE_LOGS,
   FAMILY_FROM_CASE,
@@ -205,9 +205,9 @@ export default (locale, query) => {
       core_form: true,
       visible: true
     }),
-    [ACCESS_LOG]: FormSectionRecord({
+    [ACCESS_LOGS]: FormSectionRecord({
       id: generateKey(),
-      unique_id: ACCESS_LOG,
+      unique_id: ACCESS_LOGS,
       name: { [locale]: "access_log.label" },
       order: 10,
       form_group_id: RECORD_INFORMATION_GROUP,
