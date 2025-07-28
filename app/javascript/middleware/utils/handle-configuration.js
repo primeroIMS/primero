@@ -12,11 +12,12 @@ import handleRestCallback from "./handle-rest-callback";
 export default async (status, store, options, response, { fetchStatus, fetchSinglePayload, type }) => {
   const delay = ms => new Promise(res => setTimeout(res, ms));
 
+  await delay(4 * 60 * 1000);
+
   if (status === 503) {
     store.dispatch(disableNavigation(true));
     handleRestCallback(store, applyingConfigMessage(), response, {});
-    await delay(10000);
-
+    await delay(1000);
     fetchSinglePayload(checkConfiguration(), store, options);
   } else if (status === 204) {
     fetchStatus({ store, type }, "SUCCESS", true);
