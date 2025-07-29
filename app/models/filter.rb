@@ -752,6 +752,7 @@ class Filter < ValueObject
     end.inject(&:merge)
   end
 
+  # rubocop:disable Metrics/AbcSize
   def cases_by_date_options(opts = {})
     self.options = I18n.available_locales.map do |locale|
       locale_options = [registration_date_options(locale), assessment_requested_on_options(locale),
@@ -763,6 +764,7 @@ class Filter < ValueObject
       { locale => locale_options }
     end.inject(&:merge)
   end
+  # rubocop:enable Metrics/AbcSize
 
   def registration_date_options(locale)
     {
