@@ -116,6 +116,11 @@ describe("<IndexFilters />/filter-types/value-handlers", () => {
             id: "assigned_user_names=josh",
             key: "assigned_user_names",
             display_name: "cases.filter_by.referred_cases"
+          },
+          {
+            id: "assign=josh",
+            key: "assign",
+            display_name: "cases.filter_by.assigned_to_me"
           }
         ],
         isObject: true,
