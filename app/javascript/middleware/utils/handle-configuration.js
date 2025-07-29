@@ -9,9 +9,9 @@ import { disableNavigation } from "../../components/application/action-creators"
 
 import handleRestCallback from "./handle-rest-callback";
 
-export default async (status, store, options, response, { fetchStatus, fetchSinglePayload, type }) => {
-  const delay = ms => new Promise(res => setTimeout(res, ms));
+const delay = ms => new Promise(res => setTimeout(res, ms));
 
+export default async (status, store, options, response, { fetchStatus, fetchSinglePayload, type }) => {
   await delay(4 * 60 * 1000);
 
   if (status === 503) {
