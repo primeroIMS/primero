@@ -198,6 +198,8 @@
     "@mui/x-date-pickers": "^7.7.0",
     "@welldone-software/why-did-you-render": "^6.2.0",
     "formik-mui": "^5.0.0-alpha.0",
+    "react-doc-viewer": "^0.1.14",
+    "react-pdf": "^10.0.1",
     "stylis-plugin-rtl": "^2.1.1",
     "tss-react": "^4.9.10"
   }

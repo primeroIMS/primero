@@ -115,104 +115,119 @@ function DocumentField({
   return (
     <>
       <DocumentRow handleOpen={handleOpen} document={value} handleDelete={openDeleteConfirmation} mode={mode} />
-      <Dialog open={open || dialog} onClose={handleClose} maxWidth="sm" fullWidth>
-        <Formik
-          initialValues={initialDocumentValues}
-          validationSchema={documentSchema}
-          validateOnBlur={false}
-          validateOnChange={false}
-          enableReinitialize
-          onSubmit={values => onSubmit(values)}
-        >
-          {({ handleSubmit, values }) => (
-            <Form data-testid="document-dialog-form" autoComplete="off" onSubmit={handleSubmit}>
-              <DialogTitle className={css.title}>
-                <div className={css.titleText}>{title}</div>
-                <div>
-                  <IconButton size="large" onClick={handleClose}>
-                    <CloseIcon />
-                  </IconButton>
-                </div>
-              </DialogTitle>
-              <DialogContent>
-                <div className={css.attachmentUploadField}>
-                  {attachmentUrl ? (
-                    <ActionButton
-                      text="buttons.download"
-                      type={ACTION_BUTTON_TYPES.default}
-                      isTransparent
-                      rest={{
-                        variant: "outlined",
-                        component: "a",
-                        onClick: handleAttachmentDownload
-                      }}
-                    />
-                  ) : (
+      <Dialog open={open || dialog} onClose={handleClose} maxWidth="xl" fullWidth>
+        {attachmentUrl && mode.isShow ? (
+          <div>
+            <div>
+              <h2>{title}</h2>
+            </div>
+            <object
+              type="application/pdf"
+              data={`/pdf/web/viewer.html?file=${attachmentUrl}`}
+              width="100%"
+              height={1000}
+            >
+              <ActionButton
+                text="buttons.download"
+                type={ACTION_BUTTON_TYPES.default}
+                isTransparent
+                rest={{
+                  variant: "outlined",
+                  component: "a",
+                  onClick: handleAttachmentDownload
+                }}
+              />
+            </object>
+            <div>
+              <h2>{fileName}</h2>
+            </div>
+          </div>
+        ) : (
+          <Formik
+            initialValues={initialDocumentValues}
+            validationSchema={documentSchema}
+            validateOnBlur={false}
+            validateOnChange={false}
+            enableReinitialize
+            onSubmit={values => onSubmit(values)}
+          >
+            {({ handleSubmit, values }) => (
+              <Form data-testid="document-dialog-form" autoComplete="off" onSubmit={handleSubmit}>
+                <DialogTitle className={css.title}>
+                  <div className={css.titleText}>{title}</div>
+                  <div>
+                    <IconButton size="large" onClick={handleClose}>
+                      <CloseIcon />
+                    </IconButton>
+                  </div>
+                </DialogTitle>
+                <DialogContent>
+                  <div className={css.attachmentUploadField}>
                     <AttachmentInput
                       fields={ATTACHMENT_FIELDS}
                       attachment={attachment}
                       value={value.attachment}
                       name={name}
                     />
-                  )}
-                  {mode.isEdit && (values?.attachment || attachmentUrl) && (
-                    <DocumentDelete onClick={openDeleteConfirmation} />
-                  )}
-                </div>
+                    {mode.isEdit && (values?.attachment || attachmentUrl) && (
+                      <DocumentDelete onClick={openDeleteConfirmation} />
+                    )}
+                  </div>
 
-                {!isMRM && (
+                  {!isMRM && (
+                    <Box my={2}>
+                      <TickField
+                        {...supportingInputsProps}
+                        label={i18n.t("fields.document.is_current")}
+                        name={ATTACHMENT_FIELDS.isCurrent}
+                      />
+                    </Box>
+                  )}
+
                   <Box my={2}>
-                    <TickField
+                    <FastField
+                      component={TextField}
                       {...supportingInputsProps}
-                      label={i18n.t("fields.document.is_current")}
-                      name={ATTACHMENT_FIELDS.isCurrent}
+                      label={i18n.t("fields.document.name")}
+                      name={ATTACHMENT_FIELDS.description}
                     />
                   </Box>
-                )}
-
-                <Box my={2}>
-                  <FastField
-                    component={TextField}
-                    {...supportingInputsProps}
-                    label={i18n.t("fields.document.name")}
-                    name={ATTACHMENT_FIELDS.description}
-                  />
-                </Box>
-                <Box my={2}>
-                  <DateField
-                    {...supportingInputsProps}
-                    field={field}
-                    name={ATTACHMENT_FIELDS.date}
-                    label={i18n.t("fields.document.date")}
-                    mode={mode}
-                  />
-                </Box>
-                <Box my={2}>
-                  <FastField
-                    component={TextField}
-                    size="small"
-                    {...supportingInputsProps}
-                    multiline
-                    label={i18n.t("fields.document.comments")}
-                    name={ATTACHMENT_FIELDS.comments}
-                  />
-                </Box>
-              </DialogContent>
-              <DialogActions>
-                <Button
-                  id={dialogActionText}
-                  onClick={handleSubmit}
-                  type="button"
-                  color="primary"
-                  variant="contained"
-                  disableElevation
-                >
-                  {i18n.t(dialogActionText)}
-                </Button>
-              </DialogActions>
-            </Form>
-          )}
-        </Formik>
+                  <Box my={2}>
+                    <DateField
+                      {...supportingInputsProps}
+                      field={field}
+                      name={ATTACHMENT_FIELDS.date}
+                      label={i18n.t("fields.document.date")}
+                      mode={mode}
+                    />
+                  </Box>
+                  <Box my={2}>
+                    <FastField
+                      component={TextField}
+                      size="small"
+                      {...supportingInputsProps}
+                      multiline
+                      label={i18n.t("fields.document.comments")}
+                      name={ATTACHMENT_FIELDS.comments}
+                    />
+                  </Box>
+                </DialogContent>
+                <DialogActions>
+                  <Button
+                    id={dialogActionText}
+                    onClick={handleSubmit}
+                    type="button"
+                    color="primary"
+                    variant="contained"
+                    disableElevation
+                  >
+                    {i18n.t(dialogActionText)}
+                  </Button>
+                </DialogActions>
+              </Form>
+            )}
+          </Formik>
+        )}
       </Dialog>
       <ActionDialog
         open={deleteConfirmation}

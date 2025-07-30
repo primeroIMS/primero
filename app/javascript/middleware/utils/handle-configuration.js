@@ -15,7 +15,7 @@ export default async (status, store, options, response, { fetchStatus, fetchSing
   if (status === 503) {
     store.dispatch(disableNavigation(true));
     handleRestCallback(store, applyingConfigMessage(), response, {});
-    await delay(10000);
+    await delay(20000);
 
     fetchSinglePayload(checkConfiguration(), store, options);
   } else if (status === 204) {
