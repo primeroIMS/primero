@@ -180,6 +180,19 @@ describe Historical do
     end
   end
 
+  describe '.filter_histories' do
+    it 'filter by field_names' do
+      first_history = RecordHistory.new(datetime: DateTime.new(2010, 1, 1, 1, 1, 2), record_changes: { age: 1 })
+      second_history = RecordHistory.new(datetime: DateTime.new(2010, 1, 2, 1, 1, 2), record_changes: { services: nil })
+      third_history = RecordHistory.new(datetime: DateTime.new(2010, 1, 2, 1, 1, 3), record_changes: { sex: 'male' })
+      @inst.record_histories << [first_history, second_history, third_history]
+
+      expect(@inst.filter_histories(field_names: [:services], form_unique_ids: nil).ids).to eq(
+        [second_history.id]
+      )
+    end
+  end
+
   after do
     clean_data(RecordHistory, Child)
   end

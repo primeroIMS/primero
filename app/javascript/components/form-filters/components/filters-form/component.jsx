@@ -35,7 +35,7 @@ function Component({
 
   const userName = useMemoizedSelector(state => currentUser(state));
 
-  const { drawerOpen, toggleDrawer, setDrawer } = useDrawer(FILTERS_DRAWER);
+  const { toggleDrawer, setDrawer } = useDrawer(FILTERS_DRAWER);
 
   const showFilterIcon = mobileDisplay && showDrawer && (
     <IconButton size="large" onClick={toggleDrawer} color="primary">
@@ -88,12 +88,7 @@ function Component({
   return (
     <div className={css.recordFormFilters} data-testid="form-filter">
       {showFilterIcon}
-      <FilterContainer
-        drawer={drawerOpen}
-        handleDrawer={toggleDrawer}
-        mobileDisplay={mobileDisplay && showDrawer}
-        noMargin={noMargin}
-      >
+      <FilterContainer drawerName={FILTERS_DRAWER} mobileDisplay={mobileDisplay && showDrawer} noMargin={noMargin}>
         <div className={css.filtersContainer} role="form">
           <FormProvider {...methods} user={userName}>
             <form onSubmit={methods.handleSubmit(handleOnSubmit)}>

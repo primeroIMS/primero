@@ -45,3 +45,16 @@
     min-width: 28em;
   }
 }
+
+.moreBtn {
+  position: relative;
+  overflow: hidden;
+}
+
+.moreBtn > span > span {
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  pointer-events: none !important;
+  z-index: 2;
+  margin-top: 1em !important;
+}

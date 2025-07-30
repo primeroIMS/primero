@@ -353,6 +353,7 @@ function Component({
               selectedForm={selectedForm}
               recordType={selectedModule.recordType}
               primeroModule={selectedModule.primeroModule}
+              recordId={params.id}
               formMode={mode}
               showDrawer
             />

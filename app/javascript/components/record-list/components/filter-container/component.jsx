@@ -8,8 +8,8 @@ import { useDrawer } from "../../../drawer";
 import { FILTER_DRAWER, NAME } from "./constants";
 import css from "./styles.css";
 
-function FilterContainer({ children, mobileDisplay, noMargin }) {
-  const { drawerOpen, toggleDrawer } = useDrawer(FILTER_DRAWER);
+function FilterContainer({ children, mobileDisplay, noMargin, drawerName = FILTER_DRAWER }) {
+  const { drawerOpen, toggleDrawer } = useDrawer(drawerName);
 
   if (mobileDisplay) {
     return (
@@ -26,6 +26,7 @@ FilterContainer.displayName = NAME;
 
 FilterContainer.propTypes = {
   children: PropTypes.node.isRequired,
+  drawerName: PropTypes.string,
   mobileDisplay: PropTypes.bool.isRequired,
   noMargin: PropTypes.bool
 };

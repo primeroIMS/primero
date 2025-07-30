@@ -88,7 +88,6 @@ const externalForms =
           recordType={RECORD_TYPES_PLURAL[recordType]}
           mobileDisplay={mobileDisplay}
           handleToggleNav={handleToggleNav}
-          primeroModule={primeroModule}
           selectedForm={selectedForm}
         />
       ),
