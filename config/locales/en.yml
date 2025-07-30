@@ -3107,6 +3107,9 @@ en:
           resolve_any_flag:
             explanation: Allows the user to resolve any Flag on the record, regardless of who created the Flag.
             label: Resolve any Flag
+          flag_update:
+            explanation: Allows the user to update any Flag on the record, regardless of who created the Flag.
+            label: Update Flag
           import:
             explanation: Allows the user to create one or more new cases by importing
               them from a CSV, Excel, or JSON file. The imported file must be formatted
