@@ -1,0 +1,14 @@
+/* Copyright (c) 2014 - 2025 UNICEF. All rights reserved. */
+
+.moreBtn {
+  position: relative;
+  overflow: hidden;
+}
+
+.moreBtn > span > span {
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  pointer-events: none !important;
+  z-index: 2;
+  margin-top: 1em !important;
+}
