@@ -6,7 +6,9 @@ require 'rails_helper'
 
 describe User do
   before :all do
-    clean_data(Alert, Location, AuditLog, User, Agency, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup)
+    clean_data(
+      Alert, Location, AuditLog, User, Agency, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup
+    )
   end
 
   def build_user(options = {})
@@ -1082,6 +1084,67 @@ describe User do
 
     after do
       clean_data(User, Role, PrimeroModule, PrimeroProgram, FormSection, Agency, UserGroup, Child)
+    end
+  end
+
+  describe '.with_audit_dates' do
+    before do
+      clean_data(User, Role, PrimeroModule, PrimeroProgram, FormSection, Agency, UserGroup, Child)
+      @module_cp = PrimeroModule.new(name: 'CP')
+      @module_cp.save(validate: false)
+
+      permission_case = Permission.new(
+        resource: Permission::CASE,
+        actions: [Permission::MANAGE]
+      )
+      @role = Role.new(permissions: [permission_case], modules: [@module_cp])
+      @role.save(validate: false)
+      @group1 = UserGroup.create!(name: 'Group1')
+      @user1 = User.new(user_name: 'user1', role: @role, user_groups: [@group1])
+      @user1.save(validate: false)
+      @other_user = User.new(user_name: 'other_user', role: @role, user_groups: [@group1])
+      @other_user.save(validate: false)
+    end
+
+    let!(:login_log) do
+      AuditLog.create!(
+        user_id: @user1.id,
+        action: 'login',
+        timestamp: Time.utc(2023, 1, 1, 10, 0, 0)
+      )
+    end
+
+    let!(:case_viewed_log) do
+      AuditLog.create!(
+        user_id: @user1.id,
+        record_type: 'Child',
+        action: 'show',
+        timestamp: Time.utc(2023, 2, 1, 10, 0, 0)
+      )
+    end
+
+    let!(:case_updated_log) do
+      AuditLog.create!(
+        user_id: @user1.id,
+        record_type: 'Child',
+        action: 'update',
+        timestamp: Time.utc(2023, 3, 1, 10, 0, 0)
+      )
+    end
+    it 'returns last_access, last_case_viewed, and last_case_updated for each user' do
+      results = User.with_audit_dates.where(id: @user1.id).first
+
+      expect(results.last_access.iso8601(3)).to eq('2023-01-01T10:00:00.000Z')
+      expect(results.last_case_viewed.iso8601(3)).to eq('2023-02-01T10:00:00.000Z')
+      expect(results.last_case_updated.iso8601(3)).to eq('2023-03-01T10:00:00.000Z')
+    end
+
+    it 'returns nil for audit fields if there are no logs for that user/event' do
+      results = User.with_audit_dates.where(id: @other_user.id).first
+
+      expect(results.last_access).to eq(nil)
+      expect(results.last_case_viewed).to eq(nil)
+      expect(results.last_case_updated).to eq(nil)
     end
   end
 

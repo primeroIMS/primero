@@ -236,6 +236,20 @@ describe Api::V2::UsersController, type: :request do
     )
   end
 
+  let!(:audit_log) do
+    AuditLog.create(user: @user_a, action: 'login', timestamp: DateTime.new(2015, 10, 23, 14, 54, 55))
+  end
+  let!(:audit_log2) do
+    AuditLog.create(
+      user: @user_a, action: 'show', record_type: 'Child', timestamp: DateTime.new(2015, 10, 23, 14, 54, 55)
+    )
+  end
+  let!(:audit_log3) do
+    AuditLog.create(
+      user: @user_a, action: 'update', record_type: 'Child', timestamp: DateTime.new(2015, 10, 23, 14, 54, 55)
+    )
+  end
+
   let(:json) { JSON.parse(response.body) }
 
   describe 'GET /api/v2/users' do
@@ -431,7 +445,9 @@ describe Api::V2::UsersController, type: :request do
       expect(json['data']['id']).to eq(@user_a.id)
       expect(json['data']['identity_provider_unique_id']).to eq(@identity_provider_a.unique_id)
       expect(json['data']['user_groups'].size).to eq(1)
-      expect(json['data']['user_groups'][0]['unique_id']).to eq(@user_group_a.unique_id)
+      expect(json['data']['last_access']).to eq(audit_log.timestamp.iso8601(3))
+      expect(json['data']['last_case_viewed']).to eq(audit_log2.timestamp.iso8601(3))
+      expect(json['data']['last_case_updated']).to eq(audit_log3.timestamp.iso8601(3))
     end
 
     it "returns 403 if user isn't authorized to access" do

@@ -26,7 +26,7 @@ class PermittedUsersService
   private
 
   def permitted_users
-    users = User.all.includes(:user_groups, role: :primero_modules)
+    users = User.with_audit_dates.all.includes(:user_groups, role: :primero_modules)
 
     return users if user.blank? || user.super_user?
 
