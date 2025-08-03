@@ -11,12 +11,12 @@ These scripts will update the roles.
 To validate which roles will be updated, run the following:
 
 ```bash
-rails r ./db/migrations/v2.12/update_roles.rb
+rails r ./db/data_migration/v2.12/update_roles.rb
 ```
 
 ## Executing scripts
 Once you validate that the info is correct you can execute the script to modify the data using:
 
 ```bash
-rails r ./db/migrations/v2.12/update_roles.rb true
+rails r ./db/data_migration/v2.12/update_roles.rb true
 ```
