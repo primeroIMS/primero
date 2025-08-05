@@ -187,7 +187,7 @@ describe ManagedReports::Indicators::AbductedStatus do
   end
 
   describe 'has_late_verified_violations filter' do
-    it 'returns the data only for those incidents where the filter is true' do
+    it 'returns the data only for those incidents where the value is true' do
       abducted_status_data = ManagedReports::Indicators::AbductedStatus.build(
         nil,
         {
@@ -205,7 +205,6 @@ describe ManagedReports::Indicators::AbductedStatus do
       )
     end
   end
-
 
   describe 'records in scope' do
     it 'returns owned records for a self scope' do
