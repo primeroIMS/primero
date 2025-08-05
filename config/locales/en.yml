@@ -4772,6 +4772,9 @@ en:
     invalid_provider_username: 'Invalid username format. Example: my.username@%{domain}'
     label: User
     language: Language
+    last_access: Date of Last Log In
+    last_case_viewed: Date of Last Case View
+    last_case_updated: Date of Last Case Modification
     locale: Locale
     location: Location
     messages:
