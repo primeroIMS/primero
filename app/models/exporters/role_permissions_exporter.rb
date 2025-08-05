@@ -10,8 +10,8 @@ require 'write_xlsx'
 # rubocop:disable Metrics/ClassLength
 class Exporters::RolePermissionsExporter
   CASE = %w[
-    referral transfer read create write enable_disable_record flag resolve_any_flag manage add_note reopen close
-    change_log view_incident_from_case view_protection_concerns_filter list_case_names view_registry_record
+    referral transfer read create write enable_disable_record flag resolve_any_flag flag_update manage add_note reopen
+    close change_log view_incident_from_case view_protection_concerns_filter list_case_names view_registry_record
     add_registry_record view_family_record case_from_family link_family_record remove_alert service_own_entries_only
     create_case_from_referral view_case_relationships update_case_relationships
   ].freeze
