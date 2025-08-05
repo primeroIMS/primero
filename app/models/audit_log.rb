@@ -3,6 +3,7 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 # An audit log record is created for every invocation of a Primero endpoint.
+# rubocop:disable Metrics/ClassLength
 class AuditLog < ApplicationRecord
   attr_accessor :display_name
 
@@ -36,6 +37,8 @@ class AuditLog < ApplicationRecord
     'Agency' => :agency_code,
     'Report' => Arel.sql("name_i18n->>'en' as name")
   }.freeze
+
+  RECORD_VIEWS_EDIT = %w[show update].freeze
 
   ALLOWED_MODELS = [Child, Incident, TracingRequest, User, Role, Agency, UserGroup, Report].freeze
 
@@ -163,3 +166,4 @@ class AuditLog < ApplicationRecord
     end
   end
 end
+# rubocop:enable Metrics/ClassLength

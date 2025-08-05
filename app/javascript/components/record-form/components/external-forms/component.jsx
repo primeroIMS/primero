@@ -3,6 +3,7 @@
 /* eslint-disable react/display-name */
 import Transitions from "../../../transitions";
 import {
+  ACCESS_LOGS,
   APPROVALS,
   FAMILY_FROM_CASE,
   RECORD_OWNER,
@@ -19,6 +20,7 @@ import RecordOwner from "../../../record-owner";
 import Approvals from "../../../approvals";
 import IncidentFromCase from "../../../incidents-from-case";
 import ChangeLogs from "../../../change-logs";
+import AccessLogs from "../../../access-logs";
 import Summary from "../../../summary";
 import CaseRegistry from "../../../case-registry";
 import CaseFamily from "../../../case-family";
@@ -28,6 +30,7 @@ import CaseRelationships from "../../../case-relationships";
 const externalForms =
   ({
     approvalSubforms,
+    canSeeAccessLog,
     canSeeChangeLog,
     containerMode,
     handleCreateIncident,
@@ -148,6 +151,16 @@ const externalForms =
           mode={containerMode}
           formSections={formSections}
           values={values}
+        />
+      ),
+      [ACCESS_LOGS]: (
+        <AccessLogs
+          recordID={id}
+          recordType={RECORD_TYPES_PLURAL[recordType]}
+          mobileDisplay={mobileDisplay}
+          handleToggleNav={handleToggleNav}
+          selectedForm={selectedForm}
+          fetchable={canSeeAccessLog}
         />
       )
     }[externalFormSelected];

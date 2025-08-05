@@ -3005,6 +3005,10 @@ en:
             explanation: User can see a history of all changes made to the record
               since it was created. This includes values recorded for all fields.
             label: Change Log
+          access_log:
+            explanation: User can see a history of all access by users who are not
+              the current record owner (views and updates) since the record was created.
+            label: Access Log
           close:
             explanation: Allows a user to set the status of an open case to closed.
             label: Close
@@ -3665,6 +3669,10 @@ en:
             explanation: User can see a history of all changes made to the record
               since it was created. This includes values recorded for all fields.
             label: Change Log
+          access_log:
+            explanation: User can see a history of all access by users who are not
+              the current record owner (views and updates) since the record was created.
+            label: Access Log
           create:
             explanation: Ability to create an incident.
             label: Create
@@ -3936,6 +3944,10 @@ en:
             explanation: User can see a history of all changes made to the record since it
               was created. This includes values recorded for all fields.
             label: Change Log
+          access_log:
+            explanation: User can see a history of all access by users who are not
+              the current record owner (views and updates) since the record was created.
+            label: Access Log
           create:
             explanation: Ability to create a Registry record.
             label: Create
@@ -3993,6 +4005,9 @@ en:
             explanation: User can see a history of all changes made to the record since it
               was created. This includes values recorded for all fields.
             label: Change Log
+          access_log:
+            explanation: User can see a access to the record by non-record owners
+            label: Access Log
           create:
             explanation: Ability to create a Family.
             label: Create
@@ -4166,6 +4181,10 @@ en:
             explanation: User can see a history of all changes made to the record
               since it was created. This includes values recorded for all fields.
             label: Change Log
+          access_log:
+            explanation: User can see a history of all access by users who are not
+              the current record owner (views and updates) since the record was created.
+            label: Access Log
           create:
             explanation: Ability to create a tracing request
             label: Create
@@ -4925,3 +4944,12 @@ en:
     email_closing: At your service,
     email_signature: Primero team
     email_admin_name: System Administrator
+  access_log:
+    label: Access Log
+    show: 'Viewed By:'
+    update: 'Modified By:'
+    filters:
+      actions: Access Type
+      timestamp: Access Time
+      show: Viewed
+      update: Modified

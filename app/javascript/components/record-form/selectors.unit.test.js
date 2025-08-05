@@ -7,6 +7,7 @@ import { ACTIONS } from "../permissions";
 import {
   APPROVALS,
   CASE_RELATIONSHIPS,
+  ACCESS_LOGS,
   CHANGE_LOGS,
   IDENTIFICATION_REGISTRATION,
   INCIDENT_FROM_CASE,
@@ -1102,6 +1103,7 @@ describe("<RecordForm /> - Selectors", () => {
         fromJS([
           "Approvals from State",
           "Record Owner from State",
+          "access_log.label",
           "change_logs.label",
           "forms.record_types.case_relationships",
           "forms.record_types.referrals",
@@ -1126,6 +1128,7 @@ describe("<RecordForm /> - Selectors", () => {
 
     expect(result).toEqual(
       fromJS([
+        "access_log.label",
         "change_logs.label",
         "forms.record_types.approvals",
         "forms.record_types.case_relationships",
@@ -1152,6 +1155,7 @@ describe("<RecordForm /> - Selectors", () => {
 
       expect(result).toEqual(
         fromJS([
+          ACCESS_LOGS,
           APPROVALS,
           CASE_RELATIONSHIPS,
           CHANGE_LOGS,

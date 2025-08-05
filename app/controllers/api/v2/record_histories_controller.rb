@@ -5,10 +5,10 @@
 # API READ endpoint for Record Histories
 class Api::V2::RecordHistoriesController < Api::V2::RecordResourceController
   include Api::V2::Concerns::Pagination
+  include Api::V2::Concerns::SupplementData
 
   def index
-    authorize!(:read, @record)
-    authorize!(:change_log, @record)
+    authorize_access!(:change_log)
 
     filter_record_histories = @record.filter_histories(**record_histories_filters)
     @total = filter_record_histories.size
