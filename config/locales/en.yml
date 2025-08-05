@@ -642,7 +642,7 @@ en:
       updated: Configuration was successfully updated.
       sent: Sending configuration to production. Please check the production site to see if your configuration has arrived.
     not_allowed: Not-allowed
-    unavailable_server: Server is temporarily unavailable.
+    unavailable_server: Server is temporarily unavailable. Please wait and the page will reload.
   contact:
     field:
       email: Email

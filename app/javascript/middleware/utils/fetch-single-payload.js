@@ -105,6 +105,7 @@ const fetchSinglePayload = async (action, store, options) => {
       if (status === 503 || (status === 204 && `/${checkHealthUrl}` === ROUTES.check_health)) {
         handleConfiguration(status, store, options, response, { fetchStatus, fetchSinglePayload, type });
       }
+
       const json =
         status === 204 ? { data: { id: body?.data?.id }, ...buildAttachmentData(action) } : await response.json();
 
@@ -171,9 +172,12 @@ const fetchSinglePayload = async (action, store, options) => {
         fetchSinglePayload(configurationCallback, store, options);
       }
     } catch (error) {
-      const silenceErrors = [["AbortError"].includes(error.name), error === "logging_out"];
+      const silenceErrors = [["AbortError", "SyntaxError"].includes(error.name), error === "logging_out"];
 
       if (silenceErrors.some(condition => condition === true)) {
+        // eslint-disable-next-line no-console
+        console.warn("Error suppressed:", error);
+
         return;
       }
 
