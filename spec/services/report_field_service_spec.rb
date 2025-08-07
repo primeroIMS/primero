@@ -192,4 +192,32 @@ describe ReportFieldService do
     report_field = ReportFieldService.report_field(@sex_field, 'sex_field', 'horizontal', 0, Child.parent_form)
     expect(report_field).to eq(report_sex_field)
   end
+
+  describe '.user_groups_options' do
+    before do
+      allow(I18n).to receive(:available_locales).and_return(%i[es en])
+      allow(UserGroup).to receive(:names_as_options).and_return(
+        [
+          { id: 'usegruop-cp', display_text: 'CP' },
+          { id: 'usegruop-gbv', display_text: 'GBV' }
+        ]
+      )
+    end
+
+    it 'returns option_labels for all available locales with enabled user groups' do
+      result = described_class.user_groups_options
+      expect(result).to eq(
+        option_labels: {
+          es: [
+            { id: 'usegruop-cp', display_text: 'CP' },
+            { id: 'usegruop-gbv', display_text: 'GBV' }
+          ],
+          en: [
+            { id: 'usegruop-cp', display_text: 'CP' },
+            { id: 'usegruop-gbv', display_text: 'GBV' }
+          ]
+        }
+      )
+    end
+  end
 end

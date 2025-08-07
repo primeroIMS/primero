@@ -16,6 +16,8 @@ class UserGroup < ApplicationRecord
   has_and_belongs_to_many :users
   has_and_belongs_to_many :agencies
 
+  scope :enabled, -> { where(disabled: false) }
+
   before_create :generate_unique_id
   class << self
     def order_insensitive_attribute_names
@@ -44,6 +46,10 @@ class UserGroup < ApplicationRecord
       user_group = UserGroup.new(params)
       user_group.add_creating_user(user)
       user_group
+    end
+
+    def names_as_options
+      enabled.pluck(:unique_id, :name).map { |id, display_text| { id:, display_text: } }
     end
   end
 
