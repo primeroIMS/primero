@@ -123,7 +123,7 @@ describe ManagedReports::Indicators::AbductedStatus do
     Violation.create!(
       data: {
         type: 'abduction',
-        violation_tally: { 'boys': 1, 'girls': 2, 'unknown': 3, 'total': 6 },
+        violation_tally: { 'boys' => 1, 'girls' => 2, 'unknown' => 3, 'total' => 6 },
         abduction_regained_freedom: 'no'
       },
       incident_id: incident1.id
@@ -131,7 +131,7 @@ describe ManagedReports::Indicators::AbductedStatus do
     Violation.create!(
       data: {
         type: 'abduction',
-        violation_tally: { 'boys': 1, 'girls': 1, 'unknown': 1, 'total': 3 },
+        violation_tally: { 'boys' => 1, 'girls' => 1, 'unknown' => 1, 'total' => 3 },
         abduction_regained_freedom: 'unknown'
       },
       incident_id: incident2.id
@@ -139,14 +139,14 @@ describe ManagedReports::Indicators::AbductedStatus do
     Violation.create!(
       data: {
         type: 'maiming',
-        violation_tally: { 'boys': 2, 'girls': 1, 'unknown': 2, 'total': 5 }
+        violation_tally: { 'boys' => 2, 'girls' => 1, 'unknown' => 2, 'total' => 5 }
       },
       incident_id: incident3.id
     )
     Violation.create!(
       data: {
         type: 'abduction',
-        violation_tally: { 'boys': 2, 'girls': 3, 'unknown': 2, 'total': 7 },
+        violation_tally: { 'boys' => 2, 'girls' => 3, 'unknown' => 2, 'total' => 7 },
         abduction_regained_freedom: 'yes',
         abduction_regained_freedom_how: ['escape']
       },
@@ -155,7 +155,7 @@ describe ManagedReports::Indicators::AbductedStatus do
     Violation.create!(
       data: {
         type: 'abduction',
-        violation_tally: { 'boys': 2, 'girls': 5, 'unknown': 2, 'total': 9 },
+        violation_tally: { 'boys' => 2, 'girls' => 5, 'unknown' => 2, 'total' => 9 },
         abduction_regained_freedom: 'yes',
         abduction_regained_freedom_how: ['payment_of_ransom']
       },
@@ -235,8 +235,8 @@ describe ManagedReports::Indicators::AbductedStatus do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'year'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2020-08-01',
-              to: '2022-10-10'
+              from: Date.parse('2020-08-01'),
+              to: Date.parse('2022-10-10')
             ),
             'type' => SearchFilters::Value.new(field_name: 'type', value: 'abduction')
           }
@@ -266,8 +266,8 @@ describe ManagedReports::Indicators::AbductedStatus do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'month'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2021-08-01',
-              to: '2022-03-30'
+              from: Date.parse('2021-08-01'),
+              to: Date.parse('2022-03-30')
             ),
             'type' => SearchFilters::Value.new(field_name: 'type', value: 'abduction')
           }
@@ -296,8 +296,8 @@ describe ManagedReports::Indicators::AbductedStatus do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2020-06-01',
-              to: '2022-03-30'
+              from: Date.parse('2020-06-01'),
+              to: Date.parse('2022-03-30')
             ),
             'type' => SearchFilters::Value.new(field_name: 'type', value: 'abduction')
           }

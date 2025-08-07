@@ -31,14 +31,14 @@ const buildGroupedColumns = (value, groupedBy, localizeDate, subColumnItems) => 
 };
 
 export default {
-  ghn_report: ({ value, getLookupValue, totalText }) => {
-    const grouped = value.some(fs => fs.get("group_id"));
-
-    if (grouped) {
+  ghn_report: ({ value, getLookupValue, totalText, subColumnItems, hasTotalColumn, isGrouped }) => {
+    if (isGrouped) {
       return value.map(val => ({ label: getLookupValue({}, val, "group_id") }));
     }
 
-    return [{ label: totalText }];
+    const columns = subColumnItems.map(elem => ({ label: elem.display_text }));
+
+    return hasTotalColumn && !isEmpty(subColumnItems) ? columns : [...columns, { label: totalText }];
   },
   default: ({ value, isGrouped, groupedBy, localizeDate, totalText, subColumnItems = [], hasTotalColumn }) => {
     if (isGrouped && groupedBy) {

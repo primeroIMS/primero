@@ -2313,6 +2313,10 @@ en:
         late_verification: Late Verification - Victims
         unverified_information: Unverified Information - Victims
         verified_information_violations: Verified Information - Violations
+        verified_violations_by_perpetrator: Verified Information - Violations by Perpetrator
+        verified_violations_by_region: Verified Information - Violations by Region
+        unverified_violations_by_perpetrator: Unverified Information - Violations by Perpetrator
+        unverified_violations_by_region: Unverified Information - Violations by Region
         late_verification_violations: Late Verification - Violations
         unverified_information_violations: Unverified Information - Violations
         killing: Killing of Children

@@ -28,10 +28,9 @@ class ManagedReports::Indicators::ImplementedSuccessfulReferrals < ManagedReport
               srch_owned_by_location AS owned_by_location,
               cases.id AS case_id
             FROM cases
-            #{join_services(params['service_type'])}
+            #{join_services(params['service_type'], date_param)}
             WHERE 1 = 1
             #{build_filter_query(current_user, params)&.prepend('AND ')}
-            #{date_range_query(date_param, 'services', nil, 'service_implemented_day_time')&.prepend('AND ')}
         )
         SELECT
           #{group_id&.+(',')}
@@ -59,7 +58,7 @@ class ManagedReports::Indicators::ImplementedSuccessfulReferrals < ManagedReport
     end
 
     # rubocop:disable Metrics/MethodLength
-    def join_services(service_type_param = nil)
+    def join_services(service_type_param = nil, date_param = nil)
       ActiveRecord::Base.sanitize_sql_for_conditions(
         [
           %(
@@ -77,6 +76,7 @@ class ManagedReports::Indicators::ImplementedSuccessfulReferrals < ManagedReport
                 ? (@.service_status_referred == true)
                 ? (@.service_implemented == "implemented")
                 #{filter_service_type(service_type_param&.value)&.prepend('? ')}'
+              #{date_range_query(date_param, nil, 'services_section', 'service_implemented_day_time')&.prepend('AND ')}
             ) AS services
            ),
           { format: Report::DATE_TIME_FORMAT }

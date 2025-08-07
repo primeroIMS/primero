@@ -77,8 +77,8 @@ describe ManagedReports::Indicators::DenialType do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'year'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2021-04-01',
-              to: '2022-05-01'
+              from: Date.parse('2021-04-01'),
+              to: Date.parse('2022-05-01')
             ),
             'type' => SearchFilters::Value.new(field_name: 'type', value: 'denial_humanitarian_access')
           }
@@ -116,8 +116,8 @@ describe ManagedReports::Indicators::DenialType do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'month'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2021-05-01',
-              to: '2022-04-10'
+              from: Date.parse('2021-05-01'),
+              to: Date.parse('2022-04-10')
             ),
             'type' => SearchFilters::Value.new(field_name: 'type', value: 'denial_humanitarian_access')
           }
@@ -160,8 +160,8 @@ describe ManagedReports::Indicators::DenialType do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2021-04-01',
-              to: '2022-06-10'
+              from: Date.parse('2021-04-01'),
+              to: Date.parse('2022-06-10')
             ),
             'type' => SearchFilters::Value.new(field_name: 'type', value: 'denial_humanitarian_access')
           }

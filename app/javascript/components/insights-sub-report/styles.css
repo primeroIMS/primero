@@ -14,11 +14,16 @@
 }
 
 .subReportContent {
+  width: 100%;
   max-width: 1200px;
 }
 
 .section {
   margin-bottom: 4em;
+
+  & div {
+    overflow-x: auto;
+  }
 }
 
 .sectionTitle {

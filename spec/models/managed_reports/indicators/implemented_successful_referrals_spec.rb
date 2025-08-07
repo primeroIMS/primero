@@ -175,8 +175,8 @@ describe ManagedReports::Indicators::ImplementedSuccessfulReferrals do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'year'),
             'service_implemented_day_time' => SearchFilters::DateRange.new(
               field_name: 'service_implemented_day_time',
-              from: '2021-01-01',
-              to: '2021-12-31'
+              from: Date.parse('2021-01-01'),
+              to: Date.parse('2021-12-31')
             )
           }
         ).data
@@ -200,8 +200,8 @@ describe ManagedReports::Indicators::ImplementedSuccessfulReferrals do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'month'),
             'service_implemented_day_time' => SearchFilters::DateRange.new(
               field_name: 'service_implemented_day_time',
-              from: '2021-10-01',
-              to: '2021-11-30'
+              from: Date.parse('2021-10-01'),
+              to: Date.parse('2021-11-30')
             )
           }
         ).data
@@ -229,8 +229,8 @@ describe ManagedReports::Indicators::ImplementedSuccessfulReferrals do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'week'),
             'service_implemented_day_time' => SearchFilters::DateRange.new(
               field_name: 'service_implemented_day_time',
-              from: '2021-10-01',
-              to: '2021-10-16'
+              from: Date.parse('2021-10-01'),
+              to: Date.parse('2021-10-16')
             )
           }
         ).data

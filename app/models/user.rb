@@ -603,6 +603,10 @@ class User < ApplicationRecord
     [Permission::ALL, Permission::AGENCY, Permission::GROUP].include?(user_query_scope)
   end
 
+  def incident_reporting_location_admin_level
+    role.incident_reporting_location_config&.admin_level.to_i
+  end
+
   private
 
   def set_locale
