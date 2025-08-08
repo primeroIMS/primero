@@ -29,7 +29,9 @@ function Component({
   searchFieldLabel,
   showSearchField = false
 }) {
-  const methods = useForm();
+  const methods = useForm({
+    defaultValues: initialFilters
+  });
 
   const { mobileDisplay } = useThemeHelper();
 
@@ -69,7 +71,6 @@ function Component({
   };
 
   useEffect(() => {
-    methods.reset(initialFilters);
     if (defaultFiltersKeys.length) {
       setDefaultFilters();
     }
@@ -81,7 +82,7 @@ function Component({
 
       if (!Filter || filter.permitted_filter === false) return null;
 
-      return <Filter key={filter.field_name} filter={filter} multiple={filter.multiple} />;
+      return <Filter key={filter.field_name} filter={filter} multiple={filter.multiple} mode={filter.mode} />;
     });
   };
 
@@ -90,7 +91,7 @@ function Component({
       {showFilterIcon}
       <FilterContainer drawerName={FILTERS_DRAWER} mobileDisplay={mobileDisplay && showDrawer} noMargin={noMargin}>
         <div className={css.filtersContainer} role="form">
-          <FormProvider {...methods} user={userName}>
+          <FormProvider {...methods} user={userName} initialFilters={initialFilters}>
             <form onSubmit={methods.handleSubmit(handleOnSubmit)}>
               {showSearchField && (
                 <SearchBox showSearchNameToggle={false} searchFieldLabel={searchFieldLabel} useFullWidth={noMargin} />

@@ -59,6 +59,7 @@ Rails.application.routes.draw do
         resources :case_relationships, only: %i[index create destroy update]
         get :traces, to: 'children#traces'
         get :record_history, to: 'record_histories#index'
+        get :access_log, to: 'record_access#index'
         post :family, to: 'children#create_family'
         collection do
           post :flags, to: 'flags#create_bulk'
@@ -77,6 +78,8 @@ Rails.application.routes.draw do
         resources :transitions, only: [:index]
         post :flags, to: 'flags#create_bulk', on: :collection
         get :record_history, to: 'record_histories#index'
+
+        get :access_log, to: 'record_access#index'
         get :get_case_to_link, to: 'incidents#get_case_to_link', on: :collection
         collection do
           post :assigns, to: 'assigns#create_bulk'
@@ -91,6 +94,8 @@ Rails.application.routes.draw do
         get :traces, to: 'tracing_requests#traces'
         post :flags, to: 'flags#create_bulk', on: :collection
         get :record_history, to: 'record_histories#index'
+
+        get :access_log, to: 'record_access#index'
       end
 
       resources :traces, only: %i[show update] do
@@ -152,6 +157,8 @@ Rails.application.routes.draw do
         resources :flags, only: %i[index create update]
         resources :alerts, only: [:index]
         get :record_history, to: 'record_histories#index'
+
+        get :access_log, to: 'record_access#index'
       end
 
       resources :families do
@@ -159,6 +166,8 @@ Rails.application.routes.draw do
         resources :alerts, only: [:index]
         post :case, to: 'families#create_case'
         get :record_history, to: 'record_histories#index'
+
+        get :access_log, to: 'record_access#index'
       end
 
       scope '/webpush' do

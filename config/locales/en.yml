@@ -642,7 +642,7 @@ en:
       updated: Configuration was successfully updated.
       sent: Sending configuration to production. Please check the production site to see if your configuration has arrived.
     not_allowed: Not-allowed
-    unavailable_server: Server is temporarily unavailable.
+    unavailable_server: Server is temporarily unavailable. Please wait and the page will reload.
   contact:
     field:
       email: Email
@@ -3006,6 +3006,10 @@ en:
             explanation: User can see a history of all changes made to the record
               since it was created. This includes values recorded for all fields.
             label: Change Log
+          access_log:
+            explanation: User can see a history of all access by users who are not
+              the current record owner (views and updates) since the record was created.
+            label: Access Log
           close:
             explanation: Allows a user to set the status of an open case to closed.
             label: Close
@@ -3116,6 +3120,9 @@ en:
           resolve_any_flag:
             explanation: Allows the user to resolve any Flag on the record, regardless of who created the Flag.
             label: Resolve any Flag
+          flag_update:
+            explanation: Allows the user to update any Flag on the record, regardless of who created the Flag.
+            label: Update Flag
           import:
             explanation: Allows the user to create one or more new cases by importing
               them from a CSV, Excel, or JSON file. The imported file must be formatted
@@ -3663,6 +3670,10 @@ en:
             explanation: User can see a history of all changes made to the record
               since it was created. This includes values recorded for all fields.
             label: Change Log
+          access_log:
+            explanation: User can see a history of all access by users who are not
+              the current record owner (views and updates) since the record was created.
+            label: Access Log
           create:
             explanation: Ability to create an incident.
             label: Create
@@ -3934,6 +3945,10 @@ en:
             explanation: User can see a history of all changes made to the record since it
               was created. This includes values recorded for all fields.
             label: Change Log
+          access_log:
+            explanation: User can see a history of all access by users who are not
+              the current record owner (views and updates) since the record was created.
+            label: Access Log
           create:
             explanation: Ability to create a Registry record.
             label: Create
@@ -3991,6 +4006,9 @@ en:
             explanation: User can see a history of all changes made to the record since it
               was created. This includes values recorded for all fields.
             label: Change Log
+          access_log:
+            explanation: User can see a access to the record by non-record owners
+            label: Access Log
           create:
             explanation: Ability to create a Family.
             label: Create
@@ -4164,6 +4182,10 @@ en:
             explanation: User can see a history of all changes made to the record
               since it was created. This includes values recorded for all fields.
             label: Change Log
+          access_log:
+            explanation: User can see a history of all access by users who are not
+              the current record owner (views and updates) since the record was created.
+            label: Access Log
           create:
             explanation: Ability to create a tracing request
             label: Create
@@ -4770,6 +4792,9 @@ en:
     invalid_provider_username: 'Invalid username format. Example: my.username@%{domain}'
     label: User
     language: Language
+    last_access: Date of Last Log In
+    last_case_viewed: Date of Last Case View
+    last_case_updated: Date of Last Case Modification
     locale: Locale
     location: Location
     messages:
@@ -4920,3 +4945,12 @@ en:
     email_closing: At your service,
     email_signature: Primero team
     email_admin_name: System Administrator
+  access_log:
+    label: Access Log
+    show: 'Viewed By:'
+    update: 'Modified By:'
+    filters:
+      actions: Access Type
+      timestamp: Access Time
+      show: Viewed
+      update: Modified

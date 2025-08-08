@@ -13,6 +13,7 @@ import {
   SHOW_FIND_MATCH,
   READ_RECORDS,
   REFER_FROM_SERVICE,
+  SHOW_ACCESS_LOG,
   SHOW_CHANGE_LOG,
   RESOURCES
 } from "../permissions";
@@ -55,6 +56,7 @@ function Container({ mode }) {
   const canViewIncidentRecord = usePermissions(RESOURCES.cases, VIEW_INCIDENTS_FROM_CASE);
   const canRefer = usePermissions(params.recordType, REFER_FROM_SERVICE);
   const canSeeChangeLog = usePermissions(params.recordType, SHOW_CHANGE_LOG);
+  const canSeeAccessLog = usePermissions(params.recordType, SHOW_ACCESS_LOG);
 
   const incidentFromCase = useMemoizedSelector(state => getIncidentFromCase(state, recordType));
   const fetchFromCaseId = useMemoizedSelector(state => getCaseIdForIncident(state, recordType));
@@ -68,7 +70,12 @@ function Container({ mode }) {
     primeroModule: record ? record.get("module_id") : params.module,
     checkPermittedForms: true,
     renderCustomForms:
-      canViewSummaryForm || canViewRegistryRecord || canViewFamilyRecord || canViewIncidentRecord || canSeeChangeLog,
+      canViewSummaryForm ||
+      canViewRegistryRecord ||
+      canViewFamilyRecord ||
+      canViewIncidentRecord ||
+      canSeeChangeLog ||
+      canSeeAccessLog,
     checkWritable: true,
     recordId: record?.get("id"),
     isEditOrShow
@@ -121,6 +128,7 @@ function Container({ mode }) {
       userPermittedFormsIds={permittedFormsIds}
       demo={demo}
       canRefer={canRefer}
+      canSeeAccessLog={canSeeAccessLog}
       canSeeChangeLog={canSeeChangeLog}
       containerMode={containerMode}
       mode={mode}

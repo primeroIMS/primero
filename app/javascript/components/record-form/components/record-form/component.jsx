@@ -36,6 +36,7 @@ function Component({
   approvalSubforms,
   attachmentForms,
   canRefer,
+  canSeeAccessLog,
   canSeeChangeLog,
   canViewCases,
   canViewSummaryForm,
@@ -298,6 +299,7 @@ function Component({
 
   const recordFormExternalForms = externalForms({
     approvalSubforms,
+    canSeeAccessLog,
     canSeeChangeLog,
     containerMode,
     handleCreateIncident,
@@ -370,6 +372,7 @@ Component.propTypes = {
   approvalSubforms: PropTypes.object,
   attachmentForms: PropTypes.object,
   canRefer: PropTypes.bool,
+  canSeeAccessLog: PropTypes.bool,
   canSeeChangeLog: PropTypes.bool,
   canViewCases: PropTypes.bool,
   canViewSummaryForm: PropTypes.bool,

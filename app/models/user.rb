@@ -201,6 +201,18 @@ class User < ApplicationRecord
     def limit_user_reached?
       SystemSettings.current.maximum_users > User.enabled.count
     end
+
+    def with_audit_dates
+      select(<<~SQL)
+        users.*,
+        (SELECT timestamp FROM audit_logs WHERE audit_logs.user_id = users.id AND action = 'login'
+          ORDER BY timestamp DESC LIMIT 1) AS last_access,
+        (SELECT timestamp FROM audit_logs WHERE audit_logs.user_id = users.id AND record_type = 'Child'
+         AND action = 'show' ORDER BY timestamp DESC LIMIT 1) AS last_case_viewed,
+        (SELECT timestamp FROM audit_logs WHERE audit_logs.user_id = users.id AND record_type = 'Child'
+         AND action = 'update' ORDER BY timestamp DESC LIMIT 1) AS last_case_updated
+      SQL
+    end
   end
 
   def initialize(attributes = nil, &)
