@@ -48,18 +48,19 @@ gem 'rubyzip',             '~> 2.3',   # Zip and encrypt exported files
 gem 'spreadsheet',         '~> 1.3'    # Read XLS spreadsheets for imports (not XLSX!). TODO: Different gem? Reconsider?
 # Note: if upgrading Sunspot, update the corresponding version of Solr on the Docker image
 # Current Solr version is 5.3.1
-gem 'sunspot_rails',       '~> 2.6',    # Rails ODM bindings to Solr
+gem 'pdfjs_viewer' # PDF.js viewer for displaying PDFs in the browser
+gem 'sunspot_rails', '~> 2.6', # Rails ODM bindings to Solr
     require: false
-gem 'sunspot_solr',        '~> 2.6',    # Ruby bindings to Solr
+gem 'sunspot_solr', '~> 2.6', # Ruby bindings to Solr
     require: false
-gem 'text',                '~> 1.3'    # Phonetic Search Algorithms
-gem 'thor',                '>= 1.3.3'  # CVE-2025-54314
-gem 'twitter_cldr',        '~> 4.4'    # Localization for dates, money. TODO: Is this still used?
-gem 'tzinfo-data',         '~> 1.2023' # Timezone Data for TZInfo
-gem 'uri',                 '~> 0.13'   # CVE-2025-27221
-gem 'web-push',            '~> 3.0'
-gem 'will_paginate',       '~> 4.0'    # Paginates ActiveRecord models  TODO: This can be refactored away.
-gem 'write_xlsx',          '~> 1.11'   # Exports XLSX
+gem 'text', '~> 1.3' # Phonetic Search Algorithms
+gem 'thor', '>= 1.3.3' # CVE-2025-54314
+gem 'twitter_cldr', '~> 4.4' # Localization for dates, money. TODO: Is this still used?
+gem 'tzinfo-data', '~> 1.2023' # Timezone Data for TZInfo
+gem 'uri', '~> 0.13' # CVE-2025-27221
+gem 'web-push', '~> 3.0'
+gem 'will_paginate', '~> 4.0' # Paginates ActiveRecord models  TODO: This can be refactored away.
+gem 'write_xlsx', '~> 1.11' # Exports XLSX
 
 group :development, :test do
   gem 'brakeman', require: false

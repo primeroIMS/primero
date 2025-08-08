@@ -11,7 +11,6 @@ Rails.application.configure do
   config.eager_load = ENV['PROFILE'] == 'true'
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.delivery_method = :letter_opener
-
   $stdout.sync = true
   logger = ActiveSupport::Logger.new($stdout)
   logger.formatter = Logger::Formatter.new

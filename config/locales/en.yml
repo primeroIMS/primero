@@ -1295,6 +1295,7 @@ en:
       current: Is this the current document?
       date: Document Date
       name: Document Name
+      content_type: Document Content Type
       is_current: Is this the current document?
     document_upload_box: Document Upload
     edit_label: Edit Field

@@ -10,6 +10,8 @@ Rails.application.routes.draw do
     get '*all', to: 'home#v2'
   end
 
+  mount PdfjsViewer::Engine => '/pdf-viewer'
+
   devise_for(
     :users,
     class_name: 'User',

@@ -1,3 +1,8 @@
+PATH
+  remote: ../pdfjs_viewer
+  specs:
+    pdfjs_viewer (0.1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -503,6 +508,7 @@ DEPENDENCIES
   minipack (~> 0.3)
   net-http-persistent (~> 4.0)
   nokogiri (~> 1.18)
+  pdfjs_viewer!
   pg (~> 1.5)
   prawn (~> 2.4)
   prawn-table (~> 0.2)
