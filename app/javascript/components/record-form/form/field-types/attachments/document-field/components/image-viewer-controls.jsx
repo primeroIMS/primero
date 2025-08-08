@@ -1,6 +1,7 @@
 import { RestartAlt, RotateLeft, RotateRight, ZoomIn, ZoomOut } from "@mui/icons-material";
 import { useControls, useTransformComponent, useTransformEffect } from "react-zoom-pan-pinch";
 import { useState } from "react";
+import PropTypes from "prop-types";
 
 import ActionButton, { ACTION_BUTTON_TYPES } from "../../../../../../action-button";
 
@@ -57,5 +58,9 @@ function ImageViewerControls({ handleRotationChange }) {
 }
 
 ImageViewerControls.displayName = "ImageViewerControls";
+
+ImageViewerControls.propTypes = {
+  handleRotationChange: PropTypes.func.isRequired
+};
 
 export default ImageViewerControls;

@@ -183,6 +183,10 @@ function DocumentField({
                 <div className={viewerCss.drawerContent}>
                   <FieldValue label={i18n.t("fields.document.content_type")} value={contentType} />
                   <FieldValue label={i18n.t("fields.document.date")} value={value[ATTACHMENT_FIELDS.date]} />
+                  <FieldValue
+                    label={i18n.t("fields.document.is_current")}
+                    value={value[ATTACHMENT_FIELDS.isCurrent] ? i18n.t("yes_label") : null}
+                  />
                   <FieldValue label={i18n.t("fields.document.comments")} value={value[ATTACHMENT_FIELDS.comments]} />
                 </div>
               </Drawer>
