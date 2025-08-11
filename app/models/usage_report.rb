@@ -67,7 +67,7 @@ class UsageReport < ValueObject
       cases_open: cases_open_count(module_id),
       cases_closed: cases_closed_count(module_id),
       cases_open_this_quarter: records_open_this_quarter(Child, module_id),
-      cases_closed_this_quarter: records_open_this_quarter(Child, module_id),
+      cases_closed_this_quarter: records_closed_this_quarter(Child, module_id),
       services_total: cases_subform_total(module_id)['service_count'],
       followups_total: cases_subform_total(module_id)['followups_count']
     }
