@@ -39,21 +39,13 @@ describe UserGroup do
     end
   end
 
-  describe '.names_as_options' do
+  describe 'enabled' do
     let!(:disabled_group) { UserGroup.create!(unique_id: 'usergroup-mrm', name: 'MRM', disabled: true) }
 
     it 'returns only enabled groups as options with id and display_text' do
-      options = UserGroup.names_as_options
-      expect(options).to contain_exactly(
-        { id: 'group_1', display_text: 'User Group 1' },
-        { id: 'group_2', display_text: 'User Group 2' },
-        { id: 'group_3', display_text: 'User Group 3' }
-      )
-    end
-
-    it 'does not include disabled groups' do
-      ids = UserGroup.names_as_options.map { |o| o[:id] }
-      expect(ids).not_to include('usergroup-mrm')
+      usergroups_enabled = UserGroup.enabled.map(&:unique_id)
+      expect(usergroups_enabled).to match_array(%w[group_1 group_2 group_3])
+      expect(usergroups_enabled).not_to include('usergroup-mrm')
     end
   end
 end

@@ -47,10 +47,6 @@ class UserGroup < ApplicationRecord
       user_group.add_creating_user(user)
       user_group
     end
-
-    def names_as_options
-      enabled.pluck(:unique_id, :name).map { |id, display_text| { id:, display_text: } }
-    end
   end
 
   def initialize(attributes = nil, &)
