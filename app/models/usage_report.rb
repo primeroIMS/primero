@@ -55,7 +55,7 @@ class UsageReport < ValueObject
         module_hash = module_hash.merge(build_modules_cases(primero_module.unique_id))
       end
       if primero_module.associated_record_types.include?('incident')
-        module_hash.merge(build_modules_incidents(primero_module.unique_id))
+        module_hash = module_hash.merge(build_modules_incidents(primero_module.unique_id))
       end
       module_hash
     end
