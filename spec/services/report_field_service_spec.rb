@@ -196,25 +196,21 @@ describe ReportFieldService do
   describe '.user_groups_options' do
     before do
       allow(I18n).to receive(:available_locales).and_return(%i[es en])
-      allow(UserGroup).to receive(:names_as_options).and_return(
-        [
-          { id: 'usegruop-cp', display_text: 'CP' },
-          { id: 'usegruop-gbv', display_text: 'GBV' }
-        ]
-      )
     end
 
     it 'returns option_labels for all available locales with enabled user groups' do
       result = described_class.user_groups_options
       expect(result).to eq(
         option_labels: {
-          es: [
-            { id: 'usegruop-cp', display_text: 'CP' },
-            { id: 'usegruop-gbv', display_text: 'GBV' }
-          ],
           en: [
-            { id: 'usegruop-cp', display_text: 'CP' },
-            { id: 'usegruop-gbv', display_text: 'GBV' }
+            { display_text: 'User Group 1', id: 'group_1' },
+            { display_text: 'User Group 2', id: 'group_2' },
+            { display_text: 'User Group 3', id: 'group_3' }
+          ],
+          es: [
+            { display_text: 'User Group 1', id: 'group_1' },
+            { display_text: 'User Group 2', id: 'group_2' },
+            { display_text: 'User Group 3', id: 'group_3' }
           ]
         }
       )

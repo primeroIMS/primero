@@ -29,7 +29,7 @@ class ReportFieldService
   end
 
   def self.user_groups_options
-    enabled_user_groups = enabled.pluck(:unique_id, :name).map { |id, display_text| { id:, display_text: } }
+    enabled_user_groups = UserGroup.enabled.pluck(:unique_id, :name).map { |id, display_text| { id:, display_text: } }
 
     { option_labels: I18n.available_locales.to_h { |locale| [locale, enabled_user_groups] } }
   end
