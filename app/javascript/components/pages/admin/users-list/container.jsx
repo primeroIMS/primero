@@ -25,7 +25,7 @@ import { useMemoizedSelector } from "../../../../libs";
 import { DEFAULT_FILTERS, DATA } from "../constants";
 
 import { fetchUsers, setUsersFilters } from "./action-creators";
-import { LIST_HEADERS, AGENCY, DISABLED, USER_GROUP } from "./constants";
+import { LIST_HEADERS, AGENCY, DISABLED, USER_GROUP, LAST_DATE } from "./constants";
 import { agencyBodyRender, buildObjectWithIds, buildUsersQuery, getFilters } from "./utils";
 import AlertMaxUser from "./components/alert-max-user";
 import CustomToolbar from "./components/custom-toolbar";
@@ -106,7 +106,7 @@ function Container() {
   };
 
   const filterProps = {
-    clearFields: [AGENCY, DISABLED, USER_GROUP],
+    clearFields: [AGENCY, DISABLED, USER_GROUP, LAST_DATE],
     filters: getFilters(i18n, enabledAgencies, filterUserGroups, filterPermission),
     defaultFilters,
     initialFilters: DEFAULT_FILTERS,

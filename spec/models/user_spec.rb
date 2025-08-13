@@ -1148,6 +1148,160 @@ describe User do
     end
   end
 
+  describe '.with_audit_date_between' do
+    before do
+      clean_data(AuditLog, User, Role, PrimeroModule, PrimeroProgram, FormSection, Agency, UserGroup, Child)
+    end
+
+    let(:primero_module) do
+      create(:primero_module, name: 'CP')
+    end
+
+    let(:role) do
+      create(:role, is_manager: true, modules: [primero_module], permissions: [Permission.new(
+        resource: Permission::CASE,
+        actions: [Permission::MANAGE]
+      )])
+    end
+
+    let!(:user1) do
+      create(:user, user_name: 'user1', role: role, full_name: 'Test User 1', email: 'owner@primero.dev')
+    end
+
+    let!(:other_user) do
+      create(:user, user_name: 'other_user', role:, full_name: 'Test User 2', email: 'other_user@primero.dev')
+    end
+
+    let!(:child) do
+      create(:child, name: 'Test', owned_by: user1.user_name, consent_for_services: true,
+                     disclosure_other_orgs: true, module_id: PrimeroModule::CP)
+    end
+
+    let!(:login_log) do
+      AuditLog.create!(
+        user_id: user1.id,
+        action: 'login',
+        record_type: 'User',
+        timestamp: Time.utc(2023, 2, 10, 10, 0, 0)
+      )
+    end
+
+    let!(:case_viewed_log) do
+      AuditLog.create!(
+        user_id: user1.id,
+        record_type: 'Child',
+        action: 'show',
+        timestamp: Time.utc(2023, 2, 1, 10, 0, 0)
+      )
+    end
+
+    let!(:case_updated_log) do
+      AuditLog.create!(
+        user_id: user1.id,
+        record_type: 'Child',
+        action: 'update',
+        timestamp: Time.utc(2023, 3, 1, 10, 0, 0)
+      )
+    end
+
+    it 'returns last_access for a user' do
+      results = User.with_audit_dates.with_audit_date_between(
+        **User::AUDIT_LAST_DATE[:last_access],
+        from: Time.utc(2023, 2, 1, 10, 0, 0),
+        to: Time.utc(2023, 4, 1, 10, 0, 0)
+      )
+      expect(results.size).to eq(1)
+      expect(results.first.last_access.iso8601(3)).to eq('2023-02-10T10:00:00.000Z')
+    end
+
+    it 'returns last_case_viewed for a user' do
+      results = User.with_audit_dates.with_audit_date_between(
+        **User::AUDIT_LAST_DATE[:last_case_viewed],
+        from: Time.utc(2023, 2, 1, 10, 0, 0),
+        to: Time.utc(2023, 3, 1, 10, 0, 0)
+      )
+      expect(results.size).to eq(1)
+      expect(results.first.last_case_viewed.iso8601(3)).to eq('2023-02-01T10:00:00.000Z')
+    end
+
+    it 'returns last_case_updated for a user' do
+      results = User.with_audit_dates.with_audit_date_between(
+        **User::AUDIT_LAST_DATE[:last_case_updated],
+        from: Time.utc(2023, 2, 1, 10, 0, 0),
+        to: Time.utc(2023, 3, 1, 10, 0, 0)
+      )
+
+      expect(results.size).to eq(1)
+      expect(results.first.last_case_updated.iso8601(3)).to eq('2023-03-01T10:00:00.000Z')
+    end
+  end
+
+  describe '.apply_date_filters' do
+    before do
+      clean_data(AuditLog, User, Role, PrimeroModule, PrimeroProgram, FormSection, Agency, UserGroup, Child)
+    end
+
+    let(:primero_module) do
+      create(:primero_module, name: 'CP')
+    end
+
+    let(:role) do
+      create(:role, is_manager: true, modules: [primero_module], permissions: [Permission.new(
+        resource: Permission::CASE,
+        actions: [Permission::MANAGE]
+      )])
+    end
+
+    let!(:user1) do
+      create(:user, user_name: 'user1', role: role, full_name: 'Test User 1', email: 'owner@primero.dev')
+    end
+
+    let!(:other_user) do
+      create(:user, user_name: 'other_user', role:, full_name: 'Test User 2', email: 'other_user@primero.dev')
+    end
+
+    let!(:child) do
+      create(:child, name: 'Test', owned_by: user1.user_name, consent_for_services: true,
+                     disclosure_other_orgs: true, module_id: PrimeroModule::CP)
+    end
+
+    let!(:login_log) do
+      AuditLog.create!(
+        user_id: user1.id,
+        action: 'login',
+        record_type: 'User',
+        timestamp: Time.utc(2023, 2, 10, 10, 0, 0)
+      )
+    end
+
+    let!(:case_viewed_log) do
+      AuditLog.create!(
+        user_id: user1.id,
+        record_type: 'Child',
+        action: 'show',
+        timestamp: Time.utc(2023, 2, 1, 10, 0, 0)
+      )
+    end
+
+    let!(:case_updated_log) do
+      AuditLog.create!(
+        user_id: user1.id,
+        record_type: 'Child',
+        action: 'update',
+        timestamp: Time.utc(2023, 3, 1, 10, 0, 0)
+      )
+    end
+
+    it 'returns last_access for a user' do
+      users = User.with_audit_dates
+      results = User.apply_date_filters(users,
+                                        { last_access: { 'from' => Time.utc(2023, 2, 1, 10, 0, 0).iso8601(3),
+                                                         'to' => Time.utc(2023, 4, 1, 10, 0, 0).iso8601(3) } })
+      expect(results.size).to eq(1)
+      expect(results.first.last_access.iso8601(3)).to eq('2023-02-10T10:00:00.000Z')
+    end
+  end
+
   after do
     clean_data(Alert, User, Agency, Role, FormSection, Field)
   end

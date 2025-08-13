@@ -55,6 +55,8 @@ class PermittedUsersService
   def apply_filters(users_query, filters)
     return users_query unless filters.present?
 
+    users_query = users_query.apply_date_filters(users_query, filters)
+
     query_filters = build_query_filters(filters)
     users_query = users_query.joins(:user_groups) if query_filters[:user_groups].present?
 
@@ -63,7 +65,7 @@ class PermittedUsersService
   end
 
   def build_query_filters(filters)
-    query_filters = filters.except(:query).compact
+    query_filters = filters.except(:query, *User::AUDIT_LAST_DATE.keys).compact
     query_filters['disabled'] = query_filters['disabled'].values if query_filters['disabled'].present?
     user_group_ids = query_filters.delete('user_group_ids')
 
