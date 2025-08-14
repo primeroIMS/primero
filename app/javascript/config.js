@@ -288,7 +288,8 @@ const LOOKUPS = {
   legitimate_basis_explanations: "lookup-legitimate-basis-explanations",
   verification_status: "lookup-verification-status",
   violation_type: "lookup-violation-type",
-  armed_force_group_or_other_party: "lookup-armed-force-group-or-other-party"
+  armed_force_group_or_other_party: "lookup-armed-force-group-or-other-party",
+  yes_no: "lookup-yes-no"
 };
 
 const ADMIN_NAV = [

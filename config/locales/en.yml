@@ -2216,6 +2216,7 @@ en:
       location: Reporting Location
       followup_type: Type of Follow Up
       service_type: Type of Service
+      has_late_verified_violations: Late Verified?
     status_options:
       open: Open
       closed: Closed

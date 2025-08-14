@@ -8,7 +8,21 @@ describe ManagedReports::Indicators::MilitaryUse do
   before do
     clean_data(Incident, Violation)
 
-    incident1 = Incident.new_with_user(@self_user, { incident_date: Date.new(2020, 8, 8), status: 'open' })
+    incident1 = Incident.new_with_user(
+      @self_user,
+      {
+        incident_date: Date.new(2020, 8, 8),
+        status: 'open',
+        module_id: PrimeroModule::MRM,
+        military_use: [
+          {
+            military_use_type: 'military_use_of_school',
+            ctfmr_verified: 'verified',
+            ctfmr_verified_date: Date.new(2020, 11, 5)
+          }
+        ]
+      }.with_indifferent_access
+    )
     incident1.save!
     incident2 = Incident.new_with_user(@group_user, { incident_date: Date.new(2021, 8, 8), status: 'open' })
     incident2.save!
@@ -18,11 +32,6 @@ describe ManagedReports::Indicators::MilitaryUse do
     incident4.save!
     incident5 = Incident.new_with_user(@all_user, { incident_date: Date.new(2022, 3, 28), status: 'open' })
     incident5.save!
-
-    Violation.create!(
-      data: { type: 'military_use', military_use_type: 'military_use_of_school' },
-      incident_id: incident1.id
-    )
 
     Violation.create!(
       data: { type: 'military_use', military_use_type: 'military_use_of_school' },
@@ -45,7 +54,7 @@ describe ManagedReports::Indicators::MilitaryUse do
     )
 
     Violation.create!(
-      data: { type: 'maiming', violation_tally: { 'boys': 2, 'girls': 3, 'unknown': 2, 'total': 7 } },
+      data: { type: 'maiming', violation_tally: { 'boys' => 2, 'girls' => 3, 'unknown' => 2, 'total' => 7 } },
       incident_id: incident5.id
     )
   end
@@ -62,6 +71,22 @@ describe ManagedReports::Indicators::MilitaryUse do
         { id: 'military_use_of_school', total: 3 }
       ]
     )
+  end
+
+  describe 'has_late_verified_violations filter' do
+    it 'returns the data only for those incidents where the value is true' do
+      military_use_data = ManagedReports::Indicators::MilitaryUse.build(
+        nil,
+        {
+          'type' => SearchFilters::Value.new(field_name: 'type', value: 'military_use'),
+          'has_late_verified_violations' => SearchFilters::BooleanValue.new(
+            field_name: 'has_late_verified_violations', value: true
+          )
+        }
+      ).data
+
+      expect(military_use_data).to match_array([{ id: 'military_use_of_school', total: 1 }])
+    end
   end
 
   describe 'grouped by' do
