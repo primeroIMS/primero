@@ -256,6 +256,7 @@ GEM
       ast (~> 2.4.1)
       racc
     pdf-core (0.10.0)
+    pdfjs_viewer (0.1.0)
     pg (1.5.9)
     pr_geohash (1.0.0)
     prawn (2.5.0)
@@ -503,6 +504,7 @@ DEPENDENCIES
   minipack (~> 0.3)
   net-http-persistent (~> 4.0)
   nokogiri (~> 1.18)
+  pdfjs_viewer (~> 0.1)
   pg (~> 1.5)
   prawn (~> 2.4)
   prawn-table (~> 0.2)

@@ -1,0 +1,62 @@
+:root {
+  --main-color: #231f20;
+  --button-hover-color: #f7f7f7;
+  --toggled-btn-color: #fff;
+  --toggled-hover-active-btn-color: #0F809E;
+  --toggled-btn-bg-color: #0F809E;
+  --toolbar-bg-color: #fff;
+  --toolbar-icon-bg-color: #0F809E;
+  --toolbar-icon-hover-bg-color: #0F809E;
+  --toolbar-border-bottom: 1px solid #e0dfd7;
+  --toolbar-box-shadow: none;
+  --field-bg-color: white;
+  --field-color: #231f20;
+  --field-border-color: #e0dfd7;
+  --dropdown-btn-bg-color: #f0f0f0;
+  --dropdown-btn-border: black;
+  --separator-color: #e0dfd7;
+  --toolbar-vertical-padding: 8px;
+  --toolbar-horizontal-padding: 16px;
+  --toolbar-height: 48px;
+  --icon-size: 18px;
+  --scrollbar-color: #5B5B66;
+  --scrollbar-bg-color: #f0f0f0;
+  --body-bg-color: #f0f0f0;
+  --page-border: 9px solid transparent;
+  --progressBar-bg-color: white;
+  --progressBar-color: #0F809E;
+  --doorhanger-bg-color: #fff !important;
+  --doorhanger-border-color: #e0dfd7;
+  --doorhanger-separator-color: #e0dfd7;
+  --doorhanger-hover-color: #231f20;
+  --divider-color: #e0dfd7 !important;
+  --sidebar-toolbar-bg-color: #fff;
+}
+
+.dropdownToolbarButton {
+  --toggled-btn-color: #231f20;
+  border-radius: 3px;
+}
+
+.dropdownToolbarButton > select {
+  border-radius: 3px;
+}
+
+.colorPicker {
+  --selected-outline-color: #0F809E;
+}
+
+:is(#highlightParamsToolbarContainer #editorHighlightVisibility) .divider {
+  --divider-color: #e0dfd7 !important;
+}
+
+.toggle-button {
+  --toggle-border-color: #231f20;
+  --toggle-background-color-hover: #f0f0f0;
+  --toggle-background-color-pressed-hover: #0F809E;
+  --toggle-background-color-pressed: #0F809E;
+}
+
+#toolbarContainer #loadingBar {
+  border-bottom: none;
+}

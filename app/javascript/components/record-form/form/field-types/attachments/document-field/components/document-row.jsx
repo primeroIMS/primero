@@ -3,9 +3,9 @@ import { IconButton } from "@mui/material";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 
-import { useI18n } from "../../../../../i18n";
-import { useThemeHelper } from "../../../../../../libs";
-import css from "../../../styles.css";
+import { useI18n } from "../../../../../../i18n";
+import { useThemeHelper } from "../../../../../../../libs";
+import css from "../../../../styles.css";
 
 import DocumentDelete from "./document-delete";
 

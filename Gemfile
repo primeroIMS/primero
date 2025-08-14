@@ -33,6 +33,7 @@ gem 'matrix',              '~> 0.4'    # No longer part of Ruby 3.2 core. Must b
 gem 'minipack',            '~> 0.3'    # An alternative to Webpacker. TODO: Is this still needed? In prod?
 gem 'net-http-persistent', '~> 4.0'    # Thread safe persistent HTTP connections, optional Faraday dependency
 gem 'nokogiri',            '~> 1.18'   # Security assertion on implicit dependency.
+gem 'pdfjs_viewer',        '~> 0.1'    # PDF.js viewer for displaying PDFs in the browser
 gem 'pg',                  '~> 1.5'    # Ruby PostgreSQL binding
 gem 'prawn',               '~> 2.4'    # PDF generation
 gem 'prawn-table',         '~> 0.2'    # PDF generation
