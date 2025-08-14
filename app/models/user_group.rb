@@ -16,6 +16,8 @@ class UserGroup < ApplicationRecord
   has_and_belongs_to_many :users
   has_and_belongs_to_many :agencies
 
+  scope :enabled, -> { where(disabled: false) }
+
   before_create :generate_unique_id
   class << self
     def order_insensitive_attribute_names
