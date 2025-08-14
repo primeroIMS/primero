@@ -42,6 +42,12 @@ class User < ApplicationRecord
     }
   }.freeze
 
+  AUDIT_LAST_DATE = {
+    last_access: { action: 'login', record_type: 'User' },
+    last_case_viewed: { action: 'show', record_type: 'Child' },
+    last_case_updated: { action: 'update', record_type: 'Child' }
+  }.freeze
+
   attr_accessor :should_send_password_reset_instructions, :user_groups_changed
   attr_writer :user_location, :reporting_location
 
@@ -212,6 +218,32 @@ class User < ApplicationRecord
         (SELECT timestamp FROM audit_logs WHERE audit_logs.user_id = users.id AND record_type = 'Child'
          AND action = 'update' ORDER BY timestamp DESC LIMIT 1) AS last_case_updated
       SQL
+    end
+
+    def with_audit_date_between(action:, from:, to:, record_type: 'User')
+      subquery = <<~SQL.squish
+        SELECT 1 FROM audit_logs
+        WHERE timestamp >= :from AND timestamp <= :to
+        AND record_type = :record_type AND action = :action
+        AND audit_logs.user_id = users.id
+        ORDER BY timestamp DESC LIMIT 1
+      SQL
+
+      where("EXISTS(#{subquery})", action:, record_type:, from:, to:)
+    end
+
+    def apply_date_filters(scope, filters)
+      AUDIT_LAST_DATE.each do |last_date, config|
+        next unless filters[last_date].present?
+
+        scope = scope.with_audit_date_between(
+          action: config[:action],
+          record_type: config[:record_type],
+          from: Time.zone.parse(filters.dig(last_date, 'from')),
+          to: Time.zone.parse(filters.dig(last_date, 'to'))
+        )
+      end
+      scope
     end
   end
 

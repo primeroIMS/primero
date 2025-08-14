@@ -4914,6 +4914,9 @@ en:
       limit_user_reached_on_enable: You have reached your limit of %{maximum_users} enabled Users. You must disable one or more Users before creating or enabling more.
     filters:
       search: Search by user’s full name or username
+      date_last_login: Date of Last Log In
+      date_last_case_view: Date of Last Case View
+      date_last_case_updated: Date of Last Case Modification
   devise:
     failure:
       already_authenticated: "You are already signed in."
