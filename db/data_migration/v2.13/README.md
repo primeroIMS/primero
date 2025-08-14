@@ -10,7 +10,11 @@ In `v2.13` we are executing a script to store in PosgreSQL the fields that are c
 You can review the data that will updated with:
 
 ```bash
-rails r ./db/data_migration/v2.13/calculate_searchable_values.rb Child file/path.txt
+rails r ./db/data_migration/v2.13/calculate_searchable_values.rb Child false file/path.txt
+```
+
+```bash
+rails r ./db/data_migration/v2.13/calculate_searchable_values.rb Family,Incident,TracingRequest false file/path.txt
 ```
 
 ## Executing scripts
@@ -18,6 +22,10 @@ Once you validate that the info is correct you can execute the script to modify 
 
 ```bash
 rails r ./db/data_migration/v2.13/calculate_searchable_values.rb Child true file/path.txt
+```
+
+```bash
+rails r ./db/data_migration/v2.13/calculate_searchable_values.rb Family,Incident,TracingRequest true file/path.txt
 ```
 
 
