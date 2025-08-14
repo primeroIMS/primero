@@ -6,7 +6,7 @@ import { IMAGE_CONTENT_TYPES, PDF_CONTENT_TYPE } from "../constants";
 import ImageViewer from "./image-viewer";
 import css from "./styles.css";
 
-function Content({ attachmentUrl, contentType, fileName, mobileDisplay, handleAttachmentDownload }) {
+function Content({ attachmentUrl, pdfAttachmentUrl, contentType, fileName, mobileDisplay, handleAttachmentDownload }) {
   const fallbackComponent = (
     <div className={css.downloadBtnContainer}>
       <ActionButton
@@ -22,9 +22,14 @@ function Content({ attachmentUrl, contentType, fileName, mobileDisplay, handleAt
     </div>
   );
 
-  if (contentType === PDF_CONTENT_TYPE) {
+  if (contentType === PDF_CONTENT_TYPE || pdfAttachmentUrl) {
     return (
-      <object type="application/pdf" data={`/pdf-viewer?file=${attachmentUrl}`} width="100%" height="100%">
+      <object
+        type="application/pdf"
+        data={`/pdf-viewer?file=${pdfAttachmentUrl || attachmentUrl}`}
+        width="100%"
+        height="100%"
+      >
         {fallbackComponent}
       </object>
     );
@@ -44,7 +49,8 @@ Content.propTypes = {
   contentType: PropTypes.string.isRequired,
   fileName: PropTypes.string.isRequired,
   handleAttachmentDownload: PropTypes.func.isRequired,
-  mobileDisplay: PropTypes.bool.isRequired
+  mobileDisplay: PropTypes.bool.isRequired,
+  pdfAttachmentUrl: PropTypes.string.isRequired
 };
 
 export default Content;
