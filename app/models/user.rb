@@ -604,7 +604,9 @@ class User < ApplicationRecord
   end
 
   def incident_reporting_location_admin_level
-    role.incident_reporting_location_config&.admin_level.to_i
+    incident_admin_level = role.incident_reporting_location_config&.admin_level
+
+    incident_admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
   end
 
   private
