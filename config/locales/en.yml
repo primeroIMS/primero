@@ -1964,6 +1964,7 @@ en:
       edit: Edit
       enable_disable_record: Enable / disable
       export: Export
+      failed_login: Failed Login
       family: List Family
       flag: Flag
       flag_records: Flagging
