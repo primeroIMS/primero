@@ -13,16 +13,8 @@ module ManagedReports::SqlQueryHelpers
       return unless param.present?
 
       field_name = map_to || param.field_name
-
-      if hash_field.present?
-        return ActiveRecord::Base.sanitize_sql_for_conditions(
-          ["#{quoted_query(table_name, hash_field)} ->> ? = ?", field_name, param.value]
-        )
-      end
-
-      ActiveRecord::Base.sanitize_sql_for_conditions(
-        ["#{quoted_query(table_name, field_name)} = ?", param.value]
-      )
+      filter = search_filter(param)
+      filter.new(field_name:, value: param.value, column_name: hash_field, table_name:).query
     end
 
     def equal_value_query_multiple(param, table_name = nil, hash_field = 'data', map_to = nil)
@@ -48,6 +40,16 @@ module ManagedReports::SqlQueryHelpers
           { values: param.respond_to?(:values) ? param.values : param.value }
         ]
       )
+    end
+
+    def search_filter(param)
+      if param.value.is_a?(String)
+        SearchFilters::TextValue
+      elsif SearchFilterService.boolean?(param.value)
+        SearchFilters::BooleanValue
+      else
+        SearchFilters::Value
+      end
     end
 
     # rubocop:disable Metrics/MethodLength

@@ -40,6 +40,7 @@ class ManagedReports::Indicators::AttackType < ManagedReports::SqlReportIndicato
           #{date_range_query(params['ctfmr_verified_date'], 'violations')&.prepend('AND ')}
           #{equal_value_query(params['ctfmr_verified'], 'violations')&.prepend('AND ')}
           #{equal_value_query(params['type'], 'violations')&.prepend('AND ')}
+          #{equal_value_query(params['has_late_verified_violations'], 'incidents')&.prepend('AND ')}
         ) keys_values
         GROUP BY key, name #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
         ORDER BY name

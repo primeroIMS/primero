@@ -37,6 +37,7 @@ class ManagedReports::Indicators::SexualViolenceType < ManagedReports::SqlReport
         #{date_range_query(params['ctfmr_verified_date'], 'violations')&.prepend('and ')}
         #{equal_value_query(params['ctfmr_verified'], 'violations')&.prepend('and ')}
         #{equal_value_query(params['type'], 'violations')&.prepend('and ')}
+        #{equal_value_query(params['has_late_verified_violations'], 'incidents')&.prepend('and ')}
         group by detention_type, key
         #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
         ) as violation_data

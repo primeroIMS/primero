@@ -101,7 +101,22 @@ describe ManagedReports::Indicators::AttackType do
       role: all_role
     )
 
-    incident1 = Incident.new_with_user(@self_user, { incident_date: Date.new(2020, 8, 8), status: 'open' })
+    incident1 = Incident.new_with_user(
+      @self_user,
+      {
+        incident_date: Date.new(2020, 8, 8),
+        status: 'open',
+        module_id: PrimeroModule::MRM,
+        killing: [
+          {
+            attack_type: 'aerial_attack',
+            violation_tally: { 'boys' => 1, 'girls' => 1, 'unknown' => 1, 'total' => 3 },
+            ctfmr_verified: 'verified',
+            ctfmr_verified_date: Date.new(2020, 11, 5)
+          }
+        ]
+      }.with_indifferent_access
+    )
     incident1.save!
     incident2 = Incident.new_with_user(@group_user, { incident_date: Date.new(2021, 8, 8), status: 'open' })
     incident2.save!
@@ -116,38 +131,46 @@ describe ManagedReports::Indicators::AttackType do
       data: {
         type: 'killing',
         weapon_type: 'unmaned_aerial_vehicle',
-        violation_tally: { 'boys': 1, 'girls': 1, 'unknown': 1, 'total': 3 }
+        violation_tally: { 'boys' => 1, 'girls' => 1, 'unknown' => 1, 'total' => 3 }
       },
       incident_id: incident1.id
     )
     Violation.create!(
       data: {
-        type: 'maiming', weapon_type: 'unmaned_aerial_vehicle',
-        violation_tally: { 'boys': 3, 'girls': 2, 'unknown': 1, 'total': 6 }
+        type: 'maiming',
+        weapon_type: 'unmaned_aerial_vehicle',
+        violation_tally: { 'boys' => 3, 'girls' => 2, 'unknown' => 1, 'total' => 6 }
       },
       incident_id: incident1.id
     )
     Violation.create!(
       data: {
-        type: 'killing', weapon_type: 'missile', violation_tally: { 'boys': 1, 'girls': 1, 'unknown': 1, 'total': 3 }
+        type: 'killing',
+        weapon_type: 'missile',
+        violation_tally: { 'boys' => 1, 'girls' => 1, 'unknown' => 1, 'total' => 3 }
       },
       incident_id: incident3.id
     )
     Violation.create!(
       data: {
-        type: 'killing', weapon_type: 'missile', violation_tally: { 'boys': 1, 'girls': 1, 'unknown': 0, 'total': 2 }
+        type: 'killing',
+        weapon_type: 'missile',
+        violation_tally: { 'boys' => 1, 'girls' => 1, 'unknown' => 0, 'total' => 2 }
       },
       incident_id: incident4.id
     )
     Violation.create!(
       data: {
-        weapon_type: 'ied_other', violation_tally: { 'boys': 5, 'girls': 10, 'unknown': 5, 'total': 20 }
+        weapon_type: 'ied_other',
+        violation_tally: { 'boys' => 5, 'girls' => 10, 'unknown' => 5, 'total' => 20 }
       },
       incident_id: incident1.id
     )
     Violation.create!(
       data: {
-        type: 'killing', weapon_type: 'ied_other', violation_tally: { 'boys': 5, 'girls': 10, 'unknown': 5, 'total': 20 }
+        type: 'killing',
+        weapon_type: 'ied_other',
+        violation_tally: { 'boys' => 5, 'girls' => 10, 'unknown' => 5, 'total' => 20 }
       },
       incident_id: incident2.id
     )
@@ -155,7 +178,7 @@ describe ManagedReports::Indicators::AttackType do
       data: {
         type: 'killing',
         weapon_type: 'unmaned_aerial_vehicle',
-        violation_tally: { 'boys': 2, 'girls': 1, 'unknown': 0, 'total': 3 }
+        violation_tally: { 'boys' => 2, 'girls' => 1, 'unknown' => 0, 'total' => 3 }
       },
       incident_id: incident5.id
     )
@@ -174,6 +197,26 @@ describe ManagedReports::Indicators::AttackType do
         { boys: 5, girls: 10, id: 'ied_other', unknown: 5, total: 20 }
       ]
     )
+  end
+
+  describe 'has_late_verified_violations filter' do
+    it 'returns the data only for those incidents where the value is true' do
+      attack_type_data = ManagedReports::Indicators::AttackType.build(
+        nil,
+        {
+          'type' => SearchFilters::Value.new(field_name: 'type', value: 'killing'),
+          'has_late_verified_violations' => SearchFilters::BooleanValue.new(
+            field_name: 'has_late_verified_violations', value: true
+          )
+        }
+      ).data
+
+      expect(attack_type_data).to match_array(
+        [
+          { id: 'unmaned_aerial_vehicle', boys: 1, girls: 1, unknown: 1, total: 3 }
+        ]
+      )
+    end
   end
 
   describe 'records in scope' do
@@ -345,10 +388,12 @@ describe ManagedReports::Indicators::AttackType do
             { group_id: '2021-Q4', data: [] },
             {
               group_id: '2022-Q1',
-              data: match_array([
-                { id: 'unmaned_aerial_vehicle', boys: 2, girls: 1, total: 3, unknown: 0 },
-                { id: 'missile', boys: 2, girls: 2, total: 5, unknown: 1 }
-              ])
+              data: match_array(
+                [
+                  { id: 'unmaned_aerial_vehicle', boys: 2, girls: 1, total: 3, unknown: 0 },
+                  { id: 'missile', boys: 2, girls: 2, total: 5, unknown: 1 }
+                ]
+              )
             }
           ]
         )
