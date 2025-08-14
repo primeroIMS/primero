@@ -14,7 +14,7 @@ describe ManagedReports::Indicators::UnverifiedViolationsByPerpetrator do
           actions: [Permission::VIOLATION_REPORT]
         )
       ]
-  )
+    )
   end
 
   before do
