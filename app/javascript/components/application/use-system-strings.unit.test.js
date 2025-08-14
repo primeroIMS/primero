@@ -91,6 +91,7 @@ describe("application/use-system-string.js", () => {
 
     act(() => {
       expect(result.current.label("record_owner", "fields.record_owner")).toEqual("fields.record_owner");
+      expect(result.current.label("social_worker", "fields.social_worker")).toEqual("fields.social_worker");
     });
   });
 

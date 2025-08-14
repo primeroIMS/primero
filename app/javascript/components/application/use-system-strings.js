@@ -23,6 +23,7 @@ const ALLOWED_LIST_HEADER_KEYS = [
   "priority",
   "name",
   "record_owner",
+  "social_worker",
   "client_code",
   "current_location",
   "violence_type",
