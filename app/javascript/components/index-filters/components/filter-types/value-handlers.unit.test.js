@@ -110,7 +110,7 @@ describe("<IndexFilters />/filter-types/value-handlers", () => {
           {
             id: "owned_by=josh",
             key: "owned_by",
-            display_name: "My Cases"
+            display_name: "cases.filter_by.referred_cases"
           },
           {
             id: "assigned_user_names=josh",
@@ -122,7 +122,7 @@ describe("<IndexFilters />/filter-types/value-handlers", () => {
         fieldName: "or"
       };
 
-      const label = jest.fn().mockReturnValue("My Cases");
+      const label = jest.fn().mockReturnValue("cases.filter_by.referred_cases");
 
       const output = getFilterProps({ filter, user, i18n, label });
 
