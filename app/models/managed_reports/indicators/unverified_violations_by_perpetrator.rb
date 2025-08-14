@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+# Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
 
 # An indicator that returns the unverified violations by perpetrator
 class ManagedReports::Indicators::UnverifiedViolationsByPerpetrator < ManagedReports::SqlReportIndicator
