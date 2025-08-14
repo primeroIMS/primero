@@ -101,7 +101,22 @@ describe ManagedReports::Indicators::AttackType do
       role: all_role
     )
 
-    incident1 = Incident.new_with_user(@self_user, { incident_date: Date.new(2020, 8, 8), status: 'open' })
+    incident1 = Incident.new_with_user(
+      @self_user,
+      {
+        incident_date: Date.new(2020, 8, 8),
+        status: 'open',
+        module_id: PrimeroModule::MRM,
+        killing: [
+          {
+            attack_type: 'aerial_attack',
+            violation_tally: { 'boys' => 1, 'girls' => 1, 'unknown' => 1, 'total' => 3 },
+            ctfmr_verified: 'verified',
+            ctfmr_verified_date: Date.new(2020, 11, 5)
+          }
+        ]
+      }.with_indifferent_access
+    )
     incident1.save!
     incident2 = Incident.new_with_user(@group_user, { incident_date: Date.new(2021, 8, 8), status: 'open' })
     incident2.save!
@@ -112,14 +127,6 @@ describe ManagedReports::Indicators::AttackType do
     incident5 = Incident.new_with_user(@all_user, { incident_date: Date.new(2022, 3, 28), status: 'open' })
     incident5.save!
 
-    Violation.create!(
-      data: {
-        type: 'killing',
-        attack_type: 'aerial_attack',
-        violation_tally: { 'boys' => 1, 'girls' => 1, 'unknown' => 1, 'total' => 3 }
-      },
-      incident_id: incident1.id
-    )
     Violation.create!(
       data: {
         type: 'maiming', attack_type: 'aerial_attack',
@@ -174,6 +181,26 @@ describe ManagedReports::Indicators::AttackType do
         { boys: 5, girls: 10, id: 'other', unknown: 5, total: 20 }
       ]
     )
+  end
+
+  describe 'has_late_verified_violations filter' do
+    it 'returns the data only for those incidents where the value is true' do
+      attack_type_data = ManagedReports::Indicators::AttackType.build(
+        nil,
+        {
+          'type' => SearchFilters::Value.new(field_name: 'type', value: 'killing'),
+          'has_late_verified_violations' => SearchFilters::BooleanValue.new(
+            field_name: 'has_late_verified_violations', value: true
+          )
+        }
+      ).data
+
+      expect(attack_type_data).to match_array(
+        [
+          { id: 'aerial_attack', boys: 1, girls: 1, unknown: 1, total: 3 }
+        ]
+      )
+    end
   end
 
   describe 'records in scope' do

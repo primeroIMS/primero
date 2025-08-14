@@ -121,7 +121,7 @@ class ManagedReport < ValueObject
           attack_on_hospitals military_use
         ],
         permitted_filters: [
-          :grouped_by, :ctfmr_verified, :verified_ctfmr_technical,
+          :grouped_by, :ctfmr_verified, :verified_ctfmr_technical, :has_late_verified_violations,
           { date_of_first_report: {},
             incident_date: {}, ctfmr_verified_date: {} }
         ],

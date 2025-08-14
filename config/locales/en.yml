@@ -1964,6 +1964,7 @@ en:
       edit: Edit
       enable_disable_record: Enable / disable
       export: Export
+      failed_login: Failed Login
       family: List Family
       flag: Flag
       flag_records: Flagging
@@ -2215,6 +2216,7 @@ en:
       location: Reporting Location
       followup_type: Type of Follow Up
       service_type: Type of Service
+      has_late_verified_violations: Late Verified?
     status_options:
       open: Open
       closed: Closed

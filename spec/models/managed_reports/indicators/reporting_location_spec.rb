@@ -131,7 +131,19 @@ describe ManagedReports::Indicators::ReportingLocation do
 
     incident1 = Incident.new_with_user(
       @self_user,
-      { incident_date: Date.new(2020, 8, 8), status: 'open', incident_location: 'C2' }
+      {
+        incident_date: Date.new(2020, 8, 8),
+        status: 'open',
+        incident_location: 'C2',
+        module_id: PrimeroModule::MRM,
+        killing: [
+          {
+            violation_tally: { 'boys' => 3, 'girls' => 2, 'unknown' => 1, 'total' => 6 },
+            ctfmr_verified: 'verified',
+            ctfmr_verified_date: Date.new(2020, 11, 5)
+          }
+        ]
+      }.with_indifferent_access
     )
     incident1.save!
     incident2 = Incident.new_with_user(
@@ -151,29 +163,42 @@ describe ManagedReports::Indicators::ReportingLocation do
     incident4.save!
 
     Violation.create!(data: { type: 'killing',
-                              violation_tally: { 'boys': 3, 'girls': 2, 'unknown': 1, 'total': 6 } },
-                      incident_id: incident1.id)
-    Violation.create!(data: { type: 'killing',
-                              violation_tally: { 'boys': 3, 'girls': 2, 'unknown': 0, 'total': 5 } },
+                              violation_tally: { 'boys' => 3, 'girls' => 2, 'unknown' => 0, 'total' => 5 } },
                       incident_id: incident2.id)
     Violation.create!(data: { type: 'maiming',
-                              violation_tally: { 'boys': 1, 'girls': 2, 'unknown': 1, 'total': 4 } },
+                              violation_tally: { 'boys' => 1, 'girls' => 2, 'unknown' => 1, 'total' => 4 } },
                       incident_id: incident2.id)
     Violation.create!(data: { type: 'killing',
-                              violation_tally: { 'boys': 1, 'girls': 1, 'unknown': 1, 'total': 3 } },
+                              violation_tally: { 'boys' => 1, 'girls' => 1, 'unknown' => 1, 'total' => 3 } },
                       incident_id: incident3.id)
     Violation.create!(data: { type: 'abduction',
-                              violation_tally: { 'boys': 1, 'unknown': 1, 'total': 2 } }, incident_id: incident3.id)
+                              violation_tally: { 'boys' => 1, 'unknown' => 1, 'total' => 2 } }, incident_id: incident3.id)
     Violation.create!(data: { type: 'killing',
-                              violation_tally: { 'unknown': 1, 'total': 1 } }, incident_id: incident3.id)
+                              violation_tally: { 'unknown' => 1, 'total' => 1 } }, incident_id: incident3.id)
     Violation.create!(data: { type: 'killing',
-                              violation_tally: { 'boys': 1, 'girls': 1, 'total': 2 } }, incident_id: incident4.id)
+                              violation_tally: { 'boys' => 1, 'girls' => 1, 'total' => 2 } }, incident_id: incident4.id)
     Violation.create!(data: { type: 'killing',
-                              violation_tally: { 'boys': 1, 'girls': 1, 'unknown': 1, 'total': 3 } },
+                              violation_tally: { 'boys' => 1, 'girls' => 1, 'unknown' => 1, 'total' => 3 } },
                       incident_id: incident4.id)
     Violation.create!(data: { type: 'killing',
-                              violation_tally: { 'boys': 1, 'girls': 2, 'unknown': 1, 'total': 4 } },
+                              violation_tally: { 'boys' => 1, 'girls' => 2, 'unknown' => 1, 'total' => 4 } },
                       incident_id: incident4.id)
+  end
+
+  describe 'has_late_verified_violations filter' do
+    it 'returns the data only for those incidents where the value is true' do
+      reporting_location_data = ManagedReports::Indicators::ReportingLocation.build(
+        @self_user,
+        {
+          'type' => SearchFilters::Value.new(field_name: 'type', value: 'killing'),
+          'has_late_verified_violations' => SearchFilters::BooleanValue.new(
+            field_name: 'has_late_verified_violations', value: true
+          )
+        }
+      ).data
+
+      expect(reporting_location_data).to match_array([{ id: 'E1', boys: 3, girls: 2, total: 6, unknown: 1 }])
+    end
   end
 
   describe 'records in scope' do

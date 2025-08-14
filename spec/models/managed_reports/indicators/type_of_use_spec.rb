@@ -105,7 +105,22 @@ describe ManagedReports::Indicators::TypeOfUse do
     incident1.save!
     incident2 = Incident.new_with_user(@group_user, { incident_date: Date.new(2021, 8, 8), status: 'open' })
     incident2.save!
-    incident3 = Incident.new_with_user(@agency_user, { incident_date: Date.new(2022, 1, 8), status: 'open' })
+    incident3 = Incident.new_with_user(
+      @agency_user,
+      {
+        incident_date: Date.new(2022, 1, 8),
+        status: 'open',
+        module_id: PrimeroModule::MRM,
+        recruitment: [
+          {
+            child_role: 'non_combatant',
+            ctfmr_verified: 'verified',
+            ctfmr_verified_date: Date.new(2022, 4, 1),
+            violation_tally: { 'boys' => 1, 'girls' => 1, 'unknown' => 1, 'total' => 3 }
+          }
+        ]
+      }.with_indifferent_access
+    )
     incident3.save!
     incident4 = Incident.new_with_user(@all_user, { incident_date: Date.new(2022, 2, 18), status: 'open' })
     incident4.save!
@@ -116,42 +131,35 @@ describe ManagedReports::Indicators::TypeOfUse do
       data: {
         type: 'recruitment',
         child_role: 'combatant',
-        violation_tally: { 'boys': 1, 'girls': 1, 'unknown': 1, 'total': 3 }
+        violation_tally: { 'boys' => 1, 'girls' => 1, 'unknown' => 1, 'total' => 3 }
       },
       incident_id: incident1.id
     )
     Violation.create!(
       data: {
         type: 'maiming', child_role: 'combatant',
-        violation_tally: { 'boys': 3, 'girls': 2, 'unknown': 1, 'total': 6 }
+        violation_tally: { 'boys' => 3, 'girls' => 2, 'unknown' => 1, 'total' => 6 }
       },
       incident_id: incident1.id
     )
     Violation.create!(
       data: {
         type: 'recruitment', child_role: 'non_combatant',
-        violation_tally: { 'boys': 1, 'girls': 1, 'unknown': 1, 'total': 3 }
-      },
-      incident_id: incident3.id
-    )
-    Violation.create!(
-      data: {
-        type: 'recruitment', child_role: 'non_combatant',
-        violation_tally: { 'boys': 1, 'girls': 1, 'unknown': 0, 'total': 2 }
+        violation_tally: { 'boys' => 1, 'girls' => 1, 'unknown' => 0, 'total' => 2 }
       },
       incident_id: incident4.id
     )
     Violation.create!(
       data: {
         child_role: 'combatant',
-        violation_tally: { 'boys': 5, 'girls': 10, 'unknown': 5, 'total': 20 }
+        violation_tally: { 'boys' => 5, 'girls' => 10, 'unknown' => 5, 'total' => 20 }
       },
       incident_id: incident1.id
     )
     Violation.create!(
       data: {
         type: 'recruitment', child_role: 'unknown',
-        violation_tally: { 'boys': 5, 'girls': 10, 'unknown': 5, 'total': 20 }
+        violation_tally: { 'boys' => 5, 'girls' => 10, 'unknown' => 5, 'total' => 20 }
       },
       incident_id: incident2.id
     )
@@ -159,7 +167,7 @@ describe ManagedReports::Indicators::TypeOfUse do
       data: {
         type: 'recruitment',
         child_role: 'combatant',
-        violation_tally: { 'boys': 2, 'girls': 1, 'unknown': 0, 'total': 3 }
+        violation_tally: { 'boys' => 2, 'girls' => 1, 'unknown' => 0, 'total' => 3 }
       },
       incident_id: incident5.id
     )
@@ -179,6 +187,23 @@ describe ManagedReports::Indicators::TypeOfUse do
       ]
     )
   end
+
+  describe 'has_late_verified_violations filter' do
+    it 'returns the data only for those incidents where the value is true' do
+      type_use_data = ManagedReports::Indicators::TypeOfUse.build(
+        @user,
+        {
+          'type' => SearchFilters::Value.new(field_name: 'type', value: 'recruitment'),
+          'has_late_verified_violations' => SearchFilters::BooleanValue.new(
+            field_name: 'has_late_verified_violations', value: true
+          )
+        }
+      ).data
+
+      expect(type_use_data).to match_array([{ id: 'non_combatant', boys: 1, girls: 1, unknown: 1, total: 3 }])
+    end
+  end
+
 
   describe 'records in scope' do
     it 'returns owned records for a self scope' do

@@ -8,16 +8,41 @@ describe ManagedReports::Indicators::PerpetratorsDenials do
   before do
     clean_data(Incident, Violation, Perpetrator)
 
-    incident = Incident.create!(data: { incident_date: Date.new(2020, 8, 8), status: 'open' })
-    incident2 = Incident.new_with_user(@group_user, { incident_date: Date.new(2021, 5, 8), status: 'open' })
-    incident2.save!
-    incident3 = Incident.new_with_user(@agency_user, { incident_date: Date.new(2022, 2, 18), status: 'open' })
-    incident3.save!
-
-    violation1 = Violation.create!(
-      data: { type: 'denial_humanitarian_access', attack_type: 'arson' }, incident_id: incident.id
+    incident = Incident.new_with_user(
+      fake_user,
+      {
+        incident_date: Date.new(2020, 8, 8),
+        status: 'open',
+        module_id: PrimeroModule::MRM,
+        denial_humanitarian_access: [
+          {
+            unique_id: 'a17d1460-723a-11f0-bd48-7c10c98b54af',
+            attack_type: 'arson',
+            ctfmr_verified: 'verified',
+            ctfmr_verified_date: Date.new(2020, 11, 5)
+          }
+        ],
+        perpetrators: [
+          {
+            unique_id: '9c5fde14-723e-11f0-a4eb-7c10c98b54af',
+            armed_force_group_party_name: 'armed_force_2',
+            violations_ids: ['a17d1460-723a-11f0-bd48-7c10c98b54af']
+          }
+        ]
+      }.with_indifferent_access
     )
-    violation1.perpetrators = [Perpetrator.create!(data: { armed_force_group_party_name: 'armed_force_2' })]
+    incident.save!
+    incident2 = Incident.new_with_user(
+      fake_user,
+      {
+        incident_date: Date.new(2021, 5, 8),
+        status: 'open',
+        module_id: PrimeroModule::MRM
+      }.with_indifferent_access
+    )
+    incident2.save!
+    incident3 = Incident.new_with_user(fake_user, { incident_date: Date.new(2022, 2, 18), status: 'open' })
+    incident3.save!
 
     violation2 = Violation.create!(
       data: { type: 'denial_humanitarian_access', attack_type: 'aerial_attack' }, incident_id: incident2.id
@@ -45,6 +70,22 @@ describe ManagedReports::Indicators::PerpetratorsDenials do
         { id: 'armed_force_4', total: 1 }
       ]
     )
+  end
+
+  describe 'has_late_verified_violations filter' do
+    it 'returns the data only for those incidents where the value is true' do
+      perpetrators_data = ManagedReports::Indicators::PerpetratorsDenials.build(
+        nil,
+        {
+          'type' => SearchFilters::Value.new(field_name: 'type', value: 'denial_humanitarian_access'),
+          'has_late_verified_violations' => SearchFilters::BooleanValue.new(
+            field_name: 'has_late_verified_violations', value: true
+          )
+        }
+      ).data
+
+      expect(perpetrators_data).to match_array([{ id: 'armed_force_2', total: 1 }])
+    end
   end
 
   describe 'grouped by' do
