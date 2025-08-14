@@ -222,16 +222,14 @@ class User < ApplicationRecord
 
     def with_audit_date_between(action:, from:, to:, record_type: 'User')
       subquery = <<~SQL.squish
-        (SELECT timestamp FROM audit_logs WHERE audit_logs.user_id = users.id
-          AND record_type = :record_type AND action = :action
-          ORDER BY timestamp DESC LIMIT 1)
+        SELECT 1 FROM audit_logs
+        WHERE timestamp >= :from AND timestamp <= :to
+        AND record_type = :record_type AND action = :action
+        AND audit_logs.user_id = users.id
+        ORDER BY timestamp DESC LIMIT 1
       SQL
 
-      where(
-        "#{subquery} BETWEEN :from AND :to",
-        action: action, record_type: record_type,
-        from: from, to: to
-      )
+      where("EXISTS(#{subquery})", action:, record_type:, from:, to:)
     end
 
     def apply_date_filters(scope, filters)
