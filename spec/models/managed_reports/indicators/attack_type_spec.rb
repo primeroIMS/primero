@@ -129,39 +129,55 @@ describe ManagedReports::Indicators::AttackType do
 
     Violation.create!(
       data: {
-        type: 'maiming', attack_type: 'aerial_attack',
+        type: 'killing',
+        weapon_type: 'unmaned_aerial_vehicle',
+        violation_tally: { 'boys' => 1, 'girls' => 1, 'unknown' => 1, 'total' => 3 }
+      },
+      incident_id: incident1.id
+    )
+    Violation.create!(
+      data: {
+        type: 'maiming',
+        weapon_type: 'unmaned_aerial_vehicle',
         violation_tally: { 'boys' => 3, 'girls' => 2, 'unknown' => 1, 'total' => 6 }
       },
       incident_id: incident1.id
     )
     Violation.create!(
       data: {
-        type: 'killing', attack_type: 'arson', violation_tally: { 'boys' => 1, 'girls' => 1, 'unknown' => 1, 'total' => 3 }
+        type: 'killing',
+        weapon_type: 'missile',
+        violation_tally: { 'boys' => 1, 'girls' => 1, 'unknown' => 1, 'total' => 3 }
       },
       incident_id: incident3.id
     )
     Violation.create!(
       data: {
-        type: 'killing', attack_type: 'arson', violation_tally: { 'boys' => 1, 'girls' => 1, 'unknown' => 0, 'total' => 2 }
+        type: 'killing',
+        weapon_type: 'missile',
+        violation_tally: { 'boys' => 1, 'girls' => 1, 'unknown' => 0, 'total' => 2 }
       },
       incident_id: incident4.id
     )
     Violation.create!(
       data: {
-        attack_type: 'other', violation_tally: { 'boys' => 5, 'girls' => 10, 'unknown' => 5, 'total' => 20 }
+        weapon_type: 'ied_other',
+        violation_tally: { 'boys' => 5, 'girls' => 10, 'unknown' => 5, 'total' => 20 }
       },
       incident_id: incident1.id
     )
     Violation.create!(
       data: {
-        type: 'killing', attack_type: 'other', violation_tally: { 'boys' => 5, 'girls' => 10, 'unknown' => 5, 'total' => 20 }
+        type: 'killing',
+        weapon_type: 'ied_other',
+        violation_tally: { 'boys' => 5, 'girls' => 10, 'unknown' => 5, 'total' => 20 }
       },
       incident_id: incident2.id
     )
     Violation.create!(
       data: {
         type: 'killing',
-        attack_type: 'aerial_attack',
+        weapon_type: 'unmaned_aerial_vehicle',
         violation_tally: { 'boys' => 2, 'girls' => 1, 'unknown' => 0, 'total' => 3 }
       },
       incident_id: incident5.id
@@ -169,16 +185,16 @@ describe ManagedReports::Indicators::AttackType do
   end
 
   it 'returns data for attack type indicator' do
-    attack_type_data = ManagedReports::Indicators::AttackType.build(
+    weapon_type_data = ManagedReports::Indicators::AttackType.build(
       nil,
       { 'type' => SearchFilters::Value.new(field_name: 'type', value: 'killing') }
     ).data
 
-    expect(attack_type_data).to match_array(
+    expect(weapon_type_data).to match_array(
       [
-        { boys: 3, girls: 2, id: 'aerial_attack', total: 6, unknown: 1 },
-        { boys: 2, girls: 2, id: 'arson', total: 5, unknown: 1 },
-        { boys: 5, girls: 10, id: 'other', unknown: 5, total: 20 }
+        { boys: 3, girls: 2, id: 'unmaned_aerial_vehicle', total: 6, unknown: 1 },
+        { boys: 2, girls: 2, id: 'missile', total: 5, unknown: 1 },
+        { boys: 5, girls: 10, id: 'ied_other', unknown: 5, total: 20 }
       ]
     )
   end
@@ -197,7 +213,7 @@ describe ManagedReports::Indicators::AttackType do
 
       expect(attack_type_data).to match_array(
         [
-          { id: 'aerial_attack', boys: 1, girls: 1, unknown: 1, total: 3 }
+          { id: 'unmaned_aerial_vehicle', boys: 1, girls: 1, unknown: 1, total: 3 }
         ]
       )
     end
@@ -205,56 +221,56 @@ describe ManagedReports::Indicators::AttackType do
 
   describe 'records in scope' do
     it 'returns owned records for a self scope' do
-      attack_type_data = ManagedReports::Indicators::AttackType.build(
+      weapon_type_data = ManagedReports::Indicators::AttackType.build(
         @self_user,
         { 'type' => SearchFilters::Value.new(field_name: 'type', value: 'killing') }
       ).data
 
-      expect(attack_type_data).to match_array(
-        [{ boys: 1, girls: 1, id: 'aerial_attack', total: 3, unknown: 1 }]
+      expect(weapon_type_data).to match_array(
+        [{ boys: 1, girls: 1, id: 'unmaned_aerial_vehicle', total: 3, unknown: 1 }]
       )
     end
 
     it 'returns group records for a group scope' do
-      attack_type_data = ManagedReports::Indicators::AttackType.build(
+      weapon_type_data = ManagedReports::Indicators::AttackType.build(
         @group_user,
         { 'type' => SearchFilters::Value.new(field_name: 'type', value: 'killing') }
       ).data
 
-      expect(attack_type_data).to match_array(
+      expect(weapon_type_data).to match_array(
         [
-          { boys: 2, girls: 1, id: 'aerial_attack', total: 3, unknown: 0 },
-          { boys: 2, girls: 2, id: 'arson', total: 5, unknown: 1 },
-          { boys: 5, girls: 10, id: 'other', total: 20, unknown: 5 }
+          { boys: 2, girls: 1, id: 'unmaned_aerial_vehicle', total: 3, unknown: 0 },
+          { boys: 2, girls: 2, id: 'missile', total: 5, unknown: 1 },
+          { boys: 5, girls: 10, id: 'ied_other', total: 20, unknown: 5 }
         ]
       )
     end
 
     it 'returns agency records for an agency scope' do
-      attack_type_data = ManagedReports::Indicators::AttackType.build(
+      weapon_type_data = ManagedReports::Indicators::AttackType.build(
         @agency_user,
         { 'type' => SearchFilters::Value.new(field_name: 'type', value: 'killing') }
       ).data
 
-      expect(attack_type_data).to match_array(
+      expect(weapon_type_data).to match_array(
         [
-          { boys: 5, girls: 10, id: 'other', total: 20, unknown: 5 },
-          { boys: 1, girls: 1, id: 'arson', total: 3, unknown: 1 }
+          { boys: 5, girls: 10, id: 'ied_other', total: 20, unknown: 5 },
+          { boys: 1, girls: 1, id: 'missile', total: 3, unknown: 1 }
         ]
       )
     end
 
     it 'returns all records for an all scope' do
-      attack_type_data = ManagedReports::Indicators::AttackType.build(
+      weapon_type_data = ManagedReports::Indicators::AttackType.build(
         @all_user,
         { 'type' => SearchFilters::Value.new(field_name: 'type', value: 'killing') }
       ).data
 
-      expect(attack_type_data).to match_array(
+      expect(weapon_type_data).to match_array(
         [
-          { boys: 3, girls: 2, id: 'aerial_attack', total: 6, unknown: 1 },
-          { boys: 2, girls: 2, id: 'arson', total: 5, unknown: 1 },
-          { boys: 5, girls: 10, id: 'other', unknown: 5, total: 20 }
+          { boys: 3, girls: 2, id: 'unmaned_aerial_vehicle', total: 6, unknown: 1 },
+          { boys: 2, girls: 2, id: 'missile', total: 5, unknown: 1 },
+          { boys: 5, girls: 10, id: 'ied_other', unknown: 5, total: 20 }
         ]
       )
     end
@@ -281,21 +297,23 @@ describe ManagedReports::Indicators::AttackType do
             {
               group_id: 2020,
               data: [
-                { id: 'aerial_attack', total: 3, girls: 1, unknown: 1, boys: 1 }
+                { id: 'unmaned_aerial_vehicle', total: 3, girls: 1, unknown: 1, boys: 1 }
               ]
             },
             {
               group_id: 2021,
               data: [
-                { id: 'other', girls: 10, boys: 5, unknown: 5, total: 20 }
+                { id: 'ied_other', girls: 10, boys: 5, unknown: 5, total: 20 }
               ]
             },
             {
               group_id: 2022,
-              data: [
-                { id: 'aerial_attack', unknown: 0, boys: 2, girls: 1, total: 3 },
-                { id: 'arson', total: 5, boys: 2, girls: 2, unknown: 1 }
-              ]
+              data: match_array(
+                [
+                  { id: 'unmaned_aerial_vehicle', unknown: 0, boys: 2, girls: 1, total: 3 },
+                  { id: 'missile', total: 5, boys: 2, girls: 2, unknown: 1 }
+                ]
+              )
             }
           ]
         )
@@ -319,7 +337,7 @@ describe ManagedReports::Indicators::AttackType do
 
         expect(data).to match_array(
           [
-            { group_id: '2020-08', data: [{ id: 'aerial_attack', boys: 1, girls: 1, total: 3, unknown: 1 }] },
+            { group_id: '2020-08', data: [{ id: 'unmaned_aerial_vehicle', boys: 1, girls: 1, total: 3, unknown: 1 }] },
             { group_id: '2020-09', data: [] },
             { group_id: '2020-10', data: [] },
             { group_id: '2020-11', data: [] },
@@ -331,14 +349,14 @@ describe ManagedReports::Indicators::AttackType do
             { group_id: '2021-05', data: [] },
             { group_id: '2021-06', data: [] },
             { group_id: '2021-07', data: [] },
-            { group_id: '2021-08', data: [{ id: 'other', boys: 5, girls: 10, total: 20, unknown: 5 }] },
+            { group_id: '2021-08', data: [{ id: 'ied_other', boys: 5, girls: 10, total: 20, unknown: 5 }] },
             { group_id: '2021-09', data: [] },
             { group_id: '2021-10', data: [] },
             { group_id: '2021-11', data: [] },
             { group_id: '2021-12', data: [] },
-            { group_id: '2022-01', data: [{ id: 'arson', boys: 1, girls: 1, total: 3, unknown: 1 }] },
-            { group_id: '2022-02', data: [{ id: 'arson', boys: 1, girls: 1, total: 2, unknown: 0 }] },
-            { group_id: '2022-03', data: [{ id: 'aerial_attack', boys: 2, girls: 1, total: 3, unknown: 0 }] },
+            { group_id: '2022-01', data: [{ id: 'missile', boys: 1, girls: 1, total: 3, unknown: 1 }] },
+            { group_id: '2022-02', data: [{ id: 'missile', boys: 1, girls: 1, total: 2, unknown: 0 }] },
+            { group_id: '2022-03', data: [{ id: 'unmaned_aerial_vehicle', boys: 2, girls: 1, total: 3, unknown: 0 }] },
             { group_id: '2022-04', data: [] }
           ]
         )
@@ -362,18 +380,20 @@ describe ManagedReports::Indicators::AttackType do
 
         expect(data).to match_array(
           [
-            { group_id: '2020-Q3', data: [{ id: 'aerial_attack', boys: 1, girls: 1, total: 3, unknown: 1 }] },
+            { group_id: '2020-Q3', data: [{ id: 'unmaned_aerial_vehicle', boys: 1, girls: 1, total: 3, unknown: 1 }] },
             { group_id: '2020-Q4', data: [] },
             { group_id: '2021-Q1', data: [] },
             { group_id: '2021-Q2', data: [] },
-            { group_id: '2021-Q3', data: [{ id: 'other', boys: 5, girls: 10, total: 20, unknown: 5 }] },
+            { group_id: '2021-Q3', data: [{ id: 'ied_other', boys: 5, girls: 10, total: 20, unknown: 5 }] },
             { group_id: '2021-Q4', data: [] },
             {
               group_id: '2022-Q1',
-              data: [
-                { id: 'aerial_attack', boys: 2, girls: 1, total: 3, unknown: 0 },
-                { id: 'arson', boys: 2, girls: 2, total: 5, unknown: 1 }
-              ]
+              data: match_array(
+                [
+                  { id: 'unmaned_aerial_vehicle', boys: 2, girls: 1, total: 3, unknown: 0 },
+                  { id: 'missile', boys: 2, girls: 2, total: 5, unknown: 1 }
+                ]
+              )
             }
           ]
         )

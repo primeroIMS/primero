@@ -22,7 +22,7 @@ class ManagedReports::SubReports::Killing < ManagedReports::SubReport
     {
       ManagedReports::Indicators::Perpetrators.id => 'lookup-armed-force-group-or-other-party',
       ManagedReports::Indicators::ReportingLocation.id => 'Location',
-      ManagedReports::Indicators::AttackType.id => 'lookup-attack-type',
+      ManagedReports::Indicators::AttackType.id => 'lookup-weapon-type',
       ManagedReports::Indicators::ViolationTally.id => 'lookup-violation-tally-options',
       ManagedReports::Indicators::ViolationTallyResponse.id => 'lookup-violation-tally-options'
     }
