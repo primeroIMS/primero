@@ -6,7 +6,7 @@ export default fields => {
   return fields.reduce((acc, field) => {
     const name = field.get("name");
 
-    if (!fieldUniq.has(name)) {
+    if (!fieldUniq.has(name) && !field.get("disabled") && field.get("visible")) {
       fieldUniq.add(name);
       const displayName = field.get("display_name");
 
