@@ -89,7 +89,7 @@ class Exporters::IndicatorExporter < ValueObject
     write_grey_row
     write_indicator_header
     write_relevant_field
-    write_total_row unless with_total_subcolumn
+    write_total_row if !with_total_subcolumn && (values.present? || include_zeros)
   end
 
   def write_grey_row

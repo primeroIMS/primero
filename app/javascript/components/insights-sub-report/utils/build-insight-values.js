@@ -9,16 +9,14 @@ import buildSingleRows from "./build-single-rows";
 import buildGroupedRows from "./build-grouped-rows";
 
 export default {
-  ghn_report: ({ data, getLookupValue, key }) => {
-    const grouped = data.some(fs => fs.get("group_id"));
-
+  ghn_report: ({ data, getLookupValue, key, subColumnItems, isGrouped }) => {
     if (data === 0) return [];
 
-    if (grouped) {
-      return buildGroupedRows({ data, key, getLookupValue, groupedBy: "year" });
+    if (isGrouped) {
+      return buildGroupedRows({ data, key, getLookupValue, groupedBy: "year", subColumnItems });
     }
 
-    return buildSingleRows({ data, getLookupValue, key });
+    return buildSingleRows({ data, getLookupValue, key, subColumnItems });
   },
   default: ({
     getLookupValue,

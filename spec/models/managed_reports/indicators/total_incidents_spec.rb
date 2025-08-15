@@ -136,8 +136,8 @@ describe ManagedReports::Indicators::TotalIncidents do
       {
         'incident_date' => SearchFilters::DateRange.new(
           field_name: 'incident_date',
-          from: '2021-08-01',
-          to: '2021-09-30'
+          from: Date.parse('2021-08-01'),
+          to: Date.parse('2021-09-30')
         )
       }
     ).data
@@ -151,8 +151,8 @@ describe ManagedReports::Indicators::TotalIncidents do
       {
         'date_of_first_report' => SearchFilters::DateRange.new(
           field_name: 'date_of_first_report',
-          from: '2020-09-01',
-          to: '2020-10-10'
+          from: Date.parse('2020-09-01'),
+          to: Date.parse('2020-10-10')
         )
       }
     ).data
@@ -195,8 +195,8 @@ describe ManagedReports::Indicators::TotalIncidents do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'year'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2020-09-01',
-              to: '2021-10-10'
+              from: Date.parse('2020-09-01'),
+              to: Date.parse('2021-10-10')
             )
           }
         ).data
@@ -218,8 +218,8 @@ describe ManagedReports::Indicators::TotalIncidents do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'month'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2020-09-01',
-              to: '2021-10-10'
+              from: Date.parse('2020-09-01'),
+              to: Date.parse('2021-10-10')
             )
           }
         ).data
@@ -249,8 +249,8 @@ describe ManagedReports::Indicators::TotalIncidents do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2020-09-01',
-              to: '2021-10-10'
+              from: Date.parse('2020-09-01'),
+              to: Date.parse('2021-10-10')
             )
           }
         ).data
