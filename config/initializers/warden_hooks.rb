@@ -13,7 +13,7 @@ Warden::Manager.before_failure do |env, _opts|
     record_id: user&.id,
     action: AuditLog::FAILED_LOGIN,
     user_id: user&.id,
-    resource_url: request.url,
+    resource_url: request.original_url,
     metadata: {
       user_name: user_name,
       remote_ip: LogUtils.remote_ip(request)
