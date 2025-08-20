@@ -1829,7 +1829,7 @@ hu:
       update_bulk: Csoportos frissítés
       user_password_reset_request: Felhasználói jelszó visszaállítási kérelem
       webhook: Webhook
-      add_note: Megjegyzés hozzáadása
+    add_note: Megjegyzés hozzáadása
     approve_form:
       action_plan: Akcióterv űrlap
       bia: BIA űrlap
