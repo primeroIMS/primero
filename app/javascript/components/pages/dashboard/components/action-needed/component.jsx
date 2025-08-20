@@ -63,7 +63,7 @@ function Component() {
         }
       ]
     ],
-    [hasData]
+    [hasData, i18n.locale]
   );
 
   return (
