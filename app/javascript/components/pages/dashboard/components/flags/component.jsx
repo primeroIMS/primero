@@ -14,6 +14,7 @@ import { useMemoizedSelector } from "../../../../../libs";
 import { getLoading } from "../../../../index-table";
 import { getErrors } from "../../../../record-form";
 import NAMESPACE from "../../namespace";
+import useSystemStrings, { DASHBOARD } from "../../../../application/use-system-strings";
 
 import css from "./styles.css";
 import { NAME } from "./constants";
@@ -21,6 +22,7 @@ import { NAME } from "./constants";
 function Component() {
   const i18n = useI18n();
 
+  const { label } = useSystemStrings(DASHBOARD);
   const loading = useMemoizedSelector(state => getLoading(state, [NAMESPACE, "flags"]));
   const errors = useMemoizedSelector(state => getErrors(state, [NAMESPACE, "flags"]));
   const flags = useMemoizedSelector(state => getDashboardFlags(state));
@@ -47,7 +49,7 @@ function Component() {
     <Permission resources={RESOURCES.cases} actions={[ACTIONS.READ, ACTIONS.MANAGE]}>
       <Permission resources={RESOURCES.dashboards} actions={ACTIONS.DASH_FLAGS}>
         <OptionsBox
-          title={i18n.t("dashboard.flagged_cases")}
+          title={label("dashboard.flagged_cases")}
           hasData={Boolean(flags.size) && !loading}
           footer={renderSeeAll}
           loading={loading}

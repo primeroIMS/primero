@@ -44,15 +44,13 @@ export default (
     }
   }
 
-  const { query, ...restFilters } = filters;
+  const { query, order, order_by: orderBy, ...restFilters } = filters;
 
   const returnFilters = Object.keys(restFilters).length ? restFilters : { id: recordIds };
 
-  if (!isEmpty(query)) {
-    return { filters: returnFilters, query };
-  }
-
   return {
-    filters: returnFilters
+    filters: returnFilters,
+    ...(!isEmpty(query) ? { query } : {}),
+    ...(!isEmpty(orderBy) ? { order: { [orderBy]: order } } : {})
   };
 };

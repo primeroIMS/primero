@@ -30,7 +30,7 @@ class ManagedReports::Indicators::PercentageSuccessfulReferrals < ManagedReports
             COALESCE(srch_gender, 'incomplete_data') AS gender,
             cases.id AS case_id
           FROM cases
-          #{join_services(params['service_type'])}
+          #{join_services(params['service_type'], date_param)}
           WHERE data @? '$.services_section ? (@.service_status_referred == true)'
           #{build_filter_query(current_user, params)&.prepend('AND ')}
         ),
@@ -41,7 +41,6 @@ class ManagedReports::Indicators::PercentageSuccessfulReferrals < ManagedReports
             service_implemented
           FROM services
           #{join_referrals(date_param)}
-          #{service_response_day_time_query(date_param)&.prepend('WHERE ')}
         )
         SELECT
           #{group_id&.+(',')}
@@ -87,11 +86,11 @@ class ManagedReports::Indicators::PercentageSuccessfulReferrals < ManagedReports
     def service_response_day_time_query(date_param)
       return unless date_param.present? && date_param.field_name == 'service_response_day_time'
 
-      date_range_query(date_param, 'services', nil, 'service_response_day_time')
+      date_range_query(date_param, nil, 'services_section', 'service_response_day_time')
     end
 
     # rubocop:disable Metrics/MethodLength
-    def join_services(service_type_param = nil)
+    def join_services(service_type_param = nil, date_param = nil)
       ActiveRecord::Base.sanitize_sql_for_conditions(
         [
           %(
@@ -105,6 +104,7 @@ class ManagedReports::Indicators::PercentageSuccessfulReferrals < ManagedReports
               WHERE services_section @? '$[*]
                 ? (@.service_status_referred == true)
                 #{filter_service_type(service_type_param&.value)&.prepend('? ')}'
+              #{service_response_day_time_query(date_param)&.prepend('AND ')}
             ) AS services
            ),
           { format: Report::DATE_TIME_FORMAT }

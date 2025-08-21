@@ -12,3 +12,6 @@ export const TYPE = Object.freeze({
   updated: "updated",
   deleted: "deleted"
 });
+
+export const PER_PAGE = 20;
+export const FIRST_PAGE_RESULTS = 1;

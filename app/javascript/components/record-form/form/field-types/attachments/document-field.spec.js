@@ -52,8 +52,9 @@ describe("<DocumentField />", () => {
   it("should render a DocumentField", () => {
     mountedComponent(<DocumentField {...props} />, {}, [], {}, formProps);
     expect(screen.getByText(/fields.document.is_current/i)).toBeInTheDocument();
-    expect(screen.getAllByRole("textbox")).toHaveLength(3);
-    expect(screen.getByText(/yes_label/i)).toBeInTheDocument();
+    expect(screen.getByText(/fields.document.comments/i)).toBeInTheDocument();
+    expect(screen.getByText(/fields.document.content_type/i)).toBeInTheDocument();
+    expect(screen.getByText(/fields.document.date/i)).toBeInTheDocument();
   });
 
   it("should NOT render render a TickField", () => {

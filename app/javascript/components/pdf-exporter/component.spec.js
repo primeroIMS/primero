@@ -91,4 +91,10 @@ describe("<PdfExporter />", () => {
 
     expect(screen.getByText(/Approved by Manager/i)).toBeInTheDocument();
   });
+
+  it("does not render fields when includeAllFormsWhenEmpty is false and formsSelectedSelector is null", () => {
+    mountedFormComponent(<PdfExporter {...props} includeAllFormsWhenEmpty={false} />);
+
+    expect(screen.queryByText(/Approved by Manager/i)).not.toBeInTheDocument();
+  });
 });

@@ -192,4 +192,35 @@ describe ReportFieldService do
     report_field = ReportFieldService.report_field(@sex_field, 'sex_field', 'horizontal', 0, Child.parent_form)
     expect(report_field).to eq(report_sex_field)
   end
+
+  describe '.user_groups_options' do
+    before do
+      clean_data(User, UserGroup)
+
+      allow(I18n).to receive(:available_locales).and_return(%i[es en])
+    end
+
+    let!(:group1) { UserGroup.create!(unique_id: 'group_1', name: 'User Group 1') }
+    let!(:group2) { UserGroup.create!(unique_id: 'group_2', name: 'User Group 2') }
+    let!(:group3) { UserGroup.create!(unique_id: 'group_3', name: 'User Group 3') }
+    let!(:disabled_group) { UserGroup.create!(unique_id: 'group_4', name: 'User Group 4', disabled: true) }
+
+    it 'returns option_labels for all available locales with enabled user groups' do
+      result = ReportFieldService.user_groups_options
+      expect(result).to eq(
+        option_labels: {
+          en: [
+            { display_text: 'User Group 1', id: 'group_1' },
+            { display_text: 'User Group 2', id: 'group_2' },
+            { display_text: 'User Group 3', id: 'group_3' }
+          ],
+          es: [
+            { display_text: 'User Group 1', id: 'group_1' },
+            { display_text: 'User Group 2', id: 'group_2' },
+            { display_text: 'User Group 3', id: 'group_3' }
+          ]
+        }
+      )
+    end
+  end
 end

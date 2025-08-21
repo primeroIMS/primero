@@ -25,6 +25,7 @@ import PhoneticHelpText from "../../index-filters/components/phonetic-help-text"
 import { searchTitleI18nKey } from "../../index-filters/components/search-box/utils";
 import SearchButton from "../../record-creation-flow/components/search-button";
 import { setRedirectedToCreateNewRecord } from "../../record-form/action-creators";
+import useSystemStrings, { PAGE } from "../../application/use-system-strings";
 
 import { FORM_ID, NAME, PHONETIC_FIELD_NAME } from "./constants";
 import { searchForm } from "./forms";
@@ -46,6 +47,7 @@ function Component({ moduleUniqueId, open = false, recordType, setOpen }) {
     register
   } = methods;
 
+  const { label } = useSystemStrings(PAGE);
   const phonetic = useWatch({ control, name: PHONETIC_FIELD_NAME, defaultValue: false });
   const record = useMemoizedSelector(state => getRecordsData(state, recordType));
   const searchTitle = i18n.t(searchTitleI18nKey(phonetic));
@@ -119,7 +121,7 @@ function Component({ moduleUniqueId, open = false, recordType, setOpen }) {
     <Dialog open={open} maxWidth="sm" fullWidth data-testid="CreateRecordDialog">
       <DialogTitle>
         <div className={css.title}>
-          <div className={css.newCase}>{i18n.t("cases.register_new_case")}</div>
+          <div className={css.newCase}>{label("cases.register_new_case")}</div>
           <div className={css.close}>
             <IconButton size="large" onClick={handleClose}>
               <CloseIcon />

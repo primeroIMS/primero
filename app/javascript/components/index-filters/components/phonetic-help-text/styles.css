@@ -14,3 +14,9 @@
     padding-left: 5px;
   }
 }
+
+.searchHelpTextNoPhonetic {
+  & svg {
+    color: var(--c-mid-grey);
+  }
+}

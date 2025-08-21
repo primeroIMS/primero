@@ -55,7 +55,8 @@ describe Flag do
     @case3.add_flag('This is test flag 3', Date.today, 'faketest')
     @case5.add_flag('This is test flag 4', Date.today, 'faketest')
     @flag_to_remove = @case1.add_flag('This is test flag 5', Date.today, 'user1')
-    @case1.remove_flag(@flag_to_remove.id, 'faketest', 'Resolved Flag')
+    @flag = @case1.update_flag(@flag_to_remove.id, 'faketest', { unflag_message: 'Resolved Flag' })
+    @flag.save!
     @flag_tr1 = @tracing_request1.add_flag('This is a flag TR', Date.today, 'faketest')
     @tracing_request3.add_flag('This is a second flag TR', Date.today, 'faketest')
     @flag_in1 = @incident1.add_flag('This is a flag IN', Date.today, 'faketest')

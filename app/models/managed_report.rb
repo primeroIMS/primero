@@ -7,7 +7,8 @@
 class ManagedReport < ValueObject
   DATE_RANGE_OPTIONS = %w[this_quarter last_quarter this_year last_year this_month last_month].freeze
 
-  attr_accessor :id, :name, :description, :module_id, :subreports, :data, :permitted_filters, :user, :filters
+  attr_accessor :id, :name, :description, :module_id, :subreports, :data, :permitted_filters, :user, :filters,
+                :include_zeros
 
   # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/AbcSize
@@ -19,6 +20,7 @@ class ManagedReport < ValueObject
         description: 'managed_reports.gbv_statistics.description',
         subreports: %w[incidents],
         permitted_filters: [:grouped_by, { date_of_first_report: {}, incident_date: {} }],
+        include_zeros: true,
         module_id: PrimeroModule::GBV
       ),
       Permission::PROTECTION_CONCERNS_REPORT => ManagedReport.new(
@@ -119,7 +121,7 @@ class ManagedReport < ValueObject
           attack_on_hospitals military_use
         ],
         permitted_filters: [
-          :grouped_by, :ctfmr_verified, :verified_ctfmr_technical,
+          :grouped_by, :ctfmr_verified, :verified_ctfmr_technical, :has_late_verified_violations,
           { date_of_first_report: {},
             incident_date: {}, ctfmr_verified_date: {} }
         ],

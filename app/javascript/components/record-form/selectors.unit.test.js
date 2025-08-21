@@ -7,6 +7,7 @@ import { ACTIONS } from "../permissions";
 import {
   APPROVALS,
   CASE_RELATIONSHIPS,
+  ACCESS_LOGS,
   CHANGE_LOGS,
   IDENTIFICATION_REGISTRATION,
   INCIDENT_FROM_CASE,
@@ -166,6 +167,34 @@ const fields = {
     required: true,
     date_validation: "default_date_validation",
     href: null
+  },
+  3: {
+    name: "short_id",
+    type: "text_field",
+    editable: true,
+    disabled: null,
+    visible: true,
+    display_name: {
+      en: "Short ID",
+      es: ""
+    },
+    required: true,
+    module_ids: ["primeromodule-pcm"],
+    parent_form: "case"
+  },
+  4: {
+    name: "random_field",
+    type: "text_field",
+    editable: true,
+    disabled: null,
+    visible: true,
+    display_name: {
+      en: "Random Field",
+      es: ""
+    },
+    required: true,
+    module_ids: ["primeromodule-pcm"],
+    parent_form: "incident"
   }
 };
 const serviceTypeLookup = {
@@ -900,6 +929,18 @@ describe("<RecordForm /> - Selectors", () => {
 
       expect(result).toEqual(expected);
     });
+
+    it("should return the field filtered by module", () => {
+      const expected = fromJS({ 3: R.FieldRecord(fields["3"]) });
+      const result = selectors.getFieldByName(
+        stateWithRecords,
+        ["short_id", "random_field"],
+        ["primeromodule-pcm"],
+        "case"
+      );
+
+      expect(result).toEqual(expected);
+    });
   });
 
   describe("getMiniFormFields", () => {
@@ -1062,6 +1103,7 @@ describe("<RecordForm /> - Selectors", () => {
         fromJS([
           "Approvals from State",
           "Record Owner from State",
+          "access_log.label",
           "change_logs.label",
           "forms.record_types.case_relationships",
           "forms.record_types.referrals",
@@ -1086,6 +1128,7 @@ describe("<RecordForm /> - Selectors", () => {
 
     expect(result).toEqual(
       fromJS([
+        "access_log.label",
         "change_logs.label",
         "forms.record_types.approvals",
         "forms.record_types.case_relationships",
@@ -1112,6 +1155,7 @@ describe("<RecordForm /> - Selectors", () => {
 
       expect(result).toEqual(
         fromJS([
+          ACCESS_LOGS,
           APPROVALS,
           CASE_RELATIONSHIPS,
           CHANGE_LOGS,

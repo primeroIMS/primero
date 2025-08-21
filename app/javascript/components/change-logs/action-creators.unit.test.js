@@ -2,6 +2,7 @@
 
 import * as actionCreators from "./action-creators";
 import actions from "./actions";
+import { PER_PAGE, FIRST_PAGE_RESULTS } from "./constants";
 
 describe("ChangeLogs - Action Creators", () => {
   it("should have known action creators", () => {
@@ -23,5 +24,6 @@ describe("ChangeLogs - Action Creators", () => {
 
     expect(action.type).toEqual(actions.FETCH_CHANGE_LOGS);
     expect(action.api.path).toEqual(`${recordType}/${record}/record_history`);
+    expect(action.api.params).toEqual({ per: PER_PAGE, page: FIRST_PAGE_RESULTS, filters: {} });
   });
 });

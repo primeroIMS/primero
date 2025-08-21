@@ -1,6 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 export const ACTIONS = {
+  ACCESS_LOG: "access_log",
   ADD_NOTE: "add_note",
   ADD_REGISTRY_RECORD: "add_registry_record",
   AGENCY_READ: "agency_read",
@@ -274,6 +275,7 @@ export const EXPORTS_PERMISSIONS = [
 ];
 
 export const SHOW_EXPORTS = [...MANAGE, ...EXPORTS_PERMISSIONS];
+export const SHOW_ACCESS_LOG = [...MANAGE, ACTIONS.ACCESS_LOG];
 export const SHOW_CHANGE_LOG = [...MANAGE, ACTIONS.CHANGE_LOG];
 
 export const SHOW_APPROVALS = [
