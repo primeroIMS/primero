@@ -24,6 +24,7 @@ describe MonitoringReportingMechanism, search: true do
       {
         'incident_date' => '2022-04-08',
         'module_id' => PrimeroModule::MRM,
+        'incident_total_tally' => { 'boys' => 1, 'girls' => 2, 'total' => 3 },
         'killing' => [
           {
             'unique_id' => 'b23b70de-9132-4c89-be8d-57e85a69ec68',
@@ -70,12 +71,14 @@ describe MonitoringReportingMechanism, search: true do
             'verified_ghn_reported' => '2022-q1',
             'type' => 'killing',
             'ctfmr_verified_date' => Date.today.end_of_quarter,
-            'weapon_type' => 'airstrike'
+            'weapon_type' => 'airstrike',
+            'violation_tally' => { 'boys' => 1, 'girls' => 2 }
           }
         ],
         'maiming' => [
           'unique_id' => '5255e66c-5e57-4291-af2a-0acd50c1de72',
-          'type' => 'maiming'
+          'type' => 'maiming',
+          'violation_tally' => { 'unknown' => 1, 'girls' => 2 }
         ],
         'perpetrators' => [
           {
@@ -164,7 +167,9 @@ describe MonitoringReportingMechanism, search: true do
           {
             'type' => 'attack_on_hospitals',
             'facility_attack_type' => %w[attack_on_medical_personnel threat_of_attack_on_hospital],
-            'facility_impact' => 'serious_damage'
+            'facility_impact' => 'serious_damage',
+            'violation_killed_tally' => { 'girls' => 1, 'total' => 1 },
+            'violation_injured_tally' => { 'girls' => 1, 'unknown' => 1, 'total' => 2 }
           }
         ],
         'denial_humanitarian_access' => [
@@ -525,5 +530,17 @@ describe MonitoringReportingMechanism, search: true do
 
     expect(incident1.perpetrator_category).to match_array(%w[category2])
     expect(incident1.armed_force_group_party_names).to match_array(%w[armed_force_1 armed_force_2])
+  end
+
+  it 'calculates child_types from the incident_total_tally' do
+    expect(incident1.child_types).to match_array(%w[boys girls])
+  end
+
+  it 'calculates child_types from the violations_tally' do
+    expect(incident2.child_types).to match_array(%w[boys girls unknown])
+  end
+
+  it 'calculates child_types from the violations_killed_tally and violation_injured_tally' do
+    expect(incident5.child_types).to match_array(%w[girls unknown])
   end
 end
