@@ -102,4 +102,11 @@ describe("record-actions/utils/build-applied-filters", () => {
 
     expect(buildAppliedFilters(false, false, recordIds, fromJS({}), {}, record, true)).toEqual(expected);
   });
+
+  it("does not return order params under filters", () => {
+    const expected = { filters: { sex: ["female"] }, order: { age: "asc" } };
+    const filters = fromJS({ sex: ["female"], order_by: "age", order: "asc" });
+
+    expect(buildAppliedFilters(false, false, [], filters, {}, record, false)).toEqual(expected);
+  });
 });

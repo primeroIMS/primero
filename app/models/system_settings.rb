@@ -20,9 +20,10 @@ class SystemSettings < ApplicationRecord
                  :show_alerts, :code_of_conduct_enabled, :timeframe_hours_to_assign,
                  :timeframe_hours_to_assign_high, :duplicate_field_to_form,
                  :maximum_users, :maximum_users_warning, :maximum_attachments_per_record,
-                 :primero_promote_config)
+                 :primero_promote_config, :field_labels_i18n)
 
-  localize_properties %i[welcome_email_text approvals_labels]
+  localize_properties %i[welcome_email_text approvals_labels field_labels]
+  localize_jsonb_properties %i[field_labels]
 
   has_one_attached :location_file
 

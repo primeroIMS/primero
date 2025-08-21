@@ -13,10 +13,10 @@ const byProtectionConcernsNames = (a, b) => {
   return indexa - indexb;
 };
 
-export default (data, i18n, lookups) => {
+export default (data, i18n, lookups, label) => {
   const firstColumn = {
     name: "",
-    label: i18n.t("dashboard.protection_concern")
+    label: label("dashboard.protection_concerns")
   };
   const labels = {
     protection_concerns_all_cases: i18n.t("dashboard.all_cases"),

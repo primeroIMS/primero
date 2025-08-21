@@ -8,7 +8,9 @@ describe ManagedReports::Indicators::DenialType do
   before do
     clean_data(Incident, Violation)
 
-    incident = Incident.create!(data: { incident_date: Date.new(2021, 5, 23), status: 'open' })
+    incident = Incident.create!(
+      data: { incident_date: Date.new(2021, 5, 23), status: 'open', module_id: PrimeroModule::MRM }
+    )
     incident1 = Incident.create!(data: { incident_date: Date.new(2022, 4, 4), status: 'open' })
     Violation.create!(
       data: { type: 'denial_humanitarian_access', denial_method: %w[abduction_of_humanitarian_personnel other] },
@@ -20,10 +22,18 @@ describe ManagedReports::Indicators::DenialType do
       incident_id: incident.id
     )
 
-    Violation.create!(
-      data: { type: 'denial_humanitarian_access', denial_method: %w[besiegement theft] },
-      incident_id: incident.id
+    incident.build_or_update_violations_and_associations(
+      {
+        denial_humanitarian_access: [
+          {
+            denial_method: %w[besiegement theft],
+            ctfmr_verified: 'verified',
+            ctfmr_verified_date: Date.new(2021, 9, 5)
+          }
+        ]
+      }.with_indifferent_access
     )
+    incident.save!
 
     Violation.create!(
       data: { type: 'denial_humanitarian_access', denial_method: ['besiegement'] },
@@ -31,7 +41,7 @@ describe ManagedReports::Indicators::DenialType do
     )
 
     Violation.create!(
-      data: { type: 'maiming', violation_tally: { 'boys': 2, 'girls': 3, 'unknown': 2, 'total': 7 } },
+      data: { type: 'maiming', violation_tally: { 'boys' => 2, 'girls' => 3, 'unknown' => 2, 'total' => 7 } },
       incident_id: incident.id
     )
 
@@ -68,6 +78,30 @@ describe ManagedReports::Indicators::DenialType do
     )
   end
 
+  describe 'has_late_verified_violations filter' do
+    it 'returns the data only for those incidents where the value is true' do
+      denial_type_data = ManagedReports::Indicators::DenialType.build(
+        nil,
+        {
+          'type' => SearchFilters::Value.new(field_name: 'type', value: 'denial_humanitarian_access'),
+          'has_late_verified_violations' => SearchFilters::BooleanValue.new(
+            field_name: 'has_late_verified_violations', value: true
+          )
+        }
+      ).data
+
+      expect(denial_type_data).to match_array(
+        [
+          { id: 'theft', total: 1 },
+          { id: 'besiegement', total: 2 },
+          { id: 'abduction_of_humanitarian_personnel', total: 1 },
+          { id: 'restrictions_of_beneficiaries_access', total: 1 },
+          { id: 'other', total: 1 }
+        ]
+      )
+    end
+  end
+
   describe 'grouped by' do
     context 'when is year' do
       it 'should return results grouped by year' do
@@ -77,8 +111,8 @@ describe ManagedReports::Indicators::DenialType do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'year'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2021-04-01',
-              to: '2022-05-01'
+              from: Date.parse('2021-04-01'),
+              to: Date.parse('2022-05-01')
             ),
             'type' => SearchFilters::Value.new(field_name: 'type', value: 'denial_humanitarian_access')
           }
@@ -116,8 +150,8 @@ describe ManagedReports::Indicators::DenialType do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'month'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2021-05-01',
-              to: '2022-04-10'
+              from: Date.parse('2021-05-01'),
+              to: Date.parse('2022-04-10')
             ),
             'type' => SearchFilters::Value.new(field_name: 'type', value: 'denial_humanitarian_access')
           }
@@ -160,8 +194,8 @@ describe ManagedReports::Indicators::DenialType do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2021-04-01',
-              to: '2022-06-10'
+              from: Date.parse('2021-04-01'),
+              to: Date.parse('2022-06-10')
             ),
             'type' => SearchFilters::Value.new(field_name: 'type', value: 'denial_humanitarian_access')
           }

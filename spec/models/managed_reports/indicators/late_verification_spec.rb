@@ -50,8 +50,8 @@ describe ManagedReports::Indicators::LateVerification do
         'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
         'ghn_date_filter' => SearchFilters::DateRange.new(
           field_name: 'ghn_date_filter',
-          from: '2022-07-01',
-          to: '2022-07-30'
+          from: Date.parse('2022-07-01'),
+          to: Date.parse('2022-07-30')
         )
       }
     ).data
@@ -73,8 +73,8 @@ describe ManagedReports::Indicators::LateVerification do
         'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
         'ghn_date_filter' => SearchFilters::DateRange.new(
           field_name: 'ghn_date_filter',
-          from: '2022-01-01',
-          to: '2022-01-01'
+          from: Date.parse('2022-01-01'),
+          to: Date.parse('2022-01-01')
         )
       }
     ).data

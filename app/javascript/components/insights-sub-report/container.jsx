@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import { fromJS, List } from "immutable";
+import { fromJS } from "immutable";
 import { useDispatch } from "react-redux";
 import isNil from "lodash/isNil";
 import isString from "lodash/isString";
@@ -13,12 +13,11 @@ import LoadingIndicator from "../loading-indicator";
 import { useI18n } from "../i18n";
 import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { clearSelectedReport } from "../reports-form/action-creators";
-import TableValues from "../charts/table-values";
 import useOptions from "../form/use-options";
-import transformOptions from "../form/utils/transform-options";
 import { OPTION_TYPES } from "../form/constants";
 import { REFERRAL_TRANSFERS_SUBREPORTS } from "../../config";
 
+import InsightTableValues from "./components/table-values";
 import DefaultIndicator from "./components/default-indicator";
 import MultipleViolationsIndicator from "./components/multiple-violations-indicator";
 import {
@@ -32,10 +31,18 @@ import {
 } from "./utils";
 import { getInsight, getInsightFilter, getIsGroupedInsight } from "./selectors";
 import namespace from "./namespace";
-import { GROUPED_BY_FILTER, NAME, GHN_VIOLATIONS_INDICATORS_IDS, PERCENTAGE_INDICATORS } from "./constants";
+import {
+  GROUPED_BY_FILTER,
+  NAME,
+  GHN_VIOLATIONS_INDICATORS_IDS,
+  PERCENTAGE_INDICATORS,
+  HEADER_TITLE_KEYS
+} from "./constants";
 import css from "./styles.css";
 import { setSubReport } from "./action-creators";
 import getSubcolumnItems from "./utils/get-subcolumn-items";
+import hasTotalColumn from "./utils/has-total-column";
+import transformIndicatorsRows from "./utils/transform-indicators-rows";
 
 function Component() {
   const { id, subReport } = useParams();
@@ -65,11 +72,11 @@ function Component() {
   const insightLookups = insightMetadata.get("lookups", fromJS({})).entrySeq().toArray();
   const displayGraph = insightMetadata.get("display_graph", true);
   const indicatorsRows = insightMetadata.get("indicators_rows", fromJS({}));
-  const indicatorsRowsAsOptions = useMemo(() => {
-    return indicatorsRows
-      .entrySeq()
-      .reduce((acc, [key, elems]) => ({ ...acc, [key]: transformOptions(elems, i18n.locale) }), {});
-  }, [indicatorsRows, i18n.locale]);
+  const indicatorsRowsAsOptions = useMemo(
+    () => transformIndicatorsRows(indicatorsRows, i18n.locale),
+    [indicatorsRows, i18n.locale]
+  );
+  const headerKeys = HEADER_TITLE_KEYS[insight.get("id")] || {};
 
   const optionValues = Object.values(OPTION_TYPES);
   const indicatorsSubcolumns = insightMetadata.get("indicators_subcolumns", fromJS({}));
@@ -89,6 +96,7 @@ function Component() {
   const emptyMessage = i18n.t("managed_reports.no_data_table");
   const totalText = i18n.t("managed_reports.total");
   const violationsText = i18n.t("managed_reports.violations_total");
+  const tableType = insightMetadata?.get("table_type") || "default";
 
   const reportData = useMemo(() => buildReportData(insight, subReport), [insight, subReport]);
 
@@ -121,9 +129,9 @@ function Component() {
   const ageRanges = (primaryAgeRanges || fromJS([])).reduce((acc, range) => acc.concat(formatAgeRange(range)), []);
 
   const TableComponent = {
-    ghn_report: TableValues,
-    default: TableValues
-  }[insightMetadata.get("table_type")];
+    ghn_report: InsightTableValues,
+    default: InsightTableValues
+  }[tableType];
 
   const hasData = !!insight.getIn(["report_data", subReport], false);
 
@@ -149,6 +157,7 @@ function Component() {
 
   const cellRender = useCallback((val, index) => (index === 0 ? val : `${val}%`), []);
   const chartRender = useCallback(val => `${val}%`, []);
+  const includeZeros = insight.get("include_zeros", false);
 
   return (
     <div className={css.container}>
@@ -161,92 +170,86 @@ function Component() {
         errors={errors}
       >
         <div className={css.subReportContent}>
-          <div>
-            <h2 className={css.description}>{i18n.t(insight.get("description"))}</h2>
-            {singleInsightsTableData.size > 0 && (
-              <>
-                <h3 className={css.sectionTitle}>{subReportTitle("combined")}</h3>
-                <TableValues
-                  useInsightsHeader
-                  columns={buildInsightColumns[insightMetadata.get("table_type")]({
-                    value: singleInsightsTableData,
-                    isGrouped,
-                    groupedBy: currentGroupBy,
-                    localizeDate: i18n.localizeDate,
-                    totalText,
-                    incompleteDataLabel
-                  })}
-                  values={buildInsightValues[insightMetadata.get("table_type")]({
-                    getLookupValue: lookupValue,
-                    data: singleInsightsTableData,
-                    totalText,
-                    isGrouped,
-                    groupedBy: currentGroupBy,
-                    incompleteDataLabel
-                  })}
-                  showPlaceholder
-                  name={namespace}
-                  emptyMessage={emptyMessage}
-                />
-              </>
-            )}
-
-            {reportData
-              .get("aggregate", fromJS({}))
-              .entrySeq()
-              .map(([valueKey, value]) => {
-                const hasTotalColumn = isGrouped
-                  ? value.some(
-                      elem =>
-                        List.isList(elem.get("data")) &&
-                        elem.get("data", fromJS([])).some(row => !isNil(row.get("total")))
-                    )
-                  : value.some(row => !isNil(row.get("total")));
-
-                const indicatorSubColumnKeys = getIndicatorSubcolumnKeys(value);
-                const Indicator = getIndicator(valueKey);
-                const subColumnItems = getSubcolumnItems({
-                  hasTotalColumn,
-                  subColumnLookups,
-                  valueKey,
-                  ageRanges,
-                  indicatorsSubcolumns,
+          <h2 className={css.description}>{i18n.t(insight.get("description"))}</h2>
+          {singleInsightsTableData.size > 0 && (
+            <>
+              <h3 className={css.sectionTitle}>{subReportTitle("combined")}</h3>
+              <InsightTableValues
+                columns={buildInsightColumns[tableType]({
+                  value: singleInsightsTableData,
+                  isGrouped,
+                  groupedBy: currentGroupBy,
+                  localizeDate: i18n.localizeDate,
                   totalText,
-                  indicatorSubColumnKeys,
-                  includeAllSubColumns: !isReferralsTransferSubreport,
                   incompleteDataLabel
-                });
+                })}
+                values={buildInsightValues[tableType]({
+                  getLookupValue: lookupValue,
+                  data: singleInsightsTableData,
+                  totalText,
+                  isGrouped,
+                  groupedBy: currentGroupBy,
+                  incompleteDataLabel
+                })}
+                showPlaceholder
+                name={namespace}
+                emptyMessage={emptyMessage}
+              />
+            </>
+          )}
 
-                const cellValueRender = PERCENTAGE_INDICATORS.includes(valueKey) ? cellRender : null;
-                const chartValueRender = PERCENTAGE_INDICATORS.includes(valueKey) ? chartRender : null;
+          {reportData
+            .get("aggregate", fromJS({}))
+            .entrySeq()
+            .map(([valueKey, value]) => {
+              const indicatorIsGrouped = value.some(elem => elem.get("group_id"));
+              const indicatorHasTotalColumn = hasTotalColumn(indicatorIsGrouped, value);
+              const indicatorSubColumnKeys = getIndicatorSubcolumnKeys(value);
+              const Indicator = getIndicator(valueKey);
+              const subColumnItems = getSubcolumnItems({
+                hasTotalColumn: indicatorHasTotalColumn,
+                subColumnLookups,
+                valueKey,
+                ageRanges,
+                indicatorsSubcolumns,
+                totalText,
+                indicatorSubColumnKeys,
+                includeAllSubColumns: !isReferralsTransferSubreport,
+                incompleteDataLabel
+              });
 
-                return (
-                  <Indicator
-                    key={valueKey}
-                    valueKey={valueKey}
-                    value={value}
-                    ageRanges={ageRanges}
-                    displayGraph={displayGraph}
-                    emptyMessage={emptyMessage}
-                    groupedBy={currentGroupBy}
-                    incompleteDataLabel={incompleteDataLabel}
-                    insightMetadata={insightMetadata}
-                    isGrouped={isGrouped}
-                    lookups={lookups}
-                    indicatorsRows={indicatorsRowsAsOptions}
-                    lookupValue={lookupValue}
-                    namespace={namespace}
-                    subReportTitle={subReportTitle}
-                    TableComponent={TableComponent}
-                    totalText={GHN_VIOLATIONS_INDICATORS_IDS.includes(valueKey) ? violationsText : totalText}
-                    subColumnItems={subColumnItems}
-                    hasTotalColumn={hasTotalColumn}
-                    cellValueRender={cellValueRender}
-                    chartValueRender={chartValueRender}
-                  />
-                );
-              })}
-          </div>
+              const headerTitle = headerKeys[valueKey] ? i18n.t(headerKeys[valueKey]) : null;
+              const cellValueRender = PERCENTAGE_INDICATORS.includes(valueKey) ? cellRender : null;
+              const chartValueRender = PERCENTAGE_INDICATORS.includes(valueKey) ? chartRender : null;
+
+              return (
+                <Indicator
+                  key={valueKey}
+                  valueKey={valueKey}
+                  value={value}
+                  includeZeros={includeZeros}
+                  ageRanges={ageRanges}
+                  displayGraph={displayGraph}
+                  emptyMessage={emptyMessage}
+                  groupedBy={currentGroupBy}
+                  incompleteDataLabel={incompleteDataLabel}
+                  insightMetadata={insightMetadata}
+                  isGrouped={indicatorIsGrouped}
+                  lookups={lookups}
+                  indicatorsRows={indicatorsRowsAsOptions}
+                  lookupValue={lookupValue}
+                  namespace={namespace}
+                  headerTitle={headerTitle}
+                  subReportTitle={subReportTitle}
+                  TableComponent={TableComponent}
+                  totalText={GHN_VIOLATIONS_INDICATORS_IDS.includes(valueKey) ? violationsText : totalText}
+                  subColumnItems={subColumnItems}
+                  hasTotalColumn={indicatorHasTotalColumn}
+                  cellValueRender={cellValueRender}
+                  chartValueRender={chartValueRender}
+                />
+              );
+            })}
         </div>
       </LoadingIndicator>
     </div>

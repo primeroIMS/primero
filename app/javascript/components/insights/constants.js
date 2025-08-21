@@ -57,6 +57,7 @@ const CREATED_AT = "created_at";
 const FOLLOWUP_DATE = "followup_date";
 const REFERRAL_CREATED_AT = "referral_created_at";
 const CASE_STATUS = "case_status";
+const HAS_LATE_VERIFIED_VIOLATIONS = "has_late_verified_violations";
 
 const GBV_STATISTICS = "gbv_statistics";
 const VIOLATIONS = "violations";
@@ -131,6 +132,11 @@ export const DATE_RANGE_FROM_DISPLAY_NAME = [FIELDS, DATE_RANGE, FROM];
 export const DATE_RANGE_TO_DISPLAY_NAME = [FIELDS, DATE_RANGE, TO];
 export const FILTER_BY_DATE_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, DATE];
 export const FILTER_BY_VERIFICATION_STATUS_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, VERIFICATION_STATUS];
+export const FILTER_BY_HAS_LATE_VERIFIED_VIOLATIONS_DISPLAY_NAME = [
+  MANAGED_REPORTS,
+  FILTER_BY,
+  HAS_LATE_VERIFIED_VIOLATIONS
+];
 export const FILTER_BY_VIOLATION_TYPE_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, VIOLATION_TYPE];
 export const STATUS_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, STATUS];
 export const CREATED_BY_GROUPS_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, CREATED_BY_GROUPS];
@@ -338,6 +344,12 @@ export const VIOLATIONS_FILTERS = [
     display_name: FILTER_BY_VERIFICATION_STATUS_DISPLAY_NAME,
     option_strings_source: LOOKUPS.verification_status,
     type: SELECT_FIELD
+  },
+  {
+    name: HAS_LATE_VERIFIED_VIOLATIONS,
+    display_name: FILTER_BY_HAS_LATE_VERIFIED_VIOLATIONS_DISPLAY_NAME,
+    option_strings_source: LOOKUPS.yes_no,
+    type: SELECT_FIELD
   }
 ];
 
@@ -435,7 +447,7 @@ export const INSIGHTS_CONFIG = {
     defaultFilterValues: {
       [GROUPED_BY]: MONTH,
       [DATE_RANGE]: LAST_MONTH,
-      [DATE]: INCIDENT_DATE
+      [DATE]: DATE_OF_FIRST_REPORT
     },
     filters: [
       SHARED_FILTERS[GROUPED_BY],

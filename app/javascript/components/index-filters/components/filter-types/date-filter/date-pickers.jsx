@@ -13,7 +13,7 @@ import css from "../styles.css";
 import DateProvider from "../../../../../date-provider";
 import { dayOfWeekFormatter } from "../../../../../libs/date-picker-localization";
 
-import { getDatesValue, getDateValue } from "./utils";
+import { getDatesValue, getDateValue, defaultDates } from "./utils";
 
 function Component({
   dateIncludeTime,
@@ -24,7 +24,8 @@ function Component({
   setInputValue,
   setMoreSectionFilters,
   setValue,
-  register
+  register,
+  selectedFieldDefaultValue = {}
 }) {
   const i18n = useI18n();
   const pickerFormat = dateIncludeTime ? DATE_TIME_FORMAT : DATE_FORMAT;
@@ -32,6 +33,8 @@ function Component({
   useEffect(() => {
     if (selectedField) {
       register(selectedField);
+      setValue(selectedField, selectedFieldDefaultValue || defaultDates());
+      setInputValue(selectedFieldDefaultValue || defaultDates());
     }
 
     return () => {

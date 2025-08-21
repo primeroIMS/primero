@@ -96,6 +96,7 @@ class Attachment < ApplicationRecord
   def to_h_api
     hash = slice(:id, :field_name, :file_name, :date, :description, :is_current, :comments)
     hash[:attachment_url] = url
+    hash[:content_type] = content_type
     hash
   end
 

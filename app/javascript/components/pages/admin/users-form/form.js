@@ -11,7 +11,8 @@ import {
   TICK_FIELD,
   TEXT_FIELD,
   SELECT_FIELD,
-  OPTION_TYPES
+  OPTION_TYPES,
+  DATE_FIELD
 } from "../../../form";
 
 import {
@@ -224,7 +225,31 @@ const sharedUserFields = (
     help_text: i18n.t("user.receive_webpush.help_text"),
     visible: webPushConfigEnabled
   },
-  ...notificationPreferences(i18n, NOTIFIERS.receive_webpush, webPushConfigEnabled)
+  ...notificationPreferences(i18n, NOTIFIERS.receive_webpush, webPushConfigEnabled),
+  {
+    display_name: i18n.t("user.last_access"),
+    name: FIELD_NAMES.LAST_ACCESS,
+    type: DATE_FIELD,
+    visible: formMode.get("isShow") && !hideOnAccountPage,
+    date_include_time: true,
+    editable: false
+  },
+  {
+    display_name: i18n.t("user.last_case_viewed"),
+    name: FIELD_NAMES.LAST_CASE_VIEWED,
+    type: DATE_FIELD,
+    visible: formMode.get("isShow") && !hideOnAccountPage,
+    date_include_time: true,
+    editable: false
+  },
+  {
+    display_name: i18n.t("user.last_case_updated"),
+    name: FIELD_NAMES.LAST_CASE_UPDATED,
+    type: DATE_FIELD,
+    visible: formMode.get("isShow") && !hideOnAccountPage,
+    date_include_time: true,
+    editable: false
+  }
 ];
 
 const identityUserFields = (i18n, identityOptions) => [

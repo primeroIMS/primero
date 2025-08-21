@@ -38,14 +38,49 @@ describe("ChangeLogs - Reducers", () => {
       }
     ];
     const expected = fromJS({
-      data: listEntriesToRecord(data, ChangeLogsRecord)
+      data: listEntriesToRecord(data, ChangeLogsRecord),
+      errors: false,
+      metadata: {
+        total: 2,
+        per: 20,
+        page: 1
+      }
     });
     const action = {
       type: actions.FETCH_CHANGE_LOGS_SUCCESS,
       payload: {
-        data
+        data,
+        metadata: {
+          total: 2,
+          per: 20,
+          page: 1
+        }
       }
     };
+    const newState = nsReducer(defaultState, action);
+
+    expect(newState).toEqual(expected);
+  });
+
+  it("should handle FETCH_CHANGE_LOGS_STARTED", () => {
+    const expected = fromJS({ data: [], loading: true, errors: false });
+
+    const action = {
+      type: actions.FETCH_CHANGE_LOGS_STARTED
+    };
+
+    const newState = nsReducer(defaultState, action);
+
+    expect(newState).toEqual(expected);
+  });
+
+  it("should handle FETCH_CHANGE_LOGS_FINISHED", () => {
+    const expected = fromJS({ data: [], loading: false, errors: false });
+
+    const action = {
+      type: actions.FETCH_CHANGE_LOGS_FINISHED
+    };
+
     const newState = nsReducer(defaultState, action);
 
     expect(newState).toEqual(expected);

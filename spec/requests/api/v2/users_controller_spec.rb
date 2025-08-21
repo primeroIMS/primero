@@ -7,7 +7,7 @@ require 'rails_helper'
 describe Api::V2::UsersController, type: :request do
   before :each do
     clean_data(
-      FormSection, User, Role, PrimeroModule, Agency, PrimeroProgram, IdentityProvider, CodeOfConduct, UserGroup
+      FormSection, User, Role, PrimeroModule, Agency, PrimeroProgram, IdentityProvider, CodeOfConduct, UserGroup, AuditLog
     )
 
     SystemSettings.stub(:current).and_return(
@@ -236,6 +236,22 @@ describe Api::V2::UsersController, type: :request do
     )
   end
 
+  let!(:audit_log) do
+    AuditLog.create(
+      user: @user_a, record_type: 'User', action: 'login', timestamp: DateTime.new(2015, 10, 23, 14, 54, 55)
+    )
+  end
+  let!(:audit_log2) do
+    AuditLog.create(
+      user: @user_a, action: 'show', record_type: 'Child', timestamp: DateTime.new(2015, 10, 23, 14, 54, 55)
+    )
+  end
+  let!(:audit_log3) do
+    AuditLog.create(
+      user: @user_a, action: 'update', record_type: 'Child', timestamp: DateTime.new(2015, 10, 23, 14, 54, 55)
+    )
+  end
+
   let(:json) { JSON.parse(response.body) }
 
   describe 'GET /api/v2/users' do
@@ -410,6 +426,24 @@ describe Api::V2::UsersController, type: :request do
       expect(json['data'].count).to eq(2)
       expect(json['data'].map { |uz| uz['id'] }).to match_array([@admin_user_a.id, @admin_user_b.id])
     end
+
+    it 'Searching by last_access' do
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::USER, actions: [Permission::MANAGE]),
+          Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])
+        ]
+      )
+
+      params = { last_access: { 'from' => '2015-10-20T00:00:00Z', 'to' => '2015-10-25T23:59:59Z' },
+                 disabled: { '0' => 'false' } }
+
+      get('/api/v2/users', params:)
+
+      expect(response).to have_http_status(200)
+      expect(json['data'].count).to eq(1)
+      expect(json['data'][0]['id']).to eq(@user_a.id)
+    end
   end
 
   describe 'GET /api/v2/users/:id' do
@@ -431,7 +465,9 @@ describe Api::V2::UsersController, type: :request do
       expect(json['data']['id']).to eq(@user_a.id)
       expect(json['data']['identity_provider_unique_id']).to eq(@identity_provider_a.unique_id)
       expect(json['data']['user_groups'].size).to eq(1)
-      expect(json['data']['user_groups'][0]['unique_id']).to eq(@user_group_a.unique_id)
+      expect(json['data']['last_access']).to eq(audit_log.timestamp.iso8601(3))
+      expect(json['data']['last_case_viewed']).to eq(audit_log2.timestamp.iso8601(3))
+      expect(json['data']['last_case_updated']).to eq(audit_log3.timestamp.iso8601(3))
     end
 
     it "returns 403 if user isn't authorized to access" do

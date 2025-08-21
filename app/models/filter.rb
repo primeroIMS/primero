@@ -730,10 +730,9 @@ class Filter < ValueObject
   end
 
   def user_age_range(user)
-    module_age_range = PrimeroModule.age_ranges(user.modules.first.unique_id)
-    return module_age_range if module_age_range.present? && user.modules.size == 1
+    return AgeRangeService.primary_age_ranges(user.modules.first.unique_id) if user.modules.size == 1
 
-    SystemSettings.primary_age_ranges
+    AgeRangeService.primary_age_ranges
   end
 
   def age_options(opts = {})

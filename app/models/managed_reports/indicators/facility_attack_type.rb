@@ -31,6 +31,7 @@ class ManagedReports::Indicators::FacilityAttackType < ManagedReports::SqlReport
         #{date_range_query(params['date_of_first_report'], 'incidents')&.prepend('and ')}
         #{date_range_query(params['ctfmr_verified_date'], 'violations')&.prepend('and ')}
         #{equal_value_query(params['ctfmr_verified'], 'violations')&.prepend('and ')}
+        #{equal_value_query(params['has_late_verified_violations'], 'incidents')&.prepend('and ')}
         group by json_array_elements_text(("violations"."data"->> 'facility_attack_type')::JSON)
         #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
         order by name

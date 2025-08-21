@@ -9,42 +9,31 @@ import { OPTION_TYPES } from "../form/constants";
 import { useI18n } from "../i18n";
 import { getFields } from "../record-form";
 import RecordFormTitle from "../record-form/form/record-form-title";
-import { getRecordForms, getOptions as getLookups } from "../record-form/selectors";
+import { getOptions as getLookups } from "../record-form/selectors";
 import { useFormFilters } from "../form-filters";
-import { RECORD_TYPES } from "../../config";
 import useOptions from "../form/use-options";
+import LoadMoreRecord from "../load-more-records";
 
 import { fetchChangeLogs } from "./action-creators";
 import ChangeLog from "./components/change-log";
 import SubformDialog from "./components/subform-dialog";
-import { NAME } from "./constants";
-import { getChangeLogs } from "./selectors";
+import { NAME, FIRST_PAGE_RESULTS } from "./constants";
+import { getChangeLogs, getChangeLogLoading, getChangeLogMetadata } from "./selectors";
 import css from "./styles.css";
 
-function Container({
-  selectedForm,
-  recordID,
-  recordType,
-  primeroModule,
-  mobileDisplay,
-  handleToggleNav,
-  fetchable = false
-}) {
+function Container({ selectedForm, recordID, recordType, mobileDisplay, handleToggleNav, fetchable = false }) {
   const i18n = useI18n();
 
   const dispatch = useDispatch();
-  const { selectedFilters } = useFormFilters(selectedForm);
+  const { clearFilters } = useFormFilters(selectedForm);
 
   const [open, setOpen] = useState(false);
   const [calculatingChangeLog, setCalculatingChangeLog] = useState(false);
   const [recordChanges, setRecordChanges] = useState({});
 
-  const forms = useMemoizedSelector(state =>
-    getRecordForms(state, { recordType: RECORD_TYPES[recordType], primeroModule })
-  );
-  const recordChangeLogs = useMemoizedSelector(state =>
-    getChangeLogs(state, recordID, recordType, forms, selectedFilters)
-  );
+  const recordChangeLogs = useMemoizedSelector(state => getChangeLogs(state, recordID, recordType));
+  const changeLogLoading = useMemoizedSelector(state => getChangeLogLoading(state));
+  const changeLogMetadata = useMemoizedSelector(state => getChangeLogMetadata(state));
 
   const allFields = useMemoizedSelector(state => getFields(state));
   const allAgencies = useOptions({ source: OPTION_TYPES.AGENCY, useUniqueId: true });
@@ -52,8 +41,12 @@ function Container({
   const locations = useOptions({ source: OPTION_TYPES.LOCATION });
 
   useEffect(() => {
+    clearFilters();
+  }, []);
+
+  useEffect(() => {
     if (fetchable && recordID) {
-      dispatch(fetchChangeLogs(recordType, recordID));
+      dispatch(fetchChangeLogs(recordType, recordID, FIRST_PAGE_RESULTS));
     }
   }, [recordID]);
 
@@ -74,6 +67,16 @@ function Container({
         displayText={i18n.t("change_logs.label")}
       />
       <ChangeLog {...sharedProps} recordChangeLogs={recordChangeLogs} setRecordChanges={setRecordChanges} />
+
+      <LoadMoreRecord
+        selectedForm={selectedForm}
+        recordID={recordID}
+        recordType={recordType}
+        loading={changeLogLoading}
+        metadata={changeLogMetadata}
+        fetchFn={fetchChangeLogs}
+        fetchable={fetchable}
+      />
       <SubformDialog
         {...sharedProps}
         open={open}
@@ -91,7 +94,6 @@ Container.propTypes = {
   forms: PropTypes.object,
   handleToggleNav: PropTypes.func.isRequired,
   mobileDisplay: PropTypes.bool.isRequired,
-  primeroModule: PropTypes.string,
   recordID: PropTypes.string,
   recordType: PropTypes.string.isRequired,
   selectedForm: PropTypes.string

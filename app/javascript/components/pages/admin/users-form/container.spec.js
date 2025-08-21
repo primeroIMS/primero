@@ -14,7 +14,10 @@ describe("<UsersForm />", () => {
     jose: {
       id: 1,
       user_name: "jose",
-      full_name: "Jose"
+      full_name: "Jose",
+      last_access: "2025-07-30T21:43:43.511Z",
+      last_case_updated: "2025-07-30T21:46:45.344Z",
+      last_case_viewed: "2025-07-30T21:46:45.344Z"
     },
     carlos: {
       id: 2,
@@ -103,6 +106,30 @@ describe("<UsersForm />", () => {
       mountedComponent(<UsersForm mode="show" />, stateForShowMode, {}, ["/admin/users/1"], {}, "/admin/users/:id");
 
       expect(within(screen.getByTestId("page-heading")).getAllByRole("button")[1].id).toEqual("more-actions");
+    });
+
+    it("renders last actions dates", () => {
+      const stateForShowMode = fromJS({
+        records: {
+          users: {
+            selectedUser: users.jose,
+            data: [Object.values(users)],
+            metadata: { total: 2, per: 20, page: 1 }
+          }
+        },
+        application: {
+          agencies
+        },
+        user: {
+          username: users.carlos.user_name,
+          permissions
+        }
+      });
+
+      mountedComponent(<UsersForm mode="show" />, stateForShowMode, {}, ["/admin/users/1"], {}, "/admin/users/:id");
+      expect(screen.getByLabelText("user.last_access")).toBeInTheDocument();
+      expect(screen.getByLabelText("user.last_case_viewed")).toBeInTheDocument();
+      expect(screen.getByLabelText("user.last_case_updated")).toBeInTheDocument();
     });
   });
 

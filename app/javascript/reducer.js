@@ -60,6 +60,7 @@ import {
 import { reducer as accountReducer } from "./components/pages/account";
 import { reducer as connectivityReducer } from "./components/connectivity";
 import { reducer as changeLogsReducers } from "./components/change-logs";
+import { reducer as accessLogsReducers } from "./components/access-logs";
 import { reducer as codesOfConductReducer } from "./components/code-of-conduct";
 import { reducer as adminCodeOfConductReducer } from "./components/pages/admin/code-of-conduct";
 import { reducer as drawerReducer } from "./components/drawer";
@@ -109,6 +110,7 @@ const rootReducer = {
       ...flaggingReducer,
       ...savedSearchesReducer,
       ...changeLogsReducers,
+      ...accessLogsReducers,
       codeOfConduct: adminCodeOfConductReducer,
       admin: combineReducers({
         forms: reduceReducers(initialState, adminFormListReducer, adminFormBuilderReducer),

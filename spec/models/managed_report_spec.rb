@@ -61,7 +61,7 @@ describe ManagedReport do
     it 'should return permitted_filters of violations' do
       expect(managed_reports[Permission::VIOLATION_REPORT].permitted_filters).to match_array(
         [
-          :ctfmr_verified, :verified_ctfmr_technical, :grouped_by,
+          :ctfmr_verified, :verified_ctfmr_technical, :grouped_by, :has_late_verified_violations,
           { ctfmr_verified_date: {}, date_of_first_report: {}, incident_date: {} }
         ]
       )
