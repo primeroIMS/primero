@@ -936,6 +936,10 @@ en:
     transfer_request_html: 'You have received a transfer request for %{record_type} %{record_id} from %{user} from %{agency}. The individual making the request has included a transfer note: %{request_transfer_notes}. If this transfer is acceptable to you, please log in to access Primero to initiate the transfer.'
     alert: '%{record_type} %{id} - %{form_name} has been updated. Please log in to Primero to review the changes.'
     alert_subject: '%{record_type}: %{id} - %{form_name} Updated'
+    maximum_attachments_space_subject: Reached attachment storage limit for %{system_name}
+    maximum_attachments_space_body: You are being contacted as the designated System Administrator for %{system_name}. The system has reached the maximum attachment storage capacity of %{maximum_attachments_space}. The users will not be able to upload any more documents. You may increase the system's storage capacity by upgrading your service through the Primero team.
+    maximum_attachments_space_warning_subject: Approaching attachment storage limit for %{system_name}
+    maximum_attachments_space_warning_body: You are being contacted as the designated System Administrator for %{system_name}. The system is approaching the maximum attachment storage capacity of %{maximum_attachments_space}. The users will not be able to upload any more documents once the limit is reached. You may increase the system's storage capacity by upgrading your service through the Primero team.
   webpush_notification:
     action_label: Go to Case
     approval_request:
@@ -986,6 +990,7 @@ en:
       internal_server: Server Error
     attachments:
       maximum: You have reached your maximum attachments per record.
+      file_upload_unsuccessful: File upload unsuccessful. The system has reached the document storage limit. Please contact your system administrator.
     error_loading: Error Loading Record(s)
     models:
       agency:
@@ -1042,6 +1047,9 @@ en:
       case_relationship:
         relationship_type: Relationship type is not valid.
         not_linked_to_self: A case cannot be linked to itself.
+      system_setting:
+        allocated_space_integer: Field must be Integer
+        allocated_space_warning_greater_than_hard_limit: Maximum allocated space warning greatr than Maximum allocated space
     not_found: No Record(s) Found
     try_again: Try again
   exports:

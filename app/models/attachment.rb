@@ -34,6 +34,9 @@ class Attachment < ApplicationRecord
             file_content_type: { allow: lambda(&:valid_content_types) },
             if: :attached?
   validate :maximum_attachments_exceeded, on: :create
+  validate :maximum_attachments_space_exceeded, on: :create
+
+  after_create_commit :send_email_maximum_attachments_space_warning_exceeded
 
   def attach
     return unless record.present?
@@ -110,5 +113,32 @@ class Attachment < ApplicationRecord
     return if record.attachments.reload.size < system_max_attachmensts_per_record
 
     errors.add(:base, 'errors.attachments.maximum')
+  end
+
+  def new_file_size
+    file.attached? ? file.blob.byte_size : 0
+  end
+
+  def total_attachment_file_size_with_new_file
+    SystemSettings.current.total_attachment_file_size.to_i + new_file_size
+  end
+
+  def maximum_attachments_space_exceeded
+    return unless SystemSettings.maximum_attachments_space.positive?
+    return if total_attachment_file_size_with_new_file <= SystemSettings.maximum_attachments_space
+
+    ContactInformationMailJob.perform_later(:maximum_attachments_space)
+
+    errors.add(:base, 'errors.attachments.file_upload_unsuccessful')
+  end
+
+  def send_email_maximum_attachments_space_warning_exceeded
+    warning_limit = SystemSettings.maximum_attachments_space_warning
+
+    return unless warning_limit.positive?
+
+    return unless total_attachment_file_size_with_new_file > warning_limit
+
+    ContactInformationMailJob.perform_later(:maximum_attachments_space_warning)
   end
 end

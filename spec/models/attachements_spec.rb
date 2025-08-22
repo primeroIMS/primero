@@ -180,6 +180,59 @@ describe Attachment, search: true do
         clean_data(SystemSettings)
       end
     end
+
+    context 'maximum_attachments_exceeded' do
+      let!(:system_settings) do
+        SystemSettings.create!(
+          system_options: {
+            maximum_attachments_space: 300,
+            maximum_attachments_space_warning: 200
+          }
+        )
+      end
+      let(:blob) { ActiveStorage::Blob.create_and_upload!(io: StringIO.new('hello world'), filename: 'test.txt') }
+
+      before do
+        clean_data(SystemSettings, Attachment)
+
+        allow(SystemSettings).to receive(:current).and_return(system_settings)
+        allow(system_settings).to receive(:total_attachment_file_size).and_return(100)
+        allow(SystemSettings).to receive(:maximum_attachments_space).and_return(500)
+        allow(SystemSettings).to receive(:maximum_attachments_space_warning).and_return(300)
+      end
+
+      context 'when total size does not exceed maximum' do
+        it 'is valid' do
+          attachment = Attachment.new(
+            record: child, field_name: 'photos', attachment_type: Attachment::IMAGE,
+            file_name: 'unicef.png', attachment: logo_base64, comments: 'not this one!'
+          )
+          expect(attachment).to be_valid
+        end
+      end
+
+      context 'when total size exceeds maximum' do
+        before { allow(SystemSettings).to receive(:maximum_attachments_space).and_return(50) }
+
+        it 'is invalid and enqueues a mail job' do
+          expect do
+            attachment = Attachment.new(file: blob, record: child)
+            attachment.validate
+          end.to have_enqueued_job(ContactInformationMailJob).with(:maximum_attachments_space)
+
+          attachment = Attachment.new(
+            record: child, field_name: 'photos', attachment_type: Attachment::IMAGE,
+            file_name: 'unicef.png', attachment: logo_base64, comments: 'not this one!'
+          )
+          attachment.validate
+          expect(attachment.errors[:base]).to include('errors.attachments.file_upload_unsuccessful')
+        end
+      end
+
+      after :each do
+        clean_data(SystemSettings, Attachment)
+      end
+    end
   end
 
   after(:each) do
