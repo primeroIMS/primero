@@ -32,5 +32,24 @@ class ManagedReports::Indicators::LateVerification < ManagedReports::SqlReportIn
       }
     end
     # rubocop:enable Metrics/MethodLength
+
+    def build_results(results, params = {})
+      super(results, params).map { |result| group_with_query(result, params) }
+    end
+
+    def query_for_group(group, _params)
+      return [] if group[:group_id] == 'total'
+
+      ["child_types=#{group[:group_id]}"]
+    end
+
+    def query_for_result(result, params)
+      date_param = date_filter_param(params['ghn_date_filter'])
+      [
+        "violation_with_verification_status=#{result[:id]}_verified",
+        'has_late_verified_violations=true',
+        date_param.to_s
+      ]
+    end
   end
 end
