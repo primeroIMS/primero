@@ -12,5 +12,9 @@ describe("pages/admin/<RolesForm>/forms - RolesMainForm", () => {
 
     expect(rolesMainForm.unique_id).toBe("roles");
     expect(rolesMainForm.fields).toHaveLength(10);
+    expect(rolesMainForm.fields.filter(field => field.required).map(field => field.name)).toEqual([
+      "name",
+      "module_unique_ids"
+    ]);
   });
 });
