@@ -55,7 +55,7 @@ class UsageReport < ValueObject
         module_hash = module_hash.merge(build_modules_cases(primero_module.unique_id))
       end
       if primero_module.associated_record_types.include?('incident')
-        module_hash.merge(build_modules_incidents(primero_module.unique_id))
+        module_hash = module_hash.merge(build_modules_incidents(primero_module.unique_id))
       end
       module_hash
     end
@@ -67,7 +67,7 @@ class UsageReport < ValueObject
       cases_open: cases_open_count(module_id),
       cases_closed: cases_closed_count(module_id),
       cases_open_this_quarter: records_open_this_quarter(Child, module_id),
-      cases_closed_this_quarter: records_open_this_quarter(Child, module_id),
+      cases_closed_this_quarter: records_closed_this_quarter(Child, module_id),
       services_total: cases_subform_total(module_id)['service_count'],
       followups_total: cases_subform_total(module_id)['followups_count']
     }
