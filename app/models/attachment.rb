@@ -127,7 +127,7 @@ class Attachment < ApplicationRecord
     return unless SystemSettings.maximum_attachments_space.positive?
     return if total_attachment_file_size_with_new_file <= SystemSettings.maximum_attachments_space
 
-    ContactInformationMailJob.perform_later(:maximum_attachments_space)
+    AdministratorNotificationMailJob.perform_later(:maximum_attachments_space)
 
     errors.add(:base, 'errors.attachments.file_upload_unsuccessful')
   end
@@ -139,6 +139,6 @@ class Attachment < ApplicationRecord
 
     return unless total_attachment_file_size_with_new_file > warning_limit
 
-    ContactInformationMailJob.perform_later(:maximum_attachments_space_warning)
+    AdministratorNotificationMailJob.perform_later(:maximum_attachments_space_warning)
   end
 end

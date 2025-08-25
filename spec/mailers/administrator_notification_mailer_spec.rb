@@ -4,7 +4,7 @@
 
 require 'rails_helper'
 
-describe ContactInformationMailer, type: :mailer do
+describe AdministratorNotificationMailer, type: :mailer do
   before do
     clean_data(ContactInformation, SystemSettings)
   end
@@ -23,7 +23,7 @@ describe ContactInformationMailer, type: :mailer do
       it 'email is not sent' do
         allow(SystemSettings).to receive(:maximum_attachments_space).and_return(0)
 
-        mail = ContactInformationMailer.notify(:maximum_attachments_space)
+        mail = AdministratorNotificationMailer.notify(:maximum_attachments_space)
         expect(mail.message).to be_a(ActionMailer::Base::NullMail)
         expect(mail.to).to be_nil
       end
@@ -31,7 +31,7 @@ describe ContactInformationMailer, type: :mailer do
 
     context 'when maximum_attachments_space is positive' do
       it 'build email and to' do
-        mail = ContactInformationMailer.notify(:maximum_attachments_space)
+        mail = AdministratorNotificationMailer.notify(:maximum_attachments_space)
 
         expect(mail.to).to eq(['myemail@local.host'])
         expect(mail.subject).to eq('Reached attachment storage limit for ')

@@ -2,8 +2,8 @@
 
 # Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
 
-# Sends email notifications for Contact Information
-class ContactInformationMailer < ApplicationMailer
+# Sends email notifications for Administrator
+class AdministratorNotificationMailer < ApplicationMailer
   def notify(notification_type)
     @maximum_attachments_space = SystemSettings.maximum_attachments_space
     return unless @maximum_attachments_space.positive?

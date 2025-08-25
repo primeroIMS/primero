@@ -218,7 +218,7 @@ describe Attachment, search: true do
           expect do
             attachment = Attachment.new(file: blob, record: child)
             attachment.validate
-          end.to have_enqueued_job(ContactInformationMailJob).with(:maximum_attachments_space)
+          end.to have_enqueued_job(AdministratorNotificationMailJob).with(:maximum_attachments_space)
 
           attachment = Attachment.new(
             record: child, field_name: 'photos', attachment_type: Attachment::IMAGE,
