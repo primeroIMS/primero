@@ -160,6 +160,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
           { 'posted_at' => { 'from' => nil, 'to' => Incident.first.posted_at.strftime('%Y-%m-%dT%H:%M:%S.%LZ') } },
           { 'created_at' => { 'from' => nil, 'to' => Incident.first.created_at.strftime('%Y-%m-%dT%H:%M:%S.%LZ') } },
           { 'created_by' => { 'from' => nil, 'to' => 'faketest' } },
+          { 'child_types' => { 'from' => nil, 'to' => [] } },
           { 'description' => { 'from' => nil, 'to' => 'Test' } },
           { 'incident_id' => { 'from' => nil, 'to' => Incident.first.incident_id } },
           { 'record_state' => { 'from' => nil, 'to' => true } },
