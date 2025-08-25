@@ -4,8 +4,8 @@ import { object, string, array } from "yup";
 
 export default i18n =>
   object().shape({
-    name: string().required(),
     module_unique_ids: array().min(1),
+    name: string().required(),
     permissions: object().test("permissions", i18n.t("errors.models.role.permission_presence"), async value => {
       const selectedPermissions = { ...value };
 
