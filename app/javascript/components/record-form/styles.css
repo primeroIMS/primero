@@ -52,6 +52,10 @@
     height: max-content;
     padding-bottom: 5em;
   }
+
+  & > div:last-of-type {
+    max-width: 30%;
+  }
 }
 
 .formNavOpen {

@@ -9,6 +9,7 @@ import {
   READ_RECORDS,
   READ_REPORTS,
   SHOW_APPROVALS,
+  SHOW_ACCESS_LOG,
   SHOW_CHANGE_LOG,
   SHOW_EXPORTS,
   SHOW_TASKS,
@@ -168,6 +169,8 @@ const SUMMARY = "summary";
 
 const SUMMARY_INCIDENT_MRM = "mrm_summary_page";
 
+const ACCESS_LOGS = "access_logs";
+
 const TRANSITION_TYPE = [TRANSFERS_ASSIGNMENTS, REFERRAL];
 
 const RECORD_INFORMATION = [APPROVALS, RECORD_OWNER, REFERRAL, TRANSFERS_ASSIGNMENTS];
@@ -285,7 +288,8 @@ const LOOKUPS = {
   legitimate_basis_explanations: "lookup-legitimate-basis-explanations",
   verification_status: "lookup-verification-status",
   violation_type: "lookup-violation-type",
-  armed_force_group_or_other_party: "lookup-armed-force-group-or-other-party"
+  armed_force_group_or_other_party: "lookup-armed-force-group-or-other-party",
+  yes_no: "lookup-yes-no"
 };
 
 const ADMIN_NAV = [
@@ -595,6 +599,7 @@ const FAMILY_DETAILS_SUBFORM_ID = "family_details_section";
 
 const FORM_PERMISSION_ACTION = Object.freeze({
   [INCIDENT_FROM_CASE]: VIEW_INCIDENTS_FROM_CASE,
+  [ACCESS_LOGS]: SHOW_ACCESS_LOG,
   [CHANGE_LOGS]: SHOW_CHANGE_LOG,
   [APPROVALS]: SHOW_APPROVALS,
   [SUMMARY]: SHOW_SUMMARY,
@@ -928,5 +933,6 @@ export {
   PROCESS_QUALITY_SUCCESSFUL_REFERRALS_SUBREPORTS,
   PROCESS_QUALITY_TOTAL_CASES_SUBREPORTS,
   PROCESS_QUALITY_IMPLEMENTED_REFERRALS_SUBREPORTS,
-  CASE_CHARACTERISTICS_SUBREPORTS
+  CASE_CHARACTERISTICS_SUBREPORTS,
+  ACCESS_LOGS
 };

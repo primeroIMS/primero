@@ -79,8 +79,8 @@ describe ManagedReports::Indicators::LateVerificationViolations do
         'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
         'ghn_date_filter' => SearchFilters::DateRange.new(
           field_name: 'ghn_date_filter',
-          from: '2021-05-01',
-          to: '2022-05-31'
+          from: Date.parse('2021-05-01'),
+          to: Date.parse('2022-05-31')
         )
       }
     ).data

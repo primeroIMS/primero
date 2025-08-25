@@ -16,6 +16,9 @@ import SearchNameToggle from "../search-name-toggle";
 import { registerInput } from "../filter-types/utils";
 import handleFilterChange from "../filter-types/value-handlers";
 import PhoneticHelpText from "../phonetic-help-text";
+import { useMemoizedSelector } from "../../../../libs";
+import { getTooltipFields } from "../../selectors";
+import displayNameHelper from "../../../../libs/display-name-helper";
 
 import css from "./styles.css";
 import { searchTitleI18nKey } from "./utils";
@@ -24,7 +27,13 @@ const FIELD_NAME_QUERY = "query";
 const FIELD_NAME_ID_SEARCH = "id_search";
 const PHONETIC_FIELD_NAME = "phonetic";
 
-function SearchBox({ showSearchButton = true, useFullWidth = false, searchFieldLabel, showSearchNameToggle = true }) {
+function SearchBox({
+  showSearchButton = true,
+  useFullWidth = false,
+  searchFieldLabel,
+  showSearchNameToggle = true,
+  recordType = ""
+}) {
   const i18n = useI18n();
 
   const { register, unregister, setValue } = useFormContext();
@@ -34,6 +43,9 @@ function SearchBox({ showSearchButton = true, useFullWidth = false, searchFieldL
   const [switchValue, setSwitchValue] = useState();
   const valueRef = useRef();
   const switchRef = useRef();
+
+  const tooltipFields = useMemoizedSelector(state => getTooltipFields(state, recordType, switchValue));
+  const searchFieldTooltips = tooltipFields?.map(obj => displayNameHelper(obj, i18n.locale));
 
   useEffect(() => {
     registerInput({
@@ -123,7 +135,7 @@ function SearchBox({ showSearchButton = true, useFullWidth = false, searchFieldL
           />
         )}
       </div>
-      {watchPhonetic && <PhoneticHelpText />}
+      {showSearchNameToggle && <PhoneticHelpText isPhonetic={switchValue} searchFieldTooltips={searchFieldTooltips} />}
     </div>
   );
 }
@@ -131,6 +143,7 @@ function SearchBox({ showSearchButton = true, useFullWidth = false, searchFieldL
 SearchBox.displayName = "SearchBox";
 
 SearchBox.propTypes = {
+  recordType: PropTypes.string,
   searchFieldLabel: PropTypes.string,
   showSearchButton: PropTypes.bool,
   showSearchNameToggle: PropTypes.bool,

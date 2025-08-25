@@ -454,13 +454,20 @@ export const getFields = state => state.getIn([NAMESPACE, "fields"], fromJS([]))
 export const getAllForms = state => state.getIn([NAMESPACE, "formSections"]);
 
 export const getFieldByName = (state, name, moduleID, parentForm) => {
-  const fields = state
-    .getIn([NAMESPACE, "fields"], fromJS([]))
-    .filter(field =>
-      moduleID && parentForm
-        ? parentForm === field.get("parent_form") && field.get("module_ids").includes(moduleID)
-        : true
-    );
+  const fields = state.getIn([NAMESPACE, "fields"], fromJS([])).filter(field => {
+    if (moduleID && parentForm) {
+      const parentMatch = parentForm === field.get("parent_form");
+      const fieldModuleIDs = field.get("module_ids");
+
+      if (Array.isArray(moduleID)) {
+        return parentMatch && moduleID.some(mid => fieldModuleIDs.includes(mid));
+      }
+
+      return parentMatch && fieldModuleIDs.includes(moduleID);
+    }
+
+    return true;
+  });
 
   if (Array.isArray(name)) {
     return fields.filter(field => name.includes(field.name));

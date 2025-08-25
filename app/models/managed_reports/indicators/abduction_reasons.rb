@@ -35,6 +35,7 @@ class ManagedReports::Indicators::AbductionReasons < ManagedReports::SqlReportIn
           #{date_range_query(params['ctfmr_verified_date'], 'violations')&.prepend('and ')}
           #{equal_value_query(params['ctfmr_verified'], 'violations')&.prepend('and ')}
           #{equal_value_query(params['type'], 'violations')&.prepend('and ')}
+          #{equal_value_query(params['has_late_verified_violations'], 'incidents')&.prepend('and ')}
         ) as subquery
         group by key, name
         #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}

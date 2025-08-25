@@ -18,15 +18,19 @@ describe("middleware/utils/handle-configuration.js", () => {
   beforeEach(() => {
     jest.spyOn(generate, "messageKey").mockReturnValue(4);
     jest.spyOn(store, "dispatch");
+    jest.useFakeTimers();
   });
 
   afterEach(() => {
+    jest.useRealTimers();
     jest.restoreAllMocks();
     store.clearActions();
   });
 
-  it("should call methods related to 503 response", () => {
+  it("should call methods related to 503 response", async () => {
     handleConfiguration(503, store, options, response, rest);
+    await jest.advanceTimersByTimeAsync(5 * 60 * 1000);
+
     const actions = store.getActions();
 
     expect(actions[0]).toEqual({
@@ -44,9 +48,9 @@ describe("middleware/utils/handle-configuration.js", () => {
     });
   });
 
-  it("should call methods related to 204 response", () => {
+  it("should call methods related to 204 response", async () => {
     handleConfiguration(204, store, options, response, rest);
-
+    await jest.advanceTimersByTimeAsync(5 * 60 * 1000);
     const actions = store.getActions();
 
     expect(actions[0]).toEqual({

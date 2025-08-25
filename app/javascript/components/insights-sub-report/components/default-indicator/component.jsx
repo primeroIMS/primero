@@ -16,6 +16,8 @@ function Component({
   emptyMessage,
   groupedBy,
   hasTotalColumn,
+  headerTitle,
+  includeZeros,
   incompleteDataLabel,
   indicatorsRows,
   insightMetadata,
@@ -27,11 +29,14 @@ function Component({
   subReportTitle,
   TableComponent,
   totalText,
+  useAgeRows = false,
   value,
   valueKey
 }) {
   const i18n = useI18n();
   const isRtl = useMemo(() => i18n.dir === "rtl", [i18n.dir]);
+  const indicatorRows = indicatorsRows[valueKey];
+  const tableType = insightMetadata.get("table_type");
 
   return (
     <div className={css.section}>
@@ -48,6 +53,7 @@ function Component({
             groupedBy,
             ageRanges,
             lookupValues: lookups[valueKey],
+            indicatorRows,
             incompleteDataLabel
           })}
           valueRender={chartValueRender}
@@ -59,7 +65,8 @@ function Component({
       <TableComponent
         useInsightsHeader
         valueRender={cellValueRender}
-        columns={buildInsightColumns[insightMetadata.get("table_type")]({
+        headerTitle={headerTitle}
+        columns={buildInsightColumns[tableType]({
           value,
           isGrouped,
           groupedBy,
@@ -70,7 +77,7 @@ function Component({
           subColumnItems,
           hasTotalColumn
         })}
-        values={buildInsightValues[insightMetadata.get("table_type")]({
+        values={buildInsightValues[tableType]({
           getLookupValue: lookupValue,
           data: value,
           key: valueKey,
@@ -79,15 +86,19 @@ function Component({
           groupedBy,
           ageRanges,
           lookupValues: lookups[valueKey],
-          indicatorRows: indicatorsRows[valueKey],
+          indicatorRows,
           incompleteDataLabel,
           subColumnItems,
-          hasTotalColumn
+          hasTotalColumn,
+          includeZeros
         })}
+        useAgeRows={useAgeRows}
         showPlaceholder
         name={namespace}
         emptyMessage={emptyMessage}
         subColumnItemsSize={subColumnItems?.length}
+        withTotals={hasTotalColumn}
+        indicatorRows={indicatorsRows}
       />
     </div>
   );
@@ -103,6 +114,8 @@ Component.propTypes = {
   emptyMessage: PropTypes.string,
   groupedBy: PropTypes.string,
   hasTotalColumn: PropTypes.bool,
+  headerTitle: PropTypes.string,
+  includeZeros: PropTypes.bool,
   incompleteDataLabel: PropTypes.string,
   indicatorsRows: PropTypes.object,
   insightMetadata: PropTypes.object,
@@ -114,6 +127,7 @@ Component.propTypes = {
   subReportTitle: PropTypes.func,
   TableComponent: PropTypes.node,
   totalText: PropTypes.string,
+  useAgeRows: PropTypes.bool,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   valueKey: PropTypes.string
 };

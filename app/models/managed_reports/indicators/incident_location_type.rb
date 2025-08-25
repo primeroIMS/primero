@@ -9,22 +9,26 @@ class ManagedReports::Indicators::IncidentLocationType < ManagedReports::SqlRepo
       'incident_location_type'
     end
 
+    # rubocop:disable Metrics/MethodLength
     def sql(current_user, params = {})
       date_param = filter_date(params)
       %{
-        select
-          data->> 'incident_location_type' as id,
-          #{grouped_date_query(params['grouped_by'], date_param)&.concat(' as group_id,')}
-          count(*) as total
-        from incidents
-        where data->> 'incident_location_type' is not null
-        #{date_range_query(date_param)&.prepend('and ')}
-        #{equal_value_query(params['module_id'])&.prepend('and ')}
-        #{user_scope_query(current_user)&.prepend('and ')}
-        group by data ->> 'incident_location_type'
+        SELECT
+          data->> 'incident_location_type' AS id,
+          #{grouped_date_query(params['grouped_by'], date_param)&.concat(' AS group_id,')}
+          COUNT(*) AS total
+        FROM incidents
+        WHERE data @? '$[*] ? (@.incident_location_type != null) ? (
+          !exists(@.gbv_reported_elsewhere) || @.gbv_reported_elsewhere != "gbvims-org"
+        )'
+        #{date_range_query(date_param)&.prepend('AND ')}
+        #{equal_value_query(params['module_id'])&.prepend('AND ')}
+        #{user_scope_query(current_user)&.prepend('AND ')}
+        GROUP BY data ->> 'incident_location_type'
         #{grouped_date_query(params['grouped_by'], date_param)&.prepend(', ')}
-        order by id
+        ORDER BY id
       }
     end
+    # rubocop:enable Metrics/MethodLength
   end
 end

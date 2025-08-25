@@ -7,7 +7,6 @@ import { NavLink } from "react-router-dom";
 import { isEqual } from "lodash";
 import { cx } from "@emotion/css";
 
-import { useI18n } from "../../../i18n";
 import ListIcon from "../../../list-icon";
 import Jewel from "../../../jewel";
 import css from "../../styles.css";
@@ -18,12 +17,13 @@ import { useApp } from "../../../application";
 import { setDialog } from "../../../action-dialog";
 import { LOGOUT_DIALOG, NAV_SETTINGS } from "../../constants";
 import { ROUTES } from "../../../../config";
+import useSystemStrings, { NAVIGATION } from "../../../application/use-system-strings";
 
 function Component({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username }) {
   const { disabledApplication, online, useContainedNavStyle } = useApp();
 
-  const i18n = useI18n();
   const dispatch = useDispatch();
+  const { label } = useSystemStrings(NAVIGATION);
 
   const { to, divider, icon, name, disableOffline, disabled, validateWithUserPermissions, resources } = menuEntry;
 
@@ -60,9 +60,8 @@ function Component({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
   const userPermissions = useMemoizedSelector(state => getPermissions(state), isEqual);
 
   const userRecordTypes = [...userPermissions.keys()];
-  const navItemName = name === "username" ? username : i18n.t(name);
+  const navItemName = name === "username" ? username : label(name);
   const navLinkClasses = cx(css.navLink, { [css.contained]: useContainedNavStyle });
-
   const renderNavAction = (
     <li id={name}>
       {renderDivider}

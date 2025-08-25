@@ -33,6 +33,7 @@ class ManagedReports::Indicators::ReportingLocationDenials < ManagedReports::Sql
         #{date_range_query(params['ctfmr_verified_date'], 'violations')&.prepend('and ')}
         #{equal_value_query(params['ctfmr_verified'], 'violations')&.prepend('and ')}
         #{equal_value_query(params['type'], 'violations')&.prepend('and ')}
+        #{equal_value_query(params['has_late_verified_violations'], 'incidents')&.prepend('and ')}
         group by (string_to_array(incidents."data" ->> 'reporting_location_hierarchy', '.'))[#{admin_level}]
         #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
         order by name

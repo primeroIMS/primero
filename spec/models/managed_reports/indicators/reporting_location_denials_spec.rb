@@ -45,7 +45,28 @@ describe ManagedReports::Indicators::ReportingLocationDenials do
     ]
     InsertAllService.insert_all(Location, locations)
 
-    incident = Incident.create!(data: { incident_date: Date.new(2020, 8, 8), status: 'open', incident_location: 'C2' })
+    @user = User.create!(
+      full_name: 'Test User 1', user_name: 'test_user_a', email: 'test_user_a@localhost.com',
+      agency_id: agency_a.id, role:, reporting_location_code: 1
+    )
+
+    incident = Incident.new_with_user(
+      @user,
+      {
+        incident_date: Date.new(2020, 8, 8),
+        status: 'open',
+        incident_location: 'C2',
+        module_id: PrimeroModule::MRM,
+        denial_humanitarian_access: [
+          {
+            unique_id: 'ac157a06-7245-11f0-95ec-7c10c98b54af',
+            ctfmr_verified: 'verified',
+            ctfmr_verified_date: Date.new(2020, 11, 5)
+          }
+        ]
+      }.with_indifferent_access
+    )
+    incident.save!
     incident2 = Incident.create!(data: { incident_date: Date.new(2021, 5, 8), status: 'open', incident_location: 'C2' })
     incident3 = Incident.create!(
       data: { incident_date: Date.new(2022, 2, 18), status: 'open', incident_location: 'C1' }
@@ -54,7 +75,6 @@ describe ManagedReports::Indicators::ReportingLocationDenials do
       data: { incident_date: Date.new(2022, 3, 28), status: 'open', incident_location: 'C2' }
     )
 
-    Violation.create!(data: { type: 'denial_humanitarian_access' }, incident_id: incident.id)
     Violation.create!(data: { type: 'denial_humanitarian_access' }, incident_id: incident2.id)
     Violation.create!(data: { type: 'maiming' }, incident_id: incident2.id)
     Violation.create!(data: { type: 'denial_humanitarian_access' }, incident_id: incident3.id)
@@ -65,11 +85,6 @@ describe ManagedReports::Indicators::ReportingLocationDenials do
     Violation.create!(data: { type: 'denial_humanitarian_access' }, incident_id: incident4.id)
     Violation.create!(data: { type: 'denial_humanitarian_access' }, incident_id: incident4.id)
     Violation.create!(data: { type: 'denial_humanitarian_access' }, incident_id: incident4.id)
-
-    @user = User.create!(
-      full_name: 'Test User 1', user_name: 'test_user_a', email: 'test_user_a@localhost.com',
-      agency_id: agency_a.id, role:, reporting_location_code: 1
-    )
   end
 
   it 'returns data for reporting location indicator' do
@@ -83,6 +98,22 @@ describe ManagedReports::Indicators::ReportingLocationDenials do
     )
   end
 
+  describe 'has_late_verified_violations filter' do
+    it 'returns the data only for those incidents where the value is true' do
+      reporting_location_data = ManagedReports::Indicators::ReportingLocationDenials.build(
+        @user,
+        {
+          'type' => SearchFilters::Value.new(field_name: 'type', value: 'denial_humanitarian_access'),
+          'has_late_verified_violations' => SearchFilters::BooleanValue.new(
+            field_name: 'has_late_verified_violations', value: true
+          )
+        }
+      ).data
+
+      expect(reporting_location_data).to match_array([{ id: 'E1', total: 1 }])
+    end
+  end
+
   describe 'grouped by' do
     context 'when is year' do
       it 'should return results grouped by year' do
@@ -92,8 +123,8 @@ describe ManagedReports::Indicators::ReportingLocationDenials do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'year'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2020-08-01',
-              to: '2022-10-10'
+              from: Date.parse('2020-08-01'),
+              to: Date.parse('2022-10-10')
             ),
             'type' => SearchFilters::Value.new(field_name: 'type', value: 'denial_humanitarian_access')
           }
@@ -117,8 +148,8 @@ describe ManagedReports::Indicators::ReportingLocationDenials do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'month'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2020-08-01',
-              to: '2022-03-30'
+              from: Date.parse('2020-08-01'),
+              to: Date.parse('2022-03-30')
             ),
             'type' => SearchFilters::Value.new(field_name: 'type', value: 'denial_humanitarian_access')
           }
@@ -149,8 +180,8 @@ describe ManagedReports::Indicators::ReportingLocationDenials do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2020-08-01',
-              to: '2022-03-30'
+              from: Date.parse('2020-08-01'),
+              to: Date.parse('2022-03-30')
             ),
             'type' => SearchFilters::Value.new(field_name: 'type', value: 'denial_humanitarian_access')
           }

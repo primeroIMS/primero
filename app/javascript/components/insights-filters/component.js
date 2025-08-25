@@ -143,7 +143,7 @@ function Component({ id, subReport, toggleControls }) {
         filter = filter.set("option_strings_text", workflowLabels);
       }
 
-      return <FilterInput field={filter} formMethods={formMethods} formMode={formMode} />;
+      return <FilterInput field={filter} formMethods={formMethods} formMode={formMode} key={filter.name} />;
     });
 
   const applyLabel = i18n.t("buttons.apply");

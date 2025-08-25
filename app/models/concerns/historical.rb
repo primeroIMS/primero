@@ -85,6 +85,20 @@ module Historical
     record_histories.order(datetime: :desc)
   end
 
+  def filter_histories(field_names:, form_unique_ids:)
+    return ordered_histories if field_names.blank? && form_unique_ids.blank?
+
+    names =
+      if field_names.present?
+        field_names
+      else
+        Field.joins(:form_section).where(form_sections: { unique_id: form_unique_ids })
+             .pluck(:name).uniq
+      end
+
+    ordered_histories.where('record_changes ?| array[:values]', values: names)
+  end
+
   # This is an alias to make migration easier
   def histories
     ordered_histories

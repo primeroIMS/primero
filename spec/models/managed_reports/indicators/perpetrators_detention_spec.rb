@@ -226,8 +226,8 @@ describe ManagedReports::Indicators::PerpetratorsDetention do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'year'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2020-08-01',
-              to: '2022-10-10'
+              from: Date.parse('2020-08-01'),
+              to: Date.parse('2022-10-10')
             )
           }
         ).data
@@ -251,8 +251,8 @@ describe ManagedReports::Indicators::PerpetratorsDetention do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'month'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2020-08-01',
-              to: '2022-02-28'
+              from: Date.parse('2020-08-01'),
+              to: Date.parse('2022-02-28')
             )
           }
         ).data
@@ -293,8 +293,8 @@ describe ManagedReports::Indicators::PerpetratorsDetention do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2020-08-01',
-              to: '2022-03-30'
+              from: Date.parse('2020-08-01'),
+              to: Date.parse('2022-03-30')
             )
           }
         ).data

@@ -7,6 +7,7 @@ describe("Verifying config constant", () => {
     const permissions = { ...PERMISSIONS.ACTIONS };
 
     [
+      "ACCESS_LOG",
       "ADD_NOTE",
       "ADD_REGISTRY_RECORD",
       "AGENCY_READ",

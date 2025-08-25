@@ -27,7 +27,14 @@ const sortTuples = ({ valueKey, tuples, ageRanges, lookupDisplayTexts, incomplet
   return sortBy(tuples, sortByFn);
 };
 
-const sortEntries = ({ valueKey, entries, ageRanges, lookupDisplayTexts, incompleteDataLabel }) => {
+const sortEntries = ({
+  valueKey,
+  entries,
+  ageRanges,
+  lookupDisplayTexts,
+  incompleteDataLabel,
+  indicatorRowDisplaytexts
+}) => {
   const sortByFn = ([, entryValue]) => entryValue;
 
   if (valueKey === "age" || valueKey.includes("_age")) {
@@ -36,6 +43,10 @@ const sortEntries = ({ valueKey, entries, ageRanges, lookupDisplayTexts, incompl
 
   if (lookupDisplayTexts.length > 1) {
     return sortWithSortedArray(entries, lookupDisplayTexts, sortByFn, incompleteDataLabel);
+  }
+
+  if (!isEmpty(indicatorRowDisplaytexts)) {
+    return sortWithSortedArray(entries, indicatorRowDisplaytexts, sortByFn, incompleteDataLabel);
   }
 
   return sortBy(entries, sortByFn);
@@ -48,6 +59,7 @@ const buildGroupedChartValues = ({
   groupedBy,
   localizeDate,
   ageRanges,
+  indicatorRowDisplaytexts,
   lookupDisplayTexts,
   incompleteDataLabel
 }) => {
@@ -63,9 +75,14 @@ const buildGroupedChartValues = ({
 
   const optionEntries = Object.entries(options);
 
-  const ids = sortEntries({ valueKey, entries: optionEntries, ageRanges, lookupDisplayTexts, incompleteDataLabel }).map(
-    ([key]) => key
-  );
+  const ids = sortEntries({
+    valueKey,
+    entries: optionEntries,
+    ageRanges,
+    lookupDisplayTexts,
+    incompleteDataLabel,
+    indicatorRowDisplaytexts
+  }).map(([key]) => key);
 
   const sortedData = value.sort(groupIdComparator(groupedBy));
 
@@ -103,11 +120,14 @@ export default ({
   groupedBy,
   ageRanges,
   lookupValues,
-  incompleteDataLabel
+  incompleteDataLabel,
+  indicatorRows
 }) => {
   if (!value) return {};
 
   const lookupDisplayTexts = lookupValues?.map(lookupValue => lookupValue.display_text) || [];
+
+  const indicatorRowDisplaytexts = indicatorRows?.map(row => row.display_text) || [];
 
   if (!isEmpty(lookupDisplayTexts)) {
     lookupDisplayTexts.push(incompleteDataLabel);
@@ -123,7 +143,8 @@ export default ({
       localizeDate,
       ageRanges,
       lookupDisplayTexts,
-      incompleteDataLabel
+      incompleteDataLabel,
+      indicatorRowDisplaytexts
     });
   }
 

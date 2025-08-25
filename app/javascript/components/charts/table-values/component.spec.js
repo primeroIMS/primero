@@ -77,7 +77,7 @@ describe("<TableValues />", () => {
       ...buildTableData(data, window.I18n, { agencies })
     };
 
-    mountedComponent(<TableValues />, props);
+    mountedComponent(<TableValues {...props} />);
     expect(screen.getAllByRole("table")).toHaveLength(1);
     expect(screen.getAllByRole("columnheader")).toHaveLength(2);
   });

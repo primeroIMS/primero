@@ -1,9 +1,9 @@
 import PropTypes from "prop-types";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-import ActionButton from "../../../../../action-button";
-import DisableOffline from "../../../../../disable-offline";
-import { ACTION_BUTTON_TYPES } from "../../../../../action-button/constants";
+import ActionButton from "../../../../../../action-button";
+import DisableOffline from "../../../../../../disable-offline";
+import { ACTION_BUTTON_TYPES } from "../../../../../../action-button/constants";
 
 function Component({ onClick }) {
   return (

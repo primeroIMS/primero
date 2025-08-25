@@ -22,6 +22,7 @@ json.data do
                                               'allow_case_creation_from_referral' =>
                                                   @system_setting.create_case_from_referral?
                                             })
+  json.field_labels FieldI18nService.to_localized_values(@system_setting.field_labels_i18n)
   json.audit_log do
     json.actions AuditLog::ACTIONS
     json.record_types AuditLog::RECORD_TYPES
@@ -45,5 +46,20 @@ json.data do
       end
     end
   end
+  json.exact_search_fields ([
+    Child,
+    Incident,
+    TracingRequest,
+    RegistryRecord,
+    Family
+  ].map { |record_type| { record_type.parent_form.pluralize => record_type.filterable_id_fields } }).inject(&:merge)
+  json.phonetic_search_fields ([
+    Child,
+    Incident,
+    TracingRequest,
+    RegistryRecord,
+    Family
+  ].map { |record_type| { record_type.parent_form.pluralize => record_type.const_get('PHONETIC_FIELD_NAMES') } })
+    .inject(&:merge)
 end.compact!
 # rubocop:enable Metrics/BlockLength

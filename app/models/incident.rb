@@ -22,6 +22,7 @@ class Incident < ApplicationRecord
   include LocationCacheable
   include PhoneticSearchable
   include Normalizeable
+  include AccessLoggable
 
   store_accessor(
     :data,

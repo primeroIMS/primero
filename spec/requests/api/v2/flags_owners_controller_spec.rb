@@ -54,7 +54,7 @@ describe Api::V2::FlagsOwnersController, type: :request do
     @case1.add_flag('This is a flag', Date.today, 'faketest')
     @case3.add_flag('This is a flag', Date.today - 1.days, 'faketest')
     @flag_to_remove = @case1.add_flag('This is test flag 3', Date.today - 2.days, 'faketest')
-    @case1.remove_flag(@flag_to_remove.id, 'faketest', 'Resolved Flag')
+    @case1.update_flag(@flag_to_remove.id, 'faketest', { unflag_message: 'Resolved Flag' }).save!
     @tracing_request1.add_flag('This is a flag TR', Date.today, 'faketest')
     @incident1.add_flag('This is a flag IN', Date.today, 'faketest')
     @incident2.add_flag('This is a flag IN', Date.today, 'faketest')

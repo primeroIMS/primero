@@ -4,7 +4,7 @@ import { fromJS } from "immutable";
 
 import { FILTER_TYPES } from "../../../index-filters";
 
-import { AGENCY, DISABLED, USER_GROUP } from "./constants";
+import { AGENCY, DISABLED, USER_GROUP, LAST_DATE } from "./constants";
 
 const searchableAgencies = (data, i18n) => {
   return data.reduce(
@@ -58,6 +58,18 @@ export const getFilters = (i18n, filterAgencies, filterUserGroups, filterPermiss
     options: userGroupOptions(filterUserGroups),
     type: FILTER_TYPES.MULTI_SELECT,
     multiple: false
+  },
+  {
+    name: "cases.filter_by.by_date",
+    field_name: LAST_DATE,
+    type: FILTER_TYPES.DATES,
+    options: {
+      [i18n.locale]: [
+        { id: "last_access", display_name: i18n.t("users.filters.date_last_login") },
+        { id: "last_case_viewed", display_name: i18n.t("users.filters.date_last_case_view") },
+        { id: "last_case_updated", display_name: i18n.t("users.filters.date_last_case_updated") }
+      ]
+    }
   }
 ];
 
