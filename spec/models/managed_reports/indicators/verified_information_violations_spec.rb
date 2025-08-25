@@ -78,11 +78,31 @@ describe ManagedReports::Indicators::VerifiedInformationViolations do
       }
     ).data
 
+    query = %w[
+      has_late_verified_violations=false
+      ctfmr_verified_date=2021-04-01..2022-06-10
+    ]
+
     expect(data).to match_array(
       [
-        { 'id' => 'attack_on_hospitals', 'total' => 1 },
-        { 'id' => 'denial_humanitarian_access', 'total' => 1 },
-        { 'id' => 'attack_on_schools', 'total' => 1 }
+        {
+          'id' => 'attack_on_hospitals',
+          'total' => {
+            count: 1, query: %w[violation_with_verification_status=attack_on_hospitals_verified] + query
+          }
+        },
+        {
+          'id' => 'denial_humanitarian_access',
+          'total' => {
+            count: 1, query: %w[violation_with_verification_status=denial_humanitarian_access_verified] + query
+          }
+        },
+        {
+          'id' => 'attack_on_schools',
+          'total' => {
+            count: 1, query: %w[violation_with_verification_status=attack_on_schools_verified] + query
+          }
+        }
       ]
     )
   end

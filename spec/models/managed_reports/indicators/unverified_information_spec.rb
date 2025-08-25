@@ -43,6 +43,11 @@ describe ManagedReports::Indicators::UnverifiedInformation do
   end
 
   it 'return data for unverified information indicator' do
+    common_query = %w[
+      violation_with_verification_status=abduction_report_pending_verification
+      incident_date=2022-01-01..2022-06-10
+    ]
+
     data = ManagedReports::Indicators::UnverifiedInformation.build(
       nil,
       {
@@ -57,15 +62,45 @@ describe ManagedReports::Indicators::UnverifiedInformation do
 
     expect(data).to match_array(
       [
-        { group_id: 'boys', data: [{ id: 'abduction', total: 1 }] },
-        { group_id: 'girls', data: [{ id: 'abduction', total: 2 }] },
-        { group_id: 'unknown', data: [{ id: 'abduction', total: 5 }] },
-        { group_id: 'total', data: [{ id: 'abduction', total: 8 }] }
+        {
+          group_id: 'boys',
+          data: [
+            { id: 'abduction', total: { count: 1, query: %w[child_types=boys] + common_query } }
+          ]
+        },
+        {
+          group_id: 'girls',
+          data: [
+            { id: 'abduction', total: { count: 2, query: %w[child_types=girls] + common_query } }
+          ]
+        },
+        {
+          group_id: 'unknown',
+          data: [
+            { id: 'abduction', total: { count: 5, query: %w[child_types=unknown] + common_query } }
+          ]
+        },
+        {
+          group_id: 'total',
+          data: [
+            { id: 'abduction', total: { count: 8, query: common_query } }
+          ]
+        }
       ]
     )
   end
 
   it 'return data for unverified information for multiple quarters' do
+    abduction_query = %w[
+      violation_with_verification_status=abduction_report_pending_verification
+      incident_date=2021-04-01..2022-06-10
+    ]
+
+    killing_query = %w[
+      violation_with_verification_status=killing_report_pending_verification
+      incident_date=2021-04-01..2022-06-10
+    ]
+
     data = ManagedReports::Indicators::UnverifiedInformation.build(
       nil,
       {
@@ -80,10 +115,34 @@ describe ManagedReports::Indicators::UnverifiedInformation do
 
     expect(data).to match_array(
       [
-        { group_id: 'boys', data: [{ id: 'abduction', total: 4 }, { id: 'killing', total: 2 }] },
-        { group_id: 'girls', data: [{ id: 'abduction', total: 4 }, { id: 'killing', total: 0 }] },
-        { group_id: 'unknown', data: [{ id: 'abduction', total: 9 }, { id: 'killing', total: 2 }] },
-        { group_id: 'total', data: [{ id: 'abduction', total: 17 }, { id: 'killing', total: 4 }] }
+        {
+          group_id: 'boys', 
+          data: [
+            { id: 'abduction', total: { count: 4, query: %w[child_types=boys] + abduction_query } },
+            { id: 'killing', total: { count: 2, query: %w[child_types=boys] + killing_query } }
+          ]
+        },
+        {
+          group_id: 'girls',
+          data: [
+            { id: 'abduction', total: { count: 4, query: %w[child_types=girls] + abduction_query } },
+            { id: 'killing', total: { count: 0, query: %w[child_types=girls] + killing_query } }
+          ]
+        },
+        {
+          group_id: 'unknown',
+          data: [
+            { id: 'abduction', total: { count: 9, query: %w[child_types=unknown] + abduction_query } },
+            { id: 'killing', total: { count: 2, query: %w[child_types=unknown] + killing_query } }
+          ]
+        },
+        {
+          group_id: 'total',
+          data: [
+            { id: 'abduction', total: { count: 17, query: abduction_query } },
+            { id: 'killing', total: { count: 4, query: killing_query  } }
+          ]
+        }
       ]
     )
   end
