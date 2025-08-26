@@ -35,6 +35,7 @@ Rails.application.config.content_security_policy do |policy|
   policy.child_src(*child_sources)
   policy.frame_src(:none)
   policy.base_uri(:self)
+  policy.frame_ancestors(:self)
 
   # Specify URI for violation reports
   # policy.report_uri "/csp-violation-report-endpoint"
