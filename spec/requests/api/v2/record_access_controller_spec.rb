@@ -48,11 +48,23 @@ describe Api::V2::RecordHistoriesController, type: :request do
     )
   end
 
+  let!(:user_owner) do
+    User.create!(
+      full_name: 'User owner',
+      user_name: 'user_owner',
+      password: 'a12345678',
+      password_confirmation: 'a12345678',
+      email: 'user_owner@localhost.com',
+      agency_id: agency_a.id,
+      role:
+    )
+  end
+
   let!(:child1) do
     Child.create!(
       data: {
         status: 'open', age: 2, sex: 'female',
-        owned_by: user_a.user_name
+        owned_by: user_owner.user_name
       }
     )
   end
@@ -61,7 +73,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
     Incident.create!(
       data: {
         incident_date: '2019-02-01', description: 'Tester',
-        owned_by: user_a.user_name
+        owned_by: user_owner.user_name
       }
     )
   end

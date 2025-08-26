@@ -24,7 +24,7 @@ class Api::V2::RecordAccessController < Api::V2::RecordResourceController
   def access_log_filters
     filters = {
       date_range: timestamp_param,
-      exclude_user_id: current_user.id
+      exclude_user_id: @record.owner.id
     }
     actions = access_log_params.dig(:filters, :actions)&.values.presence
     filters[:actions] = actions if actions.present?
