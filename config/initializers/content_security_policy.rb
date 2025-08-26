@@ -29,7 +29,7 @@ Rails.application.config.content_security_policy do |policy|
   policy.font_src(*font_and_image_sources)
   policy.img_src(*font_and_image_sources)
   policy.media_src(*media_sources)
-  policy.object_src(:none)
+  policy.object_src(:self)
   policy.script_src(*script_sources)
   policy.style_src(*style_sources)
   policy.child_src(*child_sources)
