@@ -48,13 +48,13 @@ describe Api::V2::RecordHistoriesController, type: :request do
     )
   end
 
-  let!(:user_owner) do
+  let!(:user_login) do
     User.create!(
-      full_name: 'User owner',
-      user_name: 'user_owner',
+      full_name: 'User login',
+      user_name: 'user_login',
       password: 'a12345678',
       password_confirmation: 'a12345678',
-      email: 'user_owner@localhost.com',
+      email: 'user_login@localhost.com',
       agency_id: agency_a.id,
       role:
     )
@@ -64,7 +64,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
     Child.create!(
       data: {
         status: 'open', age: 2, sex: 'female',
-        owned_by: user_owner.user_name
+        owned_by: user_a.user_name
       }
     )
   end
@@ -73,7 +73,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
     Incident.create!(
       data: {
         incident_date: '2019-02-01', description: 'Tester',
-        owned_by: user_owner.user_name
+        owned_by: user_a.user_name
       }
     )
   end
@@ -133,6 +133,17 @@ describe Api::V2::RecordHistoriesController, type: :request do
     )
   end
 
+  let!(:audit_log6) do
+    AuditLog.create!(
+      record_type: 'Child',
+      record_id: child1.id,
+      user_id: user_login.id,
+      action: 'show',
+      resource_url: '',
+      timestamp: 1.days.ago
+    )
+  end
+
   let(:json) { JSON.parse(response.body) }
 
   describe 'GET /api/v2/:record_type/:record_id/' do
@@ -150,6 +161,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
 
     it 'list record_history from a child' do
       login_for_test(
+        user_name: 'user_login',
         permissions: [
           Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::ACCESS_LOG])
         ]
@@ -157,7 +169,9 @@ describe Api::V2::RecordHistoriesController, type: :request do
 
       get "/api/v2/cases/#{Child.first.id}/access_log"
 
-      expect(json['data'].map { |data| data['id'] }).to match_array([audit_log1.id, audit_log2.id, audit_log3.id])
+      expect(json['data'].map { |data| data['id'] }).to match_array(
+        [audit_log1.id, audit_log2.id, audit_log3.id, audit_log6.id]
+      )
     end
 
     it 'returns 403 if user only have read permission' do
