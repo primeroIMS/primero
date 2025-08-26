@@ -1432,6 +1432,8 @@ en:
     resolved: Resolved Flags
     resolved_date: 'Resolved:'
     resolved_reason: 'Resolve Reason:'
+    update_flag: Update Flags
+    flag_updated: Flag updated successfully
     title: Flags
   followup_reminders:
     system_generated_followup_flag: mandatory follow up visit
