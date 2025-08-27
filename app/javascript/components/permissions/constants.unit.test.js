@@ -83,6 +83,7 @@ describe("Verifying config constant", () => {
       "FIND_TRACING_MATCH",
       "FLAG_RESOLVE_ANY",
       "FLAG",
+      "FLAG_UPDATE",
       "GBV_STATISTICS",
       "GROUP_READ",
       "INCIDENT_DETAILS_FROM_CASE",
