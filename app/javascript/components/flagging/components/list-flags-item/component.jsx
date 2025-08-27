@@ -10,7 +10,7 @@ import ListFlagsItemActions from "../list-flags-item-actions";
 
 import { NAME } from "./constants";
 
-function Component({ flag }) {
+function Component({ flag, handleClick }) {
   const itemClass = flag?.removed ? css.itemResolved : css.item;
 
   if (!flag) {
@@ -19,7 +19,7 @@ function Component({ flag }) {
 
   return (
     <>
-      <ListItem className={itemClass}>
+      <ListItem className={itemClass} onClick={handleClick}>
         <ListItemText className={css.itemText}>
           <div className={css.wrapper}>
             <div className={css.flagInfo}>
@@ -44,7 +44,8 @@ function Component({ flag }) {
 Component.displayName = NAME;
 
 Component.propTypes = {
-  flag: PropTypes.object.isRequired
+  flag: PropTypes.object.isRequired,
+  handleClick: PropTypes.func
 };
 
 export default Component;

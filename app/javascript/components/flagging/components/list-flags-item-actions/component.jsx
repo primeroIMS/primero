@@ -34,7 +34,9 @@ function Component({ flag }) {
     return null;
   }
 
-  const handleUnflagDialog = () => {
+  const handleUnflagDialog = event => {
+    event.stopPropagation();
+
     dispatch(setSelectedFlag(flag.id));
     setDialog({ dialog: UNFLAG_DIALOG, open: true });
   };

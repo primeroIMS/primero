@@ -35,8 +35,7 @@ module Flaggable
       flag.mark_removed(user_name, params[:unflag_message])
     else
       flag.updated_by = user_name
-      flag.message = params[:message]
-      flag.date = params[:date]
+      flag.assign_attributes(params)
     end
 
     flag

@@ -194,6 +194,26 @@ describe Api::V2::FlagsController, type: :request do
       expect(json['data']['record_id']).to eq(json['data']['record']['id'])
     end
 
+    it 'updates the date of a flag' do
+      login_for_test(
+        permissions: [
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::READ, Permission::WRITE, Permission::FLAG, Permission::FLAG_UPDATE]
+          )
+        ]
+      )
+      date = Date.today - 1.days
+      flag = @case1.add_flag!('This is another flag', Date.today, 'faketest')
+      params = { data: { date: } }
+      patch("/api/v2/cases/#{@case1.id}/flags/#{flag.id}", params:)
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['message']).to eq('This is another flag')
+      expect(json['data']['date']).to eq(date.to_s)
+      expect(json['data']['record_id']).to eq(json['data']['record']['id'])
+    end
+
     it 'gets a forbidden message if the user does not have the flag_update permission' do
       login_for_test(permissions: permission_flag_record)
       params = { data: { message: 'This is an updated flag', date: Date.today - 1.days } }
