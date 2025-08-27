@@ -42,6 +42,11 @@ const customCheckBoxFilters = {
         id: `assigned_user_names=${user}`,
         key: "assigned_user_names",
         display_name: label("referred_cases", "cases.filter_by.referred_cases")
+      },
+      {
+        id: `assign=${user}`,
+        key: "assign",
+        display_name: label("assigned_cases", "cases.filter_by.assigned_to_me")
       }
     ],
     isObject: true,

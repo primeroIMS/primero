@@ -45,7 +45,7 @@ class PermittedFieldService
     alert_count assigned_user_names created_at created_by created_by_agency owned_by owned_by_agency_id
     owned_by_text owned_by_agency_office previous_agency previously_owned_by reassigned_tranferred_on reopened_logs
     last_updated_at last_updated_by owned_by_groups previously_owned_by_agency created_organization
-    consent_for_services disclosure_other_orgs case_type
+    consent_for_services disclosure_other_orgs case_type assign
   ].freeze
 
   PERMITTED_DASHBOARD_FILTERS = {
