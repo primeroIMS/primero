@@ -435,6 +435,7 @@ en:
       protection_risks: Protection Risks
       record_state: Record State
       referred_cases: Cases referred to me
+      assigned_to_me: Cases assigned to me
       registration_date: Registration Date
       risk_level: Risk Level
       sex: Sex
@@ -607,6 +608,7 @@ en:
       date_reunification: Date of Reunification
       tracing_date: Date of Tracing
       service_implemented_day_time: Date Service Completed
+      reassigned_transferred_on: Date Assigned / Transferred On
   configurations:
     apply_label: Are you sure? If you apply, the settings in this configuration will be applied to the system.
       You will lose all your current settings and will not be able to get them back unless you have already saved
