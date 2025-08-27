@@ -2347,6 +2347,7 @@ en:
         total: Total
         unknown: Unknown
         associated_violations: Associated Violations
+        deprivation_liberty: Deprivation of Liberty
     violations:
       name: Violations
       description: ''

@@ -7,7 +7,7 @@ class Violation < ApplicationRecord
   # TODO: There is some amount of duplication between this and the Incident container class. Refactor!
 
   TYPES = %w[killing maiming recruitment sexual_violence abduction attack_on_hospitals attack_on_schools military_use
-             denial_humanitarian_access].freeze
+             denial_humanitarian_access deprivation_liberty].freeze
   MRM_ASSOCIATIONS_KEYS = %w[sources perpetrators individual_victims group_victims responses].freeze
 
   has_and_belongs_to_many :individual_victims
