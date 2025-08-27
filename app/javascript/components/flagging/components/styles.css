@@ -31,6 +31,10 @@
   }
 }
 
+.itemForbidden {
+  cursor: not-allowed;
+}
+
 .itemResolved {
   padding: 0;
   font-size: var(--fs-16);
