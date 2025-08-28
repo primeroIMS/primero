@@ -5,13 +5,13 @@
   gap: var(--sp-2);
   padding: var(--sp-1);
   border-bottom: 1px solid var(--c-warm-grey-1);
+  width: 100%;
 }
 
 .imgViewerContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--sp-4);
   height: 100%;
   position: relative;
 }
@@ -47,4 +47,35 @@
   align-items: center;
   padding: var(--sp-1);
   height: 100%;
+}
+
+.zoomistContainer {
+  width: 100%;
+  overflow: hidden;
+}
+
+.zoomistImage {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1;
+}
+
+.zoomistImageWrapper {
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.zoomistImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.zoomistWrapper {
+  overflow: hidden;
+  height: 100%
 }
