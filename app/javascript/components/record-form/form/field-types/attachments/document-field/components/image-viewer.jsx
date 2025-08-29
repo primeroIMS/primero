@@ -9,10 +9,6 @@ import { AssetJwt } from "../../../../../../asset-jwt";
 import ImageViewerControls from "./image-viewer-controls";
 import css from "./styles.css";
 
-// Package incorrectly exports for linter, but works for webpack
-// eslint-disable-next-line import/no-unresolved
-import "zoomist/css";
-
 function ImageViewer({ src, alt, mobileDisplay }) {
   const [rotation, setRotation] = useState(0);
   const [currentScale, setCurrentScale] = useState(1);
