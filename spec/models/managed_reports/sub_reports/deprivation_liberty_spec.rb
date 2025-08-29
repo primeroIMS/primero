@@ -4,11 +4,11 @@
 
 require 'rails_helper'
 
-describe ManagedReports::SubReports::Detention do
-  let(:detention) { ManagedReports::SubReports::Detention.new }
+describe ManagedReports::SubReports::DeprivationLiberty do
+  let(:detention) { ManagedReports::SubReports::DeprivationLiberty.new }
 
   it 'return the subreport id the subject' do
-    expect(detention.id).to eq('detention')
+    expect(detention.id).to eq('deprivation_liberty')
   end
 
   it 'return an Array of instance' do

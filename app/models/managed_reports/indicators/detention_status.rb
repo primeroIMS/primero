@@ -15,43 +15,34 @@ class ManagedReports::Indicators::DetentionStatus < ManagedReports::SqlReportInd
     # rubocop:disable Metrics/PerceivedComplexity
     def sql(current_user, params = {})
       %{
-        select status as name, count(subquery.id) as sum, sex as key,
-        sum(count(subquery.id)) over (partition by status
-          #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
-        )::integer as total
-        #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
-        from (
-            select
-            distinct on(iv.id) iv.id as id,
-            #{grouped_date_query(params['grouped_by'],
-                                 filter_date(params),
-                                 table_name_for_query(params))&.concat(' as group_id,')}
-            (
-              case
-              when (iv."data"->>'depriviation_liberty_end_date' is not null
-                and to_date(iv."data"->>'depriviation_liberty_end_date', 'YYYY-MM-DD') <= CURRENT_DATE)
-              then 'detention_released'
-              else 'detention_detained'
-              end
-            ) as status,
-            iv.data->>'individual_sex' as sex
-                  from violations violations
-                  inner join incidents incidents
-                    on incidents.id = violations.incident_id
-                    #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
-                  inner join individual_victims_violations ivv on violations.id = ivv.violation_id
-                  inner join individual_victims iv on ivv.individual_victim_id = iv.id
-                  WHERE iv."data"->>'depriviation_liberty_date' is not null
-                  and iv.data->>'individual_sex' is not null
-                  and (iv.data->>'victim_deprived_liberty_security_reasons') = 'yes'
-                  #{date_range_query(params['incident_date'], 'incidents')&.prepend('and ')}
-                  #{date_range_query(params['date_of_first_report'], 'incidents')&.prepend('and ')}
-                  #{date_range_query(params['ctfmr_verified_date'], 'violations')&.prepend('and ')}
-                  #{equal_value_query(params['ctfmr_verified'], 'violations')&.prepend('and ')}
-             ) as subquery
-         group by sex, status
-         #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
-         order by name
+        SELECT
+          #{grouped_date_query(params['grouped_by'],
+                               filter_date(params),
+                               table_name_for_query(params))&.concat(' AS group_id,')}
+          CASE
+            WHEN violations.data->>'deprivation_liberty_end_date' IS NULL
+            THEN 'detention_detained'
+            ELSE 'detention_released'
+          END AS name,
+          violation_tally.key AS key,
+          SUM(violation_tally.value::INT) AS sum
+        FROM violations violations
+        INNER JOIN incidents incidents
+          ON incidents.id = violations.incident_id
+          #{user_scope_query(current_user, 'incidents')&.prepend('AND ')}
+        CROSS JOIN JSONB_EACH_TEXT(violations.data->'violation_tally') AS violation_tally
+        WHERE violations.data @? '$.type ? (@ == "deprivation_liberty")'
+        AND violations.data @? '$[*] ? (exists(@.violation_tally) && @.violation_tally != null)'
+        #{date_range_query(params['incident_date'], 'incidents')&.prepend('AND ')}
+        #{date_range_query(params['date_of_first_report'], 'incidents')&.prepend('AND ')}
+        #{date_range_query(params['ctfmr_verified_date'], 'violations')&.prepend('AND ')}
+        #{equal_value_query(params['ctfmr_verified'], 'violations')&.prepend('AND ')}
+        #{equal_value_query(params['type'], 'violations')&.prepend('AND ')}
+        GROUP BY name, key
+        #{grouped_date_query(params['grouped_by'], filter_date(params), table_name_for_query(params))&.prepend(', ')}
+        ORDER BY
+        #{group_id_alias(params['grouped_by'])&.dup&.+(',')}
+        name, key
       }
     end
     # rubocop:enable Metrics/MethodLength
