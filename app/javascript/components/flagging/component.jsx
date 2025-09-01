@@ -66,12 +66,8 @@ function Component({ control, record, recordType }) {
         />
       )}
       <FlagDialog {...flagDialogProps}>
-        <div>
-          <ListFlags {...listFlagsProps} />
-        </div>
-        <div>
-          <FlagForm {...flagFormProps} />
-        </div>
+        <div>{tab === 0 && <ListFlags {...listFlagsProps} />}</div>
+        <div>{tab === 1 && <FlagForm {...flagFormProps} />}</div>
       </FlagDialog>
       {dialogOpen[UNFLAG_DIALOG] && <Unflag flag={selectedFlag} />}
       {dialogOpen[UPDATE_FLAG_DIALOG] && <UpdateFlag flag={selectedFlag} record={record} recordType={recordType} />}
