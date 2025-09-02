@@ -1982,7 +1982,7 @@ describe Exporters::ManagedReportExporter do
             {
               unique_id: '858a003b-1b21-4fe0-abbf-9cb39d3a6d80',
               individual_age: 3,
-              individual_multiple_violations: 'true',
+              individual_multiple_violations: true,
               violations_ids: ['82cecbec-76d8-11f0-ba36-7c10c98b54af']
             }
           ]
