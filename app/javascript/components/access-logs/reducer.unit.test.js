@@ -54,4 +54,40 @@ describe("ChangeLogs - Reducers", () => {
 
     expect(newState).toEqual(expected);
   });
+
+  it("should handle FETCH_USERS_ACCESSED_SUCCESS", () => {
+    const payload = {
+      data: [
+        {
+          id: 1,
+          user_name: "primero"
+        },
+        {
+          id: 3,
+          user_name: "primero_cp"
+        },
+        {
+          id: 4,
+          user_name: "primero_mgr_cp"
+        }
+      ]
+    };
+    const expected = fromJS({
+      data: [],
+      users: [
+        { id: 1, user_name: "primero" },
+        { id: 3, user_name: "primero_cp" },
+        { id: 4, user_name: "primero_mgr_cp" }
+      ]
+    });
+    const action = {
+      type: actions.FETCH_USERS_ACCESSED_SUCCESS,
+      payload: {
+        data: payload.data
+      }
+    };
+    const newState = nsReducer(defaultState, action);
+
+    expect(newState).toEqual(expected);
+  });
 });

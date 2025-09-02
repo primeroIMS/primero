@@ -23,6 +23,7 @@ function Component({ filter, mode, moreSectionFilters = {}, setMoreSectionFilter
   const [inputValue, setInputValue] = useState();
   const { options, field_name: fieldName, dateIncludeTime } = filter;
   const isDateFieldSelectable = Object.keys?.(options)?.length > 0;
+  const isOnlyOneDateFieldOption = Object.keys?.(options?.[i18n.locale])?.length === 1;
   const valueSelectedField = getValueSelectedField(options, i18n.locale, initialFilters, getValues);
   const [selectedField, setSelectedField] = useState(valueSelectedField || "");
   const location = useLocation();
@@ -95,6 +96,8 @@ function Component({ filter, mode, moreSectionFilters = {}, setMoreSectionFilter
       selectedDefaultValueField={selectedField}
       handleReset={handleReset}
       moreSectionFilters={moreSectionFilters}
+      fnOpen={isOnlyOneDateFieldOption ? setSelectedField : null}
+      fnOpenValue={isOnlyOneDateFieldOption ? options?.[i18n.locale]?.[0]?.id : null}
     >
       <div className={css.dateContainer}>
         {" "}

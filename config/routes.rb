@@ -113,6 +113,7 @@ Rails.application.routes.draw do
           get :'assign-to', to: 'users_transitions#assign_to'
           get :'transfer-to', to: 'users_transitions#transfer_to'
           get :'refer-to', to: 'users_transitions#refer_to'
+          get :access, to: 'users_access#access'
           post :'password-reset-request', to: 'password_reset#password_reset_request'
           post :'password-reset', to: 'password_reset#password_reset'
         end

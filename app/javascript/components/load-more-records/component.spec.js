@@ -13,7 +13,7 @@ describe("LoadMoreRecords - Container", () => {
         recordID="38c82975-99aa-4798-9c3d-dabea104d992"
         recordType="cases"
         loading={false}
-        metadata={fromJS({ page: 1, per: 20, total: 2 })}
+        metadata={fromJS({ page: 1, per: 5, total: 10 })}
         fetchFn={() => {}}
         fetchable={false}
       />
@@ -23,4 +23,24 @@ describe("LoadMoreRecords - Container", () => {
   it("renders ActionButton", () => {
     expect(screen.getByText("filters.more")).toBeInTheDocument();
   });
+
+  describe("when there are not more access log", () => {
+    beforeEach(() => {
+      mountedComponent(
+        <LoadMoreRecords
+          selectedForm="change_logs"
+          recordID="38c82975-99aa-4798-9c3d-dabea104d992"
+          recordType="cases"
+          loading={false}
+          metadata={fromJS({ page: 1, per: 20, total: 2 })}
+          fetchFn={() => {}}
+          fetchable={false}
+        />
+      );
+    });
+
+    it("renders ActionButton", () => {
+      expect(screen.getByText("access_log.no_more")).toBeInTheDocument();
+    });
+  })
 });
