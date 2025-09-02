@@ -20,17 +20,14 @@ class ManagedReports::Indicators::UnverifiedViolationsByPerpetrator < ManagedRep
           INNER JOIN incidents incidents
             ON incidents.id = violations.incident_id
             #{user_scope_query(current_user, 'incidents')&.prepend('AND ')}
-            #{date_range_query(params['ghn_date_filter'], 'incidents', 'data', 'ctfmr_verified_date')&.prepend('AND ')}
+            #{date_range_query(params['ghn_date_filter'], 'incidents', 'data', 'incident_date')&.prepend('AND ')}
           WHERE violations.data @? '$.ctfmr_verified ? (@ == "report_pending_verification")'
-          AND violations.data @? '$.type ? (
-            @ == "attack_on_hospitals" || @ == "attack_on_schools" || @ == "denial_humanitarian_access"
-          )'
         )
         SELECT
           perpetrators.data->>'armed_force_group_party_name' AS name,
           violations_in_scope.type AS key,
           COUNT(*) AS sum,
-          CAST(SUM(COUNT(*)) OVER () AS INTEGER) AS total
+          CAST(SUM(COUNT(*)) OVER (PARTITION BY perpetrators.data->>'armed_force_group_party_name') AS INTEGER) AS total
         FROM violations_in_scope
         INNER JOIN perpetrators_violations ON perpetrators_violations.violation_id = violations_in_scope.id
         INNER JOIN perpetrators ON perpetrators.id = perpetrators_violations.perpetrator_id
