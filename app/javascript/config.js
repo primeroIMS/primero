@@ -637,7 +637,8 @@ const VIOLATIONS_SUBFORM_UNIQUE_IDS = [
   "attack_on_hospitals",
   "attack_on_schools",
   "military_use",
-  "denial_humanitarian_access"
+  "denial_humanitarian_access",
+  "deprivation_liberty"
 ];
 
 const VIOLATION_FORMS_MAPPING = Object.freeze({
@@ -649,7 +650,8 @@ const VIOLATION_FORMS_MAPPING = Object.freeze({
   attack_on_hospitals: "attack_on_hospitals_violation_wrapper",
   attack_on_schools: "attack_on_schools_violation_wrapper",
   military_use: "military_use_violation_wrapper",
-  denial_humanitarian_access: "denial_humanitarian_access_violation_wrapper"
+  denial_humanitarian_access: "denial_humanitarian_access_violation_wrapper",
+  deprivation_liberty: "deprivation_liberty_violation_wrapper"
 });
 
 const VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS = [
