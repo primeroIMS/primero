@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { mountedComponent, screen, userEvent } from "test-utils";
+import { mountedComponent, screen, userEvent, fireEvent } from "test-utils";
 import { fromJS } from "immutable";
 
 import { ACTIONS } from "../permissions";
@@ -52,7 +52,27 @@ describe("<FlagDialog /> - Component", () => {
 
     expect(screen.getByText("buttons.flags")).toBeInTheDocument();
     expect(screen.getByText("flags.add_flag_tab")).toBeInTheDocument();
-    expect(document.querySelector("#FlagForm")).toBeInTheDocument();
+  });
+
+  it("resets the form when switching tabs", async () => {
+    mountedComponent(<Flagging {...props} />, defaultState);
+
+    const user = userEvent.setup();
+
+    await user.click(screen.getByText("flags.add_flag_tab"));
+
+    const currentDate = screen.getAllByRole("textbox").at(1).value;
+
+    await fireEvent.change(screen.getAllByRole("textbox").at(0), { target: { value: "Flag Reason" } });
+
+    await fireEvent.change(screen.getAllByRole("textbox").at(1), { target: { value: "2021-02-10" } });
+
+    await user.click(screen.getByText("buttons.save"));
+
+    await user.click(screen.getByText("flags.add_flag_tab"));
+
+    expect(screen.getAllByRole("textbox").at(0)).toHaveValue("");
+    expect(screen.getAllByRole("textbox").at(1)).toHaveValue(currentDate);
   });
 
   it("renders FlagDialog", () => {
