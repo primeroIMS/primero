@@ -83,10 +83,12 @@ describe("<IndexFilters />/<Panel />", () => {
 
     expect(screen.getByText("Case Plan")).toBeInTheDocument();
   });
+
   describe("when fnSelectValueOpen is passed", () => {
     const fnSelectValueOpen = jest.fn();
     const fnSelectValueOpenValue = "pending";
-    const props = {
+
+    props = {
       filter: {
         name: "approvals.case_plan",
         field_name: "approval_status_case_plan",
@@ -101,21 +103,20 @@ describe("<IndexFilters />/<Panel />", () => {
       },
       getValues: jest.fn().mockReturnValue({ filter1: "option-1" }),
       handleReset: jest.fn(),
-      fnSelectValueOpen: fnSelectValueOpen,
-      fnSelectValueOpenValue: fnSelectValueOpenValue,
+      fnSelectValueOpen,
+      fnSelectValueOpenValue,
       children: "Child Component"
     };
 
-
     it("it execute the fn when Accordion is openned", () => {
-        mountedFormComponent(<Panel {...props} />, {
-          state: fromJS({}),
-          includeFormProvider: true
-        });
+      mountedFormComponent(<Panel {...props} />, {
+        state: fromJS({}),
+        includeFormProvider: true
+      });
 
-        fireEvent.click(screen.getByRole("button", { expanded: false }));
-        expect(fnSelectValueOpen).toHaveBeenCalledWith(fnSelectValueOpenValue);
-        expect(props.fnSelectValueOpen).toHaveBeenCalledTimes(1);
+      fireEvent.click(screen.getByRole("button", { expanded: false }));
+      expect(fnSelectValueOpen).toHaveBeenCalledWith(fnSelectValueOpenValue);
+      expect(props.fnSelectValueOpen).toHaveBeenCalledTimes(1);
     });
   });
 });
