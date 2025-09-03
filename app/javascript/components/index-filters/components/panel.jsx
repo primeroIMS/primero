@@ -77,7 +77,7 @@ Panel.propTypes = {
   children: PropTypes.node.isRequired,
   filter: PropTypes.object.isRequired,
   fnSelectValueOpen: PropTypes.func,
-  fnSelectValueOpenValue: PropTypes.object,
+  fnSelectValueOpenValue: PropTypes.string,
   getValues: PropTypes.func.isRequired,
   handleReset: PropTypes.func,
   moreSectionFilters: PropTypes.object,

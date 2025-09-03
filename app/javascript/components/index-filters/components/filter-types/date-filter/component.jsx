@@ -96,8 +96,8 @@ function Component({ filter, mode, moreSectionFilters = {}, setMoreSectionFilter
       selectedDefaultValueField={selectedField}
       handleReset={handleReset}
       moreSectionFilters={moreSectionFilters}
-      fnOpen={isOnlyOneDateFieldOption ? setSelectedField : null}
-      fnOpenValue={isOnlyOneDateFieldOption ? options?.[i18n.locale]?.[0]?.id : null}
+      fnSelectValueOpen={isOnlyOneDateFieldOption ? setSelectedField : null}
+      fnSelectValueOpenValue={isOnlyOneDateFieldOption ? options?.[i18n.locale]?.[0]?.id : null}
     >
       <div className={css.dateContainer}>
         {" "}

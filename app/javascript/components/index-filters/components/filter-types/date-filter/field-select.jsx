@@ -11,9 +11,15 @@ function Component({ handleSelectedField, options, selectedField = "" }) {
   return (
     <div className={css.dateInput}>
       {isOnlyOneDateFieldOption ? (
-        <input type="hidden" value={options[0].id} name="selectedField" />
+        <input type="hidden" value={options[0].id} name="selectedField" data-testid="selected-field-hidden" />
       ) : (
-        <Select fullWidth value={selectedField} onChange={handleSelectedField} variant="outlined">
+        <Select
+          fullWidth
+          value={selectedField}
+          onChange={handleSelectedField}
+          variant="outlined"
+          data-testid="selected-field-select"
+        >
           {options?.map(option => (
             <MenuItem value={option.id} key={option.id}>
               {option.display_name}

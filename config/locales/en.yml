@@ -596,6 +596,9 @@ en:
     update_subform: 'Updated “%{subform_name}” subform'
     from: from
     to: to
+    no_more: End of Change Log
+  access_logs:
+    no_more: End of Access Log
   children:
     selectable_date_options:
       assessment_requested_on: Date of Assessment

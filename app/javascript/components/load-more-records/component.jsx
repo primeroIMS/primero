@@ -38,7 +38,7 @@ function Container({ selectedForm, recordID, recordType, loading, metadata, fetc
   return (
     <div className={css.moreBtn} data-testid="load-more">
       <ActionButton
-        text={hasMore || loading ? "filters.more" : "access_log.no_more"}
+        text={hasMore || loading ? "filters.more" : `${selectedForm}.no_more`}
         type={ACTION_BUTTON_TYPES.default}
         fullWidth
         variant="outlined"

@@ -42,5 +42,5 @@ describe("LoadMoreRecords - Container", () => {
     it("renders ActionButton", () => {
       expect(screen.getByText("access_log.no_more")).toBeInTheDocument();
     });
-  })
+  });
 });
