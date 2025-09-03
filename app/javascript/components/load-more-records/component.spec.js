@@ -20,7 +20,7 @@ describe("LoadMoreRecords - Container", () => {
     );
   });
 
-  it("renders ActionButton", () => {
+  it("renders more label", () => {
     expect(screen.getByText("filters.more")).toBeInTheDocument();
   });
 
@@ -39,8 +39,8 @@ describe("LoadMoreRecords - Container", () => {
       );
     });
 
-    it("renders ActionButton", () => {
-      expect(screen.getByText("access_log.no_more")).toBeInTheDocument();
+    it("renders label", () => {
+      expect(screen.getByText("change_logs.no_more")).toBeInTheDocument();
     });
   });
 });

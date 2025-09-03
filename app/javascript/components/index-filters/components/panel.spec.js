@@ -88,7 +88,7 @@ describe("<IndexFilters />/<Panel />", () => {
     const fnSelectValueOpen = jest.fn();
     const fnSelectValueOpenValue = "pending";
 
-    props = {
+    const propsFnSelectValue = {
       filter: {
         name: "approvals.case_plan",
         field_name: "approval_status_case_plan",
@@ -101,7 +101,7 @@ describe("<IndexFilters />/<Panel />", () => {
         },
         type: "multi_toggle"
       },
-      getValues: jest.fn().mockReturnValue({ filter1: "option-1" }),
+      getValues: jest.fn(),
       handleReset: jest.fn(),
       fnSelectValueOpen,
       fnSelectValueOpenValue,
@@ -109,14 +109,14 @@ describe("<IndexFilters />/<Panel />", () => {
     };
 
     it("it execute the fn when Accordion is openned", () => {
-      mountedFormComponent(<Panel {...props} />, {
+      mountedFormComponent(<Panel {...propsFnSelectValue} />, {
         state: fromJS({}),
         includeFormProvider: true
       });
 
       fireEvent.click(screen.getByRole("button", { expanded: false }));
       expect(fnSelectValueOpen).toHaveBeenCalledWith(fnSelectValueOpenValue);
-      expect(props.fnSelectValueOpen).toHaveBeenCalledTimes(1);
+      expect(propsFnSelectValue.fnSelectValueOpen).toHaveBeenCalledTimes(1);
     });
   });
 });
