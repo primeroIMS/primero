@@ -58,19 +58,20 @@ export const getFilters = (i18n, filterAgencies, filterUserGroups, filterPermiss
     options: userGroupOptions(filterUserGroups),
     type: FILTER_TYPES.MULTI_SELECT,
     multiple: false
-  },
-  {
-    name: "cases.filter_by.by_date",
-    field_name: LAST_DATE,
-    type: FILTER_TYPES.DATES,
-    options: {
-      [i18n.locale]: [
-        { id: "last_access", display_name: i18n.t("users.filters.date_last_login") },
-        { id: "last_case_viewed", display_name: i18n.t("users.filters.date_last_case_view") },
-        { id: "last_case_updated", display_name: i18n.t("users.filters.date_last_case_updated") }
-      ]
-    }
-  }
+  }//,
+  // TODO: Add back once users.timestamp index is added
+  // {
+  //   name: "cases.filter_by.by_date",
+  //   field_name: LAST_DATE,
+  //   type: FILTER_TYPES.DATES,
+  //   options: {
+  //     [i18n.locale]: [
+  //       { id: "last_access", display_name: i18n.t("users.filters.date_last_login") },
+  //       { id: "last_case_viewed", display_name: i18n.t("users.filters.date_last_case_view") },
+  //       { id: "last_case_updated", display_name: i18n.t("users.filters.date_last_case_updated") }
+  //     ]
+  //   }
+  // }
 ];
 
 export const agencyBodyRender = (i18n, agencies, value) =>
