@@ -26,7 +26,8 @@ class PermittedUsersService
   private
 
   def permitted_users
-    users = User.with_audit_dates.all.includes(:user_groups, role: :primero_modules)
+    # TODO: Add `with_audit_dates` back once users.timestamp index is added
+    users = User.all.includes(:user_groups, role: :primero_modules)
 
     return users if user.blank? || user.super_user?
 
@@ -55,7 +56,8 @@ class PermittedUsersService
   def apply_filters(users_query, filters)
     return users_query unless filters.present?
 
-    users_query = users_query.apply_date_filters(users_query, filters)
+    # TODO: Add `with_audit_dates` back once users.timestamp index is added
+    # users_query = users_query.apply_date_filters(users_query, filters)
 
     query_filters = build_query_filters(filters)
     users_query = users_query.joins(:user_groups) if query_filters[:user_groups].present?

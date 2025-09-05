@@ -465,9 +465,10 @@ describe Api::V2::UsersController, type: :request do
       expect(json['data']['id']).to eq(@user_a.id)
       expect(json['data']['identity_provider_unique_id']).to eq(@identity_provider_a.unique_id)
       expect(json['data']['user_groups'].size).to eq(1)
-      expect(json['data']['last_access']).to eq(audit_log.timestamp.iso8601(3))
-      expect(json['data']['last_case_viewed']).to eq(audit_log2.timestamp.iso8601(3))
-      expect(json['data']['last_case_updated']).to eq(audit_log3.timestamp.iso8601(3))
+      # TODO: Add back once users.timestamp index is added
+      # expect(json['data']['last_access']).to eq(audit_log.timestamp.iso8601(3))
+      # expect(json['data']['last_case_viewed']).to eq(audit_log2.timestamp.iso8601(3))
+      # expect(json['data']['last_case_updated']).to eq(audit_log3.timestamp.iso8601(3))
     end
 
     it "returns 403 if user isn't authorized to access" do
