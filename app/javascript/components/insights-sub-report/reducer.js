@@ -27,6 +27,8 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
       return DEFAULT_STATE;
     case actions.SET_SUB_REPORT:
       return state.setIn(["filters", "subreport"], payload);
+    case actions.CLEAR_SELECTED_INSIGHT:
+      return state.delete("selectedReport");
     default:
       return state;
   }
