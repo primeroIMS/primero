@@ -14,20 +14,20 @@ import { buildFilter } from "../../../../dashboard/utils";
 
 import css from "./styles.css";
 
+const defaultValueRender = rowValue => {
+  if (Object.hasOwn(rowValue, "count")) {
+    return rowValue.count;
+  }
+
+  return rowValue;
+};
+
 function Component({ subColumnItemsSize, value, valueRender, withTotals }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const totalText = i18n.t("managed_reports.total");
   const { colspan, row } = value;
   const classes = cx({ [css.tableRow]: colspan !== 0, [css.tableRowValues]: true });
-
-  const defaultValueRender = rowValue => {
-    if (rowValue?.count) {
-      return rowValue?.count;
-    }
-
-    return rowValue;
-  };
 
   return (
     <TableRow className={classes}>
