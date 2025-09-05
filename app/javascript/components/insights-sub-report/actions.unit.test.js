@@ -7,6 +7,7 @@ describe("<Insights /> - Actions", () => {
     const cloneActions = { ...actions };
 
     [
+      "CLEAR_REPORT_DATA",
       "CLEAR_SELECTED_INSIGHT",
       "FETCH_INSIGHT",
       "FETCH_INSIGHT_STARTED",

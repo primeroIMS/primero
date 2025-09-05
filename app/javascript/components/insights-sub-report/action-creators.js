@@ -23,3 +23,7 @@ export const setSubReport = payload => ({
 export const clearSelectedInsight = () => ({
   type: actions.CLEAR_SELECTED_INSIGHT
 });
+
+export const clearReportData = () => ({
+  type: actions.CLEAR_REPORT_DATA
+});

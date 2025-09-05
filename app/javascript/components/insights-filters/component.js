@@ -31,7 +31,7 @@ import {
   OWNED_BY_GROUPS,
   WORKFLOW
 } from "../insights/constants";
-import { clearSelectedInsight, fetchInsight } from "../insights-sub-report/action-creators";
+import { clearReportData, clearSelectedInsight, fetchInsight } from "../insights-sub-report/action-creators";
 import { clearFilters, setFilters } from "../insights-list/action-creators";
 import useOptions from "../form/use-options";
 import { compactBlank } from "../record-form/utils";
@@ -77,7 +77,6 @@ function Component({ id, subReport, toggleControls }) {
 
     toggleControls();
 
-    dispatch(clearSelectedInsight());
     dispatch(setFilters({ ...filters, subreport: subReport }));
     dispatch(fetchInsight(id, subReport, transformedFilters));
   };
@@ -136,6 +135,7 @@ function Component({ id, subReport, toggleControls }) {
   );
 
   const submit = data => {
+    dispatch(clearReportData());
     getInsights(compactBlank(data));
   };
 
