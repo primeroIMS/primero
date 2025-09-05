@@ -74,7 +74,7 @@ describe("<AuditLogs /> - Helpers", () => {
           name: "cases.filter_by.user_group",
           options: [],
           type: FILTER_TYPES.MULTI_SELECT
-        }//,
+        } // ,
         // {
         // TODO: Add back once users.timestamp index is added
         //   field_name: "last_date",

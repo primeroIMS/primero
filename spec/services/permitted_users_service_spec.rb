@@ -148,7 +148,7 @@ describe PermittedUsersService do
   end
 
   # TODO: Add back once users.timestamp index is added
-  it.skip 'search users by last_access' do
+  xit 'search users by last_access' do
     results = PermittedUsersService.new(@super_user).find_permitted_users(
       { last_access: { 'from' => Time.utc(2023, 2, 1, 10, 0, 0).iso8601(3),
                        'to' => Time.utc(2023, 4, 1, 10, 0, 0).iso8601(3) } }

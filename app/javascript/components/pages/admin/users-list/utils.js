@@ -4,7 +4,7 @@ import { fromJS } from "immutable";
 
 import { FILTER_TYPES } from "../../../index-filters";
 
-import { AGENCY, DISABLED, USER_GROUP, LAST_DATE } from "./constants";
+import { AGENCY, DISABLED, USER_GROUP } from "./constants";
 
 const searchableAgencies = (data, i18n) => {
   return data.reduce(
@@ -58,7 +58,7 @@ export const getFilters = (i18n, filterAgencies, filterUserGroups, filterPermiss
     options: userGroupOptions(filterUserGroups),
     type: FILTER_TYPES.MULTI_SELECT,
     multiple: false
-  }//,
+  } // ,
   // TODO: Add back once users.timestamp index is added
   // {
   //   name: "cases.filter_by.by_date",
