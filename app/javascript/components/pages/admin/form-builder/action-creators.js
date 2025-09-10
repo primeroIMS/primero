@@ -80,7 +80,7 @@ export const saveForm = ({ id, body, saveMethod, message }) => {
 export const saveSubforms = (subforms, { id, body, saveMethod, message }) => {
   const subformsRequest = subforms.reduce((prev, current) => {
     const subfomBody = {
-      data: current
+      data: current.toSeq().filter(Boolean)
     };
     const subformID = current?.get("id");
 

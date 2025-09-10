@@ -29,12 +29,13 @@ Rails.application.config.content_security_policy do |policy|
   policy.font_src(*font_and_image_sources)
   policy.img_src(*font_and_image_sources)
   policy.media_src(*media_sources)
-  policy.object_src(:none)
+  policy.object_src(:self)
   policy.script_src(*script_sources)
   policy.style_src(*style_sources)
   policy.child_src(*child_sources)
-  policy.frame_src(:none)
+  policy.frame_src(*child_sources)
   policy.base_uri(:self)
+  policy.frame_ancestors(:self)
 
   # Specify URI for violation reports
   # policy.report_uri "/csp-violation-report-endpoint"

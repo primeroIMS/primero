@@ -14,26 +14,22 @@ class ManagedReports::Indicators::ElapsedReportingTimeRapeHealthReferral < Manag
     def sql(current_user, params = {})
       date_param = filter_date(params)
       %{
-        select
-          data->> 'elapsed_reporting_time' as id,
-          #{grouped_date_query(params['grouped_by'], date_param)&.concat(' as group_id,')}
-          count(*) as total
-        from incidents
-        where data->> 'elapsed_reporting_time' is not null
-        and data ->> 'gbv_sexual_violence_type' = 'rape'
-        and exists (
-          select 1 from jsonb_to_recordset(
-            data #> '{health_medical_referral_subform_section}'
-          ) as health_medical_referral_subform_section (
-            unique_id text,
-            service_medical_referral text
-          )
-          where service_medical_referral = 'referred' or service_medical_referral = 'service_provided_by_your_agency'
-        )
-        #{date_range_query(date_param)&.prepend('and ')}
-        #{equal_value_query(params['module_id'])&.prepend('and ')}
-        #{user_scope_query(current_user)&.prepend('and ')}
-        group by data ->> 'elapsed_reporting_time'
+        SELECT
+          data->> 'elapsed_reporting_time' AS id,
+          #{grouped_date_query(params['grouped_by'], date_param)&.concat(' AS group_id,')}
+          COUNT(*) AS total
+        FROM incidents
+        WHERE data @? '$[*] ? (
+          @.consent_reporting  == "true" && @.elapsed_reporting_time != null && @.gbv_sexual_violence_type == "rape"
+        ) ? (
+          !exists(@.gbv_reported_elsewhere) || @.gbv_reported_elsewhere != "gbvims-org"
+        ).health_medical_referral_subform_section ? (
+          @.service_medical_referral == "referred" || @.service_medical_referral == "service_provided_by_your_agency"
+        )'
+        #{date_range_query(date_param)&.prepend('AND ')}
+        #{equal_value_query(params['module_id'])&.prepend('AND ')}
+        #{user_scope_query(current_user)&.prepend('AND ')}
+        GROUP BY data ->> 'elapsed_reporting_time'
         #{grouped_date_query(params['grouped_by'], date_param)&.prepend(', ')}
       }
     end

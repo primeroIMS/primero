@@ -17,6 +17,7 @@ class TracingRequest < ApplicationRecord
   include LocationCacheable
   include PhoneticSearchable
   include Normalizeable
+  include AccessLoggable
 
   has_many :traces
   store_accessor :data,

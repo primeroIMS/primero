@@ -7,15 +7,15 @@ const getFirstGroup = reportData =>
     .valueSeq()
     .flatMap(value => value)
     .first()
-    .get("group_id", "")
-    .toString();
+    ?.get("group_id", "")
+    ?.toString();
 
 const buildGroupedInsights = reportData => {
   if (!reportData.size) {
     return fromJS([]);
   }
 
-  const firstGroup = getFirstGroup(reportData);
+  const firstGroup = getFirstGroup(reportData) || "";
 
   return reportData
     .entrySeq()

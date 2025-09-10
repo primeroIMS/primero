@@ -19,6 +19,7 @@ describe("Verifying config constant", () => {
     });
 
     [
+      "ACCESS_LOGS",
       "API_BASE_PATH",
       "ACCEPT",
       "ACCEPTED",

@@ -36,7 +36,13 @@ function TallyField({ name, formik, field, helperText, InputLabelProps, label, m
       </InputLabel>
       <div className={css.inputTally} data-testid="tally-field">
         {field.tally.map(option => (
-          <TallyFieldContainer name={`${name}.${option.id}`} option={option} error={hasError} {...rest} />
+          <TallyFieldContainer
+            key={`${name}.${option.id}`}
+            name={`${name}.${option.id}`}
+            option={option}
+            error={hasError}
+            {...rest}
+          />
         ))}
         <TallyFieldContainer name={totalName} isTotal={field.autosum_total} {...rest} error={hasError} />
       </div>

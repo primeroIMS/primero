@@ -730,10 +730,9 @@ class Filter < ValueObject
   end
 
   def user_age_range(user)
-    module_age_range = PrimeroModule.age_ranges(user.modules.first.unique_id)
-    return module_age_range if module_age_range.present? && user.modules.size == 1
+    return AgeRangeService.primary_age_ranges(user.modules.first.unique_id) if user.modules.size == 1
 
-    SystemSettings.primary_age_ranges
+    AgeRangeService.primary_age_ranges
   end
 
   def age_options(opts = {})
@@ -753,16 +752,19 @@ class Filter < ValueObject
     end.inject(&:merge)
   end
 
+  # rubocop:disable Metrics/AbcSize
   def cases_by_date_options(opts = {})
     self.options = I18n.available_locales.map do |locale|
       locale_options = [registration_date_options(locale), assessment_requested_on_options(locale),
                         date_case_plan_options(locale), date_closure_options(locale), followup_date_options(locale),
-                        date_reunification_options(locale), tracing_date_options(locale), service_date_options(locale)]
+                        date_reunification_options(locale), tracing_date_options(locale), service_date_options(locale),
+                        reassigned_transferred_on_date_options(locale)]
       date_label = opts[:user].gbv? ? 'created_at' : 'date_of_creation'
       locale_options << created_at_options(locale, date_label)
       { locale => locale_options }
     end.inject(&:merge)
   end
+  # rubocop:enable Metrics/AbcSize
 
   def registration_date_options(locale)
     {
@@ -824,6 +826,13 @@ class Filter < ValueObject
     {
       id: 'service_implemented_day_times',
       display_name: I18n.t('children.selectable_date_options.service_implemented_day_time', locale:)
+    }
+  end
+
+  def reassigned_transferred_on_date_options(locale)
+    {
+      id: 'reassigned_transferred_on',
+      display_name: I18n.t('children.selectable_date_options.reassigned_transferred_on', locale:)
     }
   end
 

@@ -24,7 +24,14 @@ global.window.I18n = {
   l: (path, value) => formatDate(parseISO(value), get(DATE_FORMATS, path)),
   // eslint-disable-next-line no-unused-vars
   toTime: (path, _) => path,
-  localizeDate: date => date
+  localizeDate: date => date,
+  interpolate: (message, options) => {
+    if (typeof message === "string") {
+      return message.replace(/%{(\w+)}/g, (_, key) => options[key] || "");
+    }
+
+    return message;
+  }
 };
 global.document.documentElement.lang = "en";
 

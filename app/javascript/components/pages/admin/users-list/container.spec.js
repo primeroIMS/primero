@@ -125,4 +125,8 @@ describe("<UsersList />", () => {
   it("should render <SearchBox /> component", () => {
     expect(screen.queryByText("users.filters.search")).toBeInTheDocument();
   });
+
+  it.skip("should render By Date filter", () => {
+    expect(screen.queryByText("cases.filter_by.by_date")).toBeInTheDocument();
+  });
 });

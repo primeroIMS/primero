@@ -36,6 +36,7 @@ function Component({
   approvalSubforms,
   attachmentForms,
   canRefer,
+  canSeeAccessLog,
   canSeeChangeLog,
   canViewCases,
   canViewSummaryForm,
@@ -298,6 +299,7 @@ function Component({
 
   const recordFormExternalForms = externalForms({
     approvalSubforms,
+    canSeeAccessLog,
     canSeeChangeLog,
     containerMode,
     handleCreateIncident,
@@ -353,6 +355,7 @@ function Component({
               selectedForm={selectedForm}
               recordType={selectedModule.recordType}
               primeroModule={selectedModule.primeroModule}
+              recordId={params.id}
               formMode={mode}
               showDrawer
             />
@@ -369,6 +372,7 @@ Component.propTypes = {
   approvalSubforms: PropTypes.object,
   attachmentForms: PropTypes.object,
   canRefer: PropTypes.bool,
+  canSeeAccessLog: PropTypes.bool,
   canSeeChangeLog: PropTypes.bool,
   canViewCases: PropTypes.bool,
   canViewSummaryForm: PropTypes.bool,

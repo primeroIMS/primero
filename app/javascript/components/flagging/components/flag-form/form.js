@@ -7,9 +7,10 @@ import { FieldRecord, FormSectionRecord, TEXT_AREA, DATE_FIELD } from "../../../
 
 import { MAX_LENGTH_FLAG_REASON } from "./constants";
 
-export const validationSchema = object().shape({
-  message: string().required()
-});
+export const validationSchema = ({ labels }) =>
+  object().shape({
+    message: string().required(labels.message)
+  });
 
 export const form = i18n => {
   return fromJS([

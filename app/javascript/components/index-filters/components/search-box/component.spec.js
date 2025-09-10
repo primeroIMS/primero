@@ -32,25 +32,28 @@ describe("<SearchBox /> index-filters/components/search-box", () => {
     expect(screen.queryByText("This is a label")).toBeInTheDocument();
   });
 
-  it("when SearchNameToggle is true ", () => {
-    const seachNameToggleProps = {
-      ...props,
-      showSearchNameToggle: true
-    };
+  describe("when showSearchNameToggle", () => {
+    it("is true it renders SearchNameToggle and PhoneticHelpText", () => {
+      const seachNameToggleProps = {
+        ...props,
+        showSearchNameToggle: true
+      };
 
-    mountedFormComponent(<SearchBox {...seachNameToggleProps} />, { includeFormProvider: true });
+      mountedFormComponent(<SearchBox {...seachNameToggleProps} />, { includeFormProvider: true });
 
-    expect(screen.queryByText("navigation.phonetic_search.label")).toBeInTheDocument();
-  });
+      expect(screen.queryByText("navigation.phonetic_search.label")).toBeInTheDocument();
+      expect(screen.queryByText("navigation.phonetic_search.help_text")).toBeInTheDocument();
+    });
 
-  it("when SearchNameToggle is false", () => {
-    const seachNameToggleProps = {
-      ...props,
-      showSearchNameToggle: false
-    };
+    it("is false it should not render SearchNameToggle", () => {
+      const seachNameToggleProps = {
+        ...props,
+        showSearchNameToggle: false
+      };
 
-    mountedFormComponent(<SearchBox {...seachNameToggleProps} />, { includeFormProvider: true });
+      mountedFormComponent(<SearchBox {...seachNameToggleProps} />, { includeFormProvider: true });
 
-    expect(screen.queryByText("navigation.phonetic_search.label")).not.toBeInTheDocument();
+      expect(screen.queryByText("navigation.phonetic_search.label")).not.toBeInTheDocument();
+    });
   });
 });

@@ -24,6 +24,15 @@
 .item {
   padding: 0;
   font-size: var(--fs-30);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--c-light-grey);
+  }
+}
+
+.itemForbidden {
+  cursor: not-allowed;
 }
 
 .itemResolved {

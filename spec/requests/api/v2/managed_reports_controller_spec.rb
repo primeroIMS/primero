@@ -46,7 +46,7 @@ describe Api::V2::ManagedReportsController, type: :request do
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq('gbv_statistics')
-      expect(json['data'].keys).to match_array(%w[id name description module_id report_data subreports])
+      expect(json['data'].keys).to match_array(%w[id name description module_id include_zeros report_data subreports])
     end
 
     it 'fetch violations managed_report with code 200' do
@@ -60,7 +60,7 @@ describe Api::V2::ManagedReportsController, type: :request do
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq('violations')
-      expect(json['data'].keys).to match_array(%w[id name description module_id subreports report_data])
+      expect(json['data'].keys).to match_array(%w[id name description module_id subreports report_data include_zeros])
       expect(json['data']['report_data']['killing']['data'].keys).to match_array(
         %w[children perpetrators reporting_location attack_type received_response]
       )

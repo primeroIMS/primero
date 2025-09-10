@@ -204,7 +204,9 @@ describe ManagedReports::Indicators::TotalReferralsByUserGroups do
           nil,
           {
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'year'),
-            'created_at' => SearchFilters::DateRange.new(field_name: 'created_at', from: '2020-01-01', to: '2021-09-08')
+            'created_at' => SearchFilters::DateRange.new(
+              field_name: 'created_at', from: Date.parse('2020-01-01'), to: Date.parse('2021-09-08')
+            )
           }
         ).data
 
@@ -237,7 +239,9 @@ describe ManagedReports::Indicators::TotalReferralsByUserGroups do
           nil,
           {
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'month'),
-            'created_at' => SearchFilters::DateRange.new(field_name: 'created_at', from: '2021-08-01', to: '2021-09-08')
+            'created_at' => SearchFilters::DateRange.new(
+              field_name: 'created_at', from: Date.parse('2021-08-01'), to: Date.parse('2021-09-08')
+            )
           }
         ).data
 
@@ -268,7 +272,9 @@ describe ManagedReports::Indicators::TotalReferralsByUserGroups do
           nil,
           {
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
-            'created_at' => SearchFilters::DateRange.new(field_name: 'created_at', from: '2021-08-01', to: '2021-09-08')
+            'created_at' => SearchFilters::DateRange.new(
+              field_name: 'created_at', from: Date.parse('2021-08-01'), to: Date.parse('2021-09-08')
+            )
           }
         ).data
 
@@ -293,7 +299,9 @@ describe ManagedReports::Indicators::TotalReferralsByUserGroups do
           nil,
           {
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'week'),
-            'created_at' => SearchFilters::DateRange.new(field_name: 'created_at', from: '2021-08-08', to: '2021-08-12')
+            'created_at' => SearchFilters::DateRange.new(
+              field_name: 'created_at', from: Date.parse('2021-08-08'), to: Date.parse('2021-08-12')
+            )
           }
         ).data
 

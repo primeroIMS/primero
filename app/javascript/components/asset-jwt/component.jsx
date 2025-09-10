@@ -5,7 +5,7 @@ import { getIDPToken } from "../login/components/idp-selection/auth-provider";
 import { getUseIdentityProvider } from "../login/selectors";
 import { useMemoizedSelector } from "../../libs";
 
-function Component({ src, alt, className, type = "image", id }) {
+function Component({ asDiv = false, src, alt, className, style, type = "image", id }) {
   const [srcString, setSrcString] = useState("");
   const isIDP = useMemoizedSelector(state => getUseIdentityProvider(state));
 
@@ -50,16 +50,43 @@ function Component({ src, alt, className, type = "image", id }) {
     );
   }
 
-  return <img src={isIDP && !isBase64 ? srcString : src} alt={alt} className={className} data-testid="attachment" />;
+  if (asDiv) {
+    return (
+      <div
+        style={{
+          width: "100%",
+          height: "100%",
+          backgroundImage: `url(${isIDP && !isBase64 ? srcString : src})`,
+          backgroundSize: "contain",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+          aspectRatio: 1,
+          ...style
+        }}
+      />
+    );
+  }
+
+  return (
+    <img
+      style={style}
+      src={isIDP && !isBase64 ? srcString : src}
+      alt={alt}
+      className={className}
+      data-testid="attachment"
+    />
+  );
 }
 
 Component.displayName = "AssetJWT";
 
 Component.propTypes = {
   alt: PropTypes.string,
+  asDiv: PropTypes.bool,
   className: PropTypes.string,
   id: PropTypes.string,
   src: PropTypes.string.isRequired,
+  style: PropTypes.object,
   type: PropTypes.string
 };
 

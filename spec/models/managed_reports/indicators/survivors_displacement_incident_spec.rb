@@ -118,23 +118,23 @@ describe ManagedReports::Indicators::SurvivorsDisplacementIncident do
 
     Incident.new_with_user(
       self_user,
-      { displacement_incident: 'displace_1', incident_date: Date.new(2020, 8, 12) }
+      { displacement_incident: 'displace_1', incident_date: Date.new(2020, 8, 12), consent_reporting: 'true' }
     ).save!
     Incident.new_with_user(
       group_user,
-      { displacement_incident: 'displace_2', incident_date: Date.new(2020, 9, 12) }
+      { displacement_incident: 'displace_2', incident_date: Date.new(2020, 9, 12), consent_reporting: 'true' }
     ).save!
     Incident.new_with_user(
       agency_user,
-      { displacement_incident: 'displace_2', incident_date: Date.new(2021, 1, 12) }
+      { displacement_incident: 'displace_2', incident_date: Date.new(2021, 1, 12), consent_reporting: 'true' }
     ).save!
     Incident.new_with_user(
       all_user,
-      { displacement_incident: 'displace_3', incident_date: Date.new(2021, 2, 12) }
+      { displacement_incident: 'displace_3', incident_date: Date.new(2021, 2, 12), consent_reporting: 'true' }
     ).save!
     Incident.new_with_user(
       all_user,
-      { displacement_incident: 'displace_3', incident_date: Date.new(2021, 3, 12) }
+      { displacement_incident: 'displace_3', incident_date: Date.new(2021, 3, 12), consent_reporting: 'true' }
     ).save!
   end
 
@@ -200,8 +200,8 @@ describe ManagedReports::Indicators::SurvivorsDisplacementIncident do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'year'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2020-08-01',
-              to: '2022-10-10'
+              from: Date.parse('2020-08-01'),
+              to: Date.parse('2022-10-10')
             )
           }
         ).data
@@ -224,8 +224,8 @@ describe ManagedReports::Indicators::SurvivorsDisplacementIncident do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'month'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2020-08-01',
-              to: '2021-04-30'
+              from: Date.parse('2020-08-01'),
+              to: Date.parse('2021-04-30')
             )
           }
         ).data
@@ -252,8 +252,8 @@ describe ManagedReports::Indicators::SurvivorsDisplacementIncident do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2020-08-01',
-              to: '2021-03-31'
+              from: Date.parse('2020-08-01'),
+              to: Date.parse('2021-03-31')
             )
           }
         ).data

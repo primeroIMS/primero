@@ -5,9 +5,9 @@ import { Paper, Table, TableBody, TableHead } from "@mui/material";
 import isEmpty from "lodash/isEmpty";
 
 import EmptyState from "../../loading-indicator/components/empty-state";
-import InsightsTableHeader from "../../insights-sub-report/components/insights-table-header";
 
-import { TableHeader, TableRows } from "./components";
+import { ChartTableRow, TableHeader } from "./components";
+import generateKey from "./utils";
 import css from "./styles.css";
 
 function TableValues({
@@ -16,12 +16,10 @@ function TableValues({
   showPlaceholder = false,
   name = "",
   emptyMessage = "",
-  useInsightsHeader = false,
   subColumnItemsSize,
-  valueRender = null
+  valueRender = null,
+  withTotals = false
 }) {
-  const Header = useInsightsHeader ? InsightsTableHeader : TableHeader;
-
   return (
     <Paper className={css.root}>
       {showPlaceholder && isEmpty(values) ? (
@@ -29,10 +27,18 @@ function TableValues({
       ) : (
         <Table className={css.table}>
           <TableHead className={css.tableHeader}>
-            <Header columns={columns} subColumnItemsSize={subColumnItemsSize} />
+            <TableHeader columns={columns} />
           </TableHead>
           <TableBody>
-            <TableRows valueRender={valueRender} values={values} subColumnItemsSize={subColumnItemsSize} />
+            {values.map(value => (
+              <ChartTableRow
+                key={generateKey(JSON.stringify(value.row))}
+                value={value}
+                subColumnItemsSize={subColumnItemsSize}
+                valueRender={valueRender}
+                withTotals={withTotals}
+              />
+            ))}
           </TableBody>
         </Table>
       )}
@@ -48,9 +54,9 @@ TableValues.propTypes = {
   name: PropTypes.string,
   showPlaceholder: PropTypes.bool,
   subColumnItemsSize: PropTypes.number,
-  useInsightsHeader: PropTypes.bool,
   valueRender: PropTypes.func,
-  values: PropTypes.array
+  values: PropTypes.array,
+  withTotals: PropTypes.bool
 };
 
 export default TableValues;

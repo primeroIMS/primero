@@ -63,7 +63,7 @@ describe Api::V2::FlagsController, type: :request do
     end
     it 'list include removed flag' do
       @case1.add_flag('This is a second flag', Date.today, 'faketest')
-      @case1.remove_flag(@case1.flags.first.id, 'faketest', 'Resolved Flag')
+      @case1.update_flag(@case1.flags.first.id, 'faketest', { unflag_message: 'Resolved Flag' }).save!
       get "/api/v2/cases/#{@case1.id}/flags"
 
       expect(response).to have_http_status(200)
@@ -172,6 +172,56 @@ describe Api::V2::FlagsController, type: :request do
       @case1.reload
       expect(@case1.flagged).to eq(false)
       expect(audit_params['action']).to eq('unflag')
+    end
+
+    it 'updates a flag for a case' do
+      login_for_test(
+        permissions: [
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::READ, Permission::WRITE, Permission::FLAG, Permission::FLAG_UPDATE]
+          )
+        ]
+      )
+      date = Date.today - 1.days
+      flag = @case1.add_flag!('This is another flag', Date.today, 'faketest')
+      params = { data: { message: 'This is an updated flag', date: } }
+      patch("/api/v2/cases/#{@case1.id}/flags/#{flag.id}", params:)
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['message']).to eq('This is an updated flag')
+      expect(json['data']['date']).to eq(date.to_s)
+      expect(json['data']['record_id']).to eq(json['data']['record']['id'])
+    end
+
+    it 'updates the date of a flag' do
+      login_for_test(
+        permissions: [
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::READ, Permission::WRITE, Permission::FLAG, Permission::FLAG_UPDATE]
+          )
+        ]
+      )
+      date = Date.today - 1.days
+      flag = @case1.add_flag!('This is another flag', Date.today, 'faketest')
+      params = { data: { date: } }
+      patch("/api/v2/cases/#{@case1.id}/flags/#{flag.id}", params:)
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['message']).to eq('This is another flag')
+      expect(json['data']['date']).to eq(date.to_s)
+      expect(json['data']['record_id']).to eq(json['data']['record']['id'])
+    end
+
+    it 'gets a forbidden message if the user does not have the flag_update permission' do
+      login_for_test(permissions: permission_flag_record)
+      params = { data: { message: 'This is an updated flag', date: Date.today - 1.days } }
+      patch("/api/v2/cases/#{@case1.id}/flags/#{@case1.flags.first.id}", params:)
+
+      expect(response).to have_http_status(403)
+      expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case1.id}/flags/#{@case1.flags.first.id}")
+      expect(json['errors'][0]['message']).to eq('Forbidden')
     end
 
     it 'unflags a tracing_request and sets the flagged property to false' do

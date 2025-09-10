@@ -4,6 +4,7 @@ import { endOfDay, startOfDay, parseISO } from "date-fns";
 import isEmpty from "lodash/isEmpty";
 import isNil from "lodash/isNil";
 import first from "lodash/first";
+import merge from "deepmerge";
 
 import { toServerDateFormat } from "../../../../../libs";
 
@@ -77,3 +78,14 @@ export const getDatesValue = (values, dateIncludeTime) => {
 
   return values;
 };
+
+export const getValueSelectedField = (options, i18nLocale, initialFilters, getValues) => {
+  const values = merge(initialFilters, getValues({ nest: true }));
+
+  return options?.[i18nLocale]?.filter(option => Object.keys(values).includes(option.id))?.at(0)?.id || "";
+};
+
+export const defaultDates = () => ({
+  from: getDateValue("from", null, true),
+  to: getDateValue("to", null, true)
+});

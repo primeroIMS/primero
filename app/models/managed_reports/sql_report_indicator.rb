@@ -171,6 +171,32 @@ class ManagedReports::SqlReportIndicator < ValueObject
 
       'incidents'
     end
+
+    def result_with_query(result, params, parent_query = [])
+      query = parent_query + query_for_result(result, params)
+      result.entries.each_with_object({}) do |(key, value), memo|
+        query += query_for_entry({ key => value })
+        memo[key] = key.to_sym == :id ? value : { count: value, query: }
+      end
+    end
+
+    def group_with_query(group, params)
+      data = group[:data].map { |elem| result_with_query(elem, params, query_for_group(group, params)) }
+
+      group.merge(data:)
+    end
+
+    def query_for_group(_, _)
+      []
+    end
+
+    def query_for_entry(_)
+      []
+    end
+
+    def query_for_result(_, _)
+      []
+    end
   end
 
   def execute_query(current_user)

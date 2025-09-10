@@ -42,7 +42,8 @@ const Component = forwardRef(
       customFormProps = {},
       currentUser,
       agenciesWithLogosEnabled,
-      agencyLogosPdf
+      agencyLogosPdf,
+      includeAllFormsWhenEmpty = true
     },
     ref
   ) => {
@@ -93,9 +94,11 @@ const Component = forwardRef(
 
     const filteredByFields = formsSelectedSelector ? formSelectorResults?.toJS() : userSelectedForms;
 
+    const allForms = includeAllFormsWhenEmpty ? forms : [];
+
     const selectedForms = filteredByFields?.length
-      ? forms.filter(form => filteredByFields.includes(form.unique_id))
-      : forms;
+      ? filteredByFields.map(id => forms.find(form => form.unique_id === id))
+      : allForms;
 
     const logos = getLogosToRender(
       agenciesWithLogosEnabled,
@@ -205,6 +208,7 @@ Component.propTypes = {
   formsSelectedField: PropTypes.string,
   formsSelectedFieldDefault: PropTypes.any,
   formsSelectedSelector: PropTypes.string,
+  includeAllFormsWhenEmpty: PropTypes.bool,
   record: PropTypes.object.isRequired
 };
 

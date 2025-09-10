@@ -103,19 +103,24 @@ describe ManagedReports::Indicators::TotalIncidents do
 
     Incident.new_with_user(
       @self_user,
-      incident_date: Date.new(2021, 8, 12), date_of_first_report: Date.new(2020, 8, 10)
+      incident_date: Date.new(2021, 8, 12), date_of_first_report: Date.new(2020, 8, 10), consent_reporting: 'true'
     ).save!
     Incident.new_with_user(
       @group_user,
-      incident_date: Date.new(2021, 9, 8), date_of_first_report: Date.new(2020, 9, 8)
+      incident_date: Date.new(2021, 9, 8), date_of_first_report: Date.new(2020, 9, 8), consent_reporting: 'true'
     ).save!
     Incident.new_with_user(
       @agency_user,
-      incident_date: Date.new(2020, 10, 10), date_of_first_report: Date.new(2020, 10, 5)
+      incident_date: Date.new(2020, 10, 10), date_of_first_report: Date.new(2020, 10, 5), consent_reporting: 'true'
     ).save!
     Incident.new_with_user(
       @all_user,
-      incident_date: Date.new(2020, 10, 10), date_of_first_report: Date.new(2020, 10, 8)
+      incident_date: Date.new(2020, 10, 10), date_of_first_report: Date.new(2020, 10, 8), consent_reporting: 'true'
+    ).save!
+    Incident.new_with_user(
+      @all_user,
+      incident_date: Date.new(2020, 10, 10), date_of_first_report: Date.new(2020, 10, 8), consent_reporting: 'true',
+      gbv_reported_elsewhere: 'gbvims-org'
     ).save!
   end
 
@@ -131,8 +136,8 @@ describe ManagedReports::Indicators::TotalIncidents do
       {
         'incident_date' => SearchFilters::DateRange.new(
           field_name: 'incident_date',
-          from: '2021-08-01',
-          to: '2021-09-30'
+          from: Date.parse('2021-08-01'),
+          to: Date.parse('2021-09-30')
         )
       }
     ).data
@@ -146,8 +151,8 @@ describe ManagedReports::Indicators::TotalIncidents do
       {
         'date_of_first_report' => SearchFilters::DateRange.new(
           field_name: 'date_of_first_report',
-          from: '2020-09-01',
-          to: '2020-10-10'
+          from: Date.parse('2020-09-01'),
+          to: Date.parse('2020-10-10')
         )
       }
     ).data
@@ -190,8 +195,8 @@ describe ManagedReports::Indicators::TotalIncidents do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'year'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2020-09-01',
-              to: '2021-10-10'
+              from: Date.parse('2020-09-01'),
+              to: Date.parse('2021-10-10')
             )
           }
         ).data
@@ -213,8 +218,8 @@ describe ManagedReports::Indicators::TotalIncidents do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'month'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2020-09-01',
-              to: '2021-10-10'
+              from: Date.parse('2020-09-01'),
+              to: Date.parse('2021-10-10')
             )
           }
         ).data
@@ -244,8 +249,8 @@ describe ManagedReports::Indicators::TotalIncidents do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2020-09-01',
-              to: '2021-10-10'
+              from: Date.parse('2020-09-01'),
+              to: Date.parse('2021-10-10')
             )
           }
         ).data

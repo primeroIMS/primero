@@ -74,7 +74,29 @@ describe("<AuditLogs /> - Helpers", () => {
           name: "cases.filter_by.user_group",
           options: [],
           type: FILTER_TYPES.MULTI_SELECT
-        }
+        } // ,
+        // {
+        // TODO: Add back once users.timestamp index is added
+        //   field_name: "last_date",
+        //   name: "cases.filter_by.by_date",
+        //   options: {
+        //     en: [
+        //       {
+        //         display_name: "users.filters.date_last_login",
+        //         id: "last_access"
+        //       },
+        //       {
+        //         display_name: "users.filters.date_last_case_view",
+        //         id: "last_case_viewed"
+        //       },
+        //       {
+        //         display_name: "users.filters.date_last_case_updated",
+        //         id: "last_case_updated"
+        //       }
+        //     ]
+        //   },
+        //   type: "dates"
+        // }
       ];
 
       const filterPermission = {

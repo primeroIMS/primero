@@ -153,6 +153,7 @@ function Referrals({
             formsSelectedSelector={OPTION_TYPES.MANAGED_ROLE_FORM_SECTIONS}
             customFilenameField={CUSTOM_EXPORT_FILE_NAME_FIELD}
             customFormProps={customReferralFormProps(i18n)}
+            includeAllFormsWhenEmpty={false}
           />
         )}
       />

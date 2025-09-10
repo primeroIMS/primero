@@ -101,7 +101,21 @@ describe ManagedReports::Indicators::ViolationTally do
       role: all_role
     )
 
-    incident1 = Incident.new_with_user(@self_user, { incident_date: Date.new(2020, 8, 8), status: 'open' })
+    incident1 = Incident.new_with_user(
+      @self_user,
+      {
+        incident_date: Date.new(2020, 8, 8),
+        status: 'open',
+        module_id: PrimeroModule::MRM,
+        killing: [
+          {
+            violation_tally: { 'boys' => 1, 'girls' => 2, 'unknown' => 3, 'total' => 6 },
+            ctfmr_verified: 'verified',
+            ctfmr_verified_date: Date.new(2020, 11, 5)
+          }
+        ]
+      }.with_indifferent_access
+    )
     incident1.save!
     incident2 = Incident.new_with_user(@group_user, { incident_date: Date.new(2021, 5, 8), status: 'open' })
     incident2.save!
@@ -111,19 +125,15 @@ describe ManagedReports::Indicators::ViolationTally do
     incident4.save!
 
     Violation.create!(
-      data: { type: 'killing', violation_tally: { 'boys': 1, 'girls': 2, 'unknown': 3, 'total': 6 } },
-      incident_id: incident1.id
-    )
-    Violation.create!(
-      data: { type: 'killing', violation_tally: { 'boys': 1, 'girls': 1, 'unknown': 1, 'total': 3 } },
+      data: { type: 'killing', violation_tally: { 'boys' => 1, 'girls' => 1, 'unknown' => 1, 'total' => 3 } },
       incident_id: incident2.id
     )
     Violation.create!(
-      data: { type: 'maiming', violation_tally: { 'boys': 2, 'girls': 1, 'unknown': 2, 'total': 5 } },
+      data: { type: 'maiming', violation_tally: { 'boys' => 2, 'girls' => 1, 'unknown' => 2, 'total' => 5 } },
       incident_id: incident3.id
     )
     Violation.create!(
-      data: { type: 'killing', violation_tally: { 'boys': 2, 'girls': 3, 'unknown': 2, 'total': 7 } },
+      data: { type: 'killing', violation_tally: { 'boys' => 2, 'girls' => 3, 'unknown' => 2, 'total' => 7 } },
       incident_id: incident4.id
     )
   end
@@ -142,6 +152,50 @@ describe ManagedReports::Indicators::ViolationTally do
         { id: 'total', total: 16 }
       ]
     )
+  end
+
+  describe 'has_late_verified_violations filter' do
+    it 'returns the data only for those incidents where the value is true' do
+      violation_tally_data = ManagedReports::Indicators::ViolationTally.build(
+        @user,
+        {
+          'type' => SearchFilters::Value.new(field_name: 'type', value: 'killing'),
+          'has_late_verified_violations' => SearchFilters::BooleanValue.new(
+            field_name: 'has_late_verified_violations', value: true
+          )
+        }
+      ).data
+
+      expect(violation_tally_data).to match_array(
+        [
+          { id: 'boys', total: 1 },
+          { id: 'unknown', total: 3 },
+          { id: 'girls', total: 2 },
+          { id: 'total', total: 6 }
+        ]
+      )
+    end
+
+    it 'returns the data only for those incidents where the value is false' do
+      violation_tally_data = ManagedReports::Indicators::ViolationTally.build(
+        @user,
+        {
+          'type' => SearchFilters::Value.new(field_name: 'type', value: 'killing'),
+          'has_late_verified_violations' => SearchFilters::BooleanValue.new(
+            field_name: 'has_late_verified_violations', value: false
+          )
+        }
+      ).data
+
+      expect(violation_tally_data).to match_array(
+        [
+          { id: 'boys', total: 3 },
+          { id: 'girls', total: 4 },
+          { id: 'unknown', total: 3 },
+          { id: 'total', total: 10 }
+        ]
+      )
+    end
   end
 
   describe 'records in scope' do
@@ -219,8 +273,8 @@ describe ManagedReports::Indicators::ViolationTally do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'year'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2020-08-01',
-              to: '2022-10-10'
+              from: Date.parse('2020-08-01'),
+              to: Date.parse('2022-10-10')
             ),
             'type' => SearchFilters::Value.new(field_name: 'type', value: 'killing')
           }
@@ -268,8 +322,8 @@ describe ManagedReports::Indicators::ViolationTally do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'month'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2020-08-01',
-              to: '2022-03-30'
+              from: Date.parse('2020-08-01'),
+              to: Date.parse('2022-03-30')
             ),
             'type' => SearchFilters::Value.new(field_name: 'type', value: 'killing')
           }
@@ -323,8 +377,8 @@ describe ManagedReports::Indicators::ViolationTally do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2020-08-01',
-              to: '2022-03-30'
+              from: Date.parse('2020-08-01'),
+              to: Date.parse('2022-03-30')
             ),
             'type' => SearchFilters::Value.new(field_name: 'type', value: 'killing')
           }

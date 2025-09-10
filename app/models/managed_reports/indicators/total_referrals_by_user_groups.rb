@@ -43,7 +43,7 @@ class ManagedReports::Indicators::TotalReferralsByUserGroups < ManagedReports::S
             #{equal_value_query_multiple(params['owned_by_agency_id'], 'cases')&.prepend('and ')}
             #{equal_value_query_multiple(params['created_organization'], 'cases')&.prepend('and ')}
             #{equal_value_query_multiple(params['status'], 'cases')&.prepend('and ')}
-            #{date_range_query(date_param, 'transitions', nil)&.prepend('and ')}
+            #{plain_date_range_query(date_param, 'transitions', nil)&.prepend('and ')}
             #{equal_value_query(params['module_id'], 'cases')&.prepend('and ')}
             #{user_scope_query(current_user, 'cases')&.prepend('and ')}
             group by name, key

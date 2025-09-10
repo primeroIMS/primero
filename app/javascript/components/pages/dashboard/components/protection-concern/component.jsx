@@ -11,11 +11,13 @@ import { getOption } from "../../../../record-form";
 import { LOOKUPS, ROUTES } from "../../../../../config";
 import { useMemoizedSelector } from "../../../../../libs";
 import { DASHBOARD_GROUP } from "../../constants";
+import useSystemStrings, { DASHBOARD } from "../../../../application/use-system-strings";
 
 import { NAME } from "./constants";
 
 function Component() {
   const i18n = useI18n();
+  const { label } = useSystemStrings(DASHBOARD);
   const loading = useMemoizedSelector(state => getIsDashboardGroupLoading(state, DASHBOARD_GROUP.protection_concerns));
   const protectionConcerns = useMemoizedSelector(state => getProtectionConcerns(state));
   const protectionConcernsLookup = useMemoizedSelector(state =>
@@ -25,14 +27,14 @@ function Component() {
   return (
     <Permission resources={RESOURCES.dashboards} actions={ACTIONS.DASH_PROTECTION_CONCERNS}>
       <OptionsBox
-        title={i18n.t("dashboard.protection_concerns")}
+        title={label("dashboard.protection_concerns")}
         hasData={Boolean(protectionConcerns.size) && !loading}
         loading={loading}
       >
         <DashboardTable
           pathname={ROUTES.cases}
-          title={i18n.t("dashboard.protection_concerns")}
-          {...toProtectionConcernTable(protectionConcerns, i18n, protectionConcernsLookup)}
+          title={label("dashboard.protection_concerns")}
+          {...toProtectionConcernTable(protectionConcerns, i18n, protectionConcernsLookup, label)}
         />
       </OptionsBox>
     </Permission>
