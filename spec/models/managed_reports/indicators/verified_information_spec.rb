@@ -67,12 +67,44 @@ describe ManagedReports::Indicators::VerifiedInformation do
       }
     ).data
 
+    query_common = %w[
+      violation_with_verification_status=abduction_verified
+      has_late_verified_violations=false
+      ctfmr_verified_date=2022-01-01..2022-06-10
+    ]
+
     expect(data).to match_array(
       [
-        { group_id: 'boys', data: [{ id: 'abduction', total: 1 }] },
-        { group_id: 'girls', data: [{ id: 'abduction', total: 2 }] },
-        { group_id: 'unknown', data: [{ id: 'abduction', total: 5 }] },
-        { group_id: 'total', data: [{ id: 'abduction', total: 8 }] }
+        {
+          group_id: 'boys',
+          data: [
+            {
+              id: 'abduction', total: { count: 1, query: %w[child_types=boys] + query_common }
+            }
+          ]
+        },
+        {
+          group_id: 'girls',
+          data: [
+            {
+              id: 'abduction', total: { count: 2, query: %w[child_types=girls] + query_common }
+            }
+          ]
+        },
+        {
+          group_id: 'unknown',
+          data: [
+            {
+              id: 'abduction', total: { count: 5, query: %w[child_types=unknown] + query_common }
+            }
+          ]
+        },
+        {
+          group_id: 'total',
+          data: [
+            { id: 'abduction', total: { count: 8, query: query_common } }
+          ]
+        }
       ]
     )
   end
@@ -90,11 +122,58 @@ describe ManagedReports::Indicators::VerifiedInformation do
       }
     ).data
 
+    abduction_query = %w[
+      violation_with_verification_status=abduction_verified
+      has_late_verified_violations=false
+      ctfmr_verified_date=2021-04-01..2022-06-10
+    ]
+
+    killing_query = %w[
+      violation_with_verification_status=killing_verified
+      has_late_verified_violations=false
+      ctfmr_verified_date=2021-04-01..2022-06-10
+    ]
+
+
     expect(data).to match_array(
-      [{ group_id: 'boys', data: [{ id: 'abduction', total: 2 }, { id: 'killing', total: 2 }] },
-       { group_id: 'girls', data: [{ id: 'abduction', total: 4 }, { id: 'killing', total: 0 }] },
-       { group_id: 'unknown', data: [{ id: 'abduction', total: 12 }, { id: 'killing', total: 2 }] },
-       { group_id: 'total', data: [{ id: 'abduction', total: 18 }, { id: 'killing', total: 4 }] }]
+      [
+        {
+          group_id: 'boys',
+          data: match_array(
+            [
+              { id: 'abduction', total: { count: 2, query: %w[child_types=boys] + abduction_query } },
+              { id: 'killing', total: { count: 2, query: %w[child_types=boys] + killing_query } }
+            ]
+          )
+        },
+        {
+          group_id: 'girls',
+          data: match_array(
+            [
+              { id: 'abduction', total: { count: 4, query: %w[child_types=girls] + abduction_query } },
+              { id: 'killing', total: { count: 0, query: %w[child_types=girls] + killing_query } }
+            ]
+          )
+        },
+        {
+          group_id: 'unknown',
+          data: match_array(
+            [
+              { id: 'abduction', total: { count: 12, query: %w[child_types=unknown] + abduction_query } },
+              { id: 'killing', total: { count: 2, query: %w[child_types=unknown] + killing_query } }
+            ]
+          )
+        },
+        {
+          group_id: 'total',
+          data: match_array(
+            [
+              { id: 'abduction', total: { count: 18, query: abduction_query } },
+              { id: 'killing', total: { count: 4, query: killing_query } }
+            ]
+          )
+        }
+      ]
     )
   end
 end

@@ -1,0 +1,7 @@
+<%=
+  t("email_notification.#{@notification_type}_body",
+     system_name: @theme.system_name,
+     maximum_attachments_space: number_to_human_size(@maximum_attachments_space),
+     locale: @locale
+    )
+%>

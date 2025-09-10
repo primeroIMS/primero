@@ -435,6 +435,7 @@ en:
       protection_risks: Protection Risks
       record_state: Record State
       referred_cases: Cases referred to me
+      assigned_to_me: Cases assigned to me
       registration_date: Registration Date
       risk_level: Risk Level
       sex: Sex
@@ -607,6 +608,7 @@ en:
       date_reunification: Date of Reunification
       tracing_date: Date of Tracing
       service_implemented_day_time: Date Service Completed
+      reassigned_transferred_on: Date Assigned / Transferred On
   configurations:
     apply_label: Are you sure? If you apply, the settings in this configuration will be applied to the system.
       You will lose all your current settings and will not be able to get them back unless you have already saved
@@ -936,6 +938,10 @@ en:
     transfer_request_html: 'You have received a transfer request for %{record_type} %{record_id} from %{user} from %{agency}. The individual making the request has included a transfer note: %{request_transfer_notes}. If this transfer is acceptable to you, please log in to access Primero to initiate the transfer.'
     alert: '%{record_type} %{id} - %{form_name} has been updated. Please log in to Primero to review the changes.'
     alert_subject: '%{record_type}: %{id} - %{form_name} Updated'
+    maximum_attachments_space_subject: Reached attachment storage limit for %{system_name}
+    maximum_attachments_space_body: You are being contacted as the designated System Administrator for %{system_name}. The system has reached the maximum attachment storage capacity of %{maximum_attachments_space}. The users will not be able to upload any more documents. You may increase the system's storage capacity by upgrading your service through the Primero team.
+    maximum_attachments_space_warning_subject: Approaching attachment storage limit for %{system_name}
+    maximum_attachments_space_warning_body: You are being contacted as the designated System Administrator for %{system_name}. The system is approaching the maximum attachment storage capacity of %{maximum_attachments_space}. The users will not be able to upload any more documents once the limit is reached. You may increase the system's storage capacity by upgrading your service through the Primero team.
   webpush_notification:
     action_label: Go to Case
     approval_request:
@@ -986,6 +992,7 @@ en:
       internal_server: Server Error
     attachments:
       maximum: You have reached your maximum attachments per record.
+      file_upload_unsuccessful: File upload unsuccessful. The system has reached the document storage limit. Please contact your system administrator.
     error_loading: Error Loading Record(s)
     models:
       agency:
@@ -1042,6 +1049,9 @@ en:
       case_relationship:
         relationship_type: Relationship type is not valid.
         not_linked_to_self: A case cannot be linked to itself.
+      system_setting:
+        allocated_space_integer: Field must be Integer
+        allocated_space_warning_greater_than_hard_limit: Maximum allocated space warning greatr than Maximum allocated space
     not_found: No Record(s) Found
     try_again: Try again
   exports:
@@ -1424,6 +1434,8 @@ en:
     resolved: Resolved Flags
     resolved_date: 'Resolved:'
     resolved_reason: 'Resolve Reason:'
+    update_flag: Update Flags
+    flag_updated: Flag updated successfully
     title: Flags
   followup_reminders:
     system_generated_followup_flag: mandatory follow up visit
@@ -1602,6 +1614,7 @@ en:
         attack_on_schools: Attacks on school(s)
         military_use: Military use of school(s) and/or hospital(s)
         denial_humanitarian_access: Denial of humanitarian access for children
+        deprivation_liberty: Deprivation of Liberty
   incidents:
     change_status: Change Status
     disable_dialog: Clicking OK will change the status of this incident to Disabled.
@@ -2339,6 +2352,7 @@ en:
         total: Total
         unknown: Unknown
         associated_violations: Associated Violations
+        deprivation_liberty: Deprivation of Liberty
     violations:
       name: Violations
       description: ''
@@ -2358,7 +2372,7 @@ en:
         attack_on_schools: Attacks on school(s)
         military_use: Military use of school(s) and/or hospital(s)
         denial_humanitarian_access: Denial of humanitarian access for children
-        detention: Detention
+        deprivation_liberty: Deprivation of Liberty
       sub_reports:
         children: Children
         combined: Violations
@@ -3750,6 +3764,9 @@ en:
           resolve_any_flag:
             explanation: Allows the user to resolve any Flag on the record, regardless of who created the Flag.
             label: Resolve any Flag
+          flag_update:
+            explanation: Allows the user to update any Flag on the record, regardless of who created the Flag.
+            label: Update Flag
           import:
             explanation: Allows the user to create one or more new incidents by importing
               them from a CSV, Excel, or JSON file. The imported file must be formatted
@@ -3987,6 +4004,9 @@ en:
           resolve_any_flag:
             explanation: Allows the user to resolve any Flag on the record, regardless of who created the Flag.
             label: Resolve any Flag
+          flag_update:
+            explanation: Allows the user to update any Flag on the record, regardless of who created the Flag.
+            label: Update Flag
           manage:
             explanation: Allows a user to perform all available actions on Registry records. The
               "Manage" permission essentially means "everything".
@@ -4063,6 +4083,9 @@ en:
           resolve_any_flag:
             explanation: Allows the user to resolve any Flag on the record, regardless of who created the Flag.
             label: Resolve any Flag
+          flag_update:
+            explanation: Allows the user to update any Flag on the record, regardless of who created the Flag.
+            label: Update Flag
           manage:
             explanation: Allows a user to perform all available actions on Families. The
               "Manage" permission essentially means "everything".
@@ -4265,6 +4288,9 @@ en:
           resolve_any_flag:
             explanation: Allows the user to resolve any Flag on the record, regardless of who created the Flag.
             label: Resolve any Flag
+          flag_update:
+            explanation: Allows the user to update any Flag on the record, regardless of who created the Flag.
+            label: Update Flag
           import:
             explanation: Allows the user to create one or more new cases by importing
               them from a CSV, Excel, or JSON file. The imported file must be formatted

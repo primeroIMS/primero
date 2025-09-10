@@ -41,13 +41,41 @@ describe ManagedReports::Indicators::VerifiedViolationsByRegion do
         maiming: [
           {
             unique_id: '8edd80b2-76d9-11f0-8338-7c10c98b54af',
-            ctfmr_verified: 'report_pending_verification',
+            ctfmr_verified: 'verified',
+            ctfmr_verified_date: Date.new(2022, 4, 23),
             violation_tally: { boys: 2, girls: 3, unknown: 2, total: 7 }
           }
         ]
       }.with_indifferent_access
     )
     incident0.save!
+
+    incident1 = Incident.new_with_user(
+      managed_report_user,
+      {
+        incident_date: Date.new(2022, 4, 10),
+        date_of_first_report: Date.new(2022, 4, 10),
+        status: 'open',
+        module_id: PrimeroModule::MRM,
+        reporting_location_hierarchy: 'CT.CT02.CT022003.CT022003001',
+        killing: [
+          {
+            unique_id: '4cb37a58-874a-11f0-8227-7c10c98b54af',
+            ctfmr_verified: 'verified',
+            ctfmr_verified_date: Date.new(2022, 4, 15),
+            violation_tally: { boys: 1, girls: 0, unknown: 2, total: 3 }
+          }
+        ],
+        attack_on_hospitals: [
+          {
+            unique_id: '164f9b14-874e-11f0-accb-7c10c98b54af',
+            ctfmr_verified: 'report_pending_verification',
+            violation_tally: { boys: 1, girls: 0, unknown: 2, total: 3 }
+          }
+        ]
+      }.with_indifferent_access
+    )
+    incident1.save!
   end
 
   it 'return data for verified violations by region' do
@@ -63,6 +91,11 @@ describe ManagedReports::Indicators::VerifiedViolationsByRegion do
       }
     ).data
 
-    expect(data).to match_array([{ id: 'CT01', attack_on_schools: 1, total: 1 }])
+    expect(data).to match_array(
+      [
+        { id: 'CT01', attack_on_schools: 1, maiming: 1, total: 2 },
+        { id: 'CT02', killing: 1, total: 1 }
+      ]
+    )
   end
 end

@@ -279,13 +279,13 @@ class Exporters::IndicatorExporter < ValueObject
   def write_indicator_row(elem)
     worksheet.write(current_row, 0, elem['display_text'], formats[:bold_black])
     write_indicators_subcolumns_data(option: elem, cell_format: formats[:black])
-    worksheet.write(current_row, columns_number, elem['total'])
+    worksheet.write(current_row, columns_number, subcolumn_total(elem))
   end
 
   def write_indicator_last_row(elem)
     worksheet.write(current_row, 0, elem['display_text'], formats[:bold_black_blue_bottom_border])
     write_indicators_subcolumns_data(option: elem, cell_format: formats[:blue_bottom_border])
-    worksheet.write(current_row, columns_number, elem['total'], formats[:blue_bottom_border])
+    worksheet.write(current_row, columns_number, subcolumn_total(elem), formats[:blue_bottom_border])
   end
 
   def write_indicators_subcolumns_data(params = {})
@@ -299,6 +299,12 @@ class Exporters::IndicatorExporter < ValueObject
         params[:cell_format]
       )
     end
+  end
+
+  def subcolumn_total(elem)
+    return elem['total']['count'] if elem['total'].is_a?(Hash)
+
+    elem['total'] || 0
   end
 
   def subcolumn_value(option, subcolumn)

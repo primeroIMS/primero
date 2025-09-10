@@ -31,7 +31,7 @@ export const FIELDS = [
   {
     // TODO: When the endpoint for user is ready, change the type to select_box and add option_strings_source: "User"
     name: "assigned_user_names",
-    type: "text_field",
+    type: "textarea",
     visible: true
   },
   {
