@@ -21,16 +21,14 @@ class ManagedReports::Indicators::VerifiedViolationsByRegion < ManagedReports::S
           INNER JOIN incidents incidents
             ON incidents.id = violations.incident_id
             #{user_scope_query(current_user, 'incidents')&.prepend('AND ')}
-          WHERE violations.data @? '$[*] ? (
-            @.ctfmr_verified == "verified" && @.type != "denial_humanitarian_access" && @.is_late_verification != true
-          )'
+          WHERE violations.data @? '$[*] ? (@.ctfmr_verified == "verified" && @.is_late_verification != true)'
           #{date_range_query(params['ghn_date_filter'], 'violations', 'data', 'ctfmr_verified_date')&.prepend('AND ')}
         )
         SELECT
-          violations_in_scope.region as name,
+          violations_in_scope.region AS name,
           violations_in_scope.type AS key,
           COUNT(*) AS sum,
-          CAST(SUM(COUNT(*)) OVER () AS INTEGER) AS total
+          CAST(SUM(COUNT(*)) OVER (PARTITION BY violations_in_scope.region) AS INTEGER) AS total
         FROM violations_in_scope
         GROUP BY name, key
       }

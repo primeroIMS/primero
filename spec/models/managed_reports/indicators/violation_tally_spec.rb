@@ -175,6 +175,27 @@ describe ManagedReports::Indicators::ViolationTally do
         ]
       )
     end
+
+    it 'returns the data only for those incidents where the value is false' do
+      violation_tally_data = ManagedReports::Indicators::ViolationTally.build(
+        @user,
+        {
+          'type' => SearchFilters::Value.new(field_name: 'type', value: 'killing'),
+          'has_late_verified_violations' => SearchFilters::BooleanValue.new(
+            field_name: 'has_late_verified_violations', value: false
+          )
+        }
+      ).data
+
+      expect(violation_tally_data).to match_array(
+        [
+          { id: 'boys', total: 3 },
+          { id: 'girls', total: 4 },
+          { id: 'unknown', total: 3 },
+          { id: 'total', total: 10 }
+        ]
+      )
+    end
   end
 
   describe 'records in scope' do

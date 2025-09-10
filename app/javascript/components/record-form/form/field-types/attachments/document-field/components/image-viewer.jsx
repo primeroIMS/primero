@@ -1,6 +1,8 @@
-import { useState, useCallback } from "react";
-import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import { useState, useCallback, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
+import Zoomist from "zoomist";
+import clsx from "clsx";
+import { debounce } from "lodash";
 
 import { AssetJwt } from "../../../../../../asset-jwt";
 
@@ -9,30 +11,52 @@ import css from "./styles.css";
 
 function ImageViewer({ src, alt, mobileDisplay }) {
   const [rotation, setRotation] = useState(0);
+  const [currentScale, setCurrentScale] = useState(1);
+  const zoomistRef = useRef(null);
+  const zoomistContainer = useRef(null);
 
   const handleRotationChange = useCallback(newRotation => {
     setRotation(newRotation);
   }, []);
 
+  useEffect(() => {
+    zoomistRef.current = new Zoomist(zoomistContainer.current, {
+      maxScale: 4,
+      bounds: true,
+      on: {
+        zoom: (_, scale) => {
+          debounce(() => {
+            setCurrentScale(scale);
+          }, 100)();
+        },
+        reset: () => {
+          handleRotationChange(0);
+          setCurrentScale(1);
+        }
+      }
+    });
+
+    return () => {
+      zoomistRef.current.destroy();
+    };
+  }, []);
+
+  const zoomistClasses = {
+    container: clsx("zoomist-container", css.zoomistContainer),
+    wrapper: clsx("zoomist-wrapper", css.zoomistWrapper),
+    image: clsx("zoomist-image", css.zoomistImage)
+  };
+
   return (
     <div className={css.imgViewerContainer}>
-      <div className={css.imgViewer}>
-        <TransformWrapper
-          limitToBounds
-          initialPositionY={0}
-          minScale={0.5}
-          maxScale={4}
-          centerOnInit
-          doubleClick={{ disabled: true }}
-        >
-          <ImageViewerControls handleRotationChange={handleRotationChange} />
-          <TransformComponent
-            wrapperStyle={{
-              height: "100%",
-              width: "100%"
-            }}
-            contentStyle={{ width: "100%", height: "100%" }}
-          >
+      <ImageViewerControls
+        handleRotationChange={handleRotationChange}
+        zoomistRef={zoomistRef}
+        currentScale={currentScale}
+      />
+      <div className={zoomistClasses.container} ref={zoomistContainer}>
+        <div className={zoomistClasses.wrapper}>
+          <div className={zoomistClasses.image}>
             <AssetJwt
               asDiv
               src={src}
@@ -44,8 +68,8 @@ function ImageViewer({ src, alt, mobileDisplay }) {
                 height: mobileDisplay ? "auto" : "100%"
               }}
             />
-          </TransformComponent>
-        </TransformWrapper>
+          </div>
+        </div>
       </div>
     </div>
   );

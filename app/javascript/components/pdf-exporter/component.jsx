@@ -95,8 +95,9 @@ const Component = forwardRef(
     const filteredByFields = formsSelectedSelector ? formSelectorResults?.toJS() : userSelectedForms;
 
     const allForms = includeAllFormsWhenEmpty ? forms : [];
+
     const selectedForms = filteredByFields?.length
-      ? forms.filter(form => filteredByFields.includes(form.unique_id))
+      ? filteredByFields.map(id => forms.find(form => form.unique_id === id))
       : allForms;
 
     const logos = getLogosToRender(

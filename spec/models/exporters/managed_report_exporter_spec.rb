@@ -1982,7 +1982,7 @@ describe Exporters::ManagedReportExporter do
             {
               unique_id: '858a003b-1b21-4fe0-abbf-9cb39d3a6d80',
               individual_age: 3,
-              individual_multiple_violations: 'true',
+              individual_multiple_violations: true,
               violations_ids: ['82cecbec-76d8-11f0-ba36-7c10c98b54af']
             }
           ]
@@ -2054,7 +2054,7 @@ describe Exporters::ManagedReportExporter do
 
       expect(workbook.sheet(0).row(254)).to eq(['Unverified Information - Violations by Region', nil, nil, nil, nil, nil])
       expect(workbook.sheet(0).row(255)).to eq([nil, 'Killing', 'Maiming', 'Abduction', 'Attacks on schools', 'Total'])
-      expect(workbook.sheet(0).row(256)).to eq(['Incomplete Data', 0, 0, 0, 1, 1])
+      expect(workbook.sheet(0).row(256)).to eq(['Incomplete Data', 0, 1, 0, 1, 2])
 
       expect(workbook.sheet(0).row(282)).to eq(['Children affected by multiple violations', nil, nil, nil, nil, nil])
       expect(workbook.sheet(0).row(283)).to eq([nil, 'Associated Violations', nil, nil, nil, nil])
