@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_06_23_000000) do
+ActiveRecord::Schema.define(version: 2025_09_10_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -113,6 +113,7 @@ ActiveRecord::Schema.define(version: 2025_06_23_000000) do
     t.jsonb "metadata"
     t.index ["metadata"], name: "index_audit_logs_on_metadata", using: :gin
     t.index ["record_type", "record_id"], name: "index_audit_logs_on_record_type_and_record_id"
+    t.index ["timestamp", "user_id"], name: "index_audit_logs_on_timestamp_and_user_id"
     t.index ["user_id"], name: "index_audit_logs_on_user_id"
   end
 
