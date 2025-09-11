@@ -13,6 +13,7 @@ module ManagedReports::PercentageIndicator
     end
 
     def results_in_percentages(results)
+      return [] unless results.present?
       return in_percentages_by_group(results) if results.any? { |result| result.key?('group_id') }
 
       in_percentages(results)
