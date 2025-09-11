@@ -13,4 +13,8 @@ export const AGENCY = "agency";
 export const USER_GROUP = "user_group_ids";
 export const DISABLED = "disabled";
 export const LAST_DATE = "last_date";
-export const ACTIVITY_FILTERS = Object.freeze([FIELD_NAMES.LAST_ACCESS, FIELD_NAMES.LAST_CASE_UPDATED, FIELD_NAMES.LAST_CASE_VIEWED]);
+export const ACTIVITY_FILTERS = Object.freeze([
+  FIELD_NAMES.LAST_ACCESS,
+  FIELD_NAMES.LAST_CASE_UPDATED,
+  FIELD_NAMES.LAST_CASE_VIEWED
+]);
