@@ -16,14 +16,15 @@ class Api::V2::RecordAccessController < Api::V2::RecordResourceController
   end
 
   def access_log_params
-    params.permit(:per, :page, filters: { timestamp: %i[from to], actions: {} })
+    params.permit(:per, :page, filters: { timestamp: %i[from to], actions: {}, access_users: {} })
   end
 
   protected
 
   def access_log_filters
     filters = {
-      date_range: timestamp_param
+      date_range: timestamp_param,
+      access_users: access_log_params.dig(:filters, :access_users)&.values.presence || []
     }
     actions = access_log_params.dig(:filters, :actions)&.values.presence
     filters[:actions] = actions if actions.present?
