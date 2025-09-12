@@ -88,9 +88,13 @@ class User < ApplicationRecord
   end)
 
   scope :who_accessed_record, (lambda do |record, actions = AuditLog::RECORD_VIEWS_EDIT|
-    joins(:audit_logs)
-      .where(audit_logs: { record_id: record.id, record_type: record.class.name, action: actions })
-      .distinct
+    where(
+      AuditLog.unscoped
+              .where(record_id: record.id, record_type: record.class.name, action: actions)
+              .where('audit_logs.user_id = users.id')
+              .arel
+              .exists
+    )
   end)
 
   alias_attribute :organization, :agency
