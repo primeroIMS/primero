@@ -878,4 +878,62 @@ describe Report do
       expect(registration_report.build_report).to eq({ '2021-Oct' => { '_total' => 1 } })
     end
   end
+
+  describe 'long field names in nested models' do
+    let(:child1) do
+      Child.create!(
+        data: {
+          status: 'open', age: 10, module_id: module1.unique_id,
+          protection_concern_detail_subform_section: [{ protection_concern_type: 'type1' }]
+        }
+      )
+    end
+
+    let(:age_field) do
+      Field.create!(
+        name: 'age', display_name: 'Age', type: Field::NUMERIC_FIELD
+      )
+    end
+
+    let(:protection_concern_type_field) do
+      Field.create!(
+        name: 'protection_concern_type', display_name: 'protection_concern_type', type: Field::TEXT_FIELD
+      )
+    end
+
+    let(:age_report) do
+      Report.create!(
+        name_all: 'Age Report',
+        description_all: 'Age Report',
+        module_id: module1.unique_id,
+        record_type: 'reportable_protection_concern',
+        aggregate_by: ['age'],
+        disaggregate_by: ['protection_concern_type'],
+        group_dates_by: 'month',
+        filters: [],
+        is_graph: false,
+        editable: false,
+        group_ages: true
+      )
+    end
+
+    before do
+      clean_data(User, UserGroup, Field, Lookup, Location, Child, Report)
+      child1
+      age_field
+      protection_concern_type_field
+      age_report
+    end
+
+    it 'returns the total of records' do
+      expect(age_report.build_report).to eq(
+        {
+          '5 - 11' => {
+            '_total' => 1,
+            'type1' => { '_total' => 1 }
+          }
+        }
+      )
+    end
+  end
 end

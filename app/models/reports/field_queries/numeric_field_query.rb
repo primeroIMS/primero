@@ -17,7 +17,7 @@ class Reports::FieldQueries::NumericFieldQuery < Reports::FieldQueries::FieldQue
     %(
       #{sort_query},
       case #{range.map { |range| build_range(field, range, last_range == range) }.join}
-      end as #{column_name}
+      end as #{column_alias}
     )
   end
 
@@ -25,15 +25,15 @@ class Reports::FieldQueries::NumericFieldQuery < Reports::FieldQueries::FieldQue
     if range.present?
       return %(
         case #{range.map.with_index { |range, index| build_range_order(field, range, index) }.join(' ')}
-        end as #{sort_field}
+        end as #{sort_alias}
       )
     end
 
-    ActiveRecord::Base.sanitize_sql_array(["data->'%s' as %s", record_field_name, sort_field])
+    ActiveRecord::Base.sanitize_sql_array(["data->'%s' as %s", record_field_name, sort_alias])
   end
 
-  def sort_field
-    column_name('sort')
+  def generate_sort_alias
+    "#{column_alias}_srt"
   end
 
   def build_range_order(field, range, index)
