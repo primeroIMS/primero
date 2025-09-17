@@ -24,17 +24,11 @@ import MultipleViolationsIndicator from "../multiple-violations-indicator";
 import DefaultIndicator from "../default-indicator";
 import { getInsightFilter } from "../../selectors";
 
+const MULTIPLE_VIOLATIONS_INDICATORS = ["multiple_violations", "group_multiple_violations"];
+
 const cellRender = (val, index) => (index === 0 ? val : `${val}%`);
 
 const chartRender = val => `${val}%`;
-
-const getIndicator = indicator => {
-  if (indicator === "multiple_violations") {
-    return MultipleViolationsIndicator;
-  }
-
-  return DefaultIndicator;
-};
 
 function Component({
   insight,
@@ -51,6 +45,7 @@ function Component({
   const groupedBy = useMemoizedSelector(state => getInsightFilter(state, GROUPED_BY_FILTER));
   const primaryAgeRanges = useMemoizedSelector(state => getPrimaryAgeRanges(state));
   const isGHNIndicator = GHN_VIOLATIONS_INDICATORS_IDS.includes(indicatorKey);
+  const isMultipleViolationsIndicator = MULTIPLE_VIOLATIONS_INDICATORS.includes(indicatorKey);
 
   const indicatorLabels = useMemo(
     () => ({
@@ -80,7 +75,6 @@ function Component({
   const indicatorIsGrouped = indicatorData.some(elem => elem.get("group_id"));
   const indicatorHasTotalColumn = hasTotalColumn(indicatorIsGrouped, indicatorData);
   const indicatorSubColumnKeys = getIndicatorSubcolumnKeys(indicatorData);
-  const Indicator = getIndicator(indicatorKey);
   const subColumnItems = getSubColumnItems({
     hasTotalColumn: indicatorHasTotalColumn,
     subColumnLookups,
@@ -96,8 +90,14 @@ function Component({
   const cellValueRender = PERCENTAGE_INDICATORS.includes(indicatorKey) ? cellRender : null;
   const chartValueRender = PERCENTAGE_INDICATORS.includes(indicatorKey) ? chartRender : null;
 
+  if (isMultipleViolationsIndicator) {
+    return (
+      <MultipleViolationsIndicator subReportTitle={subReportTitle} value={indicatorData} indicatorKey={indicatorKey} />
+    );
+  }
+
   return (
-    <Indicator
+    <DefaultIndicator
       indicatorKey={indicatorKey}
       value={indicatorData}
       includeZeros={includeZeros}

@@ -21,7 +21,8 @@ class ManagedReports::SubReports::GhnReport < ManagedReports::SubReport
       ManagedReports::Indicators::UnverifiedInformationViolations,
       ManagedReports::Indicators::UnverifiedViolationsByPerpetrator,
       ManagedReports::Indicators::UnverifiedViolationsByRegion,
-      ManagedReports::Indicators::MultipleViolations
+      ManagedReports::Indicators::MultipleViolations,
+      ManagedReports::Indicators::GroupMultipleViolations
     ]
   end
   # rubocop:enable Metrics/MethodLength
@@ -30,6 +31,7 @@ class ManagedReports::SubReports::GhnReport < ManagedReports::SubReport
     {
       ManagedReports::Indicators::VerifiedViolationsByPerpetrator.id => 'lookup-armed-force-group-or-other-party',
       ManagedReports::Indicators::MultipleViolations.id => %w[lookup-gender-unknown-total lookup-violation-type],
+      ManagedReports::Indicators::GroupMultipleViolations.id => %w[lookup-gender-unknown-total lookup-violation-type],
       ManagedReports::Indicators::VerifiedViolationsByRegion.id => 'Location',
       ManagedReports::Indicators::UnverifiedViolationsByPerpetrator.id => 'lookup-armed-force-group-or-other-party',
       ManagedReports::Indicators::UnverifiedViolationsByRegion.id => 'Location'
