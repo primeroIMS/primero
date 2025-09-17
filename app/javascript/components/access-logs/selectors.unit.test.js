@@ -2,7 +2,7 @@
 
 import { fromJS, List } from "immutable";
 
-import { getAccessLogs, getAccessLogLoading, getAccessLogMetadata } from "./selectors";
+import { getAccessLogs, getAccessLogLoading, getAccessLogMetadata, getUsersWhoAccessed } from "./selectors";
 import { AccessLogsRecord } from "./records";
 import NAMESPACE from "./namespace";
 
@@ -21,6 +21,11 @@ describe("AccessLogs - Selectors", () => {
               action: "update",
               role_name: "My Role"
             })
+          ],
+          users: [
+            { id: 1, user_name: "primero" },
+            { id: 3, user_name: "primero_cp" },
+            { id: 4, user_name: "primero_mgr_cp" }
           ],
           loading: false,
           metadata: { page: 1, per: 2, total: 3 }
@@ -55,6 +60,12 @@ describe("AccessLogs - Selectors", () => {
       const result = getAccessLogMetadata(state);
 
       expect(result.toObject()).toEqual(expected);
+    });
+
+    it("should return list of users that have accessed to the current record", () => {
+      const expected = state.getIn(["records", NAMESPACE, "users"]);
+
+      expect(getUsersWhoAccessed(state)).toEqual(expected);
     });
   });
 });

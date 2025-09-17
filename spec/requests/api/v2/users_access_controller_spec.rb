@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+# Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
 
 require 'rails_helper'
 
-describe Api::V2::RecordHistoriesController, type: :request do
+describe Api::V2::UsersAccessController, type: :request do
   before :each do
-    clean_data(User, Role, Agency, Incident, Child, AuditLog)
+    clean_data(User, Role, Agency, Child, AuditLog)
   end
 
   let!(:agency_a) do
@@ -48,6 +48,18 @@ describe Api::V2::RecordHistoriesController, type: :request do
     )
   end
 
+  let!(:user_b) do
+    User.create!(
+      full_name: 'Test User 2',
+      user_name: 'test_user_2',
+      password: 'a12345678',
+      password_confirmation: 'a12345678',
+      email: 'test_user_2@localhost.com',
+      agency_id: agency_a.id,
+      role:
+    )
+  end
+
   let!(:user_login) do
     User.create!(
       full_name: 'User login',
@@ -69,15 +81,6 @@ describe Api::V2::RecordHistoriesController, type: :request do
     )
   end
 
-  let!(:incident) do
-    Incident.create!(
-      data: {
-        incident_date: '2019-02-01', description: 'Tester',
-        owned_by: user_a.user_name
-      }
-    )
-  end
-
   let!(:audit_log1) do
     AuditLog.create!(
       record_type: 'Child',
@@ -93,7 +96,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
     AuditLog.create!(
       record_type: 'Child',
       record_id: child1.id,
-      user_id: user_a.id,
+      user_id: user_b.id,
       action: 'show',
       resource_url: '',
       timestamp: 3.days.ago
@@ -113,8 +116,8 @@ describe Api::V2::RecordHistoriesController, type: :request do
 
   let!(:audit_log4) do
     AuditLog.create!(
-      record_type: 'Incident',
-      record_id: incident.id,
+      record_type: 'Child',
+      record_id: child1.id,
       user_id: user_a.id,
       action: 'update',
       resource_url: '',
@@ -124,9 +127,9 @@ describe Api::V2::RecordHistoriesController, type: :request do
 
   let!(:audit_log5) do
     AuditLog.create!(
-      record_type: 'Incident',
-      record_id: incident.id,
-      user_id: user_a.id,
+      record_type: 'Child',
+      record_id: child1.id,
+      user_id: user_b.id,
       action: 'update',
       resource_url: '',
       timestamp: 2.days.ago
@@ -146,20 +149,8 @@ describe Api::V2::RecordHistoriesController, type: :request do
 
   let(:json) { JSON.parse(response.body) }
 
-  describe 'GET /api/v2/:record_type/:record_id/' do
-    it 'list access_log from an incident' do
-      login_for_test(
-        permissions: [
-          Permission.new(resource: Permission::INCIDENT, actions: [Permission::READ, Permission::ACCESS_LOG])
-        ]
-      )
-
-      get "/api/v2/incidents/#{Incident.first.id}/access_log"
-
-      expect(json['data'].map { |data| data['id'] }).to match_array([audit_log4.id, audit_log5.id])
-    end
-
-    it 'list access_log from a child' do
+  describe 'GET /api/v2/users/access' do
+    it 'list only users that have accessed this record' do
       login_for_test(
         user_name: 'user_login',
         permissions: [
@@ -167,28 +158,11 @@ describe Api::V2::RecordHistoriesController, type: :request do
         ]
       )
 
-      get "/api/v2/cases/#{Child.first.id}/access_log"
+      get "/api/v2/users/access?record_type=#{child1.class.name}&record_id=#{child1.id}"
 
       expect(json['data'].map { |data| data['id'] }).to match_array(
-        [audit_log1.id, audit_log2.id, audit_log3.id, audit_log6.id]
+        [user_a.id, user_b.id, user_login.id]
       )
-    end
-
-    describe 'when filter is present' do
-      it 'list access_log from a child filtered by access_users' do
-        login_for_test(
-          user_name: 'user_login',
-          permissions: [
-            Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::ACCESS_LOG])
-          ]
-        )
-
-        get "/api/v2/cases/#{Child.first.id}/access_log?filters[access_users][0]=#{user_login.id}"
-
-        expect(json['data'].map { |data| data['id'] }).to match_array(
-          [audit_log6.id]
-        )
-      end
     end
 
     it 'returns 403 if user only have read permission' do
@@ -198,9 +172,9 @@ describe Api::V2::RecordHistoriesController, type: :request do
         ]
       )
 
-      get "/api/v2/cases/#{Child.first.id}/access_log"
+      get "/api/v2/users/access?record_type=#{child1.class.name}&record_id=#{child1.id}"
       expect(response).to have_http_status(403)
-      expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{Child.first.id}/access_log")
+      expect(json['errors'][0]['resource']).to eq('/api/v2/users/access')
       expect(json['errors'][0]['message']).to eq('Forbidden')
     end
 
@@ -215,14 +189,14 @@ describe Api::V2::RecordHistoriesController, type: :request do
         ]
       )
 
-      get "/api/v2/cases/#{Child.first.id}/access_log"
+      get "/api/v2/users/access?record_type=#{child1.class.name}&record_id=#{child1.id}"
       expect(response).to have_http_status(403)
-      expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{Child.first.id}/access_log")
+      expect(json['errors'][0]['resource']).to eq('/api/v2/users/access')
       expect(json['errors'][0]['message']).to eq('Forbidden')
     end
   end
 
   after :each do
-    clean_data(User, Role, Agency, Child, Incident, AuditLog)
+    clean_data(User, Role, Agency, Child, AuditLog)
   end
 end

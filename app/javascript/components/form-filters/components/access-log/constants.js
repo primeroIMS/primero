@@ -3,6 +3,7 @@
 export const NAME = "AccessLogFilters";
 
 export const FILTER_NAMES = Object.freeze({
+  access_users: "access_users",
   actions: "actions",
   timestamp: "timestamp"
 });
