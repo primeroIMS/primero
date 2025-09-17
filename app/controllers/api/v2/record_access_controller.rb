@@ -33,18 +33,18 @@ class Api::V2::RecordAccessController < Api::V2::RecordResourceController
   end
 
   def from_param
-    if params.dig(:filters, :timestamp, :from).present?
-      Time.zone.parse(params.dig(:filters, :timestamp, :from))
-    else
-      Time.at(0).to_datetime
-    end
+    parse_timestamp(:from) || Time.at(0).to_datetime
   end
 
   def to_param
-    if params.dig(:filters, :timestamp, :to).present?
-      Time.zone.parse(params.dig(:filters, :timestamp, :to))
-    else
-      DateTime.now.end_of_day
-    end
+    parse_timestamp(:to) || DateTime.now.end_of_day
+  end
+
+  def parse_timestamp(key)
+    timestamp = params.dig(:filters, :timestamp)
+    return nil unless timestamp.is_a?(Hash)
+
+    value = timestamp[key]
+    value.present? ? Time.zone.parse(value) : nil
   end
 end
