@@ -1278,6 +1278,7 @@ describe User do
       AuditLog.create!(
         user_id: user1.id,
         record_type: 'Child',
+        record_id: child.id,
         action: 'show',
         timestamp: Time.utc(2023, 2, 1, 10, 0, 0)
       )
@@ -1287,6 +1288,7 @@ describe User do
       AuditLog.create!(
         user_id: user1.id,
         record_type: 'Child',
+        record_id: child.id,
         action: 'update',
         timestamp: Time.utc(2023, 3, 1, 10, 0, 0)
       )
@@ -1299,6 +1301,86 @@ describe User do
                                                          'to' => Time.utc(2023, 4, 1, 10, 0, 0).iso8601(3) } })
       expect(results.size).to eq(1)
       expect(results.first.last_access.iso8601(3)).to eq('2023-02-10T10:00:00.000Z')
+    end
+  end
+
+  describe '.who_accessed_record' do
+    before do
+      clean_data(AuditLog, User, Role, PrimeroModule, Child)
+    end
+
+    let(:primero_module) do
+      create(:primero_module, name: 'CP')
+    end
+
+    let(:role) do
+      create(:role, is_manager: true, modules: [primero_module], permissions: [Permission.new(
+        resource: Permission::CASE,
+        actions: [Permission::MANAGE]
+      )])
+    end
+
+    let!(:user1) do
+      create(:user, user_name: 'user1', role:, full_name: 'Test User 1', email: 'owner@primero.dev')
+    end
+
+    let!(:user2) do
+      create(:user, user_name: 'user2', role:, full_name: 'Test User 2', email: 'user2@primero.dev')
+    end
+
+    let!(:user_login) do
+      create(:user, user_name: 'user_login', role:, full_name: 'Test User 2', email: 'user_login@primero.dev')
+    end
+
+    let!(:child) do
+      create(:child, name: 'Test', owned_by: user1.user_name, consent_for_services: true,
+                     disclosure_other_orgs: true, module_id: PrimeroModule::CP)
+    end
+
+    let!(:login_log) do
+      AuditLog.create!(
+        user_id: user_login.id,
+        action: 'login',
+        record_type: 'User',
+        timestamp: Time.utc(2023, 2, 10, 10, 0, 0)
+      )
+    end
+
+    let!(:case_viewed_log) do
+      AuditLog.create!(
+        user_id: user1.id,
+        record_type: 'Child',
+        record_id: child.id,
+        action: 'show',
+        timestamp: Time.utc(2023, 2, 1, 10, 0, 0)
+      )
+    end
+
+    let!(:case_updated_log) do
+      AuditLog.create!(
+        user_id: user2.id,
+        record_type: 'Child',
+        record_id: child.id,
+        action: 'update',
+        timestamp: Time.utc(2023, 3, 1, 10, 0, 0)
+      )
+    end
+
+    let!(:case_updated_log2) do
+      AuditLog.create!(
+        user_id: user2.id,
+        record_type: 'Child',
+        record_id: child.id,
+        action: 'update',
+        timestamp: Time.utc(2023, 3, 3, 10, 0, 0)
+      )
+    end
+
+    it 'returns uniq users who accessed the child' do
+      result = User.who_accessed_record(child)
+      expect(result.ids).to match_array(
+        [user1.id, user2.id]
+      )
     end
   end
 

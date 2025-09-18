@@ -16,14 +16,15 @@ class Api::V2::RecordAccessController < Api::V2::RecordResourceController
   end
 
   def access_log_params
-    params.permit(:per, :page, filters: { timestamp: %i[from to], actions: {} })
+    params.permit(:per, :page, filters: { timestamp: %i[from to], actions: {}, access_users: {} })
   end
 
   protected
 
   def access_log_filters
     filters = {
-      date_range: timestamp_param
+      date_range: timestamp_param,
+      access_users: access_log_params.dig(:filters, :access_users)&.values.presence || []
     }
     actions = access_log_params.dig(:filters, :actions)&.values.presence
     filters[:actions] = actions if actions.present?
@@ -32,18 +33,18 @@ class Api::V2::RecordAccessController < Api::V2::RecordResourceController
   end
 
   def from_param
-    if params.dig(:filters, :timestamp, :from).present?
-      Time.zone.parse(params.dig(:filters, :timestamp, :from))
-    else
-      Time.at(0).to_datetime
-    end
+    parse_timestamp(:from) || Time.at(0).to_datetime
   end
 
   def to_param
-    if params.dig(:filters, :timestamp, :to).present?
-      Time.zone.parse(params.dig(:filters, :timestamp, :to))
-    else
-      DateTime.now.end_of_day
-    end
+    parse_timestamp(:to) || DateTime.now.end_of_day
+  end
+
+  def parse_timestamp(key)
+    timestamp = params[:filters]&.[]('timestamp')
+    return nil if timestamp.blank?
+
+    value = timestamp[key]
+    value.present? ? Time.zone.parse(value) : nil
   end
 end

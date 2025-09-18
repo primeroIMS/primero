@@ -12,3 +12,4 @@ export const getAccessLogs = (state, id, recordType) =>
 
 export const getAccessLogLoading = state => state.getIn(["records", NAMESPACE, "loading"], false);
 export const getAccessLogMetadata = state => state.getIn(["records", NAMESPACE, "metadata"], fromJS({}));
+export const getUsersWhoAccessed = state => state.getIn(["records", NAMESPACE, "users"], fromJS([]));

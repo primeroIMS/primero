@@ -59,7 +59,12 @@ describe("ChangeLogs - Container", () => {
             action: "create",
             record_changes: []
           })
-        ]
+        ],
+        metadata: {
+          page: 1,
+          per: 2,
+          total: 10
+        }
       }
     },
     forms: fromJS({

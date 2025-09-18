@@ -22,7 +22,7 @@ media_sources = storage_sources + %i[data blob]
 font_and_image_sources = self_sources + %i[data blob]
 style_sources = self_sources
 child_sources = self_sources + %i[blob]
-script_sources = self_sources + %i[strict_dynamic]
+script_sources = %i[strict_dynamic] + ["'wasm-unsafe-eval'"]
 
 Rails.application.config.content_security_policy do |policy|
   policy.default_src(*self_sources)
