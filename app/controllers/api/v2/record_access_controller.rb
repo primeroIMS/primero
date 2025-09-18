@@ -41,8 +41,8 @@ class Api::V2::RecordAccessController < Api::V2::RecordResourceController
   end
 
   def parse_timestamp(key)
-    timestamp = params.dig(:filters, :timestamp)
-    return nil unless timestamp.is_a?(Hash)
+    timestamp = params[:filters]&.[]('timestamp')
+    return nil if timestamp.blank?
 
     value = timestamp[key]
     value.present? ? Time.zone.parse(value) : nil
