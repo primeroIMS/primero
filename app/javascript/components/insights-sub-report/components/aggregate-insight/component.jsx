@@ -81,10 +81,11 @@ function Component({
   const indicatorHasTotalColumn = hasTotalColumn(indicatorIsGrouped, indicatorData);
   const indicatorSubColumnKeys = getIndicatorSubcolumnKeys(indicatorData);
   const Indicator = getIndicator(indicatorKey);
+
   const subColumnItems = getSubColumnItems({
     hasTotalColumn: indicatorHasTotalColumn,
     subColumnLookups,
-    indicatorKey,
+    valueKey: indicatorKey,
     ageRanges,
     indicatorsSubcolumns,
     indicatorSubColumnKeys,
