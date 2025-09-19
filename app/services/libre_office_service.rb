@@ -51,7 +51,7 @@ class LibreOfficeService
     end
   end
 
-  def self.convert(attachment)
-    new(attachment).convert
+  def self.convert(attachment, model_property)
+    new(attachment, model_property).convert
   end
 end
