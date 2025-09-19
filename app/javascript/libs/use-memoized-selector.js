@@ -6,12 +6,12 @@ import isNil from "lodash/isNil";
 import omitBy from "lodash/omitBy";
 import { useCallback } from "react";
 import { memoize } from "proxy-memoize";
-import Immutable from "immutable";
+import {isImmutable, is} from "immutable";
 import isEqual from "lodash/isEqual";
 
 const selectorEqualityFn = (val1, val2) => {
-  if (Immutable.isImmutable(val1) && Immutable.isImmutable(val2)) {
-    return Immutable.is(val1, val2);
+  if (isImmutable(val1) && isImmutable(val2)) {
+    return is(val1, val2);
   }
 
   return isEqual(val1, val2)
