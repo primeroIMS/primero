@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import configureStore from "redux-mock-store";
-import thunk from "redux-thunk";
+import { thunk } from "redux-thunk";
 
 import { METHODS, RECORD_PATH, ROUTES } from "../../config";
 import * as idpSelection from "../login/components/idp-selection";

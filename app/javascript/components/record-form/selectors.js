@@ -4,8 +4,8 @@ import isEmpty from "lodash/isEmpty";
 import isNil from "lodash/isNil";
 import omitBy from "lodash/omitBy";
 import { fromJS, OrderedMap, List } from "immutable";
-import createCachedSelector from "re-reselect";
-import { createSelectorCreator, defaultMemoize } from "reselect";
+import { createCachedSelector } from "re-reselect";
+import { createSelectorCreator, lruMemoize } from "reselect";
 
 import { denormalizeFormData } from "../../schemas";
 import displayNameHelper from "../../libs/display-name-helper";
@@ -33,7 +33,7 @@ import { RECORD_FORM_PERMISSION } from "./form/constants";
 
 const defaultCacheSelectorOptions = {
   keySelector: (_state, query) => JSON.stringify(omitBy(query, isNil)),
-  selectorCreator: createSelectorCreator(defaultMemoize, selectorEqualityFn)
+  selectorCreator: createSelectorCreator(lruMemoize, selectorEqualityFn)
 };
 
 const filterForms = (forms, { recordType, primeroModule, checkVisible, includeNested }) => {

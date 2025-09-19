@@ -2,8 +2,8 @@
 
 import { List, Map, fromJS } from "immutable";
 import { isEqual, isNil, omitBy, uniqBy } from "lodash";
-import createCachedSelector from "re-reselect";
-import { createSelectorCreator, defaultMemoize } from "reselect";
+import { createCachedSelector }  from "re-reselect";
+import { createSelectorCreator, lruMemoize } from "reselect";
 import { memoize } from "proxy-memoize";
 
 import displayNameHelper from "../../libs/display-name-helper";
@@ -172,7 +172,7 @@ export const getApprovalsLabels = createCachedSelector(getLocale, approvalsLabel
   return labels;
 })({
   keySelector: (_state, options) => JSON.stringify(omitBy(options, isNil)),
-  selectorCreator: createSelectorCreator(defaultMemoize, isEqual)
+  selectorCreator: createSelectorCreator(lruMemoize, isEqual)
 });
 
 export const getUserGroups = state => state.getIn([NAMESPACE, "userGroups"], fromJS([]));
