@@ -47,4 +47,5 @@ phases:
       - docker push ${CONTAINER_REGISTRY}/primeroims/postgres:${TAG}-pg15
       - docker push ${CONTAINER_REGISTRY}/primeroims/nginx:${TAG}
       - docker push ${CONTAINER_REGISTRY}/primeroims/application:${TAG}
+      - docker push ${CONTAINER_REGISTRY}/primeroims/worker:${TAG}
       - ../buildspec/send-command.sh
