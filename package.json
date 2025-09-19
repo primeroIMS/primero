@@ -166,12 +166,12 @@
     "webpack-assets-manifest": "^6.2.2",
     "webpack-cli": "^6.0.1",
     "webpack-dev-server": "^5.2.2",
-    "workbox-cacheable-response": "^5.1.4",
-    "workbox-expiration": "^5.1.4",
-    "workbox-precaching": "^5.1.4",
-    "workbox-routing": "^5.1.4",
-    "workbox-strategies": "^5.1.4",
-    "workbox-webpack-plugin": "^6.5.1",
+    "workbox-cacheable-response": "^7.3.0",
+    "workbox-expiration": "^7.3.0",
+    "workbox-precaching": "^7.3.0",
+    "workbox-routing": "^7.3.0",
+    "workbox-strategies": "^7.3.0",
+    "workbox-webpack-plugin": "^7.3.0",
     "yup": "^0.32.9"
   },
   "jscpd": {
