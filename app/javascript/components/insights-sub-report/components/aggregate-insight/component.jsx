@@ -8,8 +8,8 @@ import isString from "lodash/isString";
 import namespace from "../../namespace";
 import { useI18n } from "../../../i18n";
 import { useMemoizedSelector } from "../../../../libs";
-import { getPrimaryAgeRanges } from "../../../application/selectors";
-import { formatAgeRange, getIndicatorSubcolumnKeys, getSubColumnItems, hasTotalColumn } from "../../utils";
+import { getFormattedAgeRanges } from "../../../application/selectors";
+import { getIndicatorSubcolumnKeys, getSubColumnItems, hasTotalColumn } from "../../utils";
 import {
   GHN_VIOLATIONS_INDICATORS_IDS,
   GROUPED_BY_FILTER,
@@ -49,7 +49,7 @@ function Component({
 }) {
   const i18n = useI18n();
   const groupedBy = useMemoizedSelector(state => getInsightFilter(state, GROUPED_BY_FILTER));
-  const primaryAgeRanges = useMemoizedSelector(state => getPrimaryAgeRanges(state));
+  const ageRanges = useMemoizedSelector(state => getFormattedAgeRanges(state));
   const isGHNIndicator = GHN_VIOLATIONS_INDICATORS_IDS.includes(indicatorKey);
 
   const indicatorLabels = useMemo(
@@ -61,7 +61,6 @@ function Component({
   );
 
   const includeZeros = insight.get("include_zeros", false);
-  const ageRanges = (primaryAgeRanges || fromJS([])).reduce((acc, range) => acc.concat(formatAgeRange(range)), []);
   const insightMetadata = insight.getIn(["report_data", subReport, "metadata"], fromJS({}));
   const displayGraph = insightMetadata.get("display_graph", true);
   const headerKeys = HEADER_TITLE_KEYS[insight.get("id")] || {};
