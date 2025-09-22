@@ -1,8 +1,9 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { List, ListItem, ListItemText, Drawer } from "@mui/material";
+import { List, ListItemText, Drawer } from "@mui/material";
 import { Link } from "react-router-dom";
+import ListItemButton from "@mui/material/ListItemButton";
 
 import { ConditionalWrapper } from "../../libs";
 
@@ -30,9 +31,8 @@ function Component({ handleToggleNav, menuList = [], mobileDisplay = false, sele
     };
 
     return (
-      <ListItem
+      <ListItemButton
         data-testid="list-item"
-        button
         key={to}
         component={Link}
         to={to}
@@ -41,7 +41,7 @@ function Component({ handleToggleNav, menuList = [], mobileDisplay = false, sele
         classes={classes}
       >
         <ListItemText primary={text} data-testid="list-item-text" />
-      </ListItem>
+      </ListItemButton>
     );
   });
 

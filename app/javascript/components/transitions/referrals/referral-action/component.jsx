@@ -207,11 +207,11 @@ function Component({
 
   const dialogContent = (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
-    <div onClick={stopProp}>
+    (<div onClick={stopProp}>
       <p>{i18n.t(`${recordType}.referral_${referralType}`)}</p>
       {renderNoteField}
       {renderRejectedReason}
-    </div>
+    </div>)
   );
 
   const confirmButtonLabel = referralType === DONE ? "buttons.done" : "buttons.ok";

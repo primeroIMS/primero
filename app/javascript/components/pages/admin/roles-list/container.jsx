@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { fromJS, List } from "immutable";
 import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
-import Grid from "@mui/material/Unstable_Grid2";
+import Grid from "@mui/material/Grid";
 import { useDispatch } from "react-redux";
 
 import { useI18n } from "../../../i18n";
@@ -90,10 +90,18 @@ function Container() {
       <PageHeading title={i18n.t("roles.label")}>{rolesNewButton}</PageHeading>
       <PageContent>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={8}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 8
+            }}>
             <IndexTable title={i18n.t("roles.label")} {...tableOptions} />
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 4
+            }}>
             <FiltersForm {...filterProps} noMargin />
           </Grid>
         </Grid>

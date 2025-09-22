@@ -39,11 +39,20 @@ function OverviewBox({
       <div className={css.root} data-testid="overview-box">
         <Grid container spacing={3}>
           {chartData && (
-            <Grid item md={4} xs={12} className={css.dashboardChart}>
+            <Grid
+              className={css.dashboardChart}
+              size={{
+                md: 4,
+                xs: 12
+              }}>
               <DoughnutChart chartData={chartData} />
             </Grid>
           )}
-          <Grid item md={8} xs={12}>
+          <Grid
+            size={{
+              md: 8,
+              xs: 12
+            }}>
             {indicatorSection}
           </Grid>
         </Grid>
