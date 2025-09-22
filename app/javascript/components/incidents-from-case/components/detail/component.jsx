@@ -79,26 +79,30 @@ function Component({
           size={{
             md: 10,
             xs: 12
-          }}>
+          }}
+        >
           <Grid
             size={{
               md: 6,
               xs: 12
-            }}>
+            }}
+          >
             <DisplayData label={incidentInterviewLabel} value={incidentDateInterview} />
           </Grid>
           <Grid
             size={{
               md: 6,
               xs: 12
-            }}>
+            }}
+          >
             <DisplayData label={incidentDateLabel} value={incidentDate} />
           </Grid>
           <Grid
             size={{
               md: 6,
               xs: 12
-            }}>
+            }}
+          >
             <DisplayData label={label(incidentTypeLabel)} value={incidentType} noTranslate />
           </Grid>
         </Grid>
@@ -106,7 +110,8 @@ function Component({
           size={{
             md: 2,
             xs: 12
-          }}>
+          }}
+        >
           <div className={css.buttonsActions}>
             {viewIncidentBtn}
             {editIncidentBtn}

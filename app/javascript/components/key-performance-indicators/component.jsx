@@ -49,7 +49,8 @@ function KeyPerformanceIndicators() {
                   size={{
                     xs: 12,
                     md: 6
-                  }}>
+                  }}
+                >
                   <NumberOfCases dateRanges={allDateRanges} />
                 </Grid>
 
@@ -58,7 +59,8 @@ function KeyPerformanceIndicators() {
                   size={{
                     xs: 12,
                     md: 6
-                  }}>
+                  }}
+                >
                   <NumberOfIncidents dateRanges={allDateRanges} />
                 </Grid>
               </Grid>
@@ -69,7 +71,8 @@ function KeyPerformanceIndicators() {
                   size={{
                     xs: 12,
                     md: 12
-                  }}>
+                  }}
+                >
                   <ReportingDelay dateRanges={allDateRanges} />
                 </Grid>
               </Grid>
@@ -103,7 +106,8 @@ function KeyPerformanceIndicators() {
                       xs: 12,
                       md: 6,
                       xl: 4
-                    }}>
+                    }}
+                  >
                     <CompletedCaseSafetyPlan dateRanges={allDateRanges} />
                   </Grid>
 
@@ -113,7 +117,8 @@ function KeyPerformanceIndicators() {
                       xs: 12,
                       md: 6,
                       xl: 4
-                    }}>
+                    }}
+                  >
                     <CompletedCaseActionPlan dateRanges={allDateRanges} />
                   </Grid>
 
@@ -122,7 +127,8 @@ function KeyPerformanceIndicators() {
                     size={{
                       xs: 12,
                       xl: 4
-                    }}>
+                    }}
+                  >
                     <CompletedSupervisorApprovedCaseActionPlan dateRanges={allDateRanges} />
                   </Grid>
                 </Grid>
@@ -158,7 +164,8 @@ function KeyPerformanceIndicators() {
                     size={{
                       xs: 12,
                       md: 12
-                    }}>
+                    }}
+                  >
                     <AverageFollowupMeetingsPerCase dateRanges={allDateRanges} />
                   </Grid>
                 </Grid>
@@ -177,7 +184,8 @@ function KeyPerformanceIndicators() {
                     size={{
                       xs: 12,
                       md: 12
-                    }}>
+                    }}
+                  >
                     <TimeFromCaseOpenToClose dateRanges={allDateRanges} />
                   </Grid>
                 </Grid>
@@ -214,7 +222,8 @@ function KeyPerformanceIndicators() {
                     size={{
                       xs: 12,
                       md: 12
-                    }}>
+                    }}
+                  >
                     <SupervisorToCaseworkerRatio />
                   </Grid>
                 </Grid>

@@ -128,14 +128,16 @@ function Container() {
             size={{
               xs: 12,
               sm: 8
-            }}>
+            }}
+          >
             <IndexTable title={i18n.t("settings.navigation.audit_logs")} {...tableOptions} />
           </Grid>
           <Grid
             size={{
               xs: 12,
               sm: 4
-            }}>
+            }}
+          >
             <FiltersForm {...filterProps} noMargin />
           </Grid>
         </Grid>

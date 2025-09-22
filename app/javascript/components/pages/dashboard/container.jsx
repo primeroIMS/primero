@@ -192,7 +192,8 @@ function Dashboard() {
                 xl: xlSizeOverview,
                 md: xlSizeOverview,
                 xs: 12
-              }}>
+              }}
+            >
               <Overview />
             </Grid>
           )}
@@ -203,7 +204,8 @@ function Dashboard() {
                 xl: xlSizeActionNeeded,
                 md: xlSizeActionNeeded,
                 xs: 12
-              }}>
+              }}
+            >
               <ActionNeeded userPermissions={userPermissions} />
             </Grid>
           )}
@@ -213,7 +215,8 @@ function Dashboard() {
                 xl: 12,
                 md: 12,
                 xs: 12
-              }}>
+              }}
+            >
               <WorkflowIndividualCases />
             </Grid>
           )}
@@ -223,7 +226,8 @@ function Dashboard() {
               xl: xlSize,
               md: mdSize,
               xs: 12
-            }}>
+            }}
+          >
             {permittedColumnDashboards.map(dashboard => (
               <dashboard.component userPermissions={userPermissions} />
             ))}
@@ -235,7 +239,8 @@ function Dashboard() {
                 xl: xlSizeFlags,
                 md: mdSizeFlags,
                 xs: 12
-              }}>
+              }}
+            >
               <Flags />
             </Grid>
           )}
@@ -244,7 +249,8 @@ function Dashboard() {
               xl: 12,
               md: 12,
               xs: 12
-            }}>
+            }}
+          >
             {permittedTableDashboards.map(dashboard => (
               <dashboard.component userPermissions={userPermissions} />
             ))}

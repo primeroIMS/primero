@@ -73,14 +73,16 @@ function Component({ field, selectedLocaleId, formMode, formMethods }) {
         size={{
           xs: 12,
           md: 12
-        }}>
+        }}
+      >
         <h1>{formTitle}</h1>
       </Grid>
       <Grid
         size={{
           xs: 12,
           md: 6
-        }}>
+        }}
+      >
         <h1 className={css.translationHeader}>{i18n.t("fields.english_text")}</h1>
         {renderEnglishOptions()}
       </Grid>
@@ -88,7 +90,8 @@ function Component({ field, selectedLocaleId, formMode, formMethods }) {
         size={{
           xs: 12,
           md: 6
-        }}>
+        }}
+      >
         <h1 className={css.translationHeader}>{i18n.t("fields.translation_text")}</h1>
         {renderOptions()}
       </Grid>

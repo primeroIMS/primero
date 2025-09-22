@@ -38,7 +38,8 @@ function Details({ transition, classes }) {
         size={{
           md: 12,
           xs: 12
-        }}>
+        }}
+      >
         <DisplayData label="transition.rejected" value={transition.rejected_reason} />
       </Grid>
     ) : null;
@@ -49,7 +50,8 @@ function Details({ transition, classes }) {
         size={{
           md: 6,
           xs: 12
-        }}>
+        }}
+      >
         <DisplayData
           label="transition.recipient"
           value={transition.transitioned_to || transition.transitioned_to_remote}
@@ -59,14 +61,16 @@ function Details({ transition, classes }) {
         size={{
           md: 6,
           xs: 12
-        }}>
+        }}
+      >
         <DisplayData label="transition.assigned_by" value={transition.transitioned_by} />
       </Grid>
       <Grid
         size={{
           md: 6,
           xs: 12
-        }}>
+        }}
+      >
         <DisplayData
           label="transition.no_consent_share"
           value={
@@ -87,21 +91,24 @@ function Details({ transition, classes }) {
         size={{
           md: 6,
           xs: 12
-        }}>
+        }}
+      >
         <DisplayData label="transition.service_label" value={service} />
       </Grid>
       <Grid
         size={{
           md: 6,
           xs: 12
-        }}>
+        }}
+      >
         <DisplayData label="transition.agency_label" value={agencyName} />
       </Grid>
       <Grid
         size={{
           md: 6,
           xs: 12
-        }}>
+        }}
+      >
         <DateTransitions name="responded_at" label="transition.responded_at" value={transition.responded_at} />
       </Grid>
       {renderRejected}
@@ -109,7 +116,8 @@ function Details({ transition, classes }) {
         size={{
           md: 12,
           xs: 12
-        }}>
+        }}
+      >
         <Divider data-testid="divider" className={classes.divider} />
         <DisplayData label="referral.notes_label" value={transition.notes} />
       </Grid>
@@ -118,7 +126,8 @@ function Details({ transition, classes }) {
           size={{
             md: 12,
             xs: 12
-          }}>
+          }}
+        >
           <Divider className={classes.divider} />
           <DisplayData label="referral.note_on_referral_from_provider" value={transition.rejection_note} />
         </Grid>

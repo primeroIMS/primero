@@ -31,7 +31,8 @@ function Component({ approvalSubform, isRequest, isResponse, primeroModule }) {
         size={{
           md: 6,
           xs: 12
-        }}>
+        }}
+      >
         <DisplayData label="approvals.case_plan_type_label" value={approvalSubform.get("approval_for_type")} />
       </Grid>
     ) : null;
@@ -43,7 +44,8 @@ function Component({ approvalSubform, isRequest, isResponse, primeroModule }) {
       size={{
         md: 12,
         xs: 12
-      }}>
+      }}
+    >
       <DisplayData label="approvals.manager_comments_label" value={approvalSubform.get("approval_manager_comments")} />
     </Grid>
   ) : null;
@@ -55,14 +57,16 @@ function Component({ approvalSubform, isRequest, isResponse, primeroModule }) {
           size={{
             md: 6,
             xs: 12
-          }}>
+          }}
+        >
           <DisplayData label={renderApprovalLabel} value={renderApprovalValue} />
         </Grid>
         <Grid
           size={{
             md: 6,
             xs: 12
-          }}>
+          }}
+        >
           <DisplayData
             label={renderApprovedByLabel}
             value={approvalSubform.get("approved_by", false) || approvalSubform.get("requested_by")}

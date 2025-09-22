@@ -33,7 +33,8 @@ function Component({ approvalSubform, css, isRequest, isResponse, primeroModule 
       size={{
         md: 2,
         xs: 4
-      }}>
+      }}
+    >
       <div className={css.approvalsStatus}>
         <Chip label={i18n.t(`approvals.status.${status}`)} className={classes} size="small" />
       </div>
@@ -56,7 +57,8 @@ function Component({ approvalSubform, css, isRequest, isResponse, primeroModule 
         size={{
           md: 10,
           xs: 8
-        }}>
+        }}
+      >
         <div className={css.wrapper}>
           {/* TODO: The date should be localized */}
           <div className={css.titleHeader}>{renderApprovalDate()}</div>

@@ -1,5 +1,5 @@
 import { LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFnsV2';
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV2";
 import PropTypes from "prop-types";
 
 import localize from "./libs/date-picker-localization";

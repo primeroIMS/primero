@@ -68,17 +68,13 @@ function Component({ showTable = false, caseInfo, handleBack, handleOk, handleRo
             <Grid size={2}>
               <span className={css.fieldTitle}>{i18n.t("cases.name")}</span>
             </Grid>
-            <Grid size={4}>
-              {caseInfo.get("name", VALUE_PLACEHOLDER)}
-            </Grid>
+            <Grid size={4}>{caseInfo.get("name", VALUE_PLACEHOLDER)}</Grid>
           </Grid>
           <Grid container className={css.fieldRow}>
             <Grid size={2}>
               <span className={css.fieldTitle}>{i18n.t("cases.age")}</span>
             </Grid>
-            <Grid size={4}>
-              {caseInfo.get("age", VALUE_PLACEHOLDER)}
-            </Grid>
+            <Grid size={4}>{caseInfo.get("age", VALUE_PLACEHOLDER)}</Grid>
           </Grid>
           <Grid container className={css.fieldRow}>
             <Grid size={2}>

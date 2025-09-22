@@ -17,7 +17,8 @@ function TransferSummary({ transition, classes, showMode, recordType }) {
       size={{
         md: 3,
         xs: 3
-      }}>
+      }}
+    >
       <TransitionStatus status={transition.status} />
       <TransitionActions classes={classes} transition={transition} showMode={showMode} recordType={recordType} />
     </Grid>
@@ -29,7 +30,8 @@ function TransferSummary({ transition, classes, showMode, recordType }) {
         size={{
           md: 9,
           xs: 9
-        }}>
+        }}
+      >
         <div className={classes.wrapper}>
           <DateTransitionsSummary value={transition.created_at} />
           <div className={classes.titleHeader}>{i18n.t("transition.type.transfer")}</div>

@@ -34,12 +34,8 @@ function Component({ field, traceValue, caseValue, match }) {
       <Grid size={2}>
         <span className={css.fieldTitle}>{displayName[i18n.locale]}</span>
       </Grid>
-      <Grid size={4}>
-        {traceValueLabel}
-      </Grid>
-      <Grid size={4}>
-        {caseValueLabel}
-      </Grid>
+      <Grid size={4}>{traceValueLabel}</Grid>
+      <Grid size={4}>{caseValueLabel}</Grid>
       <Grid className={className} size={2}>
         {!isTextField(field) &&
           (matched && traceValue ? <CheckIcon data-testid="check-icon" /> : <ClearIcon data-testid="clear-icon" />)}

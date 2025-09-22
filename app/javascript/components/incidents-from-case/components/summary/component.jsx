@@ -12,7 +12,8 @@ function Component({ css, incidentDate, incidentType }) {
         size={{
           md: 10,
           xs: 8
-        }}>
+        }}
+      >
         <div className={css.wrapper}>
           <div className={css.titleHeader}>{incidentDate}</div>
           <div className={css.titleSubHeader}>{incidentType}</div>

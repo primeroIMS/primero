@@ -136,7 +136,8 @@ function Container() {
             size={{
               xs: 12,
               sm: 8
-            }}>
+            }}
+          >
             <AlertMaxUser
               limitUsersReached={limitUsersReached}
               maximumUsers={maximumUsersLimit}
@@ -148,7 +149,8 @@ function Container() {
             size={{
               xs: 12,
               sm: 4
-            }}>
+            }}
+          >
             <FiltersForm {...filterProps} noMargin searchFieldLabel={i18n.t("users.filters.search")} showSearchField />
           </Grid>
         </Grid>

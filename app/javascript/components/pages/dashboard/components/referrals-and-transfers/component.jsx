@@ -33,7 +33,8 @@ function ReferralsAndTransfers({ indicatorProps, userPermissions }) {
             xl: xlSizeTransition,
             md: mdSizeTransition,
             xs: 12
-          }}>
+          }}
+        >
           <Referrals loadingIndicator={indicatorProps} userPermissions={userPermissions} />
         </Grid>
       )}
@@ -44,7 +45,8 @@ function ReferralsAndTransfers({ indicatorProps, userPermissions }) {
             xl: xlSizeTransition,
             md: mdSizeTransition,
             xs: 12
-          }}>
+          }}
+        >
           <Transfers loadingIndicator={indicatorProps} userPermissions={userPermissions} />
         </Grid>
       )}

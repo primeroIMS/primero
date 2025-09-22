@@ -113,7 +113,8 @@ function Component({ mode, formMethods }) {
           size={{
             xs: 12,
             md: 12
-          }}>
+          }}
+        >
           <h1>{i18n.t("forms.label")}</h1>
         </Grid>
         <Grid
@@ -121,7 +122,8 @@ function Component({ mode, formMethods }) {
           size={{
             xs: 12,
             md: 3
-          }}>
+          }}
+        >
           {i18n.t("fields.detail")}
         </Grid>
         <Grid
@@ -129,7 +131,8 @@ function Component({ mode, formMethods }) {
           size={{
             xs: 12,
             md: 3
-          }}>
+          }}
+        >
           {i18n.t("fields.english_text")}
         </Grid>
         <Grid
@@ -137,21 +140,24 @@ function Component({ mode, formMethods }) {
           size={{
             xs: 12,
             md: 3
-          }}>
+          }}
+        >
           {i18n.t("fields.translation_text")}
         </Grid>
         <Grid
           size={{
             xs: 12,
             md: 3
-          }} />
+          }}
+        />
 
         <Grid
           className={classes}
           size={{
             xs: 12,
             md: 3
-          }}>
+          }}
+        >
           {i18n.t("forms.title")}
         </Grid>
         <Grid
@@ -159,7 +165,8 @@ function Component({ mode, formMethods }) {
           size={{
             xs: 12,
             md: 3
-          }}>
+          }}
+        >
           <FormSectionField
             field={FieldRecord({
               display_name: "",
@@ -177,21 +184,24 @@ function Component({ mode, formMethods }) {
           size={{
             xs: 12,
             md: 3
-          }}>
+          }}
+        >
           {renderFormField("name")}
         </Grid>
         <Grid
           size={{
             xs: 12,
             md: 3
-          }} />
+          }}
+        />
 
         <Grid
           className={classes}
           size={{
             xs: 12,
             md: 3
-          }}>
+          }}
+        >
           {i18n.t("forms.description")}
         </Grid>
         <Grid
@@ -199,7 +209,8 @@ function Component({ mode, formMethods }) {
           size={{
             xs: 12,
             md: 3
-          }}>
+          }}
+        >
           <FormSectionField
             field={FieldRecord({
               display_name: "",
@@ -217,21 +228,24 @@ function Component({ mode, formMethods }) {
           size={{
             xs: 12,
             md: 3
-          }}>
+          }}
+        >
           {renderFormField("description")}
         </Grid>
         <Grid
           size={{
             xs: 12,
             md: 3
-          }} />
+          }}
+        />
       </Grid>
       <Grid container spacing={1}>
         <Grid
           size={{
             xs: 12,
             md: 12
-          }}>
+          }}
+        >
           <h1>{i18n.t("fields.label")}</h1>
         </Grid>
         <Grid
@@ -239,7 +253,8 @@ function Component({ mode, formMethods }) {
           size={{
             xs: 12,
             md: 3
-          }}>
+          }}
+        >
           {i18n.t("fields.detail")}
         </Grid>
         <Grid
@@ -247,7 +262,8 @@ function Component({ mode, formMethods }) {
           size={{
             xs: 12,
             md: 3
-          }}>
+          }}
+        >
           {i18n.t("fields.english_text")}
         </Grid>
         <Grid
@@ -255,14 +271,16 @@ function Component({ mode, formMethods }) {
           size={{
             xs: 12,
             md: 3
-          }}>
+          }}
+        >
           {i18n.t("fields.translation_text")}
         </Grid>
         <Grid
           size={{
             xs: 12,
             md: 3
-          }} />
+          }}
+        />
         {renderFields()}
       </Grid>
     </>

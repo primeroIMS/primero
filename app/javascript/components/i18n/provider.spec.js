@@ -35,8 +35,9 @@ describe("I18nProvider - changeLocale", () => {
           onClick={() => {
             changeLocale(newLocale);
           }}
-        >I18n Test Component
-                                                                              </button>
+        >
+          I18n Test Component
+        </button>
       );
     }
 

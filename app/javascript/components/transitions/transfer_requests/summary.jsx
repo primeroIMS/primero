@@ -14,7 +14,8 @@ function Summary({ transition, classes }) {
       size={{
         md: 2,
         xs: 4
-      }}>
+      }}
+    >
       <TransitionStatus status={transition.status} />
     </Grid>
   ) : null;
@@ -25,7 +26,8 @@ function Summary({ transition, classes }) {
         size={{
           md: 10,
           xs: 8
-        }}>
+        }}
+      >
         <div className={classes.wrapper} data-testid="wrapper">
           <div className={classes.titleHeader}>{i18n.t("transition.type.transferRequest")}</div>
 

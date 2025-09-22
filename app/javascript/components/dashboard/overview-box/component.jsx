@@ -44,7 +44,8 @@ function OverviewBox({
               size={{
                 md: 4,
                 xs: 12
-              }}>
+              }}
+            >
               <DoughnutChart chartData={chartData} />
             </Grid>
           )}
@@ -52,7 +53,8 @@ function OverviewBox({
             size={{
               md: 8,
               xs: 12
-            }}>
+            }}
+          >
             {indicatorSection}
           </Grid>
         </Grid>

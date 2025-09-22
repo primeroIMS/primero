@@ -132,7 +132,8 @@ function Container() {
             size={{
               xs: 12,
               sm: 8
-            }}>
+            }}
+          >
             <ImportDialog i18n={i18n} open={dialogOpen} pending={pending} close={dialogClose} />
             <DisableDialog
               selectedRecords={selectedRecords}
@@ -147,7 +148,8 @@ function Container() {
             size={{
               xs: 12,
               sm: 4
-            }}>
+            }}
+          >
             <FiltersForm {...filterProps} noMargin />
           </Grid>
         </Grid>

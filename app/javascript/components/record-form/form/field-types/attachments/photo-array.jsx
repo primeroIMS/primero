@@ -73,9 +73,9 @@ function PhotoArray({ images = [], isGallery = false }) {
         {prevButton}
         {isGallery ? (
           // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
-          (<div className={css.imgCurrent} onClick={handleOnClick(selected.index)}>
+          <div className={css.imgCurrent} onClick={handleOnClick(selected.index)}>
             <AssetJwt src={images[selected.index]} alt="" />
-          </div>)
+          </div>
         ) : (
           renderImages()
         )}

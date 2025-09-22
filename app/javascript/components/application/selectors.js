@@ -2,7 +2,7 @@
 
 import { List, Map, fromJS } from "immutable";
 import { isEqual, isNil, omitBy, uniqBy } from "lodash";
-import { createCachedSelector }  from "re-reselect";
+import { createCachedSelector } from "re-reselect";
 import { createSelectorCreator, lruMemoize } from "reselect";
 import { memoize } from "proxy-memoize";
 

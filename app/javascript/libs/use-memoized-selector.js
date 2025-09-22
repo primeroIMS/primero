@@ -6,7 +6,7 @@ import isNil from "lodash/isNil";
 import omitBy from "lodash/omitBy";
 import { useCallback } from "react";
 import { memoize } from "proxy-memoize";
-import {isImmutable, is} from "immutable";
+import { isImmutable, is } from "immutable";
 import isEqual from "lodash/isEqual";
 
 const selectorEqualityFn = (val1, val2) => {
@@ -14,7 +14,7 @@ const selectorEqualityFn = (val1, val2) => {
     return is(val1, val2);
   }
 
-  return isEqual(val1, val2)
+  return isEqual(val1, val2);
 };
 
 const useMemoizedSelector = (selector, equalityFn) => {

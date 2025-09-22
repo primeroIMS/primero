@@ -67,7 +67,8 @@ function Component({ field, selectedLocaleId, formMethods, formMode }) {
         size={{
           xs: 12,
           md: 3
-        }}>
+        }}
+      >
         {displayName}
       </Grid>
       <Grid
@@ -75,7 +76,8 @@ function Component({ field, selectedLocaleId, formMethods, formMode }) {
         size={{
           xs: 12,
           md: 3
-        }}>
+        }}
+      >
         <FormSectionField
           field={FieldRecord({
             display_name: "",
@@ -92,7 +94,8 @@ function Component({ field, selectedLocaleId, formMethods, formMode }) {
         size={{
           xs: 12,
           md: 3
-        }}>
+        }}
+      >
         {renderTranslationFields()}
       </Grid>
       <Grid
@@ -100,7 +103,8 @@ function Component({ field, selectedLocaleId, formMethods, formMode }) {
         size={{
           xs: 12,
           md: 3
-        }}>
+        }}
+      >
         <ActionButton text="forms.manage" outlined rest={{ onClick: onClickManage }} />
       </Grid>
     </>

@@ -14,21 +14,24 @@ function Details({ transition }) {
         size={{
           md: 6,
           xs: 12
-        }}>
+        }}
+      >
         <DisplayData label="transition.recipient" value={transition.transitioned_to} />
       </Grid>
       <Grid
         size={{
           md: 6,
           xs: 12
-        }}>
+        }}
+      >
         <DisplayData label="transition.requested_by" value={transition.transitioned_by} />
       </Grid>
       <Grid
         size={{
           md: 12,
           xs: 12
-        }}>
+        }}
+      >
         <Divider data-testid="divider" className={css.divider} />
         <DisplayData label="transition.notes" value={transition.notes} />
       </Grid>
