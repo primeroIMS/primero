@@ -53,7 +53,7 @@ describe ManagedReport do
       expect(
         managed_reports[Permission::VIOLATION_REPORT].subreports
       ).to match_array(
-        %w[killing maiming detention sexual_violence attack_on_hospitals attack_on_schools
+        %w[killing maiming deprivation_liberty sexual_violence attack_on_hospitals attack_on_schools
            denial_humanitarian_access abduction recruitment military_use]
       )
     end

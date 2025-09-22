@@ -31,7 +31,7 @@ import {
   OWNED_BY_GROUPS,
   WORKFLOW
 } from "../insights/constants";
-import { fetchInsight } from "../insights-sub-report/action-creators";
+import { clearReportData, clearSelectedInsight, fetchInsight } from "../insights-sub-report/action-creators";
 import { clearFilters, setFilters } from "../insights-list/action-creators";
 import useOptions from "../form/use-options";
 import { compactBlank } from "../record-form/utils";
@@ -108,7 +108,9 @@ function Component({ id, subReport, toggleControls }) {
   }, [isWorkflowSubreport, isViolenceTypeSubreport, isReferralsTransferSubreport, userGroups.length]);
 
   useEffect(() => {
-    getInsights(formMethods.getValues());
+    if (subReport) {
+      getInsights(formMethods.getValues());
+    }
   }, [subReport]);
 
   useEffect(() => {
@@ -117,6 +119,12 @@ function Component({ id, subReport, toggleControls }) {
       formMethods.setValue(MODULE_ID, app.userModules.getIn([0, "unique_id"]));
     }
   }, [app.userModules.size]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearSelectedInsight());
+    };
+  }, []);
 
   if (isEmpty(insightsConfig.filters)) {
     return null;
@@ -127,6 +135,7 @@ function Component({ id, subReport, toggleControls }) {
   );
 
   const submit = data => {
+    dispatch(clearReportData());
     getInsights(compactBlank(data));
   };
 

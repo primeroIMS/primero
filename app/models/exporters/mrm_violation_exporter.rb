@@ -208,6 +208,8 @@ module Exporters
     def write_violation_headers_by_type(worksheet)
       Violation::TYPES.each do |type|
         violation_fields = fields_by_violation_type[type]
+        next unless violation_fields.present?
+
         start_column = @header_column
         write_field_headers(worksheet, violation_fields)
         write_violation_type_header(start_column, @header_column - 1, worksheet, violation_fields, type)

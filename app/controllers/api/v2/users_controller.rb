@@ -63,7 +63,8 @@ class Api::V2::UsersController < ApplicationApiController
   end
 
   def load_user
-    @user = User.with_audit_dates.includes(:role, :user_groups).joins(:role).find(params[:id])
+    # TODO: Add `with_audit_dates` back once users.timestamp index is added
+    @user = User.includes(:role, :user_groups).joins(:role).find(params[:id])
   end
 
   def load_extended

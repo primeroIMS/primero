@@ -91,27 +91,31 @@ class ManagedReports::Indicators::PercentageSuccessfulReferrals < ManagedReports
 
     # rubocop:disable Metrics/MethodLength
     def join_services(service_type_param = nil, date_param = nil)
+      %(
+        CROSS JOIN LATERAL (
+          SELECT
+            services_section->>'service_status_referred' AS service_status_referred,
+            #{service_response_day_time_field},
+            services_section->>'service_implemented' AS service_implemented,
+            services_section->>'unique_id' AS service_unique_id
+          FROM JSONB_ARRAY_ELEMENTS(data->'services_section') AS services_section
+          WHERE services_section @? '$[*]
+            ? (@.service_status_referred == true)
+            #{filter_service_type(service_type_param&.value)&.prepend('? ')}'
+          #{service_response_day_time_query(date_param)&.prepend('AND ')}
+        ) AS services
+      )
+    end
+    # rubocop:enable Metrics/MethodLength
+
+    def service_response_day_time_field
       ActiveRecord::Base.sanitize_sql_for_conditions(
         [
-          %(
-            CROSS JOIN LATERAL (
-              SELECT
-                services_section->>'service_status_referred' AS service_status_referred,
-                TO_TIMESTAMP(services_section->>'service_response_day_time', :format) AS service_response_day_time,
-                services_section->>'service_implemented' AS service_implemented,
-                services_section->>'unique_id' AS service_unique_id
-              FROM JSONB_ARRAY_ELEMENTS(data->'services_section') AS services_section
-              WHERE services_section @? '$[*]
-                ? (@.service_status_referred == true)
-                #{filter_service_type(service_type_param&.value)&.prepend('? ')}'
-              #{service_response_day_time_query(date_param)&.prepend('AND ')}
-            ) AS services
-           ),
+          "TO_TIMESTAMP(services_section->>'service_response_day_time', :format) AS service_response_day_time",
           { format: Report::DATE_TIME_FORMAT }
         ]
       )
     end
-    # rubocop:enable Metrics/MethodLength
 
     def filter_service_type(service_type)
       return unless service_type.present?

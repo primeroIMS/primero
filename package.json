@@ -197,8 +197,8 @@
     "@mui/x-date-pickers": "^8.11.3",
     "@welldone-software/why-did-you-render": "^10.0.1",
     "formik-mui": "^5.0.0-alpha.1",
-    "react-zoom-pan-pinch": "^3.7.0",
     "stylis-plugin-rtl": "^2.1.1",
-    "tss-react": "^4.9.19"
+    "tss-react": "^4.9.19",
+    "zoomist": "^2.2.0"
   }
 }

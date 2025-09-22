@@ -73,6 +73,11 @@ describe ManagedReports::Indicators::LateVerificationViolations do
   end
 
   it 'return data for late verification indicator' do
+    common_query = %w[
+      has_late_verified_violations=true
+      ctfmr_verified_date=2021-05-01..2022-05-31
+    ]
+
     data = ManagedReports::Indicators::LateVerificationViolations.build(
       nil,
       {
@@ -85,8 +90,25 @@ describe ManagedReports::Indicators::LateVerificationViolations do
       }
     ).data
 
+
+
     expect(data).to match_array(
-      [{ 'id' => 'attack_on_hospitals', 'total' => 3 }, { 'id' => 'attack_on_schools', 'total' => 1 }]
+      [
+        {
+          'id' => 'attack_on_hospitals',
+          'total' => {
+            count: 3,
+            query: %w[violation_with_verification_status=attack_on_hospitals_verified] + common_query
+          }
+        },
+        {
+          'id' => 'attack_on_schools',
+          'total' => {
+             count: 1,
+             query: %w[violation_with_verification_status=attack_on_schools_verified] + common_query
+          }
+        }
+      ]
     )
   end
 end

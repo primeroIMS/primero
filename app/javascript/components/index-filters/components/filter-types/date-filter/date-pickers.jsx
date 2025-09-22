@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { endOfDay, parseISO, startOfDay } from "date-fns";
 import { DatePicker, DateTimePicker } from "@mui/x-date-pickers";
 import { isString } from "formik";
+import isNil from "lodash/isNil";
 
 import { DATE_FORMAT, DATE_TIME_FORMAT, LOCALE_KEYS } from "../../../../../config";
 import { useI18n } from "../../../../i18n";
@@ -33,8 +34,10 @@ function Component({
   useEffect(() => {
     if (selectedField) {
       register(selectedField);
-      setValue(selectedField, selectedFieldDefaultValue || defaultDates());
-      setInputValue(selectedFieldDefaultValue || defaultDates());
+      if (isNil(inputValue)) {
+        setValue(selectedField, selectedFieldDefaultValue || defaultDates());
+        setInputValue(selectedFieldDefaultValue || defaultDates());
+      }
     }
 
     return () => {

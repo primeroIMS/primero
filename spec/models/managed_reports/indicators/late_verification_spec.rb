@@ -44,6 +44,12 @@ describe ManagedReports::Indicators::LateVerification do
   end
 
   it 'return data for late verification indicator' do
+    common_query = %w[
+      violation_with_verification_status=maiming_verified
+      has_late_verified_violations=true
+      ctfmr_verified_date=2022-07-01..2022-07-30
+    ]
+
     data = ManagedReports::Indicators::LateVerification.build(
       nil,
       {
@@ -58,15 +64,41 @@ describe ManagedReports::Indicators::LateVerification do
 
     expect(data).to match_array(
       [
-        { group_id: 'boys', data: [{ id: 'maiming', total: 2 }] },
-        { group_id: 'girls', data: [{ id: 'maiming', total: 3 }] },
-        { group_id: 'unknown', data: [{ id: 'maiming', total: 2 }] },
-        { group_id: 'total', data: [{ id: 'maiming', total: 7 }] }
+        {
+          group_id: 'boys',
+          data: [
+            { id: 'maiming', total: { count: 2, query: %w[child_types=boys] + common_query } }
+          ]
+        },
+        {
+          group_id: 'girls',
+          data: [
+            { id: 'maiming', total: { count: 3, query: %w[child_types=girls] + common_query } }
+          ]
+        },
+        {
+          group_id: 'unknown',
+          data: [
+            { id: 'maiming', total: { count: 2, query: %w[child_types=unknown] + common_query } }
+          ]
+        },
+        {
+          group_id: 'total',
+          data: [
+            { id: 'maiming', total: { count: 7, query: common_query } }
+          ]
+        }
       ]
     )
   end
 
   it 'return data for late verification indicator' do
+    common_query = %w[
+      violation_with_verification_status=maiming_verified
+      has_late_verified_violations=true
+      ctfmr_verified_date=2022-01-01..2022-01-01
+    ]
+
     data = ManagedReports::Indicators::LateVerification.build(
       nil,
       {
@@ -81,10 +113,30 @@ describe ManagedReports::Indicators::LateVerification do
 
     expect(data).to match_array(
       [
-        { group_id: 'boys', data: [{ id: 'maiming', total: 1 }] },
-        { group_id: 'girls', data: [{ id: 'maiming', total: 2 }] },
-        { group_id: 'unknown', data: [{ id: 'maiming', total: 0 }] },
-        { group_id: 'total', data: [{ id: 'maiming', total: 3 }] }
+        {
+          group_id: 'boys',
+          data: [
+            { id: 'maiming', total: { count: 1, query: %w[child_types=boys] + common_query } }
+          ]
+        },
+        {
+          group_id: 'girls',
+          data: [
+            { id: 'maiming', total: { count: 2, query: %w[child_types=girls] + common_query } }
+          ]
+        },
+        {
+          group_id: 'unknown',
+          data: [
+            { id: 'maiming', total: { count: 0, query: %w[child_types=unknown] + common_query } }
+          ]
+        },
+        {
+          group_id: 'total',
+          data: [
+            { id: 'maiming', total: { count: 3, query: common_query } }
+          ]
+        }
       ]
     )
   end

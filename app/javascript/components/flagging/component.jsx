@@ -10,13 +10,15 @@ import { ACTION_BUTTON_TYPES } from "../action-button/constants";
 import { useDialog } from "../action-dialog";
 
 import { fetchFlags } from "./action-creators";
-import { FlagDialog, FlagForm, ListFlags, Unflag } from "./components";
+import { FlagDialog, FlagForm, ListFlags, Unflag, UpdateFlag } from "./components";
 import { FLAG_DIALOG, NAME } from "./constants";
 import { getSelectedFlag } from "./selectors";
+import { UNFLAG_DIALOG } from "./components/unflag/constants";
+import { UPDATE_FLAG_DIALOG } from "./components/update-flag/constants";
 
 function Component({ control, record, recordType }) {
   const [tab, setTab] = useState(0);
-  const { dialogOpen, setDialog } = useDialog(FLAG_DIALOG);
+  const { dialogOpen, setDialog } = useDialog([FLAG_DIALOG, UNFLAG_DIALOG, UPDATE_FLAG_DIALOG]);
 
   const isBulkFlags = Array.isArray(record);
 
@@ -38,7 +40,7 @@ function Component({ control, record, recordType }) {
 
   const flagDialogProps = {
     isBulkFlags,
-    dialogOpen,
+    dialogOpen: dialogOpen[FLAG_DIALOG],
     tab,
     setTab,
     fetchAction: fetchFlags,
@@ -64,14 +66,11 @@ function Component({ control, record, recordType }) {
         />
       )}
       <FlagDialog {...flagDialogProps}>
-        <div>
-          <ListFlags {...listFlagsProps} />
-        </div>
-        <div>
-          <FlagForm {...flagFormProps} />
-        </div>
+        <div>{tab === 0 && <ListFlags {...listFlagsProps} />}</div>
+        <div>{tab === 1 && <FlagForm {...flagFormProps} />}</div>
       </FlagDialog>
-      <Unflag flag={selectedFlag} />
+      {dialogOpen[UNFLAG_DIALOG] && <Unflag flag={selectedFlag} />}
+      {dialogOpen[UPDATE_FLAG_DIALOG] && <UpdateFlag flag={selectedFlag} record={record} recordType={recordType} />}
     </>
   );
 }

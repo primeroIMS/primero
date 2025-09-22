@@ -36,8 +36,17 @@ class ManagedReports::Indicators::VerifiedInformationViolations < ManagedReports
     end
     # rubocop:enable Metrics/MethodLength
 
-    def build_results(results, _params = {})
-      results.to_a
+    def build_results(results, params = {})
+      results.to_a.map { |result| result_with_query(result.with_indifferent_access, params) }
+    end
+
+    def query_for_result(result, params)
+      date_param = date_filter_param(params['ghn_date_filter'])
+      [
+        "violation_with_verification_status=#{result[:id]}_verified",
+        'has_late_verified_violations=false',
+        date_param.to_s
+      ]
     end
   end
 end
