@@ -13,7 +13,7 @@ describe("<InsightsSubReport />/utils/buildInsightColumns", () => {
           { id: "option_1", total: 5 },
           { id: "option_2", total: 10 }
         ]),
-        totalText: "Total"
+        labels: { total: "Total" }
       });
 
       expect(columns).toEqual([{ label: "Total" }]);
