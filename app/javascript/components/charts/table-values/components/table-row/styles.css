@@ -35,3 +35,16 @@
   min-width: 6.5em;
   text-align: center;
 }
+
+.link {
+  color: var(--c-black);
+
+  &:hover {
+    color: var(--c-black);
+  }
+}
+
+.zero {
+  color: var(--c-black);
+  pointer-events: none;
+}

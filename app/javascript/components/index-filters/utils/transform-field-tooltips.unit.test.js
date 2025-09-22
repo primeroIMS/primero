@@ -74,6 +74,34 @@ describe("<IndexFilters>/utils - transformFieldTooltips", () => {
           required: true,
           module_ids: ["primeromodule-gbv"],
           parent_form: "case"
+        },
+        6: {
+          name: "disabled_field",
+          type: "text_field",
+          editable: true,
+          disabled: true,
+          visible: false,
+          display_name: {
+            en: "Disabled Field",
+            es: "Campo deshabilitado"
+          },
+          required: true,
+          module_ids: ["primeromodule-gbv"],
+          parent_form: "case"
+        },
+        7: {
+          name: "hidden_field",
+          type: "text_field",
+          editable: true,
+          disabled: false,
+          visible: false,
+          display_name: {
+            en: "Hidden Field",
+            es: "Campo oculto"
+          },
+          required: true,
+          module_ids: ["primeromodule-gbv"],
+          parent_form: "case"
         }
       },
       FieldRecord

@@ -219,8 +219,8 @@ describe ManagedReports::Indicators::CaseWorkflowBySexAndAge do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'year'),
             'registration_date' => SearchFilters::DateRange.new(
               field_name: 'registration_date',
-              from: '2022-03-07',
-              to: '2022-03-10'
+              from: Date.parse('2022-03-07'),
+              to: Date.parse('2022-03-10')
             )
           }
         ).data
@@ -248,8 +248,8 @@ describe ManagedReports::Indicators::CaseWorkflowBySexAndAge do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'month'),
             'registration_date' => SearchFilters::DateRange.new(
               field_name: 'registration_date',
-              from: '2022-02-15',
-              to: '2022-03-10'
+              from: Date.parse('2022-02-15'),
+              to: Date.parse('2022-03-10')
             )
           }
         ).data
@@ -278,8 +278,8 @@ describe ManagedReports::Indicators::CaseWorkflowBySexAndAge do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
             'registration_date' => SearchFilters::DateRange.new(
               field_name: 'registration_date',
-              from: '2022-02-15',
-              to: '2022-03-30'
+              from: Date.parse('2022-02-15'),
+              to: Date.parse('2022-03-30')
             )
           }
         ).data
@@ -307,8 +307,8 @@ describe ManagedReports::Indicators::CaseWorkflowBySexAndAge do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'week'),
             'registration_date' => SearchFilters::DateRange.new(
               field_name: 'registration_date',
-              from: '2022-02-27',
-              to: '2022-03-10'
+              from: Date.parse('2022-02-27'),
+              to: Date.parse('2022-03-10')
             )
           }
         ).data

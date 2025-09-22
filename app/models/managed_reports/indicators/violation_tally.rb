@@ -31,6 +31,7 @@ class ManagedReports::Indicators::ViolationTally < ManagedReports::SqlReportIndi
         #{date_range_query(params['ctfmr_verified_date'], 'violations')&.prepend('and ')}
         #{equal_value_query(params['ctfmr_verified'], 'violations')&.prepend('and ')}
         #{equal_value_query(params['type'], 'violations')&.prepend('and ')}
+        #{equal_value_query(params['has_late_verified_violations'], 'incidents')&.prepend('and ')}
         group by key
         #{grouped_date_query(params['grouped_by'], filter_date(params), table_name_for_query(params))&.prepend(', ')}
         order by

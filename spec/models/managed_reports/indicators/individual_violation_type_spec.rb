@@ -55,8 +55,8 @@ describe ManagedReports::Indicators::IndividualViolationType do
         'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
         'incident_date' => SearchFilters::DateRange.new(
           field_name: 'incident_date',
-          from: '2021-04-01',
-          to: '2022-06-10'
+          from: Date.parse('2021-04-01'),
+          to: Date.parse('2022-06-10')
         )
       }
     ).data
@@ -78,8 +78,8 @@ describe ManagedReports::Indicators::IndividualViolationType do
           'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
           'date_of_first_report' => SearchFilters::DateRange.new(
             field_name: 'date_of_first_report',
-            from: '2021-04-01',
-            to: '2022-06-10'
+            from: Date.parse('2021-04-01'),
+            to: Date.parse('2022-06-10')
           )
         }
       ).data
@@ -102,8 +102,8 @@ describe ManagedReports::Indicators::IndividualViolationType do
           'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
           'ctfmr_verified_date' => SearchFilters::DateRange.new(
             field_name: 'ctfmr_verified_date',
-            from: '2021-04-01',
-            to: '2022-06-10'
+            from: Date.parse('2021-04-01'),
+            to: Date.parse('2022-06-10')
           )
         }
       ).data

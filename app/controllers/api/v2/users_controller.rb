@@ -15,7 +15,9 @@ class Api::V2::UsersController < ApplicationApiController
 
   def index
     authorize! :index, User
-    filters = params.permit(:user_name, :agency, :location, :services, :user_group_ids, :query, disabled: {}).to_h
+    filters = params.permit(:user_name, :agency, :location, :services, :user_group_ids,
+                            :query, last_access: %i[from to], last_case_viewed: %i[from to],
+                                    last_case_updated: %i[from to], disabled: {}).to_h
     results = PermittedUsersService.new(current_user).find_permitted_users(
       filters.compact, pagination, order_params
     )
@@ -61,7 +63,8 @@ class Api::V2::UsersController < ApplicationApiController
   end
 
   def load_user
-    @user = User.with_audit_dates.includes(:role, :user_groups).joins(:role).find(params[:id])
+    # TODO: Add `with_audit_dates` back once users.timestamp index is added
+    @user = User.includes(:role, :user_groups).joins(:role).find(params[:id])
   end
 
   def load_extended

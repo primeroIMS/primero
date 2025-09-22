@@ -117,11 +117,11 @@ class ManagedReport < ValueObject
         name: 'managed_reports.violations.name',
         description: 'managed_reports.violations.description',
         subreports: %w[
-          killing maiming detention sexual_violence denial_humanitarian_access abduction recruitment attack_on_schools
-          attack_on_hospitals military_use
+          killing maiming deprivation_liberty sexual_violence denial_humanitarian_access abduction recruitment
+          attack_on_schools attack_on_hospitals military_use
         ],
         permitted_filters: [
-          :grouped_by, :ctfmr_verified, :verified_ctfmr_technical,
+          :grouped_by, :ctfmr_verified, :verified_ctfmr_technical, :has_late_verified_violations,
           { date_of_first_report: {},
             incident_date: {}, ctfmr_verified_date: {} }
         ],

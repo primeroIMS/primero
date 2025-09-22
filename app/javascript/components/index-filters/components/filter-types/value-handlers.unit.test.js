@@ -110,19 +110,25 @@ describe("<IndexFilters />/filter-types/value-handlers", () => {
           {
             id: "owned_by=josh",
             key: "owned_by",
-            display_name: "My Cases"
+            display_name: "cases.filter_by.my_cases"
           },
           {
             id: "assigned_user_names=josh",
             key: "assigned_user_names",
             display_name: "cases.filter_by.referred_cases"
+          },
+          {
+            id: "assign=josh",
+            key: "assign",
+            display_name: "cases.filter_by.assigned_to_me"
           }
         ],
         isObject: true,
         fieldName: "or"
       };
 
-      const label = jest.fn().mockReturnValue("My Cases");
+      // This mock just regurgitates the i18n key.
+      const label = jest.fn((_labelName, i18nString) => i18nString);
 
       const output = getFilterProps({ filter, user, i18n, label });
 

@@ -31,7 +31,7 @@ const customCheckBoxFilters = {
     ],
     fieldName
   }),
-  [CUSTOM_FILTERS.MY_CASES]: ({ i18n, user, label }) => ({
+  [CUSTOM_FILTERS.MY_CASES]: ({ user, label }) => ({
     options: [
       {
         id: `owned_by=${user}`,
@@ -41,7 +41,12 @@ const customCheckBoxFilters = {
       {
         id: `assigned_user_names=${user}`,
         key: "assigned_user_names",
-        display_name: i18n.t("cases.filter_by.referred_cases")
+        display_name: label("referred_cases", "cases.filter_by.referred_cases")
+      },
+      {
+        id: `assign=${user}`,
+        key: "assign",
+        display_name: label("assigned_cases", "cases.filter_by.assigned_to_me")
       }
     ],
     isObject: true,
@@ -100,7 +105,7 @@ const getFilterProps = ({ filter, user, i18n, label }) => {
         fieldName
       });
     case CUSTOM_FILTERS.MY_CASES:
-      return customCheckBoxFilters[CUSTOM_FILTERS.MY_CASES]({ i18n, user, label });
+      return customCheckBoxFilters[CUSTOM_FILTERS.MY_CASES]({ user, label });
     default:
       return { options, fieldName, optionStringsSource, isObject };
   }

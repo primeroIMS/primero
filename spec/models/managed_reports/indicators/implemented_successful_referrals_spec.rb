@@ -168,15 +168,15 @@ describe ManagedReports::Indicators::ImplementedSuccessfulReferrals do
 
   describe 'grouped by' do
     context 'when is year' do
-      it 'should return results grouped by year' do
+      it 'should return results grouped by year when date range has time' do
         data = ManagedReports::Indicators::ImplementedSuccessfulReferrals.build(
           nil,
           {
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'year'),
             'service_implemented_day_time' => SearchFilters::DateRange.new(
               field_name: 'service_implemented_day_time',
-              from: '2021-01-01',
-              to: '2021-12-31'
+              from: Time.zone.parse('2021-01-01T00:00:00'),
+              to: Time.zone.parse('2021-12-31T00:00:00')
             )
           }
         ).data
@@ -200,8 +200,8 @@ describe ManagedReports::Indicators::ImplementedSuccessfulReferrals do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'month'),
             'service_implemented_day_time' => SearchFilters::DateRange.new(
               field_name: 'service_implemented_day_time',
-              from: '2021-10-01',
-              to: '2021-11-30'
+              from: Date.parse('2021-10-01'),
+              to: Date.parse('2021-11-30')
             )
           }
         ).data
@@ -229,8 +229,8 @@ describe ManagedReports::Indicators::ImplementedSuccessfulReferrals do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'week'),
             'service_implemented_day_time' => SearchFilters::DateRange.new(
               field_name: 'service_implemented_day_time',
-              from: '2021-10-01',
-              to: '2021-10-16'
+              from: Date.parse('2021-10-01'),
+              to: Date.parse('2021-10-16')
             )
           }
         ).data

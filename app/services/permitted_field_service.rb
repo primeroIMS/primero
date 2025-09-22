@@ -38,14 +38,14 @@ class PermittedFieldService
     individual_violations individual_age individual_sex victim_deprived_liberty_security_reasons
     reasons_deprivation_liberty victim_facilty_victims_held torture_punishment_while_deprivated_liberty
     violation_with_verification_status armed_force_group_party_names has_late_verified_violations perpetrator_category
-    date_of_first_report ctfmr_verified_date verification_status
+    date_of_first_report ctfmr_verified_date verification_status child_types
   ].freeze
 
   PERMITTED_RECORD_INFORMATION_FIELDS = %w[
     alert_count assigned_user_names created_at created_by created_by_agency owned_by owned_by_agency_id
     owned_by_text owned_by_agency_office previous_agency previously_owned_by reassigned_tranferred_on reopened_logs
     last_updated_at last_updated_by owned_by_groups previously_owned_by_agency created_organization
-    consent_for_services disclosure_other_orgs case_type
+    consent_for_services disclosure_other_orgs case_type assign
   ].freeze
 
   PERMITTED_DASHBOARD_FILTERS = {

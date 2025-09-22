@@ -112,91 +112,54 @@ describe ManagedReports::Indicators::DetentionStatus do
     incident5 = Incident.new_with_user(@all_user, { incident_date: Date.new(2022, 3, 28), status: 'open' })
     incident5.save!
 
-    violation1 = Violation.create!(
-      data: { type: 'killing', violation_tally: { 'boys': 1, 'girls': 2, 'unknown': 3, 'total': 6 } },
+    Violation.create!(
+      data: {
+        type: 'deprivation_liberty',
+        victim_deprived_liberty_security_reasons: 'yes',
+        deprivation_liberty_date: Date.today.beginning_of_month - 1.week,
+        deprivation_liberty_end_date: Date.today - 1.day,
+        violation_tally: { boys: 1, girls: 2, unknown: 3, total: 6 }
+      },
       incident_id: incident1.id
     )
-    violation1.individual_victims = [
-      IndividualVictim.create!(
-        data: {
-          victim_deprived_liberty_security_reasons: 'yes',
-          depriviation_liberty_date: Date.today.beginning_of_month - 1.week,
-          depriviation_liberty_end_date: Date.today - 1.day,
-          individual_sex: 'female'
-        }
-      ),
-
-      IndividualVictim.create!(
-        data: {
-          victim_deprived_liberty_security_reasons: 'yes',
-          depriviation_liberty_date: Date.today.beginning_of_month - 1.week,
-          depriviation_liberty_end_date: Date.today - 1.day
-        }
-      )
-    ]
-    violation2 = Violation.create!(
-      data: { type: 'killing', violation_tally: { 'boys': 1, 'girls': 1, 'unknown': 1, 'total': 3 } },
+    Violation.create!(
+      data: {
+        type: 'deprivation_liberty',
+        victim_deprived_liberty_security_reasons: 'yes',
+        deprivation_liberty_date: Date.today.beginning_of_month - 1.month,
+        deprivation_liberty_end_date: Date.today - 3.days,
+        violation_tally: { boys: 1, girls: 1, unknown: 1, total: 3 }
+      },
       incident_id: incident2.id
     )
-    violation2.individual_victims = [
-      IndividualVictim.create!(
-        data: {
-          victim_deprived_liberty_security_reasons: 'yes',
-          depriviation_liberty_date: Date.today.beginning_of_month - 1.month,
-          depriviation_liberty_end_date: Date.today - 3.days,
-          individual_sex: 'unknown'
-        }
-      )
-    ]
-    violation3 = Violation.create!(
-      data: { type: 'maiming', violation_tally: { 'boys': 2, 'girls': 1, 'unknown': 2, 'total': 5 } },
+    Violation.create!(
+      data: {
+        type: 'deprivation_liberty',
+        victim_deprived_liberty_security_reasons: 'yes',
+        deprivation_liberty_date: Date.today.beginning_of_month,
+        violation_tally: { boys: 2, girls: 1, unknown: 2, total: 5 }
+      },
       incident_id: incident3.id
     )
-    violation3.individual_victims = [
-      IndividualVictim.create!(
-        data: {
-          victim_deprived_liberty_security_reasons: 'yes',
-          depriviation_liberty_date: Date.today.beginning_of_month,
-          individual_sex: 'male'
-        }
-      )
-    ]
-    violation4 = Violation.create!(
-      data: { type: 'killing', violation_tally: { 'boys': 2, 'girls': 3, 'unknown': 2, 'total': 7 } },
+    Violation.create!(
+      data: {
+        type: 'deprivation_liberty',
+        victim_deprived_liberty_security_reasons: 'yes',
+        deprivation_liberty_date: Date.today.beginning_of_month,
+        deprivation_liberty_end_date: Date.today + 3.days,
+        violation_tally: { boys: 2, girls: 3, unknown: 2, total: 7 }
+      },
       incident_id: incident4.id
     )
-    violation4.individual_victims = [
-      IndividualVictim.create!(
-        data: {
-          victim_deprived_liberty_security_reasons: 'yes',
-          depriviation_liberty_date: Date.today.beginning_of_month,
-          depriviation_liberty_end_date: Date.today + 3.days,
-          individual_sex: 'female'
-        }
-      ),
-      IndividualVictim.create!(
-        data: {
-          victim_deprived_liberty_security_reasons: 'yes',
-          depriviation_liberty_date: Date.today,
-          depriviation_liberty_end_date: Date.today + 3.days,
-          individual_sex: 'male'
-        }
-      )
-    ]
-    violation5 = Violation.create!(
-      data: { type: 'maiming', violation_tally: { 'boys': 2, 'girls': 3, 'unknown': 2, 'total': 7 } },
+    Violation.create!(
+      data: {
+        type: 'deprivation_liberty',
+        victim_deprived_liberty_security_reasons: 'no',
+        deprivation_liberty_date: Date.today.beginning_of_year,
+        violation_tally: { boys: 2, girls: 3, unknown: 2, total: 7 }
+      },
       incident_id: incident5.id
     )
-    violation5.individual_victims = [
-      IndividualVictim.create!(
-        data: {
-          victim_deprived_liberty_security_reasons: 'no',
-          depriviation_liberty_date: Date.today.beginning_of_year,
-          individual_sex: 'unknown'
-        }
-      ),
-      IndividualVictim.create!(data: { victim_deprived_liberty_security_reasons: 'unknown' })
-    ]
   end
 
   it 'returns data for violation tally indicator' do
@@ -206,8 +169,8 @@ describe ManagedReports::Indicators::DetentionStatus do
 
     expect(violation_tally_data).to match_array(
       [
-        { id: 'detention_detained', female: 1, male: 2, total: 3 },
-        { id: 'detention_released', female: 1, total: 2, unknown: 1 }
+        { id: 'detention_detained', boys: 4, girls: 4, unknown: 4, total: 12 },
+        { id: 'detention_released', boys: 4, girls: 6, unknown: 6, total: 16 }
       ]
     )
   end
@@ -218,7 +181,7 @@ describe ManagedReports::Indicators::DetentionStatus do
 
       expect(violation_tally_data).to match_array(
         [
-          { id: 'detention_released', female: 1, total: 1 }
+          { id: 'detention_released', boys: 1, girls: 2, unknown: 3, total: 6 }
         ]
       )
     end
@@ -228,8 +191,8 @@ describe ManagedReports::Indicators::DetentionStatus do
 
       expect(violation_tally_data).to match_array(
         [
-          { female: 1, id: 'detention_detained', male: 2, total: 3 },
-          { id: 'detention_released', total: 1, unknown: 1 }
+          { id: 'detention_detained', boys: 4, girls: 4, unknown: 4, total: 12 },
+          { id: 'detention_released', boys: 3, girls: 4, unknown: 3, total: 10 }
         ]
       )
     end
@@ -239,8 +202,8 @@ describe ManagedReports::Indicators::DetentionStatus do
 
       expect(violation_tally_data).to match_array(
         [
-          { id: 'detention_detained', male: 1, total: 1 },
-          { id: 'detention_released', total: 1, unknown: 1 }
+          { id: 'detention_detained', boys: 2, girls: 1, unknown: 2, total: 5 },
+          { id: 'detention_released', boys: 1, girls: 1, unknown: 1, total: 3 }
         ]
       )
     end
@@ -250,8 +213,8 @@ describe ManagedReports::Indicators::DetentionStatus do
 
       expect(violation_tally_data).to match_array(
         [
-          { female: 1, id: 'detention_detained', male: 2, total: 3 },
-          { female: 1, id: 'detention_released', total: 2, unknown: 1 }
+          { id: 'detention_detained', boys: 4, girls: 4, unknown: 4, total: 12 },
+          { id: 'detention_released', boys: 4, girls: 6, unknown: 6, total: 16 }
         ]
       )
     end
@@ -266,18 +229,26 @@ describe ManagedReports::Indicators::DetentionStatus do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'year'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2020-08-01',
-              to: '2022-10-10'
+              from: Date.parse('2020-08-01'),
+              to: Date.parse('2022-10-10')
             ),
-            'type' => SearchFilters::Value.new(field_name: 'type', value: 'detention')
+            'type' => SearchFilters::Value.new(field_name: 'type', value: 'deprivation_liberty')
           }
         ).data
 
         expect(data).to match_array(
           [
-            { group_id: 2020, data: [{ id: 'detention_released', female: 1, total: 1 }] },
-            { group_id: 2021, data: [{ id: 'detention_released', total: 1, unknown: 1 }] },
-            { group_id: 2022, data: [{ id: 'detention_detained', female: 1, male: 2, total: 3 }] }
+            { group_id: 2020, data: [{ id: 'detention_released', boys: 1, girls: 2, unknown: 3, total: 6 }] },
+            { group_id: 2021, data: [{ id: 'detention_released', boys: 1, girls: 1, unknown: 1, total: 3 }] },
+            {
+              group_id: 2022,
+              data: match_array(
+                [
+                  { id: 'detention_detained', boys: 4, girls: 4, unknown: 4, total: 12 },
+                  { id: 'detention_released', boys: 2, girls: 3, unknown: 2, total: 7 }
+                ]
+              )
+            }
           ]
         )
       end
@@ -291,16 +262,16 @@ describe ManagedReports::Indicators::DetentionStatus do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'month'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2020-08-01',
-              to: '2022-03-10'
+              from: Date.parse('2020-08-01'),
+              to: Date.parse('2022-03-10')
             ),
-            'type' => SearchFilters::Value.new(field_name: 'type', value: 'detention')
+            'type' => SearchFilters::Value.new(field_name: 'type', value: 'deprivation_liberty')
           }
         ).data
 
         expect(data).to match_array(
           [
-            { group_id: '2020-08', data: [{ id: 'detention_released', female: 1, total: 1 }] },
+            { group_id: '2020-08', data: [{ id: 'detention_released', boys: 1, girls: 2, unknown: 3, total: 6 }] },
             { group_id: '2020-09', data: [] },
             { group_id: '2020-10', data: [] },
             { group_id: '2020-11', data: [] },
@@ -312,13 +283,13 @@ describe ManagedReports::Indicators::DetentionStatus do
             { group_id: '2021-05', data: [] },
             { group_id: '2021-06', data: [] },
             { group_id: '2021-07', data: [] },
-            { group_id: '2021-08', data: [{ id: 'detention_released', unknown: 1, total: 1 }] },
+            { group_id: '2021-08', data: [{ id: 'detention_released', boys: 1, girls: 1, unknown: 1, total: 3 }] },
             { group_id: '2021-09', data: [] },
             { group_id: '2021-10', data: [] },
             { group_id: '2021-11', data: [] },
             { group_id: '2021-12', data: [] },
-            { group_id: '2022-01', data: [{ id: 'detention_detained', male: 1, total: 1 }] },
-            { group_id: '2022-02', data: [{ id: 'detention_detained', female: 1, male: 1, total: 2 }] },
+            { group_id: '2022-01', data: [{ id: 'detention_detained', boys: 2, girls: 1, unknown: 2, total: 5 }] },
+            { group_id: '2022-02', data: [{ id: 'detention_released', boys: 2, girls: 3, unknown: 2, total: 7 }] },
             { group_id: '2022-03', data: [] }
           ]
         )
@@ -333,22 +304,30 @@ describe ManagedReports::Indicators::DetentionStatus do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2020-08-01',
-              to: '2022-03-30'
+              from: Date.parse('2020-08-01'),
+              to: Date.parse('2022-03-30')
             ),
-            'type' => SearchFilters::Value.new(field_name: 'type', value: 'detention')
+            'type' => SearchFilters::Value.new(field_name: 'type', value: 'deprivation_liberty')
           }
         ).data
 
         expect(data).to match_array(
           [
-            { group_id: '2020-Q3', data: [{ id: 'detention_released', female: 1, total: 1 }] },
+            { group_id: '2020-Q3', data: [{ id: 'detention_released', boys: 1, girls: 2, unknown: 3, total: 6 }] },
             { group_id: '2020-Q4', data: [] },
             { group_id: '2021-Q1', data: [] },
             { group_id: '2021-Q2', data: [] },
-            { group_id: '2021-Q3', data: [{ id: 'detention_released', unknown: 1, total: 1 }] },
+            { group_id: '2021-Q3', data: [{ id: 'detention_released', boys: 1, girls: 1, unknown: 1, total: 3 }] },
             { group_id: '2021-Q4', data: [] },
-            { group_id: '2022-Q1', data: [{ id: 'detention_detained', female: 1, male: 2, total: 3 }] }
+            {
+              group_id: '2022-Q1',
+              data: match_array(
+                [
+                  { id: 'detention_detained', boys: 4, girls: 4, unknown: 4, total: 12 },
+                  { id: 'detention_released', boys: 2, girls: 3, unknown: 2, total: 7 }
+                ]
+              )
+            }
           ]
         )
       end

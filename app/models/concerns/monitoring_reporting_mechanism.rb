@@ -41,7 +41,7 @@ module MonitoringReportingMechanism
       :verification_status, :armed_force_group_party_names, :perpetrator_category, :verified_ghn_reported,
       :weapon_type, :facility_impact, :facility_attack_type, :violation_with_weapon_type, :child_role,
       :abduction_purpose_single, :violation_with_facility_impact, :violation_with_facility_attack_type,
-      :military_use_type, :types_of_aid_disrupted_denial, :ctfmr_verified_date
+      :military_use_type, :types_of_aid_disrupted_denial, :ctfmr_verified_date, :incident_total_tally, :child_types
     )
 
     has_many :violations, dependent: :destroy, inverse_of: :incident
@@ -51,6 +51,7 @@ module MonitoringReportingMechanism
 
     before_save :save_violations_and_associations
     before_save :update_violations
+    before_save :recalculate_child_types
   end
 
   # Class methods for all MRM Incidents
@@ -269,6 +270,30 @@ module MonitoringReportingMechanism
     end.uniq
 
     violation_with_facility_attack_type
+  end
+
+  def recalculate_child_types
+    self.child_types = record_child_types | violations_child_types
+
+    child_types
+  end
+
+  def record_child_types
+    child_types_for_tally(incident_total_tally)
+  end
+
+  def violations_child_types
+    violations.reduce([]) do |violations_memo, violation|
+      tally_values = [violation.violation_killed_tally, violation.violation_injured_tally, violation.violation_tally]
+      tally_child_types = tally_values.reduce([]) { |tally_memo, tally| tally_memo | child_types_for_tally(tally) }
+      violations_memo | tally_child_types
+    end
+  end
+
+  def child_types_for_tally(tally)
+    return [] unless tally.present?
+
+    tally.select { |key, value| key != 'total' && value&.positive? }.keys
   end
 end
 # rubocop:enable Metrics/ModuleLength

@@ -75,7 +75,7 @@ module Api::V2::Concerns::Record
     return @json_validation_service if @json_validation_service
 
     permitted_fields = @permitted_form_fields_service.permitted_fields(
-      authorized_roles, model_class.parent_form, module_unique_id, write?
+      authorized_roles, model_class.parent_form, module_unique_id, action_name
     )
     action_fields = @permitted_field_service.permitted_fields_schema(update?)
     @json_validation_service = RecordJsonValidatorService.new(fields: permitted_fields,
@@ -175,10 +175,6 @@ module Api::V2::Concerns::Record
   rescue ActiveRecord::StatementInvalid => e
     Rails.logger.error(e)
     { total: 0, records: model_class.none }
-  end
-
-  def write?
-    action_name.in?(%w[create update])
   end
 
   def update?

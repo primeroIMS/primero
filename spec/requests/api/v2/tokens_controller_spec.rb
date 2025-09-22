@@ -31,6 +31,13 @@ describe Api::V2::TokensController, type: :request do
       expect(response.status).to eq 401
     end
 
+    it 'returns nothing for invalid credentials' do
+      expect(AuditLogJob).to receive(:perform_later).with(hash_including(action: 'failed_login'))
+
+      post '/api/v2/tokens', params: { user: { user_name: @user.user_name, password: 'incorrect' } }
+      expect(response.status).to eq 401
+    end
+
     it 'enqueues an audit log job that records the login attempt' do
       metadata = {
         user_name: @user.user_name, remote_ip: '127.0.0.1', agency_id: nil, role_id: nil, http_method: 'POST',
@@ -50,6 +57,7 @@ describe Api::V2::TokensController, type: :request do
 
     context 'external identity enabled' do
       before(:each) do
+        Session.delete_all
         @use_identity_provider = Rails.configuration.x.idp.use_identity_provider
         @idp_user = User.new(user_name: idp_user_name)
         @idp_user.save(validate: false)
@@ -60,7 +68,8 @@ describe Api::V2::TokensController, type: :request do
       let(:non_idp_user_name) { 'non_idp_user' }
       let(:password) { 'tokenstestuser0' }
       let(:idp_user_name) { 'idp_user' }
-      let(:token) { instance_double('IdpToken', valid?: true, user: @idp_user) }
+      let(:session) { Session.new(session_id: 'session123') }
+      let(:token) { instance_double('IdpToken', valid?: true, user: @idp_user, session:) }
 
       it 'returns the user id and token when signing in with a valid bearer token' do
         allow(IdpToken).to receive(:build).and_return(token)

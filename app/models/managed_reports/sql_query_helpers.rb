@@ -13,16 +13,8 @@ module ManagedReports::SqlQueryHelpers
       return unless param.present?
 
       field_name = map_to || param.field_name
-
-      if hash_field.present?
-        return ActiveRecord::Base.sanitize_sql_for_conditions(
-          ["#{quoted_query(table_name, hash_field)} ->> ? = ?", field_name, param.value]
-        )
-      end
-
-      ActiveRecord::Base.sanitize_sql_for_conditions(
-        ["#{quoted_query(table_name, field_name)} = ?", param.value]
-      )
+      filter = search_filter(param)
+      filter.new(field_name:, value: param.value, column_name: hash_field, table_name:).query
     end
 
     def equal_value_query_multiple(param, table_name = nil, hash_field = 'data', map_to = nil)
@@ -48,6 +40,16 @@ module ManagedReports::SqlQueryHelpers
           { values: param.respond_to?(:values) ? param.values : param.value }
         ]
       )
+    end
+
+    def search_filter(param)
+      if param.value.is_a?(String)
+        SearchFilters::TextValue
+      elsif SearchFilterService.boolean?(param.value)
+        SearchFilters::BooleanValue
+      else
+        SearchFilters::Value
+      end
     end
 
     # rubocop:disable Metrics/MethodLength
@@ -90,38 +92,35 @@ module ManagedReports::SqlQueryHelpers
       )
     end
 
-    # rubocop:disable Metrics/MethodLength
     def date_range_query(param, table_name = nil, hash_field = 'data', map_to = nil)
       return unless param.present?
 
       field_name = map_to || param.field_name
 
-      return date_range_hash_query(param, field_name, table_name, hash_field) if hash_field.present?
-
-      ActiveRecord::Base.sanitize_sql_for_conditions(
-        [
-          %(
-            CAST(#{quoted_query(table_name, field_name)} AS TIMESTAMP) >= to_timestamp(:from, :date_format)
-            AND CAST(#{quoted_query(table_name, field_name)} AS TIMESTAMP) <= (
-              to_timestamp(:to, :date_format) + interval '1 day' - interval '1 second'
-            )
-          ), { from: param.from, to: param.to, date_format: Report::DATE_FORMAT }
-        ]
-      )
+      SearchFilters::DateRange.new(
+        field_name:,
+        from: param.from,
+        to: param.to,
+        json_column: hash_field,
+        table_name:
+      ).query
     end
 
-    def date_range_hash_query(param, field_name, table_name = nil, hash_field = 'data')
+    # rubocop:disable Metrics/MethodLength
+    def plain_date_range_query(param, table_name = nil, map_to = nil)
+      return unless param.present?
+
+      field_name = map_to || param.field_name
+      safe_field_name = quoted_query(table_name, field_name)
+
       ActiveRecord::Base.sanitize_sql_for_conditions(
         [
           %(
-            to_timestamp(
-              #{quoted_query(table_name, hash_field)} ->> :field_name, :date_format
-            ) >= to_timestamp(:from, :date_format)
-            AND to_timestamp(
-              #{quoted_query(table_name, hash_field)} ->> :field_name, :date_format
-            ) <= to_timestamp(:to, :date_format) + interval '1 day' - interval '1 second'
+            CAST(#{safe_field_name} AS DATE) >= to_timestamp(:from, :date_format)
+            AND
+            CAST(#{safe_field_name} AS DATE) <= to_timestamp(:to, :date_format)
           ),
-          { field_name:, date_format: Report::DATE_FORMAT, from: param.from, to: param.to }
+          { from: param.from.iso8601, to: param.to.iso8601, date_format: Report::DATE_FORMAT }
         ]
       )
     end
@@ -238,6 +237,15 @@ module ManagedReports::SqlQueryHelpers
       return "#{quoted_query(table_name, 'data')} ->> :field_name" if is_json_field
 
       quoted_query(table_name, field_name)
+    end
+
+    def incident_region_query(user)
+      # Adding one since admin level start from 0, but string on postgres start from 1
+      admin_level = user.incident_reporting_location_admin_level + 1
+
+      ActiveRecord::Base.sanitize_sql_for_conditions(
+        ["(STRING_TO_ARRAY(incidents.data ->> 'reporting_location_hierarchy', '.'))[?]", admin_level]
+      )
     end
   end
   # rubocop:enable Metrics/ModuleLength

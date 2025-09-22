@@ -159,6 +159,28 @@ describe Exporters::ManagedReportExporter do
       ]
     )
 
+    Lookup.create_or_update!(
+      unique_id: 'lookup-violation-type',
+      name_en: 'Violation Type',
+      lookup_values_en: [
+        { id: 'killing', display_text: 'Killing' },
+        { id: 'maiming', display_text: 'Maiming' },
+        { id: 'abduction', display_text: 'Abduction' },
+        { id: 'attack_on_schools', display_text: 'Attacks on schools' }
+      ].map(&:with_indifferent_access)
+    )
+
+    Lookup.create_or_update!(
+      unique_id: 'lookup-armed-force-group-or-other-party',
+      name_en: 'Armed Force Group Or Other Party',
+      locked: true,
+      lookup_values: [
+        { id: 'armed_force_1', display_text: 'Armed Force 1' },
+        { id: 'armed_force_2', display_text: 'Armed Force 2' },
+        { id: 'armed_force_3', display_text: 'Armed Force 3' }
+      ].map(&:with_indifferent_access)
+    )
+
     Incident.create!(
       data: {
         gbv_sexual_violence_type: 'forced_marriage',
@@ -308,7 +330,7 @@ describe Exporters::ManagedReportExporter do
             ['Survivor Statistics - Age of survivors', nil, nil, nil, nil]
           )
           expect(workbook.sheet(0).row(42)).to eq(['Age of survivors', 'Total', nil, nil, nil])
-          expect(workbook.sheet(0).row(43)).to eq(['Children - 17 Yrs & Younger',  nil, nil, nil, nil])
+          expect(workbook.sheet(0).row(43)).to eq(['Children - 17 Yrs & Younger', nil, nil, nil, nil])
           expect(workbook.sheet(0).row(44)).to eq(['0-11 Yrs Old', 3,  nil, nil, nil])
           expect(workbook.sheet(0).row(45)).to eq(['12-17 Yrs Old', 0, nil, nil, nil])
           expect(workbook.sheet(0).row(46)).to eq(['Adults - 18 Yrs & Older', nil, nil, nil, nil])
@@ -1845,15 +1867,27 @@ describe Exporters::ManagedReportExporter do
   end
 
   context 'when is a export of GHN' do
+    let(:managed_report_user) do
+      fake_user(
+        permissions: [
+          Permission.new(
+            resource: Permission::MANAGED_REPORT,
+            managed_report_scope: Permission::ALL,
+            actions: [Permission::VIOLATION_REPORT]
+          )
+        ]
+      )
+    end
+
     let(:workbook) do
       data = ManagedReport.list[Permission::GHN_REPORT].export(
-        nil,
+        managed_report_user,
         [
           SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
           SearchFilters::DateRange.new(
             field_name: 'ghn_date_filter',
-            from: '2022-01-01',
-            to: '2022-06-10'
+            from: Date.parse('2022-01-01'),
+            to: Date.parse('2022-06-10')
           )
         ],
         { output_to_file: false }
@@ -1863,77 +1897,98 @@ describe Exporters::ManagedReportExporter do
     end
 
     before do
-      incident0 = Incident.create!(
-        data: {
+      incident0 = Incident.new_with_user(
+        managed_report_user,
+        {
           incident_date: Date.new(2022, 4, 23),
           date_of_first_report: Date.new(2022, 4, 23),
           status: 'open',
-          module_id: 'primeromodule-mrm'
-        }
+          module_id: PrimeroModule::MRM,
+          killing: [
+            {
+              unique_id: 'bbfd214c-77c4-11f0-8941-7c10c98b54af',
+              ctfmr_verified: 'verified',
+              ctfmr_verified_date: Date.new(2022, 4, 23),
+              violation_tally: { boys: 2, girls: 0, unknown: 2, total: 4 }
+            },
+          ],
+          individual_victims: [
+            {
+              unique_id: '8b79234d-6d22-47b6-a7ad-927207676667',
+              individual_sex: 'male',
+              individual_age: 9,
+              individual_multiple_violations: true,
+              violations_ids: ['bbfd214c-77c4-11f0-8941-7c10c98b54af']
+            }
+          ],
+          maiming: [
+            {
+              unique_id: '8edd80b2-76d9-11f0-8338-7c10c98b54af',
+              ctfmr_verified: 'report_pending_verification',
+              violation_tally: { boys: 2, girls: 3, unknown: 2, total: 7 }
+            }
+          ],
+          attack_on_schools: [
+            {
+              unique_id: 'ac5e4216-76d9-11f0-b06c-7c10c98b54af',
+              ctfmr_verified: 'report_pending_verification',
+              violation_tally: { boys: 3, girls: 4, unknown: 5, total: 12 }
+            },
+            {
+              unique_id: 'c5285e76-76d9-11f0-96e6-7c10c98b54af',
+              ctfmr_verified: 'verified',
+              ctfmr_verified_date: Date.new(2022, 4, 23),
+              violation_tally: { boys: 3, girls: 4, unknown: 5, total: 12 }
+            }
+          ],
+          perpetrators: [
+            {
+              unique_id: 'e13ffb2e-77c3-11f0-ba4b-7c10c98b54af',
+              armed_force_group_party_name: 'armed_force_2',
+              violations_ids: ['c5285e76-76d9-11f0-96e6-7c10c98b54af']
+            },
+            {
+              unique_id: '20f8b6a2-77c4-11f0-b34b-7c10c98b54af',
+              armed_force_group_party_name: 'armed_force_1',
+              violations_ids: ['ac5e4216-76d9-11f0-b06c-7c10c98b54af']
+            }
+          ],
+        }.with_indifferent_access
       )
-      incident1 = Incident.create!(
-        data: {
+      incident0.save!
+
+      incident1 = Incident.new_with_user(
+        managed_report_user,
+        {
           incident_date: Date.new(2022, 6, 4),
           date_of_first_report: Date.new(2022, 6, 4),
           status: 'open',
-          module_id: 'primeromodule-mrm'
-        }
+          module_id: PrimeroModule::MRM,
+          abduction: [
+            {
+              unique_id: '82cecbec-76d8-11f0-ba36-7c10c98b54af',
+              ctfmr_verified: 'verified',
+              ctfmr_verified_date: Date.new(2022, 6, 4),
+              violation_tally: { boys: 1, girls: 2, unknown: 5, total: 8 }
+            }
+          ],
+          individual_victims: [
+            {
+              unique_id: '5bf743de-76f4-11f0-9b0d-7c10c98b54af',
+              individual_sex: 'male',
+              individual_age: 12,
+              violations_ids: ['82cecbec-76d8-11f0-ba36-7c10c98b54af']
+            },
+            {
+              unique_id: '858a003b-1b21-4fe0-abbf-9cb39d3a6d80',
+              individual_age: 3,
+              individual_multiple_violations: true,
+              violations_ids: ['82cecbec-76d8-11f0-ba36-7c10c98b54af']
+            }
+          ]
+        }.with_indifferent_access
       )
-
-      violation1 = Violation.create!(
-        data: {
-          type: 'killing',
-          ctfmr_verified: 'verified',
-          ctfmr_verified_date: Date.new(2022, 4, 23),
-          violation_tally: { boys: 2, girls: 0, unknown: 2, total: 4 }
-        },
-        incident_id: incident0.id
-      )
-
-      violation2 = Violation.create!(
-        data: { type: 'abduction', ctfmr_verified: 'verified',
-                ctfmr_verified_date: Date.new(2022, 6, 4),
-                violation_tally: { boys: 1, girls: 2, unknown: 5, total: 8 } },
-        incident_id: incident1.id
-      )
-
-      Violation.create!(
-        data: {
-          type: 'maiming',
-          ctfmr_verified: 'report_pending_verification',
-          violation_tally: { boys: 2, girls: 3, unknown: 2, total: 7 }
-        },
-        incident_id: incident0.id
-      )
-
-      Violation.create!(
-        data: { type: 'attack_on_schools', ctfmr_verified: 'report_pending_verification',
-                violation_tally: { boys: 3, girls: 4, unknown: 5, total: 12 } },
-        incident_id: incident0.id
-      )
-
-      Violation.create!(
-        data: { type: 'attack_on_schools', ctfmr_verified: 'verified',
-                ctfmr_verified_date: Date.new(2022, 4, 23),
-                violation_tally: { boys: 3, girls: 4, unknown: 5, total: 12 } },
-        incident_id: incident0.id
-      )
-
-      violation1.individual_victims = [
-        IndividualVictim.create!(data: { individual_sex: 'male', individual_age: 9,
-                                         individual_multiple_violations: 'true',
-                                         unique_id: '8b79234d-6d22-47b6-a7ad-927207676667' })
-      ]
-
-      violation2.individual_victims = [
-        IndividualVictim.create!(data: { individual_sex: 'male', individual_age: 12 }),
-        IndividualVictim.create!(data: { individual_age: 3,
-                                         individual_multiple_violations: 'true',
-                                         unique_id: '858a003b-1b21-4fe0-abbf-9cb39d3a6d80' })
-      ]
-
-      violation1.save!
-      violation2.save!
+      incident1.save!
     end
 
     it 'should export the excel' do
@@ -1941,7 +1996,7 @@ describe Exporters::ManagedReportExporter do
     end
 
     it 'prints subreport headers' do
-      expect(workbook.sheet(0).row(1)).to eq(['Global Horizontal Note', nil, nil, nil, nil])
+      expect(workbook.sheet(0).row(1)).to eq(['Global Horizontal Note', nil, nil, nil, nil, nil])
     end
 
     it 'prints report params' do
@@ -1951,34 +2006,60 @@ describe Exporters::ManagedReportExporter do
           nil,
           nil,
           nil,
+          nil,
           nil
         ]
       )
     end
 
     it 'prints indicator tables' do
-      expect(workbook.sheet(0).row(5)).to eq(['Verified Information - Victims', nil, nil, nil, nil])
-      expect(workbook.sheet(0).row(6)).to eq([nil, 'Boys', 'Girls', 'Unknown', 'Total'])
-      expect(workbook.sheet(0).row(7)).to eq(['Abduction', 1, 2, 5, 8])
-      expect(workbook.sheet(0).row(8)).to eq(['Attacks on school(s)', 3, 4, 5, 12])
-      expect(workbook.sheet(0).row(9)).to eq(['Killing of Children', 2, 0, 2, 4])
+      expect(workbook.sheet(0).row(5)).to eq(['Verified Information - Victims', nil, nil, nil, nil, nil])
+      expect(workbook.sheet(0).row(6)).to eq([nil, 'Boys', 'Girls', 'Unknown', 'Total', nil])
+      expect(workbook.sheet(0).row(7)).to eq(['Abduction', 1, 2, 5, 8, nil])
+      expect(workbook.sheet(0).row(8)).to eq(['Attacks on school(s)', 3, 4, 5, 12, nil])
+      expect(workbook.sheet(0).row(9)).to eq(['Killing of Children', 2, 0, 2, 4, nil])
 
-      expect(workbook.sheet(0).row(34)).to eq(['Verified Information - Violations', nil, nil, nil, nil])
-      expect(workbook.sheet(0).row(35)).to eq([nil, 'Total', nil, nil, nil])
-      expect(workbook.sheet(0).row(36)).to eq(['Attacks on school(s)', 1, nil, nil, nil])
+      expect(workbook.sheet(0).row(34)).to eq(['Verified Information - Violations', nil, nil, nil, nil, nil])
+      expect(workbook.sheet(0).row(35)).to eq([nil, 'Total', nil, nil, nil, nil])
+      expect(workbook.sheet(0).row(36)).to eq(['Attacks on school(s)', 1, nil, nil, nil, nil])
 
-      expect(workbook.sheet(0).row(116)).to eq(['Unverified Information - Victims', nil, nil, nil, nil])
-      expect(workbook.sheet(0).row(117)).to eq([nil, 'Boys', 'Girls', 'Unknown', 'Total'])
-      expect(workbook.sheet(0).row(118)).to eq(['Attacks on school(s)', 3, 4, 5, 12])
-      expect(workbook.sheet(0).row(119)).to eq(['Maiming of Children', 2, 3, 2, 7])
+      expect(workbook.sheet(0).row(62)).to eq(
+        ['Verified Information - Violations by Perpetrator', nil, nil, nil, nil, nil]
+      )
+      expect(workbook.sheet(0).row(63)).to eq([nil, 'Killing', 'Maiming', 'Abduction', 'Attacks on schools', 'Total'])
+      expect(workbook.sheet(0).row(64)).to eq(['Armed Force 2', 0, 0, 0, 1, 1])
 
-      expect(workbook.sheet(0).row(144)).to eq(['Unverified Information - Violations', nil, nil, nil, nil])
-      expect(workbook.sheet(0).row(145)).to eq([nil, 'Total', nil, nil, nil])
-      expect(workbook.sheet(0).row(146)).to eq(['Attacks on school(s)', 1, nil, nil, nil])
+      expect(workbook.sheet(0).row(90)).to eq(['Verified Information - Violations by Region', nil, nil, nil, nil, nil])
+      expect(workbook.sheet(0).row(91)).to eq([nil, 'Killing', 'Maiming', 'Abduction', 'Attacks on schools', 'Total'])
+      expect(workbook.sheet(0).row(92)).to eq(['Incomplete Data', 1, 0, 1, 1, 3])
 
-      expect(workbook.sheet(0).row(173)).to eq([nil, 'Associated Violations', nil, nil, nil])
-      expect(workbook.sheet(0).row(174)).to eq(['d3a6d80 - 3', 'Abduction', nil, nil, nil])
-      expect(workbook.sheet(0).row(175)).to eq(['7676667 - 9', 'Killing of Children', nil, nil, nil])
+      expect(workbook.sheet(0).row(118)).to eq(['Late Verification - Victims', nil, nil, nil, nil, nil])
+
+      expect(workbook.sheet(0).row(144)).to eq(['Late Verification - Violations', nil, nil, nil, nil, nil])
+
+      expect(workbook.sheet(0).row(170)).to eq(['Unverified Information - Victims', nil, nil, nil, nil, nil])
+      expect(workbook.sheet(0).row(171)).to eq([nil, 'Boys', 'Girls', 'Unknown', 'Total', nil])
+      expect(workbook.sheet(0).row(172)).to eq(['Attacks on school(s)', 3, 4, 5, 12, nil])
+      expect(workbook.sheet(0).row(173)).to eq(['Maiming of Children', 2, 3, 2, 7, nil])
+
+      expect(workbook.sheet(0).row(198)).to eq(['Unverified Information - Violations', nil, nil, nil, nil, nil])
+      expect(workbook.sheet(0).row(199)).to eq([nil, 'Total', nil, nil, nil, nil])
+      expect(workbook.sheet(0).row(200)).to eq(['Attacks on school(s)', 1, nil, nil, nil, nil])
+
+      expect(workbook.sheet(0).row(226)).to eq(
+        ['Unverified Information - Violations by Perpetrator', nil, nil, nil, nil, nil]
+      )
+      expect(workbook.sheet(0).row(227)).to eq([nil, 'Killing', 'Maiming', 'Abduction', 'Attacks on schools', 'Total'])
+      expect(workbook.sheet(0).row(228)).to eq(['Armed Force 1', 0, 0, 0, 1, 1])
+
+      expect(workbook.sheet(0).row(254)).to eq(['Unverified Information - Violations by Region', nil, nil, nil, nil, nil])
+      expect(workbook.sheet(0).row(255)).to eq([nil, 'Killing', 'Maiming', 'Abduction', 'Attacks on schools', 'Total'])
+      expect(workbook.sheet(0).row(256)).to eq(['Incomplete Data', 0, 1, 0, 1, 2])
+
+      expect(workbook.sheet(0).row(282)).to eq(['Children affected by multiple violations', nil, nil, nil, nil, nil])
+      expect(workbook.sheet(0).row(283)).to eq([nil, 'Associated Violations', nil, nil, nil, nil])
+      expect(workbook.sheet(0).row(284)).to eq(['d3a6d80 - 3', 'Abduction', nil, nil, nil, nil])
+      expect(workbook.sheet(0).row(285)).to eq(['7676667 - 9', 'Killing of Children', nil, nil, nil, nil])
     end
   end
 
@@ -1994,8 +2075,8 @@ describe Exporters::ManagedReportExporter do
           SearchFilters::Value.new(field_name: 'owned_by_groups', value: 'usergroup-group-1'),
           SearchFilters::DateRange.new(
             field_name: 'registration_date',
-            from: '2023-04-30',
-            to: '2023-05-19'
+            from: Date.new(2023, 4, 30),
+            to: Date.new(2023, 5, 19)
           )
         ],
         { output_to_file: false }
@@ -2172,8 +2253,8 @@ describe Exporters::ManagedReportExporter do
           SearchFilters::Value.new(field_name: 'owned_by_groups', value: 'usergroup-group-1'),
           SearchFilters::DateRange.new(
             field_name: 'registration_date',
-            from: '2023-04-30',
-            to: '2023-05-13'
+            from: Date.new(2023, 4, 30),
+            to: Date.new(2023, 5, 13)
           )
         ],
         { output_to_file: false }
