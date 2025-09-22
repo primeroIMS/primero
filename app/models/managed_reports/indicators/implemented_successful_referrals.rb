@@ -59,31 +59,33 @@ class ManagedReports::Indicators::ImplementedSuccessfulReferrals < ManagedReport
 
     # rubocop:disable Metrics/MethodLength
     def join_services(service_type_param = nil, date_param = nil)
+      %(
+        CROSS JOIN LATERAL (
+          SELECT
+            services_section->>'service_status_referred' AS service_status_referred,
+           #{service_implemented_day_time_field},
+            services_section->>'unique_id' AS service_unique_id,
+            services_section->>'service_type' AS service_type,
+            services_section->>'service_implemented' AS service_implemented
+          FROM JSONB_ARRAY_ELEMENTS(data->'services_section') AS services_section
+          WHERE services_section @? '$[*]
+            ? (@.service_status_referred == true)
+            ? (@.service_implemented == "implemented")
+            #{filter_service_type(service_type_param&.value)&.prepend('? ')}'
+          #{date_range_query(date_param, nil, 'services_section', 'service_implemented_day_time')&.prepend('AND ')}
+        ) AS services
+      )
+    end
+    # rubocop:enable Metrics/MethodLength
+
+    def service_implemented_day_time_field
       ActiveRecord::Base.sanitize_sql_for_conditions(
         [
-          %(
-            CROSS JOIN LATERAL (
-              SELECT
-                services_section->>'service_status_referred' AS service_status_referred,
-                TO_TIMESTAMP(
-                  services_section->>'service_implemented_day_time', :format
-                ) AS service_implemented_day_time,
-                services_section->>'unique_id' AS service_unique_id,
-                services_section->>'service_type' AS service_type,
-                services_section->>'service_implemented' AS service_implemented
-              FROM JSONB_ARRAY_ELEMENTS(data->'services_section') AS services_section
-              WHERE services_section @? '$[*]
-                ? (@.service_status_referred == true)
-                ? (@.service_implemented == "implemented")
-                #{filter_service_type(service_type_param&.value)&.prepend('? ')}'
-              #{date_range_query(date_param, nil, 'services_section', 'service_implemented_day_time')&.prepend('AND ')}
-            ) AS services
-           ),
+          "TO_TIMESTAMP(services_section->>'service_implemented_day_time', :format) AS service_implemented_day_time",
           { format: Report::DATE_TIME_FORMAT }
         ]
       )
     end
-    # rubocop:enable Metrics/MethodLength
 
     def filter_service_type(service_type)
       return unless service_type.present?

@@ -14,7 +14,7 @@ import { getOptionText } from "../../../record-form/form/subforms/subform-traces
 
 import indicatorCss from "./styles.css";
 
-function Component({ subReportTitle, value, valueKey }) {
+function Component({ subReportTitle, value }) {
   const itemClasses = { primary: indicatorCss.listText };
   const i18n = useI18n();
   const genderLookups = useOptions({ source: LOOKUPS.gender_unknown });
@@ -22,7 +22,7 @@ function Component({ subReportTitle, value, valueKey }) {
   if (value.isEmpty()) {
     return (
       <>
-        <h3 className={css.sectionTitle}>{subReportTitle(valueKey)}</h3>
+        <h3 className={css.sectionTitle}>{subReportTitle}</h3>
         <Card>
           <CardContent>
             <EmptyState emptyMessage={i18n.t("managed_reports.no_data_table")} type="insights" />
@@ -34,7 +34,7 @@ function Component({ subReportTitle, value, valueKey }) {
 
   return (
     <div className={css.section}>
-      <h3 className={css.sectionTitle}>{subReportTitle(valueKey)}</h3>
+      <h3 className={css.sectionTitle}>{subReportTitle}</h3>
       <List dense disablePadding classes={{ root: indicatorCss.list }}>
         {value.map((item, index) => (
           <NavLink
@@ -88,8 +88,7 @@ Component.displayName = "MultipleViolationsIndicator";
 
 Component.propTypes = {
   subReportTitle: PropTypes.func,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  valueKey: PropTypes.string
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
 };
 
 export default Component;

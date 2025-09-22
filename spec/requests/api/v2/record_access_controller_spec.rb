@@ -189,6 +189,22 @@ describe Api::V2::RecordHistoriesController, type: :request do
           [audit_log6.id]
         )
       end
+      it 'list access_log from a child filtered by timestamp' do
+        login_for_test(
+          user_name: 'user_login',
+          permissions: [
+            Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::ACCESS_LOG])
+          ]
+        )
+
+        get "/api/v2/cases/#{Child.first.id}/access_log?" \
+            "filters[timestamp][from]=#{2.days.ago.in_time_zone.beginning_of_day}&" \
+            "filters[timestamp][to]=#{Time.zone.now}"
+
+        expect(json['data'].map { |data| data['id'] }).to match_array(
+          [audit_log1.id, audit_log6.id]
+        )
+      end
     end
 
     it 'returns 403 if user only have read permission' do

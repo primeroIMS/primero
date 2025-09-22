@@ -2,3 +2,5 @@
 
 export { default as exporter } from "./exporter";
 export { default as InsightsTableHeader } from "./insights-table-header";
+export { default as AggregateInsight } from "./aggregate-insight";
+export { default as SingleInsight } from "./single-insight";
