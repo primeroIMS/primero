@@ -2617,8 +2617,10 @@ en:
       description: Tracks key indicators of CP Case Management performance, including percentage of referrals made by different stakeholders, Reporting Location and Sex for selected Protection Concerns, and percentage of cases with each reason for closure.
       reports:
         source_identification_referral: Source of Identification / Referral
+        protection_concerns_reporting_location: Protection Concerns by Reporting Location
       sub_reports:
         case_source_identification_referral: Source of Identification / Referral
+        case_protection_concerns_reporting_location: Protection Concerns by Reporting Location
       filter_options:
         registration_date: Registration Date
   usage_report:
