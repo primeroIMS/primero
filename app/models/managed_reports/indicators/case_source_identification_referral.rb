@@ -22,9 +22,9 @@ class ManagedReports::Indicators::CaseSourceIdentificationReferral < ManagedRepo
           SELECT
             #{date_group_query&.+(' AS group_id,')}
             data->>'source_identification_referral' AS source_identification_referral,
-            COALESCE(data->>'sex', 'incomplete_data') AS sex
+            COALESCE(srch_sex, 'incomplete_data') AS sex
           FROM cases
-          WHERE data @? '$[*] ? (exists(@.source_identification_referral) && @.source_identification_referral != null)'
+          WHERE TRUE
           #{user_scope_query(current_user, 'cases')&.prepend('AND ')}
           #{date_param&.query(Child)&.prepend('AND ')}
           #{params['age']&.query(Child)&.prepend('AND ')}
