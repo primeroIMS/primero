@@ -2020,7 +2020,7 @@ en:
       refer_to: Search for Referral recipient
       relinquish_referral: Relinquish referral Done
       reopen: Reopen
-      reopen_case:	Reopening
+      reopen_case: Reopening
       request_approval:
         action_plan: "%{approval_label} approval requested"
         bia: "%{approval_label} approval requested"

@@ -586,7 +586,6 @@ ar:
       updated: تمّ تحديث الإعدادات بنجاح.
       sent: إرسال الإعدادات إلى الإنتاج. يرجى التحقق من موقع الإنتاج لمعرفة ما إذا كان الإعدادات الخاص بك قد وصل.
     not_allowed: غير مسموح
-    unavailable_server: السرفر غير متاح مؤقتًا.
   contact:
     field:
       email: البريد الإلكتروني
@@ -1896,58 +1895,32 @@ ar:
       _rejected: رُفض
       _requested: مطلوب
       add_note: اضف ملاحظة
-      assessment_approved: تمت الموافقة على التقييم
-      assessment_rejected: تم رفض التقييم
-      assessment_requested: تم طلب التقييم
       assign: تعيين
-      assign_to: يسند إلى
-      attach: يربط
       bulk_assign: تعيين بالجملة
       bulk_create: إنشاء مجمّع
       bulk_index: فهرس بالجملة
-      case_plan_approved: تمت الموافقة على خطة الحالة
-      case_plan_rejected: تم رفض خطة الحالة
-      case_plan_requested: مطلوب خطة حالة
       close: غلق
-      closure_approved: تم اعتماد الإغلاق
-      closure_rejected: تم رفض الإغلاق
-      closure_requested: تم طلب الإغلاق
       create: إنشاء
       create_bulk: إنشاء الجزء الأكبر
       create_family: إنشاء عائلة
       current: الحالي
       delete: حذف
       destroy: هدم
-      detach: فصل
-      enable_disable_record: تمكين تعطيل السجل
       export: يصدر
       family: قائمة العائلة
       flag: علامة
       import: يستورد
       incident_details_from_case: تفاصيل الحادث من القضية
-      index: فهرس
       list: قائمة
       login: تسجيل الدخول
       logout: تسجيل الخروج
       password_reset: إعادة تعيين كلمة المرور
       password_reset_request: طلب إعادة تعيين كلمة المرور
       refer: إحالة
-      refer_accepted: تم قبول الإحالة
-      refer_done: تمت الإحالة
-      refer_rejected: إحالة مرفوضة
-      refer_revoke: إبطال الإحالة
-      refer_to: إحالة إلى
       reopen: أعد فتح
-      services_section_from_case: قسم الخدمات من القضية
       show: عرض
       show_alerts: عرض التنبيهات
-      traces: آثار
       transfer: تحويل
-      transfer_accepted: تم قبول التحويل
-      transfer_rejected: تم رفض التحويل
-      transfer_request: طلب تحويل
-      transfer_revoked: تم إلغاء النقل
-      transfer_to: حول إلى
       unflag: إزالة العلامة
       update: تحديث
       update_bulk: تحديث جماعي
@@ -2266,7 +2239,6 @@ ar:
         attack_on_schools: الهجوم على المدرسة(المدارس)
         military_use: الاستخدام العسكري للمدرسة(المدارس) و/او المستشفى(المستشفيات)
         denial_humanitarian_access: منع وصول الخدمات الإنسانية للأطفال
-        detention: احتجاز
       sub_reports:
         children: الأطفال
         combined: الانتهاكات
@@ -2315,37 +2287,6 @@ ar:
       sub_reports:
         incidents: الحوادث
         combined: إحصاءات عامة
-        total: '1. حالات جديدة من العنف القائم على النوع الاجتماعي GBV تم الإبلاغ عنها '
-        gbv_sexual_violence: إحصاءات الناجين - 9. عدد حوادث العنف الجنسي المُبلّغ عنها
-        gbv_previous_incidents: 2. حوادث جديدة من العنف الجنسي تم الإبلاغ عنها
-        gbv_sexual_violence_type: 'احصائيات الحوادث - 10. نوع العنف القائم على النوع الاجتماعي '
-        incident_timeofday: 'احصائيات الحوادث - 11. وقت وقوع الحادث نهارا  '
-        elapsed_reporting_time: احصائيات الحوادث - 13. الوقت المنقضي بين وقوع الحادثة وتاريخ التبليغ
-        elapsed_reporting_time_rape: احصائيات الحوادث - 14. حوادث الاغتصاب والوقت المنقضي بين وقوع الحادثة وتاريخ التبليغ
-        elapsed_reporting_time_rape_health_referral: احصائيات الحوادث - 15. حوادث الاغتصاب والوقت المنقضي للحصول على خدمة (خدمة صحية أو إحالة)
-        incident_location_type: احصائيات الحوادث - 16. موقع وقوع الحادث
-        number_of_perpetrators: احصائيات المعتدين - 17. عدد المعتدين الرئيسيين
-        perpetrator_relationship: احصائيات المعتدين - 18. طبيعة العلاقة بين المعتدي والمعتدى عليه
-        perpetrator_age_group: 'احصائيات المعتدين - 19. الفئة العمرية للمعتدين الرئيسيين المزعومين '
-        perpetrator_occupation: 'احصائيات المعتدين - 20. مهنة المعتدين الرئيسيين المزعومين '
-        age: 'احصائيات الضحايا 4. سن الضحايا '
-        sex: 'احصائيات الضحايا - 3. جنس الضحايا '
-        marital_status: 'احصائيات الضحايا - 5. الوضع الاجتماعي للضحايا '
-        displacement_status: 'احصائيات الضحايا - 6. حالة النزوح عند التبليغ '
-        displacement_incident: 'احصائيات الضحايا - 7. حالة النزوح عند وقوع الحادثة '
-        gbv_case_context: احصائيات الحوادث - 12. سياق الحالة
-        incidents_first_point_of_contact: احصائيات الإحالة - 21. عدد الحوادث التي كانت فيها منظمتك نقطة اتصال الاولى
-        incidents_from_other_service_provider: احصائيات الإحالة - 22. الحوادث التي تم إحالتها من قبل مقدمي الخدمات الآخرين
-        number_of_services_provided: 'احصائيات الإحالة - 23. عدد الخدمات التي تم تقديمها استجابة لهذه الحوادث '
-        number_of_services_provided_other: احصائيات الإحالة - 24. إحالات جديدة للحوادث الى مقدمي خدمات آخرين
-        service_safehouse_referral: إحالة البيت الآمن / المأوى الآمن
-        service_medical_referral: إحالة صحية / طبية
-        service_psycho_referral: خدمات الاستشارة النفسية / الاجتماعية
-        service_legal_referral: خدمات المساعدة القانونية
-        service_police_referral: الشرطة أو أي نوع آخر من خدمات الأمن
-        service_livelihoods_referral: خدمات الاعاشة
-        service_protection_referral: خدمات حماية الطفل
-        vulnerable_populations: احصائيات الضحايا - 8. الفئات السكانية المعرضة للخطر
         survivors_disability_type: مع اعاقات
     workflow_report:
       name: سير العمل
@@ -3721,7 +3662,6 @@ ar:
     allow_all: السماح بالوصول إلى جميع النماذج المتاحة
     type_of_recipient: نوع المستلِم
     type_of_referral_required: مطلوب إدخال نوع الإحالة
-    referral_authorization_label: هل ترغب في تحديد نوع الإحالة؟
     referral_authorization_help_text: سيؤدي هذا إلى تحديد النماذج التي يمكن للمستلم الوصول إليها.
     agency_label: الهيئة
     is_remote_label: هل ترغب في احالة الحالة لمؤسسة من خارج النظام؟
