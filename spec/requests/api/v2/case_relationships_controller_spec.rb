@@ -97,7 +97,6 @@ describe Api::V2::CaseRelationshipsController, type: :request do
       post("/api/v2/cases/#{case1.id}/case_relationships", params:)
 
       expect(response).to have_http_status(200)
-      puts json
       expect(json['data']['case_id']).to eq(farmer.id.to_s)
       expect(json['data']['relationship_type']).to eq('farmer_on')
     end

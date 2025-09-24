@@ -111,6 +111,8 @@ class BulkExport < ApplicationRecord
   end
 
   def url
+    return unless export_file&.attached?
+
     Rails.application.routes.url_helpers.rails_blob_path(export_file, only_path: true, expires_in: EXPIRES)
   end
 

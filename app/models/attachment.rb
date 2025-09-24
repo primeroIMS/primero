@@ -10,12 +10,12 @@ class Attachment < ApplicationRecord
 
   # mpeg includes mp3.  mp4 includes m4a
   AUDIO_CONTENT_TYPES = %w[audio/mpeg audio/mp4].freeze
-  IMAGE_CONTENT_TYPES = %w[image/jpg image/jpeg image/png].freeze
+  IMAGE_CONTENT_TYPES = %w[image/jpeg image/png].freeze
   DOCUMENT_CONTENT_TYPES = %w[application/pdf text/plain application/msword
                               application/vnd.openxmlformats-officedocument.wordprocessingml.document
                               text/csv application/vnd.ms-excel
                               application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
-                              image/jpg image/jpeg image/png].freeze
+                              image/jpeg image/png].freeze
 
   MAX_SIZE = 20.megabytes.freeze
   EXPIRES = 60.seconds # Expiry for the delegated ActiveStorage url
@@ -89,6 +89,8 @@ class Attachment < ApplicationRecord
   end
 
   def url
+    return unless file&.attached?
+
     Rails.application.routes.url_helpers.rails_blob_path(file, only_path: true, expires_in: EXPIRES,
                                                                disposition: :attachment)
   end

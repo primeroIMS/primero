@@ -446,7 +446,6 @@ describe PermittedFieldService, search: true do
 
     it 'returns fields if user has permission' do
       permitted_field_names = PermittedFieldService.new(acm_user, Child).permitted_field_names
-      puts permitted_field_names
       expect(permitted_field_names.include?('acm_field')).to be true
     end
   end

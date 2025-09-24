@@ -27,7 +27,7 @@ module Primero; end
 
 # Main Rails application class for Primero
 class Primero::Application < Rails::Application
-  config.load_defaults 6.1
+  config.load_defaults 7.0
 
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers
@@ -83,6 +83,8 @@ class Primero::Application < Rails::Application
   config.action_view.logger = nil
 
   config.exceptions_app = routes
+
+  config.active_storage.variant_processor = :vips
 end
 
 require File.expand_path('version', __dir__)

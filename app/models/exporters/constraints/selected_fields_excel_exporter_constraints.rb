@@ -49,7 +49,7 @@ class Exporters::Constraints::SelectedFieldsExcelExporterConstraints < Exporters
   end
 
   def selected_fields_form
-    form = FormSection.new(unique_id: 'selected_fields', fields:)
+    form = SelectedFieldsForm.new(unique_id: 'selected_fields', fields:)
     form.send(:name=, I18n.t('exports.selected_xls.selected_fields', locale:), locale)
     form
   end

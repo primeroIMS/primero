@@ -9,13 +9,14 @@ gem 'activerecord-nulldb-adapter'      # Running Rake tasks at build time before
 gem 'activerecord-session_store', '~> 2.0'
 gem 'aws-sdk-s3',          '~> 1.130', # Access and manage Amazon S3 storage (with ActiveStorage).
     require: false
-gem 'azure-storage-blob',  '~> 1.1',   # Access and manage Microsoft Azure Storage Blob Services (with ActiveStorage).
+# TODO: Replace with azure-blob in rails 8
+gem 'azure-storage-blob',  '~> 2.0',   # Access and manage Microsoft Azure Storage Blob Services (with ActiveStorage).
     require: false
 gem 'cancancan',           '~> 3.5'    # Endpoint user authorization
 # TODO: concurrent-ruby v1.3.5 has removed the dependency on logger.
 # TODO: https://stackoverflow.com/a/79361034
 # TODO: Remove this dependency when upgrading to rails 7.x
-gem 'concurrent-ruby',     '~> 1.3'
+# gem 'concurrent-ruby',     '~> 1.3'
 gem 'csv-safe',            '~> 3.2'   # Safely export data to CSV to avoid formula injection
 gem 'daemons',             '~> 1.4'   # Gem to run the delayed jobs
 gem 'deep_merge',          '~> 1.2',   # Recursive merging of Hashes. Used for merging params to existing records.
@@ -23,7 +24,8 @@ gem 'deep_merge',          '~> 1.2',   # Recursive merging of Hashes. Used for m
 gem 'delayed_job_active_record', '~> 4.1.7'
 gem 'devise',              '~> 4.9'    # Authentication framework
 gem 'drb',                 '~> 2.2'    # Removed Ruby 3.4 dependency
-gem 'faraday',             '~> 0.17'   # Ruby HTTP client
+# TODO: Upgrade
+gem 'faraday',             '~> 1.10'   # Ruby HTTP client
 gem 'file_validators',     '~> 3.0'    # ActiveRecord extension for validating attachment file sizes
 gem 'i18n-js',             '~> 3.9'    # Shares Rails i18n strings with the front end
 gem 'image_processing',    '~> 1.12'   # Ruby bindings for ImageMagick, resize attachments. Depenency of ActiveStorage
@@ -42,9 +44,10 @@ gem 'pg',                  '~> 1.5'    # Ruby PostgreSQL binding
 gem 'prawn',               '~> 2.4'    # PDF generation
 gem 'prawn-table',         '~> 0.2'    # PDF generation
 gem 'puma',                '~> 7.0'    # Ruby Rack server
+# TODO: Upgrade
 gem 'rack',                '~> 2.2'
 gem 'rack-attack',         '>= 6.6'    # Rack middleware to rate limit sensetive routes, such as those used for auth
-gem 'rails',               '6.1.7.10'
+gem 'rails',               '7.0.8.7'
 gem 'rake',                '~> 13.0'
 gem 'rbnacl',              '>= 7.1.1'  # Libsodium Ruby binding. Used for encrypting export file passwords.
 gem 'resolv',              '>= 0.3.1'  # CVE-2025-24294
@@ -61,6 +64,7 @@ gem 'text',                '~> 1.3'    # Phonetic Search Algorithms
 gem 'thor',                '>= 1.3.3'  # CVE-2025-54314
 gem 'twitter_cldr',        '~> 4.4'    # Localization for dates, money. TODO: Is this still used?
 gem 'tzinfo-data',         '~> 1.2023' # Timezone Data for TZInfo
+# TODO: Upgrade?
 gem 'uri',                 '~> 0.13'   # CVE-2025-27221
 gem 'web-push',            '~> 3.0'
 gem 'will_paginate',       '~> 4.0'    # Paginates ActiveRecord models  TODO: This can be refactored away.
@@ -70,7 +74,7 @@ group :development, :test do
   gem 'brakeman', require: false
   gem 'bundler-audit',              '~> 0.9'
   gem 'ci_reporter',                '~> 2.0'
-  gem 'factory_bot',                '~> 5.0'
+  gem 'factory_bot',                '~> 6.5'
   gem 'foreman'
   gem 'i18n-tasks',                 '~> 0.9'
   gem 'json_spec',                  '~> 1.1'
