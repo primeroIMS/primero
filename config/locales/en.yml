@@ -2618,9 +2618,11 @@ en:
       reports:
         source_identification_referral: Source of Identification / Referral
         protection_concerns_reporting_location: Protection Concerns by Reporting Location
+        reasons_for_closure: Reason for Closure
       sub_reports:
         case_source_identification_referral: Source of Identification / Referral
         case_protection_concerns_reporting_location: Protection Concerns by Reporting Location
+        case_reasons_for_closure: Reason for Closure
       filter_options:
         registration_date: Registration Date
   usage_report:
