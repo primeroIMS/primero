@@ -5,18 +5,13 @@
 source 'https://rubygems.org'
 ruby '3.4.5'
 
-gem 'activerecord-nulldb-adapter'      # Running Rake tasks at build time before DB is set up. TODO: Still needed?
+gem 'activerecord-nulldb-adapter' # Running Rake tasks at build time before DB is set up. TODO: Still needed?
 gem 'activerecord-session_store', '~> 2.0'
 gem 'aws-sdk-s3',          '~> 1.130', # Access and manage Amazon S3 storage (with ActiveStorage).
     require: false
-# TODO: Replace with azure-blob in rails 8
-gem 'azure-storage-blob',  '~> 2.0',   # Access and manage Microsoft Azure Storage Blob Services (with ActiveStorage).
+gem 'azure-blob',          '~> 0.5',   # Access and manage Microsoft Azure Storage Blob Services (with ActiveStorage).
     require: false
 gem 'cancancan',           '~> 3.5'    # Endpoint user authorization
-# TODO: concurrent-ruby v1.3.5 has removed the dependency on logger.
-# TODO: https://stackoverflow.com/a/79361034
-# TODO: Remove this dependency when upgrading to rails 7.x
-# gem 'concurrent-ruby',     '~> 1.3'
 gem 'csv-safe',            '~> 3.2'   # Safely export data to CSV to avoid formula injection
 gem 'daemons',             '~> 1.4'   # Gem to run the delayed jobs
 gem 'deep_merge',          '~> 1.2',   # Recursive merging of Hashes. Used for merging params to existing records.
@@ -24,8 +19,8 @@ gem 'deep_merge',          '~> 1.2',   # Recursive merging of Hashes. Used for m
 gem 'delayed_job_active_record', '~> 4.1.7'
 gem 'devise',              '~> 4.9'    # Authentication framework
 gem 'drb',                 '~> 2.2'    # Removed Ruby 3.4 dependency
-# TODO: Upgrade
-gem 'faraday',             '~> 1.10'   # Ruby HTTP client
+gem 'faraday',             '~> 2.0'    # Ruby HTTP client. Adapters are maintained in separate gems starting with 2.0
+gem 'faraday-net_http_persistent', '~> 2.0'
 gem 'file_validators',     '~> 3.0'    # ActiveRecord extension for validating attachment file sizes
 gem 'i18n-js',             '~> 3.9'    # Shares Rails i18n strings with the front end
 gem 'image_processing',    '~> 1.12'   # Ruby bindings for ImageMagick, resize attachments. Depenency of ActiveStorage
