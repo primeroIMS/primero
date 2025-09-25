@@ -106,7 +106,7 @@ FROM ${BUILD_REGISTRY}ruby:${RUBY_VERSION}-alpine3.21
 
 ENV BUILD_PACKAGES=bash
 ENV RUNTIME_PACKAGES="libpq gettext libintl imagemagick libsodium-dev p7zip tini curl"
-ENV WORKER_PACKAGES="libreoffice"
+ENV WORKER_PACKAGES="libreoffice font-noto font-noto-cjk font-noto-emoji font-noto-extra font-dejavu"
 
 ARG APP_UID
 ARG APP_GID
