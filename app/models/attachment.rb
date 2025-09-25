@@ -41,7 +41,7 @@ class Attachment < ApplicationRecord
 
   after_create_commit :send_email_maximum_attachments_space_warning_exceeded
 
-  after_save :convert_docx_to_pdf
+  after_commit :convert_docx_to_pdf, if: -> { previous_changes.key?('attachment') }
 
   def attach
     return unless record.present?
