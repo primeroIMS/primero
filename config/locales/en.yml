@@ -2621,6 +2621,15 @@ en:
         case_source_identification_referral: Source of Identification / Referral
       filter_options:
         registration_date: Registration Date
+    distribution_users_role_report:
+      name: Distribution of Users by Role
+      description: Gives the number of Users with each Role, broken down by User Group. This allows you to see the number of supervisory and administrative staff per case worker.
+      reports: 
+        distribution_users_role: Distribution of Users by Role
+      sub_reports:
+        distribution_users_role: Distribution of Users by Role
+      distribution_users_role:
+        overall: Overall
   usage_report:
     label: Export Usage Report
     file_name: Create your own file name (Optional)
@@ -3902,6 +3911,9 @@ en:
           case_management_kpis_report:
             label: Case Management KPIs
             explanation: Tracks key indicators of CP Case Management performance, including percentage of referrals made by different stakeholders, Reporting Location and Sex for selected Protection Concerns, and percentage of cases with each reason for closure.
+          distribution_users_role_report:
+            label: Distribution of Users by Role
+            explanation: Gives the number of Users with each Role, broken down by User Group. This allows you to see the number of supervisory and administrative staff per case worker.
       matching_configuration:
         actions:
           manage:

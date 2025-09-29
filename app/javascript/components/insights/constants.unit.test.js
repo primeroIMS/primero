@@ -118,7 +118,8 @@ describe("<Report /> - constants", () => {
       "process_quality_successful_referrals",
       "process_quality_implemented_referrals",
       "case_characteristics",
-      "case_management_kpis_report"
+      "case_management_kpis_report",
+      "distribution_users_role_report"
     ]);
   });
 });

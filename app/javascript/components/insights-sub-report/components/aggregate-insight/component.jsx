@@ -108,7 +108,7 @@ function Component({
       insightMetadata={insightMetadata}
       isGrouped={indicatorIsGrouped}
       lookups={lookups[indicatorKey]}
-      indicatorsRows={indicatorRows[indicatorKey]}
+      indicatorRows={indicatorRows[indicatorKey]}
       lookupValue={lookupValue}
       namespace={namespace}
       headerTitle={headerTitle}
