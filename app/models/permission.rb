@@ -57,6 +57,7 @@ class Permission < ValueObject
   USAGE_REPORT = 'usage_report'
   MATCHING_CONFIGURATION = 'matching_configuration'
   SELF = 'self' # A redundant permission. This is implied.
+  IDENTIFIED = 'identified'
   GROUP = 'group'
   ALL = 'all'
   CONSENT_OVERRIDE = 'consent_override'

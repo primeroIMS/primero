@@ -409,5 +409,11 @@ class Child < ApplicationRecord
   def stamp_case_type
     self.case_type = PrimeroModule.find_by(unique_id: module_id)&.case_type || PrimeroModule::DEFAULT_CASE_TYPE
   end
+
+  def mark_identified(user)
+    self.identified_by = user.user_name
+    self.identified_by_full_name = user.full_name
+    self.identified_at = Time.zone.now.as_json
+  end
 end
 # rubocop:enable Metrics/ClassLength

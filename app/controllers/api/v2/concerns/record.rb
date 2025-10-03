@@ -34,8 +34,11 @@ module Api::V2::Concerns::Record
   end
 
   def create
-    authorize_create! && validate_json!
+    authorize_create!
+    after_authorize_create
+    validate_json!
     @record = model_class.new_with_user(current_user, record_params)
+    before_record_create
     @record.save!
     permit_readable_fields
     select_updated_fields
@@ -60,6 +63,10 @@ module Api::V2::Concerns::Record
     @record.save!
     render 'api/v2/records/destroy'
   end
+
+  def after_authorize_create; end
+
+  def before_record_create; end
 
   def index_params
     return @index_params if @index_params
