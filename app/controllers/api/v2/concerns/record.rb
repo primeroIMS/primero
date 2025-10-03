@@ -42,7 +42,7 @@ module Api::V2::Concerns::Record
     @record.save!
     permit_readable_fields
     select_updated_fields
-    status = params[:data][:id].present? ? 204 : 200
+    status = params.dig(:data, :id).present? ? 204 : 200
     render 'api/v2/records/create', status:
   end
 
