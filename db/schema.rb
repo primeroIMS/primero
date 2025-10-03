@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_06_23_000000) do
+ActiveRecord::Schema.define(version: 2025_09_25_000001) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -61,6 +61,9 @@ ActiveRecord::Schema.define(version: 2025_06_23_000000) do
     t.boolean "terms_of_use_enabled", default: false, null: false
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.boolean "terms_of_use_signed", default: false, null: false
+    t.datetime "terms_of_use_uploaded_at"
+    t.string "terms_of_use_uploaded_by"
     t.index ["agency_code"], name: "index_agencies_on_agency_code", unique: true
     t.index ["services"], name: "index_agencies_on_services", using: :gin
     t.index ["unique_id"], name: "index_agencies_on_unique_id", unique: true
@@ -783,6 +786,7 @@ ActiveRecord::Schema.define(version: 2025_06_23_000000) do
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.jsonb "incident_reporting_location_config"
+    t.jsonb "terms_of_use_agency_sign"
   end
 
   create_table "themes", force: :cascade do |t|

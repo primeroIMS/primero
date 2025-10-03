@@ -6,7 +6,7 @@ code_of_conduct = CodeOfConduct.current
 
 # rubocop:disable Metrics/BlockLength
 json.data do
-  json.merge! FieldI18nService.fill_keys(['welcome_email_text_i18n'],
+  json.merge! FieldI18nService.fill_keys(['welcome_email_text_i18n', ''],
                                          @system_setting.attributes.except('id', 'approvals_labels_i18n',
                                                                            'default_locale', 'locales'))
   json.locale I18n.locale
@@ -20,7 +20,11 @@ json.data do
                                               'maximum_attachments_per_record' =>
                                                   @system_setting.maximum_attachments_per_record,
                                               'allow_case_creation_from_referral' =>
-                                                  @system_setting.create_case_from_referral?
+                                                  @system_setting.create_case_from_referral?,
+                                              'enforce_terms_of_use' =>
+                                                  ActiveRecord::Type::Boolean.new.cast(
+                                                    ENV.fetch('PRIMERO_ENFORCE_TERMS_OF_USE', false)
+                                                  )
                                             })
   json.field_labels FieldI18nService.to_localized_values(@system_setting.field_labels_i18n)
   json.audit_log do

@@ -298,5 +298,162 @@ describe Agency do
       agency.update_properties(name: { en: 'IRC' })
       expect(agency.terms_of_use.attached?).to be_truthy
     end
+
+    describe '#attach_terms_of_use' do
+      let(:agency) { Agency.new(name: 'Test Agency', agency_code: 'test123') }
+      let(:user_name) { 'test_user' }
+      let(:terms_params) do
+        {
+          terms_of_use_file_name: 'terms.pdf',
+          terms_of_use_base64: Base64.encode64('fake pdf content')
+        }
+      end
+
+      context 'when terms_of_use file and base64 are present' do
+        it 'attaches the file and stamps terms of use' do
+          allow(ENV).to receive(:fetch).with('PRIMERO_ENFORCE_TERMS_OF_USE', nil).and_return('true')
+
+          expect(agency).to receive(:attach_file).with(
+            'terms.pdf',
+            Base64.encode64('fake pdf content'),
+            agency.terms_of_use
+          )
+          expect(agency).to receive(:stamp_terms_of_use!).with(user_name).and_call_original
+
+          agency.attach_terms_of_use(terms_params, user_name)
+
+          expect(agency.terms_of_use_signed).to be_truthy
+        end
+      end
+
+      context 'when terms_of_use file name is missing' do
+        it 'does not attach file or stamp terms' do
+          params = terms_params.merge(terms_of_use_file_name: nil)
+
+          expect(agency).not_to receive(:attach_file)
+          expect(agency).not_to receive(:stamp_terms_of_use!)
+
+          agency.attach_terms_of_use(params, user_name)
+        end
+      end
+
+      context 'when terms_of_use base64 is missing' do
+        it 'does not attach file or stamp terms' do
+          params = terms_params.merge(terms_of_use_base64: nil)
+
+          expect(agency).not_to receive(:attach_file)
+          expect(agency).not_to receive(:stamp_terms_of_use!)
+
+          agency.attach_terms_of_use(params, user_name)
+        end
+      end
+
+      context 'when user_name is nil' do
+        it 'attaches file but does not stamp terms' do
+          expect(agency).to receive(:attach_file)
+          expect(agency).not_to receive(:stamp_terms_of_use!)
+
+          agency.attach_terms_of_use(terms_params, nil)
+        end
+      end
+    end
+
+    describe '#stamp_terms_of_use!' do
+      let(:agency) { Agency.new(name: 'Test Agency', agency_code: 'test123') }
+      let(:user_name) { 'test_user' }
+
+      context 'when PRIMERO_ENFORCE_TERMS_OF_USE is enabled' do
+        before do
+          allow(ENV).to receive(:fetch).with('PRIMERO_ENFORCE_TERMS_OF_USE', nil).and_return('true')
+        end
+
+        it 'sets terms_of_use_signed to true' do
+          travel_to Time.zone.parse('2023-01-01 12:00:00') do
+            agency.stamp_terms_of_use!(user_name)
+
+            expect(agency.terms_of_use_signed).to be true
+            expect(agency.terms_of_use_uploaded_at).to eq(DateTime.parse('2023-01-01 12:00:00'))
+            expect(agency.terms_of_use_uploaded_by).to eq(user_name)
+          end
+        end
+      end
+
+      context 'when PRIMERO_ENFORCE_TERMS_OF_USE is disabled' do
+        before do
+          allow(ENV).to receive(:fetch).with('PRIMERO_ENFORCE_TERMS_OF_USE', nil).and_return('false')
+        end
+
+        it 'does not set terms_of_use fields' do
+          agency.stamp_terms_of_use!(user_name)
+
+          expect(agency.terms_of_use_signed).to be false
+          expect(agency.terms_of_use_uploaded_at).to be_nil
+          expect(agency.terms_of_use_uploaded_by).to be_nil
+        end
+      end
+
+      context 'when PRIMERO_ENFORCE_TERMS_OF_USE is not set' do
+        before do
+          allow(ENV).to receive(:fetch).with('PRIMERO_ENFORCE_TERMS_OF_USE', nil).and_return(nil)
+        end
+
+        it 'does not set terms_of_use fields' do
+          agency.stamp_terms_of_use!(user_name)
+
+          expect(agency.terms_of_use_signed).to be false
+          expect(agency.terms_of_use_uploaded_at).to be_nil
+          expect(agency.terms_of_use_uploaded_by).to be_nil
+        end
+      end
+    end
+
+    describe '#terms_of_use_signed_if_enforced validation' do
+      let(:agency) { Agency.new(name: 'Test Agency', agency_code: 'test123') }
+
+      context 'when PRIMERO_ENFORCE_TERMS_OF_USE is enabled' do
+        before do
+          allow(ENV).to receive(:fetch).with('PRIMERO_ENFORCE_TERMS_OF_USE', nil).and_return('true')
+        end
+
+        context 'and terms_of_use_signed is false' do
+          before { agency.terms_of_use_signed = false }
+
+          it 'adds validation error' do
+            agency.valid?
+            expect(agency.errors[:base]).to include(I18n.t('errors.models.agency.must_sign_terms_of_use'))
+          end
+        end
+
+        context 'and terms_of_use_signed is true' do
+          before { agency.terms_of_use_signed = true }
+
+          it 'does not add validation error' do
+            agency.valid?
+            expect(agency.errors[:base]).not_to include(I18n.t('errors.models.agency.must_sign_terms_of_use'))
+          end
+        end
+
+        context 'and terms_of_use_signed is nil' do
+          before { agency.terms_of_use_signed = nil }
+
+          it 'adds validation error' do
+            agency.valid?
+            expect(agency.errors[:base]).to include(I18n.t('errors.models.agency.must_sign_terms_of_use'))
+          end
+        end
+      end
+
+      context 'when PRIMERO_ENFORCE_TERMS_OF_USE is disabled' do
+        before do
+          allow(ENV).to receive(:fetch).with('PRIMERO_ENFORCE_TERMS_OF_USE', nil).and_return('false')
+          agency.terms_of_use_signed = false
+        end
+
+        it 'does not add validation error' do
+          agency.valid?
+          expect(agency.errors[:base]).not_to include(I18n.t('errors.models.agency.must_sign_terms_of_use'))
+        end
+      end
+    end
   end
 end
