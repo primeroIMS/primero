@@ -5,7 +5,11 @@ import { useI18n } from "../i18n";
 
 import childFunctioningSummaryData from "./child-functioning-summary-data";
 
-const formatKey = key => key.replace(/_/g, " ").replace(/\b\w/g, char => char.toUpperCase());
+const formatKey = key => {
+  const str = key.replace(/_/g, " ");
+
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+};
 
 const formatValue = (key, value, i18n) => {
   if (typeof value === "boolean") {
@@ -50,7 +54,7 @@ function Component({ values = null }) {
 
         return (
           <div key={key} style={{ marginBottom: "8px" }}>
-            <strong>{formatKey(i18n.t(field.label))}:</strong> {formatValue(key, value, i18n)}
+            <strong>{formatKey(i18n.t(`${field.label}`))}:</strong> {formatValue(key, value, i18n)}
           </div>
         );
       })}
