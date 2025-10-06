@@ -311,7 +311,7 @@ describe Agency do
 
       context 'when terms_of_use file and base64 are present' do
         it 'attaches the file and stamps terms of use' do
-          allow(ENV).to receive(:fetch).with('PRIMERO_ENFORCE_TERMS_OF_USE', nil).and_return('true')
+          allow(ENV).to receive(:fetch).with('PRIMERO_ENFORCE_TERMS_OF_USE', false).and_return('true')
 
           expect(agency).to receive(:attach_file).with(
             'terms.pdf',
@@ -364,7 +364,7 @@ describe Agency do
 
       context 'when PRIMERO_ENFORCE_TERMS_OF_USE is enabled' do
         before do
-          allow(ENV).to receive(:fetch).with('PRIMERO_ENFORCE_TERMS_OF_USE', nil).and_return('true')
+          allow(ENV).to receive(:fetch).with('PRIMERO_ENFORCE_TERMS_OF_USE', false).and_return('true')
         end
 
         it 'sets terms_of_use_signed to true' do
@@ -380,7 +380,7 @@ describe Agency do
 
       context 'when PRIMERO_ENFORCE_TERMS_OF_USE is disabled' do
         before do
-          allow(ENV).to receive(:fetch).with('PRIMERO_ENFORCE_TERMS_OF_USE', nil).and_return('false')
+          allow(ENV).to receive(:fetch).with('PRIMERO_ENFORCE_TERMS_OF_USE', false).and_return('false')
         end
 
         it 'does not set terms_of_use fields' do
@@ -394,7 +394,7 @@ describe Agency do
 
       context 'when PRIMERO_ENFORCE_TERMS_OF_USE is not set' do
         before do
-          allow(ENV).to receive(:fetch).with('PRIMERO_ENFORCE_TERMS_OF_USE', nil).and_return(nil)
+          allow(ENV).to receive(:fetch).with('PRIMERO_ENFORCE_TERMS_OF_USE', false).and_return(nil)
         end
 
         it 'does not set terms_of_use fields' do
@@ -412,7 +412,7 @@ describe Agency do
 
       context 'when PRIMERO_ENFORCE_TERMS_OF_USE is enabled' do
         before do
-          allow(ENV).to receive(:fetch).with('PRIMERO_ENFORCE_TERMS_OF_USE', nil).and_return('true')
+          allow(ENV).to receive(:fetch).with('PRIMERO_ENFORCE_TERMS_OF_USE', false).and_return('true')
         end
 
         context 'and terms_of_use_signed is false' do
@@ -445,7 +445,7 @@ describe Agency do
 
       context 'when PRIMERO_ENFORCE_TERMS_OF_USE is disabled' do
         before do
-          allow(ENV).to receive(:fetch).with('PRIMERO_ENFORCE_TERMS_OF_USE', nil).and_return('false')
+          allow(ENV).to receive(:fetch).with('PRIMERO_ENFORCE_TERMS_OF_USE', false).and_return('false')
           agency.terms_of_use_signed = false
         end
 

@@ -11,6 +11,7 @@ describe RecordActionWebpushNotifier do
       WebpushSubscription, User, Agency, Role, Child, Transition
     )
     Rails.configuration.x.webpush.enabled = true
+    allow(ENV).to receive(:fetch).and_call_original
     allow(ENV).to receive(:fetch).with('PRIMERO_MESSAGE_SECRET').and_return('aVnNTxSI1EZmiG1dW6Z_I9fbQCbZB3Po')
     SystemSettings.stub(:current).and_return(
       SystemSettings.new(

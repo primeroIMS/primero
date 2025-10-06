@@ -115,14 +115,14 @@ class Agency < ApplicationRecord
     attach_files(agency_params, current_user)
   end
 
-  def attach_files(agency_params, current_user_name)
+  def attach_files(agency_params, current_user_name = nil)
     attach_file(agency_params[:logo_full_file_name], agency_params[:logo_full_base64], logo_full)
     attach_file(agency_params[:logo_icon_file_name], agency_params[:logo_icon_base64], logo_icon)
 
     attach_terms_of_use(agency_params, current_user_name)
   end
 
-  def attach_terms_of_use(agency_params, current_user_name)
+  def attach_terms_of_use(agency_params, current_user_name = nil)
     return unless agency_params[:terms_of_use_file_name].present? && agency_params[:terms_of_use_base64].present?
 
     attach_file(agency_params[:terms_of_use_file_name], agency_params[:terms_of_use_base64], terms_of_use)

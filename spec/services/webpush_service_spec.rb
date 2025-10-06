@@ -12,6 +12,7 @@ describe WebpushService do
     )
     Rails.configuration.x.webpush.enabled = true
     Rails.configuration.x.webpush.pause_after = 1440
+    allow(ENV).to receive(:fetch).and_call_original
     allow(ENV).to receive(:fetch).with('PRIMERO_MESSAGE_SECRET').and_return('aVnNTxSI1EZmiG1dW6Z_I9fbQCbZB3Po')
   end
   describe '#send_notifications' do

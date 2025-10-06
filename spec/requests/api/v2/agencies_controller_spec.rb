@@ -604,7 +604,7 @@ describe Api::V2::AgenciesController, type: :request do
           terms_of_use_uploaded_by: 'previous_user',
           terms_of_use_uploaded_at: 1.day.ago
         )
-        original_uploaded_at = @agency_a.terms_of_use_uploaded_at
+        original_uploaded_at = @agency_a.terms_of_use_uploaded_at.iso8601(3)
 
         login_for_test(
           permissions: [
@@ -632,7 +632,7 @@ describe Api::V2::AgenciesController, type: :request do
         expect(@agency_a.terms_of_use.attached?).to be_truthy
         expect(@agency_a.terms_of_use_signed).to be true
         expect(@agency_a.terms_of_use_uploaded_by).to eq('previous_user')
-        expect(@agency_a.terms_of_use_uploaded_at).to eq(original_uploaded_at)
+        expect(@agency_a.terms_of_use_uploaded_at.iso8601(3)).to eq(original_uploaded_at)
       end
     end
   end
