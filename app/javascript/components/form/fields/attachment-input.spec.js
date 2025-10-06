@@ -28,6 +28,10 @@ describe("<Form /> - fields/<AttachmentInput />", () => {
     }
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   describe("Basic rendering", () => {
     it("renders input label and form helper text", () => {
       mountedFieldComponent(<AttachmentInput {...defaultProps} />, { state: initialState });
