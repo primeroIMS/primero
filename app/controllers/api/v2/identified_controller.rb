@@ -8,19 +8,24 @@ class Api::V2::IdentifiedController < ApplicationApiController
 
   before_action :authorize_identified!, only: %i[show create update]
 
-  def after_authorize_create
-    ensure_record_unique!
+  def create
+    authorize_create!
+    validate_record_unique!
+    validate_json!
+    @record = model_class.new_with_user(current_user, record_params)
+    @record.mark_identified(current_user)
+    @record.save!
+    permit_readable_fields
+    select_updated_fields
+    status = params.dig(:data, :id).present? ? 204 : 200
+    render 'api/v2/records/create', status:
   end
 
-  def ensure_record_unique!
+  def validate_record_unique!
     find_record
     raise ActiveRecord::RecordNotUnique
   rescue ActiveRecord::RecordNotFound
     # Only when an identified record is not found, a new one can be created.
-  end
-
-  def before_record_create
-    @record.mark_identified(current_user)
   end
 
   def find_record
