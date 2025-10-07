@@ -17,6 +17,7 @@ import { GuidingQuestions } from "../../components";
 import ChildFunctioningSummary from "../../../../child-functioning-summary";
 
 import { isEmptyOrAllDestroyed, isTracesSubform } from "./utils";
+import { sortBy } from "lodash";
 
 function Component({
   arrayHelpers,
@@ -112,9 +113,11 @@ function Component({
     </div>
   );
 
-  const getlatestValue = arr => arr?.[0] ?? null;
-  const latestValue = getlatestValue(orderedValues);
 
+  const sortedOrderValues = sortBy(orderedValues, ["date_cfm_start"]).reverse();
+  const getlatestValue = arr => arr?.[0] ?? null;
+  const latestValue = getlatestValue(sortedOrderValues);
+  
   return (
     <div className={css.fieldArray} data-testid="subform-field-array">
       {/* Conditionally Render Child Functioning Subform Summary */}
