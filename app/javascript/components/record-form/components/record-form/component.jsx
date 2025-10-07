@@ -329,7 +329,6 @@ function Component({
               formNav={formNav}
               handleToggleNav={handleToggleNav}
               isNew={containerMode.isNew}
-              isShow={containerMode.isShow}
               mobileDisplay={mobileDisplay}
               recordType={params.recordType}
               selectedForm={selectedForm}
