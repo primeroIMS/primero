@@ -14,7 +14,7 @@ describe("ReportFiltersList - utils", () => {
         { name: "field_4", option_strings_source: OPTION_TYPES.FORM_GROUP }
       ];
 
-      expect(getOptionSources(fields)).to.deep.equals({
+      expect(getOptionSources(fields)).toEqual({
         [OPTION_TYPES.LOCATION]: true,
         [OPTION_TYPES.AGENCY]: true,
         [OPTION_TYPES.MODULE]: true,

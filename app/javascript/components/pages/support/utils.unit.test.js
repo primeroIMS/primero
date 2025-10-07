@@ -11,17 +11,17 @@ describe("<Support /> - utils", () => {
   describe("properties", () => {
     let clone;
 
-    before(() => {
+    beforeAll(() => {
       clone = { ...utils };
     });
 
-    after(() => {
-      expect(clone).to.be.empty;
+    afterAll(() => {
+      expect(Object.keys(clone)).toHaveLength(0);
     });
 
     ["menuList", "renderSupportForm"].forEach(property => {
       it(`should exports '${property}'`, () => {
-        expect(utils).to.have.property(property);
+        expect(utils).toHaveProperty(property);
         delete clone[property];
       });
     });
@@ -51,26 +51,26 @@ describe("<Support /> - utils", () => {
       ];
       const result = utils.menuList(i18n, false);
 
-      expect(result).to.be.an("array");
-      expect(result).to.deep.equals(expected);
+      expect(Array.isArray(result)).toBe(true);
+      expect(result).toEqual(expected);
     });
   });
 
   describe("renderSupportForm", () => {
     it("should return the ContactInformation form", () => {
-      expect(utils.renderSupportForm(SUPPORT_FORMS.contactInformation)).to.be.equal(ContactInformation);
+      expect(utils.renderSupportForm(SUPPORT_FORMS.contactInformation)).toBe(ContactInformation);
     });
 
     it("should return the CodeOfConduct form", () => {
-      expect(utils.renderSupportForm(SUPPORT_FORMS.codeOfConduct)).to.be.equal(CodeOfConduct);
+      expect(utils.renderSupportForm(SUPPORT_FORMS.codeOfConduct)).toBe(CodeOfConduct);
     });
 
     it("should return TermOfUse component", () => {
-      expect(utils.renderSupportForm(SUPPORT_FORMS.termsOfUse)).to.be.equal(TermOfUse);
+      expect(utils.renderSupportForm(SUPPORT_FORMS.termsOfUse)).toBe(TermOfUse);
     });
 
     it("should return NotImplemented form if it's not a valid form", () => {
-      expect(utils.renderSupportForm()).to.be.equal(NotImplemented);
+      expect(utils.renderSupportForm()).toBe(NotImplemented);
     });
   });
 });

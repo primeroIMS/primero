@@ -6,7 +6,7 @@ describe("fieldArrayToConditions", () => {
   it("returns an empty object when there are no conditions", () => {
     const conditionArray = [];
 
-    expect(fieldArrayToConditions(conditionArray)).to.deep.equal({});
+    expect(fieldArrayToConditions(conditionArray)).toEqual({});
   });
 
   it("should return a conditions object", () => {
@@ -17,7 +17,7 @@ describe("fieldArrayToConditions", () => {
 
     const expected = { and: [{ eq: { field_1: "value1" } }, { gt: { field_2: "value2" } }] };
 
-    expect(fieldArrayToConditions(conditionArray)).to.deep.equal(expected);
+    expect(fieldArrayToConditions(conditionArray)).toEqual(expected);
   });
 
   it("should return a single IN condition for an array value", () => {
@@ -25,7 +25,7 @@ describe("fieldArrayToConditions", () => {
 
     const expected = { in: { field_1: ["value1", "value2"] } };
 
-    expect(fieldArrayToConditions(conditionArray)).to.deep.equal(expected);
+    expect(fieldArrayToConditions(conditionArray)).toEqual(expected);
   });
 
   it("combines the conditions using the condition type", () => {
@@ -36,7 +36,7 @@ describe("fieldArrayToConditions", () => {
 
     const expected = { and: [{ eq: { field_1: "value1" } }, { gt: { field_2: "value2" } }] };
 
-    expect(fieldArrayToConditions(conditionArray)).to.deep.equal(expected);
+    expect(fieldArrayToConditions(conditionArray)).toEqual(expected);
   });
 
   it("groups AND conditions together separated by OR condition", () => {
@@ -54,7 +54,7 @@ describe("fieldArrayToConditions", () => {
       ]
     };
 
-    expect(fieldArrayToConditions(conditionArray)).to.deep.equal(expected);
+    expect(fieldArrayToConditions(conditionArray)).toEqual(expected);
   });
 
   it("groups initial OR condition with AND conditions", () => {
@@ -72,7 +72,7 @@ describe("fieldArrayToConditions", () => {
       ]
     };
 
-    expect(fieldArrayToConditions(conditionArray)).to.deep.equal(expected);
+    expect(fieldArrayToConditions(conditionArray)).toEqual(expected);
   });
 
   it("groups initial AND condition with OR conditions", () => {
@@ -91,7 +91,7 @@ describe("fieldArrayToConditions", () => {
       ]
     };
 
-    expect(fieldArrayToConditions(conditionArray)).to.deep.equal(expected);
+    expect(fieldArrayToConditions(conditionArray)).toEqual(expected);
   });
 
   it("groups initial OR conditions with AND condition", () => {
@@ -110,7 +110,7 @@ describe("fieldArrayToConditions", () => {
       ]
     };
 
-    expect(fieldArrayToConditions(conditionArray)).to.deep.equal(expected);
+    expect(fieldArrayToConditions(conditionArray)).toEqual(expected);
   });
 
   it("groups OR conditions together", () => {
@@ -130,7 +130,7 @@ describe("fieldArrayToConditions", () => {
       ]
     };
 
-    expect(fieldArrayToConditions(conditionArray)).to.deep.equal(expected);
+    expect(fieldArrayToConditions(conditionArray)).toEqual(expected);
   });
 
   it("groups OR conditions together separated by AND condition", () => {
@@ -149,6 +149,6 @@ describe("fieldArrayToConditions", () => {
       ]
     };
 
-    expect(fieldArrayToConditions(conditionArray)).to.deep.equal(expected);
+    expect(fieldArrayToConditions(conditionArray)).toEqual(expected);
   });
 });

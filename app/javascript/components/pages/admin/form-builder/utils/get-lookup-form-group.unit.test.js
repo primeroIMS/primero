@@ -54,10 +54,10 @@ describe("getLookupFormGroup", () => {
       }
     ];
 
-    expect(getLookupFormGroup(allFormGroupsLookups, "primeromodule-cp", "case")).to.be.equal(formGroupCpCase);
+    expect(getLookupFormGroup(allFormGroupsLookups, "primeromodule-cp", "case")).toBe(formGroupCpCase);
   });
 
   it("returns empty object if missing parent form and module", () => {
-    expect(getLookupFormGroup()).to.deep.equal({});
+    expect(getLookupFormGroup()).toEqual({});
   });
 });

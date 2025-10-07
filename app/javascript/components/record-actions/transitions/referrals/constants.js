@@ -12,6 +12,8 @@ export const STATE_REFERRAL_LOADING_PATH = ["records", "transitions", "referral"
 
 export const STATE_REFERRAL_USERS_PATH = ["records", "transitions", "referral", "users"];
 
+export const ALL_OPTION_ID = "all";
+
 export const FIELDS = Object.freeze({
   ROLE: "role",
   AUTHORIZED_ROLE_UNIQUE_ID: "authorized_role_unique_id",
@@ -24,7 +26,8 @@ export const FIELDS = Object.freeze({
   TRANSITIONED_TO_REMOTE: "transitioned_to_remote",
   NOTES: "notes",
   FILENAME: CUSTOM_EXPORT_FILE_NAME_FIELD,
-  SERVICE_RECORD_ID: "service_record_id"
+  SERVICE_RECORD_ID: "service_record_id",
+  ALLOW_CASE_CREATION: "allow_case_creation"
 });
 
 export const USER_FIELDS = Object.freeze({

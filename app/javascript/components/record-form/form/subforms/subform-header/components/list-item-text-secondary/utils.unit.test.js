@@ -3,15 +3,15 @@
 import { buildAssociatedViolationsKeys } from "./utils";
 
 describe("buildCollapsedFields", () => {
-  context("when field is not individual_victims", () => {
+  describe("when field is not individual_victims", () => {
     it("should return null", () => {
       const result = buildAssociatedViolationsKeys({}, []);
 
-      expect(result).to.deep.equal([]);
+      expect(result).toEqual([]);
     });
   });
 
-  context("when field is individual_victims", () => {
+  describe("when field is individual_victims", () => {
     it("should return the values for subform", () => {
       const result = buildAssociatedViolationsKeys(
         {
@@ -22,7 +22,7 @@ describe("buildCollapsedFields", () => {
         [1, 3]
       );
 
-      expect(result).to.deep.equal(["killing", "maiming"]);
+      expect(result).toEqual(["killing", "maiming"]);
     });
   });
 });

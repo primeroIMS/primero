@@ -1,5 +1,4 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import get from "lodash/get";
 import { useMemo } from "react";
 
@@ -104,7 +103,8 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
     showDeleteAction,
     showDisableOption,
     maxOptionsAllowed,
-    optionFieldName
+    optionFieldName,
+    additionalOptions
   } = field;
 
   const i18n = useI18n();
@@ -196,7 +196,8 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
     showDeleteAction,
     showDisableOption,
     maxOptionsAllowed,
-    optionFieldName
+    optionFieldName,
+    additionalOptions
   };
 
   const Field = (fieldType => {

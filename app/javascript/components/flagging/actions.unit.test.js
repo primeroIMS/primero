@@ -13,15 +13,17 @@ describe("Flagging - Constants", () => {
       "UNFLAG_SUCCESS",
       "ADD_FLAG",
       "ADD_FLAG_SUCCESS",
+      "UPDATE_FLAG",
+      "UPDATE_FLAG_SUCCESS",
       "SET_SELECTED_FLAG",
       "SET_SELECTED_FLAG_SUCCESS",
       "FETCH_FLAGS_STARTED",
       "FETCH_FLAGS_FINISHED"
     ].forEach(property => {
-      expect(clonedConstants).to.have.property(property);
+      expect(clonedConstants).toHaveProperty(property);
       delete clonedConstants[property];
     });
 
-    expect(clonedConstants).to.be.empty;
+    expect(Object.keys(clonedConstants)).toHaveLength(0);
   });
 });

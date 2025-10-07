@@ -124,3 +124,44 @@ export const getSelectedRecordData = (state, recordType) => {
 
 export const getCaseFormFamilyMemberLoading = (state, recordType) =>
   state.getIn(["records", recordType, "case_from_family", "loading"], false);
+
+export const getRecordRelationships = (state, query) => {
+  const { recordType, includeDisabled } = query;
+
+  const relationships = state.getIn(["records", recordType, "relationships", "data"], fromJS([]));
+
+  return includeDisabled
+    ? relationships
+    : relationships.filter(relationship => relationship.get("disabled", false) === false);
+};
+
+export const getRecordRelationshipsToSave = (state, recordType) => {
+  const relationships = state.getIn(["records", recordType, "relationships", "data"], fromJS([]));
+
+  return relationships.filter(relationship => relationship.get("changed", false) || !relationship.get("id"));
+};
+
+export const getRecordRelationship = (state, query) => {
+  const relationships = getRecordRelationships(state, query);
+
+  return relationships.find(relationship => relationship.get("case_id") === query.caseId);
+};
+
+export const getRecordRelationshipsLoading = (state, recordType = "cases") =>
+  state.getIn(["records", recordType, "relationships", "loading"], false);
+
+export const getRelatedRecord = (state, query = {}) => {
+  const { recordType, id, fromRelationship } = query;
+
+  if (fromRelationship) {
+    return getRecordRelationship(state, { recordType, caseId: id })?.get("data") || fromJS({});
+  }
+
+  const index = state
+    .getIn(["records", recordType, "related_records", "data"], fromJS([]))
+    .findIndex(r => r.get("id") === id);
+
+  if (index < 0) return fromJS({});
+
+  return state.getIn(["records", recordType, "related_records", "data", index], Map({}));
+};

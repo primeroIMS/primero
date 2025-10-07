@@ -5,4 +5,57 @@
 # Transform API query parameter loc:field_name=value into a sql query
 class SearchFilters::LocationValue < SearchFilters::Value
   include SearchFilters::Location
+
+  # rubocop:disable Metrics/MethodLength
+  def json_path_query
+    ActiveRecord::Base.sanitize_sql_for_conditions(
+      [
+        %(
+          (
+            data->>:field_name IS NOT NULL AND EXISTS
+            (
+              SELECT
+                1
+              FROM locations AS descendants
+              WHERE descendants.admin_level >= :admin_level
+              AND data->:field_name ? descendants.location_code
+              AND EXISTS (
+                SELECT 1 FROM locations
+                WHERE locations.admin_level >= :admin_level
+                AND locations.hierarchy_path @> descendants.hierarchy_path
+                AND locations.location_code = :value
+              )
+            )
+          )
+        ),
+        { field_name: record_field_name, value: value.to_s.upcase, admin_level: }
+      ]
+    )
+  end
+  # rubocop:enable Metrics/MethodLength
+
+  # rubocop:disable Metrics/MethodLength
+  def searchable_query(record_class)
+    ActiveRecord::Base.sanitize_sql_for_conditions(
+      [
+        %(
+          EXISTS (
+            SELECT
+              1
+            FROM locations AS descendants
+            WHERE descendants.admin_level >= :admin_level
+            AND #{filter_record_location(record_class)}
+            AND EXISTS (
+              SELECT 1 FROM locations
+              WHERE locations.admin_level >= :admin_level
+              AND locations.hierarchy_path @> descendants.hierarchy_path
+              AND locations.location_code = :value
+            )
+          )
+        ),
+        { value: value.to_s.upcase, admin_level: }
+      ]
+    )
+  end
+  # rubocop:enable Metrics/MethodLength
 end

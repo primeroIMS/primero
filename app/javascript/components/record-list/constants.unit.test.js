@@ -6,7 +6,7 @@ describe("<RecordList /> - constants", () => {
   const clone = { ...constants };
 
   it("should have known properties", () => {
-    expect(clone).to.be.an("object");
+    expect(typeof clone).toEqual("object");
     [
       "ALERTS",
       "ALERTS_COLUMNS",
@@ -18,12 +18,13 @@ describe("<RecordList /> - constants", () => {
       "SEARCH_AND_CREATE_WORKFLOW",
       "COMPLETE"
     ].forEach(property => {
-      expect(clone).to.have.property(property);
+      expect(clone).toHaveProperty(property);
       delete clone[property];
     });
 
-    expect("Deprecated RECORD_LIST_ACTIONS_NAME", clone).to.not.have.property("RECORD_LIST_ACTIONS_NAME");
+    // clone
+    expect("Deprecated RECORD_LIST_ACTIONS_NAME").not.toHaveProperty("RECORD_LIST_ACTIONS_NAME");
 
-    expect(clone).to.be.empty;
+    expect(Object.keys(clone)).toHaveLength(0);
   });
 });

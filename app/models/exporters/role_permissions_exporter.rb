@@ -10,9 +10,10 @@ require 'write_xlsx'
 # rubocop:disable Metrics/ClassLength
 class Exporters::RolePermissionsExporter
   CASE = %w[
-    referral transfer read create write enable_disable_record flag resolve_any_flag manage add_note reopen close
-    change_log view_incident_from_case view_protection_concerns_filter list_case_names view_registry_record
+    referral transfer read create write enable_disable_record flag resolve_any_flag flag_update manage add_note reopen
+    close change_log view_incident_from_case view_protection_concerns_filter list_case_names view_registry_record
     add_registry_record view_family_record case_from_family link_family_record remove_alert service_own_entries_only
+    create_case_from_referral view_case_relationships update_case_relationships access_log
   ].freeze
   CASE_EXPORTS = %w[
     export_list_view_csv export_csv export_xls export_photowall export_unhcr_csv export_pdf consent_override
@@ -21,7 +22,7 @@ class Exporters::RolePermissionsExporter
   CASE_APPROVALS = %w[
     request_approval_assessment request_approval_case_plan request_approval_closure request_approval_action_plan
     request_approval_gbv_closure approve_assessment approve_case_plan approve_closure approve_action_plan
-    approve_gbv_closure
+    approve_gbv_closure self_approve
   ].freeze
   CASE_MANAGED_OTHER_USERS = %w[
     search_owned_by_others display_view_page view_photo incident_from_case
@@ -171,7 +172,7 @@ class Exporters::RolePermissionsExporter
     permissions = @role_permissions_array.map do |p|
       permission_entry = permission_resource.nil? ? p[permission_group.resource] : p[permission_resource]
       has_action =
-        (permission_entry && permission_entry['actions'] && (permission_entry['actions'].include? action))
+        permission_entry && permission_entry['actions'] && (permission_entry['actions'].include? action)
       get_check has_action
     end
     permission_row = ['', I18n.t("permissions.permission.#{action}", locale: @locale)] + permissions
@@ -227,7 +228,7 @@ class Exporters::RolePermissionsExporter
   def add_format(col_count)
     @worksheet.set_column('A:A', 35, @workbook.add_format(bold: 1, text_wrap: 1))
     @worksheet.set_column('B:B', 50, @workbook.add_format(text_wrap: 1))
-    @worksheet.set_column(2, (col_count - 1), 32, @workbook.add_format(text_wrap: 1))
+    @worksheet.set_column(2, col_count - 1, 32, @workbook.add_format(text_wrap: 1))
   end
 
   def temp_file_name

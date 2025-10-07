@@ -6,7 +6,7 @@ describe("<AgenciesForm /> - Actions", () => {
   it("should have known properties", () => {
     const clonedActions = { ...actions };
 
-    expect(clonedActions).to.be.an("object");
+    expect(typeof clonedActions).toEqual("object");
     [
       "CLEAR_SELECTED_AGENCY",
       "FETCH_AGENCY",
@@ -20,10 +20,10 @@ describe("<AgenciesForm /> - Actions", () => {
       "SAVE_AGENCY_SUCCESS",
       "SAVE_AGENCY_FAILURE"
     ].forEach(property => {
-      expect(clonedActions).to.have.property(property);
+      expect(clonedActions).toHaveProperty(property);
       delete clonedActions[property];
     });
 
-    expect(clonedActions).to.be.empty;
+    expect(Object.keys(clonedActions)).toHaveLength(0);
   });
 });

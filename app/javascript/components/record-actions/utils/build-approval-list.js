@@ -24,7 +24,7 @@ export default ({
     requestedApprovals.includes(approval) && record.get(`approval_status_${approval}`) === APPROVAL_STATUS.pending;
 
   const mapFunction = ([name, ability]) => ({
-    name: approvalsLabels.get(name),
+    name: approvalsLabels.getIn([record?.get("module_id"), name], approvalsLabels.getIn(["default", name])),
     condition: ability,
     recordType: RECORD_TYPES.all,
     value: APPROVALS_TYPES[name]

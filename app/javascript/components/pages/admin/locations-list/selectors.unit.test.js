@@ -1,6 +1,5 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { expect } from "chai";
 import { fromJS } from "immutable";
 
 import * as selectors from "./selectors";
@@ -10,7 +9,7 @@ describe("pages/admin/locations-list", () => {
     it("should return true", () => {
       const state = fromJS({ records: { admin: { locations: { disableLocations: { loading: true } } } } });
 
-      expect(selectors.getDisableLocationsLoading(state)).to.be.true;
+      expect(selectors.getDisableLocationsLoading(state)).toBe(true);
     });
   });
 
@@ -18,7 +17,7 @@ describe("pages/admin/locations-list", () => {
     it("should return true", () => {
       const state = fromJS({ records: { admin: { locations: { disableLocations: { errors: true } } } } });
 
-      expect(selectors.getDisableLocationsErrors(state)).to.be.true;
+      expect(selectors.getDisableLocationsErrors(state)).toBe(true);
     });
   });
 });

@@ -5,7 +5,7 @@ import { fromJS } from "immutable";
 import disableOptionStringsText from "./disable-option-strings-text";
 
 describe("disableOptionStringsText", () => {
-  context("when is radio_button", () => {
+  describe("when is radio_button", () => {
     it("should return OptionStringsText with disabled options", () => {
       const selectedField = fromJS({
         guiding_questions: {},
@@ -187,11 +187,11 @@ describe("disableOptionStringsText", () => {
         }
       ];
 
-      expect(disableOptionStringsText(selectedField, fieldData, optionStringsText)).to.deep.equals(expected);
+      expect(disableOptionStringsText(selectedField, fieldData, optionStringsText)).toEqual(expected);
     });
   });
 
-  context("when is select_box", () => {
+  describe("when is select_box", () => {
     it("should return OptionStringsText with disabled options", () => {
       const selectedField = fromJS({
         guiding_questions: {},
@@ -315,7 +315,7 @@ describe("disableOptionStringsText", () => {
         }
       ];
 
-      expect(disableOptionStringsText(selectedField, fieldData, optionStringsText)).to.deep.equals(expected);
+      expect(disableOptionStringsText(selectedField, fieldData, optionStringsText)).toEqual(expected);
     });
   });
 });

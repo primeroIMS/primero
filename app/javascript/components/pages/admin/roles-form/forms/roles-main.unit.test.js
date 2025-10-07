@@ -10,7 +10,11 @@ describe("pages/admin/<RolesForm>/forms - RolesMainForm", () => {
   it("returns the roles form with fields", () => {
     const rolesMainForm = RolesMainForm(fromJS([]), i18n, fromJS({}));
 
-    expect(rolesMainForm.unique_id).to.be.equal("roles");
-    expect(rolesMainForm.fields).to.have.lengthOf(10);
+    expect(rolesMainForm.unique_id).toBe("roles");
+    expect(rolesMainForm.fields).toHaveLength(10);
+    expect(rolesMainForm.fields.filter(field => field.required).map(field => field.name)).toEqual([
+      "name",
+      "module_unique_ids"
+    ]);
   });
 });

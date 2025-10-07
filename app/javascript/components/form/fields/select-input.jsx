@@ -26,6 +26,7 @@ function SelectInput({ commonInputProps, metaInputProps, options: allOptions = [
   const { control, setValue, getValues } = formMethods;
   const {
     multiSelect,
+    additionalOptions = [],
     freeSolo,
     groupBy,
     tooltip,
@@ -59,7 +60,7 @@ function SelectInput({ commonInputProps, metaInputProps, options: allOptions = [
     return getValueFromOtherField(state, setOtherFieldValues, watchedInputValues);
   });
 
-  const options = allOptions.filter(
+  const options = [...allOptions, ...additionalOptions].filter(
     option =>
       !option?.disabled ||
       (option?.disabled && stickyOption && Array.isArray(stickyOption)

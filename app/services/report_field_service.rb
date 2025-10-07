@@ -28,8 +28,16 @@ class ReportFieldService
     report_field_hash.merge(report_field_options(field, pivot_name, record_type) || {})
   end
 
+  def self.user_groups_options
+    enabled_user_groups = UserGroup.enabled.pluck(:unique_id, :name).map { |id, display_text| { id:, display_text: } }
+
+    { option_labels: I18n.available_locales.to_h { |locale| [locale, enabled_user_groups] } }
+  end
+
   def self.report_option_strings_source(field)
     source_options = field.option_strings_source.split.first
+
+    return user_groups_options if source_options == 'UserGroup'
     return unless source_options == 'lookup'
 
     lookup = Lookup.find_by(unique_id: field.option_strings_source.split.last)

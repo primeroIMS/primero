@@ -8,24 +8,19 @@ describe("<Dashboard /> - index", () => {
   const indexValues = clone(index);
 
   it("should have known properties", () => {
-    expect(indexValues).to.be.an("object");
+    expect(typeof indexValues).toEqual("object");
     [
       "default",
       "namespace",
       "reducer",
       "selectFlags",
-      "selectCasesByStatus",
-      "selectCasesByCaseWorker",
-      "selectCasesRegistration",
-      "selectCasesOverview",
-      "selectServicesStatus",
       "selectIsOpenPageActions",
       "fetchDashboards",
       "DASHBOARD_NAMES"
     ].forEach(property => {
-      expect(indexValues).to.have.property(property);
+      expect(indexValues).toHaveProperty(property);
       delete indexValues[property];
     });
-    expect(indexValues).to.be.empty;
+    expect(Object.keys(indexValues)).toHaveLength(0);
   });
 });

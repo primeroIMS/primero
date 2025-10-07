@@ -8,7 +8,7 @@ import dashboardsCss from "../styles.css";
 import css from "./styles.css";
 import IndicatorItem from "./indicator-item";
 
-function IndicatorSection({ indicators, loading, errors, sumTitle, withTotal }) {
+function IndicatorSection({ titleHasModule, indicators, loading, errors, sumTitle, withTotal, highlights = [] }) {
   const loadingIndicatorProps = {
     overlay: true,
     hasData: indicators.size > 1,
@@ -32,7 +32,14 @@ function IndicatorSection({ indicators, loading, errors, sumTitle, withTotal }) 
         <div className={dashboardsCss.sectionTitle}>{titleFormSum}</div>
         <div className={css.overviewList}>
           {indicators.entrySeq().map(([key, value]) => (
-            <IndicatorItem item={key} key={key} count={value.get("count")} query={value.get("query")} />
+            <IndicatorItem
+              titleHasModule={titleHasModule}
+              item={key}
+              key={key}
+              count={value.get("count")}
+              query={value.get("query")}
+              highlight={highlights.includes(key)}
+            />
           ))}
         </div>
       </div>
@@ -44,11 +51,13 @@ IndicatorSection.displayName = "IndicatorSection";
 
 IndicatorSection.propTypes = {
   errors: PropTypes.bool,
+  highlights: PropTypes.array,
   indicators: PropTypes.object,
   items: PropTypes.object.isRequired,
   loading: PropTypes.bool,
   subItems: PropTypes.object,
   sumTitle: PropTypes.string,
+  titleHasModule: PropTypes.bool,
   withTotal: PropTypes.bool
 };
 

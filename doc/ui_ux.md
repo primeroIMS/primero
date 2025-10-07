@@ -160,10 +160,7 @@ const testFunc = async options => {
 | `npm run lint:test` | Run eslint on all unit test, This will not auto correct files. |
 
 ### Libs
-- [chai](https://www.chaijs.com/)
-- [chai-immutable](https://github.com/astorije/chai-immutable)
-- [mocha](https://mochajs.org/)
-- [sinon](https://sinonjs.org/)
+- [jest](https://mochajs.org/)
 - [require-hacker](https://github.com/catamphetamine/require-hacker)
 - [jsdom](https://github.com/jsdom/jsdom)
 - [react-test-renderer](https://reactjs.org/docs/test-renderer.html)

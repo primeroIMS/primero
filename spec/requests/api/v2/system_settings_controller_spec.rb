@@ -79,12 +79,14 @@ describe Api::V2::SystemSettingsController, type: :request do
       login_for_test
       get '/api/v2/system_settings'
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(19)
+      expect(json['data'].size).to eq(22)
       expect(json['data']['default_locale']).to eq('en')
       expect(json['data']['locale']).to eq('en')
       expect(json['data']['rtl_locales']).to contain_exactly('ar')
       expect(json['data']['primero_version']).to eq(@system_settings.primero_version)
       expect(json['data']['system_options']['maximum_users']).to eq(@system_settings.maximum_users)
+      expect(json['data']['exact_search_fields'].keys).to eq(%w[cases incidents tracing_requests registry_records families])
+      expect(json['data']['phonetic_search_fields'].keys).to eq(%w[cases incidents tracing_requests registry_records families])
       expect(
         json['data']['system_options']['maximum_attachments_per_record']
       ).to eq(@system_settings.maximum_attachments_per_record)
@@ -94,7 +96,7 @@ describe Api::V2::SystemSettingsController, type: :request do
       login_for_test
       get '/api/v2/system_settings?extended=true'
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(21)
+      expect(json['data'].size).to eq(24)
       expect(json['data']['agencies'][0]['name']['en']).to eq('Agency test')
       expect(json['data']['modules'].size).to eq(1)
       expect(json['data']['modules'][0]['name']).to eq('CP')

@@ -49,6 +49,7 @@ export const getCurrentUserGroupPermission = state => state.getIn([NAMESPACE, "r
 export const getCurrentUserGroupsUniqueIds = state => state.getIn([NAMESPACE, "userGroupUniqueIds"], fromJS([]));
 
 export const getAssignedAgency = state => state.getIn([NAMESPACE, "agencyId"], fromJS([]));
+export const getAssignedAgencyUniqueId = state => state.getIn([NAMESPACE, "agencyUniqueId"], fromJS([]));
 
 export const getCodeOfConductId = state => state.getIn([NAMESPACE, "codeOfConductId"], null);
 
@@ -64,3 +65,5 @@ export const getNotificationSubscription = state => state.getIn([NAMESPACE, "not
 export const getManagedReportScope = state => state.getIn([NAMESPACE, "managedReportScope"], null);
 
 export const getIsManagedReportScopeAll = state => getManagedReportScope(state) === MANAGED_REPORT_SCOPE.ALL;
+
+export const getCurrentUserModules = state => state.getIn([NAMESPACE, "modules"], fromJS([]));

@@ -740,14 +740,8 @@ pt-BR:
     shared_from_my_team_pending_transfers: Transferências Pendentes
     shared_from_my_team_referrals: Encaminhamentos
     shared_from_my_team_rejected_transfers: Transferências Rejeitadas
-    shared_with_me_new_referrals: Novos Encaminhamentos
-    shared_with_me_total_referrals: Total de Encaminhamentos
-    shared_with_me_transfers_awaiting_acceptance: Transferências Aguardando Aceite
     shared_with_my_team_pending_transfers: Transferências Pendentes
     shared_with_my_team_referrals: Encaminhamentos
-    shared_with_others_pending_transfers: Transferências Pendentes
-    shared_with_others_referrals: Encaminhamentos
-    shared_with_others_rejected_transfers: Transferências Rejeitadas
     status_of_cases: 'Status de Casos '
     system_user: 'Sistema '
     total: 'Total '
@@ -779,23 +773,13 @@ pt-BR:
   email_notification:
     assign: '%{user}atribuiu o seguinte %{record_type} a você: %{record_id}.'
     assign_subject: '%{record_type}: %{id} - Atribuído a você'
-    approval_request: 'O usuário %{user} está solicitando aprovação para %{approval_type} no caso %{case_id}.'
     approval_request_subject: 'Caso: %{id} - Solicitação de Aprovação '
-    approval_response: '%{user} tem %{status} a solicitação de aprovação para %{approval_type} para o caso %{case_id}.'
     approval_response_subject: 'Caso: %{id} - Resposta de Aprovação '
     referral: '%{user} da %{agency} encaminhou o seguinte %{record_type} para você: %{record_id} para %{service_type}.'
     transfer: '%{user} transferiu o seguinte %{record_type} para você: %{record_id}.'
     transfer_request_subject: 'Solicitação de Transferência para um de seus casos '
-    transfer_subject: '%{record_type}: %{id} - Transferir'
-    referral_subject: '%{record_type}: %{id}- Encaminhar'
     transfer_request: 'Usuário Primero %{user} da %{agency} está solicitando que você transfira a propriedade deste %{record_type} registro %{record_id} para que eles possam fornecer serviços de gerenciamento de %{record_type} para o indivíduo em sua área. Se esta transferência for aceitável para você, por favor clique no link da ID do %{record_type} neste email para abrir o %{record_type} no Primero e iniciar a transferência. '
     approval_request_html: 'O usuário <strong>%{user}</strong> está solicitando aprovação para <strong>%{approval_type}</strong> no caso <strong>%{case_id}</strong>.'
-    approval_response_html: '<strong>%{user}</strong> tem <strong>%{status}</strong> a solicitação de aprovação para <strong>%{approval_type}</strong> para o caso <strong>%{case_id}</strong>.'
-    referral_html: '<strong>%{user}</strong> da %{agency} encaminhou o seguinte %{record_type} para você: <strong>%{record_id}</strong> para %{service_type}.'
-    transfer_html: '<strong>%{user}</strong> transferiu o seguinte %{record_type} para você: <strong>%{record_id}</strong>.'
-    assign_html: '%{user}atribuiu o seguinte%{record_type} a você: %{record_id}.'
-    transfer_request_html: 'Usuário Primero <strong>%{user}</strong> da %{agency} está solicitando que você transfira a propriedade deste %{record_type} registro <strong>%{record_id}</strong> para que eles possam fornecer serviços de gerenciamento de %{record_type} para o indivíduo em sua área. Se esta transferência for aceitável para você, por favor clique no link da ID do %{record_type} neste email para abrir o %{record_type} no Primero e iniciar a transferência.'
-    transfer_request_notes_html: 'Notas do indivíduo fazendo a solicitação: %{request_transfer_notes}'
   encrypt:
     export_type: Tipo de exportação
     file_name: Crie seu próprio nome de arquivo (Opcional)
@@ -1599,7 +1583,6 @@ pt-BR:
       user: Usuário
       agency: Agência
       user_group: Grupo de Usuário
-      child: Criança
       alert: Alerta
       form_section: Formulário
       lookup: Pesquisa
@@ -2810,39 +2793,20 @@ pt-BR:
     welcome_email:
       subject: 'Bem-vindo ao %{system}!'
       greeting: 'Bem-vindo ao %{system}!'
-      body_native: 'Você foi adicionado como um %{role_name}. Por favor, contate %{admin_full_name} (%{admin_email}) para seguir as instruções para começar a trabalhar com %{host}.'
       sso:
         body: 'Você foi adicionado como um %{role_name}.'
-        step1: 'Vá para %{host} e clique em %{identity_provider}.'
-        step2: 'Entre com sua conta %{identity_provider} %{user_name}.'
-        step3: 'Use a mesma senha que você sempre usa para sua conta %{identity_provider}.'
-        footer: 'Por favor, entre em contato com %{admin_full_name} (%{admin_email}) para mais detalhes.'
       otp:
         body: 'Você foi adicionado como um %{role_name}.'
-        step1: 'Por favor, entre em contato com %{admin_full_name} (%{admin_email}) para receber seu nome de usuário.'
-        step2: 'Vá para %{host} e clique em "entrar com nome de usuário Primero.".'
-        step3: 'Entre com seu nome de usuário e a senha temporária %{otp}.'
-        step4: 'Quando solicitado, redefina sua senha.'
       url_label: Primero
       enabled_label: Enviar E-mail de Boas-vindas?
       text_label: Texto de E-mail de Boas-vindas
     password_reset:
-      email_greeting: "Querido(a) %{full_name}"
-      email_body1: "Alguém fez uma solicitação para definir sua senha para %{host_href}. Clique no url abaixo para começar:"
-      email_body2: "Este link irá expirar em %{hours} horas e só pode ser usado uma vez. Ignore este e-mail se você não fez uma solicitação de redefinição de senha ou um novo usuário Primero não foi registrado em seu nome. Se o link acima expirou, por favor clique em %{reset_request_href} para reenviar uma solicitação de redefinição de senha."
       email_body_link: aqui
       request_submitted: "Solicitação de redefinição de senha enviada"
       success: "Senha alterada com sucesso"
       errors:
         reset_password_token: "Token de redefinição de senha inválido"
         password_confirmation: "As senhas devem corresponder"
-    onboard_email:
-      subject: "Integração para %{system}"
-      greeting: "Querido(a) %{full_name},"
-      body1: "Bem-vindo ao Primero!"
-      body2: "Você foi designado como administrador de implementação para %{host_href}.%{reset_notification}"
-      body2_reset_notification: "Você receberá um e-mail adicional solicitando que você redefina sua senha."
-      body3: "Você é responsável por garantir uma implementação segura e oportuna. Para cada implementação, você deve ter concluído o Plano de Implementação com estratégia de integração e gerenciamento de usuários e protocolo de compartilhamento de informações. Você também é responsável por garantir que os Termos de Uso assinados estejam arquivados para todas as organizações de usuários."
   user_group:
     description: 'Descrição '
     disabled:

@@ -20,7 +20,7 @@ describe("<LocationsList /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle LOCATIONS_SUCCESS", () => {
@@ -36,7 +36,7 @@ describe("<LocationsList /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle LOCATIONS_FAILURE", () => {
@@ -51,7 +51,7 @@ describe("<LocationsList /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle LOCATIONS_FINISHED", () => {
@@ -66,7 +66,7 @@ describe("<LocationsList /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle DISABLE_LOCATIONS_FAILURE", () => {
@@ -76,7 +76,7 @@ describe("<LocationsList /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle DISABLE_LOCATIONS_FINISHED", () => {
@@ -86,7 +86,7 @@ describe("<LocationsList /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle DISABLE_LOCATIONS_STARTED", () => {
@@ -96,7 +96,7 @@ describe("<LocationsList /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle DISABLE_LOCATIONS_SUCCESS", () => {
@@ -106,7 +106,7 @@ describe("<LocationsList /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle CLEAR_METADATA", () => {
@@ -120,7 +120,7 @@ describe("<LocationsList /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SET_LOCATIONS_FILTER", () => {
@@ -135,6 +135,6 @@ describe("<LocationsList /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

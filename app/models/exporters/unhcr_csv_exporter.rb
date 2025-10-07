@@ -116,7 +116,7 @@ class Exporters::UNHCRCsvExporter < Exporters::ConfigurableExporter
     'name_of_child_last_first' => lambda do |params|
       return '' if params[:record].name.blank?
 
-      name_array = params[:record].name&.split(' ')
+      name_array = params[:record].name&.split
       name_array.size > 1 ? "#{name_array.last}, #{name_array[0..-2].join(' ')}" : params[:record].name
     end,
     'name_of_caregiver' => ['name_caregiver']

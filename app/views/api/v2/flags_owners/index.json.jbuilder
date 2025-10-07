@@ -7,3 +7,9 @@ json.data do
     json.partial! 'api/v2/flags/flag', flag:
   end
 end
+
+json.metadata do
+  json.total @total
+  json.per @per
+  json.page @page
+end

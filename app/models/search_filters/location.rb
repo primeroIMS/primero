@@ -6,38 +6,10 @@
 module SearchFilters::Location
   extend ActiveSupport::Concern
 
-  # rubocop:disable Metrics/MethodLength
-  def query
-    ActiveRecord::Base.sanitize_sql_for_conditions(
-      [
-        %(
-          (
-            data->>:field_name IS NOT NULL AND EXISTS
-            (
-              SELECT
-                1
-              FROM locations
-              INNER JOIN locations AS descendants
-              ON locations.admin_level <= descendants.admin_level
-                AND locations.hierarchy_path @> descendants.hierarchy_path
-              WHERE locations.location_code #{value_query} AND data->:field_name ? descendants.location_code
-              AND locations.admin_level >= :admin_level
-              AND descendants.admin_level >= :admin_level
-            )
-          )
-        ),
-        query_conditions
-      ]
-    )
-  end
-  # rubocop:enable Metrics/MethodLength
+  def filter_record_location(record_class)
+    return "#{safe_search_column} @> descendants.location_code" if array_field?(record_class)
 
-  def value_query
-    '= :value'
-  end
-
-  def query_conditions
-    { field_name: record_field_name, value: value.to_s.upcase, admin_level: }
+    "#{safe_search_column} = descendants.location_code"
   end
 
   def admin_level
@@ -48,5 +20,21 @@ module SearchFilters::Location
 
   def record_field_name
     Field.remove_location_parts(field_name)
+  end
+
+  def searchable_field_name
+    "srch_#{record_field_name}"
+  end
+
+  def searchable_field_name?(record_class)
+    return false unless record_class.present?
+
+    record_class.searchable_field_name?(record_field_name)
+  end
+
+  def array_field?(record_class)
+    return false unless record_class.present?
+
+    record_class.columns_hash["srch_#{record_field_name}"].array
   end
 end

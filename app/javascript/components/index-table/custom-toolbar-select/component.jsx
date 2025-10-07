@@ -8,6 +8,7 @@ import isEmpty from "lodash/isEmpty";
 import { useI18n } from "../../i18n";
 import { MAX_OFFLINE_ROWS_PER_PAGE, OFFLINE_ROWS_PER_PAGE_OPTIONS, ROWS_PER_PAGE_OPTIONS } from "../../../config";
 import { useApp } from "../../application";
+import useSystemStrings, { PAGE } from "../../application/use-system-strings";
 
 import css from "./styles.css";
 import { NAME } from "./constants";
@@ -27,6 +28,7 @@ function Component({
   totalRecords
 }) {
   const { online } = useApp();
+  const { label } = useSystemStrings(PAGE);
   const rowsPerPage = perPage > MAX_OFFLINE_ROWS_PER_PAGE && !online ? MAX_OFFLINE_ROWS_PER_PAGE : perPage;
   const dispatch = useDispatch();
   const i18n = useI18n();
@@ -34,13 +36,13 @@ function Component({
   const hasSelectedRows = !isEmpty(selectedRows?.data);
   const recordTypeLabel = Array.isArray(recordType) ? recordType.join(".") : recordType;
 
-  const selectedRecordsMessage = i18n.t(`${recordTypeLabel}.selected_records`, {
+  const selectedRecordsMessage = label(`${recordTypeLabel}.selected_records`, undefined, {
     select_records: allRecordsSelected ? totalRecords : selectedRows?.data?.length
   });
 
   const selectAllMessage = allRecordsSelected
     ? i18n.t("buttons.clear_selection")
-    : i18n.t(`${recordTypeLabel}.selected_all_records`, {
+    : label(`${recordTypeLabel}.selected_all_records`, undefined, {
         total_records: totalRecords
       });
 
@@ -75,13 +77,14 @@ function Component({
     );
   };
 
-  const onChangeRowsPerPage = ({ target }) =>
+  const onRowsPerPageChange = ({ target }) => {
     dispatch(
       fetchRecords({
         recordType,
         data: selectedFilters.set("page", 1).set("per", target.value)
       })
     );
+  };
 
   const handleLabelDisplayRow = ({ from, to, count }) => `${from}-${to} ${i18n.t("messages.record_list.of")} ${count}`;
 
@@ -94,7 +97,7 @@ function Component({
     component: "div",
     onPageChange,
     className: css.customToolbarPagination,
-    onChangeRowsPerPage,
+    onRowsPerPageChange,
     labelRowsPerPage: i18n.t("messages.record_list.rows_per_page"),
     labelDisplayedRows: handleLabelDisplayRow
   };

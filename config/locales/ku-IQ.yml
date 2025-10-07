@@ -676,7 +676,6 @@ ku-IQ:
     dash_shared_from_my_team: ژ لایێ تیما من ڤە هاتیە پشکدارکرن
     dash_shared_with_me: دگەل من پشکدارکریە
     dash_shared_with_my_team: دگەل تیما من هاتیە پشکدارکرن
-    dash_shared_with_my_team_overview: (دگەل تیما من هاتیە پشکدارکرن (ناڤەروک
     dash_shared_with_others: دگەل کەسانێن دی هاتیە پشکدارکرن
     dash_national_admin_summary: کورتیا ئیداری
     dash_violations_category_verification_status: سەرجەمێ رویدانان ل گورەی هەر بارەکێ پەسەندکرنێ
@@ -779,15 +778,8 @@ ku-IQ:
     shared_from_my_team_pending_transfers: ڤەگوهاستنێن هەلاویستی
     shared_from_my_team_referrals: رەوانەکرن
     shared_from_my_team_rejected_transfers: ڤەگوهاستنێن رەتکری
-    shared_with_me_new_referrals: ڤەگوهاستنێن نی
-    shared_with_me_total_referrals: سەرجەمێ رەوانەکرنا
-    shared_with_me_transfers_awaiting_acceptance: ڤەگوهاستنێن ل هیڤیا پەسەندکرنێ
-    shared_with_my_team_pending_transfers_overview: ڤەگوهاستنێن ل هیڤیا پەسەندکرنێ
     shared_with_my_team_pending_transfers: ڤەگوهاستنێن هەلاویستی
     shared_with_my_team_referrals: رەوانەکرن
-    shared_with_others_pending_transfers: ڤەگوهاستنێن هەلاویستی
-    shared_with_others_referrals: رەوانەکرن
-    shared_with_others_rejected_transfers: ڤەگوهاستنێن رەتکری
     status_of_cases: بارودوخێ کەیسی
     system_user: سیستەم
     total: سەرجەم
@@ -817,23 +809,13 @@ ku-IQ:
   email_notification:
     assign: 'هاتیە دەستنینشانکرن %{record_type} بو %{record_id} س %{user}'
     assign_subject: 'بوتە هاتیە دەستنیشانکرن %{id}  %{record_type} '
-    approval_request: 'بکارهێنەر %{user} یێ داخوازا پەسەندکرنێ دکەت بو %{approval_type} لسەر کەیسێ %{case_id}. '
     approval_request_subject: 'کەیس: %{id} - داخوازیا پسەندکرنێ'
-    approval_response: '%{user} داخوازی بو پەسەندکرنێ %{status} بو %{approval_type} لسەر کەیسێ %{case_id}. '
     approval_response_subject: 'کەیس: %{id} - وەلامدانا پەسەندکرنێ'
     referral: '%{user} ژ %{agency} ئەڤێن لخوارێ %{record_type} رەوانەکر بوتە: %{record_id} بو %{service_type}.'
     transfer: '%{user} %{record_type} ڤەگوهاست بوتە: %{record_id}'
     transfer_request_subject: داخوازیا ڤەگوهاستنێ بو ئێك ژ کەیسێن تە
-    transfer_subject: '%{record_type}: %{id} - ڤەگوهاستن'
-    referral_subject: '%{record_type}: %{id} - رەوانەکرن'
     transfer_request: 'بکارهێنەرێ پریمێرو %{user} ژ %{agency} یێ داخوازدکەت ببیتە خودانێ تومارا %{record_type}%{record_id}، ژبە هندی دا بشێت %{record_type} دابینکەت بو رێڤەبرنا خزمەتگوزاریان بو تاکەکەسی ل ناوچا وان. ئەگەر تو یێ رازی بی لسەر ڤێ ڤەگوهاستنێ، هیڤیە کلیك لسەر لینکێ ناسناما %{record_type}د ئیمەیلی دا بکە، بو ڤەکرنا %{record_type} د پریمێرو دا و دەستپێکرنا ڤەگوهاستنێ '
     approval_request_html: 'بکارهێنەر <strong>%{user}</strong> یێ داخوازا پەسەندکرنێ دکەت بو<strong>%{approval_type}</strong> لسەر کەسیێ <strong>%{case_id}</strong>'
-    approval_response_html: '<strong>%{user}</strong> داخوازیای پەسەندکرنێ <strong>%{status}</strong> کر بو <strong>%{approval_type}</strong> ژبو کەیسێ <strong>%{case_id}</strong>.'
-    referral_html: '<strong>%{user}</strong> ژ %{agency} ئەڤێن لخوارێ %{record_type} رەوانەکر بوتە: <strong>%{record_id}</strong>} بو %%{service_type}'
-    transfer_html: '<strong>%{user}</strong> %{record_type} ڤەگوهاستن بو تە: <strong>%{record_id}</strong>.'
-    assign_html: 'هاتیە دەستنیشانکرن بۆ ڤێ %{record_type} بو %{record_id} س %{user}'
-    transfer_request_html: 'بکارهێنەرێ پریمێرو <strong>%{user}</strong> ژ %{agency} یێ داخوازدکەت ببیتە خودانێ تومارا %{record_type} %{record_id}، ژبە هندی دا بشێت %{record_type} دابینکەت بو رێڤەبرنا خزمەتگوزاریان بو تاکەکەسی ل ناوچا وان. ئەگەر تو یێ رازی بی لسەر ڤێ ڤەگوهاستنێ، هیڤیە کلیك لسەر لینکێ ناسناما %{record_type}د ئیمەیلی دا بکە، بو ڤەکرنا %{record_type} د پریمێرو دا و دەستپێکرنا ڤەگوهاستنێ .'
-    transfer_request_notes_html: 'تێبینی ژ کەسێ داخوازی کری: %{request_transfer_notes}'
   encrypt:
     export_type: جورێ دەرخستنێ
     file_name: (چێکرنا ناڤێ فایلێن تە (ئارەزومەندانە)
@@ -1790,7 +1772,6 @@ ku-IQ:
       user: بکارهێنەر
       agency: ئاژانس
       user_group: گروپێ بکارهێنەری
-      child: زاروک
       alert: هووشداری
       form_section: فورم
       lookup: لێگەریان
@@ -3350,40 +3331,21 @@ ku-IQ:
     welcome_email:
       subject: '%{system} بخێربهێی بو '
       greeting: '%{system} بخێربهێی بو '
-      body_native: "تو هاتیە زێدەکرن وەک %{role_name}. هیڤیدارین پەیوەندیێ بکە %{admin_full_name} و %{admin_email} بو دیفچوونا رێنما بۆ دەستپێکرنا کاری دگەل \n%{host}"
       sso:
         body: '%{role_name} تو هاتیە زێدەکرن وەک '
-        step1: 'هەرە %{host} و %{identity_provider} کلیک کە'
-        step2: '%{user_name} چونا ژور  ب %{identity_provider}  هەژمارا خۆ '
-        step3: 'هەمان پاسووردی بکاربینە یێ تو هەردەم بو هەژمارێ %{identity_provider}بکاردئینی'
-        footer: 'هیڤیدارین پەیوەندیێ بکە %{admin_full_name} و %{admin_email} بو پتر پێزانینا'
       otp:
         body: '%{role_name} تو هاتیە زێدەکرن وەک '
-        step1: 'هیڤیدارین پەیوەندیێ بکە %{admin_full_name} و %{admin_email} بو ورگرتنا نافێ بکارهێنه رێ خۆ  '
-        step2: 'هەرە %{host} و چوونا ژور بنافێ بکارهێنه رێ پریمێرۆ کلیک کە'
-        step3: ' %{otp} چوونا ژور بنافێ بکارهێنه ری  و پاسووردی دەمکی'
-        step4: 'دەما دیاردبیت، پاسووردی نی کە'
       url_label: پریمێرۆ
       enabled_label: هنارتنا ئیمێلێ بخێرهاتنێ؟
       text_label: نڤیسینا ئیمێلێ بخێرهاتنێ
     password_reset:
       subject: 'رێنمایێن نیکرنا پاسووردی'
-      email_greeting: "%{full_name} بەرێز"
-      email_body1: "کەسەکی داخازیەک چێکر بو دروستکرنا پاسووردێ تە بو %{host_href}. یورلی کلیک ل خارێ داکو دەستپێ بکەی"
-      email_body2: "ئەڤ لینکە دێ ب سه ر ڤه چیت %{hours} دەمژمێرا و بتنێ جارەکێ دهێتە بکارئینان. هیڤیدارین ڤی ئیمێلی پشت گوهبهاڤێژە ئەگەر تە  داخازا نیکرنا پاسووردی نەکربیت یان ژی بکارهێنەرەکی نی یێ پریمێرۆی نەهاتە تومارکرن ل شینا تە. ئەگەر لینکێ سەری ئێکسپایر بوو، هیڤیدارین کلیکێ ل سەر %{reset_request_href} بو دوبارە داخازکرنا نیکرنا پاسووردی"
       email_body_link: 'لڤێرە '
       request_submitted: "داخازیا نیکرنا پاسووردی هاتە داخلکرن"
       success: "پاسوورد ب سەرکەفتیانە هاتیە گوهارتن"
       errors:
         reset_password_token: "رەمزێ دوبارە نیکرنا پاسووردی دروست نینە"
         password_confirmation: "پێدڤیە پاسوورد وەک ئێک بن"
-    onboard_email:
-      subject: "%{system} بەرهەڤکرن "
-      greeting: "%{full_name} بەرێز"
-      body1: "بخێر بێی بو پریمێرو"
-      body2: "%{reset_notification} تو هاتیە دەستنشانکرن وەک رێڤه به رێ جێبەجێکار بو %{host_href} و "
-      body2_reset_notification: "دێ ئیمێلەکێ دی وەرگری بو داخازکرنا نیکرنا پاسووردێ خو"
-      body3: "تو بەرپرسی ژ پشتراستکرنا ێمناهی و جێبەجێکرنا د وەخت دا. بو هەر کارەکی، پێدڤیە تە پلانا جێبەجێکرنا تمامکربیت دگەل رێڤه به رییا ستراتیژیا بکارهێنەری و پروتوکولێ پشکدارێ  پێزانینا. هەردیسا تو بەرپرسی ژ پشتراستکرنا مەرجێن بکارئینانێ یا ئیمزاکری یا بکارهێنەری ل سەر فایلی بو هەمی رێکخراوێ"
   user_group:
     associated_agencies: ئاژانسێن گرێدای ڤی گروپێ بکارهێنەری
     description: وەسفکرن

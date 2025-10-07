@@ -6,7 +6,7 @@ describe("<RevokeModal /> - transitions/components/revoke-modal/actions", () => 
   const clone = { ...actions };
 
   it("should have known properties", () => {
-    expect(clone).to.be.an("object");
+    expect(typeof clone).toEqual("object");
     [
       "REVOKE_TRANSITION",
       "REVOKE_TRANSITION_STARTED",
@@ -14,10 +14,10 @@ describe("<RevokeModal /> - transitions/components/revoke-modal/actions", () => 
       "REVOKE_TRANSITION_FINISHED",
       "REVOKE_TRANSITION_FAILURE"
     ].forEach(property => {
-      expect(clone).to.have.property(property);
+      expect(clone).toHaveProperty(property);
       delete clone[property];
     });
 
-    expect(clone).to.be.empty;
+    expect(Object.keys(clone)).toHaveLength(0);
   });
 });

@@ -3,6 +3,7 @@
 import isEmpty from "lodash/isEmpty";
 
 import {
+  ACCESS_LOGS,
   APPROVALS,
   CHANGE_LOGS,
   FAMILY_FROM_CASE,
@@ -17,7 +18,8 @@ import {
   SUMMARY,
   SUMMARY_INCIDENT_MRM,
   TRANSFERS_ASSIGNMENTS,
-  INCIDENT_TRANSFERS_ASSIGNMENTS
+  INCIDENT_TRANSFERS_ASSIGNMENTS,
+  CASE_RELATIONSHIPS
 } from "../../../../config";
 import generateKey from "../../../charts/table-values/utils";
 import { FormSectionRecord } from "../../records";
@@ -168,6 +170,20 @@ export default (locale, query) => {
       visible: true,
       parent_form: RECORD_TYPES.cases
     }),
+    [CASE_RELATIONSHIPS]: FormSectionRecord({
+      id: generateKey(),
+      unique_id: CASE_RELATIONSHIPS,
+      name: { [locale]: "forms.record_types.case_relationships" },
+      order: 4,
+      form_group_id: RECORD_INFORMATION_GROUP,
+      fields: [],
+      order_form_group: 1,
+      is_first_tab: true,
+      core_form: true,
+      i18nName: true,
+      visible: true,
+      parent_form: RECORD_TYPES.cases
+    }),
     [SUMMARY_INCIDENT_MRM]: FormSectionRecord({
       id: generateKey(),
       unique_id: SUMMARY_INCIDENT_MRM,
@@ -187,6 +203,18 @@ export default (locale, query) => {
       i18nName: true,
       i18nDescription: true,
       core_form: true,
+      visible: true
+    }),
+    [ACCESS_LOGS]: FormSectionRecord({
+      id: generateKey(),
+      unique_id: ACCESS_LOGS,
+      name: { [locale]: "access_log.label" },
+      order: 10,
+      form_group_id: RECORD_INFORMATION_GROUP,
+      order_form_group: 0,
+      is_first_tab: false,
+      core_form: true,
+      i18nName: true,
       visible: true
     })
   });

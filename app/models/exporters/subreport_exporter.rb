@@ -107,6 +107,7 @@ class Exporters::SubreportExporter < ValueObject
       managed_report:,
       locale:,
       workbook:,
+      include_zeros: managed_report.include_zeros,
       subcolumn_lookups: subcolumn_lookups[indicator_key],
       indicator_rows: metadata_property('indicators_rows')&.dig(indicator_key),
       indicator_subcolumns: indicators_subcolumns[indicator_key]

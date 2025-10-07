@@ -73,10 +73,17 @@
 .attachmentHeading {
   display: flex;
   align-items: center;
+  margin-bottom: var(--sp-2);
 
   & .attachmentLabel {
     flex: 1;
   }
+}
+
+.attachmentBtns {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
 }
 
 .attachment {

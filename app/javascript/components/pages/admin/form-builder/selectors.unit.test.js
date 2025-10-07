@@ -23,10 +23,10 @@ describe("<FormsBuilder /> - Selectors", () => {
       "getServerErrors",
       "getUpdatedFormIds"
     ].forEach(property => {
-      expect(clonedSelectors).to.have.property(property);
+      expect(clonedSelectors).toHaveProperty(property);
       delete clonedSelectors[property];
     });
-    expect(clonedSelectors).to.be.empty;
+    expect(Object.keys(clonedSelectors)).toHaveLength(0);
   });
 
   describe("getSavingRecord", () => {
@@ -41,7 +41,7 @@ describe("<FormsBuilder /> - Selectors", () => {
     });
 
     it("should return the correct value", () => {
-      expect(selectors.getSavingRecord(initialState)).to.be.true;
+      expect(selectors.getSavingRecord(initialState)).toBe(true);
     });
   });
 
@@ -52,7 +52,7 @@ describe("<FormsBuilder /> - Selectors", () => {
     });
 
     it("should return the correct value", () => {
-      expect(selectors.getSelectedForm(initialState)).to.deep.equal(selectedForm);
+      expect(selectors.getSelectedForm(initialState)).toEqual(selectedForm);
     });
   });
 
@@ -66,7 +66,7 @@ describe("<FormsBuilder /> - Selectors", () => {
     });
 
     it("should return the correct value", () => {
-      expect(selectors.getSelectedSubform(initialState)).to.deep.equal(selectedSubform);
+      expect(selectors.getSelectedSubform(initialState)).toEqual(selectedSubform);
     });
   });
 
@@ -81,7 +81,7 @@ describe("<FormsBuilder /> - Selectors", () => {
     });
 
     it("should return the correct value", () => {
-      expect(selectors.getSelectedSubforms(initialState)).to.deep.equal(subforms);
+      expect(selectors.getSelectedSubforms(initialState)).toEqual(subforms);
     });
   });
 
@@ -104,11 +104,11 @@ describe("<FormsBuilder /> - Selectors", () => {
     });
 
     it("should return the selected fields", () => {
-      expect(selectors.getSelectedFields(initialState)).to.deep.equal(selectedFields);
+      expect(selectors.getSelectedFields(initialState)).toEqual(selectedFields);
     });
 
     it("should return the selected fields for the selected subform", () => {
-      expect(selectors.getSelectedFields(initialState, true)).to.deep.equal(subformFields);
+      expect(selectors.getSelectedFields(initialState, true)).toEqual(subformFields);
     });
   });
 
@@ -120,7 +120,7 @@ describe("<FormsBuilder /> - Selectors", () => {
     });
 
     it("should return the selected field", () => {
-      expect(selectors.getSelectedField(initialState)).to.deep.equal(selectedField);
+      expect(selectors.getSelectedField(initialState)).toEqual(selectedField);
     });
   });
 
@@ -130,7 +130,7 @@ describe("<FormsBuilder /> - Selectors", () => {
     });
 
     it("should return the correct value", () => {
-      expect(selectors.getSavingRecord(initialState)).to.be.true;
+      expect(selectors.getSavingRecord(initialState)).toBe(true);
     });
   });
 
@@ -141,7 +141,7 @@ describe("<FormsBuilder /> - Selectors", () => {
     });
 
     it("should return the correct value", () => {
-      expect(selectors.getServerErrors(initialState)).to.deep.equal(serverErrors);
+      expect(selectors.getServerErrors(initialState)).toEqual(serverErrors);
     });
   });
 
@@ -152,7 +152,7 @@ describe("<FormsBuilder /> - Selectors", () => {
     });
 
     it("should return the correct value", () => {
-      expect(selectors.getUpdatedFormIds(initialState)).to.deep.equal(updatedFormIds);
+      expect(selectors.getUpdatedFormIds(initialState)).toEqual(updatedFormIds);
     });
   });
 
@@ -171,7 +171,7 @@ describe("<FormsBuilder /> - Selectors", () => {
     });
 
     it("should return the correct value", () => {
-      expect(selectors.getFormUniqueIds(initialState)).to.deep.equal(formUniqueIds);
+      expect(selectors.getFormUniqueIds(initialState)).toEqual(formUniqueIds);
     });
   });
 
@@ -192,7 +192,7 @@ describe("<FormsBuilder /> - Selectors", () => {
     });
 
     it("should return all the field names", () => {
-      expect(selectors.getFieldNames(initialState)).to.deep.equal(fieldNames);
+      expect(selectors.getFieldNames(initialState)).toEqual(fieldNames);
     });
   });
 
@@ -214,7 +214,7 @@ describe("<FormsBuilder /> - Selectors", () => {
     });
 
     it("should return the copied fields", () => {
-      expect(selectors.getCopiedFields(initialState)).to.deep.equal(copiedFields);
+      expect(selectors.getCopiedFields(initialState)).toEqual(copiedFields);
     });
   });
 
@@ -236,7 +236,7 @@ describe("<FormsBuilder /> - Selectors", () => {
     });
 
     it("should return the removed fields", () => {
-      expect(selectors.getRemovedFields(initialState)).to.deep.equal(removedFields);
+      expect(selectors.getRemovedFields(initialState)).toEqual(removedFields);
     });
   });
 });

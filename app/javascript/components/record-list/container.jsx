@@ -10,7 +10,7 @@ import qs from "qs";
 
 import IndexTable from "../index-table";
 import { useI18n } from "../i18n";
-import Filters, { getFiltersValuesByRecordType } from "../index-filters";
+import Filters from "../index-filters";
 import { useMemoizedSelector, useThemeHelper } from "../../libs";
 import { applyFilters } from "../index-filters/action-creators";
 import { clearCaseFromIncident } from "../records/action-creators";
@@ -19,9 +19,10 @@ import { removeBulkAssignMessages } from "../record-actions/bulk-transtions";
 import { clearPreviousRecord, setSelectedForm } from "../record-form/action-creators";
 import { enqueueSnackbar } from "../notifier";
 import { useMetadata } from "../records";
-import { useApp, getListHeaders } from "../application";
+import { useApp } from "../application";
 import { usePermissions, ACTIONS } from "../permissions";
 import PageContainer, { PageContent } from "../page";
+import useSystemStrings, { LIST_HEADER, PAGE } from "../application/use-system-strings";
 
 import { NAME, DEFAULT_FILTERS } from "./constants";
 import { buildTableColumns } from "./utils";
@@ -31,10 +32,13 @@ import css from "./styles.css";
 import ViewModal from "./view-modal";
 import SortContainer from "./components/sort-container";
 import FilterContainer from "./components/filter-container";
+import useRecordHeaders from "./use-record-headers";
 
 function Container({ match, location }) {
   const { mobileDisplay, tabletDisplay } = useThemeHelper();
   const i18n = useI18n();
+  const { label } = useSystemStrings(LIST_HEADER);
+  const { label: pageLabel } = useSystemStrings(PAGE);
   const currentQueryString = location.search.replace("?", "");
   const { online } = useApp();
   const { url } = match;
@@ -47,15 +51,10 @@ function Container({ match, location }) {
 
   const filtersQueryString = useMemoizedSelector(state => getAppliedFiltersAsQueryString(state, recordType));
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
-  const headers = useMemoizedSelector(state => getListHeaders(state, recordType));
-  const filters = useMemoizedSelector(state => getFiltersValuesByRecordType(state, recordType));
   const numberErrorsBulkAssign = useMemoizedSelector(state => getNumberErrorsBulkAssign(state, recordType));
   const numberRecordsBulkAssign = useMemoizedSelector(state => getNumberBulkAssign(state, recordType));
-
-  const { canViewModal, canSearchOthers } = usePermissions(recordType, {
-    canViewModal: [ACTIONS.DISPLAY_VIEW_PAGE],
-    canSearchOthers: [ACTIONS.SEARCH_OTHERS]
-  });
+  const { headers } = useRecordHeaders({ recordType });
+  const { canViewModal } = usePermissions(recordType, { canViewModal: [ACTIONS.DISPLAY_VIEW_PAGE] });
 
   const queryParams = useMemo(() => qs.parse(currentQueryString), [currentQueryString]);
 
@@ -111,13 +110,6 @@ function Container({ match, location }) {
     setOpenViewModal(false);
   }, []);
 
-  const listHeaders = useMemo(
-    () =>
-      // eslint-disable-next-line camelcase
-      filters.id_search && canSearchOthers ? headers.filter(header => header.id_search) : headers,
-    [filters.id_search, headers, canSearchOthers]
-  );
-
   const recordAvailable = useCallback(
     record => {
       const allowedToOpenRecord =
@@ -152,15 +144,15 @@ function Container({ match, location }) {
   const phonetic = useMemo(() => queryParams.phonetic === "true", [queryParams.phonetic]);
 
   const columns = useMemo(
-    () => buildTableColumns(listHeaders, i18n, recordType, css, recordAvailable, online, phonetic),
-    [online, listHeaders, recordType, phonetic]
+    () => buildTableColumns(headers, i18n, recordType, css, recordAvailable, online, phonetic, {}, label),
+    [online, headers, recordType, phonetic, label]
   );
 
   const handleSelectedRecords = useCallback(ids => {
     setSelectedRecords(ids);
   }, []);
 
-  const title = i18n.t(`${recordType}.label`);
+  const title = pageLabel(`${recordType}.label`);
 
   return (
     <>

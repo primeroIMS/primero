@@ -48,6 +48,8 @@ class Child < ApplicationRecord
   include PhoneticSearchable
   include ReportableLocation
   include SubformSummarizable
+  include Normalizeable
+  include AccessLoggable
 
   # rubocop:disable Naming/VariableNumber
   store_accessor(
@@ -71,7 +73,7 @@ class Child < ApplicationRecord
     :duplicate, :cp_case_plan_subform_case_plan_interventions, :has_case_plan,
     :family_member_id, :family_id_display, :family_number, :has_incidents, :assessment_due_dates,
     :case_plan_due_dates, :followup_due_dates, :reunification_details_section, :reunification_dates,
-    :tracing_actions_section, :tracing_dates
+    :tracing_actions_section, :tracing_dates, :case_type
   )
   # rubocop:enable Naming/VariableNumber
 
@@ -105,7 +107,7 @@ class Child < ApplicationRecord
     common_summary_fields + %w[
       case_id_display name survivor_code_no age sex registration_date
       hidden_name workflow case_status_reopened module_id registry_record_id
-      client_code gender reporting_location_hierarchy
+      client_code gender reporting_location_hierarchy location_current
     ]
   end
 
@@ -145,7 +147,7 @@ class Child < ApplicationRecord
 
       date(:date_closure)
       %w[consent_for_tracing].each do |f|
-        boolean(f) { data[f] == true || data[f] == 'true' }
+        boolean(f) { [true, 'true'].include?(data[f]) }
       end
     end
   end
@@ -162,6 +164,8 @@ class Child < ApplicationRecord
   before_save :calculate_followup_due_dates
   before_save :calculate_tracing_dates
   before_save :calculate_reunification_dates
+  before_save :save_searchable_fields
+  before_save :stamp_case_type
   before_create :hide_name
   after_save :save_incidents
 
@@ -214,6 +218,16 @@ class Child < ApplicationRecord
     [ReportableProtectionConcern, ReportableService, ReportableFollowUp]
   end
 
+  # The field names end with an `_int` suffix in case we need to index their string version.
+  def self.searchable_field_map
+    {
+      'closure_problems_severity' => { 'name' => 'srch_closure_problems_severity_int', 'type' => 'integer' },
+      'client_summary_worries_severity' => {
+        'name' => 'srch_client_summary_worries_severity_int', 'type' => 'integer'
+      }
+    }
+  end
+
   def validate_date_of_birth
     return unless date_of_birth.present? && (!date_of_birth.is_a?(Date) || date_of_birth.year > Date.today.year)
 
@@ -222,7 +236,7 @@ class Child < ApplicationRecord
 
   alias super_update_properties update_properties
   def update_properties(user, data)
-    build_or_update_incidents(user, (data.delete('incident_details') || []))
+    build_or_update_incidents(user, data.delete('incident_details') || [])
     self.registry_record_id = data.delete('registry_record_id') if data.key?('registry_record_id')
     self.mark_for_reopen = @incidents_to_save.present?
     update_associated_family(data)
@@ -313,7 +327,6 @@ class Child < ApplicationRecord
   end
 
   def calculate_assessment_due_dates
-    # TODO: Tests fail if I don't have a flat_map here
     self.assessment_due_dates = Tasks::AssessmentTask.from_case(self).map(&:due_date).compact
 
     assessment_due_dates
@@ -326,7 +339,7 @@ class Child < ApplicationRecord
   end
 
   def calculate_followup_due_dates
-    self.followup_due_dates = Tasks::FollowUpTask.from_case(self).map(&:due_date).compact
+    self.followup_due_dates = Tasks::FollowUpTask.from_case(self).map(&:due_date).compact.uniq
 
     followup_due_dates
   end
@@ -391,6 +404,10 @@ class Child < ApplicationRecord
     return unless family.present?
 
     self.family_number = family_number
+  end
+
+  def stamp_case_type
+    self.case_type = PrimeroModule.find_by(unique_id: module_id)&.case_type || PrimeroModule::DEFAULT_CASE_TYPE
   end
 end
 # rubocop:enable Metrics/ClassLength

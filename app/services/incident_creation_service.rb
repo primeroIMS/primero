@@ -42,7 +42,9 @@ class IncidentCreationService < ValueObject
 
   def copy_from_case(incident, case_record, module_id)
     field_mapping(module_id).each do |map|
-      incident.data[map['target']] ||= case_record.data[map['source']]
+      case_record_value = case_record.data[map['source']]
+
+      incident.data[map['target']] ||= case_record_value if case_record_value.present?
     end
     incident.module_id = map_to_module_id(module_id)
     incident.owned_by = case_record&.owned_by

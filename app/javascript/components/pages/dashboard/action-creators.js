@@ -4,9 +4,10 @@ import { RECORD_PATH } from "../../../config";
 import { DB_COLLECTIONS_NAMES } from "../../../db";
 
 import actions from "./actions";
+import { DASHBOARD_GROUP, DASHBOARD_NAMES_FOR_GROUP } from "./constants";
 
 export const fetchFlags = (recordType, activeOnly = false) => {
-  const commonPath = `record_type=${recordType}`;
+  const commonPath = `record_type=${recordType}&per=10`;
   const path = activeOnly
     ? `${RECORD_PATH.flags}?active_only=true&${commonPath}`
     : `${RECORD_PATH.flags}?${commonPath}`;
@@ -14,95 +15,10 @@ export const fetchFlags = (recordType, activeOnly = false) => {
   return {
     type: actions.DASHBOARD_FLAGS,
     api: {
-      path
-    }
-  };
-};
-
-export const fetchCasesByStatus = () => {
-  return {
-    type: actions.CASES_BY_STATUS,
-    payload: {
-      casesByStatus: {
-        open: "100",
-        closed: "100"
-      }
-    }
-  };
-};
-
-export const fetchCasesByCaseWorker = () => {
-  return {
-    type: actions.CASES_BY_CASE_WORKER,
-    payload: {
-      casesByCaseWorker: [
-        {
-          case_worker: "Case Worker 1",
-          assessment: "2",
-          case_plan: "1",
-          follow_up: "0",
-          services: "1"
-        },
-        {
-          case_worker: "Case Worker 2",
-          assessment: "2",
-          case_plan: "1",
-          follow_up: "0",
-          services: "1"
-        }
-      ]
-    }
-  };
-};
-
-export const fetchCasesRegistration = () => {
-  return {
-    type: actions.CASES_REGISTRATION,
-    payload: {
-      casesRegistration: {
-        jan: 150,
-        feb: 100,
-        mar: 50,
-        apr: 120,
-        may: 200,
-        jun: 100,
-        jul: 80,
-        aug: 50,
-        sep: 120
-      }
-    }
-  };
-};
-
-export const fetchCasesOverview = () => {
-  return {
-    type: actions.CASES_OVERVIEW,
-    payload: {
-      casesOverview: {
-        transfers: 4,
-        waiting: 1,
-        pending: 1,
-        rejected: 1
-      }
-    }
-  };
-};
-
-export const fetchServicesStatus = () => {
-  return {
-    type: actions.SERVICES_STATUS,
-    payload: {
-      services: {
-        caseManagement: [
-          { status: "in_progress", high: 4, medium: 0, low: 1 },
-          { status: "near_deadline", high: 1, medium: 0, low: 0 },
-          { status: "overdue", high: 1, medium: 0, low: 1 }
-        ],
-        screening: [
-          { status: "in_progress", high: 4, medium: 0, low: 1 },
-          { status: "near_deadline", high: 1, medium: 0, low: 0 },
-          { status: "overdue", high: 1, medium: 0, low: 1 }
-        ]
+      path,
+      db: {
+        collection: DB_COLLECTIONS_NAMES.DASHBOARDS,
+        group: DASHBOARD_GROUP.flags
       }
     }
   };
@@ -115,12 +31,34 @@ export const openPageActions = payload => {
   };
 };
 
-export const fetchDashboards = () => ({
-  type: actions.DASHBOARDS,
+export const fetchDashboards = ({ group }) => ({
+  type: actions[`DASHBOARD_${group.toUpperCase()}`],
   api: {
     path: RECORD_PATH.dashboards,
+    params: { names: DASHBOARD_NAMES_FOR_GROUP[group] },
     db: {
-      collection: DB_COLLECTIONS_NAMES.DASHBOARDS
+      collection: DB_COLLECTIONS_NAMES.DASHBOARDS,
+      group
+    }
+  }
+});
+
+export const fetchDashboardApprovals = primeroModules => ({
+  type: actions.DASHBOARD_APPROVALS,
+  api: {
+    path: RECORD_PATH.dashboards,
+    params: {
+      names: DASHBOARD_NAMES_FOR_GROUP.approvals.flatMap(approval =>
+        primeroModules.reduce((acc, primeroModule) => {
+          acc.push(`${approval}.${primeroModule}`);
+
+          return acc;
+        }, [])
+      )
+    },
+    db: {
+      collection: DB_COLLECTIONS_NAMES.DASHBOARDS,
+      group: DASHBOARD_GROUP.approvals
     }
   }
 });

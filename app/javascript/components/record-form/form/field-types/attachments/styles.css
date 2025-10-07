@@ -1,0 +1,17 @@
+.attachments {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+
+  > div {
+    padding: var(--sp-1);
+  }
+
+  > div:hover {
+    background: rgba(0, 0, 0, 0.04);
+  }
+
+  :where(& > :not(:last-child)) {
+    border-bottom: 1px solid var(--c-warm-grey-1);
+  }
+}

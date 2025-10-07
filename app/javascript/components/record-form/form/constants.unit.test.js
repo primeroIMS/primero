@@ -26,21 +26,21 @@ describe("Verifying config constant", () => {
       "VIOLATION_ASSOCIATIONS_SUBFORM",
       "ASYNC_OPTIONS"
     ].forEach(property => {
-      expect(constants).to.have.property(property);
+      expect(constants).toHaveProperty(property);
       delete constants[property];
     });
 
-    expect(constants).to.be.empty;
+    expect(Object.keys(constants)).toHaveLength(0);
   });
 
   it("should have known CUSTOM_STRINGS_SOURCE properties", () => {
     const constants = { ...formConstants.CUSTOM_STRINGS_SOURCE };
 
     ["agency", "location", "reportingLocation", "user"].forEach(property => {
-      expect(constants).to.have.property(property);
+      expect(constants).toHaveProperty(property);
       delete constants[property];
     });
 
-    expect(constants).to.be.empty;
+    expect(Object.keys(constants)).toHaveLength(0);
   });
 });

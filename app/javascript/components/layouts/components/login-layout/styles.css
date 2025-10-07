@@ -21,12 +21,12 @@
 }
 
 :global html, :global body {
-  height: var(--doc-height, 100vh);
+  height: 100dvh;
   height: 100dvh;
 }
 
 .primeroBackground {
-  height: var(--doc-height, 100vh);
+  height: 100dvh;
   overflow: auto;
   display: flex;
   flex-direction: column;

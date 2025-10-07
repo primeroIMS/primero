@@ -7,12 +7,13 @@ describe("<AddIncident /> - constants", () => {
     const clone = { ...constants };
 
     ["NAME", "INCIDENT_SUBFORM", "INCIDENTS_SUBFORM_NAME"].forEach(property => {
-      expect(clone).to.have.property(property);
+      expect(clone).toHaveProperty(property);
       delete clone[property];
     });
 
-    expect("Deprecated FIELDS_NAME", clone).to.not.have.property("FIELDS_NAME");
+    // clone
+    expect("Deprecated FIELDS_NAME").not.toHaveProperty("FIELDS_NAME");
 
-    expect(clone).to.be.empty;
+    expect(Object.keys(clone)).toHaveLength(0);
   });
 });

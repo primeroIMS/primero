@@ -9,16 +9,27 @@ import DoughnutChart from "../doughnut-chart";
 import css from "./styles.css";
 import IndicatorSection from "./indicator-section";
 
-function OverviewBox({ items, chartData, sumTitle, withTotal = true, loading, errors }) {
+function OverviewBox({
+  items,
+  chartData,
+  sumTitle,
+  withTotal = true,
+  loading,
+  errors,
+  highlights = [],
+  titleHasModule = false
+}) {
   const indicators = items.get("indicators", fromJS({}));
   const indicatorSection = (
     <>
       <IndicatorSection
+        titleHasModule={titleHasModule}
         indicators={indicators}
         loading={loading}
         errors={errors}
         sumTitle={sumTitle}
         withTotal={withTotal}
+        highlights={highlights}
       />
     </>
   );
@@ -48,9 +59,11 @@ OverviewBox.displayName = "OverviewBox";
 OverviewBox.propTypes = {
   chartData: PropTypes.object,
   errors: PropTypes.bool,
+  highlights: PropTypes.array,
   items: PropTypes.object.isRequired,
   loading: PropTypes.bool,
   sumTitle: PropTypes.string,
+  titleHasModule: PropTypes.bool,
   withTotal: PropTypes.bool
 };
 

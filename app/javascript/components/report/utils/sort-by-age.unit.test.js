@@ -9,14 +9,14 @@ describe("report/utils/sort-by-age.js", () => {
     const data = ["8", "5", "10"];
     const expected = ["5", "8", "10"];
 
-    expect(sortByAge(data)).to.deep.equals(expected);
+    expect(sortByAge(data)).toEqual(expected);
   });
 
   it("returns ordered array for an array of strings", () => {
     const data = ["Incomplete Data", "8", "5", "10"];
     const expected = ["5", "8", "10", "Incomplete Data"];
 
-    expect(sortByAge(data)).to.deep.equals(expected);
+    expect(sortByAge(data)).toEqual(expected);
   });
 
   it("returns ordered array for an array of arrays", () => {
@@ -33,6 +33,6 @@ describe("report/utils/sort-by-age.js", () => {
       ["Incomplete Data", { Total: 1 }]
     ];
 
-    expect(sortByAge(data, elem => first(elem))).to.deep.equals(expected);
+    expect(sortByAge(data, elem => first(elem))).toEqual(expected);
   });
 });

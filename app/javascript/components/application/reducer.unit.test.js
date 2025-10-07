@@ -33,7 +33,7 @@ describe("Application - Reducers", () => {
 
     const newState = reducer.application(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_SYSTEM_SETTINGS_SUCCESS", () => {
@@ -50,6 +50,9 @@ describe("Application - Reducers", () => {
       modules: [
         {
           unique_id: "primeromodule-cp",
+          creation_field_map: [],
+          field_labels: {},
+          age_ranges: null,
           approvals_labels: null,
           primary_age_range: null,
           field_map: [],
@@ -68,6 +71,9 @@ describe("Application - Reducers", () => {
         },
         {
           unique_id: "primeromodule-gbv",
+          creation_field_map: [],
+          field_labels: {},
+          age_ranges: null,
           approvals_labels: null,
           primary_age_range: null,
           field_map: [],
@@ -82,6 +88,7 @@ describe("Application - Reducers", () => {
         }
       ],
       defaultLocale: "en",
+      auditLog: undefined,
       baseLanguage: "en",
       primeroVersion: "2.0.0.1",
       reportingLocationConfig: {
@@ -90,6 +97,7 @@ describe("Application - Reducers", () => {
         admin_level_map: { 1: ["province"], 2: ["district"] },
         label_keys: ["district"]
       },
+      fieldLabels: {},
       incidentReportingLocationConfig: {
         admin_level: 2,
         field_key: "owned_by_location",
@@ -97,6 +105,8 @@ describe("Application - Reducers", () => {
         label_keys: ["district"]
       },
       primaryAgeRange: "primero",
+      exactSearchFields: { cases: ["long_id", "short_id", "case_id"] },
+      phoneticSearchFields: { cases: ["name", "name_other"] },
       ageRanges: {
         primero: ["0..5", "6..11", "12..17", "18..999"]
       },
@@ -148,6 +158,7 @@ describe("Application - Reducers", () => {
           modules: [
             {
               unique_id: "primeromodule-cp",
+              creation_field_map: [],
               field_map: [],
               name: "CP",
               associated_record_types: ["case", "tracing_request", "incident"],
@@ -164,6 +175,7 @@ describe("Application - Reducers", () => {
               approvals_labels: null,
               primary_age_range: null,
               name: "GBV",
+              creation_field_map: [],
               field_map: [],
               associated_record_types: ["case", "incident"],
               options: {
@@ -191,6 +203,8 @@ describe("Application - Reducers", () => {
           age_ranges: {
             primero: ["0..5", "6..11", "12..17", "18..999"]
           },
+          exact_search_fields: { cases: ["long_id", "short_id", "case_id"] },
+          phonetic_search_fields: { cases: ["name", "name_other"] },
           export_require_password: true,
           approvals_labels: {
             closure: {
@@ -226,7 +240,7 @@ describe("Application - Reducers", () => {
 
     const newState = reducer.application(defaultState, action);
 
-    expect(newState.toJS()).to.eql(expected.toJS());
+    expect(newState.toJS()).toEqual(expected.toJS());
   });
 
   it("should handle FETCH_SYSTEM_PERMISSIONS_SUCCESS", () => {
@@ -249,7 +263,7 @@ describe("Application - Reducers", () => {
 
     const newState = reducer.application(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_USER_GROUPS_FAILURE", () => {
@@ -262,7 +276,7 @@ describe("Application - Reducers", () => {
 
     const newState = reducer.application(defaultState, action);
 
-    expect(newState).to.eql(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_USER_GROUPS_FINISHED", () => {
@@ -275,7 +289,7 @@ describe("Application - Reducers", () => {
 
     const newState = reducer.application(defaultState, action);
 
-    expect(newState).to.eql(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_USER_GROUPS_STARTED", () => {
@@ -291,7 +305,7 @@ describe("Application - Reducers", () => {
 
     const newState = reducer.application(defaultState, action);
 
-    expect(newState).to.eql(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_USER_GROUPS_SUCCESS", () => {
@@ -310,7 +324,7 @@ describe("Application - Reducers", () => {
 
     const newState = reducer.application(defaultState, action);
 
-    expect(newState).to.eql(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_ROLES_FAILURE", () => {
@@ -323,7 +337,7 @@ describe("Application - Reducers", () => {
 
     const newState = reducer.application(defaultState, action);
 
-    expect(newState).to.eql(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_ROLES_FINISHED", () => {
@@ -336,7 +350,7 @@ describe("Application - Reducers", () => {
 
     const newState = reducer.application(defaultState, action);
 
-    expect(newState).to.eql(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_ROLES_SUCCESS", () => {
@@ -355,7 +369,7 @@ describe("Application - Reducers", () => {
 
     const newState = reducer.application(defaultState, action);
 
-    expect(newState).to.eql(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_ROLES_STARTED", () => {
@@ -371,7 +385,7 @@ describe("Application - Reducers", () => {
 
     const newState = reducer.application(defaultState, action);
 
-    expect(newState).to.eql(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle DISABLE_NAVIGATION", () => {
@@ -386,7 +400,7 @@ describe("Application - Reducers", () => {
 
     const newState = reducer.application(defaultState, action);
 
-    expect(newState).to.eql(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_SANDBOX_UI_SUCCESS", () => {
@@ -407,7 +421,7 @@ describe("Application - Reducers", () => {
 
     const newState = reducer.application(defaultState, action);
 
-    expect(newState).to.eql(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_REFERRAL_AUTHORIZATION_ROLES_STARTED", () => {
@@ -424,7 +438,7 @@ describe("Application - Reducers", () => {
 
     const newState = reducer.application(defaultState, action);
 
-    expect(newState).to.eql(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_REFERRAL_AUTHORIZATION_ROLES_SUCCESS", () => {
@@ -443,7 +457,7 @@ describe("Application - Reducers", () => {
 
     const newState = reducer.application(defaultState, action);
 
-    expect(newState).to.eql(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_REFERRAL_AUTHORIZATION_ROLES_FINISHED", () => {
@@ -455,7 +469,7 @@ describe("Application - Reducers", () => {
 
     const newState = reducer.application(defaultState, action);
 
-    expect(newState).to.eql(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_REFERRAL_AUTHORIZATION_ROLES_FAILURE", () => {
@@ -467,6 +481,6 @@ describe("Application - Reducers", () => {
 
     const newState = reducer.application(defaultState, action);
 
-    expect(newState).to.eql(expected);
+    expect(newState).toEqual(expected);
   });
 });

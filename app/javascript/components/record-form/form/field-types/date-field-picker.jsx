@@ -10,6 +10,7 @@ import { displayNameHelper } from "../../../../libs";
 import { LOCALE_KEYS } from "../../../../config";
 import NepaliCalendar from "../../../nepali-calendar-input";
 import DateProvider from "../../../../date-provider";
+import { dayOfWeekFormatter } from "../../../../libs/date-picker-localization";
 
 function DateFieldPicker({
   dateIncludeTime = false,
@@ -64,6 +65,7 @@ function DateFieldPicker({
       ...textInputProps,
       "data-testid": dateIncludeTime ? "date-time-picker" : "date-picker",
       helperText: helpText,
+      label,
       InputProps: {
         readOnly: textInputProps?.readOnly
       },
@@ -83,6 +85,7 @@ function DateFieldPicker({
         {...datePickerProps}
         slotProps={textFieldProps}
         label={label}
+        dayOfWeekFormatter={dayOfWeekFormatter(i18n)}
       />
     </DateProvider>
   );

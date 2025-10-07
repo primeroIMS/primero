@@ -5,10 +5,21 @@ import { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import { TextField } from "formik-mui";
-import { Box, Dialog, Button, DialogContent, DialogActions, DialogTitle, IconButton } from "@mui/material";
+import {
+  Box,
+  Dialog,
+  Button,
+  DialogContent,
+  DialogActions,
+  DialogTitle,
+  IconButton,
+  Drawer,
+  useMediaQuery
+} from "@mui/material";
 import { Formik, FastField, Form } from "formik";
 import CloseIcon from "@mui/icons-material/Close";
 import some from "lodash/some";
+import MenuIcon from "@mui/icons-material/Menu";
 
 import { useI18n } from "../../../../../i18n";
 import { DOCUMENT_FIELD_NAME } from "../../../constants";
@@ -22,9 +33,13 @@ import { MODULES } from "../../../../../../config";
 import { buildDocumentSchema } from "../../../validations";
 import AttachmentInput from "../attachment-input";
 import { ATTACHMENT_FIELDS, ATTACHMENT_FIELDS_INITIAL_VALUES } from "../constants";
+import downloadUrl from "../../../../../../libs/download-url";
 
-import DocumentRow from "./document-row";
-import DocumentDelete from "./document-delete";
+import DocumentRow from "./components/document-row";
+import DocumentDelete from "./components/document-delete";
+import viewerCss from "./styles.css";
+import FieldValue from "./components/field-value";
+import Content from "./components/content";
 
 function DocumentField({
   attachment,
@@ -40,10 +55,18 @@ function DocumentField({
 }) {
   const i18n = useI18n();
   const params = useParams();
+  const mobileDisplay = useMediaQuery(theme => theme.breakpoints.down("sm"));
 
   const [dialog, setDialog] = useState(false);
+  const [metaDrawerOpen, setMetaDrawerOpen] = useState(false);
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
-  const { attachment_url: attachmentUrl, id, _destroy: destroyed } = value;
+  const {
+    attachment_url: attachmentUrl,
+    id,
+    _destroy: destroyed,
+    file_name: fileName,
+    content_type: contentType
+  } = value;
   const primeroModule = arrayHelpers?.form?.values?.module_id || params.module;
   const isMRM = primeroModule === MODULES.MRM;
   const initialDocumentValues = value || ATTACHMENT_FIELDS_INITIAL_VALUES;
@@ -73,6 +96,8 @@ function DocumentField({
     setDialog(false);
   };
 
+  const handleOpenMetaDrawer = () => setMetaDrawerOpen(drawerOpen => !drawerOpen);
+
   const handleOpen = () => setDialog(true);
 
   const handleRemove = () => {
@@ -82,6 +107,10 @@ function DocumentField({
     if (dialog) {
       handleClose();
     }
+  };
+
+  const handleAttachmentDownload = async () => {
+    await downloadUrl(attachmentUrl, fileName);
   };
 
   const openDeleteConfirmation = () => setDeleteConfirmation(true);
@@ -110,104 +139,145 @@ function DocumentField({
   return (
     <>
       <DocumentRow handleOpen={handleOpen} document={value} handleDelete={openDeleteConfirmation} mode={mode} />
-      <Dialog open={open || dialog} onClose={handleClose} maxWidth="sm" fullWidth>
-        <Formik
-          initialValues={initialDocumentValues}
-          validationSchema={documentSchema}
-          validateOnBlur={false}
-          validateOnChange={false}
-          enableReinitialize
-          onSubmit={values => onSubmit(values)}
-        >
-          {({ handleSubmit, values }) => (
-            <Form data-testid="document-dialog-form" autoComplete="off" onSubmit={handleSubmit}>
-              <DialogTitle className={css.title}>
-                <div className={css.titleText}>{title}</div>
-                <div>
-                  <IconButton size="large" onClick={handleClose}>
-                    <CloseIcon />
-                  </IconButton>
-                </div>
-              </DialogTitle>
-              <DialogContent>
-                <div className={css.attachmentUploadField}>
-                  {attachmentUrl ? (
+      <Dialog open={open || dialog} onClose={handleClose} maxWidth="xl" fullWidth>
+        {attachmentUrl && mode.isShow ? (
+          <div className={viewerCss.container}>
+            <div className={viewerCss.title}>
+              {mobileDisplay && (
+                <ActionButton
+                  type={ACTION_BUTTON_TYPES.icon}
+                  icon={<MenuIcon />}
+                  isTransparent
+                  onClick={handleOpenMetaDrawer}
+                />
+              )}
+              <h3 className={viewerCss.titleText}>{fileName}</h3>
+              <ActionButton type={ACTION_BUTTON_TYPES.icon} icon={<CloseIcon />} isTransparent onClick={handleClose} />
+            </div>
+            <div className={viewerCss.viewerContainer}>
+              <div className={viewerCss.viewer}>
+                <Content
+                  attachmentUrl={attachmentUrl}
+                  contentType={contentType}
+                  fileName={fileName}
+                  mobileDisplay={mobileDisplay}
+                  handleAttachmentDownload={handleAttachmentDownload}
+                />
+              </div>
+              <Drawer
+                open={!mobileDisplay || metaDrawerOpen}
+                variant={mobileDisplay ? "temporary" : "persistent"}
+                anchor="right"
+                classes={{ paper: viewerCss.drawer, root: viewerCss.drawerRoot }}
+              >
+                {mobileDisplay && (
+                  <div className={viewerCss.drawerHeader}>
                     <ActionButton
-                      text="buttons.download"
-                      type={ACTION_BUTTON_TYPES.default}
+                      type={ACTION_BUTTON_TYPES.icon}
+                      icon={<CloseIcon />}
                       isTransparent
-                      rest={{
-                        variant: "outlined",
-                        component: "a",
-                        href: attachmentUrl
-                      }}
+                      onClick={handleOpenMetaDrawer}
                     />
-                  ) : (
+                  </div>
+                )}
+                <div className={viewerCss.drawerContent}>
+                  <FieldValue label={i18n.t("fields.document.content_type")} value={contentType} />
+                  <FieldValue label={i18n.t("fields.document.date")} value={value[ATTACHMENT_FIELDS.date]} />
+                  <FieldValue
+                    label={i18n.t("fields.document.is_current")}
+                    value={value[ATTACHMENT_FIELDS.isCurrent] ? i18n.t("yes_label") : null}
+                  />
+                  <FieldValue label={i18n.t("fields.document.comments")} value={value[ATTACHMENT_FIELDS.comments]} />
+                </div>
+              </Drawer>
+            </div>
+          </div>
+        ) : (
+          <Formik
+            initialValues={initialDocumentValues}
+            validationSchema={documentSchema}
+            validateOnBlur={false}
+            validateOnChange={false}
+            enableReinitialize
+            onSubmit={values => onSubmit(values)}
+          >
+            {({ handleSubmit, values }) => (
+              <Form data-testid="document-dialog-form" autoComplete="off" onSubmit={handleSubmit}>
+                <DialogTitle className={css.title}>
+                  <div className={css.titleText}>{title}</div>
+                  <div>
+                    <IconButton size="large" onClick={handleClose}>
+                      <CloseIcon />
+                    </IconButton>
+                  </div>
+                </DialogTitle>
+                <DialogContent>
+                  <div className={css.attachmentUploadField}>
                     <AttachmentInput
                       fields={ATTACHMENT_FIELDS}
                       attachment={attachment}
                       value={value.attachment}
                       name={name}
                     />
-                  )}
-                  {mode.isEdit && (values?.attachment || attachmentUrl) && (
-                    <DocumentDelete onClick={openDeleteConfirmation} />
-                  )}
-                </div>
+                    {mode.isEdit && (values?.attachment || attachmentUrl) && (
+                      <DocumentDelete onClick={openDeleteConfirmation} />
+                    )}
+                  </div>
 
-                {!isMRM && (
+                  {!isMRM && (
+                    <Box my={2}>
+                      <TickField
+                        {...supportingInputsProps}
+                        label={i18n.t("fields.document.is_current")}
+                        name={ATTACHMENT_FIELDS.isCurrent}
+                      />
+                    </Box>
+                  )}
+
                   <Box my={2}>
-                    <TickField
+                    <FastField
+                      component={TextField}
                       {...supportingInputsProps}
-                      label={i18n.t("fields.document.is_current")}
-                      name={ATTACHMENT_FIELDS.isCurrent}
+                      label={i18n.t("fields.document.name")}
+                      name={ATTACHMENT_FIELDS.description}
                     />
                   </Box>
-                )}
-
-                <Box my={2}>
-                  <FastField
-                    component={TextField}
-                    {...supportingInputsProps}
-                    label={i18n.t("fields.document.name")}
-                    name={ATTACHMENT_FIELDS.description}
-                  />
-                </Box>
-                <Box my={2}>
-                  <DateField
-                    {...supportingInputsProps}
-                    field={field}
-                    name={ATTACHMENT_FIELDS.date}
-                    label={i18n.t("fields.document.date")}
-                    mode={mode}
-                  />
-                </Box>
-                <Box my={2}>
-                  <FastField
-                    component={TextField}
-                    size="small"
-                    {...supportingInputsProps}
-                    multiline
-                    label={i18n.t("fields.document.comments")}
-                    name={ATTACHMENT_FIELDS.comments}
-                  />
-                </Box>
-              </DialogContent>
-              <DialogActions>
-                <Button
-                  id={dialogActionText}
-                  onClick={handleSubmit}
-                  type="button"
-                  color="primary"
-                  variant="contained"
-                  disableElevation
-                >
-                  {i18n.t(dialogActionText)}
-                </Button>
-              </DialogActions>
-            </Form>
-          )}
-        </Formik>
+                  <Box my={2}>
+                    <DateField
+                      {...supportingInputsProps}
+                      field={field}
+                      name={ATTACHMENT_FIELDS.date}
+                      label={i18n.t("fields.document.date")}
+                      mode={mode}
+                    />
+                  </Box>
+                  <Box my={2}>
+                    <FastField
+                      component={TextField}
+                      size="small"
+                      {...supportingInputsProps}
+                      multiline
+                      label={i18n.t("fields.document.comments")}
+                      name={ATTACHMENT_FIELDS.comments}
+                    />
+                  </Box>
+                </DialogContent>
+                <DialogActions>
+                  <Button
+                    id={dialogActionText}
+                    onClick={handleSubmit}
+                    type="button"
+                    color="primary"
+                    variant="contained"
+                    disableElevation
+                  >
+                    {i18n.t(dialogActionText)}
+                  </Button>
+                </DialogActions>
+              </Form>
+            )}
+          </Formik>
+        )}
       </Dialog>
       <ActionDialog
         open={deleteConfirmation}

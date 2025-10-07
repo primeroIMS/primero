@@ -1,6 +1,5 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import sinon from "sinon";
 import configureStore from "redux-mock-store";
 
 import * as actionCreators from "./action-creators";
@@ -9,15 +8,15 @@ describe("<TASKS /> - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionCreators };
 
-    expect(creators).to.have.property("fetchTasks");
+    expect(creators).toHaveProperty("fetchTasks");
     delete creators.fetchTasks;
 
-    expect(creators).to.deep.equal({});
+    expect(creators).toEqual({});
   });
 
   it("should check the 'fetchFlags' action creator to return the correct object", () => {
     const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
+    const dispatch = jest.spyOn(store, "dispatch");
 
     dispatch(actionCreators.fetchTasks());
   });

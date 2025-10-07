@@ -13,7 +13,7 @@ describe("<Report /> - utils", () => {
       const i18n = { t: key => (key === "report.total" ? "Total" : key) };
       const qtyRows = 1;
 
-      expect(getColumnData(column, data, i18n, qtyRows, [], { ageRanges: [] })).to.deep.equals([5, 5]);
+      expect(getColumnData(column, data, i18n, qtyRows, [], { ageRanges: [] })).toEqual([5, 5]);
     });
 
     it("returns 0 when the column is not present", () => {
@@ -25,7 +25,7 @@ describe("<Report /> - utils", () => {
       const i18n = { t: key => (key === "report.total" ? "Total" : key) };
       const qtyRows = 1;
 
-      expect(getColumnData(column, data, i18n, qtyRows, [], { ageRanges: [] })).to.deep.equals([0, 5]);
+      expect(getColumnData(column, data, i18n, qtyRows, [], { ageRanges: [] })).toEqual([0, 5]);
     });
 
     it("returns 0 when the column is 0", () => {
@@ -37,7 +37,7 @@ describe("<Report /> - utils", () => {
       const i18n = { t: key => (key === "report.total" ? "Total" : key) };
       const qtyRows = 1;
 
-      expect(getColumnData(column, data, i18n, qtyRows, [], { ageRanges: [] })).to.deep.equals([0, 0]);
+      expect(getColumnData(column, data, i18n, qtyRows, [], { ageRanges: [] })).toEqual([0, 0]);
     });
 
     it("returns data for two rows", () => {
@@ -84,7 +84,7 @@ describe("<Report /> - utils", () => {
       const i18n = { t: key => (key === "report.total" ? "Total" : key) };
       const qtyRows = 2;
 
-      expect(getColumnData(column, data, i18n, qtyRows, [], { ageRanges: [] })).to.deep.equals([0, 1, 1, 0]);
+      expect(getColumnData(column, data, i18n, qtyRows, [], { ageRanges: [] })).toEqual([0, 1, 1, 0]);
     });
   });
 });

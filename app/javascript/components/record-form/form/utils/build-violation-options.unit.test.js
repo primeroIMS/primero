@@ -6,7 +6,7 @@ describe("buildViolationOptions", () => {
   it("should return empty array when values is empty", () => {
     const result = buildViolationOptions({}, "", "", false, {}, "");
 
-    expect(result).to.deep.equal([]);
+    expect(result).toEqual([]);
   });
 
   it("render array of violation options when violation is true", () => {
@@ -41,7 +41,7 @@ describe("buildViolationOptions", () => {
       }
     ];
 
-    expect(result).to.deep.equal(expected);
+    expect(result).toEqual(expected);
   });
 
   it("render array of violation options when violation is true and uniqueId present", () => {
@@ -81,7 +81,7 @@ describe("buildViolationOptions", () => {
       }
     ];
 
-    expect(result).to.deep.equal(expected);
+    expect(result).toEqual(expected);
   });
 
   it("render array of violation options when violation is false", () => {
@@ -132,6 +132,6 @@ describe("buildViolationOptions", () => {
       }
     ];
 
-    expect(result).to.deep.equal(expected);
+    expect(result).toEqual(expected);
   });
 });

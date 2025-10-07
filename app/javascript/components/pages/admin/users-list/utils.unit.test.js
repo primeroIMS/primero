@@ -13,11 +13,11 @@ describe("<AuditLogs /> - Helpers", () => {
       const clone = { ...helper };
 
       ["agencyBodyRender", "buildObjectWithIds", "buildUsersQuery", "getFilters"].forEach(property => {
-        expect(clone).to.have.property(property);
-        expect(clone[property]).to.be.a("function");
+        expect(clone).toHaveProperty(property);
+        expect(clone[property]).toBeInstanceOf(Function);
         delete clone[property];
       });
-      expect(clone).to.be.empty;
+      expect(Object.keys(clone)).toHaveLength(0);
     });
   });
 
@@ -33,7 +33,7 @@ describe("<AuditLogs /> - Helpers", () => {
 
       const converted = helper.buildUsersQuery(data);
 
-      expect(converted).to.deep.equal(expected);
+      expect(converted).toEqual(expected);
     });
   });
 
@@ -74,14 +74,36 @@ describe("<AuditLogs /> - Helpers", () => {
           name: "cases.filter_by.user_group",
           options: [],
           type: FILTER_TYPES.MULTI_SELECT
-        }
+        } // ,
+        // {
+        // TODO: Add back once users.timestamp index is added
+        //   field_name: "last_date",
+        //   name: "cases.filter_by.by_date",
+        //   options: {
+        //     en: [
+        //       {
+        //         display_name: "users.filters.date_last_login",
+        //         id: "last_access"
+        //       },
+        //       {
+        //         display_name: "users.filters.date_last_case_view",
+        //         id: "last_case_viewed"
+        //       },
+        //       {
+        //         display_name: "users.filters.date_last_case_updated",
+        //         id: "last_case_updated"
+        //       }
+        //     ]
+        //   },
+        //   type: "dates"
+        // }
       ];
 
       const filterPermission = {
         agency: false
       };
 
-      expect(helper.getFilters(i18n, options, null, filterPermission)).to.deep.equal(expected);
+      expect(helper.getFilters(i18n, options, null, filterPermission)).toEqual(expected);
     });
   });
 });

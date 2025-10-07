@@ -3,16 +3,18 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Draggable } from "react-beautiful-dnd";
-import findKey from "lodash/findKey";
 import { cx } from "@emotion/css";
 
 import { useI18n } from "../../../../../i18n";
-import { MODULES, RECORD_PATH } from "../../../../../../config";
+import { RECORD_PATH } from "../../../../../../config";
 import css from "../../styles.css";
 import DragIndicator from "../drag-indicator";
 import LockedIcon from "../../../../../locked-icon";
+import { useMemoizedSelector } from "../../../../../../libs";
+import { selectModules } from "../../../../../application";
 
 function Component({ name, modules, parentForm, uniqueID, id, index, editable, isDragDisabled = false }) {
+  const primeroModules = useMemoizedSelector(state => selectModules(state));
   const i18n = useI18n();
 
   const nameStyles = cx({
@@ -20,7 +22,9 @@ function Component({ name, modules, parentForm, uniqueID, id, index, editable, i
     [css.protected]: !editable
   });
 
-  const formSectionModules = modules.map(module => findKey(MODULES, value => module === value))?.join(", ");
+  const formSectionModules = modules
+    .map(module => primeroModules.find(primeroModule => primeroModule.unique_id === module)?.name)
+    ?.join(", ");
 
   const renderIcon = !editable ? <LockedIcon /> : null;
 

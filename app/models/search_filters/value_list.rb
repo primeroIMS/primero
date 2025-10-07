@@ -2,20 +2,32 @@
 
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-# Transform API query parameter field_name=value1,value2,... into a Sunspot query
+# Transform API query parameter field_name=value1,value2,... into a sql query
 class SearchFilters::ValueList < SearchFilters::SearchFilter
   attr_accessor :values
 
-  def query
+  def json_path_query
     return unless values.present?
 
-    json_path_query
+    "#{safe_json_column} @? '#{json_field_query} ? (#{json_path_predicate})'"
   end
 
-  def json_path_value
+  def json_path_predicate
     values.map do |value|
       ActiveRecord::Base.sanitize_sql_for_conditions(['@ == %s', value])
     end.join(' || ')
+  end
+
+  def searchable_query(record_class)
+    return unless values.present?
+
+    ActiveRecord::Base.sanitize_sql_for_conditions([searchable_predicate(record_class), values])
+  end
+
+  def searchable_predicate(record_class)
+    return "#{safe_search_column} IS NOT NULL AND #{safe_search_column} IN (?)" unless array_field?(record_class)
+
+    "#{safe_search_column} IS NOT NULL AND #{safe_search_column} && array[?]"
   end
 
   def as_location_filter(record_class)
@@ -50,8 +62,6 @@ class SearchFilters::ValueList < SearchFilters::SearchFilter
   end
 
   def to_s
-    return "#{field_name}=#{values&.join(',')}" unless not_filter
-
-    "not[#{field_name}]=#{values&.join(',')}"
+    "#{field_name}=#{values&.join(',')}"
   end
 end

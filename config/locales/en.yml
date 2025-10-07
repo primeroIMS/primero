@@ -33,6 +33,7 @@ en:
   field_mode_on: "On"
   field_mode_off: "Off"
   unavailable_offline: Unavailable offline
+  already_linked: Record already linked
   online: Online
   yes_label: 'Yes'
   or_label: or,
@@ -124,6 +125,7 @@ en:
     record_owner: Record Owner
     timestamp: Time
     user_name: Performed By
+    type: Record Type
   bulk_export:
     file_name: File
     record_type: Type
@@ -159,6 +161,7 @@ en:
     close: Close
     continue: Continue
     create_case: Create Case
+    referral_create_case: Create %{module_id} Case
     create_incident: Create Incident
     create_new_record: Create New %{model}
     delete: Delete
@@ -244,6 +247,7 @@ en:
     details: Details
     select: Select
     deselect: Deselect
+    select_module: Module (Type of Case)
     enter_id_number: Enter the ID number to search for an existing record
     id_search_no_results: There is no match in the system for “%{search_query}”. Please
       create a new record.
@@ -431,20 +435,22 @@ en:
       protection_risks: Protection Risks
       record_state: Record State
       referred_cases: Cases referred to me
+      assigned_to_me: Cases assigned to me
       registration_date: Registration Date
       risk_level: Risk Level
       sex: Sex
       social_worker: Field/Case/Social Worker
-      sogiesc_self_identifying: Client identifies as part of the SOGIESC community?
+      marginalized_community_self_identifying: Client identifies as part of the SOGIESC community?
       status: Status
       transferred: Transferred
       type_of_risk: Type of Risk
       urgent_protection_concern: Urgent Protection Concern
       user_group: User Group
       workflow: Cases by Workflow
+      module_id: Module
       include_disabled: Include disabled
       safety_plan_needed: Is a safety plan needed for this case?
-      mhpss_suicidal_thoughts_last_month_most_recent: In the past month, have you had serious thoughts or plans to end your own life?
+      self_harm_thoughts: In the past month, have you had serious thoughts or plans to end your own life?
     flag_summary: Flag summary
     full_name: Full Name
     gbv_closure: GBV Closure
@@ -477,6 +483,8 @@ en:
     referral_done: Clicking 'Done' signifies that you have completed the referral
       work associated with this case. Once you click 'Done' you will no longer have
       access to this record.
+    referral_create_case_header: Create %{module_id} Case
+    referral_create_case: Are you sure? You will be responsible for managing the Case you create.
     referral_done_success: Referral done.
     referral_accepted_header: Accept Referral
     referral_accepted: Are you sure? You will now be responsible for completing work
@@ -568,6 +576,11 @@ en:
       access to this case record.
     view_name: View Name
     sort_by: Sort By
+  case_relationships:
+    search_for: Search For %{record_type}
+    add_new:
+      label: Add
+      disabled: Please save your Case. You may then edit it and link it to other Cases.
   change_logs:
     filters:
       form: Form
@@ -583,6 +596,9 @@ en:
     update_subform: 'Updated “%{subform_name}” subform'
     from: from
     to: to
+    no_more: End of Change Log
+  access_logs:
+    no_more: End of Access Log
   children:
     selectable_date_options:
       assessment_requested_on: Date of Assessment
@@ -595,6 +611,7 @@ en:
       date_reunification: Date of Reunification
       tracing_date: Date of Tracing
       service_implemented_day_time: Date Service Completed
+      reassigned_transferred_on: Date Assigned / Transferred On
   configurations:
     apply_label: Are you sure? If you apply, the settings in this configuration will be applied to the system.
       You will lose all your current settings and will not be able to get them back unless you have already saved
@@ -630,7 +647,7 @@ en:
       updated: Configuration was successfully updated.
       sent: Sending configuration to production. Please check the production site to see if your configuration has arrived.
     not_allowed: Not-allowed
-    unavailable_server: Server is temporarily unavailable.
+    unavailable_server: Server is temporarily unavailable. Please wait and the page will reload.
   contact:
     field:
       email: Email
@@ -897,6 +914,7 @@ en:
       other: '%{case_worker} has %{stat} total cases '
     workflow: Workflow
     workflow_team: Workflow - Teams cases
+    workflow_team_module: Workflow - Teams cases - %{module_name}
     you_have: 'You have '
   disabled:
     status:
@@ -907,22 +925,26 @@ en:
     assign_subject: '%{record_type}: %{id} - Assigned to you'
     approval_request: '%{user} is requesting a %{approval_type} approval on case (%{case_id}). Please log in your account to review.'
     approval_request_subject: 'Case: %{id} - Approval Request'
-    approval_response: '%{user} has %{status} your request for %{approval_type} approval on case (%{case_id}). Please log in to your account to review.'
+    approval_response: '%{user} has updated the status of your %{approval_type} approval request on Case (%{case_id}) to the following: %{status}. Please log in to your account to review.'
     approval_response_subject: 'Case: %{id} - Approval Response'
     referral: '%{user} from %{agency} has referred the following %{record_type} to you: %{record_id} for %{service_type}.'
     transfer: '%{user} has transferred the following %{record_type} to you: %{record_id}.'
     transfer_request_subject: Transfer request for one of your cases
-    transfer_subject: '%{record_type}: %{id} - Transfer Request'
+    transfer_subject: '%{record_type}: %{id} - Transfer'
     referral_subject: '%{record_type}: %{id} - Referral Request'
     transfer_request: 'Primero user %{user} from %{agency} is requesting that you transfer ownership of this %{record_type} record %{record_id} so that they can provide %{record_type} management services for the individual in their area. If this transfer is acceptable to you, please click on the %{record_type} ID link in this email to open the %{record_type} in Primero and initiate the transfer.'
     approval_request_html: 'The user <strong>%{user}</strong> is requesting approval for <strong> %{approval_type}</strong> on case <strong>%{case_id}</strong>.'
-    approval_response_html: '<strong>%{user}</strong> has <strong>%{status}</strong> the request for approval for <strong>%{approval_type}</strong> for case <strong>%{case_id}</strong>.'
-    referral_html: 'You have received a referral for %{record_type} (${record_id}) for  %{service_type} from %{user} from %{agency}. Please %{login_url} to your account to review.'
-    transfer_html: 'You have received a transfer for %{record_type} (${record_id}) from %{user} from %{agency}. Please %{login_url} into your account to review.'
-    assign_html: You have been assigned a new %{record_type} (${record_id}) from %{user}. Please %{login_url} to your account to review.
-    transfer_request_html: 'You have received a transfer request for %{record_type} ${record_id} from %{user} from %{agency}. The individual making the request has included a transfer note: %{request_transfer_notes}. If this transfer is acceptable to you, please log in to access Primero to initiate the transfer.'
+    approval_response_html: '<strong>%{user}</strong> has updated the status of your <strong>%{approval_type}</strong> approval request on Case (<strong>%{case_id}</strong>) to the following: <strong>%{status}</strong>. Please log in to your account to review.'
+    referral_html: 'You have received a referral for %{record_type} (%{record_id}) for  %{service_type} from %{user} from %{agency}. Please %{login_url} to your account to review.'
+    transfer_html: 'You have received a transfer for %{record_type} (%{record_id}) from %{user} from %{agency}. Please %{login_url} into your account to review.'
+    assign_html: You have been assigned a new %{record_type} (%{record_id}) from %{user}. Please %{login_url} to your account to review.
+    transfer_request_html: 'You have received a transfer request for %{record_type} %{record_id} from %{user} from %{agency}. The individual making the request has included a transfer note: %{request_transfer_notes}. If this transfer is acceptable to you, please log in to access Primero to initiate the transfer.'
     alert: '%{record_type} %{id} - %{form_name} has been updated. Please log in to Primero to review the changes.'
     alert_subject: '%{record_type}: %{id} - %{form_name} Updated'
+    maximum_attachments_space_subject: Reached attachment storage limit for %{system_name}
+    maximum_attachments_space_body: You are being contacted as the designated System Administrator for %{system_name}. The system has reached the maximum attachment storage capacity of %{maximum_attachments_space}. The users will not be able to upload any more documents. You may increase the system's storage capacity by upgrading your service through the Primero team.
+    maximum_attachments_space_warning_subject: Approaching attachment storage limit for %{system_name}
+    maximum_attachments_space_warning_body: You are being contacted as the designated System Administrator for %{system_name}. The system is approaching the maximum attachment storage capacity of %{maximum_attachments_space}. The users will not be able to upload any more documents once the limit is reached. You may increase the system's storage capacity by upgrading your service through the Primero team.
   webpush_notification:
     action_label: Go to Case
     approval_request:
@@ -973,6 +995,7 @@ en:
       internal_server: Server Error
     attachments:
       maximum: You have reached your maximum attachments per record.
+      file_upload_unsuccessful: File upload unsuccessful. The system has reached the document storage limit. Please contact your system administrator.
     error_loading: Error Loading Record(s)
     models:
       agency:
@@ -1026,6 +1049,12 @@ en:
         notification_url_format: notification_url must have URL format
         auth_present: Auth must not be blank
         p256dh_present: p256dh must not be blank
+      case_relationship:
+        relationship_type: Relationship type is not valid.
+        not_linked_to_self: A case cannot be linked to itself.
+      system_setting:
+        allocated_space_integer: Field must be Integer
+        allocated_space_warning_greater_than_hard_limit: Maximum allocated space warning greatr than Maximum allocated space
     not_found: No Record(s) Found
     try_again: Try again
   exports:
@@ -1279,6 +1308,7 @@ en:
       current: Is this the current document?
       date: Document Date
       name: Document Name
+      content_type: Document Content Type
       is_current: Is this the current document?
     document_upload_box: Document Upload
     edit_label: Edit Field
@@ -1407,6 +1437,8 @@ en:
     resolved: Resolved Flags
     resolved_date: 'Resolved:'
     resolved_reason: 'Resolve Reason:'
+    update_flag: Update Flags
+    flag_updated: Flag updated successfully
     title: Flags
   followup_reminders:
     system_generated_followup_flag: mandatory follow up visit
@@ -1449,6 +1481,7 @@ en:
       incident: Incident
       individual_victim: Individual Victim
       potential_match: Potential Match
+      case_relationships: Linked Cases
       record_information: Record Information
       referrals: Referrals
       reportable_follow_up: Follow Up
@@ -1520,7 +1553,9 @@ en:
     es-ES: Español (España)
     fr: Français
     hu: Magyar
+    hy: Armenian
     id: Bahasa
+    it: Italiano
     km: ភាសាខ្មែរ
     ku: کوردی
     ku-IQ: کوردی (بادینی)
@@ -1531,10 +1566,12 @@ en:
     ne: नेपाली
     om: Oromo
     am-ET: Amharic (Ethiopia)
+    ti: Tigrinya
     tr: Türkçe
     label: Home
     language: Language
     manage_system_users: Manage Server Synchronisation Users
+    mn: Mongolian
     my: ဗမာစာ
     pl: Polski
     pt: Português
@@ -1580,6 +1617,7 @@ en:
         attack_on_schools: Attacks on school(s)
         military_use: Military use of school(s) and/or hospital(s)
         denial_humanitarian_access: Denial of humanitarian access for children
+        deprivation_liberty: Deprivation of Liberty
   incidents:
     change_status: Change Status
     disable_dialog: Clicking OK will change the status of this incident to Disabled.
@@ -1902,51 +1940,116 @@ en:
       _rejected: Rejected
       _requested: Requested
       add_note: Add note
+      action_plan_approved: "%{approval_label} approved"
+      action_plan_requested: "%{approval_label} approval requested"
+      action_plan_rejected: "%{approval_label} rejected"
+      assessment_approved: "%{approval_label} approved"
+      assessment_rejected: "%{approval_label} rejected"
+      assessment_requested: "%{approval_label} approval requested"
       assign: Assign
-      assign_to: Assign to
-      attach: Attach
+      assign_to: List users for record assignment
+      attach: Add attachment
+      approve_form:
+        action_plan: Action Plan form
+        bia: BIA form
+        case_plan: Case Plan form
+        closure: Closure form
+        'false': Rejecting
+        gbv_closure: GBV Closure form
+        'true': Approving
       bulk_assign: Bulk assign
       bulk_create: Bulk create
       bulk_index: Bulk index
-      case_plan_approved: Case plan approved
-      case_plan_rejected: Case plan rejected
-      case_plan_requested: Case plan requested
+      by_user: by user
+      case_plan_approved: "%{approval_label} approved"
+      case_plan_rejected: "%{approval_label} approval requested"
+      case_plan_requested: "%{approval_label} rejected"
       close: Close
+      closure_approved: "%{approval_label} approved"
+      closure_rejected: "%{approval_label} rejected"
+      closure_requested: "%{approval_label} approval requested"
+      consent_count: Consent Count
+      copy: Copying
       create: Create
       create_bulk: Create bulk
+      create_family: Create Family
+      create_subform: Creating Subform
+      current: Current
       delete: Delete
       destroy: Destroy
-      detach: Detach
-      enable_disable_record: Enable disable record
+      detach: Remove attachment
+      edit: Edit
+      enable_disable_record: Enable / disable
       export: Export
+      failed_login: Failed Login
+      family: List Family
       flag: Flag
+      flag_records: Flagging
+      gbv_closure_approved: "%{approval_label} approved"
+      gbv_closure_requested: "%{approval_label} approval requested"
+      gbv_closure_rejected: "%{approval_label} rejected"
+      graph_data: Viewing graph data
+      hide_name:
+        protect: Hide Name
+        view: View Name
       import: Import
       incident_details_from_case: Incident details from case
-      index: Index
+      index: Listing Records
       list: List
       login: Login
+      logout: Logout
+      lookups_for_field: Lookups for field
+      mark_for_mobile:
+        'false': Un-Mark for mobile
+        'true': Mark for mobile
+      match_record: Matching Record
       password_reset: Password reset
       password_reset_request: Password reset request
+      permitted_field_list: Permitted field list
+      quick_view: Viewing Quick View
+      reassign: Assign
+      record_state:
+        'false': Disable
+        'true': Enable
       refer: Refer
-      refer_accepted: Refer accepted
-      refer_done: Refer done
-      refer_rejected: Refer rejected
-      refer_revoke: Refer revoke
-      refer_to: Refer to
+      referral: Refer
+      refer_accepted: Accept referral
+      refer_done: Mark referral as done
+      refer_rejected: Reject referral
+      refer_revoke: Revoke referral
+      refer_to: Search for Referral recipient
+      relinquish_referral: Relinquish referral Done
       reopen: Reopen
-      services_section_from_case: Services section from case
+      reopen_case: Reopening
+      request_approval:
+        action_plan: "%{approval_label} approval requested"
+        bia: "%{approval_label} approval requested"
+        case_plan: "%{approval_label} approval requested"
+        closure: "%{approval_label} approval requested"
+        gbv_closure: "%{approval_label} approval requested"
+      request_transfer: Sending Transfer Request
+      request_transfer_view: Viewing Request Transfer
+      save_subform: Saving Subform
+      search: API Search
+      services_section_from_case: Add service to case from list
       show: Show
       show_alerts: Show alerts
-      traces: Traces
+      traces: View traces
       transfer: Transfer
-      transfer_accepted: Transfer accepted
-      transfer_rejected: Transfer rejected
-      transfer_request: Transfer request
-      transfer_to: Transfer to
+      transfer_accepted: Accept transfer
+      transfer_rejected: Reject transfer
+      transfer_request: Request transfer
+      transfer_revoked: Revoke transfer
+      transfer_status:
+        Accepted: Accepted Transfer
+        Rejected: Rejected Transfer
+      transfer_to: List users for record transfer
       unflag: Unflag
       update: Update
+      update_bulk: Bulk Update
       user_password_reset_request: User password reset request
       webhook: Webhook
+    add_note: Add note
     approve_form:
       action_plan: Action Plan form
       bia: BIA form
@@ -1955,29 +2058,45 @@ en:
       'false': Rejecting
       gbv_closure: GBV Closure form
       'true': Approving
+    action_plan_approved: "%{approval_label} approved for"
+    action_plan_requested: "%{approval_label} requested for"
+    action_plan_rejected: "Action Plan rejected for"
     assessment_approved: "%{approval_label} approved for"
+    assessment_rejected: Reject Assessment approval
     assessment_requested: "%{approval_label} requested for"
+    assign_to: List users for record assignment
+    assign: Assign
+    attach: Add attachment
     bulk_index: List all
     by_user: by user
     case_plan_approved: "%{approval_label} approved for"
     case_plan_requested: "%{approval_label} requested for"
+    case_plan_rejected: Reject Case Plan approval
     close: Close
     closure_approved: "%{approval_label} approved for"
+    closure_rejected: Reject Closure approval
     closure_requested: "%{approval_label} requested for"
     consent_count: Consent Count
     copy: Copying
     create: Creating
     create_subform: Creating Subform
     destroy: Deleting
+    detach: Remove attachment
     edit: Editing
     enable_disable_record: Enable / disable
     export: Exporting data for
+    family: Family Record
     flag: Flagging
     flag_records: Flagging
+    gbv_closure_approved: "%{approval_label} approved for"
+    gbv_closure_requested: "%{approval_label} requested for"
+    gbv_closure_rejected: "GBV Closure rejected for"
     graph_data: Viewing graph data
     hide_name:
       protect: Hide Name
       view: View Name
+    import: Import
+    incident_details_from_case: Add Incident to Case from list view
     index: Listing Records
     list: List
     login: Login
@@ -1987,15 +2106,19 @@ en:
       'false': Un-Mark for mobile
       'true': Mark for mobile
     match_record: Matching Record
+    password_reset: Password reset
     permitted_field_list: Permitted field list
     quick_view: Viewing Quick View
     reassign: Assigning
     resources:
+      activity_log: Activity Log
       audit_log: Audit log
       user: User
+      family: Family
+      flag: Flag
       agency: Agency
       user_group: User group
-      child: Child
+      child: Case
       alert: Alert
       form_section: Form
       lookup: Lookup
@@ -2011,12 +2134,19 @@ en:
       primero_configuration: Primero configuration
       code_of_conduct: Code of conduct
       task: Task
+      tracing_request: Tracing Request
+      managed_report: Insights
     record_state:
       'false': Disabling
       'true': Enabling
     refer: Refer
+    refer_accepted: Refer accepted
     refer_to: Search for Referral recipient
     referral: Referring
+    refer_revoke: Revoke referral
+    refer_rejected: Reject referral
+    refer_accpeted: Accept referral
+    refer_done: Mark referral as done
     relinquish_referral: Relinquish referral Done
     reopen: Reopen
     reopen_case: Reopening
@@ -2032,12 +2162,19 @@ en:
     search: API Search
     show: Viewing
     show_alerts: View alerts for
+    timestamp: Timestamp
     to: to
     to_user: to user
+    traces: View traces
     transfer: Transfering
+    transfer_to: List users for record transfer
     transfer_status:
       Accepted: Accepted Transfer
       Rejected: Rejected Transfer
+    transfer_accepted: Accept transfer
+    transfer_rejected: Reject transfer
+    transfer_request: Request transfer
+    transfer_revoked: Revoke transfer
     unflag: Unflagging
     update: Updating
   login:
@@ -2079,6 +2216,7 @@ en:
     total: Total
     violations_total: Violations
     filter_by:
+      module_id: Module
       date: Date
       verification_status: Verification Status
       violation_type: Violation Type
@@ -2095,6 +2233,7 @@ en:
       location: Reporting Location
       followup_type: Type of Follow Up
       service_type: Type of Service
+      has_late_verified_violations: Late Verified?
     status_options:
       open: Open
       closed: Closed
@@ -2140,6 +2279,7 @@ en:
       name: Services
       description: Cases with the selected Service types, broken down by age and sex.
     services_report:
+      name: Services
       reports:
         services: Services
         description: Cases with the selected Service types, broken down by age and sex.
@@ -2151,6 +2291,7 @@ en:
       name: Follow Ups
       description: Cases with the selected Follow Up types, broken down by age and sex.
     followups_report:
+      name: Follow Ups
       filter_options:
         followup_date: Date of follow-up
       reports:
@@ -2173,6 +2314,7 @@ en:
       name: Reporting Location
       description: 'Cases with the selected Reporting Location, broken down by age and sex.'
     reporting_locations_report:
+      name: Reporting Location
       reports:
         reporting_locations: Reporting Location
         description: ''
@@ -2190,6 +2332,10 @@ en:
         late_verification: Late Verification - Victims
         unverified_information: Unverified Information - Victims
         verified_information_violations: Verified Information - Violations
+        verified_violations_by_perpetrator: Verified Information - Violations by Perpetrator
+        verified_violations_by_region: Verified Information - Violations by Region
+        unverified_violations_by_perpetrator: Unverified Information - Violations by Perpetrator
+        unverified_violations_by_region: Unverified Information - Violations by Region
         late_verification_violations: Late Verification - Violations
         unverified_information_violations: Unverified Information - Violations
         killing: Killing of Children
@@ -2209,6 +2355,7 @@ en:
         total: Total
         unknown: Unknown
         associated_violations: Associated Violations
+        deprivation_liberty: Deprivation of Liberty
     violations:
       name: Violations
       description: ''
@@ -2228,7 +2375,7 @@ en:
         attack_on_schools: Attacks on school(s)
         military_use: Military use of school(s) and/or hospital(s)
         denial_humanitarian_access: Denial of humanitarian access for children
-        detention: Detention
+        deprivation_liberty: Deprivation of Liberty
       sub_reports:
         children: Children
         combined: Violations
@@ -2278,29 +2425,32 @@ en:
       sub_reports:
         incidents: Incidents
         combined: General Statistics
-        total: 1. New GBV Incidents Reported
-        gbv_sexual_violence: Survivor Statistics - 9. Number of Incidents of Sexual Violence Reported
-        gbv_previous_incidents: 2. New Incidents of Sexual Violence Reported
-        gbv_sexual_violence_type: Incident Statistics - 10. Type of GBV
-        incident_timeofday: Incident Statistics - 11. Incident Time of Day
-        elapsed_reporting_time: Incident Statistics - 13. Time Between Incident and Report Date
-        elapsed_reporting_time_rape: Incident Statistics - 14. Incidents of Rape, Time Elapsed between Incident and Report Date
-        elapsed_reporting_time_rape_health_referral: Incident Statistics - 15. Incidents of Rape, Time Elapsed (Health Service or Referral)
-        incident_location_type: Incident Statistics - 16. Incident Location
-        number_of_perpetrators: Perpetrator Statistics - 17. Number of Primary Perpetrators
-        perpetrator_relationship: Perpetrator Statistics - 18. Alleged Perpetrator - Survivor Relationship
-        perpetrator_age_group: Perpetrator Statistics - 19. Alleged Primary Perpetrators Age Group
-        perpetrator_occupation: Perpetrator Statistics - 20. Alleged Primary Perpetrator Occupation
-        age: Survivor Statistics - 4. Age of survivors
-        sex: Survivor Statistics - 3. Sex of survivors
-        marital_status: Survivor Statistics - 5. Marital Status of Survivors
-        displacement_status: Survivor Statistics - 6. Displacement Status at Time of Report
-        displacement_incident: Survivor Statistics - 7. Stage of Displacement at Time of Incident
-        gbv_case_context: Incident Statistics - 12. Case Context
-        incidents_first_point_of_contact: Referral Statistics - 21. Number of incidents for which your organisation is the first point of contact
-        incidents_from_other_service_provider: Referral Statistics - 22. Incidents Referred From Other Service Providers
-        number_of_services_provided: Referral Statistics - 23. Number of Services Provided for Incidents
-        number_of_services_provided_other: Referral Statistics - 24. New Incident Referrals to Other Service Providers
+        total: New GBV Incidents Reported
+        gbv_sexual_violence: Survivor Statistics - Number of Incidents of Sexual Violence Reported
+        gbv_previous_incidents: Number of Incidents Reported by Survivors with Prior GBV Incidents
+        gbv_sexual_violence_type: Incident Statistics - Type of GBV
+        incident_timeofday: Incident Statistics - Incident Time of Day
+        elapsed_reporting_time: Incident Statistics - Time Between Incident and Report Date
+        elapsed_reporting_time_rape: Incident Statistics - Incidents of Rape, Time Elapsed between Incident and Report Date
+        elapsed_reporting_time_rape_health_referral: Incident Statistics - Incidents of Rape, Time Elapsed (Health Service or Referral Provided)
+        incident_location_type: Incident Statistics - Incident Location
+        number_of_perpetrators: Perpetrator Statistics - Number of Primary Perpetrators
+        perpetrator_relationship: Perpetrator Statistics - Alleged Perpetrator - Survivor Relationship
+        perpetrator_age_group: Perpetrator Statistics - Alleged Primary Perpetrators Age Group
+        perpetrator_occupation: Perpetrator Statistics - Alleged Primary Perpetrator Occupation
+        age: Survivor Statistics - Age of survivors
+        sex: Survivor Statistics - Sex of survivors
+        marital_status: Survivor Statistics - Marital Status of Survivors
+        displacement_status: Survivor Statistics - Displacement Status at Time of Report
+        displacement_incident: Survivor Statistics - Stage of Displacement at Time of Incident
+        gbv_case_context: Incident Statistics - Case Context
+        incidents_first_point_of_contact: Referral Statistics - Number of incidents for which your organisation is the first point of contact
+        incidents_from_other_service_provider: Referral Statistics - Incidents Referred From Other Service Providers
+        number_of_services_provided: Referral Statistics - Number of Services Provided for Incidents
+        number_of_services_provided_other: Referral Statistics - New Incident Referrals to Other Service Providers
+        vulnerable_populations: Survivor Statistics - Vulnerable Populations
+        survivors_disability_type: With Disabilities
+      services_provided:
         service_safehouse_referral: Safe House/Safe Shelter Referral
         service_medical_referral: Health/Medical Referral
         service_psycho_referral: Psychosocial/Counseling Services
@@ -2308,8 +2458,25 @@ en:
         service_police_referral: Police or Other Type of Security Services
         service_livelihoods_referral: Livelihoods Services
         service_protection_referral: Child Protection Services
-        vulnerable_populations: Survivor Statistics - 8. Vulnerable Populations
-        survivors_disability_type: With Disabilities
+      survivors_age:
+        age_0_11: 0-11 Yrs Old
+        age_12_17: 12-17 Yrs Old
+        age_10_19: Adolescent (10-19)
+        age_50_more: Elderly (50 & Older)
+        children_17_younger: Children - 17 Yrs & Younger
+        adults_18_older: Adults - 18 Yrs & Older
+      header_title:
+        sex: Sex of survivors
+        age: Age of survivors
+        marital_status: Marital Status
+        displacement_status: Displacement Status at time of report
+        displacement_incident: Stage of displacement at time of incident
+        gbv_sexual_violence_type: Type of incident violence
+        incident_timeofday: Time of day that the incident took place
+        incident_location_type: Type of place where the incident took place
+        perpetrator_relationship: Alleged perpetrator relationship with survivor
+        perpetrator_age_group: Age group of alleged perpetrator
+        perpetrator_occupation: Main occupation of alleged perpetrator
     workflow_report:
       name: Workflow
       description: Cases and Incidents with the selected Workflow Status, broken down by age and sex.
@@ -2353,6 +2520,126 @@ en:
         case_violence_type_by_sex_and_age: Total Number of Cases by Sex and Age
         incident_violence_type_by_sex_and_age: Total Number of Incidents by Sex and Age
     success_message: Successfully generated the export file
+    protection_outcomes:
+      reports:
+        improved_psychosocial_wellbeing: '% demonstrating improved psychosocial wellbeing'
+        impacted_protection_risks: '% less impacted by protection risks'
+      description: 'Key outcomes including clients with improved psychosocial wellbeing and clients less impacted by risks after case management'
+      name: Protection Outcome
+      filter_options:
+        registration_date: Registration Date
+        date_closure: Date of Closure
+      sub_reports:
+        improved_wellbeing_after_support: '% of clients with improved psychosocial wellbeing'
+        less_impacted_after_support: '% less impacted by protection risks'
+      improved_wellbeing_after_support:
+        improve_by_at_least_3_points: 'Improved by at least 3 points'
+        not_improve_by_at_least_3_points: 'Did not improve by at least 3 points'
+      less_impacted_after_support:
+        clients_report_less_impacted: 'Reported being less impacted'
+        clients_report_equally_or_more_severely_impacted: 'Reported being equally or more severely impacted'
+    process_quality_total_cases:
+      reports:
+        process_quality_total_cases: 'Total protection case management clients'
+      description: Total number of cases broken down by case status, gender, and timeframe.
+      name: 'Process and Quality - # of total protection case management clients'
+      filter_options:
+        registration_date: Registration Date
+        date_closure: Date of Closure
+      sub_reports:
+        total_protection_management_cases: '# of total protection case management clients'
+    process_quality_average_cases:
+      reports:
+        process_quality_average_cases: 'Cases per case worker'
+      description: Number of cases per case worker, broken down by gender and timeframe.
+      name: 'Process and Quality - Average # of cases per case worker'
+      filter_options:
+        registration_date: Registration Date
+        date_closure: Date of Closure
+      sub_reports:
+        average_cases_per_case_worker: 'Average # of cases per case worker'
+      average_cases_per_case_worker: 'Average # of cases per case worker'
+    process_quality_successful_referrals:
+      reports:
+        process_quality_successful_referrals: Successful referrals
+      description: Percentage of service referrals which are successful and non-successful, within gender and timeframe cohorts
+      name: 'Process and Quality - % of successful referrals'
+      filter_options:
+        referral_created_at: Date Service Referred
+        service_response_day_time: Date Service Created
+        case_status: Case Status
+      sub_reports:
+        percentage_successful_referrals: '% of successful referrals'
+      implemented: 'Successful'
+      not_implemented: 'Non-Successful'
+    process_quality_implemented_referrals:
+      reports:
+        process_quality_implemented_referrals: 'Successful referrals by date implemented'
+      description: Successful service referrals brokend own by date implemented, gender, and timeframe
+      name: Process and Quality - Successful referrals by date implemented
+      filter_options:
+        case_status: Case Status
+        service_implemented_day_time: Service Implemented On
+      sub_reports:
+        implemented_successful_referrals: Successful referrals by date implemented
+      implemented: Succesful referrals
+    case_characteristics:
+      reports:
+        case_protection_risk: Cases by protection risk
+        case_risk_level: Cases by risk level
+        case_duration: Cases by duration
+        clients_disability: Clients with a disability
+        case_safety_plan: Cases with a safety plan
+        clients_gender: Cases by gender
+      description: 'Key case characteristics, including % of cases by risk level, protection risks, case management duration, disability status, safety plan completion, and gender.'
+      name: Case Characteristics
+      filter_options:
+        registration_date: Registration Date
+        date_closure: Date of Closure
+      sub_reports:
+        percentage_cases_protection_risk: '% of cases by protection risk'
+        percentage_cases_risk_level: '% of cases by risk level'
+        percentage_cases_duration: '% of cases by duration'
+        percentage_clients_with_disability: '% of clients that have a disability'
+        percentage_cases_safety_plan: '% of cases with a finalized safety plan'
+        percentage_clients_gender: '% clients by gender'
+      percentage_cases_duration:
+        1_month: <1 month
+        1_3_months: 1-3 months
+        3_6_months: 3-6 months
+        over_6_months: over 6 months
+      percentage_cases_safety_plan:
+        safety_plan_completed: 'Safety Plan completed'
+        safety_plan_not_completed: 'Safety Plan not completed'
+  usage_report:
+    label: Export Usage Report
+    file_name: Create your own file name (Optional)
+    instructions: 'To generate your quarterly reports click "Export"'
+    invalid_date_format: '%{field} must be a valid date'
+    invalid_date_range: '%{to} must be greater than %{from}'
+    export:
+      users: Users
+      hostname: Hostname
+      start_date: Start Date
+      end_date: End Date
+      quarter: Quarter
+      agencies_total: Total Number of Agencies
+      module_yes: 'Yes'
+      module_no: 'No'
+      agency_list: Agency List
+      users_total: Total Users
+      users_active: Active Users
+      users_disabled: Disabled Users
+      users_new: New Users in this quarter
+      cases_total: Total Cases
+      cases_open: Open Cases
+      cases_closed: Closed Cases
+      cases_open_this_quarter: Open this Quarter
+      cases_closed_this_quarter: Closed this Quarter
+      services_total: Total Services
+      followups_total: Total Followups
+      incidents_total: Total Incidents
+      incidents_open_this_quarter: Incidents this quarter
   messages:
     alert_items: You have %{items} items of note.
     alerts_for:
@@ -2396,8 +2683,11 @@ en:
       title: Enter a name to search for an existing record.
       label: Use Name Fields
       help_text: Phonetic search is available for Name fields
+      tooltip_label: 'Phonetic search is available for the following name fields:'
     id_search:
       title: Enter the ID number to search for an existing record.
+      help_text: Exact search is available for ID fields
+      tooltip_label: 'Exact search is available for the following ID fields:'
     settings: Settings
     support: Support
     support_menu:
@@ -2546,6 +2836,7 @@ en:
       transfer: Can be used for transfer
       user: Users
       user_group: User Groups
+      usage_report: Usage Report
       verify_mrm: Verify MRM
       view_approvals: View Approvals
       view_assessment: View Assessment
@@ -2558,6 +2849,7 @@ en:
       write: Write
       activity_log: Activity Log
       remove_alert: Remove Alert
+      create_case_from_referral: Create a case from a referral
     resource:
       kpi:
         actions:
@@ -2708,6 +3000,10 @@ en:
             explanation: Allows a manager to approve the %{approval_label} for their
               case workers' cases.
             label: Approve %{approval_label} form
+          self_approve:
+            explanation: By default, users cannot approve their own Cases. With this permission,
+              a user can approve any case to which they have access, even if they are the record owner.
+            label: Approve my own Cases
           assign:
             explanation: Allows a user to send a case from its original record owner
               to any other user in the system. No child consent is needed for this
@@ -2726,10 +3022,17 @@ en:
               is needed for this action. Unlike with transfers, the recipient is not
               given the chance to accept or reject the assignment.
             label: Assign to user within my user group
+          create_case_from_referral:
+            label: Create a case from a referral
+            explanation: User can create a case from a referral
           change_log:
             explanation: User can see a history of all changes made to the record
               since it was created. This includes values recorded for all fields.
             label: Change Log
+          access_log:
+            explanation: User can see a history of all access by users who are not
+              the current record owner (views and updates) since the record was created.
+            label: Access Log
           close:
             explanation: Allows a user to set the status of an open case to closed.
             label: Close
@@ -2840,6 +3143,9 @@ en:
           resolve_any_flag:
             explanation: Allows the user to resolve any Flag on the record, regardless of who created the Flag.
             label: Resolve any Flag
+          flag_update:
+            explanation: Allows the user to update any Flag on the record, regardless of who created the Flag.
+            label: Update Flag
           import:
             explanation: Allows the user to create one or more new cases by importing
               them from a CSV, Excel, or JSON file. The imported file must be formatted
@@ -3067,6 +3373,12 @@ en:
             explanation: Allows a user to search for and link an existing Family Record to their Case.
               Also allows users to un-link a Family Record from a Case.
             label: Link / Unlink Family Record from Case
+          view_case_relationships:
+            explanation: Allows a user to view a list of all Cases linked to the current Case.
+            label: View linked Cases
+          update_case_relationships:
+            explanation: Allows a user updating their Case to search for another, existing Case and link it to their Case. Also allows users to un-link this second Case from their Case.
+            label: Link/Unlink Case to another Case
         explanation: Represents an individual child, survivor, or other beneficiary.
         label: Case
       dashboard:
@@ -3361,6 +3673,8 @@ en:
             explanation: The role can access their own records (cases, tracing requests,
               or incidents), and can edit their own user account.
             label: Access only my records or user
+          webhook:
+            label: Webhook
         explanation: Controls which records (Cases, Tracing Requests, or Incidents),
           the role can access. If the role has access to Users and User Groups, this
           also controls which Users and User Groups they can access. Roles with access
@@ -3379,6 +3693,10 @@ en:
             explanation: User can see a history of all changes made to the record
               since it was created. This includes values recorded for all fields.
             label: Change Log
+          access_log:
+            explanation: User can see a history of all access by users who are not
+              the current record owner (views and updates) since the record was created.
+            label: Access Log
           create:
             explanation: Ability to create an incident.
             label: Create
@@ -3449,6 +3767,9 @@ en:
           resolve_any_flag:
             explanation: Allows the user to resolve any Flag on the record, regardless of who created the Flag.
             label: Resolve any Flag
+          flag_update:
+            explanation: Allows the user to update any Flag on the record, regardless of who created the Flag.
+            label: Update Flag
           import:
             explanation: Allows the user to create one or more new incidents by importing
               them from a CSV, Excel, or JSON file. The imported file must be formatted
@@ -3550,6 +3871,24 @@ en:
             label: Referrals and Transfers (Cases)
             explanation: Users see the number of cases referred and transferred from each User Group
               to each other User Group.
+          protection_outcomes:
+            label: Protection Outcomes
+            explanation: Protection Outcomes originally developed for the PCM module. Includes % of clients who demonstrate improved psychosocial wellbeing and % who report being less impacted by protection risks.
+          process_quality_total_cases:
+            label: 'Process and Quality - # of total protection case management clients'
+            explanation: Only relevant for the PCM (Protection Case Management) module. Shows the total number of cases undergoing Protection Case Management.
+          process_quality_average_cases:
+            label: 'Process and Quality - Average # of cases per case worker'
+            explanation: Only relevant for the PCM (Protection Case Management) module. Shows the average number of PCM cases per case worker.
+          process_quality_successful_referrals:
+            label: 'Process and Quality - % of successful referrals'
+            explanation: Only relevant for the PCM (Protection Case Management) module. Shows the percentage of service referrals which were successfully implemented.
+          process_quality_implemented_referrals:
+            label: Process and Quality -  Successful referrals by date implemented
+            explanation: Only relevant for the PCM (Protection Case Management) module. Shows the number of successful service referrals which were implemented in each month.
+          case_characteristics:
+            label: 'Case Characteristics'
+            explanation: 'Only relevant for the PCM (Protection Case Management) module. Disaggregates cases by a number of key characteristics: protection risk, risk level, duration, disability status, completion of a safety plan, and gender.'
       matching_configuration:
         actions:
           manage:
@@ -3632,6 +3971,10 @@ en:
             explanation: User can see a history of all changes made to the record since it
               was created. This includes values recorded for all fields.
             label: Change Log
+          access_log:
+            explanation: User can see a history of all access by users who are not
+              the current record owner (views and updates) since the record was created.
+            label: Access Log
           create:
             explanation: Ability to create a Registry record.
             label: Create
@@ -3664,6 +4007,9 @@ en:
           resolve_any_flag:
             explanation: Allows the user to resolve any Flag on the record, regardless of who created the Flag.
             label: Resolve any Flag
+          flag_update:
+            explanation: Allows the user to update any Flag on the record, regardless of who created the Flag.
+            label: Update Flag
           manage:
             explanation: Allows a user to perform all available actions on Registry records. The
               "Manage" permission essentially means "everything".
@@ -3689,6 +4035,9 @@ en:
             explanation: User can see a history of all changes made to the record since it
               was created. This includes values recorded for all fields.
             label: Change Log
+          access_log:
+            explanation: User can see a access to the record by non-record owners
+            label: Access Log
           create:
             explanation: Ability to create a Family.
             label: Create
@@ -3737,6 +4086,9 @@ en:
           resolve_any_flag:
             explanation: Allows the user to resolve any Flag on the record, regardless of who created the Flag.
             label: Resolve any Flag
+          flag_update:
+            explanation: Allows the user to update any Flag on the record, regardless of who created the Flag.
+            label: Update Flag
           manage:
             explanation: Allows a user to perform all available actions on Families. The
               "Manage" permission essentially means "everything".
@@ -3862,6 +4214,10 @@ en:
             explanation: User can see a history of all changes made to the record
               since it was created. This includes values recorded for all fields.
             label: Change Log
+          access_log:
+            explanation: User can see a history of all access by users who are not
+              the current record owner (views and updates) since the record was created.
+            label: Access Log
           create:
             explanation: Ability to create a tracing request
             label: Create
@@ -3935,6 +4291,9 @@ en:
           resolve_any_flag:
             explanation: Allows the user to resolve any Flag on the record, regardless of who created the Flag.
             label: Resolve any Flag
+          flag_update:
+            explanation: Allows the user to update any Flag on the record, regardless of who created the Flag.
+            label: Update Flag
           import:
             explanation: Allows the user to create one or more new cases by importing
               them from a CSV, Excel, or JSON file. The imported file must be formatted
@@ -4067,6 +4426,11 @@ en:
             label: Manage (all permissions for this resource type)
             explanation: Ability to access all.
         label: Activity Log
+      usage_report:
+        actions:
+          read:
+            explanation: Ability to access the Usage Report page.
+            label: Access Usage Report Page.
   potential_match:
     case_id: Case ID
     child_age: Age
@@ -4112,9 +4476,10 @@ en:
   record_panel:
     record_information: Record Information
   referral:
+    allow_all: Allow access to all available forms
     type_of_recipient: Type of Recipient
     type_of_referral_required: Type of Referral is required
-    referral_authorization_label:  Would you like to specify a Type of Referral?
+    referral_authorization_label: Please specify Type of Referral
     referral_authorization_help_text: This will limit which forms the recipient can access.
     agency_label: Agency
     is_remote_label: Are you referring to a remote system?
@@ -4130,6 +4495,8 @@ en:
     user_mandatory_label: Recipient is required
     date: Date
     rejected_reason: Rejection Reason
+    allow_case_creation: Allow case creation with this referral
+    allow_case_creation_help_text: Checking this box will allow the recipient to create their own case record to provide case management services for the client.
   report:
     aggregate_by: Group by row
     attribute: Attribute
@@ -4246,6 +4613,7 @@ en:
       locations: Locations
       lookups: Lookups
       user_groups: User Groups
+      usage_reports: Usage Report
       users: Users
       roles: Roles
       code_of_conduct: Code of Conduct
@@ -4459,6 +4827,9 @@ en:
     invalid_provider_username: 'Invalid username format. Example: my.username@%{domain}'
     label: User
     language: Language
+    last_access: Date of Last Log In
+    last_case_viewed: Date of Last Case View
+    last_case_updated: Date of Last Case Modification
     locale: Locale
     location: Location
     messages:
@@ -4520,7 +4891,7 @@ en:
       subject: 'Welcome to %{system}!'
       subject_instructions: '%{system} Login Instructions'
       greeting: 'Welcome to %{system}!'
-      body_native: "%{greeting}! We are creating a %{role_name} account for you. You will receive a separate email to set up your password shortly. Once logged in please go to your user profile to find your username. You will find your user profile in the left navigation of Primero."
+      body_native: "%{greeting} We are creating a %{role_name} account for you. You will receive a separate email to set up your password shortly. Once logged in please go to your user profile to find your username. You will find your user profile in the left navigation of Primero."
       body_native2: "You can watch this %{instructional_video} if you need additional guidance."
       instructional_video: instructional video
       additional_support: 'Please contact your %{admin_email} if you need additional support.'
@@ -4574,6 +4945,11 @@ en:
       total_users_created: You have created %{total_enabled} out of your implementation's permitted %{maximum_users} enabled Users.
       limit_user_reached: You have reached your limit of %{maximum_users} enabled Users. You must disable one or more Users before creating more.
       limit_user_reached_on_enable: You have reached your limit of %{maximum_users} enabled Users. You must disable one or more Users before creating or enabling more.
+    filters:
+      search: Search by user’s full name or username
+      date_last_login: Date of Last Log In
+      date_last_case_view: Date of Last Case View
+      date_last_case_updated: Date of Last Case Modification
   devise:
     failure:
       already_authenticated: "You are already signed in."
@@ -4602,8 +4978,19 @@ en:
     unsubscribe: 'Unsubscribe'
     site_description: Primero is an open source software platform that helps social services, humanitarian and development workers manage protection-related data, with tools that facilitate case management, incident monitoring and family tracing and reunification.
     email_disclaimer_pre: DO NOT REPLY TO THIS EMAIL
-    email_welcome_greeting: Welcome to the Primero team
+    email_welcome_greeting: Welcome to the Primero team.
     email_welcome_closing: Welcome to the Primero Community
-    email_closing: At your service
+    email_closing: At your service,
     email_signature: Primero team
     email_admin_name: System Administrator
+  access_log:
+    label: Access Log
+    show: 'Viewed By:'
+    update: 'Modified By:'
+    no_more: 'End of Access Log'
+    filters:
+      access_users: Access Users
+      actions: Access Type
+      timestamp: Access Time
+      show: Viewed
+      update: Modified

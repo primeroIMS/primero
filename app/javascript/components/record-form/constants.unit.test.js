@@ -26,10 +26,10 @@ describe("Verifying config constant", () => {
       "TICK_FIELD",
       "URL_LOOKUPS"
     ].forEach(property => {
-      expect(constants).to.have.property(property);
+      expect(constants).toHaveProperty(property);
       delete constants[property];
     });
 
-    expect(constants).to.be.empty;
+    expect(Object.keys(constants)).toHaveLength(0);
   });
 });

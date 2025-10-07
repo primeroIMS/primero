@@ -9,6 +9,7 @@ import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import { cx } from "@emotion/css";
 
 import css from "../../styles.css";
+import { AssetJwt } from "../../../../asset-jwt";
 
 function PhotoArray({ images = [], isGallery = false }) {
   const [selected, setSelected] = useState({ index: 0, open: false });
@@ -40,7 +41,7 @@ function PhotoArray({ images = [], isGallery = false }) {
       return (
         // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
         <div key={image} className={imageClasses} onClick={handleOnClick(index)}>
-          <img src={image} alt="Record" className={css.img} />
+          <AssetJwt src={image} alt="Record" className={css.img} />
         </div>
       );
     });
@@ -73,7 +74,7 @@ function PhotoArray({ images = [], isGallery = false }) {
         {isGallery ? (
           // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
           <div className={css.imgCurrent} onClick={handleOnClick(selected.index)}>
-            <img src={images[selected.index]} alt="" />
+            <AssetJwt src={images[selected.index]} alt="" />
           </div>
         ) : (
           renderImages()
@@ -84,7 +85,7 @@ function PhotoArray({ images = [], isGallery = false }) {
         <IconButton size="large" className={css.backdropClose}>
           <CloseIcon />
         </IconButton>
-        <img src={images[selected.index]} alt="" />
+        <AssetJwt src={images[selected.index]} alt="" />
       </Backdrop>
     </>
   );

@@ -7,10 +7,10 @@ describe("Verifying config constant", () => {
     const constants = { ...taskConstants };
 
     ["TASK_TYPES", "TASK_STATUS"].forEach(property => {
-      expect(constants).to.have.property(property);
+      expect(constants).toHaveProperty(property);
       delete constants[property];
     });
 
-    expect(constants).to.be.empty;
+    expect(Object.keys(constants)).toHaveLength(0);
   });
 });

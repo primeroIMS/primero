@@ -3,12 +3,12 @@
 import DB from "../db";
 
 const Dashboards = {
-  find: async ({ collection }) => {
-    return DB.getRecord(collection, 1);
+  find: async ({ collection, db }) => {
+    return DB.getRecord(collection, db.group);
   },
 
-  save: async ({ collection, json }) => {
-    await DB.put({ store: collection, data: json, key: { id: 1 } });
+  save: async ({ collection, json, db }) => {
+    await DB.put({ store: collection, data: json, key: { id: db.group } });
 
     return json;
   }

@@ -109,6 +109,7 @@ describe ManagedReports::Indicators::IncidentWorkflowBySexAndAge do
     incident4 = Incident.create!(data: { incident_date: Date.new(2023, 5, 10) })
     incident5 = Incident.create!(data: { incident_date: Date.new(2023, 5, 10) })
     incident6 = Incident.create!(data: { incident_date: Date.new(2023, 5, 10) })
+    incident7 = Incident.create!(data: { incident_date: Date.new(2023, 5, 10) })
 
     @case1 = Child.new_with_user(
       @self_user, { registration_date: Date.new(2022, 3, 10), sex: 'female', age: 5, workflow: 'open' }
@@ -130,6 +131,11 @@ describe ManagedReports::Indicators::IncidentWorkflowBySexAndAge do
     )
     @case4.incidents = [incident4, incident5, incident6]
     @case4.save!
+    @case5 = Child.new_with_user(
+      @self_user, { registration_date: Date.new(2022, 3, 10), sex: 'female', workflow: 'open' }
+    )
+    @case5.incidents = [incident7]
+    @case5.save!
   end
 
   it 'returns data for incident_workflow_by_sex_and_age indicator' do
@@ -137,9 +143,9 @@ describe ManagedReports::Indicators::IncidentWorkflowBySexAndAge do
 
     expect(report_data).to match_array(
       [
-        { id: 'female', "0 - 5": 4, total: 4 },
-        { id: 'male', "6 - 11": 1, "18+": 1, total: 2 },
-        { id: 'total', "0 - 5": 4, "6 - 11": 1, "18+": 1, total: 6 }
+        { id: 'female', '0 - 5': 4, incomplete_data: 1, total: 5 },
+        { id: 'male', '6 - 11': 1, '18+': 1, total: 2 },
+        { id: 'total', '0 - 5': 4, '6 - 11': 1, '18+': 1, incomplete_data: 1, total: 7 }
       ]
     )
   end
@@ -153,8 +159,8 @@ describe ManagedReports::Indicators::IncidentWorkflowBySexAndAge do
 
       expect(report_data).to match_array(
         [
-          { id: 'female', "0 - 5": 1, total: 1 },
-          { id: 'total', "0 - 5": 1, total: 1 }
+          { id: 'female', '0 - 5': 1, incomplete_data: 1, total: 2 },
+          { id: 'total', '0 - 5': 1, incomplete_data: 1, total: 2 }
         ]
       )
     end
@@ -164,9 +170,9 @@ describe ManagedReports::Indicators::IncidentWorkflowBySexAndAge do
 
       expect(report_data).to match_array(
         [
-          { id: 'female', "0 - 5": 4, total: 4 },
-          { id: 'male', "6 - 11": 1, total: 1 },
-          { id: 'total', "0 - 5": 4, "6 - 11": 1, total: 5 }
+          { id: 'female', '0 - 5': 4, incomplete_data: 1, total: 5 },
+          { id: 'male', '6 - 11': 1, total: 1 },
+          { id: 'total', '0 - 5': 4, '6 - 11': 1, incomplete_data: 1, total: 6 }
         ]
       )
     end
@@ -176,9 +182,9 @@ describe ManagedReports::Indicators::IncidentWorkflowBySexAndAge do
 
       expect(report_data).to match_array(
         [
-          { id: 'female', "0 - 5": 1, total: 1 },
-          { id: 'male', "18+": 1, total: 1 },
-          { id: 'total', "0 - 5": 1, "18+": 1, total: 2 }
+          { id: 'female', '0 - 5': 1, incomplete_data: 1, total: 2 },
+          { id: 'male', '18+': 1, total: 1 },
+          { id: 'total', '0 - 5': 1, '18+': 1, incomplete_data: 1, total: 3 }
         ]
       )
     end
@@ -188,9 +194,9 @@ describe ManagedReports::Indicators::IncidentWorkflowBySexAndAge do
 
       expect(report_data).to match_array(
         [
-          { id: 'female', "0 - 5": 4, total: 4 },
-          { id: 'male', "6 - 11": 1, "18+": 1, total: 2 },
-          { id: 'total', "0 - 5": 4, "6 - 11": 1, "18+": 1, total: 6 }
+          { id: 'female', '0 - 5': 4, incomplete_data: 1, total: 5 },
+          { id: 'male', '6 - 11': 1, '18+': 1, total: 2 },
+          { id: 'total', '0 - 5': 4, '6 - 11': 1, '18+': 1, incomplete_data: 1, total: 7 }
         ]
       )
     end
@@ -205,8 +211,8 @@ describe ManagedReports::Indicators::IncidentWorkflowBySexAndAge do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'year'),
             'registration_date' => SearchFilters::DateRange.new(
               field_name: 'registration_date',
-              from: '2022-03-07',
-              to: '2022-03-10'
+              from: Date.parse('2022-03-07'),
+              to: Date.parse('2022-03-10')
             )
           }
         ).data
@@ -216,9 +222,9 @@ describe ManagedReports::Indicators::IncidentWorkflowBySexAndAge do
             {
               group_id: 2022,
               data: [
-                { id: 'female', '0 - 5': 1, total: 1 },
+                { id: 'female', '0 - 5': 1, incomplete_data: 1, total: 2 },
                 { id: 'male', '18+': 1, total: 1 },
-                { id: 'total', '0 - 5': 1, '18+': 1, total: 2 }
+                { id: 'total', '0 - 5': 1, '18+': 1, incomplete_data: 1, total: 3 }
               ]
             }
           ]
@@ -234,8 +240,8 @@ describe ManagedReports::Indicators::IncidentWorkflowBySexAndAge do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'month'),
             'registration_date' => SearchFilters::DateRange.new(
               field_name: 'registration_date',
-              from: '2022-02-15',
-              to: '2022-03-10'
+              from: Date.parse('2022-02-15'),
+              to: Date.parse('2022-03-10')
             )
           }
         ).data
@@ -246,9 +252,9 @@ describe ManagedReports::Indicators::IncidentWorkflowBySexAndAge do
             {
               group_id: '2022-03',
               data: [
-                { id: 'female', '0 - 5': 1, total: 1 },
+                { id: 'female', '0 - 5': 1, incomplete_data: 1, total: 2 },
                 { id: 'male', '18+': 1, total: 1 },
-                { id: 'total', '0 - 5': 1, '18+': 1, total: 2 }
+                { id: 'total', '0 - 5': 1, '18+': 1, incomplete_data: 1, total: 3 }
               ]
             }
           ]
@@ -264,8 +270,8 @@ describe ManagedReports::Indicators::IncidentWorkflowBySexAndAge do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
             'registration_date' => SearchFilters::DateRange.new(
               field_name: 'registration_date',
-              from: '2022-02-15',
-              to: '2022-03-30'
+              from: Date.parse('2022-02-15'),
+              to: Date.parse('2022-03-30')
             )
           }
         ).data
@@ -275,9 +281,9 @@ describe ManagedReports::Indicators::IncidentWorkflowBySexAndAge do
             {
               group_id: '2022-Q1',
               data: [
-                { id: 'female', '0 - 5': 1, total: 1 },
+                { id: 'female', '0 - 5': 1, incomplete_data: 1, total: 2 },
                 { id: 'male', '18+': 1, total: 1 },
-                { id: 'total', '0 - 5': 1, '18+': 1, total: 2 }
+                { id: 'total', '0 - 5': 1, '18+': 1, incomplete_data: 1, total: 3 }
               ]
             }
           ]
@@ -293,8 +299,8 @@ describe ManagedReports::Indicators::IncidentWorkflowBySexAndAge do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'week'),
             'registration_date' => SearchFilters::DateRange.new(
               field_name: 'registration_date',
-              from: '2023-04-17',
-              to: '2023-04-27'
+              from: Date.parse('2023-04-17'),
+              to: Date.parse('2023-04-27')
             )
           }
         ).data

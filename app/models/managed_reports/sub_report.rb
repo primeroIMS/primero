@@ -4,9 +4,11 @@
 
 # Describes a Sub Report for a Managed Report
 class ManagedReports::SubReport < ValueObject
-  attr_accessor :data
+  attr_accessor :data, :user, :params
 
   def build_report(current_user, params = {})
+    self.user = current_user
+    self.params = params
     self.data = {
       data: indicators.reduce({}) do |acc, indicator|
         acc.merge(indicator.id => indicator.build(current_user, params).data)

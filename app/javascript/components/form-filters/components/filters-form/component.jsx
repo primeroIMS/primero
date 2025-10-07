@@ -12,6 +12,7 @@ import { currentUser } from "../../../user";
 import FilterContainer from "../../../record-list/components/filter-container";
 import Actions from "../../../index-filters/components/actions";
 import { useMemoizedSelector, useThemeHelper } from "../../../../libs";
+import SearchBox from "../../../index-filters/components/search-box";
 
 import { FILTERS_DRAWER, NAME } from "./constants";
 import css from "./styles.css";
@@ -24,15 +25,19 @@ function Component({
   defaultFilters = {},
   initialFilters = {},
   showDrawer = false,
-  noMargin = false
+  noMargin = false,
+  searchFieldLabel,
+  showSearchField = false
 }) {
-  const methods = useForm();
+  const methods = useForm({
+    defaultValues: initialFilters
+  });
 
   const { mobileDisplay } = useThemeHelper();
 
   const userName = useMemoizedSelector(state => currentUser(state));
 
-  const { drawerOpen, toggleDrawer, setDrawer } = useDrawer(FILTERS_DRAWER);
+  const { toggleDrawer, setDrawer } = useDrawer(FILTERS_DRAWER);
 
   const showFilterIcon = mobileDisplay && showDrawer && (
     <IconButton size="large" onClick={toggleDrawer} color="primary">
@@ -66,7 +71,6 @@ function Component({
   };
 
   useEffect(() => {
-    methods.reset(initialFilters);
     if (defaultFiltersKeys.length) {
       setDefaultFilters();
     }
@@ -78,22 +82,20 @@ function Component({
 
       if (!Filter || filter.permitted_filter === false) return null;
 
-      return <Filter key={filter.field_name} filter={filter} multiple={filter.multiple} />;
+      return <Filter key={filter.field_name} filter={filter} multiple={filter.multiple} mode={filter.mode} />;
     });
   };
 
   return (
     <div className={css.recordFormFilters} data-testid="form-filter">
       {showFilterIcon}
-      <FilterContainer
-        drawer={drawerOpen}
-        handleDrawer={toggleDrawer}
-        mobileDisplay={mobileDisplay && showDrawer}
-        noMargin={noMargin}
-      >
+      <FilterContainer drawerName={FILTERS_DRAWER} mobileDisplay={mobileDisplay && showDrawer} noMargin={noMargin}>
         <div className={css.filtersContainer} role="form">
-          <FormProvider {...methods} user={userName}>
+          <FormProvider {...methods} user={userName} initialFilters={initialFilters}>
             <form onSubmit={methods.handleSubmit(handleOnSubmit)}>
+              {showSearchField && (
+                <SearchBox showSearchNameToggle={false} searchFieldLabel={searchFieldLabel} useFullWidth={noMargin} />
+              )}
               <Actions handleClear={onClear} />
               {renderFilters()}
             </form>
@@ -115,7 +117,9 @@ Component.propTypes = {
   mobileDisplay: PropTypes.bool,
   noMargin: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,
-  showDrawer: PropTypes.bool
+  searchFieldLabel: PropTypes.string,
+  showDrawer: PropTypes.bool,
+  showSearchField: PropTypes.bool
 };
 
 export default Component;

@@ -14,6 +14,6 @@ describe("convertToFieldsArray", () => {
       { name: "field_2", visible: true }
     ];
 
-    expect(convertToFieldsArray(fields)).to.deep.equal(expected);
+    expect(convertToFieldsArray(fields)).toEqual(expected);
   });
 });

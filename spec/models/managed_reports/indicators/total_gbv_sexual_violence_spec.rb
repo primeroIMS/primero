@@ -103,23 +103,27 @@ describe ManagedReports::Indicators::TotalGBVSexualViolence do
 
     Incident.new_with_user(
       @self_user,
-      { incident_date: Date.new(2021, 8, 12), gbv_sexual_violence_type: 'rape' }
+      { incident_date: Date.new(2021, 8, 12), gbv_sexual_violence_type: 'rape', consent_reporting: 'true' }
     ).save!
     Incident.new_with_user(
       @group_user,
-      { incident_date: Date.new(2021, 9, 8), gbv_sexual_violence_type: 'sexual_assault' }
+      { incident_date: Date.new(2021, 9, 8), gbv_sexual_violence_type: 'sexual_assault', consent_reporting: 'true' }
     ).save!
     Incident.new_with_user(
       @agency_user,
-      { incident_date: Date.new(2020, 10, 10), gbv_sexual_violence_type: 'forced_marriage' }
+      { incident_date: Date.new(2020, 10, 10), gbv_sexual_violence_type: 'forced_marriage', consent_reporting: 'true' }
     ).save!
     Incident.new_with_user(
       @all_user,
-      { incident_date: Date.new(2020, 10, 10), gbv_sexual_violence_type: 'non-gbv' }
+      { incident_date: Date.new(2020, 10, 10), gbv_sexual_violence_type: 'non-gbv', consent_reporting: 'true' }
     ).save!
     Incident.new_with_user(
       @all_user,
-      { incident_date: Date.new(2020, 10, 10) }
+      { incident_date: Date.new(2020, 10, 10), consent_reporting: 'true' }
+    ).save!
+    Incident.new_with_user(
+      @all_user,
+      { incident_date: Date.new(2020, 10, 10), consent_reporting: 'true', gbv_reported_elsewhere: 'gbvims-org' }
     ).save!
   end
 
@@ -164,8 +168,8 @@ describe ManagedReports::Indicators::TotalGBVSexualViolence do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'year'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2020-09-01',
-              to: '2021-10-10'
+              from: Date.parse('2020-09-01'),
+              to: Date.parse('2021-10-10')
             )
           }
         ).data
@@ -187,8 +191,8 @@ describe ManagedReports::Indicators::TotalGBVSexualViolence do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'month'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2020-09-01',
-              to: '2021-09-30'
+              from: Date.parse('2020-09-01'),
+              to: Date.parse('2021-09-30')
             )
           }
         ).data
@@ -217,8 +221,8 @@ describe ManagedReports::Indicators::TotalGBVSexualViolence do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2020-09-01',
-              to: '2021-09-30'
+              from: Date.parse('2020-09-01'),
+              to: Date.parse('2021-09-30')
             )
           }
         ).data

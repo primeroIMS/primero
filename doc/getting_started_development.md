@@ -111,9 +111,9 @@ In the Primero top-level directory, there is a file `.ruby-version`, which conta
 
 ```bash
 cat .ruby-version
-# This will print something like: ruby-3.3.5
+# This will print something like: ruby-3.3.8
 # rbenv needs the version number, but not the ruby- prefix.
-rbenv install 3.3.5 # replace 3.3.5 with whatever version is in .ruby-version
+rbenv install 3.3.8 # replace 3.3.8 with whatever version is in .ruby-version
 ```
 
 It will take several minutes to build and install ruby, depending on the speed of your machine.
@@ -121,7 +121,7 @@ Once you have succeeded in installing ruby, it is worth checking that you are no
 
 ```bash
 ruby --version
-# This should print something like: ruby 3.3.5 (or whatever the current version in the .ruby-version is)
+# This should print something like: ruby 3.3.8 (or whatever the current version in the .ruby-version is)
 ```
 
 ## Installing node using `nvm`
@@ -255,9 +255,17 @@ If you use a different shell, for example zsh, you will need to add these to the
 
 To make sure that your system has been configured correctly, and to establish a baseline of the unit tests passing on your environment, it is a good idea to run the unit tests before making any changes to the Primero code. This may take a few minutes. On a VM with 4GB of RAM, it will take approximately 5 minutes to run the tests.
 
+Ruby/Rails unit tests:
+
 ```shell
 rspec spec
 ```
+
+Javascript/NPM unit tests:
+```shell
+npm run test
+```
+
 
 There should be no failures in the unit tests on a clean clone from the `develop` branch or main branch.
 # Running Primero Locally

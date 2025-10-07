@@ -724,7 +724,6 @@ ar-JO:
     dash_shared_from_my_team: حالات مشاركة من مجموعتي مع المجموعات الأخرى
     dash_shared_with_me: حالات مشاركة معي
     dash_shared_with_my_team: حالات مشاركة مع مجموعتي
-    dash_shared_with_my_team_overview: حالات مشاركة مع مجموعتي (نظرة عامة)
     dash_shared_with_others: حالات مشاركة مع مجموعات أخرى
     dash_national_admin_summary: ملخص المسؤول
     dash_violations_category_verification_status: إجمالي عدد الحوادث لكل حالة تحقق
@@ -839,15 +838,8 @@ ar-JO:
     shared_from_my_team_pending_transfers: عمليات النقل قيد الانتظار
     shared_from_my_team_referrals: الإحالات
     shared_from_my_team_rejected_transfers: عمليات النقل المرفوضة
-    shared_with_me_new_referrals: إحالات جديدة
-    shared_with_me_total_referrals: مجموع الاحالات
-    shared_with_me_transfers_awaiting_acceptance: الحالات المرسلة لي من مؤسسة أخرى بانتظارموافقتي على نقل الملف
-    shared_with_my_team_pending_transfers_overview: عمليات النقل في انتظار القبول
     shared_with_my_team_pending_transfers: عمليات النقل قيد الانتظار
     shared_with_my_team_referrals: الإحالات
-    shared_with_others_pending_transfers: عمليات النقل قيد الانتظار
-    shared_with_others_referrals: الإحالات
-    shared_with_others_rejected_transfers: عمليات النقل المرفوضة
     status_of_cases: وضع الحالات
     system_user: النظام
     total: المجموع
@@ -885,23 +877,13 @@ ar-JO:
   email_notification:
     assign: 'المستخدم %{user} عين ما يلي %{record_type} لك %{record_id}'
     assign_subject: '%{record_type} : %{id} - معينة لك'
-    approval_request: 'يطلب المستخدم %{user} الموافقة على %{approval_type} لحالة %{case_id}'
     approval_request_subject: 'حالة: %{id} - طلب المصادقة'
-    approval_response: '%{user} لديها %{status} طلب الموافقة على %{approval_type} الحالة %{case_id}.'
     approval_response_subject: 'حالة: %{id} - طلب المصادقة'
     referral: '%{user} من %{agency} أشار إلى ما يلي %{record_type} لك %{record_id} ل%{service_type}.'
     transfer: '%{user} نقل ما يلي %{record_type} لك: %{record_id}.'
     transfer_request_subject: طلب نقل لإحدى حالاتك
-    transfer_subject: '%{record_type}: %{id} - نقل'
-    referral_subject: '%{record_type} : %{id} - احالة'
     transfer_request: 'المستخدم %{user} عند %{agency} يطلب منك نقل ملكية هذا %{record_type} سجل %{record_id} حتى يتمكنوا من تقديم %{record_type}خدمات الإدارة للفرد في منطقتهم. إذا كان هذا النقل مقبولًا لك ، فيرجى النقر على %{record_type} رابط المعرف في هذا البريد الإلكتروني لفتح %{record_type} في النظام وبدء النقل.'
     approval_request_html: 'المستخدم <strong>%{user}</strong> طلب المصادقة <strong>%{approval_type}</strong>على الحالة <strong>%{case_id}</strong>'
-    approval_response_html: '%{user} لديه %{status} طلب الموافقة على %{approval_type} الحالة %{case_id}.'
-    referral_html: '%{user} عند %{agency} أشار إلى ما يلي %{record_type} لك: %{record_id} ل %{service_type}.'
-    transfer_html: '%{user} نقل ما يلي %{record_type} لك: %{record_id}.'
-    assign_html: '%{user} عين ما يلي %{record_type} لك %{record_id}.'
-    transfer_request_html: 'المستخدم <strong>%{user}</strong> من %{agency} يطلب منك تحويل مسؤولية %{record_type} بالرقم <strong>%{record_id}</strong> ليتمكنوا من توفير %{record_type} في منطقتهم. وإذا وافقت على هذا التحويل، رجاء النقر على%{record_type} رابط الهوية في هذه الرسالة الإلكترونية لفتح %{record_type} في النظام وبداية التحويل'
-    transfer_request_notes_html: '%{request_transfer_notes} ملاحظات من مقدم الطلب:'
   encrypt:
     export_type: نوع التصدير
     file_name: قم بإنشاء اسم الملف الخاص بك (اختياري)
@@ -1887,7 +1869,6 @@ ar-JO:
       user: مستخدم
       agency: مؤسسة
       user_group: مجموعة المستخدم
-      child: طفل
       alert: تحذير
       form_section: نموذج
       lookup: عمليات البحث
@@ -3452,40 +3433,21 @@ ar-JO:
     welcome_email:
       subject: 'اهلا وسهلاً في %{system}!'
       greeting: 'اهلا وسهلاً في %{system}!'
-      body_native: 'لقد تمت إضافتك كـ%{role_name}. الرجاء التواصل %{admin_full_name} (%{admin_email}) لمتابعة التعليمات لبدء العمل معها %{host}.'
       sso:
         body: 'لقد تمت إضافتك كـ%{role_name}.'
-        step1: 'اذهب إلى %{host} وانقر %{identity_provider}.'
-        step2: 'تسجيل الدخول مع الخاص بك %{identity_provider} حساب %{user_name}.'
-        step3: 'استخدم نفس كلمة المرور التي تستخدمها دائمًا لملف %{identity_provider} حساب.'
-        footer: 'الرجاء التواصل %{admin_full_name} (%{admin_email}) لمزيد من التفاصيل.'
       otp:
         body: 'لقد تمت إضافتك كـ%{role_name}.'
-        step1: 'الرجاء التواصل %{admin_full_name} (%{admin_email}) لتلقي اسم المستخدم الخاص بك.'
-        step2: 'اذهب إلى %{host} وانقر على "تسجيل الدخول باسم مستخدم بريميرو.".'
-        step3: 'تسجيل الدخول باسم المستخدم وكلمة المرور المؤقتة %{otp}.'
-        step4: 'عند المطالبة ، أعد تعيين كلمة المرور الخاصة بك.'
       url_label: بريميرو
       enabled_label: إرسال بريد إلكتروني ترحيبي؟
       text_label: 'نص البريد الإلكتروني الترحيبي '
     password_reset:
       subject: 'تعليمات إعادة تعيين كلمة المرور'
-      email_greeting: "عزيزي %{full_name}"
-      email_body1: "قدم شخص ما طلبًا لتعيين كلمة المرور الخاصة بك لـ%{host_href}. انقر فوق عنوان url أدناه للبدء:"
-      email_body2: "ستنتهي صلاحية هذا الرابط في %{hours} ساعات ويمكن استخدامها مرة واحدة فقط. يرجى تجاهل هذا البريد الإلكتروني إذا لم تكن قد طلبت إعادة تعيين كلمة المرور أو لم يتم تسجيل مستخدم Primero جديد نيابة عنك. إذا كان الرابط أعلاه منتهي الصلاحية ، الرجاء الضغط %{reset_request_href} لإعادة تقديم طلب إعادة تعيين كلمة المرور."
       email_body_link: هنا
       request_submitted: "تم إرسال طلب إعادة تعيين كلمة المرور"
       success: "تم تغيير كلمة السر بنجاح"
       errors:
         reset_password_token: "رمز إعادة تعيين كلمة المرور غير صالح"
         password_confirmation: "كلمة السر يجب ان تتطابق"
-    onboard_email:
-      subject: "على متن الطائرة الى %{system}"
-      greeting: "عزيزي %{full_name},"
-      body1: "مرحبا بكم في بريميرو"
-      body2: "لقد تم تعيينك كمسؤول تنفيذ لـ%{host_href}. %{reset_notification}"
-      body2_reset_notification: "ستتلقى رسالة بريد إلكتروني إضافية تطالبك بإعادة تعيين كلمة المرور الخاصة بك."
-      body3: "أنت مسؤول عن ضمان التنفيذ الآمن وفي الوقت المناسب. لكل عملية طرح ، يجب أن تكون قد أكملت خطة التنفيذ مع إستراتيجية إدارة المستخدم والإعداد وبروتوكول مشاركة المعلومات. أنت مسؤول أيضًا عن ضمان وجود شروط استخدام موقعة في الملف لجميع مؤسسات المستخدمين"
   user_group:
     associated_agencies: المؤسسات المرتبطة بمجموعة المستخدمين هذه
     description: الوصف

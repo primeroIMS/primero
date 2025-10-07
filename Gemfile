@@ -3,14 +3,19 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 source 'https://rubygems.org'
-ruby '3.3.5'
+ruby '3.3.8'
 
 gem 'activerecord-nulldb-adapter'      # Running Rake tasks at build time before DB is set up. TODO: Still needed?
+gem 'activerecord-session_store', '~> 2.0'
 gem 'aws-sdk-s3',          '~> 1.130', # Access and manage Amazon S3 storage (with ActiveStorage).
     require: false
 gem 'azure-storage-blob',  '~> 1.1',   # Access and manage Microsoft Azure Storage Blob Services (with ActiveStorage).
     require: false
 gem 'cancancan',           '~> 3.5'    # Endpoint user authorization
+# TODO: concurrent-ruby v1.3.5 has removed the dependency on logger.
+# TODO: https://stackoverflow.com/a/79361034
+# TODO: Remove this dependency when upgrading to rails 7.x
+gem 'concurrent-ruby',     '1.3.4'
 gem 'csv-safe',            '~> 3.2'    # Safely export data to CSV to avoid formula injection
 gem 'daemons',             '~> 1.4.1'  # Gem to run the delayed jobs
 gem 'deep_merge',          '~> 1.2',   # Recursive merging of Hashes. Used for merging params to existing records.
@@ -27,16 +32,18 @@ gem 'jwt',                 '~> 2.8'    # Ruby JWT library used to authenticate 3
 gem 'matrix',              '~> 0.4'    # No longer part of Ruby 3.2 core. Must be included explicitly
 gem 'minipack',            '~> 0.3'    # An alternative to Webpacker. TODO: Is this still needed? In prod?
 gem 'net-http-persistent', '~> 4.0'    # Thread safe persistent HTTP connections, optional Faraday dependency
-gem 'nokogiri',            '~> 1.16'   # Security assertion on implicit dependency.
+gem 'nokogiri',            '~> 1.18'   # Security assertion on implicit dependency.
+gem 'pdfjs_viewer',        '~> 0.1'    # PDF.js viewer for displaying PDFs in the browser
 gem 'pg',                  '~> 1.5'    # Ruby PostgreSQL binding
 gem 'prawn',               '~> 2.4'    # PDF generation
 gem 'prawn-table',         '~> 0.2'    # PDF generation
 gem 'puma',                '~> 6.4'    # Ruby Rack server
 gem 'rack',                '~> 2.2'
 gem 'rack-attack',         '>= 6.6'    # Rack middleware to rate limit sensetive routes, such as those used for auth
-gem 'rails',               '6.1.7.9'
+gem 'rails',               '6.1.7.10'
 gem 'rake',                '~> 13.0'
 gem 'rbnacl',              '>= 7.1.1'  # Libsodium Ruby binding. Used for encrypting export file passwords.
+gem 'resolv',              '>= 0.3.1'  # CVE-2025-24294
 gem 'rubyzip',             '~> 2.3',   # Zip and encrypt exported files
     require: 'zip'
 gem 'spreadsheet',         '~> 1.3'    # Read XLS spreadsheets for imports (not XLSX!). TODO: Different gem? Reconsider?
@@ -47,14 +54,16 @@ gem 'sunspot_rails',       '~> 2.6',    # Rails ODM bindings to Solr
 gem 'sunspot_solr',        '~> 2.6',    # Ruby bindings to Solr
     require: false
 gem 'text',                '~> 1.3'    # Phonetic Search Algorithms
+gem 'thor',                '>= 1.3.3'  # CVE-2025-54314
 gem 'twitter_cldr',        '~> 4.4'    # Localization for dates, money. TODO: Is this still used?
 gem 'tzinfo-data',         '~> 1.2023' # Timezone Data for TZInfo
-gem 'uri',                 '~> 0.12'   # CVE-2023-36617: ReDoS vulnerability in URI
+gem 'uri',                 '~> 0.13'   # CVE-2025-27221
 gem 'web-push',            '~> 3.0'
 gem 'will_paginate',       '~> 4.0'    # Paginates ActiveRecord models  TODO: This can be refactored away.
 gem 'write_xlsx',          '~> 1.11'   # Exports XLSX
 
 group :development, :test do
+  gem 'brakeman', require: false
   gem 'bundler-audit',              '~> 0.9'
   gem 'ci_reporter',                '~> 2.0'
   gem 'factory_bot',                '~> 5.0'
@@ -82,7 +91,6 @@ group :development, :test do
   gem 'rubocop',                    '~> 1.54'
   gem 'rubocop-performance',        '~> 1.18'
   gem 'ruby-lsp',                   '~> 0.17'
-  gem 'ruby-prof',                  '~> 0.17'
   gem 'simplecov',                  '~> 0.18'
   # TODO: Latest version (1.2.5) of this conflicts with sunspot gem. Upgrade when we upgrade sunspot
   gem 'sunspot_test',               '~> 0.4', require: false

@@ -3,6 +3,7 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 # Class to hold SQL results
+# rubocop:disable Metrics/ClassLength
 class ManagedReports::SqlReportIndicator < ValueObject
   include ManagedReports::SqlQueryHelpers
 
@@ -112,6 +113,17 @@ class ManagedReports::SqlReportIndicator < ValueObject
       end
     end
 
+    def build_date_group(params = {}, opts = {}, model_class = nil)
+      date_param = filter_date(params)
+      return unless date_param.present?
+
+      field_name = date_param.searchable_field_name if date_param.searchable_field_name?(model_class)
+      table_name = opts[:table_name] || model_class.table_name
+      grouped_date_query(
+        params['grouped_by'], date_param, table_name, opts[:hash_field], field_name || date_param.field_name
+      )
+    end
+
     def grouped_date_query(grouped_by_param, date_param, table_name = nil, hash_field = 'data', map_to = nil)
       return unless grouped_by_param.present? && date_param.present?
 
@@ -137,9 +149,9 @@ class ManagedReports::SqlReportIndicator < ValueObject
       ActiveRecord::Base.sanitize_sql_for_conditions(
         [
           %(
-            to_char(date_trunc('week', #{quoted_field}) - '1 days'::interval, 'yyyy-mm-dd')
+            to_char(date_trunc('week', #{quoted_field} + interval '1 days') - '1 days'::interval, 'yyyy-mm-dd')
             || ' - ' ||
-            to_char(date_trunc('week', #{quoted_field}) + '5 days'::interval, 'yyyy-mm-dd')
+            to_char(date_trunc('week', #{quoted_field} + interval '1 days') + '5 days'::interval, 'yyyy-mm-dd')
           ),
           grouped_date_params(field_name, hash_field)
         ]
@@ -159,9 +171,36 @@ class ManagedReports::SqlReportIndicator < ValueObject
 
       'incidents'
     end
+
+    def result_with_query(result, params, parent_query = [])
+      query = parent_query + query_for_result(result, params)
+      result.entries.each_with_object({}) do |(key, value), memo|
+        query += query_for_entry({ key => value })
+        memo[key] = key.to_sym == :id ? value : { count: value, query: }
+      end
+    end
+
+    def group_with_query(group, params)
+      data = group[:data].map { |elem| result_with_query(elem, params, query_for_group(group, params)) }
+
+      group.merge(data:)
+    end
+
+    def query_for_group(_, _)
+      []
+    end
+
+    def query_for_entry(_)
+      []
+    end
+
+    def query_for_result(_, _)
+      []
+    end
   end
 
   def execute_query(current_user)
     ActiveRecord::Base.connection.execute(self.class.sql(current_user, params))
   end
 end
+# rubocop:enable Metrics/ClassLength

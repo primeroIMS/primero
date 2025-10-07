@@ -23,7 +23,9 @@ module CsrfProtection
   end
 
   def use_csrf_protection?
-    Rails.configuration.use_csrf_protection && !request_from_basic_auth?
+    Rails.configuration.use_csrf_protection &&
+      !request_from_basic_auth? &&
+      !Rails.configuration.x.idp.use_identity_provider
   end
 
   def request_from_basic_auth?

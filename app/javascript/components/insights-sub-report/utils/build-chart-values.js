@@ -13,29 +13,33 @@ import translateGroup from "./translate-group-id";
 import sortWithSortedArray from "./sort-with-sorted-array";
 import groupIdComparator from "./group-id-comparator";
 
-const sortTuples = ({ valueKey, tuples, ageRanges, lookupDisplayTexts, incompleteDataLabel }) => {
+const sortTuples = ({ valueKey, tuples, ageRanges, lookupDisplayTexts, labels }) => {
   const sortByFn = elem => first(elem);
 
   if (valueKey === "age") {
-    return sortWithSortedArray(tuples, ageRanges, sortByFn, incompleteDataLabel);
+    return sortWithSortedArray(tuples, ageRanges, sortByFn, labels.incompleteData);
   }
 
   if (lookupDisplayTexts.length > 1) {
-    return sortWithSortedArray(tuples, lookupDisplayTexts, sortByFn, incompleteDataLabel);
+    return sortWithSortedArray(tuples, lookupDisplayTexts, sortByFn, labels.incompleteData);
   }
 
   return sortBy(tuples, sortByFn);
 };
 
-const sortEntries = ({ valueKey, entries, ageRanges, lookupDisplayTexts, incompleteDataLabel }) => {
+const sortEntries = ({ valueKey, entries, ageRanges, lookupDisplayTexts, labels, indicatorRowDisplaytexts }) => {
   const sortByFn = ([, entryValue]) => entryValue;
 
   if (valueKey === "age" || valueKey.includes("_age")) {
-    return sortWithSortedArray(entries, ageRanges, sortByFn, incompleteDataLabel);
+    return sortWithSortedArray(entries, ageRanges, sortByFn, labels.incompleteData);
   }
 
   if (lookupDisplayTexts.length > 1) {
-    return sortWithSortedArray(entries, lookupDisplayTexts, sortByFn, incompleteDataLabel);
+    return sortWithSortedArray(entries, lookupDisplayTexts, sortByFn, labels.incompleteData);
+  }
+
+  if (!isEmpty(indicatorRowDisplaytexts)) {
+    return sortWithSortedArray(entries, indicatorRowDisplaytexts, sortByFn, labels.incompleteData);
   }
 
   return sortBy(entries, sortByFn);
@@ -48,8 +52,9 @@ const buildGroupedChartValues = ({
   groupedBy,
   localizeDate,
   ageRanges,
+  indicatorRowDisplaytexts,
   lookupDisplayTexts,
-  incompleteDataLabel
+  labels
 }) => {
   const options = value
     .flatMap(elem => elem.get("data", fromJS([])))
@@ -63,9 +68,14 @@ const buildGroupedChartValues = ({
 
   const optionEntries = Object.entries(options);
 
-  const ids = sortEntries({ valueKey, entries: optionEntries, ageRanges, lookupDisplayTexts, incompleteDataLabel }).map(
-    ([key]) => key
-  );
+  const ids = sortEntries({
+    valueKey,
+    entries: optionEntries,
+    ageRanges,
+    lookupDisplayTexts,
+    labels,
+    indicatorRowDisplaytexts
+  }).map(([key]) => key);
 
   const sortedData = value.sort(groupIdComparator(groupedBy));
 
@@ -94,8 +104,8 @@ const buildGroupedChartValues = ({
 };
 
 export default ({
-  totalText,
   getLookupValue,
+  labels,
   localizeDate,
   value,
   valueKey,
@@ -103,15 +113,17 @@ export default ({
   groupedBy,
   ageRanges,
   lookupValues,
-  incompleteDataLabel
+  indicatorRows
 }) => {
   if (!value) return {};
 
   const lookupDisplayTexts = lookupValues?.map(lookupValue => lookupValue.display_text) || [];
 
+  const indicatorRowDisplaytexts = indicatorRows?.map(row => row.display_text) || [];
+
   if (!isEmpty(lookupDisplayTexts)) {
-    lookupDisplayTexts.push(incompleteDataLabel);
-    lookupDisplayTexts.push(totalText);
+    lookupDisplayTexts.push(labels.incompleteData);
+    lookupDisplayTexts.push(labels.total);
   }
 
   if (isGrouped && groupedBy) {
@@ -123,7 +135,8 @@ export default ({
       localizeDate,
       ageRanges,
       lookupDisplayTexts,
-      incompleteDataLabel
+      indicatorRowDisplaytexts,
+      labels
     });
   }
 
@@ -131,12 +144,12 @@ export default ({
     return [...acc, [getLookupValue(valueKey, elem), elem.get("total")]];
   }, []);
 
-  const sortedTuples = sortTuples({ valueKey, tuples, ageRanges, lookupDisplayTexts, incompleteDataLabel });
+  const sortedTuples = sortTuples({ valueKey, tuples, ageRanges, lookupDisplayTexts, labels });
 
   return {
     datasets: [
       {
-        label: totalText,
+        label: labels.total,
         data: sortedTuples.flatMap(elem => last(elem)),
         backgroundColor: take(Object.values(CHART_COLORS), sortedTuples.length)
       }

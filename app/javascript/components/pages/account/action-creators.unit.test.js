@@ -1,6 +1,5 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { stub } from "../../../test-utils";
 import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
 import { RECORD_PATH, METHODS } from "../../../config";
 
@@ -9,27 +8,27 @@ import actions from "./actions";
 
 describe("pages/account/action-creators.js", () => {
   beforeEach(() => {
-    stub(generate, "messageKey").returns(4);
+    jest.spyOn(generate, "messageKey").mockReturnValue(4);
   });
 
   afterEach(() => {
-    generate.messageKey?.restore();
+    jest.resetAllMocks();
   });
 
   describe("properties", () => {
     let clone;
 
-    before(() => {
+    beforeAll(() => {
       clone = { ...actionsCreators };
     });
 
-    after(() => {
-      expect(clone).to.be.empty;
+    afterAll(() => {
+      expect(Object.keys(clone)).toHaveLength(0);
     });
 
     ["fetchCurrentUser", "clearCurrentUser", "updateUserAccount"].forEach(property => {
       it(`exports '${property}'`, () => {
-        expect(actionsCreators).to.have.property(property);
+        expect(actionsCreators).toHaveProperty(property);
         delete clone[property];
       });
     });
@@ -43,7 +42,7 @@ describe("pages/account/action-creators.js", () => {
       }
     };
 
-    expect(actionsCreators.fetchCurrentUser(1)).to.deep.equal(expectedAction);
+    expect(actionsCreators.fetchCurrentUser(1)).toEqual(expectedAction);
   });
 
   it("should check that 'clearCurrentUser' action creator returns the correct object", () => {
@@ -51,7 +50,7 @@ describe("pages/account/action-creators.js", () => {
       type: actions.CLEAR_CURRENT_USER
     };
 
-    expect(actionsCreators.clearCurrentUser()).to.deep.equal(expectedAction);
+    expect(actionsCreators.clearCurrentUser()).toEqual(expectedAction);
   });
 
   it("should check that 'updateUserAccount' action creator returns the correct object", () => {
@@ -82,6 +81,6 @@ describe("pages/account/action-creators.js", () => {
       }
     };
 
-    expect(actionsCreators.updateUserAccount(args)).to.deep.equal(expectedAction);
+    expect(actionsCreators.updateUserAccount(args)).toEqual(expectedAction);
   });
 });

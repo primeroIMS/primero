@@ -2,19 +2,24 @@
 
 import PropTypes from "prop-types";
 
-import { getCasesBySocialWorker } from "../../selectors";
+import { getCasesBySocialWorker, getIsDashboardGroupLoading } from "../../selectors";
 import { useI18n } from "../../../../i18n";
 import { toCasesBySocialWorkerTable } from "../../utils";
 import Permission, { RESOURCES, ACTIONS } from "../../../../permissions";
 import { OptionsBox, DashboardTable } from "../../../../dashboard";
 import { ROUTES } from "../../../../../config";
 import { useMemoizedSelector } from "../../../../../libs";
+import { DASHBOARD_GROUP } from "../../constants";
+import useSystemStrings, { DASHBOARD } from "../../../../application/use-system-strings";
 
 import { NAME } from "./constants";
 
-function Component({ loadingIndicator }) {
+function Component() {
   const i18n = useI18n();
-
+  const { label } = useSystemStrings(DASHBOARD);
+  const loading = useMemoizedSelector(state =>
+    getIsDashboardGroupLoading(state, DASHBOARD_GROUP.cases_by_social_worker)
+  );
   const data = useMemoizedSelector(state => getCasesBySocialWorker(state));
 
   const casesBySocialWorkerProps = {
@@ -23,10 +28,14 @@ function Component({ loadingIndicator }) {
 
   return (
     <Permission resources={RESOURCES.dashboards} actions={ACTIONS.DASH_CASES_BY_SOCIAL_WORKER}>
-      <OptionsBox title={i18n.t("dashboard.cases_by_social_worker")} hasData={Boolean(data.size)} {...loadingIndicator}>
+      <OptionsBox
+        title={label("dashboard.cases_by_social_worker")}
+        hasData={Boolean(data.size) && !loading}
+        loading={loading}
+      >
         <DashboardTable
           pathname={ROUTES.cases}
-          title={i18n.t("dashboard.cases_by_social_worker")}
+          title={label("dashboard.cases_by_social_worker")}
           {...casesBySocialWorkerProps}
         />
       </OptionsBox>

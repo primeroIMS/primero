@@ -542,6 +542,10 @@ cmn:
       date_case_plan_initiated: 个案计划日期
       date_of_creation: 创建日期
       registration_date: 登记日期
+      followup_date: 跟进日期
+      date_reunification: 团聚日期
+      tracing_date: 追踪日期
+      service_implemented_day_time: 完成服务日期
   configurations:
     apply_label: 您确定吗？如果应用，此配置中的设置将应用于系统。您将丢失当前的所有设置，并且无法恢复，除非您已将其保存在另一个配置中。
     apply_label_bold: 在更改加载期间，用户将有几分钟无法使用 Primero。
@@ -597,6 +601,13 @@ cmn:
     all_cases: 所有个案
     all_services_implemented: 所有已实施的服务
     and: '和'
+    action_needed:
+      awaiting_acceptance: 等待接受
+      header: 待处理事项
+      new: 新增
+      new_this_week: 本周新增
+      referrals: 转介
+      transfers: 移交
     approval_action_plan_approved: 已批准
     approval_action_plan_pending: 待定
     approval_action_plan_pending_group: 行动计划
@@ -680,7 +691,6 @@ cmn:
     dash_shared_from_my_team: 来自我的团队的共享
     dash_shared_with_me: 与我共享
     dash_shared_with_my_team: 与我的团队共享
-    dash_shared_with_my_team_overview: 与我的团队共享（概述）
     dash_shared_with_others: 与他人共享
     dash_national_admin_summary: 管理员摘要
     dash_violations_category_verification_status: 每种核查状态下的事件总数
@@ -780,15 +790,8 @@ cmn:
     shared_from_my_team_pending_transfers: 待处理的移交
     shared_from_my_team_referrals: 转介
     shared_from_my_team_rejected_transfers: 已退回的移交
-    shared_with_me_new_referrals: 新转介
-    shared_with_me_total_referrals: 转介总数
-    shared_with_me_transfers_awaiting_acceptance: 等待接收的移交
-    shared_with_my_team_pending_transfers_overview: 等待接收的移交
     shared_with_my_team_pending_transfers: 待处理的移交
     shared_with_my_team_referrals: 转介
-    shared_with_others_pending_transfers: 待处理的移交
-    shared_with_others_referrals: 转介
-    shared_with_others_rejected_transfers: 已退回的移交
     status_of_cases: 个案状况
     system_user: 系统
     total: 总计
@@ -816,23 +819,13 @@ cmn:
   email_notification:
     assign: '%{user}已将%{record_type}分配给您： %{record_id}'
     assign_subject: '%{record_type}: %{id} - 分配给您'
-    approval_request: '该用户%{user}正在申请批准%{approval_type}个案%{case_id}。'
     approval_request_subject: '个案：%{id} - 审批请求'
-    approval_response: '%{user}有%{status}要求批准%{approval_type}个案%{case_id}。'
     approval_response_subject: '个案：%{id} - 审批回复'
     referral: '来自%{agency}的%{user}已将%{record_type}转给您：为个案%{record_id}寻求%{service_type}服务。'
     transfer: '%{user}已将个案%{record_id}的%{record_type}转交给您。'
     transfer_request_subject: 为您的一个个案申请移交
-    transfer_subject: '%{record_type}：%{id} - 移交'
-    referral_subject: '%{record_type}：%{id} - 转介'
     transfer_request: 'Primero 用户%{user}来自%{agency}要求您移交该%{record_type}记录%{record_id}的所有权，以便他们在其区域内为该个人提供%{record_type}个案管理服务。如果您可以接受这种移交，请单击此电子邮件中的 %{record_type}ID 链接，打开 Primero 中的%{record_type}并启动移交。'
     approval_request_html: '该用户<strong>%{user}</strong>正在申请批准<strong>%{approval_type}</strong>个案<strong>%{case_id}</strong>。'
-    approval_response_html: '<strong>%{user}</strong><strong>%{status}</strong>请求批准<strong>%{approval_type}</strong>个案<strong>%{case_id}</strong>'
-    referral_html: '<strong>%{user}</strong>来自%{agency}已将以下%{record_type}转给您：寻求%{service_type}<strong>%{record_id}</strong>。'
-    transfer_html: '<strong>%{user}</strong>已将以下%{record_type}移交给您：<strong>%{record_id}</strong>。'
-    assign_html: '<strong>%{user}</strong>已将以下%{record_type}分配给您：<strong>%{record_id}</strong>。'
-    transfer_request_html: 'Primero 用户<strong>%{user}</strong>来自%{agency}要求您移交该%{record_type}记录<strong>%{record_id}</strong>的所有权，以便他们在其区域内为该个人提供%{record_type}个案管理服务。如果您可以接受这种移交，请单击此电子邮件中的 %{record_type}ID 链接，打开 Primero 中的%{record_type}并启动移交。'
-    transfer_request_notes_html: '申请者的说明：%{request_transfer_notes}'
     alert: '%{record_type}%{id} - %{form_name}已更新。请登录 Primero 查看更改。'
     alert_subject: '%{record_type}: %{id} - %{form_name}已更新 '
   webpush_notification:
@@ -1865,7 +1858,6 @@ cmn:
       user: 用户
       agency: 机构
       user_group: 用户组
-      child: 儿童
       alert: 警报
       form_section: 表格
       lookup: 查询
@@ -2136,10 +2128,36 @@ cmn:
         date_of_first_report: 面谈日期
         incident_date: 事件日期
       reports:
+        incidents: GBV统计数据
         perpetrators: 肇事者
         survivors: 幸存者
         referrals: 转介
       sub_reports:
+        incidents: 事件
+        combined: 通用统计数据
+        total: 1.新增报告的GBV事件
+        gbv_sexual_violence: 幸存者统计数据-9.已报告的性暴力事件数
+        gbv_previous_incidents: 2.新增的已报告性暴力事件
+        gbv_sexual_violence_type: 事件统计数据-10.GBV类型
+        incident_timeofday: 事件统计数据-11.当日事件发生时间
+        elapsed_reporting_time: 事件统计数据- 13. 发生事件与报告事件之间的间隔时间
+        elapsed_reporting_time_rape: 事件统计数据- 14.强奸事件，发生与报告之间的间隔时间
+        elapsed_reporting_time_rape_health_referral: 事件统计数据- 15.强奸事件，事件与报告日期之间经过的时间（卫生服务或服务转介）
+        incident_location_type: 事件统计数据- 16.事件地点
+        number_of_perpetrators: 肇事者统计数据- 17.主要肇事者人数
+        perpetrator_relationship: 肇事者统计数据- 18.被指控的主要肇事者与幸存者的关系
+        perpetrator_age_group: 肇事者统计数据- 19.被指控的主要肇事者年龄组
+        perpetrator_occupation: 肇事者统计数据- 20.被指控的主要肇事者职业
+        age: 幸存者统计数据- 4.幸存者年龄
+        sex: 幸存者统计数据- 3.幸存者性别
+        marital_status: 幸存者统计数据- 5.幸存者婚姻状况
+        displacement_status: 幸存者统计数据- 6.幸存者流离失所状况
+        displacement_incident: 幸存者统计数据- 7.事件发生时的所处流离失所阶段
+        gbv_case_context: 事件统计数据- 12.个案背景
+        incidents_first_point_of_contact: 转介统计数据- 21.您的组织作为第一联系人的事件数
+        incidents_from_other_service_provider: 转介统计数据- 22.从其他服务提供方转介的事件
+        number_of_services_provided: 转介统计数据- 23.为事件提供的服务数量
+        number_of_services_provided_other: 转介统计数据- 24.给其他服务提供商转介的新事件
         service_safehouse_referral: 安全屋/安全庇护所转介
         service_medical_referral: 健康/医疗转介
         service_psycho_referral: 社会心理/咨询服务
@@ -2147,6 +2165,7 @@ cmn:
         service_police_referral: 警察或其他类型的安全服务
         service_livelihoods_referral: 生计服务
         service_protection_referral: 儿童保护服务
+        vulnerable_populations: 幸存者统计数据- 8.脆弱群体
         survivors_disability_type: 残障人士
     workflow_report:
       name: 工作流程
@@ -2226,6 +2245,12 @@ cmn:
     reports: 报告
     insights: 见解
     search: 搜索
+    phonetic_search:
+      title: 输入名字搜索已有记录
+      label: 用户名称字段
+      help_text: 可以通过音节搜索名字
+    id_search:
+      title: 输入ID搜索已有记录
     settings: 设置
     support: 支持
     support_menu:
@@ -2673,6 +2698,15 @@ cmn:
         label: 个案
       dashboard:
         actions:
+          action_needed_new_updated:
+            explanation: 在“待处理事项”仪表盘中显示“新增和更新”指示器。这包括分配给当前用户的新个案，或自当前用户上次更新后由其他用户更新的个案。
+            label: '待处理事项：新增或已更新'
+          action_needed_new_referrals:
+            explanation: 在“待处理事项”仪表盘中显示“新转介”指示器。这包括任何有新转介发送给当前用户的个案，其中当前用户不是最后更新该个案的人。
+            label: '待处理事项：新转介'
+          action_needed_transfer_awaiting_acceptance:
+            explanation: 在“待处理事项”仪表盘中显示“待接受的移交”指示器。这包括任何移交给当前用户但尚未被当前用户接受的个案。
+            label: '待处理事项：待接收的移交'
           approvals_action_plan:
             explanation: 显示了当前用户的个案数量，其中包括待定，批准或拒绝的行动计划批准请求。
             label: 个案社工 %{approval_label} 审批
@@ -3737,40 +3771,21 @@ cmn:
     welcome_email:
       subject: '欢迎来到 %{system}!'
       greeting: '欢迎来到 %{system}!'
-      body_native: '你已经被添加为 %{role_name}. 关于使用的后续说明，请联系%{admin_full_name} (%{admin_email})  %{host}.'
       sso:
         body: '您已被添加为 %{role_name}.'
-        step1: '前往%{host} 点击%{identity_provider}.'
-        step2: '登录你的 %{identity_provider} 账户 %{user_name}.'
-        step3: '始终使用您用于%{identity_provider}账户'
-        footer: '请联系 %{admin_full_name} (%{admin_email}) 以获取进一步的细节。'
       otp:
         body: '您已被添加为 %{role_name}.'
-        step1: '请联系%{admin_full_name} (%{admin_email}) 以获取您的用户名'
-        step2: '前往%{host}，然后单击“使用 Primero 用户名登录”。 '
-        step3: '使用您的用户名和临时密码登录%{otp}.'
-        step4: '出现提示时，重置密码。'
       url_label: Primero
       enabled_label: 发送欢迎电子邮件？
       text_label: 欢迎电子邮件文本
     password_reset:
       subject: '重置密码说明'
-      email_greeting: "亲爱的 %{full_name}"
-      email_body1: "有人请求设置您的密码%{host_href}. 单击下面的 url 开始："
-      email_body2: "此链接将在 %{hours} 小时后过期，并且只能使用一次。如果您没有提出密码重置请求，或者没有代表您注册新的 Primero 用户，请忽略此电子邮件。如果上述链接已过期，请单击%{reset_request_href} 重新提交密码重置请求"
       email_body_link: 这
       request_submitted: "密码重置请求已提交"
       success: "密码已成功更改"
       errors:
         reset_password_token: "密码重置令牌无效"
         password_confirmation: "密码必须匹配"
-    onboard_email:
-      subject: "进入 %{system}"
-      greeting: "亲爱的 %{full_name}"
-      body1: "欢迎来到 Primero"
-      body2: "您已被指定为 %{host_href}. %{reset_notification}的执行管理员。"
-      body2_reset_notification: "您将收到一封额外的电子邮件，提示您重置密码。"
-      body3: "您有责任确保安全及时地实施。对于每次推出，您都应该已经完成了实施计划，其中包含上线和用户管理策略以及信息共享协议。您还负责确保所有用户组织都已签署的使用条款存档。"
   user_group:
     associated_agencies: 与此用户组关联的机构
     description: 描述

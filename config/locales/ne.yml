@@ -672,7 +672,6 @@ ne:
     dash_shared_from_my_team: मेरो समूहबाट शेयर गरिएको
     dash_shared_with_me: मलाई शेयर भएको
     dash_shared_with_my_team: मेरो समूहसँग शेयर गरिएको
-    dash_shared_with_my_team_overview: मेरो समूहमा शेयर गरिएको (ओभरभ्यू)
     dash_shared_with_others: अरुलाई शेयर भएको
     dash_national_admin_summary: प्रशासकीय सारांश
     dash_violations_category_verification_status: प्रमाणीकरण स्थिति अनुसार घटनाहरूको कुल संख्या
@@ -775,15 +774,8 @@ ne:
     shared_from_my_team_pending_transfers: विचाराधीन स्थानान्तरणहरू
     shared_from_my_team_referrals: रिफरलहरू
     shared_from_my_team_rejected_transfers: अस्वीकृत स्थानान्तरणहरू
-    shared_with_me_new_referrals: नयाँ रेफेरलहरू
-    shared_with_me_total_referrals: जम्मा रेफेरलहरू
-    shared_with_me_transfers_awaiting_acceptance: 'स्वीकृतिको प्रतीक्षामा स्थानान्तरणहरू '
-    shared_with_my_team_pending_transfers_overview: स्थानान्तरण स्वीकृतिको लागि पर्खिरहेको छ
     shared_with_my_team_pending_transfers: विचाराधीन स्थानान्तरणहरू
     shared_with_my_team_referrals: रेफेरलहरू
-    shared_with_others_pending_transfers: विचाराधीन स्थानान्तरणहरू
-    shared_with_others_referrals: रेफेरलहरू
-    shared_with_others_rejected_transfers: अस्वीकृत स्थानान्तरणहरू
     status_of_cases: घटनाहरूको स्थिति
     system_user: प्रणाली
     total: जम्मा
@@ -813,23 +805,13 @@ ne:
   email_notification:
     assign: '%{user}ले तपाईलाई निम्न %{record_type} तोक्नु भएको छः %{record_id}'
     assign_subject: '%{record_type}:%{id} - तपाईलाई तोकिएको'
-    approval_request: 'प्रयोगकर्ता %{user}ले %{case_id} घटनामा %{approval_type} स्वीकृति मागिरहेको छ'
     approval_request_subject: 'घटना: %{id} - स्वीकृति अनुरोध'
-    approval_response: '%{user} %{status} ले %{case_id} घटनाका अनुमोदनका लागि %{approval_type}स्वीकृति मागिरहेको छ ।'
     approval_response_subject: 'घटना:%{id}- स्वीकृति प्रतिक्रिया'
     referral: '%{agency} बाट %{user} ले %{record_type} घटनाको रिफर गर्नु भएको छ : %{record_id} को लागि %{service_type}.'
     transfer: '%{user} ले निम्न %{record_type} कुराहरू तपाईलाई हस्तान्तरण गर्नुभएको छ : %{record_id}.'
     transfer_request_subject: तपाईको एउटा घटनाको लागि स्थानान्तरण अनुरोध
-    transfer_subject: '%{record_type}:%{id} - स्थानान्तरण'
-    referral_subject: '%{record_type}:%{id} - रेफेरल'
     transfer_request: '%{agency} निकायबाट %{user} प्रीमेरो प्रयोगकर्ताले तपाईबाट यो %{record_type} अभिलेख %{record_id}  को स्वामित्व हस्तान्तरण गर्न अनुरोध गरिरहेको छ ताकि तिनीहरूले आफ्नो क्षेत्रका व्यक्तिका लागि %{record_type} व्यवस्थापन सेवा प्रदान गर्न सकून् । यदि यो स्थानान्तरण तपाईंलाई स्वीकार्य छ भने, कृपया प्रीमेरोमा %{record_type} खोल्न र स्थानान्तरण सुरु गर्न यो इमेल आईडीमा रहेको %{record_type} लिङ्कमा क्लिक गर्नुहोस् ।'
     approval_request_html: 'प्रयोगकर्ता <strong>%{user}</strong> ले <strong>%{approval_type}</strong> को <strong>%{case_id}</strong> घटनामा स्वीकृतिको लागि अनुरोध गरिराख्नुभएको छ ।'
-    approval_response_html: '<strong>%{user}</strong> <strong>%{status}</strong> ले <strong>%{approval_type}</strong> को <strong>%{case_id}</strong> घटनामा स्वीकृतिका लागि अनुरोध गर्नुभएको छ ।'
-    referral_html: '%{agency} बाट <strong>%{user}</strong> ले निम्न %{record_type} रिफर गर्नुभएको छः <strong>%{record_id}</strong> को लागि %{service_type}'
-    transfer_html: '<strong>%{user}</strong> ले निम्न %{record_type} हस्तान्तरण गर्नयभएको  छ: <strong>%{record_id}</strong>'
-    assign_html: '<strong>%{user}</strong> ले निम्न %{record_type} तोक्नुभएको छ :<strong>%{record_id}</strong>'
-    transfer_request_html: 'प्रीमरो प्रयोगकर्ता <strong>%{user}</strong> ले %{agency} बाट <strong>%{record_id}</strong> अभिलेखको   %{record_type}  स्वामित्व हस्तान्तरण गर्न अनुरोध गरिरहेको छ ता कि तिनीहरूले आफ्नो क्षेत्रका व्यक्तिका लागि %{record_type} व्यवस्थापन सेवा प्रदान गर्न सकून् । यदि यो स्थानान्तरण तपाईलाई स्वीकार्य छ भने कृपया ईमेलमा रहेको %{record_type} आईडी लिंकमा क्लिक गरी  प्रीमेरोमा %{record_type} खोल्नुहोस् र स्थानान्तरण गर्नुहोस्।'
-    transfer_request_notes_html: 'अनुरोध गर्ने व्यक्तिबाट नोट: %{request_transfer_notes}'
   encrypt:
     export_type: निर्यातको प्रकार
     file_name: तपाईँको आफ्नै फाइल नाम सिर्जना गर्नुहोस् (वैकल्पिक)
@@ -1770,7 +1752,6 @@ ne:
       user: प्रयोगकर्ता
       agency: निकाय
       user_group: 'प्रयोगकर्ताको समुह '
-      child: 'बालबालिका '
       alert: सतर्कता
       form_section: फारम
       lookup: खोजी
@@ -3324,40 +3305,21 @@ ne:
     welcome_email:
       subject: '%{system}मा स्वागत छ'
       greeting: '%{system}मा स्वागत छ'
-      body_native: 'तपाईलाई %{role_name} को रूपमा थपिएको छ । %{host} सँग काम सुरु गर्न कृपया %{admin_full_name}(%{admin_email}) सँग फलोअप निर्देशनको प्राप्त गर्नुहोस् ।'
       sso:
         body: "à¤¤à¤ªà¤¾à¤\x88à¤\x82à¤²à¤¾à¤\x88 %{role_name} à¤\x95à¥\x8B à¤°à¥\x82à¤ªà¤®à¤¾ à¤¥à¤ªà¤¿à¤\x8Fà¤\x95à¥\x8B à¤\x9B à¥¤"
-        step1: "%{host} à¤®à¤¾ à¤\x9Cà¤¾à¤¨à¥\x81à¤¹à¥\x8Bà¤¸à¥\x8D à¤° %{identity_provider} à¤®à¤¾ à¤\x95à¥\x8Dà¤²à¤¿à¤\x95 à¤\x97à¤°à¥\x8Dà¤¨à¥\x81à¤¹à¥\x8Bà¤¸à¥\x8D à¥¤"
-        step2: 'तपाईको %{identity_provider} को खाता %{user_name} द्वारा लग-इन गर्नुहोस् । '
-        step3: 'तपाईले खाता %{identity_provider} को लागि सधैं प्रयोग गर्ने पासवर्ड प्रयोग गर्नुहोस् ।'
-        footer: 'थप जानकारीको लागि कृपया %{admin_full_name}(%{admin_email}) लाई सम्पर्क गर्नुहोस् ।'
       otp:
         body: 'तपाईलाई %{role_name}को रूपमा थपिएको छ ।'
-        step1: 'कृपया तपाईको प्रयोगकर्ता नाम प्राप्त गर्नको लागि %{admin_full_name}(%{admin_email})लाई सम्पर्क गर्नुहोस् ।'
-        step2: '%{host}मा जानुहोस् र "प्रीमेरो प्रयोगकर्ता नामबाट लगईन गर्नुहोस्"मा क्लिक गर्नुहोस्।'
-        step3: 'तपाँईको प्रीमेरो प्रयोगकर्ता नाम र यो अस्थाई पासवर्ड %{otp} प्रयोग गरी लगईन गर्नुहोस्।'
-        step4: 'सङ्केत पाएपछि तपाईंको पासवर्ड रिसेट गर्नुहोस् । '
       url_label: 'प्रीमेरो '
       enabled_label: स्वागत ईमेल पठाउन चाहनुहुन्छ ?
       text_label: स्वागत ईमेल सन्देश  
     password_reset:
       subject: 'पासवर्ड रिसेटको निर्देशनहरू'
-      email_greeting: "प्रिय %{full_name},"
-      email_body1: " %{host_href}को पासवर्ड सेट गर्न कसैले अनुरोध गर्नुभयो । शुरु गर्नको लागि तल दिइएको ठेगानामा क्लिक गर्नुहोस् ।"
-      email_body2: "यो लिङ्क %{hours} घण्टामा समाप्त हुनेछ र एक पटक मात्र प्रयोग गर्न सकिन्छ । यदि तपाईले पासवर्ड रिसेट गर्न अनुरोध गर्नु भएको छैन वा तपाईको तर्फबाट नयाँ प्रीमेरो प्रयोगकर्ताको लागि दर्ता गरिएको थिएन भने कृपया यो ईमेललाई बहिस्कार गर्नुहोस् । यदि माथिको लिङ्कको म्याद सकिएको छ भने कृपया पासवर्ड रिसेट अनुरोध पुन: पेश गर्न %{reset_request_href} मा क्लिक गर्नुहोस् ।"
       email_body_link: यहाँ
       request_submitted: "पासवर्ड रिसेट अनुरोध पेश गरिएको  ।"
       success: "पासवर्ड सफलतापूर्वक परिवर्तन भएको छ"
       errors:
         reset_password_token: "अवैध पासवर्ड रिसेट टोकन "
         password_confirmation: "पासवर्डहरू मिल्नु पर्छ "
-    onboard_email:
-      subject: "%{system}à¤®à¤¾ à¤\x91à¤¨à¤¬à¥\x8Bà¤°à¥\x8Dà¤¡à¤¿à¤\x99à¥\x8D à¤¹à¥\x81à¤\x81à¤¦à¥\x88"
-      greeting: "प्रिय %{full_name},"
-      body1: "प्रीमेरोमा स्वागत छ"
-      body2: "तपाईलाई %{host_href}.%{reset_notification} को लागि कार्यान्वयन प्रशासकको रूपमा जिम्मेवारी प्रदान गरिएको छ ।"
-      body2_reset_notification: "तपाईंको पासवर्ड रिसेट गर्न सङ्केतको रूपमा तपाईंले एक अतिरिक्त ईमेल प्राप्त गर्नुहुनेछ ।"
-      body3: "सुरक्षित र समयमै कार्यान्वयन सुनिश्चित गर्नको लागि तपाई आफैँ जिम्मेवार हुनुहुन्छ । प्रत्येक रोलआउटको लागि, तपाईले ऑनबोर्डिङ् र प्रयोगकर्ता व्यवस्थापन रणनीति र सूचना आदान प्रदान प्रोटोकलको कार्यान्वयन योजना पूरा गर्नु पर्छ। तपाई फाइलमा सबै प्रयोगकर्ता संस्थाहरूको लागि हस्ताक्षरित उपयोगको शर्तहरू सुनिश्चित गर्न पनि जिम्मेवार हुनुहुन्छ ।"
   user_group:
     associated_agencies: यस प्रयोगकर्ता समूहसँग सम्बन्धित निकायहरू
     description: विवरण

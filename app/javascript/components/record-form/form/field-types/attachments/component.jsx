@@ -15,6 +15,7 @@ import { getIsProcessingAttachments, getLoadingRecordState, getRecordAttachments
 import { useMemoizedSelector } from "../../../../../libs";
 import { get } from "../../../../form/utils";
 import SubformEmptyData from "../../subforms/subform-empty-data";
+import { AssetJwt } from "../../../../asset-jwt";
 
 import { ATTACHMENT_FIELDS_INITIAL_VALUES, ATTACHMENT_TYPES, FIELD_ATTACHMENT_TYPES } from "./constants";
 import AttachmentLabel from "./attachment-label";
@@ -22,6 +23,8 @@ import DocumentField from "./document-field";
 import AttachmentField from "./attachment-field";
 import PhotoArray from "./photo-array";
 import { buildBase64URL } from "./utils";
+import css from "./styles.css";
+
 // TODO: No link to display / download upload
 function Component({ name, field, label, disabled, formik, mode, recordType, helperText }) {
   const i18n = useI18n();
@@ -33,6 +36,7 @@ function Component({ name, field, label, disabled, formik, mode, recordType, hel
   const values = get(formik.values, name, []);
   const error = get(formik.errors, name, "");
   const attachment = FIELD_ATTACHMENT_TYPES[field.type];
+  const isDocumentAttachment = attachment === ATTACHMENT_TYPES.document;
 
   const [openLastDialog, setOpenLastDialog] = useState(false);
 
@@ -64,7 +68,7 @@ function Component({ name, field, label, disabled, formik, mode, recordType, hel
     values?.map((value, index) => {
       return (
         <div key={`${attachment}-${name}`}>
-          {attachment === ATTACHMENT_TYPES.document ? (
+          {isDocumentAttachment ? (
             <DocumentField
               title={`${mode.isShow ? "" : i18n.t("fields.add")} ${label}`}
               index={index}
@@ -98,9 +102,11 @@ function Component({ name, field, label, disabled, formik, mode, recordType, hel
 
       return (
         <Box my={2}>
-          <audio id={fileName} controls>
-            <source src={attachmentUrl || buildBase64URL(value.content_type, value.attachment)} />
-          </audio>
+          <AssetJwt
+            id={fileName}
+            src={attachmentUrl || buildBase64URL(value.content_type, value.attachment)}
+            type="audio"
+          />
         </Box>
       );
     });
@@ -137,7 +143,7 @@ function Component({ name, field, label, disabled, formik, mode, recordType, hel
             hasData={!processing && !loading}
           >
             {values.length > 0 || <SubformEmptyData subformName={label} />}
-            {renderField(arrayHelpers)}
+            <div className={isDocumentAttachment ? css.attachments : ""}>{renderField(arrayHelpers)}</div>
           </LoadingIndicator>
         </div>
       )}

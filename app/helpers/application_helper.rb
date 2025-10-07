@@ -22,18 +22,20 @@ module ApplicationHelper
   end
 
   def available_locations
-    location_file = Dir.glob("#{GenerateLocationFilesService.options_parent_dir}/options/*").first
-    return [] unless location_file.present?
+    system_settings = SystemSettings.first
+    return '' unless system_settings.location_file.attached?
 
-    file = location_file.match(%r{(/options/.*.json)$})
-    return [] unless file
-
-    file[0].to_json.html_safe
+    rails_blob_path(system_settings.location_file, only_path: true)
   end
 
   def csp_property_meta_tag
     return unless content_security_policy?
 
     tag('meta', property: 'csp-nonce', content: content_security_policy_nonce)
+  end
+
+  def url_for_asset(source)
+    protocol = Rails.application.config.force_ssl ? 'https' : 'http'
+    asset_path(source, host: host_url, protocol:)
   end
 end

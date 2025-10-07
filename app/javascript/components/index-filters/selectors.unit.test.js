@@ -4,10 +4,48 @@ import { fromJS } from "immutable";
 
 import { RECORD_PATH } from "../../config";
 import { PrimeroModuleRecord } from "../application/records";
+import { FieldRecord } from "../record-form/records";
+import { mapEntriesToRecord } from "../../libs";
 
-import { getFiltersByRecordType, getFiltersValuesByRecordType } from "./selectors";
+import { getFiltersByRecordType, getFiltersValuesByRecordType, getTooltipFields } from "./selectors";
 
 const stateWithoutRecords = fromJS({});
+
+const fields = {
+  1: {
+    name: "name",
+    type: "text_field",
+    editable: true,
+    visible: true,
+    display_name: {
+      en: "Name",
+      es: "Nombre"
+    },
+    required: true
+  },
+  2: {
+    name: "short_id",
+    type: "text_field",
+    editable: true,
+    visible: true,
+    display_name: {
+      en: "Short ID",
+      es: "ID corto"
+    },
+    required: true
+  },
+  3: {
+    name: "case_id",
+    type: "text_field",
+    editable: true,
+    visible: true,
+    display_name: {
+      en: "Case ID",
+      es: "ID del caso"
+    },
+    required: true
+  }
+};
 
 const state = fromJS({
   user: {
@@ -41,7 +79,12 @@ const state = fromJS({
     }
   },
   application: {
-    modules: [PrimeroModuleRecord({ unique_id: "test1", list_filters: { cases: ["filter1"] } })]
+    modules: [PrimeroModuleRecord({ unique_id: "test1", list_filters: { cases: ["filter1"] } })],
+    exactSearchFields: { cases: ["short_id", "case_id"] },
+    phoneticSearchFields: { cases: ["name"] }
+  },
+  forms: {
+    fields: mapEntriesToRecord(fields, FieldRecord)
   }
 });
 
@@ -60,13 +103,13 @@ describe("<IndexFilters /> - Selectors", () => {
 
       const records = getFiltersByRecordType(state, RECORD_PATH.cases);
 
-      expect(records).to.deep.equal(expected);
+      expect(records).toEqual(expected);
     });
 
     it("should return empty list", () => {
       const records = getFiltersByRecordType(stateWithoutRecords, RECORD_PATH.cases);
 
-      expect(records).to.be.empty;
+      expect(records.size).toBe(0);
     });
   });
 
@@ -78,13 +121,43 @@ describe("<IndexFilters /> - Selectors", () => {
 
       const records = getFiltersValuesByRecordType(state, RECORD_PATH.cases);
 
-      expect(records).to.deep.equal(expected);
+      expect(records).toEqual(expected);
     });
 
     it("should return empty map", () => {
       const records = getFiltersValuesByRecordType(stateWithoutRecords, RECORD_PATH.cases);
 
-      expect(records).to.be.empty;
+      expect(records.size).toBe(0);
+    });
+  });
+
+  describe("getTooltipFields", () => {
+    describe("when isPhonetic is true", () => {
+      it("return list of display_name fields", () => {
+        const expected = [{ en: "Name", es: "Nombre" }];
+
+        const records = getTooltipFields(state, RECORD_PATH.cases, true);
+
+        expect(records).toEqual(expected);
+      });
+    });
+    describe("when isPhonetic is false", () => {
+      it("return list of fields", () => {
+        const expected = [
+          { en: "Short ID", es: "ID corto" },
+          { en: "Case ID", es: "ID del caso" }
+        ];
+
+        const records = getTooltipFields(state, RECORD_PATH.cases, false);
+
+        expect(records).toEqual(expected);
+      });
+    });
+
+    it("when recordType is empty should return empty", () => {
+      const records = getTooltipFields(state, "", false);
+
+      expect(records).toBeNull();
     });
   });
 });

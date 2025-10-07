@@ -673,7 +673,6 @@ tet:
     dash_shared_from_my_team: Fahe ona husi Ha'u nia Ekipa
     dash_shared_with_me: Fahe ona Ho Ha'u
     dash_shared_with_my_team: Fahe ona ho Ha'u nia Ekipa
-    dash_shared_with_my_team_overview: Fahe ona Ho Ha'u nia Ekipa (Vizaun-Jerál)
     dash_shared_with_others: Fahe ona ho Ema Seluk
     dash_national_admin_summary: Sumáriu Administrador
     dash_violations_category_verification_status: Númeru totál husi Insidente tuir status verifikasaun
@@ -773,15 +772,8 @@ tet:
     shared_from_my_team_pending_transfers: Transferensia Pendente
     shared_from_my_team_referrals: Referál
     shared_from_my_team_rejected_transfers: Transferénsia Rejeitadu
-    shared_with_me_new_referrals: Referál Foun
-    shared_with_me_total_referrals: Referál Totál
-    shared_with_me_transfers_awaiting_acceptance: Hein atu Simu Transferénsia
-    shared_with_my_team_pending_transfers_overview: Hein atu Simu Transferénsia
     shared_with_my_team_pending_transfers: Transferénsia Pendente
     shared_with_my_team_referrals: Referál
-    shared_with_others_pending_transfers: Transferénsia Pendente
-    shared_with_others_referrals: Referál
-    shared_with_others_rejected_transfers: Transferénsia Rejeitadu
     status_of_cases: Status Kazu
     system_user: Sistema
     total: Totál
@@ -809,23 +801,13 @@ tet:
   email_notification:
     assign: '%{user}atribui ona buat hirak ne''e%{record_type}ba ita: %{record_id}.'
     assign_subject: '%{record_type}:%{id}-Atribuidu ba ita'
-    approval_request: 'Utilizador %{user}hato''o pedidu aprovasaun ba %{approval_type}kona-ba kazu %{case_id}.'
     approval_request_subject: 'Kazu: %{id}-Pedidu Aprovasaun'
-    approval_response: '%{user}iha %{status}pedidu ba aprovasaun %{approval_type}ba kazu%{case_id}.'
     approval_response_subject: 'Kazu: %{id}- Resposta Aprovasaun'
     referral: '%{user}husi%{agency}refere ona buat hirak ne''e %{record_type}ba ita:%{record_id}ba%{service_type}.'
     transfer: '%{user}transfere ona buat hirak ne''e %{record_type}ba ita: %{record_id}.'
     transfer_request_subject: Pedidu Transferensia ba ita nia kazu ida
-    transfer_subject: '%{record_type}: %{id}- Transfere'
-    referral_subject: '%{record_type}:%{id}-Referál'
     transfer_request: 'Utilizador Primero%{user}hosi%{agency}hato''o pedidu ba ita katak na''in ba transferensia husi %{record_type}rejistu %{record_id}atu nun''e sira be''e fornese %{record_type}jestaun servisu ba individu ne''e iha sira nia area. Bainhira ita simu transferensia ne''e, favór hanehan iha %{record_type}ligasaun ID iha email atu loke %{record_type}iha Primero no hahu halo transferensia.'
     approval_request_html: 'Utilizador <strong>%{user}</strong>hato''o pedidu aprovasaun ba <strong>%{approval_type}</strong>ba kazu <strong>%{case_id}</strong>.'
-    approval_response_html: '<strong>%{user}</strong>iha<strong>%{status}</strong>pedidu aprovasaun ba <strong>%{approval_type}</strong> a kazu <strong>%{case_id}</strong>.'
-    referral_html: '<strong>%{user}</strong>hosi %{agency}refere ona %{record_type}ba ita: <strong>%{record_id}</strong>ba%{service_type}.'
-    transfer_html: '<strong>%{user}</strong>transfere ona %{record_type}ba ita: <strong>%{record_id}</strong>.'
-    assign_html: '<strong>%{user}</strong>atribui ona %{record_type}ba ita: <strong>%{record_id}</strong>.'
-    transfer_request_html: 'Utilizador Primero<strong>%{user}</strong> hosi %{agency} hato''o pedidu ba ita katak na''in ba transferensia husi %{record_type} rejistu <strong>%{record_id}</strong> atu nun''e sira be''e fornese %{record_type} jestaun servisu ba individu ne''e iha sira nia area. Bainhira ita simu transferensia ne''e, favór hanehan iha %{record_type} ligasaun ID iha email atu loke %{record_type} iha Primero no hahu halo transferensia.'
-    transfer_request_notes_html: 'Notas husi individu ne''ebé mak hato''o pedidu: %{request_transfer_notes}'
     alert_subject: '%{record_type}:%{id}-%{form_name}Atualiza ona'
   webpush_notification:
     action_label: Ba Kazu
@@ -1809,7 +1791,6 @@ tet:
       user: Utilizador
       agency: Ajénsia
       user_group: Grupu Utilizador
-      child: Labarik
       alert: Alerta
       form_section: Formuláriu
       lookup: Peskiza
@@ -3506,40 +3487,21 @@ tet:
     welcome_email:
       subject: 'Benvindu mai %{system}!'
       greeting: 'Benvindu mai %{system}!'
-      body_native: 'Aumenta ona ita hanesan %{role_name}. Favór kontaktu %{admin_full_name}(%{admin_email}) ba instrusaun tuir mai atu hahu servisu ho %{host}.'
       sso:
         body: 'Aumenta ona ita hanesan %{role_name}.'
-        step1: 'Ba iha %{host} no hanehan %{identity_provider}.'
-        step2: 'Login ho ita-nia konta %{identity_provider}%{user_name}.'
-        step3: 'Uza seña hanesan ne''ebé ita sempre uza ba ita-nia konta %{identity_provider}'
-        footer: 'Favór kontaktu %{admin_full_name} (%{admin_email}) ba detallu sira tuir mai.'
       otp:
         body: 'Aumenta ona ita hanesan %{role_name}.'
-        step1: 'Favór kontaktu %{admin_full_name} (%{admin_email}) atu simu ita nia naran utilizador.'
-        step2: 'Ba iha %{host} no hanehan "login ho naran utilizador Primero.".'
-        step3: 'Login ho ita nia naran utilizador no seña temporaria %{otp}'
-        step4: 'Wainhira fó-hanoin, reestabelese ita nia seña.'
       url_label: Primero
       enabled_label: Manda Email Benvindu?
       text_label: Testu Email Benvindu
     password_reset:
       subject: 'Instrusaun sira ba reestabelese seña'
-      email_greeting: "Karu %{full_name},"
-      email_body1: "Ema ida halo ona pedidu atu estabelese ita nia seña ba %{host_href}. Hanehan url iha kraik atu hahu:"
-      email_body2: "Link ida ne'e sei espira iha oras %{hours} no sei bele uza de'it dala ida. Favór ignora email ida ne'e se ita lahalo pedidu ba reestabelese seña ka Utilizador Primero foun ida la'os rejistu ba ita. Se link iha leten ne'e espira, favór hanehan %{reset_request_href} atu submete filafali pedidu reestabelese seña."
       email_body_link: iha ne'e
       request_submitted: "Pedidu reestabelese seña submete ona"
       success: "Seña muda ona ho susesu"
       errors:
         reset_password_token: "Token reestabele seña inválidu"
         password_confirmation: "Seña tenke koresponde"
-    onboard_email:
-      subject: "Onboarding ba %{system}"
-      greeting: "Karu %{full_name},"
-      body1: "Benvindu mai Primero"
-      body2: "Ita dezignadu hanesan administrador ba implementasaun %{host_href}. %{reset_notification}"
-      body2_reset_notification: "Ita sei simu email adisional ida alerta ita atu reestabelese ita-nia seña."
-      body3: "Ita iha responsabilidade atu asegura seguransa no durasaun husi implementasaun. Ba kada implementasaun, ita tenle kompleta ona Planu Implementasaun ho onboarding no jestaun estratejia utilizador no protokolu fahe informasaun. Ita mos responsavel atu asegura katak dokumentu Termu husi Utilizasaun ne'ebé hetan asina ona iha arkivu ba organizasaun utilizador sira hotu-hotu."
   user_group:
     associated_agencies: Ajénsia sira asosiadu ho Grupu Utilizador ida ne'e
     description: Deskrisaun

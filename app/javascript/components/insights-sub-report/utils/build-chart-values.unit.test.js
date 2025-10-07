@@ -5,27 +5,28 @@ import { fromJS } from "immutable";
 import buildChatValues from "./build-chart-values";
 
 describe("<InsightsSubReport />/utils/buildChatValues", () => {
-  context("when is not grouped", () => {
+  describe("when is not grouped", () => {
     it("returns a single dataset", () => {
       const chartValues = buildChatValues({
         totalText: "Total",
         getLookupValue: (_key, value) => value.get("id"),
         localizeDate: value => value,
         valueKey: "key",
+        labels: { total: "Total" },
         value: fromJS([
           { id: "option_1", total: 5 },
           { id: "option_2", total: 10 }
         ])
       });
 
-      expect(chartValues.datasets).to.have.lengthOf(1);
-      expect(chartValues.datasets[0].label).to.equal("Total");
-      expect(chartValues.labels).to.deep.equal(["option_1", "option_2"]);
-      expect(chartValues.datasets[0].data).to.deep.equal([5, 10]);
+      expect(chartValues.datasets).toHaveLength(1);
+      expect(chartValues.datasets[0].label).toBe("Total");
+      expect(chartValues.labels).toEqual(["option_1", "option_2"]);
+      expect(chartValues.datasets[0].data).toEqual([5, 10]);
     });
   });
 
-  context("when is grouped by year", () => {
+  describe("when is grouped by year", () => {
     it("returns a dataset for each group", () => {
       const chartValues = buildChatValues({
         totalText: "Total",
@@ -59,12 +60,12 @@ describe("<InsightsSubReport />/utils/buildChatValues", () => {
         ])
       });
 
-      expect(chartValues.datasets).to.have.lengthOf(3);
-      expect(chartValues.datasets.map(dataset => dataset.label)).to.deep.equals(["option_1", "option_2", "option_3"]);
-      expect(chartValues.datasets[0].data).to.deep.equals([1, 3, 0]);
-      expect(chartValues.datasets[1].data).to.deep.equals([2, 1, 2]);
-      expect(chartValues.datasets[2].data).to.deep.equals([0, 0, 8]);
-      expect(chartValues.labels).to.deep.equal(["2022", "2023", "2024"]);
+      expect(chartValues.datasets).toHaveLength(3);
+      expect(chartValues.datasets.map(dataset => dataset.label)).toEqual(["option_1", "option_2", "option_3"]);
+      expect(chartValues.datasets[0].data).toEqual([1, 3, 0]);
+      expect(chartValues.datasets[1].data).toEqual([2, 1, 2]);
+      expect(chartValues.datasets[2].data).toEqual([0, 0, 8]);
+      expect(chartValues.labels).toEqual(["2022", "2023", "2024"]);
     });
 
     it("returns a dataset for each group in alphabetic order", () => {
@@ -101,16 +102,16 @@ describe("<InsightsSubReport />/utils/buildChatValues", () => {
         ])
       });
 
-      expect(chartValues.datasets).to.have.lengthOf(3);
-      expect(chartValues.datasets.map(dataset => dataset.label)).to.deep.equals([
+      expect(chartValues.datasets).toHaveLength(3);
+      expect(chartValues.datasets.map(dataset => dataset.label)).toEqual([
         "First Option",
         "Fourth Option",
         "Second Option"
       ]);
-      expect(chartValues.datasets[0].data).to.deep.equals([1, 3, 0]);
-      expect(chartValues.datasets[1].data).to.deep.equals([0, 0, 8]);
-      expect(chartValues.datasets[2].data).to.deep.equals([2, 1, 2]);
-      expect(chartValues.labels).to.deep.equal(["2022", "2023", "2024"]);
+      expect(chartValues.datasets[0].data).toEqual([1, 3, 0]);
+      expect(chartValues.datasets[1].data).toEqual([0, 0, 8]);
+      expect(chartValues.datasets[2].data).toEqual([2, 1, 2]);
+      expect(chartValues.labels).toEqual(["2022", "2023", "2024"]);
     });
 
     it("returns a dataset for each group in age range order", () => {
@@ -122,6 +123,7 @@ describe("<InsightsSubReport />/utils/buildChatValues", () => {
         isGrouped: true,
         valueKey: "age",
         ageRanges: ["0 - 5", "6 - 11", "12 - 17", "18+"],
+        labels: {},
         value: fromJS([
           {
             group_id: 2022,
@@ -147,17 +149,17 @@ describe("<InsightsSubReport />/utils/buildChatValues", () => {
         ])
       });
 
-      expect(chartValues.datasets).to.have.lengthOf(4);
-      expect(chartValues.datasets.map(dataset => dataset.label)).to.deep.equals(["0 - 5", "6 - 11", "12 - 17", "18+"]);
-      expect(chartValues.datasets[0].data).to.deep.equals([0, 3, 8]);
-      expect(chartValues.datasets[1].data).to.deep.equals([1, 0, 0]);
-      expect(chartValues.datasets[2].data).to.deep.equals([2, 0, 0]);
-      expect(chartValues.datasets[3].data).to.deep.equals([0, 1, 2]);
-      expect(chartValues.labels).to.deep.equal(["2022", "2023", "2024"]);
+      expect(chartValues.datasets).toHaveLength(4);
+      expect(chartValues.datasets.map(dataset => dataset.label)).toEqual(["0 - 5", "6 - 11", "12 - 17", "18+"]);
+      expect(chartValues.datasets[0].data).toEqual([0, 3, 8]);
+      expect(chartValues.datasets[1].data).toEqual([1, 0, 0]);
+      expect(chartValues.datasets[2].data).toEqual([2, 0, 0]);
+      expect(chartValues.datasets[3].data).toEqual([0, 1, 2]);
+      expect(chartValues.labels).toEqual(["2022", "2023", "2024"]);
     });
   });
 
-  context("when is grouped by month", () => {
+  describe("when is grouped by month", () => {
     it("returns a dataset for each group", () => {
       const chartValues = buildChatValues({
         totalText: "Total",
@@ -191,12 +193,12 @@ describe("<InsightsSubReport />/utils/buildChatValues", () => {
         ])
       });
 
-      expect(chartValues.datasets).to.have.lengthOf(3);
-      expect(chartValues.datasets.map(dataset => dataset.label)).to.deep.equals(["option_1", "option_2", "option_3"]);
-      expect(chartValues.datasets[0].data).to.deep.equals([1, 3, 0]);
-      expect(chartValues.datasets[1].data).to.deep.equals([2, 1, 2]);
-      expect(chartValues.datasets[2].data).to.deep.equals([0, 0, 8]);
-      expect(chartValues.labels).to.deep.equal(["2022-12", "2023-01", "2023-02"]);
+      expect(chartValues.datasets).toHaveLength(3);
+      expect(chartValues.datasets.map(dataset => dataset.label)).toEqual(["option_1", "option_2", "option_3"]);
+      expect(chartValues.datasets[0].data).toEqual([1, 3, 0]);
+      expect(chartValues.datasets[1].data).toEqual([2, 1, 2]);
+      expect(chartValues.datasets[2].data).toEqual([0, 0, 8]);
+      expect(chartValues.labels).toEqual(["2022-12", "2023-01", "2023-02"]);
     });
   });
 });

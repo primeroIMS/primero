@@ -9,6 +9,7 @@ import {
   READ_RECORDS,
   READ_REPORTS,
   SHOW_APPROVALS,
+  SHOW_ACCESS_LOG,
   SHOW_CHANGE_LOG,
   SHOW_EXPORTS,
   SHOW_TASKS,
@@ -19,7 +20,8 @@ import {
   SHOW_SUMMARY,
   READ_MANAGED_REPORTS,
   READ_REGISTRY_RECORD,
-  READ_FAMILY_RECORD
+  READ_FAMILY_RECORD,
+  SHOW_USAGE_REPORTS
 } from "./components/permissions/constants";
 import getAdminResources from "./components/pages/admin/utils/get-admin-resources";
 
@@ -138,6 +140,7 @@ const RECORD_PATH = {
   users: "users",
   activity_log: "activity_log",
   registry_records: "registry_records",
+  usage_reports: "usage_reports",
   webpush_config: "webpush/config"
 };
 
@@ -165,6 +168,8 @@ const CHANGE_LOGS = "change_logs";
 const SUMMARY = "summary";
 
 const SUMMARY_INCIDENT_MRM = "mrm_summary_page";
+
+const ACCESS_LOGS = "access_logs";
 
 const TRANSITION_TYPE = [TRANSFERS_ASSIGNMENTS, REFERRAL];
 
@@ -216,7 +221,8 @@ const ROUTES = {
   password_reset_request: "/password_reset_request",
   registry_records: "/registry_records",
   subscriptions: "/webpush/subscriptions",
-  subscriptions_current: "/webpush/subscriptions/current"
+  subscriptions_current: "/webpush/subscriptions/current",
+  usage_reports: "/admin/usage_reports"
 };
 
 const PERMITTED_URL = [
@@ -282,7 +288,8 @@ const LOOKUPS = {
   legitimate_basis_explanations: "lookup-legitimate-basis-explanations",
   verification_status: "lookup-verification-status",
   violation_type: "lookup-violation-type",
-  armed_force_group_or_other_party: "lookup-armed-force-group-or-other-party"
+  armed_force_group_or_other_party: "lookup-armed-force-group-or-other-party",
+  yes_no: "lookup-yes-no"
 };
 
 const ADMIN_NAV = [
@@ -354,6 +361,12 @@ const ADMIN_NAV = [
     label: "settings.navigation.audit_logs",
     permission: SHOW_AUDIT_LOGS,
     recordType: RESOURCES.audit_logs
+  },
+  {
+    to: "/usage_reports",
+    label: "settings.navigation.usage_reports",
+    permission: SHOW_USAGE_REPORTS,
+    recordType: RESOURCES.usage_reports
   }
 ];
 
@@ -580,16 +593,19 @@ const FILE_FORMAT = {
 
 const FAMILY_MEMBERS_SUBFORM_ID = "family_members_section";
 const FAMILY_FROM_CASE = "family_from_case";
+const CASE_RELATIONSHIPS = "case_relationships";
 
 const FAMILY_DETAILS_SUBFORM_ID = "family_details_section";
 
 const FORM_PERMISSION_ACTION = Object.freeze({
   [INCIDENT_FROM_CASE]: VIEW_INCIDENTS_FROM_CASE,
+  [ACCESS_LOGS]: SHOW_ACCESS_LOG,
   [CHANGE_LOGS]: SHOW_CHANGE_LOG,
   [APPROVALS]: SHOW_APPROVALS,
   [SUMMARY]: SHOW_SUMMARY,
   [REGISTRY_FROM_CASE]: READ_REGISTRY_RECORD,
-  [FAMILY_FROM_CASE]: READ_FAMILY_RECORD
+  [FAMILY_FROM_CASE]: READ_FAMILY_RECORD,
+  [CASE_RELATIONSHIPS]: READ_RECORDS
 });
 
 const VIOLATIONS_FORM = [
@@ -621,7 +637,8 @@ const VIOLATIONS_SUBFORM_UNIQUE_IDS = [
   "attack_on_hospitals",
   "attack_on_schools",
   "military_use",
-  "denial_humanitarian_access"
+  "denial_humanitarian_access",
+  "deprivation_liberty"
 ];
 
 const VIOLATION_FORMS_MAPPING = Object.freeze({
@@ -633,7 +650,8 @@ const VIOLATION_FORMS_MAPPING = Object.freeze({
   attack_on_hospitals: "attack_on_hospitals_violation_wrapper",
   attack_on_schools: "attack_on_schools_violation_wrapper",
   military_use: "military_use_violation_wrapper",
-  denial_humanitarian_access: "denial_humanitarian_access_violation_wrapper"
+  denial_humanitarian_access: "denial_humanitarian_access_violation_wrapper",
+  deprivation_liberty: "deprivation_liberty_violation_wrapper"
 });
 
 const VIOLATIONS_ASSOCIATIONS_UNIQUE_IDS = [
@@ -667,6 +685,18 @@ const FOLLOWUPS_SUBREPORTS = ["followups"];
 const SERVICES_SUBREPORTS = ["services"];
 
 const REFERRAL_TRANSFERS_SUBREPORTS = ["total_transfers", "total_referrals"];
+
+const PROTECTION_OUTCOMES_SUBREPORTS = ["improved_wellbeing_after_support"];
+
+const PROCESS_QUALITY_TOTAL_CASES_SUBREPORTS = ["process_quality_total_cases"];
+
+const PROCESS_QUALITY_AVERAGE_CASES_SUBREPORTS = ["process_quality_average_cases"];
+
+const PROCESS_QUALITY_SUCCESSFUL_REFERRALS_SUBREPORTS = ["process_quality_successful_referrals"];
+
+const PROCESS_QUALITY_IMPLEMENTED_REFERRALS_SUBREPORTS = ["process_quality_implemented_referrals"];
+
+const CASE_CHARACTERISTICS_SUBREPORTS = ["case_protection_risk"];
 
 const VIOLENCE_TYPE_SUBREPORTS = ["cases_violence_type", "incidents_violence_type"];
 
@@ -863,6 +893,7 @@ export {
   FILE_FORMAT,
   FAMILY_MEMBERS_SUBFORM_ID,
   FAMILY_FROM_CASE,
+  CASE_RELATIONSHIPS,
   FAMILY_DETAILS_SUBFORM_ID,
   FORM_PERMISSION_ACTION,
   VIOLATIONS_FORM,
@@ -898,5 +929,12 @@ export {
   DATE_SORTABLE_FIELDS,
   NOTIFICATION_PERMISSIONS,
   POST_MESSAGES,
-  SERVICES_SUBFORM_FIELD
+  SERVICES_SUBFORM_FIELD,
+  PROTECTION_OUTCOMES_SUBREPORTS,
+  PROCESS_QUALITY_AVERAGE_CASES_SUBREPORTS,
+  PROCESS_QUALITY_SUCCESSFUL_REFERRALS_SUBREPORTS,
+  PROCESS_QUALITY_TOTAL_CASES_SUBREPORTS,
+  PROCESS_QUALITY_IMPLEMENTED_REFERRALS_SUBREPORTS,
+  CASE_CHARACTERISTICS_SUBREPORTS,
+  ACCESS_LOGS
 };

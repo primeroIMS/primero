@@ -643,9 +643,9 @@ es-GT:
     case_management_service: Servicio de Gestión de Casos
     case_overview: Mis Casos
     case_plan: Plan de Caso
-    case_risk: Casos por Nivel de Evaluación
+    case_risk: Casos por Grado de Prioridad en la Atención
     case_stat_by_approval_type: Aprobaciones
-    case_stat_by_assessment_level: Casos por Nivel de Evaluación
+    case_stat_by_assessment_level: Casos por Grado de Prioridad en la Atención
     case_stat_referrals: Referencias
     case_stats: Casos
     case_worker: Trabajadora del Caso
@@ -717,7 +717,6 @@ es-GT:
     dash_shared_from_my_team: Compartido Desde Mi Equipo
     dash_shared_with_me: Compartido Conmigo
     dash_shared_with_my_team: Compartido Con Mi Equipo
-    dash_shared_with_my_team_overview: Compartido con Mi Equipo (Resumen)
     dash_shared_with_others: Compartido Con Otro(a)s
     dash_national_admin_summary: Resumen de Administrador(a)
     dash_violations_category_verification_status: Numero total de incidentes por estatus de verificación
@@ -823,15 +822,8 @@ es-GT:
     shared_from_my_team_pending_transfers: Transferencias Pendientes
     shared_from_my_team_referrals: Referencias
     shared_from_my_team_rejected_transfers: Transferencias Rechazadas
-    shared_with_me_new_referrals: Nuevas Referencias
-    shared_with_me_total_referrals: Total de Referencias
-    shared_with_me_transfers_awaiting_acceptance: Transferencias Esperando Aprobación
-    shared_with_my_team_pending_transfers_overview: Transferencias Esperando Aprobación
     shared_with_my_team_pending_transfers: Transferencias Pendientes
     shared_with_my_team_referrals: Referencias
-    shared_with_others_pending_transfers: Transferencias Pendientes
-    shared_with_others_referrals: Referencias
-    shared_with_others_rejected_transfers: Transferencias Rechazadas
     status_of_cases: Estado de los Casos
     system_user: Sistema
     total: Total
@@ -863,23 +855,13 @@ es-GT:
   email_notification:
     assign: '%{user} le ha asignado el siguiente %{record_type}: %{record_id}. '
     assign_subject: '%{record_type}:%{id} - Asignados a usted'
-    approval_request: 'El/la usuario(a) %{user} está solicitando aprobación para %{approval_type} en el caso %{case_id}.'
     approval_request_subject: 'Caso: %{id} - Solicitud de Aprobación'
-    approval_response: '%{user} ha %{status} la solicitud de aprobación para %{approval_type} para el caso %{case_id}.'
     approval_response_subject: 'Caso: %{id} - Respuesta de Aprobación'
     referral: '%{user} de %{agency} le ha referido el siguiente %{record_type}: %{record_id} para%{service_type}.'
     transfer: '%{user} le ha transferido el siguiente %{record_type}: %{record_id}.'
     transfer_request_subject: Solicitud de transferencia para uno de sus casos
-    transfer_subject: '%{record_type}: %{id} - Transferencia'
-    referral_subject: '%{record_type}: %{id} -Referencia'
     transfer_request: 'El/la usuario(a) de Primero %{user} de %{agency} está solicitando que le transfiera la propiedad de este %{record_type} registro %{record_id} para que pueda prestarle servicios de gestión de %{record_type}a la persona en su área. Si esta transferencia le parece aceptable, por favor haga clic en el vínculo de ID %{record_type} en este correo para abrir el %{record_type} en Primero e iniciar la transferencia.'
     approval_request_html: 'El/la usuario(a) <strong>%{user}</strong> está solicitando aprobación para <strong>%{approval_type}</strong> en el caso <strong>%{case_id}</strong>.'
-    approval_response_html: '<strong>%{user}</strong> ha <strong>%{status}</strong> la solicitud de aprobación para <strong>%{approval_type}</strong> para el caso<strong>%{case_id}</strong>.'
-    referral_html: '<strong>%{user}</strong> de %{agency} le ha referido el siguiente %{record_type}: <strong>%{record_id}</strong> para %{service_type}.'
-    transfer_html: '<strong>%{user}</strong> le ha transferido el siguiente %{record_type}: <strong>%{record_id}</strong>.'
-    assign_html: '<strong>%{user}</strong> le ha asignado el siguiente %{record_type}: <strong>%{record_id}</strong>.'
-    transfer_request_html: 'El/la usuario(a) de Primero <strong>%{user}</strong> de %{agency} está solicitando que le transfiera la propiedad de este %{record_type} registro <strong>%{record_id}</strong> para que pueda prestarle servicios de gestión de %{record_type} a la persona en su área. Si esta transferencia le parece aceptable, por favor haga clic en el vínculo de ID %{record_type} en este correo para abrir el %{record_type} en Primero e iniciar la transferencia.'
-    transfer_request_notes_html: 'Notas de la persona que hace la solicitud: %{request_transfer_notes}'
     alert: '%{record_type}%{id}-%{form_name} ha sido actualizado. Por favor, ingrese a Primero para revisar los cambios.'
     alert_subject: '%{record_type}:%{id} - %{form_name} Actualizado'
   webpush_notification:
@@ -1875,7 +1857,6 @@ es-GT:
       user: Usuario(a)
       agency: Agencia
       user_group: Grupo de Usuario(a)
-      child: Niño, niña, o adolescente
       alert: Alerta
       form_section: Formulario
       lookup: Búsqueda Específica
@@ -2287,7 +2268,7 @@ es-GT:
       case_assignments_referrals_transfers: Asignaciones, referencias, y transferencias de casos
       case_exports: Exportación de Casos
       case_overview: Mis Casos
-      case_risk: Casos por Nivel de Evaluación
+      case_risk: Casos por Grado de Prioridad en la Atención
       cases_by_task_overdue_assessment: Ver Casos por Tarea de Evaluación Vencida
       cases_by_task_overdue_case_plan: Ver Casos por Tarea de Plan de Caso Atrasado
       cases_by_task_overdue_followups: Ver Casos por Tarea de Servicios Vencidos
@@ -3760,40 +3741,21 @@ es-GT:
     welcome_email:
       subject: 'Bienvenido(a) a %{system}!'
       greeting: 'Bienvenido(a) %{system}!'
-      body_native: 'Usted ha sido agregado(a) como %{role_name}. Por favor, contacte a%{admin_full_name} (%{admin_email}) para recibir instrucciones de seguimiento para comenzar a trabajar con %{host}.'
       sso:
         body: 'Usted ha sido agregado(a) como %{role_name}.'
-        step1: 'Vaya a %{host} y haga clic en %{identity_provider}.'
-        step2: 'Iniciar sesión con su %{identity_provider} cuenta%{user_name}.'
-        step3: 'Use la misma contraseña que siempre usa para su %{identity_provider} cuenta.'
-        footer: 'Por favor, contacte a%{admin_full_name} (%{admin_email}) para obtener más detalles.'
       otp:
         body: 'Usted ha sido agregado(a) como %{role_name}.'
-        step1: 'Por favor, contacte a%{admin_full_name} (%{admin_email}) para recibir su nombre de usuario(a).'
-        step2: 'Vaya a %{host} y haga clic en "iniciar sesión con nombre de usuario(a) en Primero.'
-        step3: 'Iniciar sesión con su nombre de usuario(a) y la contraseña temporal %{otp}.'
-        step4: 'Cuando se le pida, restablezca su contraseña.'
       url_label: Primero
       enabled_label: ¿Enviar Email de Bienvenida?
       text_label: Texto de Correo Electrónico de Bienvenida
     password_reset:
       subject: 'Instrucciones para reestablecer contraseña'
-      email_greeting: "Apreciable %{full_name}"
-      email_body1: "Alguien hizo una solicitud para configurar su contraseña para %{host_href}. Haga clic en la url siguiente para iniciar:"
-      email_body2: "Este vínculo expira en %{hours} horas y sólo puede utilizarse una vez.  Si usted no hizo una solicitud de restablecimiento de contraseña, o si un(a) nuevo(a) usuario(a) de Primero no se registró a su nombre, por favor ignore este correo electrónico. Si el vínculo ya expiró, por favor haga un clic en %{reset_request_href} para volver a someter la solicitud de restablecimiento de contraseña."
       email_body_link: aquí
       request_submitted: "Solicitud para restablecimiento de contraseña, enviada"
       success: "Contraseña cambiada correctamente"
       errors:
         reset_password_token: "Token inválido para restablecer contraseña"
         password_confirmation: "Las contraseñas deben concordar"
-    onboard_email:
-      subject: "Integrando a %{system}"
-      greeting: "Apreciable %{full_name}"
-      body1: "Bienvenido(a)%{system}!"
-      body2: "Usted ha sido designado(a) como administrador(a) implementador(a) para %{host_href}. %{reset_notification}"
-      body2_reset_notification: "Usted recibirá un correo electrónico adicional pidiéndole restablecer su contraseña."
-      body3: "Usted es responsable de garantizar la implementación segura y oportuna. Para cada lanzamiento, usted debe haber completado el Plan de Implementación con estrategia de integración y administración de usurario(a) y protocolo para compartir información. Usted también es responsable de asegurarse de que los Términos de Uso firmados se encuentren en el archivo para todas las Agencias usuarias. "
   user_group:
     associated_agencies: Agencias asocidadas a este Grupo de Usuario(a)s
     description: Descripción

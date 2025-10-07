@@ -104,43 +104,65 @@ describe ManagedReports::Indicators::MultipleViolations do
     )
     @incident4.save!
 
-    violation1 = Violation.create!(data: { type: 'killing', attack_type: 'arson',
-                                           ctfmr_verified_date: Date.new(2020, 8, 8) }, incident_id: incident1.id)
+    violation1 = Violation.create!(
+      data: {
+        type: 'killing', attack_type: 'arson', ctfmr_verified_date: Date.new(2021, 8, 8)
+      },
+      incident_id: incident1.id
+    )
     violation1.individual_victims = [
       IndividualVictim.create!(data: { individual_sex: 'male', individual_age: 9,
-                                       individual_multiple_violations: 'true' })
+                                       individual_multiple_violations: true })
     ]
 
-    violation2 = Violation.create!(data: { type: 'killing', attack_type: 'aerial_attack',
-                                           ctfmr_verified_date: Date.new(2021, 8, 8) }, incident_id: incident2.id)
+    violation2 = Violation.create!(
+      data: {
+        type: 'killing',
+        attack_type: 'aerial_attack',
+        ctfmr_verified: 'verified',
+        ctfmr_verified_date: Date.new(2021, 8, 8)
+      },
+      incident_id: incident2.id
+    )
     violation2.individual_victims = [
       IndividualVictim.create!(data: { individual_sex: 'female', individual_age: 2 })
     ]
 
-    violation3 = Violation.create!(data: { type: 'maiming', attack_type: 'aerial_attack',
-                                           ctfmr_verified_date: Date.new(2020, 8, 8) }, incident_id: incident3.id)
+    violation3 = Violation.create!(
+      data: {
+        type: 'maiming',
+        attack_type: 'aerial_attack',
+        ctfmr_verified: 'verified',
+        ctfmr_verified_date: Date.new(2020, 8, 8)
+      },
+      incident_id: incident3.id
+    )
     violation3.individual_victims = [
       IndividualVictim.create!(data: { individual_sex: 'unknown', individual_age: 4 })
     ]
 
-    violation4 = Violation.create!(data: { type: 'killing', attack_type: 'arson',
-                                           ctfmr_verified_date: Date.new(2022, 3, 28) }, incident_id: @incident4.id)
+    violation4 = Violation.create!(
+      data: {
+        type: 'killing', attack_type: 'arson', ctfmr_verified: 'verified', ctfmr_verified_date: Date.new(2022, 3, 28)
+      },
+      incident_id: @incident4.id
+    )
     violation4.individual_victims = [
       IndividualVictim.create!(data: { individual_sex: 'male', individual_age: 12 }),
       IndividualVictim.create!(data: { individual_sex: 'unknown', individual_age: 3,
-                                       individual_multiple_violations: 'true' })
+                                       individual_multiple_violations: true })
     ]
   end
 
-  it 'return data for verified information indicator' do
+  it 'return data for violations marked as verified' do
     data = ManagedReports::Indicators::MultipleViolations.build(
       nil,
       {
         'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
         'ghn_date_filter' => SearchFilters::DateRange.new(
           field_name: 'ghn_date_filter',
-          from: '2021-04-01',
-          to: '2022-06-10'
+          from: Date.parse('2021-04-01'),
+          to: Date.parse('2022-06-10')
         ),
         'type' => SearchFilters::Value.new(
           field_name: 'type',

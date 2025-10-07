@@ -3,6 +3,7 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 # Configures the behavior of a module of Primero
+# rubocop:disable Metrics/ClassLength
 class PrimeroModule < ApplicationRecord
   include LocalizableJsonProperty
   include ConfigurationRecord
@@ -11,7 +12,9 @@ class PrimeroModule < ApplicationRecord
   GBV = 'primeromodule-gbv'
   MRM = 'primeromodule-mrm'
 
+  DEFAULT_CASE_TYPE = 'person'
   DEFAULT_CONSENT_FORM = 'consent'
+  DEFAULT_SERVICES_FORM = 'services'
 
   DEFAULT_CASE_LIST_HEADERS = {
     CP => %w[id case_id_display short_id name complete age sex registration_date photo owned_by alert_count
@@ -27,7 +30,7 @@ class PrimeroModule < ApplicationRecord
       approval_status_action_plan approval_status_gbv_closure protection_concerns
       protection_status urgent_protection_concern type_of_risk risk_level
       location_current reporting_location last_updated_by cases_by_date
-      record_state has_photo last_updated_at
+      record_state has_photo last_updated_at module_id
     ],
     GBV => %w[
       flagged owned_by my_cases workflow owned_by_agency_id status
@@ -60,13 +63,14 @@ class PrimeroModule < ApplicationRecord
     :allow_searchable_ids, :selectable_approval_types,
     :workflow_status_indicator, :agency_code_indicator, :use_workflow_service_implemented,
     :use_workflow_case_plan, :use_workflow_assessment, :reporting_location_filter,
-    :user_group_filter, :use_webhooks_for, :use_webhook_sync_for, :consent_form,
-    :list_filters, :list_headers, :primary_age_range, :approval_forms_to_alert,
+    :user_group_filter, :use_webhooks_for, :use_webhook_sync_for, :consent_form, :services_form,
+    :list_filters, :list_headers, :approval_forms_to_alert,
     :approvals_labels_i18n, :changes_field_to_form, :search_and_create_workflow,
-    :violation_type_field, :creation_field_map, :data_protection_case_create_field_names
+    :violation_type_field, :creation_field_map, :data_protection_case_create_field_names,
+    :age_ranges, :workflow_lookup, :response_type_lookup, :case_type, :field_labels_i18n
   )
 
-  localize_jsonb_properties %i[approvals_labels]
+  localize_jsonb_properties %i[approvals_labels field_labels]
 
   belongs_to :primero_program, optional: true
   has_and_belongs_to_many :form_sections, inverse_of: :primero_modules
@@ -77,7 +81,8 @@ class PrimeroModule < ApplicationRecord
   validates_presence_of :associated_record_types,
                         message: I18n.t('errors.models.primero_module.associated_record_types')
 
-  before_create :set_unique_id, :set_consent_form
+  after_initialize :defaults
+  before_create :set_unique_id
   after_save :sync_forms
 
   def program_name
@@ -119,8 +124,13 @@ class PrimeroModule < ApplicationRecord
     all.pluck(:unique_id)
   end
 
-  def self.primary_age_range(module_id)
-    find_by(unique_id: module_id)&.primary_age_range
+  def generate_age_ranges
+    return [] unless age_ranges.present?
+
+    age_ranges&.map do |age_range|
+      min, max = age_range.split('..').map(&:to_i)
+      AgeRange.new(min, max)
+    end
   end
 
   def form_section_unique_ids
@@ -148,14 +158,18 @@ class PrimeroModule < ApplicationRecord
 
   private
 
+  def defaults
+    self.consent_form ||= DEFAULT_CONSENT_FORM
+    self.services_form ||= DEFAULT_SERVICES_FORM
+    self.response_type_lookup ||= Workflow::LOOKUP_RESPONSE_TYPES
+    self.workflow_lookup ||= Workflow::LOOKUP_WORKFLOW
+    self.case_type ||= DEFAULT_CASE_TYPE
+  end
+
   def set_unique_id
     return if unique_id.present?
 
     self.unique_id = "#{self.class.name}-#{name}".parameterize.dasherize
-  end
-
-  def set_consent_form
-    self.consent_form ||= DEFAULT_CONSENT_FORM
   end
 
   def sync_forms
@@ -171,3 +185,4 @@ class PrimeroModule < ApplicationRecord
     self.form_sections = form_sections | subforms
   end
 end
+# rubocop:enable Metrics/ClassLength

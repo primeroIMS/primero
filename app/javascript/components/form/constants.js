@@ -35,6 +35,7 @@ export const OPTION_TYPES = {
   AGENCY_CURRENT_USER: "AgencyCurrentUser",
   LOCATION: "Location",
   MODULE: "Module",
+  USER_MODULE: "UserModule",
   FORM_GROUP: "FormGroup",
   LOOKUPS: "Lookups",
   USER: "User",

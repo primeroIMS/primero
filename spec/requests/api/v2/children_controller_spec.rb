@@ -409,7 +409,7 @@ describe Api::V2::ChildrenController, type: :request do
       allow(Rails.logger).to receive(:error).and_return(nil)
       login_for_test
 
-      get '/api/v2/cases?associated_user_names=List["user1"]'
+      get '/api/v2/cases?service_implemented_day_times=List["user1"]'
       expect(response).to have_http_status(200)
       expect(json['metadata']['total']).to eq(0)
       expect(json['data']).to be_empty
@@ -1414,6 +1414,16 @@ describe Api::V2::ChildrenController, type: :request do
       expect(response).to have_http_status(404)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq('/api/v2/cases/thisdoesntexist/traces')
+    end
+
+    it 'use record_id for audit log' do
+      ActiveJob::Base.queue_adapter = :test
+      allow(AuditLogJob).to receive(:perform_later)
+      login_for_test(permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::READ])])
+
+      get "/api/v2/cases/#{@case4.id}/traces"
+
+      expect(AuditLogJob).to have_received(:perform_later).with(hash_including(record_id: @case4.id))
     end
   end
 

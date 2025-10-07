@@ -7,7 +7,7 @@ import arrayReverse from "lodash/reverse";
 
 import css from "./styles.css";
 
-function BarChart({ data, description, showDetails = false, hideLegend = false, reverse = false }) {
+function BarChart({ data, description, showDetails = false, hideLegend = false, reverse = false, valueRender = null }) {
   const chartRef = createRef();
 
   useEffect(() => {
@@ -39,7 +39,9 @@ function BarChart({ data, description, showDetails = false, hideLegend = false, 
                 value = "0";
               }
 
-              return `${label}: ${value}`;
+              const displayValue = valueRender ? valueRender(value, tooltipItem.datasetIndex) : value;
+
+              return `${label}: ${displayValue}`;
             }
           }
         },
@@ -101,7 +103,8 @@ BarChart.propTypes = {
   description: PropTypes.string,
   hideLegend: PropTypes.bool,
   reverse: PropTypes.bool,
-  showDetails: PropTypes.bool
+  showDetails: PropTypes.bool,
+  valueRender: PropTypes.func
 };
 
 export default BarChart;

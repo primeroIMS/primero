@@ -47,17 +47,15 @@ class Api::V2::BulkExportsController < ApplicationApiController
 
   def authorize_export!
     export_format = export_params[:export_format] == 'xlsx' ? 'xls' : export_params[:export_format]
-    action = "export_#{export_format}".to_sym
+    action = :"export_#{export_format}"
     record_model = export_params[:record_type] && PrimeroModelService.to_model(export_params[:record_type])
     authorize! action, record_model
   end
 
   def export_params
     @export_params ||= params.require(:data).permit(
-      :record_type, :export_format,
-      :order, :query, :file_name, :password,
-      { custom_export_params: {} }, { filters: {} },
-      :match_criteria
+      :record_type, :export_format, :query, :file_name, :password, :match_criteria,
+      { custom_export_params: {} }, { filters: {} }, { order: {} }
     )
   end
 

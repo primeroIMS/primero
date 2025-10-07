@@ -26,6 +26,8 @@ export {
   getWorkflowLabels,
   getAppData,
   getWebpushConfig,
-  getListHeaders
+  getListHeaders,
+  getExactSearchFields,
+  getPhoneticSearchFields
 } from "./selectors";
 export { PERMISSIONS, RESOURCES, RESOURCE_ACTIONS } from "./constants";

@@ -2,13 +2,15 @@
 
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-# The endpoint used to authenticate a user when native authentication is enabled in Primero
+# The endpoint used to authenticate a user.
 class Api::V2::TokensController < Devise::SessionsController
   include AuditLogActions
   include ErrorHandling
   respond_to :json
 
   before_action :write_audit_log, only: [:respond_to_on_destroy]
+  before_action :expire_other_user_sessions, only: %i[create destroy], unless: -> { IdentityProvider.mode_enabled? }
+  after_action :store_ip_and_user_agent, only: %i[create], unless: -> { IdentityProvider.mode_enabled? }
 
   # This method overrides the deprecated ActionController::MimeResponds#respond_with
   # that Devise unfortunately still uses. We are overriding it to return a JSON object
@@ -23,7 +25,7 @@ class Api::V2::TokensController < Devise::SessionsController
   end
 
   def create
-    if Rails.configuration.x.idp.use_identity_provider
+    if IdentityProvider.mode_enabled?
       create_idp
     else
       super
@@ -67,5 +69,20 @@ class Api::V2::TokensController < Devise::SessionsController
 
   def current_token
     IdpTokenStrategy.token_from_header(request.headers)
+  end
+
+  def expire_other_user_sessions
+    return unless current_user.present?
+
+    Session.list_by_user_id(current_user.id).each do |sess|
+      next if sess.session_id == session.id.private_id
+
+      sess.destroy
+    end
+  end
+
+  def store_ip_and_user_agent
+    session[:ip_address] ||= request.remote_ip
+    session[:user_agent] ||= request.user_agent
   end
 end

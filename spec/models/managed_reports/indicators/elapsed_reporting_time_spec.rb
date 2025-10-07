@@ -103,23 +103,32 @@ describe ManagedReports::Indicators::ElapsedReportingTime do
 
     Incident.new_with_user(
       @self_user,
-      { incident_date: Date.new(2020, 8, 10), date_of_first_report: Date.new(2020, 8, 12) }
+      { incident_date: Date.new(2020, 8, 10), date_of_first_report: Date.new(2020, 8, 12), consent_reporting: 'true' }
     ).save!
     Incident.new_with_user(
       @group_user,
-      { incident_date: Date.new(2021, 9, 3), date_of_first_report: Date.new(2021, 9, 8) }
+      { incident_date: Date.new(2021, 9, 3), date_of_first_report: Date.new(2021, 9, 8), consent_reporting: 'true' }
     ).save!
     Incident.new_with_user(
       @agency_user,
-      { incident_date: Date.new(2021, 9, 9), date_of_first_report: Date.new(2021, 9, 10) }
+      { incident_date: Date.new(2021, 9, 9), date_of_first_report: Date.new(2021, 9, 10), consent_reporting: 'true' }
     ).save!
     Incident.new_with_user(
       @all_user,
-      { incident_date: Date.new(2020, 8, 12), date_of_first_report: Date.new(2020, 9, 12) }
+      { incident_date: Date.new(2020, 8, 12), date_of_first_report: Date.new(2020, 9, 12), consent_reporting: 'true' }
     ).save!
     Incident.new_with_user(
       @all_user,
-      { incident_date: Date.new(2022, 8, 8), date_of_first_report: Date.new(2022, 10, 8) }
+      { incident_date: Date.new(2022, 8, 8), date_of_first_report: Date.new(2022, 10, 8), consent_reporting: 'true' }
+    ).save!
+    Incident.new_with_user(
+      @all_user,
+      {
+        incident_date: Date.new(2022, 8, 8),
+        date_of_first_report: Date.new(2022, 10, 8),
+        consent_reporting: 'true',
+        gbv_reported_elsewhere: 'gbvims-org'
+      }
     ).save!
   end
 
@@ -191,17 +200,23 @@ describe ManagedReports::Indicators::ElapsedReportingTime do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'year'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2020-08-01',
-              to: '2022-10-10'
+              from: Date.parse('2020-08-01'),
+              to: Date.parse('2022-10-10')
             )
           }
         ).data
 
         expect(data).to match_array(
           [
-            { group_id: 2020, data: [{ 'id' => '0_3_days', 'total' => 1 }, { 'id' => 'over_1_month', 'total' => 1 }] },
-            { group_id: 2021, data: [{ 'id' => '0_3_days', 'total' => 1 }, { 'id' => '4_5_days', 'total' => 1 }] },
-            { group_id: 2022, data: [{ 'id' => 'over_1_month', 'total' => 1 }] }
+            {
+              group_id: 2020,
+              data: match_array([{ 'id' => '0_3_days', 'total' => 1 }, { 'id' => 'over_1_month', 'total' => 1 }])
+            },
+            {
+              group_id: 2021,
+              data: match_array([{ 'id' => '0_3_days', 'total' => 1 }, { 'id' => '4_5_days', 'total' => 1 }])
+            },
+            { group_id: 2022, data: match_array([{ 'id' => 'over_1_month', 'total' => 1 }]) }
           ]
         )
       end
@@ -215,8 +230,8 @@ describe ManagedReports::Indicators::ElapsedReportingTime do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'month'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2020-08-01',
-              to: '2022-08-30'
+              from: Date.parse('2020-08-01'),
+              to: Date.parse('2022-08-30')
             )
           }
         ).data
@@ -225,17 +240,21 @@ describe ManagedReports::Indicators::ElapsedReportingTime do
           [
             {
               group_id: '2020-08',
-              data: [{ 'id' => '0_3_days', 'total' => 1 }, { 'id' => 'over_1_month', 'total' => 1 }]
+              data: match_array([{ 'id' => '0_3_days', 'total' => 1 }, { 'id' => 'over_1_month', 'total' => 1 }])
             },
             { group_id: '2020-09', data: [] }, { group_id: '2020-10', data: [] }, { group_id: '2020-11', data: [] },
             { group_id: '2020-12', data: [] }, { group_id: '2021-01', data: [] }, { group_id: '2021-02', data: [] },
             { group_id: '2021-03', data: [] }, { group_id: '2021-04', data: [] }, { group_id: '2021-05', data: [] },
             { group_id: '2021-06', data: [] }, { group_id: '2021-07', data: [] }, { group_id: '2021-08', data: [] },
-            { group_id: '2021-09', data: [{ 'id' => '0_3_days', 'total' => 1 }, { 'id' => '4_5_days', 'total' => 1 }] },
+            {
+              group_id: '2021-09',
+              data: match_array([{ 'id' => '0_3_days', 'total' => 1 }, { 'id' => '4_5_days', 'total' => 1 }])
+            },
             { group_id: '2021-10', data: [] }, { group_id: '2021-11', data: [] }, { group_id: '2021-12', data: [] },
             { group_id: '2022-01', data: [] }, { group_id: '2022-02', data: [] }, { group_id: '2022-03', data: [] },
             { group_id: '2022-04', data: [] }, { group_id: '2022-05', data: [] }, { group_id: '2022-06', data: [] },
-            { group_id: '2022-07', data: [] }, { group_id: '2022-08', data: [{ 'id' => 'over_1_month', 'total' => 1 }] }
+            { group_id: '2022-07', data: [] },
+            { group_id: '2022-08', data: match_array([{ 'id' => 'over_1_month', 'total' => 1 }]) }
           ]
         )
       end
@@ -249,8 +268,8 @@ describe ManagedReports::Indicators::ElapsedReportingTime do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2020-08-01',
-              to: '2022-09-30'
+              from: Date.parse('2020-08-01'),
+              to: Date.parse('2022-09-30')
             )
           }
         ).data
@@ -259,12 +278,15 @@ describe ManagedReports::Indicators::ElapsedReportingTime do
           [
             {
               group_id: '2020-Q3',
-              data: [{ 'id' => '0_3_days', 'total' => 1 }, { 'id' => 'over_1_month', 'total' => 1 }]
+              data: match_array([{ 'id' => '0_3_days', 'total' => 1 }, { 'id' => 'over_1_month', 'total' => 1 }])
             },
             { group_id: '2020-Q4', data: [] }, { group_id: '2021-Q1', data: [] }, { group_id: '2021-Q2', data: [] },
-            { group_id: '2021-Q3', data: [{ 'id' => '0_3_days', 'total' => 1 }, { 'id' => '4_5_days', 'total' => 1 }] },
+            {
+              group_id: '2021-Q3',
+              data: match_array([{ 'id' => '0_3_days', 'total' => 1 }, { 'id' => '4_5_days', 'total' => 1 }])
+            },
             { group_id: '2021-Q4', data: [] }, { group_id: '2022-Q1', data: [] }, { group_id: '2022-Q2', data: [] },
-            { group_id: '2022-Q3', data: [{ 'id' => 'over_1_month', 'total' => 1 }] }
+            { group_id: '2022-Q3', data: match_array([{ 'id' => 'over_1_month', 'total' => 1 }]) }
           ]
         )
       end

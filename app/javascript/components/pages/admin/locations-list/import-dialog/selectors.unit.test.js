@@ -25,13 +25,13 @@ describe("<ImportDialog /> - selectors", () => {
 
       const errors = getImportErrors(state);
 
-      expect(errors).to.deep.equal(expected);
+      expect(errors).toEqual(expected);
     });
 
     it("should return false when errors empty", () => {
       const errors = getImportErrors(stateWithoutHeaders);
 
-      expect(errors).to.be.empty;
+      expect(errors.size).toBe(0);
     });
   });
 });

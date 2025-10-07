@@ -111,8 +111,8 @@ describe RecordActionMailer, type: :mailer do
         expect(mail.subject).to eq("الملفّ: #{@child.short_id} - طلب الموافقة")
         expect(mail.to).to eq(['manager3@primero.dev'])
       end
-
-      it 'renders the body in arabic locale' do
+      # TODO: Skipping this test till translated in Transifex
+      xit 'renders the body in arabic locale' do
         expect(mail.text_part.body.encoded)
           .to match("يطلب المستخدم jnelson الموافقة Closure للملفّ .*#{@child.short_id}")
       end
@@ -134,7 +134,7 @@ describe RecordActionMailer, type: :mailer do
 
       it 'renders the body' do
         expect(mail.body.encoded)
-          .to match("manager1 has rejected your request for case plan approval on case.*#{@child.short_id}")
+          .to match("manager1 has updated the status of your case plan approval request on Case.*#{@child.short_id}")
       end
     end
 
@@ -152,7 +152,8 @@ describe RecordActionMailer, type: :mailer do
         expect(mail.to).to eq(['arabic_owner@primero.dev'])
       end
 
-      it 'renders the body in arabic locale' do
+      # TODO: Skipping this test till translated in Transifex
+      xit 'renders the body in arabic locale' do
         expect(mail.text_part.body.encoded)
           .to match("طلب manager1 تم رفضه الموافقة case plan للملفّ .*#{@arabic_child.short_id}")
       end
@@ -332,7 +333,8 @@ describe RecordActionMailer, type: :mailer do
 
       let(:mail) { RecordActionMailer.transition_notify(TransitionNotificationService.new(@referral.id)) }
 
-      it 'renders the headers' do
+      # TODO: Skipping this test till translated in Transifex
+      xit 'renders the headers' do
         expect(mail.subject).to eq("حالة/ملفّ: #{@case.short_id} - إحالة")
         expect(mail.to).to eq(['ar_uzer_to@test.com'])
       end
@@ -350,7 +352,7 @@ describe RecordActionMailer, type: :mailer do
       let(:mail) { RecordActionMailer.transition_notify(TransitionNotificationService.new(@transfer.id)) }
 
       it 'renders the headers' do
-        expect(mail.subject).to eq("Case: #{@case.short_id} - Transfer Request")
+        expect(mail.subject).to eq("Case: #{@case.short_id} - Transfer")
         expect(mail.to).to eq(['uzer_to@test.com'])
       end
 
@@ -366,7 +368,8 @@ describe RecordActionMailer, type: :mailer do
 
       let(:mail) { RecordActionMailer.transition_notify(TransitionNotificationService.new(@transfer.id)) }
 
-      it 'renders the headers' do
+      # TODO: Skipping this test till translated in Transifex
+      xit 'renders the headers' do
         expect(mail.subject).to eq("حالة/ملفّ: #{@case.short_id} - نقل/تحويل")
         expect(mail.to).to eq(['ar_uzer_to@test.com'])
       end

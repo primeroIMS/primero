@@ -1,6 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 import { fromJS, Map, OrderedMap } from "immutable";
 
+import { PrimeroModuleRecord } from "../../application/records";
 import { mountedComponent, screen } from "../../../test-utils";
 import { FieldRecord, FormSectionRecord } from "../../record-form/records";
 import { RECORD_PATH } from "../../../config";
@@ -9,6 +10,21 @@ import AddService from "./component";
 
 describe("<AddService />", () => {
   const initialState = Map({
+    application: fromJS({
+      modules: [
+        PrimeroModuleRecord({
+          unique_id: "app-module",
+          name: "AM",
+          associated_record_types: ["case"],
+          options: {
+            services_form: "services"
+          }
+        })
+      ]
+    }),
+    user: fromJS({
+      modules: ["app-module"]
+    }),
     records: fromJS({
       cases: {
         data: [
@@ -20,7 +36,8 @@ describe("<AddService />", () => {
             owned_by: "primero_cp",
             status: "open",
             registration_date: "2020-01-07",
-            id: "d9df44fb-95d0-4407-91fd-ed18c19be1ad"
+            id: "d9df44fb-95d0-4407-91fd-ed18c19be1ad",
+            module_id: "app-module"
           }
         ]
       }
@@ -55,7 +72,7 @@ describe("<AddService />", () => {
           order_form_group: 110,
           parent_form: "case",
           editable: true,
-          module_ids: ["primeromodule-cp"],
+          module_ids: ["app-module"],
           form_group_id: "services_follow_up",
           form_group_name: { en: "Services / Follow Up" },
           fields: [1],
@@ -116,6 +133,7 @@ describe("<AddService />", () => {
     pending: false,
     recordType: RECORD_PATH.cases,
     selectedRowsIndex: [0],
+    primeroModule: "app-module",
     setPending: () => {}
   };
 

@@ -21,6 +21,6 @@ describe("findOptionDisplayText", () => {
       value: "agency-1"
     });
 
-    expect(displayText).to.be.equal("Agency 1");
+    expect(displayText).toBe("Agency 1");
   });
 });

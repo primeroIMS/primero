@@ -103,19 +103,23 @@ describe ManagedReports::Indicators::IncidentsFirstPointOfContact do
 
     Incident.new_with_user(
       @self_user,
-      incident_date: Date.new(2021, 8, 12), service_referred_from: 'self_referral'
+      incident_date: Date.new(2021, 8, 12), service_referred_from: 'self_referral', consent_reporting: 'true'
     ).save!
     Incident.new_with_user(
       @group_user,
-      incident_date: Date.new(2021, 9, 8), service_referred_from: 'self_referral'
+      incident_date: Date.new(2021, 9, 8), service_referred_from: 'self_referral', consent_reporting: 'true'
     ).save!
     Incident.new_with_user(
       @agency_user,
-      incident_date: Date.new(2020, 10, 10), service_referred_from: 'self_referral'
+      incident_date: Date.new(2020, 10, 10), service_referred_from: 'self_referral', consent_reporting: 'true'
     ).save!
     Incident.new_with_user(
       @all_user,
-      incident_date: Date.new(2020, 10, 10)
+      incident_date: Date.new(2020, 10, 10), consent_reporting: 'true'
+    ).save!
+    Incident.new_with_user(
+      @all_user,
+      incident_date: Date.new(2020, 10, 10), consent_reporting: 'true', gbv_reported_elsewhere: 'gbvims-org'
     ).save!
   end
 
@@ -160,8 +164,8 @@ describe ManagedReports::Indicators::IncidentsFirstPointOfContact do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'year'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2020-09-01',
-              to: '2021-10-10'
+              from: Date.parse('2020-09-01'),
+              to: Date.parse('2021-10-10')
             )
           }
         ).data
@@ -183,8 +187,8 @@ describe ManagedReports::Indicators::IncidentsFirstPointOfContact do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'month'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2020-09-01',
-              to: '2021-10-10'
+              from: Date.parse('2020-09-01'),
+              to: Date.parse('2021-10-10')
             )
           }
         ).data
@@ -214,8 +218,8 @@ describe ManagedReports::Indicators::IncidentsFirstPointOfContact do
             'grouped_by' => SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
             'incident_date' => SearchFilters::DateRange.new(
               field_name: 'incident_date',
-              from: '2020-09-01',
-              to: '2021-10-10'
+              from: Date.parse('2020-09-01'),
+              to: Date.parse('2021-10-10')
             )
           }
         ).data

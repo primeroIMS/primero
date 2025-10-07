@@ -99,7 +99,7 @@ const components = {
       "#root": {
         display: "flex",
         flexDirection: "column",
-        height: ["var(--doc-height, 100vh)", "100dvh"]
+        height: "100dvh"
       },
       legend: {
         display: "none"
@@ -341,6 +341,13 @@ const components = {
         fontSize: "var(--fs-16)",
         fontWeight: "bold",
         padding: "var(--sp-2)"
+      }
+    }
+  },
+  MuiDialog: {
+    styleOverrides: {
+      paper: {
+        width: "100%"
       }
     }
   },

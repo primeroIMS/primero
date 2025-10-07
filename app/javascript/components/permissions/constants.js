@@ -1,6 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 export const ACTIONS = {
+  ACCESS_LOG: "access_log",
   ADD_NOTE: "add_note",
   ADD_REGISTRY_RECORD: "add_registry_record",
   AGENCY_READ: "agency_read",
@@ -19,6 +20,7 @@ export const ACTIONS = {
   CONSENT_OVERRIDE: "consent_override",
   COPY: "copy",
   CREATE: "create",
+  CREATE_CASE_FROM_REFERRAL: "create_case_from_referral",
   DASH_APPROVALS_ACTION_PLAN_PENDING: "approvals_action_plan_pending",
   DASH_APPROVALS_ACTION_PLAN: "approvals_action_plan",
   DASH_APPROVALS_ASSESSMENT_PENDING: "approvals_assessment_pending",
@@ -75,6 +77,7 @@ export const ACTIONS = {
   FIND_TRACING_MATCH: "find_tracing_match",
   FLAG: "flag",
   FLAG_RESOLVE_ANY: "resolve_any_flag",
+  FLAG_UPDATE: "flag_update",
   GBV_STATISTICS: "gbv_statistics",
   GROUP_READ: "group_read",
   INCIDENT_DETAILS_FROM_CASE: "incident_details_from_case",
@@ -112,6 +115,7 @@ export const ACTIONS = {
   REQUEST_APPROVAL_GBV_CLOSURE: "request_approval_gbv_closure",
   REQUEST_TRANSFER: "request_transfer",
   SEARCH_OWNED_BY_OTHERS: "search_owned_by_others",
+  SELF_APPROVE: "self_approve",
   SERVICES_SECTION_FROM_CASE: "services_section_from_case",
   SYNC_EXTERNAL: "sync_external",
   TRANSFER: "transfer",
@@ -123,7 +127,10 @@ export const ACTIONS = {
   WRITE: "write",
   VIEW_FAMILY_RECORD: "view_family_record",
   LINK_FAMILY_RECORD: "link_family_record",
-  REMOVE_ALERT: "remove_alert"
+  REMOVE_ALERT: "remove_alert",
+  PROTECTION_OUTCOMES: "protection_outcomes",
+  UPDATE_CASE_RELATIONSHIPS: "update_case_relationships",
+  VIEW_CASE_RELATIONSHIPS: "view_case_relationships"
 };
 
 export const MANAGE = [ACTIONS.MANAGE];
@@ -152,6 +159,7 @@ export const RESOURCES = {
   roles: "roles",
   systems: "systems",
   tracing_requests: "tracing_requests",
+  usage_reports: "usage_reports",
   user_groups: "user_groups",
   users: "users",
   webhooks: "webhooks"
@@ -169,7 +177,8 @@ export const ADMIN_RESOURCES = [
   RESOURCES.forms,
   RESOURCES.metadata,
   RESOURCES.audit_logs,
-  RESOURCES.webhooks
+  RESOURCES.webhooks,
+  RESOURCES.usage_reports
 ];
 
 export const SEARCH_OTHERS = [...MANAGE, ACTIONS.SEARCH_OWNED_BY_OTHERS];
@@ -189,7 +198,8 @@ export const READ_MANAGED_REPORTS = [
   ACTIONS.GBV_STATISTICS,
   ACTIONS.VIOLATIONS,
   ACTIONS.WORKFLOW_REPORT,
-  ACTIONS.REFERRALS_TRANSFERS_REPORT
+  ACTIONS.REFERRALS_TRANSFERS_REPORT,
+  ACTIONS.PROTECTION_OUTCOMES
 ];
 
 export const EXPORT_CUSTOM = [...MANAGE, ACTIONS.EXPORT_CUSTOM];
@@ -207,6 +217,8 @@ export const ENABLE_DISABLE_RECORD = [...MANAGE, ACTIONS.ENABLE_DISABLE_RECORD];
 export const FLAG_RECORDS = [...MANAGE, ACTIONS.FLAG];
 
 export const FLAG_RESOLVE_ANY = [...MANAGE, ACTIONS.FLAG_RESOLVE_ANY];
+
+export const FLAG_UPDATE = [...MANAGE, ACTIONS.FLAG_UPDATE];
 
 export const ADD_NOTE = [...MANAGE, ACTIONS.ADD_NOTE];
 
@@ -229,6 +241,8 @@ export const SHOW_AUDIT_LOGS = [...MANAGE, ACTIONS.READ];
 export const REFER_FROM_SERVICE = [...MANAGE, ACTIONS.REFERRAL, ACTIONS.REFERRAL_FROM_SERVICE];
 
 export const ACTIVITY_LOGS = [...MANAGE, ACTIONS.TRANSFER];
+
+export const SHOW_USAGE_REPORTS = [...MANAGE, ACTIONS.READ];
 
 export const REQUEST_APPROVAL = [
   ...MANAGE,
@@ -264,6 +278,7 @@ export const EXPORTS_PERMISSIONS = [
 ];
 
 export const SHOW_EXPORTS = [...MANAGE, ...EXPORTS_PERMISSIONS];
+export const SHOW_ACCESS_LOG = [...MANAGE, ACTIONS.ACCESS_LOG];
 export const SHOW_CHANGE_LOG = [...MANAGE, ACTIONS.CHANGE_LOG];
 
 export const SHOW_APPROVALS = [
@@ -296,6 +311,27 @@ export const DASH_APPROVALS = [
   ACTIONS.DASH_APPROVALS_ACTION_PLAN,
   ACTIONS.DASH_APPROVALS_GBV_CLOSURE
 ];
+
+export const OVERVIEW_DASHBOARD = Object.freeze([
+  ACTIONS.DASH_CASE_OVERVIEW,
+  ACTIONS.DASH_CASE_RISK,
+  ACTIONS.DASH_GROUP_OVERVIEW,
+  ACTIONS.DASH_CASE_INCIDENT_OVERVIEW,
+  ACTIONS.DASH_NATIONAL_ADMIN_SUMMARY
+]);
+
+export const ACTION_NEEDED_DASHBOARD = Object.freeze([
+  ACTIONS.DASH_ACTION_NEEDED_NEW_UPDATED,
+  ACTIONS.DASH_ACTION_NEEDED_NEW_REFERRALS,
+  ACTIONS.DASH_ACTION_NEEDED_TRANSFER_AWAITING_ACCEPTANCE
+]);
+
+export const OVERDUE_TASKS_DASHBOARD = Object.freeze([
+  ACTIONS.DASH_CASES_BY_TASK_OVERDUE_ASSESSMENT,
+  ACTIONS.DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN,
+  ACTIONS.DASH_CASES_BY_TASK_OVERDUE_SERVICES,
+  ACTIONS.DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS
+]);
 
 export const VIEW_INCIDENTS_FROM_CASE = [...MANAGE, ACTIONS.VIEW_INCIDENT_FROM_CASE];
 
@@ -356,3 +392,7 @@ export const LINK_FAMILY_RECORD_FROM_CASE = [...MANAGE, ACTIONS.LINK_FAMILY_RECO
 export const VIEW_FAMILY_RECORD_FROM_CASE = [...MANAGE, ACTIONS.VIEW_FAMILY_RECORD];
 
 export const REMOVE_ALERT = [...MANAGE, ACTIONS.REMOVE_ALERT];
+
+export const VIEW_CASE_RELATIONSHIPS = [...MANAGE, ACTIONS.VIEW_CASE_RELATIONSHIPS];
+
+export const UPDATE_CASE_RELATIONSHIPS = [...MANAGE, ACTIONS.UPDATE_CASE_RELATIONSHIPS];

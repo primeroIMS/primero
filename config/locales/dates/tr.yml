@@ -1,0 +1,69 @@
+tr:
+  date:
+    today: 'ugün'
+    clear: 'Temizle'
+    abbr_day_names_short:
+      - Pazar
+      - Pazartesi
+      - Salı
+      - Çarşamba
+      - Perşembe
+      - Cuma
+      - Cumartesi
+    abbr_day_names:
+      - Pazar
+      - Pazartesi
+      - Salı
+      - Çarşamba
+      - Perşembe
+      - Cuma
+      - Cumartesi
+    abbr_month_names:
+      - ~
+      - Ocak
+      - Şubat
+      - Mart
+      - Nisan
+      - Mayıs
+      - Haziran
+      - Temmuz
+      - Ağustos
+      - Eylül
+      - Ekim
+      - Kasım
+      - Aralık
+    day_names:
+      - Pazar
+      - Pazartesi
+      - Salı
+      - Çarşamba
+      - Perşembe
+      - Cuma
+      - Cumartesi
+    month_names:
+      - ~
+      - Ocak
+      - Şubat
+      - Mart
+      - Nisan
+      - Mayıs
+      - Haziran
+      - Temmuz
+      - Ağustos
+      - Eylül
+      - Ekim
+      - Kasım
+      - Aralık
+    formats:
+      default: "%d-%b-%Y"
+      with_time: "%d-%b-%Y %H:%M"
+      rtl: "%Y-%b-%d"
+      rtl_with_time: "%M:%H %Y-%b-%d"
+  time:
+    formats:
+      default: "%d-%b-%Y"
+      with_time: "%d-%b-%Y %H:%M"
+      rtl: "%Y-%b-%d"
+      rtl_with_time: "%M:%H %Y-%b-%d"
+  'true': "Evet"
+  'false': "Hayır"

@@ -6,12 +6,12 @@ describe("<LocationsList /> - Constants", () => {
   describe("constants", () => {
     let clone;
 
-    before(() => {
+    beforeAll(() => {
       clone = { ...constants };
     });
 
-    after(() => {
-      expect(clone).to.be.empty;
+    afterAll(() => {
+      expect(Object.keys(clone)).toHaveLength(0);
     });
 
     [
@@ -25,7 +25,7 @@ describe("<LocationsList /> - Constants", () => {
       "LOCATIONS_DIALOG"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
-        expect(constants).to.have.property(property);
+        expect(constants).toHaveProperty(property);
         delete clone[property];
       });
     });

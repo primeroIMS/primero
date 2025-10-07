@@ -6,7 +6,7 @@ require 'rails_helper'
 
 describe Exporters::ManagedReportExporter do
   before do
-    clean_data(PrimeroModule, PrimeroProgram, Lookup, UserGroup, Incident, Child, User, Role, Agency, Violation)
+    clean_data(PrimeroModule, PrimeroProgram, FormSection, Field, Lookup, UserGroup, Incident, Child, User, Role, Agency, Violation)
     travel_to Time.zone.local(2022, 6, 30, 11, 30, 44)
 
     SystemSettings.stub(:primary_age_ranges).and_return(AgeRange::DEFAULT_AGE_RANGES)
@@ -24,6 +24,23 @@ describe Exporters::ManagedReportExporter do
       associated_record_types: %w[case tracing_request incident],
       primero_program: program,
       form_sections: []
+    )
+
+    FormSection.create!(
+      unique_id: 'form_perpetrator',
+      parent_form: 'incident',
+      name_en: 'Form Perpetrator',
+      fields: [
+        Field.create!(
+          name: 'perpetrator_occupation',
+          display_name: 'Perpetrator Occupation',
+          option_strings_text_en: [
+            { id: 'occupation_1', display_text: 'Occupation 1' },
+            { id: 'occupation_2', display_text: 'Occupation 2' },
+            { id: 'unknown', display_text: 'Unknown' }
+          ]
+        )
+      ]
     )
 
     Lookup.create_or_update!(
@@ -64,7 +81,11 @@ describe Exporters::ManagedReportExporter do
       unique_id: 'lookup-elapsed-reporting-time',
       name_en: 'GBV Elapsed Reporting Time Range',
       lookup_values_en: [
-        { id: '0_3_days', display_text: '0-3 Days' }
+        { id: '0_3_days', display_text: '0-3 Days' },
+        { id: '4_5_days', display_text: '4-5 Days' },
+        { id: '6_14_days', display_text: '6-14 Days' },
+        { id: '2_weeks_1_month', display_text: '2 Weeks - 1 Month' },
+        { id: 'over_1_month', display_text: 'More than 1 Month' }
       ].map(&:with_indifferent_access)
     )
 
@@ -85,16 +106,6 @@ describe Exporters::ManagedReportExporter do
         { id: 'primary_caregiver', display_text: 'Primary Caregiver' },
         { id: 'other', display_text: 'Other' },
         { id: 'no_relation', display_text: 'No relation' }
-      ]
-    )
-
-    Lookup.create_or_update!(
-      unique_id: 'lookup-perpetrator-occupation',
-      name_en: 'Perpetrator Occupation',
-      lookup_values_en: [
-        { id: 'occupation_1', display_text: 'Occupation 1' },
-        { id: 'occupation_2', display_text: 'Occupation 2' },
-        { id: 'unknown', display_text: 'Unknown' }
       ]
     )
 
@@ -145,6 +156,38 @@ describe Exporters::ManagedReportExporter do
       ].map(&:with_indifferent_access)
     )
 
+    Lookup.create_or_update!(
+      unique_id: 'lookup-service-referred',
+      name_en: 'Service Referred',
+      lookup_values_en: [
+        { id: 'referred', display_text: 'Referred' }.with_indifferent_access,
+        { id: 'service_provided_by_your_agency', display_text: 'Service provided by your agency' }.with_indifferent_access,
+        { id: 'service_unavailable', display_text: 'Service unavailable' }.with_indifferent_access
+      ]
+    )
+
+    Lookup.create_or_update!(
+      unique_id: 'lookup-violation-type',
+      name_en: 'Violation Type',
+      lookup_values_en: [
+        { id: 'killing', display_text: 'Killing' },
+        { id: 'maiming', display_text: 'Maiming' },
+        { id: 'abduction', display_text: 'Abduction' },
+        { id: 'attack_on_schools', display_text: 'Attacks on schools' }
+      ].map(&:with_indifferent_access)
+    )
+
+    Lookup.create_or_update!(
+      unique_id: 'lookup-armed-force-group-or-other-party',
+      name_en: 'Armed Force Group Or Other Party',
+      locked: true,
+      lookup_values: [
+        { id: 'armed_force_1', display_text: 'Armed Force 1' },
+        { id: 'armed_force_2', display_text: 'Armed Force 2' },
+        { id: 'armed_force_3', display_text: 'Armed Force 3' }
+      ].map(&:with_indifferent_access)
+    )
+
     Incident.create!(
       data: {
         gbv_sexual_violence_type: 'forced_marriage',
@@ -153,6 +196,7 @@ describe Exporters::ManagedReportExporter do
         incident_timeofday: 'morning',
         incident_location_type: 'forest',
         age: 3,
+        consent_reporting: 'true',
         service_referred_from: 'unknown',
         alleged_perpetrator: [
           {
@@ -176,6 +220,10 @@ describe Exporters::ManagedReportExporter do
         incident_location_type: 'garden',
         goods_money_exchanged: true,
         age: 7,
+        consent_reporting: 'true',
+        health_medical_referral_subform_section: [
+          { unique_id: '001', service_medical_referral: 'service_unavailable' }
+        ],
         alleged_perpetrator: [
           {
             primary_perpetrator: 'primary',
@@ -197,11 +245,17 @@ describe Exporters::ManagedReportExporter do
         gbv_sexual_violence_type: 'rape',
         incident_date: Date.today,
         module_id: 'primeromodule-gbv',
-        gbv_previous_incidents: true,
+        gbv_previous_incidents: 'true',
         incident_timeofday: 'afternoon',
         incident_location_type: 'school',
         age: 2,
-        health_medical_referral_subform_section: [{ unique_id: '001', service_medical_referral: 'referred' }],
+        consent_reporting: 'true',
+        health_medical_referral_subform_section: [
+          { unique_id: '001', service_medical_referral: 'referred' }
+        ],
+        psychosocial_counseling_services_subform_section: [
+          { unique_id: '002', service_psycho_referral: 'service_provided_by_your_agency' }
+        ],
         alleged_perpetrator: [
           {
             primary_perpetrator: 'primary',
@@ -253,177 +307,223 @@ describe Exporters::ManagedReportExporter do
 
       describe 'GBV Statistics subreport' do
         it 'prints subreport headers' do
-          expect(workbook.sheet(0).row(1)).to eq(['GBV Statistics', nil])
+          expect(workbook.sheet(0).row(1)).to eq(['GBV Statistics', nil, nil, nil, nil])
         end
 
         it 'prints report params' do
           expect(workbook.sheet(0).row(2)).to eq(
             [
               '<html><b>Date Range: </b>This Quarter / <b>Date: </b>Date of Incident / </html>',
-              nil
+              nil, nil, nil, nil
             ]
           )
         end
 
         it 'prints indicator tables' do
-          expect(workbook.sheet(0).row(5)).to eq(['General Statistics', nil])
-          expect(workbook.sheet(0).row(6)).to eq([nil, 'Total'])
-          expect(workbook.sheet(0).row(7)).to eq(['1. New GBV Incidents Reported', 3])
-          expect(workbook.sheet(0).row(8)).to eq(['2. New Incidents of Sexual Violence Reported', 1])
-          expect(workbook.sheet(0).row(11)).to eq(['Survivor Statistics - 3. Sex of survivors', nil])
-          expect(workbook.sheet(0).row(12)).to eq([nil, 'Total'])
-
-          expect(workbook.sheet(0).row(38)).to eq(['Survivor Statistics - 4. Age of survivors', nil])
-          expect(workbook.sheet(0).row(39)).to eq([nil, 'Total'])
-          expect(workbook.sheet(0).row(40)).to eq([AgeRange.new(0, 4).to_s, 2])
-          expect(workbook.sheet(0).row(41)).to eq([AgeRange.new(5, 11).to_s, 1])
-
-          expect(workbook.sheet(0).row(67)).to eq(['Survivor Statistics - 5. Marital Status of Survivors', nil])
-          expect(workbook.sheet(0).row(68)).to eq([nil, 'Total'])
-
-          expect(workbook.sheet(0).row(94)).to eq(
-            ['Survivor Statistics - 6. Displacement Status at Time of Report', nil]
+          expect(workbook.sheet(0).row(5)).to eq(['General Statistics', nil, nil, nil, nil])
+          expect(workbook.sheet(0).row(6)).to eq([nil, 'Total', nil, nil, nil])
+          expect(workbook.sheet(0).row(7)).to eq(['New GBV Incidents Reported', 3, nil, nil, nil])
+          expect(workbook.sheet(0).row(8)).to eq(
+            ['Number of Incidents Reported by Survivors with Prior GBV Incidents', 1, nil, nil, nil]
           )
-          expect(workbook.sheet(0).row(95)).to eq([nil, 'Total'])
-
-          expect(workbook.sheet(0).row(121)).to eq(
-            ['Survivor Statistics - 7. Stage of Displacement at Time of Incident', nil]
+          expect(workbook.sheet(0).row(11)).to eq(
+            ['Survivor Statistics - Sex of survivors', nil, nil, nil, nil]
           )
-          expect(workbook.sheet(0).row(122)).to eq([nil, 'Total'])
-
-          expect(workbook.sheet(0).row(148)).to eq(
-            ['Survivor Statistics - 8. Vulnerable Populations', nil]
+          expect(workbook.sheet(0).row(12)).to eq(['Sex of survivors', 'Total', nil, nil, nil])
+          expect(workbook.sheet(0).row(13)).to eq(['Male', 0, nil, nil, nil])
+          expect(workbook.sheet(0).row(14)).to eq(['Female', 0, nil, nil, nil])
+          expect(workbook.sheet(0).row(15)).to eq(['Other', 0, nil, nil, nil])
+          expect(workbook.sheet(0).row(41)).to eq(
+            ['Survivor Statistics - Age of survivors', nil, nil, nil, nil]
           )
-          expect(workbook.sheet(0).row(149)).to eq([nil, 'Total'])
-          expect(workbook.sheet(0).row(150)).to eq(['With Disabilities', 0])
+          expect(workbook.sheet(0).row(42)).to eq(['Age of survivors', 'Total', nil, nil, nil])
+          expect(workbook.sheet(0).row(43)).to eq(['Children - 17 Yrs & Younger', nil, nil, nil, nil])
+          expect(workbook.sheet(0).row(44)).to eq(['0-11 Yrs Old', 3,  nil, nil, nil])
+          expect(workbook.sheet(0).row(45)).to eq(['12-17 Yrs Old', 0, nil, nil, nil])
+          expect(workbook.sheet(0).row(46)).to eq(['Adults - 18 Yrs & Older', nil, nil, nil, nil])
+          expect(workbook.sheet(0).row(47)).to eq(['Elderly (50 & Older)', 0, nil, nil, nil])
+          expect(workbook.sheet(0).row(48)).to eq(['Adolescent (10-19)', 0, nil, nil, nil])
 
-          expect(workbook.sheet(0).row(176)).to eq(
-            ['Survivor Statistics - 9. Number of Incidents of Sexual Violence Reported', nil]
+          expect(workbook.sheet(0).row(74)).to eq(
+            ['Survivor Statistics - Marital Status of Survivors', nil, nil, nil, nil]
           )
-          expect(workbook.sheet(0).row(177)).to eq([nil, 'Total'])
-          expect(workbook.sheet(0).row(178)).to eq(['Incidents', 3])
+          expect(workbook.sheet(0).row(75)).to eq(['Marital Status', 'Total', nil, nil, nil])
 
-          expect(workbook.sheet(0).row(204)).to eq(
-            ['Incident Statistics - 10. Type of GBV', nil]
+          expect(workbook.sheet(0).row(101)).to eq(
+            ['Survivor Statistics - Displacement Status at Time of Report', nil, nil, nil, nil]
           )
-          expect(workbook.sheet(0).row(205)).to eq([nil, 'Total'])
+          expect(workbook.sheet(0).row(102)).to eq(['Displacement Status at time of report', 'Total', nil, nil, nil])
 
-          expect(workbook.sheet(0).row(206)).to eq(['Rape', 1])
-          expect(workbook.sheet(0).row(207)).to eq(['Sexual Assault', 1])
-          expect(workbook.sheet(0).row(208)).to eq(['Forced Marriage', 1])
-
-          expect(workbook.sheet(0).row(234)).to eq(
-            ['Incident Statistics - 11. Incident Time of Day', nil]
+          expect(workbook.sheet(0).row(128)).to eq(
+            ['Survivor Statistics - Stage of Displacement at Time of Incident', nil, nil, nil, nil]
           )
-          expect(workbook.sheet(0).row(235)).to eq([nil, 'Total'])
-          expect(workbook.sheet(0).row(236)).to eq(['Morning (sunrise to noon)', 1])
-          expect(workbook.sheet(0).row(237)).to eq(['Afternoon (noon to sunset)', 1])
-          expect(workbook.sheet(0).row(238)).to eq(['Evening/Night (sunset to sunrise)', 1])
+          expect(workbook.sheet(0).row(129)).to eq(['Stage of displacement at time of incident', 'Total', nil, nil, nil])
 
-          expect(workbook.sheet(0).row(264)).to eq(
-            ['Incident Statistics - 12. Case Context', nil]
+          expect(workbook.sheet(0).row(155)).to eq(
+            ['Survivor Statistics - Vulnerable Populations', nil, nil, nil, nil]
           )
-          expect(workbook.sheet(0).row(265)).to eq([nil, 'Total'])
-          expect(workbook.sheet(0).row(266)).to eq(['Child Sexual Abuse', 2])
-          expect(workbook.sheet(0).row(267)).to eq(['Early Marriage', 1])
-          expect(workbook.sheet(0).row(268)).to eq(['Possible Sexual Exploitation', 1])
+          expect(workbook.sheet(0).row(156)).to eq([nil, 'Total', nil, nil, nil])
+          expect(workbook.sheet(0).row(157)).to eq(['With Disabilities', 0, nil, nil, nil])
 
-          expect(workbook.sheet(0).row(294)).to eq(
-            ['Incident Statistics - 13. Time Between Incident and Report Date', nil]
+          expect(workbook.sheet(0).row(183)).to eq(
+            ['Survivor Statistics - Number of Incidents of Sexual Violence Reported', nil, nil, nil, nil]
           )
-          expect(workbook.sheet(0).row(295)).to eq([nil, 'Total'])
-          expect(workbook.sheet(0).row(296)).to eq(['0-3 Days', 3])
+          expect(workbook.sheet(0).row(184)).to eq([nil, 'Total', nil, nil, nil])
+          expect(workbook.sheet(0).row(185)).to eq(['Incidents', 3, nil, nil, nil])
 
-          expect(workbook.sheet(0).row(322)).to eq(
-            ['Incident Statistics - 14. Incidents of Rape, Time Elapsed between Incident and Report Date', nil]
+          expect(workbook.sheet(0).row(211)).to eq(
+            ['Incident Statistics - Type of GBV', nil, nil, nil, nil]
           )
-          expect(workbook.sheet(0).row(323)).to eq([nil, 'Total'])
-          expect(workbook.sheet(0).row(324)).to eq(['0-3 Days', 1])
+          expect(workbook.sheet(0).row(212)).to eq(['Type of incident violence', 'Total', nil, nil, nil])
+          expect(workbook.sheet(0).row(213)).to eq(['Rape', 1, nil, nil, nil])
+          expect(workbook.sheet(0).row(214)).to eq(['Sexual Assault', 1, nil, nil, nil])
+          expect(workbook.sheet(0).row(215)).to eq(['Forced Marriage', 1, nil, nil, nil])
 
-          expect(workbook.sheet(0).row(350)).to eq(
-            ['Incident Statistics - 15. Incidents of Rape, Time Elapsed (Health Service or Referral)', nil]
+          expect(workbook.sheet(0).row(241)).to eq(
+            ['Incident Statistics - Incident Time of Day', nil, nil, nil, nil]
           )
-          expect(workbook.sheet(0).row(351)).to eq([nil, 'Total'])
-          expect(workbook.sheet(0).row(352)).to eq(['0-3 Days', 1])
+          expect(workbook.sheet(0).row(242)).to eq(['Time of day that the incident took place', 'Total', nil, nil, nil])
+          expect(workbook.sheet(0).row(243)).to eq(['Morning (sunrise to noon)', 1, nil, nil, nil])
+          expect(workbook.sheet(0).row(244)).to eq(['Afternoon (noon to sunset)', 1, nil, nil, nil])
+          expect(workbook.sheet(0).row(245)).to eq(['Evening/Night (sunset to sunrise)', 1, nil, nil, nil])
 
-          expect(workbook.sheet(0).row(378)).to eq(
-            ['Incident Statistics - 16. Incident Location', nil]
+          expect(workbook.sheet(0).row(271)).to eq(['Incident Statistics - Case Context', nil, nil, nil, nil])
+          expect(workbook.sheet(0).row(272)).to eq([nil, 'Total', nil, nil, nil])
+          expect(workbook.sheet(0).row(273)).to eq(['Intimate Partner Violence', 0, nil, nil, nil])
+          expect(workbook.sheet(0).row(274)).to eq(['Child Sexual Abuse', 2, nil, nil, nil])
+          expect(workbook.sheet(0).row(275)).to eq(['Early Marriage', 1, nil, nil, nil])
+          expect(workbook.sheet(0).row(276)).to eq(['Possible Sexual Exploitation', 1, nil, nil, nil])
+          expect(workbook.sheet(0).row(277)).to eq(['Possible Sexual Slavery', 0, nil, nil, nil])
+          expect(workbook.sheet(0).row(278)).to eq(['Harmful Traditional Practice', 0, nil, nil, nil])
+
+          expect(workbook.sheet(0).row(304)).to eq(
+            ['Incident Statistics - Time Between Incident and Report Date', nil, nil, nil, nil]
           )
+          expect(workbook.sheet(0).row(305)).to eq([nil, 'Total', nil, nil, nil])
+          expect(workbook.sheet(0).row(306)).to eq(['0-3 Days', 3, nil, nil, nil])
+          expect(workbook.sheet(0).row(307)).to eq(['4-5 Days', 0, nil, nil, nil])
+          expect(workbook.sheet(0).row(308)).to eq(['6-14 Days', 0, nil, nil, nil])
+          expect(workbook.sheet(0).row(309)).to eq(['2 Weeks - 1 Month', 0, nil, nil, nil])
+          expect(workbook.sheet(0).row(310)).to eq(['More than 1 Month', 0, nil, nil, nil])
 
-          expect(workbook.sheet(0).row(379)).to eq([nil, 'Total'])
-          expect(workbook.sheet(0).row(380)).to eq(['Bush/Forest', 1])
-          expect(workbook.sheet(0).row(381)).to eq(['Garden/Cultivated Field', 1])
-          expect(workbook.sheet(0).row(382)).to eq(['School', 1])
-
-          expect(workbook.sheet(0).row(408)).to eq(['Perpetrator Statistics - 17. Number of Primary Perpetrators', nil])
-          expect(workbook.sheet(0).row(409)).to eq([nil, 'Total'])
-          expect(workbook.sheet(0).row(410)).to eq([1, 1])
-          expect(workbook.sheet(0).row(411)).to eq([2, 1])
-          expect(workbook.sheet(0).row(412)).to eq([3, 1])
-
-          expect(workbook.sheet(0).row(438)).to eq(
-            ['Perpetrator Statistics - 18. Alleged Perpetrator - Survivor Relationship', nil]
-          )
-          expect(workbook.sheet(0).row(439)).to eq([nil, 'Total'])
-          expect(workbook.sheet(0).row(440)).to eq(['Primary Caregiver', 3])
-          expect(workbook.sheet(0).row(441)).to eq(['Other', 1])
-          expect(workbook.sheet(0).row(442)).to eq(['No relation', 2])
-
-          expect(workbook.sheet(0).row(468)).to eq(
-            ['Perpetrator Statistics - 19. Alleged Primary Perpetrators Age Group', nil]
-          )
-          expect(workbook.sheet(0).row(469)).to eq([nil, 'Total'])
-          expect(workbook.sheet(0).row(470)).to eq(['0-11', 3])
-          expect(workbook.sheet(0).row(471)).to eq(['12-17', 2])
-          expect(workbook.sheet(0).row(472)).to eq(['18-25', 1])
-
-          expect(workbook.sheet(0).row(498)).to eq(
-            ['Perpetrator Statistics - 20. Alleged Primary Perpetrator Occupation', nil]
-          )
-          expect(workbook.sheet(0).row(499)).to eq([nil, 'Total'])
-          expect(workbook.sheet(0).row(500)).to eq(['Occupation 1', 2])
-          expect(workbook.sheet(0).row(501)).to eq(['Occupation 2', 2])
-          expect(workbook.sheet(0).row(502)).to eq(['Unknown', 1])
-          expect(workbook.sheet(0).row(503)).to eq(['Incomplete Data', 1])
-
-          expect(workbook.sheet(0).row(529)).to eq(
+          expect(workbook.sheet(0).row(336)).to eq(
             [
-              'Referral Statistics - 21. Number of incidents for which your organisation is the first point of contact',
-              nil
+              'Incident Statistics - Incidents of Rape, Time Elapsed between Incident and Report Date',
+              nil, nil, nil, nil
             ]
           )
-          expect(workbook.sheet(0).row(530)).to eq([nil, 'Total'])
-          expect(workbook.sheet(0).row(531)).to eq(['Incidents', 0])
+          expect(workbook.sheet(0).row(337)).to eq([nil, 'Total', nil, nil, nil])
+          expect(workbook.sheet(0).row(338)).to eq(['0-3 Days', 1, nil, nil, nil])
+          expect(workbook.sheet(0).row(339)).to eq(['4-5 Days', 0, nil, nil, nil])
+          expect(workbook.sheet(0).row(340)).to eq(['6-14 Days', 0, nil, nil, nil])
+          expect(workbook.sheet(0).row(341)).to eq(['2 Weeks - 1 Month', 0, nil, nil, nil])
+          expect(workbook.sheet(0).row(342)).to eq(['More than 1 Month', 0, nil, nil, nil])
+
+          expect(workbook.sheet(0).row(368)).to eq(
+            [
+              'Incident Statistics - Incidents of Rape, Time Elapsed (Health Service or Referral Provided)',
+              nil, nil, nil, nil
+            ]
+          )
+          expect(workbook.sheet(0).row(369)).to eq([nil, 'Total', nil, nil, nil])
+          expect(workbook.sheet(0).row(370)).to eq(['0-3 Days', 1, nil, nil, nil])
+          expect(workbook.sheet(0).row(371)).to eq(['4-5 Days', 0, nil, nil, nil])
+          expect(workbook.sheet(0).row(372)).to eq(['6-14 Days', 0, nil, nil, nil])
+          expect(workbook.sheet(0).row(373)).to eq(['2 Weeks - 1 Month', 0, nil, nil, nil])
+          expect(workbook.sheet(0).row(374)).to eq(['More than 1 Month', 0, nil, nil, nil])
+
+          expect(workbook.sheet(0).row(400)).to eq(
+            ['Incident Statistics - Incident Location', nil, nil, nil, nil]
+          )
+
+          expect(workbook.sheet(0).row(401)).to eq(['Type of place where the incident took place', 'Total', nil, nil, nil])
+          expect(workbook.sheet(0).row(402)).to eq(['Bush/Forest', 1, nil, nil, nil])
+          expect(workbook.sheet(0).row(403)).to eq(['Garden/Cultivated Field', 1, nil, nil, nil])
+          expect(workbook.sheet(0).row(404)).to eq(['School', 1, nil, nil, nil])
+
+          expect(workbook.sheet(0).row(430)).to eq(
+            ['Perpetrator Statistics - Number of Primary Perpetrators', nil, nil, nil, nil]
+          )
+          expect(workbook.sheet(0).row(431)).to eq([nil, 'Total', nil, nil, nil])
+          expect(workbook.sheet(0).row(432)).to eq([1, 1, nil, nil, nil])
+          expect(workbook.sheet(0).row(433)).to eq([2, 1, nil, nil, nil])
+          expect(workbook.sheet(0).row(434)).to eq([3, 1, nil, nil, nil])
+          expect(workbook.sheet(0).row(435)).to eq(['More than 3', 0, nil, nil, nil])
+          expect(workbook.sheet(0).row(436)).to eq(['Unknown', 0, nil, nil, nil])
+
+          expect(workbook.sheet(0).row(462)).to eq(
+            ['Perpetrator Statistics - Alleged Perpetrator - Survivor Relationship', nil, nil, nil, nil]
+          )
+          expect(workbook.sheet(0).row(463)).to eq(['Alleged perpetrator relationship with survivor', 'Total', nil, nil, nil])
+          expect(workbook.sheet(0).row(464)).to eq(['Primary Caregiver', 3, nil, nil, nil])
+          expect(workbook.sheet(0).row(465)).to eq(['Other', 1, nil, nil, nil])
+          expect(workbook.sheet(0).row(466)).to eq(['No relation', 2, nil, nil, nil])
+
+          expect(workbook.sheet(0).row(492)).to eq(
+            ['Perpetrator Statistics - Alleged Primary Perpetrators Age Group', nil, nil, nil, nil]
+          )
+          expect(workbook.sheet(0).row(493)).to eq(['Age group of alleged perpetrator', 'Total', nil, nil, nil])
+          expect(workbook.sheet(0).row(494)).to eq(['0-11', 3, nil, nil, nil])
+          expect(workbook.sheet(0).row(495)).to eq(['12-17', 2, nil, nil, nil])
+          expect(workbook.sheet(0).row(496)).to eq(['18-25', 1, nil, nil, nil])
+          expect(workbook.sheet(0).row(497)).to eq(['26-40', 0, nil, nil, nil])
+          expect(workbook.sheet(0).row(498)).to eq(['41-60', 0, nil, nil, nil])
+          expect(workbook.sheet(0).row(499)).to eq(['61+', 0, nil, nil, nil])
+          expect(workbook.sheet(0).row(500)).to eq(['Unknown', 0, nil, nil, nil])
+
+          expect(workbook.sheet(0).row(526)).to eq(
+            ['Perpetrator Statistics - Alleged Primary Perpetrator Occupation', nil, nil, nil, nil]
+          )
+          expect(workbook.sheet(0).row(527)).to eq(['Main occupation of alleged perpetrator', 'Total', nil, nil, nil])
+          expect(workbook.sheet(0).row(528)).to eq(['Occupation 1', 2, nil, nil, nil])
+          expect(workbook.sheet(0).row(529)).to eq(['Occupation 2', 2, nil, nil, nil])
+          expect(workbook.sheet(0).row(530)).to eq(['Unknown', 1, nil, nil, nil])
+          expect(workbook.sheet(0).row(531)).to eq(['Incomplete Data', 1, nil, nil, nil])
 
           expect(workbook.sheet(0).row(557)).to eq(
-            ['Referral Statistics - 22. Incidents Referred From Other Service Providers', nil]
+            [
+              'Referral Statistics - Number of incidents for which your organisation is the first point of contact',
+              nil, nil, nil, nil
+            ]
           )
-          expect(workbook.sheet(0).row(558)).to eq([nil, 'Total'])
-          expect(workbook.sheet(0).row(559)).to eq(['Incidents', 1])
+          expect(workbook.sheet(0).row(558)).to eq([nil, 'Total', nil, nil, nil])
+          expect(workbook.sheet(0).row(559)).to eq(['Incidents', 0, nil, nil, nil])
 
           expect(workbook.sheet(0).row(585)).to eq(
-            ['Referral Statistics - 23. Number of Services Provided for Incidents', nil]
+            ['Referral Statistics - Incidents Referred From Other Service Providers', nil, nil, nil, nil]
           )
-          expect(workbook.sheet(0).row(586)).to eq([nil, 'Total'])
-          expect(workbook.sheet(0).row(587)).to eq(['Legal Assistance Services', 0])
-          expect(workbook.sheet(0).row(588)).to eq(['Livelihoods Services', 0])
-          expect(workbook.sheet(0).row(589)).to eq(['Health/Medical Referral', 0])
-          expect(workbook.sheet(0).row(590)).to eq(['Police or Other Type of Security Services', 0])
-          expect(workbook.sheet(0).row(591)).to eq(['Child Protection Services', 0])
-          expect(workbook.sheet(0).row(592)).to eq(['Psychosocial/Counseling Services', 0])
-          expect(workbook.sheet(0).row(593)).to eq(['Safe House/Safe Shelter Referral', 0])
+          expect(workbook.sheet(0).row(586)).to eq([nil, 'Total', nil, nil, nil])
+          expect(workbook.sheet(0).row(587)).to eq(['Incidents', 1, nil, nil, nil])
 
-          expect(workbook.sheet(0).row(619)).to eq(
-            ['Referral Statistics - 24. New Incident Referrals to Other Service Providers', nil]
+          expect(workbook.sheet(0).row(613)).to eq(
+            ['Referral Statistics - Number of Services Provided for Incidents', nil, nil, nil, nil]
           )
-          expect(workbook.sheet(0).row(620)).to eq([nil, 'Total'])
-          expect(workbook.sheet(0).row(621)).to eq(['Legal Assistance Services', 0])
-          expect(workbook.sheet(0).row(622)).to eq(['Livelihoods Services', 0])
-          expect(workbook.sheet(0).row(623)).to eq(['Health/Medical Referral', 1])
-          expect(workbook.sheet(0).row(624)).to eq(['Police or Other Type of Security Services', 0])
-          expect(workbook.sheet(0).row(625)).to eq(['Child Protection Services', 0])
-          expect(workbook.sheet(0).row(626)).to eq(['Psychosocial/Counseling Services', 0])
-          expect(workbook.sheet(0).row(627)).to eq(['Safe House/Safe Shelter Referral', 0])
+          expect(workbook.sheet(0).row(614)).to eq([nil, 'Total', nil, nil, nil])
+          expect(workbook.sheet(0).row(615)).to eq(['Safe House/Safe Shelter Referral', 0, nil, nil, nil])
+          expect(workbook.sheet(0).row(616)).to eq(['Health/Medical Referral', 0, nil, nil, nil])
+          expect(workbook.sheet(0).row(617)).to eq(['Psychosocial/Counseling Services', 1, nil, nil, nil])
+          expect(workbook.sheet(0).row(618)).to eq(['Legal Assistance Services', 0, nil, nil, nil])
+          expect(workbook.sheet(0).row(619)).to eq(
+            ['Police or Other Type of Security Services', 0, nil, nil, nil]
+          )
+          expect(workbook.sheet(0).row(620)).to eq(['Livelihoods Services', 0, nil, nil, nil])
+          expect(workbook.sheet(0).row(621)).to eq(['Child Protection Services', 0, nil, nil, nil])
+
+          expect(workbook.sheet(0).row(647)).to eq(
+            ['Referral Statistics - New Incident Referrals to Other Service Providers', nil, nil, nil, nil]
+          )
+          expect(workbook.sheet(0).row(648)).to eq(
+            [nil, 'Referred', 'Service provided by your agency', 'Service unavailable', 'Total']
+          )
+          expect(workbook.sheet(0).row(649)).to eq(['Safe House/Safe Shelter Referral', 0, 0, 0, 0])
+          expect(workbook.sheet(0).row(650)).to eq(['Health/Medical Referral', 1, 0, 1, 2])
+          expect(workbook.sheet(0).row(651)).to eq(['Psychosocial/Counseling Services', 0, 1, 0, 1])
+          expect(workbook.sheet(0).row(652)).to eq(['Legal Assistance Services', 0, 0, 0, 0])
+          expect(workbook.sheet(0).row(653)).to eq(
+            ['Police or Other Type of Security Services', 0, 0, 0, 0]
+          )
+          expect(workbook.sheet(0).row(654)).to eq(['Livelihoods Services', 0, 0, 0, 0])
+          expect(workbook.sheet(0).row(655)).to eq(['Child Protection Services', 0, 0, 0, 0])
         end
       end
     end
@@ -450,17 +550,27 @@ describe Exporters::ManagedReportExporter do
           Roo::Spreadsheet.open(StringIO.new(data), extension: :xlsx)
         end
 
-        let(:year_range) do
+        let(:empty_columns_for_title) do
+          [nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil]
+        end
+
+        let(:empty_columns_for_rows) do
+          [nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil]
+        end
+
+        let(:subcolumns) { ['Referred', 'Service provided by your agency', 'Service unavailable', 'Total'] }
+
+        def year_range(title = nil)
           [
-            nil, (Date.today - 2.month).strftime('%Y-%b'), (Date.today - 1.month).strftime('%Y-%b'),
+            title, (Date.today - 2.month).strftime('%Y-%b'), (Date.today - 1.month).strftime('%Y-%b'),
             Date.today.strftime('%Y-%b'), (Date.today + 1.month).strftime('%Y-%b'),
             (Date.today + 2.month).strftime('%Y-%b')
-          ]
+          ] + empty_columns_for_rows
         end
 
         context 'GBV Statistics subreport' do
           it 'prints subreport headers' do
-            expect(workbook_grouped.sheet(0).row(1)).to match_array(['GBV Statistics', nil, nil, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(1)).to match_array(['GBV Statistics'] + empty_columns_for_title)
           end
 
           it 'prints report params' do
@@ -469,173 +579,337 @@ describe Exporters::ManagedReportExporter do
               "<b>From: </b>#{(Date.today - 2.month).strftime('%Y-%m-%d')} / " \
               "<b>To: </b>#{(Date.today + 2.month).strftime('%Y-%m-%d')} / <b>Date: </b>Date of Incident / </html>"
 
-            expect(workbook_grouped.sheet(0).row(2)).to match_array([result, nil, nil, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(2)).to match_array(
+              [result] + empty_columns_for_title
+            )
           end
 
           it 'prints indicator tables' do
             expect(workbook_grouped.sheet(0).row(5)).to match_array(
-              ['General Statistics', nil, nil, nil, nil, nil]
+              ['General Statistics'] + empty_columns_for_title
             )
             expect(workbook_grouped.sheet(0).row(6)).to match_array(year_range)
             expect(workbook_grouped.sheet(0).row(7)).to match_array(
-              ['1. New GBV Incidents Reported', 0, 0, 3, 0, 0]
+              ['New GBV Incidents Reported', 0, 0, 3, 0, 0] + empty_columns_for_rows
             )
             expect(workbook_grouped.sheet(0).row(8)).to match_array(
-              ['2. New Incidents of Sexual Violence Reported', 0, 0, 1, 0, 0]
+              [
+                'Number of Incidents Reported by Survivors with Prior GBV Incidents', 0, 0, 1, 0, 0
+              ] + empty_columns_for_rows
             )
             expect(workbook_grouped.sheet(0).row(11)).to match_array(
-              ['Survivor Statistics - 3. Sex of survivors', nil, nil, nil, nil, nil]
+              ['Survivor Statistics - Sex of survivors'] + empty_columns_for_title
             )
             expect(workbook_grouped.sheet(0).row(13)).to match_array(
-              ['Survivor Statistics - 4. Age of survivors', nil, nil, nil, nil, nil]
+              ['Survivor Statistics - Age of survivors'] + empty_columns_for_title
             )
 
-            expect(workbook_grouped.sheet(0).row(14)).to match_array(year_range)
-            expect(workbook_grouped.sheet(0).row(15)).to match_array([AgeRange.new(0, 4).to_s, 0, 0, 2, 0, 0])
-            expect(workbook_grouped.sheet(0).row(16)).to match_array([AgeRange.new(5, 11).to_s, 0, 0, 1, 0, 0])
+            expect(workbook_grouped.sheet(0).row(14)).to match_array(year_range('Age of survivors'))
+            expect(workbook_grouped.sheet(0).row(15)).to match_array(
+              ['Children - 17 Yrs & Younger'] + empty_columns_for_title
+            )
+            expect(workbook_grouped.sheet(0).row(16)).to match_array(
+              ['0-11 Yrs Old', 0, 0, 3, 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(17)).to match_array(
+              ['12-17 Yrs Old', 0, 0, 0, 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(18)).to match_array(
+              ['Adults - 18 Yrs & Older'] + empty_columns_for_title
+            )
+            expect(workbook_grouped.sheet(0).row(19)).to match_array(
+              ['Elderly (50 & Older)', 0, 0, 0, 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(20)).to match_array(
+              ['Adolescent (10-19)', 0, 0, 0, 0, 0] + empty_columns_for_rows
+            )
 
-            expect(workbook_grouped.sheet(0).row(41)).to eq(
-              ['Survivor Statistics - 5. Marital Status of Survivors', nil, nil, nil, nil, nil]
-            )
-            expect(workbook_grouped.sheet(0).row(43)).to eq(
-              ['Survivor Statistics - 6. Displacement Status at Time of Report', nil, nil, nil, nil, nil]
-            )
             expect(workbook_grouped.sheet(0).row(45)).to eq(
-              ['Survivor Statistics - 7. Stage of Displacement at Time of Incident', nil, nil, nil, nil, nil]
+              ['Survivor Statistics - Marital Status of Survivors'] + empty_columns_for_title
             )
             expect(workbook_grouped.sheet(0).row(47)).to eq(
-              ['Survivor Statistics - 8. Vulnerable Populations', nil, nil, nil, nil, nil]
+              ['Survivor Statistics - Displacement Status at Time of Report'] + empty_columns_for_title
             )
-
             expect(workbook_grouped.sheet(0).row(49)).to eq(
-              ['Survivor Statistics - 9. Number of Incidents of Sexual Violence Reported', nil, nil, nil, nil, nil]
+              ['Survivor Statistics - Stage of Displacement at Time of Incident'] + empty_columns_for_title
             )
-            expect(workbook_grouped.sheet(0).row(50)).to match_array(year_range)
-            expect(workbook_grouped.sheet(0).row(51)).to match_array(
-              ['Incidents', 0, 0, 3, 0, 0]
-            )
-
-            expect(workbook_grouped.sheet(0).row(76)).to eq(
-              ['Incident Statistics - 10. Type of GBV', nil, nil, nil, nil, nil]
-            )
-            expect(workbook_grouped.sheet(0).row(77)).to match_array(year_range)
-            expect(workbook_grouped.sheet(0).row(78)).to match_array(
-              ['Rape', 0, 0, 1, 0, 0]
-            )
-            expect(workbook_grouped.sheet(0).row(79)).to match_array(
-              ['Sexual Assault', 0, 0, 1, 0, 0]
-            )
-            expect(workbook_grouped.sheet(0).row(80)).to match_array(
-              ['Forced Marriage', 0, 0, 1, 0, 0]
+            expect(workbook_grouped.sheet(0).row(51)).to eq(
+              ['Survivor Statistics - Vulnerable Populations'] + empty_columns_for_title
             )
 
-            expect(workbook_grouped.sheet(0).row(105)).to eq(
-              ['Incident Statistics - 11. Incident Time of Day', nil, nil, nil, nil, nil]
+            expect(workbook_grouped.sheet(0).row(53)).to eq(
+              ['Survivor Statistics - Number of Incidents of Sexual Violence Reported'] + empty_columns_for_title
             )
-            expect(workbook_grouped.sheet(0).row(106)).to match_array(year_range)
-            expect(workbook_grouped.sheet(0).row(107)).to eq(['Morning (sunrise to noon)', 0, 0, 1, 0, 0])
-            expect(workbook_grouped.sheet(0).row(108)).to eq(['Afternoon (noon to sunset)', 0, 0, 1, 0, 0])
-            expect(workbook_grouped.sheet(0).row(109)).to eq(['Evening/Night (sunset to sunrise)', 0, 0, 1, 0, 0])
-
-            expect(workbook_grouped.sheet(0).row(134)).to eq(
-              ['Incident Statistics - 12. Case Context', nil, nil, nil, nil, nil]
+            expect(workbook_grouped.sheet(0).row(54)).to match_array(year_range)
+            expect(workbook_grouped.sheet(0).row(55)).to match_array(
+              ['Incidents', 0, 0, 3, 0, 0] + empty_columns_for_rows
             )
-            expect(workbook_grouped.sheet(0).row(135)).to match_array(year_range)
-            expect(workbook_grouped.sheet(0).row(136)).to eq(['Child Sexual Abuse', 0, 0, 2, 0, 0])
-            expect(workbook_grouped.sheet(0).row(137)).to eq(['Early Marriage', 0, 0, 1, 0, 0])
-            expect(workbook_grouped.sheet(0).row(138)).to eq(['Possible Sexual Exploitation', 0, 0, 1, 0, 0])
 
-            expect(workbook_grouped.sheet(0).row(163)).to eq(
-              ['Incident Statistics - 13. Time Between Incident and Report Date', nil, nil, nil, nil, nil]
+            expect(workbook_grouped.sheet(0).row(80)).to eq(
+              ['Incident Statistics - Type of GBV'] + empty_columns_for_title
             )
-            expect(workbook_grouped.sheet(0).row(164)).to match_array(year_range)
-            expect(workbook_grouped.sheet(0).row(165)).to eq(['0-3 Days', 0, 0, 3, 0, 0])
+            expect(workbook_grouped.sheet(0).row(81)).to match_array(year_range('Type of incident violence'))
+            expect(workbook_grouped.sheet(0).row(82)).to match_array(
+              ['Rape', 0, 0, 1, 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(83)).to match_array(
+              ['Sexual Assault', 0, 0, 1, 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(84)).to match_array(
+              ['Forced Marriage', 0, 0, 1, 0, 0] + empty_columns_for_rows
+            )
 
-            expect(workbook_grouped.sheet(0).row(190)).to eq(
+            expect(workbook_grouped.sheet(0).row(109)).to eq(
+              ['Incident Statistics - Incident Time of Day'] + empty_columns_for_title
+            )
+            expect(workbook_grouped.sheet(0).row(110)).to match_array(
+              year_range('Time of day that the incident took place')
+            )
+            expect(workbook_grouped.sheet(0).row(111)).to eq(
+              ['Morning (sunrise to noon)', 0, 0, 1, 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(112)).to eq(
+              ['Afternoon (noon to sunset)', 0, 0, 1, 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(113)).to eq(
+              ['Evening/Night (sunset to sunrise)', 0, 0, 1, 0, 0] + empty_columns_for_rows
+            )
+
+            expect(workbook_grouped.sheet(0).row(138)).to eq(
+              ['Incident Statistics - Case Context'] + empty_columns_for_title
+            )
+            expect(workbook_grouped.sheet(0).row(139)).to match_array(year_range)
+            expect(workbook_grouped.sheet(0).row(140)).to eq(
+              ['Intimate Partner Violence', 0, 0, 0, 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(141)).to eq(
+              ['Child Sexual Abuse', 0, 0, 2, 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(142)).to eq(
+              ['Early Marriage', 0, 0, 1, 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(143)).to eq(
+              ['Possible Sexual Exploitation', 0, 0, 1, 0, 0] + empty_columns_for_rows
+            )
+
+            expect(workbook_grouped.sheet(0).row(144)).to eq(
+              ['Possible Sexual Slavery', 0, 0, 0, 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(145)).to eq(
+              ['Harmful Traditional Practice', 0, 0, 0, 0, 0] + empty_columns_for_rows
+            )
+
+            expect(workbook_grouped.sheet(0).row(170)).to eq(
+              ['Incident Statistics - Time Between Incident and Report Date'] + empty_columns_for_title
+            )
+            expect(workbook_grouped.sheet(0).row(171)).to match_array(year_range)
+            expect(workbook_grouped.sheet(0).row(172)).to eq(
+              ['0-3 Days', 0, 0, 3, 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(173)).to eq(
+              ['4-5 Days', 0, 0, 0, 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(174)).to eq(
+              ['6-14 Days', 0, 0, 0, 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(175)).to eq(
+              ['2 Weeks - 1 Month', 0, 0, 0, 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(176)).to eq(
+              ['More than 1 Month', 0, 0, 0, 0, 0] + empty_columns_for_rows
+            )
+
+            expect(workbook_grouped.sheet(0).row(201)).to eq(
               [
-                'Incident Statistics - 14. Incidents of Rape, Time Elapsed between Incident and Report Date',
-                nil, nil, nil, nil, nil
-              ]
+                'Incident Statistics - Incidents of Rape, Time Elapsed between Incident and Report Date'
+              ] + empty_columns_for_title
             )
-            expect(workbook_grouped.sheet(0).row(191)).to match_array(year_range)
-            expect(workbook_grouped.sheet(0).row(192)).to eq(['0-3 Days', 0, 0, 1, 0, 0])
+            expect(workbook_grouped.sheet(0).row(202)).to match_array(year_range)
+            expect(workbook_grouped.sheet(0).row(203)).to eq(
+              ['0-3 Days', 0, 0, 1, 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(204)).to eq(
+              ['4-5 Days', 0, 0, 0, 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(205)).to eq(
+              ['6-14 Days', 0, 0, 0, 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(206)).to eq(
+              ['2 Weeks - 1 Month', 0, 0, 0, 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(207)).to eq(
+              ['More than 1 Month', 0, 0, 0, 0, 0] + empty_columns_for_rows
+            )
 
-            expect(workbook_grouped.sheet(0).row(217)).to match_array(
+            expect(workbook_grouped.sheet(0).row(232)).to match_array(
               [
-                'Incident Statistics - 15. Incidents of Rape, Time Elapsed (Health Service or Referral)',
-                nil, nil, nil, nil, nil
-              ]
+                'Incident Statistics - Incidents of Rape, Time Elapsed (Health Service or Referral Provided)'
+              ] + empty_columns_for_title
             )
-            expect(workbook_grouped.sheet(0).row(218)).to match_array(year_range)
-            expect(workbook_grouped.sheet(0).row(219)).to match_array(['0-3 Days', 0, 0, 1, 0, 0])
-
-            expect(workbook_grouped.sheet(0).row(244)).to match_array(
-              ['Incident Statistics - 16. Incident Location', nil, nil, nil, nil, nil]
+            expect(workbook_grouped.sheet(0).row(233)).to match_array(year_range)
+            expect(workbook_grouped.sheet(0).row(234)).to eq(['0-3 Days', 0, 0, 1, 0, 0] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(235)).to eq(['4-5 Days', 0, 0, 0, 0, 0] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(236)).to eq(['6-14 Days', 0, 0, 0, 0, 0] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(237)).to eq(
+              ['2 Weeks - 1 Month', 0, 0, 0, 0, 0] + empty_columns_for_rows
             )
-            expect(workbook_grouped.sheet(0).row(245)).to match_array(year_range)
-            expect(workbook_grouped.sheet(0).row(246)).to match_array(['Bush/Forest', 0, 0, 1, 0, 0])
-            expect(workbook_grouped.sheet(0).row(247)).to match_array(['Garden/Cultivated Field', 0, 0, 1, 0, 0])
-            expect(workbook_grouped.sheet(0).row(248)).to match_array(['School', 0, 0, 1, 0, 0])
-
-            expect(workbook_grouped.sheet(0).row(273)).to match_array(
-              ['Perpetrator Statistics - 17. Number of Primary Perpetrators', nil, nil, nil, nil, nil]
+            expect(workbook_grouped.sheet(0).row(238)).to eq(
+              ['More than 1 Month', 0, 0, 0, 0, 0] + empty_columns_for_rows
             )
-            expect(workbook_grouped.sheet(0).row(274)).to match_array(year_range)
-            expect(workbook_grouped.sheet(0).row(275)).to match_array([1, 0, 0, 1, 0, 0])
-            expect(workbook_grouped.sheet(0).row(276)).to match_array([2, 0, 0, 1, 0, 0])
-            expect(workbook_grouped.sheet(0).row(277)).to match_array([3, 0, 0, 1, 0, 0])
 
-            expect(workbook_grouped.sheet(0).row(302)).to match_array(
-              ['Perpetrator Statistics - 18. Alleged Perpetrator - Survivor Relationship', nil, nil, nil, nil, nil]
+            expect(workbook_grouped.sheet(0).row(263)).to match_array(
+              ['Incident Statistics - Incident Location'] + empty_columns_for_title
             )
-            expect(workbook_grouped.sheet(0).row(303)).to match_array(year_range)
-            expect(workbook_grouped.sheet(0).row(304)).to match_array(['Primary Caregiver', 0, 0, 3, 0, 0])
-            expect(workbook_grouped.sheet(0).row(305)).to match_array(['Other', 0, 0, 1, 0, 0])
-            expect(workbook_grouped.sheet(0).row(306)).to match_array(['No relation', 0, 0, 2, 0, 0])
-
-            expect(workbook_grouped.sheet(0).row(331)).to match_array(
-              ['Perpetrator Statistics - 19. Alleged Primary Perpetrators Age Group', nil, nil, nil, nil, nil]
+            expect(workbook_grouped.sheet(0).row(264)).to match_array(
+              year_range('Type of place where the incident took place')
             )
-            expect(workbook_grouped.sheet(0).row(332)).to match_array(year_range)
-            expect(workbook_grouped.sheet(0).row(333)).to match_array(['0-11', 0, 0, 3, 0, 0])
-            expect(workbook_grouped.sheet(0).row(334)).to match_array(['12-17', 0, 0, 2, 0, 0])
-            expect(workbook_grouped.sheet(0).row(335)).to match_array(['18-25', 0, 0, 1, 0, 0])
-
-            expect(workbook_grouped.sheet(0).row(360)).to match_array(
-              ['Perpetrator Statistics - 20. Alleged Primary Perpetrator Occupation', nil, nil, nil, nil, nil]
+            expect(workbook_grouped.sheet(0).row(265)).to match_array(
+              ['Bush/Forest', 0, 0, 1, 0, 0] + empty_columns_for_rows
             )
-            expect(workbook_grouped.sheet(0).row(361)).to match_array(year_range)
-            expect(workbook_grouped.sheet(0).row(362)).to match_array(['Occupation 1', 0, 0, 2, 0, 0])
-            expect(workbook_grouped.sheet(0).row(363)).to match_array(['Occupation 2', 0, 0, 2, 0, 0])
-            expect(workbook_grouped.sheet(0).row(364)).to match_array(['Unknown', 0, 0, 1, 0, 0])
-            expect(workbook_grouped.sheet(0).row(365)).to match_array(['Incomplete Data', 0, 0, 1, 0, 0])
+            expect(workbook_grouped.sheet(0).row(266)).to match_array(
+              ['Garden/Cultivated Field', 0, 0, 1, 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(267)).to match_array(
+              ['School', 0, 0, 1, 0, 0] + empty_columns_for_rows
+            )
 
+            expect(workbook_grouped.sheet(0).row(292)).to match_array(
+              ['Perpetrator Statistics - Number of Primary Perpetrators'] + empty_columns_for_title
+            )
+            expect(workbook_grouped.sheet(0).row(293)).to match_array(year_range)
+            expect(workbook_grouped.sheet(0).row(294)).to match_array([1, 0, 0, 1, 0, 0] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(295)).to match_array([2, 0, 0, 1, 0, 0] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(296)).to match_array([3, 0, 0, 1, 0, 0] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(297)).to match_array(
+              ['More than 3', 0, 0, 0, 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(298)).to match_array(
+              ['Unknown', 0, 0, 0, 0, 0] + empty_columns_for_rows
+            )
+
+            expect(workbook_grouped.sheet(0).row(323)).to match_array(
+              ['Perpetrator Statistics - Alleged Perpetrator - Survivor Relationship'] + empty_columns_for_title
+            )
+            expect(workbook_grouped.sheet(0).row(324)).to match_array(
+              year_range('Alleged perpetrator relationship with survivor')
+            )
+            expect(workbook_grouped.sheet(0).row(325)).to match_array(
+              ['Primary Caregiver', 0, 0, 3, 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(326)).to match_array(
+              ['Other', 0, 0, 1, 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(327)).to match_array(
+              ['No relation', 0, 0, 2, 0, 0] + empty_columns_for_rows
+            )
+
+            expect(workbook_grouped.sheet(0).row(352)).to match_array(
+              ['Perpetrator Statistics - Alleged Primary Perpetrators Age Group'] + empty_columns_for_title
+            )
+            expect(workbook_grouped.sheet(0).row(353)).to match_array(year_range('Age group of alleged perpetrator'))
+            expect(workbook_grouped.sheet(0).row(354)).to match_array(
+              ['0-11', 0, 0, 3, 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(355)).to match_array(['12-17', 0, 0, 2, 0, 0] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(356)).to match_array(['18-25', 0, 0, 1, 0, 0] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(357)).to match_array(['26-40', 0, 0, 0, 0, 0] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(358)).to match_array(['41-60', 0, 0, 0, 0, 0] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(359)).to match_array(['61+', 0, 0, 0, 0, 0] + empty_columns_for_rows)
+
+            expect(workbook_grouped.sheet(0).row(385)).to match_array(
+              ['Perpetrator Statistics - Alleged Primary Perpetrator Occupation'] + empty_columns_for_title
+            )
+            expect(workbook_grouped.sheet(0).row(386)).to match_array(
+              year_range('Main occupation of alleged perpetrator')
+            )
+            expect(workbook_grouped.sheet(0).row(387)).to match_array(
+              ['Occupation 1', 0, 0, 2, 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(388)).to match_array(
+              ['Occupation 2', 0, 0, 2, 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(389)).to match_array(
+              ['Unknown', 0, 0, 1, 0, 0] + empty_columns_for_rows
+            )
             expect(workbook_grouped.sheet(0).row(390)).to match_array(
+              ['Incomplete Data', 0, 0, 1, 0, 0] + empty_columns_for_rows
+            )
+
+            expect(workbook_grouped.sheet(0).row(415)).to match_array(
               [
                 'Referral Statistics - ' \
-                '21. Number of incidents for which your organisation is the first point of contact',
-                nil, nil, nil, nil, nil
-              ]
+                'Number of incidents for which your organisation is the first point of contact'
+              ] + empty_columns_for_title
             )
-            expect(workbook_grouped.sheet(0).row(392)).to match_array(
-              ['Referral Statistics - 22. Incidents Referred From Other Service Providers', nil, nil, nil, nil, nil]
+
+            expect(workbook_grouped.sheet(0).row(417)).to match_array(
+              ['Referral Statistics - Incidents Referred From Other Service Providers'] + empty_columns_for_title
             )
-            expect(workbook_grouped.sheet(0).row(393)).to match_array(year_range)
-            expect(workbook_grouped.sheet(0).row(394)).to match_array(
-              ['Incidents', 0, 0, 1, 0, 0]
-            )
+            expect(workbook_grouped.sheet(0).row(418)).to match_array(year_range)
             expect(workbook_grouped.sheet(0).row(419)).to match_array(
+              ['Incidents', 0, 0, 1, 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(444)).to match_array(
               [
-                'Referral Statistics - 23. Number of Services Provided for Incidents',
-                nil, nil, nil, nil, nil
+                'Referral Statistics - Number of Services Provided for Incidents'
+              ] + empty_columns_for_title
+            )
+
+            expect(workbook_grouped.sheet(0).row(445)).to match_array(year_range)
+            expect(workbook_grouped.sheet(0).row(446)).to match_array(
+              ['Safe House/Safe Shelter Referral', 0, 0, 0, 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(447)).to match_array(
+              ['Health/Medical Referral', 0, 0, 0, 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(448)).to match_array(
+              ['Psychosocial/Counseling Services', 0, 0, 1, 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(449)).to match_array(
+              ['Legal Assistance Services', 0, 0, 0, 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(450)).to match_array(
+              ['Police or Other Type of Security Services', 0, 0, 0, 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(451)).to match_array(
+              ['Livelihoods Services', 0, 0, 0, 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(452)).to match_array(
+              ['Child Protection Services', 0, 0, 0, 0, 0] + empty_columns_for_rows
+            )
+
+            expect(workbook_grouped.sheet(0).row(477)).to match_array(
+              ['Referral Statistics - New Incident Referrals to Other Service Providers'] + empty_columns_for_title
+            )
+            expect(workbook_grouped.sheet(0).row(478)).to match_array(
+              [
+                nil, '2022-Apr', nil, nil, nil, '2022-May', nil, nil, nil, '2022-Jun', nil, nil, nil,
+                '2022-Jul', nil, nil, nil, '2022-Aug', nil, nil, nil
               ]
             )
-            expect(workbook_grouped.sheet(0).row(421)).to match_array(
-              ['Referral Statistics - 24. New Incident Referrals to Other Service Providers', nil, nil, nil, nil, nil]
+            expect(workbook_grouped.sheet(0).row(479)).to match_array(
+              [nil] + subcolumns + subcolumns + subcolumns + subcolumns + subcolumns
             )
-            expect(workbook_grouped.sheet(0).row(422)).to match_array(year_range)
-            expect(workbook_grouped.sheet(0).row(423)).to match_array(
-              ['Health/Medical Referral', 0, 0, 1, 0, 0]
+            expect(workbook_grouped.sheet(0).row(480)).to match_array(
+              ['Safe House/Safe Shelter Referral', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            )
+            expect(workbook_grouped.sheet(0).row(481)).to match_array(
+              ['Health/Medical Referral', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0]
+            )
+            expect(workbook_grouped.sheet(0).row(482)).to match_array(
+              ['Psychosocial/Counseling Services', 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            )
+            expect(workbook_grouped.sheet(0).row(483)).to match_array(
+              ['Legal Assistance Services', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            )
+            expect(workbook_grouped.sheet(0).row(484)).to match_array(
+              ['Police or Other Type of Security Services', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            )
+            expect(workbook_grouped.sheet(0).row(485)).to match_array(
+              ['Livelihoods Services', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            )
+            expect(workbook_grouped.sheet(0).row(486)).to match_array(
+              ['Child Protection Services', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
             )
           end
         end
@@ -662,9 +936,19 @@ describe Exporters::ManagedReportExporter do
           Roo::Spreadsheet.open(StringIO.new(data), extension: :xlsx)
         end
 
+        let(:empty_columns_for_rows) { [nil, nil, nil, nil, nil, nil] }
+
+        let(:empty_columns_for_title) { [nil, nil, nil, nil, nil, nil, nil, nil] }
+
+        let(:subcolumns) { ['Referred', 'Service provided by your agency', 'Service unavailable', 'Total'] }
+
+        def year_range(title = nil)
+          [title, Date.today.last_year.year, Date.today.year] + empty_columns_for_rows
+        end
+
         context 'GBV Statistics subreport' do
           it 'prints subreport headers' do
-            expect(workbook_grouped.sheet(0).row(1)).to match_array(['GBV Statistics', nil, nil])
+            expect(workbook_grouped.sheet(0).row(1)).to match_array(['GBV Statistics'] + empty_columns_for_title)
           end
 
           it 'prints report params' do
@@ -673,177 +957,282 @@ describe Exporters::ManagedReportExporter do
               "<b>From: </b>#{(Date.today - 1.year).strftime('%Y-%m-%d')} / " \
               "<b>To: </b>#{Date.today.end_of_year.strftime('%Y-%m-%d')} / <b>Date: </b>Date of Incident / </html>"
 
-            expect(workbook_grouped.sheet(0).row(2)).to match_array([result, nil, nil])
+            expect(workbook_grouped.sheet(0).row(2)).to match_array([result] + empty_columns_for_title)
           end
 
           it 'prints indicator tables' do
-            year_range = [
-              nil, Date.today.last_year.year, Date.today.year
-            ]
-
             expect(workbook_grouped.sheet(0).row(5)).to match_array(
-              ['General Statistics', nil, nil]
+              ['General Statistics'] + empty_columns_for_title
             )
             expect(workbook_grouped.sheet(0).row(6)).to match_array(year_range)
 
             expect(workbook_grouped.sheet(0).row(7)).to match_array(
-              ['1. New GBV Incidents Reported', 0, 3]
+              ['New GBV Incidents Reported', 0, 3] + empty_columns_for_rows
             )
             expect(workbook_grouped.sheet(0).row(8)).to match_array(
-              ['2. New Incidents of Sexual Violence Reported', 0, 1]
+              ['Number of Incidents Reported by Survivors with Prior GBV Incidents', 0, 1] + empty_columns_for_rows
             )
             expect(workbook_grouped.sheet(0).row(11)).to match_array(
-              ['Survivor Statistics - 3. Sex of survivors', nil, nil]
+              ['Survivor Statistics - Sex of survivors'] + empty_columns_for_title
             )
             expect(workbook_grouped.sheet(0).row(13)).to match_array(
-              ['Survivor Statistics - 4. Age of survivors', nil, nil]
+              ['Survivor Statistics - Age of survivors'] + empty_columns_for_title
             )
-            expect(workbook_grouped.sheet(0).row(14)).to match_array(year_range)
-            expect(workbook_grouped.sheet(0).row(15)).to match_array([AgeRange.new(0, 4).to_s, 0, 2])
-            expect(workbook_grouped.sheet(0).row(16)).to match_array([AgeRange.new(5, 11).to_s, 0, 1])
+            expect(workbook_grouped.sheet(0).row(14)).to match_array(year_range('Age of survivors'))
+            expect(workbook_grouped.sheet(0).row(15)).to match_array(
+              ['Children - 17 Yrs & Younger', nil, nil] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(16)).to match_array(
+              ['0-11 Yrs Old', 0, 3] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(17)).to match_array(
+              ['12-17 Yrs Old', 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(18)).to match_array(
+              ['Adults - 18 Yrs & Older', nil, nil] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(19)).to match_array(
+              ['Elderly (50 & Older)', 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(20)).to match_array(
+              ['Adolescent (10-19)', 0, 0] + empty_columns_for_rows
+            )
 
-            expect(workbook_grouped.sheet(0).row(41)).to eq(
-              ['Survivor Statistics - 5. Marital Status of Survivors', nil, nil]
-            )
-            expect(workbook_grouped.sheet(0).row(43)).to eq(
-              ['Survivor Statistics - 6. Displacement Status at Time of Report', nil, nil]
-            )
             expect(workbook_grouped.sheet(0).row(45)).to eq(
-              ['Survivor Statistics - 7. Stage of Displacement at Time of Incident', nil, nil]
+              ['Survivor Statistics - Marital Status of Survivors'] + empty_columns_for_title
             )
             expect(workbook_grouped.sheet(0).row(47)).to eq(
-              ['Survivor Statistics - 8. Vulnerable Populations', nil, nil]
+              ['Survivor Statistics - Displacement Status at Time of Report'] + empty_columns_for_title
             )
-
             expect(workbook_grouped.sheet(0).row(49)).to eq(
-              ['Survivor Statistics - 9. Number of Incidents of Sexual Violence Reported', nil, nil]
+              ['Survivor Statistics - Stage of Displacement at Time of Incident'] + empty_columns_for_title
             )
-            expect(workbook_grouped.sheet(0).row(50)).to match_array(year_range)
-            expect(workbook_grouped.sheet(0).row(51)).to match_array(
-              ['Incidents', 0, 3]
-            )
-
-            expect(workbook_grouped.sheet(0).row(76)).to eq(
-              ['Incident Statistics - 10. Type of GBV', nil, nil]
-            )
-            expect(workbook_grouped.sheet(0).row(77)).to match_array(year_range)
-            expect(workbook_grouped.sheet(0).row(78)).to match_array(
-              ['Rape', 0, 1]
-            )
-            expect(workbook_grouped.sheet(0).row(79)).to match_array(
-              ['Sexual Assault', 0, 1]
-            )
-            expect(workbook_grouped.sheet(0).row(80)).to match_array(
-              ['Forced Marriage', 0, 1]
+            expect(workbook_grouped.sheet(0).row(51)).to eq(
+              ['Survivor Statistics - Vulnerable Populations'] + empty_columns_for_title
             )
 
-            expect(workbook_grouped.sheet(0).row(105)).to eq(
-              ['Incident Statistics - 11. Incident Time of Day', nil, nil]
+            expect(workbook_grouped.sheet(0).row(53)).to eq(
+              ['Survivor Statistics - Number of Incidents of Sexual Violence Reported'] + empty_columns_for_title
             )
-            expect(workbook_grouped.sheet(0).row(106)).to match_array(year_range)
-            expect(workbook_grouped.sheet(0).row(107)).to eq(['Morning (sunrise to noon)', 0, 1])
-            expect(workbook_grouped.sheet(0).row(108)).to eq(['Afternoon (noon to sunset)', 0, 1])
-            expect(workbook_grouped.sheet(0).row(109)).to eq(['Evening/Night (sunset to sunrise)', 0, 1])
-
-            expect(workbook_grouped.sheet(0).row(134)).to eq(
-              ['Incident Statistics - 12. Case Context', nil, nil]
+            expect(workbook_grouped.sheet(0).row(54)).to match_array(year_range)
+            expect(workbook_grouped.sheet(0).row(55)).to match_array(
+              ['Incidents', 0, 3] + empty_columns_for_rows
             )
-            expect(workbook_grouped.sheet(0).row(135)).to match_array(year_range)
-            expect(workbook_grouped.sheet(0).row(136)).to eq(['Child Sexual Abuse', 0, 2])
-            expect(workbook_grouped.sheet(0).row(137)).to eq(['Early Marriage', 0, 1])
-            expect(workbook_grouped.sheet(0).row(138)).to eq(['Possible Sexual Exploitation', 0, 1])
 
-            expect(workbook_grouped.sheet(0).row(163)).to eq(
-              ['Incident Statistics - 13. Time Between Incident and Report Date', nil, nil]
+            expect(workbook_grouped.sheet(0).row(80)).to eq(
+              ['Incident Statistics - Type of GBV'] + empty_columns_for_title
             )
-            expect(workbook_grouped.sheet(0).row(164)).to match_array(year_range)
-            expect(workbook_grouped.sheet(0).row(165)).to eq(['0-3 Days', 0, 3])
+            expect(workbook_grouped.sheet(0).row(81)).to match_array(year_range('Type of incident violence'))
+            expect(workbook_grouped.sheet(0).row(82)).to match_array(
+              ['Rape', 0, 1] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(83)).to match_array(
+              ['Sexual Assault', 0, 1] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(84)).to match_array(
+              ['Forced Marriage', 0, 1] + empty_columns_for_rows
+            )
 
-            expect(workbook_grouped.sheet(0).row(190)).to eq(
+            expect(workbook_grouped.sheet(0).row(109)).to eq(
+              ['Incident Statistics - Incident Time of Day'] + empty_columns_for_title
+            )
+            expect(workbook_grouped.sheet(0).row(110)).to match_array(
+              year_range('Time of day that the incident took place')
+            )
+            expect(workbook_grouped.sheet(0).row(111)).to eq(
+              ['Morning (sunrise to noon)', 0, 1] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(112)).to eq(
+              ['Afternoon (noon to sunset)', 0, 1] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(113)).to eq(
+              ['Evening/Night (sunset to sunrise)', 0, 1] + empty_columns_for_rows
+            )
+
+            expect(workbook_grouped.sheet(0).row(138)).to eq(
+              ['Incident Statistics - Case Context'] + empty_columns_for_title
+            )
+            expect(workbook_grouped.sheet(0).row(139)).to match_array(year_range)
+            expect(workbook_grouped.sheet(0).row(140)).to eq(
+              ['Intimate Partner Violence', 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(141)).to eq(
+              ['Child Sexual Abuse', 0, 2] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(142)).to eq(
+              ['Early Marriage', 0, 1] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(143)).to eq(
+              ['Possible Sexual Exploitation', 0, 1] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(144)).to eq(
+              ['Possible Sexual Slavery', 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(145)).to eq(
+              ['Harmful Traditional Practice', 0, 0] + empty_columns_for_rows
+            )
+
+            expect(workbook_grouped.sheet(0).row(170)).to eq(
+              ['Incident Statistics - Time Between Incident and Report Date'] + empty_columns_for_title
+            )
+            expect(workbook_grouped.sheet(0).row(171)).to match_array(year_range)
+            expect(workbook_grouped.sheet(0).row(172)).to eq(['0-3 Days', 0, 3] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(173)).to eq(['4-5 Days', 0, 0] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(174)).to eq(['6-14 Days', 0, 0] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(175)).to eq(['2 Weeks - 1 Month', 0, 0] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(176)).to eq(['More than 1 Month', 0, 0] + empty_columns_for_rows)
+
+            expect(workbook_grouped.sheet(0).row(201)).to eq(
               [
-                'Incident Statistics - 14. Incidents of Rape, Time Elapsed between Incident and Report Date',
-                nil, nil
-              ]
+                'Incident Statistics - Incidents of Rape, Time Elapsed between Incident and Report Date'
+              ] + empty_columns_for_title
             )
-            expect(workbook_grouped.sheet(0).row(191)).to match_array(year_range)
-            expect(workbook_grouped.sheet(0).row(192)).to eq(['0-3 Days', 0, 1])
+            expect(workbook_grouped.sheet(0).row(202)).to match_array(year_range)
+            expect(workbook_grouped.sheet(0).row(203)).to eq(['0-3 Days', 0, 1] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(204)).to eq(['4-5 Days', 0, 0] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(205)).to eq(['6-14 Days', 0, 0] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(206)).to eq(['2 Weeks - 1 Month', 0, 0] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(207)).to eq(['More than 1 Month', 0, 0] + empty_columns_for_rows)
 
-            expect(workbook_grouped.sheet(0).row(217)).to match_array(
+            expect(workbook_grouped.sheet(0).row(232)).to match_array(
               [
-                'Incident Statistics - 15. Incidents of Rape, Time Elapsed (Health Service or Referral)',
-                nil, nil
-              ]
+                'Incident Statistics - Incidents of Rape, Time Elapsed (Health Service or Referral Provided)'
+              ] + empty_columns_for_title
             )
-            expect(workbook_grouped.sheet(0).row(218)).to match_array(year_range)
-            expect(workbook_grouped.sheet(0).row(219)).to match_array(['0-3 Days', 0, 1])
+            expect(workbook_grouped.sheet(0).row(233)).to match_array(year_range)
+            expect(workbook_grouped.sheet(0).row(234)).to eq(['0-3 Days', 0, 1] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(235)).to eq(['4-5 Days', 0, 0] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(236)).to eq(['6-14 Days', 0, 0] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(237)).to eq(['2 Weeks - 1 Month', 0, 0] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(238)).to eq(['More than 1 Month', 0, 0] + empty_columns_for_rows)
 
-            expect(workbook_grouped.sheet(0).row(244)).to match_array(
-              ['Incident Statistics - 16. Incident Location', nil, nil]
+            expect(workbook_grouped.sheet(0).row(263)).to match_array(
+              ['Incident Statistics - Incident Location'] + empty_columns_for_title
             )
-            expect(workbook_grouped.sheet(0).row(245)).to match_array(year_range)
-            expect(workbook_grouped.sheet(0).row(246)).to match_array(['Bush/Forest', 0, 1])
-            expect(workbook_grouped.sheet(0).row(247)).to match_array(['Garden/Cultivated Field', 0, 1])
-            expect(workbook_grouped.sheet(0).row(248)).to match_array(['School', 0, 1])
-
-            expect(workbook_grouped.sheet(0).row(273)).to match_array(
-              ['Perpetrator Statistics - 17. Number of Primary Perpetrators', nil, nil]
+            expect(workbook_grouped.sheet(0).row(264)).to match_array(
+              year_range('Type of place where the incident took place')
             )
-            expect(workbook_grouped.sheet(0).row(274)).to match_array(year_range)
-            expect(workbook_grouped.sheet(0).row(275)).to match_array([1, 0, 1])
-            expect(workbook_grouped.sheet(0).row(276)).to match_array([2, 0, 1])
-            expect(workbook_grouped.sheet(0).row(277)).to match_array([3, 0, 1])
-
-            expect(workbook_grouped.sheet(0).row(302)).to match_array(
-              ['Perpetrator Statistics - 18. Alleged Perpetrator - Survivor Relationship', nil, nil]
+            expect(workbook_grouped.sheet(0).row(265)).to match_array(
+              ['Bush/Forest', 0, 1] + empty_columns_for_rows
             )
-            expect(workbook_grouped.sheet(0).row(303)).to match_array(year_range)
-            expect(workbook_grouped.sheet(0).row(304)).to match_array(['Primary Caregiver', 0, 3])
-            expect(workbook_grouped.sheet(0).row(305)).to match_array(['Other', 0, 1])
-            expect(workbook_grouped.sheet(0).row(306)).to match_array(['No relation', 0, 2])
-
-            expect(workbook_grouped.sheet(0).row(331)).to match_array(
-              ['Perpetrator Statistics - 19. Alleged Primary Perpetrators Age Group', nil, nil]
+            expect(workbook_grouped.sheet(0).row(266)).to match_array(
+              ['Garden/Cultivated Field', 0, 1] + empty_columns_for_rows
             )
-            expect(workbook_grouped.sheet(0).row(332)).to match_array(year_range)
-            expect(workbook_grouped.sheet(0).row(333)).to match_array(['0-11', 0, 3])
-            expect(workbook_grouped.sheet(0).row(334)).to match_array(['12-17', 0, 2])
-            expect(workbook_grouped.sheet(0).row(335)).to match_array(['18-25', 0, 1])
-
-            expect(workbook_grouped.sheet(0).row(360)).to match_array(
-              ['Perpetrator Statistics - 20. Alleged Primary Perpetrator Occupation', nil, nil]
+            expect(workbook_grouped.sheet(0).row(267)).to match_array(
+              ['School', 0, 1] + empty_columns_for_rows
             )
-            expect(workbook_grouped.sheet(0).row(361)).to match_array(year_range)
-            expect(workbook_grouped.sheet(0).row(362)).to match_array(['Occupation 1', 0, 2])
-            expect(workbook_grouped.sheet(0).row(363)).to match_array(['Occupation 2', 0, 2])
-            expect(workbook_grouped.sheet(0).row(364)).to match_array(['Unknown', 0, 1])
-            expect(workbook_grouped.sheet(0).row(365)).to match_array(['Incomplete Data', 0, 1])
 
+            expect(workbook_grouped.sheet(0).row(292)).to match_array(
+              ['Perpetrator Statistics - Number of Primary Perpetrators'] + empty_columns_for_title
+            )
+            expect(workbook_grouped.sheet(0).row(293)).to match_array(year_range)
+            expect(workbook_grouped.sheet(0).row(294)).to match_array([1, 0, 1] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(295)).to match_array([2, 0, 1] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(296)).to match_array([3, 0, 1] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(297)).to match_array(['More than 3', 0, 0] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(298)).to match_array(['Unknown', 0, 0] + empty_columns_for_rows)
+
+            expect(workbook_grouped.sheet(0).row(323)).to match_array(
+              ['Perpetrator Statistics - Alleged Perpetrator - Survivor Relationship'] + empty_columns_for_title
+            )
+            expect(workbook_grouped.sheet(0).row(324)).to match_array(
+              year_range('Alleged perpetrator relationship with survivor')
+            )
+            expect(workbook_grouped.sheet(0).row(325)).to match_array(
+              ['Primary Caregiver', 0, 3] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(326)).to match_array(['Other', 0, 1] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(327)).to match_array(['No relation', 0, 2] + empty_columns_for_rows)
+
+            expect(workbook_grouped.sheet(0).row(352)).to match_array(
+              ['Perpetrator Statistics - Alleged Primary Perpetrators Age Group'] + empty_columns_for_title
+            )
+            expect(workbook_grouped.sheet(0).row(353)).to match_array(year_range('Age group of alleged perpetrator'))
+            expect(workbook_grouped.sheet(0).row(354)).to match_array(['0-11', 0, 3] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(355)).to match_array(['12-17', 0, 2] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(356)).to match_array(['18-25', 0, 1] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(357)).to match_array(['26-40', 0, 0] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(358)).to match_array(['41-60', 0, 0] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(359)).to match_array(['61+', 0, 0] + empty_columns_for_rows)
+
+            expect(workbook_grouped.sheet(0).row(385)).to match_array(
+              ['Perpetrator Statistics - Alleged Primary Perpetrator Occupation'] + empty_columns_for_title
+            )
+            expect(workbook_grouped.sheet(0).row(386)).to match_array(
+              year_range('Main occupation of alleged perpetrator')
+            )
+            expect(workbook_grouped.sheet(0).row(387)).to match_array(['Occupation 1', 0, 2] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(388)).to match_array(['Occupation 2', 0, 2] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(389)).to match_array(['Unknown', 0, 1] + empty_columns_for_rows)
             expect(workbook_grouped.sheet(0).row(390)).to match_array(
+              ['Incomplete Data', 0, 1] + empty_columns_for_rows
+            )
+
+            expect(workbook_grouped.sheet(0).row(415)).to match_array(
               [
                 'Referral Statistics - ' \
-                '21. Number of incidents for which your organisation is the first point of contact',
-                nil, nil
-              ]
+                'Number of incidents for which your organisation is the first point of contact',
+              ] + empty_columns_for_title
             )
-            expect(workbook_grouped.sheet(0).row(392)).to match_array(
-              ['Referral Statistics - 22. Incidents Referred From Other Service Providers', nil, nil]
+
+            expect(workbook_grouped.sheet(0).row(417)).to match_array(
+              ['Referral Statistics - Incidents Referred From Other Service Providers'] + empty_columns_for_title
             )
-            expect(workbook_grouped.sheet(0).row(393)).to match_array(year_range)
-            expect(workbook_grouped.sheet(0).row(394)).to match_array(
-              ['Incidents', 0, 1]
-            )
+            expect(workbook_grouped.sheet(0).row(418)).to match_array(year_range)
             expect(workbook_grouped.sheet(0).row(419)).to match_array(
-              [
-                'Referral Statistics - 23. Number of Services Provided for Incidents',
-                nil, nil
-              ]
+              ['Incidents', 0, 1] + empty_columns_for_rows
             )
-            expect(workbook_grouped.sheet(0).row(421)).to match_array(
-              ['Referral Statistics - 24. New Incident Referrals to Other Service Providers', nil, nil]
+            expect(workbook_grouped.sheet(0).row(444)).to match_array(
+              ['Referral Statistics - Number of Services Provided for Incidents'] +  empty_columns_for_title
             )
-            expect(workbook_grouped.sheet(0).row(422)).to match_array(year_range)
-            expect(workbook_grouped.sheet(0).row(423)).to match_array(
-              ['Health/Medical Referral', 0, 1]
+            expect(workbook_grouped.sheet(0).row(445)).to match_array(year_range)
+            expect(workbook_grouped.sheet(0).row(446)).to eq(
+              ['Safe House/Safe Shelter Referral', 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(447)).to eq(
+              ['Health/Medical Referral', 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(448)).to eq(
+              ['Psychosocial/Counseling Services', 0, 1] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(449)).to eq(
+              ['Legal Assistance Services', 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(450)).to eq(
+              ['Police or Other Type of Security Services', 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(451)).to eq(
+              ['Livelihoods Services', 0, 0] + empty_columns_for_rows
+            )
+            expect(workbook_grouped.sheet(0).row(452)).to eq(
+              ['Child Protection Services', 0, 0] + empty_columns_for_rows
+            )
+
+            expect(workbook_grouped.sheet(0).row(477)).to match_array(
+              ['Referral Statistics - New Incident Referrals to Other Service Providers'] + empty_columns_for_title
+            )
+            expect(workbook_grouped.sheet(0).row(478)).to match_array([nil, 2021, nil, nil, nil, 2022, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(479)).to eq([nil] + subcolumns + subcolumns)
+            expect(workbook_grouped.sheet(0).row(480)).to eq(
+              ['Safe House/Safe Shelter Referral', 0, 0, 0, 0, 0, 0, 0, 0]
+            )
+            expect(workbook_grouped.sheet(0).row(481)).to eq(
+              ['Health/Medical Referral', 0, 0, 0, 0, 1, 0, 1, 2]
+            )
+            expect(workbook_grouped.sheet(0).row(482)).to eq(
+              ['Psychosocial/Counseling Services', 0, 0, 0, 0, 0, 1, 0, 1]
+            )
+            expect(workbook_grouped.sheet(0).row(483)).to eq(
+              ['Legal Assistance Services', 0, 0, 0, 0, 0, 0, 0, 0]
+            )
+            expect(workbook_grouped.sheet(0).row(484)).to eq(
+              ['Police or Other Type of Security Services', 0, 0, 0, 0, 0, 0, 0, 0]
+            )
+            expect(workbook_grouped.sheet(0).row(485)).to eq(
+              ['Livelihoods Services', 0, 0, 0, 0, 0, 0, 0, 0]
+            )
+            expect(workbook_grouped.sheet(0).row(486)).to eq(
+              ['Child Protection Services', 0, 0, 0, 0, 0, 0, 0, 0]
             )
           end
         end
@@ -870,185 +1259,242 @@ describe Exporters::ManagedReportExporter do
           Roo::Spreadsheet.open(StringIO.new(data), extension: :xlsx)
         end
 
+        def quarter_range(title = nil)
+          [title, "#{Date.today.year}-Q#{(Date.today.month / 3.0).ceil}", nil, nil, nil]
+        end
+
         context 'Incidents subreport' do
           it 'prints subreport headers' do
-            expect(workbook_grouped.sheet(0).row(1)).to match_array(['GBV Statistics', nil])
+            expect(workbook_grouped.sheet(0).row(1)).to match_array(['GBV Statistics', nil, nil, nil, nil])
           end
 
           it 'prints report params' do
             result = '<html><b>View By: </b>Quarter / <b>Date Range: </b>This Quarter / ' \
                      '<b>Date: </b>Date of Incident / </html>'
 
-            expect(workbook_grouped.sheet(0).row(2)).to match_array([result, nil])
+            expect(workbook_grouped.sheet(0).row(2)).to match_array([result, nil, nil, nil, nil])
           end
 
           it 'prints indicator tables' do
-            quarter_range = [nil, "#{Date.today.year}-Q#{(Date.today.month / 3.0).ceil}"]
-
             expect(workbook_grouped.sheet(0).row(5)).to match_array(
-              ['General Statistics', nil]
+              ['General Statistics', nil, nil, nil, nil]
             )
             expect(workbook_grouped.sheet(0).row(6)).to match_array(quarter_range)
-
             expect(workbook_grouped.sheet(0).row(7)).to match_array(
-              ['1. New GBV Incidents Reported', 3]
+              ['New GBV Incidents Reported', 3, nil, nil, nil]
             )
             expect(workbook_grouped.sheet(0).row(8)).to match_array(
-              ['2. New Incidents of Sexual Violence Reported', 1]
+              ['Number of Incidents Reported by Survivors with Prior GBV Incidents', 1, nil, nil, nil]
             )
             expect(workbook_grouped.sheet(0).row(11)).to match_array(
-              ['Survivor Statistics - 3. Sex of survivors', nil]
+              ['Survivor Statistics - Sex of survivors', nil, nil, nil, nil]
             )
             expect(workbook_grouped.sheet(0).row(13)).to match_array(
-              ['Survivor Statistics - 4. Age of survivors', nil]
+              ['Survivor Statistics - Age of survivors', nil, nil, nil, nil]
             )
-            expect(workbook_grouped.sheet(0).row(14)).to match_array(quarter_range)
-            expect(workbook_grouped.sheet(0).row(15)).to match_array([AgeRange.new(0, 4).to_s, 2])
-            expect(workbook_grouped.sheet(0).row(16)).to match_array([AgeRange.new(5, 11).to_s, 1])
+            expect(workbook_grouped.sheet(0).row(14)).to match_array(quarter_range('Age of survivors'))
+            expect(workbook_grouped.sheet(0).row(15)).to match_array(['Children - 17 Yrs & Younger', nil, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(16)).to match_array(['0-11 Yrs Old', 3, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(17)).to match_array(['12-17 Yrs Old', 0, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(18)).to match_array(['Adults - 18 Yrs & Older', nil, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(19)).to match_array(['Elderly (50 & Older)', 0, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(20)).to match_array(['Adolescent (10-19)', 0, nil, nil, nil])
 
-            expect(workbook_grouped.sheet(0).row(41)).to eq(
-              ['Survivor Statistics - 5. Marital Status of Survivors', nil]
-            )
-            expect(workbook_grouped.sheet(0).row(43)).to eq(
-              ['Survivor Statistics - 6. Displacement Status at Time of Report', nil]
-            )
             expect(workbook_grouped.sheet(0).row(45)).to eq(
-              ['Survivor Statistics - 7. Stage of Displacement at Time of Incident', nil]
+              ['Survivor Statistics - Marital Status of Survivors', nil, nil, nil, nil]
             )
             expect(workbook_grouped.sheet(0).row(47)).to eq(
-              ['Survivor Statistics - 8. Vulnerable Populations', nil]
+              ['Survivor Statistics - Displacement Status at Time of Report', nil, nil, nil, nil]
             )
-
             expect(workbook_grouped.sheet(0).row(49)).to eq(
-              ['Survivor Statistics - 9. Number of Incidents of Sexual Violence Reported', nil]
+              ['Survivor Statistics - Stage of Displacement at Time of Incident', nil, nil, nil, nil]
             )
-            expect(workbook_grouped.sheet(0).row(50)).to match_array(quarter_range)
-            expect(workbook_grouped.sheet(0).row(51)).to match_array(
-              ['Incidents', 3]
-            )
-
-            expect(workbook_grouped.sheet(0).row(76)).to eq(
-              ['Incident Statistics - 10. Type of GBV', nil]
-            )
-            expect(workbook_grouped.sheet(0).row(77)).to match_array(quarter_range)
-            expect(workbook_grouped.sheet(0).row(78)).to match_array(
-              ['Rape', 1]
-            )
-            expect(workbook_grouped.sheet(0).row(79)).to match_array(
-              ['Sexual Assault', 1]
-            )
-            expect(workbook_grouped.sheet(0).row(80)).to match_array(
-              ['Forced Marriage', 1]
+            expect(workbook_grouped.sheet(0).row(51)).to eq(
+              ['Survivor Statistics - Vulnerable Populations', nil, nil, nil, nil]
             )
 
-            expect(workbook_grouped.sheet(0).row(105)).to eq(
-              ['Incident Statistics - 11. Incident Time of Day', nil]
+            expect(workbook_grouped.sheet(0).row(53)).to eq(
+              ['Survivor Statistics - Number of Incidents of Sexual Violence Reported', nil, nil, nil, nil]
             )
-            expect(workbook_grouped.sheet(0).row(106)).to match_array(quarter_range)
-            expect(workbook_grouped.sheet(0).row(107)).to eq(['Morning (sunrise to noon)', 1])
-            expect(workbook_grouped.sheet(0).row(108)).to eq(['Afternoon (noon to sunset)', 1])
-            expect(workbook_grouped.sheet(0).row(109)).to eq(['Evening/Night (sunset to sunrise)', 1])
+            expect(workbook_grouped.sheet(0).row(54)).to match_array(quarter_range)
+            expect(workbook_grouped.sheet(0).row(55)).to match_array(['Incidents', 3, nil, nil, nil])
 
-            expect(workbook_grouped.sheet(0).row(134)).to eq(
-              ['Incident Statistics - 12. Case Context', nil]
+            expect(workbook_grouped.sheet(0).row(80)).to eq(['Incident Statistics - Type of GBV', nil, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(81)).to match_array(quarter_range('Type of incident violence'))
+            expect(workbook_grouped.sheet(0).row(82)).to match_array(['Rape', 1, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(83)).to match_array(['Sexual Assault', 1, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(84)).to match_array(['Forced Marriage', 1, nil, nil, nil])
+
+            expect(workbook_grouped.sheet(0).row(109)).to eq(
+              ['Incident Statistics - Incident Time of Day', nil, nil, nil, nil]
             )
-            expect(workbook_grouped.sheet(0).row(135)).to match_array(quarter_range)
-            expect(workbook_grouped.sheet(0).row(136)).to eq(['Child Sexual Abuse', 2])
-            expect(workbook_grouped.sheet(0).row(137)).to eq(['Early Marriage', 1])
-            expect(workbook_grouped.sheet(0).row(138)).to eq(['Possible Sexual Exploitation', 1])
-
-            expect(workbook_grouped.sheet(0).row(163)).to eq(
-              ['Incident Statistics - 13. Time Between Incident and Report Date', nil]
+            expect(workbook_grouped.sheet(0).row(110)).to match_array(
+              quarter_range('Time of day that the incident took place')
             )
-            expect(workbook_grouped.sheet(0).row(164)).to match_array(quarter_range)
-            expect(workbook_grouped.sheet(0).row(165)).to eq(['0-3 Days', 3])
+            expect(workbook_grouped.sheet(0).row(111)).to eq(['Morning (sunrise to noon)', 1, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(112)).to eq(['Afternoon (noon to sunset)', 1, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(113)).to eq(['Evening/Night (sunset to sunrise)', 1, nil, nil, nil])
 
-            expect(workbook_grouped.sheet(0).row(190)).to eq(
+            expect(workbook_grouped.sheet(0).row(138)).to eq(
+              ['Incident Statistics - Case Context', nil, nil, nil, nil]
+
+            )
+            expect(workbook_grouped.sheet(0).row(139)).to match_array(quarter_range)
+            expect(workbook_grouped.sheet(0).row(140)).to eq(['Intimate Partner Violence', 0, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(141)).to eq(['Child Sexual Abuse', 2, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(142)).to eq(['Early Marriage', 1, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(143)).to eq(['Possible Sexual Exploitation', 1, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(144)).to eq(['Possible Sexual Slavery', 0, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(145)).to eq(['Harmful Traditional Practice', 0, nil, nil, nil])
+
+            expect(workbook_grouped.sheet(0).row(170)).to eq(
+              ['Incident Statistics - Time Between Incident and Report Date', nil, nil, nil, nil]
+            )
+            expect(workbook_grouped.sheet(0).row(171)).to match_array(quarter_range)
+            expect(workbook_grouped.sheet(0).row(172)).to eq(['0-3 Days', 3, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(173)).to eq(['4-5 Days', 0, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(174)).to eq(['6-14 Days', 0, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(175)).to eq(['2 Weeks - 1 Month', 0, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(176)).to eq(['More than 1 Month', 0, nil, nil, nil])
+
+            expect(workbook_grouped.sheet(0).row(201)).to eq(
               [
-                'Incident Statistics - 14. Incidents of Rape, Time Elapsed between Incident and Report Date',
-                nil
+                'Incident Statistics - Incidents of Rape, Time Elapsed between Incident and Report Date',
+                nil, nil, nil, nil
               ]
             )
-            expect(workbook_grouped.sheet(0).row(191)).to match_array(quarter_range)
-            expect(workbook_grouped.sheet(0).row(192)).to eq(['0-3 Days', 1])
+            expect(workbook_grouped.sheet(0).row(202)).to match_array(quarter_range)
+            expect(workbook_grouped.sheet(0).row(203)).to eq(['0-3 Days', 1, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(204)).to eq(['4-5 Days', 0, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(205)).to eq(['6-14 Days', 0, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(206)).to eq(['2 Weeks - 1 Month', 0, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(207)).to eq(['More than 1 Month', 0, nil, nil, nil])
 
-            expect(workbook_grouped.sheet(0).row(217)).to match_array(
+            expect(workbook_grouped.sheet(0).row(232)).to match_array(
               [
-                'Incident Statistics - 15. Incidents of Rape, Time Elapsed (Health Service or Referral)',
-                nil
+                'Incident Statistics - Incidents of Rape, Time Elapsed (Health Service or Referral Provided)',
+                nil, nil, nil, nil
               ]
             )
-            expect(workbook_grouped.sheet(0).row(218)).to match_array(quarter_range)
-            expect(workbook_grouped.sheet(0).row(219)).to match_array(['0-3 Days', 1])
+            expect(workbook_grouped.sheet(0).row(233)).to match_array(quarter_range)
+            expect(workbook_grouped.sheet(0).row(234)).to match_array(['0-3 Days', 1, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(235)).to eq(['4-5 Days', 0, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(236)).to eq(['6-14 Days', 0, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(237)).to eq(['2 Weeks - 1 Month', 0, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(238)).to eq(['More than 1 Month', 0, nil, nil, nil])
 
-            expect(workbook_grouped.sheet(0).row(244)).to match_array(
-              ['Incident Statistics - 16. Incident Location', nil]
+            expect(workbook_grouped.sheet(0).row(263)).to match_array(
+              ['Incident Statistics - Incident Location', nil, nil, nil, nil]
             )
-            expect(workbook_grouped.sheet(0).row(245)).to match_array(quarter_range)
-            expect(workbook_grouped.sheet(0).row(246)).to match_array(['Bush/Forest', 1])
-            expect(workbook_grouped.sheet(0).row(247)).to match_array(['Garden/Cultivated Field', 1])
-            expect(workbook_grouped.sheet(0).row(248)).to match_array(['School', 1])
+            expect(workbook_grouped.sheet(0).row(264)).to match_array(quarter_range('Type of place where the incident took place'))
+            expect(workbook_grouped.sheet(0).row(265)).to match_array(['Bush/Forest', 1, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(266)).to match_array(['Garden/Cultivated Field', 1, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(267)).to match_array(['School', 1, nil, nil, nil])
 
-            expect(workbook_grouped.sheet(0).row(273)).to match_array(
-              ['Perpetrator Statistics - 17. Number of Primary Perpetrators', nil]
+            expect(workbook_grouped.sheet(0).row(292)).to match_array(
+              ['Perpetrator Statistics - Number of Primary Perpetrators', nil, nil, nil, nil]
             )
-            expect(workbook_grouped.sheet(0).row(274)).to match_array(quarter_range)
-            expect(workbook_grouped.sheet(0).row(275)).to match_array([1, 1])
-            expect(workbook_grouped.sheet(0).row(276)).to match_array([2, 1])
-            expect(workbook_grouped.sheet(0).row(277)).to match_array([3, 1])
+            expect(workbook_grouped.sheet(0).row(293)).to match_array(quarter_range)
+            expect(workbook_grouped.sheet(0).row(294)).to match_array([1, 1, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(295)).to match_array([2, 1, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(296)).to match_array([3, 1, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(297)).to match_array(['More than 3', 0, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(298)).to match_array(['Unknown', 0, nil, nil, nil])
 
-            expect(workbook_grouped.sheet(0).row(302)).to match_array(
-              ['Perpetrator Statistics - 18. Alleged Perpetrator - Survivor Relationship', nil]
+            expect(workbook_grouped.sheet(0).row(323)).to match_array(
+              ['Perpetrator Statistics - Alleged Perpetrator - Survivor Relationship', nil, nil, nil, nil]
             )
-            expect(workbook_grouped.sheet(0).row(303)).to match_array(quarter_range)
-            expect(workbook_grouped.sheet(0).row(304)).to match_array(['Primary Caregiver', 3])
-            expect(workbook_grouped.sheet(0).row(305)).to match_array(['Other', 1])
-            expect(workbook_grouped.sheet(0).row(306)).to match_array(['No relation', 2])
-
-            expect(workbook_grouped.sheet(0).row(331)).to match_array(
-              ['Perpetrator Statistics - 19. Alleged Primary Perpetrators Age Group', nil]
+            expect(workbook_grouped.sheet(0).row(324)).to match_array(
+              quarter_range('Alleged perpetrator relationship with survivor')
             )
-            expect(workbook_grouped.sheet(0).row(332)).to match_array(quarter_range)
-            expect(workbook_grouped.sheet(0).row(333)).to match_array(['0-11', 3])
-            expect(workbook_grouped.sheet(0).row(334)).to match_array(['12-17', 2])
-            expect(workbook_grouped.sheet(0).row(335)).to match_array(['18-25', 1])
+            expect(workbook_grouped.sheet(0).row(325)).to match_array(['Primary Caregiver', 3, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(326)).to match_array(['Other', 1, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(327)).to match_array(['No relation', 2, nil, nil, nil])
 
-            expect(workbook_grouped.sheet(0).row(360)).to match_array(
-              ['Perpetrator Statistics - 20. Alleged Primary Perpetrator Occupation', nil]
+            expect(workbook_grouped.sheet(0).row(352)).to match_array(
+              ['Perpetrator Statistics - Alleged Primary Perpetrators Age Group', nil, nil, nil, nil]
             )
-            expect(workbook_grouped.sheet(0).row(361)).to match_array(quarter_range)
-            expect(workbook_grouped.sheet(0).row(362)).to match_array(['Occupation 1', 2])
-            expect(workbook_grouped.sheet(0).row(363)).to match_array(['Occupation 2', 2])
-            expect(workbook_grouped.sheet(0).row(364)).to match_array(['Unknown', 1])
-            expect(workbook_grouped.sheet(0).row(365)).to match_array(['Incomplete Data', 1])
+            expect(workbook_grouped.sheet(0).row(353)).to match_array(
+              quarter_range('Age group of alleged perpetrator')
+            )
+            expect(workbook_grouped.sheet(0).row(354)).to match_array(['0-11', 3, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(355)).to match_array(['12-17', 2, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(356)).to match_array(['18-25', 1, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(357)).to match_array(['26-40', 0, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(358)).to match_array(['41-60', 0, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(359)).to match_array(['61+', 0, nil, nil, nil])
 
-            expect(workbook_grouped.sheet(0).row(390)).to match_array(
+            expect(workbook_grouped.sheet(0).row(385)).to match_array(
+              ['Perpetrator Statistics - Alleged Primary Perpetrator Occupation', nil, nil, nil, nil]
+            )
+            expect(workbook_grouped.sheet(0).row(386)).to match_array(
+              quarter_range('Main occupation of alleged perpetrator')
+            )
+            expect(workbook_grouped.sheet(0).row(387)).to match_array(['Occupation 1', 2, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(388)).to match_array(['Occupation 2', 2, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(389)).to match_array(['Unknown', 1, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(390)).to match_array(['Incomplete Data', 1, nil, nil, nil])
+
+            expect(workbook_grouped.sheet(0).row(415)).to match_array(
               [
                 'Referral Statistics - ' \
-                '21. Number of incidents for which your organisation is the first point of contact',
-                nil
+                'Number of incidents for which your organisation is the first point of contact',
+                nil, nil, nil, nil
               ]
             )
-            expect(workbook_grouped.sheet(0).row(392)).to match_array(
-              ['Referral Statistics - 22. Incidents Referred From Other Service Providers', nil]
+
+            expect(workbook_grouped.sheet(0).row(417)).to match_array(
+              ['Referral Statistics - Incidents Referred From Other Service Providers', nil, nil, nil, nil]
             )
-            expect(workbook_grouped.sheet(0).row(393)).to match_array(quarter_range)
-            expect(workbook_grouped.sheet(0).row(394)).to match_array(
-              ['Incidents', 1]
-            )
+            expect(workbook_grouped.sheet(0).row(418)).to match_array(quarter_range)
             expect(workbook_grouped.sheet(0).row(419)).to match_array(
+              ['Incidents', 1, nil, nil, nil]
+            )
+            expect(workbook_grouped.sheet(0).row(444)).to match_array(
               [
-                'Referral Statistics - 23. Number of Services Provided for Incidents',
-                nil
+                'Referral Statistics - Number of Services Provided for Incidents',
+                nil, nil, nil, nil
               ]
             )
-            expect(workbook_grouped.sheet(0).row(421)).to match_array(
-              ['Referral Statistics - 24. New Incident Referrals to Other Service Providers', nil]
+            expect(workbook_grouped.sheet(0).row(445)).to match_array(quarter_range)
+            expect(workbook_grouped.sheet(0).row(446)).to match_array(
+              ['Safe House/Safe Shelter Referral', 0, nil, nil, nil]
             )
-            expect(workbook_grouped.sheet(0).row(422)).to match_array(quarter_range)
-            expect(workbook_grouped.sheet(0).row(423)).to match_array(
-              ['Health/Medical Referral', 1]
+            expect(workbook_grouped.sheet(0).row(447)).to match_array(
+              ['Health/Medical Referral', 0, nil, nil, nil]
             )
+            expect(workbook_grouped.sheet(0).row(448)).to match_array(
+              ['Psychosocial/Counseling Services', 1, nil, nil, nil]
+            )
+            expect(workbook_grouped.sheet(0).row(449)).to match_array(
+              ['Legal Assistance Services', 0, nil, nil, nil]
+            )
+            expect(workbook_grouped.sheet(0).row(450)).to match_array(
+              ['Police or Other Type of Security Services', 0, nil, nil, nil]
+            )
+            expect(workbook_grouped.sheet(0).row(451)).to match_array(
+              ['Livelihoods Services', 0, nil, nil, nil]
+            )
+            expect(workbook_grouped.sheet(0).row(452)).to match_array(
+              ['Child Protection Services', 0, nil, nil, nil]
+            )
+
+            expect(workbook_grouped.sheet(0).row(477)).to match_array(
+              ['Referral Statistics - New Incident Referrals to Other Service Providers', nil, nil, nil, nil]
+            )
+            expect(workbook_grouped.sheet(0).row(478)).to match_array(quarter_range)
+            expect(workbook_grouped.sheet(0).row(479)).to match_array(
+              [nil, 'Referred', 'Service provided by your agency', 'Service unavailable', 'Total']
+            )
+            expect(workbook_grouped.sheet(0).row(480)).to match_array(['Safe House/Safe Shelter Referral', 0, 0 ,0, 0])
+            expect(workbook_grouped.sheet(0).row(481)).to match_array(['Health/Medical Referral', 1, 0, 1, 2])
+            expect(workbook_grouped.sheet(0).row(482)).to match_array(['Psychosocial/Counseling Services', 0, 1, 0, 1])
+            expect(workbook_grouped.sheet(0).row(483)).to match_array(['Legal Assistance Services', 0, 0, 0, 0])
+            expect(workbook_grouped.sheet(0).row(484)).to match_array(
+              ['Police or Other Type of Security Services', 0, 0, 0, 0]
+            )
+            expect(workbook_grouped.sheet(0).row(485)).to match_array(['Livelihoods Services', 0, 0, 0, 0])
+            expect(workbook_grouped.sheet(0).row(486)).to match_array(['Child Protection Services', 0, 0, 0, 0])
           end
         end
       end
@@ -1098,10 +1544,18 @@ describe Exporters::ManagedReportExporter do
             ].map(&:with_indifferent_access)
           )
 
-          incident1 = Incident.create!(data: { incident_date: Date.new(2022, 5, 8), status: 'open' })
-          incident2 = Incident.create!(data: { incident_date: Date.new(2022, 2, 8), status: 'open' })
-          incident3 = Incident.create!(data: { incident_date: Date.new(2022, 3, 18), status: 'open' })
-          incident4 = Incident.create!(data: { incident_date: Date.new(2022, 4, 28), status: 'open' })
+          incident1 = Incident.create!(
+            data: { incident_date: Date.new(2022, 5, 8), status: 'open', consent_reporting: 'true' }
+          )
+          incident2 = Incident.create!(
+            data: { incident_date: Date.new(2022, 2, 8), status: 'open', consent_reporting: 'true' }
+          )
+          incident3 = Incident.create!(
+            data: { incident_date: Date.new(2022, 3, 18), status: 'open', consent_reporting: 'true' }
+          )
+          incident4 = Incident.create!(
+            data: { incident_date: Date.new(2022, 4, 28), status: 'open', consent_reporting: 'true' }
+          )
 
           violation1 = Violation.create!(
             data: {
@@ -1193,7 +1647,7 @@ describe Exporters::ManagedReportExporter do
             expect(workbook_grouped.sheet(0).row(1).compact.first).to eq('Killing of Children')
           end
 
-          it 'print indicator without subcolumuns' do
+          it 'print indicator without subcolumns' do
             expect(workbook_grouped.sheet(0).row(5).compact.first).to eq('Children')
             expect(workbook_grouped.sheet(0).row(6)[0..2]).to match_array([nil, '2022-Q1', '2022-Q2'])
             expect(workbook_grouped.sheet(0).row(7)[0..2]).to match_array(['Boys', 2, 4])
@@ -1202,7 +1656,7 @@ describe Exporters::ManagedReportExporter do
             expect(workbook_grouped.sheet(0).row(10)[0..2]).to match_array(['Total', 9, 8])
           end
 
-          it 'print indicators with subcolumuns' do
+          it 'print indicators with subcolumns' do
             expect(workbook_grouped.sheet(0).row(37).compact.first).to eq('Number of Children by Perpetrators')
             expect(workbook_grouped.sheet(0).row(38)).to match_array(
               [nil, '2022-Q1', nil, nil, nil, '2022-Q2', nil, nil, nil]
@@ -1248,7 +1702,9 @@ describe Exporters::ManagedReportExporter do
       end
 
       it 'prints subreports headers' do
-        expect(workbook_all.sheet(0).row(1)).to match_array(['GBV Statistics', nil, nil])
+        expect(workbook_all.sheet(0).row(1)).to match_array(
+          ['GBV Statistics',  nil, nil, nil, nil, nil, nil, nil, nil]
+        )
       end
     end
 
@@ -1270,53 +1726,53 @@ describe Exporters::ManagedReportExporter do
 
       it 'should export indicators in the correct order' do
         expect(workbook.sheet(0).row(5).at(0)).to eq('General Statistics')
-        expect(workbook.sheet(0).row(7).at(0)).to eq('1. New GBV Incidents Reported')
-        expect(workbook.sheet(0).row(8).at(0)).to eq('2. New Incidents of Sexual Violence Reported')
-        expect(workbook.sheet(0).row(11).at(0)).to eq('Survivor Statistics - 3. Sex of survivors')
-        expect(workbook.sheet(0).row(38).at(0)).to eq('Survivor Statistics - 4. Age of survivors')
-        expect(workbook.sheet(0).row(67).at(0)).to eq('Survivor Statistics - 5. Marital Status of Survivors')
-        expect(workbook.sheet(0).row(94).at(0)).to eq('Survivor Statistics - 6. Displacement Status at Time of Report')
-        expect(workbook.sheet(0).row(121).at(0)).to eq(
-          'Survivor Statistics - 7. Stage of Displacement at Time of Incident'
+        expect(workbook.sheet(0).row(7).at(0)).to eq('New GBV Incidents Reported')
+        expect(workbook.sheet(0).row(8).at(0)).to eq('Number of Incidents Reported by Survivors with Prior GBV Incidents')
+        expect(workbook.sheet(0).row(11).at(0)).to eq('Survivor Statistics - Sex of survivors')
+        expect(workbook.sheet(0).row(41).at(0)).to eq('Survivor Statistics - Age of survivors')
+        expect(workbook.sheet(0).row(74).at(0)).to eq('Survivor Statistics - Marital Status of Survivors')
+        expect(workbook.sheet(0).row(101).at(0)).to eq('Survivor Statistics - Displacement Status at Time of Report')
+        expect(workbook.sheet(0).row(128).at(0)).to eq(
+          'Survivor Statistics - Stage of Displacement at Time of Incident'
         )
-        expect(workbook.sheet(0).row(148).at(0)).to eq('Survivor Statistics - 8. Vulnerable Populations')
-        expect(workbook.sheet(0).row(176).at(0)).to eq(
-          'Survivor Statistics - 9. Number of Incidents of Sexual Violence Reported'
+        expect(workbook.sheet(0).row(155).at(0)).to eq('Survivor Statistics - Vulnerable Populations')
+        expect(workbook.sheet(0).row(183).at(0)).to eq(
+          'Survivor Statistics - Number of Incidents of Sexual Violence Reported'
         )
-        expect(workbook.sheet(0).row(204).at(0)).to eq('Incident Statistics - 10. Type of GBV')
-        expect(workbook.sheet(0).row(234).at(0)).to eq('Incident Statistics - 11. Incident Time of Day')
-        expect(workbook.sheet(0).row(264).at(0)).to eq('Incident Statistics - 12. Case Context')
-        expect(workbook.sheet(0).row(294).at(0)).to eq(
-          'Incident Statistics - 13. Time Between Incident and Report Date'
+        expect(workbook.sheet(0).row(211).at(0)).to eq('Incident Statistics - Type of GBV')
+        expect(workbook.sheet(0).row(241).at(0)).to eq('Incident Statistics - Incident Time of Day')
+        expect(workbook.sheet(0).row(271).at(0)).to eq('Incident Statistics - Case Context')
+        expect(workbook.sheet(0).row(304).at(0)).to eq(
+          'Incident Statistics - Time Between Incident and Report Date'
         )
-        expect(workbook.sheet(0).row(322).at(0)).to eq(
-          'Incident Statistics - 14. Incidents of Rape, Time Elapsed between Incident and Report Date'
+        expect(workbook.sheet(0).row(336).at(0)).to eq(
+          'Incident Statistics - Incidents of Rape, Time Elapsed between Incident and Report Date'
         )
-        expect(workbook.sheet(0).row(350).at(0)).to eq(
-          'Incident Statistics - 15. Incidents of Rape, Time Elapsed (Health Service or Referral)'
+        expect(workbook.sheet(0).row(368).at(0)).to eq(
+          'Incident Statistics - Incidents of Rape, Time Elapsed (Health Service or Referral Provided)'
         )
-        expect(workbook.sheet(0).row(378).at(0)).to eq('Incident Statistics - 16. Incident Location')
-        expect(workbook.sheet(0).row(408).at(0)).to eq('Perpetrator Statistics - 17. Number of Primary Perpetrators')
-        expect(workbook.sheet(0).row(438).at(0)).to eq(
-          'Perpetrator Statistics - 18. Alleged Perpetrator - Survivor Relationship'
+        expect(workbook.sheet(0).row(400).at(0)).to eq('Incident Statistics - Incident Location')
+        expect(workbook.sheet(0).row(430).at(0)).to eq('Perpetrator Statistics - Number of Primary Perpetrators')
+        expect(workbook.sheet(0).row(462).at(0)).to eq(
+          'Perpetrator Statistics - Alleged Perpetrator - Survivor Relationship'
         )
-        expect(workbook.sheet(0).row(468).at(0)).to eq(
-          'Perpetrator Statistics - 19. Alleged Primary Perpetrators Age Group'
+        expect(workbook.sheet(0).row(492).at(0)).to eq(
+          'Perpetrator Statistics - Alleged Primary Perpetrators Age Group'
         )
-        expect(workbook.sheet(0).row(498).at(0)).to eq(
-          'Perpetrator Statistics - 20. Alleged Primary Perpetrator Occupation'
-        )
-        expect(workbook.sheet(0).row(529).at(0)).to eq(
-          'Referral Statistics - 21. Number of incidents for which your organisation is the first point of contact'
+        expect(workbook.sheet(0).row(526).at(0)).to eq(
+          'Perpetrator Statistics - Alleged Primary Perpetrator Occupation'
         )
         expect(workbook.sheet(0).row(557).at(0)).to eq(
-          'Referral Statistics - 22. Incidents Referred From Other Service Providers'
+          'Referral Statistics - Number of incidents for which your organisation is the first point of contact'
         )
         expect(workbook.sheet(0).row(585).at(0)).to eq(
-          'Referral Statistics - 23. Number of Services Provided for Incidents'
+          'Referral Statistics - Incidents Referred From Other Service Providers'
         )
-        expect(workbook.sheet(0).row(619).at(0)).to eq(
-          'Referral Statistics - 24. New Incident Referrals to Other Service Providers'
+        expect(workbook.sheet(0).row(613).at(0)).to eq(
+          'Referral Statistics - Number of Services Provided for Incidents'
+        )
+        expect(workbook.sheet(0).row(647).at(0)).to eq(
+          'Referral Statistics - New Incident Referrals to Other Service Providers'
         )
       end
     end
@@ -1358,59 +1814,59 @@ describe Exporters::ManagedReportExporter do
 
         it 'prints indicator tables' do
           expect(workbook_no_data.sheet(0).row(7)).to match_array(
-            ['1. New GBV Incidents Reported']
+            ['New GBV Incidents Reported']
           )
           expect(workbook_no_data.sheet(0).row(8)).to match_array(
-            ['2. New Incidents of Sexual Violence Reported']
+            ['Number of Incidents Reported by Survivors with Prior GBV Incidents']
           )
-          expect(workbook_no_data.sheet(0).row(13).at(0)).to eq('Survivor Statistics - 4. Age of survivors')
-          expect(workbook_no_data.sheet(0).row(15).at(0)).to eq('Survivor Statistics - 5. Marital Status of Survivors')
+          expect(workbook_no_data.sheet(0).row(13).at(0)).to eq('Survivor Statistics - Age of survivors')
+          expect(workbook_no_data.sheet(0).row(15).at(0)).to eq('Survivor Statistics - Marital Status of Survivors')
           expect(workbook_no_data.sheet(0).row(17).at(0)).to eq(
-            'Survivor Statistics - 6. Displacement Status at Time of Report'
+            'Survivor Statistics - Displacement Status at Time of Report'
           )
           expect(workbook_no_data.sheet(0).row(19).at(0)).to eq(
-            'Survivor Statistics - 7. Stage of Displacement at Time of Incident'
+            'Survivor Statistics - Stage of Displacement at Time of Incident'
           )
-          expect(workbook_no_data.sheet(0).row(21).at(0)).to eq('Survivor Statistics - 8. Vulnerable Populations')
+          expect(workbook_no_data.sheet(0).row(21).at(0)).to eq('Survivor Statistics - Vulnerable Populations')
           expect(workbook_no_data.sheet(0).row(23).at(0)).to eq(
-            'Survivor Statistics - 9. Number of Incidents of Sexual Violence Reported'
+            'Survivor Statistics - Number of Incidents of Sexual Violence Reported'
           )
-          expect(workbook_no_data.sheet(0).row(25).at(0)).to eq('Incident Statistics - 10. Type of GBV')
-          expect(workbook_no_data.sheet(0).row(27).at(0)).to eq('Incident Statistics - 11. Incident Time of Day')
-          expect(workbook_no_data.sheet(0).row(29).at(0)).to eq('Incident Statistics - 12. Case Context')
+          expect(workbook_no_data.sheet(0).row(25).at(0)).to eq('Incident Statistics - Type of GBV')
+          expect(workbook_no_data.sheet(0).row(27).at(0)).to eq('Incident Statistics - Incident Time of Day')
+          expect(workbook_no_data.sheet(0).row(29).at(0)).to eq('Incident Statistics - Case Context')
           expect(workbook_no_data.sheet(0).row(31).at(0)).to eq(
-            'Incident Statistics - 13. Time Between Incident and Report Date'
+            'Incident Statistics - Time Between Incident and Report Date'
           )
           expect(workbook_no_data.sheet(0).row(33).at(0)).to eq(
-            'Incident Statistics - 14. Incidents of Rape, Time Elapsed between Incident and Report Date'
+            'Incident Statistics - Incidents of Rape, Time Elapsed between Incident and Report Date'
           )
           expect(workbook_no_data.sheet(0).row(35).at(0)).to eq(
-            'Incident Statistics - 15. Incidents of Rape, Time Elapsed (Health Service or Referral)'
+            'Incident Statistics - Incidents of Rape, Time Elapsed (Health Service or Referral Provided)'
           )
-          expect(workbook_no_data.sheet(0).row(37).at(0)).to eq('Incident Statistics - 16. Incident Location')
+          expect(workbook_no_data.sheet(0).row(37).at(0)).to eq('Incident Statistics - Incident Location')
           expect(workbook_no_data.sheet(0).row(39).at(0)).to eq(
-            'Perpetrator Statistics - 17. Number of Primary Perpetrators'
+            'Perpetrator Statistics - Number of Primary Perpetrators'
           )
           expect(workbook_no_data.sheet(0).row(41).at(0)).to eq(
-            'Perpetrator Statistics - 18. Alleged Perpetrator - Survivor Relationship'
+            'Perpetrator Statistics - Alleged Perpetrator - Survivor Relationship'
           )
           expect(workbook_no_data.sheet(0).row(43).at(0)).to eq(
-            'Perpetrator Statistics - 19. Alleged Primary Perpetrators Age Group'
+            'Perpetrator Statistics - Alleged Primary Perpetrators Age Group'
           )
           expect(workbook_no_data.sheet(0).row(45).at(0)).to eq(
-            'Perpetrator Statistics - 20. Alleged Primary Perpetrator Occupation'
+            'Perpetrator Statistics - Alleged Primary Perpetrator Occupation'
           )
           expect(workbook_no_data.sheet(0).row(47).at(0)).to eq(
-            'Referral Statistics - 21. Number of incidents for which your organisation is the first point of contact'
+            'Referral Statistics - Number of incidents for which your organisation is the first point of contact'
           )
           expect(workbook_no_data.sheet(0).row(49).at(0)).to eq(
-            'Referral Statistics - 22. Incidents Referred From Other Service Providers'
+            'Referral Statistics - Incidents Referred From Other Service Providers'
           )
           expect(workbook_no_data.sheet(0).row(51).at(0)).to eq(
-            'Referral Statistics - 23. Number of Services Provided for Incidents'
+            'Referral Statistics - Number of Services Provided for Incidents'
           )
           expect(workbook_no_data.sheet(0).row(53).at(0)).to eq(
-            'Referral Statistics - 24. New Incident Referrals to Other Service Providers'
+            'Referral Statistics - New Incident Referrals to Other Service Providers'
           )
         end
       end
@@ -1418,15 +1874,27 @@ describe Exporters::ManagedReportExporter do
   end
 
   context 'when is a export of GHN' do
+    let(:managed_report_user) do
+      fake_user(
+        permissions: [
+          Permission.new(
+            resource: Permission::MANAGED_REPORT,
+            managed_report_scope: Permission::ALL,
+            actions: [Permission::VIOLATION_REPORT]
+          )
+        ]
+      )
+    end
+
     let(:workbook) do
       data = ManagedReport.list[Permission::GHN_REPORT].export(
-        nil,
+        managed_report_user,
         [
           SearchFilters::Value.new(field_name: 'grouped_by', value: 'quarter'),
           SearchFilters::DateRange.new(
             field_name: 'ghn_date_filter',
-            from: '2022-01-01',
-            to: '2022-06-10'
+            from: Date.parse('2022-01-01'),
+            to: Date.parse('2022-06-10')
           )
         ],
         { output_to_file: false }
@@ -1436,77 +1904,98 @@ describe Exporters::ManagedReportExporter do
     end
 
     before do
-      incident0 = Incident.create!(
-        data: {
+      incident0 = Incident.new_with_user(
+        managed_report_user,
+        {
           incident_date: Date.new(2022, 4, 23),
           date_of_first_report: Date.new(2022, 4, 23),
           status: 'open',
-          module_id: 'primeromodule-mrm'
-        }
+          module_id: PrimeroModule::MRM,
+          killing: [
+            {
+              unique_id: 'bbfd214c-77c4-11f0-8941-7c10c98b54af',
+              ctfmr_verified: 'verified',
+              ctfmr_verified_date: Date.new(2022, 4, 23),
+              violation_tally: { boys: 2, girls: 0, unknown: 2, total: 4 }
+            },
+          ],
+          individual_victims: [
+            {
+              unique_id: '8b79234d-6d22-47b6-a7ad-927207676667',
+              individual_sex: 'male',
+              individual_age: 9,
+              individual_multiple_violations: true,
+              violations_ids: ['bbfd214c-77c4-11f0-8941-7c10c98b54af']
+            }
+          ],
+          maiming: [
+            {
+              unique_id: '8edd80b2-76d9-11f0-8338-7c10c98b54af',
+              ctfmr_verified: 'report_pending_verification',
+              violation_tally: { boys: 2, girls: 3, unknown: 2, total: 7 }
+            }
+          ],
+          attack_on_schools: [
+            {
+              unique_id: 'ac5e4216-76d9-11f0-b06c-7c10c98b54af',
+              ctfmr_verified: 'report_pending_verification',
+              violation_tally: { boys: 3, girls: 4, unknown: 5, total: 12 }
+            },
+            {
+              unique_id: 'c5285e76-76d9-11f0-96e6-7c10c98b54af',
+              ctfmr_verified: 'verified',
+              ctfmr_verified_date: Date.new(2022, 4, 23),
+              violation_tally: { boys: 3, girls: 4, unknown: 5, total: 12 }
+            }
+          ],
+          perpetrators: [
+            {
+              unique_id: 'e13ffb2e-77c3-11f0-ba4b-7c10c98b54af',
+              armed_force_group_party_name: 'armed_force_2',
+              violations_ids: ['c5285e76-76d9-11f0-96e6-7c10c98b54af']
+            },
+            {
+              unique_id: '20f8b6a2-77c4-11f0-b34b-7c10c98b54af',
+              armed_force_group_party_name: 'armed_force_1',
+              violations_ids: ['ac5e4216-76d9-11f0-b06c-7c10c98b54af']
+            }
+          ],
+        }.with_indifferent_access
       )
-      incident1 = Incident.create!(
-        data: {
+      incident0.save!
+
+      incident1 = Incident.new_with_user(
+        managed_report_user,
+        {
           incident_date: Date.new(2022, 6, 4),
           date_of_first_report: Date.new(2022, 6, 4),
           status: 'open',
-          module_id: 'primeromodule-mrm'
-        }
+          module_id: PrimeroModule::MRM,
+          abduction: [
+            {
+              unique_id: '82cecbec-76d8-11f0-ba36-7c10c98b54af',
+              ctfmr_verified: 'verified',
+              ctfmr_verified_date: Date.new(2022, 6, 4),
+              violation_tally: { boys: 1, girls: 2, unknown: 5, total: 8 }
+            }
+          ],
+          individual_victims: [
+            {
+              unique_id: '5bf743de-76f4-11f0-9b0d-7c10c98b54af',
+              individual_sex: 'male',
+              individual_age: 12,
+              violations_ids: ['82cecbec-76d8-11f0-ba36-7c10c98b54af']
+            },
+            {
+              unique_id: '858a003b-1b21-4fe0-abbf-9cb39d3a6d80',
+              individual_age: 3,
+              individual_multiple_violations: true,
+              violations_ids: ['82cecbec-76d8-11f0-ba36-7c10c98b54af']
+            }
+          ]
+        }.with_indifferent_access
       )
-
-      violation1 = Violation.create!(
-        data: {
-          type: 'killing',
-          ctfmr_verified: 'verified',
-          ctfmr_verified_date: Date.new(2022, 4, 23),
-          violation_tally: { boys: 2, girls: 0, unknown: 2, total: 4 }
-        },
-        incident_id: incident0.id
-      )
-
-      violation2 = Violation.create!(
-        data: { type: 'abduction', ctfmr_verified: 'verified',
-                ctfmr_verified_date: Date.new(2022, 6, 4),
-                violation_tally: { boys: 1, girls: 2, unknown: 5, total: 8 } },
-        incident_id: incident1.id
-      )
-
-      Violation.create!(
-        data: {
-          type: 'maiming',
-          ctfmr_verified: 'report_pending_verification',
-          violation_tally: { boys: 2, girls: 3, unknown: 2, total: 7 }
-        },
-        incident_id: incident0.id
-      )
-
-      Violation.create!(
-        data: { type: 'attack_on_schools', ctfmr_verified: 'report_pending_verification',
-                violation_tally: { boys: 3, girls: 4, unknown: 5, total: 12 } },
-        incident_id: incident0.id
-      )
-
-      Violation.create!(
-        data: { type: 'attack_on_schools', ctfmr_verified: 'verified',
-                ctfmr_verified_date: Date.new(2022, 4, 23),
-                violation_tally: { boys: 3, girls: 4, unknown: 5, total: 12 } },
-        incident_id: incident0.id
-      )
-
-      violation1.individual_victims = [
-        IndividualVictim.create!(data: { individual_sex: 'male', individual_age: 9,
-                                         individual_multiple_violations: 'true',
-                                         unique_id: '8b79234d-6d22-47b6-a7ad-927207676667' })
-      ]
-
-      violation2.individual_victims = [
-        IndividualVictim.create!(data: { individual_sex: 'male', individual_age: 12 }),
-        IndividualVictim.create!(data: { individual_age: 3,
-                                         individual_multiple_violations: 'true',
-                                         unique_id: '858a003b-1b21-4fe0-abbf-9cb39d3a6d80' })
-      ]
-
-      violation1.save!
-      violation2.save!
+      incident1.save!
     end
 
     it 'should export the excel' do
@@ -1514,7 +2003,7 @@ describe Exporters::ManagedReportExporter do
     end
 
     it 'prints subreport headers' do
-      expect(workbook.sheet(0).row(1)).to eq(['Global Horizontal Note', nil, nil, nil, nil])
+      expect(workbook.sheet(0).row(1)).to eq(['Global Horizontal Note', nil, nil, nil, nil, nil])
     end
 
     it 'prints report params' do
@@ -1524,34 +2013,60 @@ describe Exporters::ManagedReportExporter do
           nil,
           nil,
           nil,
+          nil,
           nil
         ]
       )
     end
 
     it 'prints indicator tables' do
-      expect(workbook.sheet(0).row(5)).to eq(['Verified Information - Victims', nil, nil, nil, nil])
-      expect(workbook.sheet(0).row(6)).to eq([nil, 'Boys', 'Girls', 'Unknown', 'Total'])
-      expect(workbook.sheet(0).row(7)).to eq(['Abduction', 1, 2, 5, 8])
-      expect(workbook.sheet(0).row(8)).to eq(['Attacks on school(s)', 3, 4, 5, 12])
-      expect(workbook.sheet(0).row(9)).to eq(['Killing of Children', 2, 0, 2, 4])
+      expect(workbook.sheet(0).row(5)).to eq(['Verified Information - Victims', nil, nil, nil, nil, nil])
+      expect(workbook.sheet(0).row(6)).to eq([nil, 'Boys', 'Girls', 'Unknown', 'Total', nil])
+      expect(workbook.sheet(0).row(7)).to eq(['Abduction', 1, 2, 5, 8, nil])
+      expect(workbook.sheet(0).row(8)).to eq(['Attacks on school(s)', 3, 4, 5, 12, nil])
+      expect(workbook.sheet(0).row(9)).to eq(['Killing of Children', 2, 0, 2, 4, nil])
 
-      expect(workbook.sheet(0).row(34)).to eq(['Verified Information - Violations', nil, nil, nil, nil])
-      expect(workbook.sheet(0).row(35)).to eq([nil, 'Total', nil, nil, nil])
-      expect(workbook.sheet(0).row(36)).to eq(['Attacks on school(s)', 1, nil, nil, nil])
+      expect(workbook.sheet(0).row(34)).to eq(['Verified Information - Violations', nil, nil, nil, nil, nil])
+      expect(workbook.sheet(0).row(35)).to eq([nil, 'Total', nil, nil, nil, nil])
+      expect(workbook.sheet(0).row(36)).to eq(['Attacks on school(s)', 1, nil, nil, nil, nil])
 
-      expect(workbook.sheet(0).row(116)).to eq(['Unverified Information - Victims', nil, nil, nil, nil])
-      expect(workbook.sheet(0).row(117)).to eq([nil, 'Boys', 'Girls', 'Unknown', 'Total'])
-      expect(workbook.sheet(0).row(118)).to eq(['Attacks on school(s)', 3, 4, 5, 12])
-      expect(workbook.sheet(0).row(119)).to eq(['Maiming of Children', 2, 3, 2, 7])
+      expect(workbook.sheet(0).row(62)).to eq(
+        ['Verified Information - Violations by Perpetrator', nil, nil, nil, nil, nil]
+      )
+      expect(workbook.sheet(0).row(63)).to eq([nil, 'Killing', 'Maiming', 'Abduction', 'Attacks on schools', 'Total'])
+      expect(workbook.sheet(0).row(64)).to eq(['Armed Force 2', 0, 0, 0, 1, 1])
 
-      expect(workbook.sheet(0).row(144)).to eq(['Unverified Information - Violations', nil, nil, nil, nil])
-      expect(workbook.sheet(0).row(145)).to eq([nil, 'Total', nil, nil, nil])
-      expect(workbook.sheet(0).row(146)).to eq(['Attacks on school(s)', 1, nil, nil, nil])
+      expect(workbook.sheet(0).row(90)).to eq(['Verified Information - Violations by Region', nil, nil, nil, nil, nil])
+      expect(workbook.sheet(0).row(91)).to eq([nil, 'Killing', 'Maiming', 'Abduction', 'Attacks on schools', 'Total'])
+      expect(workbook.sheet(0).row(92)).to eq(['Incomplete Data', 1, 0, 1, 1, 3])
 
-      expect(workbook.sheet(0).row(173)).to eq([nil, 'Associated Violations', nil, nil, nil])
-      expect(workbook.sheet(0).row(174)).to eq(['d3a6d80 - 3', 'Abduction', nil, nil, nil])
-      expect(workbook.sheet(0).row(175)).to eq(['7676667 - 9', 'Killing of Children', nil, nil, nil])
+      expect(workbook.sheet(0).row(118)).to eq(['Late Verification - Victims', nil, nil, nil, nil, nil])
+
+      expect(workbook.sheet(0).row(144)).to eq(['Late Verification - Violations', nil, nil, nil, nil, nil])
+
+      expect(workbook.sheet(0).row(170)).to eq(['Unverified Information - Victims', nil, nil, nil, nil, nil])
+      expect(workbook.sheet(0).row(171)).to eq([nil, 'Boys', 'Girls', 'Unknown', 'Total', nil])
+      expect(workbook.sheet(0).row(172)).to eq(['Attacks on school(s)', 3, 4, 5, 12, nil])
+      expect(workbook.sheet(0).row(173)).to eq(['Maiming of Children', 2, 3, 2, 7, nil])
+
+      expect(workbook.sheet(0).row(198)).to eq(['Unverified Information - Violations', nil, nil, nil, nil, nil])
+      expect(workbook.sheet(0).row(199)).to eq([nil, 'Total', nil, nil, nil, nil])
+      expect(workbook.sheet(0).row(200)).to eq(['Attacks on school(s)', 1, nil, nil, nil, nil])
+
+      expect(workbook.sheet(0).row(226)).to eq(
+        ['Unverified Information - Violations by Perpetrator', nil, nil, nil, nil, nil]
+      )
+      expect(workbook.sheet(0).row(227)).to eq([nil, 'Killing', 'Maiming', 'Abduction', 'Attacks on schools', 'Total'])
+      expect(workbook.sheet(0).row(228)).to eq(['Armed Force 1', 0, 0, 0, 1, 1])
+
+      expect(workbook.sheet(0).row(254)).to eq(['Unverified Information - Violations by Region', nil, nil, nil, nil, nil])
+      expect(workbook.sheet(0).row(255)).to eq([nil, 'Killing', 'Maiming', 'Abduction', 'Attacks on schools', 'Total'])
+      expect(workbook.sheet(0).row(256)).to eq(['Incomplete Data', 0, 1, 0, 1, 2])
+
+      expect(workbook.sheet(0).row(282)).to eq(['Children affected by multiple violations', nil, nil, nil, nil, nil])
+      expect(workbook.sheet(0).row(283)).to eq([nil, 'Associated Violations', nil, nil, nil, nil])
+      expect(workbook.sheet(0).row(284)).to eq(['d3a6d80 - 3', 'Abduction', nil, nil, nil, nil])
+      expect(workbook.sheet(0).row(285)).to eq(['7676667 - 9', 'Killing of Children', nil, nil, nil, nil])
     end
   end
 
@@ -1567,8 +2082,8 @@ describe Exporters::ManagedReportExporter do
           SearchFilters::Value.new(field_name: 'owned_by_groups', value: 'usergroup-group-1'),
           SearchFilters::DateRange.new(
             field_name: 'registration_date',
-            from: '2023-04-30',
-            to: '2023-05-19'
+            from: Date.new(2023, 4, 30),
+            to: Date.new(2023, 5, 19)
           )
         ],
         { output_to_file: false }
@@ -1745,8 +2260,8 @@ describe Exporters::ManagedReportExporter do
           SearchFilters::Value.new(field_name: 'owned_by_groups', value: 'usergroup-group-1'),
           SearchFilters::DateRange.new(
             field_name: 'registration_date',
-            from: '2023-04-30',
-            to: '2023-05-13'
+            from: Date.new(2023, 4, 30),
+            to: Date.new(2023, 5, 13)
           )
         ],
         { output_to_file: false }

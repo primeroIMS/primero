@@ -5,7 +5,7 @@ namespace :db do
   task confirm_postgres_extensions: :environment do
     schema_rb = File.join(Rails.root, 'db', 'schema.rb')
     extensions_schema = File.open(schema_rb).grep(/enable_extension/)&.map { |e| e&.split&.second&.gsub('"', '') }
-    extensions_db = ActiveRecord::Base&.connection&.execute('SELECT * from pg_extension;')&.values&.map(&:first)
+    extensions_db = ActiveRecord::Base.connection&.execute('SELECT * from pg_extension;')&.values&.map(&:first)
     missing_extensions = extensions_schema - extensions_db
     if missing_extensions.size.positive?
       error_message = 'ERROR: The following PostgreSQL extansions need to be enabled for ' \

@@ -679,7 +679,6 @@ pl:
     dash_shared_from_my_team: Udostępnione z mojego zespołu
     dash_shared_with_me: Udostępniono mi
     dash_shared_with_my_team: Udostępniono mojemu zespołowi
-    dash_shared_with_my_team_overview: Udostępniono mojemu zespołowi (przegląd)
     dash_shared_with_others: Udostępniono innym
     dash_national_admin_summary: Podsumowanie Administratora
     date: Data
@@ -784,15 +783,8 @@ pl:
     shared_from_my_team_pending_transfers: Oczekujące Przeniesienia
     shared_from_my_team_referrals: Skierowania
     shared_from_my_team_rejected_transfers: Odrzucone Przeniesienia
-    shared_with_me_new_referrals: Nowe Skierowania
-    shared_with_me_total_referrals: Skierowania Razem
-    shared_with_me_transfers_awaiting_acceptance: Przeniesienia oczekujące na zaakceptowanie
-    shared_with_my_team_pending_transfers_overview: Przeniesienia oczekujące na zaakceptowanie
     shared_with_my_team_pending_transfers: Oczekujące Przeniesienia
     shared_with_my_team_referrals: Skierowania
-    shared_with_others_pending_transfers: Oczekujące Przeniesienia
-    shared_with_others_referrals: Skierowania
-    shared_with_others_rejected_transfers: Odrzucone Przeniesienia
     status_of_cases: Status Spraw
     system_user: System
     total: Razem
@@ -826,23 +818,13 @@ pl:
   email_notification:
     assign: '%{user} przypisał ci następujące %{record_type} %{record_id}.'
     assign_subject: '%{record_type}: %{id} - Przypisano do ciebie'
-    approval_request: 'Użytkownik %{user} prosi o zatwierdzenie %{approval_type} w sprawie %{case_id}.'
     approval_request_subject: 'Sprawa: %{id} - Wniosek o Zatwierdzenie'
-    approval_response: '%{user} ma %{status} prośbę o zatwierdzenie %{approval_type} w sprawie %{case_id}.'
     approval_response_subject: 'Sprawa: %{id} - Odpowiedź na Zatwierdzenie '
     referral: '%{user} z%{agency} skierował/a do ciebie następujące %{record_type} %{record_id} w celu %{service_type}.'
     transfer: '%{user} przeniósł/a do ciebie następujące %{record_type}  %{record_id}.'
     transfer_request_subject: Prośba o przeniesienie jednej z twoich spraw
-    transfer_subject: '%{record_type}: %{id} - Przeniesienie'
-    referral_subject: '%{record_type}: %{id} - Skierowanie'
     transfer_request: 'Użytkownik Primero %{user} z %{agency} prosi o przeniesienie własności rekordu%{record_type}  %{record_id} w celu świadczenia %{record_type} usługi zarządzania dla osoby w jej/jego obszarze. Jeśli wyrażasz zgodę na to przeniesienie, kliknij link %{record_type} w tej wiadomości email, żeby otworzyć %{record_type} w Primero in rozpocząć przeniesienie. '
     approval_request_html: 'Użytkownik <strong>%{user}</strong> prosi o zatwierdzenie <strong> %{approval_type}</strong> w sprawie<strong>%{case_id}</strong>.'
-    approval_response_html: '<strong>%{user}</strong> ma<strong>%{status}</strong> prośbę o zatwierdzenie <strong>%{approval_type}</strong>w sprawie <strong>%{case_id}</strong>.'
-    referral_html: '<strong>%{user}</strong> z %{agency} przeniósł/a następujący %{record_type} do ciebie: <strong>%{record_id}</strong> w celu %{service_type}.'
-    transfer_html: '<strong>%{user}</strong> przeniósł/a następujący %{record_type} do ciebie: <strong>%{record_id}</strong>.'
-    assign_html: '<strong>%{user}</strong> przypisał/a następujący %{record_type} do ciebie: <strong>%{record_id}</strong>.'
-    transfer_request_html: 'Użytkownik Primero <strong>%{user}</strong> z %{agency}  prosi o przeniesienie własności rekordu %{record_type} <strong>%{record_id}</strong> w celu świadczenia usługi zarządzania  %{record_type} dla osoby w jej/jego obszarze. Jeśli wyrażasz zgodę na to przeniesienie, kliknij link %{record_type} w tej wiadomości email, żeby otworzyć %{record_type} w Primero in rozpocząć przeniesienie. '
-    transfer_request_notes_html: 'Uwagi od osoby wnioskującej: %{request_transfer_notes}'
   encrypt:
     export_type: Rodzaj eksportu
     file_name: Utwórz własną nazwę pliku (opcjonalnie)
@@ -1709,7 +1691,6 @@ pl:
       user: Użytkownik
       agency: Agencja
       user_group: Grupa Użytkownika
-      child: Dziecko
       alert: Alert
       form_section: Formularz
       lookup: Wyszukiwanie
@@ -3077,37 +3058,20 @@ pl:
     welcome_email:
       subject: 'Witaj w %{system}!'
       greeting: 'Witaj w %{system}!'
-      body_native: 'Zostałeś/aś dodany/a jako %{role_name}. Skontaktuj się z %{admin_full_name} (%{admin_email}) w celu uzyskania instrukcji rozpoczęcia pracy z %{host}.'
       sso:
         body: 'Zostałeś/aś dodany/a jako  %{role_name}.'
-        step1: 'Idź do %{host} i kliknij %{identity_provider}.'
-        step2: 'Zaloguj się do konta %{identity_provider} %{user_name}.'
-        step3: 'Użyj tego samego hasła, którego zawsze używasz do konta %{identity_provider}.'
-        footer: 'Skontaktuj się z %{admin_full_name} (%{admin_email}) w celu uzyskania szczegółów. '
       otp:
         body: 'Zostałeś/aś dodany/a jako%{role_name}.'
-        step1: 'Skontaktuj się z %{admin_full_name} (%{admin_email}) żeby otrzymać swoją nazwę użytkownika.'
-        step2: 'Idź do %{host} i kliknij "zaloguj z nazwą użytkownika Primero" '
-        step3: 'Zaloguj się używając swojego loginu i hasła tymczasowego %{otp}.'
-        step4: 'Kiedy otrzymasz przypomnienie, zresetuj hasło. '
       url_label: Primero
       enabled_label: Wyślij email powitalny?
       text_label: Tekst emaila powitalnego
     password_reset:
       subject: 'Instrukcje do resetu hasła'
-      email_greeting: "Drogi/a %{full_name}"
-      email_body1: "Ktoś poprosiło utworzenie twojego hasła do %{host_href}. Kliknij poniższy link, żeby rozpocząć:"
-      email_body2: "Ten link wygaśnie za %{hours} godzin i może zostać użyty tylko raz. Zignoruj tego maila, jeśli nie prosiłeś/aś  i zmianę hasła lub nowy użytkownik Primero nie został zarejestrowany w twoim imieniu. Jeśli link wygasł, kliknij %{reset_request_href}, żeby poprosić ponowny reset hasła. "
       email_body_link: tutaj
       request_submitted: "Prośba o reset hasła zgłoszona"
       success: "Hasło zmienione pomyślnie"
       errors:
         password_confirmation: "Hasła muszą być takie same"
-    onboard_email:
-      greeting: "Drogi/a %{full_name},"
-      body1: "Witaj w Primero!"
-      body2: "Zostałeś/aś wyznaczona jako administrator wdrażający dla %{host_href}. %{reset_notification}"
-      body2_reset_notification: "Otrzymasz dodatkowy email przypominający o zresetowaniu hasła."
   user_group:
     associated_agencies: Agencje powiązane z tą Grupą Użytkownika
     description: Opis

@@ -2,7 +2,6 @@
 
 import { fromJS } from "immutable";
 
-import { stub } from "../../../../../test-utils";
 import { RECORD_PATH, METHODS } from "../../../../../config";
 import { ENQUEUE_SNACKBAR, generate } from "../../../../notifier";
 import { CLEAR_DIALOG } from "../../../../action-dialog";
@@ -15,17 +14,17 @@ describe("<ImportDialog /> - action-creators", () => {
   describe("exported action-creators", () => {
     let clone;
 
-    before(() => {
+    beforeAll(() => {
       clone = { ...actionsCreators };
     });
 
-    after(() => {
-      expect(clone).to.be.empty;
+    afterAll(() => {
+      expect(Object.keys(clone)).toHaveLength(0);
     });
 
     ["importLocations", "clearImportErrors"].forEach(actionCreator => {
       it(`exports '${actionCreator}'`, () => {
-        expect(clone).to.have.property(actionCreator);
+        expect(clone).toHaveProperty(actionCreator);
         delete clone[actionCreator];
       });
     });
@@ -37,11 +36,11 @@ describe("<ImportDialog /> - action-creators", () => {
         type: actions.CLEAR_IMPORT_ERRORS
       };
 
-      expect(actionsCreators.clearImportErrors()).to.deep.equal(expected);
+      expect(actionsCreators.clearImportErrors()).toEqual(expected);
     });
 
     it("should check that 'importLocations' action creator returns the correct object", () => {
-      stub(generate, "messageKey").returns(4);
+      jest.spyOn(generate, "messageKey").mockReturnValue(4);
 
       const args = {
         body: {
@@ -86,13 +85,11 @@ describe("<ImportDialog /> - action-creators", () => {
       };
       const result = actionsCreators.importLocations(args);
 
-      expect(fromJS(result)).to.deep.equal(fromJS(expected));
+      expect(fromJS(result)).toEqual(fromJS(expected));
     });
   });
 
   afterEach(() => {
-    if (generate.messageKey.restore) {
-      generate.messageKey.restore();
-    }
+    jest.resetAllMocks();
   });
 });

@@ -14,6 +14,12 @@ class Filter < ValueObject
     super(args)
   end
 
+  MODULE_ID = Filter.new(
+    name: 'cases.filter_by.module_id',
+    field_name: 'module_id',
+    type: 'multi_select'
+  )
+
   FLAGGED_CASE = Filter.new(
     name: 'cases.filter_by.flag',
     field_name: 'flagged',
@@ -37,7 +43,7 @@ class Filter < ValueObject
   )
   RECORD_OWNER = Filter.new(name: 'incidents.filter_by.record_owner', field_name: 'owned_by')
   MY_CASES = Filter.new(name: 'cases.filter_by.my_cases', field_name: 'my_cases')
-  WORKFLOW = Filter.new(name: 'cases.filter_by.workflow', field_name: 'workflow')
+  WORKFLOW = Filter.new(name: 'cases.filter_by.workflow', field_name: 'workflow', type: 'workflow')
   DATE_CASE = Filter.new(
     name: 'cases.filter_by.by_date',
     field_name: 'cases_by_date',
@@ -119,9 +125,9 @@ class Filter < ValueObject
     option_strings_source: 'lookup-yes-no',
     type: 'multi_toggle'
   )
-  SOGIESC_SELF_IDENTIFYING = Filter.new(
-    name: 'cases.filter_by.sogiesc_self_identifying',
-    field_name: 'sogiesc_self_identifying',
+  MARGINALIZED_COMMUNITY_SELF_IDENTIFYING = Filter.new(
+    name: 'cases.filter_by.marginalized_community_self_identifying',
+    field_name: 'marginalized_community_self_identifying',
     option_strings_source: 'lookup-yes-no-unknown',
     type: 'multi_toggle'
   )
@@ -402,9 +408,9 @@ class Filter < ValueObject
     option_strings_source: 'lookup-yes-no'
   )
 
-  MHPSS_SUICIDAL_THOUGHTS_LAST_MONTH_MOST_RECENT = Filter.new(
-    name: 'cases.filter_by.mhpss_suicidal_thoughts_last_month_most_recent',
-    field_name: 'mhpss_suicidal_thoughts_last_month_most_recent',
+  SELF_HARM_THOUGHTS = Filter.new(
+    name: 'cases.filter_by.self_harm_thoughts',
+    field_name: 'self_harm_thoughts',
     option_strings_source: 'lookup-yes-no'
   )
 
@@ -450,8 +456,10 @@ class Filter < ValueObject
       }
     end
 
+    # rubocop:disable Metrics/MethodLength
     def case_filters(user)
       filters = []
+      filters << MODULE_ID if user.multiple_modules?
       filters << FLAGGED_CASE
       filters << SOCIAL_WORKER if user.manager?
       filters += [MY_CASES, WORKFLOW]
@@ -463,23 +471,24 @@ class Filter < ValueObject
       filters
     end
 
-    def user_based_filters(user) # rubocop:disable Metrics/MethodLength
+    def user_based_filters(user)
       filters = []
       filters += approvals_filters(user)
       filters += field_based_filters(user)
       filters << RISK_LEVEL
       filters << DISPLACEMENT_STATUS
       filters << DISABILITY_STATUS
-      filters << SOGIESC_SELF_IDENTIFYING
+      filters << MARGINALIZED_COMMUNITY_SELF_IDENTIFYING
       filters << PROTECTION_RISKS
       filters << CURRENT_LOCATION
       filters << AGENCY_OFFICE
       filters << SAFETY_PLAN_NEEDED
-      filters << MHPSS_SUICIDAL_THOUGHTS_LAST_MONTH_MOST_RECENT
+      filters << SELF_HARM_THOUGHTS
       filters << USER_GROUP if user.user_group_filter?
       filters += reporting_location_filters(user)
       filters
     end
+    # rubocop:enable Metrics/MethodLength
 
     def approvals_filters(user)
       filters = []
@@ -688,8 +697,25 @@ class Filter < ValueObject
   end
 
   def workflow_options(opts = {})
+    user_modules = opts[:user].modules_for_record_type(opts[:record_type]).reject do |primero_module|
+      [PrimeroModule::GBV, PrimeroModule::MRM].include?(primero_module.unique_id)
+    end
+    self.options = {}
+    user_modules.each do |user_module|
+      options[user_module.unique_id] = Child.workflow_statuses(user_module)
+    end
+
+    options
+  end
+
+  def module_id_options(opts = {})
     user_modules = opts[:user].modules_for_record_type(opts[:record_type])
-    self.options = Child.workflow_statuses(user_modules)
+    self.options = user_modules.map do |primero_module|
+      {
+        id: primero_module.unique_id,
+        display_name: primero_module.name
+      }
+    end
   end
 
   def owned_by_agency_id_options(opts = {})
@@ -703,8 +729,14 @@ class Filter < ValueObject
     end.inject(&:merge)
   end
 
-  def age_options(_opts = {})
-    self.options = SystemSettings.primary_age_ranges.map do |age_range|
+  def user_age_range(user)
+    return AgeRangeService.primary_age_ranges(user.modules.first.unique_id) if user.modules.size == 1
+
+    AgeRangeService.primary_age_ranges
+  end
+
+  def age_options(opts = {})
+    self.options = user_age_range(opts[:user]).map do |age_range|
       { id: age_range.to_s, display_name: age_range.to_s }
     end
   end
@@ -720,16 +752,19 @@ class Filter < ValueObject
     end.inject(&:merge)
   end
 
+  # rubocop:disable Metrics/AbcSize
   def cases_by_date_options(opts = {})
     self.options = I18n.available_locales.map do |locale|
       locale_options = [registration_date_options(locale), assessment_requested_on_options(locale),
                         date_case_plan_options(locale), date_closure_options(locale), followup_date_options(locale),
-                        date_reunification_options(locale), tracing_date_options(locale), service_date_options(locale)]
+                        date_reunification_options(locale), tracing_date_options(locale), service_date_options(locale),
+                        reassigned_transferred_on_date_options(locale)]
       date_label = opts[:user].gbv? ? 'created_at' : 'date_of_creation'
       locale_options << created_at_options(locale, date_label)
       { locale => locale_options }
     end.inject(&:merge)
   end
+  # rubocop:enable Metrics/AbcSize
 
   def registration_date_options(locale)
     {
@@ -791,6 +826,13 @@ class Filter < ValueObject
     {
       id: 'service_implemented_day_times',
       display_name: I18n.t('children.selectable_date_options.service_implemented_day_time', locale:)
+    }
+  end
+
+  def reassigned_transferred_on_date_options(locale)
+    {
+      id: 'reassigned_transferred_on',
+      display_name: I18n.t('children.selectable_date_options.reassigned_transferred_on', locale:)
     }
   end
 
@@ -884,7 +926,7 @@ class Filter < ValueObject
       approval_status_options
     elsif %w[
       owned_by workflow owned_by_agency_id age owned_by_groups cases_by_date incidents_by_date
-      registry_records_by_date individual_age families_by_date tracing_requests_by_date
+      registry_records_by_date individual_age families_by_date tracing_requests_by_date module_id
     ].include? field_name
       opts = { user:, record_type: }
       send("#{field_name}_options", opts)

@@ -42,6 +42,12 @@ class User < ApplicationRecord
     }
   }.freeze
 
+  AUDIT_LAST_DATE = {
+    last_access: { action: 'login', record_type: 'User' },
+    last_case_viewed: { action: 'show', record_type: 'Child' },
+    last_case_updated: { action: 'update', record_type: 'Child' }
+  }.freeze
+
   attr_accessor :should_send_password_reset_instructions, :user_groups_changed
   attr_writer :user_location, :reporting_location
 
@@ -78,6 +84,16 @@ class User < ApplicationRecord
     joins(:role).where(
       'roles.permissions -> :resource @> ANY(select jsonb_array_elements(:permissions)) ',
       resource:, permissions: permissions.to_json
+    )
+  end)
+
+  scope :who_accessed_record, (lambda do |record, actions = AuditLog::RECORD_VIEWS_EDIT|
+    where(
+      AuditLog.unscoped
+              .where(record_id: record.id, record_type: record.class.name, action: actions)
+              .where('audit_logs.user_id = users.id')
+              .arel
+              .exists
     )
   end)
 
@@ -200,6 +216,44 @@ class User < ApplicationRecord
 
     def limit_user_reached?
       SystemSettings.current.maximum_users > User.enabled.count
+    end
+
+    def with_audit_dates
+      select(<<~SQL)
+        users.*,
+        (SELECT timestamp FROM audit_logs WHERE audit_logs.user_id = users.id AND action = 'login'
+          ORDER BY timestamp DESC LIMIT 1) AS last_access,
+        (SELECT timestamp FROM audit_logs WHERE audit_logs.user_id = users.id AND record_type = 'Child'
+         AND action = 'show' ORDER BY timestamp DESC LIMIT 1) AS last_case_viewed,
+        (SELECT timestamp FROM audit_logs WHERE audit_logs.user_id = users.id AND record_type = 'Child'
+         AND action = 'update' ORDER BY timestamp DESC LIMIT 1) AS last_case_updated
+      SQL
+    end
+
+    def with_audit_date_between(action:, from:, to:, record_type: 'User')
+      subquery = <<~SQL.squish
+        SELECT 1 FROM audit_logs
+        WHERE timestamp >= :from AND timestamp <= :to
+        AND record_type = :record_type AND action = :action
+        AND audit_logs.user_id = users.id
+        ORDER BY timestamp DESC LIMIT 1
+      SQL
+
+      where("EXISTS(#{subquery})", action:, record_type:, from:, to:)
+    end
+
+    def apply_date_filters(scope, filters)
+      AUDIT_LAST_DATE.each do |last_date, config|
+        next unless filters[last_date].present?
+
+        scope = scope.with_audit_date_between(
+          action: config[:action],
+          record_type: config[:record_type],
+          from: Time.zone.parse(filters.dig(last_date, 'from')),
+          to: Time.zone.parse(filters.dig(last_date, 'to'))
+        )
+      end
+      scope
     end
   end
 
@@ -496,6 +550,10 @@ class User < ApplicationRecord
     mrm? && modules.size <= 1
   end
 
+  def multiple_modules?
+    modules.size > 1
+  end
+
   def tasks(pagination = { per_page: 100, page: 1 }, sort_order = {})
     cases = Child.owned_by(user_name)
                  .where('data @> ?', { record_state: true, status: Child::STATUS_OPEN }.to_json)
@@ -585,6 +643,12 @@ class User < ApplicationRecord
 
   def admin_query_scope?
     [Permission::ALL, Permission::AGENCY, Permission::GROUP].include?(user_query_scope)
+  end
+
+  def incident_reporting_location_admin_level
+    incident_admin_level = role.incident_reporting_location_config&.admin_level
+
+    incident_admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
   end
 
   private

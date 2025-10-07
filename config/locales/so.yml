@@ -86,6 +86,7 @@ so:
     terms_of_use_download_button: Soodaji  PDF ka
     terms_of_use_enabled: Muuji Shuruudaha Isticmaalka?
   approvals:
+    no_requests: ma jiro codsi ansixin kiiskan
     approved_by: waxaa ansixiyey
     case_plan_type_label: 'Qeybta '
     manager_comments_label: Qeybta Qorshaha Kiiska
@@ -543,6 +544,7 @@ so:
       date_case_plan_initiated: Taariikhda qorshaha kiiska
       date_of_creation: Taariikhda lasameyey
       registration_date: Taariikhda ladiiwaangali
+      date_reunification: Taariikhda ilmaha qoyskiisa dib loogu geeyay/mideeyay
   configurations:
     apply_label: 'Ma hubtaa? Haddii aad codsato, habaynnada qaabayntan ayaa lagu dabaqi doonaa nidaamka. Waxaad waayi doontaa dhammaan goobahaaga hadda mana awoodid inaad dib uheshid ila aad hori u habeynsatay ma ahane '
     apply_label_bold: Primero ma heli doono isticmaalayaasha dhowr daqiiqadood inta isbedeladu soo kordhayaan.
@@ -598,6 +600,10 @@ so:
     all_cases: Dhamaan kiisaska
     all_services_implemented: Dhamaan adeega lahirgaliyay
     and: 'Iyo'
+    action_needed:
+      new: Cusub
+      new_this_week: Kuwa Cusub Todobaadka
+      transfers: kiisaska lagudbiyay
     approval_action_plan_approved: La ansixiyay
     approval_action_plan_pending: Lasugayo
     approval_action_plan_pending_group: 'Qorshaha '
@@ -694,7 +700,6 @@ so:
     dash_shared_from_my_team: Lala wadaagay kooxdayda
     dash_shared_with_me: Aniga ila wadaagay
     dash_shared_with_my_team: La wadaagay kooxdayda
-    dash_shared_with_my_team_overview: La wadaagay kooxdayda (Aragtida guud)
     dash_shared_with_others: La wadaagay qaar kale
     dash_national_admin_summary: Gunaanadka gudoomiyaha
     dash_violations_category_verification_status: 'Wadarta dhacdooyinka ee la cadeeyay '
@@ -797,15 +802,8 @@ so:
     shared_from_my_team_pending_transfers: Wareejinta sugaysa
     shared_from_my_team_referrals: tixraac
     shared_from_my_team_rejected_transfers: Wareejinta la diiday
-    shared_with_me_new_referrals: Tixraacyo Cusub
-    shared_with_me_total_referrals: Wadarta tixraacyada
-    shared_with_me_transfers_awaiting_acceptance: Wareejinta Ogolaanshaha Sugaya
-    shared_with_my_team_pending_transfers_overview: Wareejinta Ogolaanshaha Sugaya
     shared_with_my_team_pending_transfers: Wareejinta sugaysa
     shared_with_my_team_referrals: tixraac
-    shared_with_others_pending_transfers: Wareejinta sugaysa
-    shared_with_others_referrals: tixraac
-    shared_with_others_rejected_transfers: Wareejinta la diiday
     status_of_cases: Heerka Kiisaska
     system_user: Nidaamka
     total: Wadarta
@@ -835,23 +833,13 @@ so:
   email_notification:
     assign: '%{user} waxaa laguu xilsaaray kuwan soo socda%{record_type} adiga: %{record_id}.'
     assign_subject: '%{record_type}. %{id} - adiga ayaa loo xilsaaray '
-    approval_request: 'Isticmaalaha laantu%{user} wuxuu codsanayaa in loo ansixiyo %{approval_type} kiis %{case_id}'
     approval_request_subject: 'Codso in la ansixiyo kiiska%{id}'
-    approval_response: '%{user}Wuxuu haystaa %{status} ansixinta %{approval_type} kiiska %{case_id}'
     approval_response_subject: 'Falcelinta ansixinta kiiska %{id}'
     referral: '%{user}Waxaa kuu yimi %{agency}gudbis kani  %{record_type} xagaaga %{record_id}ah%{service_type}'
     transfer: '%{user}Waxaa laguu soo wareejiyay %{record_type}kuwan adiga %{record_id}'
     transfer_request_subject: 'Codsi wareejin ah ayaa nooga yimi mid ka mid ah kiisaskaagii '
-    transfer_subject: '%{record_type}:%{id}Wareejin'
-    referral_subject: '%{record_type}: %{id} - u gdbinta adeeg kale'
     transfer_request: 'isticmaalaha ama userka Primero %{user} ee ka socda %{agency} wuxuu codsanaysaa inaad ku wareejiso masuuliyada diiwaanka xogtan %{record_type}%{record_id}  sidaas darteed waxay adeeg ku siin karaan halka ay joogaan %{record_type}.  Haddii ay wareejintu macquul kuu tahay adiga, fadlan taabo  %{record_type} sumada linkiga  Emailkan si aad u furto %{record_type} ee Primero una bilowdo wareejinta.'
     approval_request_html: 'Laanta  <strong>%{user}</strong>waxay codsanaysaa <strong>%{approval_type}</strong>in loo ansixiyo kiiska<strong>%{case_id}</strong>'
-    approval_response_html: '<strong>%{user}</strong>Waxaad haysaa<strong>%{status} codsi si loo ansixiyo <strong>%{approval_type}</strong>kiiska<strong>%{case_id}</strong>'
-    referral_html: '<strong>%{user}</strong>Waxaa laguu soo%{agency} gudbiyay %{record_type}kuwan adiga%{record_id} ah<strong>%{service_type}'
-    transfer_html: '<strong>%{user}</strong>Waxaa laguu soo wareejiyay kuwan%{record_type} adiga<strong>%{record_id}</strong>'
-    assign_html: 'Waxaa laguugu tala galay kuwan adiga '
-    transfer_request_html: 'isticmaalaha Primwro <strong>%{user}</strong> ee ka socda %{agency} wuxuu codsanayaa inaad u wareejiso masuululiyada %{record_type} Diwaanka xogtan <strong>%{record_id}</strong> sidaas darteed waxay adeeg %{record_type} ku siin karaan halka ay joogaan. Haddii ay wareejintu macquul kuu tahay adiga, fadlan taabo %{record_type} ee linkiga emailkan si aad u furto %{record_type} ee Primero una bilowdo gudbinta. '
-    transfer_request_notes_html: 'Qoraalo kooban oo laga helay shaqsiyaadka codsiga sameeyey: %{request_transfer_notes}'
     alert: '%{record_type} %{id}-%{form_name} waa la cusbooneysiiyay. Fadlan gal Primero si aad dib ugu eegto isbedelka.'
     alert_subject: '%{record_type}: %{id} - %{form_name} waa la cusbooneysiiyay.'
   webpush_notification:
@@ -1425,6 +1413,7 @@ so:
     ar-LB: Carabi (Lubnaan)
     ar-SD: Carabi (Suudaani)
     bn: Bengali
+    cmn: 中文/Luuqada Shiinayska
     current_time_zone: Waqtiga xaadirka ah
     dashboard: Dashboard-ka
     en: English
@@ -1862,7 +1851,6 @@ so:
       user: Isticmaale
       agency: Wakaalada
       user_group: Kooxda isticmaalaha
-      child: Ilmo
       alert: Digniin
       form_section: Foomka
       lookup: Eeg
@@ -3619,40 +3607,21 @@ so:
     welcome_email:
       subject: 'Ku soo dhawoow %{system}!'
       greeting: 'Ku soo dhawoow %{system}!'
-      body_native: 'Waxaa lagugu daray %{role_name} Fadlan la xidhiidh %{admin_full_name} (%{admin_email}) si aad ula socoto tilmaamaha si aad u bilowdo la shaqaynta %{host}'
       sso:
         body: 'Waxaa lagugu daray %{role_name}'
-        step1: 'Aad %{host} oo dhagsii %{identity_provider}.'
-        step2: 'Ku gal %{identity_provider} akoonkaaga %{user_name}.'
-        step3: 'Isticmaal isla eraygaaga sirta ah ee aad had iyo jeer u isticmaasho %{identity_provider} akoonkaaga.'
-        footer: 'Fadlan kala xidhiidh %{admin_full_name} (%{admin_email}) wixii tafaasiil dheeri ah'
       otp:
         body: 'Waxaa lagugu daray %{role_name}'
-        step1: 'Fadlan la xidhiidh %{admin_full_name} (%{admin_email}) si aad u hesho magacaaga isticmaale.'
-        step2: 'Aad %{host} oo dhagsii "login with Primero user name."'
-        step3: 'Ku soo gal magaca isticmaalaha iyo erayga sirta ah ee ku meel gaadhka ah %{otp}.'
-        step4: 'Marka lagu weydiiyo, dib u deji eraygaaga sirta ah'
       url_label: Primero
       enabled_label: Soo dir iimayl soo dhawayn ah?
       text_label: Ku Soo Dhawoow Emailka Qoraalka
     password_reset:
       subject: 'Dib u deji tilmaamaha erayga sirta ah'
-      email_greeting: "Gacaliye %{full_name}"
-      email_body1: "Qof ayaa codsaday inuu dejiyo eraygaaga sirta ah %{host_href}. Guji url-ka hoose si aad u bilowdo:"
-      email_body2: "Xiriirintani waxa ay dhacaysaa %{hours} saacadood oo waxa la isticmaali karaa hal mar oo kaliya. Fadlan iska ilow iimaylkan haddii aadan samayn codsi dib u dejin sirta ah ama isticmaale Primero cusub aan loo diwaan gashanayn magacaaga. Haddii xidhiidhka sare uu dhacay, fadlan dhagsii %{reset_request_href} si aad dib ugu soo gudbiso codsiga dib u dejinta erayga sirta ah."
       email_body_link: halkan
       request_submitted: "Codsiga dib u habeynta erayga sirta ah waa la gudbiyay"
       success: "Si guul leh ayaa loo beddelay erayga sirta ah"
       errors:
         reset_password_token: "Calaamada dib u habeynta erayga sirta ah ee aan ansax ahayn"
         password_confirmation: "Erayada sirta ah waa inay iswaafaqaan"
-    onboard_email:
-      subject: "U fuulida %{system}"
-      greeting: "Gacaliye %{full_name},"
-      body1: "Ku soo dhawoow Primero!"
-      body2: "Waxaa laguu magacaabay maamulaha fulinta %{host_href}. %{reset_notification}"
-      body2_reset_notification: "Waxaad heli doontaa iimayl dheeraad ah oo kugu dhiirigelinaya inaad dib u dejiso eraygaaga sirta ah."
-      body3: "Adiga ayaa mas'uul ka ah xaqiijinta amniga iyo hirgelinta waqtiga. Dib-u-dejin kasta, waa inaad ku dhammaystirtay Qorshaha Hirgelinta oo leh istaraatijiyadda maamulka isticmaale iyo borotokoolka wadaagga macluumaadka. Waxaad sidoo kale mas'uul ka tahay inaad hubiso in Shuruudaha Isticmaalka ee saxeexan uu ku jiro faylka dhammaan ururada isticmaala."
   user_group:
     associated_agencies: Wakaaladaha xidhiidhka la leh Kooxdan Isticmaalaha
     description: War-bixin

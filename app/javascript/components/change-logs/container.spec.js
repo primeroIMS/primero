@@ -59,7 +59,12 @@ describe("ChangeLogs - Container", () => {
             action: "create",
             record_changes: []
           })
-        ]
+        ],
+        metadata: {
+          page: 1,
+          per: 2,
+          total: 10
+        }
       }
     },
     forms: fromJS({
@@ -166,6 +171,10 @@ describe("ChangeLogs - Container", () => {
 
   it("renders ChangeLogItem", () => {
     expect(screen.getAllByTestId("timeline")).toHaveLength(5);
+  });
+
+  it("renders ActionButton", () => {
+    expect(screen.getByText("filters.more")).toBeInTheDocument();
   });
 
   describe("when filters are selected", () => {

@@ -1,5 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
+import isEmpty from "lodash/isEmpty";
+
 import { WEEK, YEAR } from "../../insights/constants";
 
 import getGroupComparator from "./get-group-comparator";
@@ -29,22 +31,22 @@ const buildGroupedColumns = (value, groupedBy, localizeDate, subColumnItems) => 
 };
 
 export default {
-  ghn_report: ({ value, getLookupValue, totalText }) => {
-    const grouped = value.some(fs => fs.get("group_id"));
-
-    if (grouped) {
+  ghn_report: ({ value, getLookupValue, labels, subColumnItems, hasTotalColumn, isGrouped }) => {
+    if (isGrouped) {
       return value.map(val => ({ label: getLookupValue({}, val, "group_id") }));
     }
 
-    return [{ label: totalText }];
+    const columns = subColumnItems.map(elem => ({ label: elem.display_text }));
+
+    return hasTotalColumn && !isEmpty(subColumnItems) ? columns : [...columns, { label: labels.total }];
   },
-  default: ({ value, isGrouped, groupedBy, localizeDate, totalText, subColumnItems = [], hasTotalColumn }) => {
+  default: ({ value, isGrouped, groupedBy, localizeDate, labels, subColumnItems = [], hasTotalColumn }) => {
     if (isGrouped && groupedBy) {
       return buildGroupedColumns(value, groupedBy, localizeDate, subColumnItems);
     }
 
     const columns = subColumnItems.map(elem => ({ label: elem.display_text }));
 
-    return hasTotalColumn ? columns : [...columns, { label: totalText }];
+    return hasTotalColumn && !isEmpty(subColumnItems) ? columns : [...columns, { label: labels.total }];
   }
 };

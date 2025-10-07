@@ -13,6 +13,10 @@ const fetchLocations = () => ({
   api: {
     path: `${window.location.origin}${window.locationManifest}`,
     external: true,
+    headers: {
+      Accept: "application/json"
+    },
+    mode: "cors",
     db: {
       collection: DB_COLLECTIONS_NAMES.LOCATIONS,
       alwaysCache: false,
@@ -104,4 +108,13 @@ export const clearDataProtectionInitialValues = () => ({
 export const setRedirectedToCreateNewRecord = payload => ({
   type: Actions.REDIRECTED_TO_CREATE_NEW_RECORD,
   payload
+});
+
+export const setTempInitialValues = payload => ({
+  type: Actions.SET_TEMP_INTIAL_VALUES,
+  payload
+});
+
+export const clearTempInitialValues = () => ({
+  type: Actions.CLEAR_TEMP_INTIAL_VALUES
 });

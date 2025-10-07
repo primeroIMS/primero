@@ -659,7 +659,6 @@ id:
     dash_shared_from_my_team: Dibagikan Dari Team saya
     dash_shared_with_me: Dibagikan Dengan Saya
     dash_shared_with_my_team: Bagikan Dengan Team saya
-    dash_shared_with_my_team_overview: Bagikan dengan Team saya (Overview)
     dash_shared_with_others: Bagikan Dengan Yang Lain
     dash_national_admin_summary: Ringkasan Administrator
     dash_violations_category_verification_status: Jumlah kejadian per status verifikasi
@@ -759,15 +758,8 @@ id:
     shared_from_my_team_pending_transfers: Pengalihan yang Tertunda
     shared_from_my_team_referrals: Rujukan
     shared_from_my_team_rejected_transfers: Pengalihan yang Ditolak
-    shared_with_me_new_referrals: Rujukan Baru
-    shared_with_me_total_referrals: Total Rujukan
-    shared_with_me_transfers_awaiting_acceptance: Pengalihan sedang Menunggu Persetujuan
-    shared_with_my_team_pending_transfers_overview: Transfer menunggu Penerimaan
     shared_with_my_team_pending_transfers: Pengalihan yang Tertunda
     shared_with_my_team_referrals: Rujukan
-    shared_with_others_pending_transfers: Pengalihan yang Tertunda
-    shared_with_others_referrals: Rujukan
-    shared_with_others_rejected_transfers: Pengalihan yang Ditolak
     status_of_cases: Status Kasus
     system_user: Sistem
     total: Total
@@ -795,23 +787,13 @@ id:
   email_notification:
     assign: '%{user} telah menugaskan %{record_type} berikut kepada Anda: %{record_id}.'
     assign_subject: '%{record_type}: %{id} - Ditugaskan kepada Anda'
-    approval_request: 'Pengguna %{user} meminta persetujuan %{approval_type} untuk kasus %{case_id}.'
     approval_request_subject: 'Kasus: %{id} - Permintaan Persetujuan'
-    approval_response: '%{user} telah %{status} terhadap permintaan persetujuan %{approval_type} untuk kasus %{case_id}.'
     approval_response_subject: 'Kasus: %{id} - Tanggapan Persetujuan'
     referral: '%{user} dari %{agency} telah merujuk %{record_type} berikut kepada Anda: %{record_id} untuk %{service_type}.'
     transfer: '%{user} telah mengalihkan %{record_type} berikut kepada anda: %{record_id}.'
     transfer_request_subject: Permintaan Pengalihan untuk Salah Satu dari Kasus Anda
-    transfer_subject: '%{record_type} : %{id} - Pengalihan'
-    referral_subject: '%{record_type} : %{id} - Rujukan '
     transfer_request: 'Pengguna Primero %{user} dari %{agency} meminta Anda untuk mengalihkan tanggungjawab catatan %{record_type} kasus %{record_id} agar mereka bisa mengelola catatan %{record_type} dan pelayanan untuk individu di wilayah mereka. Jika Anda menyetujui pengalihan ini, silahkan klik tautan ID %{record_type} di email ini untuk membuka %{record_type} di Primero dan memulai proses pengalihan.'
     approval_request_html: 'Pengguna <strong>%{user}</strong> meminta persetujuan  <strong>%{approval_type}</strong> untuk kasus  <strong>%{case_id} </strong>.'
-    approval_response_html: '<strong>%{user}</strong> telah <strong>%{status}</strong> terhadap permintaan persetujuan <strong>%{approval_type}</strong> untuk kasus <strong>%{case_id}</strong>.'
-    referral_html: '<strong>%{user}</strong> dari %{agency} telah merujuk  %{record_type} berikut kepada Anda: <strong>%{record_id}</strong> untuk %{service_type} '
-    transfer_html: '<strong>%{user}</strong> telah mengalihkan %{record_type} berikut kepada Anda: <strong>%{record_id}</strong>.'
-    assign_html: '<strong>%{user}</strong> telah menugaskan %{record_type} berikut kepada Anda: <strong>%{record_id}</strong>.'
-    transfer_request_html: 'Pengguna Primero <strong>%{user}</strong> dari %{agency} meminta Anda untuk menyerahkan tanggungjawab atas %{record_type} dari <strong>%{record_id}</strong> agar mereka dapat melakukan pengelolaan layanan %{record_type} bagi individu di wilayah mereka. Jika Anda menyetujui pengalihan ini, silahkan klik tautan ID %{record_type}  di email ini untuk membuka catatan %{rescord_type} di Primero dan memulai proses pengalihan.'
-    transfer_request_notes_html: 'Catatan dari individu yang mengajukan %{request_transfer_notes}'
   encrypt:
     export_type: Tipe Ekspor
     file_name: Buat nama file Anda sendiri (Opsional)
@@ -1802,7 +1784,6 @@ id:
       user: Pengguna
       agency: Lembaga
       user_group: Grup Pengguna
-      child: Anak
       alert: Peringatan
       form_section: Formulir
       lookup: Referensi
@@ -3356,40 +3337,21 @@ id:
     welcome_email:
       subject: 'Selamat Datang di %{system}!'
       greeting: 'Selamat Datang di %{system}!'
-      body_native: 'Anda telah ditambahkan sebagai %{role_name}. Silakan hubungi %{admin_full_name} (%{admin_email}) untuk instruksi lanjutan untuk mulai bekerja dengan %{host}.'
       sso:
         body: 'Anda telah ditambahkan sebagai %{role_name}.'
-        step1: 'Buka %{host} dan klik %{identity_provider}.'
-        step2: 'Masuk dengan akun%{identity_provider} Anda %{user_name}.'
-        step3: 'Gunakan kata sandi yang selalu Anda gunakan untuk akun %{identity_provider}.'
-        footer: 'Silakan hubungi %{admin_full_name} (%{admin_email}) untuk rincian lebih lanjut.'
       otp:
         body: 'Anda telah ditambahkan sebagai %{role_name}.'
-        step1: 'Silakan hubungi %{admin_full_name} (%{admin_email}) untuk menerima nama pengguna Anda.'
-        step2: 'Buka %{host} dan klik "masuk dengan nama pengguna Primero.".'
-        step3: 'Masuk dengan nama pengguna Anda dan kata sandi sementaranya%{otp}.'
-        step4: 'Saat diminta, atur ulang kata sandi Anda.'
       url_label: Primero
       enabled_label: Kirim email penyambutan?
       text_label: Text email Penyambutan
     password_reset:
       subject: 'Instruksi reset password'
-      email_greeting: "Yang terhormat %{full_name}"
-      email_body1: "Seseorang meminta untuk mengatur kata sandi Anda untuk%{host_href}. Klik pada url berikut untuk memulai:"
-      email_body2: "Tautan ini akan kadarluwarsa dalam %{hours} jam dan hanya dapat digunakan sekali. Silakan abaikan email ini bila Anda tidak meminta pengaturan ulang kata sandi atau pengguna Primero baru tidak terdaftar atas nama Anda. Bila tautan di atas kadaluwarsa, silakan klik%{reset_request_href} untuk mengirimkan kembali permintaan pengaturan ulang kata sandi."
       email_body_link: di sini
       request_submitted: "Permintaan atur ulang kata sandi telah dikirimkan"
       success: "Kata sandi berhasil diubah"
       errors:
         reset_password_token: "Token pengaturan kata sandi tidak valid"
         password_confirmation: "Kata Sandi Harus Cocok"
-    onboard_email:
-      subject: "Orientasi terhadap %{system}"
-      greeting: "Yang terhormat %{full_name},"
-      body1: "Selamat Datang di Primero!"
-      body2: "Anda telah ditunjuk sebagai administrator implementasi untuk %{host_href}. %{reset_notification}"
-      body2_reset_notification: "Anda akan menerima email tambahan meminta Anda untuk mengatur ulang kata sandi Anda."
-      body3: "Anda bertanggung jawab untuk memastikan implementasi yang aman dan tepat waktu. Untuk setiap peluncuran, Anda harus menyelesaikan Rencana Implementasi dengan strategi orientasi dan manajemen pengguna serta protokol berbagi informasi. Anda juga bertanggung jawab untuk memastikan bahwa Persyaratan Penggunaan yang ditandatangani telah disimpan untuk semua organisasi pengguna."
   user_group:
     associated_agencies: Lembaga yang diasosiasikan dengan Kelompok Pengguna
     description: Deksripsi

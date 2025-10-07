@@ -216,6 +216,6 @@ describe("<IndexFilters>/utils - calculateFilters", () => {
       queryParamsKeys: ["record_state", "protection_concerns", "page", "per"]
     };
 
-    expect(calculateFilters(params)).to.deep.equal(expected);
+    expect(calculateFilters(params)).toEqual(expected);
   });
 });

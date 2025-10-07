@@ -7,10 +7,10 @@ describe("<SearchableSelect /> - Constants", () => {
     const constants = { ...searchableConstants };
 
     ["NAME", "LISTBOX_PADDING"].forEach(cnst => {
-      expect(constants).to.have.property(cnst);
+      expect(constants).toHaveProperty(cnst);
       delete constants[cnst];
     });
 
-    expect(constants).to.be.empty;
+    expect(Object.keys(constants)).toHaveLength(0);
   });
 });

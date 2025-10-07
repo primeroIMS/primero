@@ -557,14 +557,8 @@ ps-AF:
     shared_from_my_team_pending_transfers: زیرمه شوې لیږدونې
     shared_from_my_team_referrals: رجعتونه
     shared_from_my_team_rejected_transfers: رد شوې لیږدونې
-    shared_with_me_new_referrals: نوې رجعت
-    shared_with_me_total_referrals: مجموعي رجعتونه
-    shared_with_me_transfers_awaiting_acceptance: د منلو په طمع لیږدول
     shared_with_my_team_pending_transfers: زیرمه شوې لیږدونې
     shared_with_my_team_referrals: رجعتونه
-    shared_with_others_pending_transfers: زیرمه شوې لیږدونې
-    shared_with_others_referrals: رجعتونه
-    shared_with_others_rejected_transfers: رد شوې لیږدونې
     status_of_cases: د قضایاو څرنګوالې
     system_user: سیستم
     total: مجموعي
@@ -586,23 +580,13 @@ ps-AF:
   email_notification:
     assign: 'مربوطه سپارل تاسو ته'
     assign_subject: 'تاسو ته سپارل شوی'
-    approval_request: 'کارن د قضیې د منظوری لپاره غوښتنه کوی'
     approval_request_subject: 'د قضیې د منظوری غوښتنه'
-    approval_response: 'د قضیې لپاره دمنظوری غوښتنه'
     approval_response_subject: 'قضیه:د ځواب منظوری'
     referral: 'له (               ) مربوطه قضیې تاسی ولیږدول شول لپاره'
     transfer: 'مربوطه تاسو ته ولیږدول شو'
     transfer_request_subject: د لیږد غوښته یو ستا له قضایاو څخه
-    transfer_subject: 'لیږد'
-    referral_subject: 'ارجاع'
     transfer_request: 'پریمرو د کارونکی څخه غوښتنه کوی چی تاسو د قضی د ریکارد د انتقالولو صلاحیت لری ترڅو دوی وکولی شي د دوی په ساحه کې فرد لپاره مدیریت خدمات چمتو کړي. که چیرې دا لیږد تاسو ته د منلو وړ وي ، مهرباني وکړئ پدې بریښنالیک کې د ID لینک کلیک وکړئ ترڅو په پرائمرو کې انټرنیټ خلاص او لیږد پیل کړئ.'
     approval_request_html: 'کارونکی د قضیې د منظوری لپاره غوښتنه'
-    approval_response_html: 'د قضیې لپاره دمنظوری غوښتنه'
-    referral_html: ' مربوطه قضیې تاسی ولیږدول شول لپاره'
-    transfer_html: 'لاندی تاسی ته ولیږدول شول'
-    assign_html: 'لاندی تاسی ته وسپارل شو'
-    transfer_request_html: 'پریمرو د کارونکی څخه غوښتنه کوی چی تاسو د قضی د ریکارد د انتقالولو صلاحیت لری ترڅو دوی وکولی شي د دوی په ساحه کې فرد لپاره مدیریت خدمات چمتو کړي. که چیرې دا لیږد تاسو ته د منلو وړ وي ، مهرباني وکړئ پدې بریښنالیک کې د ID لینک کلیک وکړئ ترڅو په پرائمرو کې انټرنیټ خلاص او لیږد پیل کړئ.'
-    transfer_request_notes_html: 'د هر فرد څخه جلا د یادونو جوړولو غوښتنه'
   encrypt:
     export_type: د صدور ډولونه
     file_name: خپل فایل ته نوم ورکول(اختیاری)

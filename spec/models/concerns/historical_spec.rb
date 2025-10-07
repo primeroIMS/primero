@@ -52,7 +52,7 @@ describe Historical do
 
     it 'should insert a creation history with correct record_changes' do
       # TODO: Not a very good test. What changes are expected?
-      expect(@inst.histories.first.record_changes.size).to eq(32)
+      expect(@inst.histories.first.record_changes.size).to eq(33)
     end
 
     # TODO: This is disabled for now. OK behavior, no?
@@ -177,6 +177,19 @@ describe Historical do
       @child.save!
 
       expect(@child.created_by_groups).to match_array([@user_group1.unique_id, @user_group2.unique_id])
+    end
+  end
+
+  describe '.filter_histories' do
+    it 'filter by field_names' do
+      first_history = RecordHistory.new(datetime: DateTime.new(2010, 1, 1, 1, 1, 2), record_changes: { age: 1 })
+      second_history = RecordHistory.new(datetime: DateTime.new(2010, 1, 2, 1, 1, 2), record_changes: { services: nil })
+      third_history = RecordHistory.new(datetime: DateTime.new(2010, 1, 2, 1, 1, 3), record_changes: { sex: 'male' })
+      @inst.record_histories << [first_history, second_history, third_history]
+
+      expect(@inst.filter_histories(field_names: [:services], form_unique_ids: nil).ids).to eq(
+        [second_history.id]
+      )
     end
   end
 

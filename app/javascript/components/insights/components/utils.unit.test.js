@@ -6,17 +6,17 @@ describe("components/report/components/utils.js", () => {
   describe("utils", () => {
     let clone;
 
-    before(() => {
+    beforeAll(() => {
       clone = { ...utils };
     });
 
-    after(() => {
-      expect(clone).to.be.empty;
+    afterAll(() => {
+      expect(Object.keys(clone)).toHaveLength(0);
     });
 
     ["tableToCsv", "downloadFile"].forEach(property => {
       it(`exports '${property}'`, () => {
-        expect(utils).to.have.property(property);
+        expect(utils).toHaveProperty(property);
         delete clone[property];
       });
     });

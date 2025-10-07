@@ -57,6 +57,7 @@ export default (groupPermissions, i18n, adminLevelMap) => {
         name: FIELD_NAMES.moduleIds,
         type: SELECT_FIELD,
         option_strings_source: "Module",
+        required: true,
         multi_select: true
       }),
       FieldRecord({

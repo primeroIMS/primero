@@ -15,32 +15,43 @@ import {
   VIOLENCE_TYPE_SUBREPORTS,
   WORKFLOW_SUBREPORTS
 } from "../../config";
-import { fetchUserGroups, getWorkflowLabels } from "../application";
+import { fetchUserGroups, useApp } from "../application";
 import { READ_RECORDS, RESOURCES, usePermissions } from "../permissions";
 import { useI18n } from "../i18n";
 import { OPTION_TYPES, SELECT_FIELD, whichFormMode } from "../form";
 import WatchedFormSectionField from "../form/components/watched-form-section-field";
 import FormSectionField from "../form/components/form-section-field";
 import { useMemoizedSelector } from "../../libs";
-import { CONTROLS_GROUP, DATE_CONTROLS, DATE_CONTROLS_GROUP, OWNED_BY_GROUPS, WORKFLOW } from "../insights/constants";
-import { fetchInsight } from "../insights-sub-report/action-creators";
+import {
+  CONTROLS_GROUP,
+  DATE_CONTROLS,
+  DATE_CONTROLS_GROUP,
+  INSIGHTS_CONFIG,
+  MODULE_ID,
+  OWNED_BY_GROUPS,
+  WORKFLOW
+} from "../insights/constants";
+import { clearReportData, clearSelectedInsight, fetchInsight } from "../insights-sub-report/action-creators";
 import { clearFilters, setFilters } from "../insights-list/action-creators";
 import useOptions from "../form/use-options";
 import { compactBlank } from "../record-form/utils";
 import { getIsManagedReportScopeAll } from "../user";
+import { getAllWorkflowLabels } from "../application/selectors";
 
 import css from "./styles.css";
-import { selectInsightConfig, transformFilters } from "./utils";
+import { transformFilters } from "./utils";
 import validations from "./validations";
 
-function Component({ moduleID, id, subReport, toggleControls }) {
+function Component({ id, subReport, toggleControls }) {
   const isManagedReportScopeAll = useMemoizedSelector(state => getIsManagedReportScopeAll(state));
+
+  const app = useApp();
   const canReadUserGroups = usePermissions(RESOURCES.user_groups, READ_RECORDS);
   const userGroups = useOptions({ source: OPTION_TYPES.INSIGHTS_USER_GROUP_PERMITTED });
-  const insightsConfig = selectInsightConfig(moduleID, id);
+  const insightsConfig = INSIGHTS_CONFIG[id];
   const { defaultFilterValues } = insightsConfig;
 
-  const workflowLabels = useMemoizedSelector(state => getWorkflowLabels(state, moduleID, RECORD_TYPES.cases));
+  const workflowLabels = useMemoizedSelector(state => getAllWorkflowLabels(state, RECORD_TYPES.cases));
 
   const i18n = useI18n();
   const formMethods = useForm({
@@ -48,7 +59,7 @@ function Component({ moduleID, id, subReport, toggleControls }) {
     resolver: yupResolver(
       validations(
         i18n,
-        insightsConfig.filters.map(filter => filter.name)
+        insightsConfig.filters?.map(filter => filter.name)
       )
     ),
     ...(defaultFilterValues && {
@@ -97,8 +108,23 @@ function Component({ moduleID, id, subReport, toggleControls }) {
   }, [isWorkflowSubreport, isViolenceTypeSubreport, isReferralsTransferSubreport, userGroups.length]);
 
   useEffect(() => {
-    getInsights(formMethods.getValues());
+    if (subReport) {
+      getInsights(formMethods.getValues());
+    }
   }, [subReport]);
+
+  useEffect(() => {
+    if (app.userModules.size <= 1) {
+      formMethods.register(MODULE_ID);
+      formMethods.setValue(MODULE_ID, app.userModules.getIn([0, "unique_id"]));
+    }
+  }, [app.userModules.size]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearSelectedInsight());
+    };
+  }, []);
 
   if (isEmpty(insightsConfig.filters)) {
     return null;
@@ -109,6 +135,7 @@ function Component({ moduleID, id, subReport, toggleControls }) {
   );
 
   const submit = data => {
+    dispatch(clearReportData());
     getInsights(compactBlank(data));
   };
 
@@ -116,12 +143,16 @@ function Component({ moduleID, id, subReport, toggleControls }) {
     insightsConfigFilters[filterGroup]?.map(filter => {
       const FilterInput = filter?.watchedInputs ? WatchedFormSectionField : FormSectionField;
 
+      if (app.userModules.size <= 1 && filter.name === MODULE_ID) {
+        return false;
+      }
+
       if (filter && filter.name === WORKFLOW) {
         // eslint-disable-next-line no-param-reassign
         filter = filter.set("option_strings_text", workflowLabels);
       }
 
-      return <FilterInput field={filter} formMethods={formMethods} formMode={formMode} />;
+      return <FilterInput field={filter} formMethods={formMethods} formMode={formMode} key={filter.name} />;
     });
 
   const applyLabel = i18n.t("buttons.apply");
@@ -153,7 +184,6 @@ Component.displayName = "InsightsFilters";
 
 Component.propTypes = {
   id: PropTypes.string,
-  moduleID: PropTypes.string,
   subReport: PropTypes.string,
   toggleControls: PropTypes.func.isRequired
 };

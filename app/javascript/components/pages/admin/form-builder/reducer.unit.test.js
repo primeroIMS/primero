@@ -27,7 +27,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SAVE_FORM_STARTED", () => {
@@ -41,7 +41,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SAVE_FORM_FINISHED", () => {
@@ -55,7 +55,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SAVE_FORM_SUCCESS", () => {
@@ -70,7 +70,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.be.empty;
+    expect(newState.size).toBe(0);
   });
 
   it("should handle SET_SELECTED_FIELD", () => {
@@ -85,7 +85,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
     const newState = reducer(currentState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle CLEAR_SELECTED_FORM", () => {
@@ -102,7 +102,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle CLEAR_SELECTED_SUBFORM", () => {
@@ -118,7 +118,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
     const newState = reducer(stateWithSubform, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle CLEAR_SELECTED_FIELD", () => {
@@ -134,7 +134,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
     const newState = reducer(stateWithField, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle CLEAR_SELECTED_SUBFORM_FIELD", () => {
@@ -150,7 +150,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
     const newState = reducer(stateWithSubformField, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_FORM_FAILURE", () => {
@@ -168,7 +168,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_FORM_FINISHED", () => {
@@ -183,7 +183,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_FORM_STARTED", () => {
@@ -200,7 +200,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_FORM_SUCCESS", () => {
@@ -220,7 +220,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SET_NEW_FIELD", () => {
@@ -239,7 +239,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
     const newState = reducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle CREATE_SELECTED_FIELD", () => {
@@ -279,7 +279,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
     const newState = reducer(initialStateCreateField, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should increase the order of the new field when CREATE_SELECTED_FIELD", () => {
@@ -319,7 +319,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
     const newState = reducer(initialStateCreateField, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   describe("REORDER_FIELDS", () => {
@@ -347,7 +347,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
       const newState = reducer(stateWithFields, action);
 
-      expect(newState).to.deep.equal(expected);
+      expect(newState).toEqual(expected);
     });
 
     it("should handle a field going up in the order", () => {
@@ -366,7 +366,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
       const newState = reducer(stateWithFields, action);
 
-      expect(newState).to.deep.equal(expected);
+      expect(newState).toEqual(expected);
     });
 
     it("should handle fields with the same order", () => {
@@ -393,7 +393,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
       const newState = reducer(stateWithSameOrder, action);
 
-      expect(newState).to.deep.equal(expected);
+      expect(newState).toEqual(expected);
     });
   });
 
@@ -438,8 +438,8 @@ describe("<FormsBuilder /> - Reducers", () => {
 
         const newState = reducer(stateWithData, action);
 
-        expect(newState.get("selectedSubform")).to.deep.equal(expected);
-        expect(newState.get("subforms")).to.deep.equal(fromJS([selectedSubform, expected]));
+        expect(newState.get("selectedSubform")).toEqual(expected);
+        expect(newState.get("subforms")).toEqual(fromJS([selectedSubform, expected]));
       });
     });
 
@@ -453,8 +453,8 @@ describe("<FormsBuilder /> - Reducers", () => {
 
         const newState = reducer(stateWithData, action);
 
-        expect(newState.get("selectedSubform")).to.deep.equal(expected);
-        expect(newState.get("subforms")).to.deep.equal(fromJS([expected]));
+        expect(newState.get("selectedSubform")).toEqual(expected);
+        expect(newState.get("subforms")).toEqual(fromJS([expected]));
       });
     });
   });
@@ -477,7 +477,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
       const newState = reducer(stateWithData, action);
 
-      expect(newState.get("selectedSubformField")).to.deep.equal(fromJS(field2));
+      expect(newState.get("selectedSubformField")).toEqual(fromJS(field2));
     });
   });
 
@@ -517,7 +517,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
       const newState = reducer(currentState, action);
 
-      expect(newState).to.deep.equal(expected);
+      expect(newState).toEqual(expected);
     });
 
     it("adds a new field on selectedSubform", () => {
@@ -567,7 +567,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
       const newState = reducer(currentState, action);
 
-      expect(newState).to.deep.equal(expected);
+      expect(newState).toEqual(expected);
     });
   });
 
@@ -628,7 +628,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
       const newState = reducer(currentState, action);
 
-      expect(newState).to.deep.equal(expected);
+      expect(newState).toEqual(expected);
     });
 
     it("updates the collapsed_field_names", () => {
@@ -678,7 +678,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
       const newState = reducer(currentState, action);
 
-      expect(newState).to.deep.equal(expected);
+      expect(newState).toEqual(expected);
     });
 
     it("updates the tally options", () => {
@@ -753,7 +753,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
       const newState = reducer(currentState, action);
 
-      expect(newState).to.deep.equal(expected);
+      expect(newState).toEqual(expected);
     });
   });
 
@@ -832,7 +832,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
       const newState = reducer(currentState, action);
 
-      expect(newState).to.deep.equal(expected);
+      expect(newState).toEqual(expected);
     });
   });
 
@@ -878,7 +878,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
       const newState = reducer(currentState, action);
 
-      expect(newState).to.deep.equal(expected);
+      expect(newState).toEqual(expected);
     });
 
     it("should update subforms and selectedFields with the recently created subforms", () => {
@@ -930,7 +930,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
       const newState = reducer(currentState, action);
 
-      expect(newState).to.deep.equal(expected);
+      expect(newState).toEqual(expected);
     });
 
     it("should update selectedFields for subforms without overriding existing selectedFields", () => {
@@ -992,7 +992,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
       const newState = reducer(currentState, action);
 
-      expect(newState).to.deep.equal(expected);
+      expect(newState).toEqual(expected);
     });
 
     it("should return same selectedField when payload doesn not return a new subform, but an existing one", () => {
@@ -1042,7 +1042,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
       const newState = reducer(currentState, action);
 
-      expect(newState).to.deep.equal(expected);
+      expect(newState).toEqual(expected);
     });
   });
 
@@ -1076,7 +1076,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
       const newState = reducer(currentState, action);
 
-      expect(newState).to.deep.equal(expected);
+      expect(newState).toEqual(expected);
     });
 
     it("should remove the fields that were unselected", () => {
@@ -1093,7 +1093,7 @@ describe("<FormsBuilder /> - Reducers", () => {
 
       const newState = reducer(currentState, action);
 
-      expect(newState).to.deep.equal(expected);
+      expect(newState).toEqual(expected);
     });
   });
 
@@ -1147,8 +1147,8 @@ describe("<FormsBuilder /> - Reducers", () => {
 
       const newState = reducer(currentState, action);
 
-      expect(newState.get("selectedFields")).to.have.sizeOf(4);
-      expect(newState.getIn(["selectedFields", 2, "display_name"])).to.deep.equal(fromJS(displayName));
+      expect(newState.get("selectedFields").size).toBe(4);
+      expect(newState.getIn(["selectedFields", 2, "display_name"])).toEqual(fromJS(displayName));
     });
 
     it("updates the tally options", () => {
@@ -1159,9 +1159,9 @@ describe("<FormsBuilder /> - Reducers", () => {
 
       const newState = reducer(currentState, action);
 
-      expect(newState.get("selectedFields")).to.have.sizeOf(4);
-      expect(newState.getIn(["selectedFields", 0, "tally"])).to.have.sizeOf(2);
-      expect(newState.getIn(["selectedFields", 0, "tally", 0])).to.deep.equal(
+      expect(newState.get("selectedFields").size).toBe(4);
+      expect(newState.getIn(["selectedFields", 0, "tally"]).size).toBe(2);
+      expect(newState.getIn(["selectedFields", 0, "tally", 0])).toEqual(
         fromJS({
           id: "tally_option_1",
           display_text: { en: "Tally Option 1", es: "Opción de conteo 1" }
@@ -1177,9 +1177,9 @@ describe("<FormsBuilder /> - Reducers", () => {
 
       const newState = reducer(currentState, action);
 
-      expect(newState.get("selectedFields")).to.have.sizeOf(4);
-      expect(newState.getIn(["selectedFields", 1, "option_strings_text"])).to.have.sizeOf(2);
-      expect(newState.getIn(["selectedFields", 1, "option_strings_text", 0])).to.deep.equal(
+      expect(newState.get("selectedFields").size).toBe(4);
+      expect(newState.getIn(["selectedFields", 1, "option_strings_text"]).size).toBe(2);
+      expect(newState.getIn(["selectedFields", 1, "option_strings_text", 0])).toEqual(
         fromJS({
           id: "option_1",
           display_text: { en: "Option 1", es: "Opción 1" }
@@ -1195,8 +1195,8 @@ describe("<FormsBuilder /> - Reducers", () => {
 
       const newState = reducer(currentState, action);
 
-      expect(newState.get("selectedFields")).to.have.sizeOf(4);
-      expect(newState.getIn(["subforms", 0, "name"])).to.deep.equal(fromJS({ en: "Subform Details" }));
+      expect(newState.get("selectedFields").size).toBe(4);
+      expect(newState.getIn(["subforms", 0, "name"])).toEqual(fromJS({ en: "Subform Details" }));
     });
   });
 });

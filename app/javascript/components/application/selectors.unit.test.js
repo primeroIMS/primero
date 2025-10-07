@@ -1,9 +1,8 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { fromJS } from "immutable";
-import { describe } from "mocha";
 
-import { RECORD_TYPES, MODULES } from "../../config";
+import { RECORD_TYPES, MODULES, RECORD_TYPES_PLURAL } from "../../config";
 import { GROUP_PERMISSIONS, ACTIONS } from "../permissions";
 import { FieldRecord } from "../form";
 
@@ -85,6 +84,8 @@ const stateWithRecords = fromJS({
         }
       }
     ],
+    exactSearchFields: { cases: ["long_id", "short_id", "case_id"] },
+    phoneticSearchFields: { cases: ["name", "name_other"] },
     reportingLocationConfig: {
       field_key: "owned_by_location",
       admin_level: 2,
@@ -143,13 +144,13 @@ describe("Application - Selectors", () => {
 
       const records = selectors.selectAgencies(stateWithRecords);
 
-      expect(records).to.deep.equal(expected);
+      expect(records).toEqual(expected);
     });
 
     it("should return empty object when records empty", () => {
       const records = selectors.selectAgencies(stateWithNoRecords);
 
-      expect(records).to.be.empty;
+      expect(records.size).toBe(0);
     });
   });
 
@@ -180,13 +181,13 @@ describe("Application - Selectors", () => {
 
       const records = selectors.selectModules(stateWithRecords);
 
-      expect(records).to.deep.equal(expected);
+      expect(records).toEqual(expected);
     });
 
     it("should return empty object when records empty", () => {
       const records = selectors.selectModules(stateWithNoRecords);
 
-      expect(records).to.be.empty;
+      expect(records.size).toBe(0);
     });
   });
 
@@ -196,13 +197,13 @@ describe("Application - Selectors", () => {
 
       const records = selectors.selectLocales(stateWithRecords);
 
-      expect(records).to.deep.equal(expected);
+      expect(records.equals(expected)).toBe(true);
     });
 
     it("should return empty object when records empty", () => {
       const records = selectors.selectLocales(stateWithNoRecords);
 
-      expect(records).to.be.empty;
+      expect(records.size).toBe(0);
     });
   });
 
@@ -210,7 +211,7 @@ describe("Application - Selectors", () => {
     it("should return weither user is idle", () => {
       const selector = selectors.selectUserIdle(stateWithRecords);
 
-      expect(selector).to.equal(true);
+      expect(selector).toBe(true);
     });
   });
 
@@ -224,7 +225,7 @@ describe("Application - Selectors", () => {
         label_keys: ["district"]
       });
 
-      expect(selector).to.deep.equal(config);
+      expect(selector).toEqual(config);
     });
   });
 
@@ -236,7 +237,7 @@ describe("Application - Selectors", () => {
         resource_actions: { case: [ACTIONS.READ] }
       });
 
-      expect(selector).to.deep.equal(permissions);
+      expect(selector).toEqual(permissions);
     });
   });
 
@@ -244,7 +245,7 @@ describe("Application - Selectors", () => {
     it("should return the resource actions", () => {
       const selector = selectors.getResourceActions(stateWithRecords, RECORD_TYPES.cases);
 
-      expect(selector).to.deep.equal(fromJS([ACTIONS.READ]));
+      expect(selector).toEqual(fromJS([ACTIONS.READ]));
     });
   });
 
@@ -253,19 +254,19 @@ describe("Application - Selectors", () => {
       const expected = fromJS([agency2]);
       const agenciesWithService = selectors.getAgenciesWithService(stateWithRecords, "service_test_2");
 
-      expect(agenciesWithService).to.deep.equal(expected);
+      expect(agenciesWithService).toEqual(expected);
     });
 
     it("should return empty if there are no agencies with the selected service", () => {
       const agenciesWithService = selectors.getAgenciesWithService(stateWithRecords, "service_test_5");
 
-      expect(agenciesWithService).to.be.empty;
+      expect(agenciesWithService.size).toBe(0);
     });
 
     it("should return empty if there are no agencies", () => {
       const agencies = selectors.getAgenciesWithService(stateWithNoRecords);
 
-      expect(agencies).to.be.empty;
+      expect(agencies.size).toBe(0);
     });
   });
 
@@ -274,71 +275,73 @@ describe("Application - Selectors", () => {
       const expected = fromJS([agencyWithLogo, agency1, agency2]);
       const enabledAgencies = selectors.getEnabledAgencies(stateWithRecords);
 
-      expect(enabledAgencies).to.deep.equal(expected);
+      expect(enabledAgencies).toEqual(expected);
     });
 
     it("should return enabled agencies with the selected service", () => {
       const expected = fromJS([agency2]);
       const agenciesWithService = selectors.getEnabledAgencies(stateWithRecords, "service_test_2");
 
-      expect(agenciesWithService).to.deep.equal(expected);
+      expect(agenciesWithService).toEqual(expected);
     });
 
     it("should return empty if there are no agencies with the selected service", () => {
       const agenciesWithService = selectors.getEnabledAgencies(stateWithRecords, "service_test_5");
 
-      expect(agenciesWithService).to.be.empty;
+      expect(agenciesWithService.size).toBe(0);
     });
 
     it("should return empty if there are no enabled agencies", () => {
       const enabledAgencies = selectors.getEnabledAgencies(stateWithNoRecords);
 
-      expect(enabledAgencies).to.be.empty;
+      expect(enabledAgencies.size).toBe(0);
     });
   });
 
   describe("getApprovalsLabels", () => {
     it("should return the approvalsLabels", () => {
       const expectedApprovalsLabels = fromJS({
-        closure: "Closure",
-        case_plan: "Case Plan",
-        assessment: "Assessment",
-        action_plan: "Action Plan",
-        gbv_closure: "GBV Closure"
+        default: {
+          closure: "Closure",
+          case_plan: "Case Plan",
+          assessment: "Assessment",
+          action_plan: "Action Plan",
+          gbv_closure: "GBV Closure"
+        }
       });
       const approvalsLabels = selectors.getApprovalsLabels(stateWithRecords, "en");
 
-      expect(approvalsLabels).to.deep.equal(expectedApprovalsLabels);
+      expect(approvalsLabels).toEqual(expectedApprovalsLabels);
     });
   });
 
   describe("getUserGroups", () => {
     it("should return user groups", () => {
-      expect(selectors.getUserGroups(stateWithRecords)).to.deep.equal(fromJS(userGroups));
+      expect(selectors.getUserGroups(stateWithRecords)).toEqual(fromJS(userGroups));
     });
   });
 
   describe("getRoles", () => {
     it("should return roles", () => {
-      expect(selectors.getRoles(stateWithRecords)).to.deep.equal(fromJS(roles));
+      expect(selectors.getRoles(stateWithRecords)).toEqual(fromJS(roles));
     });
   });
 
   describe("getRoleName", () => {
     it("should return the role name", () => {
-      expect(selectors.getRoleName(stateWithRecords, "role-2")).to.deep.equal("Role 2");
+      expect(selectors.getRoleName(stateWithRecords, "role-2")).toEqual("Role 2");
     });
   });
 
   describe("getDisabledApplication", () => {
     it("should return boolean value that identifies if the application is disabled or not", () => {
-      expect(selectors.getDisabledApplication(stateWithRecords)).to.be.true;
+      expect(selectors.getDisabledApplication(stateWithRecords)).toBe(true);
     });
   });
 
   describe("getDemo", () => {
     it("should return the role name", () => {
-      expect(selectors.getDemo(stateWithRecords)).to.be.true;
+      expect(selectors.getDemo(stateWithRecords)).toBe(true);
     });
   });
 
@@ -346,7 +349,7 @@ describe("Application - Selectors", () => {
     it("should return the admin_level", () => {
       const selector = selectors.getAdminLevel(stateWithRecords);
 
-      expect(selector).to.be.equal(2);
+      expect(selector).toBe(2);
     });
   });
 
@@ -354,13 +357,13 @@ describe("Application - Selectors", () => {
     it("should return agency if fromApplication is true", () => {
       const selector = selectors.getAgencyLogosPdf(stateWithRecords, true);
 
-      expect(selector.size).to.be.equal(2);
+      expect(selector.size).toBe(2);
     });
 
     it("should return agency if fromApplication is false", () => {
       const selector = selectors.getAgencyLogosPdf(stateWithRecords, false);
 
-      expect(selector.size).to.be.equal(2);
+      expect(selector.size).toBe(2);
     });
   });
 
@@ -368,13 +371,13 @@ describe("Application - Selectors", () => {
     it("should return config_ui", () => {
       const result = selectors.getConfigUI(stateWithRecords);
 
-      expect(result).to.be.equal("full");
+      expect(result).toBe("full");
     });
 
     it("should return empty string if there is not any config_ui", () => {
       const result = selectors.getConfigUI(stateWithNoRecords);
 
-      expect(result).to.be.empty;
+      expect(Object.keys(result)).toHaveLength(0);
     });
   });
 
@@ -382,13 +385,13 @@ describe("Application - Selectors", () => {
     it("should return true if config_ui is limited", () => {
       const result = selectors.getLimitedConfigUI(fromJS({ application: { primero: { config_ui: "limited" } } }));
 
-      expect(result).to.be.true;
+      expect(result).toBe(true);
     });
 
     it("should return false if config_ui is not limited", () => {
       const result = selectors.getLimitedConfigUI(stateWithRecords);
 
-      expect(result).to.be.false;
+      expect(result).toBe(false);
     });
   });
 
@@ -411,13 +414,13 @@ describe("Application - Selectors", () => {
         RECORD_TYPES.cases
       );
 
-      expect(result).to.be.true;
+      expect(result).toBe(true);
     });
 
     it("should return false iif record and module don't have enabled webhook sync", () => {
       const result = selectors.getLimitedConfigUI(stateWithRecords, MODULES.CP, RECORD_TYPES.cases);
 
-      expect(result).to.be.false;
+      expect(result).toBe(false);
     });
   });
 
@@ -432,7 +435,7 @@ describe("Application - Selectors", () => {
       );
       const expected = fromJS([agency1, agency3]);
 
-      expect(result).to.deep.equal(expected);
+      expect(result).toEqual(expected);
     });
   });
   describe("getLocationsAvailable", () => {
@@ -457,7 +460,7 @@ describe("Application - Selectors", () => {
         })
       );
 
-      expect(result).to.be.true;
+      expect(result).toBe(true);
     });
     it("should return false if exist locations loaded", () => {
       const result = selectors.getLocationsAvailable(
@@ -470,7 +473,7 @@ describe("Application - Selectors", () => {
         })
       );
 
-      expect(result).to.be.false;
+      expect(result).toBe(false);
     });
   });
 
@@ -478,7 +481,7 @@ describe("Application - Selectors", () => {
     it("should return an empty array if there is no data", () => {
       const result = selectors.getWorkflowLabels(fromJS({}), "module-1");
 
-      expect(result).to.deep.equal([]);
+      expect(result).toEqual([]);
     });
 
     it("returns the workflow labels", () => {
@@ -503,7 +506,7 @@ describe("Application - Selectors", () => {
         "case"
       );
 
-      expect(result).to.deep.equal(workflowOptions);
+      expect(result).toEqual(workflowOptions);
     });
   });
 
@@ -520,7 +523,7 @@ describe("Application - Selectors", () => {
         })
       );
 
-      expect(result).to.be.false;
+      expect(result).toBe(false);
     });
 
     it("returns true if there are logos", () => {
@@ -534,7 +537,7 @@ describe("Application - Selectors", () => {
         })
       );
 
-      expect(result).to.be.true;
+      expect(result).toBe(true);
     });
   });
 
@@ -542,7 +545,7 @@ describe("Application - Selectors", () => {
     it("returns the primaryAgeRange", () => {
       const result = selectors.getPrimaryAgeRange(fromJS({ application: { primaryAgeRange: "unhcr" } }));
 
-      expect(result).to.equal("unhcr");
+      expect(result).toBe("unhcr");
     });
   });
 
@@ -561,7 +564,7 @@ describe("Application - Selectors", () => {
         })
       );
 
-      expect(result).to.deep.equal(ageRange);
+      expect(result).toEqual(ageRange);
     });
   });
 
@@ -569,13 +572,13 @@ describe("Application - Selectors", () => {
     it("should return maximum users", () => {
       const result = selectors.getMaximumUsers(stateWithRecords);
 
-      expect(result).to.be.equal(50);
+      expect(result).toBe(50);
     });
 
     it("should return empty string if there is not any config_ui", () => {
       const result = selectors.getMaximumUsers(stateWithNoRecords);
 
-      expect(result).to.be.undefined;
+      expect(result).toBeUndefined();
     });
   });
 
@@ -583,13 +586,13 @@ describe("Application - Selectors", () => {
     it("should return maximum users warning", () => {
       const result = selectors.getMaximumUsersWarning(stateWithRecords);
 
-      expect(result).to.be.equal(45);
+      expect(result).toBe(45);
     });
 
     it("should return empty string if there is not any config_ui", () => {
       const result = selectors.getMaximumUsersWarning(stateWithNoRecords);
 
-      expect(result).to.be.undefined;
+      expect(result).toBeUndefined();
     });
   });
 
@@ -600,7 +603,7 @@ describe("Application - Selectors", () => {
         fromJS({ application: { referralAuthorizationRoles: { data: referralAuthorizationRoles } } })
       );
 
-      expect(result).to.deep.equal(referralAuthorizationRoles);
+      expect(result).toEqual(referralAuthorizationRoles);
     });
   });
 
@@ -610,7 +613,7 @@ describe("Application - Selectors", () => {
         fromJS({ application: { referralAuthorizationRoles: { loading: true } } })
       );
 
-      expect(result).to.be.true;
+      expect(result).toBe(true);
     });
   });
 
@@ -618,7 +621,7 @@ describe("Application - Selectors", () => {
     it("should return maximum users warning", () => {
       const result = selectors.getMaximumAttachmentsPerRecord(stateWithRecords);
 
-      expect(result).to.be.equal(55);
+      expect(result).toBe(55);
     });
   });
 
@@ -665,13 +668,79 @@ describe("Application - Selectors", () => {
         "agencies"
       );
 
-      expect(values).to.deep.equal(agencies);
+      expect(values).toEqual(agencies);
     });
 
     it("should return false when there are not users in store", () => {
       const values = selectors.getListHeaders(fromJS({}));
 
-      expect(values).to.be.empty;
+      expect(values.size).toBe(0);
+    });
+  });
+
+  describe("getListHeadersByRecordAndCaseType", () => {
+    const cases = fromJS([
+      { name: "id", field_name: "case_id_display", id_search: false },
+      { name: "name", field_name: "name", id_search: false }
+    ]);
+
+    it("should return list of headers allowed to the user", () => {
+      const values = selectors.getListHeadersByRecordAndCaseType(
+        fromJS({
+          application: {
+            modules: [
+              {
+                unique_id: "module-test-1",
+                options: { case_type: "person" },
+                list_headers: { cases: ["case_id_display", "name"] }
+              },
+              {
+                unique_id: "module-test-2",
+                options: { case_type: "farm" },
+                list_headers: { cases: ["case_id_display"] }
+              }
+            ]
+          },
+          user: {
+            listHeaders: {
+              cases
+            }
+          }
+        }),
+        {
+          caseType: "farm",
+          recordType: RECORD_TYPES_PLURAL.case
+        }
+      );
+
+      expect(values).toEqual(fromJS([{ name: "id", field_name: "case_id_display", id_search: false }]));
+    });
+
+    it("should return false when there are not users in store", () => {
+      const values = selectors.getListHeadersByRecordAndCaseType(fromJS({}), {
+        caseType: "person",
+        recordType: RECORD_TYPES_PLURAL.case
+      });
+
+      expect(values.size).toBe(0);
+    });
+  });
+
+  describe("getExactSearchFields", () => {
+    it("should return exact search fields", () => {
+      const expected = fromJS({ cases: ["long_id", "short_id", "case_id"] });
+      const result = selectors.getExactSearchFields(stateWithRecords);
+
+      expect(result).toEqual(expected);
+    });
+  });
+
+  describe("getPhoneticSearchFields", () => {
+    it("should return exact search fields", () => {
+      const expected = fromJS({ cases: ["name", "name_other"] });
+      const result = selectors.getPhoneticSearchFields(stateWithRecords);
+
+      expect(result).toEqual(expected);
     });
   });
 });

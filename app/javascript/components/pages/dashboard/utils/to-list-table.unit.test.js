@@ -68,7 +68,7 @@ describe("toListTable - pages/dashboard/utils/", () => {
       ]
     };
 
-    expect(toListTable(data, labels, null, "en")).to.deep.equal(expected);
+    expect(toListTable(data, labels, null, "en")).toEqual(expected);
   });
 
   it("should return an empty config if there is no data for an indicator", () => {
@@ -96,7 +96,7 @@ describe("toListTable - pages/dashboard/utils/", () => {
       query: []
     };
 
-    expect(toListTable(data, labels, null, "en")).to.deep.equal(expected);
+    expect(toListTable(data, labels, null, "en")).toEqual(expected);
   });
 
   it("should follow the labels order for the data", () => {
@@ -188,6 +188,6 @@ describe("toListTable - pages/dashboard/utils/", () => {
       ]
     };
 
-    expect(toListTable(data, columnLabels, rowLabels, "en")).to.deep.equal(expected);
+    expect(toListTable(data, columnLabels, rowLabels, "en")).toEqual(expected);
   });
 });

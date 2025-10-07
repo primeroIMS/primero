@@ -3,6 +3,7 @@
 /* eslint-disable react/display-name */
 import Transitions from "../../../transitions";
 import {
+  ACCESS_LOGS,
   APPROVALS,
   FAMILY_FROM_CASE,
   RECORD_OWNER,
@@ -12,20 +13,24 @@ import {
   SUMMARY,
   RECORD_TYPES_PLURAL,
   REGISTRY_FROM_CASE,
-  SUMMARY_INCIDENT_MRM
+  SUMMARY_INCIDENT_MRM,
+  CASE_RELATIONSHIPS
 } from "../../../../config";
 import RecordOwner from "../../../record-owner";
 import Approvals from "../../../approvals";
 import IncidentFromCase from "../../../incidents-from-case";
 import ChangeLogs from "../../../change-logs";
+import AccessLogs from "../../../access-logs";
 import Summary from "../../../summary";
 import CaseRegistry from "../../../case-registry";
 import CaseFamily from "../../../case-family";
 import SummaryIncidentMRM from "../../../summary-incident-mrm";
+import CaseRelationships from "../../../case-relationships";
 
 const externalForms =
   ({
     approvalSubforms,
+    canSeeAccessLog,
     canSeeChangeLog,
     containerMode,
     handleCreateIncident,
@@ -56,7 +61,12 @@ const externalForms =
         />
       ),
       [APPROVALS]: (
-        <Approvals approvals={approvalSubforms} mobileDisplapary={mobileDisplay} handleToggleNav={handleToggleNav} />
+        <Approvals
+          primeroModule={primeroModule}
+          approvals={approvalSubforms}
+          mobileDisplapary={mobileDisplay}
+          handleToggleNav={handleToggleNav}
+        />
       ),
       [INCIDENT_FROM_CASE]: (
         <IncidentFromCase
@@ -81,7 +91,6 @@ const externalForms =
           recordType={RECORD_TYPES_PLURAL[recordType]}
           mobileDisplay={mobileDisplay}
           handleToggleNav={handleToggleNav}
-          primeroModule={primeroModule}
           selectedForm={selectedForm}
         />
       ),
@@ -121,6 +130,18 @@ const externalForms =
           setFieldValue={setFieldValue}
         />
       ),
+      [CASE_RELATIONSHIPS]: (
+        <CaseRelationships
+          values={values}
+          record={record}
+          mode={containerMode}
+          mobileDisplay={mobileDisplay}
+          handleToggleNav={handleToggleNav}
+          primeroModule={primeroModule}
+          recordType={recordType}
+          setFieldValue={setFieldValue}
+        />
+      ),
       [SUMMARY_INCIDENT_MRM]: (
         <SummaryIncidentMRM
           recordType={recordType}
@@ -130,6 +151,16 @@ const externalForms =
           mode={containerMode}
           formSections={formSections}
           values={values}
+        />
+      ),
+      [ACCESS_LOGS]: (
+        <AccessLogs
+          recordID={id}
+          recordType={RECORD_TYPES_PLURAL[recordType]}
+          mobileDisplay={mobileDisplay}
+          handleToggleNav={handleToggleNav}
+          selectedForm={selectedForm}
+          fetchable={canSeeAccessLog}
         />
       )
     }[externalFormSelected];

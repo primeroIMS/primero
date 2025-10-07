@@ -672,7 +672,6 @@ hu:
     dash_shared_from_my_team: Megosztva a csapatomtól
     dash_shared_with_me: Megosztva velem
     dash_shared_with_my_team: Megosztva a csapatommal
-    dash_shared_with_my_team_overview: Megosztva a csapatommal (áttekintés)
     dash_shared_with_others: Másokkal megosztva
     dash_national_admin_summary: Rendszergazdai összefoglaló
     date: Dátum
@@ -772,15 +771,8 @@ hu:
     shared_from_my_team_pending_transfers: Függőben levő átvitelek
     shared_from_my_team_referrals: Referenciák
     shared_from_my_team_rejected_transfers: Elutasított átvitelek
-    shared_with_me_new_referrals: Új Referenciák
-    shared_with_me_total_referrals: Összes Referenciák
-    shared_with_me_transfers_awaiting_acceptance: Elfogadásra váró átvitelek
-    shared_with_my_team_pending_transfers_overview: Elfogadásra váró átvitelek
     shared_with_my_team_pending_transfers: Függőben levő átvitelek
     shared_with_my_team_referrals: Referenciák
-    shared_with_others_pending_transfers: Függőben levő átvitelek
-    shared_with_others_referrals: Referenciák
-    shared_with_others_rejected_transfers: Elutasított átvitelek
     status_of_cases: Az ügyek helyzete
     system_user: Rendszer
     total: Összesen
@@ -810,22 +802,13 @@ hu:
   email_notification:
     assign: '%{user}A következő %{record_type}kiosztva önhöz: %{record_id}'
     assign_subject: '%{record_type}:%{id}- Önhöz kiosztott'
-    approval_request: 'A felhasználó %{user}  %{approval_type} jóváhagyást kér %{case_id}ügyhöz.'
     approval_request_subject: 'Ügy: %{id} - jóváhagyási kérelem'
-    approval_response: '%{user}  %{status} jóváhagyási kérelmet nyújtott be %{approval_type} a/az %{case_id} esethez.'
     approval_response_subject: 'Eset: %{id} - jóváhagyási válasz'
     referral: '%{user} a/az %{agency} a következő %{record_type}adatot küldte Önnek: %{record_id} a %{service_type}számára.'
     transfer: '%{user}a következőket adta át %{record_type}önnek: %{record_id}. '
     transfer_request_subject: Átvitelési kérvényezés az egyik esetéhez
-    transfer_subject: '%{record_type}:%{id}- Átadta'
-    referral_subject: '%{record_type}: %{id} - Ajánlás'
     transfer_request: 'A Primero felhasználója %{user}az %{agency}től, kérvényezi, hogy adja át ennek a rekordnak %{record_type}%{record_id}a tulajdonjogát hogy biztosítani tudják az %{record_type}kezelését a környéken élő személynek. Ha ez az átvitel delfogadható az Ön számára, kérjük, kattintson az ebben az e-mailben található %{record_type} azonosító linkre az %{record_type} megnyitásához  Primero-ban és az átvitel elindításához.'
     approval_request_html: 'A felhasználó <strong>%{user}</strong><strong> %{approval_type} </strong>jóváhagyást kér <strong>%{case_id}</strong>ügyhöz.'
-    approval_response_html: '<strong>%{user}</strong>rendelkezik <strong>%{status}</strong>a jóváhagyási kérelemmel <strong>%{approval_type}</strong>az <strong>%{case_id}</strong> ügyben.'
-    transfer_html: '<strong>%{user}</strong>átkerült az%{record_type}Önhöz:<strong>%{record_id}</strong>'
-    assign_html: '<strong>%{user}</strong>Aakövetkező %{record_type}kiosztva önhöz: <strong>%{record_id}</strong>.'
-    transfer_request_html: 'A Primero felhasználója <strong>%{user}</strong>%{agency}től, kérvényezi, hogy adja át ennek a rekordnak %{record_type}<strong>%{record_id}</strong> a tulajdonjogát hogy biztosítani tudják az %{record_type} kezelését a környéken élő személynek. Ha ez az átvitel delfogadható az Ön számára, kérjük, kattintson az ebben az e-mailben található %{record_type} azonosító linkre az %{record_type} megnyitásához Primero-ban és az átvitel elindításához.'
-    transfer_request_notes_html: 'A kérvény benyújtó személy megjegyzései:%{request_transfer_notes}'
   encrypt:
     export_type: Az export típusa
     file_name: Saját fájlnév létrehozása (választató)
@@ -1547,7 +1530,6 @@ hu:
       user: Felhasználó
       agency: Ügynökség
       user_group: Felhasználói csoport
-      child: Gyermek
       alert: Figyelmeztetés
       form_section: Formanyomtatvány
       lookup: Keresés
@@ -2669,32 +2651,19 @@ hu:
     welcome_email:
       subject: 'Üdvözöljük a %{system}!'
       greeting: 'Üdvözöljük a %{system}!'
-      body_native: 'Ön hozzá lett adva a %{role_name}. Kérjük, lépjen kapcsolatba a %{admin_full_name} (%{admin_email}) a további utasításokért a %{host}val való munka megkezdéséhez.'
-      sso:
-        footer: 'Kérjük, lépjen kapcsolatba a %{admin_full_name} (%{admin_email}) további részletekért.'
       otp:
         body: 'Önt hozzáadták, mint%{role_name}'
-        step1: 'Kérjük, lépjen kapcsolatba a %{admin_full_name} (%{admin_email}) hogy megkapja felhasználói nevét.'
-        step2: 'Menjen a %{host} és kattintson a "bejelentkezés a Primero felhasználónévvel." gombra.'
-        step4: 'Ha a rendszer kéri, állítsa vissza a jelszavát.'
       url_label: Primero
       enabled_label: Szeretne üdvözlő e-mailt küldeni?
       text_label: Üdvözlő e-mail szöveg
     password_reset:
       subject: 'Jelszó-visszaállítási utasítások'
-      email_greeting: "Tisztelt %{full_name} "
-      email_body1: "Valaki kérte, hogy állítsa be a jelszavát a %{host_href}. Kattintson az alábbi url-re az indításhoz:"
-      email_body2: "Ez a link lejár %{hours} belül, és csak egyszer használható. Kérjük, hagyja figyelmen kívül ezt az e-mailt, ha nem kért jelszó-visszaállítást, vagy ha nem regisztráltak új Primero-felhasználót az Ön nevében. Ha a fenti link lejárt, kattintson az %{reset_request_href}, a jelszó-visszaállítási kérelem újra küldéséhez."
       email_body_link: itt
       request_submitted: "Jelszó visszaállítási kérelem elküldve"
       success: "Jelszó sikeresen módosítva"
       errors:
         reset_password_token: "Érvénytelen jelszó - visszaállítási token"
         password_confirmation: "A jelszavaknak egyezniük kell"
-    onboard_email:
-      greeting: "Tisztelt %{full_name} ,"
-      body1: "Üdvözöljük a Primero-ban"
-      body2_reset_notification: "További e-mailt fog kapni, amely felszólítja jelszava visszaállítására."
   user_group:
     associated_agencies: A felhasználói csoporthoz kapcsolódó ügynökségek
     description: Leírás

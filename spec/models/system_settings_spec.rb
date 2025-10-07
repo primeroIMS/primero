@@ -5,6 +5,7 @@
 require 'rails_helper'
 describe SystemSettings do
   before :each do
+    clean_data(SystemSettings, Attachment, Child)
     @system_settings = SystemSettings.create(primary_age_range: 'primary',
                                              age_ranges: { 'primary' => [1..2, 3..4] },
                                              reporting_location_config: { field_key: 'owned_by_location',
@@ -99,6 +100,108 @@ describe SystemSettings do
           expect(@system_settings.primero_promote_config.length).to eq(1)
           expect(@system_settings.primero_promote_config.first['host']).to eq('foo.bar')
         end
+      end
+    end
+
+    describe 'incident_reporting_location_config' do
+      it 'return default value' do
+        expect(@system_settings.reporting_location_config).to be_present
+      end
+    end
+
+    context 'maximum_attachments_space' do
+      it 'is valid when blank' do
+        @system_settings.maximum_attachments_space = nil
+        expect(@system_settings).to be_valid
+      end
+
+      it 'is valid when a positive integer' do
+        @system_settings.maximum_attachments_space = 100
+        expect(@system_settings).to be_valid
+      end
+
+      it 'is invalid when a non-integer' do
+        @system_settings.maximum_attachments_space = 'abc'
+        expect(@system_settings).not_to be_valid
+        expect(@system_settings.errors[:maximum_attachments_space])
+          .to include('errors.models.system_setting.allocated_space_integer')
+      end
+
+      it 'is invalid when zero or negative' do
+        @system_settings.maximum_attachments_space = 0
+        expect(@system_settings).not_to be_valid
+
+        @system_settings.maximum_attachments_space = -5
+        expect(@system_settings).not_to be_valid
+      end
+    end
+
+    context 'maximum_attachments_space_warning' do
+      it 'is valid when blank' do
+        @system_settings.maximum_attachments_space_warning = nil
+        expect(@system_settings).to be_valid
+      end
+
+      it 'is valid when a positive integer' do
+        @system_settings.maximum_attachments_space_warning = 50
+        expect(@system_settings).to be_valid
+      end
+
+      it 'is invalid when non-integer' do
+        @system_settings.maximum_attachments_space_warning = 'oops'
+        expect(@system_settings).not_to be_valid
+        expect(@system_settings.errors[:maximum_attachments_space_warning])
+          .to include('errors.models.system_setting.allocated_space_integer')
+      end
+
+      it 'is invalid when zero or negative' do
+        @system_settings.maximum_attachments_space_warning = 0
+        expect(@system_settings).not_to be_valid
+
+        @system_settings.maximum_attachments_space_warning = -10
+        expect(@system_settings).not_to be_valid
+      end
+    end
+
+    context 'when both fields present' do
+      it 'is valid if hard limit >= warning limit' do
+        @system_settings.maximum_attachments_space = 200
+        @system_settings.maximum_attachments_space_warning = 100
+        expect(@system_settings).to be_valid
+      end
+
+      it 'is invalid if warning > hard limit' do
+        @system_settings.maximum_attachments_space = 100
+        @system_settings.maximum_attachments_space_warning = 200
+        expect(@system_settings).not_to be_valid
+        expect(@system_settings.errors[:base])
+          .to include('errors.models.system_setting.allocated_space_warning_greater_than_hard_limit')
+      end
+    end
+
+    describe '#total_attachment_file_size' do
+      before do
+        Rails.cache.clear
+      end
+
+      let(:user) { fake_user(user_name: 'test_user') }
+
+      let(:child) do
+        child = Child.new_with_user(user, name: 'Test')
+        child.save! && child
+      end
+
+      it 'returns 0 when no attachments exist' do
+        expect(@system_settings.total_attachment_file_size).to eq(0)
+      end
+
+      it 'sums byte_size of all attachments' do
+        Attachment.new(
+          record: child, field_name: 'photos', attachment_type: Attachment::IMAGE,
+          file_name: 'logo.jpg', attachment: logo_base64
+        ).attach!
+
+        expect(SystemSettings.total_attachment_file_size).to eq(16_061)
       end
     end
   end

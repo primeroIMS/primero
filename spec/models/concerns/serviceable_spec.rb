@@ -93,12 +93,16 @@ describe Serviceable do
       clean_data(Child)
     end
 
-    it 'stores the service_implemented_day_times' do
+    it 'stores the service_implemented_day_times without duplicates' do
       child = Child.create!(data: { age: 2, sex: 'male', name: 'Random Name' })
       child.stub(:module).and_return(PrimeroModule.new(module_options: { use_workflow_service_implemented: true }))
       child.services_section = [
         {
           'unique_id' => '4b7c1011-a63e-422c-b6fb-a64cdcc2d472',
+          'service_implemented_day_time' => '2022-05-09T12:44:00.000Z'
+        },
+        {
+          'unique_id' => '5351c062-d742-11ef-8fc1-18c04db5c362',
           'service_implemented_day_time' => '2022-05-09T12:44:00.000Z'
         },
         {
@@ -110,6 +114,44 @@ describe Serviceable do
 
       expect(child.service_implemented_day_times).to eq(
         [DateTime.new(2022, 5, 9, 12, 44, 0), DateTime.new(2023, 7, 8, 8, 10, 0)]
+      )
+    end
+  end
+
+  describe 'calculate_service_due_dates' do
+    before do
+      clean_data(Child)
+    end
+
+    it 'stores the service_due_dates without duplicates' do
+      SystemSettings.stub(:current).and_return(SystemSettings.new)
+      child = Child.new(
+        data: {
+          age: 2, sex: 'male', name: 'Random Name',
+          services_section: [
+            {
+              'unique_id' => '4b7c1011-a63e-422c-b6fb-a64cdcc2d472',
+              'service_response_day_time' => '2022-05-09T12:44:00.000Z',
+              'service_response_timeframe' => '1_hour'
+            },
+            {
+              'unique_id' => '5351c062-d742-11ef-8fc1-18c04db5c362',
+              'service_response_day_time' => '2022-05-09T12:44:00.000Z',
+              'service_response_timeframe' => '1_hour'
+            },
+            {
+              'unique_id' => 'f732a61c-cdae-435c-9c0c-55a893321fed',
+              'service_response_day_time' => '2023-07-08T08:10:00.000Z',
+              'service_response_timeframe' => '3_days'
+            }
+          ]
+        }
+      )
+      child.stub(:module).and_return(PrimeroModule.new(module_options: { use_workflow_service_implemented: true }))
+      child.save!
+
+      expect(child.service_due_dates).to eq(
+        [DateTime.new(2022, 5, 9, 13, 44, 0), DateTime.new(2023, 7, 11, 8, 10, 0)]
       )
     end
   end

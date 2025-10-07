@@ -7,6 +7,7 @@ import ActionDialog from "../../../action-dialog";
 import { useI18n } from "../../../i18n";
 import { RECORD_TYPES } from "../../../../config";
 import { MAX_BULK_RECORDS } from "../constants";
+import useSystemStrings, { PAGE } from "../../../application/use-system-strings";
 
 function TransitionDialog({
   onClose,
@@ -25,6 +26,7 @@ function TransitionDialog({
   disableActions = false
 }) {
   const i18n = useI18n();
+  const { label } = useSystemStrings(PAGE);
 
   const title = (type => {
     const caseId = record?.get("case_id_display");
@@ -45,7 +47,7 @@ function TransitionDialog({
   let dialogSubHeader = null;
 
   if (selectedRecordsLength > 0 && selectedRecordsLength <= MAX_BULK_RECORDS) {
-    dialogSubHeader = i18n.t(`${recordType}.selected_records_assign`, {
+    dialogSubHeader = label(`${recordType}.selected_records_assign`, undefined, {
       select_records: selectedRecordsLength
     });
   } else if (selectedRecordsLength > MAX_BULK_RECORDS) {

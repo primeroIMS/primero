@@ -14,11 +14,11 @@ describe("<ReportsForm /> - actions", () => {
       "SAVE_REPORT_STARTED",
       "SAVE_REPORT_SUCCESS"
     ].forEach(property => {
-      expect(clone).to.have.property(property);
-      expect(clone[property]).to.be.a("string");
+      expect(clone).toHaveProperty(property);
+      expect(typeof clone[property]).toBe("string");
       delete clone[property];
     });
 
-    expect(clone).to.be.empty;
+    expect(Object.keys(clone)).toHaveLength(0);
   });
 });

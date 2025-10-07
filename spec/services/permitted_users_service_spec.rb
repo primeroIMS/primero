@@ -6,7 +6,7 @@ require 'rails_helper'
 
 describe PermittedUsersService do
   before :each do
-    clean_data(User, Agency, Role, UserGroup, PrimeroModule)
+    clean_data(AuditLog, User, Agency, Role, UserGroup, PrimeroModule)
 
     @super_user_permissions = [
       Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE]),
@@ -94,6 +94,13 @@ describe PermittedUsersService do
       agency_id: @agency1.id,
       role: @super_role
     )
+
+    @login_log = AuditLog.create!(
+      user_id: @user1.id,
+      action: 'login',
+      record_type: 'User',
+      timestamp: Time.utc(2023, 2, 10, 10, 0, 0)
+    )
   end
 
   it 'return all users' do
@@ -130,5 +137,24 @@ describe PermittedUsersService do
     users = PermittedUsersService.new(@super_user).find_permitted_users(nil, nil, { order_by: 'agency_id' })
 
     expect(users[:users].map(&:user_name)).to match_array(%w[user1 user2 user3 user5 admin_user super_user user4])
+  end
+
+  it 'search users by full_name' do
+    users = PermittedUsersService.new(@super_user).find_permitted_users(
+      { query: 'Admin' }, nil, { order_by: 'agency_id' }
+    )
+
+    expect(users[:users].map(&:user_name)).to match_array(%w[admin_user])
+  end
+
+  # TODO: Add back once users.timestamp index is added
+  xit 'search users by last_access' do
+    results = PermittedUsersService.new(@super_user).find_permitted_users(
+      { last_access: { 'from' => Time.utc(2023, 2, 1, 10, 0, 0).iso8601(3),
+                       'to' => Time.utc(2023, 4, 1, 10, 0, 0).iso8601(3) } }
+    )
+
+    expect(results[:total]).to eq(1)
+    expect(results[:users].first.last_access.iso8601(3)).to eq('2023-02-10T10:00:00.000Z')
   end
 end

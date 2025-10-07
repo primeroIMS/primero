@@ -15,6 +15,7 @@ import { RECORD_ACTION_ABILITIES } from "../../../../../../record-actions/consta
 import { useI18n } from "../../../../../../i18n";
 import { toServerDateFormat } from "../../../../../../../libs";
 import DateProvider from "../../../../../../../date-provider";
+import { dayOfWeekFormatter } from "../../../../../../../libs/date-picker-localization";
 
 import VerifySelect from "./select";
 import { getViolationTallyLabel } from "./utils";
@@ -105,6 +106,7 @@ function Component({ fields, values, locale, displayName, index, collapsedFieldV
     <DateProvider>
       <div className={css.keyboardDatePickerWrapper}>
         <DatePicker
+          dayOfWeekFormatter={dayOfWeekFormatter(i18n)}
           clearLabel={i18n.t("buttons.clear")}
           cancelLabel={i18n.t("buttons.cancel")}
           okLabel={i18n.t("buttons.ok")}

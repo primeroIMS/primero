@@ -21,7 +21,7 @@ class Exporters::RecordWorkflowSubreportExporter < Exporters::SubreportExporter
   end
 
   def workflow_display_text
-    workflow_statuses = Child.workflow_statuses([PrimeroModule.cp])
+    workflow_statuses = Child.workflow_statuses(PrimeroModule.cp)
     display_text = workflow_statuses[locale.to_sym].find do |workflow_status|
       workflow_status['id'] == workflow_filter.value
     end&.dig('display_text')

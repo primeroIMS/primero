@@ -160,6 +160,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
           { 'posted_at' => { 'from' => nil, 'to' => Incident.first.posted_at.strftime('%Y-%m-%dT%H:%M:%S.%LZ') } },
           { 'created_at' => { 'from' => nil, 'to' => Incident.first.created_at.strftime('%Y-%m-%dT%H:%M:%S.%LZ') } },
           { 'created_by' => { 'from' => nil, 'to' => 'faketest' } },
+          { 'child_types' => { 'from' => nil, 'to' => [] } },
           { 'description' => { 'from' => nil, 'to' => 'Test' } },
           { 'incident_id' => { 'from' => nil, 'to' => Incident.first.incident_id } },
           { 'record_state' => { 'from' => nil, 'to' => true } },
@@ -237,6 +238,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
           { 'owned_by' => { 'from' => nil, 'to' => 'faketest' } },
           { 'short_id' => { 'from' => nil, 'to' => Child.first.short_id } },
           { 'workflow' => { 'from' => nil, 'to' => 'new' } },
+          { 'case_type' => {"from"=>nil, "to"=>"person" } },
           { 'has_photo' => { 'from' => nil, 'to' => false } },
           { 'posted_at' => { 'from' => nil, 'to' => Child.first.posted_at.strftime('%Y-%m-%dT%H:%M:%S.%LZ') } },
           { 'created_at' => { 'from' => nil, 'to' => Child.first.created_at.strftime('%Y-%m-%dT%H:%M:%S.%LZ') } },
@@ -270,6 +272,89 @@ describe Api::V2::RecordHistoriesController, type: :request do
 
       expect(json['data'][0]).to eq(record_history_a.deep_stringify_keys)
       expect(json['data'][1]).to eq(record_history_b.deep_stringify_keys)
+    end
+
+    it 'filter record_history by field_name' do
+      Child.any_instance.stub(:associated_users).and_return([User.new(user_name: 'faketest')])
+      login_for_test
+      params = { data: { name: 'Test', age: 12, sex: 'female' } }
+      post '/api/v2/cases', params:, as: :json
+
+      sleep(1)
+
+      login_for_test
+      params = { data: { name: 'Tester', age: 10, sex: 'male' } }
+      patch "/api/v2/cases/#{Child.first.id}", params:, as: :json
+
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::CHANGE_LOG])
+        ]
+      )
+
+      get "/api/v2/cases/#{Child.first.id}/record_history?per=20&page=1&filters%5Bfield_names%5D%5B0%5D=status"
+
+      record_history_a = {
+        record_id: Child.first.id,
+        record_type: 'cases',
+        datetime: RecordHistory.last.datetime.iso8601,
+        user_name: 'faketest',
+        action: 'update',
+        record_changes: [
+          { age: { to: 10, from: 12 } },
+          { sex: { to: 'male', from: 'female' } },
+          { name: { to: 'Tester', from: 'Test' } }
+        ]
+      }
+
+      record_history_b = {
+        record_id: Child.first.id,
+        record_type: 'cases',
+        datetime: RecordHistory.first.datetime.iso8601,
+        user_name: 'faketest',
+        action: 'create',
+        record_changes: [
+          { 'age' => { 'from' => nil, 'to' => 12 } },
+          { 'sex' => { 'from' => nil, 'to' => 'female' } },
+          { 'name' => { 'from' => nil, 'to' => 'Test' } },
+          { 'status' => { 'from' => nil, 'to' => 'open' } },
+          { 'case_id' => { 'from' => nil, 'to' => Child.first.case_id } },
+          { 'flagged' => { 'from' => nil, 'to' => false } },
+          { 'owned_by' => { 'from' => nil, 'to' => 'faketest' } },
+          { 'short_id' => { 'from' => nil, 'to' => Child.first.short_id } },
+          { 'workflow' => { 'from' => nil, 'to' => 'new' } },
+          { 'case_type' => {"from"=>nil, "to"=>"person" } },
+          { 'has_photo' => { 'from' => nil, 'to' => false } },
+          { 'posted_at' => { 'from' => nil, 'to' => Child.first.posted_at.strftime('%Y-%m-%dT%H:%M:%S.%LZ') } },
+          { 'created_at' => { 'from' => nil, 'to' => Child.first.created_at.strftime('%Y-%m-%dT%H:%M:%S.%LZ') } },
+          { 'created_by' => { 'from' => nil, 'to' => 'faketest' } },
+          { 'record_state' => { 'from' => nil, 'to' => true } },
+          { 'has_case_plan' => { 'from' => nil, 'to' => false } },
+          { 'has_incidents' => { 'from' => nil, 'to' => false } },
+          { 'notes_section' => { 'from' => nil, 'to' => [] } },
+          { 'reopened_logs' => { 'from' => nil, 'to' => [] } },
+          { 'referred_users' => { 'from' => nil, 'to' => [] } },
+          { 'case_id_display' => { 'from' => nil, 'to' => Child.first.case_id_display } },
+          { 'followup_status' => { 'from' => nil, 'to' => 'follow_ups_not_planned' } },
+          { 'owned_by_groups' => { 'from' => nil, 'to' => [] } },
+          { 'created_by_groups' => { 'from' => nil, 'to' => [] } },
+          { 'registration_date' => { 'from' => nil, 'to' => Child.first.registration_date.iso8601 } },
+          { 'unique_identifier' => { 'from' => nil, 'to' => Child.first.unique_identifier } },
+          { 'followup_due_dates' => { 'from' => nil, 'to' => [] } },
+          { 'case_plan_due_dates' => { 'from' => nil, 'to' => [] } },
+          { 'current_alert_types' => { 'from' => nil, 'to' => [] } },
+          { 'not_edited_by_owner' => { 'from' => nil, 'to' => false } },
+          { 'protection_concerns' => { 'from' => nil, 'to' => [] } },
+          { 'assessment_due_dates' => { 'from' => nil, 'to' => [] } },
+          { 'transferred_to_users' => { 'from' => nil, 'to' => [] } },
+          { 'associated_user_names' => { 'from' => nil, 'to' => ['faketest'] } },
+          { 'associated_user_groups' => { 'from' => nil, 'to' => [] } },
+          { 'referred_users_present' => { 'from' => nil, 'to' => false } },
+          { 'associated_user_agencies' => { 'from' => nil, 'to' => [] } },
+          { 'transferred_to_user_groups' => { 'from' => nil, 'to' => [] } }
+        ]
+      }
+      expect(json['data'][0]).to eq(record_history_b.deep_stringify_keys)
     end
 
     it 'returns 403 if user only have read permission' do

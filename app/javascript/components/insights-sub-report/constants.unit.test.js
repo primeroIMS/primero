@@ -6,18 +6,20 @@ describe("<InsightsSubReport /> - constants", () => {
   const clone = { ...constants };
 
   it("should have known properties", () => {
-    expect(clone).to.be.an("object");
+    expect(typeof clone).toEqual("object");
     [
       "COMBINED_INDICATORS",
       "GROUPED_BY_FILTER",
+      "HEADER_TITLE_KEYS",
       "NAME",
       "GHN_VIOLATIONS_INDICATORS_IDS",
-      "REPORTING_LOCATION_INSIGHTS"
+      "REPORTING_LOCATION_INSIGHTS",
+      "PERCENTAGE_INDICATORS"
     ].forEach(property => {
-      expect(clone).to.have.property(property);
+      expect(clone).toHaveProperty(property);
       delete clone[property];
     });
 
-    expect(clone).to.be.empty;
+    expect(Object.keys(clone)).toHaveLength(0);
   });
 });

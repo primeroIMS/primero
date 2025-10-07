@@ -2,8 +2,29 @@
 
 import { fromJS } from "immutable";
 
+import { PrimeroModuleRecord } from "../../application/records";
+
 import { DASHBOARD_NAMES } from "./constants";
 import * as selectors from "./selectors";
+
+const caseRisk = {
+  name: "dashboard.case_risk",
+  type: "indicator",
+  stats: {
+    high: {
+      count: 2,
+      query: ["record_state=true", "status=open", "risk_level=high"]
+    },
+    medium: {
+      count: 1,
+      query: ["record_state=true", "status=open", "risk_level=medium"]
+    },
+    none: {
+      count: 0,
+      query: ["record_state=true", "status=open", "risk_level=none"]
+    }
+  }
+};
 
 const workflowTeamCases = {
   name: DASHBOARD_NAMES.WORKFLOW_TEAM,
@@ -42,7 +63,7 @@ const reportingLocation = {
 };
 
 const approvalsAssessmentPending = {
-  name: "dashboard.approvals_assessment_pending",
+  name: "dashboard.approvals_assessment_pending.primeromodule-cp",
   type: "indicator",
   indicators: {
     approval_assessment_pending_group: {
@@ -52,7 +73,7 @@ const approvalsAssessmentPending = {
   }
 };
 const approvalsCasePlanPending = {
-  name: "dashboard.approvals_case_plan_pending",
+  name: "dashboard.approvals_case_plan_pending.primeromodule-cp",
   type: "indicator",
   indicators: {
     approval_case_plan_pending_group: {
@@ -62,7 +83,7 @@ const approvalsCasePlanPending = {
   }
 };
 const approvalsClosurePending = {
-  name: "dashboard.approvals_closure_pending",
+  name: "dashboard.approvals_closure_pending.primeromodule-cp",
   type: "indicator",
   indicators: {
     approval_closure_pending_group: {
@@ -259,44 +280,71 @@ const myCasesIncidents = {
   }
 };
 
+const application = fromJS({
+  modules: [
+    PrimeroModuleRecord({
+      unique_id: "primeromodule-cp",
+      workflows: {
+        case: {
+          en: [
+            {
+              id: "new",
+              display_text: "New"
+            },
+            {
+              id: "closed",
+              display_text: "Closed"
+            }
+          ]
+        }
+      }
+    })
+  ]
+});
+
 const stateWithoutRecords = fromJS({});
 const initialState = fromJS({
+  application,
+  user: fromJS({
+    modules: ["primeromodule-cp"]
+  }),
   records: {
     dashboard: {
-      data: [
-        {
-          name: "dashboard.case_risk",
-          type: "indicator",
-          stats: {
-            high: {
-              count: 2,
-              query: ["record_state=true", "status=open", "risk_level=high"]
-            },
-            medium: {
-              count: 1,
-              query: ["record_state=true", "status=open", "risk_level=medium"]
-            },
-            none: {
-              count: 0,
-              query: ["record_state=true", "status=open", "risk_level=none"]
-            }
-          }
-        },
-        workflowTeamCases,
-        reportingLocation,
-        approvalsAssessmentPending,
-        approvalsCasePlanPending,
-        approvalsClosurePending,
-        protectionConcern,
-        sharedWithMe,
-        sharedWithOthers,
-        groupOverview,
-        caseOverview,
-        sharedWithMyTeam,
-        sharedWithMyTeamOverview,
-        myCasesIncidents,
-        nationalAdminSummary
-      ],
+      overview: {
+        loading: false,
+        errors: false,
+        data: [caseOverview, caseRisk, groupOverview, nationalAdminSummary, myCasesIncidents]
+      },
+      reporting_location: {
+        loading: false,
+        errors: false,
+        data: [reportingLocation]
+      },
+      workflow_team: {
+        loading: false,
+        errors: false,
+        data: [workflowTeamCases]
+      },
+      approvals: {
+        loading: false,
+        errors: false,
+        data: [approvalsAssessmentPending, approvalsCasePlanPending, approvalsClosurePending]
+      },
+      protection_concerns: {
+        loading: false,
+        errors: false,
+        data: [protectionConcern]
+      },
+      referrals_transfers: {
+        loading: false,
+        errors: false,
+        data: [sharedWithMe, sharedWithOthers, sharedWithMyTeamOverview]
+      },
+      shared_with_my_team: {
+        loading: false,
+        errors: false,
+        data: [sharedWithMyTeam]
+      },
       flags: {
         loading: false,
         errors: false,
@@ -318,60 +366,17 @@ const initialState = fromJS({
 });
 
 describe("<Dashboard /> - Selectors", () => {
-  describe("getCasesByAssessmentLevel", () => {
-    it("should return a list of dashboard", () => {
-      const records = selectors.getCasesByAssessmentLevel(initialState);
-
-      const expected = fromJS({
-        name: DASHBOARD_NAMES.CASE_RISK,
-        type: "indicator",
-        stats: {
-          high: {
-            count: 2,
-            query: ["record_state=true", "status=open", "risk_level=high"]
-          },
-          medium: {
-            count: 1,
-            query: ["record_state=true", "status=open", "risk_level=medium"]
-          },
-          none: {
-            count: 0,
-            query: ["record_state=true", "status=open", "risk_level=none"]
-          }
-        }
-      });
-
-      expect(records).to.deep.equal(expected);
-    });
-  });
-
-  describe("getCasesByAssessmentLevel empty value", () => {
-    it("should return a map when dashboard is empty", () => {
-      const emptyResult = fromJS({});
-
-      const emptyValueInitialState = fromJS({
-        name: DASHBOARD_NAMES.CASE_RISK,
-        type: "indicator",
-        stats: {}
-      });
-
-      const expected = selectors.getCasesByAssessmentLevel(emptyValueInitialState);
-
-      expect(emptyResult).to.deep.equal(expected);
-    });
-  });
-
   describe("getWorkflowTeamCases", () => {
     it("should return list of headers allowed to the user", () => {
       const values = selectors.getWorkflowTeamCases(initialState);
 
-      expect(values).to.deep.equal(fromJS(workflowTeamCases));
+      expect(values).toEqual(fromJS(workflowTeamCases));
     });
 
     it("should return false when there are not users in store", () => {
       const values = selectors.getWorkflowTeamCases(stateWithoutRecords);
 
-      expect(values).to.be.empty;
+      expect(values.size).toBe(0);
     });
   });
 
@@ -379,31 +384,31 @@ describe("<Dashboard /> - Selectors", () => {
     it("should return the reporting location config", () => {
       const values = selectors.getReportingLocation(initialState);
 
-      expect(values).to.deep.equal(fromJS(reportingLocation));
+      expect(values).toEqual(fromJS(reportingLocation));
     });
   });
 
   describe("getApprovalsAssessmentPending", () => {
     it("should return the approvals assessment pending", () => {
-      const values = selectors.getApprovalsAssessmentPending(initialState);
+      const values = selectors.getApprovalsAssessmentPending(initialState)["primeromodule-cp"];
 
-      expect(values).to.deep.equal(fromJS(approvalsAssessmentPending));
+      expect(values).toEqual(fromJS(approvalsAssessmentPending));
     });
   });
 
   describe("getApprovalsCasePlanPending", () => {
     it("should return the approvals case plan pending", () => {
-      const values = selectors.getApprovalsCasePlanPending(initialState);
+      const values = selectors.getApprovalsCasePlanPending(initialState)["primeromodule-cp"];
 
-      expect(values).to.deep.equal(fromJS(approvalsCasePlanPending));
+      expect(values).toEqual(fromJS(approvalsCasePlanPending));
     });
   });
 
   describe("getApprovalsClosurePending", () => {
     it("should return the approvals closure pending", () => {
-      const values = selectors.getApprovalsClosurePending(initialState);
+      const values = selectors.getApprovalsClosurePending(initialState)["primeromodule-cp"];
 
-      expect(values).to.deep.equal(fromJS(approvalsClosurePending));
+      expect(values).toEqual(fromJS(approvalsClosurePending));
     });
   });
 
@@ -411,7 +416,7 @@ describe("<Dashboard /> - Selectors", () => {
     it("should return the protection concerns data", () => {
       const values = selectors.getProtectionConcerns(initialState);
 
-      expect(values).to.deep.equal(fromJS(protectionConcern));
+      expect(values).toEqual(fromJS(protectionConcern));
     });
   });
 
@@ -419,7 +424,7 @@ describe("<Dashboard /> - Selectors", () => {
     it("should return the shared with me", () => {
       const values = selectors.getSharedWithMe(initialState);
 
-      expect(values).to.deep.equal(fromJS(sharedWithMe));
+      expect(values).toEqual(fromJS(sharedWithMe));
     });
   });
 
@@ -427,7 +432,7 @@ describe("<Dashboard /> - Selectors", () => {
     it("should return the shared with others", () => {
       const values = selectors.getSharedWithOthers(initialState);
 
-      expect(values).to.deep.equal(fromJS(sharedWithOthers));
+      expect(values).toEqual(fromJS(sharedWithOthers));
     });
   });
 
@@ -435,7 +440,7 @@ describe("<Dashboard /> - Selectors", () => {
     it("should return the group overview", () => {
       const values = selectors.getGroupOverview(initialState);
 
-      expect(values).to.deep.equal(fromJS(groupOverview));
+      expect(values).toEqual(fromJS(groupOverview));
     });
   });
 
@@ -443,7 +448,7 @@ describe("<Dashboard /> - Selectors", () => {
     it("should return the case overview", () => {
       const values = selectors.getCaseOverview(initialState);
 
-      expect(values).to.deep.equal(fromJS(caseOverview));
+      expect(values).toEqual(fromJS(caseOverview));
     });
   });
 
@@ -451,7 +456,7 @@ describe("<Dashboard /> - Selectors", () => {
     it("should return the case overview", () => {
       const values = selectors.getNationalAdminSummary(initialState);
 
-      expect(values).to.deep.equal(fromJS(nationalAdminSummary));
+      expect(values).toEqual(fromJS(nationalAdminSummary));
     });
   });
 
@@ -459,7 +464,7 @@ describe("<Dashboard /> - Selectors", () => {
     it("should return the shared with my team dashboard", () => {
       const values = selectors.getSharedWithMyTeam(initialState);
 
-      expect(values).to.deep.equal(fromJS(sharedWithMyTeam));
+      expect(values).toEqual(fromJS(sharedWithMyTeam));
     });
   });
 
@@ -467,7 +472,7 @@ describe("<Dashboard /> - Selectors", () => {
     it("should return the shared with my team dashboard", () => {
       const values = selectors.getSharedWithMyTeamOverview(initialState);
 
-      expect(values).to.deep.equal(fromJS(sharedWithMyTeamOverview));
+      expect(values).toEqual(fromJS(sharedWithMyTeamOverview));
     });
   });
 
@@ -475,7 +480,7 @@ describe("<Dashboard /> - Selectors", () => {
     it("should return the Overview - My Cases / Incidents dashboard", () => {
       const values = selectors.getCaseIncidentOverview(initialState);
 
-      expect(values).to.deep.equal(fromJS(myCasesIncidents));
+      expect(values).toEqual(fromJS(myCasesIncidents));
     });
   });
 
@@ -495,7 +500,7 @@ describe("<Dashboard /> - Selectors", () => {
           }
         ]);
 
-        expect(selectors.getDashboardFlags(initialState)).to.deep.equal(expected);
+        expect(selectors.getDashboardFlags(initialState)).toEqual(expected);
       });
     });
 
@@ -509,7 +514,7 @@ describe("<Dashboard /> - Selectors", () => {
           }
         ]);
 
-        expect(selectors.getDashboardFlags(initialState, true)).to.deep.equal(expected);
+        expect(selectors.getDashboardFlags(initialState, true)).toEqual(expected);
       });
     });
   });

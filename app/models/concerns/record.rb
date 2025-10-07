@@ -112,7 +112,7 @@ module Record
   def populate_subform_ids
     return unless data.present?
 
-    data.each do |_, value|
+    data.each_value do |value|
       next unless value.is_a?(Array) && value.first.is_a?(Hash)
 
       value.each do |subform|

@@ -27,8 +27,8 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/base - op
         css
       });
 
-      expect(form.unique_id).to.equal("field_form_options");
-      expect(form.fields).to.have.lengthOf(3);
+      expect(form.unique_id).toBe("field_form_options");
+      expect(form.fields).toHaveLength(3);
     });
 
     it("DEPRECATED should return the options form with passed fields", () => {
@@ -48,8 +48,8 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/base - op
       });
       const fieldNames = form.fields.map(field => field.name);
 
-      expect(form.unique_id).to.equal("field_form_options");
-      expect(fieldNames).to.not.equal(["custom_field_1"]);
+      expect(form.unique_id).toBe("field_form_options");
+      expect(fieldNames).not.toBe(["custom_field_1"]);
     });
   });
   describe("optionsTabs", () => {
@@ -62,11 +62,11 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms/base - op
       });
       const tabs = optionsTabs("test", i18n, fromJS({ isShow: false, isEdit: true }), field, fromJS([]));
 
-      expect(tabs).to.have.lengthOf(2);
-      expect(tabs[0].name).to.equal("fields.predifined_lookups");
-      expect(tabs[0].disabled).to.be.true;
-      expect(tabs[1].name).to.equal("fields.create_unique_values");
-      expect(tabs[1].disabled).to.be.false;
+      expect(tabs).toHaveLength(2);
+      expect(tabs[0].name).toBe("fields.predifined_lookups");
+      expect(tabs[0].disabled).toBe(true);
+      expect(tabs[1].name).toBe("fields.create_unique_values");
+      expect(tabs[1].disabled).toBe(false);
     });
   });
 });

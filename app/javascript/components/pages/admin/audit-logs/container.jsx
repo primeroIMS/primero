@@ -16,11 +16,13 @@ import IndexTable from "../../../index-table";
 import { useMetadata } from "../../../records";
 import { FiltersForm } from "../../../form-filters/components";
 import { filterOnTableChange, onSubmitFilters } from "../utils";
+import { selectAuditLogActions, selectAuditLogRecordTypes } from "../../../application/selectors";
 
-import { AUDIT_LOG, NAME, DEFAULT_FILTERS, TIMESTAMP, USER_NAME } from "./constants";
+import { AUDIT_LOG, NAME, DEFAULT_FILTERS, TIMESTAMP, USER_NAME, AUDIT_LOG_ACTIONS, RECORD_TYPE } from "./constants";
 import { fetchAuditLogs, fetchPerformedBy, setAuditLogsFilters } from "./action-creators";
 import { getFilterUsers } from "./selectors";
 import { buildAuditLogsQuery, getFilters } from "./utils";
+import LogMessageRenderer from "./components/log-description-message";
 
 function Container() {
   const i18n = useI18n();
@@ -30,21 +32,26 @@ function Container() {
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
   const filterUsers = useMemoizedSelector(state => getFilterUsers(state), compare);
   const currentFilters = useMemoizedSelector(state => getAppliedFilters(state, recordType));
+  const actions = useMemoizedSelector(state => selectAuditLogActions(state));
+  const recordTypes = useMemoizedSelector(state => selectAuditLogRecordTypes(state));
 
   const defaultFilters = fromJS(DEFAULT_FILTERS).merge(metadata).set("locale", i18n.locale);
 
   const onTableChange = filterOnTableChange(dispatch, fetchAuditLogs, setAuditLogsFilters);
 
+  useMetadata(recordType, metadata, fetchAuditLogs, "data");
+
   useEffect(() => {
+    dispatch(setAuditLogsFilters({ data: defaultFilters }));
     dispatch(fetchPerformedBy({ options: { per: 999 } }));
   }, []);
 
   const filterProps = {
-    clearFields: [USER_NAME, TIMESTAMP],
-    filters: getFilters(filterUsers),
+    clearFields: [USER_NAME, TIMESTAMP, AUDIT_LOG_ACTIONS, RECORD_TYPE],
+    filters: getFilters(filterUsers, i18n, actions, recordTypes),
     defaultFilters,
     onSubmit: data => {
-      const filters = typeof data === "undefined" ? {} : buildAuditLogsQuery(data);
+      const filters = typeof data === "undefined" ? defaultFilters : buildAuditLogsQuery(data);
       let queryParams = {};
 
       if (typeof data !== "undefined" && TIMESTAMP in data) {
@@ -53,16 +60,11 @@ function Container() {
         delete filters.timestamp;
       }
 
-      const newFilters =
-        typeof data === "undefined"
-          ? currentFilters.deleteAll([USER_NAME, "to", "from"])
-          : currentFilters.merge(filters).merge(queryParams);
+      const mergedFilters = currentFilters.merge(filters).merge(queryParams).set("page", 1);
 
-      onSubmitFilters(newFilters, dispatch, fetchAuditLogs, setAuditLogsFilters);
+      onSubmitFilters(mergedFilters, dispatch, fetchAuditLogs, setAuditLogsFilters);
     }
   };
-
-  useMetadata(recordType, metadata, fetchAuditLogs, "data");
 
   const columns = data => {
     return [
@@ -89,13 +91,9 @@ function Container() {
         name: "log_message",
         options: {
           sort: false,
-          customBodyRender: (value, { rowIndex }) => {
-            const prefix = value?.prefix?.approval_type
-              ? i18n.t(value?.prefix?.key, { approval_label: value?.prefix?.approval_type })
-              : i18n.t(value?.prefix?.key);
-
-            return `${prefix} ${i18n.t(`logger.resources.${data.getIn(["data", rowIndex, "record_type"])}`)}`;
-          }
+          customBodyRender: (value, { rowIndex }) => (
+            <LogMessageRenderer value={value} rowIndex={rowIndex} data={data} />
+          )
         }
       },
       {

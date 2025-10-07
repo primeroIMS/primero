@@ -93,7 +93,7 @@ class Report < ApplicationRecord
   def write_result(result, data_hash)
     field_queries.reduce(data_hash) do |acc, field_query|
       fill_lookup_rows(acc, field_query.field) unless exclude_empty_rows?
-      value = result[field_query.column_name.delete('"')]
+      value = result[field_query.column_alias.delete('"')]
       break if value.blank?
 
       write_field_data(acc, value, result)
@@ -145,9 +145,15 @@ class Report < ApplicationRecord
   def join_nested_model
     model.parent_record_type.joins(
       ActiveRecord::Base.sanitize_sql_for_conditions(
-        ["CROSS JOIN jsonb_array_elements(data->'%s') as %s", model.record_field_name, model.record_field_name]
+        ["CROSS JOIN jsonb_array_elements(data->'%s') as %s", model.record_field_name, nested_model_alias]
       )
     )
+  end
+
+  def nested_model_alias
+    return unless model.respond_to?(:parent_record_type)
+
+    model.record_field_name.split('_').map(&:first).join
   end
 
   def group_by_fields
@@ -155,11 +161,11 @@ class Report < ApplicationRecord
   end
 
   def column_names
-    @column_names ||= field_queries.map(&:column_name)
+    @column_names ||= field_queries.map(&:column_alias)
   end
 
   def sort_fields
-    @sort_fields ||= field_queries.map(&:sort_field)
+    @sort_fields ||= field_queries.map(&:sort_alias)
   end
 
   def field_queries
@@ -187,14 +193,11 @@ class Report < ApplicationRecord
     )
   end
 
-  def primary_age_ranges
-    SystemSettings.primary_age_ranges(PrimeroModule.primary_age_range(module_id))
-  end
-
   def build_numeric_field_query(field)
     args = { field:, record_field_name: record_field_name(field) }
+    range = AgeRangeService.primary_age_ranges(module_id)
 
-    args = args.merge(range: primary_age_ranges, abrreviate_range: true) if age_field?(field) && group_ages?
+    args = args.merge(range:, abrreviate_range: true) if age_field?(field) && group_ages?
 
     Reports::FieldQueries::NumericFieldQuery.new(args)
   end
@@ -204,11 +207,10 @@ class Report < ApplicationRecord
   end
 
   def record_field_name(field)
-    record_field_name = model.try(:record_field_name)
-    return unless record_field_name.present?
+    return unless nested_model_alias.present?
     return if model.parent_record_type.minimum_reportable_fields.values.flatten.include?(field.name)
 
-    record_field_name
+    nested_model_alias
   end
 
   def apply_filters(query)
@@ -220,7 +222,8 @@ class Report < ApplicationRecord
       search_filters.each { |filter| filter_query = filter_query.where(filter.query) }
     end
 
-    apply_permission_filter(filter_query)
+    filter_query = apply_permission_filter(filter_query)
+    apply_module_filter(filter_query)
   end
 
   def apply_filters_for_nested_model(query)
@@ -236,6 +239,10 @@ class Report < ApplicationRecord
     return query unless permission_filter.present?
 
     query.where(Reports::FilterFieldQuery.build(permission_filter:))
+  end
+
+  def apply_module_filter(query)
+    query.where(srch_module_id: module_id)
   end
 
   def age_field?(field)

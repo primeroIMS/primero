@@ -1,14 +1,16 @@
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 aeb:
   permissions:
     permission:
-      export_incident_recorder_xls: "تصدير سجل الحوادث xls"
+      export_incident_recorder_xls: "نزّل سجل الحوادث xls"
   exports:
     incident_recorder_xls:
-      all: سجل الحوادث
-      one: سجل الحوادث
-      selected: 'تم اختياره لسجل الحوادث '
-      'yes': "نعم"
-      'no': "لا"
+      all:  سجل الحوادث
+      one:  سجل الحوادث
+      selected:  "تم اختياره لسجل الحوادث "
+      "yes": "نعم"
+      "no": "لا"
       gender:
         male: "ذكر"
         female: "أنثى"
@@ -23,7 +25,7 @@ aeb:
         minor: "قاصر"
         both: "شخص بالغ وشخص قاصر "
         unknown: "غير معروف"
-        header: "نوع عمر الجاني المزعوم"
+        header: "سن الجاني المزعوم"
       service_referral:
         undecided: "غير مقرّر"
       headers:
@@ -45,7 +47,7 @@ aeb:
         time_of_day: "الوقت من اليوم الذي وقعت فيه الحادثة"
         location: "موقع الحادثة"
         county: "المقاطعة"
-        district: "الحي"
+        district: "المعتمدية حيث حصل الحادث"
         camp_town: "المخيم / البلدة"
         camp: "المخيم"
         gbv_type: "نوع العنف القائم على اساس النوع الاجتماعي"
@@ -61,7 +63,7 @@ aeb:
           relationship: "علاقة الجاني المزعوم مع الناجية"
           occupation: "مهنة الجاني المزعوم"
           age_group: "الفئة العمرية للجاني المزعوم"
-          age_type: "نوع عمر الجاني المزعوم"
+          age_type: "سن الجاني المزعوم"
         service:
           referred_from: "نموذج الإحالة إليك؟"
           safehouse_referral: "بيت آمن / مأوى"

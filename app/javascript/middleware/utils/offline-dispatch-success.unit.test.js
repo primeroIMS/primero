@@ -1,9 +1,14 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { spy, createMockStore } from "../../test-utils";
+import { createMockStore } from "../../test-utils";
 
 import offlineDispatchSuccess from "./offline-dispatch-success";
-import * as handleRestCallback from "./handle-rest-callback";
+import handleRestCallback from "./handle-rest-callback";
+
+jest.mock("./handle-rest-callback", () => ({
+  __esModule: true,
+  default: jest.fn()
+}));
 
 describe("middleware/utils/offline-dispatch-success.js", () => {
   const { store } = createMockStore();
@@ -14,27 +19,25 @@ describe("middleware/utils/offline-dispatch-success.js", () => {
   };
 
   let dispatch;
-  let handleRestCallbackSpy;
 
   beforeEach(() => {
-    dispatch = spy(store, "dispatch");
-    handleRestCallbackSpy = spy(handleRestCallback, "default");
+    dispatch = jest.spyOn(store, "dispatch");
   });
 
   afterEach(() => {
-    dispatch.restore();
-    handleRestCallbackSpy.restore();
+    jest.resetModules();
+    jest.resetAllMocks();
   });
 
-  it("dispatch success and callbacks", () => {
+  it("dispatch success and callbacks", async () => {
     offlineDispatchSuccess(store, { type: "test-action", api: { path: "/" } }, payload);
 
-    expect(handleRestCallbackSpy).to.have.been.calledWith(store, undefined, null, payload, undefined);
-    expect(dispatch.getCall(0).returnValue).to.deep.equal({
+    expect(handleRestCallback).toHaveBeenCalledWith(store, undefined, null, payload, undefined);
+    expect(dispatch.mock.calls[0][0]).toEqual({
       payload,
       type: "test-action_SUCCESS"
     });
-    expect(dispatch.getCall(1).returnValue).to.deep.equal({
+    expect(dispatch.mock.calls[1][0]).toEqual({
       type: "test-action_FINISHED",
       payload: true
     });

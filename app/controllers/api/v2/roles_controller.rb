@@ -47,7 +47,7 @@ class Api::V2::RolesController < ApplicationApiController
   end
 
   def per
-    @per ||= (params[:per]&.to_i || 100)
+    @per ||= params[:per]&.to_i || 100
   end
 
   protected

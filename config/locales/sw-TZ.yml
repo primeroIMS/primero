@@ -672,7 +672,6 @@ sw-TZ:
     dash_shared_from_my_team: Lililotumwa kutoka kwenye timu yangu
     dash_shared_with_me: Yaliyotumwa kwangu
     dash_shared_with_my_team: Yaliyotumwa na timu yangu
-    dash_shared_with_my_team_overview: Yaliyotumwa na timu yangu (Muhtasari)
     dash_shared_with_others: 'Yaliotumwa kwa wengine '
     dash_national_admin_summary: Muhtasari wa Msimamizi
     dash_violations_category_verification_status: 'Idadi ya matukio yaliyohakikiwa '
@@ -775,15 +774,8 @@ sw-TZ:
     shared_from_my_team_pending_transfers: Uhamisho Unaosubiri
     shared_from_my_team_referrals: Rufaa
     shared_from_my_team_rejected_transfers: Uhamisho Uliokataliwa
-    shared_with_me_new_referrals: Rufaa Mpya
-    shared_with_me_total_referrals: Jumla ya Rufaa
-    shared_with_me_transfers_awaiting_acceptance: Uhamisho Unaosubiri Kukubaliwa
-    shared_with_my_team_pending_transfers_overview: Uhamisho unaosubiri kukubaliwa
     shared_with_my_team_pending_transfers: Uhamisho Unaosubiri
     shared_with_my_team_referrals: Rufaa
-    shared_with_others_pending_transfers: Uhamisho Unaosubiri
-    shared_with_others_referrals: Rufaa
-    shared_with_others_rejected_transfers: Uhamisho Uliokataliwa
     status_of_cases: 'Hali ya Kesi '
     system_user: Mfumo
     total: 'Jumla '
@@ -813,23 +805,13 @@ sw-TZ:
   email_notification:
     assign: '%{user}Amekukabidhi yafuatayo %{record_type}%{record_id}'
     assign_subject: '%{record_type}%{id}Umekabidhiwa'
-    approval_request: 'Mtumiaji%{user} anaomba idhini ya kuthibitisha%{approval_type}  shauri%{case_id}'
     approval_request_subject: 'Shauri %{id}Ombi la kuthibitisha'
-    approval_response: '%{user}ana%{status} ombi la kuthibitishwa %{approval_type}shauri%{case_id}'
     approval_response_subject: 'Shauri %{id}Majibu ya uthibitisho'
     referral: '%{user} kutoka %{agency}ameleta rufaa ya wafuatao %{record_type}kwako. %{record_id}kwa ajili ya %{service_type}'
     transfer: '%{user}amewahamisha wafuatao%{record_type} kuja kwako%{record_id}'
     transfer_request_subject: Ombi la Uhamisho wa moja kati ya mashauri yako
-    transfer_subject: '%{record_type}%{id}- Uhamisho'
-    referral_subject: '%{record_type}%{id}Rufaa'
     transfer_request: 'Mtumiaji wa Primero %{user} kutoka %{agency}anaomba umiliki wa  uhamisho wa %{record_type}wa rekodi %{record_id}ili waweze kutoa  huduma za usimamizi za %{record_type}  katika eneo lao. Ikiwa uhamisho huu unakubalika kwako, tafadhali bonyeza %{record_type}kwenye kiungo cha utambulisho katika barua pepe hii ili kufungua %{record_type}Primero na kuanza uhamisho.'
     approval_request_html: 'Mtumiaji <strong>%{user}</strong>anaomba ruhusa ya uthibitisho wa <strong>%{approval_type}</strong> shauri <strong>%{case_id}</strong>'
-    approval_response_html: '<strong>%{user}</strong>ana <strong>%{status}</strong> ombi la kuthibitishwa kwa <strong>%{approval_type}</strong>shauri <strong>%{case_id}</strong>'
-    referral_html: '<strong>%{user}</strong>kutoka%{agency}ameleta yafuatayo %{record_type} kwako<strong>%{record_id}</strong>kwa %{service_type}'
-    transfer_html: '<strong>%{user}</strong>amehamisha yafuatayo %{record_type} kwako <strong>%{record_id}</strong>'
-    assign_html: '<strong>%{user}</strong>ameleta yafuatayo %{record_type} kwako<strong>%{record_id}</strong>'
-    transfer_request_html: 'Mtumiaji wa Primero <strong>%{user}</strong>kutoka %{agency}anakuomba uhamisho wa umiliki wa %{record_type}rekodi<strong>%{record_id}</strong>ili waweze kutoa huduma za usimamizi za%{record_type} kwa watu binafsi katika maeneo yao . Ikiwa utaukubali uhamisho huu bonyeza %{record_type}kwenye Kiungo cha Kitambulisho katika baruapepe hii ili kufungulia %{record_type}Primero na kuanza uhamisho.'
-    transfer_request_notes_html: 'Maelezo ya mtu anaefanya maomba %{request_transfer_notes}'
     alert: '%{record_type}%{id}%{form_name}Imeshaboreshwa. Tafadhali ingia kwenye Primero kwa ajili ya kuona mabadiliko'
     alert_subject: '%{record_type}:%{id}-%{form_name} Lililoboreshwa'
   webpush_notification:
@@ -1824,7 +1806,6 @@ sw-TZ:
       user: Mtumiaji
       agency: Taasisi
       user_group: Kundi la watumiaji
-      child: Mtoto
       alert: Tahadhari
       form_section: Fomu
       lookup: 'Tafuta '
@@ -3508,40 +3489,21 @@ sw-TZ:
     welcome_email:
       subject: 'Karibu kwenye%{system}'
       greeting: 'Karibu kwenye%{system}'
-      body_native: 'Umeongezwa kama ni %{role_name}Tafadhali wasiliana na %{admin_full_name}(%{admin_email}) kwa maelekezo ya ufuatiliaji ili kuanza kuyafanyia kazi%{host}'
       sso:
         body: 'Umeingizwa kama%{role_name}'
-        step1: 'Nenda%{host}na ubonyeze%{identity_provider}'
-        step2: 'Ingia kwa%{identity_provider}akaunti yako%{user_name}'
-        step3: 'Tumia nenosiri hilo hilo unalotumia siku zote %{identity_provider}kwa akaunti yako'
-        footer: 'Tafadhali wasiliana na %{admin_full_name}(%{admin_email})kwa maelezo zaidi.'
       otp:
         body: 'Umeongezwa kama %{role_name}'
-        step1: 'Tafadhali wasiliana %{admin_full_name}(%{admin_email}) kupokea nenosiri lako'
-        step2: 'Nenda%{host}na ubonyeze "Ingia kwa kutumia jina la mtumiaji la Primero'''
-        step3: 'Ingia kwa kutumia jina lako la mtumiaji na nenosiri la muda%{otp}'
-        step4: 'Utakapo hamasishwa, weka upya nenosiri lako'
       url_label: Primero
       enabled_label: Kutuma Baruapepe ya Kukaribisha?
       text_label: Maandishi ya Baruapepe ya Kukaribisha
     password_reset:
       subject: 'Weka upya maagizo ya nenosiri'
-      email_greeting: "Mpenzi / Mpendwa%{full_name}"
-      email_body1: "Mtu mmoja alileta ombi la kuwekwa nenosiri lako kwa %{host_href}. Bonyeza url hapo chini ili uweze kuanza"
-      email_body2: "Kiungo hiki kitamalizika muda wake baada ya saa%{hours}na inaweza kutumika mara moja tu. Tafadhali ipuuze baruapepe hii ikiwa hukuleta ombi la kuweka upya nenosiri au mtumiaji mpya wa Primero ambaye hajasajiliwa kwa niaba yako. Ikiwa kiungo cha hapo juu kimemalizika muda wake, tafadhali bonyeza %{reset_request_href}kuwasilisha tena ombi lako la kuweka upya nenosiri ."
       email_body_link: Hapa
       request_submitted: "Ombi la kuweka upya nenosiri limewqasilishwa"
       success: "Nenosiri limebadilishwa kwa ufanisi"
       errors:
         reset_password_token: "Ishara batili ya kuweka upya nenosiri"
         password_confirmation: "Nenosiri ni lazima lilingane"
-    onboard_email:
-      subject: "Kwenyekupanda kwa%{system}"
-      greeting: "Mpenzi%{full_name}"
-      body1: "Karibu Primero!"
-      body2: "Umeteuliwa kuwa msimamizi wa utekelezaji wa%{host_href}%{reset_notification}"
-      body2_reset_notification: "Utapokea baruapepe ya ziada ikikutaka uweke upya nenosiri lako"
-      body3: "Unao wajibu wa kuhakikisha utekelezaji salama na kwa wakati.  Kwa kila uchapishaji unapaswan uwe umekamilisha mpango wa utekelezaji pamoja na onboarding na mkakati wa usimamizi wa mtumiaji na itifaki ya kubadilishana habari. Unawajibu pia wa kuhakikisha kuwa sheria na masharti ya matumizi yako kwenye faili kwa mashirika yote ya watumiaji"
   user_group:
     associated_agencies: Mashirika yanayohusiana na Kikundi cha Watumiaji
     description: Maelezo

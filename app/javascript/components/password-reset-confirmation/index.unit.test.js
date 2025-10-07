@@ -7,9 +7,9 @@ describe("pages/admin - index", () => {
 
   it("should have known properties", () => {
     ["default", "NAME"].forEach(property => {
-      expect(indexValues).to.have.property(property);
+      expect(indexValues).toHaveProperty(property);
       delete indexValues[property];
     });
-    expect(indexValues).to.be.empty;
+    expect(Object.keys(indexValues)).toHaveLength(0);
   });
 });

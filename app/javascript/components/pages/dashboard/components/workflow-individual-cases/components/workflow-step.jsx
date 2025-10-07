@@ -14,10 +14,10 @@ import css from "../styles.css";
 
 import { NAME } from "./constants";
 
-function WorkFlowStep({ step = {}, casesWorkflow = fromJS({}), i18n }) {
+function WorkFlowStep({ step = {}, casesWorkflow = fromJS({}), i18n, moduleID }) {
   const dispatch = useDispatch();
 
-  const workflowData = casesWorkflow.getIn(["indicators", "workflow", step.id], fromJS({}));
+  const workflowData = casesWorkflow.getIn(["indicators", `workflow_${moduleID}`, step.id], fromJS({}));
   const count = workflowData.get("count", 0);
   const query = workflowData.get("query", fromJS({}));
 
@@ -49,6 +49,7 @@ WorkFlowStep.displayName = NAME;
 WorkFlowStep.propTypes = {
   casesWorkflow: PropTypes.object,
   i18n: PropTypes.object,
+  moduleID: PropTypes.string,
   step: PropTypes.object
 };
 

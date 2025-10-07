@@ -11,22 +11,19 @@ describe("<Dashboard /> - Reducers", () => {
   const nsReducer = reducer.dashboard;
   const initialState = fromJS({});
 
-  it("should handle DASHBOARDS_STARTED", () => {
-    const expected = fromJS({
-      loading: true,
-      errors: false
-    });
+  it("should handle DASHBOARD_OVERVIEW_STARTED", () => {
+    const expected = fromJS({ overview: { loading: true, errors: false } });
     const action = {
-      type: actions.DASHBOARDS_STARTED,
+      type: actions.DASHBOARD_OVERVIEW_STARTED,
       payload: true
     };
 
     const newState = nsReducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
-  it("should handle DASHBOARDS_SUCCESS", () => {
+  it("should handle DASHBOARD_OVERVIEW_SUCCESS", () => {
     const data = [
       {
         name: "dashboard.case_risk",
@@ -47,46 +44,38 @@ describe("<Dashboard /> - Reducers", () => {
         }
       }
     ];
-    const expected = fromJS({
-      data
-    });
+    const expected = fromJS({ overview: { data } });
     const action = {
-      type: actions.DASHBOARDS_SUCCESS,
-      payload: {
-        data
-      }
+      type: actions.DASHBOARD_OVERVIEW_SUCCESS,
+      payload: { data }
     };
     const newState = nsReducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
-  it("should handle DASHBOARDS_FINISHED", () => {
-    const expected = fromJS({
-      loading: false
-    });
+  it("should handle DASHBOARD_OVERVIEW_FINISHED", () => {
+    const expected = fromJS({ overview: { loading: false } });
     const action = {
-      type: actions.DASHBOARDS_FINISHED,
+      type: actions.DASHBOARD_OVERVIEW_FINISHED,
       payload: false
     };
 
     const newState = nsReducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
-  it("should handle DASHBOARDS_FAILURE", () => {
-    const expected = fromJS({
-      errors: true
-    });
+  it("should handle DASHBOARD_OVERVIEW_FAILURE", () => {
+    const expected = fromJS({ overview: { errors: true, loading: false } });
     const action = {
-      type: actions.DASHBOARDS_FAILURE,
+      type: actions.DASHBOARD_OVERVIEW_FAILURE,
       payload: true
     };
 
     const newState = nsReducer(initialState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle user/LOGOUT_SUCCESS", () => {
@@ -100,6 +89,6 @@ describe("<Dashboard /> - Reducers", () => {
 
     const newState = nsReducer(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

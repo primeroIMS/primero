@@ -14,22 +14,24 @@ describe("<SharedFromMyTeam> - pages/dashboard/components/shared-from-my-team", 
   const state = fromJS({
     records: {
       dashboard: {
-        data: [
-          {
-            name: "dashboard.dash_shared_from_my_team",
-            type: "indicator",
-            indicators: {
-              shared_from_my_team_referrals: {},
-              shared_from_my_team_pending_transfers: {
-                primero_cp: {
-                  count: 1,
-                  query: ["record_state=true", "status=open", "transfer_status=in_progress", "owned_by_groups=[1]"]
-                }
-              },
-              shared_from_my_team_rejected_transfers: {}
+        shared_from_my_team: {
+          data: [
+            {
+              name: "dashboard.dash_shared_from_my_team",
+              type: "indicator",
+              indicators: {
+                shared_from_my_team_referrals: {},
+                shared_from_my_team_pending_transfers: {
+                  primero_cp: {
+                    count: 1,
+                    query: ["record_state=true", "status=open", "transfer_status=in_progress", "owned_by_groups=[1]"]
+                  }
+                },
+                shared_from_my_team_rejected_transfers: {}
+              }
             }
-          }
-        ]
+          ]
+        }
       }
     },
     user: {
@@ -63,23 +65,9 @@ describe("<SharedFromMyTeam> - pages/dashboard/components/shared-from-my-team", 
   });
 
   describe("when the data is loading", () => {
-    const props = {
-      loadingIndicator: {
-        overlay: true,
-        type: "NAMESPACE",
-        loading: true,
-        errors: false
-      }
-    };
-
     it("renders a <LoadingIndicator />", () => {
-      mountedComponent(<SharedFromMyTeam {...props} />, {
-        records: {
-          dashboard: {
-            data: [],
-            loading: true
-          }
-        },
+      mountedComponent(<SharedFromMyTeam />, {
+        records: { dashboard: { shared_from_my_team: { data: [], loading: true } } },
         user: {
           permissions
         }

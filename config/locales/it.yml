@@ -1,0 +1,984 @@
+it:
+  'true': 'Si'
+  'false': 'No '
+  accepted: 'Accettato '
+  cancel: Annulla
+  connection_lost: Attualmente in modalità offline
+  field_mode_offline: Attualmente in modalità offline
+  connected: Connesso
+  no_connection: Nessuna connessione
+  clear: Cancella
+  sandbox_ui: Demo
+  description: Descrizione
+  form: Modulo
+  minimum_reportable_fields: "Campi minimi obbligatori %{record_type}"
+  name: Nome
+  offline: Offline
+  field_mode: "Modalità Field: %{mode}"
+  field_mode_on: "On"
+  field_mode_off: "Off"
+  unavailable_offline: Non disponibile offline
+  online: Online
+  yes_label: 'Si'
+  or_label: o,
+  select_provider: Seleziona il fornitore
+  select_language: Seleziona la lingua
+  log_in_primero_idp: log in con username %{idp_name}
+  offline_submitted_changes: Attualmente sei offline. Le modifiche verranno inviate non appena tornerai online.
+  updated: Aggiornato
+  go: Vai
+  select_idp_error: Selezionare un fornitore
+  sync:
+    success: "Record %{records} salvato con successo."
+    error:
+      create: '%{record_type} non creato. Contattare il supporto.'
+      update: Aggiornamento fallito %{record_type}%{short_id}. Contattare il supporto.
+  actions:
+    approvals: Approvazioni
+    button: Azioni
+    close: Chiuso
+    description:
+      invalid: Contenuto non valido
+      valid: Contenuto valido
+    disable: Disattivare
+    enable: Attivare
+    next: Prossimo
+    notes: Aggiungi note
+    previous: Precedente
+    reopen: Riaprire
+    request_approval: Richiesta di approvazione
+    save: Salva
+    mark_for_offline: Contrassegna per offline
+  agencies:
+    label: Agenzia
+  agency:
+    description: Descrizione
+    disabled: Disabilitato
+    label: Agenzia
+    terms_of_use: Termini di uso
+  audit_log:
+    action: Azione
+    description: Descrizione
+    record_owner: Proprietario della registrazione
+    timestamp: Tempo
+    user_name: Eseguito da
+    type: Tipologia di registrazione
+  bulk_export:
+    file_name: Fascicolo
+    record_type: Tipologia
+    retry: Questa esportazione non è valida. Si prega di provare a ricreare l'esportazione.
+    started_on: Avviato
+    status: Status
+  buttons:
+    add: Aggiungi
+    add_note: Aggiungi note
+    apply: Applica
+    cancel: Annulla
+    change_password: Modifica Password
+    check_status: Controllare lo status
+    clear_default: Cancella predefinito
+    clear_selection: Cancella selezione
+    clear: Cancella
+    close: Chiudi
+    continue: Continua
+    create_case: Crea caso
+    referral_create_case: Crea caso %{module_id}
+    create_new_record: Crea nuovo %{model}
+    delete: Elimina
+    disable: Disattiva
+    disable_photo_wall: Disattiva bacheca foto
+    done: Eseguito
+    download: Scarica
+    edit: Modifica
+    edit_subform: Modifica sottomodulo
+    enable: Abilita
+    enable_photo_wall: Abilita bacheca foto
+    export: Esporta
+    filter: Applica filtro
+    filter_clear: Azzera filtri
+    filter_label: 'Filtro:'
+    filter_restore: Ripristina le impostazioni di sistema
+    find_tracing_match: Trova corrispondenza traccia
+    flag_model: Contrassegno %{model}
+    flag_records: Contrassegno
+    flags: Contrassegno
+    guidance: Linee guida
+    guiding_questions: Domande guida
+    import: Importa
+    login: Log in
+    logout: Disconnettiti
+    link: Collegamento
+    mark_for_mobile: Contrassegna per dispositivi mobili
+    new: Nuovo
+    ok: OK
+    print: Stampa
+    save: Salva
+    save_and_return: Salva e torna indietro
+    save_continue: Salva e continua
+    save_changes: Salva modifiche
+    select: Seleziona
+    send: Invia
+    sort_by_case: Casi
+    sync: Sincronizza
+    submit: Inoltra
+    unmark_for_mobile: Deseleziona per dispositivi mobili
+    update: Aggiornamento
+    view: Visualizza
+    view_flags_history: Visualizza cronologia
+    return_to_case: Torna al caso
+    enable_webpush: Notifiche del dispositivo
+    dialog_yes: "Sì"
+  resync_records:
+    id: ID
+    record_type: Tipo di documento
+    action: Azione
+    date: Data
+    last_attempt: Ultimo tentativo
+    create: Crea
+    update: Aggiornamento
+    resync: Inoltra
+  case:
+    label: Caso
+    create_new_case: Crea nuovo caso
+    create_case: Crea caso
+    create: Crea
+    add_new: Aggiungi nuovo
+    back_to_family_details: Torna ai dettagli della famiglia
+    back_to_case: Torna al caso
+    back_to_results: Torna ai risultati
+    back_to_search: Torna alla ricerca
+    search_by: Cerca per
+    search_for: Cerca %{record_type}
+    results: Risultati
+    details: Dettagli
+    select: Seleziona
+    deselect: Deseleziona
+    enter_id_number: Inserisci il numero ID per cercare un file esistente
+    messages:
+      creation_success: 'Scheda creata con successo'
+      introductory_sentence: Si prega di specificare il consenso dell'interessato a ricevere i servizi di gestione dei casi e alla conservazione dei propri dati in Primero.
+      consent_agreements_required: Seleziona almeno un'opzione dagli accordi di consenso.
+      legitimate_basis_required: Selezionare almeno un'opzione dalle classificazioni delle basi legittime.
+      confirm_create_case: Vuoi creare un "caso" per questa persona?
+    save: Salva caso
+    save_text: Prima di continuare, salva le modifiche apportate al caso.
+    skip_and_create: Salta e crea un nuovo caso
+    search_existing: Cerca casi esistenti
+    search_helper_text: Perché? Per prevenire la duplicazione di casi già esistenti
+    consent_agreements: Seleziona utti gli accordi di consenso applicabili
+    legitimate_basis: Seleziona tutte le classificazioni di base legittime applicabili.
+    workflow:
+      closed: Chiuso
+      created_on: Creato il
+      in_progress: in corso
+      new: Nuovo
+      on_label: 'su'
+      reopened: Riaperto
+  cases:
+    action_plan: Piano di azione
+    access_denied: "Non hai accesso a questo caso."
+    age: Età
+    age_estimated: Età stimata?
+    agency: Agenzia
+    apply_filter: Applica
+    approval_comments: Commenti
+    approval_radio: Mi piacerebbe
+    child_functioning:
+      date: "Data"
+      age: "Età"
+    clear_filter: Cancella
+    export: Esporta
+    mark_for_offline:
+      title: Contrassegna per offline
+    filter_by:
+      3month_inactivity: Non aggiornato da 3+ mesi
+      age_range: Fasce di età
+      agency: Agenzia
+      by_date: Per Data
+      current_location: Posizione Attuale
+      date: Data
+      district: Comune
+      duplicate: Doppione
+      enabled_disabled: Abilitato / Disabilitato
+      female: Femmina
+      flag: 'Contrassegnato '
+      high: Alto
+      low: Basso
+      male: Maschio
+      medium: Medio
+      mobile_label: Contrassegna per offline
+      my_cases: I miei casi
+      no_activity: Nessuna attività registrata
+      open: Aperto
+      other: Altro
+      photo: Foto
+      registration_date: Data di registrazione
+      risk_level: Livello di rischio
+      sex: Sesso
+      social_worker: Campo/Caso/Operatore
+      workflow: Casi per flusso di lavoro
+      module_id: Modulo
+    full_name: Nome Completo
+    label: Casi
+    location_current: Posizione
+    name: Nome
+    notes_dialog_title: Aggiungi note
+    notes_form_notes: Note
+    order_by:
+      name: Nome
+    photo: Foto
+    photos: Foto
+    register_new_case: Nuovo Caso
+    registration_date: Data di registrazione
+    save_filter: Salva
+    sex: Sesso
+    social_worker: Operatore
+  children:
+    selectable_date_options:
+      registration_date: Data di registrazione
+  configurations:
+    attributes:
+      description: Descrizione
+      name: Nome
+  contact:
+    field:
+      location: Posizione
+      name: Nome
+      organization: Organizzazione
+      other_information: Altre informazioni
+      phone: Telefono
+      support_forum: Forum di Supporto
+    info_label: Informazioni di contatto
+  code_of_conduct:
+    info_label: Codice di condotta
+  dashboard:
+    action_needed:
+      header: Richiesta azione
+      new: Nuovo
+      cases: Casi
+    cases_by_social_worker_total: Totale
+    cases_by_social_worker_new_or_updated: Nuovo e aggiornato
+    case_id: 'Caso #ID'
+    case_management_service: Servizio di gestione del caso
+    case_overview: I miei casi
+    case_plan: Piano del caso
+    case_risk: Casi per livello di valutazione
+    case_stats: Casi
+    case_worker: Referente del caso
+    cases_by_social_worker: Casi gestiti dall’operatore
+    cases_by_task_overdue: Attività scadute
+    cases_by_workflow: Casi per flusso di lavoro
+    cases_this_week: Casi di questa settimana
+    cases_to_assign: Casi da assegnare
+    closed: Chiuso
+    closed_last_week: Chiuso (la settimana scorsa)
+    closed_this_week: Chiuso (questa settimana)
+    current_owner: Propietario attuale
+    dash_case_incident_overview: I miei casi
+    dash_group_overview: I casi del mio gruppo
+    dash_shared_from_my_team: Condiviso dal mio team
+    dash_shared_with_me: Condiviso con me
+    dash_shared_with_my_team: Condiviso con il mio team
+    dash_shared_with_my_team_overview: Condiviso con il mio team
+    dash_shared_with_others: Condiviso con altri
+    dash_national_admin_summary: Riepilogo amministratore
+    date: Data
+    flagged: 'Contrassegnato '
+    flagged_by: 'Contrassegnato da'
+    flagged_by_me: Contrassegnato da me
+    flagged_by_other: Contrassegnato da qualcun altro
+    group_overview_closed: Chiuso
+    group_overview_open: Aperto
+    high_level: Alta
+    high_risk: Alta priorità
+    immediate_response: Risposta immediata
+    in_progress: In corso
+    low_level: Basso
+    medium_level: Medio
+    name: Nome
+    new_or_updated: Nuovo o Aggiornato
+    registration: Data di registrazione
+    shared_with_me_new_referrals: Nuovo
+    shared_with_me_total_referrals: Totale
+    shared_with_others_referrals: Totale
+    total: Totale
+    total_cases: Casi Totali
+  disabled:
+    status:
+      disabled: Disabilitato
+      enabled: Abilitato
+  webpush_notification:
+    action_label: Vai al caso
+  encrypt:
+    export_type: Tipologia di esportazione
+    file_name: Crea un nome di file personalizzato (facoltativo)
+    password_extra_info: La password deve contenere almeno 8 caratteri. Questa password sarà associata al file esportato e dovrà essere inserita da chiunque apra il file in futuro.
+    password_label: Inserire una password per criptare il documento
+  error_message:
+    error_401: Sei stato stato disconnesso. Effettuare nuovamente il login.
+    error_something_went_wrong: Qualcosa è andato storto.
+  error_page:
+    not_authorized:
+      server_error: Non sei autorizzato ad accedere a questa pagina.
+      title: Non autorizzato
+    not_found:
+      contact_admin: Se ritieni di essere qui per errore, contatta il tuo amministratore.
+      something_went_wrong: Ci dispiace, qualcosa è andato storto!
+  errors:
+    api:
+      internal_server: Errore del server
+    attachments:
+      maximum: Hai raggiunto il numero massimo di allegati per fascicolo.
+    error_loading: Errore nel caricamento del/dei fascicolo/i
+    models:
+      agency:
+        code_present: non deve essere vuoto
+        logo_format: Il file dovrebbe essere in png
+        terms_of_use_format: Il file dovrebbe essere in png
+        name_present: non deve essere vuoto
+      child:
+        age: L'età deve essere compresa tra 0 e 130.
+        date_of_birth: Inserisci una data di nascita valida per il fascicolo di questo caso.
+      export_configuration:
+        opt_out_field_does_not_exist: Il campo opt_out specificato non esiste nel fascicolo.
+        record_type: Tipo di fascicolo non valido. Deve essere Minore, Richiesta di tracciamento o Incidente.
+      field:
+        translated_options_do_not_match: Le opzioni tradotte nei campi devono avere gli stessi IDs
+      location:
+        admin_level_present: non deve essere vuoto
+        code_present: non deve essere vuoto
+        name_present: non deve essere vuoto
+        unique_location_code: Esiste già una posizione con quel codice posizione, inserisci un codice posizione diverso.
+      lookup:
+        being_used: Questa ricerca è utilizzata e non può essere cancellata.
+        name_present: Il nome non deve essere vuoto
+        values_ids_blank: Nessuna opzione selezionata
+      primero_module:
+        associated_record_types: A questo modulo deve essere associato almeno un tipo di fascicolo.
+        form_section_ids: Almeno un modulo deve essere associato
+        name_present: Il nome non deve essere vuoto
+        unique_name: Esiste già un modulo con questo nome, si prega di inserire un nome diverso.
+      report:
+        module_presence: Il modulo non deve essere vuoto
+        module_syntax: Tutti i moduli di report devono essere già esistenti
+        name_presence: Il nome non deve essere vuoto
+      role:
+        permission_presence: Si prega di inserire almeno uno dei permessi
+      user:
+        email: "Inserire una e-mail valida (ad esempio: 'name@example.org')."
+        password_mismatch: I campi password non coincidono
+        password_length: La password deve essere composta da almeno %{min} caratteri
+        email_uniqueness: Un utente con questo indirizzo e-mail esiste già. Si prega di inserirne uno diverso
+      code_of_conduct:
+        title_present: Il titolo non deve essere vuoto
+        content_present: Il contenuto non deve essere vuoto
+        created_by_present: '"Creato da" non deve essere vuoto'
+      webpush_subscription:
+        notification_url_present: notification_url non deve essere vuoto
+        notification_url_format: notification_url deve avere un formato URL
+        auth_present: '"Autorizzazione" non deve essere vuoto'
+        p256dh_present: p256dh non deve essere vuoto
+    not_found: Nessun fascicolo trovato
+    try_again: Riprova
+  exports:
+    case_pdf:
+      all: PDF
+      one: PDF
+      selected: Selezionato in PDF
+    csv:
+      all: CSV
+      one: CSV
+      selected: Selezionato in CSV
+    custom:
+      all: Personalizzato
+    custom_exports:
+      all: Personalizzato
+      choose_fields: Desideri selezionare singoli campi per un modulo?
+      empty_fields_forms: Seleziona alcuni moduli o campi da esportare.
+      empty_format: Seleziona un formato da esportare.
+      empty_module: Seleziona un formato da esportare.
+      empty_password: Inserire una password per criptare il file.
+      field_label: Campo
+      fields: Seleziona campi per esportare
+      form_label: Modulo
+      format_label: Seleziona formato
+      forms: Seleziona moduli da esportare
+      label: Esportazione personalizzata
+      module_placeholder: Si prega di selezionare un modulo.
+      select_module: Seleziona modulo
+      submit: OK
+      header: Intestazione
+      custom_header: Intestazione personalizzata
+      signatures: Includi righe per la firma di
+      include_implementation_logos: Includere i loghi dell'implementazione?
+      include_implementation_logos_help_text: Questo include i loghi che appaiono nel menu di navigazione e nella pagina di accesso.
+      include_agency_logo: Includere il logo dell'agenzia?
+      include_other_logos: Includere altri loghi?
+    duplicate_id_csv:
+      all: Duplica ID
+      female_abbreviation: F
+      headers:
+        age: Età
+        case_id: ID del caso
+        child_name_last_first: Nome del minore
+        family_size: Dimensione della famiglia
+        moha_id: MOHA ID DEPRECATED
+        national_id_no: Numero della carta di identità nazionale
+        progress_id: Progress ID
+        sex_mapping_m_f_u: Sesso
+        other_agency_id: Numero paziente e codice ospedale
+      male_abbreviation: M
+      unknown_abbreviation: U
+    exported: Generato con successo il file di esportazione
+    exported_error: Errore nella generazione del file di esportazione
+    forms:
+      button: Esporta moduli
+      label: Esporta
+      header:
+        field_type: Tipologia campo
+        field_name: Nome campo
+    unhcr_csv:
+      headers:
+        age: Età
+        sex: Sesso
+        sex_mapping_m_f_u: Sesso
+  fields:
+    add: Aggiungi
+    date_field: Campo Data
+    date_help: gg-mmm-aaaa
+    date_help_with_time: gg-mmm-aaaa oo:mm
+    date_not_valid: Questa data non è valida.
+    time: Orario
+    date_range:
+      date: Data
+      date_range: Intervallo di date
+      from: Da
+      to: A
+    disabled: Disabilitato
+    document:
+      date: Data del documento
+      name: Nome del documento
+      is_current: Questo è l'attuale documento?
+    document_upload_box: Documento caricato
+    edit_label: Modifica campo
+    enabled: Abilitato?
+    enabled_label: Abilitato
+    english_text: Testo inglese
+    field_name: Nome campo
+    field_type: Tipologia campo
+    attachment_too_large: Il file non deve essere più grande di 20 mb
+    file_upload_box:
+      add_document_label: Aggiungi documento
+      add_new_document_button_text: Aggiungi un altro documento
+      add_new_photo_button_text: Aggiungi un'altra foto
+      add_photo_label: Aggiungi foto
+      document_description: Descrizione del documento
+      document_file_restrictions_message: I file non devono essere più grandi di 2 MB (i file eseguibili (.exe) non possono essere caricati).
+      no_file_selected: Nessun file selezionato.
+      photo_file_restrictions_message: Le foto non devono essere più grandi di 10 mb. I file audio non devono superare i 10 mb. Più piccoli sono, meglio è.
+      recorded_audio_label: Audio registrato
+    name: Nome
+    remove_attachment_confirmation: Sei sicuro di voler rimuovere questo allegato?
+    select_multiple: Seleziona tutte le opzioni valide
+    select_single: (Seleziona...)
+  filters:
+    apply_filters: Applica
+    clear_filters: Cancella
+    less: Vedi meno ...
+    more: Continua…
+    save_filters: Salva
+  flags:
+    flags_tab: Contrassegnati
+    no_flags: Nessun contrassegno trovato
+    resolve_button: Risolvere
+    resolve_flag: 'Risolvi contrassegnati '
+    resolve_reason: Causa della risoluzione
+    resolved: Contrassegnati risolti
+    resolved_date: 'Risolto:'
+    resolved_reason: 'Causa della risoluzione:'
+    title: Contrassegnati
+  followup_reminders:
+    system_generated_followup_flag: visita di follow-up obbligatoria
+  form_section:
+    module: Modulo
+    name: Nome
+    record_type: Tipo di documento
+  forms:
+    form_description: Descrizione
+    module: Modulo
+    record_type: Tipo di documento
+    select_label: Seleziona
+    settings: Impostazioni
+    subform_need_to_be_added: Aggiungere
+    subform_not_found: '%{subform_name} non trovati. '
+    conditions:
+      field_name: Nome campo
+  incidents:
+    export: Esporta
+    filter_by:
+      by_date: Per Data
+    social_worker: Operatore
+  key_performance_indicators:
+    date_range_dialog:
+      apply: 'Applica'
+  location:
+    base_types:
+      district: Comune
+    label: Posizione
+    name: Nome
+  logger:
+    actions:
+      add_note: Aggiungi note
+      export: Esporta
+      login: Accedi
+      logout: Disconnettiti
+      password_reset: Reset della password
+      password_reset_request: Richiesta di reset della password
+      user_password_reset_request: Richiesta di reset della password utente
+    add_note: Aggiungi note
+    logout: Disconnettiti
+    mark_for_mobile:
+      'true': Contrassegna per offline
+    resources:
+      agency: Agenzia
+      dashboard: Dashboard
+      report: Report
+      saved_search: Ricerca salvata
+      location: Posizione
+      code_of_conduct: Codice di condotta
+      task: Attività
+    unflag: Non contrassegnare
+    update: Aggiornarmento
+  login:
+    label: Accedi
+    password:
+      label: Password
+    password_confirmation:
+      label: Conferma Password
+    password_match:
+      label: La Password deve corrispondere
+    provider_title: con %{provider}
+    title: Accedi
+    username: Note utente
+    password_reset_modal: Reset Password
+    password_reset_modal_text: Primero invierà un link per reimpostare la password al vostro indirizzo e-mail.
+    password_reset_email: Email
+    forgot_password: Password dimenticata?
+  lookup:
+    enabled_label: Abilitato?
+    name: Nome
+  managed_reports:
+    total: Totale
+    filter_by:
+      module_id: Modulo
+      agency: Agenzia
+    by_options:
+      created_by_groups: Gruppi di utenti del creatore del fascicolo
+      owned_by_groups: Gruppi di utenti del propietario del fascicolo
+      created_organization: Agenzia del creatore del fascicolo
+      owned_by_agency_id: Agenzia del propietario del fascicolo
+    date_range:
+      month: Mese
+      quarter: Trimestre
+      year: Anno
+      week: Settimana
+    date_range_options:
+      this_quarter: Questo trimestre
+      last_quarter: Trimestre precedente
+      this_month: Questo mese
+      last_month: Mese precedente
+      this_week: Questa settimana
+      last_week: Settimana precedente
+      this_year: Quest'anno
+      last_year: Anno precedente
+      custom: Personalizzato
+    protection_concerns_report:
+      filter_options:
+        registration_date: Data di registrazione
+    reporting_locations_report:
+      filter_options:
+        registration_date: Data di registrazione
+    ghn_report:
+      sub_reports:
+        total: Totale
+    violations:
+      sub_reports:
+        total: Totale
+    workflow_report:
+      filter_options:
+        registration_date: Data di registrazione
+    cases_workflow_report:
+      filter_options:
+        registration_date: Data di registrazione
+    referrals_transfers_report:
+      filter_options:
+        registration_date: Data di registrazione
+    violence_type_report:
+      filter_options:
+        registration_date: Data di registrazione
+    protection_outcomes:
+      filter_options:
+        registration_date: Data di registrazione
+    process_quality_total_cases:
+      filter_options:
+        registration_date: Data di registrazione
+    process_quality_average_cases:
+      reports:
+        process_quality_average_cases: 'Casi per operatore'
+      description: Numero di casi per operatore, suddivisi per sesso e periodo.
+      name: 'Processo e qualità - Numero medio di casi per operatore'
+      filter_options:
+        registration_date: Data di registrazione
+        date_closure: Data di chiusura
+      sub_reports:
+        average_cases_per_case_worker: 'Numero medio di # casi per operatore'
+      average_cases_per_case_worker: 'Numero medio di # casi per operatore'
+    process_quality_successful_referrals:
+      filter_options:
+        case_status: Stato del caso
+    case_characteristics:
+      filter_options:
+        registration_date: Data di registrazione
+  usage_report:
+    export:
+      cases_total: Casi Totali
+  messages:
+    record_list:
+      no_match: Nessun risultato corrispondente
+      rows_per_page: Righe per pagina
+  navigation:
+    bulk_exports: Esporta
+    cases: Casi
+    logout: Disconnettiti
+    reports: Report
+    search: Cerca
+    phonetic_search:
+      title: Inserisci un nome per cercare un fascicolo esistente
+      label: Utilizza i campi "nome"
+      help_text: La ricerca fonetica è disponibile per i campi "nome"
+    id_search:
+      title: Inserire il numero ID per cercare un fascicolo esistente.
+    settings: Impostazioni
+    support: Supporto
+    support_menu:
+      contact_information: Informazioni di contatto
+      code_of_conduct: Codice di condotta
+      terms_of_use: Termini di uso
+      system_information: Informazioni del sistema
+      resync: Modifiche offline non inviate
+    tasks: Attività
+  permissions:
+    permission:
+      add_note: Aggiungi note
+      agency: Agenzia
+      case_exports: Esporta caso
+      case_overview: Il mio caso
+      case_risk: Casi per livello di valutazione
+      cases_by_task_overdue_assessment: Visualizza i casi in base alla valutazione delle attività scadute
+      cases_by_task_overdue_case_plan: Visualizza i casi per attività piano dei casi scaduti
+      cases_by_task_overdue_followups: Visualizza casi per attività dei servizi scaduti
+      cases_by_task_overdue_services: Visualizza casi per attività dei servizi scaduti
+      cases_managed_other_users: Casi gestiti da altri utenti
+      close: Chiudi
+      consent_override: Deroga al consenso
+      dash_case_incident_overview: Il mio caso / Incidenti
+      dash_cases_by_social_worker: Vedi casi per operatore
+      dash_cases_by_task_overdue: Vedi casi per attività scaduta
+      dash_cases_by_workflow: Vedi casi per flusso di lavoro
+      dash_cases_to_assign: Vedi casi da assegnare
+      dash_group_overview: I casi del mio gruppo
+      dash_shared_from_my_team: Condiviso dal mio team
+      dash_shared_with_me: Condiviso con me
+      dash_shared_with_my_team: Condiviso con il mio team
+      dash_shared_with_others: Condiviso con altri
+      dash_show_none_values: View None Values
+      dash_tasks: Vedi attività
+      dash_transfers_by_socal_worker: Vedi trasferimenti per operatore
+      dash_national_admin_summary: Riassunto dell'amministratore
+      dashboard: Dashboard
+      delete: Elimina
+      display_view_page: Visualizzazione della pagina
+      duplicate: Ricerca duplicati
+      enable_disable_record: Disattiva
+      export_case_pdf: Esporta casi pdf
+      export_csv: Esporta csv
+      export_custom: Esporta personalizzati
+      export_duplicate_id_csv: Esporta duplicati
+      export_json: Esporta json
+      export_list_view_csv: Esporta vista elenco csv
+      export_mrm_violation_xls: Esporta mrm violazioni xls
+      export_pdf: Esporta pdf
+      export_photowall: Esporta bacheca foto
+      export_unhcr_csv: Esporta unhcr csv
+      export_xls: Esporta xls
+      mark_for_offline: Contrassegna per offline
+      save_search: Ricerca salvata
+      saved_search: Ricerca salvata
+      sync_mobile: Contrassegna per offline
+    resource:
+      agency:
+        label: Agenzia
+      case:
+        actions:
+          add_note:
+            label: Aggiungere nota
+          sync_mobile:
+            label: Contrassegna per offline
+          mark_for_offline:
+            label: Contrassegna per offline
+      dashboard:
+        actions:
+          action_needed_new_updated:
+            label: 'Richiesta azione: Nuovo o Aggiornato'
+      disabled:
+        label: Disabilitato
+      module:
+        label: Moduli
+      registry_record:
+        actions:
+          export_xls:
+            label: Esporta Excel (XLS file)
+          sync_mobile:
+            label: Contrassegna per offline
+      family:
+        actions:
+          sync_mobile:
+            label: Contrassegna per offline
+      report:
+        label: Report
+  potential_match:
+    child_age: Età
+    name: Nome
+    social_worker: Operatore
+    social_worker_agency: Agenzia
+  reassign:
+    notes_label: Note
+    successfully: Riassegnato con successo
+    user_mandatory_label: Il destinatario è richiesto
+    users_label: Destinatario
+  record_information:
+    assigned_user_names: Altri utenti assegnati
+    created_at: Fascicolo creato a
+    created_by: Fascicolo creato da
+    created_organization: Creato da agenzia
+    current_owner_separator: Attuale proprietario
+    module_id: Modulo
+    owned_by: Codice operatore
+    owned_by_agency_id: Agenzia
+    owned_by_text: Campo/Caso/Operatore
+    previously_owned_by: Precedente proprietario
+    previously_owned_by_agency: Precedente agenzia
+    reassigned_tranferred_on: Riassegnato / Trasferito il
+    record_history_separator: Cronologia
+    last_updated_at: 'Ultimo aggiornamento il '
+    last_updated_by: Ultimo aggiornamento da
+  record_panel:
+    record_information: Informazioni sul fascicolo
+  referral:
+    allow_all: Consenti accesso a tutti i moduli disponibili
+    type_of_recipient: Tipologia di destinatario
+    type_of_referral_required: La tipologia di referral è richiesta
+    agency_label: Agenzia
+    location_label: Posizione
+    notes_label: Note
+  report:
+    aggregate_by: Gruppo per riga
+    date_ranges:
+      date: Giorno
+      month: Mese
+      quarter: Trimestre
+      quarter_abbr: Q%{quarter}
+      week: Settimana
+      year: Anno
+    description: Descrizione
+    disabled:
+      explanation: Se disabiliti questo report non apparirà nei report disponibili
+      label: Disabilitato
+    exclude_empty_rows: Non mostrare righe vuote
+    disaggregate_by: Gruppi per colonna
+    filters:
+      label: Filtri dei report
+      label_new: Nuovo filtro dei report
+      attribute: Filtri
+      value: Con
+      not_null: Non è vuoto?
+      less_than: Meno di
+      greater_than: Maggiore di
+      equal_to: Uguale a
+      not_blank: Non vuoto
+      is: è
+      before: prima
+      after: dopo
+      delete_filter_message: sei sicuro di voler cancellare questo filtro?
+    group_ages: Usa fasce di età
+    group_dates_by: Usa fasce di età
+    is_graph: Generare un grafico?
+    messages:
+      delete_success: Il report è stato cancellato con successo.
+      success: Il report è stato creato con successo.
+      updated: Il report è stato aggiornato con successo.
+    modules: Moduli
+    name: Nome
+    name_mandatory: Il nome è richiesto
+    no_data: Non esistono dati per questo report
+    no_filters_added: Nessun filtro aggiunto
+    not_selected: Non selezionato
+    record_type: Tipologia di fascicolo
+    total: Totale
+    value: Valore
+    incomplete_data: Dati incompleti
+  reports:
+    delete_report: Cancella report
+    delete_report_message: Sei sicuro di voler cancellare questo report? La cancellazione non può essere ripristinata. Clicca OK per cancellare il report.
+    label: Reports
+    register_new_report: Crea un report
+    translations:
+      edit: Modifica traduzioni
+      manage: Gestisci traduzioni
+      select_language: Seleziona lingua
+    error_loading: Errore nel caricamento del/dei report
+  request_transfer:
+    notes_label: Note
+    submit_label: Invia richiesta
+    success: Richiesta di trasferimento inviata
+  role:
+    description: Descrizione
+    name: Nome
+  saved_search:
+    saved_searches_tab: Ricerca salvata
+  saved_searches:
+    no_save_searches: Nessuna ricerca salvata
+    save_search: Ricerca salvata
+  settings:
+    navigation:
+      contact_information: Informazioni di contatto
+      code_of_conduct: Codice di condotta
+    title: Impostazioni
+  task:
+    name: Nome
+    priorities:
+      high_level: Alto
+      low_level: Basso
+      medium_level: Medio
+  tracing_requests:
+    filter_by:
+      by_date: Per Data
+    name: Nome
+    export: Esporta
+  registry_records:
+    name: Nome
+    location: Posizione
+    registration_date: Data di registrazione
+    filter_by:
+      by_date: Per Data
+    selectable_date_options:
+      registration_date: Data di registrazione
+    export: Esporta
+    mark_for_offline:
+      title: Contrassegna per offline
+  families:
+    family_registration_date: Data di registrazione
+    export: Esporta
+    mark_for_offline:
+      title: Contrassegna per offline
+    filter_by:
+      by_date: Per Data
+  family:
+    family_member:
+      save_and_return: Aggiungi e Torna indietro
+  transfer:
+    agency_label: Agenzia
+    location_label: Posizione
+    notes_label: Note
+    select_label: Seleziona...
+  transition:
+    agency_label: Agenzia
+    notes: Note
+  user:
+    disabled: Disabilitato
+    location: Posizione
+    organization: Organizzazione
+    agency: Agenzia
+    phone: Telefono
+    welcome_email:
+      subject: 'Benvenuto in %{system} !'
+      subject_instructions: 'Istruzioni per l''accesso %{system}'
+      greeting: 'Benvenuto a %{system}!'
+      body_native: "%{greeting} Stiamo creando un account %{role_name}per te. Riceverai a breve un'e-mail separata per impostare la tua password. Una volta effettuato l'accesso, vai nel tuo profilo per trovare il tuo nome utente. Troverai il tuo profilo nella barra di navigazione a sinistra di Primero."
+      body_native2: "Puoi guardare questo video %{instructional_video} se hai bisogno di ulteriori indicazioni."
+      instructional_video: video didattico
+      additional_support: 'Si prega di contattare il tuo %{admin_email}se hai bisogno di ulteriori assistenza.'
+      sso:
+        body: 'Sei stato aggiunto come %{role_name}'
+        step1: 'Benvenuto in %{system}! Per accedere, vai su %{system} e seleziona la tua organizzazione %{identity_provider} per effettuare il login con il single sign-on. Usa la stessa password che usi sempre per il tuo account %{identity_provider}.'
+        step2: 'Nota: Non potrai reimpostare la password direttamente in %{product_name}, potrai farlo solo tramite il tuo %{identity_provider}account.'
+      otp:
+        body: 'Sei stato aggiunto come %{role_name}.'
+        step1: 'Una volta effettuato l''accesso,vai nel profilo per trovare il proprio nome utente. Il profilo utente si trova nella navigazione a sinistra di %{site_title}.'
+        step2: 'Per reimpostare la password, utilizzare la seguente procedura <b>%{otp}</b>'
+      url_label: Primero
+      enabled_label: Mandare una e-mail di benvenuto?
+      text_label: Testo della mail di benvenuto.
+    password_reset:
+      subject: 'Istruzioni per il reset della password'
+      email_body1: "È stata richiesta la modifica della password per %{system_name} . Per reimpostare la password, procedere come segue: %{password_reset_link}"
+      email_body2: "Questo link scadrà tra %{hours} e potrà essere utilizzato una sola volta. Non condividete le vostre credenziali utente o la vostra password con nessun altro."
+      email_body3: "Se il link è scaduto, utilizzare %{reset_request_href} per inviare nuovamente una richiesta per reimpostare la password."
+      email_body_link: qui
+      request_submitted: "Richiesta di reset della password inviata"
+      success: "La password è stata cambiata con successo"
+      errors:
+        reset_password_token: "Token di reset della password invalido"
+        password_confirmation: "Le password devono coincidere"
+    onboard_email:
+      subject: "Amministratore di sistema in fase di inserimento a %{system}"
+      body1: "Benvenuti in %{system}! Siete stati designati come amministratori del sistema."
+      body2: "Sei responsabile dell'implementazione di %{product_name}, compresa la gestione degli utenti e della configurazione. Per questa implementazione, è necessario seguire il \"Piano di Implementazione\" che include il processo di onboarding, i protocolli di sicurezza, la strategia di gestione degli utenti e il protocollo di condivisione delle informazioni."
+  user_group:
+    description: Descrizione
+    disabled:
+      label: Disabilitato
+    name: Nome
+  users:
+    headers:
+      agency: Agenzia
+  devise:
+    failure:
+      already_authenticated: "Hai già effettuato l'accesso."
+      invalid: "Password o %{authentication_keys} invalidi"
+      locked: "Il tuo account è bloccato."
+      last_attempt: "Hai solo un altro tentativo prima che il tuo account sia bloccato."
+  admin:
+    locations:
+      selected_records: 'Seleziona posizione %{select_records}'
+      selected_all_records: Seleziona tutti %{total_records} dei casi che corrispondono a questa ricerca.
+      updated: 'Posizione aggiornata %{updated_records}'
+  push_notifications_dialog:
+    title: Notifiche del dispositivo
+    body_blocked:
+      message: Hai bloccato le notifiche per Primero su questo dispositivo. Per risolvere il problema, dovrai attivare le notifiche relative alle autorizzazioni.
+      android: "Android: vai su Impostazioni. Clicca su App. Trova Primero nell'elenco delle app e cliccaci sopra. Clicca su Notifiche. Attiva l'opzione per le notifiche."
+      ios: "iOS: vai all'app Impostazioni. Clicca su Notifiche. Scorri verso il basso fino all'elenco delle app e trova Primero. Attiva l'opzione Primero."
+    body:
+      one: 'Vuoi permettere a Primero di inviarti notifiche? Ricorda che continuerai a ricevere notifiche su questo dispositivo per %{count} giorni dopo il logout.
+
+        Questo non è consigliato su dispositivi condivisi.'
+      many: 'Vuoi permettere a Primero di inviarti notifiche? Ricorda che continuerai a ricevere notifiche su questo dispositivo per %{count} giorni dopo il logout.
+
+        Questo non è consigliato su dispositivi condivisi.'
+      other: 'Vuoi permettere a Primero di inviarti notifiche? Ricorda che continuerai a ricevere notifiche su questo dispositivo per %{count} giorni dopo il logout.
+
+        Questo non è consigliato su dispositivi condivisi.'
+  email:
+    greeting: "Caro/a %{full_name}"
+    admin_closing: "Per segnalare o risolvere un problema contatta il tuo %{sys_admin}"
+    login: Accedi
+    system_admin: 'Amministratore di sistema'
+    unsubscribe: 'Disiscriviti'
+    site_description: Primero è una piattaforma software open source che aiuta gli operatori dei servizi sociali, umanitari e di sviluppo a gestire i dati relativi alla protezione, con strumenti che facilitano la gestione dei casi, il monitoraggio degli incidenti e il rintracciamento e il ricongiungimento delle famiglie.
+    email_disclaimer_pre: NON RISPONDERE A QUESTA E-MAIL
+    email_welcome_greeting: Benvenuto/a nel team di Primero.
+    email_welcome_closing: Benvenuto/A nella community di Primero
+    email_closing: A tuo servizio,
+    email_signature: Il team di Primero
+    email_admin_name: Amministratore di sistema

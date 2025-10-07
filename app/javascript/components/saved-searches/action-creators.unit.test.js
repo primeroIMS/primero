@@ -1,7 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import clone from "lodash/clone";
-import sinon from "sinon";
 import configureStore from "redux-mock-store";
 
 import * as actionCreators from "./action-creators";
@@ -10,35 +9,36 @@ describe("<RecordForm /> - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = clone(actionCreators);
 
-    expect(creators).to.have.property("fetchSavedSearches");
-    expect(creators).to.have.property("saveSearch");
-    expect(creators).to.have.property("removeSavedSearch");
-    expect(creators).to.have.property("setSavedSearch");
+    expect(creators).toHaveProperty("fetchSavedSearches");
+    expect(creators).toHaveProperty("saveSearch");
+    expect(creators).toHaveProperty("removeSavedSearch");
+    expect(creators).toHaveProperty("setSavedSearch");
     delete creators.fetchSavedSearches;
     delete creators.saveSearch;
     delete creators.removeSavedSearch;
     delete creators.setSavedSearch;
 
-    expect(creators).to.deep.equal({});
+    expect(creators).toEqual({});
   });
 
   it("should check the 'fetchSavedSearches' action creator to return the correct object", () => {
     const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
+    const dispatch = jest.spyOn(store, "dispatch");
 
     actionCreators.fetchSavedSearches()(dispatch);
 
-    expect(dispatch.getCall(0).returnValue.type).to.eql("savedSearches/FETCH_SAVED_SEARCHES");
-    expect(dispatch.getCall(0).returnValue.api.path).to.eql("saved_searches");
+    expect(dispatch.mock.calls[0][0].type).toEqual("savedSearches/FETCH_SAVED_SEARCHES");
+    expect(dispatch.mock.calls[0][0].api.path).toEqual("saved_searches");
   });
 
   it("should check the 'setSavedSearch' action creator to return the correct object", () => {
+    const store = configureStore()({});
+    const dispatch = jest.spyOn(store, "dispatch");
     const options = { flagged: ["true"] };
-    const dispatch = sinon.spy(actionCreators, "setSavedSearch");
 
-    actionCreators.setSavedSearch("incidents", { flagged: ["true"] });
+    dispatch(actionCreators.setSavedSearch("incidents", { flagged: ["true"] }));
 
-    expect(dispatch.getCall(0).returnValue).to.eql({
+    expect(dispatch.mock.calls[0][0]).toEqual({
       type: "incidents/SET_SAVED_FILTERS",
       payload: options
     });
@@ -59,29 +59,29 @@ describe("<RecordForm /> - Action Creators", () => {
       }
     };
     const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
+    const dispatch = jest.spyOn(store, "dispatch");
 
     actionCreators.saveSearch(body, "Success Message")(dispatch);
 
-    expect(dispatch.getCall(0).returnValue.type).to.eql("savedSearches/SAVE_SEARCH");
-    expect(dispatch.getCall(0).returnValue.api.path).to.eql("saved_searches");
-    expect(dispatch.getCall(0).returnValue.api.method).to.eql("POST");
-    expect(dispatch.getCall(0).returnValue.api.body).to.eql(body);
-    expect(dispatch.getCall(0).returnValue.api.successCallback.action).to.eql("notifications/ENQUEUE_SNACKBAR");
-    expect(dispatch.getCall(0).returnValue.api.successCallback.payload.message).to.eql("Success Message");
+    expect(dispatch.mock.calls[0][0].type).toEqual("savedSearches/SAVE_SEARCH");
+    expect(dispatch.mock.calls[0][0].api.path).toEqual("saved_searches");
+    expect(dispatch.mock.calls[0][0].api.method).toEqual("POST");
+    expect(dispatch.mock.calls[0][0].api.body).toEqual(body);
+    expect(dispatch.mock.calls[0][0].api.successCallback.action).toEqual("notifications/ENQUEUE_SNACKBAR");
+    expect(dispatch.mock.calls[0][0].api.successCallback.payload.message).toEqual("Success Message");
   });
 
   it("should check the 'removeSavedSearch' action creator to return the correct object", () => {
     const id = 1;
     const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
+    const dispatch = jest.spyOn(store, "dispatch");
 
     actionCreators.removeSavedSearch(id, "Deleted Message")(dispatch);
 
-    expect(dispatch.getCall(0).returnValue.type).to.eql("savedSearches/REMOVE_SAVED_SEARCH");
-    expect(dispatch.getCall(0).returnValue.api.path).to.eql("saved_searches/1");
-    expect(dispatch.getCall(0).returnValue.api.method).to.eql("DELETE");
-    expect(dispatch.getCall(0).returnValue.api.successCallback.action).to.eql("notifications/ENQUEUE_SNACKBAR");
-    expect(dispatch.getCall(0).returnValue.api.successCallback.payload.message).to.eql("Deleted Message");
+    expect(dispatch.mock.calls[0][0].type).toEqual("savedSearches/REMOVE_SAVED_SEARCH");
+    expect(dispatch.mock.calls[0][0].api.path).toEqual("saved_searches/1");
+    expect(dispatch.mock.calls[0][0].api.method).toEqual("DELETE");
+    expect(dispatch.mock.calls[0][0].api.successCallback.action).toEqual("notifications/ENQUEUE_SNACKBAR");
+    expect(dispatch.mock.calls[0][0].api.successCallback.payload.message).toEqual("Deleted Message");
   });
 });

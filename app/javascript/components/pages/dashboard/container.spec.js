@@ -7,98 +7,116 @@ import { PrimeroModuleRecord } from "../../application/records";
 import Dashboard from "./container";
 
 describe("<Dashboard />", () => {
-  const reportingLocationConfig = {
-    field_key: "owned_by_location",
-    admin_level: 2,
-    admin_level_map: { 1: ["province"], 2: ["district"] },
-    label_keys: ["district"]
-  };
-  const initialState = fromJS({
-    user: {
-      reportingLocationConfig,
-      modules: ["cp"],
-      permissions: {
-        dashboards: [
-          ACTIONS.DASH_CASE_OVERVIEW,
-          ACTIONS.DASH_FLAGS,
-          ACTIONS.DASH_CASE_RISK,
-          ACTIONS.DASH_SHARED_FROM_MY_TEAM,
-          ACTIONS.DASH_CASES_BY_TASK_OVERDUE_ASSESSMENT,
-          ACTIONS.DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN,
-          ACTIONS.DASH_CASES_BY_TASK_OVERDUE_SERVICES,
-          ACTIONS.DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS,
-          ACTIONS.DASH_APPROVALS_ASSESSMENT,
-          ACTIONS.DASH_WORKFLOW_TEAM,
-          ACTIONS.DASH_WORKFLOW,
-          ACTIONS.DASH_REPORTING_LOCATION,
-          ACTIONS.DASH_PROTECTION_CONCERNS
+  describe("when a user has dashboards", () => {
+    const reportingLocationConfig = {
+      field_key: "owned_by_location",
+      admin_level: 2,
+      admin_level_map: { 1: ["province"], 2: ["district"] },
+      label_keys: ["district"]
+    };
+    const initialState = fromJS({
+      user: {
+        reportingLocationConfig,
+        modules: ["cp"],
+        permissions: {
+          dashboards: [
+            ACTIONS.DASH_CASE_OVERVIEW,
+            ACTIONS.DASH_FLAGS,
+            ACTIONS.DASH_CASE_RISK,
+            ACTIONS.DASH_SHARED_FROM_MY_TEAM,
+            ACTIONS.DASH_CASES_BY_TASK_OVERDUE_ASSESSMENT,
+            ACTIONS.DASH_CASES_BY_TASK_OVERDUE_CASE_PLAN,
+            ACTIONS.DASH_CASES_BY_TASK_OVERDUE_SERVICES,
+            ACTIONS.DASH_CASES_BY_TASK_OVERDUE_FOLLOWUPS,
+            ACTIONS.DASH_APPROVALS_ASSESSMENT,
+            ACTIONS.DASH_WORKFLOW_TEAM,
+            ACTIONS.DASH_WORKFLOW,
+            ACTIONS.DASH_REPORTING_LOCATION,
+            ACTIONS.DASH_PROTECTION_CONCERNS
+          ]
+        }
+      },
+      application: {
+        modules: [
+          PrimeroModuleRecord({
+            unique_id: "cp",
+            name: "CP",
+            workflows: {
+              case: [{ id: "new", display_text: { en: "New" } }]
+            }
+          })
         ]
       }
-    },
-    application: {
-      modules: [
-        PrimeroModuleRecord({
-          unique_id: "cp",
-          name: "CP",
-          workflows: {
-            case: [{ id: "new", display_text: { en: "New" } }]
-          }
-        })
-      ]
-    }
-  });
+    });
 
-  beforeEach(() => {
-    mountedComponent(<Dashboard />, initialState);
-  });
+    beforeEach(() => {
+      mountedComponent(<Dashboard />, initialState);
+    });
 
-  it("should render a <PageContainer /> component", () => {
-    expect(screen.getAllByTestId("page-heading")).toHaveLength(1);
-  });
+    it("should render a <PageContainer /> component", () => {
+      expect(screen.getAllByTestId("page-heading")).toHaveLength(1);
+    });
 
-  it("should render a navigation title", () => {
-    expect(screen.getByText("navigation.home")).toBeInTheDocument();
-  });
+    it("should render a navigation title", () => {
+      expect(screen.getByText("navigation.home")).toBeInTheDocument();
+    });
 
-  it("should render a <PageContent /> component", () => {
-    expect(screen.getByTestId("page-heading")).toBeInTheDocument();
-  });
+    it("should render a <PageContent /> component", () => {
+      expect(screen.getByTestId("page-heading")).toBeInTheDocument();
+    });
 
-  it("should render a dashboard overview component", () => {
-    expect(screen.getByText(/dashboard.overview/i)).toBeInTheDocument();
-  });
+    it("should render a dashboard overview component", () => {
+      expect(screen.getByText(/dashboard.overview/i)).toBeInTheDocument();
+    });
 
-  it("should render a <SharedFromMyTeam /> component", () => {
-    expect(screen.queryAllByText(/dashboard.dash_shared_from_my_team/i)).toHaveLength(3);
-  });
+    it("should render a <SharedFromMyTeam /> component", () => {
+      expect(screen.queryAllByText(/dashboard.dash_shared_from_my_team/i)).toHaveLength(1);
+    });
 
-  it("should render a <WorkflowIndividualCases /> component", () => {
-    expect(screen.queryAllByText("dashboard.workflow - CP")).toHaveLength(1);
-  });
+    it("should render a <WorkflowIndividualCases /> component", () => {
+      expect(screen.queryAllByText("dashboard.workflow")).toHaveLength(1);
+    });
 
-  it("should render a <Approvals /> component", () => {
-    expect(screen.getByText(/dashboard.approvals/i)).toBeInTheDocument();
-  });
+    it("should render a <Approvals /> component", () => {
+      expect(screen.getByText(/dashboard.approvals/i)).toBeInTheDocument();
+    });
 
-  it("should render a <OverdueTasks /> component", () => {
-    expect(screen.getByText(/dashboard.cases_by_task_overdue/i, { selector: "h4" })).toBeInTheDocument();
-  });
+    it("should render a <OverdueTasks /> component", () => {
+      expect(screen.getByText(/dashboard.cases_by_task_overdue/i, { selector: "h4" })).toBeInTheDocument();
+    });
 
-  it("should render a <WorkflowTeamCases /> component", () => {
-    expect(screen.queryAllByText(/dashboard.workflow_team/i)).toHaveLength(3);
-  });
+    it("should render a <WorkflowTeamCases /> component", () => {
+      expect(screen.queryAllByText(/dashboard.workflow_team/i)).toHaveLength(1);
+    });
 
-  it("should render a <ReportingLocation /> component", () => {
-    expect(screen.getByText(/dashboard.overview/i)).toBeInTheDocument();
-  });
+    it("should render a <ReportingLocation /> component", () => {
+      expect(screen.getByText(/dashboard.overview/i)).toBeInTheDocument();
+    });
 
-  it("should render a <ProtectionConcern /> component", () => {
-    expect(screen.queryAllByText(/dashboard.protection_concerns/i)).toHaveLength(3);
+    it("should render a <ProtectionConcern /> component", () => {
+      expect(screen.queryAllByText(/dashboard.protection_concerns/i)).toHaveLength(1);
+    });
   });
 
   describe("when a user has SHARED_WITH_ME permission", () => {
     const stateSharedWithMe = fromJS({
-      user: { reportingLocationConfig, permissions: { dashboards: [ACTIONS.DASH_SHARED_WITH_ME] } }
+      user: { permissions: { dashboards: [ACTIONS.DASH_SHARED_WITH_ME] } },
+      records: {
+        dashboard: {
+          referrals_transfers: {
+            data: [
+              {
+                name: "dashboard.dash_shared_with_me",
+                type: "indicator",
+                indicators: {
+                  shared_with_me_total_referrals: { count: 0, query: [] },
+                  shared_with_me_new_referrals: { count: 0, query: [] }
+                }
+              }
+            ]
+          }
+        }
+      }
     });
 
     it("renders a <Referrals /> component and dashboard for a user with the RECEIVE_REFERRAL permission", () => {
@@ -142,7 +160,24 @@ describe("<Dashboard />", () => {
 
   describe("when a user has DASH_SHARED_WITH_OTHERS permission", () => {
     const stateSharedWithOther = fromJS({
-      user: { reportingLocationConfig, permissions: { dashboards: [ACTIONS.DASH_SHARED_WITH_OTHERS] } }
+      user: { permissions: { dashboards: [ACTIONS.DASH_SHARED_WITH_OTHERS] } },
+      records: {
+        dashboard: {
+          referrals_transfers: {
+            data: [
+              {
+                name: "dashboard.dash_shared_with_others",
+                type: "indicator",
+                indicators: {
+                  shared_with_others_referrals: { count: 0, query: [] },
+                  shared_with_others_pending_transfers: { count: 0, query: [] },
+                  shared_with_others_rejected_transfers: { count: 0, query: [] }
+                }
+              }
+            ]
+          }
+        }
+      }
     });
 
     it("renders a <Referrals /> component", () => {
@@ -162,7 +197,22 @@ describe("<Dashboard />", () => {
 
   describe("when a user has DASH_SHARED_WITH_MY_TEAM_OVERVIEW permission", () => {
     const stateSharedWithMyTeamOverview = fromJS({
-      user: { reportingLocationConfig, permissions: { dashboards: [ACTIONS.DASH_SHARED_WITH_MY_TEAM_OVERVIEW] } }
+      user: { permissions: { dashboards: [ACTIONS.DASH_SHARED_WITH_MY_TEAM_OVERVIEW] } },
+      records: {
+        dashboard: {
+          referrals_transfers: {
+            data: [
+              {
+                name: "dashboard.dash_shared_with_my_team_overview",
+                type: "indicator",
+                indicators: {
+                  shared_with_my_team_pending_transfers_overview: { count: 0, query: [] }
+                }
+              }
+            ]
+          }
+        }
+      }
     });
 
     it("renders a <Transfer /> component with the dashboard", () => {
@@ -191,6 +241,127 @@ describe("<Dashboard />", () => {
       mountedComponent(<Dashboard />, stateSharedWithMyTeamOverview);
 
       expect(screen.queryByText(/dashboard.action_needed.referrals/i)).toBeNull();
+    });
+  });
+
+  describe("when a user has DASH_CASE_RISK permission", () => {
+    const stateCaseRisk = fromJS({
+      user: { permissions: { dashboards: [ACTIONS.DASH_CASE_RISK] } },
+      records: {
+        dashboard: {
+          overview: {
+            data: [
+              {
+                name: "dashboard.case_risk",
+                type: "indicator",
+                indicators: {
+                  risk_level: {
+                    high: { count: 0, query: [] },
+                    low: { count: 0, query: [] },
+                    medium: { count: 0, query: [] }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    });
+
+    it("renders the group overview dashboard", () => {
+      mountedComponent(<Dashboard />, stateCaseRisk);
+
+      expect(screen.getByText(/dashboard.case_risk/i)).toBeInTheDocument();
+    });
+  });
+
+  describe("when a user has DASH_GROUP_OVERVIEW permission", () => {
+    const stateGroupOverview = fromJS({
+      user: { permissions: { dashboards: [ACTIONS.DASH_GROUP_OVERVIEW] } },
+      records: {
+        dashboard: {
+          overview: {
+            data: [
+              {
+                name: "dashboard.dash_group_overview",
+                type: "indicator",
+                indicators: {
+                  group_overview_open: { count: 0, query: [] },
+                  group_overview_closed: { count: 0, query: [] }
+                }
+              }
+            ]
+          }
+        }
+      }
+    });
+
+    it("renders the group overview dashboard", () => {
+      mountedComponent(<Dashboard />, stateGroupOverview);
+
+      expect(screen.getByText(/dashboard.dash_group_overview/i)).toBeInTheDocument();
+    });
+  });
+
+  describe("when a user has DASH_CASE_INCIDENT_OVERVIEW permission", () => {
+    const stateCaseIncidentOverview = fromJS({
+      user: { permissions: { dashboards: [ACTIONS.DASH_CASE_INCIDENT_OVERVIEW] } },
+      records: {
+        dashboard: {
+          overview: {
+            data: [
+              {
+                name: "dashboard.dash_case_incident_overview",
+                type: "indicator",
+                indicators: {
+                  total: { count: 0, query: [] },
+                  new_or_updated: { count: 0, query: [] },
+                  with_incidents: { count: 0, query: [] },
+                  with_new_incidents: { count: 0, query: [] },
+                  without_incidents: { count: 0, query: [] }
+                }
+              }
+            ]
+          }
+        }
+      }
+    });
+
+    it("renders the case incident overview dashboard", () => {
+      mountedComponent(<Dashboard />, stateCaseIncidentOverview);
+
+      expect(screen.getByText(/dashboard.dash_case_incident_overview/i)).toBeInTheDocument();
+    });
+  });
+
+  describe("when a user has DASH_NATIONAL_ADMIN_SUMMARY permission", () => {
+    const stateNationalAdminSummary = fromJS({
+      user: { permissions: { dashboards: [ACTIONS.DASH_NATIONAL_ADMIN_SUMMARY] } },
+      records: {
+        dashboard: {
+          overview: {
+            data: [
+              {
+                name: "dashboard.dash_national_admin_summary",
+                type: "indicator",
+                indicators: {
+                  open: { count: 0, query: [] },
+                  new_last_week: { count: 0, query: [] },
+                  new_this_week: { count: 0, query: [] },
+                  closed_last_week: { count: 0, query: [] },
+                  closed_this_week: { count: 0, query: [] }
+                }
+              }
+            ]
+          }
+        }
+      }
+    });
+
+    it("renders the case incident overview dashboard", () => {
+      mountedComponent(<Dashboard />, stateNationalAdminSummary);
+
+      expect(screen.getByText(/dashboard.dash_national_admin_summary/i)).toBeInTheDocument();
     });
   });
 });

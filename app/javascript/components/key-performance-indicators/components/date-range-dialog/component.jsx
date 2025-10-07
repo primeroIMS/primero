@@ -16,6 +16,7 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { useI18n } from "../../../i18n";
 import { DATE_FORMAT } from "../../../../config";
 import DateProvider from "../../../../date-provider";
+import { dayOfWeekFormatter } from "../../../../libs/date-picker-localization";
 
 function Component({ open, onClose, currentRange, setRange }) {
   const i18n = useI18n();
@@ -37,6 +38,7 @@ function Component({ open, onClose, currentRange, setRange }) {
         <FormControl>
           <DateProvider excludeAdpaterLocale>
             <DatePicker
+              dayOfWeekFormatter={dayOfWeekFormatter(i18n)}
               variant="inline"
               format={DATE_FORMAT}
               margin="normal"
@@ -48,6 +50,7 @@ function Component({ open, onClose, currentRange, setRange }) {
               }}
             />
             <DatePicker
+              dayOfWeekFormatter={dayOfWeekFormatter(i18n)}
               variant="inline"
               format={DATE_FORMAT}
               margin="normal"

@@ -7,6 +7,8 @@ describe("<Insights /> - Actions", () => {
     const cloneActions = { ...actions };
 
     [
+      "CLEAR_REPORT_DATA",
+      "CLEAR_SELECTED_INSIGHT",
       "FETCH_INSIGHT",
       "FETCH_INSIGHT_STARTED",
       "FETCH_INSIGHT_SUCCESS",
@@ -14,11 +16,11 @@ describe("<Insights /> - Actions", () => {
       "FETCH_INSIGHT_FINISHED",
       "SET_SUB_REPORT"
     ].forEach(property => {
-      expect(cloneActions).to.have.property(property);
-      expect(cloneActions[property]).to.be.a("string");
+      expect(cloneActions).toHaveProperty(property);
+      expect(typeof cloneActions[property]).toBe("string");
       delete cloneActions[property];
     });
 
-    expect(cloneActions).to.be.empty;
+    expect(Object.keys(cloneActions)).toHaveLength(0);
   });
 });

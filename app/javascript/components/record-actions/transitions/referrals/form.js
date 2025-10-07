@@ -23,7 +23,8 @@ import {
   TRANSITIONED_TO_ASYNC_FILTER_FIELDS,
   STATE_REFERRAL_LOADING_PATH,
   STATE_REFERRAL_USERS_PATH,
-  USER_FIELDS
+  USER_FIELDS,
+  ALL_OPTION_ID
 } from "./constants";
 
 const commonHandleWatched = {
@@ -113,9 +114,11 @@ const localReferralFields = ({
       type: SELECT_FIELD,
       showIf: values => hasReferralRoles && !values[FIELDS.REMOTE],
       option_strings_source: OPTION_TYPES.ROLE_REFERRAL_AUTHORIZATION,
+      additionalOptions: [{ id: ALL_OPTION_ID, display_text: i18n.t("referral.allow_all") }],
       watchedInputs: [FIELDS.REMOTE],
       asyncOptionsLoadingPath: ["application", "loading"],
       asyncParamsFromWatched: [],
+      required: true,
       help_text: i18n.t("referral.referral_authorization_help_text"),
       ...commonHandleWatched,
       order: 8
@@ -177,7 +180,12 @@ const remoteReferralFields = ({ i18n, isExternalReferralFromService }) =>
     };
   });
 
-const commonReferralFields = ({ isReferralFromService, isExternalReferralFromService, i18n }) =>
+const commonReferralFields = ({
+  isReferralFromService,
+  isExternalReferralFromService,
+  i18n,
+  allowCaseCreationFromReferral
+}) =>
   [
     {
       display_name: i18n.t("referral.is_remote_label"),
@@ -195,6 +203,16 @@ const commonReferralFields = ({ isReferralFromService, isExternalReferralFromSer
       disabled: isReferralFromService,
       clearDependentValues: [FIELDS.TRANSITIONED_TO],
       order: 4
+    },
+    {
+      display_name: i18n.t("referral.allow_case_creation"),
+      name: FIELDS.ALLOW_CASE_CREATION,
+      type: TICK_FIELD,
+      help_text: i18n.t("referral.allow_case_creation_help_text"),
+      disabled: false,
+      ...commonHandleWatched,
+      order: 98,
+      showIf: () => allowCaseCreationFromReferral
     },
     {
       display_name: i18n.t("transfer.notes_label"),
@@ -237,19 +255,22 @@ const referralFields = args =>
     .sort((fieldA, fieldB) => fieldA.order - fieldB.order)
     .map(field => FieldRecord(field));
 
-const validWhenRemote = (isRemote, i18n, i18nKey = "") =>
+const remoteValidation = (isRemote, i18n, i18nKey = "", checkNotEqual = false) =>
   string().when(FIELDS.REMOTE, {
-    is: value => value === isRemote,
+    is: value => (checkNotEqual ? value !== isRemote : value === isRemote),
     then: string()
       .nullable()
       .required(i18n.t(`referral.${i18nKey}`))
   });
 
-export const validations = i18n =>
+export const validations = (i18n, { hasReferralRoles }) =>
   object().shape({
+    ...(hasReferralRoles && {
+      [FIELDS.AUTHORIZED_ROLE_UNIQUE_ID]: remoteValidation(true, i18n, "type_of_referral_required", true).nullable()
+    }),
     [FIELDS.CONSENT_INDIVIDUAL_TRANSFER]: bool().oneOf([true]),
-    [FIELDS.ROLE]: validWhenRemote(true, i18n, "type_of_referral_required").nullable(),
-    [FIELDS.TRANSITIONED_TO]: validWhenRemote(false, i18n, "user_mandatory_label").nullable()
+    [FIELDS.ROLE]: remoteValidation(true, i18n, "type_of_referral_required").nullable(),
+    [FIELDS.TRANSITIONED_TO]: remoteValidation(false, i18n, "user_mandatory_label").nullable()
   });
 
 export const form = args => {

@@ -685,6 +685,7 @@ describe Incident do
           'attack_on_schools' => [],
           'military_use' => [],
           'denial_humanitarian_access' => [],
+          'deprivation_liberty' => [],
           'sources' => [
             { 'name' => 'source1', 'unique_id' => '7742b9db-2db2-4421-bff7-9aae6272fc4a',
               'violations_ids' => ['8dccaf74-e9aa-452a-9b58-dc365b1062a2'] }

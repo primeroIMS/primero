@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { endOfDay, parseISO, startOfDay } from "date-fns";
 import { DatePicker, DateTimePicker } from "@mui/x-date-pickers";
 import { isString } from "formik";
+import isNil from "lodash/isNil";
 
 import { DATE_FORMAT, DATE_TIME_FORMAT, LOCALE_KEYS } from "../../../../../config";
 import { useI18n } from "../../../../i18n";
@@ -11,8 +12,9 @@ import { toServerDateFormat } from "../../../../../libs";
 import NepaliCalendar from "../../../../nepali-calendar-input";
 import css from "../styles.css";
 import DateProvider from "../../../../../date-provider";
+import { dayOfWeekFormatter } from "../../../../../libs/date-picker-localization";
 
-import { getDatesValue, getDateValue } from "./utils";
+import { getDatesValue, getDateValue, defaultDates } from "./utils";
 
 function Component({
   dateIncludeTime,
@@ -23,7 +25,8 @@ function Component({
   setInputValue,
   setMoreSectionFilters,
   setValue,
-  register
+  register,
+  selectedFieldDefaultValue = {}
 }) {
   const i18n = useI18n();
   const pickerFormat = dateIncludeTime ? DATE_TIME_FORMAT : DATE_FORMAT;
@@ -31,6 +34,10 @@ function Component({
   useEffect(() => {
     if (selectedField) {
       register(selectedField);
+      if (isNil(inputValue)) {
+        setValue(selectedField, selectedFieldDefaultValue || defaultDates());
+        setInputValue(selectedFieldDefaultValue || defaultDates());
+      }
     }
 
     return () => {
@@ -100,7 +107,7 @@ function Component({
     return (
       <div key={picker} className={css.dateInput}>
         <DateProvider>
-          <DateComponent {...inputProps} />
+          <DateComponent {...inputProps} dayOfWeekFormatter={dayOfWeekFormatter(i18n)} />
         </DateProvider>
       </div>
     );

@@ -11,10 +11,20 @@ import { useI18n } from "../../i18n";
 import buildNameFilter from "../utils/build-name-filter";
 import { useApp } from "../../application";
 import { useThemeHelper } from "../../../libs";
+import useSystemStrings, { FILTER } from "../../application/use-system-strings";
 
 import css from "./styles.css";
 
-function Panel({ filter, getValues, selectedDefaultValueField, handleReset, moreSectionFilters = {}, children }) {
+function Panel({
+  filter,
+  getValues,
+  selectedDefaultValueField,
+  handleReset,
+  moreSectionFilters = {},
+  fnSelectValueOpen = null,
+  fnSelectValueOpenValue = null,
+  children
+}) {
   const { isRTL } = useThemeHelper();
   const { name, field_name: fieldName } = filter;
 
@@ -22,8 +32,12 @@ function Panel({ filter, getValues, selectedDefaultValueField, handleReset, more
   const i18n = useI18n();
   const { approvalsLabels } = useApp();
   const [open, setOpen] = useState(false);
-
+  const { label } = useSystemStrings(FILTER);
   const handleChange = () => {
+    // if fnSelectValueOpen is present and the panel will be open and the fnSelectValueOpenValue is present
+    if (fnSelectValueOpen && !open === true && fnSelectValueOpenValue) {
+      fnSelectValueOpen(fnSelectValueOpenValue);
+    }
     setOpen(!open);
   };
 
@@ -33,7 +47,7 @@ function Panel({ filter, getValues, selectedDefaultValueField, handleReset, more
 
   const expanded = open || Object.keys(moreSectionFilters).includes(selectedDefaultValueField || fieldName);
 
-  const filterLabel = buildNameFilter(name, i18n, approvalsLabels);
+  const filterLabel = buildNameFilter(name, fieldName, label, approvalsLabels);
 
   return (
     <Accordion className={css.panel} elevation={0} expanded={expanded} onChange={handleChange}>
@@ -62,6 +76,8 @@ Panel.displayName = "Panel";
 Panel.propTypes = {
   children: PropTypes.node.isRequired,
   filter: PropTypes.object.isRequired,
+  fnSelectValueOpen: PropTypes.func,
+  fnSelectValueOpenValue: PropTypes.string,
   getValues: PropTypes.func.isRequired,
   handleReset: PropTypes.func,
   moreSectionFilters: PropTypes.object,

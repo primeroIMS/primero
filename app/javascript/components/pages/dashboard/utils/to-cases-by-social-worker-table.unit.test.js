@@ -79,7 +79,7 @@ describe("toCasesBySocialWorkerTable - pages/dashboard/utils/", () => {
       ]
     };
 
-    expect(toCasesBySocialWorkerTable(casesBySocialWorker, i18n)).to.deep.equal(expected);
+    expect(toCasesBySocialWorkerTable(casesBySocialWorker, i18n)).toEqual(expected);
   });
 
   it("keeps the data and query in the same order", () => {
@@ -120,8 +120,8 @@ describe("toCasesBySocialWorkerTable - pages/dashboard/utils/", () => {
     const tableData = toCasesBySocialWorkerTable(dashboardData, i18n);
     const expected = ["primero", "primero_cp", "primero_cp_ar"];
 
-    expect(tableData.data.map(elem => elem[0])).to.deep.equal(expected);
-    expect(tableData.query.map(elem => elem.case_worker)).to.deep.equal(expected);
+    expect(tableData.data.map(elem => elem[0])).toEqual(expected);
+    expect(tableData.query.map(elem => elem.case_worker)).toEqual(expected);
   });
 
   it("shows 0 for non-existent values", () => {
@@ -140,6 +140,6 @@ describe("toCasesBySocialWorkerTable - pages/dashboard/utils/", () => {
     });
     const tableData = toCasesBySocialWorkerTable(dashboardData, i18n);
 
-    expect(tableData.data).to.deep.equal([["primero_cp", 1, 0]]);
+    expect(tableData.data).toEqual([["primero_cp", 1, 0]]);
   });
 });

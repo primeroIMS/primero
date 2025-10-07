@@ -542,6 +542,7 @@ fr:
       date_case_plan_initiated: Date du plan d'action
       date_of_creation: Date de création
       registration_date: Date d'enregistrement
+      followup_date: Date du suivi
   configurations:
     apply_label: Etes-vous sûr ? Si vous appliquez, les paramètres de cette configuration seront appliqués au système. Vous perdrez tous vos paramètres actuels et ne pourrez les récupérer que si vous les avez déjà enregistrés dans une autre configuration.
     apply_label_bold: 'Primero sera indisponible pour les utilisateurs pendant quelques minutes pendant la mise à jour des modifications. '
@@ -706,7 +707,6 @@ fr:
     dash_shared_from_my_team: Partagé par mon équipe
     dash_shared_with_me: Partagé avec moi meme
     dash_shared_with_my_team: Partagé avec mon équipe
-    dash_shared_with_my_team_overview: Partagé avec mon équipe (Aperçu)
     dash_shared_with_others: Partagé avec d'autres
     dash_national_admin_summary: Résumé de l'administrateur
     dash_violations_category_verification_status: Nombre total d'incidents par statut de vérification
@@ -812,15 +812,8 @@ fr:
     shared_from_my_team_pending_transfers: Transfert en attente
     shared_from_my_team_referrals: Références
     shared_from_my_team_rejected_transfers: Transferts rejetés
-    shared_with_me_new_referrals: Nouvelles références
-    shared_with_me_total_referrals: 'Total des références '
-    shared_with_me_transfers_awaiting_acceptance: 'Transfert en attente d''acceptation '
-    shared_with_my_team_pending_transfers_overview: Transferts en attente d'acceptation
     shared_with_my_team_pending_transfers: Transfert en attente
     shared_with_my_team_referrals: Références
-    shared_with_others_pending_transfers: 'Transfert en attente '
-    shared_with_others_referrals: Références
-    shared_with_others_rejected_transfers: 'Transfert rejeté '
     status_of_cases: Statut des cas
     system_user: Système
     total: Total
@@ -852,23 +845,13 @@ fr:
   email_notification:
     assign: '%{user} vous a assigné le cas suivant %{record_type} %{record_id}'
     assign_subject: 'Le cas %{record_type} : %{id}  vous a été assigné'
-    approval_request: 'L''utilisateur %{user} demande l''approbation %{approval_type} pour le cas %{case_id}.'
     approval_request_subject: 'Cas: %{id} - Demande d''approbation'
-    approval_response: '%{user}%{status} a  demande d''approbation %{approval_type} pour le cas %{case_id}.'
     approval_response_subject: 'Cas: %{id} - Réponse à la demande d''approbation'
     referral: 'L''utilisateur %{user} de %{agency} vous a référé le cas suivant %{record_type} : %{record_id} pour %{service_type}'
     transfer: '%{user} vous a transféré le cas %{record_type}: %{record_id}.'
     transfer_request_subject: Demande de transfert pour l'un de vos cas
-    transfer_subject: '%{record_type} : %{id} - Transfert'
-    referral_subject: '%{record_type} : %{id} Référencement'
     transfer_request: 'L''utilisateur Primero %{user} de %{agency} vous demande de transférer la gestion du cas %{record_type}, %{record_id} afin qu''il puisse fournir des services de %{record_type} dans sa région. Si ce transfert vous convient, veuillez cliquer sur le lien %{record_type} dans cet e-mail pour ouvrir le fichier %{record_type}dans  Primero et effectuer le transfert.'
     approval_request_html: 'L''utilisateur <strong> %{user} </strong> demande votre approbation pour <strong> %{approval_type} </strong> sur le cas <strong> %{case_id} </strong>'
-    approval_response_html: 'L''utilisateur <strong> %{user} </strong> a <strong> %{status} </strong> demandé l''approbation pour <strong> %{approval_type} </strong> sur le cas <strong> %{case_id} </strong>.'
-    referral_html: 'L''utilisateur <strong> %{user} </strong> de %{agency} vous a référé le cas suivant %{record_type}: <strong> %{record_id} </strong> pour %{service_type}.'
-    transfer_html: 'L''utilisateur <strong> %{user} </strong> vous a transféré le cas suivant %{record_type}: <strong> %{record_id} </strong>.'
-    assign_html: 'L''utilisateur <strong>%{user}</strong> vous a assigné le cas suivant %{record_type} <strong>%{record_id}</strong>.'
-    transfer_request_html: 'L''utilisateur Primero %{user} de %{agency} vous demande de transférer la gestion du cas %{record_type}, %{record_id} afin qu''il puisse fournir des services de %{record_type} dans sa région. Si ce transfert vous convient, veuillez cliquer sur le lien %{record_type} dans cet e-mail pour ouvrir le fichier %{record_type}dans  Primero et effectuer le transfert.'
-    transfer_request_notes_html: 'Notes de la personne qui fait la demande: %{request_transfer_notes}'
     alert: '%{record_type} %{id} - %{form_name} a été mis à jour. Veuillez vous connecter à Primero pour consulter les modifications.'
     alert_subject: '%{record_type} : %{id} - %{form_name} mis à jour '
   webpush_notification:
@@ -1903,7 +1886,6 @@ fr:
       user: Utilisateur
       agency: 'Organisation '
       user_group: Groupe d'utilisateurs
-      child: Enfant
       alert: Alerte
       form_section: Forme
       lookup: Chercher
@@ -3788,40 +3770,21 @@ fr:
     welcome_email:
       subject: 'Bienvenue à %{system}!'
       greeting: 'Bienvenue à %{system}!'
-      body_native: 'Vous avez été ajouté en tant que %{role_name}. Veuillez contacter s''il vous plait %{admin_full_name} à l''adresse (%{admin_email}) pour obtenir des instructions à suivre afin de commencer à travailler avec  %{host}.'
       sso:
         body: 'Vous avez été ajouté en tant que %{role_name}.'
-        step1: 'Allez à %{host} et cliquez sur %{identity_provider}'
-        step2: 'Connectez-vous avec votre compte %{identity_provider} %{user_name} .'
-        step3: 'Utilisez le même mot de passe que vous utilisez pour votre compte %{identity_provider}.'
-        footer: 'Contactez s''il vous plait %{admin_full_name} (%{admin_email}) pour plus de détails.'
       otp:
         body: 'Vous avez été ajouté en tant que %{role_name}.'
-        step1: 'Contactez s''il vous plait %{admin_full_name} (%{admin_email}) pour recevoir votre nom d''utilisateur.'
-        step2: 'Allez à %{host} et cliquez sur "Connexion avec le nom d''utilisateur Primero".'
-        step3: 'Connectez-vous avec votre nom d''utilisateur et le mot de passe temporaire %{otp}.'
-        step4: 'Lorsque vous y êtes invité, réinitialisez votre mot de passe.'
       url_label: Primero
       enabled_label: Envoyer un email de bienvenue?
       text_label: Texte du email de bienvenue
     password_reset:
       subject: 'Instructions pour la réinitialisation du mot de passe'
-      email_greeting: "Cher-e %{full_name}"
-      email_body1: "Quelqu'un a fait une demande pour définir votre mot de passe pour %{host_href}. Cliquez sur l'url ci-dessous pour commencer :"
-      email_body2: "Ce lien expirera dans %{hours} heures et ne pourra être utilisé qu'une seule fois. Veuillez ignorer ce mail si vous n'avez pas fait de demande de réinitialisation de mot de passe ou si un nouvel utilisateur de Primero n'a pas été enregistré en votre nom. Si le lien ci-dessus est expiré, veuillez cliquer sur %{reset_request_href} pour soumettre à nouveau une demande de réinitialisation de mot de passe."
       email_body_link: ici
       request_submitted: "Demande de réinitialisation du mot de passe soumise"
       success: "Le mot de passe a été modifié avec succès"
       errors:
         reset_password_token: "Réinitialisation de mot de passe invalide"
         password_confirmation: "Les mots de passe doivent correspondre "
-    onboard_email:
-      subject: "Bienvenue à %{system}!"
-      greeting: "Cher-e %{full_name}"
-      body1: "Bienvenue sur Primero"
-      body2: "Vous avez été désigné comme administrateur du système pour %{host_href}. %{reset_notification} "
-      body2_reset_notification: "Vous recevrez un mail supplémentaire vous invitant à réinitialiser votre mot de passe."
-      body3: "Vous êtes responsable de la mise en œuvre sûre et à temps. Pour chaque déploiement, vous devez avoir complété le plan de mise en œuvre avec la stratégie d'intégration et de gestion des utilisateurs et le protocole de partage des informations. Vous devez également veiller à ce qu'un contrat d'utilisation signé soit conservé par toutes les organisations utilisatrices."
   user_group:
     associated_agencies: Organisation associées à ce groupe d'utilisateurs
     description: Description

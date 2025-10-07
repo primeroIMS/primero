@@ -16,6 +16,8 @@ class TracingRequest < ApplicationRecord
   include Webhookable
   include LocationCacheable
   include PhoneticSearchable
+  include Normalizeable
+  include AccessLoggable
 
   has_many :traces
   store_accessor :data,
@@ -27,6 +29,7 @@ class TracingRequest < ApplicationRecord
                  :monitor_number, :survivor_code, :reunited, :inquiry_date,
                  :location_last
   alias inquirer_id tracing_request_id
+  before_save :save_searchable_fields
   after_save :save_traces
   class << self
     def filterable_id_fields

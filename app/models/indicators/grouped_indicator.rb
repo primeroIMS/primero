@@ -7,47 +7,43 @@ module Indicators
   # Class for Grouped Indicator
   class GroupedIndicator < AbstractIndicator
     # rubocop:enable Style/ClassAndModuleChildren
-    attr_accessor :pivots
+    attr_accessor :pivots, :indicator_pivots
 
     DEFAULT_STAT = { 'count' => 0, 'query' => [] }.freeze
 
-    SELECT_LOCATION_PIVOT = %(
-      (
-        SELECT
-          LOWER(CAST(SUBPATH(locations.hierarchy_path, :admin_level, 1) AS VARCHAR))
-        FROM locations
-        WHERE location_code = data->>:field_name
-        AND NLEVEL(hierarchy_path) > :admin_level
-      ) AS pivot:index
-    )
+    def initialize(args = {})
+      super(args)
+      self.indicator_pivots = build_indicator_pivots
+    end
 
     def query(indicator_filters, user_query_scope)
-      indicator_query = super(indicator_filters, user_query_scope)
-      indicator_query.select(select_pivots).group(pivot_field_names.join(', '))
+      build_query(indicator_filters, user_query_scope).select(select_pivots).group(pivot_names.join(', '))
+    end
+
+    def build_indicator_pivots
+      pivots.map.with_index(1) do |pivot, index|
+        if record_model.searchable_field_names.include?(pivot[:field_name])
+          searchable_column_name = record_model.searchable_column_name(pivot[:field_name])
+          next SearchablePivot.new(pivot.merge(number: index, searchable_column_name:))
+        end
+
+        JsonPivot.new(pivot.merge(number: index))
+      end
     end
 
     def select_pivots
-      select = pivots.map.with_index(1) do |pivot, index|
-        next(ActiveRecord::Base.sanitize_sql_array(['pivot?', index])) if pivot[:multivalue].present?
-
-        if pivot[:type] == 'location'
-          next(ActiveRecord::Base.sanitize_sql_array([SELECT_LOCATION_PIVOT, pivot.merge(index:)]))
-        end
-
-        ActiveRecord::Base.sanitize_sql_array(['data->>? AS pivot?', pivot[:field_name], index])
-      end.join(', ')
-
+      select = indicator_pivots.map(&:select).join(', ')
       "#{select}, COUNT(*) AS count"
     end
 
-    def pivot_field_names
-      pivots.map.with_index(1) { |_, index| "pivot#{index}" }
+    def pivot_names
+      indicator_pivots.map(&:name)
     end
 
     def write_stats_for_indicator(indicator_filters, user_query_scope, managed_user_names = [])
       indicator_query = query(indicator_filters, user_query_scope)
       indicator_query = join_and_constraint_pivots(indicator_query, managed_user_names)
-      indicator_query = indicator_query.order(pivot_field_names)
+      indicator_query = indicator_query.order(pivot_names)
       result = Child.connection.select_all(indicator_query.to_sql).to_a
       nested_pivots = nested_pivots_from_result(result)
       write_stats_for_pivots(result, indicator_filters, nested_pivots)
@@ -56,34 +52,15 @@ module Indicators
     protected
 
     def join_and_constraint_pivots(indicator_query, managed_user_names)
-      pivots.each.with_index(1) do |pivot, index|
-        indicator_query = join_multivalued_pivot(indicator_query, pivot, index) if pivot[:multivalue].present?
-        next unless pivot[:constrained].present? && managed_user_names.present?
+      indicator_pivots.each do |pivot|
+        indicator_query = pivot.join_multivalue(indicator_query) if pivot.multivalue?
+        indicator_query = pivot.join_location_pivot(indicator_query) if pivot.location?
+        next unless pivot.constrained? && managed_user_names.present?
 
-        indicator_query = constraint_pivot_values(indicator_query, pivot, index, managed_user_names)
+        indicator_query = pivot.constraint_values(indicator_query, managed_user_names)
       end
 
       indicator_query
-    end
-
-    def join_multivalued_pivot(indicator_query, pivot, index)
-      indicator_query.joins(
-        ActiveRecord::Base.sanitize_sql_array(
-          ['CROSS JOIN JSONB_ARRAY_ELEMENTS_TEXT(data->?) AS pivot?', pivot[:field_name], index]
-        )
-      )
-    end
-
-    def constraint_pivot_values(indicator_query, pivot, index, managed_user_names)
-      if pivot[:multivalue].present?
-        return indicator_query.where(
-          ActiveRecord::Base.sanitize_sql_array(['pivot? IN (?)', index, managed_user_names])
-        )
-      end
-
-      indicator_query.where(
-        ActiveRecord::Base.sanitize_sql_array(['data->>? IN (?)', pivot[:field_name], managed_user_names])
-      )
     end
 
     def write_stats_for_pivots(result, indicator_filters, nested_pivots)
@@ -119,24 +96,12 @@ module Indicators
       { 'count' => pivot_row['count'], 'query' => stat_query_strings(pivot_row, indicator_filters) }
     end
 
-    def pivot_values(pivot_row)
-      pivot_field_names.map { |elem| pivot_row[elem] }
-    end
-
     def stat_query_strings(pivot_row, indicator_filters)
       indicator_filters.map(&:to_s) + row_pivot_to_query_string(pivot_row)
     end
 
     def row_pivot_to_query_string(pivot_row)
-      values = pivot_values(pivot_row)
-      pivots.map.with_index { |pivot, index| "#{pivot_param(pivot)}=#{values[index]}" }
-    end
-
-    def pivot_param(pivot)
-      return pivot[:query_param] if pivot[:query_param].present?
-      return "loc:#{pivot[:field_name]}#{pivot[:admin_level]}" if pivot[:type] == 'location'
-
-      pivot[:field_name]
+      indicator_pivots.map.with_index { |pivot, _index| "#{pivot.to_param}=#{pivot_row[pivot.name]}" }
     end
   end
 end

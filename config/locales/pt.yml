@@ -309,22 +309,13 @@ pt:
       disabled: Desativado
       enabled: 'Habilitado '
   email_notification:
-    approval_request: 'O usuário %{user} está solicitando aprovação para %{approval_type} no caso %{case_id}.'
     approval_request_subject: 'Caso: %{id} - Solicitação de Aprovação '
-    approval_response: '%{user} tem %{status} a solicitação de aprovação para%{approval_type} para o caso %{case_id}.'
     approval_response_subject: 'Caso: %{id} - Resposta de Aprovação '
     referral: '%{user} da %{agency} encaminhou o seguinte %{record_type} para você: %{record_id} para %{service_type}.'
     transfer: '%{user} transferiu o seguinte %{record_type} para você: %{record_id}.'
     transfer_request_subject: 'Solicitação de transferência para um de seus casos '
-    transfer_subject: '%{record_type}: %{id} - Transferência'
-    referral_subject: '%{record_type}: %{id}- Encaminhamento '
     transfer_request: 'Usuário Primero %{user} da %{agency} está solicitando que você transfira a propriedade deste %{record_type} registo %{record_id} para que eles possam fornecer serviços de gerenciamento de %{record_type} para o indivíduo em sua área. Se esta transferência for aceitável para você, por favor clique no link da ID do %{record_type} neste email para abrir o %{record_type} no Primero e iniciar a transferência. '
     approval_request_html: 'O usuário <strong>%{user}</strong> está solicitando aprovação para <strong>%{approval_type}</strong> no caso <strong>%{case_id}</strong>.'
-    approval_response_html: '<strong>%{user}</strong> tem <strong>%{status}</strong> a solicitação de aprovação para <strong>%{approval_type}</strong> para o caso <strong>%{case_id}</strong>.'
-    referral_html: '<strong>%{user}</strong> da %{agency} encaminhou o seguinte %{record_type} para você: <strong>%{record_id}</strong> para %{service_type}.'
-    transfer_html: '<strong>%{user}</strong> transferiu o seguinte %{record_type} para você: <strong>%{record_id}</strong>.'
-    transfer_request_html: 'Usuário Primero <strong>%{user}</strong> da %{agency} está solicitando que você transfira a propriedade deste %{record_type} registo <strong>%{record_id}</strong> para que eles possam fornecer serviços de gerenciamento de %{record_type} para o indivíduo em sua área. Se esta transferência for aceitável para você, por favor clique no link da ID do %{record_type} neste email para abrir o %{record_type} no Primero e iniciar a transferência.'
-    transfer_request_notes_html: 'Notas do indivíduo fazendo a solicitação: %{request_transfer_notes}'
   encrypt:
     file_name: Crie seu próprio nome de arquivo (Opcional)
     password_label: 'Por favor, insira uma senha que irá criptografar seu arquivo. '

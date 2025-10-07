@@ -14,7 +14,7 @@ describe("<UsersForm /> - Reducers", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_USER_FAILURE", () => {
@@ -25,7 +25,7 @@ describe("<UsersForm /> - Reducers", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_USER_SUCCESS", () => {
@@ -42,7 +42,7 @@ describe("<UsersForm /> - Reducers", () => {
 
     const newState = reducer(fromJS({ selectedUser: {} }), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle FETCH_USER_FINISHED", () => {
@@ -53,7 +53,7 @@ describe("<UsersForm /> - Reducers", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle CLEAR_SELECTED_USER", () => {
@@ -69,7 +69,7 @@ describe("<UsersForm /> - Reducers", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle CLEAR_RECORDS_UPDATE", () => {
@@ -79,7 +79,7 @@ describe("<UsersForm /> - Reducers", () => {
     };
     const newState = reducer(fromJS({ recordsUpdate: true }), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle RECORDS_UPDATE", () => {
@@ -92,7 +92,7 @@ describe("<UsersForm /> - Reducers", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SAVE_USER_STARTED", () => {
@@ -103,7 +103,7 @@ describe("<UsersForm /> - Reducers", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SAVE_USER_SUCCESS", () => {
@@ -124,7 +124,7 @@ describe("<UsersForm /> - Reducers", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle SAVE_USER_FAILURE", () => {
@@ -135,7 +135,7 @@ describe("<UsersForm /> - Reducers", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle NEW_PASSWORD_RESET_REQUEST_STARTED", () => {
@@ -143,7 +143,7 @@ describe("<UsersForm /> - Reducers", () => {
     const action = { type: actions.NEW_PASSWORD_RESET_REQUEST_STARTED };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle NEW_PASSWORD_RESET_REQUEST_SUCCESS", () => {
@@ -152,7 +152,7 @@ describe("<UsersForm /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle NEW_PASSWORD_RESET_REQUEST_FAILURE", () => {
@@ -161,7 +161,7 @@ describe("<UsersForm /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle NEW_PASSWORD_RESET_REQUEST_FINISHED", () => {
@@ -170,7 +170,7 @@ describe("<UsersForm /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle PASSWORD_RESET_REQUEST_STARTED", () => {
@@ -180,7 +180,7 @@ describe("<UsersForm /> - Reducers", () => {
     };
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle PASSWORD_RESET_REQUEST_SUCCESS", () => {
@@ -191,7 +191,7 @@ describe("<UsersForm /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle PASSWORD_RESET_REQUEST_FAILURE", () => {
@@ -202,7 +202,7 @@ describe("<UsersForm /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 
   it("should handle PASSWORD_RESET_REQUEST_FINISHED", () => {
@@ -213,6 +213,6 @@ describe("<UsersForm /> - Reducers", () => {
 
     const newState = reducer(fromJS({}), action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

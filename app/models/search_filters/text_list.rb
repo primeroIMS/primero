@@ -2,17 +2,23 @@
 
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-# Transform API query parameter field_name=false,true,... into a SQL query
+# Transform API query parameter field_name=false,true,... into a sql query
 class SearchFilters::TextList < SearchFilters::ValueList
-  def query
+  def json_path_query
     return unless values.present?
 
-    json_path_query
+    super
   end
 
-  def json_path_value
+  def json_path_predicate
     values.map do |value|
       ActiveRecord::Base.sanitize_sql_for_conditions(['@ == "%s"', value])
     end.join(' || ')
+  end
+
+  def searchable_predicate(record_class)
+    return super unless array_field?(record_class)
+
+    "#{safe_search_column} && ARRAY[?]::VARCHAR[]"
   end
 end

@@ -1,6 +1,5 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import sinon from "sinon";
 import configureStore from "redux-mock-store";
 
 import { RECORD_PATH } from "../../config";
@@ -12,11 +11,11 @@ describe("<IndexFilters /> - Action Creators", () => {
     const creators = { ...actions };
 
     ["applyFilters", "setFilters"].forEach(property => {
-      expect(creators).to.have.property(property);
+      expect(creators).toHaveProperty(property);
       delete creators[property];
     });
 
-    expect(creators).to.be.empty;
+    expect(Object.keys(creators)).toHaveLength(0);
   });
 
   it("should check the 'setFilters' action creator to return the correct object, when applying filters", () => {
@@ -31,26 +30,33 @@ describe("<IndexFilters /> - Action Creators", () => {
         recordType: "cases",
         data: { filter1: true }
       })
-    ).to.deep.equal(expectedAction);
+    ).toEqual(expectedAction);
   });
 
   it("checks 'applyFilters' action creator returns the correct object, when applying filters/fetching records", () => {
     const options = { filter1: true };
     const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
+    const dispatch = jest.spyOn(store, "dispatch");
 
     actions.applyFilters({
       recordType: "cases",
       data: { filter1: true }
     })(dispatch);
 
-    expect(dispatch).to.have.been.calledWithMatch({
-      payload: options,
-      type: "cases/SET_FILTERS"
-    });
+    expect(dispatch).toHaveBeenNthCalledWith(
+      1,
+      expect.objectContaining({
+        payload: options,
+        type: "cases/SET_FILTERS"
+      })
+    );
 
-    expect(dispatch).to.have.been.calledWithMatch({
+    expect(dispatch).toHaveBeenNthCalledWith(2, {
       api: {
+        db: {
+          collection: "records",
+          recordType: "cases"
+        },
         params: options,
         path: `/${RECORD_PATH.cases}`
       },

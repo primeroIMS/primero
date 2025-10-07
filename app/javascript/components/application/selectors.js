@@ -42,17 +42,24 @@ export const getEnabledAgencies = (state, service) => {
 
 export const selectModules = state => state.getIn([NAMESPACE, "modules"], fromJS([]));
 
+export const selectAuditLogActions = state => state.getIn([NAMESPACE, "auditLog", "actions"], fromJS([]));
+export const selectAuditLogRecordTypes = state => state.getIn([NAMESPACE, "auditLog", "record_types"], fromJS([]));
+
 export const selectLocales = state => state.getIn([NAMESPACE, "primero", "locales"], fromJS([]));
 
-export const selectUserModules = state =>
-  state.getIn([NAMESPACE, "modules"], Map({})).filter(m => {
+export const selectUserModules = state => {
+  return state.getIn([NAMESPACE, "modules"], Map({})).filter(m => {
     const userModules = state.getIn(["user", "modules"], null);
 
     return userModules ? userModules.includes(m.unique_id) : false;
   });
+};
 
-export const selectModule = (state, id) =>
-  selectUserModules(state).find(userModule => userModule.unique_id === id, null, fromJS({}));
+export const selectModule = (state, id, fromUserModule = true) => {
+  const moduleState = fromUserModule ? selectUserModules(state) : selectModules(state);
+
+  return moduleState.find(userModule => userModule.unique_id === id, null, fromJS({}));
+};
 
 export const getWorkflowLabels = (state, id, recordType) => {
   if (id) {
@@ -71,12 +78,14 @@ export const getWorkflowLabels = (state, id, recordType) => {
 export const getAllWorkflowLabels = (state, recordType) => {
   return selectUserModules(state).reduce((prev, current) => {
     if (![MODULES.GBV, MODULES.MRM].includes(current.get("unique_id"))) {
-      prev.push([current.name, current.getIn(["workflows", recordType], [])]);
+      prev.push([current.name, current.getIn(["workflows", recordType], []), current.unique_id]);
     }
 
     return prev;
   }, []);
 };
+
+export const getServicesForm = (state, id) => selectModule(state, id).getIn(["options", "services_form"]);
 
 export const getConsentform = (state, id) => selectModule(state, id).getIn(["options", "consent_form"]);
 
@@ -118,17 +127,19 @@ export const getSystemPermissions = state => state.getIn([NAMESPACE, PERMISSIONS
 export const getResourceActions = (state, resource) =>
   getSystemPermissions(state).getIn([RESOURCE_ACTIONS, resource], fromJS([]));
 
-export const getAgeRanges = (state, name = "primero") => state.getIn([NAMESPACE, "ageRanges", name], fromJS([]));
-
-export const getPrimaryAgeRange = state => {
-  const systemAgeRanges = state.getIn([NAMESPACE, "primaryAgeRange"], "primero");
+export const getAgeRanges = (state, name = "primero") => {
   const userModules = selectUserModules(state);
+  const ageRange = state.getIn([NAMESPACE, "ageRanges", name], fromJS([]));
 
   if (userModules.size === 1) {
-    return userModules.first()?.primary_age_range || systemAgeRanges;
+    return userModules.first()?.age_range || ageRange;
   }
 
-  return systemAgeRanges;
+  return ageRange;
+};
+
+export const getPrimaryAgeRange = state => {
+  return state.getIn([NAMESPACE, "primaryAgeRange"], "primero");
 };
 
 export const getPrimaryAgeRanges = state => getAgeRanges(state, getPrimaryAgeRange(state));
@@ -136,19 +147,26 @@ export const getPrimaryAgeRanges = state => getAgeRanges(state, getPrimaryAgeRan
 export const getReportableTypes = state => state.getIn([NAMESPACE, "reportableTypes"], fromJS([]));
 
 export const approvalsLabels = state => {
-  const systemApprovalLabels = state.getIn([NAMESPACE, "approvalsLabels"], fromJS({}));
   const userModules = selectUserModules(state);
+  const systemApprovalLabels = state.getIn([NAMESPACE, "approvalsLabels"], fromJS({}));
+  const defaultModules =
+    userModules.size === 1 ? userModules.first().get("approvals_labels") || systemApprovalLabels : systemApprovalLabels;
 
-  if (userModules.size === 1) {
-    return fromJS(userModules.first()?.approvals_labels) || systemApprovalLabels;
-  }
+  const userModulesApprovalLabels = userModules.reduce((prev, current) => {
+    return { ...prev, [current.unique_id]: current.get("approvals_labels") };
+  }, {});
 
-  return systemApprovalLabels;
+  return fromJS({ default: defaultModules, ...userModulesApprovalLabels });
 };
 
 export const getApprovalsLabels = createCachedSelector(getLocale, approvalsLabels, (locale, data) => {
   const labels = data.entrySeq().reduce((acc, [key, value]) => {
-    return acc.set(key, displayNameHelper(value, locale));
+    return acc.set(
+      key,
+      value?.entrySeq()?.reduce((prev, [subKey, subValue]) => {
+        return prev.set(subKey, displayNameHelper(subValue, locale));
+      }, Map({}))
+    );
   }, Map({}));
 
   return labels;
@@ -216,6 +234,9 @@ export const getMaximumUsersWarning = state => state.getIn([NAMESPACE, "systemOp
 export const getMaximumAttachmentsPerRecord = state =>
   state.getIn([NAMESPACE, "systemOptions", "maximum_attachments_per_record"]);
 
+export const getAllowCaseCreationFromReferral = state =>
+  state.getIn([NAMESPACE, "systemOptions", "allow_case_creation_from_referral"]);
+
 export const getTheme = state => state.getIn([NAMESPACE, "theme"], fromJS({}));
 
 export const getShowPoweredByPrimero = state => state.getIn([NAMESPACE, "theme", "showPoweredByPrimero"], false);
@@ -225,6 +246,8 @@ export const getUseContainedNavStyle = state => state.getIn([NAMESPACE, "theme",
 export const getSiteTitle = state => state.getIn([NAMESPACE, "theme", "siteTitle"], "Primero");
 
 export const getThemeLogos = state => state.getIn([NAMESPACE, "theme", "images", "logos"], {});
+
+export const getFieldLabels = state => state.getIn([NAMESPACE, "fieldLabels"], fromJS({}));
 
 export const getAppData = memoize(state => {
   const modules = selectModules(state);
@@ -240,6 +263,7 @@ export const getAppData = memoize(state => {
   const showPoweredByPrimero = getShowPoweredByPrimero(state);
   const hasLoginLogo = getLoginBackground(state);
   const maximumttachmentsPerRecord = getMaximumAttachmentsPerRecord(state);
+  const fieldLabels = getFieldLabels(state);
 
   return {
     modules,
@@ -254,7 +278,8 @@ export const getAppData = memoize(state => {
     useContainedNavStyle,
     showPoweredByPrimero,
     hasLoginLogo,
-    maximumttachmentsPerRecord
+    maximumttachmentsPerRecord,
+    fieldLabels
   };
 });
 
@@ -283,3 +308,22 @@ export const getListHeaders = (state, namespace) => {
 
   return listHeaders;
 };
+
+export const getListHeadersByRecordAndCaseType = (state, { caseType, recordType, excludes = [] }) => {
+  const listHeaders = state.getIn(["user", "listHeaders", recordType], List([]));
+
+  const caseTypelistHeaders =
+    selectModules(state)
+      .find(primeroModule => primeroModule.getIn(["options", "case_type"], "person") === caseType)
+      ?.getIn(["list_headers", recordType]) || fromJS([]);
+
+  const headers = caseTypelistHeaders
+    ? listHeaders.filter(header => caseTypelistHeaders.includes(header.get("field_name")))
+    : List();
+
+  return headers.filter(header => !excludes.includes(header.get("field_name")));
+};
+
+export const getExactSearchFields = state => state.getIn([NAMESPACE, "exactSearchFields"], fromJS({}));
+
+export const getPhoneticSearchFields = state => state.getIn([NAMESPACE, "phoneticSearchFields"], fromJS({}));

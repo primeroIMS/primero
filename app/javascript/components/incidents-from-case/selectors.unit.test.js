@@ -24,19 +24,19 @@ describe("<IncidentFromCase /> - Selectors", () => {
     it("should return violence type field id from store", () => {
       const violenceType = getViolenceType(state, "test1");
 
-      expect(violenceType).to.deep.equal("test1_violence_type_field_id");
+      expect(violenceType).toEqual("test1_violence_type_field_id");
     });
 
     it("should return violence type field id from store", () => {
       const violenceType = getViolenceType(state, MODULES.CP);
 
-      expect(violenceType).to.deep.equal(CP_VIOLENCE_TYPE);
+      expect(violenceType).toEqual(CP_VIOLENCE_TYPE);
     });
 
     it("should return violence type field id from store", () => {
       const violenceType = getViolenceType(state, MODULES.GBV);
 
-      expect(violenceType).to.deep.equal(GBV_VIOLENCE_TYPE);
+      expect(violenceType).toEqual(GBV_VIOLENCE_TYPE);
     });
   });
 });

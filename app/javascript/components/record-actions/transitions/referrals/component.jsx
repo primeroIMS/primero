@@ -27,7 +27,8 @@ import {
   SERVICE_EXTERNAL_REFERRAL,
   FIELDS,
   CUSTOM_EXPORT_FILE_NAME_FIELD,
-  OMITTED_SUBMISSION_FIELDS
+  OMITTED_SUBMISSION_FIELDS,
+  ALL_OPTION_ID
 } from "./constants";
 import { form, validations } from "./form";
 
@@ -35,6 +36,7 @@ function Referrals({
   formID,
   providedConsent,
   canConsentOverride,
+  allowCaseCreationFromReferral,
   record,
   recordType,
   setDisabled,
@@ -55,7 +57,8 @@ function Referrals({
   const recordTypesForms = useMemoizedSelector(state =>
     getRecordForms(state, {
       recordType: RECORD_TYPES[recordType],
-      primeroModule: record?.get("module_id")
+      primeroModule: record?.get("module_id"),
+      includeDefaultForms: false
     })
   );
 
@@ -71,7 +74,8 @@ function Referrals({
     recordModuleID: record?.get("module_id"),
     isReferralFromService,
     isExternalReferralFromService,
-    hasReferralRoles: !referralAuthorizationRoles.isEmpty()
+    hasReferralRoles: !referralAuthorizationRoles.isEmpty(),
+    allowCaseCreationFromReferral
   });
 
   const handleSubmit = values => {
@@ -125,8 +129,15 @@ function Referrals({
         submitAlways
         formSections={forms}
         onSubmit={handleSubmit}
-        validations={validations(i18n)}
+        validations={validations(i18n, { hasReferralRoles: !referralAuthorizationRoles.isEmpty() })}
         formErrors={formErrors}
+        transformBeforeSend={data => {
+          if (data[FIELDS.AUTHORIZED_ROLE_UNIQUE_ID] === ALL_OPTION_ID) {
+            return omit(data, [FIELDS.AUTHORIZED_ROLE_UNIQUE_ID]);
+          }
+
+          return data;
+        }}
         initialValues={{
           [FIELDS.CONSENT_INDIVIDUAL_TRANSFER]: providedConsent,
           ...referralFromService
@@ -142,6 +153,7 @@ function Referrals({
             formsSelectedSelector={OPTION_TYPES.MANAGED_ROLE_FORM_SECTIONS}
             customFilenameField={CUSTOM_EXPORT_FILE_NAME_FIELD}
             customFormProps={customReferralFormProps(i18n)}
+            includeAllFormsWhenEmpty={false}
           />
         )}
       />
@@ -152,6 +164,7 @@ function Referrals({
 Referrals.displayName = "Referrals";
 
 Referrals.propTypes = {
+  allowCaseCreationFromReferral: PropTypes.bool,
   canConsentOverride: PropTypes.bool,
   formID: PropTypes.string.isRequired,
   handleClose: PropTypes.func.isRequired,

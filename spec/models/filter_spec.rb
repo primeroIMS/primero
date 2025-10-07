@@ -159,7 +159,7 @@ describe Filter do
 
       it 'has workflow filter' do
         expect(@filters_cp[0]['cases']).to include(have_attributes(name: 'cases.filter_by.workflow',
-                                                                   field_name: 'workflow', type: 'multi_toggle'))
+                                                                   field_name: 'workflow', type: 'workflow'))
       end
 
       it 'has status filter' do
@@ -246,8 +246,8 @@ describe Filter do
     end
 
     describe 'case filters' do
-      it 'has 27 filters' do
-        expect(@filters_cp_gbv[0]['cases'].count).to eq(27)
+      it 'has 28 filters' do
+        expect(@filters_cp_gbv[0]['cases'].count).to eq(28)
       end
 
       it 'has filters' do
@@ -293,6 +293,7 @@ describe Filter do
           { id: 'reunification_dates', display_name: 'Date of Reunification' },
           { id: 'tracing_dates', display_name: 'Date of Tracing' },
           { id: 'service_implemented_day_times', display_name: 'Date Service Completed' },
+          { id: 'reassigned_transferred_on', display_name: 'Date Assigned / Transferred On' },
           { id: 'created_at', display_name: 'Case Open Date' }
         ]
         expect(
@@ -324,7 +325,7 @@ describe Filter do
             incidents.filter_by.verification_status
             incidents.filter_by.verified_ghn_reported
             incidents.filter_by.incident_location
-            location.base_types.
+            location.base_types.district
             incidents.filter_by.by_date
             incidents.filter_by.perpetrator_category
             incidents.filter_by.armed_force_group_party_name

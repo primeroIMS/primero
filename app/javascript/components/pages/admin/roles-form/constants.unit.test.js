@@ -15,10 +15,10 @@ describe("<RolesForm /> - Constants", () => {
       "FORM_ID",
       "ROLES_PERMISSIONS"
     ].forEach(property => {
-      expect(clonedActions).to.have.property(property);
+      expect(clonedActions).toHaveProperty(property);
       delete clonedActions[property];
     });
 
-    expect(clonedActions).to.be.empty;
+    expect(Object.keys(clonedActions)).toHaveLength(0);
   });
 });

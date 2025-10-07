@@ -9,42 +9,37 @@ class Flag < ApplicationRecord
 
   belongs_to :record, polymorphic: true
 
+  attr_accessor :updated_by
+
   # The CAST is necessary because ActiveRecord assumes the id is an int.  It isn't.
   # TODO: Rewrite these queries when we start using record_uuid
   scope :join_record, lambda { |record_type|
     joins(
-      ActiveRecord::Base.sanitize_sql(
-        "INNER JOIN #{ActiveRecord::Base.connection.quote_column_name(record_type)} ON \
-        CAST (#{ActiveRecord::Base.connection.quote_column_name(record_type)}.id as varchar) = \
-        CAST (flags.record_id as varchar)"
+      ActiveRecord::Base.sanitize_sql_array(
+        ['INNER JOIN %s ON %s.id = CAST(flags.record_id AS UUID)', record_type, record_type]
       )
     )
   }
 
   scope :by_record_associated_user, lambda { |params|
-    owner_json = params[:owner].to_json
     join_record(params[:type]).where(
-      "data %s '$[*] %s (@.assigned_user_names == %s || @.owned_by == %s)'", '@?', '?', owner_json, owner_json
+      'srch_assigned_user_names && ARRAY[:owner]::VARCHAR[] OR srch_owned_by = :owner', owner: params[:owner]
     )
   }
 
   scope :by_record_associated_groups, lambda { |params|
-    groups = params[:group].map do |group|
-      ActiveRecord::Base.sanitize_sql_for_conditions(['@ == %s', group.to_json])
-    end.join('||')
-
-    join_record(params[:type]).where("data %s '$.associated_user_groups %s (%s)'", '@?', '?', groups)
+    join_record(params[:type]).where('srch_associated_user_groups && ARRAY[?]::VARCHAR[]', params[:group])
   }
 
   scope :by_record_agency, lambda { |params|
-    join_record(params[:type]).where("data %s '$.owned_by_agency_id %s (@ == %s)'", '@?', '?', params[:agency].to_json)
+    join_record(params[:type]).where('srch_owned_by_agency_id = ?', params[:agency])
   }
 
   validates :message, presence: { message: 'errors.models.flags.message' }
   validates :date, presence: { message: 'errors.models.flags.date' }
 
-  after_create :flag_history
-  after_update :unflag_history
+  after_create :add_flag_history
+  after_update :update_flag_history
 
   class << self
     def by_owner(query_scope, active_only, record_types, flagged_by)
@@ -90,27 +85,44 @@ class Flag < ApplicationRecord
     end
   end
 
-  def flag_history
-    update_flag_history(EVENT_FLAG, flagged_by)
+  def add_flag_history
+    create_flag_history(EVENT_FLAG, flagged_by, { flags: { from: nil, to: self } })
   end
 
-  def unflag_history
-    return unless saved_change_to_attribute('removed')&.[](1)
+  def update_flag_history
+    if saved_change_to_attribute('removed')&.[](1)
+      create_flag_history(EVENT_UNFLAG, unflagged_by, flag_changes)
+    else
+      create_flag_history(EVENT_FLAG, updated_by, flag_changes)
+    end
+  end
 
-    saved_changes.transform_values { |v| v[1] }
-    update_flag_history(EVENT_UNFLAG, unflagged_by)
+  def mark_removed(user_name, unflag_message)
+    self.unflag_message = unflag_message
+    self.unflagged_date = Date.today
+    self.unflagged_by = user_name
+    self.removed = true
   end
 
   private
 
-  def update_flag_history(event, user_name)
+  def flag_changes
+    {
+      flags: {
+        from: saved_changes.transform_values { |value| value[0] }.merge(id:),
+        to: saved_changes.transform_values { |value| value[1] }.merge(id:)
+      }
+    }
+  end
+
+  def create_flag_history(event, user_name, record_changes)
     RecordHistory.create(
       record_id:,
       record_type:,
       user_name:,
       datetime: DateTime.now,
       action: event,
-      record_changes: { flags: { from: nil, to: self } }
+      record_changes:
     )
   end
 end

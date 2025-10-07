@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { fromJS } from "immutable";
+import { fromJS, List } from "immutable";
 
 const subColumLookupValues = (subColumnLookups, valueKey) => {
   if (subColumnLookups && subColumnLookups[valueKey]) {
@@ -18,7 +18,8 @@ export default ({
   indicatorsSubcolumns,
   indicatorSubColumnKeys,
   totalText,
-  includeAllSubColumns = true
+  includeAllSubColumns = true,
+  incompleteDataLabel
 }) => {
   let lookupValues = subColumLookupValues(subColumnLookups, valueKey);
 
@@ -32,7 +33,15 @@ export default ({
     );
 
     if (missingSubColumns) {
-      lookupValues = lookupValues.concat(missingSubColumns.map(id => ({ id, display_text: id })));
+      lookupValues = lookupValues.concat(
+        missingSubColumns.map(id => {
+          if (id === "incomplete_data") {
+            return { id, display_text: incompleteDataLabel };
+          }
+
+          return { id, display_text: id };
+        })
+      );
     }
 
     if (hasTotalColumn) {
@@ -43,14 +52,26 @@ export default ({
   }
 
   if (indicatorsSubcolumns.get(valueKey) === "AgeRange") {
-    const ageRangeOptions = ageRanges.map(ageRange => ({ id: ageRange, display_text: ageRange }));
+    let ageRangeOptions = ageRanges.map(ageRange => ({ id: ageRange, display_text: ageRange }));
+
+    const hasIncompleteData = (indicatorSubColumnKeys || []).includes("incomplete_data");
+
+    if (hasIncompleteData) {
+      ageRangeOptions = ageRangeOptions.concat({ id: "incomplete_data", display_text: incompleteDataLabel });
+    }
 
     if (hasTotalColumn) {
-      return ageRangeOptions.concat({ id: "total", display_text: totalText });
+      ageRangeOptions = ageRangeOptions.concat({ id: "total", display_text: totalText });
     }
 
     return ageRangeOptions;
   }
 
-  return indicatorsSubcolumns.get(valueKey, fromJS([])).toJS();
+  const subcolumns = indicatorsSubcolumns.get(valueKey, fromJS([]));
+
+  if (List.isList(subcolumns)) {
+    return subcolumns.toJS();
+  }
+
+  return [];
 };

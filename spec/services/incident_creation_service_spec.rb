@@ -14,7 +14,8 @@ describe IncidentCreationService do
         fields: [
           { source: 'ethnicity', target: 'ethnicity' },
           { source: 'protection_concerns', target: 'protection_concerns' },
-          { source: 'national_id_no', target: 'national_id_no' }
+          { source: 'national_id_no', target: 'national_id_no' },
+          { source: 'nil_field', target: 'nil_field' }
         ]
       }
     )
@@ -45,10 +46,18 @@ describe IncidentCreationService do
   end
   let(:case_cp) do
     Child.create!(
-      name: 'Niall McPherson', age: 12, sex: 'male',
-      protection_concerns: %w[unaccompanied separated], ethnicity: 'CP Ethnicity',
-      module_id: 'primeromodule-cp', owned_by: user_cp.user_name, owned_by_full_name: user_cp.full_name,
-      national_id_no: '01'
+      data: {
+        nil_field: nil,
+        name: 'Niall McPherson',
+        age: 12,
+        sex: 'male',
+        protection_concerns: %w[unaccompanied separated],
+        ethnicity: 'CP Ethnicity',
+        module_id: 'primeromodule-cp',
+        owned_by: user_cp.user_name,
+        owned_by_full_name: user_cp.full_name,
+        national_id_no: '01'
+      }
     )
   end
   let(:case_gbv) do
@@ -74,6 +83,10 @@ describe IncidentCreationService do
 
         it 'does not copy not specified in the mapping from the case to the new incident' do
           expect(@incident.data['sex']).to be_nil
+        end
+
+        it 'does not copy nil fields' do
+          expect(@incident).not_to contain_exactly('nil_field')
         end
 
         it 'copies module id from the case to the new incident' do

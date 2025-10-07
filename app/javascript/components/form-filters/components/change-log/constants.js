@@ -6,3 +6,5 @@ export const FILTER_NAMES = Object.freeze({
   form_unique_ids: "form_unique_ids",
   field_names: "field_names"
 });
+
+export const FIRST_PAGE_RESULTS = 1;

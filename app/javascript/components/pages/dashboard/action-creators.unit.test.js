@@ -1,71 +1,89 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import clone from "lodash/clone";
-import sinon from "sinon";
-import configureStore from "redux-mock-store";
 
 import { RECORD_PATH } from "../../../config";
+import { DB_COLLECTIONS_NAMES } from "../../../db";
 
 import * as actionCreators from "./action-creators";
 import actions from "./actions";
+import { DASHBOARD_GROUP, DASHBOARD_NAMES_FOR_GROUP } from "./constants";
 
 describe("<Dashboard /> - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = clone(actionCreators);
 
-    [
-      "fetchFlags",
-      "fetchCasesByStatus",
-      "fetchCasesByCaseWorker",
-      "fetchCasesRegistration",
-      "fetchCasesOverview",
-      "fetchServicesStatus",
-      "openPageActions",
-      "fetchDashboards"
-    ].forEach(property => {
-      expect(creators).to.have.property(property);
+    ["fetchFlags", "openPageActions", "fetchDashboardApprovals", "fetchDashboards"].forEach(property => {
+      expect(creators).toHaveProperty(property);
       delete creators[property];
     });
 
-    expect(creators).to.be.empty;
+    expect(Object.keys(creators)).toHaveLength(0);
   });
 
-  it("should check the 'fetchDashboards' action creator to return the correct object", () => {
-    const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
-
-    dispatch(actionCreators.fetchDashboards());
-
-    expect(dispatch.getCall(0).returnValue.type).to.eql(actions.DASHBOARDS);
-
-    expect(dispatch.getCall(0).returnValue.api.path).to.eql(RECORD_PATH.dashboards);
+  it("returns the correct object", () => {
+    expect(actionCreators.fetchDashboards({ group: DASHBOARD_GROUP.overview }).type).toEqual(
+      actions.DASHBOARD_OVERVIEW
+    );
+    expect(actionCreators.fetchDashboards({ group: DASHBOARD_GROUP.overview }).api.path).toEqual(
+      RECORD_PATH.dashboards
+    );
+    expect(actionCreators.fetchDashboards({ group: DASHBOARD_GROUP.overview }).api.params.names).toEqual(
+      DASHBOARD_NAMES_FOR_GROUP.overview
+    );
   });
 
   describe("fetchFlags", () => {
-    const store = configureStore()({});
-    const dispatch = sinon.spy(store, "dispatch");
-    const commonPath = "record_type=cases";
+    const commonPath = "record_type=cases&per=10";
 
     describe("when only activeFlags is false", () => {
-      it("should return the correct object", () => {
-        const expected = { type: "dashboard/DASHBOARD_FLAGS", api: { path: `flags?${commonPath}` } };
+      it("returns the correct object", () => {
+        const expected = {
+          type: "dashboard/DASHBOARD_FLAGS",
+          api: {
+            path: `flags?${commonPath}`,
+            db: {
+              collection: DB_COLLECTIONS_NAMES.DASHBOARDS,
+              group: DASHBOARD_GROUP.flags
+            }
+          }
+        };
 
-        dispatch(actionCreators.fetchFlags("cases"));
-        const { returnValue: firstCallReturnValue } = dispatch.getCall(0);
-
-        expect(firstCallReturnValue).deep.equals(expected);
+        expect(actionCreators.fetchFlags("cases")).toEqual(expected);
       });
     });
+  });
 
-    describe("when only activeFlags is true", () => {
-      it("should return the correct object", () => {
-        const expected = { type: "dashboard/DASHBOARD_FLAGS", api: { path: `flags?active_only=true&${commonPath}` } };
+  describe("fetchDashboardApprovals", () => {
+    it("returns the correct object", () => {
+      const primeroModules = ["primeromodule-test"];
 
-        dispatch(actionCreators.fetchFlags("cases", true));
-        const { returnValue: firstCallReturnValue } = dispatch.getCall(1);
+      const expected = {
+        type: "dashboard/DASHBOARD_APPROVALS",
+        api: {
+          path: RECORD_PATH.dashboards,
+          params: {
+            names: [
+              "approvals_action_plan_pending.primeromodule-test",
+              "approvals_assessment_pending.primeromodule-test",
+              "approvals_case_plan_pending.primeromodule-test",
+              "approvals_closure_pending.primeromodule-test",
+              "approvals_gbv_closure_pending.primeromodule-test",
+              "approvals_action_plan.primeromodule-test",
+              "approvals_assessment.primeromodule-test",
+              "approvals_case_plan.primeromodule-test",
+              "approvals_closure.primeromodule-test",
+              "approvals_gbv_closure.primeromodule-test"
+            ]
+          },
+          db: {
+            collection: DB_COLLECTIONS_NAMES.DASHBOARDS,
+            group: DASHBOARD_GROUP.approvals
+          }
+        }
+      };
 
-        expect(firstCallReturnValue).deep.equals(expected);
-      });
+      expect(actionCreators.fetchDashboardApprovals(primeroModules)).toEqual(expected);
     });
   });
 });

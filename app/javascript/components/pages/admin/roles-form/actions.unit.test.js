@@ -6,7 +6,7 @@ describe("<RolesForm /> - Actions", () => {
   it("should have known properties", () => {
     const clonedActions = { ...actions };
 
-    expect(clonedActions).to.be.an("object");
+    expect(typeof clonedActions).toEqual("object");
     [
       "CLEAR_SELECTED_ROLE",
       "DELETE_ROLE",
@@ -27,10 +27,10 @@ describe("<RolesForm /> - Actions", () => {
       "SET_COPY_ROLE",
       "CLEAR_COPY_ROLE"
     ].forEach(property => {
-      expect(clonedActions).to.have.property(property);
+      expect(clonedActions).toHaveProperty(property);
       delete clonedActions[property];
     });
 
-    expect(clonedActions).to.be.empty;
+    expect(Object.keys(clonedActions)).toHaveLength(0);
   });
 });

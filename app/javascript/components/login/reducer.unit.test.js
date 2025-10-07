@@ -24,6 +24,6 @@ describe("<Login /> - Reducers", () => {
     };
     const newState = reducer.idp(defaultState, action);
 
-    expect(newState).to.deep.equal(expected);
+    expect(newState).toEqual(expected);
   });
 });

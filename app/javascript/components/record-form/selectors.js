@@ -24,6 +24,7 @@ import { getLocale } from "../i18n/selectors";
 import { getRecordFormAlerts, getSelectedRecordData, selectRecord } from "../records";
 import { selectorEqualityFn } from "../../libs/use-memoized-selector";
 import { getPermittedFormsIds } from "../user";
+import { getServicesForm } from "../application/selectors";
 
 import getDefaultForms from "./form/utils/get-default-forms";
 import NAMESPACE from "./namespace";
@@ -366,6 +367,15 @@ export const getRecordFormsByUniqueIdWithFallback = (state, query) => {
   return form;
 };
 
+export const getServicesRecordForm = (state, query) => {
+  const servicesFormId = getServicesForm(state, query.primeroModule || query.fallbackModule);
+
+  return getRecordFormsByUniqueIdWithFallback(state, {
+    ...query,
+    formName: servicesFormId
+  })?.first();
+};
+
 export const getIncidentFromCaseForm = (state, query) =>
   getRecordFormsByUniqueId(state, { ...query, formName: INCIDENT_FROM_CASE, getFirst: true });
 
@@ -444,13 +454,20 @@ export const getFields = state => state.getIn([NAMESPACE, "fields"], fromJS([]))
 export const getAllForms = state => state.getIn([NAMESPACE, "formSections"]);
 
 export const getFieldByName = (state, name, moduleID, parentForm) => {
-  const fields = state
-    .getIn([NAMESPACE, "fields"], fromJS([]))
-    .filter(field =>
-      moduleID && parentForm
-        ? parentForm === field.get("parent_form") && field.get("module_ids").includes(moduleID)
-        : true
-    );
+  const fields = state.getIn([NAMESPACE, "fields"], fromJS([])).filter(field => {
+    if (moduleID && parentForm) {
+      const parentMatch = parentForm === field.get("parent_form");
+      const fieldModuleIDs = field.get("module_ids");
+
+      if (Array.isArray(moduleID)) {
+        return parentMatch && moduleID.some(mid => fieldModuleIDs.includes(mid));
+      }
+
+      return parentMatch && fieldModuleIDs.includes(moduleID);
+    }
+
+    return true;
+  });
 
   if (Array.isArray(name)) {
     return fields.filter(field => name.includes(field.name));
@@ -556,6 +573,13 @@ export const getMiniFormFields = (state, recordType, primeroModule, excludeField
 
   return (recordForms || fromJS([]))
     .flatMap(form => form.get("fields"))
+    .reduce((acc, field) => {
+      if (acc.some(current => current.name === field.name)) {
+        return acc;
+      }
+
+      return acc.push(field);
+    }, fromJS([]))
     .filter(
       field =>
         field.show_on_minify_form &&
@@ -585,6 +609,10 @@ export const getShouldFetchRecord = (state, { id, recordType }) => {
 
 export const getPreviousRecordType = state => {
   return state.getIn([NAMESPACE, "previousRecord", "recordType"]);
+};
+
+export const getInitalValuesFromStore = state => {
+  return state.getIn([NAMESPACE, "tempInitialValues"]);
 };
 
 export const getWritableFields = createCachedSelector(

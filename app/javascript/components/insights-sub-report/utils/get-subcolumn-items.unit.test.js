@@ -13,7 +13,7 @@ describe("getSubcolumnItems", () => {
         valueKey: "indicator"
       });
 
-      expect(subcolumns).to.deep.equals(lookupValues);
+      expect(subcolumns).toEqual(lookupValues);
     });
   });
 
@@ -35,7 +35,7 @@ describe("getSubcolumnItems", () => {
         valueKey: "indicator"
       });
 
-      expect(subcolumns).to.deep.equals([...lookupValues, { id: "value2", display_text: "value2" }]);
+      expect(subcolumns).toEqual([...lookupValues, { id: "value2", display_text: "value2" }]);
     });
   });
 });

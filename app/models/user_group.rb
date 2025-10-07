@@ -16,6 +16,8 @@ class UserGroup < ApplicationRecord
   has_and_belongs_to_many :users
   has_and_belongs_to_many :agencies
 
+  scope :enabled, -> { where(disabled: false) }
+
   before_create :generate_unique_id
   class << self
     def order_insensitive_attribute_names
@@ -31,7 +33,7 @@ class UserGroup < ApplicationRecord
     end
 
     def list(user, opts = {})
-      user_groups = opts[:managed] ? user.permitted_user_groups : UserGroup.all
+      user_groups = opts[:managed] ? user.permitted_user_groups : UserGroup.includes(:agencies).all
       user_groups = user_groups.where(disabled: opts[:disabled]) if opts[:disabled].present?
       if opts[:agency_unique_ids].present?
         user_groups = user_groups.distinct.joins(:agencies).where(agencies: { unique_id: opts[:agency_unique_ids] })
