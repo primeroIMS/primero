@@ -10,7 +10,7 @@ FROM ${BUILD_REGISTRY}postgres:${POSTGRES_VERSION}-alpine${ALPINE_VERSION}
 # If you are updating `POSTGRES_VERSION` or `ALPINE_VERSION`,
 # run: `docker scout cves primero/postgres:my-tag` to verify whether the versions of the security packages
 # listed in SECURITY_UPDATED_PACKAGES are still necessary.
-ENV SECURITY_UPDATED_PACKAGES="openssl=3.1.8-r0 busybox=1.36.1-r20 libxml2=2.11.8-r3 musl=1.2.4_git20230717-r5 musl-utils=1.2.4_git20230717-r5 libxslt=1.1.39-r1 icu=74.1-r1 xz=5.4.5-r1"
+ENV SECURITY_UPDATED_PACKAGES="openssl=3.1.8-r1 busybox=1.36.1-r20 libxml2=2.11.8-r3 musl=1.2.4_git20230717-r5 musl-utils=1.2.4_git20230717-r5 libxslt=1.1.39-r1 icu=74.1-r1 xz=5.4.5-r1"
 
 RUN set -euox pipefail \
         ; apk update \
