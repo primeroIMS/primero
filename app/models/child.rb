@@ -12,6 +12,7 @@ class Child < ApplicationRecord
   RISK_LEVEL_HIGH = 'high'
   RISK_LEVEL_NONE = 'none'
   NAME_FIELDS = %w[name name_nickname name_other].freeze
+  STATUS_IDENTIFIED = 'identified'
 
   self.table_name = 'cases'
 
@@ -153,6 +154,7 @@ class Child < ApplicationRecord
   end
 
   validate :validate_date_of_birth
+  validate :validate_unique_identified_record, on: :create
 
   before_save :sync_protection_concerns
   before_save :stamp_registry_fields
@@ -175,6 +177,7 @@ class Child < ApplicationRecord
       super_new_with_user(user, data).tap do |local_case|
         local_case.registry_record_id ||= local_case.data.delete('registry_record_id')
         local_case.family_id ||= local_case.data.delete('family_id')
+        local_case.mark_identified(user) if user.group_permission?(Permission::IDENTIFIED)
       end
     end
 
@@ -411,9 +414,16 @@ class Child < ApplicationRecord
   end
 
   def mark_identified(user)
+    self.status = STATUS_IDENTIFIED
     self.identified_by = user.user_name
     self.identified_by_full_name = user.full_name
-    self.identified_at = Time.zone.now.as_json
+    self.identified_at = DateTime.now
+  end
+
+  def validate_unique_identified_record
+    return unless identified_by.present? && Child.exists?(srch_identified_by: identified_by)
+
+    errors.add(:identified_by, 'errors.models.child.identified_by_unique')
   end
 end
 # rubocop:enable Metrics/ClassLength

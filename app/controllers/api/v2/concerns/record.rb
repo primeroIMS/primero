@@ -34,8 +34,7 @@ module Api::V2::Concerns::Record
   end
 
   def create
-    authorize_create!
-    validate_json!
+    authorize_create! && validate_json!
     @record = model_class.new_with_user(current_user, record_params)
     @record.save!
     permit_readable_fields

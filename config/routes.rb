@@ -57,11 +57,6 @@ Rails.application.routes.draw do
         resources :potential_matches, only: [:index]
         resources :webhook_syncs, as: :sync, path: :sync, only: [:create]
         resources :case_relationships, only: %i[index create destroy update]
-        collection do
-          get :identified, to: 'identified#show'
-          post :identified, to: 'identified#create'
-          patch :identified, to: 'identified#update'
-        end
         get :traces, to: 'children#traces'
         get :record_history, to: 'record_histories#index'
         get :access_log, to: 'record_access#index'
@@ -71,6 +66,9 @@ Rails.application.routes.draw do
           post :assigns, to: 'assigns#create_bulk'
           post :referrals, to: 'referrals#create_bulk'
           post :transfers, to: 'transfers#create_bulk'
+        end
+        collection do
+          get :identified, to: 'children#identified'
         end
       end
 

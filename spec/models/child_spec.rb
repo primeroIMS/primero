@@ -1272,6 +1272,25 @@ describe Child do
     end
   end
 
+  describe 'mark_identified' do
+    before do
+      travel_to Time.zone.parse('2023-08-10 12:00:00')
+    end
+
+    it 'sets the identified fields' do
+      user = fake_user(group_permission: Permission::IDENTIFIED)
+      user.stub(:full_name).and_return('Fake User Name')
+      child = Child.new_with_user(user, { name: 'Identified Case', sex: 'male', age: 10 })
+      child.save!
+      child.reload
+
+      expect(child.status).to eq(Child::STATUS_IDENTIFIED)
+      expect(child.identified_by).to eq('faketest')
+      expect(child.identified_by_full_name).to eq('Fake User Name')
+      expect(child.identified_at).to eq(Time.zone.parse('2023-08-10 12:00:00'))
+    end
+  end
+
   after do
     clean_data(SearchableIdentifier, Incident, Child, Field, FormSection, PrimeroModule)
   end

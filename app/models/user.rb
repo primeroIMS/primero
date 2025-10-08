@@ -416,6 +416,8 @@ class User < ApplicationRecord
                    { 'agency' => agency.unique_id, 'agency_id' => agency_id }
                  when Permission::GROUP
                    { 'group' => user_groups.map(&:unique_id).compact }
+                 when Permission::IDENTIFIED
+                   { 'identified' => user_name }
                  when Permission::ALL then {}
                  else
                    { 'user' => user_name }
@@ -430,6 +432,8 @@ class User < ApplicationRecord
       Permission::AGENCY
     elsif group_permission?(Permission::GROUP) && user_group_ids.present?
       Permission::GROUP
+    elsif group_permission?(Permission::IDENTIFIED)
+      Permission::IDENTIFIED
     else
       Permission::USER
     end
@@ -630,6 +634,8 @@ class User < ApplicationRecord
     elsif group_permission? Permission::GROUP
       # TODO: This may need to be record&.owned_by_groups
       (user_group_unique_ids & record&.associated_user_groups).present?
+    elsif group_permission? Permission::IDENTIFIED
+      record.identified_by == user_name
     else
       record&.associated_user_names&.include?(user_name)
     end
