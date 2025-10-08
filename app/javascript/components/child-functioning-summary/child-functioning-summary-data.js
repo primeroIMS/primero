@@ -8,11 +8,19 @@ const childFunctioningSummaryData = [
   },
   {
     label: "cases.child_functioning.difficulty_seeing_with_glasses",
+    key: latestValue => `cfm_${latestValue?.cfm_age}_vision_difficulty`
+  },
+  {
+    label: "cases.child_functioning.difficulty_seeing_with_glasses",
     key: latestValue => `cfm_${latestValue?.cfm_age}_vision_difficulty_with_glasses`
   },
   {
     label: "cases.child_functioning.child_wears_hearing_aid",
     key: latestValue => `cfm_${latestValue?.cfm_age}_hearing_uses_hearing_aid`
+  },
+  {
+    label: "cases.child_functioning.difficulty_hearing_with_hearing_aid",
+    key: latestValue => `cfm_${latestValue?.cfm_age}_hearing_difficulty`
   },
   {
     label: "cases.child_functioning.difficulty_hearing_with_hearing_aid",
@@ -45,6 +53,18 @@ const childFunctioningSummaryData = [
   {
     label: "cases.child_functioning.mobility_difficulty_with_equipment_500m",
     key: latestValue => `cfm_${latestValue?.cfm_age}_mobility_difficulty_with_equipment_500m`
+  },
+   {
+    label: "cases.child_functioning.difficulty_comparative",
+    key: latestValue => `cfm_${latestValue?.cfm_age}_mobility_difficulty_comparative`
+  },
+   {
+    label: "cases.child_functioning.mobility_difficulty_comparative_100m",
+    key: latestValue => `cfm_${latestValue?.cfm_age}_mobility_difficulty_comparative_100m`
+  },
+   {
+    label: "cases.child_functioning.mobility_difficulty_comparative_500m",
+    key: latestValue => `cfm_${latestValue?.cfm_age}_mobility_difficulty_comparative_500m`
   },
   {
     label: "cases.child_functioning.difficulty_picking_up_small_objects_with_hand",

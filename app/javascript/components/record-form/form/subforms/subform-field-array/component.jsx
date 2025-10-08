@@ -113,7 +113,6 @@ function Component({
     </div>
   );
 
-
   const sortedOrderValues = sortBy(orderedValues, ["date_cfm_start"]).reverse();
   const getlatestValue = arr => arr?.[0] ?? null;
   const latestValue = getlatestValue(sortedOrderValues);
