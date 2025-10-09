@@ -6,7 +6,7 @@ code_of_conduct = CodeOfConduct.current
 
 # rubocop:disable Metrics/BlockLength
 json.data do
-  json.merge! FieldI18nService.fill_keys(['welcome_email_text_i18n', ''],
+  json.merge! FieldI18nService.fill_keys(['welcome_email_text_i18n'],
                                          @system_setting.attributes.except('id', 'approvals_labels_i18n',
                                                                            'default_locale', 'locales'))
   json.locale I18n.locale
