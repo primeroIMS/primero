@@ -87,7 +87,6 @@ class User < ApplicationRecord
     )
   end)
 
-  alias_attribute :organization, :agency
   alias_attribute :name, :user_name
 
   before_validation :generate_random_password
@@ -325,7 +324,7 @@ class User < ApplicationRecord
   end
 
   def modules
-    @modules ||= role.modules
+    @modules ||= role.primero_modules
   end
 
   def module_unique_ids

@@ -14,7 +14,7 @@ describe Api::V2::FlagsOwnersController, type: :request do
     @primero_module.save(validate: false)
     permission_case = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE])
     permission_read_flags = Permission.new(resource: Permission::DASHBOARD, actions: [Permission::DASH_FLAGS])
-    @role = Role.new(permissions: [permission_case, permission_read_flags], modules: [@primero_module])
+    @role = Role.new(permissions: [permission_case, permission_read_flags], primero_modules: [@primero_module])
     @role.save(validate: false)
     @group1 = UserGroup.create!(name: 'Group1')
     @agency1 = Agency.create!(name: 'Agency One', agency_code: 'agency1')

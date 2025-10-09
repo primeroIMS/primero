@@ -12,11 +12,11 @@ describe AccessLoggable do
   let!(:primero_module) { create :primero_module }
 
   let(:role_cp) do
-    create(:role, is_manager: true, modules: [primero_module], group_permission: Permission::ALL)
+    create(:role, is_manager: true, primero_modules: [primero_module], group_permission: Permission::ALL)
   end
 
   let(:role_mgr) do
-    create(:role, is_manager: false, modules: [primero_module], group_permission: Permission::SELF)
+    create(:role, is_manager: false, primero_modules: [primero_module], group_permission: Permission::SELF)
   end
 
   let(:case_worker) do

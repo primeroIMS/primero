@@ -59,7 +59,7 @@ module FakeDeviseLogin
         unique_id: 'services_section', parent_form: 'case', name_en: 'services_section', is_nested: true,
         fields: [
           Field.new(name: 'service_type', type: Field::TEXT_FIELD, display_name_en: 'A'),
-          Field.new(name: 'separator3', type: Field::SEPARATOR, display_name_en: 'A'),
+          Field.new(name: 'separator3', type: Field::SEPARATOR, display_name_en: 'A')
         ]
       )
     )
@@ -134,7 +134,7 @@ module FakeDeviseLogin
       group_permission:,
       form_sections: opts[:form_sections] || []
     )
-    role.stub(:modules).and_return(opts[:modules] || [])
+    role.stub(:primero_modules).and_return(opts[:modules] || [])
     role
   end
 

@@ -16,7 +16,7 @@ describe RequestTransferJob, type: :job do
   end
 
   let(:role) do
-    create(:role, is_manager: true, modules: [primero_module], group_permission: Permission::ALL)
+    create(:role, is_manager: true, primero_modules: [primero_module], group_permission: Permission::ALL)
   end
 
   let(:user) do
@@ -52,6 +52,7 @@ describe RequestTransferJob, type: :job do
   end
 
   after(:each) do
-    clean_data(Alert, User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency, Child, Transition)
+    clean_data(Alert, User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency, Child,
+               Transition)
   end
 end

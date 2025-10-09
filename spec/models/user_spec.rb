@@ -785,7 +785,7 @@ describe User do
                                   associated_record_types: %w[case tracing_request incident], primero_program: @program,
                                   form_sections: [@form_section])
       @role1 = Role.create!(name: 'Admin role', unique_id: 'role_admin',
-                            form_sections: [@form_section], modules: [@cp],
+                            form_sections: [@form_section], primero_modules: [@cp],
                             permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])])
       @agency1 = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
       @group1 = UserGroup.create!(name: 'group 1')
@@ -877,7 +877,7 @@ describe User do
         name: 'permission_role_1',
         unique_id: 'permission_role_1',
         group_permission: Permission::SELF,
-        modules: [primero_module_cp],
+        primero_modules: [primero_module_cp],
         permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
       )
       role1.save!
@@ -889,7 +889,7 @@ describe User do
         name: 'permission_role_2',
         unique_id: 'permission_role_2',
         group_permission: Permission::SELF,
-        modules: [primero_module_cp],
+        primero_modules: [primero_module_cp],
         permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
       )
       role2.save!
@@ -901,7 +901,7 @@ describe User do
         name: 'permission_role_3',
         unique_id: 'permission_role_3',
         group_permission: Permission::SELF,
-        modules: [primero_module_cp],
+        primero_modules: [primero_module_cp],
         permissions: [
           Permission.new(
             resource: Permission::CASE,
@@ -919,7 +919,7 @@ describe User do
       role4 = Role.new(
         name: 'permission_role_4',
         group_permission: Permission::SELF,
-        modules: [primero_module_cp]
+        primero_modules: [primero_module_cp]
       )
       role4.save(validate: false)
       role4.unique_id = nil
@@ -1026,11 +1026,12 @@ describe User do
           Permission::READ
         ]
       )
-      @role = Role.new(permissions: [permission_case], modules: [@module_cp])
+      @role = Role.new(permissions: [permission_case], primero_modules: [@module_cp])
       @role.save(validate: false)
-      @role_case_incident = Role.new(permissions: [permission_case, permission_incident_assign], modules: [@module_cp])
+      @role_case_incident = Role.new(permissions: [permission_case, permission_incident_assign],
+                                     primero_modules: [@module_cp])
       @role_case_incident.save(validate: false)
-      @role_incident = Role.new(permissions: [permission_incident], modules: [@module_cp])
+      @role_incident = Role.new(permissions: [permission_incident], primero_modules: [@module_cp])
       @role_incident.save(validate: false)
       @group1 = UserGroup.create!(name: 'Group1')
       @user1 = User.new(user_name: 'user1', role: @role_case_incident, user_groups: [@group1])
@@ -1068,7 +1069,7 @@ describe User do
         resource: Permission::CASE,
         actions: [Permission::READ, Permission::WRITE, Permission::CREATE]
       )
-      @role = Role.new(permissions: [permission_case], modules: [@module_cp])
+      @role = Role.new(permissions: [permission_case], primero_modules: [@module_cp])
       @role.save(validate: false)
       @group1 = UserGroup.create!(name: 'Group1')
       @user1 = User.new(user_name: 'user1', role: @role, user_groups: [@group1])
@@ -1097,7 +1098,7 @@ describe User do
         resource: Permission::CASE,
         actions: [Permission::MANAGE]
       )
-      @role = Role.new(permissions: [permission_case], modules: [@module_cp])
+      @role = Role.new(permissions: [permission_case], primero_modules: [@module_cp])
       @role.save(validate: false)
       @group1 = UserGroup.create!(name: 'Group1')
       @user1 = User.new(user_name: 'user1', role: @role, user_groups: [@group1])
@@ -1158,7 +1159,7 @@ describe User do
     end
 
     let(:role) do
-      create(:role, is_manager: true, modules: [primero_module], permissions: [Permission.new(
+      create(:role, is_manager: true, primero_modules: [primero_module], permissions: [Permission.new(
         resource: Permission::CASE,
         actions: [Permission::MANAGE]
       )])
@@ -1246,7 +1247,7 @@ describe User do
     end
 
     let(:role) do
-      create(:role, is_manager: true, modules: [primero_module], permissions: [Permission.new(
+      create(:role, is_manager: true, primero_modules: [primero_module], permissions: [Permission.new(
         resource: Permission::CASE,
         actions: [Permission::MANAGE]
       )])

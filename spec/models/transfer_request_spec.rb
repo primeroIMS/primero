@@ -15,7 +15,7 @@ describe TransferRequest do
       resource: Permission::CASE,
       actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::RECEIVE_TRANSFER]
     )
-    @role = Role.new(permissions: [permission_case], modules: [@module_cp])
+    @role = Role.new(permissions: [permission_case], primero_modules: [@module_cp])
     @role.save(validate: false)
     @group1 = UserGroup.create!(name: 'Group1')
     @user1 = User.new(user_name: 'user1', role: @role, user_groups: [@group1])

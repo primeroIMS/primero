@@ -100,7 +100,7 @@ class PermittedUsersService
   end
 
   def agency_only_users(users_query)
-    users_query.where(organization: user.organization)
+    users_query.where(agency: user.agency)
   end
 
   def group_permitted_users(users_query)

@@ -19,7 +19,7 @@ describe Api::V2::CaseRelationshipsController, type: :request do
         Permission::UPDATE_CASE_RELATIONSHIPS, Permission::VIEW_CASE_RELATIONSHIPS
       ]
     )
-    @role = Role.new(permissions: [@permission_case_relationships], modules: [@primero_module])
+    @role = Role.new(permissions: [@permission_case_relationships], primero_modules: [@primero_module])
     @role.save(validate: false)
     @group1 = UserGroup.create!(name: 'Group1')
     @user = User.new(user_name: 'user', role: @role, user_groups: [@group1])
@@ -69,10 +69,10 @@ describe Api::V2::CaseRelationshipsController, type: :request do
 
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(3)
-      expect(json['data'].map{ |elem| elem['case_id'] }).to match_array(
+      expect(json['data'].map { |elem| elem['case_id'] }).to match_array(
         [@case2.id.to_s, @case3.id.to_s, @case4.id.to_s]
       )
-      expect(json['data'].map{ |elem| elem['relationship_type'] }).to match_array(%w[farm_for farm_for farm_for])
+      expect(json['data'].map { |elem| elem['relationship_type'] }).to match_array(%w[farm_for farm_for farm_for])
     end
 
     it "get a forbidden message if the user doesn't have case relationship permission" do

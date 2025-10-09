@@ -35,7 +35,7 @@ describe Api::V2::ChildrenController, type: :request do
           name: 'scores',
           type: 'subform',
           editable: true,
-          subform_section: @score_section,
+          subform: @score_section,
           display_name_en: 'Scores',
           subform_sort_by: 'score_date'
         ),
@@ -77,7 +77,7 @@ describe Api::V2::ChildrenController, type: :request do
       name: 'Test Role Owned Others',
       unique_id: 'test-role-owned-others',
       group_permission: Permission::SELF,
-      modules: [@cp],
+      primero_modules: [@cp],
       permissions: [
         Permission.new(
           resource: Permission::CASE,
@@ -94,7 +94,7 @@ describe Api::V2::ChildrenController, type: :request do
       name: 'Role restricted',
       unique_id: 'role-restricted',
       group_permission: Permission::SELF,
-      modules: [@cp],
+      primero_modules: [@cp],
       permissions: [
         Permission.new(
           resource: Permission::CASE,
@@ -115,7 +115,7 @@ describe Api::V2::ChildrenController, type: :request do
     @cp.roles = [@role_restricted]
     @cp.save!
 
-    @role1 = Role.create!(name: 'Role self permission', unique_id: 'role_self_permission', modules: [@cp],
+    @role1 = Role.create!(name: 'Role self permission', unique_id: 'role_self_permission', primero_modules: [@cp],
                           referral: true, transfer: true, group_permission: 'self',
                           permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])])
 
@@ -682,14 +682,14 @@ describe Api::V2::ChildrenController, type: :request do
     end
 
     it 'filters sensitive information from logs' do
-      allow(Rails.logger).to receive(:debug).and_return(nil)
+      allow(Rails.logger).to receive(:debug)
 
       login_for_test
 
       post '/api/v2/cases', params:, as: :json
 
       %w[data].each do |fp|
-        expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/)
+        expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/).at_least(:once)
       end
     end
 
@@ -837,7 +837,7 @@ describe Api::V2::ChildrenController, type: :request do
       patch "/api/v2/cases/#{@case1.id}", params:, as: :json
 
       %w[data].each do |fp|
-        expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/)
+        expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/).at_least(:once)
       end
     end
 

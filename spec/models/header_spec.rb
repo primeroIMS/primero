@@ -62,35 +62,35 @@ describe Header do
       description_i18n: { en: 'Nationality', es: 'Nacionalidad' }
     )
     role_cp_worker = Role.create!(
-      name: 'Test Role 1', unique_id: 'test-role-1', is_manager: false, modules: [cp],
+      name: 'Test Role 1', unique_id: 'test-role-1', is_manager: false, primero_modules: [cp],
       permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
     )
     role_cp_manager = Role.create!(
-      name: 'Test Role 2', unique_id: 'test-role-2', is_manager: true, modules: [cp],
+      name: 'Test Role 2', unique_id: 'test-role-2', is_manager: true, primero_modules: [cp],
       permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
     )
     role_gbv_worker = Role.create!(
-      name: 'Test Role 3', unique_id: 'test-role-3', is_manager: false, modules: [gbv],
+      name: 'Test Role 3', unique_id: 'test-role-3', is_manager: false, primero_modules: [gbv],
       permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
     )
     role_gbv_manager = Role.create!(
-      name: 'Test Role 4', unique_id: 'test-role-4', is_manager: true, modules: [gbv],
+      name: 'Test Role 4', unique_id: 'test-role-4', is_manager: true, primero_modules: [gbv],
       permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
     )
     role_mrm_worker = Role.create!(
-      name: 'Test Role 5', unique_id: 'test-role-5', is_manager: false, modules: [mrm],
+      name: 'Test Role 5', unique_id: 'test-role-5', is_manager: false, primero_modules: [mrm],
       permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
     )
     role_mrm_manager = Role.create!(
-      name: 'Test Role 6', unique_id: 'test-role-6', is_manager: true, modules: [mrm],
+      name: 'Test Role 6', unique_id: 'test-role-6', is_manager: true, primero_modules: [mrm],
       permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
     )
     role_cp_manager_read_case = Role.create!(
-      name: 'Test Role 7', unique_id: 'test-role-7', is_manager: true, modules: [cp],
+      name: 'Test Role 7', unique_id: 'test-role-7', is_manager: true, primero_modules: [cp],
       permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::READ])]
     )
     role_test_worker = Role.create!(
-      name: 'Test Role 8', unique_id: 'test-role-8', is_manager: false, modules: [test_module],
+      name: 'Test Role 8', unique_id: 'test-role-8', is_manager: false, primero_modules: [test_module],
       permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
     )
     @user_cp_worker = User.create!(

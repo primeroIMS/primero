@@ -85,7 +85,7 @@ module Ownable
     return revert_owned_by unless new_owner
 
     self.owned_by_full_name = new_owner&.full_name
-    self.owned_by_agency_id = new_owner&.organization&.unique_id
+    self.owned_by_agency_id = new_owner&.agency&.unique_id
     self.owned_by_groups = new_owner&.user_group_unique_ids
     self.owned_by_location = new_owner&.location
     self.owned_by_user_code = new_owner&.code

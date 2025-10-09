@@ -27,11 +27,12 @@ describe Transitionable do
         Permission::READ
       ]
     )
-    @role = Role.new(permissions: [permission_case], modules: [@module_cp])
+    @role = Role.new(permissions: [permission_case], primero_modules: [@module_cp])
     @role.save(validate: false)
-    @role_case_incident = Role.new(permissions: [permission_case, permission_incident_assign], modules: [@module_cp])
+    @role_case_incident = Role.new(permissions: [permission_case, permission_incident_assign],
+                                   primero_modules: [@module_cp])
     @role_case_incident.save(validate: false)
-    @role_incident = Role.new(permissions: [permission_incident], modules: [@module_cp])
+    @role_incident = Role.new(permissions: [permission_incident], primero_modules: [@module_cp])
     @role_incident.save(validate: false)
     @group1 = UserGroup.create!(name: 'Group1')
     @user1 = User.new(user_name: 'user1', role: @role_case_incident, user_groups: [@group1])
@@ -150,13 +151,16 @@ describe Transitionable do
       )
 
       @agency = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
-      @role_self = Role.new(permissions: [permissions], modules: [@module_cp], group_permission: Permission::SELF)
+      @role_self = Role.new(permissions: [permissions], primero_modules: [@module_cp],
+                            group_permission: Permission::SELF)
       @role_self.save(validate: false)
-      @role_group = Role.new(permissions: [permissions], modules: [@module_cp], group_permission: Permission::GROUP)
+      @role_group = Role.new(permissions: [permissions], primero_modules: [@module_cp],
+                             group_permission: Permission::GROUP)
       @role_group.save(validate: false)
-      @role_agency = Role.new(permissions: [permissions], modules: [@module_cp], group_permission: Permission::AGENCY)
+      @role_agency = Role.new(permissions: [permissions], primero_modules: [@module_cp],
+                              group_permission: Permission::AGENCY)
       @role_agency.save(validate: false)
-      @role_all = Role.new(permissions: [permissions], modules: [@module_cp], group_permission: Permission::ALL)
+      @role_all = Role.new(permissions: [permissions], primero_modules: [@module_cp], group_permission: Permission::ALL)
       @role_all.save(validate: false)
 
       @user_self = User.new(user_name: 'user1', role: @role_self, user_groups: [@group1])

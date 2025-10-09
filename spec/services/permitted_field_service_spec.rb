@@ -406,7 +406,7 @@ describe PermittedFieldService, search: true do
         name: 'Test Role 1',
         unique_id: 'test-role-1',
         group_permission: Permission::SELF,
-        modules: [custom_module],
+        primero_modules: [custom_module],
         permissions: [
           Permission.new(
             resource: Permission::CASE,
@@ -489,7 +489,7 @@ describe PermittedFieldService, search: true do
         name: 'Test Role A',
         unique_id: 'test-role-a',
         group_permission: Permission::SELF,
-        modules: [primero_module_cp],
+        primero_modules: [primero_module_cp],
         permissions: [
           Permission.new(
             resource: Permission::CASE,
@@ -504,7 +504,7 @@ describe PermittedFieldService, search: true do
         name: 'Test Role B',
         unique_id: 'test-role-b',
         group_permission: Permission::SELF,
-        modules: [primero_module_cp],
+        primero_modules: [primero_module_cp],
         permissions: [
           Permission.new(
             resource: Permission::CASE,
@@ -556,7 +556,7 @@ describe PermittedFieldService, search: true do
         name: 'Permitted Attachments',
         unique_id: 'permitted_attachment_fields',
         group_permission: Permission::SELF,
-        modules: [primero_module_cp],
+        primero_modules: [primero_module_cp],
         permissions: [
           Permission.new(
             resource: Permission::CASE,
@@ -571,7 +571,7 @@ describe PermittedFieldService, search: true do
         name: 'Permitted View Photo',
         unique_id: 'permitted_view_photo_role',
         group_permission: Permission::SELF,
-        modules: [primero_module_cp],
+        primero_modules: [primero_module_cp],
         permissions: [
           Permission.new(
             resource: Permission::CASE,

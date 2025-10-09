@@ -15,7 +15,7 @@ module Exporters
         resource: Permission::CASE, actions: [Permission::READ]
       )
       role = Role.new(
-        is_manager: false, modules: [primero_module],
+        is_manager: false, primero_modules: [primero_module],
         permissions: [permissions]
       )
       role.save(validate: false)
