@@ -129,7 +129,14 @@ class PermittedFieldService
     @permitted_field_names += permitted_registry_record_id
     @permitted_field_names += permitted_family_id
     @permitted_field_names += permitted_attachment_fields
+    @permitted_field_names -= revoked_fields_for_identified_scope
     @permitted_field_names
+  end
+
+  def revoked_fields_for_identified_scope
+    return [] unless user.group_permission?(Permission::IDENTIFIED)
+
+    PERMITTED_RECORD_INFORMATION_FIELDS + %w[associated_user_names]
   end
 
   def permitted_core_fields(update = false)

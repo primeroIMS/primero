@@ -611,5 +611,56 @@ describe PermittedFieldService, search: true do
     end
   end
 
+  describe 'Permitted Fields for a user with Permision::IDENTIFIED scope' do
+    let(:record_information_form) do
+      FormSection.create!(
+        unique_id: 'record_information',
+        parent_form: 'case',
+        form_group_id: 'record_information',
+        name_en: 'Record Information',
+        description_en: 'Record Information',
+        fields: [
+          Field.create!(name: 'associated_user_names', display_name_en: 'Associated Users', type: Field::TEXT_FIELD),
+          Field.create!(name: 'created_by', display_name_en: 'Created By', type: Field::TEXT_FIELD),
+          Field.create!(name: 'created_by_agency', display_name_en: 'Created By Agency', type: Field::TEXT_FIELD),
+          Field.create!(name: 'created_at', display_name_en: 'Created At', type: Field::DATE_FIELD)
+        ]
+      )
+    end
+
+    let(:identified_role) do
+      Role.new_with_properties(
+        name: 'Test Role 1',
+        unique_id: 'test-role-1',
+        group_permission: Permission::IDENTIFIED,
+        permissions: [
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::READ]
+          )
+        ],
+        form_section_read_write: { record_information_form.unique_id => 'rw' }
+      )
+    end
+
+    let(:identified_user) do
+      User.create!(
+        full_name: 'Identified User',
+        user_name: 'identified_user',
+        password: 'a12345632',
+        password_confirmation: 'a12345632',
+        email: 'identified_user@localhost.com',
+        agency_id: agency.id,
+        role: identified_role
+      )
+    end
+
+    it 'does not return record information fields even if included in the role' do
+      permitted_field_names = PermittedFieldService.new(identified_user, Child).permitted_field_names
+
+      expect(permitted_field_names).not_to include(*PermittedFieldService::PERMITTED_RECORD_INFORMATION_FIELDS)
+    end
+  end
+
   after(:each) { clean_data(PrimeroProgram, User, Agency, Role, FormSection, Field, SystemSettings) }
 end
