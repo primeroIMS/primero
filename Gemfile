@@ -42,7 +42,7 @@ gem 'puma',                '~> 7.0'    # Ruby Rack server
 # TODO: Upgrade
 gem 'rack',                '~> 2.2'
 gem 'rack-attack',         '>= 6.6'    # Rack middleware to rate limit sensetive routes, such as those used for auth
-gem 'rails',               '7.2.2.2'
+gem 'rails',               '8.0.3'
 gem 'rake',                '~> 13.0'
 gem 'rbnacl',              '>= 7.1.1'  # Libsodium Ruby binding. Used for encrypting export file passwords.
 gem 'resolv',              '>= 0.3.1'  # CVE-2025-24294
