@@ -412,31 +412,22 @@ class User < ApplicationRecord
   # Returns empty list if can query for all records in the system
   def record_query_scope(record_model, id_search = false)
     user_scope = case user_query_scope(record_model, id_search)
-                 when Permission::AGENCY
-                   { 'agency' => agency.unique_id, 'agency_id' => agency_id }
-                 when Permission::GROUP
-                   { 'group' => user_groups.map(&:unique_id).compact }
-                 when Permission::IDENTIFIED
-                   { 'identified' => user_name }
+                 when Permission::AGENCY then { 'agency' => agency.unique_id, 'agency_id' => agency_id }
+                 when Permission::GROUP then { 'group' => user_groups.map(&:unique_id).compact }
+                 when Permission::IDENTIFIED then { 'identified' => user_name }
                  when Permission::ALL then {}
-                 else
-                   { 'user' => user_name }
+                 else { 'user' => user_name }
                  end
     { user: user_scope }
   end
 
   def user_query_scope(record_model = nil, id_search = false)
-    if can_search_for_all?(record_model, id_search)
-      Permission::ALL
-    elsif group_permission?(Permission::AGENCY)
-      Permission::AGENCY
-    elsif group_permission?(Permission::GROUP) && user_group_ids.present?
-      Permission::GROUP
-    elsif group_permission?(Permission::IDENTIFIED)
-      Permission::IDENTIFIED
-    else
-      Permission::USER
-    end
+    return Permission::ALL if can_search_for_all?(record_model, id_search)
+    return Permission::AGENCY if group_permission?(Permission::AGENCY)
+    return Permission::GROUP if group_permission?(Permission::GROUP) && user_group_ids.present?
+    return Permission::IDENTIFIED if group_permission?(Permission::IDENTIFIED)
+
+    Permission::USER
   end
 
   def user_assign_scope(record_model)
@@ -627,18 +618,25 @@ class User < ApplicationRecord
   end
 
   def permitted_to_access_record?(record)
-    if group_permission? Permission::ALL
-      true
-    elsif group_permission? Permission::AGENCY
-      record.associated_user_agencies.include?(agency.unique_id)
-    elsif group_permission? Permission::GROUP
-      # TODO: This may need to be record&.owned_by_groups
-      (user_group_unique_ids & record&.associated_user_groups).present?
-    elsif group_permission? Permission::IDENTIFIED
-      record.identified_by == user_name
-    else
-      record&.associated_user_names&.include?(user_name)
-    end
+    return true if group_permission? Permission::ALL
+    return agency_permits_access?(record) if group_permission? Permission::AGENCY
+    # TODO: This may need to be record&.owned_by_groups
+    return group_permits_access?(record) if group_permission? Permission::GROUP
+    return identified_permits_access?(record) if group_permission? Permission::IDENTIFIED
+
+    record&.associated_user_names&.include?(user_name)
+  end
+
+  def agency_permits_access?(record)
+    record.associated_user_agencies.include?(agency.unique_id)
+  end
+
+  def group_permits_access?(record)
+    (user_group_unique_ids & record&.associated_user_groups).present?
+  end
+
+  def identified_permits_access?(record)
+    record.identified_by == user_name
   end
 
   def specific_notification?(notifier, action)
