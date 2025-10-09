@@ -44,8 +44,6 @@ describe RequestTransferJob, type: :job do
     end
 
     it 'sends a notification to manager' do
-      ActiveJob::Base.queue_adapter = :test
-
       request_transfer_jobs = ActiveJob::Base.queue_adapter.enqueued_jobs.select { |j| j[:job] == RequestTransferJob }
       expect(request_transfer_jobs.size).to eq(1)
     end

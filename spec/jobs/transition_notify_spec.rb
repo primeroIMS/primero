@@ -33,8 +33,6 @@ describe TransitionNotifyJob, type: :job do
     end
 
     it 'sends a notification to manager' do
-      ActiveJob::Base.queue_adapter = :test
-
       approval_request_jobs = ActiveJob::Base.queue_adapter.enqueued_jobs.select { |j| j[:job] == TransitionNotifyJob }
       expect(approval_request_jobs.size).to eq(1)
     end
