@@ -64,6 +64,13 @@ if @extended
       agency_logo_icon: rails_blob_path(user.agency&.logo_icon, only_path: true)
     )
   end
+  if ActiveRecord::Type::Boolean.new.cast(ENV.fetch('PRIMERO_ENFORCE_TERMS_OF_USE', false))
+    user_hash = user_hash.merge(
+      agency_terms_of_use_enabled: user.agency&.terms_of_use_enabled,
+      agency_terms_of_use_changed: [user.terms_of_use_accepted_on, user.agency&.terms_of_use_uploaded_at].all? &&
+        user.terms_of_use_accepted_on < user.agency.terms_of_use_uploaded_at
+    )
+  end
   user_hash = user_hash.merge(
     agency_unique_id: user.agency&.unique_id,
     agency_name: user.agency&.name

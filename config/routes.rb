@@ -109,6 +109,7 @@ Rails.application.routes.draw do
       end
       resources :users do
         post :'password-reset-request', to: 'password_reset#user_password_reset_request'
+        patch :accept_terms_of_use, to: 'users#accept_terms_of_use'
         collection do
           get :'assign-to', to: 'users_transitions#assign_to'
           get :'transfer-to', to: 'users_transitions#transfer_to'

@@ -7,7 +7,7 @@ class Api::V2::UsersController < ApplicationApiController
   include Api::V2::Concerns::Pagination
   include Api::V2::Concerns::JsonValidateParams
 
-  before_action :load_user, only: %i[show update destroy]
+  before_action :load_user, only: %i[show update destroy accept_terms_of_use]
   before_action :user_params, only: %i[create update]
   before_action :load_extended, only: %i[index show]
   after_action :welcome, only: %i[create]
@@ -52,6 +52,13 @@ class Api::V2::UsersController < ApplicationApiController
     @user.destroy!
   end
 
+  def accept_terms_of_use
+    authorize! :edit_user, @user
+
+    @user.accept_terms_of_use!
+    render 'show'
+  end
+
   protected
 
   def order_params
@@ -64,7 +71,8 @@ class Api::V2::UsersController < ApplicationApiController
 
   def load_user
     # TODO: Add `with_audit_dates` back once users.timestamp index is added
-    @user = User.includes(:role, :user_groups).joins(:role).find(params[:id])
+    user_id = params[:id] || params[:user_id]
+    @user = User.includes(:role, :user_groups).joins(:role).find(user_id)
   end
 
   def load_extended

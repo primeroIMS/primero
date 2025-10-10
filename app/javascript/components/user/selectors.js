@@ -67,3 +67,9 @@ export const getManagedReportScope = state => state.getIn([NAMESPACE, "managedRe
 export const getIsManagedReportScopeAll = state => getManagedReportScope(state) === MANAGED_REPORT_SCOPE.ALL;
 
 export const getCurrentUserModules = state => state.getIn([NAMESPACE, "modules"], fromJS([]));
+
+export const getUserAgencyTermsOfUseEnabled = state => state.getIn([NAMESPACE, "agencyTermsOfUseEnabled"], false);
+
+export const getUserAgencyTermsOfUseChanged = state => state.getIn([NAMESPACE, "agencyTermsOfUseChanged"], false);
+
+export const getUserTermsOfUseAcceptedOn = state => state.getIn([NAMESPACE, "termsOfUseAcceptedOn"], null);

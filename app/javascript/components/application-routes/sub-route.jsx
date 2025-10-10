@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { isEmpty } from "lodash";
+import { isEmpty, isNil } from "lodash";
 import PropTypes from "prop-types";
 import { Redirect } from "react-router-dom";
 
@@ -9,7 +9,14 @@ import { PERMITTED_URL, ROUTES } from "../../config";
 import useMemoizedSelector from "../../libs/use-memoized-selector";
 import Permission from "../permissions";
 import { getCodeOfConductEnabled, getCodesOfConduct } from "../application/selectors";
-import { getCodeOfConductId } from "../user";
+import {
+  getCodeOfConductId,
+  getUserAgencyTermsOfUseEnabled,
+  getUserAgencyTermsOfUseChanged,
+  getUserTermsOfUseAcceptedOn
+} from "../user";
+
+import { getPathToRedirect } from "./utils";
 
 function SubRoute({ subRoute }) {
   const { path, resources, actions, component: Component, extraProps } = subRoute;
@@ -18,13 +25,22 @@ function SubRoute({ subRoute }) {
   const codeOfConductEnabled = useMemoizedSelector(state => getCodeOfConductEnabled(state));
   const codeOfConduct = useMemoizedSelector(state => getCodesOfConduct(state));
 
-  if (
-    codeOfConductEnabled &&
-    !codeOfConductAccepted &&
-    !isEmpty(codeOfConduct) &&
-    ![ROUTES.logout, ROUTES.login, ROUTES.code_of_conduct].includes(path)
-  ) {
-    return <Redirect to={{ pathname: ROUTES.code_of_conduct, state: { referrer: path } }} />;
+  const agencyTermsOfUseEnabled = useMemoizedSelector(state => getUserAgencyTermsOfUseEnabled(state));
+  const agencyTermsOfUseAcceptedChanged = useMemoizedSelector(state => getUserAgencyTermsOfUseChanged(state));
+  const termsOfUseAcceptedOn = useMemoizedSelector(state => getUserTermsOfUseAcceptedOn(state));
+
+  const pathToRedirect = getPathToRedirect({
+    agencyTermsOfUseEnabled,
+    agencyTermsOfUseAcceptedChanged,
+    termsOfUseAcceptedOn,
+    path,
+    codeOfConductEnabled,
+    codeOfConductAccepted,
+    codeOfConduct
+  });
+
+  if (pathToRedirect) {
+    return <Redirect to={{ pathname: pathToRedirect, state: { referrer: path } }} />;
   }
 
   return PERMITTED_URL.includes(path) ? (
