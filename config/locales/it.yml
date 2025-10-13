@@ -182,10 +182,7 @@ it:
     agency: Agenzia
     apply_filter: Applica
     approval_comments: Commenti
-    approval_radio: Mi piacerebbe
-    child_functioning:
-      date: "Data"
-      age: "Età"
+    approval_radio: Mi piacerebbe    
     clear_filter: Cancella
     export: Esporta
     mark_for_offline:

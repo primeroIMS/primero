@@ -17,7 +17,7 @@ import { GuidingQuestions } from "../../components";
 import ChildFunctioningSummary from "../../../../child-functioning-summary";
 
 import { isEmptyOrAllDestroyed, isTracesSubform } from "./utils";
-import { sortBy } from "lodash";
+import sortBy from "lodash/sortBy"
 
 function Component({
   arrayHelpers,

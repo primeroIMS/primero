@@ -71,10 +71,6 @@ const childFunctioningSummaryData = [
     key: latestValue => `cfm_${latestValue?.cfm_age}_dexterity_difficulty`
   },
   {
-    label: "cases.child_functioning.self_care_display",
-    key: latestValue => `cfm_${latestValue?.cfm_age}_self_care_display`
-  },
-  {
     label: "cases.child_functioning.self_care_difficulty",
     key: latestValue => `cfm_${latestValue?.cfm_age}_self_care_difficulty`
   },

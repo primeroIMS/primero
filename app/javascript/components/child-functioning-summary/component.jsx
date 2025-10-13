@@ -20,7 +20,9 @@ const formatValue = (key, value, i18n) => {
     if (value === "false") return i18n.t("cases.child_functioning.cfm_no");
     if (key.includes("age") && value.includes("_")) return `${value.replace("_", " to ")} years`;
     if (value.includes("_")) return value.replace(/_/g, " ").replace(/\b\w/g, char => char.toUpperCase());
-
+    if (/^[a-z]+$/.test(value)) {
+    return value.charAt(0).toUpperCase() + value.slice(1);
+    }
     const parsedDate = new Date(value);
 
     if (!Number.isNaN(parsedDate.getTime())) {
