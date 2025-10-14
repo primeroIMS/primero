@@ -44,6 +44,7 @@ function RecordFormToolbar({
   handleFormSubmit,
   caseIdDisplay,
   history,
+  editRedirect,
   mode,
   params,
   primeroModule,
@@ -189,7 +190,7 @@ function RecordFormToolbar({
               text="buttons.edit"
               type={ACTION_BUTTON_TYPES.default}
               rest={{
-                to: `/${params.recordType}/${params.id}/edit`,
+                to: editRedirect || `/${params.recordType}/${params.id}/edit`,
                 component: Link,
                 disabled: loadingRecord
               }}
@@ -206,6 +207,7 @@ RecordFormToolbar.displayName = RECORD_FORM_TOOLBAR_NAME;
 
 RecordFormToolbar.propTypes = {
   caseIdDisplay: PropTypes.string,
+  editRedirect: PropTypes.string,
   handleFormSubmit: PropTypes.func.isRequired,
   history: PropTypes.object,
   mode: PropTypes.object,

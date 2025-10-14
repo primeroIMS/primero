@@ -43,7 +43,8 @@ function Component({
   toggleNav,
   primeroModule,
   selectedForm,
-  formikValuesForNav
+  formikValuesForNav,
+  showRecordInformation
 }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -199,14 +200,16 @@ function Component({
       >
         <CloseButtonNavBar handleToggleNav={handleToggleNav} mobileDisplay={mobileDisplay} />
         <List data-testid="nav-list" className={css.listRecordNav}>
-          <RecordInformation
-            handleClick={handleClick}
-            open={open}
-            recordAlerts={recordAlerts}
-            selectedForm={selectedForm}
-            formGroupLookup={formGroupLookup}
-            primeroModule={primeroModule}
-          />
+          {showRecordInformation && (
+            <RecordInformation
+              handleClick={handleClick}
+              open={open}
+              recordAlerts={recordAlerts}
+              selectedForm={selectedForm}
+              formGroupLookup={formGroupLookup}
+              primeroModule={primeroModule}
+            />
+          )}
           <Divider />
           {formGroups.map(formGroup => (
             <FormGroup
@@ -244,6 +247,7 @@ Component.propTypes = {
   recordType: PropTypes.string,
   selectedForm: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   selectedRecord: PropTypes.string,
+  showRecordInformation: PropTypes.bool,
   toggleNav: PropTypes.bool
 };
 

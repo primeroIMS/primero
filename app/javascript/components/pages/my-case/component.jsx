@@ -21,7 +21,7 @@ function Component({ mode }) {
   const containerMode = whichFormMode(mode);
   const recordType = RECORD_TYPES_PLURAL.case;
   const isEditOrShow = containerMode.isEdit || containerMode.isShow;
-  const record = useMemoizedSelector(state => getSelectedRecordData(state, recordType));
+  const record = useMemoizedSelector(state => getSelectedRecordData(state, recordType, isEditOrShow));
   const userModules = useMemoizedSelector(state => getCurrentUserModules(state));
   // NOTE: For now, we use the first module of the current user.
   const primeroModule = userModules.first();
@@ -31,13 +31,9 @@ function Component({ mode }) {
   );
   const isNotANewCase = !containerMode.isNew;
   const isCaseIdEqualParam = !containerMode.isNew;
-  const approvalSubforms = record?.get("approval_subforms");
-  const incidentsSubforms = record?.get("incident_details");
 
   useEffect(() => {
     if (shouldFetchRecord) {
-      // TODO: Redirect to /new if a record does not exist.
-      // TODO: Redirect to /show if a record already exists
       dispatch(fetchRecord(RECORD_TYPES_PLURAL.case, "identified"));
     }
   }, []);
@@ -71,9 +67,8 @@ function Component({ mode }) {
       recordType={RECORD_TYPES.cases}
       isNotANewCase={isNotANewCase}
       isCaseIdEqualParam={isCaseIdEqualParam}
-      approvalSubforms={approvalSubforms}
-      incidentsSubforms={incidentsSubforms}
-      isMyCase
+      editRedirect={`${ROUTES.my_case}/edit`}
+      redirectTo={ROUTES.my_case}
     />
   );
 }

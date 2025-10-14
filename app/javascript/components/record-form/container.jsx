@@ -20,6 +20,7 @@ import {
 import { getRecordAttachments, getLoadingRecordState } from "../records/selectors";
 import { READ_FAMILY_RECORD, READ_REGISTRY_RECORD, VIEW_INCIDENTS_FROM_CASE } from "../permissions/constants";
 import { useApp } from "../application";
+import { whichFormMode } from "../form";
 
 import {
   getAttachmentForms,
@@ -40,13 +41,7 @@ function Container({ mode }) {
   const { demo } = useApp();
   const dispatch = useDispatch();
   const recordType = RECORD_TYPES[params.recordType];
-
-  const containerMode = {
-    isNew: mode === "new",
-    isEdit: mode === "edit",
-    isShow: mode === "show"
-  };
-
+  const containerMode = whichFormMode(mode);
   const isEditOrShow = containerMode.isEdit || containerMode.isShow;
 
   const canViewCases = usePermissions(params.recordType, READ_RECORDS);
@@ -94,8 +89,6 @@ function Container({ mode }) {
 
   const isNotANewCase = !containerMode.isNew && params.recordType === RECORD_PATH.cases;
   const isCaseIdEqualParam = params?.id === record?.get("id");
-  const approvalSubforms = record?.get("approval_subforms");
-  const incidentsSubforms = record?.get("incident_details");
   const registryRecordID = record?.get("registry_record_id", false);
 
   useEffect(() => {
@@ -122,7 +115,6 @@ function Container({ mode }) {
       firstTab={firstTab}
       attachmentForms={attachmentForms}
       canViewCases={canViewCases}
-      canViewSummaryForm={canViewSummaryForm}
       formNav={formNav}
       fetchFromCaseId={fetchFromCaseId}
       userPermittedFormsIds={permittedFormsIds}
@@ -136,8 +128,6 @@ function Container({ mode }) {
       recordType={recordType}
       isNotANewCase={isNotANewCase}
       isCaseIdEqualParam={isCaseIdEqualParam}
-      approvalSubforms={approvalSubforms}
-      incidentsSubforms={incidentsSubforms}
     />
   );
 }

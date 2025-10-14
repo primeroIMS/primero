@@ -51,7 +51,9 @@ import {
   FETCH_RELATED_RECORDS,
   ADD_RECORD_RELATIONSHIP,
   REMOVE_RECORD_RELATIONSHIP,
-  CLEAR_RECORD_RELATIONSHIPS
+  CLEAR_RECORD_RELATIONSHIPS,
+  SET_SELECTED_IDENTIFIED_RECORD,
+  REDIRECT_TO_NEW_IDENTIFIED_RECORD
 } from "./actions";
 
 const getSuccessCallback = ({
@@ -180,18 +182,36 @@ export const fetchTracingRequestTraces = (id, asCallback = false) => ({
   }
 });
 
-export const fetchRecord = (recordType, id, asCallback = false) => ({
-  [asCallback ? "action" : "type"]: `${recordType}/${RECORD}`,
-  api: {
-    path: `${recordType}/${id}`,
-    db: {
-      collection: DB_COLLECTIONS_NAMES.RECORDS,
-      recordType,
-      id
-    },
-    ...(recordType === RECORD_PATH.tracing_requests ? { successCallback: [fetchTracingRequestTraces(id, true)] } : {})
-  }
-});
+export const fetchRecord = (recordType, id, asCallback = false) => {
+  const successCallback = compact([
+    recordType === RECORD_PATH.tracing_requests ? fetchTracingRequestTraces(id, true) : null,
+    id === "identified" ? `${recordType}/${SET_SELECTED_IDENTIFIED_RECORD}` : null
+  ]);
+
+  const failureCallback = compact([
+    id === "identified"
+      ? {
+          action: `${recordType}/${REDIRECT_TO_NEW_IDENTIFIED_RECORD}`,
+          redirect: "/my_case/new",
+          redirectOnNotFound: true
+        }
+      : null
+  ]);
+
+  return {
+    [asCallback ? "action" : "type"]: `${recordType}/${RECORD}`,
+    api: {
+      path: `${recordType}/${id}`,
+      db: {
+        collection: DB_COLLECTIONS_NAMES.RECORDS,
+        recordType,
+        id
+      },
+      successCallback,
+      failureCallback
+    }
+  };
+};
 
 export const fetchRecordsAlerts = (recordType, recordId, asCallback = false) => ({
   ...(asCallback

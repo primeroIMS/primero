@@ -221,9 +221,13 @@ export const constructInitialValues = formMap => {
     : {};
 };
 
-export const getRedirectPath = (mode, params, fetchFromCaseId) => {
+export const getRedirectPath = ({ mode, params, fetchFromCaseId, redirectTo }) => {
   if (fetchFromCaseId) {
     return `/${RECORD_PATH.cases}/${fetchFromCaseId}`;
+  }
+
+  if (redirectTo) {
+    return redirectTo;
   }
 
   return mode.isNew ? "" : `/${params.recordType}/${params.id}`;

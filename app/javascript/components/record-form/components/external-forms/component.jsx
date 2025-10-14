@@ -29,14 +29,12 @@ import CaseRelationships from "../../../case-relationships";
 
 const externalForms =
   ({
-    approvalSubforms,
     canSeeAccessLog,
     canSeeChangeLog,
     containerMode,
     handleCreateIncident,
     handleToggleNav,
     id,
-    incidentsSubforms,
     mobileDisplay,
     primeroModule,
     record,
@@ -63,7 +61,7 @@ const externalForms =
       [APPROVALS]: (
         <Approvals
           primeroModule={primeroModule}
-          approvals={approvalSubforms}
+          approvals={record?.get("approval_subforms")}
           mobileDisplapary={mobileDisplay}
           handleToggleNav={handleToggleNav}
         />
@@ -71,7 +69,7 @@ const externalForms =
       [INCIDENT_FROM_CASE]: (
         <IncidentFromCase
           record={record}
-          incidents={incidentsSubforms}
+          incidents={record?.get("incident_details")}
           mobileDisplay={mobileDisplay}
           handleToggleNav={handleToggleNav}
           mode={containerMode}

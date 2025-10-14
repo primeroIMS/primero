@@ -86,7 +86,8 @@ import {
   FETCH_RELATED_RECORDS_FAILURE,
   ADD_RECORD_RELATIONSHIP,
   REMOVE_RECORD_RELATIONSHIP,
-  CLEAR_RECORD_RELATIONSHIPS
+  CLEAR_RECORD_RELATIONSHIPS,
+  SET_SELECTED_IDENTIFIED_RECORD
 } from "./actions";
 
 const DEFAULT_STATE = Map({ data: List([]) });
@@ -258,6 +259,9 @@ export default namespace =>
       }
       case `${namespace}/${SET_SELECTED_RECORD}`: {
         return state.setIn(["selectedRecord"], payload.id);
+      }
+      case `${namespace}/${SET_SELECTED_IDENTIFIED_RECORD}`: {
+        return state.setIn(["selectedRecord"], payload?.json?.data?.id);
       }
       case `${namespace}/${CLEAR_SELECTED_RECORD}`: {
         return state.delete("selectedRecord");

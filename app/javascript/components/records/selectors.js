@@ -116,10 +116,10 @@ export const getMatchedTrace = (state, matchedTraceId) => {
     : fromJS({});
 };
 
-export const getSelectedRecordData = (state, recordType) => {
+export const getSelectedRecordData = (state, recordType, isEditOrShow = true) => {
   const selectedRecordId = getSelectedRecord(state, recordType);
 
-  return selectRecord(state, { id: selectedRecordId, recordType, isEditOrShow: true });
+  return selectRecord(state, { id: selectedRecordId, recordType, isEditOrShow });
 };
 
 export const getCaseFormFamilyMemberLoading = (state, recordType) =>
