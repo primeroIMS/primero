@@ -5,7 +5,7 @@ import { push } from "connected-react-router";
 import isOnline from "./is-online";
 import setCaseIncidentData from "./set-case-incident-data";
 
-const redirectConditions = (store, callback = {}, json) => {
+const redirectConditions = (store, callback = {}, json, response) => {
   const {
     incidentPath,
     moduleID,
@@ -13,6 +13,7 @@ const redirectConditions = (store, callback = {}, json) => {
     redirectToEdit,
     redirectWhenAccessDenied,
     redirectWithIdFromResponse,
+    redirectOnNotFound,
     redirectProperty = "id"
   } = callback;
 
@@ -30,6 +31,9 @@ const redirectConditions = (store, callback = {}, json) => {
   }
   if (incidentPath) {
     return incidentPath === "new" ? `/incidents/${moduleID}/new` : incidentPath;
+  }
+  if (redirectOnNotFound && response.status === 404) {
+    return redirect;
   }
 
   return redirect;
@@ -70,7 +74,7 @@ const handleRestCallback = (store, callback, response, json, fromQueue = false) 
 
       if (isObjectCallback && callback.redirect && !fromQueue) {
         const { preventSyncAfterRedirect } = callback;
-        const redirectPath = redirectConditions(store, callback, json);
+        const redirectPath = redirectConditions(store, callback, json, response);
 
         store.dispatch(push(redirectPath, { preventSyncAfterRedirect: preventSyncAfterRedirect && isOnline(store) }));
       }

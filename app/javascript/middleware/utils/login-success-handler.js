@@ -8,8 +8,8 @@ import { setAuthenticatedUser } from "../../components/user";
 import handleReturnUrl from "./handle-return-url";
 
 export default async (store, user = {}) => {
-  const { user_name: username, id } = user;
-  const formattedUser = { username, id };
+  const { user_name: username, id, group_permission: groupPermission } = user;
+  const formattedUser = { username, id, groupPermission };
   const pendingUserLogin = store.getState().getIn(["connectivity", "pendingUserLogin"], false);
   const userFromDB = await DB.getRecord("user", username);
 
