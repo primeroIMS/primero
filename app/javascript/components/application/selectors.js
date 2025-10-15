@@ -194,6 +194,16 @@ export const getConfigUI = state => state.getIn([NAMESPACE, "primero", "config_u
 
 export const getLimitedConfigUI = state => getConfigUI(state) === LIMITED;
 
+export const getRegistrationStreams = state => state.getIn([NAMESPACE, "primero", "registration_streams"], fromJS([]));
+
+export const getRegistrationStreamsLinkLabels = state =>
+  state.getIn([NAMESPACE, "primero", "registration_streams_link_labels"], fromJS({}));
+
+export const getRegistrationStreamsConsentText = state =>
+  state.getIn([NAMESPACE, "primero", "registration_streams_consent_text"], fromJS([]));
+
+export const getAllowSelfRegistration = state => state.getIn([NAMESPACE, "primero", "allow_self_registration"], false);
+
 export const getIsEnabledWebhookSyncFor = (state, primeroModule, recordType) => {
   const useWebhookSyncFor = getAppModuleByUniqueId(state, primeroModule).getIn(
     ["options", "use_webhook_sync_for"],
@@ -264,6 +274,10 @@ export const getAppData = memoize(state => {
   const hasLoginLogo = getLoginBackground(state);
   const maximumttachmentsPerRecord = getMaximumAttachmentsPerRecord(state);
   const fieldLabels = getFieldLabels(state);
+  const allowSelfRegistration = getAllowSelfRegistration(state);
+  const registrationStreams = getRegistrationStreams(state);
+  const registrationStreamsLinkLabels = getRegistrationStreamsLinkLabels(state);
+  const registrationStreamsConsentText = getRegistrationStreamsConsentText(state);
 
   return {
     modules,
@@ -279,7 +293,11 @@ export const getAppData = memoize(state => {
     showPoweredByPrimero,
     hasLoginLogo,
     maximumttachmentsPerRecord,
-    fieldLabels
+    fieldLabels,
+    allowSelfRegistration,
+    registrationStreams,
+    registrationStreamsLinkLabels,
+    registrationStreamsConsentText
   };
 });
 

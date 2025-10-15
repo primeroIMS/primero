@@ -40,7 +40,6 @@ Rails.application.routes.draw do
                    constraints: { format: :json },
                    only: %i[index create show update destroy] do
       resources :primero, only: %i[index]
-
       resources :children, as: :cases, path: :cases do
         resources :children_incidents, as: :incidents, path: :incidents, only: %i[index new] do
           post '/', to: 'children_incidents#update_bulk', on: :collection
@@ -116,6 +115,7 @@ Rails.application.routes.draw do
           get :access, to: 'users_access#access'
           post :'password-reset-request', to: 'password_reset#password_reset_request'
           post :'password-reset', to: 'password_reset#password_reset'
+          post :'self-register', to: 'self_register#create'
         end
       end
       resources :identity_providers, only: [:index]

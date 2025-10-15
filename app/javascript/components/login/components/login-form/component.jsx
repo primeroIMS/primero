@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 import { ConditionalWrapper, useMemoizedSelector, useThemeHelper } from "../../../../libs";
 import Form from "../../../form";
@@ -19,6 +20,7 @@ import { getUseIdentityProvider } from "../../selectors";
 import utils from "../../utils";
 import DisableOffline, { OfflineAlert } from "../../../disable-offline";
 import { checkServerStatus } from "../../../connectivity/action-creators";
+import { ROUTES } from "../../../../config";
 
 import { NAME, FORM_ID } from "./constants";
 import css from "./styles.css";
@@ -29,10 +31,12 @@ import { form, validationSchema } from "./form";
 function Container({ modal = false }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const { demo, online } = useApp();
+  const { demo, online, allowSelfRegistration, registrationStreamsLinkLabels, registrationStreams } = useApp();
   const { mobileDisplay } = useThemeHelper();
   const { setDialog, dialogOpen, dialogClose } = useDialog(PASSWORD_RESET_DIALOG_NAME);
 
+  // TODO: Will need to adjust currentStream if we eventually allow multiple streams
+  const currentStream = registrationStreams.getIn([0, "id"]);
   const authErrors = useMemoizedSelector(state => selectAuthErrors(state));
   const useIdentityProvider = useMemoizedSelector(state => getUseIdentityProvider(state));
 
@@ -68,6 +72,22 @@ function Container({ modal = false }) {
     </ConditionalWrapper>
   );
 
+  const renderSelfRegistration = !useIdentityProvider && allowSelfRegistration && (
+    <ConditionalWrapper condition={!online} wrapper={DisableOffline} offlineTextKey="unavailable_offline">
+      <>
+        <ActionButton
+          text={registrationStreamsLinkLabels.getIn([i18n.locale, currentStream])}
+          type={ACTION_BUTTON_TYPES.link}
+          noTranslate
+          rest={{
+            to: ROUTES.self_registration,
+            component: Link
+          }}
+        />
+      </>
+    </ConditionalWrapper>
+  );
+
   return (
     <>
       <div className={css.loginContainer}>
@@ -96,6 +116,7 @@ function Container({ modal = false }) {
         )}
       </div>
       {renderForgotPassword}
+      {renderSelfRegistration}
     </>
   );
 }

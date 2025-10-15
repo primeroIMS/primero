@@ -103,6 +103,7 @@ class User < ApplicationRecord
   before_validation :generate_random_password
   before_create :set_agency_services
   before_save :make_user_name_lowercase, :update_reporting_location_code, :set_locale, :set_code_of_conduct_accepted_on
+  before_update :after_password_reset
   after_commit :update_associated_records, on: :update
   after_create :send_reset_password_instructions, if: :should_send_password_reset_instructions
 
@@ -154,7 +155,7 @@ class User < ApplicationRecord
     end
 
     def unique_id_parameters
-      %w[user_group_unique_ids role_unique_id identity_provider_unique_id]
+      %w[user_group_unique_ids role_unique_id identity_provider_unique_id agency_id]
     end
 
     def permitted_attribute_names
@@ -255,6 +256,32 @@ class User < ApplicationRecord
       end
       scope
     end
+
+    def build_self_registration_user(params, stream)
+      new(
+        params.except(:data_processing_consent_provided).merge(
+          role_unique_id: stream['role'],
+          user_group_unique_ids: stream['user_groups'],
+          agency_id: stream['agency'],
+          unverified: true
+        )
+      )
+    end
+
+    def create_self_registration_user(params)
+      stream = registration_stream(params[:registration_stream])
+      return unless stream.present?
+
+      user = build_self_registration_user(params, stream)
+      user.data_processing_consent_provided_on = DateTime.now if params[:data_processing_consent_provided]
+      user
+    end
+
+    def registration_stream(unique_id)
+      SystemSettings.current&.registration_streams&.find do |stream|
+        stream['unique_id'] == unique_id
+      end
+    end
   end
 
   def initialize(attributes = nil, &)
@@ -271,6 +298,7 @@ class User < ApplicationRecord
     associate_role_unique_id(properties[:role_unique_id])
     associate_groups_unique_id(properties[:user_group_unique_ids])
     associate_identity_provider_unique_id(properties[:identity_provider_unique_id])
+    associate_agency_unique_id(properties[:agency_id])
   end
 
   def configuration_hash
@@ -287,6 +315,12 @@ class User < ApplicationRecord
     return unless unique_ids.present?
 
     self.user_groups = UserGroup.where(unique_id: unique_ids)
+  end
+
+  def associate_agency_unique_id(agency_unique_id)
+    return unless agency_unique_id.present?
+
+    self.agency = Agency.find_by(unique_id: agency_unique_id)
   end
 
   def associate_identity_provider_unique_id(identity_provider_unique_id)
@@ -497,6 +531,7 @@ class User < ApplicationRecord
     modules.any?(&:user_group_filter)
   end
 
+  # TODO: How should we handle this in the future with unverified users?
   def active_for_authentication?
     super && !disabled
   end
@@ -665,6 +700,12 @@ class User < ApplicationRecord
 
   def make_user_name_lowercase
     user_name.downcase!
+  end
+
+  def after_password_reset
+    return unless will_save_change_to_attribute?(:encrypted_password)
+
+    self.unverified = false
   end
 
   def generate_random_password

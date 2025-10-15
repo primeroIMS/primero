@@ -63,6 +63,8 @@ import Logout from "./components/logout";
 import PasswordResetRequest from "./components/login/components/password-reset-form";
 import { ROUTES, MODES, RECORD_PATH } from "./config";
 import UsageReports from "./components/pages/admin/usage-reports";
+import SelfRegistration from "./components/self-registration/component";
+import SelfRegistrationSuccess from "./components/self-registration-success/component";
 
 const recordPaths = [
   RECORD_PATH.cases,
@@ -108,6 +110,14 @@ export default [
       {
         path: ROUTES.login_idp_redirect,
         component: IdpLogin
+      },
+      {
+        path: ROUTES.self_registration,
+        component: SelfRegistration
+      },
+      {
+        path: ROUTES.self_registration_success,
+        component: SelfRegistrationSuccess
       }
     ]
   },
