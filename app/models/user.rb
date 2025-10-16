@@ -132,7 +132,8 @@ class User < ApplicationRecord
             inclusion: { in: I18n.available_locales.map(&:to_s), message: 'errors.models.user.invalid_locale' },
             allow_nil: true
   validates :data_processing_consent_provided_on,
-            presence: { message: 'errors.models.user.data_processing_consent_provided_on' }, if: :data_processing_consent_required?
+            presence: { message: 'errors.models.user.data_processing_consent_provided_on' },
+            if: :data_processing_consent_required?
   with_options if: :limit_maximum_users_enabled? do
     validate :validate_limit_user_reached, on: :create
     validate :validate_limit_user_reached_on_enabling, on: :update
