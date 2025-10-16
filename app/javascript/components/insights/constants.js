@@ -921,7 +921,7 @@ export const INSIGHTS_CONFIG = {
       {
         name: AGE,
         display_name: FILTER_BY_AGE_DISPLAY_NAME,
-        option_strings_source: "AgeRanges",
+        option_strings_source: OPTION_TYPES.AGE_RANGES,
         type: SELECT_FIELD
       },
       {
