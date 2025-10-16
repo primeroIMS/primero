@@ -3,6 +3,14 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 # Custom miscellaneous Primero configurations, pulled from the environment
+
+def load_settings
+  settings_file = Rails.root.join('config', 'captcha.yml')
+  return {} unless File.exist?(settings_file)
+
+  YAML.safe_load(ERB.new(File.read(settings_file)).result) || {}
+end
+
 Rails.application.configure do
   # The directory where bulk export files are placed.
   # When running with Docker/K8s this needs to point to a volume
@@ -33,4 +41,8 @@ Rails.application.configure do
   config.silence_logging = [
     'GET /health', 'GET /health/database', 'GET /health/solr', 'GET /health/server'
   ]
+
+  @captcha_settings = load_settings if ENV.fetch('PRIMERO_CAPTCHA_PROVIDER', nil).present?
+  config.captcha_provider = ENV.fetch('PRIMERO_CAPTCHA_PROVIDER', nil)
+  config.captcha = @captcha_settings&.dig(config.captcha_provider) || {}
 end
