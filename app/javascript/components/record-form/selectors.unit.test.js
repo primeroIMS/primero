@@ -15,7 +15,8 @@ import {
   RECORD_OWNER,
   REFERRAL,
   SERVICES_SUBFORM_FIELD,
-  TRANSFERS_ASSIGNMENTS
+  TRANSFERS_ASSIGNMENTS,
+  RECORD_TYPES
 } from "../../config";
 import { FieldRecord, SEPARATOR, SUBFORM_SECTION, TEXT_FIELD } from "../form";
 
@@ -81,6 +82,36 @@ const formSections = {
       es: ""
     },
     fields: [2],
+    is_nested: null
+  },
+  64: {
+    id: 64,
+    unique_id: "change_logs",
+    name: {
+      en: "Change Logs",
+      fr: "",
+      ar: "",
+      "ar-LB": "",
+      so: "",
+      es: ""
+    },
+    visible: true,
+    is_first_tab: true,
+    order: 10,
+    order_form_group: 30,
+    parent_form: "case",
+    editable: true,
+    module_ids: ["primeromodule-cp"],
+    form_group_id: "change_logs",
+    form_group_name: {
+      en: "",
+      fr: "",
+      ar: "",
+      "ar-LB": "",
+      so: "",
+      es: ""
+    },
+    fields: [],
     is_nested: null
   }
 };
@@ -238,6 +269,13 @@ const stateWithRecords = fromJS({
     I18n: {
       locale: "en",
       dir: "ltr"
+    }
+  },
+  user: {
+    modules: ["primeromodule-cp"],
+    permittedForms: {
+      change_logs: "rw",
+      basic_identity: "rw"
     }
   },
   forms: {
@@ -451,6 +489,28 @@ describe("<RecordForm /> - Selectors", () => {
 
       expect(record.equals(List([]))).toBe(true);
     });
+
+    it("returns array of forms without default forms", () => {
+      const forms = selectors.getRecordForms(stateWithRecords, {
+        includeDefaultForms: false,
+        recordType: RECORD_TYPES.cases,
+        primeroModule: "primeromodule-cp",
+        checkPermittedForms: true
+      });
+
+      expect(forms.map(f => f.get("unique_id")).toJS()).toEqual(["basic_identity"]);
+    });
+
+    it("should return forms with visible false", () => {
+      const forms = selectors.getRecordForms(stateWithRecords, {
+        includeDefaultForms: true,
+        recordType: RECORD_TYPES.cases,
+        primeroModule: "primeromodule-cp",
+        checkPermittedForms: true
+      });
+
+      expect(forms.map(f => f.get("unique_id")).toJS()).toEqual(["basic_identity", "change_logs"]);
+    });
   });
 
   describe("getRecordFormsByUniqueId", () => {
@@ -458,6 +518,7 @@ describe("<RecordForm /> - Selectors", () => {
       const expected = R.FormSectionRecord({
         id: 62,
         unique_id: "basic_identity",
+        userPermission: "rw",
         name: Map({
           en: "Basic Identity",
           fr: "",

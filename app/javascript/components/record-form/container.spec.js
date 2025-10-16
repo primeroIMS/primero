@@ -147,25 +147,26 @@ describe("<RecordForms /> - Component", () => {
 
   describe("when approvals is the selectedForm but the record doesn't have approvals data", () => {
     const initialState = fromJS({
-      records: Map({
-        cases: Map({
-          data: List([Map(record)]),
-          metadata: Map({ per: 20, page: 1, total: 1 }),
-          filters: Map({ status: "open" })
-        })
-      }),
-      forms: Map({
+      records: {
+        cases: {
+          data: [record],
+          metadata: { per: 20, page: 1, total: 1 },
+          filters: { status: "open" }
+        }
+      },
+      forms: {
         selectedForm: "approvals",
         selectedRecord: record,
         formSections,
         fields,
         loading: false,
-        errors: false
-      }),
-      user: fromJS({
+        errors: false,
+        previousRecord: { id: "2b8d6be1-1dc4-483a-8640-4cfe87c71610", recordType: "cases" }
+      },
+      user: {
         modules: ["primeromodule-cp"],
         permittedForms: { basic_identity: "rw" }
-      }),
+      },
       application
     });
 
@@ -201,25 +202,26 @@ describe("<RecordForms /> - Component", () => {
     });
 
     const initialState = fromJS({
-      records: Map({
-        cases: Map({
-          data: List([Map(recordWithApproval)]),
-          metadata: Map({ per: 20, page: 1, total: 1 }),
-          filters: Map({ status: "open" })
-        })
-      }),
-      forms: fromJS({
+      records: {
+        cases: {
+          data: [recordWithApproval],
+          metadata: { per: 20, page: 1, total: 1 },
+          filters: { status: "open" }
+        }
+      },
+      forms: {
         selectedForm: "approvals",
         selectedRecord: "2b8d6be1-1dc4-483a-8640-4cfe87c71610",
         formSections,
         fields,
         loading: false,
-        errors: false
-      }),
-      user: fromJS({
+        errors: false,
+        previousRecord: { id: "2b8d6be1-1dc4-483a-8640-4cfe87c71610", recordType: "cases" }
+      },
+      user: {
         modules: ["primeromodule-cp"],
         permittedForms: { basic_identity: "rw" }
-      }),
+      },
       application
     });
 
@@ -270,7 +272,8 @@ describe("<RecordForms /> - Component", () => {
         formSections,
         fields,
         loading: false,
-        errors: false
+        errors: false,
+        previousRecord: { id: "2b8d6be1-1dc4-483a-8640-4cfe87c71610", recordType: "cases" }
       },
       user: {
         modules: ["primeromodule-cp"],
@@ -332,7 +335,8 @@ describe("<RecordForms /> - Component", () => {
         formSections,
         fields,
         loading: false,
-        errors: false
+        errors: false,
+        previousRecord: { id: "2b8d6be1-1dc4-483a-8640-4cfe87c71610", recordType: "cases" }
       },
       user: {
         modules: ["primeromodule-cp"],
@@ -394,7 +398,8 @@ describe("<RecordForms /> - Component", () => {
         formSections,
         fields,
         loading: false,
-        errors: false
+        errors: false,
+        previousRecord: { id: "2b8d6be1-1dc4-483a-8640-4cfe87c71610", recordType: "cases" }
       },
       user: {
         modules: ["primeromodule-cp"],
@@ -482,7 +487,8 @@ describe("<RecordForms /> - Component", () => {
         formSections,
         fields,
         loading: false,
-        errors: false
+        errors: false,
+        previousRecord: { id: "2b8d6be1-1dc4-483a-8640-4cfe87c71610", recordType: "cases" }
       },
       user: {
         modules: ["primeromodule-cp"],
@@ -515,11 +521,11 @@ describe("<RecordForms /> - Component", () => {
   describe("when record is new", () => {
     const initialState = fromJS({
       records: {
-        cases: Map({
-          data: List([Map(record)]),
-          metadata: Map({ per: 20, page: 1, total: 1 }),
-          filters: Map({ status: "open" })
-        })
+        cases: {
+          data: [record],
+          metadata: { per: 20, page: 1, total: 1 },
+          filters: { status: "open" }
+        }
       },
       forms: {
         selectedForm: "approvals",
@@ -527,12 +533,13 @@ describe("<RecordForms /> - Component", () => {
         formSections,
         fields,
         loading: false,
-        errors: false
+        errors: false,
+        previousRecord: { id: undefined, recordType: "cases" }
       },
-      user: fromJS({
+      user: {
         modules: ["primeromodule-cp"],
         permittedForms: { basic_identity: "rw" }
-      }),
+      },
       application
     });
 

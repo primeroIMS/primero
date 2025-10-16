@@ -79,7 +79,9 @@ function Component({
   const handleSelect = () => handleSelection(record);
 
   useEffect(() => {
-    onResultClick(record);
+    if (onResultClick) {
+      onResultClick(record);
+    }
   }, [record]);
 
   useEffect(() => {
