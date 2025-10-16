@@ -201,16 +201,18 @@ function Component({
         <CloseButtonNavBar handleToggleNav={handleToggleNav} mobileDisplay={mobileDisplay} />
         <List data-testid="nav-list" className={css.listRecordNav}>
           {showRecordInformation && (
-            <RecordInformation
-              handleClick={handleClick}
-              open={open}
-              recordAlerts={recordAlerts}
-              selectedForm={selectedForm}
-              formGroupLookup={formGroupLookup}
-              primeroModule={primeroModule}
-            />
+            <>
+              <RecordInformation
+                handleClick={handleClick}
+                open={open}
+                recordAlerts={recordAlerts}
+                selectedForm={selectedForm}
+                formGroupLookup={formGroupLookup}
+                primeroModule={primeroModule}
+              />
+              <Divider />
+            </>
           )}
-          <Divider />
           {formGroups.map(formGroup => (
             <FormGroup
               formikValuesForNav={formikValuesForNav}

@@ -32,14 +32,10 @@ import css from "../../styles.css";
 import { compactBlank, compactReadOnlyFields, compactValues, getRedirectPath } from "../../utils";
 import externalForms from "../external-forms";
 import { getCurrentUserGroupPermission } from "../../../user";
-import { GROUP_PERMISSIONS } from "../../../permissions";
+import { GROUP_PERMISSIONS, READ_RECORDS, REFER_FROM_SERVICE, usePermissions } from "../../../permissions";
 
 function Component({
   attachmentForms,
-  canRefer,
-  canSeeAccessLog,
-  canSeeChangeLog,
-  canViewCases,
   containerMode,
   demo,
   editRedirect,
@@ -47,6 +43,7 @@ function Component({
   firstTab,
   formNav,
   forms,
+  hideCancelButton,
   incidentFromCase,
   isCaseIdEqualParam,
   isNotANewCase,
@@ -84,6 +81,8 @@ function Component({
     mode: containerMode
   });
 
+  const canRefer = usePermissions(params.recordType, REFER_FROM_SERVICE);
+  const canViewCases = usePermissions(params.recordType, READ_RECORDS);
   const loadingForm = useMemoizedSelector(state => getLoadingState(state));
   const loadingRecord = useMemoizedSelector(state => getLoadingRecordState(state, params.recordType));
   const errors = useMemoizedSelector(state => getErrors(state));
@@ -152,7 +151,7 @@ function Component({
               params.id,
               message(),
               i18n.t("offline_submitted_changes"),
-              getRedirectPath({ containerMode, params, fetchFromCaseId, redirectTo }),
+              getRedirectPath({ mode: containerMode, params, fetchFromCaseId, redirectTo }),
               true,
               "",
               saveBeforeIncidentRedirect,
@@ -192,7 +191,8 @@ function Component({
     shortId: record ? record.get("short_id") : null,
     primeroModule: selectedModule,
     record,
-    editRedirect
+    editRedirect,
+    hideCancelButton
   };
 
   useEffect(() => {
@@ -297,8 +297,6 @@ function Component({
   const demoClasses = cx({ [css.demo]: demo });
 
   const recordFormExternalForms = externalForms({
-    canSeeAccessLog,
-    canSeeChangeLog,
     containerMode,
     handleCreateIncident,
     handleToggleNav,
@@ -336,6 +334,7 @@ function Component({
               hasForms={hasForms}
               recordId={params.id}
               formikValuesForNav={formikValuesForNav}
+              hideCancelButton={hideCancelButton}
               showRecordInformation={groupPermission !== GROUP_PERMISSIONS.IDENTIFIED}
             />
           </div>
@@ -369,10 +368,6 @@ Component.displayName = "RecordForm";
 Component.propTypes = {
   approvalSubforms: PropTypes.object,
   attachmentForms: PropTypes.object,
-  canRefer: PropTypes.bool,
-  canSeeAccessLog: PropTypes.bool,
-  canSeeChangeLog: PropTypes.bool,
-  canViewCases: PropTypes.bool,
   containerMode: PropTypes.object,
   demo: PropTypes.bool,
   editRedirect: PropTypes.string,
@@ -380,6 +375,7 @@ Component.propTypes = {
   firstTab: PropTypes.object,
   formNav: PropTypes.object,
   forms: PropTypes.object,
+  hideCancelButton: PropTypes.bool,
   incidentFromCase: PropTypes.object,
   isCaseIdEqualParam: PropTypes.bool,
   isNotANewCase: PropTypes.bool,

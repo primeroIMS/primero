@@ -5,13 +5,12 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 
-import { fetchRecord, getSelectedRecordData } from "../../records";
+import { fetchIdentifiedRecord, getIsIdentifiedRecordNotFound, getSelectedRecordOrNull } from "../../records";
 import { whichFormMode } from "../../form";
 import { RECORD_TYPES, RECORD_TYPES_PLURAL, ROUTES } from "../../../config";
 import { useMemoizedSelector } from "../../../libs";
 import useRecordForms from "../../record-form/form/use-record-forms";
 import { RecordForm } from "../../record-form/components/record-form";
-import { getShouldFetchRecord } from "../../record-form/selectors";
 import { useApp } from "../../application";
 import { getCurrentUserModules } from "../../user";
 
@@ -21,55 +20,62 @@ function Component({ mode }) {
   const containerMode = whichFormMode(mode);
   const recordType = RECORD_TYPES_PLURAL.case;
   const isEditOrShow = containerMode.isEdit || containerMode.isShow;
-  const record = useMemoizedSelector(state => getSelectedRecordData(state, recordType, isEditOrShow));
+  const record = useMemoizedSelector(state => getSelectedRecordOrNull(state, recordType));
+  const isRecordNotFound = useMemoizedSelector(state => getIsIdentifiedRecordNotFound(state, recordType));
   const userModules = useMemoizedSelector(state => getCurrentUserModules(state));
   // NOTE: For now, we use the first module of the current user.
   const primeroModule = userModules.first();
-  const forms = useRecordForms({ isEditOrShow, primeroModule, recordType, record });
-  const shouldFetchRecord = useMemoizedSelector(state =>
-    getShouldFetchRecord(state, { id: record?.get("id"), recordType })
-  );
+  const { forms, formNav, summaryForm, recordAttachments, attachmentForms, permittedFormsIds, firstTab } =
+    useRecordForms({
+      isEditOrShow,
+      primeroModule,
+      recordType,
+      record
+    });
   const isNotANewCase = !containerMode.isNew;
   const isCaseIdEqualParam = !containerMode.isNew;
+  const renderRecordForm = containerMode.isNew || record?.get("id");
 
   useEffect(() => {
-    if (shouldFetchRecord) {
-      dispatch(fetchRecord(RECORD_TYPES_PLURAL.case, "identified"));
-    }
-  }, []);
-
-  useEffect(() => {
-    if (record?.get("id") && containerMode.isNew) {
+    if (!containerMode.isNew && isRecordNotFound) {
+      dispatch(push(`${ROUTES.my_case}/new`));
+    } else if (containerMode.isNew && record?.get("id")) {
       dispatch(push(ROUTES.my_case));
     }
-  }, [record?.get("id"), containerMode.isNew]);
+  }, [record?.get("id"), isRecordNotFound, containerMode.isNew]);
+
+  useEffect(() => {
+    if (!isRecordNotFound) {
+      dispatch(
+        fetchIdentifiedRecord({ recordType: RECORD_TYPES_PLURAL.case, redirectOnNotFound: !containerMode.isNew })
+      );
+    }
+  }, [isRecordNotFound, containerMode.isNew]);
 
   return (
-    <RecordForm
-      params={{ recordType, id: record?.get("id"), module: primeroModule }}
-      shouldFetchRecord={shouldFetchRecord}
-      forms={forms.forms}
-      summaryForm={forms.summaryForm}
-      recordAttachments={forms.recordAttachments}
-      firstTab={forms.firstTab}
-      attachmentForms={forms.attachmentForms}
-      formNav={forms.formNav}
-      userPermittedFormsIds={forms.permittedFormsIds}
-      canViewCases={false}
-      canViewSummaryForm={false}
-      demo={demo}
-      canRefer={false}
-      canSeeAccessLog={false}
-      canSeeChangeLog={false}
-      containerMode={containerMode}
-      mode={mode}
-      record={record}
-      recordType={RECORD_TYPES.cases}
-      isNotANewCase={isNotANewCase}
-      isCaseIdEqualParam={isCaseIdEqualParam}
-      editRedirect={`${ROUTES.my_case}/edit`}
-      redirectTo={ROUTES.my_case}
-    />
+    renderRecordForm && (
+      <RecordForm
+        params={{ recordType, id: record?.get("id"), module: primeroModule }}
+        shouldFetchRecord={false}
+        forms={forms}
+        summaryForm={summaryForm}
+        recordAttachments={recordAttachments}
+        firstTab={firstTab}
+        attachmentForms={attachmentForms}
+        formNav={formNav}
+        userPermittedFormsIds={permittedFormsIds}
+        demo={demo}
+        containerMode={containerMode}
+        mode={mode}
+        record={record}
+        recordType={RECORD_TYPES.cases}
+        isNotANewCase={isNotANewCase}
+        isCaseIdEqualParam={isCaseIdEqualParam}
+        hideCancelButton={containerMode.isNew}
+        editRedirect={`${ROUTES.my_case}/edit`}
+        redirectTo={ROUTES.my_case}
+      />
+    )
   );
 }
 

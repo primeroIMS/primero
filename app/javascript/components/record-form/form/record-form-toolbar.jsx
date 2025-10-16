@@ -43,6 +43,7 @@ import DisabledRecordIndicator from "./components/disabled-record-indicator";
 function RecordFormToolbar({
   handleFormSubmit,
   caseIdDisplay,
+  hideCancelButton,
   history,
   editRedirect,
   mode,
@@ -173,13 +174,15 @@ function RecordFormToolbar({
         )}
         {(mode.isEdit || mode.isNew) && (
           <>
-            <ActionButton
-              icon={<ClearIcon />}
-              text="buttons.cancel"
-              type={ACTION_BUTTON_TYPES.default}
-              cancel
-              onClick={goBack}
-            />
+            {!hideCancelButton && (
+              <ActionButton
+                icon={<ClearIcon />}
+                text="buttons.cancel"
+                type={ACTION_BUTTON_TYPES.default}
+                cancel
+                onClick={goBack}
+              />
+            )}
             {renderSaveButton}
           </>
         )}
@@ -209,6 +212,7 @@ RecordFormToolbar.propTypes = {
   caseIdDisplay: PropTypes.string,
   editRedirect: PropTypes.string,
   handleFormSubmit: PropTypes.func.isRequired,
+  hideCancelButton: PropTypes.bool,
   history: PropTypes.object,
   mode: PropTypes.object,
   params: PropTypes.object.isRequired,

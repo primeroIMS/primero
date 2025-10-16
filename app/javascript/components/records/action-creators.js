@@ -13,6 +13,7 @@ import {
   RECORD_PATH,
   RECORD_TYPES,
   RECORD_TYPES_PLURAL,
+  ROUTES,
   SAVE_METHODS
 } from "../../config";
 import { setSelectedForm } from "../record-form/action-creators";
@@ -52,8 +53,8 @@ import {
   ADD_RECORD_RELATIONSHIP,
   REMOVE_RECORD_RELATIONSHIP,
   CLEAR_RECORD_RELATIONSHIPS,
-  SET_SELECTED_IDENTIFIED_RECORD,
-  REDIRECT_TO_NEW_IDENTIFIED_RECORD
+  REDIRECT_TO_NEW_IDENTIFIED_RECORD,
+  SET_SELECTED_IDENTIFIED_RECORD
 } from "./actions";
 
 const getSuccessCallback = ({
@@ -182,21 +183,16 @@ export const fetchTracingRequestTraces = (id, asCallback = false) => ({
   }
 });
 
-export const fetchRecord = (recordType, id, asCallback = false) => {
-  const successCallback = compact([
-    recordType === RECORD_PATH.tracing_requests ? fetchTracingRequestTraces(id, true) : null,
-    id === "identified" ? `${recordType}/${SET_SELECTED_IDENTIFIED_RECORD}` : null
-  ]);
+export const fetchRecord = (recordType, id, asCallback = false, callbacks = {}) => {
+  const successCallback = [];
 
-  const failureCallback = compact([
-    id === "identified"
-      ? {
-          action: `${recordType}/${REDIRECT_TO_NEW_IDENTIFIED_RECORD}`,
-          redirect: "/my_case/new",
-          redirectOnNotFound: true
-        }
-      : null
-  ]);
+  if (recordType === RECORD_PATH.tracing_requests) {
+    successCallback.push(fetchTracingRequestTraces(id, true));
+  }
+
+  if (callbacks.successCallback) {
+    successCallback.push(callbacks.successCallback);
+  }
 
   return {
     [asCallback ? "action" : "type"]: `${recordType}/${RECORD}`,
@@ -208,9 +204,22 @@ export const fetchRecord = (recordType, id, asCallback = false) => {
         id
       },
       successCallback,
-      failureCallback
+      failureCallback: callbacks.failureCallback
     }
   };
+};
+
+export const fetchIdentifiedRecord = ({ recordType, redirectOnNotFound = false }) => {
+  const redirectAction = {
+    action: `${recordType}/${REDIRECT_TO_NEW_IDENTIFIED_RECORD}`,
+    redirect: `${ROUTES.my_case}/new`,
+    redirectOnNotFound: true
+  };
+
+  return fetchRecord(recordType, "identified", false, {
+    failureCallback: redirectOnNotFound ? redirectAction : null,
+    successCallback: [`${recordType}/${SET_SELECTED_IDENTIFIED_RECORD}`]
+  });
 };
 
 export const fetchRecordsAlerts = (recordType, recordId, asCallback = false) => ({
