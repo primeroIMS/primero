@@ -9,6 +9,7 @@ describe("<Form /> - Utils", () => {
     [
       "buildLinkedIncidentOptions",
       "buildRoleOptions",
+      "formatAgeRange",
       "get",
       "notPropagatedOnSubmit",
       "notVisible",

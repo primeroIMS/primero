@@ -700,6 +700,8 @@ const CASE_CHARACTERISTICS_SUBREPORTS = ["case_protection_risk"];
 
 const VIOLENCE_TYPE_SUBREPORTS = ["cases_violence_type", "incidents_violence_type"];
 
+const CASE_MANAGEMENT_KPIS_SUBREPORTS = ["source_identification_referral"];
+
 const CHART_COLORS = Object.freeze({
   blue: "rgb(0, 147, 186)",
   grey: "rgb(89, 89, 82)",
@@ -936,5 +938,6 @@ export {
   PROCESS_QUALITY_TOTAL_CASES_SUBREPORTS,
   PROCESS_QUALITY_IMPLEMENTED_REFERRALS_SUBREPORTS,
   CASE_CHARACTERISTICS_SUBREPORTS,
+  CASE_MANAGEMENT_KPIS_SUBREPORTS,
   ACCESS_LOGS
 };

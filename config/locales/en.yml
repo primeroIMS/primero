@@ -2234,6 +2234,7 @@ en:
       followup_type: Type of Follow Up
       service_type: Type of Service
       has_late_verified_violations: Late Verified?
+      age: Age
     status_options:
       open: Open
       closed: Closed
@@ -2611,6 +2612,15 @@ en:
       percentage_cases_safety_plan:
         safety_plan_completed: 'Safety Plan completed'
         safety_plan_not_completed: 'Safety Plan not completed'
+    case_management_kpis_report:
+      name: Case Management KPIs
+      description: Tracks key indicators of CP Case Management performance, including percentage of referrals made by different stakeholders, Reporting Location and Sex for selected Protection Concerns, and percentage of cases with each reason for closure.
+      reports:
+        source_identification_referral: Source of Identification / Referral
+      sub_reports:
+        case_source_identification_referral: Source of Identification / Referral
+      filter_options:
+        registration_date: Registration Date
   usage_report:
     label: Export Usage Report
     file_name: Create your own file name (Optional)
@@ -3889,6 +3899,9 @@ en:
           case_characteristics:
             label: 'Case Characteristics'
             explanation: 'Only relevant for the PCM (Protection Case Management) module. Disaggregates cases by a number of key characteristics: protection risk, risk level, duration, disability status, completion of a safety plan, and gender.'
+          case_management_kpis_report:
+            label: Case Management KPIs
+            explanation: Tracks key indicators of CP Case Management performance, including percentage of referrals made by different stakeholders, Reporting Location and Sex for selected Protection Concerns, and percentage of cases with each reason for closure.
       matching_configuration:
         actions:
           manage:
