@@ -2,6 +2,7 @@
 
 import startsWith from "lodash/startsWith";
 import compact from "lodash/compact";
+import isEmpty from "lodash/isEmpty";
 import { fromJS } from "immutable";
 
 import { DB_COLLECTIONS_NAMES, IDB_SAVEABLE_RECORD_TYPES } from "../../db";
@@ -203,8 +204,8 @@ export const fetchRecord = (recordType, id, asCallback = false, callbacks = {}) 
         recordType,
         id
       },
-      successCallback,
-      failureCallback: callbacks.failureCallback
+      ...(isEmpty(successCallback) ? {} : { successCallback }),
+      ...(callbacks.failureCallback ? { failureCallback: callbacks.failureCallback } : {})
     }
   };
 };
@@ -218,7 +219,7 @@ export const fetchIdentifiedRecord = ({ recordType, redirectOnNotFound = false }
 
   return fetchRecord(recordType, "identified", false, {
     failureCallback: redirectOnNotFound ? redirectAction : null,
-    successCallback: [`${recordType}/${SET_SELECTED_IDENTIFIED_RECORD}`]
+    successCallback: `${recordType}/${SET_SELECTED_IDENTIFIED_RECORD}`
   });
 };
 

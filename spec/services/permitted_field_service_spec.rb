@@ -620,10 +620,15 @@ describe PermittedFieldService, search: true do
         name_en: 'Record Information',
         description_en: 'Record Information',
         fields: [
-          Field.create!(name: 'associated_user_names', display_name_en: 'Associated Users', type: Field::TEXT_FIELD),
-          Field.create!(name: 'created_by', display_name_en: 'Created By', type: Field::TEXT_FIELD),
-          Field.create!(name: 'created_by_agency', display_name_en: 'Created By Agency', type: Field::TEXT_FIELD),
-          Field.create!(name: 'created_at', display_name_en: 'Created At', type: Field::DATE_FIELD)
+          Field.create!(name: 'foo1', display_name_en: 'foo1', type: Field::TEXT_FIELD),
+          Field.create!(name: 'foo2', display_name_en: 'foo2', type: Field::TEXT_FIELD),
+          Field.create!(name: 'foo3', display_name_en: 'foo3', type: Field::TEXT_FIELD),
+          Field.create!(
+            name: 'associated_user_agencies', display_name_en: 'Associated Agencies', type: Field::TEXT_FIELD
+          ),
+          Field.create!(
+            name: 'associated_user_groups', display_name_en: 'Associated Groups', type: Field::TEXT_FIELD
+          )
         ]
       )
     end
@@ -658,7 +663,31 @@ describe PermittedFieldService, search: true do
     it 'does not return record information fields even if included in the role' do
       permitted_field_names = PermittedFieldService.new(identified_user, Child).permitted_field_names
 
-      expect(permitted_field_names).not_to include(*PermittedFieldService::PERMITTED_RECORD_INFORMATION_FIELDS)
+      expect(permitted_field_names.uniq).to match_array(
+        %w[
+          age
+          case_id_display
+          case_status_reopened
+          current_alert_types
+          date_closure
+          foo1
+          foo2
+          foo3
+          id
+          location_current
+          module_id
+          record_in_scope
+          record_state
+          registration_date
+          reporting_location_hierarchy
+          sex
+          short_id
+          source_case_display_id
+          state
+          status
+          workflow
+        ]
+      )
     end
   end
 

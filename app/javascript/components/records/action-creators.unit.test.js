@@ -3,13 +3,18 @@
 import isObject from "lodash/isObject";
 
 import { DB_COLLECTIONS_NAMES } from "../../db";
-import { METHODS, RECORD_PATH } from "../../config";
+import { METHODS, RECORD_PATH, ROUTES } from "../../config";
 import { ENQUEUE_SNACKBAR } from "../notifier";
 import { CLEAR_DIALOG } from "../action-dialog";
 import RecordFormActions from "../record-form/actions";
 
 import * as actionCreators from "./action-creators";
-import { CLEAR_CASE_FROM_INCIDENT, FETCH_RECORD_ALERTS } from "./actions";
+import {
+  CLEAR_CASE_FROM_INCIDENT,
+  FETCH_RECORD_ALERTS,
+  REDIRECT_TO_NEW_IDENTIFIED_RECORD,
+  SET_SELECTED_IDENTIFIED_RECORD
+} from "./actions";
 
 describe("records - Action Creators", () => {
   it("should have known action creators", () => {
@@ -41,6 +46,7 @@ describe("records - Action Creators", () => {
       "deleteAlertFromRecord",
       "externalSync",
       "fetchCasesPotentialMatches",
+      "fetchIdentifiedRecord",
       "fetchIncidentFromCase",
       "fetchIncidentwitCaseId",
       "fetchLinkIncidentToCaseData",
@@ -112,6 +118,51 @@ describe("records - Action Creators", () => {
 
         expect(actionCreators.fetchRecord(RECORD_PATH.tracing_requests, "123")).toEqual(expected);
       });
+    });
+  });
+
+  describe("fetchIdentifiedRecord", () => {
+    describe("when is redirectOnNotFound", () => {
+      it("should return the correct object", () => {
+        const expected = {
+          type: `${RECORD_PATH.cases}/RECORD`,
+          api: {
+            path: `${RECORD_PATH.cases}/identified`,
+            db: {
+              collection: DB_COLLECTIONS_NAMES.RECORDS,
+              recordType: RECORD_PATH.cases,
+              id: "identified"
+            },
+            successCallback: [`${RECORD_PATH.cases}/${SET_SELECTED_IDENTIFIED_RECORD}`],
+            failureCallback: {
+              action: `${RECORD_PATH.cases}/${REDIRECT_TO_NEW_IDENTIFIED_RECORD}`,
+              redirect: `${ROUTES.my_case}/new`,
+              redirectOnNotFound: true
+            }
+          }
+        };
+
+        expect(
+          actionCreators.fetchIdentifiedRecord({ recordType: RECORD_PATH.cases, redirectOnNotFound: true })
+        ).toEqual(expected);
+      });
+    });
+
+    describe("when is not redirectOnNotFound", () => {
+      const expected = {
+        type: `${RECORD_PATH.cases}/RECORD`,
+        api: {
+          path: `${RECORD_PATH.cases}/identified`,
+          db: {
+            collection: DB_COLLECTIONS_NAMES.RECORDS,
+            recordType: RECORD_PATH.cases,
+            id: "identified"
+          },
+          successCallback: [`${RECORD_PATH.cases}/${SET_SELECTED_IDENTIFIED_RECORD}`]
+        }
+      };
+
+      expect(actionCreators.fetchIdentifiedRecord({ recordType: RECORD_PATH.cases })).toEqual(expected);
     });
   });
 

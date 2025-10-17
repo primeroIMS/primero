@@ -1289,6 +1289,16 @@ describe Child do
       expect(child.identified_by_full_name).to eq('Fake User Name')
       expect(child.identified_at).to eq(Time.zone.parse('2023-08-10 12:00:00'))
     end
+
+    it 'returns a validation error if the user has an identified record' do
+      user = fake_user(group_permission: Permission::IDENTIFIED)
+      user.stub(:full_name).and_return('Fake User Name')
+      child = Child.new_with_user(user, { name: 'Identified Case', sex: 'male', age: 10 })
+      child.save!
+
+      duplicated = Child.new_with_user(user, { name: 'Duplicated Identified Case', sex: 'male', age: 10 })
+      duplicated.should_not be_valid
+    end
   end
 
   after do
