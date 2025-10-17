@@ -15,6 +15,7 @@ import {
   getIncidentFromCaseForm,
   getRecordFormsByUniqueId,
   getRecordInformationFormIds,
+  getShouldFetchRecord,
   getValidationErrors
 } from "../selectors";
 import { getIncidentFromCase, getRecordAlerts, getSelectedRecord } from "../../records";
@@ -35,7 +36,6 @@ function Component({
   hasForms,
   handleToggleNav,
   isNew,
-  isShow,
   mobileDisplay,
   recordType,
   recordId,
@@ -52,7 +52,6 @@ function Component({
 
   const [open, setOpen] = useState("");
   const [previousGroup, setPreviousGroup] = useState("");
-  const [selectedRecordChanged, setSelectedRecordChanged] = useState(false);
 
   const incidentFromCaseForm = useMemoizedSelector(state =>
     getIncidentFromCaseForm(state, { recordType, i18n, primeroModule })
@@ -73,7 +72,7 @@ function Component({
     getRecordInformationFormIds(state, { recordType: RECORD_TYPES[recordType], primeroModule })
   );
 
-  const selectedRecordId = useMemoizedSelector(state => getSelectedRecord(state, recordType));
+  const shouldFetchRecord = useMemoizedSelector(state => getShouldFetchRecord(state, { id: recordId, recordType }));
 
   const formGroupLookup = useOptions({
     source: buildFormGroupUniqueId(primeroModule, RECORD_TYPES[recordType].replace("_", "-"))
@@ -170,17 +169,11 @@ function Component({
   }, [history.action, firstSelectedForm?.form_group_id]);
 
   useEffect(() => {
-    if (recordId && selectedRecordId && selectedRecordId !== recordId && isShow) {
-      setSelectedRecordChanged(true);
-    }
-  }, [selectedRecord, isShow, recordId]);
-
-  useEffect(() => {
-    if (selectedRecordChanged && isShow && firstTab) {
+    // Resets the selected tab if we move to a different record.
+    if (shouldFetchRecord && firstTab?.unique_id) {
       dispatch(setSelectedForm(firstTab.unique_id));
-      setSelectedRecordChanged(false);
     }
-  }, [selectedRecordChanged, isShow, firstTab]);
+  }, [shouldFetchRecord, firstTab?.unique_id]);
 
   const drawerClasses = { paper: css.drawerPaper };
 
@@ -242,7 +235,6 @@ Component.propTypes = {
   handleToggleNav: PropTypes.func.isRequired,
   hasForms: PropTypes.bool,
   isNew: PropTypes.bool,
-  isShow: PropTypes.bool,
   mobileDisplay: PropTypes.bool.isRequired,
   primeroModule: PropTypes.string,
   recordId: PropTypes.string,

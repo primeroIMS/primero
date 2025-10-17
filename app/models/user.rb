@@ -590,6 +590,14 @@ class User < ApplicationRecord
     permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
   end
 
+  def can_view_referrals?
+    can?(Permission::REFERRAL_FROM_SERVICE.to_sym, Child) ||
+      can?(Permission::REMOVE_ASSIGNED_USERS.to_sym, Child) ||
+      can?(Permission::REFERRAL.to_sym, Child) ||
+      can?(Permission::RECEIVE_REFERRAL.to_sym, Child) ||
+      can?(Permission::RECEIVE_REFERRAL_DIFFERENT_MODULE.to_sym, Child)
+  end
+
   def emailable?
     email.present? && send_mail == true && !disabled?
   end
