@@ -60,6 +60,10 @@ class Exporters::ManagedReportExporter < ValueObject
   end
 
   def subreport_exporter_class(subreport)
+    if ManagedReport.list[Permission::CASE_MANAGEMENT_KPIS_REPORT].subreports.include?(subreport)
+      return Exporters::CaseManagementKpiSubreportExporter
+    end
+
     "Exporters::#{subreport.camelize}SubreportExporter".constantize
   rescue NameError
     Exporters::SubreportExporter
