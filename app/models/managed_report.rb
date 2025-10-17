@@ -218,7 +218,7 @@ class ManagedReport < ValueObject
         id: 'case_management_kpis_report',
         name: 'managed_reports.case_management_kpis_report.name',
         description: 'managed_reports.case_management_kpis_report.description',
-        subreports: %w[source_identification_referral],
+        subreports: %w[source_identification_referral protection_concerns_reporting_location],
         permitted_filters: [
           :grouped_by, :by, :age, { protection_concerns: [], registration_date: {} }
         ],
