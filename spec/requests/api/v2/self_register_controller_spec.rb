@@ -8,7 +8,7 @@ describe Api::V2::SelfRegisterController, type: :request do
   before :each do
     clean_data(User, Role, Agency, SystemSettings, UserGroup)
 
-    Agency.create!(
+    agency = Agency.create!(
       unique_id: 'agency_1',
       agency_code: 'agency1',
       order: 1,
@@ -40,7 +40,7 @@ describe Api::V2::SelfRegisterController, type: :request do
           role: 'test-role-1',
           user_category: 'tier-1',
           user_groups: ['Group1'],
-          agency: 'agency_1'
+          agency: agency.unique_id
         }
       ]
     )

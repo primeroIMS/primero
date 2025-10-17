@@ -132,7 +132,8 @@ class User < ApplicationRecord
             inclusion: { in: I18n.available_locales.map(&:to_s), message: 'errors.models.user.invalid_locale' },
             allow_nil: true
   validates :data_processing_consent_provided_on,
-            presence: { message: 'errors.models.user.data_processing_consent_provided_on' }, if: :data_processing_consent_required?
+            presence: { message: 'errors.models.user.data_processing_consent_provided_on' },
+            if: :data_processing_consent_required?
   with_options if: :limit_maximum_users_enabled? do
     validate :validate_limit_user_reached, on: :create
     validate :validate_limit_user_reached_on_enabling, on: :update
@@ -157,7 +158,7 @@ class User < ApplicationRecord
     end
 
     def unique_id_parameters
-      %w[user_group_unique_ids role_unique_id identity_provider_unique_id agency_id]
+      %w[user_group_unique_ids role_unique_id identity_provider_unique_id]
     end
 
     def permitted_attribute_names
@@ -264,7 +265,6 @@ class User < ApplicationRecord
         params.except(:data_processing_consent_provided).merge(
           role_unique_id: stream['role'],
           user_group_unique_ids: stream['user_groups'],
-          agency_id: stream['agency'],
           unverified: true
         )
       )
@@ -276,6 +276,7 @@ class User < ApplicationRecord
 
       user = build_self_registration_user(params, stream)
       user.data_processing_consent_provided_on = DateTime.now if params[:data_processing_consent_provided]
+      user.agency = Agency.find_by(unique_id: stream['agency'])
       user
     end
 
@@ -300,7 +301,6 @@ class User < ApplicationRecord
     associate_role_unique_id(properties[:role_unique_id])
     associate_groups_unique_id(properties[:user_group_unique_ids])
     associate_identity_provider_unique_id(properties[:identity_provider_unique_id])
-    associate_agency_unique_id(properties[:agency_id])
   end
 
   def configuration_hash
@@ -317,12 +317,6 @@ class User < ApplicationRecord
     return unless unique_ids.present?
 
     self.user_groups = UserGroup.where(unique_id: unique_ids)
-  end
-
-  def associate_agency_unique_id(agency_unique_id)
-    return unless agency_unique_id.present?
-
-    self.agency = Agency.find_by(unique_id: agency_unique_id)
   end
 
   def associate_identity_provider_unique_id(identity_provider_unique_id)
