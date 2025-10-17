@@ -6,17 +6,10 @@
 class Api::V2::SelfRegisterController < Api::V2::RecordResourceController
   skip_before_action :authenticate_user!, only: [:create]
   skip_before_action :find_record, only: [:create]
+  before_action :verify_self_registration_allowed
 
   # Create a new user via self registration
   def create
-    # TODO: Add recaptcha verification, rate limiting, etc.
-    raise Errors::ForbiddenOperation unless Primero::Application.config.allow_self_registration
-
-    Captcha.verify(provider: Primero::Application.config.captcha_provider,
-                   token: params[:user][:captcha_token],
-                   remote_ip: request.remote_ip,
-                   email: params[:user][:email])
-
     @user = User.create_self_registration_user(self_register_params)
     return unless @user.save!
 
@@ -24,6 +17,15 @@ class Api::V2::SelfRegisterController < Api::V2::RecordResourceController
   end
 
   private
+
+  def verify_self_registration_allowed
+    raise Errors::ForbiddenOperation unless Primero::Application.config.allow_self_registration
+
+    Captcha.verify(provider: Primero::Application.config.captcha_provider,
+                   token: params[:user][:captcha_token],
+                   remote_ip: request.remote_ip,
+                   email: params[:user][:email])
+  end
 
   def self_register_params
     params.require(:user)
