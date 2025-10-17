@@ -26,8 +26,7 @@ export default {
     groupedBy,
     ageRanges,
     lookupValues,
-    incompleteDataLabel,
-    totalText,
+    labels,
     subColumnItems = [],
     indicatorRows,
     includeZeros = false
@@ -62,19 +61,19 @@ export default {
     const rows = generatedRows.map(current => ({ ...current, separator: separators?.includes(current.row[0]) }));
 
     if (!isEmpty(lookupDisplayTexts)) {
-      const sortArray = [...lookupDisplayTexts, incompleteDataLabel, totalText];
+      const sortArray = [...lookupDisplayTexts, labels.incompleteData, labels.total];
 
       return sortWithSortedArray(rows, sortArray, sortByFn);
     }
 
     if (!isEmpty(indicatorRowDisplaytexts)) {
-      const sortArray = [...indicatorRowDisplaytexts, incompleteDataLabel, totalText];
+      const sortArray = [...indicatorRowDisplaytexts, labels.incompleteData, labels.total];
 
       return sortWithSortedArray(rows, sortArray, sortByFn);
     }
 
     if (key === "age" || key?.includes("_age")) {
-      const sortArray = [...ageRanges, incompleteDataLabel, totalText];
+      const sortArray = [...ageRanges, labels.incompleteData, labels.total];
 
       return sortWithSortedArray(rows, sortArray, sortByFn);
     }

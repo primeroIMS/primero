@@ -3,6 +3,7 @@
 # Copyright (c) 2014 UNICEF. All rights reserved.
 
 # Class to export UsageReport
+# rubocop:disable Metrics/ClassLength
 class UsageReport < ValueObject
   attr_accessor :from, :to, :data
 
@@ -15,10 +16,13 @@ class UsageReport < ValueObject
   def build
     return if data.present?
 
-    self.data = {}.with_indifferent_access
-    data[:agencies] = build_agencies
-    data[:agencies_total] = data[:agencies].size
-    data[:modules] = build_modules
+    agencies = build_agencies
+    self.data = {
+      agencies:,
+      agencies_total: agencies.size,
+      modules: build_modules,
+      users_by_role: build_users_by_role
+    }.with_indifferent_access
   end
 
   def build_agencies
@@ -78,6 +82,51 @@ class UsageReport < ValueObject
       incidents_total: records(Incident, module_id).count,
       incidents_open_this_quarter: records_open_this_quarter(Incident, module_id)
     }
+  end
+
+  def build_users_by_role(user = nil, params = {})
+    count_users_by_role(user, params).each_with_object({}) do |elem, memo|
+      role_unique_id = elem['role_unique_id']
+      user_group_unique_id = elem['user_group_unique_id']
+      count = elem['count']
+
+      aggregate_result_group(memo, 'overall', role_unique_id, count)
+      aggregate_result_group(memo, user_group_unique_id, role_unique_id, count)
+    end
+  end
+
+  def aggregate_result_group(results, user_group_unique_id, role_unique_id, count)
+    results[user_group_unique_id] ||= { 'total' => 0 }
+    results[user_group_unique_id][role_unique_id] ||= 0
+    results[user_group_unique_id][role_unique_id] += count
+    results[user_group_unique_id]['total'] += count
+  end
+
+  def count_users_by_role(user, params = {})
+    query = users_in_scope(user).group('user_groups.unique_id', 'roles.unique_id').select(
+      'user_groups.unique_id AS user_group_unique_id, roles.unique_id AS role_unique_id, COUNT(*)'
+    ).where(
+      {
+        disabled: params[:disabled],
+        user_groups: { unique_id: params[:user_group_unique_id] },
+        agencies: { unique_id: params[:agency_unique_id] }
+      }.compact_deep.compact_blank
+    )
+
+    User.connection.select_all(query.to_sql).to_a
+  end
+
+  def users_in_scope(user)
+    query = User.joins(:user_groups, :role, :agency)
+    return query if user.blank? || user.managed_report_scope_all?
+
+    if current_user.managed_report_scope == Permission::AGENCY
+      query.where(agency_id: user.agency_id)
+    elsif current_user.managed_report_scope == Permission::GROUP
+      query.where(user_groups: { unique_id: user.user_group_unique_ids })
+    else
+      query.where(user_name: user.user_name)
+    end
   end
 
   def quarter
@@ -141,3 +190,4 @@ class UsageReport < ValueObject
     ).to_a.first
   end
 end
+# rubocop:enable Metrics/ClassLength

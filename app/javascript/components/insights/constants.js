@@ -24,7 +24,8 @@ import {
   PROCESS_QUALITY_SUCCESSFUL_REFERRALS_SUBREPORTS,
   PROCESS_QUALITY_IMPLEMENTED_REFERRALS_SUBREPORTS,
   CASE_CHARACTERISTICS_SUBREPORTS,
-  CASE_MANAGEMENT_KPIS_SUBREPORTS
+  CASE_MANAGEMENT_KPIS_SUBREPORTS,
+  DISTRIBUTION_USERS_ROLE_SUBREPORTS
 } from "../../config";
 import { DATE_FIELD, SELECT_FIELD, HIDDEN_FIELD, OPTION_TYPES } from "../form/constants";
 import { FieldRecord } from "../form/records";
@@ -43,6 +44,9 @@ const BY_OPTIONS = "by_options";
 const REFERRAL_TRANSFER_STATUS_OPTIONS = "referral_transfer_status_options";
 const MODULE = "module_id";
 const AGE = "age";
+const USER_GROUP_UNIQUE_ID = "user_group_unique_id";
+const AGENCY_UNIQUE_ID = "agency_unique_id";
+const DISABLED = "disabled";
 
 const CTFMR_VERIFIED_DATE = "ctfmr_verified_date";
 const VERIFIED_CTFMR_TECHNICAL = "ctfmr_verified";
@@ -941,6 +945,34 @@ export const INSIGHTS_CONFIG = {
         display_name: PROTECTION_CONCERNS_DISPLAY_NAME,
         multi_select: true,
         option_strings_source: LOOKUPS.protection_concerns
+      }
+    ].map(filter => FieldRecord(filter))
+  },
+  distribution_users_role_report: {
+    ids: DISTRIBUTION_USERS_ROLE_SUBREPORTS,
+    defaultFilterValues: {},
+    filters: [
+      {
+        name: DISABLED,
+        type: SELECT_FIELD,
+        display_name: ["cases", "filter_by", "enabled_disabled"],
+        option_strings_text: [
+          { id: "false", display_name: ["disabled", "status", "enabled"] },
+          { id: "true", display_name: ["disabled", "status", "disabled"] }
+        ]
+      },
+      {
+        name: USER_GROUP_UNIQUE_ID,
+        type: SELECT_FIELD,
+        display_name: USER_GROUP_DISPLAY_NAME,
+        option_strings_source: OPTION_TYPES.INSIGHTS_USER_GROUP_PERMITTED
+      },
+      {
+        name: AGENCY_UNIQUE_ID,
+        type: SELECT_FIELD,
+        display_name: AGENCY_DISPLAY_NAME,
+        option_strings_source: OPTION_TYPES.AGENCY,
+        option_strings_source_id_key: "unique_id"
       }
     ].map(filter => FieldRecord(filter))
   }
