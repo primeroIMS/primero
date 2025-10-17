@@ -136,7 +136,13 @@ class PermittedFieldService
   def revoked_fields_for_identified_scope
     return [] unless user.group_permission?(Permission::IDENTIFIED)
 
-    PERMITTED_RECORD_INFORMATION_FIELDS + %w[associated_user_names]
+    PERMITTED_RECORD_INFORMATION_FIELDS + permitted_reporting_location_field +
+      permitted_incident_reporting_location_field + %w[
+        associated_user_names referred_users referred_users_present transferred_to_users transferred_to_user_groups
+        reassigned_transferred_on reunification_dates service_implemented_day_times tracing_dates
+        associated_user_agencies associated_user_groups has_photo survivor_code survivor_code_no has_incidents or not
+        cases_by_date not_edited_by_owner family_id followup_dates incident_case_id
+      ]
   end
 
   def permitted_core_fields(update = false)
