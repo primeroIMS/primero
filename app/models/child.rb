@@ -12,7 +12,6 @@ class Child < ApplicationRecord
   RISK_LEVEL_HIGH = 'high'
   RISK_LEVEL_NONE = 'none'
   NAME_FIELDS = %w[name name_nickname name_other].freeze
-  STATUS_IDENTIFIED = 'identified'
 
   self.table_name = 'cases'
 
