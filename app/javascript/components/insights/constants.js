@@ -23,7 +23,9 @@ import {
   PROCESS_QUALITY_AVERAGE_CASES_SUBREPORTS,
   PROCESS_QUALITY_SUCCESSFUL_REFERRALS_SUBREPORTS,
   PROCESS_QUALITY_IMPLEMENTED_REFERRALS_SUBREPORTS,
-  CASE_CHARACTERISTICS_SUBREPORTS
+  CASE_CHARACTERISTICS_SUBREPORTS,
+  CASE_MANAGEMENT_KPIS_SUBREPORTS,
+  DISTRIBUTION_USERS_ROLE_SUBREPORTS
 } from "../../config";
 import { DATE_FIELD, SELECT_FIELD, HIDDEN_FIELD, OPTION_TYPES } from "../form/constants";
 import { FieldRecord } from "../form/records";
@@ -41,6 +43,10 @@ const DATE_CLOSURE = "date_closure";
 const BY_OPTIONS = "by_options";
 const REFERRAL_TRANSFER_STATUS_OPTIONS = "referral_transfer_status_options";
 const MODULE = "module_id";
+const AGE = "age";
+const USER_GROUP_UNIQUE_ID = "user_group_unique_id";
+const AGENCY_UNIQUE_ID = "agency_unique_id";
+const DISABLED = "disabled";
 
 const CTFMR_VERIFIED_DATE = "ctfmr_verified_date";
 const VERIFIED_CTFMR_TECHNICAL = "ctfmr_verified";
@@ -67,6 +73,7 @@ const PROCESS_QUALITY_AVERAGE_CASES = "process_quality_average_cases";
 const PROCESS_QUALITY_SUCCESSFUL_REFERRALS = "process_quality_successful_referrals";
 const PROCESS_QUALITY_IMPLEMENTED_REFERRALS = "process_quality_implemented_referrals";
 const CASE_CHARACTERISTICS = "case_characteristics";
+const CASE_MANAGEMENT_KPIS_REPORT = "case_management_kpis_report";
 
 export const MODULE_ID = "module_id";
 export const REPORTS = "reports";
@@ -151,6 +158,7 @@ export const FOLLOWUPS_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, FOLLOWUPS];
 export const SERVICES_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, SERVICES];
 export const VIOLENCE_TYPE_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, VIOLENCE_TYPE];
 export const REFERRAL_TRANSFER_STATUS_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, REFERRAL_TRANSFER_STATUS];
+export const FILTER_BY_AGE_DISPLAY_NAME = [MANAGED_REPORTS, FILTER_BY, AGE];
 
 export const SHARED_FILTERS = {
   [GROUPED_BY]: {
@@ -898,6 +906,73 @@ export const INSIGHTS_CONFIG = {
         type: SELECT_FIELD,
         display_name: REPORTING_LOCATIONS_DISPLAY_NAME,
         option_strings_source: LOOKUPS.reporting_locations
+      }
+    ].map(filter => FieldRecord(filter))
+  },
+  case_management_kpis_report: {
+    ids: CASE_MANAGEMENT_KPIS_SUBREPORTS,
+    defaultFilterValues: {
+      [GROUPED_BY]: MONTH,
+      [DATE_RANGE]: LAST_MONTH,
+      [STATUS]: [STATUS_OPEN],
+      [DATE]: REGISTRATION_DATE
+    },
+    filters: [
+      RECORD_FILTERS[GROUPED_BY],
+      RECORD_FILTERS[DATE_RANGE],
+      RECORD_FILTERS[FROM],
+      RECORD_FILTERS[TO],
+      {
+        name: AGE,
+        display_name: FILTER_BY_AGE_DISPLAY_NAME,
+        option_strings_source: OPTION_TYPES.AGE_RANGES,
+        type: SELECT_FIELD
+      },
+      {
+        name: DATE,
+        display_name: FILTER_BY_DATE_DISPLAY_NAME,
+        option_strings_text: [
+          {
+            id: REGISTRATION_DATE,
+            display_name: [MANAGED_REPORTS, CASE_MANAGEMENT_KPIS_REPORT, FILTER_OPTIONS, REGISTRATION_DATE]
+          }
+        ],
+        type: SELECT_FIELD
+      },
+      {
+        name: PROTECTION_CONCERNS,
+        type: SELECT_FIELD,
+        display_name: PROTECTION_CONCERNS_DISPLAY_NAME,
+        multi_select: true,
+        option_strings_source: LOOKUPS.protection_concerns
+      }
+    ].map(filter => FieldRecord(filter))
+  },
+  distribution_users_role_report: {
+    ids: DISTRIBUTION_USERS_ROLE_SUBREPORTS,
+    defaultFilterValues: {},
+    filters: [
+      {
+        name: DISABLED,
+        type: SELECT_FIELD,
+        display_name: ["cases", "filter_by", "enabled_disabled"],
+        option_strings_text: [
+          { id: "false", display_name: ["disabled", "status", "enabled"] },
+          { id: "true", display_name: ["disabled", "status", "disabled"] }
+        ]
+      },
+      {
+        name: USER_GROUP_UNIQUE_ID,
+        type: SELECT_FIELD,
+        display_name: USER_GROUP_DISPLAY_NAME,
+        option_strings_source: OPTION_TYPES.INSIGHTS_USER_GROUP_PERMITTED
+      },
+      {
+        name: AGENCY_UNIQUE_ID,
+        type: SELECT_FIELD,
+        display_name: AGENCY_DISPLAY_NAME,
+        option_strings_source: OPTION_TYPES.AGENCY,
+        option_strings_source_id_key: "unique_id"
       }
     ].map(filter => FieldRecord(filter))
   }

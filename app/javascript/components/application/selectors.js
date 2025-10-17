@@ -11,6 +11,7 @@ import { getLocale } from "../i18n/selectors";
 import { DATA_PROTECTION_FIELDS } from "../record-creation-flow/constants";
 import { currentUser } from "../user/selectors";
 import { MODULES, RECORD_TYPES_PLURAL } from "../../config";
+import { formatAgeRange } from "../form/utils";
 
 import { PERMISSIONS, RESOURCE_ACTIONS, DEMO, LIMITED } from "./constants";
 import NAMESPACE from "./namespace";
@@ -143,6 +144,9 @@ export const getPrimaryAgeRange = state => {
 };
 
 export const getPrimaryAgeRanges = state => getAgeRanges(state, getPrimaryAgeRange(state));
+
+export const getFormattedAgeRanges = state =>
+  (getPrimaryAgeRanges(state) || fromJS([])).reduce((acc, range) => acc.concat(formatAgeRange(range)), []);
 
 export const getReportableTypes = state => state.getIn([NAMESPACE, "reportableTypes"], fromJS([]));
 

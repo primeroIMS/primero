@@ -6,7 +6,7 @@ require 'rails_helper'
 
 describe Api::V2::RecordHistoriesController, type: :request do
   before :each do
-    clean_data(User, Role, Agency, Incident, TracingRequest, Child, RecordHistory)
+    clean_data(User, Role, Agency, Incident, Child, AuditLog)
   end
 
   let!(:agency_a) do
@@ -147,7 +147,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
   let(:json) { JSON.parse(response.body) }
 
   describe 'GET /api/v2/:record_type/:record_id/' do
-    it 'list record_history from an incident' do
+    it 'list access_log from an incident' do
       login_for_test(
         permissions: [
           Permission.new(resource: Permission::INCIDENT, actions: [Permission::READ, Permission::ACCESS_LOG])
@@ -159,7 +159,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
       expect(json['data'].map { |data| data['id'] }).to match_array([audit_log4.id, audit_log5.id])
     end
 
-    it 'list record_history from a child' do
+    it 'list access_log from a child' do
       login_for_test(
         user_name: 'user_login',
         permissions: [
@@ -172,6 +172,39 @@ describe Api::V2::RecordHistoriesController, type: :request do
       expect(json['data'].map { |data| data['id'] }).to match_array(
         [audit_log1.id, audit_log2.id, audit_log3.id, audit_log6.id]
       )
+    end
+
+    describe 'when filter is present' do
+      it 'list access_log from a child filtered by access_users' do
+        login_for_test(
+          user_name: 'user_login',
+          permissions: [
+            Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::ACCESS_LOG])
+          ]
+        )
+
+        get "/api/v2/cases/#{Child.first.id}/access_log?filters[access_users][0]=#{user_login.id}"
+
+        expect(json['data'].map { |data| data['id'] }).to match_array(
+          [audit_log6.id]
+        )
+      end
+      it 'list access_log from a child filtered by timestamp' do
+        login_for_test(
+          user_name: 'user_login',
+          permissions: [
+            Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::ACCESS_LOG])
+          ]
+        )
+
+        get "/api/v2/cases/#{Child.first.id}/access_log?" \
+            "filters[timestamp][from]=#{2.days.ago.in_time_zone.beginning_of_day}&" \
+            "filters[timestamp][to]=#{Time.zone.now}"
+
+        expect(json['data'].map { |data| data['id'] }).to match_array(
+          [audit_log1.id, audit_log6.id]
+        )
+      end
     end
 
     it 'returns 403 if user only have read permission' do
@@ -206,6 +239,6 @@ describe Api::V2::RecordHistoriesController, type: :request do
   end
 
   after :each do
-    clean_data(User, Role, Agency, Child, TracingRequest, Incident, RecordHistory)
+    clean_data(User, Role, Agency, Child, Incident, AuditLog)
   end
 end

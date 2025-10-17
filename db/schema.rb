@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_09_10_000000) do
+ActiveRecord::Schema.define(version: 2025_09_22_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -207,6 +207,7 @@ ActiveRecord::Schema.define(version: 2025_09_10_000000) do
     t.string "srch_protection_risks", default: [], array: true
     t.string "srch_next_steps", default: [], array: true
     t.string "srch_assigned_user_names", default: [], array: true
+    t.string "srch_sex"
     t.index "((data ->> 'case_id'::text))", name: "cases_case_id_unique_idx", unique: true
     t.index "((phonetic_data -> 'tokens'::text))", name: "cases_phonetic_tokens_idx", using: :gin
     t.index ["data"], name: "index_cases_on_data", using: :gin

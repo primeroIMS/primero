@@ -1,7 +1,5 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-/* eslint-disable import/prefer-default-export */
-
 import actions from "./actions";
 
 export const fetchInsight = (id, subReport, params = {}) => {
@@ -20,4 +18,12 @@ export const fetchInsight = (id, subReport, params = {}) => {
 export const setSubReport = payload => ({
   type: actions.SET_SUB_REPORT,
   payload
+});
+
+export const clearSelectedInsight = () => ({
+  type: actions.CLEAR_SELECTED_INSIGHT
+});
+
+export const clearReportData = () => ({
+  type: actions.CLEAR_REPORT_DATA
 });

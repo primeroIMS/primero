@@ -11,7 +11,19 @@ import { getDateValue } from "../../../index-filters/components/filter-types/dat
 
 import { FILTER_NAMES, FIRST_PAGE_RESULTS, TIMESTAMP, ACTIONS, DAYS_AGO } from "./constants";
 
-export const getFilters = i18n => [
+function searchableUsers(data = []) {
+  return data.reduce((acc, user) => [...acc, { id: user.get("id"), display_name: user.get("user_name") }], []);
+}
+
+export const getFilters = (usersWhoAccessed, i18n) => [
+  {
+    name: "access_log.filters.access_users",
+    field_name: FILTER_NAMES.access_users,
+    option_strings_source: null,
+    options: searchableUsers(usersWhoAccessed),
+    type: FILTER_TYPES.MULTI_SELECT,
+    multiple: true
+  },
   {
     name: "access_log.filters.actions",
     field_name: FILTER_NAMES.actions,

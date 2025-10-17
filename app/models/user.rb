@@ -87,6 +87,16 @@ class User < ApplicationRecord
     )
   end)
 
+  scope :who_accessed_record, (lambda do |record, actions = AuditLog::RECORD_VIEWS_EDIT|
+    where(
+      AuditLog.unscoped
+              .where(record_id: record.id, record_type: record.class.name, action: actions)
+              .where('audit_logs.user_id = users.id')
+              .arel
+              .exists
+    )
+  end)
+
   alias_attribute :organization, :agency
   alias_attribute :name, :user_name
 
@@ -587,6 +597,14 @@ class User < ApplicationRecord
 
   def agency_read?
     permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
+  end
+
+  def can_view_referrals?
+    can?(Permission::REFERRAL_FROM_SERVICE.to_sym, Child) ||
+      can?(Permission::REMOVE_ASSIGNED_USERS.to_sym, Child) ||
+      can?(Permission::REFERRAL.to_sym, Child) ||
+      can?(Permission::RECEIVE_REFERRAL.to_sym, Child) ||
+      can?(Permission::RECEIVE_REFERRAL_DIFFERENT_MODULE.to_sym, Child)
   end
 
   def emailable?

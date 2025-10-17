@@ -3,6 +3,7 @@
 # Copyright (c) 2014 UNICEF. All rights reserved.
 
 # Class to export UsageReport
+# rubocop:disable Metrics/ClassLength
 class Exporters::UsageReportExporter < ValueObject
   attr_accessor :file_name, :usage_report, :hostname, :locale, :workbook, :completed, :errors # TODO: do I need :errors?
 
@@ -20,9 +21,10 @@ class Exporters::UsageReportExporter < ValueObject
     return unless usage_report.present? && usage_report.data.present?
 
     build_user_sheet
-    usage_report.data[:modules].each do |mod|
+    usage_report.data[:modules]&.each do |mod|
       build_module_sheet(mod)
     end
+    build_roles_sheet
     complete
   end
 
@@ -34,6 +36,8 @@ class Exporters::UsageReportExporter < ValueObject
   private
 
   def build_user_sheet
+    return unless usage_report.data.key?(:agencies_total)
+
     worksheet = workbook.add_worksheet(t('users'))
     adjust_column_width(worksheet)
     summary_header(worksheet)
@@ -103,6 +107,46 @@ class Exporters::UsageReportExporter < ValueObject
     end
   end
 
+  def build_roles_sheet
+    return unless usage_report.data[:users_by_role].present?
+
+    worksheet = workbook.add_worksheet(I18n.t('roles.label'))
+    adjust_column_width(worksheet)
+    roles = role_with_names
+    user_groups = user_group_with_names
+
+    write_roles_headers(worksheet, roles)
+    write_roles_content(worksheet, roles, user_groups)
+  end
+
+  def write_roles_headers(worksheet, roles)
+    roles.entries.each.with_index(1) do |(_, name), index|
+      worksheet.write(0, index, name)
+      worksheet.set_column(0, index, 20) # Adjust column width
+    end
+  end
+
+  def write_roles_content(worksheet, roles, user_groups)
+    user_groups.entries.each.with_index(1) do |(user_group_key, user_group_name), group_idx|
+      worksheet.write(group_idx, 0, user_group_name)
+      roles.keys.each.with_index(1) do |role, role_idx|
+        value = usage_report.data[:users_by_role].dig(user_group_key, role) || 0
+        worksheet.write(group_idx, role_idx, value)
+      end
+    end
+  end
+
+  def user_group_with_names
+    user_group_unique_ids = usage_report.data[:users_by_role].keys
+    UserGroup.where(unique_id: user_group_unique_ids).order(:name).pluck(:unique_id, :name).to_h.merge(
+      'overall' => I18n.t('managed_reports.distribution_users_role_report.distribution_users_role.overall')
+    )
+  end
+
+  def role_with_names
+    Role.all.order(:name).pluck(:unique_id, :name).to_h.merge('total' => I18n.t('managed_reports.total'))
+  end
+
   def default_file_name
     "usage_report_#{Date.today.strftime('%Y%m%d')}.xlsx"
   end
@@ -120,3 +164,4 @@ class Exporters::UsageReportExporter < ValueObject
     I18n.t("usage_report.export.#{string}", locale:)
   end
 end
+# rubocop:enable Metrics/ClassLength
