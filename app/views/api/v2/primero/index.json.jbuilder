@@ -2,9 +2,11 @@
 
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
+# rubocop:disable Metrics/BlockLength
 json.data do
   json.sandbox_ui Rails.configuration.sandbox_ui
   json.config_ui Rails.configuration.config_ui
+  json.allow_self_registration Rails.configuration.allow_self_registration
   json.locales I18n.available_locales
   json.webpush_enabled Rails.configuration.x.webpush.enabled
   json.agencies do
@@ -23,4 +25,11 @@ json.data do
       json.logo_icon rails_blob_path(agency.logo_icon, only_path: true)
     end
   end
+
+  json.registration_streams(@system_options&.[]('registration_streams')&.map do |stream|
+    { id: stream['unique_id'] }
+  end || [])
+  json.registration_streams_link_labels @system_options&.[]('registration_streams_link_labels_i18n') || {}
+  json.registration_streams_consent_text @system_options&.[]('registration_streams_consent_text_i18n') || {}
 end.compact!
+# rubocop:enable Metrics/BlockLength

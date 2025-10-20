@@ -115,7 +115,7 @@ describe("middleware/utils/default-error-callback.js", () => {
       {
         action: "notifications/ENQUEUE_SNACKBAR",
         payload: {
-          messageKey: "test error, test error 2",
+          messageKey: "test error",
           messageDetailed: undefined,
           options: {
             variant: "error",

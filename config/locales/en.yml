@@ -1039,7 +1039,9 @@ en:
         email: "Please enter a valid email (example: 'name@example.org')"
         password_mismatch: The password fields do not have the same password
         password_length: The password must be at least %{min} characters
+        user_name_uniqueness: A User with that user name already exists. Please enter a different one
         email_uniqueness: A User with this email address already exists. Please enter a different one
+        data_processing_consent_provided_on: You must provide consent to data processing
       code_of_conduct:
         title_present: Title must not be blank
         content_present: Content must not be blank
@@ -4987,6 +4989,16 @@ en:
       invalid: "Invalid %{authentication_keys} or password."
       locked: "Your account is locked."
       last_attempt: "You have one more attempt before your account is locked."
+  self_registration:
+    data_processing_consent_required: You must provide consent for data processing.
+    locale: Preferred Language
+    title: Register
+    save: Register
+    success:
+      return_button: Return to login
+      header: Please verify your email
+      success: User account successfully created.
+      text: "Thanks for registering! We are creating a user account for you now and have sent an email to the address you provided. \n\n Please click the confirmation link in the email to set your account password and continue with registration."
   admin:
     locations:
       selected_records: '%{select_records} location(s) selected'
