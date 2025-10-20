@@ -537,7 +537,7 @@ class User < ApplicationRecord
 
   # TODO: How should we handle this in the future with unverified users?
   def active_for_authentication?
-    super && !disabled
+    super && !disabled && !unverified
   end
 
   def modules_for_record_type(record_type)

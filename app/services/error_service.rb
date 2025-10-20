@@ -64,6 +64,9 @@ class ErrorService
       # TODO: i18n?
       code = 422
       errors = [ApplicationError.new(code: 422, message: 'Invalid captcha', resource: request.path)]
+    when Errors::CaptchaServiceUnavailable
+      code = 503
+      errors = [ApplicationError.new(code: 503, message: 'Captcha service unavailable', resource: request.path)]
     when Errors::InvalidEmail
       # TODO: i18n?
       code = 422
