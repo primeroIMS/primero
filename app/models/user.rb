@@ -230,6 +230,10 @@ class User < ApplicationRecord
       SQL
     end
 
+    def with_audit_dates_if(include_activity_stats)
+      include_activity_stats ? with_audit_dates : all
+    end
+
     def with_audit_date_between(action:, from:, to:, record_type: 'User')
       subquery = <<~SQL.squish
         SELECT 1 FROM audit_logs
