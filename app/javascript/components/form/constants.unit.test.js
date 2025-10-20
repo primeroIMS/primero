@@ -57,6 +57,7 @@ describe("<Form /> - Constants", () => {
     [
       "AGENCY_CURRENT_USER",
       "AGENCY",
+      "AGE_RANGES",
       "FORM_GROUP_LOOKUP",
       "FORM_GROUP",
       "INSIGHTS_USER_GROUP_PERMITTED",

@@ -108,8 +108,7 @@ describe("<UsersForm />", () => {
       expect(within(screen.getByTestId("page-heading")).getAllByRole("button")[1].id).toEqual("more-actions");
     });
 
-    // TODO: Add back once users.timestamp index is added
-    it.skip("renders last actions dates", () => {
+    it("renders last actions dates", () => {
       const stateForShowMode = fromJS({
         records: {
           users: {

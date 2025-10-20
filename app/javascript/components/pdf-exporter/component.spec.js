@@ -97,4 +97,9 @@ describe("<PdfExporter />", () => {
 
     expect(screen.queryByText(/Approved by Manager/i)).not.toBeInTheDocument();
   });
+
+  it("does not fail when no forms are selected", () => {
+    mountedFormComponent(<PdfExporter {...props} includeAllFormsWhenEmpty={false} formsSelectedField="test" />);
+    expect(screen.getAllByText("exports.printed").at(0)).toBeInTheDocument();
+  });
 });

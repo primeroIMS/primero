@@ -113,6 +113,7 @@ ActiveRecord::Schema.define(version: 2025_10_09_185327) do
     t.jsonb "metadata"
     t.index ["metadata"], name: "index_audit_logs_on_metadata", using: :gin
     t.index ["record_type", "record_id"], name: "index_audit_logs_on_record_type_and_record_id"
+    t.index ["timestamp", "user_id"], name: "index_audit_logs_on_timestamp_and_user_id"
     t.index ["user_id"], name: "index_audit_logs_on_user_id"
   end
 
@@ -206,6 +207,7 @@ ActiveRecord::Schema.define(version: 2025_10_09_185327) do
     t.string "srch_protection_risks", default: [], array: true
     t.string "srch_next_steps", default: [], array: true
     t.string "srch_assigned_user_names", default: [], array: true
+    t.string "srch_sex"
     t.index "((data ->> 'case_id'::text))", name: "cases_case_id_unique_idx", unique: true
     t.index "((phonetic_data -> 'tokens'::text))", name: "cases_phonetic_tokens_idx", using: :gin
     t.index ["data"], name: "index_cases_on_data", using: :gin
