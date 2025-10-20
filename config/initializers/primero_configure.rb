@@ -27,6 +27,9 @@ Rails.application.configure do
 
   config.use_csrf_protection = ActiveRecord::Type::Boolean.new.cast(ENV.fetch('PRIMERO_USE_CSRF_PROTECTION', true))
 
+  config.allow_self_registration = ActiveRecord::Type::Boolean.new.cast(ENV.fetch('PRIMERO_ALLOW_SELF_REGISTRATION',
+                                                                                  false))
+
   config.silence_logging = [
     'GET /health', 'GET /health/database', 'GET /health/solr', 'GET /health/server'
   ]

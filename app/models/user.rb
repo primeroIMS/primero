@@ -103,6 +103,7 @@ class User < ApplicationRecord
   before_validation :generate_random_password
   before_create :set_agency_services
   before_save :make_user_name_lowercase, :update_reporting_location_code, :set_locale, :set_code_of_conduct_accepted_on
+  before_update :after_password_reset
   after_commit :update_associated_records, on: :update
   after_create :send_reset_password_instructions, if: :should_send_password_reset_instructions
 
@@ -130,6 +131,9 @@ class User < ApplicationRecord
   validates :locale,
             inclusion: { in: I18n.available_locales.map(&:to_s), message: 'errors.models.user.invalid_locale' },
             allow_nil: true
+  validates :data_processing_consent_provided_on,
+            presence: { message: 'errors.models.user.data_processing_consent_provided_on' },
+            if: :data_processing_consent_required?
   with_options if: :limit_maximum_users_enabled? do
     validate :validate_limit_user_reached, on: :create
     validate :validate_limit_user_reached_on_enabling, on: :update
@@ -230,6 +234,10 @@ class User < ApplicationRecord
       SQL
     end
 
+    def with_audit_dates_if(include_activity_stats)
+      include_activity_stats ? with_audit_dates : all
+    end
+
     def with_audit_date_between(action:, from:, to:, record_type: 'User')
       subquery = <<~SQL.squish
         SELECT 1 FROM audit_logs
@@ -254,6 +262,32 @@ class User < ApplicationRecord
         )
       end
       scope
+    end
+
+    def build_self_registration_user(params, stream)
+      new(
+        params.except(:data_processing_consent_provided).merge(
+          role_unique_id: stream['role'],
+          user_group_unique_ids: stream['user_groups'],
+          unverified: true
+        )
+      )
+    end
+
+    def create_self_registration_user(params)
+      stream = registration_stream(params[:registration_stream])
+      return unless stream.present?
+
+      user = build_self_registration_user(params, stream)
+      user.data_processing_consent_provided_on = DateTime.now if params[:data_processing_consent_provided]
+      user.agency = Agency.find_by(unique_id: stream['agency'])
+      user
+    end
+
+    def registration_stream(unique_id)
+      SystemSettings.current&.registration_streams&.find do |stream|
+        stream['unique_id'] == unique_id
+      end
     end
   end
 
@@ -405,6 +439,10 @@ class User < ApplicationRecord
     user_managers
   end
 
+  def data_processing_consent_required?
+    Primero::Application.config.allow_self_registration && registration_stream.present?
+  end
+
   # This method indicates what records or flags this user can search for.
   # Returns self, if can only search records associated with this user
   # Returns list of UserGroups if can only query from those user groups that this user has access to
@@ -492,6 +530,7 @@ class User < ApplicationRecord
     modules.any?(&:user_group_filter)
   end
 
+  # TODO: How should we handle this in the future with unverified users?
   def active_for_authentication?
     super && !disabled
   end
@@ -677,6 +716,12 @@ class User < ApplicationRecord
 
   def make_user_name_lowercase
     user_name.downcase!
+  end
+
+  def after_password_reset
+    return unless will_save_change_to_attribute?(:encrypted_password)
+
+    self.unverified = false
   end
 
   def generate_random_password
