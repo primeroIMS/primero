@@ -103,6 +103,7 @@ class PermittedFieldService
   def permitted_field_names(module_unique_id = nil, writeable = false, update = false, roles = [])
     return @permitted_field_names if @permitted_field_names.present?
     return permitted_field_names_from_action_name if permitted_field_names_from_action_name.present?
+    return permitted_fields_for_identified_scope(module_unique_id, writeable, update) if identified_scope?
 
     @permitted_field_names = permitted_core_fields(update) + PERMITTED_FILTER_FIELD_NAMES
     @permitted_field_names += PERMITTED_MRM_FILTER_FIELD_NAMES if user.module?(PrimeroModule::MRM)
@@ -129,20 +130,28 @@ class PermittedFieldService
     @permitted_field_names += permitted_registry_record_id
     @permitted_field_names += permitted_family_id
     @permitted_field_names += permitted_attachment_fields
-    @permitted_field_names -= revoked_fields_for_identified_scope
     @permitted_field_names
   end
 
-  def revoked_fields_for_identified_scope
-    return [] unless user.group_permission?(Permission::IDENTIFIED)
+  # TODO: The method is essentially duplicating some logic from permitted_field_names. DRY!
+  def permitted_fields_for_identified_scope(module_unique_id = nil, writeable = false, update = false)
+    @permitted_field_names = permitted_form_field_service.permitted_field_names(
+      [user.role], model_class.parent_form, module_unique_id, writeable
+    )
+    @permitted_field_names += core_schema_for_identified_scope(update).keys
+    @permitted_field_names += %w[workflow status case_status_reopened] if model_class == Child
+    @permitted_field_names << 'hidden_name' if user.can?(:update, model_class)
+    @permitted_field_names += %w[flag_count flagged] if user.can?(:flag, model_class)
+    approval_fields = permitted_approval_schema.keys
+    @permitted_field_names += permitted_approval_schema.keys if approval_fields.present?
+    @permitted_field_names << 'approval_subforms' if approval_fields.present?
+    @permitted_field_names += permitted_attachment_fields
+    @permitted_field_names += %w[identified_at identified_by identified_by_full_name]
+    @permitted_field_names
+  end
 
-    PERMITTED_RECORD_INFORMATION_FIELDS + permitted_reporting_location_field +
-      permitted_incident_reporting_location_field + %w[
-        associated_user_names referred_users referred_users_present transferred_to_users transferred_to_user_groups
-        reassigned_transferred_on reunification_dates service_implemented_day_times tracing_dates
-        associated_user_agencies associated_user_groups has_photo survivor_code survivor_code_no has_incidents or not
-        cases_by_date not_edited_by_owner family_id followup_dates incident_case_id
-      ]
+  def identified_scope?
+    user.group_permission?(Permission::IDENTIFIED)
   end
 
   def permitted_core_fields(update = false)
@@ -150,9 +159,19 @@ class PermittedFieldService
     update ? core_fields - %w[id] : core_fields
   end
 
-  # TODO:  The method is essentially duplicating some logic from permitted_field_names. DRY!
+  # TODO: Consider a refactor to consolidate the logic of these core fields methods
+  def core_schema_for_identified_scope(update = false)
+    schema = PERMITTED_CORE_FIELDS_SCHEMA.except('created_at')
+    # TODO: Do the same in other core fields methods to prevent users from performing updates on forbidden fields
+    schema = schema.except(*PermittedFormFieldsService::UPDATE_FORBIDDEN) if update
+    # TODO: This should be derived from permissions similar to permitted_family_id and permitted_registry_record_id?
+    schema.except('registry_record_id', 'family_id')
+  end
+
+  # TODO: The method is essentially duplicating some logic from permitted_field_names. DRY!
   def permitted_fields_schema(update = false)
     schema = update ? PERMITTED_CORE_FIELDS_SCHEMA.except('id') : PERMITTED_CORE_FIELDS_SCHEMA.dup
+    schema = core_schema_for_identified_scope(update) if identified_scope?
     permitted_actions =
       PERMITTED_FIELDS_FOR_ACTION_SCHEMA.keys.select { |a| user.role.permits?(model_class.parent_form, a) }
     schema = schema.merge(PERMITTED_FIELDS_FOR_ACTION_SCHEMA.slice(*permitted_actions).values.reduce({}, :merge))

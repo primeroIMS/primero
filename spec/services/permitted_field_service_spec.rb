@@ -622,13 +622,7 @@ describe PermittedFieldService, search: true do
         fields: [
           Field.create!(name: 'foo1', display_name_en: 'foo1', type: Field::TEXT_FIELD),
           Field.create!(name: 'foo2', display_name_en: 'foo2', type: Field::TEXT_FIELD),
-          Field.create!(name: 'foo3', display_name_en: 'foo3', type: Field::TEXT_FIELD),
-          Field.create!(
-            name: 'associated_user_agencies', display_name_en: 'Associated Agencies', type: Field::TEXT_FIELD
-          ),
-          Field.create!(
-            name: 'associated_user_groups', display_name_en: 'Associated Groups', type: Field::TEXT_FIELD
-          )
+          Field.create!(name: 'foo3', display_name_en: 'foo3', type: Field::TEXT_FIELD)
         ]
       )
     end
@@ -665,27 +659,8 @@ describe PermittedFieldService, search: true do
 
       expect(permitted_field_names.uniq).to match_array(
         %w[
-          age
-          case_id_display
-          case_status_reopened
-          current_alert_types
-          date_closure
-          foo1
-          foo2
-          foo3
-          id
-          location_current
-          module_id
-          record_in_scope
-          record_state
-          registration_date
-          reporting_location_hierarchy
-          sex
-          short_id
-          source_case_display_id
-          state
-          status
-          workflow
+          foo1 foo2 foo3 id status state case_status_reopened record_state incident_case_id source_case_display_id
+          owned_by module_id workflow identified_at identified_by identified_by_full_name
         ]
       )
     end
