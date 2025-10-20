@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { fromJS, Map, OrderedMap } from "immutable";
+import { fromJS, OrderedMap } from "immutable";
 
 import { APPROVALS, REFERRAL } from "../../../config";
 import { fireEvent, mountedComponent, screen, setScreenSizeToMobile, waitFor } from "../../../test-utils";
@@ -116,15 +116,16 @@ describe("<Nav />", () => {
     })
   });
 
-  const initialState = Map({
-    records: fromJS({
+  const initialState = fromJS({
+    records: {
       cases: {
         data: [record]
       }
-    }),
-    forms: fromJS({
+    },
+    forms: {
       selectedForm: "record_owner",
       selectedRecord: "1d8d84eb-25e3-4d8b-8c32-8452eee3e71c",
+      previousRecord: { id: undefined, recordType: "cases" },
       formSections,
       fields,
       loading: false,
@@ -163,7 +164,7 @@ describe("<Nav />", () => {
           }
         ]
       }
-    })
+    }
   });
 
   const props = {
@@ -361,10 +362,9 @@ describe("<Nav />", () => {
     });
 
     it("opens the firstTab group and form when incident_from_case form is not found", () => {
-      const stateWithIncidentFromCase = initialState.setIn(
-        ["records", "cases", "incidentFromCase"],
-        fromJS({ incident_case_id: "case-id-1" })
-      );
+      const stateWithIncidentFromCase = initialState
+        .setIn(["records", "cases", "incidentFromCase"], fromJS({ incident_case_id: "case-id-1" }))
+        .setIn(["forms", "previousRecord", "recordType"], "incidents");
 
       const tProps = { ...notSelectedProps, recordType: "incidents", selectedForm: "basic_identity" };
       const { store } = mountedComponent(<Nav {...tProps} />, stateWithIncidentFromCase);

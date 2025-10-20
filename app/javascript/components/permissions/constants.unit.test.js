@@ -21,6 +21,7 @@ describe("Verifying config constant", () => {
       "ASSIGN_WITHIN_USER_GROUP",
       "ASSIGN",
       "CASE_FROM_FAMILY",
+      "CASE_MANAGEMENT_KPIS_REPORT",
       "CHANGE_LOG",
       "CLOSE",
       "CONSENT_OVERRIDE",

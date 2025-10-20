@@ -167,7 +167,8 @@ module LocalizableJsonProperty
   end
 
   def merge_options(current_options, new_options)
-    return current_options if new_options.nil?
+    return Array(current_options) if new_options.nil?
+    return Array(new_options) if current_options.nil?
 
     options = (new_options + current_options).map do |opt|
       opt.to_h.with_indifferent_access
@@ -212,6 +213,12 @@ module LocalizableJsonProperty
       current_store << current_option
     end
 
-    current_option['tags'] = current_value['tags'] if current_value['tags'].present?
+    update_optional_attributes(current_option, current_value)
+  end
+
+  def update_optional_attributes(option, current_value)
+    option['disabled'] = current_value['disabled'] if current_value.key?('disabled') && !current_value['disabled'].nil?
+    option['tags'] = current_value['tags'] if current_value['tags'].present?
+    option
   end
 end

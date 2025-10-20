@@ -147,9 +147,8 @@ describe PermittedUsersService do
     expect(users[:users].map(&:user_name)).to match_array(%w[admin_user])
   end
 
-  # TODO: Add back once users.timestamp index is added
-  xit 'search users by last_access' do
-    results = PermittedUsersService.new(@super_user).find_permitted_users(
+  it 'search users by last_access' do
+    results = PermittedUsersService.new(@super_user, true).find_permitted_users(
       { last_access: { 'from' => Time.utc(2023, 2, 1, 10, 0, 0).iso8601(3),
                        'to' => Time.utc(2023, 4, 1, 10, 0, 0).iso8601(3) } }
     )
