@@ -139,6 +139,7 @@ class PermittedFieldService
       [user.role], model_class.parent_form, module_unique_id, writeable
     )
     @permitted_field_names += core_schema_for_identified_scope(update).keys
+    # TODO: Should these fields be permitted for writes/updates
     @permitted_field_names += %w[workflow status case_status_reopened] if model_class == Child
     @permitted_field_names << 'hidden_name' if user.can?(:update, model_class)
     @permitted_field_names += %w[flag_count flagged] if user.can?(:flag, model_class)
@@ -146,8 +147,14 @@ class PermittedFieldService
     @permitted_field_names += permitted_approval_schema.keys if approval_fields.present?
     @permitted_field_names << 'approval_subforms' if approval_fields.present?
     @permitted_field_names += permitted_attachment_fields
-    @permitted_field_names += %w[identified_at identified_by identified_by_full_name]
+    @permitted_field_names += permitted_identified_fields(writeable || update)
     @permitted_field_names
+  end
+
+  def permitted_identified_fields(writeable = false)
+    return [] if writeable
+
+    %w[identified_at identified_by identified_by_full_name]
   end
 
   def identified_scope?
@@ -161,7 +168,7 @@ class PermittedFieldService
 
   # TODO: Consider a refactor to consolidate the logic of these core fields methods
   def core_schema_for_identified_scope(update = false)
-    schema = PERMITTED_CORE_FIELDS_SCHEMA.except('created_at')
+    schema = PERMITTED_CORE_FIELDS_SCHEMA.except('created_at', 'owned_by')
     # TODO: Do the same in other core fields methods to prevent users from performing updates on forbidden fields
     schema = schema.except(*PermittedFormFieldsService::UPDATE_FORBIDDEN) if update
     # TODO: This should be derived from permissions similar to permitted_family_id and permitted_registry_record_id?

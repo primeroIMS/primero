@@ -654,13 +654,35 @@ describe PermittedFieldService, search: true do
       )
     end
 
-    it 'does not return record information fields even if included in the role' do
+    it 'does not return record information fields' do
       permitted_field_names = PermittedFieldService.new(identified_user, Child).permitted_field_names
 
       expect(permitted_field_names.uniq).to match_array(
         %w[
           foo1 foo2 foo3 id status state case_status_reopened record_state incident_case_id source_case_display_id
-          owned_by module_id workflow identified_at identified_by identified_by_full_name
+          module_id workflow identified_at identified_by identified_by_full_name
+        ]
+      )
+    end
+
+    it 'does not return identification fields for writes' do
+      permitted_field_names = PermittedFieldService.new(identified_user, Child).permitted_field_names(nil, true)
+
+      expect(permitted_field_names.uniq).to match_array(
+        %w[
+          foo1 foo2 foo3 id status state case_status_reopened record_state incident_case_id source_case_display_id
+          module_id workflow
+        ]
+      )
+    end
+
+    it 'does not return identification fields for updates' do
+      permitted_field_names = PermittedFieldService.new(identified_user, Child).permitted_field_names(nil, false, true)
+
+      expect(permitted_field_names.uniq).to match_array(
+        %w[
+          foo1 foo2 foo3 status state case_status_reopened record_state incident_case_id source_case_display_id
+          module_id workflow
         ]
       )
     end
