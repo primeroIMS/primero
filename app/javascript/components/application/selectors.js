@@ -206,6 +206,8 @@ export const getRegistrationStreamsLinkLabels = state =>
 export const getRegistrationStreamsConsentText = state =>
   state.getIn([NAMESPACE, "primero", "registration_streams_consent_text"], fromJS([]));
 
+export const getCaptchaConfig = state => state.getIn([NAMESPACE, "primero", "captcha"], null);
+
 export const getAllowSelfRegistration = state => state.getIn([NAMESPACE, "primero", "allow_self_registration"], false);
 
 export const getIsEnabledWebhookSyncFor = (state, primeroModule, recordType) => {
@@ -282,6 +284,7 @@ export const getAppData = memoize(state => {
   const registrationStreams = getRegistrationStreams(state);
   const registrationStreamsLinkLabels = getRegistrationStreamsLinkLabels(state);
   const registrationStreamsConsentText = getRegistrationStreamsConsentText(state);
+  const captcha = getCaptchaConfig(state);
 
   return {
     modules,
@@ -301,7 +304,8 @@ export const getAppData = memoize(state => {
     allowSelfRegistration,
     registrationStreams,
     registrationStreamsLinkLabels,
-    registrationStreamsConsentText
+    registrationStreamsConsentText,
+    captcha
   };
 });
 

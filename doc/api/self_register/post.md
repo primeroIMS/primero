@@ -14,7 +14,7 @@ Create a new unverified user via self registration.
 
 **Parameters** :
 
-* `data` A JSON representation of the saved search to be created.
+* `user` A JSON representation of the saved search to be created.
 
 ```json
 {
@@ -24,7 +24,8 @@ Create a new unverified user via self registration.
         "email": "testuser@test.com",
         "locale": "en",
         "data_processing_consent_provided": true,
-        "registration_stream": "self_registration_beneficiary"
+        "registration_stream": "self_registration_beneficiary",
+        "captcha_token": "$TOKEN"
     }
 }
 ```

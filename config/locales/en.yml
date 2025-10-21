@@ -994,6 +994,10 @@ en:
   errors:
     api:
       internal_server: Server Error
+      user:
+        disposable_email: "Looks like this is a temporary email provider. To keep accounts secure, please use your personal or work email."
+        captcha_service_unavailable: "Verification service is currently unavailable. Please try submitting again: refreshing the page usually helps if the connection was interrupted."
+        invalid_captcha: "We couldn't verify you just now. Please try submitting again: refreshing the page usually helps if the connection was interrupted."
     attachments:
       maximum: You have reached your maximum attachments per record.
       file_upload_unsuccessful: File upload unsuccessful. The system has reached the document storage limit. Please contact your system administrator.

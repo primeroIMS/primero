@@ -37,7 +37,14 @@ function Component() {
   return (
     <div>
       <PageHeading title={i18n.t("self_registration.title")} noPadding noElevation />
-      <Form formSections={formSections} validations={validations} onSubmit={handleSubmit} formID={FORM_ID} />
+      <Form
+        formSections={formSections}
+        validations={validations}
+        onSubmit={handleSubmit}
+        formID={FORM_ID}
+        captcha
+        submitAllFields
+      />
       <ConditionalWrapper condition={!online} wrapper={DisableOffline} offlineTextKey="unavailable_offline">
         <ActionButton
           id={FORM_ID}

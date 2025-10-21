@@ -67,6 +67,11 @@ describe User do
       user.disabled.should be_falsey
     end
 
+    it 'should default unverified to false' do
+      user = User.new unverified: nil
+      user.unverified.should be_falsey
+    end
+
     it 'should generate id' do
       user = create(:user, user_name: 'test_user_123')
       user.id.present?.should == true
