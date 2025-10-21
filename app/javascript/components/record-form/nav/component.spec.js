@@ -178,6 +178,7 @@ describe("<Nav />", () => {
     toggleNav: true,
     recordType: "cases",
     primeroModule: "primeromodule-cp",
+    showRecordInformation: true,
     hasForms: true
   };
 
@@ -394,6 +395,18 @@ describe("<Nav />", () => {
     it("should open record information", () => {
       mountedComponent(<Nav {...propsNoFirstTab} />, initialState);
       expect(screen.getByText("forms.record_types.record_information", { expanded: true })).toBeInTheDocument();
+    });
+  });
+
+  describe("when showRecordInformation is false", () => {
+    const propsNoRecordInfo = {
+      ...props,
+      showRecordInformation: false
+    };
+
+    it("does not render the record_information tab", () => {
+      mountedComponent(<Nav {...propsNoRecordInfo} />, initialState);
+      expect(screen.queryByText("forms.record_types.record_information")).not.toBeInTheDocument();
     });
   });
 });

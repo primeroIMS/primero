@@ -1006,6 +1006,7 @@ en:
       child:
         age: Age must be between 0 and 130
         date_of_birth: Please enter a valid date of birth for this case record
+        identified_by_unique: An identified record already exists for this user
       export_configuration:
         opt_out_field_does_not_exist: Specified opt_out field does not exist on the
           record.
@@ -2700,6 +2701,7 @@ en:
     bulk_exports: Exports
     cases: Cases
     home: Home
+    my_case: My Case
     key_performance_indicators: Pulse/KPIs
     incidents: Incidents
     logout: Log out

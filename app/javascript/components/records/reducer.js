@@ -86,7 +86,8 @@ import {
   FETCH_RELATED_RECORDS_FAILURE,
   ADD_RECORD_RELATIONSHIP,
   REMOVE_RECORD_RELATIONSHIP,
-  CLEAR_RECORD_RELATIONSHIPS
+  CLEAR_RECORD_RELATIONSHIPS,
+  SET_SELECTED_IDENTIFIED_RECORD
 } from "./actions";
 
 const DEFAULT_STATE = Map({ data: List([]) });
@@ -96,7 +97,7 @@ export default namespace =>
     switch (type) {
       case `${namespace}/${RECORDS_STARTED}`:
       case `${namespace}/${RECORD_STARTED}`:
-        return state.set("loading", fromJS(payload)).set("errors", false);
+        return state.set("loading", fromJS(payload)).set("errors", false).set("serverErrors", fromJS([]));
       case `${namespace}/${RECORDS_FAILURE}`:
         return state.set("errors", true).set("loading", false);
       case `${namespace}/${MARK_FOR_OFFLINE_STARTED}`: {
@@ -176,7 +177,8 @@ export default namespace =>
             .updateIn(["data", index], u =>
               mergeRecord(u, fromJS(incidents?.length || services?.length ? stateWithAlertCount : data))
             )
-            .set("errors", false);
+            .set("errors", false)
+            .set("serverErrors", fromJS([]));
         }
 
         return state
@@ -187,10 +189,17 @@ export default namespace =>
 
             return u;
           })
-          .set("errors", false);
+          .set("errors", false)
+          .set("serverErrors", fromJS([]));
       }
-      case `${namespace}/${RECORD_FAILURE}`:
+      case `${namespace}/${RECORD_FAILURE}`: {
+        // TODO: This shouldn't be needed but for some reason this is called twice in fetchSinglePayload
+        if (payload.errors) {
+          return state.set("errors", true).set("serverErrors", fromJS(payload.errors));
+        }
+
         return state.set("errors", true);
+      }
       case `${namespace}/${RECORD_FINISHED}`:
         return state.set("loading", false);
       case `${namespace}/${DELETE_ALERT_FROM_RECORD_SUCCESS}`:
@@ -258,6 +267,9 @@ export default namespace =>
       }
       case `${namespace}/${SET_SELECTED_RECORD}`: {
         return state.setIn(["selectedRecord"], payload.id);
+      }
+      case `${namespace}/${SET_SELECTED_IDENTIFIED_RECORD}`: {
+        return state.setIn(["selectedRecord"], payload?.json?.data?.id);
       }
       case `${namespace}/${CLEAR_SELECTED_RECORD}`: {
         return state.delete("selectedRecord");

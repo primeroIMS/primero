@@ -379,7 +379,7 @@ describe("Verifying config constant", () => {
   it("should have GROUP_PERMISSIONS", () => {
     const groupPermissions = { ...PERMISSIONS.GROUP_PERMISSIONS };
 
-    ["AGENCY", "ALL", "GROUP", "SELF"].forEach(property => {
+    ["AGENCY", "ALL", "GROUP", "SELF", "IDENTIFIED"].forEach(property => {
       expect(groupPermissions).toHaveProperty(property);
       expect(typeof groupPermissions[property]).toBe("string");
       delete groupPermissions[property];

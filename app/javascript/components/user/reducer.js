@@ -15,8 +15,13 @@ const DEFAULT_STATE = Map({
 
 export default (state = DEFAULT_STATE, { type, payload }) => {
   switch (type) {
-    case Actions.SET_AUTHENTICATED_USER:
-      return state.set("isAuthenticated", true).set("id", payload.id).set("username", payload.username);
+    case Actions.SET_AUTHENTICATED_USER: {
+      return state
+        .set("isAuthenticated", true)
+        .set("id", payload.id)
+        .set("username", payload.username)
+        .set("roleGroupPermission", payload.groupPermission);
+    }
     case Actions.LOGOUT_SUCCESS:
       return DEFAULT_STATE;
     case Actions.FETCH_USER_DATA_SUCCESS: {

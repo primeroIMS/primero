@@ -341,7 +341,8 @@ export const GROUP_PERMISSIONS = {
   AGENCY: "agency",
   ALL: "all",
   GROUP: "group",
-  SELF: "self"
+  SELF: "self",
+  IDENTIFIED: "identified"
 };
 
 export const MANAGED_REPORT_SCOPE = {

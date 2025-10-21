@@ -2,6 +2,7 @@
 
 import partitionObject from "./partition-object";
 import isAuthenticated from "./is-authenticated";
+import isIdentifiedUser from "./is-identified-user";
 import isOnline from "./is-online";
 import isServerOnline from "./is-server-online";
 import processAttachments from "./process-attachments";
@@ -29,6 +30,7 @@ export {
   handleReturnUrl,
   handleRestCallback,
   isAuthenticated,
+  isIdentifiedUser,
   isOnline,
   isServerOnline,
   loginSuccessHandler,

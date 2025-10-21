@@ -40,7 +40,9 @@ Rails.application.routes.draw do
                    constraints: { format: :json },
                    only: %i[index create show update destroy] do
       resources :primero, only: %i[index]
+
       resources :children, as: :cases, path: :cases do
+        get :identified, on: :collection
         resources :children_incidents, as: :incidents, path: :incidents, only: %i[index new] do
           post '/', to: 'children_incidents#update_bulk', on: :collection
         end

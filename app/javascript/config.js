@@ -21,7 +21,8 @@ import {
   READ_MANAGED_REPORTS,
   READ_REGISTRY_RECORD,
   READ_FAMILY_RECORD,
-  SHOW_USAGE_REPORTS
+  SHOW_USAGE_REPORTS,
+  GROUP_PERMISSIONS
 } from "./components/permissions/constants";
 import getAdminResources from "./components/pages/admin/utils/get-admin-resources";
 
@@ -207,6 +208,7 @@ const ROUTES = {
   lookups: "/admin/lookups",
   lookups_new: "/admin/lookups/new",
   matches: "/matches",
+  my_case: "/my_case",
   not_authorized: "/not-authorized",
   reports: "/reports",
   reports_new: "/reports/new",
@@ -409,7 +411,22 @@ const APPLICATION_NAV = (permissions, userId) => {
       jewelCount: "case",
       resources: RESOURCES.cases,
       actions: READ_RECORDS,
-      validateWithUserPermissions: true
+      validateWithUserPermissions: true,
+      groupPermissions: [
+        GROUP_PERMISSIONS.ALL,
+        GROUP_PERMISSIONS.GROUP,
+        GROUP_PERMISSIONS.AGENCY,
+        GROUP_PERMISSIONS.SELF
+      ]
+    },
+    {
+      name: "navigation.my_case",
+      to: ROUTES.my_case,
+      icon: "cases",
+      resources: RESOURCES.cases,
+      actions: READ_RECORDS,
+      validateWithUserPermissions: true,
+      groupPermissions: [GROUP_PERMISSIONS.IDENTIFIED]
     },
     {
       name: "navigation.incidents",

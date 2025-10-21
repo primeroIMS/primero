@@ -10,7 +10,7 @@ describe("<RecordList /> - Reducers", () => {
   const nsReducer = reducer("TestRecordType");
 
   it("should handle RECORDS_STARTED", () => {
-    const expected = Map({ loading: true, errors: false });
+    const expected = fromJS({ loading: true, errors: false, serverErrors: [] });
     const action = {
       type: "TestRecordType/RECORDS_STARTED",
       payload: true
@@ -219,6 +219,21 @@ describe("<RecordList /> - Reducers", () => {
     const action = {
       type: "TestRecordType/SET_SELECTED_RECORD",
       payload: { id: "123" }
+    };
+
+    const newState = nsReducer(fromJS({}), action);
+
+    expect(newState).toEqual(expected);
+  });
+
+  it("should handle SET_SELECTED_IDENTIFIED_RECORD", () => {
+    const expected = fromJS({
+      selectedRecord: "123"
+    });
+
+    const action = {
+      type: "TestRecordType/SET_SELECTED_IDENTIFIED_RECORD",
+      payload: { json: { data: { id: "123" } } }
     };
 
     const newState = nsReducer(fromJS({}), action);
