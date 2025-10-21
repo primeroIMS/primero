@@ -34,6 +34,7 @@ export const ACTIONS = {
   DASH_CASE_INCIDENT_OVERVIEW: "dash_case_incident_overview",
   DASH_CASE_OVERVIEW: "case_overview",
   DASH_ACTION_NEEDED_NEW_UPDATED: "action_needed_new_updated",
+  DASH_ACTION_NEEDED_IDENTIFIED: "action_needed_identified",
   DASH_ACTION_NEEDED_NEW_REFERRALS: "action_needed_new_referrals",
   DASH_ACTION_NEEDED_TRANSFER_AWAITING_ACCEPTANCE: "action_needed_transfer_awaiting_acceptance",
   DASH_CASE_RISK: "case_risk",

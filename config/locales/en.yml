@@ -828,6 +828,7 @@ en:
     name: Name
     name_or_survivor_code: Name or Survivor Code
     near_deadline: Near Deadline
+    identified: Identified
     new: New & Updated
     new_child_assigned_to_you: New Cases Assigned To You
     new_incident: New Incidents
@@ -3417,6 +3418,9 @@ en:
               This includes Cases which are newly assigned to the current user, or which another
               user has updated since the last time the current user updated it.
             label: 'Action Needed: New or Updated'
+          action_needed_identified:
+            explanation: Shows the number of cases which have been identified but which are not yet open and receiving case management.
+            label: 'Action Needed: Identified Cases'
           action_needed_new_referrals:
             explanation: Displays the 'New Referrals' indicator in the 'Action Needed' dashboard.
               This includes any Cases with a new Referral sent to the current user,
