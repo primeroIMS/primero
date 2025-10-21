@@ -71,6 +71,7 @@ en:
     services_from_case_creation_success: Service Provision record successfully created.
     services_section_from_case: Add Service Provision
     mark_for_offline: Mark for Offline
+    attribute: Attribute
   agencies:
     label: Agency
     translations:
@@ -381,6 +382,10 @@ en:
     enable_dialog_title: Enable Case
     enable_success: Successfully enabled case
     export: Export
+    attribute:
+      title: Attribute
+      text: Select the user who identified this case. If your system allows for self-registration,
+        this user will be able to access the case as “My Case” when they login to the system.
     mark_for_offline:
       title: Mark for Offline
       text: Are you sure you want to mark these Cases for use when you are offline?
@@ -3413,6 +3418,11 @@ en:
           update_case_relationships:
             explanation: Allows a user updating their Case to search for another, existing Case and link it to their Case. Also allows users to un-link this second Case from their Case.
             label: Link/Unlink Case to another Case
+          attribute:
+            explanation: Select the user who identified the case. For some systems, this may simply be the user who first
+              initiated the beneficiary’s path into case management. In other systems which allow for self-registration,
+              this user may be the beneficiary themselves.
+            label: Attribute
         explanation: Represents an individual child, survivor, or other beneficiary.
         label: Case
       dashboard:

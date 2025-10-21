@@ -74,7 +74,8 @@ class PermittedFieldService
     Permission::LINK_FAMILY_RECORD => {
       'family_id' => { 'type' => %w[string null], 'format' => 'regex', 'pattern' => UUID_REGEX },
       'family_member_id' => { 'type' => %w[string null], 'format' => 'regex', 'pattern' => UUID_REGEX }
-    }
+    },
+    Permission::ATTRIBUTE => { 'identified_by' => { 'type' => 'string' } }
   }.freeze
 
   # TODO: Add more validation. Enums?
