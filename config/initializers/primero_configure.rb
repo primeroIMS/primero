@@ -31,8 +31,9 @@ Rails.application.configure do
   config.allow_self_registration = ActiveRecord::Type::Boolean.new.cast(ENV.fetch('PRIMERO_ALLOW_SELF_REGISTRATION',
                                                                                   false))
 
-  config.disposable_email_checker_enabled = ActiveRecord::Type::Boolean.new.cast(ENV.fetch('PRIMERO_DISPOSABLE_EMAIL_CHECKER_ENABLED',
-                                                                                           false))
+  config.disposable_email_checker_enabled =
+    ActiveRecord::Type::Boolean.new.cast(ENV.fetch('PRIMERO_DISPOSABLE_EMAIL_CHECKER_ENABLED',
+                                                   false))
 
   config.silence_logging = [
     'GET /health', 'GET /health/database', 'GET /health/solr', 'GET /health/server'
