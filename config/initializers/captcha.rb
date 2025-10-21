@@ -2,8 +2,8 @@
 
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-# return unless ActiveRecord::Type::Boolean.new.cast(ENV.fetch('PRIMERO_CAPTCHA_ENABLED',
-#                                                              false)) # && Rails.env.production?
+return unless ActiveRecord::Type::Boolean.new.cast(ENV.fetch('PRIMERO_CAPTCHA_ENABLED',
+                                                             false)) && Rails.env.production?
 
 def load_settings
   settings_file = Rails.root.join('config', 'captcha.yml')
