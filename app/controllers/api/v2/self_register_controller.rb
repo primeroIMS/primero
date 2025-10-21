@@ -21,7 +21,7 @@ class Api::V2::SelfRegisterController < Api::V2::RecordResourceController
   def verify_self_registration_allowed
     raise Errors::ForbiddenOperation unless Primero::Application.config.allow_self_registration
 
-    CaptchaService.verify(provider: Primero::Application.config.captcha_provider,
+    CaptchaService.verify(provider: Primero::Application.config.x.captcha_provider,
                           token: params[:user][:captcha_token],
                           remote_ip: request.remote_ip)
 

@@ -61,16 +61,15 @@ class ErrorService
       code = 403
       errors = [ApplicationError.new(code:, message: error.message, resource: request.path)]
     when Errors::InvalidCaptcha
-      # TODO: i18n?
       code = 422
-      errors = [ApplicationError.new(code: 422, message: 'Invalid captcha', resource: request.path)]
+      errors = [ApplicationError.new(code: 422, message: 'errors.api.user.invalid_captcha', resource: request.path)]
     when Errors::CaptchaServiceUnavailable
       code = 503
-      errors = [ApplicationError.new(code: 503, message: 'Captcha service unavailable', resource: request.path)]
+      errors = [ApplicationError.new(code: 503, message: 'errors.api.user.captcha_service_unavailable',
+                                     resource: request.path)]
     when Errors::InvalidEmail
-      # TODO: i18n?
       code = 422
-      errors = [ApplicationError.new(code: 422, message: 'Invalid email', resource: request.path)]
+      errors = [ApplicationError.new(code: 422, message: 'errors.api.user.disposable_email', resource: request.path)]
     else
       code = 500
       errors = [

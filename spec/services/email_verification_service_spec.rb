@@ -5,6 +5,10 @@
 require 'rails_helper'
 
 describe EmailVerificationService do
+  before do
+    Rails.configuration.disposable_email_checker_enabled = true
+  end
+
   it 'returns true if the email is valid' do
     expect(EmailVerificationService.check_email('test@gmail.com')).to be(true)
   end

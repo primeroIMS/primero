@@ -32,10 +32,10 @@ json.data do
   json.registration_streams_link_labels @system_options&.[]('registration_streams_link_labels_i18n') || {}
   json.registration_streams_consent_text @system_options&.[]('registration_streams_consent_text_i18n') || {}
 
-  if Rails.application.config.captcha_provider.present?
+  if Rails.configuration.x.captcha_provider.present?
     json.captcha do
-      json.provider Rails.application.config.captcha_provider
-      json.site_key Rails.application.config.captcha['site_key']
+      json.provider Rails.configuration.x.captcha_provider
+      json.site_key Rails.configuration.x.captcha[:site_key]
     end
   end
 end.compact!
