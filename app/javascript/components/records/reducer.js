@@ -193,12 +193,15 @@ export default namespace =>
           .set("serverErrors", fromJS([]));
       }
       case `${namespace}/${RECORD_FAILURE}`: {
+        // TODO: Set loading to false because fetchSinglePayload is not calling RECORD_FINISHED
+        const newState = state.set("errors", true).set("loading", false);
+
         // TODO: This shouldn't be needed but for some reason this is called twice in fetchSinglePayload
         if (payload.errors) {
-          return state.set("errors", true).set("serverErrors", fromJS(payload.errors));
+          return newState.set("serverErrors", fromJS(payload.errors));
         }
 
-        return state.set("errors", true);
+        return newState;
       }
       case `${namespace}/${RECORD_FINISHED}`:
         return state.set("loading", false);
