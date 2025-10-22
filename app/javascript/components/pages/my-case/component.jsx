@@ -46,9 +46,7 @@ function Component({ mode }) {
 
   useEffect(() => {
     if (!isRecordNotFound) {
-      dispatch(
-        fetchIdentifiedRecord({ recordType: RECORD_TYPES_PLURAL.case, redirectOnNotFound: !containerMode.isNew })
-      );
+      dispatch(fetchIdentifiedRecord({ recordType: RECORD_TYPES_PLURAL.case }));
     }
   }, [isRecordNotFound, containerMode.isNew]);
 
