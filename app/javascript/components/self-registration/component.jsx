@@ -9,6 +9,7 @@ import { ConditionalWrapper, useThemeHelper } from "../../libs";
 import ActionButton, { ACTION_BUTTON_TYPES } from "../action-button";
 import { PageHeading } from "../page";
 import { ROUTES } from "../../config";
+import { checkServerStatus } from "../connectivity/action-creators";
 
 import { form, validationSchema } from "./form";
 import { FORM_ID } from "./constants";
@@ -27,7 +28,7 @@ function Component() {
   const validations = validationSchema(i18n);
 
   const handleSubmit = async values => {
-    dispatch(registerUser({ ...values, registration_stream: currentStream }));
+    dispatch(checkServerStatus(true, false, [registerUser({ ...values, registration_stream: currentStream })]));
   };
 
   if (!allowSelfRegistration) {

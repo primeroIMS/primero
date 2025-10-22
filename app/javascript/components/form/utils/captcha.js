@@ -45,10 +45,10 @@ function useCaptcha({ formInstance, enabled = false, ref }) {
 
       register("captcha_token", { required: true });
 
-      const widgetId = configuration[captcha.get("provider")].render({ el, captcha, setValue });
+      const widgetId = configuration?.[captcha?.get("provider")]?.render({ el, captcha, setValue });
 
       return () => {
-        configuration[captcha.get("provider")].cleanup(widgetId);
+        configuration?.[captcha?.get("provider")]?.cleanup(widgetId);
       };
     })();
   }, []);
