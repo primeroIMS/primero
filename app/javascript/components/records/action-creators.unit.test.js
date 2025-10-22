@@ -122,33 +122,7 @@ describe("records - Action Creators", () => {
   });
 
   describe("fetchIdentifiedRecord", () => {
-    describe("when is redirectOnNotFound", () => {
-      it("should return the correct object", () => {
-        const expected = {
-          type: `${RECORD_PATH.cases}/RECORD`,
-          api: {
-            path: `${RECORD_PATH.cases}/identified`,
-            db: {
-              collection: DB_COLLECTIONS_NAMES.RECORDS,
-              recordType: RECORD_PATH.cases,
-              id: "identified"
-            },
-            successCallback: [`${RECORD_PATH.cases}/${SET_SELECTED_IDENTIFIED_RECORD}`],
-            failureCallback: {
-              action: `${RECORD_PATH.cases}/${REDIRECT_TO_NEW_IDENTIFIED_RECORD}`,
-              redirect: `${ROUTES.my_case}/new`,
-              redirectOnNotFound: true
-            }
-          }
-        };
-
-        expect(
-          actionCreators.fetchIdentifiedRecord({ recordType: RECORD_PATH.cases, redirectOnNotFound: true })
-        ).toEqual(expected);
-      });
-    });
-
-    describe("when is not redirectOnNotFound", () => {
+    it("should return the correct object", () => {
       const expected = {
         type: `${RECORD_PATH.cases}/RECORD`,
         api: {
@@ -158,7 +132,12 @@ describe("records - Action Creators", () => {
             recordType: RECORD_PATH.cases,
             id: "identified"
           },
-          successCallback: [`${RECORD_PATH.cases}/${SET_SELECTED_IDENTIFIED_RECORD}`]
+          successCallback: [`${RECORD_PATH.cases}/${SET_SELECTED_IDENTIFIED_RECORD}`],
+          failureCallback: {
+            action: `${RECORD_PATH.cases}/${REDIRECT_TO_NEW_IDENTIFIED_RECORD}`,
+            dispatchIfStatus: 404,
+            redirect: `${ROUTES.my_case}/new`
+          }
         }
       };
 

@@ -31,8 +31,8 @@ import { RecordForm, RecordFormToolbar } from "../../form";
 import css from "../../styles.css";
 import { compactBlank, compactReadOnlyFields, compactValues, getRedirectPath } from "../../utils";
 import externalForms from "../external-forms";
-import { getCurrentUserGroupPermission } from "../../../user";
-import { GROUP_PERMISSIONS, READ_RECORDS, REFER_FROM_SERVICE, usePermissions } from "../../../permissions";
+import { getIsIdentifiedUser } from "../../../user";
+import { READ_RECORDS, REFER_FROM_SERVICE, usePermissions } from "../../../permissions";
 
 function Component({
   attachmentForms,
@@ -96,7 +96,7 @@ function Component({
   const relationshipsToSave = useMemoizedSelector(state =>
     getRecordRelationshipsToSave(state, RECORD_TYPES_PLURAL.case)
   );
-  const groupPermission = useMemoizedSelector(state => getCurrentUserGroupPermission(state));
+  const isIdentifiedUser = useMemoizedSelector(state => getIsIdentifiedUser(state));
 
   const handleFormSubmit = e => {
     if (submitForm) {
@@ -334,7 +334,7 @@ function Component({
               recordId={params.id}
               formikValuesForNav={formikValuesForNav}
               hideCancelButton={hideCancelButton}
-              showRecordInformation={groupPermission !== GROUP_PERMISSIONS.IDENTIFIED}
+              showRecordInformation={!isIdentifiedUser}
             />
           </div>
           <div className={`${css.recordForms} ${demoClasses} record-form-container`}>

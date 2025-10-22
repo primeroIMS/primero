@@ -210,15 +210,15 @@ export const fetchRecord = (recordType, id, asCallback = false, callbacks = {}) 
   };
 };
 
-export const fetchIdentifiedRecord = ({ recordType, redirectOnNotFound = false }) => {
+export const fetchIdentifiedRecord = ({ recordType }) => {
   const redirectAction = {
     action: `${recordType}/${REDIRECT_TO_NEW_IDENTIFIED_RECORD}`,
     redirect: `${ROUTES.my_case}/new`,
-    redirectOnNotFound: true
+    dispatchIfStatus: 404
   };
 
   return fetchRecord(recordType, "identified", false, {
-    failureCallback: redirectOnNotFound ? redirectAction : null,
+    failureCallback: redirectAction,
     successCallback: `${recordType}/${SET_SELECTED_IDENTIFIED_RECORD}`
   });
 };
