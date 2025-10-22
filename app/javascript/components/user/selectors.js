@@ -3,7 +3,7 @@
 import { List, fromJS } from "immutable";
 
 import { SAVING } from "../../config";
-import { MANAGED_REPORT_SCOPE } from "../permissions/constants";
+import { GROUP_PERMISSIONS, MANAGED_REPORT_SCOPE } from "../permissions/constants";
 
 import NAMESPACE from "./namespace";
 import { PERMISSIONS, PERMITTED_FORMS } from "./constants";
@@ -45,6 +45,8 @@ export const getServerErrors = state => {
 export const getSavingPassword = state => state.getIn([NAMESPACE, "resetPassword", "saving"], false);
 
 export const getCurrentUserGroupPermission = state => state.getIn([NAMESPACE, "roleGroupPermission"], fromJS([]));
+
+export const getIsIdentifiedUser = state => getCurrentUserGroupPermission(state) === GROUP_PERMISSIONS.IDENTIFIED;
 
 export const getCurrentUserGroupsUniqueIds = state => state.getIn([NAMESPACE, "userGroupUniqueIds"], fromJS([]));
 

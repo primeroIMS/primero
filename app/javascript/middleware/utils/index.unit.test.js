@@ -21,7 +21,6 @@ describe("middleware/utils/index.js", () => {
       "handleConfiguration",
       "handleRestCallback",
       "isOnline",
-      "isIdentifiedUser",
       "partitionObject",
       "processAttachments",
       "loginSuccessHandler",

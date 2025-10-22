@@ -21,14 +21,12 @@ import {
   redirectTo,
   loginSuccessHandler,
   logoutSuccessHandler,
-  isOnline,
-  isIdentifiedUser
+  isOnline
 } from "./utils";
 
 const authMiddleware = store => next => action => {
   const state = store.getState();
   const online = isOnline(store);
-  const identifiedUser = isIdentifiedUser(store);
   const routeChanged = action.type === LOCATION_CHANGED_ACTION;
   const location = routeChanged && get(action, "payload.location.pathname", false);
   const isAuthenticated = state.getIn(IS_AUTHENTICATED_PATH, false);
@@ -49,9 +47,7 @@ const authMiddleware = store => next => action => {
   }
 
   if ([ROUTES.login, ROOT_ROUTE].includes(location) && isAuthenticated) {
-    const redirectPath = identifiedUser ? ROUTES.my_case : ROUTES.dashboard;
-
-    redirectTo(store, redirectPath);
+    redirectTo(store, ROUTES.dashboard);
   }
 
   if ([actions.LOGIN_SUCCESS_CALLBACK, Actions.RESET_PASSWORD_SUCCESS].includes(action.type)) {
@@ -66,9 +62,7 @@ const authMiddleware = store => next => action => {
   }
 
   if (RESET_PATTERN.test(location) && useIdentityProvider) {
-    const redirectPath = identifiedUser ? ROUTES.my_case : ROUTES.dashboard;
-
-    redirectTo(store, isAuthenticated ? redirectPath : ROUTES.login);
+    redirectTo(store, isAuthenticated ? ROUTES.dashboard : ROUTES.login);
   } else if (routeChanged && !LOGIN_PATTERN.test(location) && !RESET_PATTERN.test(location) && !isAuthenticated) {
     handleReturnUrl(store, location);
   }

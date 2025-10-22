@@ -2,7 +2,6 @@
 
 import { ROUTES } from "../../config";
 
-import isIdentifiedUser from "./is-identified-user";
 import isAuthenticated from "./is-authenticated";
 import redirectTo from "./redirect-to";
 
@@ -14,9 +13,7 @@ const handleReturnUrl = (store, location) => {
       redirectTo(store, returnUrl);
       localStorage.removeItem("returnUrl");
     } else {
-      const redirectPath = isIdentifiedUser(store) ? ROUTES.my_case : ROUTES.dashboard;
-
-      redirectTo(store, redirectPath);
+      redirectTo(store, ROUTES.dashboard);
     }
   } else {
     if (![ROUTES.login, "/"].includes(location)) {
