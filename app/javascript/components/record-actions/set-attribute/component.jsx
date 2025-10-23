@@ -1,15 +1,25 @@
 import { fromJS } from "immutable";
 import { object, string } from "yup";
+import { debounce } from "lodash";
+import { useDispatch } from "react-redux";
 
+import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
 import Form, { FieldRecord, FORM_MODE_DIALOG, FormSectionRecord, OPTION_TYPES, SELECT_FIELD } from "../../form";
-import { useI18n } from "../../i18n";
-import { fetchUsers } from "../../pages/admin/users-list/action-creators";
+
+import { fetchUsersIdentified } from "./action-creators";
 
 const FORM_ID = "form_attribute";
 
 function ActionAttribute({ close, open, record, recordType, pending, setPending }) {
+  const dispatch = useDispatch();
   const i18n = useI18n();
+  const debouncedFetch = debounce(value => {
+    if (value && value.length >= 2) {
+      dispatch(fetchUsersIdentified({ data: { query: value } }));
+    }
+  }, 500);
+
   const formSections = fromJS([
     FormSectionRecord({
       unique_id: "form_attribute",
@@ -19,12 +29,14 @@ function ActionAttribute({ close, open, record, recordType, pending, setPending 
           required: true,
           display_name: { [i18n.locale]: i18n.t("user.label") },
           type: SELECT_FIELD,
-          freeSolo: true,
           asyncOptions: true,
-          asyncAction: fetchUsers,
-          watchedInputs: ["identified_by"],
-          asyncParamsFromWatched: [["identified_by", "identified_by"]],
-          option_strings_source: OPTION_TYPES.USER
+          asyncOptionsLoadingPath: ["forms", "options", "users", "loading"],
+          onInputChange: (_, value, reason) => {
+            if (reason === "input") {
+              debouncedFetch(value);
+            }
+          },
+          option_strings_source: OPTION_TYPES.USER_IDENTIFIED
         })
       ]
     })
