@@ -447,6 +447,24 @@ describe("Verifying config constant", () => {
     expect(Object.keys(permissions)).toHaveLength(0);
   });
 
+  it("should have SHOW_REFERRALS", () => {
+    const permissions = [...PERMISSIONS.SHOW_REFERRALS];
+
+    expect(Array.isArray(permissions)).toBe(true);
+    [
+      PERMISSIONS.ACTIONS.MANAGE,
+      PERMISSIONS.ACTIONS.REFERRAL_FROM_SERVICE,
+      PERMISSIONS.ACTIONS.REMOVE_ASSIGNED_USERS,
+      PERMISSIONS.ACTIONS.REFERRAL,
+      PERMISSIONS.ACTIONS.RECEIVE_REFERRAL,
+      PERMISSIONS.ACTIONS.RECEIVE_REFERRAL_DIFFERENT_MODULE
+    ].forEach(element => {
+      expect(permissions).toEqual(expect.arrayContaining([element]));
+      permissions.splice(permissions.indexOf(element), 1);
+    });
+    expect(Object.keys(permissions)).toHaveLength(0);
+  });
+
   it("should have EXPORTS_PERMISSIONS", () => {
     const permissions = [...PERMISSIONS.EXPORTS_PERMISSIONS];
 
