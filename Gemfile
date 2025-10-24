@@ -3,7 +3,7 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 source 'https://rubygems.org'
-ruby '3.3.8'
+ruby '3.4.5'
 
 gem 'activerecord-nulldb-adapter'      # Running Rake tasks at build time before DB is set up. TODO: Still needed?
 gem 'activerecord-session_store', '~> 2.0'
@@ -15,13 +15,14 @@ gem 'cancancan',           '~> 3.5'    # Endpoint user authorization
 # TODO: concurrent-ruby v1.3.5 has removed the dependency on logger.
 # TODO: https://stackoverflow.com/a/79361034
 # TODO: Remove this dependency when upgrading to rails 7.x
-gem 'concurrent-ruby',     '1.3.4'
-gem 'csv-safe',            '~> 3.2'    # Safely export data to CSV to avoid formula injection
-gem 'daemons',             '~> 1.4.1'  # Gem to run the delayed jobs
+gem 'concurrent-ruby',     '~> 1.3'
+gem 'csv-safe',            '~> 3.2'   # Safely export data to CSV to avoid formula injection
+gem 'daemons',             '~> 1.4'   # Gem to run the delayed jobs
 gem 'deep_merge',          '~> 1.2',   # Recursive merging of Hashes. Used for merging params to existing records.
     require: 'deep_merge/rails_compat'
 gem 'delayed_job_active_record', '~> 4.1.7'
 gem 'devise',              '~> 4.9'    # Authentication framework
+gem 'drb',                 '~> 2.2'    # Removed Ruby 3.4 dependency
 gem 'faraday',             '~> 0.17'   # Ruby HTTP client
 gem 'file_validators',     '~> 3.0'    # ActiveRecord extension for validating attachment file sizes
 gem 'i18n-js',             '~> 3.9'    # Shares Rails i18n strings with the front end
@@ -31,13 +32,16 @@ gem 'json_schemer',        '~> 1.0'    # Validation for submited JSON
 gem 'jwt',                 '~> 2.8'    # Ruby JWT library used to authenticate 3rd party identity provider tokens
 gem 'matrix',              '~> 0.4'    # No longer part of Ruby 3.2 core. Must be included explicitly
 gem 'minipack',            '~> 0.3'    # An alternative to Webpacker. TODO: Is this still needed? In prod?
+gem 'mutex_m',             '~> 0.3'    # Removed Ruby 3.4 dependency.
 gem 'net-http-persistent', '~> 4.0'    # Thread safe persistent HTTP connections, optional Faraday dependency
 gem 'nokogiri',            '~> 1.18'   # Security assertion on implicit dependency.
+gem 'observer',            '~> 0.1'    # Removed Ruby 3.4 dependency.
+gem 'ostruct',             '~> 0.6'    # Removed Ruby 3.5 dependency
 gem 'pdfjs_viewer',        '~> 0.1'    # PDF.js viewer for displaying PDFs in the browser
 gem 'pg',                  '~> 1.5'    # Ruby PostgreSQL binding
 gem 'prawn',               '~> 2.4'    # PDF generation
 gem 'prawn-table',         '~> 0.2'    # PDF generation
-gem 'puma',                '~> 6.4'    # Ruby Rack server
+gem 'puma',                '~> 7.0'    # Ruby Rack server
 gem 'rack',                '~> 2.2'
 gem 'rack-attack',         '>= 6.6'    # Rack middleware to rate limit sensetive routes, such as those used for auth
 gem 'rails',               '6.1.7.10'
