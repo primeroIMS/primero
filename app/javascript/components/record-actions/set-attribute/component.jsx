@@ -1,3 +1,6 @@
+// Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
+
+import PropTypes from "prop-types";
 import { fromJS } from "immutable";
 import { object, string } from "yup";
 import { debounce } from "lodash";
@@ -6,6 +9,8 @@ import { useDispatch } from "react-redux";
 import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
 import Form, { FieldRecord, FORM_MODE_DIALOG, FormSectionRecord, OPTION_TYPES, SELECT_FIELD } from "../../form";
+import { saveRecord } from "../../records";
+import { ACTIONS } from "../../permissions";
 
 import { fetchUsersIdentified } from "./action-creators";
 
@@ -30,7 +35,9 @@ function ActionAttribute({ close, open, record, recordType, pending, setPending 
           display_name: { [i18n.locale]: i18n.t("user.label") },
           type: SELECT_FIELD,
           asyncOptions: true,
+          asyncAction: null,
           asyncOptionsLoadingPath: ["forms", "options", "users", "loading"],
+          asyncParamsFromWatched: [],
           onInputChange: (_, value, reason) => {
             if (reason === "input") {
               debouncedFetch(value);
@@ -46,10 +53,20 @@ function ActionAttribute({ close, open, record, recordType, pending, setPending 
 
   const handleSubmit = data => {
     setPending(true);
-    console.log("data", data);
+    dispatch(
+      saveRecord(
+        recordType,
+        "update",
+        { data: { ...data }, record_action: ACTIONS.ATTRIBUTE },
+        record.get("id"),
+        i18n.t(`cases.attribute.success`),
+        i18n.t("offline_submitted_changes"),
+        false,
+        false
+      )
+    );
+    close();
   };
-
-  console.log("render set-attribute");
 
   return (
     <ActionDialog
@@ -78,5 +95,14 @@ function ActionAttribute({ close, open, record, recordType, pending, setPending 
 }
 
 ActionAttribute.displayName = "ActionAttribute";
+
+ActionAttribute.propTypes = {
+  close: PropTypes.func,
+  open: PropTypes.bool,
+  pending: PropTypes.bool,
+  record: PropTypes.object,
+  recordType: PropTypes.string,
+  setPending: PropTypes.func
+};
 
 export default ActionAttribute;

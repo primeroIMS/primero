@@ -153,7 +153,7 @@ class Child < ApplicationRecord
   end
 
   validate :validate_date_of_birth
-  validate :validate_unique_identified_record, on: :create
+  validate :validate_unique_identified_record
 
   before_save :sync_protection_concerns
   before_save :stamp_registry_fields
@@ -167,6 +167,7 @@ class Child < ApplicationRecord
   before_save :calculate_reunification_dates
   before_save :save_searchable_fields
   before_save :stamp_case_type
+  before_update :stamp_identified
   before_create :hide_name
   after_save :save_incidents
 
@@ -419,7 +420,25 @@ class Child < ApplicationRecord
     self.identified_at = DateTime.now
   end
 
+  def stamp_identified
+    return unless identified_by.present? && changes_to_save_for_record.key?('identified_by')
+
+    identified_by_user = User.find_by(user_name: identified_by)
+    raise invalid_identified_by_user if identified_by_user.blank?
+
+    self.identified_by = identified_by_user.user_name
+    self.identified_by_full_name = identified_by_user.full_name
+    self.identified_at ||= DateTime.now
+  end
+
+  def invalid_identified_by_user
+    invalid_error = Errors::InvalidRecordJson.new('errors.models.child.identified_by_exists')
+    invalid_error.invalid_props = %w[identified_by]
+    invalid_error
+  end
+
   def validate_unique_identified_record
+    return unless changes_to_save_for_record.key?('identified_by')
     return unless identified_by.present? && Child.exists?(srch_identified_by: identified_by)
 
     errors.add(:identified_by, 'errors.models.child.identified_by_unique')

@@ -383,6 +383,7 @@ en:
     enable_success: Successfully enabled case
     export: Export
     attribute:
+      success: Attribute updated successfully
       title: Attribute
       text: Select the user who identified this case. If your system allows for self-registration,
         this user will be able to access the case as “My Case” when they login to the system.
@@ -1017,6 +1018,7 @@ en:
         age: Age must be between 0 and 130
         date_of_birth: Please enter a valid date of birth for this case record
         identified_by_unique: An identified record already exists for this user
+        identified_by_exists: Invalid user. User does not exist
       export_configuration:
         opt_out_field_does_not_exist: Specified opt_out field does not exist on the
           record.

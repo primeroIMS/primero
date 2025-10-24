@@ -70,7 +70,7 @@ function SelectInput({ commonInputProps, metaInputProps, options: allOptions = [
   );
 
   const fetchAsyncOptions = () => {
-    if (asyncOptions) {
+    if (asyncOptions && asyncAction) {
       const params = asyncParamsFromWatched.reduce((prev, next) => {
         const obj = prev;
 

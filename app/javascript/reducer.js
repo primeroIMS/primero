@@ -25,7 +25,6 @@ import { reducer as supportReducer } from "./components/contact-information";
 import { reducer as taskListReducer } from "./components/pages/task-list";
 import { reducer as usersListReducer } from "./components/pages/admin/users-list";
 import { reducer as usersFormReducer } from "./components/pages/admin/users-form";
-import { reducer as usersIdentifiedReducer } from "./components/record-actions/set-attribute";
 import { reducer as userGroupsListReducer } from "./components/pages/admin/user-groups-list";
 import { reducer as userGroupsFormReducer } from "./components/pages/admin/user-groups-form";
 import { reducer as agenciesListReducer } from "./components/pages/admin/agencies-list";
