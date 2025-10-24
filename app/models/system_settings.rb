@@ -20,10 +20,13 @@ class SystemSettings < ApplicationRecord
                  :show_alerts, :code_of_conduct_enabled, :timeframe_hours_to_assign,
                  :timeframe_hours_to_assign_high, :duplicate_field_to_form,
                  :maximum_users, :maximum_users_warning, :maximum_attachments_per_record,
-                 :primero_promote_config, :field_labels_i18n)
+                 :primero_promote_config, :field_labels_i18n, :maximum_attachments_space,
+                 :maximum_attachments_space_warning, :registration_streams,
+                 :registration_streams_link_labels_i18n, :registration_streams_consent_text_i18n)
 
-  localize_properties %i[welcome_email_text approvals_labels field_labels]
-  localize_jsonb_properties %i[field_labels]
+  localize_properties %i[welcome_email_text approvals_labels field_labels registration_streams_link_labels
+                         registration_streams_consent_text]
+  localize_jsonb_properties %i[field_labels registration_streams_link_labels registration_streams_consent_text]
 
   has_one_attached :location_file
 
@@ -35,6 +38,9 @@ class SystemSettings < ApplicationRecord
   validate :validate_maximum_users
   validate :validate_maximum_users_warning
   validate :validate_maximum_users_values, if: :maximum_users_fields_present?
+  validate :validate_maximum_attachments_space
+  validate :validate_maximum_attachments_space_warning
+  validate :validate_maximum_attachments_space_values, if: :maximum_attachments_space_fields_present?
 
   def name
     I18n.t('system_settings.label')
@@ -155,12 +161,47 @@ class SystemSettings < ApplicationRecord
     super || Attachment::DEFAULT_MAX_ATTACHMENTS
   end
 
+  def validate_maximum_attachments_space
+    if maximum_attachments_space.blank? || (
+      maximum_attachments_space.is_a?(Integer) && maximum_attachments_space.positive?)
+      return
+    end
+
+    errors.add(:maximum_attachments_space, 'errors.models.system_setting.allocated_space_integer')
+  end
+
+  def validate_maximum_attachments_space_warning
+    if maximum_attachments_space_warning.blank? || (
+        maximum_attachments_space_warning.is_a?(Integer) && maximum_attachments_space_warning.positive?)
+      return
+    end
+
+    errors.add(:maximum_attachments_space_warning, 'errors.models.system_setting.allocated_space_integer')
+  end
+
+  def validate_maximum_attachments_space_values
+    return if maximum_attachments_space >= maximum_attachments_space_warning
+
+    errors.add(:base, 'errors.models.system_setting.allocated_space_warning_greater_than_hard_limit')
+  end
+
+  def maximum_attachments_space_fields_present?
+    maximum_attachments_space.present? && maximum_attachments_space_warning.present? &&
+      maximum_attachments_space.is_a?(Integer) && maximum_attachments_space_warning.is_a?(Integer)
+  end
+
   def primero_promote_config
     super || []
   end
 
   def create_case_from_referral?
     Role.create_case_from_referral?
+  end
+
+  def total_attachment_file_size
+    Rails.cache.fetch('total_attachment_file_size', expires_in: 30.minutes) do
+      Attachment.joins(file_attachment: :blob).sum('active_storage_blobs.byte_size').to_i
+    end
   end
 
   class << self
@@ -190,6 +231,18 @@ class SystemSettings < ApplicationRecord
       sys = SystemSettings.current
       selected_primary_range = primary_range || sys&.primary_age_range
       sys&.age_ranges&.[](selected_primary_range) || AgeRange::DEFAULT_AGE_RANGES
+    end
+
+    def maximum_attachments_space
+      current&.maximum_attachments_space.to_i
+    end
+
+    def maximum_attachments_space_warning
+      current&.maximum_attachments_space_warning.to_i
+    end
+
+    def total_attachment_file_size
+      current.total_attachment_file_size.to_i
     end
   end
 end

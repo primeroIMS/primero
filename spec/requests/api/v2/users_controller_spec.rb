@@ -7,7 +7,8 @@ require 'rails_helper'
 describe Api::V2::UsersController, type: :request do
   before :each do
     clean_data(
-      FormSection, User, Role, PrimeroModule, Agency, PrimeroProgram, IdentityProvider, CodeOfConduct, UserGroup, AuditLog
+      FormSection, Alert, User, Role, PrimeroModule, Agency, PrimeroProgram,
+      IdentityProvider, CodeOfConduct, UserGroup, AuditLog
     )
 
     SystemSettings.stub(:current).and_return(
@@ -436,7 +437,7 @@ describe Api::V2::UsersController, type: :request do
       )
 
       params = { last_access: { 'from' => '2015-10-20T00:00:00Z', 'to' => '2015-10-25T23:59:59Z' },
-                 disabled: { '0' => 'false' } }
+                 disabled: { '0' => 'false' }, activity_stats: true }
 
       get('/api/v2/users', params:)
 
@@ -460,6 +461,29 @@ describe Api::V2::UsersController, type: :request do
         group_permission: Permission::ADMIN_ONLY
       )
       get "/api/v2/users/#{@user_a.id}"
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['id']).to eq(@user_a.id)
+      expect(json['data']['identity_provider_unique_id']).to eq(@identity_provider_a.unique_id)
+      expect(json['data']['user_groups'].size).to eq(1)
+      expect(json['data']['last_access']).to be_nil
+      expect(json['data']['last_case_viewed']).to be_nil
+      expect(json['data']['last_case_updated']).to be_nil
+    end
+
+    it 'fetches the correct user with code 200 when activity_stats is present' do
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::USER, actions: [Permission::MANAGE]),
+          Permission.new(resource: Permission::AGENCY, actions: [Permission::MANAGE]),
+          Permission.new(resource: Permission::USER_GROUP, actions: [Permission::MANAGE]),
+          Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE]),
+          Permission.new(resource: Permission::SYSTEM, actions: [Permission::MANAGE]),
+          Permission.new(resource: Permission::ROLE, actions: [Permission::MANAGE])
+        ],
+        group_permission: Permission::ADMIN_ONLY
+      )
+      get "/api/v2/users/#{@user_a.id}?activity_stats=true"
 
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(@user_a.id)

@@ -25,7 +25,8 @@ export const PERCENTAGE_INDICATORS = [
   "percentage_cases_duration",
   "percentage_clients_with_disability",
   "percentage_cases_safety_plan",
-  "percentage_clients_gender"
+  "percentage_clients_gender",
+  "percentage_case_reasons_for_closure"
 ];
 
 export const HEADER_TITLE_KEYS = Object.freeze({

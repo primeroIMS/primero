@@ -40,6 +40,10 @@ describe ManagedReports::Indicators::UnverifiedInformationViolations do
   end
 
   it 'return data for unverified information indicator' do
+    query = %w[
+      incident_date=2021-04-01..2022-06-10
+    ]
+
     data = ManagedReports::Indicators::UnverifiedInformationViolations.build(
       nil,
       {
@@ -53,7 +57,28 @@ describe ManagedReports::Indicators::UnverifiedInformationViolations do
     ).data
 
     expect(data).to match_array(
-      [{ 'id' => 'attack_on_hospitals', 'total' => 1 }, { 'id' => 'attack_on_schools', 'total' => 1 }]
+      [
+        {
+          'id' => 'attack_on_hospitals',
+          'total' => {
+            count: 1,
+            query: %w[
+              violation_with_verification_status=attack_on_hospitals_report_pending_verification
+              incident_date=2021-04-01..2022-06-10
+            ]
+          }
+        },
+        {
+          'id' => 'attack_on_schools',
+          'total' => {
+            count: 1,
+            query: %w[
+              violation_with_verification_status=attack_on_schools_report_pending_verification
+              incident_date=2021-04-01..2022-06-10
+            ]
+          }
+        }
+      ]
     )
   end
 end

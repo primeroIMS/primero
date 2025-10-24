@@ -6,6 +6,7 @@ export { default as PotentialMatches } from "./potential-matches";
 export { default as ExportList } from "./export-list";
 export { NotAuthorized, NotFound } from "./errors";
 export { default as Support } from "./support";
+export { default as MyCase } from "./my-case";
 export {
   default as Admin,
   AgenciesForm,

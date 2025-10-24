@@ -317,7 +317,10 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
   end
 
   def grouped_subcolumn_total(group_data, option)
-    group_data.find { |elem| elem['id'] == option['id'] }&.dig('total') || 0
+    total = group_data.find { |elem| elem['id'] == option['id'] }&.dig('total')
+    return total['count'] if total.is_a?(Hash)
+
+    total || 0
   end
 
   def grouped_subcolumn_value(group_data, option, subcolumn)

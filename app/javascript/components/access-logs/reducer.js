@@ -31,6 +31,8 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("loading", false).set("errors", true);
     case actions.FETCH_ACCESS_LOGS_FINISHED:
       return state.set("loading", false).set("errors", false);
+    case actions.FETCH_USERS_ACCESSED_SUCCESS:
+      return state.set("users", fromJS(payload.data));
     default:
       return state;
   }

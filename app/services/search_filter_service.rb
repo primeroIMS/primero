@@ -44,6 +44,8 @@ class SearchFilterService
       build_or_filter(value)
     elsif key == 'not'
       SearchFilters::Not.new(filter: build_filter(value.keys.first, value.values.first))
+    elsif key == 'assign'
+      build_transition_filter('Assign', value)
     elsif key.starts_with?('loc:')
       build_location_filter(key, value)
     elsif value.is_a?(Hash)
@@ -83,6 +85,10 @@ class SearchFilterService
     return SearchFilters::LocationList.new(field_name:, values: value) if value.is_a?(Array)
 
     SearchFilters::LocationValue.new(field_name:, value:)
+  end
+
+  def build_transition_filter(field_name, value)
+    SearchFilters::TransitionValue.new(field_name:, value:)
   end
 
   def build_id_filter(field_name, value)

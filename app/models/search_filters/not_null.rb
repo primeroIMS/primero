@@ -9,7 +9,7 @@ class SearchFilters::NotNull < SearchFilters::SearchFilter
   end
 
   def searchable_query(_record_class)
-    "#{safe_column} IS NOT NULL"
+    "#{safe_search_column} IS NOT NULL"
   end
 
   def to_s

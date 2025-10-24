@@ -22,6 +22,16 @@ class PermittedFormFieldsService
     Permission::SERVICES_SECTION_FROM_CASE => 'services_section'
   }.freeze
 
+  UPDATE_FORBIDDEN = %w[id unique_identifier unique_id short_id created_at created_by].freeze
+
+  UPDATE_FORBIDDEN_BY_TYPE = {
+    case: %w[case_id case_id_display].freeze,
+    incident: %w[incident_id incident_id_display].freeze,
+    tracing_request: %w[tracing_request_id tracing_request_id_display].freeze,
+    registry_record: %w[registry_id registry_id_display].freeze,
+    family: %w[family_id family_id_display].freeze
+  }.with_indifferent_access.freeze
+
   def self.instance
     new(Rails.configuration.use_app_cache)
   end
@@ -30,34 +40,35 @@ class PermittedFormFieldsService
     self.with_cache = with_cache
   end
 
-  def generate_cache_key(roles, record_type, module_unique_id, writeable)
+  def generate_cache_key(roles, record_type, module_unique_id, action_name)
     role_keys = roles.map(&:cache_key_with_version)
 
     # The assumption here is that the cache will be updated if any changes took place to Forms, or Roles
-    "permitted_form_fields_service/#{role_keys.join('/')}/#{module_unique_id}/#{record_type}/#{writeable}"
+    "permitted_form_fields_service/#{role_keys.join('/')}/#{module_unique_id}/#{record_type}/#{action_name}"
   end
 
-  def permitted_fields_from_cache(roles, record_type, module_unique_id, writeable, force = false)
-    cache_key = generate_cache_key(roles, record_type, module_unique_id, writeable)
+  def permitted_fields_from_cache(roles, record_type, module_unique_id, action_name, force = false)
+    cache_key = generate_cache_key(roles, record_type, module_unique_id, action_name)
 
     Rails.cache.fetch(cache_key, expires_in: 48.hours, force:) do
-      permitted_fields_from_forms(roles, record_type, module_unique_id, writeable).to_a
+      permitted_fields_from_forms(roles, record_type, module_unique_id, action_name).to_a
     end
   end
 
-  def permitted_field_names_from_cache(roles, record_type, module_unique_id, writeable, force = false)
-    cache_key = generate_cache_key(roles, record_type, module_unique_id, writeable)
+  def permitted_field_names_from_cache(roles, record_type, module_unique_id, action_name, force = false)
+    cache_key = generate_cache_key(roles, record_type, module_unique_id, action_name)
 
     Rails.cache.fetch("#{cache_key}/names", expires_in: 48.hours, force:) do
-      permitted_fields_from_cache(roles, record_type, module_unique_id, writeable, force).map(&:name).uniq
+      permitted_fields_from_cache(roles, record_type, module_unique_id, action_name, force).map(&:name).uniq
     end
   end
 
-  def permitted_fields_from_forms(roles, record_type, module_unique_id, writeable, visible_only = false)
+  def permitted_fields_from_forms(roles, record_type, module_unique_id, action_name, visible_only = false)
     fields = fetch_filtered_fields(roles, record_type, module_unique_id, visible_only)
-    return fields unless writeable
+    return fields unless writeable?(action_name)
 
-    fields = filter_writeable_fields(fields, permission_level(writeable), record_type, module_unique_id)
+    fields = filter_writeable_fields(fields, permission_level(writeable?(action_name)), record_type, module_unique_id)
+    fields = filter_create_only_fields(fields, record_type, action_name)
     action_subform_fields = permitted_subforms_from_actions(roles, record_type)
     append_action_subform_fields(fields, action_subform_fields, record_type, module_unique_id)
   end
@@ -72,11 +83,11 @@ class PermittedFormFieldsService
     end
   end
 
-  def permitted_field_names(roles, record_type, module_unique_id, writeable)
+  def permitted_field_names(roles, record_type, module_unique_id, action_name)
     if with_cache?
-      permitted_field_names_from_cache(roles, record_type, module_unique_id, writeable)
+      permitted_field_names_from_cache(roles, record_type, module_unique_id, action_name)
     else
-      permitted_fields_from_forms(roles, record_type, module_unique_id, writeable).map(&:name).uniq
+      permitted_fields_from_forms(roles, record_type, module_unique_id, action_name).map(&:name).uniq
     end
   end
 
@@ -88,6 +99,10 @@ class PermittedFormFieldsService
   end
 
   private
+
+  def writeable?(action_name)
+    action_name.in?(%w[create update])
+  end
 
   def permission_level(writeable)
     writeable ? FormPermission::PERMISSIONS[:read_write] : writeable
@@ -120,6 +135,13 @@ class PermittedFormFieldsService
         subform_summary: nil
       }
     )
+  end
+
+  def filter_create_only_fields(fields, record_type, action_name)
+    return fields if action_name == 'create'
+
+    forbidden_fields = UPDATE_FORBIDDEN + UPDATE_FORBIDDEN_BY_TYPE[record_type]
+    fields.where.not(name: forbidden_fields)
   end
 
   def append_action_subform_fields(fields, action_subform_fields, record_type, module_unique_id)

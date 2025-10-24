@@ -45,16 +45,18 @@ gem 'rack-attack',         '~> 6.6'    # Rack middleware to rate limit sensetive
 gem 'rails',               '8.0.3'
 gem 'rake',                '~> 13.0'
 gem 'rbnacl',              '>= 7.1.1'  # Libsodium Ruby binding. Used for encrypting export file passwords.
-gem 'rubyzip',             '~> 3.1',   # Zip and encrypt exported files
-    require: 'zip'
+gem 'resolv',              '~> 0.6'    # DNS resolver. TODO: Used by what?
+gem 'ruby-mailchecker',    '~> 6.0'    # Suggests correct email domains for mistyped email addresses
+# TODO: Upgrade to rubyzip >= 3.0.0 after write_xlsx supports it
+gem 'rubyzip',             '~> 2.4'    # Zip and encrypt exported files.
 gem 'spreadsheet',         '~> 1.3'    # Read XLS spreadsheets for imports (not XLSX!). TODO: Different gem? Reconsider?
 # Note: if upgrading Sunspot, update the corresponding version of Solr on the Docker image
 # Current Solr version is 5.3.1
-gem 'sunspot_rails',       '~> 2.6',    # Rails ODM bindings to Solr
+gem 'sunspot_rails',       '~> 2.6',   # Rails ODM bindings to Solr
     require: false
-gem 'sunspot_solr',        '~> 2.6',    # Ruby bindings to Solr
+gem 'sunspot_solr',        '~> 2.6',   # Ruby bindings to Solr
     require: false
-gem 'text',                '~> 1.3' # Phonetic Search Algorithms
+gem 'text',                '~> 1.3'    # Phonetic Search Algorithms
 gem 'tzinfo-data',         '~> 1.2025' # Timezone Data for TZInfo
 gem 'web-push',            '~> 3.0'
 gem 'will_paginate',       '~> 4.0'    # Paginates ActiveRecord models  TODO: This can be refactored away.
@@ -80,7 +82,7 @@ group :development, :test do
   # TODO: This is needed to read .xlsx files for validation in the exporter tests.
   # TODO: The app currently uses Spreadsheet to read excel files, but it only supports reading .xls
   # TODO: Changing the application to support reading .xlsx will be handled by a later ticket
-  gem 'roo',                        '~> 3.0'
+  gem 'roo',                        '~> 2.10'
   gem 'rspec',                      '~> 3.12'
   gem 'rspec-activemodel-mocks',    '~> 1.1'
   gem 'rspec-collection_matchers',  '~> 1.2'

@@ -67,6 +67,11 @@ describe User do
       user.disabled.should be_falsey
     end
 
+    it 'should default unverified to false' do
+      user = User.new unverified: nil
+      user.unverified.should be_falsey
+    end
+
     it 'should generate id' do
       user = create(:user, user_name: 'test_user_123')
       user.id.present?.should == true
@@ -279,6 +284,69 @@ describe User do
       after do
         clean_data(AuditLog, User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection)
       end
+    end
+  end
+
+  describe 'self registration' do
+    before do
+      clean_data(AuditLog, User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection, SystemSettings)
+      agency = create(:agency)
+      user_group = create(:user_group)
+      role = create(:role)
+      primero_program = create(:primero_program)
+      single_form = create(:form_section)
+      create(:primero_module, primero_program_id: primero_program.id,
+                              form_sections: [single_form],
+                              id: 1)
+      SystemSettings.create(
+        registration_streams: [
+          {
+            unique_id: 'primero',
+            role: role.unique_id,
+            user_category: 'tier-1',
+            user_groups: [user_group.name],
+            agency: agency.unique_id
+          }
+        ]
+      )
+
+      @params = ActionController::Parameters.new({
+                                                   full_name: 'Test User 1',
+                                                   user_name: 'test_user_1',
+                                                   email: 'test_user_1@example.com',
+                                                   password: 'password123',
+                                                   password_confirmation: 'password123',
+                                                   registration_stream: 'primero'
+                                                 }).permit!
+    end
+    before(:each) { clean_data(User, IdentityProvider) }
+
+    it 'should validate data_processing_consent_provided_on is present for self-registration users' do
+      Primero::Application.config.allow_self_registration = true
+
+      user = build_user(user_name: 'the_user_name', registration_stream: 'primero')
+      expect(user).not_to be_valid
+    end
+
+    it 'should not require data_processing_consent_provided_on for non self-registration users' do
+      Primero::Application.config.allow_self_registration = false
+
+      user = build_user(user_name: 'the_user_name')
+      expect(user).to be_valid
+    end
+
+    it 'builds a self-registration user' do
+      user = User.create_self_registration_user(@params)
+      expect(user).to be_valid
+      expect(user.unverified).to eq(true)
+    end
+
+    it 'sets user as verified on password reset' do
+      user = User.create_self_registration_user(@params)
+      user.save!
+      user.update!(password: 'newpassword123', password_confirmation: 'newpassword123')
+      expect(user).to be_valid
+      expect(user.unverified).to eq(false)
     end
   end
 
@@ -1279,6 +1347,7 @@ describe User do
       AuditLog.create!(
         user_id: user1.id,
         record_type: 'Child',
+        record_id: child.id,
         action: 'show',
         timestamp: Time.utc(2023, 2, 1, 10, 0, 0)
       )
@@ -1288,6 +1357,7 @@ describe User do
       AuditLog.create!(
         user_id: user1.id,
         record_type: 'Child',
+        record_id: child.id,
         action: 'update',
         timestamp: Time.utc(2023, 3, 1, 10, 0, 0)
       )
@@ -1300,6 +1370,86 @@ describe User do
                                                          'to' => Time.utc(2023, 4, 1, 10, 0, 0).iso8601(3) } })
       expect(results.size).to eq(1)
       expect(results.first.last_access.iso8601(3)).to eq('2023-02-10T10:00:00.000Z')
+    end
+  end
+
+  describe '.who_accessed_record' do
+    before do
+      clean_data(AuditLog, User, Role, PrimeroModule, Child)
+    end
+
+    let(:primero_module) do
+      create(:primero_module, name: 'CP')
+    end
+
+    let(:role) do
+      create(:role, is_manager: true, primero_modules: [primero_module], permissions: [Permission.new(
+        resource: Permission::CASE,
+        actions: [Permission::MANAGE]
+      )])
+    end
+
+    let!(:user1) do
+      create(:user, user_name: 'user1', role:, full_name: 'Test User 1', email: 'owner@primero.dev')
+    end
+
+    let!(:user2) do
+      create(:user, user_name: 'user2', role:, full_name: 'Test User 2', email: 'user2@primero.dev')
+    end
+
+    let!(:user_login) do
+      create(:user, user_name: 'user_login', role:, full_name: 'Test User 2', email: 'user_login@primero.dev')
+    end
+
+    let!(:child) do
+      create(:child, name: 'Test', owned_by: user1.user_name, consent_for_services: true,
+                     disclosure_other_orgs: true, module_id: PrimeroModule::CP)
+    end
+
+    let!(:login_log) do
+      AuditLog.create!(
+        user_id: user_login.id,
+        action: 'login',
+        record_type: 'User',
+        timestamp: Time.utc(2023, 2, 10, 10, 0, 0)
+      )
+    end
+
+    let!(:case_viewed_log) do
+      AuditLog.create!(
+        user_id: user1.id,
+        record_type: 'Child',
+        record_id: child.id,
+        action: 'show',
+        timestamp: Time.utc(2023, 2, 1, 10, 0, 0)
+      )
+    end
+
+    let!(:case_updated_log) do
+      AuditLog.create!(
+        user_id: user2.id,
+        record_type: 'Child',
+        record_id: child.id,
+        action: 'update',
+        timestamp: Time.utc(2023, 3, 1, 10, 0, 0)
+      )
+    end
+
+    let!(:case_updated_log2) do
+      AuditLog.create!(
+        user_id: user2.id,
+        record_type: 'Child',
+        record_id: child.id,
+        action: 'update',
+        timestamp: Time.utc(2023, 3, 3, 10, 0, 0)
+      )
+    end
+
+    it 'returns uniq users who accessed the child' do
+      result = User.who_accessed_record(child)
+      expect(result.ids).to match_array(
+        [user1.id, user2.id]
+      )
     end
   end
 

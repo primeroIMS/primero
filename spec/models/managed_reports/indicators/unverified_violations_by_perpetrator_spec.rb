@@ -40,16 +40,28 @@ describe ManagedReports::Indicators::UnverifiedViolationsByPerpetrator do
             violation_tally: { boys: 2, girls: 3, unknown: 2, total: 7 }
           }
         ],
+        maiming: [
+          unique_id: '76d2adba-8752-11f0-accf-7c10c98b54af',
+          ctfmr_verified: 'report_pending_verification',
+          violation_tally: { boys: 2, girls: 3, unknown: 2, total: 7 }
+        ],
+        killing: [
+          {
+            unique_id: '52477e6c-8752-11f0-9c81-7c10c98b54af',
+            ctfmr_verified: 'report_pending_verification',
+            violation_tally: { boys: 2, girls: 0, unknown: 2, total: 4 }
+          }
+        ],
         perpetrators: [
           {
             unique_id: 'e13ffb2e-77c3-11f0-ba4b-7c10c98b54af',
             armed_force_group_party_name: 'armed_force_2',
-            violations_ids: ['bbfd214c-77c4-11f0-8941-7c10c98b54af']
+            violations_ids: %w[bbfd214c-77c4-11f0-8941-7c10c98b54af 52477e6c-8752-11f0-9c81-7c10c98b54af]
           },
           {
             unique_id: '20f8b6a2-77c4-11f0-b34b-7c10c98b54af',
             armed_force_group_party_name: 'armed_force_1',
-            violations_ids: ['8edd80b2-76d9-11f0-8338-7c10c98b54af']
+            violations_ids: %w[8edd80b2-76d9-11f0-8338-7c10c98b54af 76d2adba-8752-11f0-accf-7c10c98b54af]
           }
         ]
       }.with_indifferent_access
@@ -70,6 +82,11 @@ describe ManagedReports::Indicators::UnverifiedViolationsByPerpetrator do
       }
     ).data
 
-    expect(data).to match_array([{ id: 'armed_force_1', attack_on_schools: 1, total: 1 }])
+    expect(data).to match_array(
+      [
+        { id: 'armed_force_1', attack_on_schools: 1, maiming: 1, total: 2 },
+        { id: 'armed_force_2', killing: 1, total: 1 }
+      ]
+    )
   end
 end

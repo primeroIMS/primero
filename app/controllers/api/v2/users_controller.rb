@@ -18,9 +18,8 @@ class Api::V2::UsersController < ApplicationApiController
     filters = params.permit(:user_name, :agency, :location, :services, :user_group_ids,
                             :query, last_access: %i[from to], last_case_viewed: %i[from to],
                                     last_case_updated: %i[from to], disabled: {}).to_h
-    results = PermittedUsersService.new(current_user).find_permitted_users(
-      filters.compact, pagination, order_params
-    )
+    results = PermittedUsersService.new(current_user, include_activity_stats?)
+                                   .find_permitted_users(filters.compact, pagination, order_params)
 
     @users = results[:users]
     @total = results[:total]
@@ -63,7 +62,10 @@ class Api::V2::UsersController < ApplicationApiController
   end
 
   def load_user
-    @user = User.with_audit_dates.includes(:role, :user_groups).joins(:role).find(params[:id])
+    @user = User.with_audit_dates_if(include_activity_stats?)
+                .includes(:role, :user_groups)
+                .joins(:role)
+                .find(params[:id])
   end
 
   def load_extended
@@ -80,5 +82,9 @@ class Api::V2::UsersController < ApplicationApiController
 
   def keep_user_signed_in
     bypass_sign_in(@user) if @user.saved_change_to_encrypted_password? && current_user == @user
+  end
+
+  def include_activity_stats?
+    params[:activity_stats].to_s == 'true'
   end
 end

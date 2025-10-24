@@ -21,6 +21,7 @@ describe("<AccessLogFilters />", () => {
   });
 
   it("renders the AccessLogFilters", () => {
+    expect(screen.getByText("access_log.filters.access_users")).toBeInTheDocument();
     expect(screen.getByText("access_log.filters.actions")).toBeInTheDocument();
     expect(screen.getByText("access_log.filters.timestamp")).toBeInTheDocument();
   });

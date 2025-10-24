@@ -87,8 +87,13 @@ describe AccessLoggable do
   describe '#access_log_filtered' do
     it 'returns logs per date range' do
       date_range = 5.days.ago..1.days.ago
-      logs = child1.access_log_filtered(date_range:, exclude_user_id: mgr.id)
-      expect(logs).to contain_exactly(audit_log1, audit_log2)
+      logs = child1.access_log_filtered(date_range:)
+      expect(logs).to contain_exactly(audit_log1, audit_log2, audit_log4)
+    end
+    it 'returns logs per user' do
+      date_range = 5.days.ago..1.days.ago
+      logs = child1.access_log_filtered(date_range:, access_users: mgr.id)
+      expect(logs).to contain_exactly(audit_log4)
     end
 
     it 'returns no logs if outside of date range' do

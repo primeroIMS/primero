@@ -17,7 +17,8 @@ const ALLOWED_FILTER_KEYS = [
   "violence_type",
   "workflow",
   "referred_cases",
-  "my_cases"
+  "my_cases",
+  "type_of_risk"
 ];
 const ALLOWED_LIST_HEADER_KEYS = [
   "priority",

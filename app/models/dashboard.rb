@@ -61,6 +61,12 @@ class Dashboard < ValueObject
     indicators: [Indicators::Case::UPDATED]
   ).freeze
 
+  ACTION_NEEDED_IDENTIFIED = Dashboard.new(
+    name: 'action_needed_identified',
+    type: 'indicator',
+    indicators: [Indicators::Case::IDENTIFIED]
+  ).freeze
+
   ACTION_NEEDED_NEW_REFERRALS = Dashboard.new(
     name: 'action_needed_new_referrals',
     type: 'indicator',

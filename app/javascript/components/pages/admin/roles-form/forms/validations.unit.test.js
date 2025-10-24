@@ -10,5 +10,6 @@ describe("pages/admin/<RolesForm>/forms - Validations", () => {
 
     expect(typeof validations.fields.name).toEqual("object");
     expect(typeof validations.fields.permissions).toEqual("object");
+    expect(typeof validations.fields.module_unique_ids).toEqual("object");
   });
 });

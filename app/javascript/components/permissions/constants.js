@@ -34,6 +34,7 @@ export const ACTIONS = {
   DASH_CASE_INCIDENT_OVERVIEW: "dash_case_incident_overview",
   DASH_CASE_OVERVIEW: "case_overview",
   DASH_ACTION_NEEDED_NEW_UPDATED: "action_needed_new_updated",
+  DASH_ACTION_NEEDED_IDENTIFIED: "action_needed_identified",
   DASH_ACTION_NEEDED_NEW_REFERRALS: "action_needed_new_referrals",
   DASH_ACTION_NEEDED_TRANSFER_AWAITING_ACCEPTANCE: "action_needed_transfer_awaiting_acceptance",
   DASH_CASE_RISK: "case_risk",
@@ -77,6 +78,7 @@ export const ACTIONS = {
   FIND_TRACING_MATCH: "find_tracing_match",
   FLAG: "flag",
   FLAG_RESOLVE_ANY: "resolve_any_flag",
+  FLAG_UPDATE: "flag_update",
   GBV_STATISTICS: "gbv_statistics",
   GROUP_READ: "group_read",
   INCIDENT_DETAILS_FROM_CASE: "incident_details_from_case",
@@ -129,7 +131,8 @@ export const ACTIONS = {
   REMOVE_ALERT: "remove_alert",
   PROTECTION_OUTCOMES: "protection_outcomes",
   UPDATE_CASE_RELATIONSHIPS: "update_case_relationships",
-  VIEW_CASE_RELATIONSHIPS: "view_case_relationships"
+  VIEW_CASE_RELATIONSHIPS: "view_case_relationships",
+  CASE_MANAGEMENT_KPIS_REPORT: "case_management_kpis_report"
 };
 
 export const MANAGE = [ACTIONS.MANAGE];
@@ -198,7 +201,8 @@ export const READ_MANAGED_REPORTS = [
   ACTIONS.VIOLATIONS,
   ACTIONS.WORKFLOW_REPORT,
   ACTIONS.REFERRALS_TRANSFERS_REPORT,
-  ACTIONS.PROTECTION_OUTCOMES
+  ACTIONS.PROTECTION_OUTCOMES,
+  ACTIONS.CASE_MANAGEMENT_KPIS_REPORT
 ];
 
 export const EXPORT_CUSTOM = [...MANAGE, ACTIONS.EXPORT_CUSTOM];
@@ -216,6 +220,8 @@ export const ENABLE_DISABLE_RECORD = [...MANAGE, ACTIONS.ENABLE_DISABLE_RECORD];
 export const FLAG_RECORDS = [...MANAGE, ACTIONS.FLAG];
 
 export const FLAG_RESOLVE_ANY = [...MANAGE, ACTIONS.FLAG_RESOLVE_ANY];
+
+export const FLAG_UPDATE = [...MANAGE, ACTIONS.FLAG_UPDATE];
 
 export const ADD_NOTE = [...MANAGE, ACTIONS.ADD_NOTE];
 
@@ -336,7 +342,8 @@ export const GROUP_PERMISSIONS = {
   AGENCY: "agency",
   ALL: "all",
   GROUP: "group",
-  SELF: "self"
+  SELF: "self",
+  IDENTIFIED: "identified"
 };
 
 export const MANAGED_REPORT_SCOPE = {

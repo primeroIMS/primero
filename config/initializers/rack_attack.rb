@@ -28,3 +28,10 @@ Rack::Attack.throttle('Password resets', limit: 10, period: 60) do |request|
 
   'throttle-always'
 end
+
+# 6 registrations allowed per ip per minute
+Rack::Attack.throttle('Self registration', limit: 6, period: 60) do |request|
+  next unless request.path == '/api/v2/self-register' && request.post?
+
+  request.ip
+end

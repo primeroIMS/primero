@@ -99,4 +99,58 @@ describe("<Insights /> - Reducers", () => {
 
     expect(newState).toEqual(expected);
   });
+
+  it("should handle insights/CLEAR_SELECTED_INSIGHT", () => {
+    const defaultState = fromJS({
+      selectedReport: {
+        id: 1,
+        name: { en: "Test Report" },
+        graph: true,
+        graph_type: "bar"
+      },
+      errors: false
+    });
+
+    const expected = fromJS({ errors: false });
+    const action = {
+      type: "insights/CLEAR_SELECTED_INSIGHT"
+    };
+
+    const newState = reducer(defaultState, action);
+
+    expect(newState).toEqual(expected);
+  });
+
+  it("should handle insights/CLEAR_REPORT_DATA", () => {
+    const defaultState = fromJS({
+      selectedReport: {
+        id: 1,
+        name: { en: "Test Report" },
+        graph: true,
+        graph_type: "bar",
+        report_data: {
+          incidents: { data: { indicator: [{ group_id: "group1", data: [{ id: "total", total: 54 }] }] } }
+        }
+      },
+      errors: false
+    });
+
+    const expected = fromJS({
+      selectedReport: {
+        id: 1,
+        name: { en: "Test Report" },
+        graph: true,
+        graph_type: "bar",
+        report_data: {}
+      },
+      errors: false
+    });
+    const action = {
+      type: "insights/CLEAR_REPORT_DATA"
+    };
+
+    const newState = reducer(defaultState, action);
+
+    expect(newState).toEqual(expected);
+  });
 });

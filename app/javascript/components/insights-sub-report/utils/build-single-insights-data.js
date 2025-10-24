@@ -49,10 +49,8 @@ const buildGroupedInsights = reportData => {
 };
 
 export default (reportData, isGrouped) => {
-  const singleReportData = reportData.get("single", fromJS({}));
-
   if (!isGrouped) {
-    return singleReportData.entrySeq().flatMap(([key, value]) => {
+    return reportData.entrySeq().flatMap(([key, value]) => {
       if (Map.isMap(value)) {
         return value.entrySeq().map(([subKey, subValue]) => fromJS({ id: subKey, total: subValue }));
       }
@@ -61,5 +59,5 @@ export default (reportData, isGrouped) => {
     });
   }
 
-  return buildGroupedInsights(singleReportData);
+  return buildGroupedInsights(reportData);
 };

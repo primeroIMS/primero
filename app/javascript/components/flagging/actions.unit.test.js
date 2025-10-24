@@ -13,6 +13,8 @@ describe("Flagging - Constants", () => {
       "UNFLAG_SUCCESS",
       "ADD_FLAG",
       "ADD_FLAG_SUCCESS",
+      "UPDATE_FLAG",
+      "UPDATE_FLAG_SUCCESS",
       "SET_SELECTED_FLAG",
       "SET_SELECTED_FLAG_SUCCESS",
       "FETCH_FLAGS_STARTED",

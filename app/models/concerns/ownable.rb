@@ -13,7 +13,8 @@ module Ownable
                    :owned_by_user_code, :owned_by_agency_office, :previously_owned_by, :previously_owned_by_full_name,
                    :previously_owned_by_agency, :previously_owned_by_location, :previously_owned_by_agency_office,
                    :assigned_user_names, :module_id, :associated_user_groups, :associated_user_agencies,
-                   :associated_user_names, :not_edited_by_owner
+                   :associated_user_names, :not_edited_by_owner, :identified_by, :identified_by_full_name,
+                   :identified_at
 
     if Rails.configuration.solr_enabled
       searchable do
