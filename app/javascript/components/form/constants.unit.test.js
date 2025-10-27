@@ -75,6 +75,7 @@ describe("<Form /> - Constants", () => {
       "ROLE",
       "SERVICE_TYPE",
       "TRANSFER_TO_USERS",
+      "USER_IDENTIFIED",
       "USER_GROUP_PERMITTED",
       "USER_GROUP",
       "USER_MODULE",

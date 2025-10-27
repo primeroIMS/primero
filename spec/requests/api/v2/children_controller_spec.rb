@@ -62,7 +62,28 @@ describe Api::V2::ChildrenController, type: :request do
         )
       ]
     )
+    @role_identified = Role.create!(
+      name: 'Role Identified',
+      unique_id: 'test-role-identified',
+      group_permission: Permission::IDENTIFIED,
+      permissions: [
+        Permission.new(
+          resource: Permission::CASE,
+          actions: [Permission::READ, Permission::WRITE]
+        )
+      ]
+    )
     @group1 = UserGroup.create!(name: 'Group1')
+    @identified_user2 = User.create!(
+      full_name: 'Identified User 2',
+      user_name: 'identified_user2',
+      password: 'a12345632',
+      password_confirmation: 'a12345632',
+      email: 'identified_user2@localhost.com',
+      user_category: Permission::IDENTIFIED,
+      agency_id: @agency.id,
+      role: @role_identified
+    )
     @user = User.create!(
       full_name: 'Test User 2',
       user_name: 'test_user_2',
@@ -1448,6 +1469,57 @@ describe Api::V2::ChildrenController, type: :request do
           expect(json['data']['field_a']).to eq('new value for field_a')
           expect(json['data']['permitted_forms']).to eq({ 'form_a' => 'rw' })
         end
+      end
+    end
+
+    describe 'identified_by attribute' do
+      it 'sets the identified by fields and returns 200' do
+        login_for_test(
+          permissions: [
+            Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::ATTRIBUTE])
+          ]
+        )
+
+        params = { data: { identified_by: 'identified_user2' }, record_action: Permission::ATTRIBUTE }
+        patch "/api/v2/cases/#{@identified_case.id}", params:, as: :json
+
+        expect(response).to have_http_status(200)
+        expect(json['data']['id']).to eq(@identified_case.id)
+        expect(json['data']['identified_by']).to eq(params[:data][:identified_by])
+      end
+
+      it 'returns 422 if the user does not exist' do
+        login_for_test(
+          permissions: [
+            Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::ATTRIBUTE])
+          ]
+        )
+
+        params = { data: { identified_by: 'not_a_user' }, record_action: Permission::ATTRIBUTE }
+        patch "/api/v2/cases/#{@identified_case.id}", params:, as: :json
+
+        expect(response).to have_http_status(422)
+        expect(json['errors'].size).to eq(1)
+        expect(json['errors'][0]['detail']).to eq(%w[identified_by])
+        expect(json['errors'][0]['message']).to eq('errors.models.child.identified_by_exists')
+        expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@identified_case.id}")
+      end
+
+      it 'returns 422 if the user is not identified' do
+        login_for_test(
+          permissions: [
+            Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::ATTRIBUTE])
+          ]
+        )
+
+        params = { data: { identified_by: 'test_user_2' }, record_action: Permission::ATTRIBUTE }
+        patch "/api/v2/cases/#{@identified_case.id}", params:, as: :json
+
+        expect(response).to have_http_status(422)
+        expect(json['errors'].size).to eq(1)
+        expect(json['errors'][0]['detail']).to eq(%w[identified_by])
+        expect(json['errors'][0]['message']).to eq('errors.models.child.identified_by_exists')
+        expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@identified_case.id}")
       end
     end
   end
