@@ -1,63 +1,34 @@
 // Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
 
+import { useState } from "react";
 import PropTypes from "prop-types";
-import { fromJS } from "immutable";
-import { object, string } from "yup";
-import { debounce } from "lodash";
 import { useDispatch } from "react-redux";
 
 import { useI18n } from "../../i18n";
 import ActionDialog from "../../action-dialog";
-import Form, { FieldRecord, FORM_MODE_DIALOG, FormSectionRecord, OPTION_TYPES, SELECT_FIELD } from "../../form";
+import Form, { FORM_MODE_DIALOG } from "../../form";
 import { saveRecord } from "../../records";
 import { ACTIONS } from "../../permissions";
 
-import { fetchUsersIdentified } from "./action-creators";
+import useFormAttribute from "./use-form-attribute";
 
 const FORM_ID = "form_attribute";
 
 function ActionAttribute({ close, open, record, recordType, pending, setPending }) {
   const dispatch = useDispatch();
   const i18n = useI18n();
-  const debouncedFetch = debounce(value => {
-    if (value && value.length >= 2) {
-      dispatch(fetchUsersIdentified({ data: { query: value } }));
-    }
-  }, 500);
+  const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
+  const [submitData, setSubmitData] = useState({});
+  const { formSections, validationSchema } = useFormAttribute();
 
-  const formSections = fromJS([
-    FormSectionRecord({
-      unique_id: "form_attribute",
-      fields: [
-        FieldRecord({
-          name: "identified_by",
-          required: true,
-          display_name: { [i18n.locale]: i18n.t("user.label") },
-          type: SELECT_FIELD,
-          asyncOptions: true,
-          asyncAction: null,
-          asyncOptionsLoadingPath: ["forms", "options", "users", "loading"],
-          asyncParamsFromWatched: [],
-          onInputChange: (_, value, reason) => {
-            if (reason === "input") {
-              debouncedFetch(value);
-            }
-          },
-          option_strings_source: OPTION_TYPES.USER_IDENTIFIED
-        })
-      ]
-    })
-  ]);
-
-  const validationSchema = object().shape({ identified_by: string().nullable().required() });
-
-  const handleSubmit = data => {
+  const succesConfirmationModal = () => {
+    setOpenConfirmationModal(false);
     setPending(true);
     dispatch(
       saveRecord(
         recordType,
         "update",
-        { data: { ...data }, record_action: ACTIONS.ATTRIBUTE },
+        { data: { ...submitData }, record_action: ACTIONS.ATTRIBUTE },
         record.get("id"),
         i18n.t(`cases.attribute.success`),
         i18n.t("offline_submitted_changes"),
@@ -68,29 +39,46 @@ function ActionAttribute({ close, open, record, recordType, pending, setPending 
     close();
   };
 
+  const cancelConfirmationModal = () => setOpenConfirmationModal(false);
+
+  const handleSubmit = data => {
+    setSubmitData(data);
+    setOpenConfirmationModal(true);
+  };
+
   return (
-    <ActionDialog
-      open={open}
-      onClose={close}
-      pending={pending}
-      omitCloseAfterSuccess
-      dialogSubHeader={i18n.t("cases.attribute.text")}
-      dialogTitle={i18n.t("cases.attribute.title")}
-      confirmButtonLabel={i18n.t("buttons.save")}
-      confirmButtonProps={{
-        form: FORM_ID,
-        type: "submit"
-      }}
-    >
-      <Form
-        mode={FORM_MODE_DIALOG}
-        formSections={formSections}
-        onSubmit={handleSubmit}
-        validations={validationSchema}
-        formID={FORM_ID}
-        showTitle={false}
+    <>
+      <ActionDialog
+        open={open}
+        onClose={close}
+        pending={pending}
+        omitCloseAfterSuccess
+        dialogSubHeader={i18n.t("cases.attribute.text")}
+        dialogTitle={i18n.t("cases.attribute.title")}
+        confirmButtonLabel={i18n.t("buttons.save")}
+        confirmButtonProps={{
+          form: FORM_ID,
+          type: "submit"
+        }}
+      >
+        <Form
+          mode={FORM_MODE_DIALOG}
+          formSections={formSections}
+          onSubmit={handleSubmit}
+          validations={validationSchema}
+          formID={FORM_ID}
+          showTitle={false}
+        />
+      </ActionDialog>
+      <ActionDialog
+        open={openConfirmationModal}
+        successHandler={succesConfirmationModal}
+        cancelHandler={cancelConfirmationModal}
+        dialogTitle={i18n.t("cases.attribute.confirm_title")}
+        dialogText={i18n.t("cases.attribute.confirm_text")}
+        confirmButtonLabel={i18n.t("buttons.ok")}
       />
-    </ActionDialog>
+    </>
   );
 }
 

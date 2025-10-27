@@ -387,6 +387,9 @@ en:
       title: Attribute
       text: Select the user who identified this case. If your system allows for self-registration,
         this user will be able to access the case as “My Case” when they login to the system.
+      confirm_title: Attribute Confirmation
+      confirm_text: Are you sure you want to attribute this case to the selected user?
+        The selected user will have access to the case and be identified as the subject of the case.
     mark_for_offline:
       title: Mark for Offline
       text: Are you sure you want to mark these Cases for use when you are offline?
@@ -4528,6 +4531,7 @@ en:
     record_history_separator: Record History
     last_updated_at: Last Updated At
     last_updated_by: Last Updated By
+    identified_by: Identified By
   record_panel:
     record_information: Record Information
   referral:
