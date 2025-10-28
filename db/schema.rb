@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_10_09_185327) do
+ActiveRecord::Schema.define(version: 2025_10_28_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -721,6 +721,7 @@ ActiveRecord::Schema.define(version: 2025_10_09_185327) do
     t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.boolean "referral_authorization", default: false, null: false
+    t.string "user_category"
     t.index ["permissions"], name: "index_roles_on_permissions", using: :gin
     t.index ["unique_id"], name: "index_roles_on_unique_id", unique: true
   end
@@ -919,10 +920,11 @@ ActiveRecord::Schema.define(version: 2025_10_09_185327) do
     t.bigint "code_of_conduct_id"
     t.boolean "receive_webpush"
     t.jsonb "settings"
-    t.string "user_category"
     t.boolean "unverified", default: false
     t.string "registration_stream"
     t.datetime "data_processing_consent_provided_on"
+    t.boolean "self_registered", default: false
+    t.boolean "duplicate", default: false
     t.index ["agency_id"], name: "index_users_on_agency_id"
     t.index ["code_of_conduct_id"], name: "index_users_on_code_of_conduct_id"
     t.index ["email"], name: "index_users_on_email", unique: true

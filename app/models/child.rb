@@ -167,7 +167,7 @@ class Child < ApplicationRecord
   before_save :calculate_reunification_dates
   before_save :save_searchable_fields
   before_save :stamp_case_type
-  before_update :stamp_identified
+  before_update :update_identified
   before_create :hide_name
   after_save :save_incidents
 
@@ -177,7 +177,7 @@ class Child < ApplicationRecord
       super_new_with_user(user, data).tap do |local_case|
         local_case.registry_record_id ||= local_case.data.delete('registry_record_id')
         local_case.family_id ||= local_case.data.delete('family_id')
-        local_case.mark_identified(user) if user.group_permission?(Permission::IDENTIFIED)
+        local_case.mark_identified(user) if user.role&.user_category == Role::CATEGORY_IDENTIFIED
       end
     end
 
@@ -420,10 +420,10 @@ class Child < ApplicationRecord
     self.identified_at = DateTime.now
   end
 
-  def stamp_identified
+  def update_identified
     return unless identified_by.present? && changes_to_save_for_record.key?('identified_by')
 
-    identified_by_user = User.find_by(user_name: identified_by, user_category: Permission::IDENTIFIED)
+    identified_by_user = User.find_identified_by_user_name(identified_by)
     raise invalid_identified_by_user if identified_by_user.blank?
 
     self.identified_by = identified_by_user.user_name

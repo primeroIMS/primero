@@ -97,6 +97,8 @@ class User < ApplicationRecord
     )
   end)
 
+  scope :with_identified_category, -> { joins(:role).where(role: { user_category: Role::CATEGORY_IDENTIFIED }) }
+
   alias_attribute :organization, :agency
   alias_attribute :name, :user_name
 
@@ -281,6 +283,7 @@ class User < ApplicationRecord
       user = build_self_registration_user(params, stream)
       user.data_processing_consent_provided_on = DateTime.now if params[:data_processing_consent_provided]
       user.agency = Agency.find_by(unique_id: stream['agency'])
+      user.self_registered = true
       user
     end
 
@@ -291,13 +294,16 @@ class User < ApplicationRecord
     end
 
     def search_identified_by_name(query)
-      identified_users = where(user_category: Permission::IDENTIFIED)
-      return identified_users unless query.present?
+      return with_identified_category unless query.present?
 
-      identified_users.where(
+      with_identified_category.where(
         'user_name ILIKE :value OR full_name ILIKE :value',
         value: "%#{ActiveRecord::Base.sanitize_sql_like(query)}%"
       )
+    end
+
+    def find_identified_by_user_name(user_name)
+      with_identified_category.find_by(user_name:)
     end
   end
 
