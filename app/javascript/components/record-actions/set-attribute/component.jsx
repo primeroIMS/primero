@@ -9,8 +9,11 @@ import ActionDialog from "../../action-dialog";
 import Form, { FORM_MODE_DIALOG } from "../../form";
 import { saveRecord } from "../../records";
 import { ACTIONS } from "../../permissions";
+import { useMemoizedSelector } from "../../../libs";
+import { getIdentifiedUser } from "../../record-form/selectors";
 
 import useFormAttribute from "./use-form-attribute";
+import css from "./styles.css";
 
 const FORM_ID = "form_attribute";
 
@@ -20,6 +23,7 @@ function ActionAttribute({ close, open, record, recordType, pending, setPending 
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   const [submitData, setSubmitData] = useState({});
   const { formSections, validationSchema } = useFormAttribute();
+  const selectedUser = useMemoizedSelector(state => getIdentifiedUser(state, submitData.identified_by));
 
   const succesConfirmationModal = () => {
     setOpenConfirmationModal(false);
@@ -75,9 +79,18 @@ function ActionAttribute({ close, open, record, recordType, pending, setPending 
         successHandler={succesConfirmationModal}
         cancelHandler={cancelConfirmationModal}
         dialogTitle={i18n.t("cases.attribute.confirm_title")}
-        dialogText={i18n.t("cases.attribute.confirm_text")}
         confirmButtonLabel={i18n.t("buttons.ok")}
-      />
+      >
+        <p className={css.userText}>{i18n.t("cases.attribute.confirm_text")}</p>
+        <ul className={css.userList}>
+          <li>
+            <span className={css.userField}>{i18n.t("cases.attribute.name")}:</span> {selectedUser?.get("user_name")}
+          </li>
+          <li>
+            <span className={css.userField}>{i18n.t("cases.attribute.email")}:</span> {selectedUser?.get("email")}
+          </li>
+        </ul>
+      </ActionDialog>
     </>
   );
 }

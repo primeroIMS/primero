@@ -6,7 +6,7 @@ json.data do
   json.array! @users do |user|
     json.user_name user.user_name
     json.full_name user.full_name
-    json.disabled user.disabled
+    json.email user.email
   end
 end
 

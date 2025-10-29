@@ -291,7 +291,7 @@ class User < ApplicationRecord
     end
 
     def search_identified_by_name(query)
-      identified_users = where(user_category: Permission::IDENTIFIED)
+      identified_users = enabled.where(user_category: Permission::IDENTIFIED)
       return identified_users unless query.present?
 
       identified_users.where(
