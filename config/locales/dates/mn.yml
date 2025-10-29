@@ -1,6 +1,7 @@
 mn:
   date:
     today: 'Өнөөдөр'
+    clear: 'Тодорхой эсвэл арилга'
     abbr_day_names_short:
       - Ням
       - Даваа
@@ -51,5 +52,16 @@ mn:
       - 10-р сар
       - 11-р сар
       - 12-р сар
+    formats:
+      default: "%d"
+      with_time: "%d"
+      rtl: "%d"
+      rtl_with_time: "%d"
+  time:
+    formats:
+      default: "%d"
+      with_time: "%d"
+      rtl: "%d"
+      rtl_with_time: "%d"
   'true': "Тийм"
   'false': "Үгүй"
