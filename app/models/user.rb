@@ -294,9 +294,9 @@ class User < ApplicationRecord
     end
 
     def search_identified_by_name(query)
-      return with_identified_category unless query.present?
+      return enabled.with_identified_category unless query.present?
 
-      with_identified_category.where(
+      enabled.with_identified_category.where(
         'user_name ILIKE :value OR full_name ILIKE :value',
         value: "%#{ActiveRecord::Base.sanitize_sql_like(query)}%"
       )

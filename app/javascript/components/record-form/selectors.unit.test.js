@@ -1676,4 +1676,23 @@ describe("<RecordForm /> - Selectors", () => {
       expect(subform.unique_id).toBe("nested_services");
     });
   });
+
+  describe("getIdentifiedUser", () => {
+    it("returns the user", () => {
+      const user = selectors.getIdentifiedUser(
+        fromJS({
+          forms: {
+            options: {
+              users: { identified: [{ user_name: "user1", full_name: "User 1", email: "user1@example.com" }] }
+            }
+          }
+        }),
+        "user1"
+      );
+
+      expect(user.get("user_name")).toEqual("user1");
+      expect(user.get("full_name")).toEqual("User 1");
+      expect(user.get("email")).toEqual("user1@example.com");
+    });
+  });
 });
