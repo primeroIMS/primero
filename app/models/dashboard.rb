@@ -47,7 +47,7 @@ class Dashboard < ValueObject
     indicators: [
       Indicators::Case::OPEN,
       Indicators::Case::UPDATED,
-      Indicators::Case::RECENTLY_ASSIGNED
+      Indicators::Case.recently_assigned
     ]
   ).freeze
 
