@@ -39,15 +39,13 @@ module Indicators
       ]
     ).freeze
 
-    # Recently assigned to me within the last 10 days
     def self.recently_assigned
       QueriedIndicator.new(
         name: 'recently_assigned_to_me',
         record_model: Child,
         queries: OPEN_ENABLED + [
           SearchFilters::DateRange.new(
-            field_name: 'reassigned_transferred_on',
-            from: SearchFilters::DateRange.recent_past
+            field_name: 'reassigned_transferred_on', from: SearchFilters::DateRange.recent_past
           )
         ],
         scope_to_assigned: true
