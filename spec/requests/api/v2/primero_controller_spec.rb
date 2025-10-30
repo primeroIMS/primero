@@ -6,7 +6,7 @@ require 'rails_helper'
 
 describe Api::V2::PrimeroController, type: :request do
   before :each do
-    clean_data(Agency)
+    clean_data(Agency, SystemSettings)
     @agency1 = Agency.new(
       name: 'irc', agency_code: '12345', logo_icon: logo, logo_full: logo,
       logo_enabled: true
@@ -26,10 +26,11 @@ describe Api::V2::PrimeroController, type: :request do
       name_i18n: { en: 'Nationality', es: 'Nacionalidad' }
     )
     I18n.available_locales = %i[en ar fr es]
+    @system_settings = SystemSettings.create
   end
 
   after(:each) do
-    clean_data(Agency)
+    clean_data(Agency, SystemSettings)
     Rails.configuration.x.webpush.enabled = false
   end
 

@@ -19,11 +19,13 @@ describe("User - Reducers", () => {
       isAuthenticated: true,
       loaded: false,
       id: 1,
-      username: "primero"
+      username: "primero",
+      roleGroupPermission: "self"
     });
     const payload = {
       id: 1,
-      username: "primero"
+      username: "primero",
+      groupPermission: "self"
     };
     const action = {
       type: Actions.SET_AUTHENTICATED_USER,

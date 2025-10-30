@@ -103,6 +103,7 @@ class User < ApplicationRecord
   before_validation :generate_random_password
   before_create :set_agency_services
   before_save :make_user_name_lowercase, :update_reporting_location_code, :set_locale, :set_code_of_conduct_accepted_on
+  before_update :after_password_reset
   after_commit :update_associated_records, on: :update
   after_create :send_reset_password_instructions, if: :should_send_password_reset_instructions
 
@@ -130,6 +131,9 @@ class User < ApplicationRecord
   validates :locale,
             inclusion: { in: I18n.available_locales.map(&:to_s), message: 'errors.models.user.invalid_locale' },
             allow_nil: true
+  validates :data_processing_consent_provided_on,
+            presence: { message: 'errors.models.user.data_processing_consent_provided_on' },
+            if: :data_processing_consent_required?
   with_options if: :limit_maximum_users_enabled? do
     validate :validate_limit_user_reached, on: :create
     validate :validate_limit_user_reached_on_enabling, on: :update
@@ -230,6 +234,10 @@ class User < ApplicationRecord
       SQL
     end
 
+    def with_audit_dates_if(include_activity_stats)
+      include_activity_stats ? with_audit_dates : all
+    end
+
     def with_audit_date_between(action:, from:, to:, record_type: 'User')
       subquery = <<~SQL.squish
         SELECT 1 FROM audit_logs
@@ -254,6 +262,32 @@ class User < ApplicationRecord
         )
       end
       scope
+    end
+
+    def build_self_registration_user(params, stream)
+      new(
+        params.except(:data_processing_consent_provided).merge(
+          role_unique_id: stream['role'],
+          user_group_unique_ids: stream['user_groups'],
+          unverified: true
+        )
+      )
+    end
+
+    def create_self_registration_user(params)
+      stream = registration_stream(params[:registration_stream])
+      return unless stream.present?
+
+      user = build_self_registration_user(params, stream)
+      user.data_processing_consent_provided_on = DateTime.now if params[:data_processing_consent_provided]
+      user.agency = Agency.find_by(unique_id: stream['agency'])
+      user
+    end
+
+    def registration_stream(unique_id)
+      SystemSettings.current&.registration_streams&.find do |stream|
+        stream['unique_id'] == unique_id
+      end
     end
   end
 
@@ -405,6 +439,10 @@ class User < ApplicationRecord
     user_managers
   end
 
+  def data_processing_consent_required?
+    Primero::Application.config.allow_self_registration && registration_stream.present?
+  end
+
   # This method indicates what records or flags this user can search for.
   # Returns self, if can only search records associated with this user
   # Returns list of UserGroups if can only query from those user groups that this user has access to
@@ -412,27 +450,22 @@ class User < ApplicationRecord
   # Returns empty list if can query for all records in the system
   def record_query_scope(record_model, id_search = false)
     user_scope = case user_query_scope(record_model, id_search)
-                 when Permission::AGENCY
-                   { 'agency' => agency.unique_id, 'agency_id' => agency_id }
-                 when Permission::GROUP
-                   { 'group' => user_groups.map(&:unique_id).compact }
+                 when Permission::AGENCY then { 'agency' => agency.unique_id, 'agency_id' => agency_id }
+                 when Permission::GROUP then { 'group' => user_groups.map(&:unique_id).compact }
+                 when Permission::IDENTIFIED then { 'identified' => user_name }
                  when Permission::ALL then {}
-                 else
-                   { 'user' => user_name }
+                 else { 'user' => user_name }
                  end
     { user: user_scope }
   end
 
   def user_query_scope(record_model = nil, id_search = false)
-    if can_search_for_all?(record_model, id_search)
-      Permission::ALL
-    elsif group_permission?(Permission::AGENCY)
-      Permission::AGENCY
-    elsif group_permission?(Permission::GROUP) && user_group_ids.present?
-      Permission::GROUP
-    else
-      Permission::USER
-    end
+    return Permission::ALL if can_search_for_all?(record_model, id_search)
+    return Permission::AGENCY if group_permission?(Permission::AGENCY)
+    return Permission::GROUP if group_permission?(Permission::GROUP) && user_group_ids.present?
+    return Permission::IDENTIFIED if group_permission?(Permission::IDENTIFIED)
+
+    Permission::USER
   end
 
   def user_assign_scope(record_model)
@@ -497,8 +530,9 @@ class User < ApplicationRecord
     modules.any?(&:user_group_filter)
   end
 
+  # TODO: How should we handle this in the future with unverified users?
   def active_for_authentication?
-    super && !disabled
+    super && !disabled && !unverified
   end
 
   def modules_for_record_type(record_type)
@@ -595,6 +629,14 @@ class User < ApplicationRecord
     permission_by_permission_type?(Permission::USER, Permission::AGENCY_READ)
   end
 
+  def can_view_referrals?
+    can?(Permission::REFERRAL_FROM_SERVICE.to_sym, Child) ||
+      can?(Permission::REMOVE_ASSIGNED_USERS.to_sym, Child) ||
+      can?(Permission::REFERRAL.to_sym, Child) ||
+      can?(Permission::RECEIVE_REFERRAL.to_sym, Child) ||
+      can?(Permission::RECEIVE_REFERRAL_DIFFERENT_MODULE.to_sym, Child)
+  end
+
   def emailable?
     email.present? && send_mail == true && !disabled?
   end
@@ -623,16 +665,25 @@ class User < ApplicationRecord
   end
 
   def permitted_to_access_record?(record)
-    if group_permission? Permission::ALL
-      true
-    elsif group_permission? Permission::AGENCY
-      record.associated_user_agencies.include?(agency.unique_id)
-    elsif group_permission? Permission::GROUP
-      # TODO: This may need to be record&.owned_by_groups
-      (user_group_unique_ids & record&.associated_user_groups).present?
-    else
-      record&.associated_user_names&.include?(user_name)
-    end
+    return true if group_permission? Permission::ALL
+    return agency_permits_access?(record) if group_permission? Permission::AGENCY
+    # TODO: This may need to be record&.owned_by_groups
+    return group_permits_access?(record) if group_permission? Permission::GROUP
+    return identified_permits_access?(record) if group_permission? Permission::IDENTIFIED
+
+    record&.associated_user_names&.include?(user_name)
+  end
+
+  def agency_permits_access?(record)
+    record.associated_user_agencies.include?(agency.unique_id)
+  end
+
+  def group_permits_access?(record)
+    (user_group_unique_ids & record&.associated_user_groups).present?
+  end
+
+  def identified_permits_access?(record)
+    record.identified_by == user_name
   end
 
   def specific_notification?(notifier, action)
@@ -665,6 +716,12 @@ class User < ApplicationRecord
 
   def make_user_name_lowercase
     user_name.downcase!
+  end
+
+  def after_password_reset
+    return unless will_save_change_to_attribute?(:encrypted_password)
+
+    self.unverified = false
   end
 
   def generate_random_password

@@ -39,6 +39,15 @@ module Indicators
       ]
     ).freeze
 
+    IDENTIFIED = QueriedIndicator.new(
+      name: 'identified',
+      record_model: Child,
+      queries: [
+        SearchFilters::BooleanValue.new(field_name: 'record_state', value: true),
+        SearchFilters::TextValue.new(field_name: 'status', value: Record::STATUS_IDENTIFIED)
+      ]
+    ).freeze
+
     def self.closed_recently
       QueriedIndicator.new(
         name: 'closed_recently',

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_06_23_000000) do
+ActiveRecord::Schema.define(version: 2025_10_09_185327) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -113,6 +113,7 @@ ActiveRecord::Schema.define(version: 2025_06_23_000000) do
     t.jsonb "metadata"
     t.index ["metadata"], name: "index_audit_logs_on_metadata", using: :gin
     t.index ["record_type", "record_id"], name: "index_audit_logs_on_record_type_and_record_id"
+    t.index ["timestamp", "user_id"], name: "index_audit_logs_on_timestamp_and_user_id"
     t.index ["user_id"], name: "index_audit_logs_on_user_id"
   end
 
@@ -206,6 +207,10 @@ ActiveRecord::Schema.define(version: 2025_06_23_000000) do
     t.string "srch_protection_risks", default: [], array: true
     t.string "srch_next_steps", default: [], array: true
     t.string "srch_assigned_user_names", default: [], array: true
+    t.string "srch_sex"
+    t.string "srch_identified_by"
+    t.string "srch_identified_by_full_name"
+    t.datetime "srch_identified_at"
     t.index "((data ->> 'case_id'::text))", name: "cases_case_id_unique_idx", unique: true
     t.index "((phonetic_data -> 'tokens'::text))", name: "cases_phonetic_tokens_idx", using: :gin
     t.index ["data"], name: "index_cases_on_data", using: :gin
@@ -283,6 +288,8 @@ ActiveRecord::Schema.define(version: 2025_06_23_000000) do
     t.index ["srch_associated_user_names", "srch_record_state", "srch_status", "srch_transferred_to_users"], name: "shared_with_me_transfers_awaiting_dashboard_user_idx"
     t.index ["srch_created_at"], name: "cases_srch_created_at_idx"
     t.index ["srch_date_closure"], name: "cases_srch_date_closure_idx"
+    t.index ["srch_identified_at"], name: "index_cases_on_srch_identified_at"
+    t.index ["srch_identified_by"], name: "index_cases_on_srch_identified_by"
     t.index ["srch_record_state", "srch_status", "srch_associated_user_agencies"], name: "cases_default_associated_user_agencies_idx"
     t.index ["srch_record_state", "srch_status", "srch_associated_user_groups"], name: "cases_default_associated_user_groups_idx"
     t.index ["srch_record_state", "srch_status", "srch_associated_user_names"], name: "cases_default_associated_user_names_idx"
@@ -912,6 +919,10 @@ ActiveRecord::Schema.define(version: 2025_06_23_000000) do
     t.bigint "code_of_conduct_id"
     t.boolean "receive_webpush"
     t.jsonb "settings"
+    t.string "user_category"
+    t.boolean "unverified", default: false
+    t.string "registration_stream"
+    t.datetime "data_processing_consent_provided_on"
     t.index ["agency_id"], name: "index_users_on_agency_id"
     t.index ["code_of_conduct_id"], name: "index_users_on_code_of_conduct_id"
     t.index ["email"], name: "index_users_on_email", unique: true

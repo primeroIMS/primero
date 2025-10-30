@@ -26,17 +26,14 @@ import CaseRegistry from "../../../case-registry";
 import CaseFamily from "../../../case-family";
 import SummaryIncidentMRM from "../../../summary-incident-mrm";
 import CaseRelationships from "../../../case-relationships";
+import { SHOW_ACCESS_LOG, SHOW_CHANGE_LOG, usePermissions } from "../../../permissions";
 
 const externalForms =
   ({
-    approvalSubforms,
-    canSeeAccessLog,
-    canSeeChangeLog,
     containerMode,
     handleCreateIncident,
     handleToggleNav,
     id,
-    incidentsSubforms,
     mobileDisplay,
     primeroModule,
     record,
@@ -47,6 +44,9 @@ const externalForms =
     userPermittedFormsIds
   }) =>
   (form, setFieldValue, handleSubmit, values, dirty, formSections) => {
+    const canSeeAccessLog = usePermissions(recordType, SHOW_ACCESS_LOG);
+    const canSeeChangeLog = usePermissions(recordType, SHOW_CHANGE_LOG);
+
     const isTransitions = TRANSITION_TYPE.includes(form);
 
     const externalFormSelected = isTransitions ? TRANSITION_TYPE : form;
@@ -63,7 +63,7 @@ const externalForms =
       [APPROVALS]: (
         <Approvals
           primeroModule={primeroModule}
-          approvals={approvalSubforms}
+          approvals={record?.get("approval_subforms")}
           mobileDisplapary={mobileDisplay}
           handleToggleNav={handleToggleNav}
         />
@@ -71,7 +71,7 @@ const externalForms =
       [INCIDENT_FROM_CASE]: (
         <IncidentFromCase
           record={record}
-          incidents={incidentsSubforms}
+          incidents={record?.get("incident_details")}
           mobileDisplay={mobileDisplay}
           handleToggleNav={handleToggleNav}
           mode={containerMode}

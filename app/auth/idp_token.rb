@@ -8,6 +8,7 @@ class IdpToken
   ALGORITHM = 'RS256'
 
   attr_accessor :header, :payload, :identity_provider
+  attr_writer :session
 
   class << self
     def build(token_string)
@@ -46,7 +47,7 @@ class IdpToken
   end
 
   def valid?
-    payload.present? && header.present?
+    payload.present? && header.present? && unique_id.present?
   end
 
   def user_name
@@ -68,5 +69,30 @@ class IdpToken
       'users.user_name = ? and identity_providers.configuration @> ?',
       user_name, { issuer: }.to_json
     ).first
+  end
+
+  def unique_id
+    payload['jti'].presence || payload['nonce'].presence || payload['sub'].presence
+  end
+
+  def session
+    @session ||= Session.find_by_session_id(unique_id)
+  end
+
+  def activate!
+    # Do nothing if active or blacklisted session already exists
+    return if session
+
+    @session = Session.create!(
+      session_id: unique_id, data: { 'warden.user.user.key' => [[user.id], user.user_name] }
+    )
+  end
+
+  def blacklisted?
+    session&.expired?
+  end
+
+  def blacklist
+    session.destroy
   end
 end

@@ -16,6 +16,7 @@ export const DASHBOARD_NAMES = Object.freeze({
   CASE_INCIDENT_OVERVIEW: "dashboard.dash_case_incident_overview",
   CASE_OVERVIEW: "dashboard.case_overview",
   ACTION_NEEDED_NEW_UPDATED: "dashboard.action_needed_new_updated",
+  ACTION_NEEDED_IDENTIFIED: "dashboard.action_needed_identified",
   ACTION_NEEDED_NEW_REFERRALS: "dashboard.action_needed_new_referrals",
   ACTION_NEEDED_NEW_TRANSFER_AWAITING_ACCEPTANCE: "dashboard.action_needed_transfer_awaiting_acceptance",
   CASE_RISK: "dashboard.case_risk",
@@ -112,6 +113,7 @@ export const DASHBOARD_NAMES_FOR_GROUP = Object.freeze({
   ],
   [DASHBOARD_GROUP.action_needed]: [
     "action_needed_new_updated",
+    "action_needed_identified",
     "action_needed_new_referrals",
     "action_needed_transfer_awaiting_acceptance"
   ],

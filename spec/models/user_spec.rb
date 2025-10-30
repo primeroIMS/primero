@@ -67,6 +67,11 @@ describe User do
       user.disabled.should be_falsey
     end
 
+    it 'should default unverified to false' do
+      user = User.new unverified: nil
+      user.unverified.should be_falsey
+    end
+
     it 'should generate id' do
       user = create(:user, user_name: 'test_user_123')
       user.id.present?.should == true
@@ -279,6 +284,69 @@ describe User do
       after do
         clean_data(AuditLog, User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection)
       end
+    end
+  end
+
+  describe 'self registration' do
+    before do
+      clean_data(AuditLog, User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection, SystemSettings)
+      agency = create(:agency)
+      user_group = create(:user_group)
+      role = create(:role)
+      primero_program = create(:primero_program)
+      single_form = create(:form_section)
+      create(:primero_module, primero_program_id: primero_program.id,
+                              form_sections: [single_form],
+                              id: 1)
+      SystemSettings.create(
+        registration_streams: [
+          {
+            unique_id: 'primero',
+            role: role.unique_id,
+            user_category: 'tier-1',
+            user_groups: [user_group.name],
+            agency: agency.unique_id
+          }
+        ]
+      )
+
+      @params = ActionController::Parameters.new({
+                                                   full_name: 'Test User 1',
+                                                   user_name: 'test_user_1',
+                                                   email: 'test_user_1@example.com',
+                                                   password: 'password123',
+                                                   password_confirmation: 'password123',
+                                                   registration_stream: 'primero'
+                                                 }).permit!
+    end
+    before(:each) { clean_data(User, IdentityProvider) }
+
+    it 'should validate data_processing_consent_provided_on is present for self-registration users' do
+      Primero::Application.config.allow_self_registration = true
+
+      user = build_user(user_name: 'the_user_name', registration_stream: 'primero')
+      expect(user).not_to be_valid
+    end
+
+    it 'should not require data_processing_consent_provided_on for non self-registration users' do
+      Primero::Application.config.allow_self_registration = false
+
+      user = build_user(user_name: 'the_user_name')
+      expect(user).to be_valid
+    end
+
+    it 'builds a self-registration user' do
+      user = User.create_self_registration_user(@params)
+      expect(user).to be_valid
+      expect(user.unverified).to eq(true)
+    end
+
+    it 'sets user as verified on password reset' do
+      user = User.create_self_registration_user(@params)
+      user.save!
+      user.update!(password: 'newpassword123', password_confirmation: 'newpassword123')
+      expect(user).to be_valid
+      expect(user.unverified).to eq(false)
     end
   end
 
