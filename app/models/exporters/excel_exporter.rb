@@ -273,6 +273,5 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
     agencies = Agency.where(unique_id: agency_ids).pluck(:unique_id, :name_i18n)
     @agency_names_cache = agencies.to_h.transform_values { |names| names[locale.to_s] || '' }
   end
-
 end
 # rubocop:enable Metrics/ClassLength
