@@ -603,6 +603,22 @@ describe Referral do
     end
   end
 
+  describe 'active_for_user' do
+    before :each do
+      @referral1 = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
+      @referral2 = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case2)
+      @referral2.accept!
+      @referral3 = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
+      @referral3.reject!(@user2)
+    end
+    it 'returns only in-progress referrals for the specified user' do
+      active_referrals = Referral.active_for_user(@user2.user_name, [@case.id, @case2.id], 'Child')
+
+      expect(active_referrals.size).to eq(2)
+      expect(active_referrals.ids).to match_array([@referral1.id, @referral2.id])
+    end
+  end
+
   after do
     clean_data(Alert, Child, User, Role, UserGroup, PrimeroModule, Transition, Transfer, Referral)
   end

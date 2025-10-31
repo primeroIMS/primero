@@ -40,6 +40,8 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   def export_records(records)
     constraint_subforms
     build_worksheets_with_headers
+    preload_agency_names(records)
+    preload_referrals(records)
     records.each do |record|
       establish_record_constraints(record)
       write_record(record)
@@ -195,11 +197,12 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   end
 
   def export_value(value, field)
-    value = super(value, field)
-    # TODO: This will cause N+1 issue
     if field.name == 'created_organization' && value.present?
+      return @agency_names_cache[value] if @agency_names_cache.present?
+
       return Agency.get_field_using_unique_id(value, :name_i18n)[locale.to_s]
     end
+    value = super(value, field)
 
     return value unless value.is_a?(Array)
 
@@ -261,5 +264,15 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   def subform_display_conditions(field)
     (field.subform_section_configuration&.dig('display_conditions') || []).reduce({}) { |acc, elem| acc.merge(elem) }
   end
+
+  private
+
+  def preload_agency_names(records)
+    agency_ids = records.map { |record| record.data['created_organization'] }.compact.uniq
+
+    agencies = Agency.where(unique_id: agency_ids).pluck(:unique_id, :name_i18n)
+    @agency_names_cache = agencies.to_h.transform_values { |names| names[locale.to_s] || '' }
+  end
+
 end
 # rubocop:enable Metrics/ClassLength

@@ -41,6 +41,7 @@ class Exporters::CsvExporter < Exporters::BaseExporter
     rows << headers if @called_first_time.nil?
     @called_first_time ||= true
 
+    preload_referrals(records)
     records.each do |record|
       establish_record_constraints(record)
       rows << row(record, export_constraints.fields)
