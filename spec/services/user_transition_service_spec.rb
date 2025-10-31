@@ -40,6 +40,38 @@ describe UserTransitionService do
     )
     @role.save(validate: false)
 
+    @role_maintenance = Role.new(
+      primero_modules: [@cp],
+      user_category: Role::CATEGORY_MAINTENANCE,
+      permissions: [
+        Permission.new(
+          resource: Permission::CASE,
+          actions: [
+            Permission::RECEIVE_REFERRAL, Permission::REFERRAL,
+            Permission::RECEIVE_TRANSFER, Permission::TRANSFER,
+            Permission::ASSIGN, Permission::READ
+          ]
+        )
+      ]
+    )
+    @role_maintenance.save(validate: false)
+
+    @role_system = Role.new(
+      primero_modules: [@cp],
+      user_category: Role::CATEGORY_SYSTEM,
+      permissions: [
+        Permission.new(
+          resource: Permission::CASE,
+          actions: [
+            Permission::RECEIVE_REFERRAL, Permission::REFERRAL,
+            Permission::RECEIVE_TRANSFER, Permission::TRANSFER,
+            Permission::ASSIGN, Permission::READ
+          ]
+        )
+      ]
+    )
+    @role_system.save(validate: false)
+
     @other = PrimeroModule.create!(
       unique_id: 'primeromodule-other',
       name: 'OTHER',
@@ -65,6 +97,10 @@ describe UserTransitionService do
       @user4.save(validate: false)
       @user6 = User.new(user_name: 'user6', user_groups: [@group3], agency: @agency2)
       @user6.save(validate: false)
+      @user7 = User.new(user_name: 'user7', user_groups: [@group3], agency: @agency2, role: @role_system)
+      @user7.save(validate: false)
+      @user8 = User.new(user_name: 'user8', user_groups: [@group3], agency: @agency2, role: @role_maintenance)
+      @user8.save(validate: false)
 
       role = create(
         :role,
@@ -86,7 +122,7 @@ describe UserTransitionService do
       )
     end
 
-    it 'returns all users for a user with the :assign permission' do
+    it 'returns all users for a user with the :assign permission excluding system,maintenance categories' do
       permission = Permission.new(
         resource: Permission::CASE, actions: [Permission::ASSIGN]
       )
@@ -100,7 +136,7 @@ describe UserTransitionService do
       expect(users.map(&:user_name)).to match_array(%w[user2 user3 user4])
     end
 
-    it 'shoreturnsws only users in the agency for a user with the :assign_within_agency permission' do
+    it 'returns only users in the agency for a user with the :assign_within_agency permission' do
       permission = Permission.new(
         resource: Permission::CASE, actions: [Permission::ASSIGN_WITHIN_AGENCY]
       )
@@ -196,9 +232,13 @@ describe UserTransitionService do
       @user7.save(validate: false)
       @user8 = User.new(user_name: 'user8', role: role_receive, agency: agency2)
       @user8.save(validate: false)
+      @user9 = User.new(user_name: 'user9', agency: agency2, role: @role_system)
+      @user9.save(validate: false)
+      @user10 = User.new(user_name: 'user10', agency: agency2, role: @role_maintenance)
+      @user10.save(validate: false)
     end
 
-    it 'returns all users that can be referred to based on permission and module CP' do
+    it 'returns all users that can be referred based on permission and module excluding system,maintenance categories' do
       users = UserTransitionService.referral(@user1, Child, @cp.unique_id).transition_users
       expect(users.map(&:user_name)).to match_array(%w[user2 user3 user6 user7 user8])
     end
@@ -252,9 +292,13 @@ describe UserTransitionService do
       @user3.save(validate: false)
       @user4 = User.new(user_name: 'user4', role: role_cannot)
       @user4.save(validate: false)
+      @user5 = User.new(user_name: 'user5', role: @role_system)
+      @user5.save(validate: false)
+      @user6 = User.new(user_name: 'user6', role: @role_maintenance)
+      @user6.save(validate: false)
     end
 
-    it 'returns all users that can be referred to based on permission' do
+    it 'returns all users that can be referred to based on permission excluding system,maintenance categories' do
       users = UserTransitionService.transfer(@user1, Child, @cp.unique_id).transition_users
       expect(users.map(&:user_name)).to match_array(%w[user2 user3])
     end
