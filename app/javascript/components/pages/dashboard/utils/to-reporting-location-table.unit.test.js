@@ -98,7 +98,7 @@ describe("toReportingLocationTable - pages/dashboard/utils/", () => {
 
     expect(converted).toEqual(expected);
   });
-  
+
   describe("dashboardTableData", () => {
     it("should return data for table", () => {
       const optionsByIndex = { CODE1: "My District", code2: "My District 2" };
