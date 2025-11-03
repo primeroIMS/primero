@@ -18,7 +18,8 @@ const ALLOWED_FILTER_KEYS = [
   "workflow",
   "referred_cases",
   "my_cases",
-  "type_of_risk"
+  "type_of_risk",
+  "loc:owned_by_location2"
 ];
 const ALLOWED_LIST_HEADER_KEYS = [
   "priority",
@@ -38,7 +39,8 @@ const ALLOWED_DASHBOARD_KEYS = [
   "dashboard.case_overview",
   "dashboard.dash_group_overview",
   "dashboard.workflow_team",
-  "dashboard.cases_by_social_worker"
+  "dashboard.cases_by_social_worker",
+  "dashboard.reporting_locations"
 ];
 const ALLOWED_NAVIGATION_KEYS = ["navigation.cases"];
 const ALLOWED_ACTION_BUTTON_KEYS = ["case.skip_and_create"];
@@ -94,10 +96,12 @@ function useSystemStrings(feature) {
 
   return {
     label: (key, fallbackI18nKey, options = {}) => {
+      const fallback = options.noTranslateFallback ? fallbackI18nKey : i18n.t(fallbackI18nKey || key, options);
+
       if (feature) {
         const systemOrDefaultFieldLabel = fieldLabels.getIn(
           [key, i18n.locale],
-          i18n.t(fallbackI18nKey || key, options)
+          options.noTranslateFallback ? fallbackI18nKey : i18n.t(fallbackI18nKey || key, options)
         );
         const allowedKeys = selectAllowedFeatureKeys(feature);
 
@@ -119,10 +123,10 @@ function useSystemStrings(feature) {
           return systemOrDefaultFieldLabel;
         }
 
-        return i18n.t(fallbackI18nKey || key, options);
+        return fallback;
       }
 
-      return i18n.t(fallbackI18nKey || key, options);
+      return fallback;
     }
   };
 }
