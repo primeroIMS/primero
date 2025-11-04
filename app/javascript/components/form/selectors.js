@@ -527,6 +527,14 @@ const ageRanges = createCachedSelector(
     )
 )(defaultCacheSelectorOptions);
 
+const usersIdentified = createCachedSelector(
+  state => state.getIn(["forms", "options", "users", "identified"], fromJS([])),
+  users =>
+    users.reduce((acc, user) => {
+      return acc.concat({ id: user.get("user_name"), display_text: user.get("full_name") });
+    }, [])
+)(defaultCacheSelectorOptions);
+
 export const getOptions = source => {
   switch (source) {
     case OPTION_TYPES.AGENCY:
@@ -573,6 +581,8 @@ export const getOptions = source => {
       return linkedIncidents;
     case OPTION_TYPES.AGE_RANGES:
       return ageRanges;
+    case OPTION_TYPES.USER_IDENTIFIED:
+      return usersIdentified;
     default:
       return lookupValues;
   }

@@ -410,6 +410,11 @@ export const getLookups = (state, page = 1, per = 20) => {
   return fromJS({});
 };
 
+export const getIdentifiedUser = (state, username) =>
+  state
+    .getIn([NAMESPACE, "options", "users", "identified"], fromJS([]))
+    .find(user => user.get("user_name") === username);
+
 export const getLocations = state => state.getIn([NAMESPACE, "options", "locations"], fromJS([]));
 
 export const getLoadingState = state => state.getIn([NAMESPACE, "loading"], false);

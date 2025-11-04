@@ -289,6 +289,16 @@ class User < ApplicationRecord
         stream['unique_id'] == unique_id
       end
     end
+
+    def search_identified_by_name(query)
+      identified_users = enabled.where(user_category: Permission::IDENTIFIED)
+      return identified_users unless query.present?
+
+      identified_users.where(
+        'user_name ILIKE :value OR full_name ILIKE :value',
+        value: "%#{ActiveRecord::Base.sanitize_sql_like(query)}%"
+      )
+    end
   end
 
   def initialize(attributes = nil, &)

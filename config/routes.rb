@@ -115,6 +115,7 @@ Rails.application.routes.draw do
           get :'transfer-to', to: 'users_transitions#transfer_to'
           get :'refer-to', to: 'users_transitions#refer_to'
           get :access, to: 'users_access#access'
+          get :identified, to: 'users_identified#index'
           post :'password-reset-request', to: 'password_reset#password_reset_request'
           post :'password-reset', to: 'password_reset#password_reset'
           post :'self-register', to: 'self_register#create'

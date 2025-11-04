@@ -45,7 +45,7 @@ class PermittedFieldService
     alert_count assigned_user_names created_at created_by created_by_agency owned_by owned_by_agency_id
     owned_by_text owned_by_agency_office previous_agency previously_owned_by reassigned_tranferred_on reopened_logs
     last_updated_at last_updated_by owned_by_groups previously_owned_by_agency created_organization
-    consent_for_services disclosure_other_orgs case_type assign
+    consent_for_services disclosure_other_orgs case_type assign identified_by
   ].freeze
 
   PERMITTED_DASHBOARD_FILTERS = {
@@ -74,7 +74,8 @@ class PermittedFieldService
     Permission::LINK_FAMILY_RECORD => {
       'family_id' => { 'type' => %w[string null], 'format' => 'regex', 'pattern' => UUID_REGEX },
       'family_member_id' => { 'type' => %w[string null], 'format' => 'regex', 'pattern' => UUID_REGEX }
-    }
+    },
+    Permission::ATTRIBUTE => { 'identified_by' => { 'type' => 'string' } }
   }.freeze
 
   # TODO: Add more validation. Enums?
@@ -179,6 +180,7 @@ class PermittedFieldService
   def permitted_fields_schema(update = false)
     schema = update ? PERMITTED_CORE_FIELDS_SCHEMA.except('id') : PERMITTED_CORE_FIELDS_SCHEMA.dup
     schema = core_schema_for_identified_scope(update) if identified_scope?
+    # TODO: Should this method permit actions for superusers who have MANAGE permission?
     permitted_actions =
       PERMITTED_FIELDS_FOR_ACTION_SCHEMA.keys.select { |a| user.role.permits?(model_class.parent_form, a) }
     schema = schema.merge(PERMITTED_FIELDS_FOR_ACTION_SCHEMA.slice(*permitted_actions).values.reduce({}, :merge))

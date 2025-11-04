@@ -20,6 +20,7 @@ describe("Verifying config constant", () => {
       "ASSIGN_WITHIN_AGENCY",
       "ASSIGN_WITHIN_USER_GROUP",
       "ASSIGN",
+      "ATTRIBUTE",
       "CASE_FROM_FAMILY",
       "CASE_MANAGEMENT_KPIS_REPORT",
       "CHANGE_LOG",

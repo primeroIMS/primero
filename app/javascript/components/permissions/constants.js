@@ -21,6 +21,7 @@ export const ACTIONS = {
   COPY: "copy",
   CREATE: "create",
   CREATE_CASE_FROM_REFERRAL: "create_case_from_referral",
+  ATTRIBUTE: "attribute",
   DASH_APPROVALS_ACTION_PLAN_PENDING: "approvals_action_plan_pending",
   DASH_APPROVALS_ACTION_PLAN: "approvals_action_plan",
   DASH_APPROVALS_ASSESSMENT_PENDING: "approvals_assessment_pending",
