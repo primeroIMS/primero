@@ -15,7 +15,7 @@ describe("<Dashboard /> - index", () => {
       "reducer",
       "selectFlags",
       "selectIsOpenPageActions",
-      "fetchDashboards",
+      "fetchDashboardsByName",
       "DASHBOARD_NAMES"
     ].forEach(property => {
       expect(indexValues).toHaveProperty(property);
