@@ -124,4 +124,4 @@ export const signOut = () => {
   }
 };
 
-export { getIDPToken };
+export { getIDPToken, msalApp };

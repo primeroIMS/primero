@@ -116,6 +116,7 @@ describe IdpToken do
   describe '.unique_id' do
     let(:token_with_nonce) { IdpToken.new.tap { |t| t.payload = { 'nonce' => 'nonce' } } }
     let(:token_with_jti_nonce) { IdpToken.new.tap { |t| t.payload = { 'nonce' => 'nonce', 'jti' => 'jti' } } }
+    let(:token_without_ids) { IdpToken.new }
 
     it 'uses the nonce when the jti claim is blank' do
       expect(token_with_nonce.unique_id).to eq('nonce')
@@ -123,6 +124,10 @@ describe IdpToken do
 
     it 'uses the jti when present' do
       expect(token_with_jti_nonce.unique_id).to eq('jti')
+    end
+
+    it 'returns nil when neither jti nor nonce are present' do
+      expect(token_without_ids.unique_id).to be_nil
     end
   end
 
@@ -133,6 +138,21 @@ describe IdpToken do
     it "creates an associated session with this token's unique id as the session_id" do
       token.activate!
       expect(token.session.session_id) == token.unique_id
+    end
+  end
+
+  describe '.session' do
+    before(:each) { allow(IdentityProvider).to receive(:jwks).and_return(@jwks) }
+    let(:token) { IdpToken.build(@valid_token) }
+    let(:invalid_token) { IdpToken.build(nil) }
+
+    it 'returns the session associated with the token' do
+      token.activate!
+      expect(token.session).to be_present
+    end
+
+    it 'returns nil if no session is associated with the token' do
+      expect(invalid_token.session).to be_nil
     end
   end
 
