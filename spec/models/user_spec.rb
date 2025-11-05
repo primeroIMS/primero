@@ -1452,56 +1452,6 @@ describe User do
       )
     end
   end
-  describe '#owned_record?' do
-    before :each do
-      clean_data(User, Agency, Role, Child, Incident)
-      agency = create(:agency)
-      role = create(:role)
-      @user = create(:user, user_name: 'test_owner', agency:, role:)
-    end
-
-    context 'when user has no owned records' do
-      it 'returns false' do
-        expect(@user.owned_record?).to be false
-      end
-    end
-
-    context 'when user owns a case' do
-      it 'returns true' do
-        record = Child.create!(data: { owned_by: @user.user_name, name: 'Test Child' })
-        record.srch_owned_by = @user.user_name
-        record.save!
-        expect(@user.owned_record?).to be true
-      end
-    end
-
-    context 'when user identified a case' do
-      it 'returns true' do
-        record = Child.create!(data: { owned_by: 'another_user', name: 'Test Child' })
-        record.srch_identified_by = @user.user_name
-        record.save!
-        expect(@user.owned_record?).to be true
-      end
-    end
-
-    context 'when user owns an incident' do
-      it 'returns true' do
-        record = Incident.create!(srch_owned_by: @user.user_name, data: { description: 'Test Incident' })
-        record.srch_owned_by = @user.user_name
-        record.save!
-        expect(@user.owned_record?).to be true
-      end
-    end
-
-    context 'when another user owns records' do
-      it 'returns false' do
-        Child.create!(srch_owned_by: 'a2nother_user', data: { name: 'Test Child' })
-        Incident.create!(srch_owned_by: @user.user_name, data: { owned_by: 'another_user', description: 'Test Incident' })
-        expect(@user.owned_record?).to be false
-      end
-    end
-  end
-
   describe '.delete_unverified_older_than' do
     before :each do
       clean_data(User, Agency, Role, Child, Incident)
@@ -1530,24 +1480,6 @@ describe User do
 
         expect { User.delete_unverified_older_than(30) }.to change(User, :count).by(-1)
         expect(User.exists?(old_unverified.id)).to be false
-      end
-
-      it 'does not delete unverified users with owned records' do
-        old_unverified_with_records = create(
-          :user,
-          user_name: 'old_unverified_with_records',
-          agency: @agency,
-          role: @role,
-          unverified: true,
-          updated_at: 35.days.ago
-        )
-
-        record = Child.create!(srch_owned_by: old_unverified_with_records.user_name, data: { name: 'Test Child' })
-        record.srch_owned_by = old_unverified_with_records.user_name
-        record.save!
-
-        expect { User.delete_unverified_older_than(30) }.not_to change(User, :count)
-        expect(User.exists?(old_unverified_with_records.id)).to be true
       end
     end
 
@@ -1580,10 +1512,6 @@ describe User do
           )
         end
 
-        record = Child.create!(srch_owned_by: 'old_unverified_1', data: { owned_by: 'old_unverified_1', name: 'Test1' })
-        record.srch_owned_by = 'old_unverified_1'
-        record.save!
-
         create(
           :user,
           user_name: 'recent_unverified',
@@ -1593,7 +1521,7 @@ describe User do
           updated_at: 20.days.ago
         )
 
-        expect { User.delete_unverified_older_than(30) }.to change(User, :count).by(-2)
+        expect { User.delete_unverified_older_than(30) }.to change(User, :count).by(-3)
       end
     end
   end

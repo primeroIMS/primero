@@ -702,20 +702,12 @@ class User < ApplicationRecord
     incident_admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
   end
 
-  def owned_record?
-    # TODO: This will need to be updated to verify other record types and referrals
-    Child.where(srch_owned_by: user_name)
-         .or(Child.where(srch_identified_by: user_name))
-         .exists? | Incident.where(srch_owned_by: user_name).exists?
-  end
-
   def self.delete_unverified_older_than(retention_days = 30)
     cutoff_date = Time.zone.now - retention_days.days
 
     User.where('unverified = ? AND updated_at < ?', true, cutoff_date).find_in_batches(batch_size: 100) do |users|
       users.each do |user|
-        next if user.owned_record?
-
+        # NOTE: We are assuming that unverified users will never be associated with any record.
         Rails.logger.info "Deleting unverified User:[#{user.user_name}]"
         user.destroy!
       end
