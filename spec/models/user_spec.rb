@@ -8,7 +8,7 @@ describe User do
   before :all do
     clean_data(
       Alert, Location, AuditLog, User, Agency, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup,
-      Child, Incident, TracingRequest
+      Child, Incident
     )
   end
 
@@ -1452,8 +1452,9 @@ describe User do
       )
     end
   end
-  describe '#any_owned_record?' do
+  describe '#owned_record?' do
     before :each do
+      clean_data(User, Agency, Role, Child, Incident)
       agency = create(:agency)
       role = create(:role)
       @user = create(:user, user_name: 'test_owner', agency:, role:)
@@ -1461,42 +1462,49 @@ describe User do
 
     context 'when user has no owned records' do
       it 'returns false' do
-        expect(@user.any_owned_record?).to be false
+        expect(@user.owned_record?).to be false
       end
     end
 
     context 'when user owns a case' do
       it 'returns true' do
-        Child.create!(data: { owned_by: @user.user_name, name: 'Test Child' })
-        expect(@user.any_owned_record?).to be true
+        record = Child.create!(data: { owned_by: @user.user_name, name: 'Test Child' })
+        record.srch_owned_by = @user.user_name
+        record.save!
+        expect(@user.owned_record?).to be true
+      end
+    end
+
+    context 'when user identified a case' do
+      it 'returns true' do
+        record = Child.create!(data: { owned_by: 'another_user', name: 'Test Child' })
+        record.srch_identified_by = @user.user_name
+        record.save!
+        expect(@user.owned_record?).to be true
       end
     end
 
     context 'when user owns an incident' do
       it 'returns true' do
-        Incident.create!(data: { owned_by: @user.user_name, description: 'Test Incident' })
-        expect(@user.any_owned_record?).to be true
-      end
-    end
-
-    context 'when user owns a tracing request' do
-      it 'returns true' do
-        TracingRequest.create!(data: { owned_by: @user.user_name, relation_name: 'Test Tracing' })
-        expect(@user.any_owned_record?).to be true
+        record = Incident.create!(srch_owned_by: @user.user_name, data: { description: 'Test Incident' })
+        record.srch_owned_by = @user.user_name
+        record.save!
+        expect(@user.owned_record?).to be true
       end
     end
 
     context 'when another user owns records' do
       it 'returns false' do
-        Child.create!(data: { owned_by: 'another_user', name: 'Test Child' })
-        Incident.create!(data: { owned_by: 'another_user', description: 'Test Incident' })
-        expect(@user.any_owned_record?).to be false
+        Child.create!(srch_owned_by: 'a2nother_user', data: { name: 'Test Child' })
+        Incident.create!(srch_owned_by: @user.user_name, data: { owned_by: 'another_user', description: 'Test Incident' })
+        expect(@user.owned_record?).to be false
       end
     end
   end
 
   describe '.delete_unverified_older_than' do
     before :each do
+      clean_data(User, Agency, Role, Child, Incident)
       @agency = create(:agency)
       @role = create(:role)
     end
@@ -1517,7 +1525,7 @@ describe User do
           agency: @agency,
           role: @role,
           unverified: true,
-          created_at: 35.days.ago
+          updated_at: 35.days.ago
         )
 
         expect { User.delete_unverified_older_than(30) }.to change(User, :count).by(-1)
@@ -1531,9 +1539,12 @@ describe User do
           agency: @agency,
           role: @role,
           unverified: true,
-          created_at: 35.days.ago
+          updated_at: 35.days.ago
         )
-        Child.create!(data: { owned_by: old_unverified_with_records.user_name, name: 'Test Child' })
+
+        record = Child.create!(srch_owned_by: old_unverified_with_records.user_name, data: { name: 'Test Child' })
+        record.srch_owned_by = old_unverified_with_records.user_name
+        record.save!
 
         expect { User.delete_unverified_older_than(30) }.not_to change(User, :count)
         expect(User.exists?(old_unverified_with_records.id)).to be true
@@ -1548,7 +1559,7 @@ describe User do
           agency: @agency,
           role: @role,
           unverified: true,
-          created_at: 20.days.ago
+          updated_at: 20.days.ago
         )
 
         expect { User.delete_unverified_older_than(30) }.not_to change(User, :count)
@@ -1565,20 +1576,21 @@ describe User do
             agency: @agency,
             role: @role,
             unverified: true,
-            created_at: 35.days.ago
+            updated_at: (30 + i).days.ago
           )
         end
 
-        Child.create!(data: { owned_by: 'old_unverified_1', name: 'Test Child' })
+        record = Child.create!(srch_owned_by: 'old_unverified_1', data: { owned_by: 'old_unverified_1', name: 'Test1' })
+        record.srch_owned_by = 'old_unverified_1'
+        record.save!
 
-        # Create recent unverified user
         create(
           :user,
           user_name: 'recent_unverified',
           agency: @agency,
           role: @role,
           unverified: true,
-          created_at: 20.days.ago
+          updated_at: 20.days.ago
         )
 
         expect { User.delete_unverified_older_than(30) }.to change(User, :count).by(-2)
@@ -1589,7 +1601,7 @@ describe User do
   after do
     clean_data(
       Alert, Location, AuditLog, User, Agency, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup,
-      Child, Incident, TracingRequest
+      Child, Incident
     )
   end
 end

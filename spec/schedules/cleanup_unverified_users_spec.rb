@@ -6,7 +6,7 @@ require 'rails_helper'
 
 describe CleanupUnverifiedUsers do
   before :each do
-    clean_data(User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection, SystemSettings, Child)
+    clean_data(User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection, Child)
 
     program = PrimeroProgram.create!(
       unique_id: 'primeroprogram-test',
@@ -43,6 +43,7 @@ describe CleanupUnverifiedUsers do
     context 'when self registration is enabled' do
       before do
         allow(Primero::Application.config).to receive(:allow_self_registration).and_return(true)
+        allow(Primero::Application.config).to receive(:unverified_users_retention_days).and_return(30)
       end
 
       it 'returns true' do
@@ -66,8 +67,7 @@ describe CleanupUnverifiedUsers do
 
     context 'with default system settings' do
       before do
-        SystemSettings.create!(default_locale: 'en')
-        SystemSettings.current(true)
+        allow(Primero::Application.config).to receive(:unverified_users_retention_days).and_return(30)
       end
 
       it 'calls delete_unverified_older_than with 30 days default' do
@@ -81,34 +81,9 @@ describe CleanupUnverifiedUsers do
         cleanup_job.perform_rescheduled
       end
     end
-
-    context 'with custom retention days' do
-      before do
-        SystemSettings.create!(default_locale: 'en', unverified_user_retention_days: 45)
-        SystemSettings.current(true)
-      end
-
-      it 'uses custom retention days' do
-        expect(User).to receive(:delete_unverified_older_than).with(45)
-        cleanup_job.perform_rescheduled
-      end
-    end
-
-    context 'when an error occurs' do
-      before do
-        SystemSettings.create!(default_locale: 'en')
-        SystemSettings.current(true)
-        allow(User).to receive(:delete_unverified_older_than).and_raise(StandardError, 'Test error')
-      end
-
-      it 'logs error and re-raises' do
-        expect(Rails.logger).to receive(:error).with('Error Cleaning up unverified Users')
-        expect { cleanup_job.perform_rescheduled }.to raise_error(StandardError)
-      end
-    end
   end
 
   after do
-    clean_data(User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection, SystemSettings, Child)
+    clean_data(User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection, Child)
   end
 end

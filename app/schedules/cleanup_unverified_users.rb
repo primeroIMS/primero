@@ -23,6 +23,6 @@ class CleanupUnverifiedUsers < PeriodicJob
   private
 
   def fetch_retention_days
-    SystemSettings.current&.unverified_user_retention_days || 30
+    Rails.configuration.unverified_users_retention_days || 30
   end
 end

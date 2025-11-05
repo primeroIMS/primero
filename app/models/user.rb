@@ -702,25 +702,19 @@ class User < ApplicationRecord
     incident_admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
   end
 
-  def any_owned_record?
-    user_name = ActiveRecord::Base.connection.quote(self.user_name)
-    sql = <<~SQL
-      SELECT
-        (EXISTS (SELECT 1 FROM cases WHERE data->>'owned_by' = #{user_name}))
-        OR (EXISTS (SELECT 1 FROM incidents WHERE data->>'owned_by' = #{user_name}))
-        OR (EXISTS (SELECT 1 FROM families WHERE data->>'owned_by' = #{user_name}))
-        OR (EXISTS (SELECT 1 FROM tracing_requests WHERE data->>'owned_by' = #{user_name}))
-        OR (EXISTS (SELECT 1 FROM registry_records WHERE data->>'owned_by' = #{user_name})) AS any_match
-    SQL
-
-    ['t', true].include?(ActiveRecord::Base.connection.select_value(sql))
+  def owned_record?
+    # TODO: This will need to be updated to verify other record types and referrals
+    Child.where(srch_owned_by: user_name)
+         .or(Child.where(srch_identified_by: user_name))
+         .exists? | Incident.where(srch_owned_by: user_name).exists?
   end
 
   def self.delete_unverified_older_than(retention_days = 30)
     cutoff_date = Time.zone.now - retention_days.days
-    User.where('unverified = ? AND created_at < ?', true, cutoff_date).find_in_batches(batch_size: 100) do |users|
+
+    User.where('unverified = ? AND updated_at < ?', true, cutoff_date).find_in_batches(batch_size: 100) do |users|
       users.each do |user|
-        next if user.any_owned_record?
+        next if user.owned_record?
 
         Rails.logger.info "Deleting unverified User:[#{user.user_name}]"
         user.destroy!
