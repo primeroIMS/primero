@@ -63,7 +63,7 @@ describe Api::V2::SelfRegisterController, type: :request do
       expect(response).to have_http_status(201)
     end
 
-    it 'returns 422 if user_nameor email is not unique' do
+    it 'returns 422 if user_name or email is not unique' do
       Primero::Application.config.allow_self_registration = true
       post '/api/v2/users/self-register', params: { user: @params }, as: :json
       post '/api/v2/users/self-register', params: { user: @params }, as: :json
