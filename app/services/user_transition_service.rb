@@ -57,7 +57,8 @@ class UserTransitionService
 
   def users_for_transition
     users = User.includes(:agency, :role).joins(role: :primero_modules)
-    users = users.where(disabled: false).where.not(id: transitioned_by_user.id)
+    # NOTE: The app cannot transition a case to an unverified user
+    users = users.where(unverified: false, disabled: false).where.not(id: transitioned_by_user.id)
     users.where(roles: { user_category: nil }).or(
       users.where.not(roles: { user_category: [Role::CATEGORY_MAINTENANCE, Role::CATEGORY_SYSTEM] })
     )

@@ -8,7 +8,7 @@ class Api::V2::UsersIdentifiedController < ApplicationApiController
 
   def index
     authorize!(:attribute, Child)
-    @users = User.search_identified_by_name(permitted_params[:query])
+    @users = User.search_record_identifiers_by_name(permitted_params[:query])
     @total = @users.size
     @users = @users.paginate(pagination) if pagination?
     render 'api/v2/users/users_identified'

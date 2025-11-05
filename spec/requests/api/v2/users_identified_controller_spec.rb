@@ -64,17 +64,27 @@ describe Api::V2::UsersIdentifiedController, type: :request do
     user3.save(validate: false)
   end
 
+  let(:user4) do
+    user4 = User.new(
+      user_name: 'user4', full_name: 'User 4 Full Name', email: 'user4@email.com', disabled: false, unverified: true,
+      role: attribute_role, agency: agency1, user_groups: [group1]
+    )
+    user4.save(validate: false)
+  end
+
+
   before do
     clean_data(UserGroup, User, Agency, Role, PrimeroModule, PrimeroProgram)
     user1
     user2
     user3
+    user4
   end
 
   let(:json) { JSON.parse(response.body) }
 
   describe 'GET /api/v2/users/identified' do
-    it 'lists the enabled users with the identified user_category' do
+    it 'lists the enabled and verified users with the identified user_category' do
       login_for_test(
         permissions: [
           Permission.new(resource: Permission::CASE, actions: [Permission::ATTRIBUTE])

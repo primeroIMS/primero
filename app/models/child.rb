@@ -423,7 +423,7 @@ class Child < ApplicationRecord
   def update_identified
     return unless identified_by.present? && changes_to_save_for_record.key?('identified_by')
 
-    identified_by_user = User.find_identified_by_user_name(identified_by)
+    identified_by_user = User.find_record_identifier_by_user_name(identified_by)
     raise invalid_identified_by_user if identified_by_user.blank?
 
     self.identified_by = identified_by_user.user_name

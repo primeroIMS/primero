@@ -101,6 +101,8 @@ describe UserTransitionService do
       @user7.save(validate: false)
       @user8 = User.new(user_name: 'user8', user_groups: [@group3], agency: @agency2, role: @role_maintenance)
       @user8.save(validate: false)
+      @user9 = User.new(user_name: 'user9', user_groups: [@group3], agency: @agency2, role: @role, unverified: true)
+      @user9.save(validate: false)
 
       role = create(
         :role,
@@ -122,7 +124,7 @@ describe UserTransitionService do
       )
     end
 
-    it 'returns all users for a user with the :assign permission excluding system,maintenance categories' do
+    it 'returns verified users for a user with the :assign permission excluding system,maintenance categories' do
       permission = Permission.new(
         resource: Permission::CASE, actions: [Permission::ASSIGN]
       )
@@ -136,7 +138,7 @@ describe UserTransitionService do
       expect(users.map(&:user_name)).to match_array(%w[user2 user3 user4])
     end
 
-    it 'returns only users in the agency for a user with the :assign_within_agency permission' do
+    it 'returns verified users in the agency for a user with the :assign_within_agency permission' do
       permission = Permission.new(
         resource: Permission::CASE, actions: [Permission::ASSIGN_WITHIN_AGENCY]
       )
@@ -149,7 +151,7 @@ describe UserTransitionService do
       expect(users.map(&:user_name)).to match_array(%w[user2 user3])
     end
 
-    it 'returns only users in the user groups for a user with the :assign_within_user_group permission' do
+    it 'returns verified users in the user groups for a user with the :assign_within_user_group permission' do
       permission = Permission.new(
         resource: Permission::CASE, actions: [Permission::ASSIGN_WITHIN_USER_GROUP]
       )
@@ -236,14 +238,16 @@ describe UserTransitionService do
       @user9.save(validate: false)
       @user10 = User.new(user_name: 'user10', agency: agency2, role: @role_maintenance)
       @user10.save(validate: false)
+      @user11 = User.new(user_name: 'user11', role: role_receive, agency: agency2, unverified: true)
+      @user11.save(validate: false)
     end
 
-    it 'returns all users that can be referred based on permission and module excluding system,maintenance categories' do
+    it 'returns verified users to refer based on permission and module excluding system,maintenance categories' do
       users = UserTransitionService.referral(@user1, Child, @cp.unique_id).transition_users
       expect(users.map(&:user_name)).to match_array(%w[user2 user3 user6 user7 user8])
     end
 
-    it 'returns all users that can be referred to based on permission and module OTHER' do
+    it 'returns verified users to refer to based on permission and module OTHER' do
       users = UserTransitionService.referral(@user1, Child, @other.unique_id).transition_users
       expect(users.map(&:user_name)).to match_array(%w[user5 user6])
     end
@@ -296,9 +300,11 @@ describe UserTransitionService do
       @user5.save(validate: false)
       @user6 = User.new(user_name: 'user6', role: @role_maintenance)
       @user6.save(validate: false)
+      @user7 = User.new(user_name: 'user7', role: role_receive, unverified: true)
+      @user7.save(validate: false)
     end
 
-    it 'returns all users that can be referred to based on permission excluding system,maintenance categories' do
+    it 'returns verified users to transfer based on permission excluding system,maintenance categories' do
       users = UserTransitionService.transfer(@user1, Child, @cp.unique_id).transition_users
       expect(users.map(&:user_name)).to match_array(%w[user2 user3])
     end

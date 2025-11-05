@@ -97,8 +97,6 @@ class User < ApplicationRecord
     )
   end)
 
-  scope :with_identified_category, -> { joins(:role).where(role: { user_category: Role::CATEGORY_IDENTIFIED }) }
-
   alias_attribute :organization, :agency
   alias_attribute :name, :user_name
 
@@ -293,17 +291,22 @@ class User < ApplicationRecord
       end
     end
 
-    def search_identified_by_name(query)
-      return enabled.with_identified_category unless query.present?
+    def search_record_identifiers_by_name(query)
+      return record_identifiers unless query.present?
 
-      enabled.with_identified_category.where(
+      record_identifiers.where(
         'user_name ILIKE :value OR full_name ILIKE :value',
         value: "%#{ActiveRecord::Base.sanitize_sql_like(query)}%"
       )
     end
 
-    def find_identified_by_user_name(user_name)
-      with_identified_category.find_by(user_name:)
+    def find_record_identifier_by_user_name(user_name)
+      record_identifiers.find_by(user_name:)
+    end
+
+    def record_identifiers
+      # NOTE: The app cannot attribute a case to an unverified user
+      joins(:role).enabled.where(unverified: false, role: { user_category: Role::CATEGORY_IDENTIFIED })
     end
   end
 
