@@ -13,6 +13,7 @@ class Api::V2::SelfRegisterController < Api::V2::RecordResourceController
     @user = User.create_self_registration_user(self_register_params)
     return unless @user.save!
 
+    @user.send_welcome_email
     render json: {}, status: :created
   end
 
