@@ -7,7 +7,8 @@ require 'rails_helper'
 describe User do
   before :all do
     clean_data(
-      Alert, Location, AuditLog, User, Agency, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup
+      Alert, Location, AuditLog, User, Agency, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup,
+      Child, Incident
     )
   end
 
@@ -1451,8 +1452,84 @@ describe User do
       )
     end
   end
+  describe '.delete_unverified_older_than' do
+    before :each do
+      clean_data(User, Agency, Role, Child, Incident)
+      @agency = create(:agency)
+      @role = create(:role)
+    end
+
+    context 'when there are no unverified users' do
+      it 'does not delete any users' do
+        create(:user, user_name: 'verified_user', agency: @agency, role: @role, unverified: false)
+
+        expect { User.delete_unverified_older_than(30) }.not_to change(User, :count)
+      end
+    end
+
+    context 'when there are unverified users older than retention period' do
+      it 'deletes unverified users without owned records' do
+        old_unverified = create(
+          :user,
+          user_name: 'old_unverified',
+          agency: @agency,
+          role: @role,
+          unverified: true,
+          updated_at: 35.days.ago
+        )
+
+        expect { User.delete_unverified_older_than(30) }.to change(User, :count).by(-1)
+        expect(User.exists?(old_unverified.id)).to be false
+      end
+    end
+
+    context 'when there are unverified users within retention period' do
+      it 'does not delete recent unverified users' do
+        recent_unverified = create(
+          :user,
+          user_name: 'recent_unverified',
+          agency: @agency,
+          role: @role,
+          unverified: true,
+          updated_at: 20.days.ago
+        )
+
+        expect { User.delete_unverified_older_than(30) }.not_to change(User, :count)
+        expect(User.exists?(recent_unverified.id)).to be true
+      end
+    end
+
+    context 'with multiple unverified users' do
+      it 'deletes only eligible users in batches' do
+        3.times do |i|
+          create(
+            :user,
+            user_name: "old_unverified_#{i}",
+            agency: @agency,
+            role: @role,
+            unverified: true,
+            updated_at: (30 + i).days.ago
+          )
+        end
+
+        create(
+          :user,
+          user_name: 'recent_unverified',
+          agency: @agency,
+          role: @role,
+          unverified: true,
+          updated_at: 20.days.ago
+        )
+
+        expect { User.delete_unverified_older_than(30) }.to change(User, :count).by(-3)
+      end
+    end
+  end
 
   after do
-    clean_data(Alert, User, Agency, Role, FormSection, Field)
+    clean_data(
+      Alert, Location, AuditLog, User, Agency, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup,
+      Child, Incident
+    )
   end
 end
