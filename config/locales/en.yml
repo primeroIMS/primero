@@ -4928,6 +4928,8 @@ en:
     position: Position
     provider_username_help: 'Example: my.username@%{domain}'
     role_id: Role
+    duplicate: Is this user the second account of an individual who needs multiple accounts in the system because of Primero’s role limitations?
+    self_registered: Did this user get created through one of our self-registration flows?
     send_mail: Receive email notifications?
     send_mail_preferences:
       label: Which types of email notifications would you like to receive?

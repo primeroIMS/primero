@@ -66,6 +66,7 @@ describe Api::V2::ChildrenController, type: :request do
       name: 'Role Identified',
       unique_id: 'test-role-identified',
       group_permission: Permission::IDENTIFIED,
+      user_category: Role::CATEGORY_IDENTIFIED,
       permissions: [
         Permission.new(
           resource: Permission::CASE,
@@ -80,7 +81,6 @@ describe Api::V2::ChildrenController, type: :request do
       password: 'a12345632',
       password_confirmation: 'a12345632',
       email: 'identified_user2@localhost.com',
-      user_category: Permission::IDENTIFIED,
       agency_id: @agency.id,
       role: @role_identified
     )
@@ -886,7 +886,11 @@ describe Api::V2::ChildrenController, type: :request do
 
     context 'when a user has Permission::IDENTIFIED scope' do
       it 'creates a new identified record with status 200' do
-        login_for_test(user_name: 'identified_user2', group_permission: Permission::IDENTIFIED)
+        login_for_test(
+          user_name: 'identified_user2',
+          user_category: Role::CATEGORY_IDENTIFIED,
+          group_permission: Permission::IDENTIFIED
+        )
 
         params = { data: { name: 'New Identified Case', sex: 'male', age: 15 } }
         post '/api/v2/cases', params:, as: :json
@@ -900,7 +904,11 @@ describe Api::V2::ChildrenController, type: :request do
       end
 
       it 'returns 422 if an identified case already exists for a user' do
-        login_for_test(user_name: 'identified_user', group_permission: Permission::IDENTIFIED)
+        login_for_test(
+          user_name: 'identified_user',
+          user_category: Role::CATEGORY_IDENTIFIED,
+          group_permission: Permission::IDENTIFIED
+        )
 
         params = { data: { name: 'Existing Identified Case', sex: 'male', age: 12 } }
         post '/api/v2/cases', params:, as: :json

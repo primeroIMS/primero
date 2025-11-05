@@ -206,6 +206,18 @@ const sharedUserFields = (
     required: true
   },
   {
+    display_name: i18n.t("user.self_registered"),
+    name: FIELD_NAMES.SELF_REGISTERED,
+    type: TICK_FIELD,
+    editable: false
+  },
+  {
+    display_name: i18n.t("user.duplicate"),
+    name: FIELD_NAMES.DUPLICATE,
+    type: TICK_FIELD,
+    editable: false
+  },
+  {
     display_name: i18n.t("user.disabled"),
     name: FIELD_NAMES.DISABLED,
     type: TICK_FIELD,

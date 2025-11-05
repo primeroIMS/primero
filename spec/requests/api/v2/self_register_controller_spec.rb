@@ -65,6 +65,7 @@ describe Api::V2::SelfRegisterController, type: :request do
       end.to have_enqueued_job(UserMailJob).on_queue('mailer')
 
       expect(response).to have_http_status(201)
+      expect(User.find_by(user_name: 'test_user_1').self_registered).to eq(true)
     end
 
     it 'returns 422 if user_name or email is not unique' do

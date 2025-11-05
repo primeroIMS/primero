@@ -69,6 +69,8 @@ export const FIELD_NAMES = Object.freeze({
   POSITION: "position",
   LOCATION: "location",
   DISABLED: "disabled",
+  DUPLICATE: "duplicate",
+  SELF_REGISTERED: "self_registered",
   SEND_MAIL: "send_mail",
   SEND_MAIL_APPROVAL_REQUEST: "settings.notifications.send_mail.approval_request",
   SEND_MAIL_APPROVAL_RESPONSE: "settings.notifications.send_mail.approval_response",

@@ -29,6 +29,7 @@ describe Api::V2::UsersIdentifiedController, type: :request do
       permissions: [
         Permission.new(resource: Permission::CASE, actions: [Permission::ATTRIBUTE])
       ],
+      user_category: Role::CATEGORY_IDENTIFIED,
       primero_modules: [primero_module]
     )
     role.save(validate: false)
@@ -42,7 +43,7 @@ describe Api::V2::UsersIdentifiedController, type: :request do
   let(:user1) do
     user1 = User.new(
       user_name: 'user1', disabled: false, role: attribute_role, agency: agency1, user_groups: [group1],
-      full_name: 'User 1 Full Name', email: 'user1@email.com', user_category: 'identified'
+      full_name: 'User 1 Full Name', email: 'user1@email.com'
     )
     user1.save(validate: false)
   end
@@ -50,7 +51,7 @@ describe Api::V2::UsersIdentifiedController, type: :request do
   let(:user2) do
     user2 = User.new(
       user_name: 'user2', disabled: false, role: attribute_role, agency: agency1, user_groups: [group1],
-      full_name: 'User 2 Full Name', email: 'user2@email.com', user_category: 'identified'
+      full_name: 'User 2 Full Name', email: 'user2@email.com'
     )
     user2.save(validate: false)
   end
@@ -58,7 +59,7 @@ describe Api::V2::UsersIdentifiedController, type: :request do
   let(:user3) do
     user3 = User.new(
       user_name: 'user3', disabled: true, role: attribute_role, agency: agency1, user_groups: [group1],
-      full_name: 'User 3 Full Name', email: 'user3@email.com', user_category: 'identified'
+      full_name: 'User 3 Full Name', email: 'user3@email.com'
     )
     user3.save(validate: false)
   end
