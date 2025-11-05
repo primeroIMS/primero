@@ -33,6 +33,17 @@ describe Api::V2::TransfersController, type: :request do
       group_permission: Permission::GROUP
     )
     @role_accept_or_reject.save(validate: false)
+
+    @system_role = Role.new(
+      permissions: [@permission_transfer_case], modules: [@primero_module], user_category: Role::CATEGORY_SYSTEM
+    )
+    @system_role.save(validate: false)
+
+    @maintenance_role = Role.new(
+      permissions: [@permission_transfer_case], modules: [@primero_module], user_category: Role::CATEGORY_MAINTENANCE
+    )
+    @maintenance_role.save(validate: false)
+
     @group1 = UserGroup.create!(name: 'Group1')
     @user1 = User.new(user_name: 'user1', role: @role, user_groups: [@group1])
     @user1.save(validate: false)
@@ -41,6 +52,10 @@ describe Api::V2::TransfersController, type: :request do
     @user2.save(validate: false)
     @user3 = User.new(user_name: 'user3', role: @role_accept_or_reject, user_groups: [@group2])
     @user3.save(validate: false)
+    @user4 = User.new(user_name: 'user4', role: @system_role, user_groups: [@group1])
+    @user4.save(validate: false)
+    @user5 = User.new(user_name: 'user5', role: @maintenance_role, user_groups: [@group2])
+    @user5.save(validate: false)
     @case = Child.create(
       data: {
         name: 'Test', owned_by: 'user1',
@@ -124,6 +139,8 @@ describe Api::V2::TransfersController, type: :request do
 
       expect(audit_params['action']).to eq('transfer')
     end
+
+    
 
     it "get a forbidden message if the user doesn't have transfer permission" do
       login_for_test

@@ -84,6 +84,16 @@ describe Api::V2::ChildrenController, type: :request do
       agency_id: @agency.id,
       role: @role_identified
     )
+    @identified_user3 = User.create!(
+      full_name: 'Identified User 3',
+      user_name: 'identified_user3',
+      password: 'a12345632',
+      password_confirmation: 'a12345632',
+      email: 'identified_user3@localhost.com',
+      unverified: true,
+      agency_id: @agency.id,
+      role: @role_identified
+    )
     @user = User.create!(
       full_name: 'Test User 2',
       user_name: 'test_user_2',
@@ -1521,6 +1531,23 @@ describe Api::V2::ChildrenController, type: :request do
         )
 
         params = { data: { identified_by: 'test_user_2' }, record_action: Permission::ATTRIBUTE }
+        patch "/api/v2/cases/#{@identified_case.id}", params:, as: :json
+
+        expect(response).to have_http_status(422)
+        expect(json['errors'].size).to eq(1)
+        expect(json['errors'][0]['detail']).to eq(%w[identified_by])
+        expect(json['errors'][0]['message']).to eq('errors.models.child.identified_by_exists')
+        expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@identified_case.id}")
+      end
+
+      it 'returns 422 if the user is not verified' do
+        login_for_test(
+          permissions: [
+            Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::ATTRIBUTE])
+          ]
+        )
+
+        params = { data: { identified_by: 'identified_user3' }, record_action: Permission::ATTRIBUTE }
         patch "/api/v2/cases/#{@identified_case.id}", params:, as: :json
 
         expect(response).to have_http_status(422)
