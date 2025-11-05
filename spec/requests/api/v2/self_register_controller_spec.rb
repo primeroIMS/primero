@@ -47,7 +47,6 @@ describe Api::V2::SelfRegisterController, type: :request do
 
     @params = {
       full_name: 'Test User 1',
-      user_name: 'test_user_1',
       email: 'test_user_1@localhost.com',
       locale: 'en',
       data_processing_consent_provided: true,
@@ -64,7 +63,7 @@ describe Api::V2::SelfRegisterController, type: :request do
       expect(response).to have_http_status(201)
     end
 
-    it 'returns 422 if user_name or email is not unique' do
+    it 'returns 422 if user_nameor email is not unique' do
       Primero::Application.config.allow_self_registration = true
       post '/api/v2/users/self-register', params: { user: @params }, as: :json
       post '/api/v2/users/self-register', params: { user: @params }, as: :json
@@ -79,7 +78,7 @@ describe Api::V2::SelfRegisterController, type: :request do
 
     it 'returns 422 if params are missing' do
       Primero::Application.config.allow_self_registration = true
-      post '/api/v2/users/self-register', params: { user: @params.except(:user_name) }, as: :json
+      post '/api/v2/users/self-register', params: { user: @params.except(:email) }, as: :json
       expect(json['errors'][0]['resource']).to eq('/api/v2/users/self-register')
       expect(json['errors'][0]['detail']).to eq('user_name')
       expect(json['errors'][0]['message']).to eq(["can't be blank", 'errors.models.user.user_name'])

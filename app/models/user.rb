@@ -269,7 +269,8 @@ class User < ApplicationRecord
         params.except(:data_processing_consent_provided).merge(
           role_unique_id: stream['role'],
           user_group_unique_ids: stream['user_groups'],
-          unverified: true
+          unverified: true,
+          user_name: params[:email]
         )
       )
     end

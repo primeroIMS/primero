@@ -5004,6 +5004,7 @@ en:
     locale: Preferred Language
     title: Register
     save: Register
+    user_name_help_text: This will also be your user name
     success:
       return_button: Return to login
       header: Please verify your email
