@@ -31,6 +31,8 @@ Rails.application.configure do
   config.allow_self_registration = ActiveRecord::Type::Boolean.new.cast(ENV.fetch('PRIMERO_ALLOW_SELF_REGISTRATION',
                                                                                   false))
 
+  config.unverified_users_retention_days = ENV.fetch('PRIMERO_UNVERIFIED_USERS_RETENTION_DAYS', 30).to_i
+
   config.disposable_email_checker_enabled =
     ActiveRecord::Type::Boolean.new.cast(ENV.fetch('PRIMERO_DISPOSABLE_EMAIL_CHECKER_ENABLED',
                                                    false))

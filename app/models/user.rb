@@ -282,6 +282,7 @@ class User < ApplicationRecord
       user = build_self_registration_user(params, stream)
       user.data_processing_consent_provided_on = DateTime.now if params[:data_processing_consent_provided]
       user.agency = Agency.find_by(unique_id: stream['agency'])
+      user.self_registered = true
       user
     end
 
@@ -289,6 +290,24 @@ class User < ApplicationRecord
       SystemSettings.current&.registration_streams&.find do |stream|
         stream['unique_id'] == unique_id
       end
+    end
+
+    def search_record_identifiers_by_name(query)
+      return record_identifiers unless query.present?
+
+      record_identifiers.where(
+        'user_name ILIKE :value OR full_name ILIKE :value',
+        value: "%#{ActiveRecord::Base.sanitize_sql_like(query)}%"
+      )
+    end
+
+    def find_record_identifier_by_user_name(user_name)
+      record_identifiers.find_by(user_name:)
+    end
+
+    def record_identifiers
+      # NOTE: The app cannot attribute a case to an unverified user
+      joins(:role).enabled.where(unverified: false, role: { user_category: Role::CATEGORY_IDENTIFIED })
     end
   end
 
@@ -701,6 +720,18 @@ class User < ApplicationRecord
     incident_admin_level = role.incident_reporting_location_config&.admin_level
 
     incident_admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
+  end
+
+  def self.delete_unverified_older_than(retention_days = 30)
+    cutoff_date = Time.zone.now - retention_days.days
+
+    User.where('unverified = ? AND updated_at < ?', true, cutoff_date).find_in_batches(batch_size: 100) do |users|
+      users.each do |user|
+        # NOTE: We are assuming that unverified users will never be associated with any record.
+        Rails.logger.info "Deleting unverified User:[#{user.user_name}]"
+        user.destroy!
+      end
+    end
   end
 
   private

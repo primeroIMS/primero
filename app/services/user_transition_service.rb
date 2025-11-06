@@ -46,15 +46,22 @@ class UserTransitionService
   def transition_users(filters = {})
     return User.none unless model.present?
 
-    users = User.includes(:agency, :role).where(disabled: false).where.not(id: transitioned_by_user.id)
+    return with_assign_scope(with_view_record_permission(users_for_transition)) if transition == Assign.name
 
-    return with_assign_scope(with_view_record_permission(users)) if transition == Assign.name
-
-    apply_filters(with_receive_permission(users), filters)
+    apply_filters(with_receive_permission(users_for_transition), filters)
   end
 
   def can_receive?(transitioned_to_user)
     transition_users.pluck(:user_name).include?(transitioned_to_user.user_name)
+  end
+
+  def users_for_transition
+    users = User.includes(:agency, :role).joins(role: :primero_modules)
+    # NOTE: The app cannot transition a case to an unverified user
+    users = users.where(unverified: false, disabled: false).where.not(id: transitioned_by_user.id)
+    users.where(roles: { user_category: nil }).or(
+      users.where.not(roles: { user_category: [Role::CATEGORY_MAINTENANCE, Role::CATEGORY_SYSTEM] })
+    )
   end
 
   private
@@ -89,7 +96,7 @@ class UserTransitionService
   def with_receive_permission(users)
     receive_permission = RECEIVE_PERMISSIONS[transition][:receive]
 
-    users = users.joins(role: :primero_modules).where(
+    users = users.where(
       'roles.permissions -> :resource ? :permission',
       resource: model&.parent_form,
       permission: receive_permission

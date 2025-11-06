@@ -71,6 +71,7 @@ en:
     services_from_case_creation_success: Service Provision record successfully created.
     services_section_from_case: Add Service Provision
     mark_for_offline: Mark for Offline
+    attribute: Attribute
   agencies:
     label: Agency
     translations:
@@ -381,6 +382,15 @@ en:
     enable_dialog_title: Enable Case
     enable_success: Successfully enabled case
     export: Export
+    attribute:
+      name: Name
+      email: Email
+      success: Attribute updated successfully
+      title: Attribute
+      text: Select the user who identified this case. If your system allows for self-registration,
+        this user will be able to access the case as “My Case” when they login to the system.
+      confirm_title: Attribute Confirmation
+      confirm_text: Are you sure you want to attribute this case to the user with the following details?
     mark_for_offline:
       title: Mark for Offline
       text: Are you sure you want to mark these Cases for use when you are offline?
@@ -1012,6 +1022,7 @@ en:
         age: Age must be between 0 and 130
         date_of_birth: Please enter a valid date of birth for this case record
         identified_by_unique: An identified record already exists for this user
+        identified_by_exists: Invalid user. User does not exist
       export_configuration:
         opt_out_field_does_not_exist: Specified opt_out field does not exist on the
           record.
@@ -3413,6 +3424,11 @@ en:
           update_case_relationships:
             explanation: Allows a user updating their Case to search for another, existing Case and link it to their Case. Also allows users to un-link this second Case from their Case.
             label: Link/Unlink Case to another Case
+          attribute:
+            explanation: Select the user who identified the case. For some systems, this may simply be the user who first
+              initiated the beneficiary’s path into case management. In other systems which allow for self-registration,
+              this user may be the beneficiary themselves.
+            label: Attribute
         explanation: Represents an individual child, survivor, or other beneficiary.
         label: Case
       dashboard:
@@ -4516,6 +4532,7 @@ en:
     record_history_separator: Record History
     last_updated_at: Last Updated At
     last_updated_by: Last Updated By
+    identified_by: Identified By
   record_panel:
     record_information: Record Information
   referral:
@@ -4911,6 +4928,8 @@ en:
     position: Position
     provider_username_help: 'Example: my.username@%{domain}'
     role_id: Role
+    duplicate: Is this user the second account of an individual who needs multiple accounts in the system because of Primero’s role limitations?
+    self_registered: Did this user get created through one of our self-registration flows?
     send_mail: Receive email notifications?
     send_mail_preferences:
       label: Which types of email notifications would you like to receive?
