@@ -36,7 +36,7 @@ export const form = ({ i18n, registrationStreamsConsentText, stream }) => {
         FieldRecord({
           display_name: i18n.t("self_registration.locale"),
           name: "locale",
-          type: i18n.applicationLocales.length > 1 ? SELECT_FIELD : HIDDEN_FIELD,
+          type: i18n.applicationLocales?.length > 1 ? SELECT_FIELD : HIDDEN_FIELD,
           option_strings_text: i18n.applicationLocales,
           required: false
         }),
