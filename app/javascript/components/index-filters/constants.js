@@ -55,7 +55,7 @@ export const PRIMARY_FILTERS = ["sex", "gender", "age", "risk_level", "approval_
 
 export const DEFAULT_FILTERS = ["fields", "status", "record_state", ID_SEARCH];
 
-export const OR_FIELDS = ["owned_by", "assigned_user_names"];
+export const OR_FIELDS = ["owned_by", "assigned_user_names", "assign"];
 
 export const MY_CASES_FILTER_NAME = "my_cases";
 
