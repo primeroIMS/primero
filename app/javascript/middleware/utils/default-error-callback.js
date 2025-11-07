@@ -13,7 +13,7 @@ function getMessageKey(isAttachmentError, fromQueue, jsonErrors, id) {
   return jsonErrors?.map(err => err.message).at(0) || "errors.api.internal_server";
 }
 
-function getMessageParams(isAttachmentError, fromAttachment, fromQueue, id, recordType) {
+function getMessageParams(isAttachmentError, fromAttachment, fromQueue, id) {
   if (isAttachmentError && fromAttachment?.field_name) {
     return { record_type: fromAttachment?.record_type };
   }
@@ -43,7 +43,7 @@ export default ({
 }) => {
   const isAttachmentError = !!(fromQueue && fromAttachment);
   const jsonErrors = json?.errors || null;
-  const messageParams = getMessageParams(isAttachmentError, fromAttachment, fromQueue, id, recordType);
+  const messageParams = getMessageParams(isAttachmentError, fromAttachment, fromQueue, id);
 
   const errorPayload = [
     {
