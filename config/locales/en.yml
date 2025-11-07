@@ -2359,6 +2359,8 @@ en:
         unverified_violations_by_perpetrator: Unverified Information - Violations by Perpetrator
         unverified_violations_by_region: Unverified Information - Violations by Region
         late_verification_violations: Late Verification - Violations
+        late_verification_violations_by_region: Late Verification - Violations by Region
+        late_verification_violations_by_perpetrator: Late Verification - Violations by Perpetrator
         unverified_information_violations: Unverified Information - Violations
         killing: Killing of Children
         maiming: Maiming of Children

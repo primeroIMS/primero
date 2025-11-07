@@ -17,6 +17,8 @@ class ManagedReports::SubReports::GhnReport < ManagedReports::SubReport
       ManagedReports::Indicators::VerifiedViolationsByRegion,
       ManagedReports::Indicators::LateVerification,
       ManagedReports::Indicators::LateVerificationViolations,
+      ManagedReports::Indicators::LateVerificationViolationsByPerpetrator,
+      ManagedReports::Indicators::LateVerificationViolationsByRegion,
       ManagedReports::Indicators::UnverifiedInformation,
       ManagedReports::Indicators::UnverifiedInformationViolations,
       ManagedReports::Indicators::UnverifiedViolationsByPerpetrator,
@@ -30,6 +32,9 @@ class ManagedReports::SubReports::GhnReport < ManagedReports::SubReport
     {
       ManagedReports::Indicators::VerifiedViolationsByPerpetrator.id => 'lookup-armed-force-group-or-other-party',
       ManagedReports::Indicators::MultipleViolations.id => %w[lookup-gender-unknown-total lookup-violation-type],
+      ManagedReports::Indicators::LateVerificationViolationsByPerpetrator.id =>
+      'lookup-armed-force-group-or-other-party',
+      ManagedReports::Indicators::LateVerificationViolationsByRegion.id => 'Location',
       ManagedReports::Indicators::VerifiedViolationsByRegion.id => 'Location',
       ManagedReports::Indicators::UnverifiedViolationsByPerpetrator.id => 'lookup-armed-force-group-or-other-party',
       ManagedReports::Indicators::UnverifiedViolationsByRegion.id => 'Location'
@@ -40,6 +45,8 @@ class ManagedReports::SubReports::GhnReport < ManagedReports::SubReport
     {
       ManagedReports::Indicators::VerifiedViolationsByPerpetrator.id => 'lookup-violation-type',
       ManagedReports::Indicators::VerifiedViolationsByRegion.id => 'lookup-violation-type',
+      ManagedReports::Indicators::LateVerificationViolationsByPerpetrator.id => 'lookup-violation-type',
+      ManagedReports::Indicators::LateVerificationViolationsByRegion.id => 'lookup-violation-type',
       ManagedReports::Indicators::UnverifiedViolationsByPerpetrator.id => 'lookup-violation-type',
       ManagedReports::Indicators::UnverifiedViolationsByRegion.id => 'lookup-violation-type'
     }
