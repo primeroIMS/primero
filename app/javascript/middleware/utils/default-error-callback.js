@@ -10,7 +10,7 @@ function getMessageKey(isAttachmentError, fromQueue, jsonErrors, id) {
   if (isAttachmentError) return "sync.error.attachment";
   if (fromQueue) return `sync.error.${id ? "update" : "create"}`;
 
-  return jsonErrors?.map(err => err.message).at(0) || "errors.api.internal_server";
+  return jsonErrors?.at(0)?.message || "errors.api.internal_server";
 }
 
 function getMessageParams(isAttachmentError, fromAttachment, fromQueue, id) {
