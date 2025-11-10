@@ -2381,7 +2381,7 @@ en:
         unknown: Unknown
         associated_violations: Associated Violations
         deprivation_liberty: Deprivation of Liberty
-        group_multiple_violations: Group victims affected by multiple violations.
+        group_multiple_violations: Group victims affected by multiple violations
     violations:
       name: Violations
       description: ''
