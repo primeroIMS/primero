@@ -13,11 +13,11 @@ describe ManagedReports::SubReports::GhnReport do
 
   it 'return an Array of instance' do
     expect(ghn_report.indicators).to be_an_instance_of(Array)
-    expect(ghn_report.indicators.size).to eq(11)
+    expect(ghn_report.indicators.size).to eq(13)
   end
 
   it 'return a Hash of Lookups' do
     expect(ghn_report.lookups).to be_an_instance_of(Hash)
-    expect(ghn_report.lookups.size).to eq(5)
+    expect(ghn_report.lookups.size).to eq(7)
   end
 end
