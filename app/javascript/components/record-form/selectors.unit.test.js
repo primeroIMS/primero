@@ -1236,7 +1236,7 @@ describe("<RecordForm /> - Selectors", () => {
           fromJS({
             user: {
               permissions: {
-                cases: [ACTIONS.CHANGE_LOG]
+                cases: [ACTIONS.CHANGE_LOG, ACTIONS.REFERRAL]
               }
             }
           }),
@@ -1256,6 +1256,11 @@ describe("<RecordForm /> - Selectors", () => {
       const result = selectors
         .getRecordInformationNav(
           fromJS({
+            user: {
+              permissions: {
+                cases: [ACTIONS.READ]
+              }
+            },
             records: {
               cases: {
                 data: [{ id: "001", permitted_form_actions: { case: [ACTIONS.CHANGE_LOG] } }],
@@ -1272,7 +1277,7 @@ describe("<RecordForm /> - Selectors", () => {
         .toList()
         .sort();
 
-      expect(result).toEqual(fromJS([CHANGE_LOGS, RECORD_OWNER, REFERRAL, TRANSFERS_ASSIGNMENTS]));
+      expect(result).toEqual(fromJS([CHANGE_LOGS, RECORD_OWNER, TRANSFERS_ASSIGNMENTS]));
     });
   });
 
