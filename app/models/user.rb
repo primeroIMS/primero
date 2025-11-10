@@ -656,6 +656,12 @@ class User < ApplicationRecord
     update!(terms_of_use_accepted_on: DateTime.now)
   end
 
+  def agency_terms_of_use_changed?
+    return false if terms_of_use_accepted_on.nil? || agency&.terms_of_use_uploaded_at.nil?
+
+    terms_of_use_accepted_on < agency.terms_of_use_uploaded_at
+  end
+
   private
 
   def set_locale

@@ -31,5 +31,4 @@ export const getPathToRedirect = ({
   }
 
   return null;
-
 };

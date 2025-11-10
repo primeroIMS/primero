@@ -128,7 +128,7 @@ const rootReducer = {
     transferApprovalReducer,
     revokeModalReducer
   ),
-  user: reduceReducers(initialState, userReducer, accountReducer, codesOfConductReducer),
+  user: reduceReducers(initialState, userReducer, accountReducer, codesOfConductReducer, termsOfUseReducer),
   ui: combineReducers({
     ...navReducer,
     ...i18nReducer,
@@ -141,8 +141,7 @@ const rootReducer = {
   ...notifierReducer,
   ...applicationReducer,
   ...loginReducer,
-  ...connectivityReducer,
-  ...termsOfUseReducer
+  ...connectivityReducer
 };
 
 export default rootReducer;

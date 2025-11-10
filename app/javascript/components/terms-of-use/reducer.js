@@ -13,7 +13,10 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
     case actions.ACCEPT_TERMS_OF_USE_SUCCESS: {
       const { data } = payload;
 
-      return state.set("updatingTermsOfUse", false).set("termsOfUseAcceptedOn", data?.terms_of_use_accepted_on);
+      return state
+        .set("updatingTermsOfUse", false)
+        .set("termsOfUseAcceptedOn", data?.terms_of_use_accepted_on)
+        .set("agencyTermsOfUseChanged", data?.agency_terms_of_use_changed);
     }
     case actions.ACCEPT_TERMS_OF_USE_FAILURE:
       return state.set("updatingTermsOfUse", false);
