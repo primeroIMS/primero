@@ -134,6 +134,11 @@ describe ManagedReports::Indicators::AbductionReasons do
     incident4.save!
     incident5 = Incident.new_with_user(@all_user, { incident_date: Date.new(2022, 3, 28), status: 'open' })
     incident5.save!
+    incident6 = Incident.new_with_user(
+      @self_user,
+      { incident_date: Date.new(2020, 8, 8), status: 'closed', module_id: PrimeroModule::MRM }.with_indifferent_access
+    )
+    incident6.save!
 
     Violation.create!(
       data: {
@@ -165,6 +170,14 @@ describe ManagedReports::Indicators::AbductionReasons do
         abduction_purpose_single: 'extortion'
       },
       incident_id: incident5.id
+    )
+    Violation.create!(
+      data: {
+        type: 'abduction',
+        violation_tally: { 'boys' => 2, 'girls' => 1, 'unknown' => 1, 'total' => 4 },
+        abduction_purpose_single: 'extortion'
+      },
+      incident_id: incident6.id
     )
   end
 

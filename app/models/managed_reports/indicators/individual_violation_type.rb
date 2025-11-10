@@ -24,7 +24,8 @@ class ManagedReports::Indicators::IndividualViolationType < ManagedReports::SqlR
         from
         violations violations
         inner join incidents incidents
-        on incidents.id = violations.incident_id
+          on incidents.id = violations.incident_id
+          AND incidents.srch_status = 'open'
         inner join individual_victims_violations on violations.id = individual_victims_violations.violation_id
         inner join individual_victims on individual_victims.id = individual_victims_violations.individual_victim_id
         #{user_scope_query(current_user, 'incidents')&.prepend('and ')}

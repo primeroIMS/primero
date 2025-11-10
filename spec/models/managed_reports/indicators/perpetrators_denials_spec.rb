@@ -43,6 +43,8 @@ describe ManagedReports::Indicators::PerpetratorsDenials do
     incident2.save!
     incident3 = Incident.new_with_user(fake_user, { incident_date: Date.new(2022, 2, 18), status: 'open' })
     incident3.save!
+    incident4 = Incident.new_with_user(fake_user, { incident_date: Date.new(2022, 2, 21), status: 'closed' })
+    incident4.save!
 
     violation2 = Violation.create!(
       data: { type: 'denial_humanitarian_access', attack_type: 'aerial_attack' }, incident_id: incident2.id
@@ -56,6 +58,11 @@ describe ManagedReports::Indicators::PerpetratorsDenials do
       data: { type: 'denial_humanitarian_access', attack_type: 'arson' }, incident_id: incident3.id
     )
     violation4.perpetrators = [Perpetrator.create!(data: { armed_force_group_party_name: 'armed_force_4' })]
+
+    violation5 = Violation.create!(
+      data: { type: 'denial_humanitarian_access', attack_type: 'arson' }, incident_id: incident4.id
+    )
+    violation5.perpetrators = [Perpetrator.create!(data: { armed_force_group_party_name: 'armed_force_1' })]
   end
 
   it 'returns data for perpetrators indicator' do

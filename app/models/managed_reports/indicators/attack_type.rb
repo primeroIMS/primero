@@ -31,6 +31,7 @@ class ManagedReports::Indicators::AttackType < ManagedReports::SqlReportIndicato
           FROM violations violations
           INNER JOIN incidents incidents
           ON incidents.id = violations.incident_id
+          AND incidents.srch_status = 'open'
           #{user_scope_query(current_user, 'incidents')&.prepend('AND ')}
           CROSS JOIN JSONB_EACH_TEXT((violations."data"->'violation_tally'))
           WHERE violations."data"->>'weapon_type' IS NOT NULL

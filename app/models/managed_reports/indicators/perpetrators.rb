@@ -29,6 +29,7 @@ class ManagedReports::Indicators::Perpetrators < ManagedReports::SqlReportIndica
           cross join json_each_text((violations."data"->>'violation_tally')::JSON)
           inner join incidents incidents
             on incidents.id = violations.incident_id
+            AND incidents.srch_status = 'open'
             #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
           where
           p.data->>'armed_force_group_party_name' is not null

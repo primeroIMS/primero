@@ -24,6 +24,7 @@ class ManagedReports::Indicators::MilitaryUse < ManagedReports::SqlReportIndicat
         from violations violations
         inner join incidents incidents
           on incidents.id = violations.incident_id
+          AND incidents.srch_status = 'open'
           #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
         where "violations"."data" ->>'military_use_type' is not null
             #{date_range_query(params['incident_date'], 'incidents')&.prepend('and ')}

@@ -27,6 +27,7 @@ class ManagedReports::Indicators::AbductionReasons < ManagedReports::SqlReportIn
           from violations violations
           inner join incidents incidents
             on incidents.id = violations.incident_id
+            and incidents.srch_status = 'open'
             #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
           cross join json_each_text((violations."data"->>'violation_tally')::JSON)
           WHERE violations."data"->>'abduction_purpose_single' is not null

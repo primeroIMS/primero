@@ -25,7 +25,9 @@ class ManagedReports::Indicators::MultipleViolations < ManagedReports::SqlReport
           ) AS data
         FROM
           violations violations
-          INNER JOIN incidents incidents ON incidents.id = violations.incident_id
+          INNER JOIN incidents incidents
+            ON incidents.id = violations.incident_id
+            AND incidents.srch_status = 'open'
           INNER JOIN individual_victims_violations ON individual_victims_violations.violation_id = violations.id
           INNER JOIN individual_victims ON individual_victims.id = individual_victims_violations.individual_victim_id
         WHERE individual_victims.data @? '$[*] ? (@.individual_multiple_violations == true)'

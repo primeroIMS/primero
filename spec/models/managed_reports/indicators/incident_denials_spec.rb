@@ -32,6 +32,8 @@ describe ManagedReports::Indicators::IncidentDenials do
     incident4.save!
     incident5 = Incident.new_with_user(@all_user, { incident_date: Date.new(2022, 3, 28), status: 'open' })
     incident5.save!
+    incident6 = Incident.new_with_user(@self_user, { incident_date: Date.new(2022, 3, 29), status: 'closed' })
+    incident6.save!
 
     Violation.create!(
       data: { type: 'denial_humanitarian_access', denial_method: ['restrictions_of_beneficiaries_access'] },
@@ -56,6 +58,11 @@ describe ManagedReports::Indicators::IncidentDenials do
     Violation.create!(
       data: { type: 'maiming', violation_tally: { 'boys' => 2, 'girls' => 3, 'unknown' => 2, 'total' => 7 } },
       incident_id: incident5.id
+    )
+
+    Violation.create!(
+      data: { type: 'maiming', violation_tally: { 'boys' => 2, 'girls' => 0, 'unknown' => 2, 'total' => 4 } },
+      incident_id: incident6.id
     )
   end
 

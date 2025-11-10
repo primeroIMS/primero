@@ -71,6 +71,32 @@ describe ManagedReports::Indicators::VerifiedViolationsByPerpetrator do
       }.with_indifferent_access
     )
     incident0.save!
+
+    incident1 = Incident.new_with_user(
+      managed_report_user,
+      {
+        incident_date: Date.new(2022, 4, 18),
+        date_of_first_report: Date.new(2022, 4, 15),
+        status: 'closed',
+        module_id: PrimeroModule::MRM,
+        attack_on_schools: [
+          {
+            unique_id: '13c77d2c-be57-11f0-b9eb-7c10c98b54af',
+            ctfmr_verified: 'verified',
+            ctfmr_verified_date: Date.new(2022, 4, 23),
+            violation_tally: { boys: 1, girls: 0, unknown: 2, total: 3 }
+          }
+        ],
+        perpetrators: [
+          {
+            unique_id: '458356e2-be57-11f0-acb2-7c10c98b54af',
+            armed_force_group_party_name: 'armed_force_3',
+            violations_ids: %w[13c77d2c-be57-11f0-b9eb-7c10c98b54af]
+          }
+        ]
+      }.with_indifferent_access
+    )
+    incident1.save!
   end
 
   it 'return data for verified violations by perpetrator' do

@@ -29,6 +29,7 @@ class ManagedReports::Indicators::SexualViolenceType < ManagedReports::SqlReport
         cross join json_each_text((violations.data->>'violation_tally')::JSON)
         inner join incidents incidents
           on incidents.id = violations.incident_id
+          and incidents.srch_status = 'open'
           #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
         where violations.data->>'violation_tally' is not null
         and violations.data->>'sexual_violence_type' is not null

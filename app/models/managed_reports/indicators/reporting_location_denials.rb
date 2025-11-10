@@ -26,8 +26,8 @@ class ManagedReports::Indicators::ReportingLocationDenials < ManagedReports::Sql
         count(violations.id) as sum
         from violations violations
         inner join incidents incidents on incidents.id = violations.incident_id
-        where
-        incidents.data->>'reporting_location_hierarchy' is not null
+        where incidents.data->>'reporting_location_hierarchy' is not null
+        AND incidents.srch_status = 'open'
         #{date_range_query(params['incident_date'], 'incidents')&.prepend('and ')}
         #{date_range_query(params['date_of_first_report'], 'incidents')&.prepend('and ')}
         #{date_range_query(params['ctfmr_verified_date'], 'violations')&.prepend('and ')}

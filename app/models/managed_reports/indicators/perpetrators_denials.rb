@@ -27,6 +27,7 @@ class ManagedReports::Indicators::PerpetratorsDenials < ManagedReports::SqlRepor
           inner join perpetrators p on p.id = pv.perpetrator_id
           inner join incidents incidents
             on incidents.id = violations.incident_id
+            AND incidents.srch_status = 'open'
             #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
           where
           p.data->>'armed_force_group_party_name' is not null

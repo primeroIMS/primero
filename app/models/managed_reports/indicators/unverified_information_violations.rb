@@ -20,6 +20,7 @@ class ManagedReports::Indicators::UnverifiedInformationViolations < ManagedRepor
         FROM
           violations violations
           INNER JOIN incidents incidents ON incidents.id = violations.incident_id
+          AND incidents.srch_status = 'open'
           #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
         WHERE
           (violations.data ->> 'type' = 'attack_on_hospitals'

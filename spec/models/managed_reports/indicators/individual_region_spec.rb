@@ -31,6 +31,15 @@ describe ManagedReports::Indicators::IndividualRegion do
       }
     )
 
+    incident2 = Incident.create!(
+      data: {
+        incident_date: Date.new(2021, 5, 28),
+        status: 'closed',
+        reporting_location_hierarchy: 'GUI.GUI002.GUI00201',
+        date_of_first_report: Date.new(2021, 5, 18)
+      }
+    )
+
     violation1 = Violation.create!(
       data: {
         type: 'attack_on_schools',
@@ -55,6 +64,16 @@ describe ManagedReports::Indicators::IndividualRegion do
 
     violation2.individual_victims = [
       IndividualVictim.create!(data: { individual_age: 10, individual_sex: 'unknown' }),
+      shared_victim
+    ]
+
+    violation3 = Violation.create!(
+      data: { type: 'attack_on_schools', violation_tally: { boys: 2, girls: 1, unknown: 2, total: 5 } },
+      incident_id: incident2.id
+    )
+
+    violation3.individual_victims = [
+      IndividualVictim.create!(data: { individual_age: 12, individual_sex: 'unknown' }),
       shared_victim
     ]
   end
