@@ -70,9 +70,34 @@ describe ManagedReports::Indicators::LateVerificationViolationsByPerpetrator do
       }.with_indifferent_access
     )
     incident0.save!
+
+    incident1 = Incident.new_with_user(
+      managed_report_user,
+      {
+        incident_date: Date.new(2022, 4, 23),
+        status: 'closed',
+        module_id: PrimeroModule::MRM,
+        killing: [
+          {
+            unique_id: '3b98ae80-be5b-11f0-906c-7c10c98b54af',
+            ctfmr_verified: 'verified',
+            ctfmr_verified_date: Date.new(2022, 8, 23),
+            violation_tally: { boys: 1, girls: 1, unknown: 6, total: 8 }
+          }
+        ],
+        perpetrators: [
+          {
+            unique_id: '4907045e-be5b-11f0-852a-7c10c98b54af',
+            armed_force_group_party_name: 'armed_force_3',
+            violations_ids: %w[3b98ae80-be5b-11f0-906c-7c10c98b54af]
+          }
+        ]
+      }.with_indifferent_access
+    )
+    incident1.save!
   end
 
-   it 'return data for late verified violations by perpetrator' do
+  it 'return data for late verified violations by perpetrator' do
     data = ManagedReports::Indicators::LateVerificationViolationsByPerpetrator.build(
       nil,
       {

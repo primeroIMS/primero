@@ -74,6 +74,25 @@ describe ManagedReports::Indicators::LateVerificationViolationsByRegion do
       }.with_indifferent_access
     )
     incident1.save!
+
+    incident2 = Incident.new_with_user(
+      managed_report_user,
+      {
+        incident_date: Date.new(2022, 4, 10),
+        status: 'closed',
+        module_id: PrimeroModule::MRM,
+        reporting_location_hierarchy: 'CT.CT02.CT022003.CT022003001',
+        attack_on_hospitals: [
+          {
+            unique_id: 'ee0b7fee-be5a-11f0-aa99-7c10c98b54af',
+            ctfmr_verified: 'verified',
+            ctfmr_verified_date: Date.new(2022, 10, 15),
+            violation_tally: { boys: 1, girls: 0, unknown: 2, total: 3 }
+          }
+        ]
+      }.with_indifferent_access
+    )
+    incident2.save!
   end
 
   it 'return data for late verified violations by region' do
