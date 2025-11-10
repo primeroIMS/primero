@@ -76,6 +76,26 @@ describe ManagedReports::Indicators::VerifiedViolationsByRegion do
       }.with_indifferent_access
     )
     incident1.save!
+
+    incident2 = Incident.new_with_user(
+      managed_report_user,
+      {
+        incident_date: Date.new(2022, 4, 18),
+        date_of_first_report: Date.new(2022, 4, 15),
+        status: 'closed',
+        module_id: PrimeroModule::MRM,
+        reporting_location_hierarchy: 'CT.CT02.CT022003.CT022003001',
+        killing: [
+          {
+            unique_id: '0e3deb24-be58-11f0-a953-7c10c98b54af',
+            ctfmr_verified: 'verified',
+            ctfmr_verified_date: Date.new(2022, 4, 20),
+            violation_tally: { boys: 1, girls: 1, unknown: 2, total: 4 }
+          }
+        ]
+      }.with_indifferent_access
+    )
+    incident2.save!
   end
 
   it 'return data for verified violations by region' do

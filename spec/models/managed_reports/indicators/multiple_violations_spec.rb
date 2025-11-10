@@ -103,6 +103,11 @@ describe ManagedReports::Indicators::MultipleViolations do
       @all_user, { incident_date: Date.new(2022, 3, 28), date_of_first_report: Date.new(2022, 3, 28), status: 'open' }
     )
     @incident4.save!
+    @incident5 = Incident.new_with_user(
+      @self_user,
+      { incident_date: Date.new(2022, 3, 30), date_of_first_report: Date.new(2022, 3, 30), status: 'closed' }
+    )
+    @incident5.save!
 
     violation1 = Violation.create!(
       data: {
@@ -151,6 +156,19 @@ describe ManagedReports::Indicators::MultipleViolations do
       IndividualVictim.create!(data: { individual_sex: 'male', individual_age: 12 }),
       IndividualVictim.create!(data: { individual_sex: 'unknown', individual_age: 3,
                                        individual_multiple_violations: true })
+    ]
+
+    violation5 = Violation.create!(
+      data: {
+        type: 'killing', attack_type: 'arson', ctfmr_verified: 'verified', ctfmr_verified_date: Date.new(2022, 3, 31)
+      },
+      incident_id: @incident5.id
+    )
+    violation5.individual_victims = [
+      IndividualVictim.create!(data: { individual_sex: 'male', individual_age: 18 }),
+      IndividualVictim.create!(
+        data: { individual_sex: 'unknown', individual_age: 8, individual_multiple_violations: true }
+      )
     ]
   end
 

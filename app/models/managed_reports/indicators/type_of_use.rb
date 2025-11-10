@@ -27,6 +27,7 @@ class ManagedReports::Indicators::TypeOfUse < ManagedReports::SqlReportIndicator
         from violations violations
         inner join incidents incidents
           on incidents.id = violations.incident_id
+          AND incidents.srch_status = 'open'
           #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
         cross join json_each_text((violations."data"->>'violation_tally')::JSON)
         where violations.data->>'violation_tally' is not null

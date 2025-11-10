@@ -161,6 +161,10 @@ describe ManagedReports::Indicators::ReportingLocation do
       { incident_date: Date.new(2022, 3, 28), status: 'open', incident_location: 'C2' }
     )
     incident4.save!
+    incident5 = Incident.new_with_user(
+      @all_user, { incident_date: Date.new(2022, 3, 29), status: 'closed', incident_location: 'C2' }
+    )
+    incident5.save!
 
     Violation.create!(data: { type: 'killing',
                               violation_tally: { 'boys' => 3, 'girls' => 2, 'unknown' => 0, 'total' => 5 } },
@@ -183,6 +187,9 @@ describe ManagedReports::Indicators::ReportingLocation do
     Violation.create!(data: { type: 'killing',
                               violation_tally: { 'boys' => 1, 'girls' => 2, 'unknown' => 1, 'total' => 4 } },
                       incident_id: incident4.id)
+    Violation.create!(data: { type: 'maiming',
+                              violation_tally: { 'boys' => 1, 'girls' => 1, 'unknown' => 1, 'total' => 3 } },
+                      incident_id: incident5.id)
   end
 
   describe 'has_late_verified_violations filter' do

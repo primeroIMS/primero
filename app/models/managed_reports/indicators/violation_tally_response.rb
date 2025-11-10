@@ -24,6 +24,7 @@ class ManagedReports::Indicators::ViolationTallyResponse < ManagedReports::SqlRe
         from violations violations
         inner join incidents incidents
           on incidents.id = violations.incident_id
+          AND incidents.srch_status = 'open'
         inner join responses responses
         on responses.violation_id = violations.id
           #{user_scope_query(current_user, 'incidents')&.prepend('and ')}

@@ -24,6 +24,7 @@ class ManagedReports::Indicators::IncidentDenials < ManagedReports::SqlReportInd
         from violations violations
         inner join incidents incidents
           on incidents.id = violations.incident_id
+          AND incidents.srch_status = 'open'
           #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
         where #{equal_value_query(params['type'], 'violations')}
         #{date_range_query(params['incident_date'], 'incidents')&.prepend('and ')}
