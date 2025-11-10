@@ -351,7 +351,8 @@ module Exporters
 
       context 'when forms name has special characters' do
         before do
-          clean_data(Alert, Field, FormSection, User, Role, PrimeroModule)
+          clean_data(Alert, Field, FormSection, User, Role, PrimeroModule, Lookup)
+          create(:lookup)
           form1 = FormSection.new(
             name: "Child's Details / Identity / Another / Word", parent_form: 'case', visible: true,
             order_form_group: 2, order: 0, order_subform: 0, form_group_id: 'form_group1',
@@ -460,6 +461,32 @@ module Exporters
             )
           end
         end
+      end
+    end
+
+    describe 'preload' do
+      before :each do
+        Referral.create!(
+          transitioned_by: @user.user_name, transitioned_to: @user_referral.user_name,
+          record: @records[0], consent_overridden: true
+        )
+      end
+      it 'preloads referrals for records' do
+        exporter = ExcelExporter.new(
+          nil,
+          { user: @user, record_type: 'Child' }
+        )
+
+        expect(exporter).to receive(:preload_referrals).with(@records).and_call_original
+
+        exporter.export(@records)
+        exporter.complete
+      end
+      it 'preloads agency names for records' do
+        exporter = ExcelExporter.new(nil, { user: @user, record_type: 'Child' })
+        expect(exporter).to receive(:preload_agency_names).with(@records).and_call_original
+        exporter.export(@records)
+        exporter.complete
       end
     end
 

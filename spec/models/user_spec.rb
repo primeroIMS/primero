@@ -1526,6 +1526,93 @@ describe User do
     end
   end
 
+  describe '#referred_record_ids' do
+    before :each do
+      clean_data(User, Role, Agency, Child, Referral)
+
+      @agency = Agency.create!(name: 'Test Agency', agency_code: 'test_agency', unique_id: 'agency_test_1')
+      role = create(:role)
+
+      @user1 = User.create!(
+        user_name: 'user1',
+        full_name: 'Test User 1',
+        password: 'password123',
+        password_confirmation: 'password123',
+        email: 'user1@example.com',
+        agency_id: @agency.id,
+        role_id: role.id
+      )
+
+      @user2 = User.create!(
+        user_name: 'user2',
+        full_name: 'Test User 2',
+        password: 'password123',
+        password_confirmation: 'password123',
+        email: 'user2@example.com',
+        agency_id: @agency.id,
+        role_id: role.id
+      )
+
+      @child1 = Child.create!(data: { name: 'Child 1', age: 10, sex: 'male',
+                                      consent_for_services: true,
+                                      disclosure_other_orgs: true })
+      @child2 = Child.create!(data: { name: 'Child 2', age: 12, sex: 'female',
+                                      consent_for_services: true,
+                                      disclosure_other_orgs: true })
+      @child3 = Child.create!(data: { name: 'Child 3', age: 8, sex: 'male',
+                                      consent_for_services: true,
+                                      disclosure_other_orgs: true })
+    end
+
+    it 'returns record_ids with active referrals to the user' do
+      Referral.create!(
+        record: @child1,
+        transitioned_to: @user1.user_name,
+        transitioned_by: @user2.user_name,
+        status: Transition::STATUS_INPROGRESS
+      )
+
+      Referral.create!(
+        record: @child2,
+        transitioned_to: @user1.user_name,
+        transitioned_by: @user2.user_name,
+        status: Transition::STATUS_ACCEPTED
+      )
+
+      Referral.create!(
+        record: @child1,
+        transitioned_to: @user1.user_name,
+        transitioned_by: @user2.user_name,
+        status: Transition::STATUS_REJECTED
+      )
+
+      Referral.create!(
+        record: @child1,
+        transitioned_to: @user2.user_name,
+        transitioned_by: @user1.user_name,
+        status: Transition::STATUS_INPROGRESS
+      )
+
+      record_ids = [@child1.id, @child2.id, @child3.id]
+      result = @user1.referred_record_ids(record_ids, 'Child')
+
+      expect(result).to match_array([@child1.id, @child2.id])
+    end
+
+    it 'returns empty array when no referrals exist' do
+      record_ids = [@child1.id, @child2.id]
+      result = @user1.referred_record_ids(record_ids, 'Child')
+
+      expect(result).to be_empty
+    end
+
+    it 'returns empty array when record_ids is empty' do
+      result = @user1.referred_record_ids([], 'Child')
+
+      expect(result).to be_empty
+    end
+  end
+
   after do
     clean_data(
       Alert, Location, AuditLog, User, Agency, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup,

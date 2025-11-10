@@ -684,6 +684,10 @@ class User < ApplicationRecord
     record.respond_to?(:referrals_to_user) && record.referrals_to_user(self).exists?
   end
 
+  def referred_record_ids(record_ids, record_type)
+    Set.new(Referral.active_for_user(user_name, record_ids, record_type).pluck(:record_id))
+  end
+
   def permitted_to_access_record?(record)
     return true if group_permission? Permission::ALL
     return agency_permits_access?(record) if group_permission? Permission::AGENCY
