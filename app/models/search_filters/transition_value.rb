@@ -23,4 +23,10 @@ class SearchFilters::TransitionValue < SearchFilters::Value
     )
   end
   # rubocop:enable Metrics/MethodLength
+
+  # Override to_s to use lowercase transition type for URL compatibility
+  # while keeping the capitalized field_name for database queries
+  def to_s
+    "#{field_name.downcase}=#{value}"
+  end
 end

@@ -15,11 +15,12 @@ module Indicators
     # scope_to_transferred: Records where the user is transferred.
     # scope_to_not_last_update: Records where the user was not last to update.
     # scope_to_transferred_groups: Records transferred to the user's user group.
+    # scope_to_assigned: Records where the user was assigned via transitions.
     # exclude_zeros: Do not include result with zeroes.
     # rubocop:enable Style/ClassAndModuleChildren
     attr_accessor :name, :record_model, :scope, :scope_to_owner, :scope_to_referred,
                   :scope_to_transferred, :scope_to_not_last_update, :scope_to_owned_by_groups,
-                  :scope_to_transferred_groups
+                  :scope_to_transferred_groups, :scope_to_assigned
 
     class << self
       def type
@@ -63,7 +64,8 @@ module Indicators
         with_scope_to_not_last_update(user) +
         with_scope_referred_to_users(user) +
         with_scope_transferred_to_users(user) +
-        with_scope_transferred_to_user_groups(user)
+        with_scope_transferred_to_user_groups(user) +
+        with_scope_to_assigned(user)
     end
 
     def with_scope_to_owner(user)
@@ -104,6 +106,12 @@ module Indicators
       return [] unless scope_to_transferred_groups
 
       [SearchFilters::TextList.new(field_name: 'transferred_to_user_groups', values: user.user_group_unique_ids)]
+    end
+
+    def with_scope_to_assigned(user)
+      return [] unless scope_to_assigned
+
+      [SearchFilters::TransitionValue.new(field_name: 'Assign', value: user.user_name)]
     end
 
     def filters(user)

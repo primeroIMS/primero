@@ -30,7 +30,8 @@ describe("<UsersForm /> - Action Creators", () => {
     const expectedAction = {
       type: actions.FETCH_USER,
       api: {
-        path: `${RECORD_PATH.users}/10`
+        path: `${RECORD_PATH.users}/10`,
+        params: { activity_stats: true }
       }
     };
 

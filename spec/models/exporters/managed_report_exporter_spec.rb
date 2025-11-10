@@ -6,7 +6,7 @@ require 'rails_helper'
 
 describe Exporters::ManagedReportExporter do
   before do
-    clean_data(PrimeroModule, PrimeroProgram, Lookup, UserGroup, Incident, Child, User, Role, Agency, Violation)
+    clean_data(PrimeroModule, PrimeroProgram, FormSection, Field, Lookup, UserGroup, Incident, Child, User, Role, Agency, Violation)
     travel_to Time.zone.local(2022, 6, 30, 11, 30, 44)
 
     SystemSettings.stub(:primary_age_ranges).and_return(AgeRange::DEFAULT_AGE_RANGES)
@@ -24,6 +24,23 @@ describe Exporters::ManagedReportExporter do
       associated_record_types: %w[case tracing_request incident],
       primero_program: program,
       form_sections: []
+    )
+
+    FormSection.create!(
+      unique_id: 'form_perpetrator',
+      parent_form: 'incident',
+      name_en: 'Form Perpetrator',
+      fields: [
+        Field.create!(
+          name: 'perpetrator_occupation',
+          display_name: 'Perpetrator Occupation',
+          option_strings_text_en: [
+            { id: 'occupation_1', display_text: 'Occupation 1' },
+            { id: 'occupation_2', display_text: 'Occupation 2' },
+            { id: 'unknown', display_text: 'Unknown' }
+          ]
+        )
+      ]
     )
 
     Lookup.create_or_update!(
@@ -89,16 +106,6 @@ describe Exporters::ManagedReportExporter do
         { id: 'primary_caregiver', display_text: 'Primary Caregiver' },
         { id: 'other', display_text: 'Other' },
         { id: 'no_relation', display_text: 'No relation' }
-      ]
-    )
-
-    Lookup.create_or_update!(
-      unique_id: 'lookup-perpetrator-occupation',
-      name_en: 'Perpetrator Occupation',
-      lookup_values_en: [
-        { id: 'occupation_1', display_text: 'Occupation 1' },
-        { id: 'occupation_2', display_text: 'Occupation 2' },
-        { id: 'unknown', display_text: 'Unknown' }
       ]
     )
 
@@ -2037,29 +2044,37 @@ describe Exporters::ManagedReportExporter do
 
       expect(workbook.sheet(0).row(144)).to eq(['Late Verification - Violations', nil, nil, nil, nil, nil])
 
-      expect(workbook.sheet(0).row(170)).to eq(['Unverified Information - Victims', nil, nil, nil, nil, nil])
-      expect(workbook.sheet(0).row(171)).to eq([nil, 'Boys', 'Girls', 'Unknown', 'Total', nil])
-      expect(workbook.sheet(0).row(172)).to eq(['Attacks on school(s)', 3, 4, 5, 12, nil])
-      expect(workbook.sheet(0).row(173)).to eq(['Maiming of Children', 2, 3, 2, 7, nil])
+      expect(workbook.sheet(0).row(144)).to eq(['Late Verification - Violations', nil, nil, nil, nil, nil])
 
-      expect(workbook.sheet(0).row(198)).to eq(['Unverified Information - Violations', nil, nil, nil, nil, nil])
-      expect(workbook.sheet(0).row(199)).to eq([nil, 'Total', nil, nil, nil, nil])
-      expect(workbook.sheet(0).row(200)).to eq(['Attacks on school(s)', 1, nil, nil, nil, nil])
+      expect(workbook.sheet(0).row(170)).to eq(['Late Verification - Violations by Perpetrator', nil, nil, nil, nil, nil])
+      expect(workbook.sheet(0).row(171)).to eq([nil, "Killing", "Maiming", "Abduction", "Attacks on schools", nil])
 
-      expect(workbook.sheet(0).row(226)).to eq(
+      expect(workbook.sheet(0).row(197)).to eq(['Late Verification - Violations by Region', nil, nil, nil, nil, nil])
+      expect(workbook.sheet(0).row(198)).to eq([nil, "Killing", "Maiming", "Abduction", "Attacks on schools", nil])
+
+      expect(workbook.sheet(0).row(224)).to eq(['Unverified Information - Victims', nil, nil, nil, nil, nil])
+      expect(workbook.sheet(0).row(225)).to eq([nil, 'Boys', 'Girls', 'Unknown', 'Total', nil])
+      expect(workbook.sheet(0).row(226)).to eq(['Attacks on school(s)', 3, 4, 5, 12, nil])
+      expect(workbook.sheet(0).row(227)).to eq(['Maiming of Children', 2, 3, 2, 7, nil])
+
+      expect(workbook.sheet(0).row(252)).to eq(['Unverified Information - Violations', nil, nil, nil, nil, nil])
+      expect(workbook.sheet(0).row(253)).to eq([nil, 'Total', nil, nil, nil, nil])
+      expect(workbook.sheet(0).row(254)).to eq(['Attacks on school(s)', 1, nil, nil, nil, nil])
+
+      expect(workbook.sheet(0).row(280)).to eq(
         ['Unverified Information - Violations by Perpetrator', nil, nil, nil, nil, nil]
       )
-      expect(workbook.sheet(0).row(227)).to eq([nil, 'Killing', 'Maiming', 'Abduction', 'Attacks on schools', 'Total'])
-      expect(workbook.sheet(0).row(228)).to eq(['Armed Force 1', 0, 0, 0, 1, 1])
+      expect(workbook.sheet(0).row(281)).to eq([nil, 'Killing', 'Maiming', 'Abduction', 'Attacks on schools', 'Total'])
+      expect(workbook.sheet(0).row(282)).to eq(['Armed Force 1', 0, 0, 0, 1, 1])
 
-      expect(workbook.sheet(0).row(254)).to eq(['Unverified Information - Violations by Region', nil, nil, nil, nil, nil])
-      expect(workbook.sheet(0).row(255)).to eq([nil, 'Killing', 'Maiming', 'Abduction', 'Attacks on schools', 'Total'])
-      expect(workbook.sheet(0).row(256)).to eq(['Incomplete Data', 0, 1, 0, 1, 2])
+      expect(workbook.sheet(0).row(308)).to eq(['Unverified Information - Violations by Region', nil, nil, nil, nil, nil])
+      expect(workbook.sheet(0).row(309)).to eq([nil, 'Killing', 'Maiming', 'Abduction', 'Attacks on schools', 'Total'])
+      expect(workbook.sheet(0).row(310)).to eq(['Incomplete Data', 0, 1, 0, 1, 2])
 
-      expect(workbook.sheet(0).row(282)).to eq(['Children affected by multiple violations', nil, nil, nil, nil, nil])
-      expect(workbook.sheet(0).row(283)).to eq([nil, 'Associated Violations', nil, nil, nil, nil])
-      expect(workbook.sheet(0).row(284)).to eq(['d3a6d80 - 3', 'Abduction', nil, nil, nil, nil])
-      expect(workbook.sheet(0).row(285)).to eq(['7676667 - 9', 'Killing of Children', nil, nil, nil, nil])
+      expect(workbook.sheet(0).row(336)).to eq(['Children affected by multiple violations', nil, nil, nil, nil, nil])
+      expect(workbook.sheet(0).row(337)).to eq([nil, 'Associated Violations', nil, nil, nil, nil])
+      expect(workbook.sheet(0).row(338)).to eq(['d3a6d80 - 3', 'Abduction', nil, nil, nil, nil])
+      expect(workbook.sheet(0).row(339)).to eq(['7676667 - 9', 'Killing of Children', nil, nil, nil, nil])
     end
   end
 

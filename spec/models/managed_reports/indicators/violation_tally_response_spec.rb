@@ -131,6 +131,8 @@ describe ManagedReports::Indicators::ViolationTallyResponse do
     incident3.save!
     incident4 = Incident.new_with_user(@all_user, { incident_date: Date.new(2022, 3, 28), status: 'open' })
     incident4.save!
+    incident5 = Incident.new_with_user(@self_user, { incident_date: Date.new(2022, 4, 10), status: 'closed' })
+    incident5.save!
 
     violation2 = Violation.create!(
       data: { type: 'killing', violation_tally: { 'boys' => 1, 'girls' => 1, 'unknown' => 1, 'total' => 3 } },
@@ -144,11 +146,23 @@ describe ManagedReports::Indicators::ViolationTallyResponse do
       data: { type: 'killing', violation_tally: { 'boys' => 2, 'girls' => 3, 'unknown' => 2, 'total' => 7 } },
       incident_id: incident4.id
     )
+    violation4 = Violation.create!(
+      data: { type: 'killing', violation_tally: { 'boys' => 1, 'girls' => 1, 'unknown' => 2, 'total' => 4 } },
+      incident_id: incident5.id
+    )
 
-    violation2.responses = [Response.create!(data: { "intervention_task_force_type": [
-                                               'advocacy_with_perpetrator_armed_force_armed_group'
-                                             ] })]
-    violation3.responses = [Response.create!(data: { "intervention_follow_up_type": 'pending' })]
+    violation2.responses = [
+      Response.create!(
+        data: { 'intervention_task_force_type' => ['advocacy_with_perpetrator_armed_force_armed_group'] }
+      )
+    ]
+    violation3.responses = [Response.create!(data: { 'intervention_follow_up_type' => 'pending' })]
+
+    violation4.responses = [
+      Response.create!(
+        data: { 'intervention_task_force_type' => ['advocacy_with_perpetrator_armed_force_armed_group'] }
+      )
+    ]
   end
 
   it 'returns data for violation tally indicator' do

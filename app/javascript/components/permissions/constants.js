@@ -21,6 +21,7 @@ export const ACTIONS = {
   COPY: "copy",
   CREATE: "create",
   CREATE_CASE_FROM_REFERRAL: "create_case_from_referral",
+  ATTRIBUTE: "attribute",
   DASH_APPROVALS_ACTION_PLAN_PENDING: "approvals_action_plan_pending",
   DASH_APPROVALS_ACTION_PLAN: "approvals_action_plan",
   DASH_APPROVALS_ASSESSMENT_PENDING: "approvals_assessment_pending",
@@ -34,6 +35,7 @@ export const ACTIONS = {
   DASH_CASE_INCIDENT_OVERVIEW: "dash_case_incident_overview",
   DASH_CASE_OVERVIEW: "case_overview",
   DASH_ACTION_NEEDED_NEW_UPDATED: "action_needed_new_updated",
+  DASH_ACTION_NEEDED_IDENTIFIED: "action_needed_identified",
   DASH_ACTION_NEEDED_NEW_REFERRALS: "action_needed_new_referrals",
   DASH_ACTION_NEEDED_TRANSFER_AWAITING_ACCEPTANCE: "action_needed_transfer_awaiting_acceptance",
   DASH_CASE_RISK: "case_risk",
@@ -130,7 +132,8 @@ export const ACTIONS = {
   REMOVE_ALERT: "remove_alert",
   PROTECTION_OUTCOMES: "protection_outcomes",
   UPDATE_CASE_RELATIONSHIPS: "update_case_relationships",
-  VIEW_CASE_RELATIONSHIPS: "view_case_relationships"
+  VIEW_CASE_RELATIONSHIPS: "view_case_relationships",
+  CASE_MANAGEMENT_KPIS_REPORT: "case_management_kpis_report"
 };
 
 export const MANAGE = [ACTIONS.MANAGE];
@@ -199,7 +202,8 @@ export const READ_MANAGED_REPORTS = [
   ACTIONS.VIOLATIONS,
   ACTIONS.WORKFLOW_REPORT,
   ACTIONS.REFERRALS_TRANSFERS_REPORT,
-  ACTIONS.PROTECTION_OUTCOMES
+  ACTIONS.PROTECTION_OUTCOMES,
+  ACTIONS.CASE_MANAGEMENT_KPIS_REPORT
 ];
 
 export const EXPORT_CUSTOM = [...MANAGE, ACTIONS.EXPORT_CUSTOM];
@@ -295,6 +299,15 @@ export const SHOW_APPROVALS = [
   ACTIONS.REQUEST_APPROVAL_GBV_CLOSURE
 ];
 
+export const SHOW_REFERRALS = [
+  ...MANAGE,
+  ACTIONS.REFERRAL_FROM_SERVICE,
+  ACTIONS.REMOVE_ASSIGNED_USERS,
+  ACTIONS.REFERRAL,
+  ACTIONS.RECEIVE_REFERRAL,
+  ACTIONS.RECEIVE_REFERRAL_DIFFERENT_MODULE
+];
+
 export const DASH_APPROVALS_PENDING = [
   ACTIONS.DASH_APPROVALS_ASSESSMENT_PENDING,
   ACTIONS.DASH_APPROVALS_CASE_PLAN_PENDING,
@@ -323,6 +336,7 @@ export const OVERVIEW_DASHBOARD = Object.freeze([
 export const ACTION_NEEDED_DASHBOARD = Object.freeze([
   ACTIONS.DASH_ACTION_NEEDED_NEW_UPDATED,
   ACTIONS.DASH_ACTION_NEEDED_NEW_REFERRALS,
+  ACTIONS.DASH_ACTION_NEEDED_IDENTIFIED,
   ACTIONS.DASH_ACTION_NEEDED_TRANSFER_AWAITING_ACCEPTANCE
 ]);
 
@@ -339,7 +353,8 @@ export const GROUP_PERMISSIONS = {
   AGENCY: "agency",
   ALL: "all",
   GROUP: "group",
-  SELF: "self"
+  SELF: "self",
+  IDENTIFIED: "identified"
 };
 
 export const MANAGED_REPORT_SCOPE = {

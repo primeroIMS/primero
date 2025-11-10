@@ -179,6 +179,9 @@ export const getCasesToAssign = state =>
 export const getActionNeededNewUpdated = state =>
   getDashboardByGroupAndName(state, DASHBOARD_GROUP.action_needed, DASHBOARD_NAMES.ACTION_NEEDED_NEW_UPDATED);
 
+export const getActionNeededIdentified = state =>
+  getDashboardByGroupAndName(state, DASHBOARD_GROUP.action_needed, DASHBOARD_NAMES.ACTION_NEEDED_IDENTIFIED);
+
 export const getActionNeededNewReferrals = state =>
   getDashboardByGroupAndName(state, DASHBOARD_GROUP.action_needed, DASHBOARD_NAMES.ACTION_NEEDED_NEW_REFERRALS);
 

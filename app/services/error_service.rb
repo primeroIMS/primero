@@ -60,6 +60,16 @@ class ErrorService
     when Errors::BulkAssignRecordsSizeError, ActionController::InvalidAuthenticityToken
       code = 403
       errors = [ApplicationError.new(code:, message: error.message, resource: request.path)]
+    when Errors::InvalidCaptcha
+      code = 422
+      errors = [ApplicationError.new(code: 422, message: 'errors.api.user.invalid_captcha', resource: request.path)]
+    when Errors::CaptchaServiceUnavailable
+      code = 503
+      errors = [ApplicationError.new(code: 503, message: 'errors.api.user.captcha_service_unavailable',
+                                     resource: request.path)]
+    when Errors::InvalidEmail
+      code = 422
+      errors = [ApplicationError.new(code: 422, message: 'errors.api.user.disposable_email', resource: request.path)]
     else
       code = 500
       errors = [

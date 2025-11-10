@@ -234,4 +234,26 @@ describe("User - Selectors", () => {
       expect(selectors.getIsManagedReportScopeAll(stateWithUser)).toBe(true);
     });
   });
+
+  describe("getIsIdentifiedUser", () => {
+    it("returns true if the current user has the IDENTIFIED group permission", () => {
+      expect(
+        selectors.getIsIdentifiedUser(
+          fromJS({
+            user: { roleGroupPermission: "identified" }
+          })
+        )
+      ).toBe(true);
+    });
+
+    it("returns false if the current user does not have the IDENTIFIED group permission", () => {
+      expect(
+        selectors.getIsIdentifiedUser(
+          fromJS({
+            user: { roleGroupPermission: "self" }
+          })
+        )
+      ).toBe(false);
+    });
+  });
 });

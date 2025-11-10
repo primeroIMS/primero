@@ -77,5 +77,10 @@ export const FIELDS = [
     name: "last_updated_by",
     type: "text_field",
     visible: true
+  },
+  {
+    name: "identified_by",
+    type: "text_field",
+    visible: true
   }
 ];

@@ -17,28 +17,36 @@ describe ManagedReports::Indicators::UnverifiedInformation do
     incident2 = Incident.create!(
       data: { incident_date: Date.new(2021, 7, 4), date_of_first_report: Date.new(2021, 7, 4), status: 'open' }
     )
+    incident3 = Incident.create!(
+      data: { incident_date: Date.new(2021, 7, 10), date_of_first_report: Date.new(2021, 7, 10), status: 'closed' }
+    )
 
     Violation.create!(
-      data: { type: 'killing', violation_tally: { 'boys': 2, 'girls': 0, 'unknown': 2, 'total': 4 },
+      data: { type: 'killing', violation_tally: { 'boys' => 2, 'girls' => 0, 'unknown' => 2, 'total' => 4 },
               ctfmr_verified: 'report_pending_verification' },
       incident_id: incident.id
     )
 
     Violation.create!(
       data: { type: 'abduction', ctfmr_verified: 'report_pending_verification',
-              violation_tally: { 'boys': 1, 'girls': 2, 'unknown': 5, 'total': 8 } },
+              violation_tally: { 'boys' => 1, 'girls' => 2, 'unknown' => 5, 'total' => 8 } },
       incident_id: incident1.id
     )
 
     Violation.create!(
       data: { type: 'abduction', ctfmr_verified: 'report_pending_verification',
-              violation_tally: { 'boys': 3, 'girls': 2, 'unknown': 4, 'total': 9 } },
+              violation_tally: { 'boys' => 3, 'girls' => 2, 'unknown' => 4, 'total' => 9 } },
       incident_id: incident2.id
     )
 
     Violation.create!(
-      data: { type: 'maiming', violation_tally: { 'boys': 2, 'girls': 3, 'unknown': 2, 'total': 7 } },
+      data: { type: 'maiming', violation_tally: { 'boys' => 2, 'girls' => 3, 'unknown' => 2, 'total' => 7 } },
       incident_id: incident.id
+    )
+
+    Violation.create!(
+      data: { type: 'maiming', violation_tally: { 'boys' => 2, 'girls' => 3, 'unknown' => 1, 'total' => 6 } },
+      incident_id: incident3.id
     )
   end
 

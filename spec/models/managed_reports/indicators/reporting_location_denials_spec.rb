@@ -31,15 +31,15 @@ describe ManagedReports::Indicators::ReportingLocationDenials do
     )
     agency_a = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
     locations = [
-      { placename_i18n: { "en": 'US' }, location_code: 'US', admin_level: 0, type: 'country', hierarchy_path: 'US' },
-      { placename_i18n: { "en": 'E1' }, location_code: 'E1', admin_level: 1, type: 'state', hierarchy_path: 'US.E1' },
-      { placename_i18n: { "en": 'E2' }, location_code: 'E2', admin_level: 1, type: 'state', hierarchy_path: 'US.E2' },
+      { placename_i18n: { 'en' => 'US' }, location_code: 'US', admin_level: 0, type: 'country', hierarchy_path: 'US' },
+      { placename_i18n: { 'en' => 'E1' }, location_code: 'E1', admin_level: 1, type: 'state', hierarchy_path: 'US.E1' },
+      { placename_i18n: { 'en' => 'E2' }, location_code: 'E2', admin_level: 1, type: 'state', hierarchy_path: 'US.E2' },
       {
-        placename_i18n: { "en": 'C1' }, location_code: 'C1', admin_level: 2,
+        placename_i18n: { 'en' => 'C1' }, location_code: 'C1', admin_level: 2,
         type: 'province', hierarchy_path: 'US.E2.C1'
       },
       {
-        placename_i18n: { "en": 'C2' }, location_code: 'C2', admin_level: 2,
+        placename_i18n: { 'en' => 'C2' }, location_code: 'C2', admin_level: 2,
         type: 'province', hierarchy_path: 'US.E1.C2'
       }
     ]
@@ -74,6 +74,9 @@ describe ManagedReports::Indicators::ReportingLocationDenials do
     incident4 = Incident.create!(
       data: { incident_date: Date.new(2022, 3, 28), status: 'open', incident_location: 'C2' }
     )
+    incident5 = Incident.create!(
+      data: { incident_date: Date.new(2022, 3, 29), status: 'closed', incident_location: 'C2' }
+    )
 
     Violation.create!(data: { type: 'denial_humanitarian_access' }, incident_id: incident2.id)
     Violation.create!(data: { type: 'maiming' }, incident_id: incident2.id)
@@ -85,6 +88,7 @@ describe ManagedReports::Indicators::ReportingLocationDenials do
     Violation.create!(data: { type: 'denial_humanitarian_access' }, incident_id: incident4.id)
     Violation.create!(data: { type: 'denial_humanitarian_access' }, incident_id: incident4.id)
     Violation.create!(data: { type: 'denial_humanitarian_access' }, incident_id: incident4.id)
+    Violation.create!(data: { type: 'denial_humanitarian_access' }, incident_id: incident5.id)
   end
 
   it 'returns data for reporting location indicator' do

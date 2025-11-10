@@ -1,0 +1,10 @@
+.registerButton {
+  background: var(--c-login-button-bg);
+  color: var(--c-login-button-text);
+  margin-top: var(--sp-2);
+
+  &:hover {
+    filter: brightness(80%);
+    background-color: var(--c-login-button-bg) !important;
+  }
+}

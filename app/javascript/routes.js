@@ -26,7 +26,8 @@ import {
   ConfigurationsList,
   ConfigurationsForm,
   CodeOfConduct as AdminCodeOfConduct,
-  Support
+  Support,
+  MyCase
 } from "./components/pages";
 import KeyPerformanceIndicators from "./components/key-performance-indicators";
 import Report from "./components/report";
@@ -61,8 +62,10 @@ import {
 import Login, { IdpLogin } from "./components/login";
 import Logout from "./components/logout";
 import PasswordResetRequest from "./components/login/components/password-reset-form";
-import { ROUTES, MODES, RECORD_PATH } from "./config";
+import { ROUTES, MODES, RECORD_PATH, RECORD_TYPES_PLURAL } from "./config";
 import UsageReports from "./components/pages/admin/usage-reports";
+import SelfRegistration from "./components/self-registration/component";
+import SelfRegistrationSuccess from "./components/self-registration-success/component";
 
 const recordPaths = [
   RECORD_PATH.cases,
@@ -108,6 +111,14 @@ export default [
       {
         path: ROUTES.login_idp_redirect,
         component: IdpLogin
+      },
+      {
+        path: ROUTES.self_registration,
+        component: SelfRegistration
+      },
+      {
+        path: ROUTES.self_registration_success,
+        component: SelfRegistrationSuccess
       }
     ]
   },
@@ -125,6 +136,34 @@ export default [
         actions: ACTIVITY_LOGS
       },
       ...recordRoutes,
+      {
+        path: "/my_case",
+        component: MyCase,
+        extraProps: {
+          mode: MODES.show
+        },
+        actions: READ_RECORDS,
+        resources: RESOURCES.cases
+      },
+      {
+        path: "/my_case/new",
+        component: MyCase,
+        extraProps: {
+          mode: MODES.new
+        },
+        actions: READ_RECORDS,
+        resources: RESOURCES.cases
+      },
+      {
+        path: "/my_case/edit",
+        component: MyCase,
+        extraProps: {
+          mode: MODES.edit,
+          recordType: RECORD_TYPES_PLURAL.case
+        },
+        actions: WRITE_RECORDS,
+        resources: RESOURCES.cases
+      },
       {
         path: "/cases",
         component: RecordList,

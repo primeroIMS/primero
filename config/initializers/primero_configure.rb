@@ -3,6 +3,7 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 # Custom miscellaneous Primero configurations, pulled from the environment
+
 Rails.application.configure do
   # The directory where bulk export files are placed.
   # When running with Docker/K8s this needs to point to a volume
@@ -26,6 +27,15 @@ Rails.application.configure do
   config.use_theme = ActiveRecord::Type::Boolean.new.cast(ENV.fetch('PRIMERO_USE_THEME', nil)) || false
 
   config.use_csrf_protection = ActiveRecord::Type::Boolean.new.cast(ENV.fetch('PRIMERO_USE_CSRF_PROTECTION', true))
+
+  config.allow_self_registration = ActiveRecord::Type::Boolean.new.cast(ENV.fetch('PRIMERO_ALLOW_SELF_REGISTRATION',
+                                                                                  false))
+
+  config.unverified_users_retention_days = ENV.fetch('PRIMERO_UNVERIFIED_USERS_RETENTION_DAYS', 30).to_i
+
+  config.disposable_email_checker_enabled =
+    ActiveRecord::Type::Boolean.new.cast(ENV.fetch('PRIMERO_DISPOSABLE_EMAIL_CHECKER_ENABLED',
+                                                   false))
 
   config.silence_logging = [
     'GET /health', 'GET /health/database', 'GET /health/solr', 'GET /health/server'

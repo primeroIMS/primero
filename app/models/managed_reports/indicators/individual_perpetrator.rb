@@ -30,7 +30,9 @@ class ManagedReports::Indicators::IndividualPerpetrator < ManagedReports::SqlRep
             perpetrators perpetrators
             inner join perpetrators_violations on perpetrators.id = perpetrators_violations.perpetrator_id
             inner join violations on violations.id = perpetrators_violations.violation_id
-            inner join incidents on violations.incident_id = incidents.id
+            inner join incidents
+              on violations.incident_id = incidents.id
+              AND incidents.srch_status = 'open'
             inner join individual_victims_violations on violations.id = individual_victims_violations.violation_id
             inner join individual_victims on individual_victims.id = individual_victims_violations.individual_victim_id
             #{user_scope_query(current_user, 'incidents')&.prepend('and ')}

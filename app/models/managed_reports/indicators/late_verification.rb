@@ -20,6 +20,7 @@ class ManagedReports::Indicators::LateVerification < ManagedReports::SqlReportIn
         from violations violations
         inner join incidents incidents
           on incidents.id = violations.incident_id
+          AND incidents.srch_status = 'open'
           #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
         cross join json_each_text((violations.data->>'violation_tally')::JSON)
         WHERE violations.data->>'violation_tally' is not null

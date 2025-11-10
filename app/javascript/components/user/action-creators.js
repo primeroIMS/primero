@@ -14,6 +14,7 @@ import { generate } from "../notifier/utils";
 import { SNACKBAR_VARIANTS } from "../notifier/constants";
 import { ENQUEUE_SNACKBAR } from "../notifier/actions";
 import { loginSystemSettings } from "../login/action-creators";
+import { msalApp } from "../login/components/idp-selection/auth-provider";
 
 import actions from "./actions";
 
@@ -79,6 +80,10 @@ export const showLoginDialog = () => ({
 });
 
 export const checkUserAuthentication = () => async dispatch => {
+  if (window.idp && !msalApp?.getActiveAccount()) {
+    return;
+  }
+
   const user = JSON.parse(localStorage.getItem("user"));
 
   if (user) {

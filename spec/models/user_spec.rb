@@ -7,7 +7,8 @@ require 'rails_helper'
 describe User do
   before :all do
     clean_data(
-      Alert, Location, AuditLog, User, Agency, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup
+      Alert, Location, AuditLog, User, Agency, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup,
+      Child, Incident
     )
   end
 
@@ -65,6 +66,11 @@ describe User do
     it 'should default disabled to false' do
       user = User.new disabled: nil
       user.disabled.should be_falsey
+    end
+
+    it 'should default unverified to false' do
+      user = User.new unverified: nil
+      user.unverified.should be_falsey
     end
 
     it 'should generate id' do
@@ -279,6 +285,69 @@ describe User do
       after do
         clean_data(AuditLog, User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection)
       end
+    end
+  end
+
+  describe 'self registration' do
+    before do
+      clean_data(AuditLog, User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection, SystemSettings)
+      agency = create(:agency)
+      user_group = create(:user_group)
+      role = create(:role)
+      primero_program = create(:primero_program)
+      single_form = create(:form_section)
+      create(:primero_module, primero_program_id: primero_program.id,
+                              form_sections: [single_form],
+                              id: 1)
+      SystemSettings.create(
+        registration_streams: [
+          {
+            unique_id: 'primero',
+            role: role.unique_id,
+            user_category: 'tier-1',
+            user_groups: [user_group.name],
+            agency: agency.unique_id
+          }
+        ]
+      )
+
+      @params = ActionController::Parameters.new({
+                                                   full_name: 'Test User 1',
+                                                   user_name: 'test_user_1',
+                                                   email: 'test_user_1@example.com',
+                                                   password: 'password123',
+                                                   password_confirmation: 'password123',
+                                                   registration_stream: 'primero'
+                                                 }).permit!
+    end
+    before(:each) { clean_data(User, IdentityProvider) }
+
+    it 'should validate data_processing_consent_provided_on is present for self-registration users' do
+      Primero::Application.config.allow_self_registration = true
+
+      user = build_user(user_name: 'the_user_name', registration_stream: 'primero')
+      expect(user).not_to be_valid
+    end
+
+    it 'should not require data_processing_consent_provided_on for non self-registration users' do
+      Primero::Application.config.allow_self_registration = false
+
+      user = build_user(user_name: 'the_user_name')
+      expect(user).to be_valid
+    end
+
+    it 'builds a self-registration user' do
+      user = User.create_self_registration_user(@params)
+      expect(user).to be_valid
+      expect(user.unverified).to eq(true)
+    end
+
+    it 'sets user as verified on password reset' do
+      user = User.create_self_registration_user(@params)
+      user.save!
+      user.update!(password: 'newpassword123', password_confirmation: 'newpassword123')
+      expect(user).to be_valid
+      expect(user.unverified).to eq(false)
     end
   end
 
@@ -1383,8 +1452,171 @@ describe User do
       )
     end
   end
+  describe '.delete_unverified_older_than' do
+    before :each do
+      clean_data(User, Agency, Role, Child, Incident)
+      @agency = create(:agency)
+      @role = create(:role)
+    end
+
+    context 'when there are no unverified users' do
+      it 'does not delete any users' do
+        create(:user, user_name: 'verified_user', agency: @agency, role: @role, unverified: false)
+
+        expect { User.delete_unverified_older_than(30) }.not_to change(User, :count)
+      end
+    end
+
+    context 'when there are unverified users older than retention period' do
+      it 'deletes unverified users without owned records' do
+        old_unverified = create(
+          :user,
+          user_name: 'old_unverified',
+          agency: @agency,
+          role: @role,
+          unverified: true,
+          updated_at: 35.days.ago
+        )
+
+        expect { User.delete_unverified_older_than(30) }.to change(User, :count).by(-1)
+        expect(User.exists?(old_unverified.id)).to be false
+      end
+    end
+
+    context 'when there are unverified users within retention period' do
+      it 'does not delete recent unverified users' do
+        recent_unverified = create(
+          :user,
+          user_name: 'recent_unverified',
+          agency: @agency,
+          role: @role,
+          unverified: true,
+          updated_at: 20.days.ago
+        )
+
+        expect { User.delete_unverified_older_than(30) }.not_to change(User, :count)
+        expect(User.exists?(recent_unverified.id)).to be true
+      end
+    end
+
+    context 'with multiple unverified users' do
+      it 'deletes only eligible users in batches' do
+        3.times do |i|
+          create(
+            :user,
+            user_name: "old_unverified_#{i}",
+            agency: @agency,
+            role: @role,
+            unverified: true,
+            updated_at: (30 + i).days.ago
+          )
+        end
+
+        create(
+          :user,
+          user_name: 'recent_unverified',
+          agency: @agency,
+          role: @role,
+          unverified: true,
+          updated_at: 20.days.ago
+        )
+
+        expect { User.delete_unverified_older_than(30) }.to change(User, :count).by(-3)
+      end
+    end
+  end
+
+  describe '#referred_record_ids' do
+    before :each do
+      clean_data(User, Role, Agency, Child, Referral)
+
+      @agency = Agency.create!(name: 'Test Agency', agency_code: 'test_agency', unique_id: 'agency_test_1')
+      role = create(:role)
+
+      @user1 = User.create!(
+        user_name: 'user1',
+        full_name: 'Test User 1',
+        password: 'password123',
+        password_confirmation: 'password123',
+        email: 'user1@example.com',
+        agency_id: @agency.id,
+        role_id: role.id
+      )
+
+      @user2 = User.create!(
+        user_name: 'user2',
+        full_name: 'Test User 2',
+        password: 'password123',
+        password_confirmation: 'password123',
+        email: 'user2@example.com',
+        agency_id: @agency.id,
+        role_id: role.id
+      )
+
+      @child1 = Child.create!(data: { name: 'Child 1', age: 10, sex: 'male',
+                                      consent_for_services: true,
+                                      disclosure_other_orgs: true })
+      @child2 = Child.create!(data: { name: 'Child 2', age: 12, sex: 'female',
+                                      consent_for_services: true,
+                                      disclosure_other_orgs: true })
+      @child3 = Child.create!(data: { name: 'Child 3', age: 8, sex: 'male',
+                                      consent_for_services: true,
+                                      disclosure_other_orgs: true })
+    end
+
+    it 'returns record_ids with active referrals to the user' do
+      Referral.create!(
+        record: @child1,
+        transitioned_to: @user1.user_name,
+        transitioned_by: @user2.user_name,
+        status: Transition::STATUS_INPROGRESS
+      )
+
+      Referral.create!(
+        record: @child2,
+        transitioned_to: @user1.user_name,
+        transitioned_by: @user2.user_name,
+        status: Transition::STATUS_ACCEPTED
+      )
+
+      Referral.create!(
+        record: @child1,
+        transitioned_to: @user1.user_name,
+        transitioned_by: @user2.user_name,
+        status: Transition::STATUS_REJECTED
+      )
+
+      Referral.create!(
+        record: @child1,
+        transitioned_to: @user2.user_name,
+        transitioned_by: @user1.user_name,
+        status: Transition::STATUS_INPROGRESS
+      )
+
+      record_ids = [@child1.id, @child2.id, @child3.id]
+      result = @user1.referred_record_ids(record_ids, 'Child')
+
+      expect(result).to match_array([@child1.id, @child2.id])
+    end
+
+    it 'returns empty array when no referrals exist' do
+      record_ids = [@child1.id, @child2.id]
+      result = @user1.referred_record_ids(record_ids, 'Child')
+
+      expect(result).to be_empty
+    end
+
+    it 'returns empty array when record_ids is empty' do
+      result = @user1.referred_record_ids([], 'Child')
+
+      expect(result).to be_empty
+    end
+  end
 
   after do
-    clean_data(Alert, User, Agency, Role, FormSection, Field)
+    clean_data(
+      Alert, Location, AuditLog, User, Agency, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup,
+      Child, Incident
+    )
   end
 end

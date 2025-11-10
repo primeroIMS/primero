@@ -26,6 +26,8 @@ describe IndicatorQueryService, search: true do
     @bar.save(validate: false)
     @baz = User.new(user_name: 'baz', role: role_self, user_groups: [group2])
     @baz.save(validate: false)
+    @assigner = User.new(user_name: 'assigner', role: role_self)
+    @assigner.save(validate: false)
 
     # TODO: Add back indicators once the pivoted/faceted indicators are migrated to SQL
     @indicators =
@@ -67,6 +69,12 @@ describe IndicatorQueryService, search: true do
     )
     Child.create!(data: { record_state: true, status: 'open', owned_by: 'baz', workflow: 'new' })
     Child.create!(data: { record_state: true, status: 'closed', owned_by: 'baz', workflow: 'closed' })
+
+    assigned_child = Child.create!(data: { record_state: true, status: 'open', owned_by: 'assigner' })
+    assignment = Assign.new(
+      record: assigned_child, transitioned_to: 'foo', transitioned_by: 'assigner'
+    )
+    assignment.save(validate: false)
   end
 
   describe 'individual user scope' do
@@ -75,7 +83,7 @@ describe IndicatorQueryService, search: true do
     end
 
     it 'shows the number of all open cases' do
-      expect(stats['case']['total']['total']['count']).to eq(2)
+      expect(stats['case']['total']['total']['count']).to eq(3)
     end
 
     it 'shows the string queries to get all open cases' do
@@ -84,7 +92,7 @@ describe IndicatorQueryService, search: true do
     end
 
     it 'shows the number of updated cases' do
-      expect(stats['case']['new_or_updated']['new_or_updated']['count']).to eq(1)
+      expect(stats['case']['new_or_updated']['new_or_updated']['count']).to eq(2)
     end
 
     it 'shows the string queries to get all updated cases' do
@@ -103,6 +111,22 @@ describe IndicatorQueryService, search: true do
       expect(stats['case']['workflow']['new']['query']).to match_array(expected_query_new)
       expected_query_assessment = %w[record_state=true status=open,closed owned_by=foo workflow=assessment]
       expect(stats['case']['workflow']['assessment']['query']).to match_array(expected_query_assessment)
+    end
+
+    it 'shows recently_assigned' do
+      expect(stats['case']['recently_assigned_to_me']['recently_assigned_to_me']['count']).to eq(1)
+    end
+
+    it 'shows the string queries to get all recently_assigned cases' do
+      expected_static = %w[status=open assign=foo record_state=true]
+      query_strings = stats['case']['recently_assigned_to_me']['recently_assigned_to_me']['query']
+      dynamic_queries, static_queries = query_strings.partition { |q| q.start_with? 'reassigned_transferred_on' }
+      dynamic_query, = dynamic_queries
+      expect(static_queries).to match_array(expected_static)
+      # split the query into the field name and the date ignoring the .. at the end
+      field, value = dynamic_query.match(/^(\w+)=(.+)\.\.$/).captures
+      expect(field).to eq('reassigned_transferred_on')
+      expect { Time.iso8601(value) }.not_to raise_error
     end
   end
 

@@ -14,6 +14,9 @@ describe ManagedReports::Indicators::UnverifiedInformationViolations do
     incident1 = Incident.create!(
       data: { incident_date: Date.new(2022, 4, 4), date_of_first_report: Date.new(2022, 4, 4), status: 'open' }
     )
+    incident2 = Incident.create!(
+      data: { incident_date: Date.new(2022, 4, 8), date_of_first_report: Date.new(2022, 4, 8), status: 'closed' }
+    )
 
     Violation.create!(
       data: { type: 'killing', violation_tally: { 'boys' => 2, 'girls' => 0, 'unknown' => 2, 'total' => 4 },
@@ -36,6 +39,12 @@ describe ManagedReports::Indicators::UnverifiedInformationViolations do
       data: { type: 'attack_on_schools', ctfmr_verified: 'report_pending_verification',
               violation_tally: { 'boys' => 3, 'girls' => 4, 'unknown' => 5, 'total' => 12 } },
       incident_id: incident.id
+    )
+
+    Violation.create!(
+      data: { type: 'attack_on_schools', ctfmr_verified: 'report_pending_verification',
+              violation_tally: { 'boys' => 3, 'girls' => 1, 'unknown' => 5, 'total' => 9 } },
+      incident_id: incident2.id
     )
   end
 

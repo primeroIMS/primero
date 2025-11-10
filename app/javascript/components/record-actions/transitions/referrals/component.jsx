@@ -58,7 +58,8 @@ function Referrals({
     getRecordForms(state, {
       recordType: RECORD_TYPES[recordType],
       primeroModule: record?.get("module_id"),
-      includeDefaultForms: false
+      includeDefaultForms: false,
+      checkPermittedForms: true
     })
   );
 

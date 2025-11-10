@@ -65,7 +65,7 @@ class PermittedAttachmentService
       authorized_roles,
       PrimeroModelService.to_name(attachment.record_type),
       attachment.record&.module_id,
-      write
+      write ? 'create' : 'read'
     )
   end
 

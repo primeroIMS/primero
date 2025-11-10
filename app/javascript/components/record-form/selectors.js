@@ -68,10 +68,11 @@ const forms = ({
   checkPermittedForms = false,
   includeDefaultForms = true
 }) => {
+  const defaultFormKeys = Object.keys(getDefaultForms(appLocale));
   const arrayOfPermittedFormIDs = permittedFormIDs?.keySeq()?.toArray() || [];
   const formsPermitted = includeDefaultForms
-    ? arrayOfPermittedFormIDs.concat(Object.keys(getDefaultForms(appLocale)))
-    : arrayOfPermittedFormIDs;
+    ? arrayOfPermittedFormIDs.concat(defaultFormKeys)
+    : arrayOfPermittedFormIDs.filter(id => !defaultFormKeys.includes(id));
 
   if (isEmpty(formSections)) return null;
 
@@ -408,6 +409,11 @@ export const getLookups = (state, page = 1, per = 20) => {
 
   return fromJS({});
 };
+
+export const getIdentifiedUser = (state, username) =>
+  state
+    .getIn([NAMESPACE, "options", "users", "identified"], fromJS([]))
+    .find(user => user.get("user_name") === username);
 
 export const getLocations = state => state.getIn([NAMESPACE, "options", "locations"], fromJS([]));
 

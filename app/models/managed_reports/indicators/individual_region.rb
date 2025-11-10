@@ -25,7 +25,9 @@ class ManagedReports::Indicators::IndividualRegion < ManagedReports::SqlReportIn
             #{table_name_for_query(params)}.data AS data,
             #{incident_region_query(current_user)} AS region
           FROM violations
-          INNER JOIN incidents ON violations.incident_id = incidents.id
+          INNER JOIN incidents
+            ON violations.incident_id = incidents.id
+            AND incidents.srch_status = 'open'
           WHERE incidents.data ->> 'reporting_location_hierarchy' IS NOT NULL
           #{user_scope_query(current_user, 'incidents')&.prepend('AND ')}
           #{date_range_query(params['incident_date'], 'incidents')&.prepend('AND ')}
