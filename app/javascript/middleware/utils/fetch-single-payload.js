@@ -181,7 +181,7 @@ const fetchSinglePayload = async (action, store, options) => {
         return;
       }
 
-      const errorDataObject = { json: error?.json, recordType, fromQueue, id, error };
+      const errorDataObject = { json: error?.json, recordType, fromQueue, id, error, fromAttachment };
 
       if (fromAttachment && error?.response?.status === 422) {
         deleteFromQueue(fromQueue);

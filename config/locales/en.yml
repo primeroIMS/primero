@@ -49,6 +49,7 @@ en:
     error:
       create: Failed to create %{record_type}. Please contact support.
       update: Update to %{record_type} %{short_id} failed. Please contact support.
+      attachment: Failed to upload attachment(s) for %{record_type}. Please contact support.
 
   actions:
     approvals: Approvals
@@ -2652,7 +2653,7 @@ en:
     distribution_users_role_report:
       name: Distribution of Users by Role
       description: Gives the number of Users with each Role, broken down by User Group. This allows you to see the number of supervisory and administrative staff per case worker.
-      reports: 
+      reports:
         distribution_users_role: Distribution of Users by Role
       sub_reports:
         distribution_users_role: Distribution of Users by Role
