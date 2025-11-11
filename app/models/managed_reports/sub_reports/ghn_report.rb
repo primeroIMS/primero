@@ -29,12 +29,10 @@ class ManagedReports::SubReports::GhnReport < ManagedReports::SubReport
   end
   # rubocop:enable Metrics/MethodLength
 
-  # rubocop:disable Metrics/MethodLength
   def lookups
     {
       ManagedReports::Indicators::VerifiedViolationsByPerpetrator.id => 'lookup-armed-force-group-or-other-party',
       ManagedReports::Indicators::MultipleViolations.id => %w[lookup-gender-unknown-total lookup-violation-type],
-      ManagedReports::Indicators::GroupMultipleViolations.id => %w[lookup-gender-unknown-total lookup-violation-type],
       ManagedReports::Indicators::LateVerificationViolationsByPerpetrator.id =>
         'lookup-armed-force-group-or-other-party',
       ManagedReports::Indicators::LateVerificationViolationsByRegion.id => 'Location',
@@ -43,7 +41,6 @@ class ManagedReports::SubReports::GhnReport < ManagedReports::SubReport
       ManagedReports::Indicators::UnverifiedViolationsByRegion.id => 'Location'
     }.freeze
   end
-  # rubocop:enable Metrics/MethodLength
 
   def indicators_subcolumns
     {

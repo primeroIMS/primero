@@ -33,7 +33,7 @@ function Component({ data }) {
             findOptionDisplayText({
               i18n: { locale: i18n.locale },
               customLookups: [],
-              options: groupAgeBandField.option_strings_text,
+              options: groupAgeBandField?.option_strings_text,
               value: elem
             })
           ),

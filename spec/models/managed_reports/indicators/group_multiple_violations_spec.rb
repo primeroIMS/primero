@@ -104,17 +104,37 @@ describe ManagedReports::Indicators::GroupMultipleViolations do
     )
     @incident4.save!
 
+    group_victim1 = GroupVictim.create!(
+      data: { group_gender: 'mixed', group_age_band: %w[0_5 6_10], group_multiple_violations: true }
+    )
+    group_victim2 = GroupVictim.create!(
+      data: { group_gender: 'mixed', group_age_band: %w[0_5 6_10], group_multiple_violations: true }
+    )
+    group_victim3 = GroupVictim.create!(data: { group_gender: 'female', group_age_band: %w[6_10 11_13] })
+    group_victim4 = GroupVictim.create!(data: { group_gender: 'male', group_age_band: %w[0_5 11_13] })
+    group_victim5 = GroupVictim.create!(data: { group_gender: 'male', group_age_band: %w[11_13 14_18] })
+    group_victim6 = GroupVictim.create!(
+      data: { group_gender: 'unknown', group_age_band: %w[unknown], group_multiple_violations: true }
+    )
+
     violation1 = Violation.create!(
       data: {
         type: 'killing', attack_type: 'arson', ctfmr_verified_date: Date.new(2021, 8, 8), ctfmr_verified: 'verified'
       },
       incident_id: @incident1.id
     )
-    violation1.group_victims = [
-      GroupVictim.create!(data: { group_gender: 'mixed', group_age_band: %w[0_5 6_10], group_multiple_violations: true })
-    ]
+    violation1.group_victims = [group_victim1]
 
     violation2 = Violation.create!(
+      data: {
+        type: 'abduction', abduction_purpose_single: 'extortion',
+        ctfmr_verified_date: Date.new(2021, 8, 8), ctfmr_verified: 'verified'
+      },
+      incident_id: @incident1.id
+    )
+    violation2.group_victims = [group_victim1]
+
+    violation3 = Violation.create!(
       data: {
         type: 'killing',
         attack_type: 'aerial_attack',
@@ -123,22 +143,18 @@ describe ManagedReports::Indicators::GroupMultipleViolations do
       },
       incident_id: incident2.id
     )
-    violation2.group_victims = [
-      GroupVictim.create!(data: { group_gender: 'female', group_age_band: %w[6_10 11_13] })
-    ]
+    violation3.group_victims = [group_victim2]
 
     violation3 = Violation.create!(
       data: {
         type: 'maiming',
         attack_type: 'aerial_attack',
         ctfmr_verified: 'verified',
-        ctfmr_verified_date: Date.new(2020, 8, 8)
+        ctfmr_verified_date: Date.new(2021, 10, 10)
       },
-      incident_id: incident3.id
+      incident_id: @incident4.id
     )
-    violation3.group_victims = [
-      GroupVictim.create!(data: { group_gender: 'male', group_age_band: %w[0_5 11_13] })
-    ]
+    violation3.group_victims = [group_victim3, group_victim4, group_victim6]
 
     violation4 = Violation.create!(
       data: {
@@ -146,12 +162,7 @@ describe ManagedReports::Indicators::GroupMultipleViolations do
       },
       incident_id: @incident4.id
     )
-    violation4.group_victims = [
-      GroupVictim.create!(data: { group_gender: 'male', group_age_band: %w[11_13 14_18] }),
-      GroupVictim.create!(
-        data: { group_gender: 'unknown', group_age_band: %w[unknown], group_multiple_violations: true }
-      )
-    ]
+    violation4.group_victims = [group_victim5, group_victim6]
   end
 
   it 'return data for violations marked as verified' do
@@ -176,8 +187,8 @@ describe ManagedReports::Indicators::GroupMultipleViolations do
         {
           'data' => {
             'unique_id' => nil,
-            'violations' => ['killing'],
-            'group_age_band' => %w[0_5 6_10],
+            'violations' => match_array(%w[killing abduction]),
+            'group_age_band' => match_array(%w[0_5 6_10]),
             'group_gender' => 'mixed',
             'incident_id' => @incident1.id,
             'incident_short_id' => @incident1.short_id
@@ -186,8 +197,8 @@ describe ManagedReports::Indicators::GroupMultipleViolations do
         {
           'data' => {
             'unique_id' => nil,
-            'violations' => ['killing'],
-            'group_age_band' => %w[unknown],
+            'violations' => match_array(%w[killing maiming]),
+            'group_age_band' => match_array(%w[unknown]),
             'group_gender' => 'unknown',
             'incident_id' => @incident4.id,
             'incident_short_id' => @incident4.short_id
