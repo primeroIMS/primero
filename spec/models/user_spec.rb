@@ -1384,6 +1384,111 @@ describe User do
     end
   end
 
+  describe 'terms of use' do
+    let(:agency) { create(:agency, terms_of_use_enabled: true) }
+    let(:user) { create(:user, agency: agency) }
+
+    describe '#accept_terms_of_use!' do
+      it 'sets terms_of_use_accepted_on to current time' do
+        freeze_time do
+          expect { user.accept_terms_of_use! }.to change { user.terms_of_use_accepted_on }
+            .from(nil).to(DateTime.now)
+        end
+      end
+
+      it 'updates the user record' do
+        expect { user.accept_terms_of_use! }.to change { user.reload.terms_of_use_accepted_on }
+          .from(nil)
+      end
+    end
+
+    describe '#needs_terms_of_use_acceptance?' do
+      context 'when agency does not have terms of use enabled' do
+        let(:agency) { create(:agency, terms_of_use_enabled: false) }
+
+        it 'returns false' do
+          expect(user.send(:needs_terms_of_use_acceptance?)).to be false
+        end
+      end
+
+      context 'when agency has terms of use enabled' do
+        context 'when user has never accepted terms of use' do
+          it 'returns true' do
+            expect(user.send(:needs_terms_of_use_acceptance?)).to be true
+          end
+        end
+
+        context 'when user has accepted terms of use' do
+          before { user.update!(terms_of_use_accepted_on: 1.day.ago) }
+
+          context 'when agency has not uploaded new terms' do
+            it 'returns false' do
+              expect(user.send(:needs_terms_of_use_acceptance?)).to be false
+            end
+          end
+
+          context 'when agency has uploaded new terms after user acceptance' do
+            before do
+              agency.update!(terms_of_use_uploaded_at: DateTime.now)
+            end
+
+            it 'returns true' do
+              expect(user.send(:needs_terms_of_use_acceptance?)).to be true
+            end
+          end
+
+          context 'when agency uploaded terms before user acceptance' do
+            before do
+              agency.update!(terms_of_use_uploaded_at: 2.days.ago)
+            end
+
+            it 'returns false' do
+              expect(user.send(:needs_terms_of_use_acceptance?)).to be false
+            end
+          end
+        end
+      end
+    end
+
+    describe '#agency_terms_of_use_changed?' do
+      context 'when user has not accepted terms' do
+        it 'returns false' do
+          user.terms_of_use_accepted_on = nil
+          agency.terms_of_use_uploaded_at = 1.day.ago
+
+          expect(user.agency_terms_of_use_changed?).to be false
+        end
+      end
+
+      context 'when agency has not uploaded terms' do
+        it 'returns false' do
+          user.terms_of_use_accepted_on = 1.day.ago
+          agency.terms_of_use_uploaded_at = nil
+
+          expect(user.agency_terms_of_use_changed?).to be false
+        end
+      end
+
+      context 'when user accepted before agency uploaded new terms' do
+        it 'returns true' do
+          user.terms_of_use_accepted_on = 2.days.ago
+          agency.terms_of_use_uploaded_at = 1.day.ago
+
+          expect(user.agency_terms_of_use_changed?).to be true
+        end
+      end
+
+      context 'when user accepted after agency uploaded terms' do
+        it 'returns false' do
+          user.terms_of_use_accepted_on = 1.day.ago
+          agency.terms_of_use_uploaded_at = 2.days.ago
+
+          expect(user.agency_terms_of_use_changed?).to be false
+        end
+      end
+    end
+  end
+
   after do
     clean_data(Alert, User, Agency, Role, FormSection, Field)
   end

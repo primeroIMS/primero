@@ -898,6 +898,50 @@ describe Api::V2::UsersController, type: :request do
     end
   end
 
+  describe 'PATCH /api/v2/users/:id/accept_terms_of_use' do
+    let(:agency) { create(:agency, terms_of_use_enabled: true) }
+    let(:user) { create(:user, agency: @agency_a, role: @role_manage_user) }
+
+    before do
+      login_for_test(permissions: [Permission.new(resource: Permission::USER, actions: [Permission::MANAGE])])
+      allow(ENV).to receive(:fetch).with('PRIMERO_ENFORCE_TERMS_OF_USE', false).and_return('true')
+      @agency_a.update(terms_of_use_enabled: true, terms_of_use_signed: true, terms_of_use_uploaded_at: 2.days.ago)
+      # @agency_a.save!
+    end
+
+    it 'accepts terms of use for the user' do
+      freeze_time do
+        patch "/api/v2/users/#{user.id}/accept_terms_of_use"
+
+        expect(response).to have_http_status(200)
+        expect(user.reload.terms_of_use_accepted_on).to eq(DateTime.now.utc)
+        expect(json['data']['terms_of_use_accepted_on']).to eq(DateTime.now.utc.iso8601(3))
+        expect(json['data']['agency_terms_of_use_enabled']).to be true
+        expect(json['data']['agency_terms_of_use_changed']).to be false
+      end
+    end
+
+    it 'returns 404 for non-existent user' do
+      patch '/api/v2/users/999999/accept_terms_of_use'
+
+      expect(response).to have_http_status(404)
+      expect(json['errors'].size).to eq(1)
+      expect(json['errors'][0]['resource']).to eq('/api/v2/users/999999/accept_terms_of_use')
+    end
+
+    context 'when user does not have permission' do
+      before do
+        login_for_test(permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::READ])])
+      end
+
+      it 'returns 403 forbidden' do
+        patch "/api/v2/users/#{user.id}/accept_terms_of_use"
+
+        expect(response).to have_http_status(403)
+      end
+    end
+  end
+
   after :each do
     clean_data(User, FormSection, Role, PrimeroModule, Agency, PrimeroProgram, UserGroup, CodeOfConduct)
   end
