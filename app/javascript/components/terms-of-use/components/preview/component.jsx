@@ -35,7 +35,7 @@ function Component({ open, onClose, termsOfUseUrl, mobileDisplay }) {
           />
         </div>
         <div className={viewerCss.viewerContainer}>
-          <div className={viewerCss.viewer}>
+          <div className={viewerCss.viewer} data-testid="content-container">
             <Content
               attachmentUrl={termsOfUseUrl}
               contentType={PDF_CONTENT_TYPE}

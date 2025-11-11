@@ -10,7 +10,7 @@ import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 
 function Component({ css, handleAccept, handleCancel, handleViewTerms, hasViewedTerms, updatingTermsOfUse }) {
   return (
-    <div className={css.actions}>
+    <div className={css.actions} data-testid="terms-of-use-actions">
       <ActionButton
         id="terms-of-use-cancel"
         icon={<ClearIcon />}

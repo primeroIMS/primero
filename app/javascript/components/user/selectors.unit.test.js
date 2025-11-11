@@ -234,4 +234,41 @@ describe("User - Selectors", () => {
       expect(selectors.getIsManagedReportScopeAll(stateWithUser)).toBe(true);
     });
   });
+
+  describe("getUserAgencyTermsOfUseEnabled", () => {
+    it("returns agency_terms_of_use_enabled from user", () => {
+      const stateWithTermsEnabled = stateWithUser.setIn(["user", "agencyTermsOfUseEnabled"], true);
+
+      expect(selectors.getUserAgencyTermsOfUseEnabled(stateWithTermsEnabled)).toBe(true);
+    });
+
+    it("returns false when agency_terms_of_use_enabled is not set", () => {
+      expect(selectors.getUserAgencyTermsOfUseEnabled(stateWithUser)).toBe(false);
+    });
+  });
+
+  describe("getUserAgencyTermsOfUseChanged", () => {
+    it("returns agency_terms_of_use_changed from user", () => {
+      const stateWithTermsChanged = stateWithUser.setIn(["user", "agencyTermsOfUseChanged"], true);
+
+      expect(selectors.getUserAgencyTermsOfUseChanged(stateWithTermsChanged)).toBe(true);
+    });
+
+    it("returns false when agency_terms_of_use_changed is not set", () => {
+      expect(selectors.getUserAgencyTermsOfUseChanged(stateWithUser)).toBe(false);
+    });
+  });
+
+  describe("getUserTermsOfUseAcceptedOn", () => {
+    it("returns terms_of_use_accepted_on from user", () => {
+      const acceptedDate = "2023-10-01T10:00:00Z";
+      const stateWithAcceptedDate = stateWithUser.setIn(["user", "termsOfUseAcceptedOn"], acceptedDate);
+
+      expect(selectors.getUserTermsOfUseAcceptedOn(stateWithAcceptedDate)).toBe(acceptedDate);
+    });
+
+    it("returns null when terms_of_use_accepted_on is not set", () => {
+      expect(selectors.getUserTermsOfUseAcceptedOn(stateWithUser)).toBeNull();
+    });
+  });
 });

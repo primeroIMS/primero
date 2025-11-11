@@ -74,7 +74,7 @@ function Component() {
 
   return (
     <LoadingIndicator loading={!agencyTermsOfUseEnabled} hasData={agencyTermsOfUseEnabled} type={NAME}>
-      <div className={css.container}>
+      <div className={css.container} data-testid="terms-of-use-container">
         <ModuleLogo white />
         <div className={css.content}>
           <div id="printPdf" className={css.details}>
