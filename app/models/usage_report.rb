@@ -144,41 +144,37 @@ class UsageReport < ValueObject
   # TODO: Change these query methods in v2.13 to use the normalized value index
   def records(recordtype, module_id)
     filter = SearchFilters::TextValue.new(field_name: 'module_id', value: module_id)
-    recordtype.where(filter.query)
+    recordtype.where(filter.query(recordtype))
   end
 
   def cases_open_count(module_id)
     filter = SearchFilters::TextValue.new(field_name: 'status', value: Record::STATUS_OPEN)
-    records(Child, module_id).where(filter.query).count
+    records(Child, module_id).where(filter.query(Child)).count
   end
 
   def cases_closed_count(module_id)
     filter = SearchFilters::TextValue.new(field_name: 'status', value: Record::STATUS_CLOSED)
-    records(Child, module_id).where(filter.query).count
+    records(Child, module_id).where(filter.query(Child)).count
   end
 
   def records_open_this_quarter(recordtype, module_id)
     filter = SearchFilters::DateRange.new(field_name: 'created_at', from:, to:)
-    records(recordtype, module_id).where(filter.query).count
+    records(recordtype, module_id).where(filter.query(recordtype)).count
   end
 
   def records_closed_this_quarter(recordtype, module_id)
     filter = SearchFilters::DateRange.new(field_name: 'date_closure', from:, to:)
-    records(recordtype, module_id).where(filter.query).count
+    records(recordtype, module_id).where(filter.query(recordtype)).count
   end
 
-  def cases_subform_total_query
+  def cases_subform_total_query(module_id)
     <<~SQL
       SELECT
-        SUM(services) AS service_count,
-        SUM(followups) AS followups_count
-      FROM (
-        SELECT
-          JSONB_ARRAY_LENGTH(data->'services_section') AS services,
-          JSONB_ARRAY_LENGTH(data->'followup_subform_section') AS followups
-        FROM cases
-        WHERE data->>'module_id' = ?
-      ) subquery
+        SUM(JSONB_ARRAY_LENGTH(data->'services_section')) AS service_count,
+        SUM(JSONB_ARRAY_LENGTH(data->'followup_subform_section')) AS followups_count
+      FROM cases
+      WHERE #{ActiveRecord::Base.sanitize_sql_array(['srch_module_id = ?', module_id])}
+      AND data @? '$[*] ? (@.services_section.size() >= 1 || @.followup_subform_section.size() >= 1)'
     SQL
   end
 
@@ -186,7 +182,7 @@ class UsageReport < ValueObject
     return @cases_subform_total if @cases_subform_total.present?
 
     @cases_subform_total = ActiveRecord::Base.connection.exec_query(
-      ActiveRecord::Base.sanitize_sql_array([cases_subform_total_query, module_id])
+      cases_subform_total_query(module_id)
     ).to_a.first
   end
 end
