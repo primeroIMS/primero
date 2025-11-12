@@ -9,6 +9,17 @@ import { TERMS_OF_USE } from "../../pages/admin/agencies-form/constants";
 
 import AttachmentInput from "./attachment-input";
 
+jest.mock("../../../libs/to-base64", () =>
+  jest.fn(() =>
+    Promise.resolve({
+      result: "FAKE_BASE64_DATA",
+      fileType: "application/pdf",
+      fileName: "test.pdf",
+      content: "data:application/pdf;base64,"
+    })
+  )
+);
+
 describe("<Form /> - fields/<AttachmentInput />", () => {
   const defaultProps = {
     metaInputProps: {
