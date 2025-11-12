@@ -23,11 +23,13 @@ class ManagedReports::SubReports::ReasonsForClosure < ManagedReports::SubReport
   private
 
   def closure_reasons_options
-    field = Field.joins(:form_section).find_by(
+    field = Field.joins(form_section: :primero_modules).find_by(
       name: 'closure_reason',
-      form_sections: { parent_form: PrimeroModelService.to_name(Child.name) }
+      form_sections: {
+        parent_form: PrimeroModelService.to_name(Child.name), primero_modules: { unique_id: PrimeroModule::CP }
+      }
     )
-    return [] unless field.present?
+    return [] unless field.present? && field.option_strings_text_i18n.present?
 
     field.option_strings_text_i18n
   end
