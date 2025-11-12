@@ -70,6 +70,7 @@ describe("Verifying config constant", () => {
       "DASH_WORKFLOW",
       "DELETE",
       "DISPLAY_VIEW_PAGE",
+      "DISTRIBUTION_USERS_ROLE_REPORT",
       "ENABLE_DISABLE_RECORD",
       "EXPORT_CASE_PDF",
       "EXPORT_CSV",

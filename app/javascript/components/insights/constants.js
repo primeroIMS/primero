@@ -950,7 +950,9 @@ export const INSIGHTS_CONFIG = {
   },
   distribution_users_role_report: {
     ids: DISTRIBUTION_USERS_ROLE_SUBREPORTS,
-    defaultFilterValues: {},
+    defaultFilterValues: {
+      [DISABLED]: "false"
+    },
     filters: [
       {
         name: DISABLED,

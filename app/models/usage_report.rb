@@ -108,9 +108,9 @@ class UsageReport < ValueObject
     ).where(
       {
         disabled: params[:disabled],
-        user_groups: { unique_id: params[:user_group_unique_id] },
-        agencies: { unique_id: params[:agency_unique_id] }
-      }.compact_deep.compact_blank
+        user_groups: { unique_id: params[:user_group_unique_id] }.compact.presence,
+        agencies: { unique_id: params[:agency_unique_id] }.compact.presence
+      }.compact_deep
     )
 
     User.connection.select_all(query.to_sql).to_a
