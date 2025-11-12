@@ -25,7 +25,7 @@ describe ManagedReports::Indicators::UnverifiedInformationViolations do
     )
 
     Violation.create!(
-      data: { type: 'attack_on_hospitals', ctfmr_verified: 'report_pending_verification',
+      data: { type: 'attack_on_hospitals', ctfmr_verified: 'reported_not_verified',
               violation_tally: { 'boys' => 1, 'girls' => 2, 'unknown' => 5, 'total' => 8 } },
       incident_id: incident1.id
     )
@@ -42,16 +42,14 @@ describe ManagedReports::Indicators::UnverifiedInformationViolations do
     )
 
     Violation.create!(
-      data: { type: 'attack_on_schools', ctfmr_verified: 'report_pending_verification',
+      data: { type: 'attack_on_schools', ctfmr_verified: 'reported_not_verified',
               violation_tally: { 'boys' => 3, 'girls' => 1, 'unknown' => 5, 'total' => 9 } },
       incident_id: incident2.id
     )
   end
 
   it 'return data for unverified information indicator' do
-    query = %w[
-      incident_date=2021-04-01..2022-06-10
-    ]
+    query = %w[incident_date=2021-04-01..2022-06-10]
 
     data = ManagedReports::Indicators::UnverifiedInformationViolations.build(
       nil,

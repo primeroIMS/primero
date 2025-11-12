@@ -21,17 +21,14 @@ class ManagedReports::Indicators::UnverifiedInformationViolations < ManagedRepor
           violations violations
           INNER JOIN incidents incidents ON incidents.id = violations.incident_id
           AND incidents.srch_status = 'open'
-          #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
-        WHERE
-          (violations.data ->> 'type' = 'attack_on_hospitals'
-          OR violations.data ->> 'type' = 'attack_on_schools'
-          OR violations.data ->> 'type' = 'denial_humanitarian_access')
-          and violations.data->>'ctfmr_verified' = 'report_pending_verification'
-          #{date_range_query(date_filter_param(params['ghn_date_filter']), 'incidents')&.prepend('and ')}
-        GROUP BY
-           violations.data ->> 'type'
-        ORDER BY
-          id
+          #{user_scope_query(current_user, 'incidents')&.prepend('AND ')}
+        WHERE violations.data @? '$[*] ? (
+          @.type == "attack_on_hospitals" || @.type == "attack_on_schools" || @.type == "denial_humanitarian_access"
+        )'
+        AND violations.data @? '$.ctfmr_verified ? (@ == "report_pending_verification" || @ == "reported_not_verified")'
+        #{date_range_query(date_filter_param(params['ghn_date_filter']), 'incidents')&.prepend('AND ')}
+        GROUP BY violations.data ->> 'type'
+        ORDER BY id
       }
     end
     # rubocop:enable Metrics/MethodLength

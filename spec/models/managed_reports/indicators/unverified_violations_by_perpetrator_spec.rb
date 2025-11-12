@@ -48,7 +48,7 @@ describe ManagedReports::Indicators::UnverifiedViolationsByPerpetrator do
         killing: [
           {
             unique_id: '52477e6c-8752-11f0-9c81-7c10c98b54af',
-            ctfmr_verified: 'report_pending_verification',
+            ctfmr_verified: 'reported_not_verified',
             violation_tally: { boys: 2, girls: 0, unknown: 2, total: 4 }
           }
         ],

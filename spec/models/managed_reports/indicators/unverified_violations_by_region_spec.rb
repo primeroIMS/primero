@@ -39,7 +39,7 @@ describe ManagedReports::Indicators::UnverifiedViolationsByRegion do
           },
           {
             unique_id: '8edd80b2-76d9-11f0-8338-7c10c98b54af',
-            ctfmr_verified: 'report_pending_verification',
+            ctfmr_verified: 'reported_not_verified',
             violation_tally: { boys: 2, girls: 3, unknown: 2, total: 7 }
           }
         ],
@@ -84,7 +84,7 @@ describe ManagedReports::Indicators::UnverifiedViolationsByRegion do
         killing: [
           {
             unique_id: '82359cfa-be55-11f0-a82a-7c10c98b54af',
-            ctfmr_verified: 'report_pending_verification',
+            ctfmr_verified: 'reported_not_verified',
             violation_tally: { boys: 1, girls: 1, unknown: 2, total: 4 }
           }
         ]

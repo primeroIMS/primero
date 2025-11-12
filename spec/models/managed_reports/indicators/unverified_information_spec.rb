@@ -23,7 +23,7 @@ describe ManagedReports::Indicators::UnverifiedInformation do
 
     Violation.create!(
       data: { type: 'killing', violation_tally: { 'boys' => 2, 'girls' => 0, 'unknown' => 2, 'total' => 4 },
-              ctfmr_verified: 'report_pending_verification' },
+              ctfmr_verified: 'reported_not_verified' },
       incident_id: incident.id
     )
 
@@ -34,7 +34,7 @@ describe ManagedReports::Indicators::UnverifiedInformation do
     )
 
     Violation.create!(
-      data: { type: 'abduction', ctfmr_verified: 'report_pending_verification',
+      data: { type: 'abduction', ctfmr_verified: 'reported_not_verified',
               violation_tally: { 'boys' => 3, 'girls' => 2, 'unknown' => 4, 'total' => 9 } },
       incident_id: incident2.id
     )

@@ -23,7 +23,9 @@ class ManagedReports::Indicators::UnverifiedViolationsByRegion < ManagedReports:
             AND incidents.srch_status = 'open'
             #{user_scope_query(current_user, 'incidents')&.prepend('AND ')}
             #{date_range_query(params['ghn_date_filter'], 'incidents', 'data', 'incident_date')&.prepend('AND ')}
-          WHERE violations.data @? '$[*] ? (@.ctfmr_verified == "report_pending_verification")'
+          WHERE violations.data @? '$.ctfmr_verified ? (
+            @ == "report_pending_verification" || @ == "reported_not_verified"
+          )'
         )
         SELECT
           violations_in_scope.region as name,
