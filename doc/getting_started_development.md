@@ -113,7 +113,7 @@ In the Primero top-level directory, there is a file `.ruby-version`, which conta
 cat .ruby-version
 # This will print something like: ruby-3.3.8
 # rbenv needs the version number, but not the ruby- prefix.
-rbenv install 3.3.8 # replace 3.3.8 with whatever version is in .ruby-version
+rbenv install $(cat .ruby-version)
 ```
 
 It will take several minutes to build and install ruby, depending on the speed of your machine.
