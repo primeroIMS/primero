@@ -914,7 +914,6 @@ export const INSIGHTS_CONFIG = {
     defaultFilterValues: {
       [GROUPED_BY]: MONTH,
       [DATE_RANGE]: LAST_MONTH,
-      [STATUS]: [STATUS_OPEN],
       [DATE]: REGISTRATION_DATE
     },
     filters: [
@@ -922,12 +921,6 @@ export const INSIGHTS_CONFIG = {
       RECORD_FILTERS[DATE_RANGE],
       RECORD_FILTERS[FROM],
       RECORD_FILTERS[TO],
-      {
-        name: AGE,
-        display_name: FILTER_BY_AGE_DISPLAY_NAME,
-        option_strings_source: OPTION_TYPES.AGE_RANGES,
-        type: SELECT_FIELD
-      },
       {
         name: DATE,
         display_name: FILTER_BY_DATE_DISPLAY_NAME,
@@ -937,6 +930,13 @@ export const INSIGHTS_CONFIG = {
             display_name: [MANAGED_REPORTS, CASE_MANAGEMENT_KPIS_REPORT, FILTER_OPTIONS, REGISTRATION_DATE]
           }
         ],
+        type: SELECT_FIELD
+      },
+      RECORD_FILTERS[STATUS],
+      {
+        name: AGE,
+        display_name: FILTER_BY_AGE_DISPLAY_NAME,
+        option_strings_source: OPTION_TYPES.AGE_RANGES,
         type: SELECT_FIELD
       },
       {

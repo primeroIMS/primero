@@ -20,7 +20,7 @@ class ManagedReports::Indicators::PercentageCasesReasonsForClosure < ManagedRepo
       date_group_query = build_date_group(params, {}, Child)
       group_id = date_group_query.present? ? 'group_id' : nil
 
-      %(
+      <<~SQL
         WITH cases_in_scope AS (
           SELECT
             #{date_group_query&.+(' AS group_id,')}
@@ -28,6 +28,7 @@ class ManagedReports::Indicators::PercentageCasesReasonsForClosure < ManagedRepo
             COALESCE(srch_sex, 'incomplete_data') AS sex
           FROM cases
           WHERE srch_status = 'closed'
+          #{params['record_state']&.query(Child)&.prepend('AND ')}
           #{user_scope_query(current_user, 'cases')&.prepend('AND ')}
           #{date_param&.query(Child)&.prepend('AND ')}
           #{params['age']&.query(Child)&.prepend('AND ')}
@@ -40,7 +41,7 @@ class ManagedReports::Indicators::PercentageCasesReasonsForClosure < ManagedRepo
           COUNT(*)
         FROM cases_in_scope
         GROUP BY #{group_id&.+(',')} closure_reason, sex
-      )
+      SQL
     end
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/AbcSize
