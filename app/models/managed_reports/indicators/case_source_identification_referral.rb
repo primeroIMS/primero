@@ -27,6 +27,7 @@ class ManagedReports::Indicators::CaseSourceIdentificationReferral < ManagedRepo
           WHERE TRUE
           #{params['status']&.query(Child)&.prepend('AND ')}
           #{user_scope_query(current_user, 'cases')&.prepend('AND ')}
+          #{user_module_query(current_user, 'cases')&.prepend('AND ')}
           #{date_param&.query(Child)&.prepend('AND ')}
           #{params['age']&.query(Child)&.prepend('AND ')}
           #{params['protection_concerns']&.query(Child)&.prepend('AND ')}
