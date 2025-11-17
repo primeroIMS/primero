@@ -220,7 +220,7 @@ class ManagedReport < ValueObject
         description: 'managed_reports.case_management_kpis_report.description',
         subreports: %w[source_identification_referral protection_concerns_reporting_location reasons_for_closure],
         permitted_filters: [
-          :grouped_by, :by, :age, { protection_concerns: [], registration_date: {} }
+          :grouped_by, :by, :age, { status: {}, protection_concerns: [], registration_date: {} }
         ],
         module_id: 'primeromodule-cp'
       ),

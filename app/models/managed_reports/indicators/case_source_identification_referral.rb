@@ -17,7 +17,7 @@ class ManagedReports::Indicators::CaseSourceIdentificationReferral < ManagedRepo
       date_param = filter_date(params)
       date_group_query = build_date_group(params, {}, Child)
       group_id = date_group_query.present? ? 'group_id' : nil
-      %(
+      <<~SQL
         WITH cases_in_scope AS (
           SELECT
             #{date_group_query&.+(' AS group_id,')}
@@ -25,7 +25,9 @@ class ManagedReports::Indicators::CaseSourceIdentificationReferral < ManagedRepo
             COALESCE(srch_sex, 'incomplete_data') AS sex
           FROM cases
           WHERE TRUE
+          #{params['status']&.query(Child)&.prepend('AND ')}
           #{user_scope_query(current_user, 'cases')&.prepend('AND ')}
+          #{user_module_query(current_user, 'cases')&.prepend('AND ')}
           #{date_param&.query(Child)&.prepend('AND ')}
           #{params['age']&.query(Child)&.prepend('AND ')}
           #{params['protection_concerns']&.query(Child)&.prepend('AND ')}
@@ -41,7 +43,7 @@ class ManagedReports::Indicators::CaseSourceIdentificationReferral < ManagedRepo
           ) AS total
         FROM cases_in_scope
         GROUP BY #{group_id&.+(',')} source_identification_referral, sex
-      )
+      SQL
     end
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/AbcSize
