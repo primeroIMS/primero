@@ -35,7 +35,7 @@ class ManagedReports::Indicators::SurvivorsNumberOfServicesProvidedOther < Manag
           SELECT
             #{group_column&.dup&.+(',')}
             'service_safehouse_referral' AS name,
-            data->>'service_safehouse_referral' AS key,
+            COALESCE(data->>'service_safehouse_referral', 'incomplete_data') AS key,
             COUNT(*) AS sum,
             SUM(COUNT(*)) OVER (#{group_column&.dup&.prepend('PARTITION BY ')})::INTEGER AS total
           FROM filtered_incidents
@@ -45,7 +45,7 @@ class ManagedReports::Indicators::SurvivorsNumberOfServicesProvidedOther < Manag
           SELECT
             #{group_column&.dup&.+(',')}
             'service_medical_referral' AS name,
-            service_referral AS key,
+            COALESCE(service_referral, 'incomplete_data') AS key,
             COUNT(*) AS sum,
             SUM(COUNT(*)) OVER (#{group_column&.dup&.prepend('PARTITION BY ')})::INTEGER AS total
           FROM filtered_incidents
@@ -59,7 +59,7 @@ class ManagedReports::Indicators::SurvivorsNumberOfServicesProvidedOther < Manag
           SELECT
             #{group_column&.dup&.+(',')}
             'service_psycho_referral' AS name,
-            service_referral AS key,
+            COALESCE(service_referral, 'incomplete_data') AS key,
             COUNT(*) AS sum,
             SUM(COUNT(*)) OVER (#{group_column&.dup&.prepend('PARTITION BY ')})::INTEGER AS total
           FROM filtered_incidents
@@ -73,7 +73,7 @@ class ManagedReports::Indicators::SurvivorsNumberOfServicesProvidedOther < Manag
           SELECT
             #{group_column&.dup&.+(',')}
             'service_legal_referral' AS name,
-            service_referral AS key,
+            COALESCE(service_referral, 'incomplete_data') AS key,
             COUNT(*) AS sum,
             SUM(COUNT(*)) OVER (#{group_column&.dup&.prepend('PARTITION BY ')})::INTEGER AS total
           FROM filtered_incidents
@@ -87,7 +87,7 @@ class ManagedReports::Indicators::SurvivorsNumberOfServicesProvidedOther < Manag
           SELECT
             #{group_column&.dup&.+(',')}
             'service_police_referral' as name,
-            service_referral AS key,
+            COALESCE(service_referral, 'incomplete_data') AS key,
             COUNT(*) AS sum,
             SUM(COUNT(*)) OVER (#{group_column&.dup&.prepend('PARTITION BY ')})::INTEGER AS total
           FROM filtered_incidents
@@ -103,7 +103,7 @@ class ManagedReports::Indicators::SurvivorsNumberOfServicesProvidedOther < Manag
           SELECT
             #{group_column&.dup&.+(',')}
             'service_livelihoods_referral' AS name,
-            service_referral AS key,
+            COALESCE(service_referral, 'incomplete_data') AS key,
             COUNT(*) AS sum,
             SUM(COUNT(*)) OVER (#{group_column&.dup&.prepend('PARTITION BY ')})::INTEGER AS total
           FROM filtered_incidents
@@ -117,7 +117,7 @@ class ManagedReports::Indicators::SurvivorsNumberOfServicesProvidedOther < Manag
           SELECT
             #{group_column&.dup&.+(',')}
             'service_protection_referral' AS name,
-            service_referral AS key,
+            COALESCE(service_referral, 'incomplete_data') AS key,
             COUNT(*) AS sum,
             SUM(COUNT(*)) OVER (#{group_column&.dup&.prepend('PARTITION BY ')})::INTEGER AS total
           FROM filtered_incidents
