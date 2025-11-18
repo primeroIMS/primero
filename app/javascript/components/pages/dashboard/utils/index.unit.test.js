@@ -13,6 +13,7 @@ describe("index - pages/dashboard/utils/", () => {
       "dashboardType",
       "filterIndicatorsByKey",
       "permittedSharedWithMe",
+      "permittedDashboardNames",
       "teamSharingTable",
       "toApprovalsManager",
       "toCasesBySocialWorkerTable",
@@ -21,7 +22,8 @@ describe("index - pages/dashboard/utils/", () => {
       "toListTable",
       "toProtectionConcernTable",
       "toReportingLocationTable",
-      "toTasksOverdueTable"
+      "toTasksOverdueTable",
+      "updateApprovals"
     ].forEach(property => {
       expect(indexValues).toHaveProperty(property);
       delete indexValues[property];
