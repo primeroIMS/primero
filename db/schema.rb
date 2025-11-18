@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 202511138000000) do
+ActiveRecord::Schema.define(version: 2025_11_13_000000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
@@ -213,8 +213,8 @@ ActiveRecord::Schema.define(version: 202511138000000) do
     t.datetime "srch_identified_at"
     t.index "((data ->> 'case_id'::text))", name: "cases_case_id_unique_idx", unique: true
     t.index "((phonetic_data -> 'tokens'::text))", name: "cases_phonetic_tokens_idx", using: :gin
-    t.index "jsonb_array_length((data -> 'followup_subform_section'::text))", name: "cases_followup_subform_section_length", where: "(jsonb_array_length((data -> 'followup_subform_section'::text)) >= 1)"
-    t.index "jsonb_array_length((data -> 'services_section'::text))", name: "cases_services_section_length", where: "(jsonb_array_length((data -> 'services_section'::text)) >= 1)"
+    t.index "jsonb_array_length((data -> 'followup_subform_section'::text))", name: "cases_followup_subform_section_length", where: "(jsonb_array_length((data -> 'followup_subform_section'::text)) > 0)"
+    t.index "jsonb_array_length((data -> 'services_section'::text))", name: "cases_services_section_length", where: "(jsonb_array_length((data -> 'services_section'::text)) > 0)"
     t.index ["data"], name: "index_cases_on_data", using: :gin
     t.index ["duplicate_case_id"], name: "index_cases_on_duplicate_case_id"
     t.index ["family_id"], name: "index_cases_on_family_id"
