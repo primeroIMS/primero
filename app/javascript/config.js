@@ -769,7 +769,8 @@ const VIOLATION_VERIFICATION_STATUS = Object.freeze({
   verified: "verified",
   report_pending_verification: "report_pending_verification",
   not_mrm: "not_mrm",
-  verification_found_that_incident_did_not_occur: "verification_found_that_incident_did_not_occur"
+  verification_found_that_incident_did_not_occur: "verification_found_that_incident_did_not_occur",
+  reported_not_verified: "reported_not_verified"
 });
 
 const MAX_CONDITIONS = 4;
