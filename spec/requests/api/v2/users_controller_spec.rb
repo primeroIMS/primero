@@ -856,6 +856,20 @@ describe Api::V2::UsersController, type: :request do
       expect(@user_d.identity_provider.unique_id).to eq(@identity_provider_a.unique_id)
     end
 
+    it 'does not change the user groups if the current user is the target user' do
+      sign_in(@user_c)
+
+      params = { data: { user_group_unique_ids: %w[user-group-1] } }
+
+      patch("/api/v2/users/#{@user_c.id}", params:)
+
+      @user_c.reload
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['id']).to eq(@user_c.id)
+      expect(@user_c.user_group_unique_ids).to match_array(%w[user-group-2])
+    end
+
     it 'user accept the code of conduct' do
       sign_in(@user_c)
       params = {
