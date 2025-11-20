@@ -147,10 +147,13 @@ class User < ApplicationRecord
       ]
     end
 
-    def self_hidden_attributes
-      %w[role_unique_id identity_provider_unique_id user_name user_group_unique_ids agency_id
-         identity_provider_id reset_password_token reset_password_sent_at service_account
-         unlock_token locked_at failed_attempts identity_provider_sync]
+    def self_permitted_params
+      # TODO: Refactor code of conduct acceptance logic so that code_of_conduct_id is not part of this list
+      [
+        'full_name', 'code', 'password', 'password_confirmation', 'locale', { 'services' => [] }, 'email', 'position',
+        'phone', 'location', 'send_mail', 'code_of_conduct_id', 'receive_webpush',
+        { 'settings' => { 'notifications' => { 'send_mail' => {}, 'receive_webpush' => {} } } }
+      ]
     end
 
     def password_parameters
@@ -181,13 +184,10 @@ class User < ApplicationRecord
     end
 
     def permitted_api_params(current_user = nil, target_user = nil)
-      permitted_params = User.default_permitted_params
+      return default_permitted_params if current_user.nil? || target_user.nil?
+      return default_permitted_params if current_user.user_name != target_user.user_name
 
-      return permitted_params if current_user.nil? || target_user.nil?
-
-      return permitted_params unless current_user.user_name == target_user.user_name
-
-      permitted_params - User.self_hidden_attributes
+      self_permitted_params
     end
 
     def last_login_timestamp(user_name)

@@ -1143,11 +1143,10 @@ describe User do
       @user1 = User.new(user_name: 'user1', role: @role, user_groups: [@group1])
       @user1.save(validate: false)
     end
-    context 'when user is not admin' do
-      it 'should not returm that are not allowed' do
-        expect(User.permitted_api_params(@user1, @user1)).not_to include(
-          *User.self_hidden_attributes
-        )
+
+    context 'when source and target users are the same' do
+      it 'returns the permitted params for self' do
+        expect(User.permitted_api_params(@user1, @user1)).to match_array(User.self_permitted_params)
       end
     end
 
