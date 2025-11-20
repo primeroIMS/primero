@@ -838,6 +838,7 @@ describe Api::V2::UsersController, type: :request do
           role_unique_id: 'test-role-1',
           identity_provider_unique_id: 'primeroims_2',
           agency_id: @agency_a.id,
+          user_group_unique_ids: %w[user-group-1],
           user_name:
         }
       }
@@ -851,6 +852,7 @@ describe Api::V2::UsersController, type: :request do
       expect(@user_d.role.unique_id).to eq(@role_manage_user.unique_id)
       expect(@user_d.agency.unique_id).to eq(@agency_b.unique_id)
       expect(@user_d.user_name).not_to eq(user_name)
+      expect(@user_d.user_group_unique_ids).to be_empty
       expect(@user_d.identity_provider.unique_id).to eq(@identity_provider_a.unique_id)
     end
 
