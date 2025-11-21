@@ -15,7 +15,7 @@ class Api::V2::UsersController < ApplicationApiController
 
   def index
     authorize! :index, User
-    filters = params.permit(:user_name, :agency, :location, :services, :user_group_ids,
+    filters = params.permit(:user_name, :agency, :location, :services, :user_group_ids, :id,
                             :query, last_access: %i[from to], last_case_viewed: %i[from to],
                                     last_case_updated: %i[from to], disabled: {}).to_h
     results = PermittedUsersService.new(current_user, include_activity_stats?)
@@ -51,6 +51,13 @@ class Api::V2::UsersController < ApplicationApiController
     @user.destroy!
   end
 
+  def update_bulk
+    authorize! :disable_multiple, User
+    PermittedUsersService.new(current_user, include_activity_stats?)
+                         .disable_in_batches(users_bulk_params)
+    render :index
+  end
+
   protected
 
   def order_params
@@ -59,6 +66,14 @@ class Api::V2::UsersController < ApplicationApiController
 
   def user_params
     @user_params ||= params.require(:data).permit(User.permitted_api_params(current_user, @user))
+  end
+
+  def users_bulk_params
+    params.require(:data).permit(:disabled, :agency, :user_group_ids, :query,
+                                 id: [],
+                                 last_access: %i[from to],
+                                 last_case_viewed: %i[from to],
+                                 last_case_updated: %i[from to]).to_h
   end
 
   def load_user

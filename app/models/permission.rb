@@ -205,6 +205,7 @@ class Permission < ValueObject
   VIEW_CASE_RELATIONSHIPS = 'view_case_relationships'
   CASE_MANAGEMENT_KPIS_REPORT = 'case_management_kpis_report'
   DISTRIBUTION_USERS_ROLE_REPORT = 'distribution_users_role_report'
+  DISABLE_MULTIPLE = 'disable_multiple'
 
   RESOURCE_ACTIONS = {
     CASE => [
@@ -241,7 +242,7 @@ class Permission < ValueObject
       CHANGE_LOG, MANAGE
     ],
     ROLE => [CREATE, READ, WRITE, ASSIGN, COPY, MANAGE, DELETE],
-    USER => [CREATE, READ, AGENCY_READ, WRITE, MANAGE],
+    USER => [CREATE, READ, AGENCY_READ, WRITE, DISABLE_MULTIPLE, MANAGE],
     USER_GROUP => [CREATE, READ, WRITE, ASSIGN, MANAGE, DELETE],
     AGENCY => [READ, WRITE, ASSIGN, MANAGE],
     WEBHOOK => [CREATE, READ, WRITE, DELETE, MANAGE],
