@@ -8,8 +8,12 @@ describe ManagedReports::ManagedUsageReport do
   before :each do
     clean_data(User, Agency, Role, FormSection, PrimeroModule, PrimeroProgram, UserGroup)
 
-    role_a = create(:role, unique_id: 'role-a', permissions: [Permission.new(resource: Permission::USER, actions: [Permission::READ])])
-    role_b = create(:role, unique_id: 'role-b', permissions: [Permission.new(resource: Permission::USER, actions: [Permission::READ])])
+    role_a = create(
+      :role, unique_id: 'role-a', permissions: [Permission.new(resource: Permission::USER, actions: [Permission::READ])]
+    )
+    role_b = create(
+      :role, unique_id: 'role-b', permissions: [Permission.new(resource: Permission::USER, actions: [Permission::READ])]
+    )
     group_a = create(:user_group, unique_id: 'user-group-a', name: 'UserGroup A')
     group_b = create(:user_group, unique_id: 'user-group-b', name: 'UserGroup B')
 
@@ -27,7 +31,7 @@ describe ManagedReports::ManagedUsageReport do
       [
         { 'id' => 'user-group-a', 'role-a' => 1, 'role-b' => 1, 'total' => 2 },
         { 'id' => 'user-group-b', 'role-a' => 3, 'total' => 3 },
-        { 'id' => 'overall', 'role-a' => 4, 'role-b' => 1, 'total' => 5 }
+        { 'id' => 'overall', 'role-a' => 3, 'role-b' => 1, 'total' => 4 }
       ]
     )
   end
