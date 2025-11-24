@@ -26,6 +26,7 @@ function useFormAttribute() {
           name: "identified_by",
           required: true,
           display_name: { [i18n.locale]: i18n.t("user.label") },
+          placeholder: i18n.t("cases.attribute.identified_by_placeholder"),
           type: SELECT_FIELD,
           asyncOptions: true,
           asyncAction: null,
