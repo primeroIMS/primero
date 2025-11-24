@@ -11,9 +11,8 @@ class ManagedReports::Indicators::MultipleViolations < ManagedReports::SqlReport
       'multiple_violations'
     end
 
-    # rubocop:disable Metrics/MethodLength
     def sql(current_user, params = {})
-      %{
+      <<~SQL
         SELECT DISTINCT
           jsonb_build_object(
             'unique_id', individual_victims.data->>'unique_id',
@@ -28,6 +27,7 @@ class ManagedReports::Indicators::MultipleViolations < ManagedReports::SqlReport
           INNER JOIN incidents incidents
             ON incidents.id = violations.incident_id
             AND incidents.srch_status = 'open'
+            AND incidents.srch_record_state = TRUE
           INNER JOIN individual_victims_violations ON individual_victims_violations.violation_id = violations.id
           INNER JOIN individual_victims ON individual_victims.id = individual_victims_violations.individual_victim_id
         WHERE individual_victims.data @? '$[*] ? (@.individual_multiple_violations == true)'
@@ -36,7 +36,7 @@ class ManagedReports::Indicators::MultipleViolations < ManagedReports::SqlReport
         #{date_range_query(date_filter_param(params['ghn_date_filter']), 'violations')&.prepend('and ')}
         GROUP BY individual_victims.id, incidents.id
         #{grouped_date_query(params['grouped_by'], filter_date(params), table_name_for_query(params))&.prepend(', ')}
-      }
+      SQL
     end
 
     def build_results(results, _params = {})
@@ -48,7 +48,5 @@ class ManagedReports::Indicators::MultipleViolations < ManagedReports::SqlReport
 
       results_array
     end
-
-    # rubocop:enable Metrics/MethodLength
   end
 end
