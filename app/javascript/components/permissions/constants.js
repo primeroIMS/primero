@@ -104,6 +104,7 @@ export const ACTIONS = {
   LINK_INCIDENT_TO_CASE: "link_incident_to_case",
   READ: "read",
   RECEIVE_REFERRAL: "receive_referral",
+  RECEIVE_REFERRAL_DIFFERENT_MODULE: "receive_referral_different_module",
   RECEIVE_TRANSFER: "receive_transfer",
   REFERRAL_FROM_SERVICE: "referral_from_service",
   REFERRAL: "referral",
