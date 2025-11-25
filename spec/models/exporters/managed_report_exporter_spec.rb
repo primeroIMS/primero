@@ -1917,7 +1917,7 @@ describe Exporters::ManagedReportExporter do
               ctfmr_verified: 'verified',
               ctfmr_verified_date: Date.new(2022, 4, 23),
               violation_tally: { boys: 2, girls: 0, unknown: 2, total: 4 }
-            },
+            }
           ],
           individual_victims: [
             {
@@ -1977,6 +1977,12 @@ describe Exporters::ManagedReportExporter do
               ctfmr_verified: 'verified',
               ctfmr_verified_date: Date.new(2022, 6, 4),
               violation_tally: { boys: 1, girls: 2, unknown: 5, total: 8 }
+            },
+            {
+              unique_id: 'd2657bfe-c6f8-11f0-b6cf-7c10c98b54af',
+              ctfmr_verified: 'verified',
+              ctfmr_verified_date: Date.new(2022, 5, 11),
+              violation_tally: { boys: 2, girls: 0, unknown: 2, total: 4 }
             }
           ],
           individual_victims: [
@@ -1990,7 +1996,7 @@ describe Exporters::ManagedReportExporter do
               unique_id: '858a003b-1b21-4fe0-abbf-9cb39d3a6d80',
               individual_age: 3,
               individual_multiple_violations: true,
-              violations_ids: ['82cecbec-76d8-11f0-ba36-7c10c98b54af']
+              violations_ids: ['82cecbec-76d8-11f0-ba36-7c10c98b54af', 'd2657bfe-c6f8-11f0-b6cf-7c10c98b54af']
             }
           ]
         }.with_indifferent_access
@@ -2022,7 +2028,7 @@ describe Exporters::ManagedReportExporter do
     it 'prints indicator tables' do
       expect(workbook.sheet(0).row(5)).to eq(['Verified Information - Victims', nil, nil, nil, nil, nil])
       expect(workbook.sheet(0).row(6)).to eq([nil, 'Boys', 'Girls', 'Unknown', 'Total', nil])
-      expect(workbook.sheet(0).row(7)).to eq(['Abduction', 1, 2, 5, 8, nil])
+      expect(workbook.sheet(0).row(7)).to eq(['Abduction', 3, 2, 7, 12, nil])
       expect(workbook.sheet(0).row(8)).to eq(['Attacks on school(s)', 3, 4, 5, 12, nil])
       expect(workbook.sheet(0).row(9)).to eq(['Killing of Children', 2, 0, 2, 4, nil])
 
@@ -2038,7 +2044,7 @@ describe Exporters::ManagedReportExporter do
 
       expect(workbook.sheet(0).row(90)).to eq(['Verified Information - Violations by Region', nil, nil, nil, nil, nil])
       expect(workbook.sheet(0).row(91)).to eq([nil, 'Killing', 'Maiming', 'Abduction', 'Attacks on schools', 'Total'])
-      expect(workbook.sheet(0).row(92)).to eq(['Incomplete Data', 1, 0, 1, 1, 3])
+      expect(workbook.sheet(0).row(92)).to eq(['Incomplete Data', 1, 0, 2, 1, 4])
 
       expect(workbook.sheet(0).row(118)).to eq(['Late Verification - Victims', nil, nil, nil, nil, nil])
 
@@ -2073,8 +2079,7 @@ describe Exporters::ManagedReportExporter do
 
       expect(workbook.sheet(0).row(336)).to eq(['Children affected by multiple violations', nil, nil, nil, nil, nil])
       expect(workbook.sheet(0).row(337)).to eq([nil, 'Associated Violations', nil, nil, nil, nil])
-      expect(workbook.sheet(0).row(338)).to eq(['d3a6d80 - 3', 'Abduction', nil, nil, nil, nil])
-      expect(workbook.sheet(0).row(339)).to eq(['7676667 - 9', 'Killing of Children', nil, nil, nil, nil])
+      expect(workbook.sheet(0).row(338)).to eq(['d3a6d80 - 3', "Abduction,\nAbduction", nil, nil, nil, nil])
     end
   end
 

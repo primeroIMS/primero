@@ -2259,6 +2259,7 @@ en:
       service_type: Type of Service
       has_late_verified_violations: Late Verified?
       age: Age
+      service_implemented: Service Implemented
     status_options:
       open: Open
       closed: Closed
@@ -2652,6 +2653,16 @@ en:
         percentage_case_reasons_for_closure: Reason for Closure
       filter_options:
         registration_date: Registration Date
+    case_management_kpis_service_referrals_report:
+      name: Case Management KPIs - Service Referrals
+      description: Number of Cases referred for appropriate ​services, per type of multi-sectoral service
+      reports:
+        referred_appropriate_service: Cases referred for appropriate services
+      sub_reports:
+        case_referred_appropriate_service: Cases referred for appropriate services
+      filter_options:
+        registration_date: Registration Date
+        service_implemented_day_time: Service Implemented On
     distribution_users_role_report:
       name: Distribution of Users by Role
       description: Gives the number of Users with each Role, broken down by User Group. This allows you to see the number of supervisory and administrative staff per case worker.
@@ -3951,6 +3962,9 @@ en:
           case_management_kpis_report:
             label: Case Management KPIs
             explanation: Tracks key indicators of CP Case Management performance, including percentage of referrals made by different stakeholders, Reporting Location and Sex for selected Protection Concerns, and percentage of cases with each reason for closure.
+          case_management_kpis_service_referrals_report:
+            label: Case Management KPIs - Service Referrals
+            explanation: Number of Cases referred for appropriate ​services, per type of multi-sectoral service
           distribution_users_role_report:
             label: Distribution of Users by Role
             explanation: Gives the number of Users with each Role, broken down by User Group. This allows you to see the number of supervisory and administrative staff per case worker.
