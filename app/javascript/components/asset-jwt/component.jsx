@@ -9,6 +9,7 @@ function Component({ asDiv = false, src, alt, className, style, type = "image", 
   const [srcString, setSrcString] = useState("");
   const isIDP = useMemoizedSelector(state => getUseIdentityProvider(state));
 
+  const srcDefined = src?.startsWith("undefined") === false;
   const isBase64 = src?.startsWith("data:");
 
   const getBase64Image = async res => {
@@ -27,6 +28,10 @@ function Component({ asDiv = false, src, alt, className, style, type = "image", 
 
   async function fetchImage() {
     const token = await getIDPToken();
+
+    if (!srcDefined) {
+      return;
+    }
 
     fetch(src, {
       headers: {
