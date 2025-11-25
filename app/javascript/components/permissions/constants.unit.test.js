@@ -114,6 +114,7 @@ describe("Verifying config constant", () => {
       "PROTECTION_OUTCOMES",
       "READ",
       "RECEIVE_REFERRAL",
+      "RECEIVE_REFERRAL_DIFFERENT_MODULE",
       "RECEIVE_TRANSFER",
       "REFERRAL_FROM_SERVICE",
       "REFERRAL",
