@@ -1062,7 +1062,7 @@ en:
         user_name_uniqueness: A User with that user name already exists. Please enter a different one
         email_uniqueness: A User with this email address already exists. Please enter a different one
         data_processing_consent_provided_on: You must provide consent to data processing
-        code_of_conduct: Invalid code of conduct. Please make sure you are accepting the latest code of conduct.
+        code_of_conduct: Invalid code of conduct. Please make sure that you are accepting the latest code of conduct.
       code_of_conduct:
         title_present: Title must not be blank
         content_present: Content must not be blank
