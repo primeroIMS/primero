@@ -23,7 +23,8 @@ import {
   READ_REGISTRY_RECORD,
   READ_FAMILY_RECORD,
   SHOW_USAGE_REPORTS,
-  GROUP_PERMISSIONS
+  GROUP_PERMISSIONS,
+  VIEW_CASE_RELATIONSHIPS
 } from "./components/permissions/constants";
 import getAdminResources from "./components/pages/admin/utils/get-admin-resources";
 
@@ -629,7 +630,7 @@ const FORM_PERMISSION_ACTION = Object.freeze({
   [SUMMARY]: SHOW_SUMMARY,
   [REGISTRY_FROM_CASE]: READ_REGISTRY_RECORD,
   [FAMILY_FROM_CASE]: READ_FAMILY_RECORD,
-  [CASE_RELATIONSHIPS]: READ_RECORDS
+  [CASE_RELATIONSHIPS]: VIEW_CASE_RELATIONSHIPS
 });
 
 const VIOLATIONS_FORM = [
