@@ -1279,6 +1279,34 @@ describe("<RecordForm /> - Selectors", () => {
 
       expect(result).toEqual(fromJS([CHANGE_LOGS, RECORD_OWNER, TRANSFERS_ASSIGNMENTS]));
     });
+
+    it("should prioritize record permissions over user permissions when record permissions exist", () => {
+      const result = selectors
+        .getRecordInformationNav(
+          fromJS({
+            user: {
+              permissions: {
+                cases: [ACTIONS.CHANGE_LOG, ACTIONS.REFERRAL, ACTIONS.APPROVALS]
+              }
+            },
+            records: {
+              cases: {
+                data: [{ id: "002", permitted_form_actions: { case: [ACTIONS.REFERRAL] } }],
+                selectedRecord: "002"
+              }
+            }
+          }),
+          {
+            recordType: "case",
+            primeroModule: "primeromodule-cp"
+          }
+        )
+        .map(form => form.formId)
+        .toList()
+        .sort();
+
+      expect(result).toEqual(fromJS([RECORD_OWNER, REFERRAL, TRANSFERS_ASSIGNMENTS]));
+    });
   });
 
   describe("getDuplicatedFieldAlerts", () => {

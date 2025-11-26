@@ -111,7 +111,7 @@ describe UsageReport do
         {
           'user_group_a' => { 'role_worker' => 1, 'role_manager' => 1, 'total' => 2 },
           'user_group_b' => { 'role_manager' => 1, 'total' => 1 },
-          'overall' => { 'role_worker' => 1, 'role_manager' => 2, 'total' => 3 }
+          'overall' => { 'role_worker' => 1, 'role_manager' => 1, 'total' => 2 }
         }
       )
     end

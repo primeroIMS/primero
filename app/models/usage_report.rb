@@ -85,35 +85,51 @@ class UsageReport < ValueObject
   end
 
   def build_users_by_role(user = nil, params = {})
-    count_users_by_role(user, params).each_with_object({}) do |elem, memo|
-      role_unique_id = elem['role_unique_id']
-      user_group_unique_id = elem['user_group_unique_id']
+    (
+      count_users_by_role(user, params) + count_users_by_role_and_user_group(user, params)
+    ).each_with_object({}) do |elem, memo|
       count = elem['count']
+      memo[elem['user_group_unique_id']] ||= { 'total' => 0 }
+      group = memo[elem['user_group_unique_id']]
 
-      aggregate_result_group(memo, 'overall', role_unique_id, count)
-      aggregate_result_group(memo, user_group_unique_id, role_unique_id, count)
+      group[elem['role_unique_id']] ||= 0
+      group[elem['role_unique_id']] += count
+      group['total'] += count
     end
   end
 
-  def aggregate_result_group(results, user_group_unique_id, role_unique_id, count)
-    results[user_group_unique_id] ||= { 'total' => 0 }
-    results[user_group_unique_id][role_unique_id] ||= 0
-    results[user_group_unique_id][role_unique_id] += count
-    results[user_group_unique_id]['total'] += count
+  def count_users_by_role(user, params = {})
+    query = users_with_params(user, params).group('roles.unique_id').select(
+      <<~SQL
+        'overall' AS user_group_unique_id,
+        roles.unique_id AS role_unique_id,
+        COUNT(DISTINCT(users.user_name))
+      SQL
+    )
+
+    User.connection.select_all(query.to_sql).to_a
   end
 
-  def count_users_by_role(user, params = {})
-    query = users_in_scope(user).group('user_groups.unique_id', 'roles.unique_id').select(
-      'user_groups.unique_id AS user_group_unique_id, roles.unique_id AS role_unique_id, COUNT(*)'
-    ).where(
+  def count_users_by_role_and_user_group(user, params = {})
+    query = users_with_params(user, params).group('user_groups.unique_id', 'roles.unique_id').select(
+      <<~SQL
+        user_groups.unique_id AS user_group_unique_id,
+        roles.unique_id AS role_unique_id,
+        COUNT(*)
+      SQL
+    )
+
+    User.connection.select_all(query.to_sql).to_a
+  end
+
+  def users_with_params(user, params)
+    users_in_scope(user).where(
       {
         disabled: params[:disabled],
         user_groups: { unique_id: params[:user_group_unique_id] }.compact.presence,
         agencies: { unique_id: params[:agency_unique_id] }.compact.presence
       }.compact_deep
     )
-
-    User.connection.select_all(query.to_sql).to_a
   end
 
   def users_in_scope(user)

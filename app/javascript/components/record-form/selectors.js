@@ -281,10 +281,9 @@ export const getRecordInformationNav = createCachedSelector(
     return formSections
       .map(form => buildFormNav(form))
       .filter(form => {
-        return (
-          isEmpty(form.permission_actions) ||
-          checkPermissions(recordPermissions || userPermissions, form.permission_actions)
-        );
+        const currentPermissions = recordPermissions?.size > 0 ? recordPermissions : userPermissions;
+
+        return isEmpty(form.permission_actions) || checkPermissions(currentPermissions, form.permission_actions);
       })
       .sortBy(form => form.order);
   }
