@@ -26,6 +26,7 @@ script_sources = %i[strict_dynamic] + ["'wasm-unsafe-eval'"]
 
 Rails.application.config.content_security_policy do |policy|
   policy.default_src(*self_sources)
+  policy.connect_src(*font_and_image_sources)
   policy.font_src(*font_and_image_sources)
   policy.img_src(*font_and_image_sources)
   policy.media_src(*media_sources)
