@@ -57,8 +57,10 @@ function Component({ filters, selectedRecords, setSelectedRecords, recordType })
       pending={loading}
       omitCloseAfterSuccess
     >
-      <p>{i18n.t(`users.${action}_selection_indicartor`, { users_selected: selectedRecordsLength })}</p>
-      <p>{i18n.t(`users.${action}_text`)}</p>
+      <p data-testid="selection-indicator">
+        {i18n.t(`users.${action}_selection_indicartor`, { users_selected: selectedRecordsLength })}
+      </p>
+      <p data-testid="action-text">{i18n.t(`users.${action}_text`)}</p>
     </ActionDialog>
   );
 }
