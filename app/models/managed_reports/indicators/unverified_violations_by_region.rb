@@ -9,14 +9,17 @@ class ManagedReports::Indicators::UnverifiedViolationsByRegion < ManagedReports:
       'unverified_violations_by_region'
     end
 
-    # rubocop:disable Metrics/MethodLength
     def sql(current_user, params = {})
-      %{
+      <<~SQL
         WITH violations_in_scope AS (
           SELECT
             violations.id,
             violations.data->>'type' AS type,
-            #{incident_region_query(current_user)} AS region
+            #{incident_region_query(current_user)} AS region,
+            CASE WHEN violations.data->'violation_tally'->'total' IS NULL
+              THEN 1
+              ELSE CAST(violations.data->'violation_tally'->'total' AS INTEGER)
+            END AS violation_tally_total
           FROM violations
           INNER JOIN incidents incidents
             ON incidents.id = violations.incident_id
@@ -30,12 +33,11 @@ class ManagedReports::Indicators::UnverifiedViolationsByRegion < ManagedReports:
         SELECT
           violations_in_scope.region as name,
           violations_in_scope.type AS key,
-          COUNT(*) AS sum,
-          CAST(SUM(COUNT(*)) OVER (PARTITION BY violations_in_scope.region) AS INTEGER) AS total
+          CAST(SUM(violation_tally_total) AS INTEGER) AS sum,
+          CAST(SUM(SUM(violation_tally_total)) OVER (PARTITION BY violations_in_scope.region) AS INTEGER) AS total
         FROM violations_in_scope
         GROUP BY name, key
-      }
+      SQL
     end
-    # rubocop:enable Metrics/MethodLength
   end
 end
