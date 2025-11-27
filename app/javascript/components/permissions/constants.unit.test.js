@@ -69,6 +69,7 @@ describe("Verifying config constant", () => {
       "DASH_WORKFLOW_TEAM",
       "DASH_WORKFLOW",
       "DELETE",
+      "DISABLE_MULTIPLE",
       "DISPLAY_VIEW_PAGE",
       "DISTRIBUTION_USERS_ROLE_REPORT",
       "ENABLE_DISABLE_RECORD",
