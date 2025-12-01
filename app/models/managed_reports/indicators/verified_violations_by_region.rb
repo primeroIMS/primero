@@ -22,7 +22,11 @@ class ManagedReports::Indicators::VerifiedViolationsByRegion < ManagedReports::S
             ON incidents.id = violations.incident_id
             AND incidents.srch_status = 'open'
             #{user_scope_query(current_user, 'incidents')&.prepend('AND ')}
-          WHERE violations.data @? '$[*] ? (@.ctfmr_verified == "verified" && @.is_late_verification != true)'
+          WHERE violations.data @? '$[*]
+            ? (@.ctfmr_verified == "verified")
+            ? (@.type != "deprivation_liberty")
+            ? (!exists(@.is_late_verification) || @.is_late_verification != true)
+          '
           #{date_range_query(params['ghn_date_filter'], 'violations', 'data', 'ctfmr_verified_date')&.prepend('AND ')}
         )
         SELECT

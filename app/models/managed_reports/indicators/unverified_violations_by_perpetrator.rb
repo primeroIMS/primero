@@ -9,9 +9,8 @@ class ManagedReports::Indicators::UnverifiedViolationsByPerpetrator < ManagedRep
       'unverified_violations_by_perpetrator'
     end
 
-    # rubocop:disable Metrics/MethodLength
     def sql(current_user, params = {})
-      %{
+      <<~SQL
         WITH violations_in_scope AS (
           SELECT
             violations.id,
@@ -22,9 +21,10 @@ class ManagedReports::Indicators::UnverifiedViolationsByPerpetrator < ManagedRep
             AND incidents.srch_status = 'open'
             #{user_scope_query(current_user, 'incidents')&.prepend('AND ')}
             #{date_range_query(params['ghn_date_filter'], 'incidents', 'data', 'incident_date')&.prepend('AND ')}
-          WHERE violations.data @? '$.ctfmr_verified ? (
-            @ == "report_pending_verification" || @ == "reported_not_verified"
-          )'
+          WHERE violations.data @? '$[*]
+            ? (@.ctfmr_verified == "report_pending_verification" || @.ctfmr_verified == "reported_not_verified")
+            ? (@.type != "deprivation_liberty")
+          '
         )
         SELECT
           perpetrators.data->>'armed_force_group_party_name' AS name,
@@ -35,8 +35,7 @@ class ManagedReports::Indicators::UnverifiedViolationsByPerpetrator < ManagedRep
         INNER JOIN perpetrators_violations ON perpetrators_violations.violation_id = violations_in_scope.id
         INNER JOIN perpetrators ON perpetrators.id = perpetrators_violations.perpetrator_id
         GROUP BY name, key
-      }
+      SQL
     end
-    # rubocop:enable Metrics/MethodLength
   end
 end

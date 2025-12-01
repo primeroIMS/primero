@@ -52,6 +52,13 @@ describe ManagedReports::Indicators::UnverifiedViolationsByPerpetrator do
             violation_tally: { boys: 2, girls: 0, unknown: 2, total: 4 }
           }
         ],
+        deprivation_liberty: [
+          {
+            unique_id: '44412e96-cf94-11f0-9bf9-7c10c98b54af',
+            ctfmr_verified: 'report_pending_verification',
+            violation_tally: { boys: 1, girls: 2, unknown: 1, total: 4 }
+          }
+        ],
         perpetrators: [
           {
             unique_id: 'e13ffb2e-77c3-11f0-ba4b-7c10c98b54af',
@@ -62,6 +69,11 @@ describe ManagedReports::Indicators::UnverifiedViolationsByPerpetrator do
             unique_id: '20f8b6a2-77c4-11f0-b34b-7c10c98b54af',
             armed_force_group_party_name: 'armed_force_1',
             violations_ids: %w[8edd80b2-76d9-11f0-8338-7c10c98b54af 76d2adba-8752-11f0-accf-7c10c98b54af]
+          },
+          {
+            unique_id: '4e8c13d4-cf94-11f0-987b-7c10c98b54af',
+            armed_force_group_party_name: 'armed_force_3',
+            violations_ids: %w[44412e96-cf94-11f0-9bf9-7c10c98b54af]
           }
         ]
       }.with_indifferent_access

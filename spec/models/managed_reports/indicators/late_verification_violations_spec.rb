@@ -71,6 +71,12 @@ describe ManagedReports::Indicators::LateVerificationViolations do
     )
 
     Violation.create!(
+      data: { type: 'deprivation_liberty', violation_tally: { 'boys' => 2, 'girls' => 3, 'unknown' => 2, 'total' => 7 },
+              ctfmr_verified: 'verified', ctfmr_verified_date: Date.new(2022, 11, 12) },
+      incident_id: incident3.id
+    )
+
+    Violation.create!(
       data: { type: 'attack_on_hospitals', violation_tally: { 'boys' => 1, 'girls' => 1, 'unknown' => 0, 'total' => 2 },
               ctfmr_verified: 'verified', ctfmr_verified_date: Date.new(2022, 5, 1) },
       incident_id: incident4.id
@@ -84,7 +90,7 @@ describe ManagedReports::Indicators::LateVerificationViolations do
   it 'return data for late verification indicator' do
     common_query = %w[
       has_late_verified_violations=true
-      ctfmr_verified_date=2021-05-01..2022-05-31
+      ctfmr_verified_date=2021-05-01..2022-11-30
     ]
 
     data = ManagedReports::Indicators::LateVerificationViolations.build(
@@ -94,7 +100,7 @@ describe ManagedReports::Indicators::LateVerificationViolations do
         'ghn_date_filter' => SearchFilters::DateRange.new(
           field_name: 'ghn_date_filter',
           from: Date.parse('2021-05-01'),
-          to: Date.parse('2022-05-31')
+          to: Date.parse('2022-11-30')
         )
       }
     ).data
@@ -111,8 +117,8 @@ describe ManagedReports::Indicators::LateVerificationViolations do
         {
           'id' => 'attack_on_schools',
           'total' => {
-             count: 1,
-             query: %w[violation_with_verification_status=attack_on_schools_verified] + common_query
+            count: 1,
+            query: %w[violation_with_verification_status=attack_on_schools_verified] + common_query
           }
         }
       ]

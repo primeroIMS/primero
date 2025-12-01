@@ -45,6 +45,14 @@ describe ManagedReports::Indicators::VerifiedViolationsByRegion do
             ctfmr_verified_date: Date.new(2022, 4, 23),
             violation_tally: { boys: 2, girls: 3, unknown: 2, total: 7 }
           }
+        ],
+        deprivation_liberty: [
+          {
+            unique_id: '1c1317ee-cf9a-11f0-a7e9-7c10c98b54af',
+            ctfmr_verified: 'verified',
+            ctfmr_verified_date: Date.new(2022, 4, 23),
+            violation_tally: { boys: 1, girls: 2, unknown: 0, total: 3 }
+          }
         ]
       }.with_indifferent_access
     )

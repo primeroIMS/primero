@@ -34,6 +34,12 @@ describe ManagedReports::Indicators::UnverifiedInformation do
     )
 
     Violation.create!(
+      data: { type: 'deprivation_liberty', ctfmr_verified: 'reported_not_verified',
+              violation_tally: { 'boys' => 3, 'girls' => 2, 'unknown' => 4, 'total' => 9 } },
+      incident_id: incident2.id
+    )
+
+    Violation.create!(
       data: { type: 'abduction', ctfmr_verified: 'reported_not_verified',
               violation_tally: { 'boys' => 3, 'girls' => 2, 'unknown' => 4, 'total' => 9 } },
       incident_id: incident2.id
@@ -124,7 +130,7 @@ describe ManagedReports::Indicators::UnverifiedInformation do
     expect(data).to match_array(
       [
         {
-          group_id: 'boys', 
+          group_id: 'boys',
           data: [
             { id: 'abduction', total: { count: 4, query: %w[child_types=boys] + abduction_query } },
             { id: 'killing', total: { count: 2, query: %w[child_types=boys] + killing_query } }

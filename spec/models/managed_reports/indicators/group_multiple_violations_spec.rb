@@ -116,6 +116,9 @@ describe ManagedReports::Indicators::GroupMultipleViolations do
     group_victim6 = GroupVictim.create!(
       data: { group_gender: 'unknown', group_age_band: %w[unknown], group_multiple_violations: true }
     )
+    group_victim7 = GroupVictim.create!(
+      data: { group_gender: 'unknown', group_age_band: %w[0_5 6_10], group_multiple_violations: true }
+    )
 
     violation1 = Violation.create!(
       data: {
@@ -162,7 +165,15 @@ describe ManagedReports::Indicators::GroupMultipleViolations do
       },
       incident_id: @incident4.id
     )
-    violation4.group_victims = [group_victim5, group_victim6]
+    violation4.group_victims = [group_victim5, group_victim6, group_victim7]
+
+    violation5 = Violation.create!(
+      data: {
+        type: 'deprivation_liberty', ctfmr_verified_date: Date.new(2021, 8, 8), ctfmr_verified: 'verified'
+      },
+      incident_id: @incident4.id
+    )
+    violation5.group_victims = [group_victim7]
   end
 
   it 'return data for violations marked as verified' do

@@ -11,9 +11,8 @@ class ManagedReports::Indicators::GroupMultipleViolations < ManagedReports::SqlR
       'group_multiple_violations'
     end
 
-    # rubocop:disable Metrics/MethodLength
     def sql(current_user, params = {})
-      %{
+      <<~SQL
         WITH verified_open_violations as (
           SELECT
             violations.id,
@@ -24,7 +23,7 @@ class ManagedReports::Indicators::GroupMultipleViolations < ManagedReports::SqlR
           INNER JOIN incidents incidents
             ON incidents.id = violations.incident_id
             AND incidents.srch_status = 'open'
-          WHERE violations.data @? '$[*] ? (@.ctfmr_verified == "verified")'
+          WHERE violations.data @? '$[*] ? (@.ctfmr_verified == "verified" && @.type != "deprivation_liberty")'
           #{user_scope_query(current_user, 'incidents')&.prepend('AND ')}
           #{date_range_query(date_filter_param(params['ghn_date_filter']), 'violations')&.prepend('AND ')}
         )
@@ -45,7 +44,7 @@ class ManagedReports::Indicators::GroupMultipleViolations < ManagedReports::SqlR
         GROUP BY group_victim_id, group_victims.data, verified_open_violations.incident_id,
                  verified_open_violations.incident_short_id
         HAVING COUNT(*) >= 2
-      }
+      SQL
     end
 
     def build_results(results, _params = {})
@@ -57,7 +56,5 @@ class ManagedReports::Indicators::GroupMultipleViolations < ManagedReports::SqlR
 
       results_array
     end
-
-    # rubocop:enable Metrics/MethodLength
   end
 end

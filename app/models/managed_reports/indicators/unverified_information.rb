@@ -11,9 +11,8 @@ class ManagedReports::Indicators::UnverifiedInformation < ManagedReports::SqlRep
       'unverified_information'
     end
 
-    # rubocop:disable Metrics/MethodLength
     def sql(current_user, params = {})
-      %{
+      <<~SQL
         SELECT
           key AS name,
           'total' AS key,
@@ -25,15 +24,17 @@ class ManagedReports::Indicators::UnverifiedInformation < ManagedReports::SqlRep
           AND incidents.srch_status = 'open'
           #{user_scope_query(current_user, 'incidents')&.prepend('AND ')}
         CROSS JOIN JSON_EACH_TEXT((violations.data->>'violation_tally')::JSON)
-        WHERE violations.data->>'violation_tally' IS NOT NULL
+        WHERE violations.data @? '$[*]
+          ? (exists(@.violation_tally) && @.violation_tally != null)
+          ? (@.ctfmr_verified == "report_pending_verification" || @.ctfmr_verified == "reported_not_verified")
+          ? (@.type != "denial_humanitarian_access" && @.type != "deprivation_liberty")
+          ? (!exists(@.is_late_verification) || @.is_late_verification != true)
+        '
         #{date_range_query(date_filter_param(params['ghn_date_filter']), 'incidents')&.prepend('AND ')}
-        AND violations.data @? '$[*] ? (@.type  != "denial_humanitarian_access")'
-        AND violations.data @? '$.ctfmr_verified ? (@ == "report_pending_verification" || @ == "reported_not_verified")'
         GROUP BY key, violations.data ->> 'type'
         ORDER BY name
-      }
+      SQL
     end
-    # rubocop:enable Metrics/MethodLength
 
     def date_filter
       'incident_date'

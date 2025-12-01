@@ -25,7 +25,7 @@ class ManagedReports::Indicators::MultipleViolations < ManagedReports::SqlReport
             AND incidents.srch_status = 'open'
             AND incidents.srch_record_state = TRUE
             #{user_scope_query(current_user, 'incidents')&.prepend('AND ')}
-          WHERE violations.data @? '$[*] ? (@.ctfmr_verified == "verified")'
+          WHERE violations.data @? '$[*] ? (@.ctfmr_verified == "verified" && @.type != "deprivation_liberty")'
           #{date_range_query(date_filter_param(params['ghn_date_filter']), 'violations')&.prepend('AND ')}
         )
         SELECT DISTINCT
