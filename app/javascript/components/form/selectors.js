@@ -6,7 +6,7 @@ import sortBy from "lodash/sortBy";
 import isNil from "lodash/isNil";
 import omitBy from "lodash/omitBy";
 import { createCachedSelector } from "re-reselect";
-import { createSelectorCreator, defaultMemoize } from "reselect";
+import { createSelectorCreator, lruMemoize } from "reselect";
 import { memoize } from "proxy-memoize";
 
 import { RECORD_PATH } from "../../config";
@@ -38,7 +38,7 @@ import { buildLinkedIncidentOptions, buildRoleOptions } from "./utils";
 // TODO: Move to useMemoizedSelector
 const defaultCacheSelectorOptions = {
   keySelector: (_state, options) => JSON.stringify(omitBy(options, isNil)),
-  selectorCreator: createSelectorCreator(defaultMemoize, selectorEqualityFn)
+  selectorCreator: createSelectorCreator(lruMemoize, selectorEqualityFn)
 };
 
 const lookupsList = memoize(state => state.getIn(["forms", "options", "lookups"], fromJS([])));

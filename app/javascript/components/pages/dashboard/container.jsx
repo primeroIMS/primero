@@ -186,31 +186,71 @@ function Dashboard() {
         <OfflineAlert text={i18n.t("messages.dashboard_offline")} />
         <Grid container spacing={3}>
           {canSeeOverviewDashboard && (
-            <Grid item xl={xlSizeOverview} md={xlSizeOverview} xs={12} className={css.flex}>
+            <Grid
+              className={css.flex}
+              size={{
+                xl: xlSizeOverview,
+                md: xlSizeOverview,
+                xs: 12
+              }}
+            >
               <Overview />
             </Grid>
           )}
           {canSeeActionNeededDashboards && (
-            <Grid item xl={xlSizeActionNeeded} md={xlSizeActionNeeded} xs={12} className={css.flex}>
+            <Grid
+              className={css.flex}
+              size={{
+                xl: xlSizeActionNeeded,
+                md: xlSizeActionNeeded,
+                xs: 12
+              }}
+            >
               <ActionNeeded userPermissions={userPermissions} />
             </Grid>
           )}
           {canSeeWorkflowDashboard && (
-            <Grid item xl={12} md={12} xs={12}>
+            <Grid
+              size={{
+                xl: 12,
+                md: 12,
+                xs: 12
+              }}
+            >
               <WorkflowIndividualCases />
             </Grid>
           )}
-          <Grid item xl={xlSize} md={mdSize} xs={12} className={css.flexFlow}>
+          <Grid
+            className={css.flexFlow}
+            size={{
+              xl: xlSize,
+              md: mdSize,
+              xs: 12
+            }}
+          >
             {permittedColumnDashboards.map(dashboard => (
               <dashboard.component userPermissions={userPermissions} />
             ))}
           </Grid>
           {canFetchFlags && (
-            <Grid item xl={xlSizeFlags} md={mdSizeFlags} xs={12} className={css.flex}>
+            <Grid
+              className={css.flex}
+              size={{
+                xl: xlSizeFlags,
+                md: mdSizeFlags,
+                xs: 12
+              }}
+            >
               <Flags />
             </Grid>
           )}
-          <Grid item xl={12} md={12} xs={12}>
+          <Grid
+            size={{
+              xl: 12,
+              md: 12,
+              xs: 12
+            }}
+          >
             {permittedTableDashboards.map(dashboard => (
               <dashboard.component userPermissions={userPermissions} />
             ))}
