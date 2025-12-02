@@ -9,7 +9,7 @@ local:
   root: <%= ENV['PRIMERO_STORAGE_PATH'] || Rails.root.join('storage') %>
 
 microsoft:
-  service: AzureStorage
+  service: AzureBlob
   storage_account_name: <%= ENV['PRIMERO_STORAGE_AZ_ACCOUNT'] %>
   storage_access_key: <%= ENV['PRIMERO_STORAGE_AZ_KEY'] %>
   container: <%= ENV['PRIMERO_STORAGE_AZ_CONTAINER'] %>

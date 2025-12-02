@@ -11,7 +11,7 @@ import ListIcon from "../../../list-icon";
 import Jewel from "../../../jewel";
 import css from "../../styles.css";
 import DisableOffline from "../../../disable-offline";
-import { getPermissions } from "../../../user/selectors";
+import { getCurrentUserGroupPermission, getPermissions } from "../../../user/selectors";
 import { ConditionalWrapper, useMemoizedSelector } from "../../../../libs";
 import { useApp } from "../../../application";
 import { setDialog } from "../../../action-dialog";
@@ -25,7 +25,17 @@ function Component({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
   const dispatch = useDispatch();
   const { label } = useSystemStrings(NAVIGATION);
 
-  const { to, divider, icon, name, disableOffline, disabled, validateWithUserPermissions, resources } = menuEntry;
+  const {
+    to,
+    divider,
+    icon,
+    name,
+    disableOffline,
+    disabled,
+    validateWithUserPermissions,
+    resources,
+    groupPermissions
+  } = menuEntry;
 
   const jewel = jewelCount ? (
     <Jewel
@@ -58,6 +68,7 @@ function Component({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
   };
 
   const userPermissions = useMemoizedSelector(state => getPermissions(state), isEqual);
+  const userGroupPermission = useMemoizedSelector(state => getCurrentUserGroupPermission(state));
 
   const userRecordTypes = [...userPermissions.keys()];
   const navItemName = name === "username" ? username : label(name);
@@ -77,11 +88,16 @@ function Component({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
     </li>
   );
 
-  if (typeof validateWithUserPermissions !== "undefined") {
-    return validateWithUserPermissions &&
-      (userRecordTypes.includes(to.replace("/", "")) || userRecordTypes.includes(resources))
-      ? renderNavAction
-      : null;
+  if (
+    validateWithUserPermissions === true &&
+    !userRecordTypes.includes(to.replace("/", "")) &&
+    !userRecordTypes.includes(resources)
+  ) {
+    return null;
+  }
+
+  if (Array.isArray(groupPermissions) && !groupPermissions.includes(userGroupPermission)) {
+    return null;
   }
 
   return renderNavAction;

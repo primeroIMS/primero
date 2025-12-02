@@ -4,6 +4,7 @@ import { useMemo } from "react";
 
 import { useMemoizedSelector } from "../../../../../libs";
 import {
+  getActionNeededIdentified,
   getActionNeededNewReferrals,
   getActionNeededNewUpdated,
   getActionNeededTransferAwaitingAcceptance,
@@ -25,6 +26,7 @@ function Component() {
   const loading = useMemoizedSelector(state => getIsDashboardGroupLoading(state, DASHBOARD_GROUP.action_needed));
   const hasData = useMemoizedSelector(state => getDashboardGroupHasData(state, DASHBOARD_GROUP.action_needed));
   const actionNeededNewUpdated = useMemoizedSelector(state => getActionNeededNewUpdated(state));
+  const actionNeededIdentified = useMemoizedSelector(state => getActionNeededIdentified(state));
   const actionNeededNewReferrals = useMemoizedSelector(state => getActionNeededNewReferrals(state));
   const actionNeededTransferAwaitingAcceptance = useMemoizedSelector(state =>
     getActionNeededTransferAwaitingAcceptance(state)
@@ -38,6 +40,16 @@ function Component() {
           actions: ACTIONS.DASH_ACTION_NEEDED_NEW_UPDATED,
           options: {
             data: actionNeededNewUpdated,
+            title: label("dashboard.action_needed.cases")
+          }
+        }
+      ],
+      [
+        {
+          type: DASHBOARD_TYPES.TOTAL_BOX,
+          actions: ACTIONS.DASH_ACTION_NEEDED_IDENTIFIED,
+          options: {
+            data: actionNeededIdentified,
             title: label("dashboard.action_needed.cases")
           }
         }

@@ -11,7 +11,8 @@ export const fetchUser = id => {
   return {
     type: actions.FETCH_USER,
     api: {
-      path: `${RECORD_PATH.users}/${id}`
+      path: `${RECORD_PATH.users}/${id}`,
+      params: { activity_stats: true }
     }
   };
 };

@@ -45,9 +45,6 @@ class Field < ApplicationRecord
   belongs_to :collapsed_field_for_subform, foreign_key: 'collapsed_field_for_subform_section_id',
                                            class_name: 'FormSection', optional: true
 
-  alias_attribute :form, :form_section
-  alias_attribute :subform_section, :subform
-
   attr_readonly :name, :type, :multi_select
 
   scope :binary, -> { where(type: [Field::PHOTO_UPLOAD_BOX, Field::AUDIO_UPLOAD_BOX, Field::DOCUMENT_UPLOAD_BOX]) }
@@ -131,14 +128,13 @@ class Field < ApplicationRecord
   def update_properties(field_params)
     field_params['subform_unique_id'] &&
       self.subform = FormSection.find_by(unique_id: field_params['subform_unique_id'])
-    if field_params['collapsed_field_for_subform_unique_id']
+    field_params['collapsed_field_for_subform_unique_id'] &&
       self.collapsed_field_for_subform = FormSection.find_by(
         unique_id: field_params['collapsed_field_for_subform_unique_id']
       )
-    end
-    self.attributes = params_with_i18n(
-      field_params.except('id', 'form_section_id', 'subform_unique_id', 'collapsed_field_for_subform_unique_id')
-    )
+    except_attributes = %w[id form_section_id subform_unique_id collapsed_field_for_subform_unique_id]
+    except_attributes += Field.readonly_attributes unless new_record?
+    self.attributes = params_with_i18n(field_params.except(*except_attributes))
   end
 
   def params_with_i18n(field_params)
@@ -181,9 +177,9 @@ class Field < ApplicationRecord
     # TODO: This is an extra DB query
     if type == SUBFORM && subform_group_by.present? && !@subform_group_by_field.present?
       @subform_group_by_field =
-        subform_section.joins(:fields)
-                       .where(fields: { name: subform_group_by, type: [Field::RADIO_BUTTON, Field::SELECT_BOX] })
-                       .first
+        subform.joins(:fields)
+               .where(fields: { name: subform_group_by, type: [Field::RADIO_BUTTON, Field::SELECT_BOX] })
+               .first
     end
     @subform_group_by_field
   end
@@ -296,7 +292,7 @@ class Field < ApplicationRecord
   def sync_modules
     return unless type == SUBFORM
 
-    subform_section&.primero_modules = form_section.primero_modules if form_section.present?
+    subform&.primero_modules = form_section.primero_modules if form_section.present?
   end
 
   def validate_unique_name_in_form

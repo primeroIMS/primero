@@ -87,7 +87,7 @@ module Exporters
         resource: Permission::CASE, actions: [Permission::READ, Permission::RECEIVE_REFERRAL]
       )
       role = Role.new(
-        is_manager: false, modules: [primero_module],
+        is_manager: false, primero_modules: [primero_module],
         permissions: [permissions], form_sections: [form_basic, form_family, form_name, form_age_sex]
       )
       role.save(validate: false)
@@ -96,7 +96,7 @@ module Exporters
 
       role_referral = Role.new(
         unique_id: 'role-referral', is_manager: false, form_sections: [form_name, form_age_sex],
-        modules: [primero_module], permissions: [permissions]
+        primero_modules: [primero_module], permissions: [permissions]
       )
       role_referral.save(validate: false)
       @user_referral = User.new(user_name: 'fakerefer', role:)

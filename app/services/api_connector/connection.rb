@@ -11,11 +11,11 @@ class ApiConnector::Connection
 
     self.driver = Faraday.new(url: url(options), headers: headers(options), ssl: ssl(options)) do |faraday|
       faraday.adapter(:net_http_persistent)
+      if options['basic_auth'].present?
+        username, password = options['basic_auth'].split(':')
+        faraday.request(:authorization, :basic, username, password)
+      end
     end
-    return unless options['basic_auth'].present?
-
-    username, password = options['basic_auth'].split(':')
-    driver.basic_auth(username, password)
   end
 
   def get(path, params = nil, headers = nil, &)

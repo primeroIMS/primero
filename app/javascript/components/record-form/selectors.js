@@ -68,10 +68,11 @@ const forms = ({
   checkPermittedForms = false,
   includeDefaultForms = true
 }) => {
+  const defaultFormKeys = Object.keys(getDefaultForms(appLocale));
   const arrayOfPermittedFormIDs = permittedFormIDs?.keySeq()?.toArray() || [];
   const formsPermitted = includeDefaultForms
-    ? arrayOfPermittedFormIDs.concat(Object.keys(getDefaultForms(appLocale)))
-    : arrayOfPermittedFormIDs;
+    ? arrayOfPermittedFormIDs.concat(defaultFormKeys)
+    : arrayOfPermittedFormIDs.filter(id => !defaultFormKeys.includes(id));
 
   if (isEmpty(formSections)) return null;
 

@@ -2,6 +2,7 @@
 
 import startsWith from "lodash/startsWith";
 import compact from "lodash/compact";
+import isEmpty from "lodash/isEmpty";
 import { fromJS } from "immutable";
 
 import { DB_COLLECTIONS_NAMES, IDB_SAVEABLE_RECORD_TYPES } from "../../db";
@@ -13,6 +14,7 @@ import {
   RECORD_PATH,
   RECORD_TYPES,
   RECORD_TYPES_PLURAL,
+  ROUTES,
   SAVE_METHODS
 } from "../../config";
 import { setSelectedForm } from "../record-form/action-creators";
@@ -51,7 +53,9 @@ import {
   FETCH_RELATED_RECORDS,
   ADD_RECORD_RELATIONSHIP,
   REMOVE_RECORD_RELATIONSHIP,
-  CLEAR_RECORD_RELATIONSHIPS
+  CLEAR_RECORD_RELATIONSHIPS,
+  REDIRECT_TO_NEW_IDENTIFIED_RECORD,
+  SET_SELECTED_IDENTIFIED_RECORD
 } from "./actions";
 
 const getSuccessCallback = ({
@@ -180,18 +184,44 @@ export const fetchTracingRequestTraces = (id, asCallback = false) => ({
   }
 });
 
-export const fetchRecord = (recordType, id, asCallback = false) => ({
-  [asCallback ? "action" : "type"]: `${recordType}/${RECORD}`,
-  api: {
-    path: `${recordType}/${id}`,
-    db: {
-      collection: DB_COLLECTIONS_NAMES.RECORDS,
-      recordType,
-      id
-    },
-    ...(recordType === RECORD_PATH.tracing_requests ? { successCallback: [fetchTracingRequestTraces(id, true)] } : {})
+export const fetchRecord = (recordType, id, asCallback = false, callbacks = {}) => {
+  const successCallback = [];
+
+  if (recordType === RECORD_PATH.tracing_requests) {
+    successCallback.push(fetchTracingRequestTraces(id, true));
   }
-});
+
+  if (callbacks.successCallback) {
+    successCallback.push(callbacks.successCallback);
+  }
+
+  return {
+    [asCallback ? "action" : "type"]: `${recordType}/${RECORD}`,
+    api: {
+      path: `${recordType}/${id}`,
+      db: {
+        collection: DB_COLLECTIONS_NAMES.RECORDS,
+        recordType,
+        id
+      },
+      ...(isEmpty(successCallback) ? {} : { successCallback }),
+      ...(callbacks.failureCallback ? { failureCallback: callbacks.failureCallback } : {})
+    }
+  };
+};
+
+export const fetchIdentifiedRecord = ({ recordType }) => {
+  const redirectAction = {
+    action: `${recordType}/${REDIRECT_TO_NEW_IDENTIFIED_RECORD}`,
+    redirect: `${ROUTES.my_case}/new`,
+    dispatchIfStatus: 404
+  };
+
+  return fetchRecord(recordType, "identified", false, {
+    failureCallback: redirectAction,
+    successCallback: `${recordType}/${SET_SELECTED_IDENTIFIED_RECORD}`
+  });
+};
 
 export const fetchRecordsAlerts = (recordType, recordId, asCallback = false) => ({
   ...(asCallback

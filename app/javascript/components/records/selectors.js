@@ -51,6 +51,12 @@ export const getSavingRecord = (state, recordType) => state.getIn(["records", re
 
 export const getLoadingRecordState = (state, recordType) => state.getIn(["records", recordType, "loading"], false);
 
+export const getIsIdentifiedRecordNotFound = (state, recordType) => {
+  const serverError = state.getIn(["records", recordType, "serverErrors"], fromJS([])).first();
+
+  return serverError?.get("status") === 404 && serverError?.get("resource")?.endsWith("/identified");
+};
+
 export const getMarkForMobileLoading = (state, recordType) =>
   state.getIn(["records", recordType, "markForMobileLoading"], false);
 
@@ -120,6 +126,12 @@ export const getSelectedRecordData = (state, recordType) => {
   const selectedRecordId = getSelectedRecord(state, recordType);
 
   return selectRecord(state, { id: selectedRecordId, recordType, isEditOrShow: true });
+};
+
+export const getSelectedRecordOrNull = (state, recordType) => {
+  const selectedRecordId = getSelectedRecord(state, recordType);
+
+  return state.getIn(["records", recordType, "data"], fromJS([])).find(r => r.get("id") === selectedRecordId) || null;
 };
 
 export const getCaseFormFamilyMemberLoading = (state, recordType) =>

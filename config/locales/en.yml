@@ -828,6 +828,7 @@ en:
     name: Name
     name_or_survivor_code: Name or Survivor Code
     near_deadline: Near Deadline
+    identified: Identified
     new: New & Updated
     new_child_assigned_to_you: New Cases Assigned To You
     new_incident: New Incidents
@@ -993,6 +994,10 @@ en:
   errors:
     api:
       internal_server: Server Error
+      user:
+        disposable_email: "Looks like this is a temporary email provider. To keep accounts secure, please use your personal or work email."
+        captcha_service_unavailable: "Verification service is currently unavailable. Please try submitting again: refreshing the page usually helps if the connection was interrupted."
+        invalid_captcha: "We couldn't verify you just now. Please try submitting again: refreshing the page usually helps if the connection was interrupted."
     attachments:
       maximum: You have reached your maximum attachments per record.
       file_upload_unsuccessful: File upload unsuccessful. The system has reached the document storage limit. Please contact your system administrator.
@@ -1006,6 +1011,7 @@ en:
       child:
         age: Age must be between 0 and 130
         date_of_birth: Please enter a valid date of birth for this case record
+        identified_by_unique: An identified record already exists for this user
       export_configuration:
         opt_out_field_does_not_exist: Specified opt_out field does not exist on the
           record.
@@ -1039,7 +1045,9 @@ en:
         email: "Please enter a valid email (example: 'name@example.org')"
         password_mismatch: The password fields do not have the same password
         password_length: The password must be at least %{min} characters
+        user_name_uniqueness: A User with that user name already exists. Please enter a different one
         email_uniqueness: A User with this email address already exists. Please enter a different one
+        data_processing_consent_provided_on: You must provide consent to data processing
       code_of_conduct:
         title_present: Title must not be blank
         content_present: Content must not be blank
@@ -1575,7 +1583,9 @@ en:
     my: ဗမာစာ
     pl: Polski
     pt: Português
+    pt-AO: Português (Angola)
     pt-BR: Português (Brasil)
+    pt-MZ: Português (Moçambique)
     records_need_attention: Records need Attention
     ro: Română
     ru: Русский
@@ -2020,7 +2030,7 @@ en:
       refer_to: Search for Referral recipient
       relinquish_referral: Relinquish referral Done
       reopen: Reopen
-      reopen_case:	Reopening
+      reopen_case: Reopening
       request_approval:
         action_plan: "%{approval_label} approval requested"
         bia: "%{approval_label} approval requested"
@@ -2234,6 +2244,7 @@ en:
       followup_type: Type of Follow Up
       service_type: Type of Service
       has_late_verified_violations: Late Verified?
+      age: Age
     status_options:
       open: Open
       closed: Closed
@@ -2611,6 +2622,28 @@ en:
       percentage_cases_safety_plan:
         safety_plan_completed: 'Safety Plan completed'
         safety_plan_not_completed: 'Safety Plan not completed'
+    case_management_kpis_report:
+      name: Case Management KPIs
+      description: Tracks key indicators of CP Case Management performance, including percentage of referrals made by different stakeholders, Reporting Location and Sex for selected Protection Concerns, and percentage of cases with each reason for closure.
+      reports:
+        source_identification_referral: Source of Identification / Referral
+        protection_concerns_reporting_location: Protection Concerns by Reporting Location
+        reasons_for_closure: Reason for Closure
+      sub_reports:
+        case_source_identification_referral: Source of Identification / Referral
+        case_protection_concerns_reporting_location: Protection Concerns by Reporting Location
+        case_reasons_for_closure: Reason for Closure
+      filter_options:
+        registration_date: Registration Date
+    distribution_users_role_report:
+      name: Distribution of Users by Role
+      description: Gives the number of Users with each Role, broken down by User Group. This allows you to see the number of supervisory and administrative staff per case worker.
+      reports: 
+        distribution_users_role: Distribution of Users by Role
+      sub_reports:
+        distribution_users_role: Distribution of Users by Role
+      distribution_users_role:
+        overall: Overall
   usage_report:
     label: Export Usage Report
     file_name: Create your own file name (Optional)
@@ -2673,6 +2706,7 @@ en:
     bulk_exports: Exports
     cases: Cases
     home: Home
+    my_case: My Case
     key_performance_indicators: Pulse/KPIs
     incidents: Incidents
     logout: Log out
@@ -3388,6 +3422,9 @@ en:
               This includes Cases which are newly assigned to the current user, or which another
               user has updated since the last time the current user updated it.
             label: 'Action Needed: New or Updated'
+          action_needed_identified:
+            explanation: Shows the number of cases which have been identified but which are not yet open and receiving case management.
+            label: 'Action Needed: Identified Cases'
           action_needed_new_referrals:
             explanation: Displays the 'New Referrals' indicator in the 'Action Needed' dashboard.
               This includes any Cases with a new Referral sent to the current user,
@@ -3889,6 +3926,12 @@ en:
           case_characteristics:
             label: 'Case Characteristics'
             explanation: 'Only relevant for the PCM (Protection Case Management) module. Disaggregates cases by a number of key characteristics: protection risk, risk level, duration, disability status, completion of a safety plan, and gender.'
+          case_management_kpis_report:
+            label: Case Management KPIs
+            explanation: Tracks key indicators of CP Case Management performance, including percentage of referrals made by different stakeholders, Reporting Location and Sex for selected Protection Concerns, and percentage of cases with each reason for closure.
+          distribution_users_role_report:
+            label: Distribution of Users by Role
+            explanation: Gives the number of Users with each Role, broken down by User Group. This allows you to see the number of supervisory and administrative staff per case worker.
       matching_configuration:
         actions:
           manage:
@@ -4956,6 +4999,16 @@ en:
       invalid: "Invalid %{authentication_keys} or password."
       locked: "Your account is locked."
       last_attempt: "You have one more attempt before your account is locked."
+  self_registration:
+    data_processing_consent_required: You must provide consent for data processing.
+    locale: Preferred Language
+    title: Register
+    save: Register
+    success:
+      return_button: Return to login
+      header: Please verify your email
+      success: User account successfully created.
+      text: "Thanks for registering! We are creating a user account for you now and have sent an email to the address you provided. \n\n Please click the confirmation link in the email to set your account password and continue with registration."
   admin:
     locations:
       selected_records: '%{select_records} location(s) selected'

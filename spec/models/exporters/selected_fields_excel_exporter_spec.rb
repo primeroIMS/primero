@@ -219,15 +219,16 @@ describe Exporters::SelectedFieldsExcelExporter do
       )
     ]
     # @user = User.new(:user_name => 'fakeadmin', module_ids: ['primeromodule-cp'])
-    @role = create(:role, modules: [@primero_module], form_sections: [form1, form2, form3, form_gbv, form4, form5])
+    @role = create(:role, primero_modules: [@primero_module],
+                          form_sections: [form1, form2, form3, form_gbv, form4, form5])
     @user_en = create(:user, user_name: 'fakeadmin_en', role: @role, locale: :en)
     @user_es = create(:user, user_name: 'fakeadmin_es', role: @role, locale: :es)
-    @role_subform = create(:role, modules: [@primero_module], form_sections: [subform2, form1, form2, form3])
+    @role_subform = create(:role, primero_modules: [@primero_module], form_sections: [subform2, form1, form2, form3])
     @user_subform = create(:user, user_name: 'fakeadmin_subform', role: @role_subform)
     @role_user_referral = create(
-      :role, modules: [@primero_module], form_sections: [form1, form2, form3, form_gbv, form4, form5, form6]
+      :role, primero_modules: [@primero_module], form_sections: [form1, form2, form3, form_gbv, form4, form5, form6]
     )
-    @role_referral = create(:role, form_sections: [form6], modules: [@primero_module])
+    @role_referral = create(:role, form_sections: [form6], primero_modules: [@primero_module])
     @user_referral = create(:user, user_name: 'fakerefer', role: @role_user_referral)
 
     Referral.create!(

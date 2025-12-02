@@ -21,12 +21,14 @@ describe("Verifying config constant", () => {
       "ASSIGN_WITHIN_USER_GROUP",
       "ASSIGN",
       "CASE_FROM_FAMILY",
+      "CASE_MANAGEMENT_KPIS_REPORT",
       "CHANGE_LOG",
       "CLOSE",
       "CONSENT_OVERRIDE",
       "COPY",
       "CREATE_CASE_FROM_REFERRAL",
       "CREATE",
+      "DASH_ACTION_NEEDED_IDENTIFIED",
       "DASH_ACTION_NEEDED_NEW_REFERRALS",
       "DASH_ACTION_NEEDED_NEW_UPDATED",
       "DASH_ACTION_NEEDED_TRANSFER_AWAITING_ACCEPTANCE",
@@ -378,7 +380,7 @@ describe("Verifying config constant", () => {
   it("should have GROUP_PERMISSIONS", () => {
     const groupPermissions = { ...PERMISSIONS.GROUP_PERMISSIONS };
 
-    ["AGENCY", "ALL", "GROUP", "SELF"].forEach(property => {
+    ["AGENCY", "ALL", "GROUP", "SELF", "IDENTIFIED"].forEach(property => {
       expect(groupPermissions).toHaveProperty(property);
       expect(typeof groupPermissions[property]).toBe("string");
       delete groupPermissions[property];

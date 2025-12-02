@@ -9,23 +9,23 @@ export default {
         <%= prop %>: "<%= @theme.colors[prop] || '' %>",
       <% end %>
     <% end %>
-    <% if @theme.login_background.present? %>
+    <% if @theme&.login_background&.attached? %>
     loginBackgroundImage: "url('<%= url_to_asset(rails_blob_path(@theme.login_background, only_path: true)) %>')"
     <% end %>
   },
   images: {
     logos: {
-      <% if @theme&.logo.present? %>
+      <% if @theme&.logo&.attached? %>
       default: "<%= rails_blob_path(@theme.logo, only_path: true) %>",
       <% end %>
-      <% if @theme&.logo_white.present? %>
+      <% if @theme&.logo_white&.attached? %>
       secondary: "<%= rails_blob_path(@theme.logo_white, only_path: true) %>",
       <% end %>
-      <% if @theme&.logo_pictorial_144.present? %>
+      <% if @theme&.logo_pictorial_144&.attached? %>
       pictorial: "<%= rails_blob_path(@theme.logo_pictorial_144, only_path: true) %>"
       <% end %>
     },
-    <% if @theme&.login_background.present? %>
+    <% if @theme&.login_background.attached? %>
     backgroundImage: "<%= rails_blob_path(@theme.login_background, only_path: true) %>"
     <% end %>
   }

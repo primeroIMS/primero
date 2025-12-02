@@ -208,7 +208,13 @@ cp config/sunspot.yml.development config/sunspot.yml
 You will also need to install some system-wide dependencies required to build and run Primero.
 
 ```bash
-sudo apt install libpq-dev imagemagick libsodium-dev p7zip
+sudo apt install libpq-dev libvips42 libsodium-dev p7zip
+```
+
+Note that versions of Primero previous to v2.15.0 used `imagemagick` instead of `libvips42` for image processing. If you wish to maintain older versions, you will need to install it.
+
+```bash
+sudo apt install imagemagick
 ```
 
 Execute the following to install Primero's ruby and node dependencies:

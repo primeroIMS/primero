@@ -243,7 +243,7 @@ describe PermittedFormFieldsService do
         FormPermission.new(form_section: form_section1, permission: FormPermission::PERMISSIONS[:read_write]),
         FormPermission.new(form_section: form_section2, permission: FormPermission::PERMISSIONS[:read])
       ],
-      modules: [primero_module]
+      primero_modules: [primero_module]
     )
   end
 
@@ -262,7 +262,7 @@ describe PermittedFormFieldsService do
       form_permissions: [
         FormPermission.new(form_section: form_section7, permission: FormPermission::PERMISSIONS[:read_write])
       ],
-      modules: [primero_module]
+      primero_modules: [primero_module]
     )
   end
 
@@ -285,7 +285,7 @@ describe PermittedFormFieldsService do
         FormPermission.new(form_section: form_section1, permission: FormPermission::PERMISSIONS[:read_write]),
         FormPermission.new(form_section: form_section2, permission: FormPermission::PERMISSIONS[:read])
       ],
-      modules: [primero_module]
+      primero_modules: [primero_module]
     )
   end
 
@@ -306,7 +306,7 @@ describe PermittedFormFieldsService do
       form_permissions: [
         FormPermission.new(form_section: form_section_mrm, permission: FormPermission::PERMISSIONS[:read_write])
       ],
-      modules: [primero_module_mrm]
+      primero_modules: [primero_module_mrm]
     )
   end
 
@@ -329,7 +329,7 @@ describe PermittedFormFieldsService do
       form_permissions: [
         FormPermission.new(form_section: notes_section_cp, permission: FormPermission::PERMISSIONS[:read_write])
       ],
-      modules: [primero_module_cp]
+      primero_modules: [primero_module_cp]
     )
   end
 
@@ -350,7 +350,7 @@ describe PermittedFormFieldsService do
       form_permissions: [
         FormPermission.new(form_section: notes_section_gbv, permission: FormPermission::PERMISSIONS[:read_write])
       ],
-      modules: [primero_module_gbv]
+      primero_modules: [primero_module_gbv]
     )
   end
 

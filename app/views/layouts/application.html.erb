@@ -13,7 +13,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title><%= @theme&.site_title || 'Primero' %></title>
   <link rel="manifest" href="/manifest.json?__WB_REVISION__=<%= @theme.revision %>">
-  <link rel="icon" type="image/x-icon" href="<%= @theme&.favicon.present? ? rails_blob_path(@theme&.favicon, only_path: true) : '/favicon.ico' %>" />
+  <link rel="icon" type="image/x-icon" href="<%= @theme&.favicon&.attached? ? rails_blob_path(@theme&.favicon, only_path: true) : '/favicon.ico' %>" />
   <meta name="emotion-insertion-point" content="" />
   <%= stylesheet_bundle_tag 'application', skip_pipeline: true, manifest: :application, nonce: true %>
 </head>
@@ -35,5 +35,8 @@
     <%= javascript_include_tag "/#{translation_file}", nonce: true %>
   <% end %>
   <%= javascript_bundles_with_chunks_tag 'application', skip_pipeline: true, manifest: :application, nonce: true %>
+  <% if Rails.configuration.x.captcha[:js_client].present? %>
+    <%= javascript_include_tag Rails.configuration.x.captcha[:js_client], nonce: true, async: true, defer: true %>
+  <% end %>
 </body>
 </html>

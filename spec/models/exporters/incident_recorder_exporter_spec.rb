@@ -74,7 +74,7 @@ module Exporters
         :primero_module, unique_id: 'primeromodule-gbv', name: 'GBV', description: 'Child Protection',
                          associated_record_types: %w[incident], form_sections: [form1, form2, form3]
       )
-      @role = create(:role, modules: [@primero_module])
+      @role = create(:role, primero_modules: [@primero_module])
       @user = create(:user, user_name: 'fakeadmin', role: @role, code: 'test01')
 
       Lookup.create!(unique_id: 'lookup-ethnicity', name_i18n: { 'en' => 'Ethnicity' },
