@@ -228,7 +228,7 @@ class User < ApplicationRecord
     end
 
     def limit_user_reached?
-      SystemSettings.current.maximum_users > User.enabled.count
+      SystemSettings.current.maximum_users > User.standard.count
     end
 
     def with_audit_dates
@@ -819,14 +819,14 @@ class User < ApplicationRecord
 
   def validate_limit_user_reached
     maximum_users = SystemSettings.current.maximum_users
-    return if maximum_users > User.enabled.count
+    return if maximum_users > User.standard.count
 
     errors.add(:base, I18n.t('users.alerts.limit_user_reached', maximum_users:))
   end
 
   def validate_limit_user_reached_on_enabling
     maximum_users = SystemSettings.current.maximum_users
-    return if !enabling_user? || maximum_users > User.enabled.count
+    return if !enabling_user? || maximum_users > User.standard.count
 
     errors.add(:base, I18n.t('users.alerts.limit_user_reached_on_enable', maximum_users:))
   end
