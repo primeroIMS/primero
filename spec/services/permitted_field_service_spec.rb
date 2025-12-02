@@ -406,7 +406,7 @@ describe PermittedFieldService, search: true do
         name: 'Test Role 1',
         unique_id: 'test-role-1',
         group_permission: Permission::SELF,
-        modules: [custom_module],
+        primero_modules: [custom_module],
         permissions: [
           Permission.new(
             resource: Permission::CASE,
@@ -446,7 +446,6 @@ describe PermittedFieldService, search: true do
 
     it 'returns fields if user has permission' do
       permitted_field_names = PermittedFieldService.new(acm_user, Child).permitted_field_names
-      puts permitted_field_names
       expect(permitted_field_names.include?('acm_field')).to be true
     end
   end
@@ -490,7 +489,7 @@ describe PermittedFieldService, search: true do
         name: 'Test Role A',
         unique_id: 'test-role-a',
         group_permission: Permission::SELF,
-        modules: [primero_module_cp],
+        primero_modules: [primero_module_cp],
         permissions: [
           Permission.new(
             resource: Permission::CASE,
@@ -505,7 +504,7 @@ describe PermittedFieldService, search: true do
         name: 'Test Role B',
         unique_id: 'test-role-b',
         group_permission: Permission::SELF,
-        modules: [primero_module_cp],
+        primero_modules: [primero_module_cp],
         permissions: [
           Permission.new(
             resource: Permission::CASE,
@@ -557,7 +556,7 @@ describe PermittedFieldService, search: true do
         name: 'Permitted Attachments',
         unique_id: 'permitted_attachment_fields',
         group_permission: Permission::SELF,
-        modules: [primero_module_cp],
+        primero_modules: [primero_module_cp],
         permissions: [
           Permission.new(
             resource: Permission::CASE,
@@ -572,7 +571,7 @@ describe PermittedFieldService, search: true do
         name: 'Permitted View Photo',
         unique_id: 'permitted_view_photo_role',
         group_permission: Permission::SELF,
-        modules: [primero_module_cp],
+        primero_modules: [primero_module_cp],
         permissions: [
           Permission.new(
             resource: Permission::CASE,
@@ -608,6 +607,83 @@ describe PermittedFieldService, search: true do
       permitted_field_names = PermittedFieldService.new(preview_user, Child).permitted_field_names
 
       expect(permitted_field_names).to include('photo')
+    end
+  end
+
+  describe 'Permitted Fields for a user with Permision::IDENTIFIED scope' do
+    let(:record_information_form) do
+      FormSection.create!(
+        unique_id: 'record_information',
+        parent_form: 'case',
+        form_group_id: 'record_information',
+        name_en: 'Record Information',
+        description_en: 'Record Information',
+        fields: [
+          Field.create!(name: 'foo1', display_name_en: 'foo1', type: Field::TEXT_FIELD),
+          Field.create!(name: 'foo2', display_name_en: 'foo2', type: Field::TEXT_FIELD),
+          Field.create!(name: 'foo3', display_name_en: 'foo3', type: Field::TEXT_FIELD)
+        ]
+      )
+    end
+
+    let(:identified_role) do
+      Role.new_with_properties(
+        name: 'Test Role 1',
+        unique_id: 'test-role-1',
+        group_permission: Permission::IDENTIFIED,
+        permissions: [
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::READ]
+          )
+        ],
+        form_section_read_write: { record_information_form.unique_id => 'rw' }
+      )
+    end
+
+    let(:identified_user) do
+      User.create!(
+        full_name: 'Identified User',
+        user_name: 'identified_user',
+        password: 'a12345632',
+        password_confirmation: 'a12345632',
+        email: 'identified_user@localhost.com',
+        agency_id: agency.id,
+        role: identified_role
+      )
+    end
+
+    it 'does not return record information fields' do
+      permitted_field_names = PermittedFieldService.new(identified_user, Child).permitted_field_names
+
+      expect(permitted_field_names.uniq).to match_array(
+        %w[
+          foo1 foo2 foo3 id status state case_status_reopened record_state incident_case_id source_case_display_id
+          module_id workflow identified_at identified_by identified_by_full_name
+        ]
+      )
+    end
+
+    it 'does not return identification fields for writes' do
+      permitted_field_names = PermittedFieldService.new(identified_user, Child).permitted_field_names(nil, true)
+
+      expect(permitted_field_names.uniq).to match_array(
+        %w[
+          foo1 foo2 foo3 id status state case_status_reopened record_state incident_case_id source_case_display_id
+          module_id workflow
+        ]
+      )
+    end
+
+    it 'does not return identification fields for updates' do
+      permitted_field_names = PermittedFieldService.new(identified_user, Child).permitted_field_names(nil, false, true)
+
+      expect(permitted_field_names.uniq).to match_array(
+        %w[
+          foo1 foo2 foo3 status state case_status_reopened record_state incident_case_id source_case_display_id
+          module_id workflow
+        ]
+      )
     end
   end
 

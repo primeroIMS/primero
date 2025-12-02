@@ -19,9 +19,9 @@ describe Kpi::CompletedCaseActionPlans, { search: true, skip_when_solr_disabled:
 
     form(:action_plan_form, [
            field(:action_plan_section,
-                 subform_section: form(:action_plan_subform_section, [
-                                         field(:service_type, mandatory_for_completion: true)
-                                       ]))
+                 subform: form(:action_plan_subform_section, [
+                                 field(:service_type, mandatory_for_completion: true)
+                               ]))
          ])
 
     Child.create!(data: {
@@ -42,21 +42,21 @@ describe Kpi::CompletedCaseActionPlans, { search: true, skip_when_solr_disabled:
     Sunspot.commit
   end
 
-  with 'No cases in the users groups with completed action plans' do
+  describe 'No cases in the users groups with completed action plans' do
     it 'should return 0% completed action plabs' do
       json = Kpi::CompletedCaseActionPlans.new(from, to, [group1]).to_json
       expect(json[:data][:completed]).to eql(0)
     end
   end
 
-  with 'A single case in the users groups with a completed action plan' do
+  describe 'A single case in the users groups with a completed action plan' do
     it 'should return 100% completed action plans' do
       json = Kpi::CompletedCaseActionPlans.new(from, to, [group2]).to_json
       expect(json[:data][:completed]).to eql(1.0)
     end
   end
 
-  with 'A single case in the users groups with a completed action plan' do
+  describe 'A single case in the users groups with a completed action plan' do
     it 'should return 100% completed action plans' do
       json = Kpi::CompletedCaseActionPlans.new(from, to, [group2, group3]).to_json
       expect(json[:data][:completed]).to eql(0.5)

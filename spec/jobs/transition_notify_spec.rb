@@ -10,7 +10,7 @@ describe TransitionNotifyJob, type: :job do
   before do
     clean_data(Alert, User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency, Transition)
     @primero_module = create(:primero_module, name: 'CP')
-    role = create(:role, is_manager: true, modules: [@primero_module])
+    role = create(:role, is_manager: true, primero_modules: [@primero_module])
     @owner = create :user, user_name: 'jnelson', full_name: 'Jordy Nelson', email: 'owner@primero.dev'
     @manager1 = create :user, role:, email: 'manager1@primero.dev', send_mail: false, user_name: 'manager1'
     @manager2 = create :user, role:, email: 'manager2@primero.dev', send_mail: true, user_name: 'manager2'
@@ -33,8 +33,6 @@ describe TransitionNotifyJob, type: :job do
     end
 
     it 'sends a notification to manager' do
-      ActiveJob::Base.queue_adapter = :test
-
       approval_request_jobs = ActiveJob::Base.queue_adapter.enqueued_jobs.select { |j| j[:job] == TransitionNotifyJob }
       expect(approval_request_jobs.size).to eq(1)
     end
@@ -77,7 +75,7 @@ describe TransitionNotifyJob, type: :job do
 
   describe 'when is Transfer' do
     let(:role) do
-      create(:role, is_manager: true, modules: [@primero_module], group_permission: Permission::ALL)
+      create(:role, is_manager: true, primero_modules: [@primero_module], group_permission: Permission::ALL)
     end
 
     let(:user2) do
@@ -103,7 +101,8 @@ describe TransitionNotifyJob, type: :job do
   end
 
   after :each do
-    clean_data(Alert, User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency, Child, Transition)
+    clean_data(Alert, User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency, Child,
+               Transition)
   end
 
   private

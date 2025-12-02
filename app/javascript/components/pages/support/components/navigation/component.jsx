@@ -1,7 +1,8 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { List, ListItem, ListItemText, Drawer } from "@mui/material";
+import { List, ListItemText, Drawer } from "@mui/material";
+import ListItemButton from "@mui/material/ListItemButton";
 
 import { ConditionalWrapper, useMemoizedSelector } from "../../../../../libs";
 import Jewel from "../../../../jewel";
@@ -35,9 +36,8 @@ function Component({ css, handleToggleNav, menuList, mobileDisplay, onClick, sel
     };
 
     return (
-      <ListItem
+      <ListItemButton
         data-testid="list-item"
-        button
         key={id}
         onClick={handleClick}
         selected={selected}
@@ -46,7 +46,7 @@ function Component({ css, handleToggleNav, menuList, mobileDisplay, onClick, sel
       >
         <ListItemText key={id} primary={text} />
         {hasUnsubmittedOfflineChanges && id === SUPPORT_FORMS.resync && <Jewel isForm />}
-      </ListItem>
+      </ListItemButton>
     );
   });
 

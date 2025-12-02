@@ -21,9 +21,9 @@ describe Kpi::AverageFollowupMeetingsPerCase, { search: true, skip_when_solr_dis
 
     form(:action_plan_form, [
            field(:gbv_follow_up_subform_section,
-                 subform_section: form(:gbv_follow_up_subform_section, [
-                                         field(:followup_date)
-                                       ]))
+                 subform: form(:gbv_follow_up_subform_section, [
+                                 field(:followup_date)
+                               ]))
          ])
 
     Child.create!(data: {
@@ -69,21 +69,21 @@ describe Kpi::AverageFollowupMeetingsPerCase, { search: true, skip_when_solr_dis
     Sunspot.commit
   end
 
-  with 'No cases in the users group' do
+  describe 'No cases in the users group' do
     it 'should return 0 average followup meetings per case' do
       json = Kpi::AverageFollowupMeetingsPerCase.new(from, to, [group1], agency1).to_json
       expect(json[:data][:average_meetings]).to eq(0.0)
     end
   end
 
-  with 'One case with 4 follow up meetings in the group' do
+  describe 'One case with 4 follow up meetings in the group' do
     it 'should return 4 average followup meetings per case' do
       json = Kpi::AverageFollowupMeetingsPerCase.new(from, to, [group2], agency1).to_json
       expect(json[:data][:average_meetings]).to eq(4.0)
     end
   end
 
-  with 'One case with 4 follow up meetings and another with 2 in the group' do
+  describe 'One case with 4 follow up meetings and another with 2 in the group' do
     it 'should return 3 average followup meetings per case' do
       json = Kpi::AverageFollowupMeetingsPerCase.new(from, to, [group2, group3], agency1).to_json
       expect(json[:data][:average_meetings]).to eq(3.0)

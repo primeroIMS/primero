@@ -27,12 +27,14 @@ class Search::SearchScope < ValueObject
   def user_scope_filter
     return unless user_scope.present?
 
-    if user_scope['user'].present?
-      self_scope_filter
-    elsif user_scope['agency'].present?
+    if user_scope['agency'].present?
       agency_scope_filter
     elsif user_scope['group'].present?
       group_scope_filter
+    elsif user_scope['identified'].present?
+      identified_scope_filter
+    else
+      self_scope_filter
     end
   end
 
@@ -51,6 +53,12 @@ class Search::SearchScope < ValueObject
   def group_scope_filter
     SearchFilters::TextList.new(
       field_name: 'associated_user_groups', values: user_scope['group']
+    )
+  end
+
+  def identified_scope_filter
+    SearchFilters::TextValue.new(
+      field_name: 'identified_by', value: user_scope['identified']
     )
   end
 

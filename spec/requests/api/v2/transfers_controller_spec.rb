@@ -25,11 +25,11 @@ describe Api::V2::TransfersController, type: :request do
         Permission::ACCEPT_OR_REJECT_TRANSFER, Permission::RECEIVE_TRANSFER
       ]
     )
-    @role = Role.new(permissions: [@permission_transfer_case], modules: [@primero_module])
+    @role = Role.new(permissions: [@permission_transfer_case], primero_modules: [@primero_module])
     @role.save(validate: false)
     @role_accept_or_reject = Role.new(
       permissions: [@permission_accept_or_reject_transfer],
-      modules: [@primero_module],
+      primero_modules: [@primero_module],
       group_permission: Permission::GROUP
     )
     @role_accept_or_reject.save(validate: false)

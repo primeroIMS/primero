@@ -31,23 +31,20 @@ import { RecordForm, RecordFormToolbar } from "../../form";
 import css from "../../styles.css";
 import { compactBlank, compactReadOnlyFields, compactValues, getRedirectPath } from "../../utils";
 import externalForms from "../external-forms";
+import { getIsIdentifiedUser } from "../../../user";
+import { READ_RECORDS, REFER_FROM_SERVICE, usePermissions } from "../../../permissions";
 
 function Component({
-  approvalSubforms,
   attachmentForms,
-  canRefer,
-  canSeeAccessLog,
-  canSeeChangeLog,
-  canViewCases,
-  canViewSummaryForm,
   containerMode,
   demo,
+  editRedirect,
   fetchFromCaseId,
   firstTab,
   formNav,
   forms,
+  hideCancelButton,
   incidentFromCase,
-  incidentsSubforms,
   isCaseIdEqualParam,
   isNotANewCase,
   mode,
@@ -55,6 +52,7 @@ function Component({
   record,
   recordAttachments,
   recordType,
+  redirectTo,
   shouldFetchRecord,
   summaryForm,
   userPermittedFormsIds
@@ -68,11 +66,7 @@ function Component({
   const dispatch = useDispatch();
   const i18n = useI18n();
 
-  const selectedModule = {
-    recordType,
-    primeroModule: record ? record.get("module_id") : params.module,
-    renderCustomForms: canViewSummaryForm
-  };
+  const selectedModule = record?.get("module_id") || params.module;
 
   const {
     handleCreateIncident,
@@ -87,6 +81,8 @@ function Component({
     mode: containerMode
   });
 
+  const canRefer = usePermissions(params.recordType, REFER_FROM_SERVICE);
+  const canViewCases = usePermissions(params.recordType, READ_RECORDS);
   const loadingForm = useMemoizedSelector(state => getLoadingState(state));
   const loadingRecord = useMemoizedSelector(state => getLoadingRecordState(state, params.recordType));
   const errors = useMemoizedSelector(state => getErrors(state));
@@ -95,11 +91,12 @@ function Component({
     getIsProcessingSomeAttachment(state, params.recordType)
   );
   const isServicesForm = useMemoizedSelector(state =>
-    getIsServicesForm(state, { recordType, primeroModule: selectedModule.primeroModule, formName: selectedForm })
+    getIsServicesForm(state, { recordType, primeroModule: selectedModule, formName: selectedForm })
   );
   const relationshipsToSave = useMemoizedSelector(state =>
     getRecordRelationshipsToSave(state, RECORD_TYPES_PLURAL.case)
   );
+  const isIdentifiedUser = useMemoizedSelector(state => getIsIdentifiedUser(state));
 
   const handleFormSubmit = e => {
     if (submitForm) {
@@ -125,7 +122,7 @@ function Component({
         const body = {
           data: {
             ...(containerMode.isEdit ? compactValues(writableValues, initialValues) : compactBlank(writableValues)),
-            ...(!containerMode.isEdit ? { module_id: selectedModule.primeroModule } : {}),
+            ...(!containerMode.isEdit ? { module_id: selectedModule } : {}),
             ...(fetchFromCaseId ? { incident_case_id: fetchFromCaseId } : {})
           }
         };
@@ -154,11 +151,11 @@ function Component({
               params.id,
               message(),
               i18n.t("offline_submitted_changes"),
-              getRedirectPath(containerMode, params, fetchFromCaseId),
+              getRedirectPath({ mode: containerMode, params, fetchFromCaseId, redirectTo }),
               true,
               "",
               saveBeforeIncidentRedirect,
-              selectedModule.primeroModule,
+              selectedModule,
               incidentPath,
               i18n.t("offline_submitted_changes"),
               relationshipsToSave
@@ -182,7 +179,7 @@ function Component({
     incidentFromCase,
     fetchFromCaseId,
     recordType: params.recordType,
-    primeroModule: selectedModule.primeroModule
+    primeroModule: selectedModule
   };
 
   const toolbarProps = {
@@ -192,8 +189,10 @@ function Component({
     handleFormSubmit,
     caseIdDisplay: record ? record.get("case_id_display") : null,
     shortId: record ? record.get("short_id") : null,
-    primeroModule: selectedModule.primeroModule,
-    record
+    primeroModule: selectedModule,
+    record,
+    editRedirect,
+    hideCancelButton
   };
 
   useEffect(() => {
@@ -246,7 +245,7 @@ function Component({
       dispatch(
         fetchReferralUsers({
           record_type: RECORD_TYPES[params.recordType],
-          record_module_id: selectedModule.primeroModule
+          record_module_id: selectedModule
         })
       );
     }
@@ -289,7 +288,7 @@ function Component({
   const canSeeForm = !loadingForm && forms.size === 0 ? canViewCases : forms.size > 0 && !formNav.isEmpty() && firstTab;
   const hasData = Boolean(canSeeForm && (containerMode.isNew || record) && (containerMode.isNew || isCaseIdEqualParam));
   const loading = Boolean(loadingForm || loadingRecord);
-  const renderRecordFormToolbar = selectedModule.primeroModule && <RecordFormToolbar {...toolbarProps} />;
+  const renderRecordFormToolbar = selectedModule && <RecordFormToolbar {...toolbarProps} />;
 
   const containerClasses = cx(css.recordContainer, {
     [css.formNavOpen]: toggleNav && mobileDisplay
@@ -298,16 +297,12 @@ function Component({
   const demoClasses = cx({ [css.demo]: demo });
 
   const recordFormExternalForms = externalForms({
-    approvalSubforms,
-    canSeeAccessLog,
-    canSeeChangeLog,
     containerMode,
     handleCreateIncident,
     handleToggleNav,
     id: params.id,
-    incidentsSubforms,
     mobileDisplay,
-    primeroModule: selectedModule.primeroModule,
+    primeroModule: selectedModule,
     record,
     recordType,
     selectedForm,
@@ -329,16 +324,17 @@ function Component({
               formNav={formNav}
               handleToggleNav={handleToggleNav}
               isNew={containerMode.isNew}
-              isShow={containerMode.isShow}
               mobileDisplay={mobileDisplay}
               recordType={params.recordType}
               selectedForm={selectedForm}
               selectedRecord={navSelectedRecords}
               toggleNav={toggleNav}
-              primeroModule={selectedModule.primeroModule}
+              primeroModule={selectedModule}
               hasForms={hasForms}
               recordId={params.id}
               formikValuesForNav={formikValuesForNav}
+              hideCancelButton={hideCancelButton}
+              showRecordInformation={!isIdentifiedUser}
             />
           </div>
           <div className={`${css.recordForms} ${demoClasses} record-form-container`}>
@@ -353,8 +349,8 @@ function Component({
             />
             <FormFilters
               selectedForm={selectedForm}
-              recordType={selectedModule.recordType}
-              primeroModule={selectedModule.primeroModule}
+              recordType={recordType}
+              primeroModule={selectedModule}
               recordId={params.id}
               formMode={mode}
               showDrawer
@@ -371,19 +367,15 @@ Component.displayName = "RecordForm";
 Component.propTypes = {
   approvalSubforms: PropTypes.object,
   attachmentForms: PropTypes.object,
-  canRefer: PropTypes.bool,
-  canSeeAccessLog: PropTypes.bool,
-  canSeeChangeLog: PropTypes.bool,
-  canViewCases: PropTypes.bool,
-  canViewSummaryForm: PropTypes.bool,
   containerMode: PropTypes.object,
   demo: PropTypes.bool,
+  editRedirect: PropTypes.string,
   fetchFromCaseId: PropTypes.bool,
   firstTab: PropTypes.object,
   formNav: PropTypes.object,
   forms: PropTypes.object,
+  hideCancelButton: PropTypes.bool,
   incidentFromCase: PropTypes.object,
-  incidentsSubforms: PropTypes.object,
   isCaseIdEqualParam: PropTypes.bool,
   isNotANewCase: PropTypes.bool,
   mode: PropTypes.string,
@@ -391,6 +383,7 @@ Component.propTypes = {
   record: PropTypes.object,
   recordAttachments: PropTypes.object,
   recordType: PropTypes.string,
+  redirectTo: PropTypes.string,
   shouldFetchRecord: PropTypes.bool,
   summaryForm: PropTypes.object,
   userPermittedFormsIds: PropTypes.object

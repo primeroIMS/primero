@@ -23,7 +23,7 @@ module ApplicationHelper
 
   def available_locations
     system_settings = SystemSettings.first
-    return '' unless system_settings.location_file.attached?
+    return '' unless system_settings&.location_file&.attached?
 
     rails_blob_path(system_settings.location_file, only_path: true)
   end

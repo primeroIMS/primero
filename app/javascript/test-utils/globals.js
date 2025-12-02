@@ -13,6 +13,10 @@ if (typeof jest !== "undefined") {
   global.window.fetch = jest.fn();
 }
 
+global.structuredClone = val => {
+  return JSON.parse(JSON.stringify(val));
+};
+
 global.innerWidth = 2000;
 
 document.head.insertBefore(document.createComment("emotion-insertion-point"), document.head.firstChild);
@@ -41,8 +45,11 @@ global.window.defaultMediaQueryList = (args = {}) => ({
   matches: false,
   media: "",
   onchange: null,
-  addListener: () => {},
-  removeListener: () => {},
+  addListener: jest.fn(),
+  removeListener: jest.fn(),
+  addEventListener: jest.fn(),
+  removeEventListener: jest.fn(),
+  dispatchEvent: jest.fn(),
   ...args
 });
 

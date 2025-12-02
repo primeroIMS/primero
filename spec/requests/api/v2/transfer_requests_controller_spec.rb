@@ -17,7 +17,7 @@ describe Api::V2::TransferRequestsController, type: :request do
         Permission::REQUEST_TRANSFER, Permission::RECEIVE_TRANSFER
       ]
     )
-    @role = Role.new(permissions: [@permission_transfer_case], modules: [@primero_module])
+    @role = Role.new(permissions: [@permission_transfer_case], primero_modules: [@primero_module])
     @role.save(validate: false)
     @group1 = UserGroup.create!(name: 'Group1')
     @user1 = User.new(user_name: 'user1', role: @role, user_groups: [@group1])

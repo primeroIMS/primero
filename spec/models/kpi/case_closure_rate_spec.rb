@@ -51,21 +51,21 @@ describe Kpi::CaseClosureRate, { search: true, skip_when_solr_disabled: true } d
     Sunspot.commit
   end
 
-  with 'No cases in the users groups' do
+  describe 'No cases in the users groups' do
     it 'should return 0 data' do
       json = Kpi::CaseClosureRate.new(from, to, [group1]).to_json
       expect(json[:data].length).to eq(0)
     end
   end
 
-  with 'One case closed in 2020/11' do
+  describe 'One case closed in 2020/11' do
     it 'should return 1 case in 2020/11' do
       json = Kpi::CaseClosureRate.new(from, to, [group2]).to_json
       expect(json[:data].first[json[:dates].second]).to eq(1)
     end
   end
 
-  with 'Two case closed in 2020/11' do
+  describe 'Two case closed in 2020/11' do
     it 'should return 2 case in 2020/11' do
       json = Kpi::CaseClosureRate.new(from, to, [group2, group3]).to_json
       expect(json[:data].first[json[:dates].second]).to eq(2)

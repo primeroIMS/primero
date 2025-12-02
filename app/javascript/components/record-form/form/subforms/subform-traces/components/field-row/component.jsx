@@ -30,17 +30,13 @@ function Component({ field, traceValue, caseValue, match }) {
   const className = matched ? css.matched : css.notMatched;
 
   return (
-    <Grid container item className={css.fieldRow}>
-      <Grid item xs={2}>
+    <Grid container className={css.fieldRow}>
+      <Grid size={2}>
         <span className={css.fieldTitle}>{displayName[i18n.locale]}</span>
       </Grid>
-      <Grid item xs={4}>
-        {traceValueLabel}
-      </Grid>
-      <Grid item xs={4}>
-        {caseValueLabel}
-      </Grid>
-      <Grid item xs={2} className={className}>
+      <Grid size={4}>{traceValueLabel}</Grid>
+      <Grid size={4}>{caseValueLabel}</Grid>
+      <Grid className={className} size={2}>
         {!isTextField(field) &&
           (matched && traceValue ? <CheckIcon data-testid="check-icon" /> : <ClearIcon data-testid="clear-icon" />)}
       </Grid>

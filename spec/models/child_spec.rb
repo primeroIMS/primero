@@ -360,7 +360,7 @@ describe Child do
     end
 
     it 'should be set from user' do
-      User.stub(:find_by_user_name).with('mj').and_return(double(organization: double(unique_id: 'UNICEF')))
+      User.stub(:find_by_user_name).with('mj').and_return(double(agency: double(unique_id: 'UNICEF')))
       child = Child.create(data: { 'name' => 'Jaco', :created_by => 'mj' })
 
       child.created_organization.should == 'UNICEF'
@@ -647,7 +647,7 @@ describe Child do
   describe 'syncing of protection concerns' do
     before do
       clean_data(SearchableIdentifier, Child)
-      User.stub(:find_by_user_name).and_return(double(organization: double(unique_id: 'UNICEF')))
+      User.stub(:find_by_user_name).and_return(double(agency: double(unique_id: 'UNICEF')))
       @protection_concerns = %w[Separated Unaccompanied]
     end
 
@@ -1269,6 +1269,35 @@ describe Child do
 
       expect(child.followup_due_dates.size).to eq(2)
       expect(child.followup_due_dates).to match_array([Date.new(2021, 10, 18), Date.new(2021, 10, 20)])
+    end
+  end
+
+  describe 'mark_identified' do
+    before do
+      travel_to Time.zone.parse('2023-08-10 12:00:00')
+    end
+
+    it 'sets the identified fields' do
+      user = fake_user(group_permission: Permission::IDENTIFIED)
+      user.stub(:full_name).and_return('Fake User Name')
+      child = Child.new_with_user(user, { name: 'Identified Case', sex: 'male', age: 10 })
+      child.save!
+      child.reload
+
+      expect(child.status).to eq(Child::STATUS_IDENTIFIED)
+      expect(child.identified_by).to eq('faketest')
+      expect(child.identified_by_full_name).to eq('Fake User Name')
+      expect(child.identified_at).to eq(Time.zone.parse('2023-08-10 12:00:00'))
+    end
+
+    it 'returns a validation error if the user has an identified record' do
+      user = fake_user(group_permission: Permission::IDENTIFIED)
+      user.stub(:full_name).and_return('Fake User Name')
+      child = Child.new_with_user(user, { name: 'Identified Case', sex: 'male', age: 10 })
+      child.save!
+
+      duplicated = Child.new_with_user(user, { name: 'Duplicated Identified Case', sex: 'male', age: 10 })
+      duplicated.should_not be_valid
     end
   end
 

@@ -67,6 +67,11 @@ describe User do
       user.disabled.should be_falsey
     end
 
+    it 'should default unverified to false' do
+      user = User.new unverified: nil
+      user.unverified.should be_falsey
+    end
+
     it 'should generate id' do
       user = create(:user, user_name: 'test_user_123')
       user.id.present?.should == true
@@ -279,6 +284,69 @@ describe User do
       after do
         clean_data(AuditLog, User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection)
       end
+    end
+  end
+
+  describe 'self registration' do
+    before do
+      clean_data(AuditLog, User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection, SystemSettings)
+      agency = create(:agency)
+      user_group = create(:user_group)
+      role = create(:role)
+      primero_program = create(:primero_program)
+      single_form = create(:form_section)
+      create(:primero_module, primero_program_id: primero_program.id,
+                              form_sections: [single_form],
+                              id: 1)
+      SystemSettings.create(
+        registration_streams: [
+          {
+            unique_id: 'primero',
+            role: role.unique_id,
+            user_category: 'tier-1',
+            user_groups: [user_group.name],
+            agency: agency.unique_id
+          }
+        ]
+      )
+
+      @params = ActionController::Parameters.new({
+                                                   full_name: 'Test User 1',
+                                                   user_name: 'test_user_1',
+                                                   email: 'test_user_1@example.com',
+                                                   password: 'password123',
+                                                   password_confirmation: 'password123',
+                                                   registration_stream: 'primero'
+                                                 }).permit!
+    end
+    before(:each) { clean_data(User, IdentityProvider) }
+
+    it 'should validate data_processing_consent_provided_on is present for self-registration users' do
+      Primero::Application.config.allow_self_registration = true
+
+      user = build_user(user_name: 'the_user_name', registration_stream: 'primero')
+      expect(user).not_to be_valid
+    end
+
+    it 'should not require data_processing_consent_provided_on for non self-registration users' do
+      Primero::Application.config.allow_self_registration = false
+
+      user = build_user(user_name: 'the_user_name')
+      expect(user).to be_valid
+    end
+
+    it 'builds a self-registration user' do
+      user = User.create_self_registration_user(@params)
+      expect(user).to be_valid
+      expect(user.unverified).to eq(true)
+    end
+
+    it 'sets user as verified on password reset' do
+      user = User.create_self_registration_user(@params)
+      user.save!
+      user.update!(password: 'newpassword123', password_confirmation: 'newpassword123')
+      expect(user).to be_valid
+      expect(user.unverified).to eq(false)
     end
   end
 
@@ -785,7 +853,7 @@ describe User do
                                   associated_record_types: %w[case tracing_request incident], primero_program: @program,
                                   form_sections: [@form_section])
       @role1 = Role.create!(name: 'Admin role', unique_id: 'role_admin',
-                            form_sections: [@form_section], modules: [@cp],
+                            form_sections: [@form_section], primero_modules: [@cp],
                             permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])])
       @agency1 = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
       @group1 = UserGroup.create!(name: 'group 1')
@@ -877,7 +945,7 @@ describe User do
         name: 'permission_role_1',
         unique_id: 'permission_role_1',
         group_permission: Permission::SELF,
-        modules: [primero_module_cp],
+        primero_modules: [primero_module_cp],
         permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
       )
       role1.save!
@@ -889,7 +957,7 @@ describe User do
         name: 'permission_role_2',
         unique_id: 'permission_role_2',
         group_permission: Permission::SELF,
-        modules: [primero_module_cp],
+        primero_modules: [primero_module_cp],
         permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
       )
       role2.save!
@@ -901,7 +969,7 @@ describe User do
         name: 'permission_role_3',
         unique_id: 'permission_role_3',
         group_permission: Permission::SELF,
-        modules: [primero_module_cp],
+        primero_modules: [primero_module_cp],
         permissions: [
           Permission.new(
             resource: Permission::CASE,
@@ -919,7 +987,7 @@ describe User do
       role4 = Role.new(
         name: 'permission_role_4',
         group_permission: Permission::SELF,
-        modules: [primero_module_cp]
+        primero_modules: [primero_module_cp]
       )
       role4.save(validate: false)
       role4.unique_id = nil
@@ -1026,11 +1094,12 @@ describe User do
           Permission::READ
         ]
       )
-      @role = Role.new(permissions: [permission_case], modules: [@module_cp])
+      @role = Role.new(permissions: [permission_case], primero_modules: [@module_cp])
       @role.save(validate: false)
-      @role_case_incident = Role.new(permissions: [permission_case, permission_incident_assign], modules: [@module_cp])
+      @role_case_incident = Role.new(permissions: [permission_case, permission_incident_assign],
+                                     primero_modules: [@module_cp])
       @role_case_incident.save(validate: false)
-      @role_incident = Role.new(permissions: [permission_incident], modules: [@module_cp])
+      @role_incident = Role.new(permissions: [permission_incident], primero_modules: [@module_cp])
       @role_incident.save(validate: false)
       @group1 = UserGroup.create!(name: 'Group1')
       @user1 = User.new(user_name: 'user1', role: @role_case_incident, user_groups: [@group1])
@@ -1068,7 +1137,7 @@ describe User do
         resource: Permission::CASE,
         actions: [Permission::READ, Permission::WRITE, Permission::CREATE]
       )
-      @role = Role.new(permissions: [permission_case], modules: [@module_cp])
+      @role = Role.new(permissions: [permission_case], primero_modules: [@module_cp])
       @role.save(validate: false)
       @group1 = UserGroup.create!(name: 'Group1')
       @user1 = User.new(user_name: 'user1', role: @role, user_groups: [@group1])
@@ -1097,7 +1166,7 @@ describe User do
         resource: Permission::CASE,
         actions: [Permission::MANAGE]
       )
-      @role = Role.new(permissions: [permission_case], modules: [@module_cp])
+      @role = Role.new(permissions: [permission_case], primero_modules: [@module_cp])
       @role.save(validate: false)
       @group1 = UserGroup.create!(name: 'Group1')
       @user1 = User.new(user_name: 'user1', role: @role, user_groups: [@group1])
@@ -1158,7 +1227,7 @@ describe User do
     end
 
     let(:role) do
-      create(:role, is_manager: true, modules: [primero_module], permissions: [Permission.new(
+      create(:role, is_manager: true, primero_modules: [primero_module], permissions: [Permission.new(
         resource: Permission::CASE,
         actions: [Permission::MANAGE]
       )])
@@ -1246,7 +1315,7 @@ describe User do
     end
 
     let(:role) do
-      create(:role, is_manager: true, modules: [primero_module], permissions: [Permission.new(
+      create(:role, is_manager: true, primero_modules: [primero_module], permissions: [Permission.new(
         resource: Permission::CASE,
         actions: [Permission::MANAGE]
       )])
@@ -1314,7 +1383,7 @@ describe User do
     end
 
     let(:role) do
-      create(:role, is_manager: true, modules: [primero_module], permissions: [Permission.new(
+      create(:role, is_manager: true, primero_modules: [primero_module], permissions: [Permission.new(
         resource: Permission::CASE,
         actions: [Permission::MANAGE]
       )])

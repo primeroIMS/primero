@@ -33,6 +33,8 @@ class Api::V2::ManagedReportsController < ApplicationApiController
   end
 
   def report
+    return @managed_report.subreport.usage_report if @managed_report.instance_of?(ManagedReports::ManagedUsageReport)
+
     @managed_report
   end
 

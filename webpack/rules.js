@@ -19,7 +19,10 @@ const rules = [
         loader: "css-loader",
         options: {
           importLoaders: 1,
-          modules: true
+          modules: {
+            namedExport: false,
+            exportLocalsConvention: "as-is"
+          }
         }
       },
       {

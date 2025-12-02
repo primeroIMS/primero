@@ -39,6 +39,15 @@ module Indicators
       ]
     ).freeze
 
+    IDENTIFIED = QueriedIndicator.new(
+      name: 'identified',
+      record_model: Child,
+      queries: [
+        SearchFilters::BooleanValue.new(field_name: 'record_state', value: true),
+        SearchFilters::TextValue.new(field_name: 'status', value: Record::STATUS_IDENTIFIED)
+      ]
+    ).freeze
+
     def self.closed_recently
       QueriedIndicator.new(
         name: 'closed_recently',
@@ -609,7 +618,7 @@ module Indicators
 
     # rubocop:disable Metrics/MethodLength
     def self.workflow_team(role)
-      role_modules = role.modules.reject do |primero_module|
+      role_modules = role.primero_modules.reject do |primero_module|
         [PrimeroModule::GBV, PrimeroModule::MRM].include?(primero_module)
       end
 
@@ -640,7 +649,7 @@ module Indicators
     end
 
     def self.workflows(role)
-      role_modules = role.modules.reject do |primero_module|
+      role_modules = role.primero_modules.reject do |primero_module|
         [PrimeroModule::GBV, PrimeroModule::MRM].include?(primero_module)
       end
 
