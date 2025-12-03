@@ -165,7 +165,9 @@ class User < ApplicationRecord
     end
 
     def permitted_attribute_names
-      User.attribute_names.reject { |name| name == 'services' } + [{ 'services' => [] }]
+      User.attribute_names.reject do |name|
+        %w[services self_registered duplicate].include?(name)
+      end + [{ 'services' => [] }]
     end
 
     def order_insensitive_attribute_names
