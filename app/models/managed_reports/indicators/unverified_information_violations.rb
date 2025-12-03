@@ -38,8 +38,9 @@ class ManagedReports::Indicators::UnverifiedInformationViolations < ManagedRepor
 
     def query_for_result(result, params)
       date_param = date_filter_param(params['ghn_date_filter'])
+      violation_with_status = "#{result[:id]}_report_pending_verification,#{result[:id]}_reported_not_verified"
       [
-        "violation_with_verification_status=#{result[:id]}_report_pending_verification",
+        "violation_with_verification_status=#{violation_with_status}",
         date_param.to_s
       ]
     end
