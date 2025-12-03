@@ -15,14 +15,15 @@ class ManagedReports::Indicators::PercentageClientsWithDisability < ManagedRepor
     def sql(current_user, params = {})
       date_group_query = build_date_group(params, {}, Child)
       group_id = date_group_query.present? ? 'group_id' : nil
-      %(
+      <<~SQL
         WITH disability_cases AS (
           SELECT
             #{date_group_query&.+(' AS group_id,')}
             COALESCE(srch_disability_status_yes_no, 'incomplete_data') AS disability_status,
             COALESCE(srch_gender, 'incomplete_data') AS gender
           FROM cases
-          WHERE srch_next_steps && '{a_continue_protection_assessment}'
+          WHERE srch_record_state = TRUE
+          AND srch_next_steps && '{a_continue_protection_assessment}'
           #{build_filter_query(current_user, params)&.prepend('AND ')}
         )
         SELECT
@@ -32,7 +33,7 @@ class ManagedReports::Indicators::PercentageClientsWithDisability < ManagedRepor
           COUNT(*)
         FROM disability_cases
         GROUP BY #{group_id&.+(',')} disability_status, gender
-      )
+      SQL
     end
     # rubocop:enable Metrics/MethodLength
 

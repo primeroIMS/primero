@@ -22,6 +22,7 @@ class ManagedReports::Indicators::UnverifiedInformation < ManagedReports::SqlRep
         INNER JOIN incidents incidents
           ON incidents.id = violations.incident_id
           AND incidents.srch_status = 'open'
+          AND incidents.srch_record_state = TRUE
           #{user_scope_query(current_user, 'incidents')&.prepend('AND ')}
         CROSS JOIN JSON_EACH_TEXT((violations.data->>'violation_tally')::JSON)
         WHERE violations.data @? '$[*]
@@ -52,8 +53,9 @@ class ManagedReports::Indicators::UnverifiedInformation < ManagedReports::SqlRep
 
     def query_for_result(result, params)
       date_param = date_filter_param(params['ghn_date_filter'])
+      violation_with_status = "#{result[:id]}_report_pending_verification,#{result[:id]}_reported_not_verified"
       [
-        "violation_with_verification_status=#{result[:id]}_report_pending_verification",
+        "violation_with_verification_status=#{violation_with_status}",
         date_param.to_s
       ]
     end

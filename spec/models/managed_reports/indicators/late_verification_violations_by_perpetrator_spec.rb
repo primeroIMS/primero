@@ -30,8 +30,7 @@ describe ManagedReports::Indicators::LateVerificationViolationsByPerpetrator do
           {
             unique_id: 'bbfd214c-77c4-11f0-8941-7c10c98b54af',
             ctfmr_verified: 'verified',
-            ctfmr_verified_date: Date.new(2022, 8, 23),
-            violation_tally: { boys: 2, girls: 0, unknown: 2, total: 4 }
+            ctfmr_verified_date: Date.new(2022, 8, 23)
           }
         ],
         maiming: [
@@ -112,8 +111,8 @@ describe ManagedReports::Indicators::LateVerificationViolationsByPerpetrator do
 
     expect(data).to match_array(
       [
-        { id: 'armed_force_1', maiming: 1, total: 1 },
-        { id: 'armed_force_2', attack_on_schools: 1, killing: 1, total: 2 }
+        { id: 'armed_force_1', maiming: 7, total: 7 },
+        { id: 'armed_force_2', attack_on_schools: 1, killing: 4, total: 5 }
       ]
     )
   end

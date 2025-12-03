@@ -12,7 +12,8 @@ class ManagedReports::Indicators::PerpetratorAgeGroup < ManagedReports::SqlRepor
     # rubocop:disable Metrics/MethodLength
     def sql(current_user, params = {})
       date_param = filter_date(params)
-      %{
+
+      <<~SQL
         SELECT
           alleged_perpetrators.age_group as id,
           #{grouped_date_query(params['grouped_by'], date_param)&.concat(' AS group_id,')}
@@ -24,7 +25,8 @@ class ManagedReports::Indicators::PerpetratorAgeGroup < ManagedReports::SqlRepor
           FROM jsonb_array_elements(data->'alleged_perpetrator') AS perpetrators
           WHERE perpetrators->>'primary_perpetrator' = 'primary'
         ) AS alleged_perpetrators
-        WHERE data @? '$[*] ? (@.consent_reporting  == "true") ? (
+        WHERE srch_record_state = TRUE
+        AND data @? '$[*] ? (@.consent_reporting  == "true") ? (
           !exists(@.gbv_reported_elsewhere) || @.gbv_reported_elsewhere != "gbvims-org"
         )'
         #{date_range_query(date_param)&.prepend('AND ')}
@@ -32,7 +34,7 @@ class ManagedReports::Indicators::PerpetratorAgeGroup < ManagedReports::SqlRepor
         #{user_scope_query(current_user)&.prepend('AND ')}
         GROUP BY alleged_perpetrators.age_group
         #{grouped_date_query(params['grouped_by'], date_param)&.prepend(', ')}
-      }
+      SQL
     end
     # rubocop:enable Metrics/MethodLength
   end

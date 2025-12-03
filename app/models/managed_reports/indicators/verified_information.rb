@@ -22,6 +22,7 @@ class ManagedReports::Indicators::VerifiedInformation < ManagedReports::SqlRepor
         INNER JOIN incidents incidents
           ON incidents.id = violations.incident_id
           AND incidents.srch_status = 'open'
+          AND incidents.srch_record_state = TRUE
           #{user_scope_query(current_user, 'incidents')&.prepend('AND ')}
         CROSS JOIN JSON_EACH_TEXT((violations.data->>'violation_tally')::JSON)
         WHERE violations.data @? '$[*]

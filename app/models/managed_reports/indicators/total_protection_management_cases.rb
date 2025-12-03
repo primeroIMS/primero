@@ -13,14 +13,15 @@ class ManagedReports::Indicators::TotalProtectionManagementCases < ManagedReport
     def sql(current_user, params = {})
       date_group_query = build_date_group(params, {}, Child)
       group_id = date_group_query.present? ? 'group_id' : nil
-      %{
+      <<~SQL
         WITH protection_cases AS (
           SELECT
             #{date_group_query&.+(' AS group_id,')}
             COALESCE(data->>'gender', 'incomplete_data') AS key,
             srch_status AS name
           FROM cases
-          WHERE srch_next_steps && '{a_continue_protection_assessment}'
+          WHERE srch_record_state = TRUE
+          AND srch_next_steps && '{a_continue_protection_assessment}'
           #{build_filter_query(current_user, params)&.prepend('AND ')}
         )
         SELECT
@@ -31,7 +32,7 @@ class ManagedReports::Indicators::TotalProtectionManagementCases < ManagedReport
           SUM(COUNT(*)) OVER (PARTITION BY #{group_id&.+(',')} name)::INT AS total
         FROM protection_cases
         GROUP BY #{group_id&.+(',')} key, name
-      }
+      SQL
     end
     # rubocop:enable Metrics/MethodLength
 

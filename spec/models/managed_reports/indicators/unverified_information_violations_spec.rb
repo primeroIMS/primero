@@ -54,6 +54,14 @@ describe ManagedReports::Indicators::UnverifiedInformationViolations do
     )
   end
 
+  let(:attack_on_hospitals_statuses) do
+    'attack_on_hospitals_report_pending_verification,attack_on_hospitals_reported_not_verified'
+  end
+
+  let(:attack_on_schools_statuses) do
+    'attack_on_schools_report_pending_verification,attack_on_schools_reported_not_verified'
+  end
+
   it 'return data for unverified information indicator' do
     data = ManagedReports::Indicators::UnverifiedInformationViolations.build(
       nil,
@@ -73,9 +81,9 @@ describe ManagedReports::Indicators::UnverifiedInformationViolations do
           'id' => 'attack_on_hospitals',
           'total' => {
             count: 1,
-            query: %w[
-              violation_with_verification_status=attack_on_hospitals_report_pending_verification
-              incident_date=2021-04-01..2022-06-10
+            query: [
+              "violation_with_verification_status=#{attack_on_hospitals_statuses}",
+              'incident_date=2021-04-01..2022-06-10'
             ]
           }
         },
@@ -83,9 +91,9 @@ describe ManagedReports::Indicators::UnverifiedInformationViolations do
           'id' => 'attack_on_schools',
           'total' => {
             count: 1,
-            query: %w[
-              violation_with_verification_status=attack_on_schools_report_pending_verification
-              incident_date=2021-04-01..2022-06-10
+            query: [
+              "violation_with_verification_status=#{attack_on_schools_statuses}",
+              'incident_date=2021-04-01..2022-06-10'
             ]
           }
         }

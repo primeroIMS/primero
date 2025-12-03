@@ -23,6 +23,7 @@ class ManagedReports::Indicators::GroupMultipleViolations < ManagedReports::SqlR
           INNER JOIN incidents incidents
             ON incidents.id = violations.incident_id
             AND incidents.srch_status = 'open'
+            AND incidents.srch_record_state = TRUE
           WHERE violations.data @? '$[*] ? (@.ctfmr_verified == "verified" && @.type != "deprivation_liberty")'
           #{user_scope_query(current_user, 'incidents')&.prepend('AND ')}
           #{date_range_query(date_filter_param(params['ghn_date_filter']), 'violations')&.prepend('AND ')}

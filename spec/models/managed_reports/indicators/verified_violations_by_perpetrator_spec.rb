@@ -31,8 +31,7 @@ describe ManagedReports::Indicators::VerifiedViolationsByPerpetrator do
           {
             unique_id: 'bbfd214c-77c4-11f0-8941-7c10c98b54af',
             ctfmr_verified: 'verified',
-            ctfmr_verified_date: Date.new(2022, 4, 23),
-            violation_tally: { boys: 2, girls: 0, unknown: 2, total: 4 }
+            ctfmr_verified_date: Date.new(2022, 4, 23)
           }
         ],
         maiming: [
@@ -96,8 +95,7 @@ describe ManagedReports::Indicators::VerifiedViolationsByPerpetrator do
           {
             unique_id: '13c77d2c-be57-11f0-b9eb-7c10c98b54af',
             ctfmr_verified: 'verified',
-            ctfmr_verified_date: Date.new(2022, 4, 23),
-            violation_tally: { boys: 1, girls: 0, unknown: 2, total: 3 }
+            ctfmr_verified_date: Date.new(2022, 4, 23)
           }
         ],
         perpetrators: [
@@ -127,8 +125,8 @@ describe ManagedReports::Indicators::VerifiedViolationsByPerpetrator do
 
     expect(data).to match_array(
       [
-        { id: 'armed_force_1', maiming: 1, total: 1 },
-        { id: 'armed_force_2', attack_on_schools: 1, killing: 1, total: 2 }
+        { id: 'armed_force_1', maiming: 7, total: 7 },
+        { id: 'armed_force_2', attack_on_schools: 1, killing: 4, total: 5 }
       ]
     )
   end

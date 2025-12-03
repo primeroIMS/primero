@@ -17,14 +17,15 @@ class ManagedReports::Indicators::SurvivorsVulnerablePopulations < ManagedReport
       date_param = filter_date(params)
       grouped_query = grouped_date_query(params['grouped_by'], date_param)
       group_column = grouped_query.present? ? 'group_id' : nil
-      %{
+      <<~SQL
         WITH filtered_incidents AS (
           SELECT
             id,
             #{grouped_query&.dup&.concat(' AS group_id,')}
             data
           FROM incidents
-          WHERE data @? '$[*] ? (@.consent_reporting  == "true")'
+          WHERE srch_record_state = TRUE
+          AND data @? '$[*] ? (@.consent_reporting  == "true")'
           #{date_range_query(date_param)&.prepend('AND ')}
           #{equal_value_query(params['module_id'])&.prepend('AND ')}
           #{user_scope_query(current_user)&.prepend('AND ')}
@@ -52,7 +53,7 @@ class ManagedReports::Indicators::SurvivorsVulnerablePopulations < ManagedReport
           GROUP BY data ->> 'unaccompanied_separated_status' #{group_column&.dup&.prepend(',')}
         ) AS survivors
         ORDER BY id
-      }
+      SQL
     end
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength

@@ -58,7 +58,7 @@ describe ManagedReports::Indicators::UnverifiedInformation do
 
   it 'return data for unverified information indicator' do
     common_query = %w[
-      violation_with_verification_status=abduction_report_pending_verification
+      violation_with_verification_status=abduction_report_pending_verification,abduction_reported_not_verified
       incident_date=2022-01-01..2022-06-10
     ]
 
@@ -106,12 +106,12 @@ describe ManagedReports::Indicators::UnverifiedInformation do
 
   it 'return data for unverified information for multiple quarters' do
     abduction_query = %w[
-      violation_with_verification_status=abduction_report_pending_verification
+      violation_with_verification_status=abduction_report_pending_verification,abduction_reported_not_verified
       incident_date=2021-04-01..2022-06-10
     ]
 
     killing_query = %w[
-      violation_with_verification_status=killing_report_pending_verification
+      violation_with_verification_status=killing_report_pending_verification,killing_reported_not_verified
       incident_date=2021-04-01..2022-06-10
     ]
 

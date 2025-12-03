@@ -15,11 +15,16 @@ class ManagedReports::Indicators::UnverifiedViolationsByRegion < ManagedReports:
           SELECT
             violations.id,
             violations.data->>'type' AS type,
-            #{incident_region_query(current_user)} AS region
+            #{incident_region_query(current_user)} AS region,
+            CASE WHEN violations.data->'violation_tally'->'total' IS NULL
+              THEN 1
+              ELSE CAST(violations.data->'violation_tally'->'total' AS INTEGER)
+            END AS violation_tally_total
           FROM violations
           INNER JOIN incidents incidents
             ON incidents.id = violations.incident_id
             AND incidents.srch_status = 'open'
+            AND incidents.srch_record_state = TRUE
             #{user_scope_query(current_user, 'incidents')&.prepend('AND ')}
             #{date_range_query(params['ghn_date_filter'], 'incidents', 'data', 'incident_date')&.prepend('AND ')}
           WHERE violations.data @? '$[*]
@@ -30,8 +35,8 @@ class ManagedReports::Indicators::UnverifiedViolationsByRegion < ManagedReports:
         SELECT
           violations_in_scope.region as name,
           violations_in_scope.type AS key,
-          COUNT(*) AS sum,
-          CAST(SUM(COUNT(*)) OVER (PARTITION BY violations_in_scope.region) AS INTEGER) AS total
+          CAST(SUM(violation_tally_total) AS INTEGER) AS sum,
+          CAST(SUM(SUM(violation_tally_total)) OVER (PARTITION BY violations_in_scope.region) AS INTEGER) AS total
         FROM violations_in_scope
         GROUP BY name, key
       SQL

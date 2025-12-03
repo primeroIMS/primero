@@ -15,7 +15,7 @@ class ManagedReports::Indicators::LessImpactedAfterSupport < ManagedReports::Sql
     def sql(current_user, params = {})
       date_group_query = build_date_group(params, {}, Child)
       group_id = date_group_query.present? ? 'group_id' : nil
-      %{
+      <<~SQL
         WITH impacted_ranges AS (
           SELECT
             #{date_group_query&.+(' AS group_id,')}
@@ -27,7 +27,8 @@ class ManagedReports::Indicators::LessImpactedAfterSupport < ManagedReports::Sql
             END AS impact_range,
             COALESCE(srch_gender, 'incomplete_data') AS gender
           FROM cases
-          WHERE srch_next_steps && '{a_continue_protection_assessment}'
+          WHERE srch_record_state = TRUE
+          AND srch_next_steps && '{a_continue_protection_assessment}'
           AND srch_client_summary_worries_severity_int >= 0
           AND srch_closure_problems_severity_int >= 0
           #{build_filter_query(current_user, params)&.prepend('AND ')}
@@ -39,7 +40,7 @@ class ManagedReports::Indicators::LessImpactedAfterSupport < ManagedReports::Sql
           COUNT(*)
         FROM impacted_ranges
         GROUP BY #{group_id&.+(',')} impact_range, gender
-      }
+      SQL
     end
     # rubocop:enable Metrics/MethodLength
 

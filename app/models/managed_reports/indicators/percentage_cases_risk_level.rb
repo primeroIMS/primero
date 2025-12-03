@@ -15,7 +15,7 @@ class ManagedReports::Indicators::PercentageCasesRiskLevel < ManagedReports::Sql
       date_group_query = build_date_group(params, {}, Child)
       group_id = date_group_query.present? ? 'group_id' : nil
 
-      %(
+      <<~SQL
         WITH protection_assessment_cases AS (
           SELECT
             #{date_group_query&.+(' AS group_id,')}
@@ -23,7 +23,8 @@ class ManagedReports::Indicators::PercentageCasesRiskLevel < ManagedReports::Sql
             cases.id AS id,
             COALESCE(srch_gender, 'incomplete_data') AS gender
           FROM cases
-          WHERE srch_next_steps && '{a_continue_protection_assessment}'
+          WHERE srch_record_state = TRUE
+          AND srch_next_steps && '{a_continue_protection_assessment}'
           #{build_filter_query(current_user, params)&.prepend('AND ')}
         )
         SELECT
@@ -33,7 +34,7 @@ class ManagedReports::Indicators::PercentageCasesRiskLevel < ManagedReports::Sql
           COUNT(*) AS count
         FROM protection_assessment_cases
         GROUP BY #{group_id&.+(',')} risk_level, gender
-      )
+      SQL
     end
 
     # rubocop:enable Metrics/MethodLength

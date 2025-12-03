@@ -16,12 +16,13 @@ class ManagedReports::Indicators::SurvivorsNumberOfServicesProvided < ManagedRep
     def sql(current_user, params = {})
       date_param = filter_date(params)
       grouped_by_date = grouped_date_query(params['grouped_by'], date_param)
-      %{
+      <<~SQL
         WITH filtered_incidents AS (
           SELECT
             *
           FROM incidents
-          WHERE data @? '$[*] ? (@.consent_reporting == "true")'
+          WHERE srch_record_state = TRUE
+          AND data @? '$[*] ? (@.consent_reporting == "true")'
           #{date_range_query(date_param)&.prepend('AND ')}
           #{equal_value_query(params['module_id'])&.prepend('AND ')}
           #{user_scope_query(current_user)&.prepend('AND ')}
@@ -126,7 +127,7 @@ class ManagedReports::Indicators::SurvivorsNumberOfServicesProvided < ManagedRep
           #{grouped_by_date&.dup&.prepend('GROUP BY ')}
         ) AS services
         ORDER BY id
-      }
+      SQL
     end
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/AbcSize
