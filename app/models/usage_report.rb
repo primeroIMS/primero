@@ -136,9 +136,9 @@ class UsageReport < ValueObject
     query = User.joins(:user_groups, :role, :agency)
     return query if user.blank? || user.managed_report_scope_all?
 
-    if current_user.managed_report_scope == Permission::AGENCY
+    if user.managed_report_scope == Permission::AGENCY
       query.where(agency_id: user.agency_id)
-    elsif current_user.managed_report_scope == Permission::GROUP
+    elsif user.managed_report_scope == Permission::GROUP
       query.where(user_groups: { unique_id: user.user_group_unique_ids })
     else
       query.where(user_name: user.user_name)
