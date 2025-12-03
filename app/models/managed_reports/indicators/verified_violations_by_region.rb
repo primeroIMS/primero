@@ -9,9 +9,8 @@ class ManagedReports::Indicators::VerifiedViolationsByRegion < ManagedReports::S
       'verified_violations_by_region'
     end
 
-    # rubocop:disable Metrics/MethodLength
     def sql(current_user, params = {})
-      %{
+      <<~SQL
         WITH violations_in_scope AS (
           SELECT
             violations.id,
@@ -21,6 +20,7 @@ class ManagedReports::Indicators::VerifiedViolationsByRegion < ManagedReports::S
           INNER JOIN incidents incidents
             ON incidents.id = violations.incident_id
             AND incidents.srch_status = 'open'
+            AND incidents.srch_record_state = TRUE
             #{user_scope_query(current_user, 'incidents')&.prepend('AND ')}
           WHERE violations.data @? '$[*] ? (@.ctfmr_verified == "verified" && @.is_late_verification != true)'
           #{date_range_query(params['ghn_date_filter'], 'violations', 'data', 'ctfmr_verified_date')&.prepend('AND ')}
@@ -32,8 +32,7 @@ class ManagedReports::Indicators::VerifiedViolationsByRegion < ManagedReports::S
           CAST(SUM(COUNT(*)) OVER (PARTITION BY violations_in_scope.region) AS INTEGER) AS total
         FROM violations_in_scope
         GROUP BY name, key
-      }
+      SQL
     end
-    # rubocop:enable Metrics/MethodLength
   end
 end

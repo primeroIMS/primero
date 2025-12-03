@@ -13,13 +13,14 @@ class ManagedReports::Indicators::ElapsedReportingTimeRape < ManagedReports::Sql
     # rubocop:disable Metrics/MethodLength
     def sql(current_user, params = {})
       date_param = filter_date(params)
-      %{
+      <<~SQL
         SELECT
           data->> 'elapsed_reporting_time' AS id,
           #{grouped_date_query(params['grouped_by'], date_param)&.concat(' AS group_id,')}
           COUNT(*) AS total
         FROM incidents
-        WHERE data @? '$[*] ? (
+        WHERE incidents.srch_record_state = TRUE
+        AND data @? '$[*] ? (
           @.consent_reporting  == "true" && @.elapsed_reporting_time != null && @.gbv_sexual_violence_type == "rape"
         ) ? (
           !exists(@.gbv_reported_elsewhere) || @.gbv_reported_elsewhere != "gbvims-org"
@@ -30,7 +31,7 @@ class ManagedReports::Indicators::ElapsedReportingTimeRape < ManagedReports::Sql
         GROUP BY data ->> 'elapsed_reporting_time'
         #{grouped_date_query(params['grouped_by'], date_param)&.prepend(', ')}
         ORDER BY id
-      }
+      SQL
     end
     # rubocop:enable Metrics/MethodLength
   end

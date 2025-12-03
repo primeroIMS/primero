@@ -11,9 +11,8 @@ class ManagedReports::Indicators::UnverifiedInformationViolations < ManagedRepor
       'unverified_information_violations'
     end
 
-    # rubocop:disable Metrics/MethodLength
     def sql(current_user, params = {})
-      %{
+      <<~SQL
         SELECT
           violations.data ->> 'type' AS id,
           COUNT(*) AS total
@@ -21,6 +20,7 @@ class ManagedReports::Indicators::UnverifiedInformationViolations < ManagedRepor
           violations violations
           INNER JOIN incidents incidents ON incidents.id = violations.incident_id
           AND incidents.srch_status = 'open'
+          AND incidents.srch_record_state = TRUE
           #{user_scope_query(current_user, 'incidents')&.prepend('AND ')}
         WHERE violations.data @? '$[*] ? (
           @.type == "attack_on_hospitals" || @.type == "attack_on_schools" || @.type == "denial_humanitarian_access"
@@ -29,9 +29,8 @@ class ManagedReports::Indicators::UnverifiedInformationViolations < ManagedRepor
         #{date_range_query(date_filter_param(params['ghn_date_filter']), 'incidents')&.prepend('AND ')}
         GROUP BY violations.data ->> 'type'
         ORDER BY id
-      }
+      SQL
     end
-    # rubocop:enable Metrics/MethodLength
 
     def build_results(results, params = {})
       results.to_a.map { |result| result_with_query(result.with_indifferent_access, params) }

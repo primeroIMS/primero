@@ -11,9 +11,8 @@ class ManagedReports::Indicators::UnverifiedInformation < ManagedReports::SqlRep
       'unverified_information'
     end
 
-    # rubocop:disable Metrics/MethodLength
     def sql(current_user, params = {})
-      %{
+      <<~SQL
         SELECT
           key AS name,
           'total' AS key,
@@ -23,6 +22,7 @@ class ManagedReports::Indicators::UnverifiedInformation < ManagedReports::SqlRep
         INNER JOIN incidents incidents
           ON incidents.id = violations.incident_id
           AND incidents.srch_status = 'open'
+          AND incidents.srch_record_state = TRUE
           #{user_scope_query(current_user, 'incidents')&.prepend('AND ')}
         CROSS JOIN JSON_EACH_TEXT((violations.data->>'violation_tally')::JSON)
         WHERE violations.data->>'violation_tally' IS NOT NULL
@@ -31,9 +31,8 @@ class ManagedReports::Indicators::UnverifiedInformation < ManagedReports::SqlRep
         AND violations.data @? '$.ctfmr_verified ? (@ == "report_pending_verification" || @ == "reported_not_verified")'
         GROUP BY key, violations.data ->> 'type'
         ORDER BY name
-      }
+      SQL
     end
-    # rubocop:enable Metrics/MethodLength
 
     def date_filter
       'incident_date'

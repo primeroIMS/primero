@@ -10,11 +10,10 @@ class ManagedReports::Indicators::PerpetratorsDenials < ManagedReports::SqlRepor
     end
 
     # rubocop:disable Metrics/AbcSize
-    # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/CyclomaticComplexity
     # rubocop:disable Metrics/PerceivedComplexity
     def sql(current_user, params = {})
-      %{
+      <<~SQL
         select
           p."data"->>'armed_force_group_party_name' as name,
           'total' as key,
@@ -28,6 +27,7 @@ class ManagedReports::Indicators::PerpetratorsDenials < ManagedReports::SqlRepor
           inner join incidents incidents
             on incidents.id = violations.incident_id
             AND incidents.srch_status = 'open'
+            AND incidents.srch_record_state = TRUE
             #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
           where
           p.data->>'armed_force_group_party_name' is not null
@@ -40,10 +40,9 @@ class ManagedReports::Indicators::PerpetratorsDenials < ManagedReports::SqlRepor
         group by p."data"->>'armed_force_group_party_name'
         #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
         order by name
-      }
+      SQL
     end
     # rubocop:enable Metrics/AbcSize
-    # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/CyclomaticComplexity
     # rubocop:enable Metrics/PerceivedComplexity
   end

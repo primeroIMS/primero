@@ -11,9 +11,8 @@ class ManagedReports::Indicators::LateVerification < ManagedReports::SqlReportIn
       'late_verification'
     end
 
-    # rubocop:disable Metrics/MethodLength
     def sql(current_user, params = {})
-      %{
+      <<~SQL
         select key as name, 'total' as key,
         violations.data ->> 'type' as group_id,
         sum(value::int)
@@ -21,6 +20,7 @@ class ManagedReports::Indicators::LateVerification < ManagedReports::SqlReportIn
         inner join incidents incidents
           on incidents.id = violations.incident_id
           AND incidents.srch_status = 'open'
+          AND incidents.srch_record_state = TRUE
           #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
         cross join json_each_text((violations.data->>'violation_tally')::JSON)
         WHERE violations.data->>'violation_tally' is not null
@@ -30,9 +30,8 @@ class ManagedReports::Indicators::LateVerification < ManagedReports::SqlReportIn
         group by key, violations.data ->> 'type'
         order by
         name
-      }
+      SQL
     end
-    # rubocop:enable Metrics/MethodLength
 
     def build_results(results, params = {})
       super(results, params).map { |result| group_with_query(result, params) }

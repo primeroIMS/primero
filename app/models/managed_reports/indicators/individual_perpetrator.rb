@@ -9,12 +9,11 @@ class ManagedReports::Indicators::IndividualPerpetrator < ManagedReports::SqlRep
       'individual_perpetrator'
     end
 
-    # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/CyclomaticComplexity
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/PerceivedComplexity
     def sql(current_user, params = {})
-      %{
+      <<~SQL
         select
         name,
         'total' AS KEY,
@@ -33,6 +32,7 @@ class ManagedReports::Indicators::IndividualPerpetrator < ManagedReports::SqlRep
             inner join incidents
               on violations.incident_id = incidents.id
               AND incidents.srch_status = 'open'
+              AND incidents.srch_record_state = TRUE
             inner join individual_victims_violations on violations.id = individual_victims_violations.violation_id
             inner join individual_victims on individual_victims.id = individual_victims_violations.individual_victim_id
             #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
@@ -47,11 +47,10 @@ class ManagedReports::Indicators::IndividualPerpetrator < ManagedReports::SqlRep
         group by name
         #{grouped_date_query(params['grouped_by'], filter_date(params), 'individual_perpetrators')&.prepend(', ')}
         order by name
-      }
+      SQL
     end
     # rubocop:enable Metrics/PerceivedComplexity
     # rubocop:enable Metrics/AbcSize
-    # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/CyclomaticComplexity
   end
 end

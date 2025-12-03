@@ -10,11 +10,10 @@ class ManagedReports::Indicators::SexualViolenceType < ManagedReports::SqlReport
     end
 
     # rubocop:disable Metrics/AbcSize
-    # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/CyclomaticComplexity
     # rubocop:disable Metrics/PerceivedComplexity
     def sql(current_user, params = {})
-      %{
+      <<~SQL
         select detention_type as name, json_object_agg(key, sum) as data
         #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
         from (
@@ -30,6 +29,7 @@ class ManagedReports::Indicators::SexualViolenceType < ManagedReports::SqlReport
         inner join incidents incidents
           on incidents.id = violations.incident_id
           and incidents.srch_status = 'open'
+          AND incidents.srch_record_state = TRUE
           #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
         where violations.data->>'violation_tally' is not null
         and violations.data->>'sexual_violence_type' is not null
@@ -45,10 +45,9 @@ class ManagedReports::Indicators::SexualViolenceType < ManagedReports::SqlReport
         group by detention_type
         #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
         order by name
-      }
+      SQL
     end
     # rubocop:enable Metrics/AbcSize
-    # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/CyclomaticComplexity
     # rubocop:enable Metrics/PerceivedComplexity
   end

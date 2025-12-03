@@ -9,14 +9,16 @@ class ManagedReports::Indicators::AbductedStatus < ManagedReports::SqlReportIndi
       'abducted_status'
     end
 
-    # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/CyclomaticComplexity
     # rubocop:disable Metrics/PerceivedComplexity
     def sql(current_user, params = {})
-      %{
-        select status as name, sum(value::integer) as sum, key
-        #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
+      <<~SQL
+        select
+          status as name,
+          sum(value::integer) as sum,
+          key
+          #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
         from (
             select
             key, value,
@@ -50,6 +52,7 @@ class ManagedReports::Indicators::AbductedStatus < ManagedReports::SqlReportIndi
                   inner join incidents incidents
                     on incidents.id = violations.incident_id
                     and incidents.srch_status = 'open'
+                    and incidents.srch_record_state = TRUE
                     #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
                   cross join json_each_text((violations."data"->>'violation_tally')::JSON)
                   WHERE violations."data"->>'abduction_regained_freedom' is not null
@@ -63,9 +66,8 @@ class ManagedReports::Indicators::AbductedStatus < ManagedReports::SqlReportIndi
          group by key, name
         #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
         order by name
-      }
+      SQL
     end
-    # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/CyclomaticComplexity
     # rubocop:enable Metrics/PerceivedComplexity
