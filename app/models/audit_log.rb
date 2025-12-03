@@ -87,11 +87,12 @@ class AuditLog < ApplicationRecord
     logs
   end
 
-  # The last time a non-system, non-maintenance user has logged into the system
-  def self.last_login
+  # The last time a user has successfully logged into the system
+  # By default returns for standrad users
+  def self.last_login(user_category = nil)
     joins(user: :role)
       .where(action: AuditLog::LOGIN)
-      .where(users: { roles: { user_category: nil } })
+      .where(users: { roles: { user_category: } })
       .order(timestamp: :desc)
       .first
   end

@@ -45,7 +45,9 @@ class UsageReport < ValueObject
       identified_users_total: User.by_category(Role::CATEGORY_IDENTIFIED).size,
       system_users_total: User.by_category(Role::CATEGORY_SYSTEM).size,
       maintenance_users_total: User.by_category(Role::CATEGORY_MAINTENANCE).size,
-      last_login: AuditLog.last_login&.timestamp,
+      last_login_standard: AuditLog.last_login&.timestamp,
+      last_login_limited: AuditLog.last_login(Role::CATEGORY_LIMITED)&.timestamp,
+      last_login_identified: AuditLog.last_login(Role::CATEGORY_IDENTIFIED)&.timestamp,
       storage_total: SystemSettings.current.total_attachment_file_size,
       storage_per_user: SystemSettings.current.total_attachment_file_size_per_user
     }.with_indifferent_access
