@@ -13,13 +13,28 @@ function AssignmentsDetails({ transition, classes }) {
 
   return (
     <Grid container spacing={2}>
-      <Grid item md={6} xs={12}>
+      <Grid
+        size={{
+          md: 6,
+          xs: 12
+        }}
+      >
         <DisplayData label="transition.recipient" value={transition.transitioned_to} />
       </Grid>
-      <Grid item md={6} xs={12}>
+      <Grid
+        size={{
+          md: 6,
+          xs: 12
+        }}
+      >
         <DisplayData label="transition.assigned_by" value={transition.transitioned_by} />
       </Grid>
-      <Grid item md={12} xs={12}>
+      <Grid
+        size={{
+          md: 12,
+          xs: 12
+        }}
+      >
         <div>
           <Divider />
           <div className={classes.transtionLabel}>{i18n.t("transition.notes")}</div>

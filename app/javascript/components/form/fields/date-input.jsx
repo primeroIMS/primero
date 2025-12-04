@@ -91,8 +91,13 @@ function DateInput({ commonInputProps, metaInputProps = {}, formMethods }) {
         control={control}
         as={renderPicker}
         {...commonInputProps}
-        helperText={<>{helperText}</>}
         defaultValue=""
+        slotProps={{
+          textField: {
+            error,
+            helperText: error || helperText
+          }
+        }}
       />
     </DateProvider>
   );

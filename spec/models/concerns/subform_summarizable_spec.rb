@@ -28,7 +28,7 @@ describe SubformSummarizable do
           name: 'scores',
           type: 'subform',
           editable: true,
-          subform_section: score_section,
+          subform: score_section,
           display_name_en: 'Scores',
           subform_sort_by: 'score_date'
         ),

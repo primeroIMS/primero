@@ -27,7 +27,7 @@ module Primero; end
 
 # Main Rails application class for Primero
 class Primero::Application < Rails::Application
-  config.load_defaults 6.1
+  config.load_defaults 8.0
 
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers
@@ -43,14 +43,8 @@ class Primero::Application < Rails::Application
       load override
     end
   end
-  config.enable_dependency_loading = true
-  # Custom directories with classes and modules you want to be autoloadable.
-  load_paths = %W[
-    #{config.root}/lib
-    #{config.root}/lib/extensions
-  ]
-  config.autoload_paths += load_paths
-  config.eager_load_paths += load_paths
+
+  config.autoload_lib(ignore: %w[tasks])
 
   config.middleware.use Rack::Deflater
 
@@ -83,6 +77,8 @@ class Primero::Application < Rails::Application
   config.action_view.logger = nil
 
   config.exceptions_app = routes
+
+  config.active_storage.variant_processor = :vips
 end
 
 require File.expand_path('version', __dir__)

@@ -9,7 +9,7 @@ json.data do
     json.code user.code
     json.position user.position
     json.location user.reporting_location&.location_code
-    json.agency user.organization&.unique_id
+    json.agency user.agency&.unique_id
     json.disabled user.disabled
     json.services user.services
   end

@@ -74,3 +74,5 @@ fr:
           protection_referral: "Services Protection de l'enfance et d'éducation"
         consent: "Consentement obtenu "
         agency_code: "Code de la structure rapportant le cas"
+      number_primary_perpetrators:
+        more_than_three: "Plus de 3"

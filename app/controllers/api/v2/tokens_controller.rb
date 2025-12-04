@@ -17,7 +17,7 @@ class Api::V2::TokensController < Devise::SessionsController
   # that Devise unfortunately still uses. We are overriding it to return a JSON object
   # for the Devise session create method.
   def respond_with(user, _opts = {})
-    render json: { id: user.id, user_name: user.user_name }
+    render json: { id: user.id, user_name: user.user_name, group_permission: user.role.group_permission }
   end
 
   # Overriding method called by Devise session destroy.
@@ -43,7 +43,9 @@ class Api::V2::TokensController < Devise::SessionsController
   def create_idp
     user = idp_token.valid? && idp_token.user
     if user
-      render json: { id: user.id, user_name: user.user_name, token: current_token }
+      render json: {
+        id: user.id, user_name: user.user_name, group_permission: user.role.group_permission, token: current_token
+      }
     else
       fail_to_authorize!(auth_options)
     end

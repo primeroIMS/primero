@@ -36,6 +36,7 @@ describe("<Nav />", () => {
     user: {
       modules: [],
       agency: "agency_1",
+      roleGroupPermission: "self",
       permissions
     }
   });
@@ -124,6 +125,7 @@ describe("<Nav />", () => {
       user: {
         modules: [],
         agency: "agency_1",
+        roleGroupPermission: "self",
         permissions: {
           cases: [ACTIONS.READ]
         }
@@ -167,6 +169,7 @@ describe("<Nav />", () => {
       user: {
         modules: [],
         agency: "agency_1",
+        roleGroupPermission: "self",
         permissions
       }
     });
@@ -199,6 +202,7 @@ describe("<Nav />", () => {
         id: userId,
         modules: [],
         agency: "agency_1",
+        roleGroupPermission: "self",
         permissions: {
           cases: [ACTIONS.READ]
         }
@@ -208,6 +212,40 @@ describe("<Nav />", () => {
     it("renders a disabled my account link", () => {
       mountedComponent(<ProvidedNav username="username" />, offlineInitialState);
       expect(screen.queryAllByRole("link")[2]).toHaveAttribute("disabled", "");
+    });
+  });
+
+  describe("when roleGroupPermission is IDENTIFIED", () => {
+    const identifiedInitialState = fromJS({
+      ui: { Nav: { drawerOpen: true } },
+      application: {
+        modules: {},
+        online: true,
+        agencies: [
+          {
+            unique_id: "agency_1",
+            logo: { small: "/some/random.png" }
+          }
+        ]
+      },
+      user: {
+        modules: [],
+        agency: "agency_1",
+        roleGroupPermission: "identified",
+        permissions: {
+          cases: [ACTIONS.READ]
+        }
+      }
+    });
+
+    it("does not render the cases link", () => {
+      mountedComponent(<ProvidedNav username="username" />, identifiedInitialState);
+      expect(screen.queryAllByText(/navigation.cases/i)).toHaveLength(0);
+    });
+
+    it("renders the My Case link", () => {
+      mountedComponent(<ProvidedNav username="username" />, identifiedInitialState);
+      expect(screen.queryAllByText(/navigation.my_case/i)).toHaveLength(2);
     });
   });
 });

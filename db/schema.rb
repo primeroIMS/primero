@@ -10,20 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2025_10_06_000001) do
-
+ActiveRecord::Schema[8.0].define(version: 2025_10_09_185327) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
+  enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
   enable_extension "pgcrypto"
-  enable_extension "plpgsql"
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
     t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
@@ -35,7 +34,7 @@ ActiveRecord::Schema.define(version: 2025_10_06_000001) do
     t.text "metadata"
     t.bigint "byte_size", null: false
     t.string "checksum", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
@@ -59,11 +58,11 @@ ActiveRecord::Schema.define(version: 2025_10_06_000001) do
     t.boolean "pdf_logo_option", default: false, null: false
     t.boolean "exclude_agency_from_lookups", default: false, null: false
     t.boolean "terms_of_use_enabled", default: false, null: false
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.boolean "terms_of_use_signed", default: false, null: false
     t.datetime "terms_of_use_uploaded_at"
     t.string "terms_of_use_uploaded_by"
+    t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["agency_code"], name: "index_agencies_on_agency_code", unique: true
     t.index ["services"], name: "index_agencies_on_services", using: :gin
     t.index ["unique_id"], name: "index_agencies_on_unique_id", unique: true
@@ -112,7 +111,7 @@ ActiveRecord::Schema.define(version: 2025_10_06_000001) do
     t.integer "user_id"
     t.string "action"
     t.string "resource_url"
-    t.datetime "timestamp"
+    t.datetime "timestamp", precision: nil
     t.jsonb "metadata"
     t.index ["metadata"], name: "index_audit_logs_on_metadata", using: :gin
     t.index ["record_type", "record_id"], name: "index_audit_logs_on_record_type_and_record_id"
@@ -123,8 +122,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_000001) do
   create_table "bulk_exports", id: :serial, force: :cascade do |t|
     t.string "status"
     t.string "owned_by"
-    t.datetime "started_on"
-    t.datetime "completed_on"
+    t.datetime "started_on", precision: nil
+    t.datetime "completed_on", precision: nil
     t.string "format"
     t.string "record_type"
     t.string "model_range"
@@ -144,8 +143,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_000001) do
     t.string "relationship_type"
     t.boolean "disabled", default: false, null: false
     t.boolean "primary", default: false, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["from_case_id", "to_case_id"], name: "index_case_relationships_on_from_case_id_and_to_case_id", unique: true
     t.index ["from_case_id"], name: "index_case_relationships_on_from_case_id"
     t.index ["to_case_id"], name: "index_case_relationships_on_to_case_id"
@@ -160,13 +159,13 @@ ActiveRecord::Schema.define(version: 2025_10_06_000001) do
     t.uuid "family_id"
     t.jsonb "phonetic_data"
     t.integer "srch_age"
-    t.datetime "srch_created_at"
-    t.datetime "srch_registration_date"
+    t.datetime "srch_created_at", precision: nil
+    t.datetime "srch_registration_date", precision: nil
     t.string "srch_name"
     t.string "srch_module_id"
     t.string "srch_location_current"
     t.string "srch_client_code"
-    t.datetime "srch_date_closure"
+    t.datetime "srch_date_closure", precision: nil
     t.string "srch_owned_by"
     t.string "srch_owned_by_agency_id"
     t.string "srch_owned_by_location"
@@ -183,7 +182,7 @@ ActiveRecord::Schema.define(version: 2025_10_06_000001) do
     t.string "srch_approval_status_closure"
     t.string "srch_approval_status_action_plan"
     t.string "srch_approval_status_gbv_closure"
-    t.datetime "srch_reassigned_transferred_on"
+    t.datetime "srch_reassigned_transferred_on", precision: nil
     t.boolean "srch_referred_users_present", default: false
     t.boolean "srch_has_incidents", default: false
     t.string "srch_transfer_status"
@@ -202,14 +201,18 @@ ActiveRecord::Schema.define(version: 2025_10_06_000001) do
     t.string "srch_transferred_to_user_groups", default: [], array: true
     t.string "srch_referred_users", default: [], array: true
     t.string "srch_current_alert_types", default: [], array: true
-    t.datetime "srch_case_plan_due_dates", default: [], array: true
-    t.datetime "srch_service_due_dates", default: [], array: true
-    t.datetime "srch_assessment_due_dates", default: [], array: true
-    t.datetime "srch_followup_due_dates", default: [], array: true
+    t.datetime "srch_case_plan_due_dates", precision: nil, default: [], array: true
+    t.datetime "srch_service_due_dates", precision: nil, default: [], array: true
+    t.datetime "srch_assessment_due_dates", precision: nil, default: [], array: true
+    t.datetime "srch_followup_due_dates", precision: nil, default: [], array: true
     t.string "srch_protection_concerns", default: [], array: true
     t.string "srch_protection_risks", default: [], array: true
     t.string "srch_next_steps", default: [], array: true
     t.string "srch_assigned_user_names", default: [], array: true
+    t.string "srch_sex"
+    t.string "srch_identified_by"
+    t.string "srch_identified_by_full_name"
+    t.datetime "srch_identified_at", precision: nil
     t.index "((data ->> 'case_id'::text))", name: "cases_case_id_unique_idx", unique: true
     t.index "((phonetic_data -> 'tokens'::text))", name: "cases_phonetic_tokens_idx", using: :gin
     t.index ["data"], name: "index_cases_on_data", using: :gin
@@ -231,14 +234,14 @@ ActiveRecord::Schema.define(version: 2025_10_06_000001) do
     t.index ["srch_associated_user_agencies", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_gbv_closure", "srch_module_id"], name: "approvals_gbv_closure_approved_dashboard_agency_idx", where: "((srch_approval_status_gbv_closure IS NOT NULL) AND ((srch_approval_status_gbv_closure)::text = 'approved'::text))"
     t.index ["srch_associated_user_agencies", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_gbv_closure", "srch_module_id"], name: "approvals_gbv_closure_pending_dashboard_agency_idx", where: "((srch_approval_status_gbv_closure IS NOT NULL) AND ((srch_approval_status_gbv_closure)::text = 'pending'::text))"
     t.index ["srch_associated_user_agencies", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_gbv_closure", "srch_module_id"], name: "approvals_gbv_closure_rejected_dashboard_agency_idx", where: "((srch_approval_status_gbv_closure IS NOT NULL) AND ((srch_approval_status_gbv_closure)::text = 'rejected'::text))"
-    t.index ["srch_associated_user_agencies", "srch_owned_by", "srch_record_state", "srch_status", "srch_module_id", "srch_workflow"], name: "workflow_dashboard_agency_idx"
+    t.index ["srch_associated_user_agencies", "srch_owned_by", "srch_record_state", "srch_status", "srch_module_id"], name: "workflow_dashboard_agency_idx", include: ["srch_workflow"]
     t.index ["srch_associated_user_agencies", "srch_record_state", "srch_status", "srch_not_edited_by_owner"], name: "new_or_updated_dashboard_agency_idx", where: "((srch_record_state IS NOT NULL) AND (srch_record_state = true) AND ((srch_status IS NOT NULL) AND ((srch_status)::text = 'open'::text)) AND ((srch_not_edited_by_owner IS NOT NULL) AND (srch_not_edited_by_owner = true)))"
     t.index ["srch_associated_user_agencies", "srch_record_state", "srch_status", "srch_referred_users", "srch_last_updated_by"], name: "shared_with_me_new_referrals_dashboard_agency_idx"
     t.index ["srch_associated_user_agencies", "srch_record_state", "srch_status", "srch_referred_users_present", "srch_owned_by"], name: "shared_with_others_referrals_users_present_dashboard_agency_idx", where: "((srch_referred_users_present IS NOT NULL) AND (srch_referred_users_present = true))"
-    t.index ["srch_associated_user_agencies", "srch_record_state", "srch_status", "srch_risk_level"], name: "risk_level_dashboard_agency_idx"
     t.index ["srch_associated_user_agencies", "srch_record_state", "srch_status", "srch_transfer_status", "srch_owned_by"], name: "shared_with_others_transfers_pending_dashboard_agency_idx", where: "((srch_transfer_status IS NOT NULL) AND ((srch_transfer_status)::text = 'in_progress'::text))"
     t.index ["srch_associated_user_agencies", "srch_record_state", "srch_status", "srch_transfer_status", "srch_owned_by"], name: "shared_with_others_transfers_rejected_dashboard_agency_idx", where: "((srch_transfer_status IS NOT NULL) AND ((srch_transfer_status)::text = 'rejected'::text))"
     t.index ["srch_associated_user_agencies", "srch_record_state", "srch_status", "srch_transferred_to_users"], name: "shared_with_me_transfers_awaiting_dashboard_agency_idx"
+    t.index ["srch_associated_user_agencies", "srch_record_state", "srch_status"], name: "risk_level_dashboard_agency_idx", include: ["srch_risk_level"]
     t.index ["srch_associated_user_groups", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_action_plan", "srch_module_id"], name: "approvals_action_plan_approved_dashboard_group_idx", where: "((srch_approval_status_action_plan IS NOT NULL) AND ((srch_approval_status_action_plan)::text = 'approved'::text))"
     t.index ["srch_associated_user_groups", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_action_plan", "srch_module_id"], name: "approvals_action_plan_pending_dashboard_group_idx", where: "((srch_approval_status_action_plan IS NOT NULL) AND ((srch_approval_status_action_plan)::text = 'pending'::text))"
     t.index ["srch_associated_user_groups", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_action_plan", "srch_module_id"], name: "approvals_action_plan_rejected_dashboard_group_idx", where: "((srch_approval_status_action_plan IS NOT NULL) AND ((srch_approval_status_action_plan)::text = 'rejected'::text))"
@@ -254,14 +257,14 @@ ActiveRecord::Schema.define(version: 2025_10_06_000001) do
     t.index ["srch_associated_user_groups", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_gbv_closure", "srch_module_id"], name: "approvals_gbv_closure_approved_dashboard_group_idx", where: "((srch_approval_status_gbv_closure IS NOT NULL) AND ((srch_approval_status_gbv_closure)::text = 'approved'::text))"
     t.index ["srch_associated_user_groups", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_gbv_closure", "srch_module_id"], name: "approvals_gbv_closure_pending_dashboard_group_idx", where: "((srch_approval_status_gbv_closure IS NOT NULL) AND ((srch_approval_status_gbv_closure)::text = 'pending'::text))"
     t.index ["srch_associated_user_groups", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_gbv_closure", "srch_module_id"], name: "approvals_gbv_closure_rejected_dashboard_group_idx", where: "((srch_approval_status_gbv_closure IS NOT NULL) AND ((srch_approval_status_gbv_closure)::text = 'rejected'::text))"
-    t.index ["srch_associated_user_groups", "srch_owned_by", "srch_record_state", "srch_status", "srch_module_id", "srch_workflow"], name: "workflow_dashboard_group_idx"
+    t.index ["srch_associated_user_groups", "srch_owned_by", "srch_record_state", "srch_status", "srch_module_id"], name: "workflow_dashboard_group_idx", include: ["srch_workflow"]
     t.index ["srch_associated_user_groups", "srch_record_state", "srch_status", "srch_not_edited_by_owner"], name: "new_or_updated_dashboard_group_idx", where: "((srch_record_state IS NOT NULL) AND (srch_record_state = true) AND ((srch_status IS NOT NULL) AND ((srch_status)::text = 'open'::text)) AND ((srch_not_edited_by_owner IS NOT NULL) AND (srch_not_edited_by_owner = true)))"
     t.index ["srch_associated_user_groups", "srch_record_state", "srch_status", "srch_referred_users", "srch_last_updated_by"], name: "shared_with_me_new_referrals_dashboard_group_idx"
     t.index ["srch_associated_user_groups", "srch_record_state", "srch_status", "srch_referred_users_present", "srch_owned_by"], name: "shared_with_others_referrals_users_present_dashboard_group_idx", where: "((srch_referred_users_present IS NOT NULL) AND (srch_referred_users_present = true))"
-    t.index ["srch_associated_user_groups", "srch_record_state", "srch_status", "srch_risk_level"], name: "risk_level_dashboard_group_idx"
     t.index ["srch_associated_user_groups", "srch_record_state", "srch_status", "srch_transfer_status", "srch_owned_by"], name: "shared_with_others_transfers_pending_dashboard_group_idx", where: "((srch_transfer_status IS NOT NULL) AND ((srch_transfer_status)::text = 'in_progress'::text))"
     t.index ["srch_associated_user_groups", "srch_record_state", "srch_status", "srch_transfer_status", "srch_owned_by"], name: "shared_with_others_transfers_rejected_dashboard_group_idx", where: "((srch_transfer_status IS NOT NULL) AND ((srch_transfer_status)::text = 'rejected'::text))"
     t.index ["srch_associated_user_groups", "srch_record_state", "srch_status", "srch_transferred_to_users"], name: "shared_with_me_transfers_awaiting_dashboard_group_idx"
+    t.index ["srch_associated_user_groups", "srch_record_state", "srch_status"], name: "risk_level_dashboard_group_idx", include: ["srch_risk_level"]
     t.index ["srch_associated_user_names", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_action_plan", "srch_module_id"], name: "approvals_action_plan_approved_dashboard_user_idx", where: "((srch_approval_status_action_plan IS NOT NULL) AND ((srch_approval_status_action_plan)::text = 'approved'::text))"
     t.index ["srch_associated_user_names", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_action_plan", "srch_module_id"], name: "approvals_action_plan_pending_dashboard_user_idx", where: "((srch_approval_status_action_plan IS NOT NULL) AND ((srch_approval_status_action_plan)::text = 'pending'::text))"
     t.index ["srch_associated_user_names", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_action_plan", "srch_module_id"], name: "approvals_action_plan_rejected_dashboard_user_idx", where: "((srch_approval_status_action_plan IS NOT NULL) AND ((srch_approval_status_action_plan)::text = 'rejected'::text))"
@@ -277,16 +280,18 @@ ActiveRecord::Schema.define(version: 2025_10_06_000001) do
     t.index ["srch_associated_user_names", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_gbv_closure", "srch_module_id"], name: "approvals_gbv_closure_approved_dashboard_user_idx", where: "((srch_approval_status_gbv_closure IS NOT NULL) AND ((srch_approval_status_gbv_closure)::text = 'approved'::text))"
     t.index ["srch_associated_user_names", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_gbv_closure", "srch_module_id"], name: "approvals_gbv_closure_pending_dashboard_user_idx", where: "((srch_approval_status_gbv_closure IS NOT NULL) AND ((srch_approval_status_gbv_closure)::text = 'pending'::text))"
     t.index ["srch_associated_user_names", "srch_owned_by", "srch_record_state", "srch_status", "srch_approval_status_gbv_closure", "srch_module_id"], name: "approvals_gbv_closure_rejected_dashboard_user_idx", where: "((srch_approval_status_gbv_closure IS NOT NULL) AND ((srch_approval_status_gbv_closure)::text = 'rejected'::text))"
-    t.index ["srch_associated_user_names", "srch_owned_by", "srch_record_state", "srch_status", "srch_module_id", "srch_workflow"], name: "workflow_dashboard_user_idx"
+    t.index ["srch_associated_user_names", "srch_owned_by", "srch_record_state", "srch_status", "srch_module_id"], name: "workflow_dashboard_user_idx", include: ["srch_workflow"]
     t.index ["srch_associated_user_names", "srch_record_state", "srch_status", "srch_not_edited_by_owner"], name: "new_or_updated_dashboard_user_idx", where: "((srch_record_state IS NOT NULL) AND (srch_record_state = true) AND ((srch_status IS NOT NULL) AND ((srch_status)::text = 'open'::text)) AND ((srch_not_edited_by_owner IS NOT NULL) AND (srch_not_edited_by_owner = true)))"
     t.index ["srch_associated_user_names", "srch_record_state", "srch_status", "srch_referred_users", "srch_last_updated_by"], name: "shared_with_me_new_referrals_dashboard_user_idx"
     t.index ["srch_associated_user_names", "srch_record_state", "srch_status", "srch_referred_users_present", "srch_owned_by"], name: "shared_with_others_referrals_users_present_dashboard_user_idx", where: "((srch_referred_users_present IS NOT NULL) AND (srch_referred_users_present = true))"
-    t.index ["srch_associated_user_names", "srch_record_state", "srch_status", "srch_risk_level"], name: "risk_level_dashboard_user_idx"
     t.index ["srch_associated_user_names", "srch_record_state", "srch_status", "srch_transfer_status", "srch_owned_by"], name: "shared_with_others_transfers_pending_dashboard_user_idx", where: "((srch_transfer_status IS NOT NULL) AND ((srch_transfer_status)::text = 'in_progress'::text))"
     t.index ["srch_associated_user_names", "srch_record_state", "srch_status", "srch_transfer_status", "srch_owned_by"], name: "shared_with_others_transfers_rejected_dashboard_user_idx", where: "((srch_transfer_status IS NOT NULL) AND ((srch_transfer_status)::text = 'rejected'::text))"
     t.index ["srch_associated_user_names", "srch_record_state", "srch_status", "srch_transferred_to_users"], name: "shared_with_me_transfers_awaiting_dashboard_user_idx"
+    t.index ["srch_associated_user_names", "srch_record_state", "srch_status"], name: "risk_level_dashboard_user_idx", include: ["srch_risk_level"]
     t.index ["srch_created_at"], name: "cases_srch_created_at_idx"
     t.index ["srch_date_closure"], name: "cases_srch_date_closure_idx"
+    t.index ["srch_identified_at"], name: "index_cases_on_srch_identified_at"
+    t.index ["srch_identified_by"], name: "index_cases_on_srch_identified_by"
     t.index ["srch_record_state", "srch_status", "srch_associated_user_agencies"], name: "cases_default_associated_user_agencies_idx"
     t.index ["srch_record_state", "srch_status", "srch_associated_user_groups"], name: "cases_default_associated_user_groups_idx"
     t.index ["srch_record_state", "srch_status", "srch_associated_user_names"], name: "cases_default_associated_user_names_idx"
@@ -294,7 +299,7 @@ ActiveRecord::Schema.define(version: 2025_10_06_000001) do
   end
 
   create_table "codes_of_conduct", force: :cascade do |t|
-    t.datetime "created_on"
+    t.datetime "created_on", precision: nil
     t.string "created_by"
     t.string "title"
     t.text "content"
@@ -309,8 +314,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_000001) do
     t.string "support_forum"
     t.string "email"
     t.string "position"
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
@@ -318,13 +323,13 @@ ActiveRecord::Schema.define(version: 2025_10_06_000001) do
     t.integer "attempts", default: 0, null: false
     t.text "handler", null: false
     t.text "last_error"
-    t.datetime "run_at"
-    t.datetime "locked_at"
-    t.datetime "failed_at"
+    t.datetime "run_at", precision: nil
+    t.datetime "locked_at", precision: nil
+    t.datetime "failed_at", precision: nil
     t.string "locked_by"
     t.string "queue"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "updated_at", precision: nil
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
@@ -336,16 +341,16 @@ ActiveRecord::Schema.define(version: 2025_10_06_000001) do
     t.string "record_type", default: "Child"
     t.string "opt_out_field"
     t.string "property_keys_opt_out", default: [], array: true
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["unique_id"], name: "index_export_configurations_on_unique_id", unique: true
   end
 
   create_table "families", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.jsonb "data", default: {}
     t.jsonb "phonetic_data"
-    t.datetime "srch_created_at"
-    t.datetime "srch_family_registration_date"
+    t.datetime "srch_created_at", precision: nil
+    t.datetime "srch_family_registration_date", precision: nil
     t.string "srch_status"
     t.boolean "srch_record_state", default: false
     t.boolean "srch_flagged", default: false
@@ -403,8 +408,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_000001) do
     t.boolean "matchable", default: false, null: false
     t.jsonb "subform_section_configuration"
     t.boolean "mandatory_for_completion", default: false, null: false
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.jsonb "display_conditions_record"
     t.jsonb "display_conditions_subform"
     t.string "collapse"
@@ -426,7 +431,7 @@ ActiveRecord::Schema.define(version: 2025_10_06_000001) do
     t.string "flagged_by"
     t.boolean "removed", default: false, null: false
     t.text "unflag_message"
-    t.datetime "created_at"
+    t.datetime "created_at", precision: nil
     t.boolean "system_generated_followup", default: false, null: false
     t.string "unflagged_by"
     t.date "unflagged_date"
@@ -461,8 +466,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_000001) do
     t.boolean "hide_subform_placeholder", default: false, null: false
     t.boolean "mobile_form", default: false, null: false
     t.text "header_message_link"
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.jsonb "display_conditions"
     t.index ["unique_id"], name: "index_form_sections_on_unique_id", unique: true
   end
@@ -478,8 +483,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_000001) do
     t.integer "role_id"
     t.integer "form_section_id"
     t.string "permission", default: "rw"
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["form_section_id"], name: "index_form_sections_roles_on_form_section_id"
     t.index ["id"], name: "index_form_sections_roles_on_id", unique: true
     t.index ["role_id", "form_section_id"], name: "index_form_sections_roles_on_role_id_and_form_section_id", unique: true
@@ -503,8 +508,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_000001) do
     t.string "unique_id"
     t.string "provider_type"
     t.jsonb "configuration"
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["configuration"], name: "index_identity_providers_on_configuration", using: :gin
     t.index ["unique_id"], name: "index_identity_providers_on_unique_id", unique: true
   end
@@ -513,8 +518,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_000001) do
     t.jsonb "data", default: {}
     t.uuid "incident_case_id"
     t.jsonb "phonetic_data"
-    t.datetime "srch_created_at"
-    t.datetime "srch_incident_date"
+    t.datetime "srch_created_at", precision: nil
+    t.datetime "srch_incident_date", precision: nil
     t.string "srch_incident_location"
     t.string "srch_module_id"
     t.string "srch_owned_by"
@@ -533,7 +538,7 @@ ActiveRecord::Schema.define(version: 2025_10_06_000001) do
     t.string "srch_armed_force_group_party_names", default: [], array: true
     t.string "srch_violation_with_verification_status", default: [], array: true
     t.string "srch_assigned_user_names", default: [], array: true
-    t.datetime "srch_incident_date_derived"
+    t.datetime "srch_incident_date_derived", precision: nil
     t.string "srch_gbv_sexual_violence_type"
     t.string "srch_cp_sexual_violence_type"
     t.string "srch_owned_by_agency_office"
@@ -578,8 +583,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_000001) do
     t.jsonb "name_i18n"
     t.jsonb "lookup_values_i18n"
     t.boolean "locked", default: false, null: false
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["unique_id"], name: "index_lookups_on_unique_id", unique: true
   end
 
@@ -600,9 +605,9 @@ ActiveRecord::Schema.define(version: 2025_10_06_000001) do
     t.string "description"
     t.string "version"
     t.string "created_by"
-    t.datetime "created_on"
+    t.datetime "created_on", precision: nil
     t.string "applied_by"
-    t.datetime "applied_on"
+    t.datetime "applied_on", precision: nil
     t.jsonb "data", default: {}
     t.string "primero_version"
   end
@@ -616,8 +621,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_000001) do
     t.boolean "core_resource", default: true
     t.jsonb "field_map"
     t.jsonb "module_options"
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["primero_program_id"], name: "index_primero_modules_on_primero_program_id"
     t.index ["unique_id"], name: "index_primero_modules_on_unique_id", unique: true
   end
@@ -644,14 +649,14 @@ ActiveRecord::Schema.define(version: 2025_10_06_000001) do
     t.date "start_date"
     t.date "end_date"
     t.boolean "core_resource", default: false, null: false
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
   end
 
   create_table "record_histories", id: :serial, force: :cascade do |t|
     t.string "record_id"
     t.string "record_type"
-    t.datetime "datetime"
+    t.datetime "datetime", precision: nil
     t.string "user_name"
     t.string "action"
     t.jsonb "record_changes", default: {}
@@ -661,8 +666,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_000001) do
   create_table "registry_records", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.jsonb "data", default: {}
     t.jsonb "phonetic_data"
-    t.datetime "srch_created_at"
-    t.datetime "srch_registration_date"
+    t.datetime "srch_created_at", precision: nil
+    t.datetime "srch_registration_date", precision: nil
     t.string "srch_status"
     t.boolean "srch_record_state", default: false
     t.string "srch_location_current"
@@ -715,8 +720,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_000001) do
     t.boolean "is_manager", default: false, null: false
     t.integer "reporting_location_level"
     t.boolean "disabled", default: false, null: false
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.boolean "referral_authorization", default: false, null: false
     t.index ["permissions"], name: "index_roles_on_permissions", using: :gin
     t.index ["unique_id"], name: "index_roles_on_unique_id", unique: true
@@ -743,8 +748,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_000001) do
     t.string "session_id", null: false
     t.jsonb "data", default: {}
     t.boolean "expired", default: false, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["data"], name: "index_sessions_on_data", using: :gin
     t.index ["session_id"], name: "index_sessions_on_session_id", unique: true
     t.index ["updated_at"], name: "index_sessions_on_updated_at"
@@ -784,8 +789,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_000001) do
     t.jsonb "approvals_labels_i18n"
     t.boolean "config_update_lock", default: false, null: false
     t.string "configuration_file_version"
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.jsonb "incident_reporting_location_config"
     t.jsonb "terms_of_use_agency_sign"
     t.jsonb "terms_of_use_acknowledge"
@@ -794,8 +799,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_000001) do
   create_table "themes", force: :cascade do |t|
     t.jsonb "data", default: {}
     t.boolean "disabled", default: false, null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["data"], name: "index_themes_on_data", using: :gin
   end
 
@@ -811,8 +816,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_000001) do
   create_table "tracing_requests", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.jsonb "data", default: {}
     t.jsonb "phonetic_data"
-    t.datetime "srch_created_at"
-    t.datetime "srch_inquiry_date"
+    t.datetime "srch_created_at", precision: nil
+    t.datetime "srch_inquiry_date", precision: nil
     t.string "srch_status"
     t.boolean "srch_record_state", default: false
     t.boolean "srch_flagged", default: false
@@ -851,8 +856,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_000001) do
     t.string "type_of_export"
     t.boolean "consent_overridden", default: false, null: false
     t.boolean "consent_individual_transfer", default: false, null: false
-    t.datetime "created_at"
-    t.datetime "responded_at"
+    t.datetime "created_at", precision: nil
+    t.datetime "responded_at", precision: nil
     t.text "rejection_note"
     t.string "record_owned_by"
     t.string "record_owned_by_agency"
@@ -874,8 +879,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_000001) do
     t.string "description"
     t.boolean "core_resource", default: false, null: false
     t.boolean "disabled", default: false, null: false
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["unique_id"], name: "index_user_groups_on_unique_id", unique: true
   end
 
@@ -905,20 +910,24 @@ ActiveRecord::Schema.define(version: 2025_10_06_000001) do
     t.string "services", array: true
     t.string "agency_office"
     t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "reset_password_sent_at", precision: nil
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "identity_provider_id"
     t.jsonb "identity_provider_sync"
     t.integer "failed_attempts", default: 0
     t.string "unlock_token"
-    t.datetime "locked_at"
+    t.datetime "locked_at", precision: nil
     t.boolean "service_account", default: false, null: false
-    t.datetime "code_of_conduct_accepted_on"
+    t.datetime "code_of_conduct_accepted_on", precision: nil
     t.bigint "code_of_conduct_id"
     t.boolean "receive_webpush"
     t.jsonb "settings"
     t.datetime "terms_of_use_accepted_on"
+    t.string "user_category"
+    t.boolean "unverified", default: false
+    t.string "registration_stream"
+    t.datetime "data_processing_consent_provided_on", precision: nil
     t.index ["agency_id"], name: "index_users_on_agency_id"
     t.index ["code_of_conduct_id"], name: "index_users_on_code_of_conduct_id"
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -944,8 +953,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_000001) do
     t.string "auth_secret_encrypted"
     t.string "role_unique_id"
     t.jsonb "metadata", default: {}
-    t.datetime "created_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["events"], name: "index_webhooks_on_events", using: :gin
     t.index ["url"], name: "index_webhooks_on_url", unique: true
   end
@@ -956,8 +965,8 @@ ActiveRecord::Schema.define(version: 2025_10_06_000001) do
     t.string "auth", null: false
     t.string "p256dh", null: false
     t.bigint "user_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["notification_url", "user_id", "disabled"], name: "index_webpush_subscriptions_notification_url_user_id_disabled", unique: true
     t.index ["notification_url", "user_id"], name: "index_webpush_subscriptions_on_notification_url_and_user_id", unique: true
     t.index ["notification_url"], name: "index_webpush_subscriptions_on_notification_url"
@@ -967,7 +976,7 @@ ActiveRecord::Schema.define(version: 2025_10_06_000001) do
   create_table "whitelisted_jwts", force: :cascade do |t|
     t.string "jti", null: false
     t.string "aud"
-    t.datetime "exp", null: false
+    t.datetime "exp", precision: nil, null: false
     t.bigint "user_id", null: false
     t.index ["jti"], name: "index_whitelisted_jwts_on_jti", unique: true
     t.index ["user_id"], name: "index_whitelisted_jwts_on_user_id"

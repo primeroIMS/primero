@@ -89,13 +89,19 @@ module Transitionable
   end
 
   def referrals_group_scope(user)
-    return referrals if owner?(user) || (owned_by_groups & user.user_group_unique_ids).present?
+    if owner?(user) || ((owned_by_groups & user.user_group_unique_ids).present? && user.can_view_referrals?)
+      return referrals
+    end
+
+    return referrals_to_user(user) unless user.can_view_referrals?
 
     referrals.where(transitioned_to: User.by_user_group(user.user_groups.ids).pluck(:user_name))
   end
 
   def referrals_agency_scope(user)
-    return referrals if owner?(user) || user.agency_id == owner.agency_id
+    return referrals if owner?(user) || (user.agency_id == owner.agency_id && user.can_view_referrals?)
+
+    return referrals_to_user(user) unless user.can_view_referrals?
 
     referrals.where(transitioned_to_agency: user.agency.unique_id)
   end

@@ -16,7 +16,7 @@ describe Assign do
       resource: Permission::CASE,
       actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::ASSIGN]
     )
-    @role = Role.new(permissions: [permission_case], modules: [@primero_module])
+    @role = Role.new(permissions: [permission_case], primero_modules: [@primero_module])
     @role.save(validate: false)
     @group1 = UserGroup.create!(name: 'Group1')
     @agency1 = Agency.create!(name: 'Agency One', agency_code: 'agency1')
@@ -332,10 +332,10 @@ describe Assign do
         ]
       )
       @role_case_incident = Role.new(
-        permissions: [permission_case, permission_incident_assign], modules: [@primero_module]
+        permissions: [permission_case, permission_incident_assign], primero_modules: [@primero_module]
       )
       @role_case_incident.save(validate: false)
-      @role_incident = Role.new(permissions: [permission_incident], modules: [@primero_module])
+      @role_incident = Role.new(permissions: [permission_incident], primero_modules: [@primero_module])
       @role_incident.save(validate: false)
       @user4 = User.new(user_name: 'user4', role: @role_case_incident, user_groups: [@group1])
       @user4.save(validate: false)

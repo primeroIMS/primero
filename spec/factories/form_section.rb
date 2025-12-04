@@ -12,7 +12,7 @@ FactoryBot.define do
     is_first_tab { false }
   end
 
-  factory :subform_section, class: FormSection, traits: [:active_model] do
+  factory :subform, class: FormSection, traits: [:active_model] do
     unique_id { "form_section_#{counter}" }
     form_group_id { "form_section_#{counter}" }
     name { "Form Section #{counter}" }

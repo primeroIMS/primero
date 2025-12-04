@@ -75,7 +75,7 @@ describe Api::V2::KeyPerformanceIndicatorsController, { type: :request, skip_whe
   let(:json) { JSON.parse(response.body, symbolize_names: true) }
 
   describe 'GET /api/v2/kpis/number_of_cases', search: true do
-    with 'a valid active case' do
+    describe 'a valid active case' do
       it 'should show one case in the last month in London' do
         Child.new_with_user(@primero_kpi, {}).save!
         Sunspot.commit

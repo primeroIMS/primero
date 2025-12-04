@@ -6,7 +6,7 @@ require 'rails_helper'
 
 describe Exporters::ManagedReportExporter do
   before do
-    clean_data(PrimeroModule, PrimeroProgram, Lookup, UserGroup, Incident, Child, User, Role, Agency, Violation)
+    clean_data(PrimeroModule, PrimeroProgram, FormSection, Field, Lookup, UserGroup, Incident, Child, User, Role, Agency, Violation)
     travel_to Time.zone.local(2022, 6, 30, 11, 30, 44)
 
     SystemSettings.stub(:primary_age_ranges).and_return(AgeRange::DEFAULT_AGE_RANGES)
@@ -24,6 +24,23 @@ describe Exporters::ManagedReportExporter do
       associated_record_types: %w[case tracing_request incident],
       primero_program: program,
       form_sections: []
+    )
+
+    FormSection.create!(
+      unique_id: 'form_perpetrator',
+      parent_form: 'incident',
+      name_en: 'Form Perpetrator',
+      fields: [
+        Field.create!(
+          name: 'perpetrator_occupation',
+          display_name: 'Perpetrator Occupation',
+          option_strings_text_en: [
+            { id: 'occupation_1', display_text: 'Occupation 1' },
+            { id: 'occupation_2', display_text: 'Occupation 2' },
+            { id: 'unknown', display_text: 'Unknown' }
+          ]
+        )
+      ]
     )
 
     Lookup.create_or_update!(
@@ -89,16 +106,6 @@ describe Exporters::ManagedReportExporter do
         { id: 'primary_caregiver', display_text: 'Primary Caregiver' },
         { id: 'other', display_text: 'Other' },
         { id: 'no_relation', display_text: 'No relation' }
-      ]
-    )
-
-    Lookup.create_or_update!(
-      unique_id: 'lookup-perpetrator-occupation',
-      name_en: 'Perpetrator Occupation',
-      lookup_values_en: [
-        { id: 'occupation_1', display_text: 'Occupation 1' },
-        { id: 'occupation_2', display_text: 'Occupation 2' },
-        { id: 'unknown', display_text: 'Unknown' }
       ]
     )
 

@@ -114,7 +114,7 @@ function Component({ parentForm, primeroModule }) {
     <ActionDialog {...modalProps}>
       <form className={baseCss.formBuilderDialog}>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <div className={css.searchBox}>
               <SearchIcon />
               <input
@@ -127,7 +127,7 @@ function Component({ parentForm, primeroModule }) {
               />
             </div>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <FieldsTable
               fieldQuery={watchedFieldQuery}
               selectedFields={existingSelectedFields}

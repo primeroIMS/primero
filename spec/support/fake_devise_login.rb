@@ -4,6 +4,14 @@
 
 # Helpers for request specs that require a logged in user.
 module FakeDeviseLogin
+  FAMILY_DETAILS_FIELDS = [
+    Field.new(name: 'relation_name', type: Field::TEXT_FIELD),
+    Field.new(name: 'relation', type: Field::SELECT_BOX),
+    Field.new(name: 'relation_type', type: Field::SELECT_BOX),
+    Field.new(name: 'relation_age', type: Field::NUMERIC_FIELD),
+    Field.new(name: 'relation_is_caregiver', type: Field::TICK_BOX)
+  ].freeze
+
   COMMON_PERMITTED_FIELDS = [
     Field.new(name: 'name', type: Field::TEXT_FIELD, display_name_en: 'Name'),
     Field.new(name: 'age', type: Field::NUMERIC_FIELD, display_name_en: 'Age'),
@@ -16,15 +24,7 @@ module FakeDeviseLogin
       name: 'family_details_section',
       display_name_en: 'A',
       type: Field::SUBFORM,
-      subform: FormSection.new(
-        fields: [
-          Field.new(name: 'relation_name', type: Field::TEXT_FIELD),
-          Field.new(name: 'relation', type: Field::SELECT_BOX),
-          Field.new(name: 'relation_type', type: Field::SELECT_BOX),
-          Field.new(name: 'relation_age', type: Field::NUMERIC_FIELD),
-          Field.new(name: 'relation_is_caregiver', type: Field::TICK_BOX)
-        ]
-      )
+      subform: FormSection.new(fields: FAMILY_DETAILS_FIELDS)
     ),
     Field.new(name: 'description', type: Field::TEXT_AREA, display_name_en: 'Current Address', visible: false),
     Field.new(name: 'incident_date', type: Field::DATE_FIELD, display_name_en: 'A'),
@@ -47,7 +47,13 @@ module FakeDeviseLogin
     Field.new(name: 'registry_type', type: Field::TEXT_FIELD, display_name_en: 'Registry Type'),
     Field.new(name: 'family_number', type: Field::TEXT_FIELD, display_name_en: 'Family Number'),
     Field.new(name: 'family_notes', type: Field::TEXT_FIELD, display_name_en: 'Family Notes'),
-    Field.new(name: 'family_size', type: Field::NUMERIC_FIELD, display_name_en: 'Family Size')
+    Field.new(name: 'family_size', type: Field::NUMERIC_FIELD, display_name_en: 'Family Size'),
+    Field.new(
+      name: 'family_members',
+      display_name_en: 'Family Members',
+      type: Field::SUBFORM,
+      subform: FormSection.new(fields: FAMILY_DETAILS_FIELDS)
+    )
   ].freeze
 
   SERVICE_FIELDS = [
@@ -59,7 +65,7 @@ module FakeDeviseLogin
         unique_id: 'services_section', parent_form: 'case', name_en: 'services_section', is_nested: true,
         fields: [
           Field.new(name: 'service_type', type: Field::TEXT_FIELD, display_name_en: 'A'),
-          Field.new(name: 'separator3', type: Field::SEPARATOR, display_name_en: 'A'),
+          Field.new(name: 'separator3', type: Field::SEPARATOR, display_name_en: 'A')
         ]
       )
     )
@@ -134,7 +140,7 @@ module FakeDeviseLogin
       group_permission:,
       form_sections: opts[:form_sections] || []
     )
-    role.stub(:modules).and_return(opts[:modules] || [])
+    role.stub(:primero_modules).and_return(opts[:modules] || [])
     role
   end
 

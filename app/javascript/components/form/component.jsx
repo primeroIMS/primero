@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
@@ -15,6 +15,7 @@ import FormSection from "./components/form-section";
 import { whichFormMode } from "./utils/which-mode";
 import { submitHandler } from "./utils/form-submission";
 import notPropagatedOnSubmit from "./utils/not-propagated-on-submit";
+import useCaptcha from "./utils/captcha";
 
 function Component({
   formID,
@@ -36,8 +37,10 @@ function Component({
   registerFields = [],
   resetAfterSubmit = false,
   errorMessage = null,
-  transformBeforeSend
+  transformBeforeSend,
+  captcha
 }) {
+  const captchaContainer = useRef(null);
   const i18n = useI18n();
   const dispatch = useDispatch();
 
@@ -87,6 +90,8 @@ function Component({
     }
   }, [resetAfterSubmit, isSubmitted]);
 
+  useCaptcha({ formInstance: formMethods, enabled: captcha, ref: captchaContainer });
+
   const renderFormSections = () =>
     formSections.map(formSection => (
       <FormSection
@@ -124,6 +129,7 @@ function Component({
       />
       <form noValidate onSubmit={notPropagatedOnSubmit(handleSubmit, submit)} id={formID} className={formClassName}>
         {renderFormSections(formSections)}
+        <div ref={captchaContainer} />
       </form>
       {renderBottom && renderBottom(formMethods)}
     </>
@@ -133,6 +139,7 @@ function Component({
 Component.displayName = "Form";
 
 Component.propTypes = {
+  captcha: PropTypes.bool,
   errorMessage: PropTypes.string,
   formClassName: PropTypes.string,
   formErrors: PropTypes.object,

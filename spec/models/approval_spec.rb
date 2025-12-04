@@ -41,7 +41,7 @@ describe Approval do
           actions: [Permission::MANAGE]
         )
       ],
-      modules: [@module]
+      primero_modules: [@module]
     )
     @user = User.create!(
       full_name: 'Test User',

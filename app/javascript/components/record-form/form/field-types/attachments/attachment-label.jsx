@@ -2,7 +2,7 @@
 
 import PropTypes from "prop-types";
 import AddIcon from "@mui/icons-material/Add";
-import { FormHelperText } from "@mui/material/";
+import { FormHelperText } from "@mui/material";
 
 import css from "../../styles.css";
 import ActionButton from "../../../../action-button";

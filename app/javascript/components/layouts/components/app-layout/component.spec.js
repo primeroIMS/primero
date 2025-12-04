@@ -17,6 +17,7 @@ describe("<AppLayout />", () => {
         agency: "unicef",
         isAuthenticated: true,
         messages: null,
+        roleGroupPermission: "self",
         permissions: {
           incidents: ["manage"],
           tracing_requests: ["manage"],

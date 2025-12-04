@@ -10,14 +10,24 @@ import { TRANSFER_REQUEST_SUMMARY_NAME } from "../constants";
 function Summary({ transition, classes }) {
   const i18n = useI18n();
   const transitionStatus = transition.status ? (
-    <Grid item md={2} xs={4}>
+    <Grid
+      size={{
+        md: 2,
+        xs: 4
+      }}
+    >
       <TransitionStatus status={transition.status} />
     </Grid>
   ) : null;
 
   return (
     <Grid container spacing={2}>
-      <Grid item md={10} xs={8}>
+      <Grid
+        size={{
+          md: 10,
+          xs: 8
+        }}
+      >
         <div className={classes.wrapper} data-testid="wrapper">
           <div className={classes.titleHeader}>{i18n.t("transition.type.transferRequest")}</div>
 

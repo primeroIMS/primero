@@ -22,13 +22,13 @@ describe Api::V2::ReferralsController, type: :request do
     @permission_referral_from_service = Permission.new(
       resource: Permission::CASE, actions: [Permission::REFERRAL_FROM_SERVICE]
     )
-    @role = Role.new(permissions: [@permission_refer_case], modules: [@primero_module])
+    @role = Role.new(permissions: [@permission_refer_case], primero_modules: [@primero_module])
     @role.save(validate: false)
-    @role_receive = Role.new(permissions: [@permission_receive_referral], modules: [@primero_module])
+    @role_receive = Role.new(permissions: [@permission_receive_referral], primero_modules: [@primero_module])
     @role_receive.save(validate: false)
     @role_service = Role.new(
       permissions: [@permission_referral_from_service],
-      modules: [@primero_module],
+      primero_modules: [@primero_module],
       unique_id: 'role-receive-referral'
     )
     @role_service.save(validate: false)

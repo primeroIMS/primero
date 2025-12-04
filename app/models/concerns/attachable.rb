@@ -34,7 +34,7 @@ module Attachable
   end
 
   def photo_url
-    return unless photo&.file
+    return unless photo&.file&.attached?
 
     Rails.application.routes.url_helpers.rails_blob_path(photo.file, only_path: true)
   end
