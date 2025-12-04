@@ -16,7 +16,7 @@ describe BulkAssignRecordsJob, type: :job do
   end
 
   let(:role) do
-    create(:role, is_manager: true, modules: [primero_module], group_permission: Permission::ALL)
+    create(:role, is_manager: true, primero_modules: [primero_module], group_permission: Permission::ALL)
   end
 
   let(:user) do

@@ -221,18 +221,35 @@ describe("<RecordForms /> - utils", () => {
 
   describe("getRedirectPath", () => {
     it("should return the path to the case id if there is a incidentFromCase", () => {
-      expect(utils.getRedirectPath({ isNew: true }, {}, "case-id-1")).toBe("/cases/case-id-1");
+      expect(utils.getRedirectPath({ mode: { isNew: true }, params: {}, fetchFromCaseId: "case-id-1" })).toBe(
+        "/cases/case-id-1"
+      );
     });
 
     it("should return the path to the incident id if is not new", () => {
       //
-      expect(utils.getRedirectPath({ isEdit: true }, { recordType: "incidents", id: "incident-id-1" })).toBe(
-        "/incidents/incident-id-1"
-      );
+      expect(
+        utils.getRedirectPath({ mode: { isEdit: true }, params: { recordType: "incidents", id: "incident-id-1" } })
+      ).toBe("/incidents/incident-id-1");
     });
 
     it("should return the path to incidents if is new", () => {
-      expect(utils.getRedirectPath({ isNew: true }, { recordType: "incidents", id: "incident-id-1" }, "")).toBe("");
+      expect(
+        utils.getRedirectPath({
+          mode: { isNew: true },
+          params: { recordType: "incidents", id: "incident-id-1" },
+          fetchFromCaseId: ""
+        })
+      ).toBe("");
+    });
+
+    it("should return the path to redirect", () => {
+      expect(
+        utils.getRedirectPath({
+          mode: { isNew: true },
+          redirectTo: "/path/redirect"
+        })
+      ).toBe("/path/redirect");
     });
   });
 

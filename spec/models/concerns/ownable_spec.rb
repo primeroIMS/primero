@@ -11,7 +11,7 @@ describe Ownable do
     @primero_module = PrimeroModule.new(name: 'CP')
     @primero_module.save(validate: false)
     permission_case = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE])
-    @role = Role.new(permissions: [permission_case], modules: [@primero_module])
+    @role = Role.new(permissions: [permission_case], primero_modules: [@primero_module])
     @role.save(validate: false)
     @group1 = UserGroup.create!(name: 'Group1')
     @agency1 = Agency.create!(name: 'Agency One', agency_code: 'agency1')

@@ -247,6 +247,16 @@ module ManagedReports::SqlQueryHelpers
         ["(STRING_TO_ARRAY(incidents.data ->> 'reporting_location_hierarchy', '.'))[?]", admin_level]
       )
     end
+
+    def reporting_location_from_hierarchy(user, table_alias = nil)
+      # Adding one since admin level start from 0, but string on postgres start from 1
+      admin_level = user.reporting_location_admin_level + 1
+      table_name = table_alias || Child.table_name
+
+      ActiveRecord::Base.sanitize_sql_for_conditions(
+        ["(STRING_TO_ARRAY(%s.data ->> 'reporting_location_hierarchy', '.'))[%s]", table_name, admin_level]
+      )
+    end
   end
   # rubocop:enable Metrics/ModuleLength
 end

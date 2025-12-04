@@ -24,6 +24,13 @@ describe Api::V2::FamiliesController, type: :request do
             relation_sex: 'male',
             relation_age: 10,
             relation_date_of_birth: Date.today - 10.years
+          },
+          {
+            unique_id: '002',
+            relation_name: 'Member2',
+            relation_sex: 'male',
+            relation_age: 8,
+            relation_date_of_birth: Date.today - 8.years
           }
         ]
       }
@@ -198,7 +205,7 @@ describe Api::V2::FamiliesController, type: :request do
           ]
         )
 
-        params = { data: { family_member_id: '002' } }
+        params = { data: { family_member_id: '003' } }
 
         post "/api/v2/families/#{family1.id}/case", params:, as: :json
 
@@ -208,9 +215,10 @@ describe Api::V2::FamiliesController, type: :request do
       end
     end
 
-    it 'successfully creates a case record with a code of 200' do
+    it 'successfully creates a case record with read access and returns a code of 200' do
       login_for_test(
         permissions: [
+          Permission.new(resource: Permission::CASE, actions: [Permission::READ]),
           Permission.new(
             resource: Permission::FAMILY,
             actions: [
@@ -227,11 +235,48 @@ describe Api::V2::FamiliesController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(family1.id)
 
+      family_member = json['data']['family_members'].find { |member| member['unique_id'] == '001' }
+      expect(family_member['case_id']).to be_present
+      expect(family_member['case_id_display']).to be_present
+      expect(family_member['can_read_record']).to be_truthy
+
       child = Child.find_by(id: json['data']['record']['id'])
       expect(child.name_first).to eq('Member1')
       expect(child.sex).to eq('male')
       expect(child.age).to eq(10)
       expect(child.date_of_birth).to eq(Date.today - 10.years)
+      expect(child.family_number).to eq('40bf9109')
+    end
+
+    it 'successfully creates a case record without read access and returns a code of 200' do
+      login_for_test(
+        permissions: [
+          Permission.new(
+            resource: Permission::FAMILY,
+            actions: [
+              Permission::READ, Permission::WRITE, Permission::CASE_FROM_FAMILY
+            ]
+          )
+        ]
+      )
+
+      params = { data: { family_member_id: '002' } }
+
+      post "/api/v2/families/#{family1.id}/case", params:, as: :json
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['id']).to eq(family1.id)
+
+      family_member = json['data']['family_members'].find { |member| member['unique_id'] == '002' }
+      expect(family_member['case_id']).to be_present
+      expect(family_member['case_id_display']).to be_present
+      expect(family_member['can_read_record']).to be_falsey
+
+      child = Child.find_by(id: json['data']['record']['id'])
+      expect(child.name_first).to eq('Member2')
+      expect(child.sex).to eq('male')
+      expect(child.age).to eq(8)
+      expect(child.date_of_birth).to eq(Date.today - 8.years)
       expect(child.family_number).to eq('40bf9109')
     end
   end

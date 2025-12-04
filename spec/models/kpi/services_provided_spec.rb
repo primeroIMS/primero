@@ -22,10 +22,10 @@ describe Kpi::ServicesProvided, { search: true, skip_when_solr_disabled: true } 
 
     form(:action_plan_form, [
            field(:action_plan_section,
-                 subform_section: form(:action_plan_section, [
-                                         field(:service_referral),
-                                         field(:service_type)
-                                       ]))
+                 subform: form(:action_plan_section, [
+                                 field(:service_referral),
+                                 field(:service_type)
+                               ]))
          ])
 
     Child.create!(data: {
@@ -53,14 +53,14 @@ describe Kpi::ServicesProvided, { search: true, skip_when_solr_disabled: true } 
     Sunspot.commit
   end
 
-  with 'No cases in the users group' do
+  describe 'No cases in the users group' do
     it 'should return no services' do
       json = Kpi::ServicesProvided.new(from, to, [group1], agency).to_json
       expect(json[:data][:services_provided].length).to eq(0)
     end
   end
 
-  with 'With one case with an action plan filled out in the users group' do
+  describe 'With one case with an action plan filled out in the users group' do
     it 'should return a count of 1 for service 1' do
       json = Kpi::ServicesProvided.new(from, to, [group2], agency).to_json
       expect(json[:data][:services_provided].first[:count]).to eq(1)
@@ -68,7 +68,7 @@ describe Kpi::ServicesProvided, { search: true, skip_when_solr_disabled: true } 
     end
   end
 
-  with 'With two cases with an action plan filled out in the users groups' do
+  describe 'With two cases with an action plan filled out in the users groups' do
     it 'should return a count of 1 for service 1 and 1 for service 2' do
       json = Kpi::ServicesProvided.new(from, to, [group2, group3], agency).to_json
       expect(json[:data][:services_provided].first[:count]).to eq(1)

@@ -46,28 +46,28 @@ describe Kpi::AssessmentStatus, { search: true, skip_when_solr_disabled: true } 
     Sunspot.commit
   end
 
-  with 'No cases in the users groups with completed assessments' do
+  describe 'No cases in the users groups with completed assessments' do
     it 'should return 0% completed assessments' do
       json = Kpi::AssessmentStatus.new(from, to, [group1]).to_json
       expect(json[:data][:completed]).to eql(0)
     end
   end
 
-  with 'A single case in the users groups with a completed assessment' do
+  describe 'A single case in the users groups with a completed assessment' do
     it 'should return 100% completed assessments' do
       json = Kpi::AssessmentStatus.new(from, to, [group2]).to_json
       expect(json[:data][:completed]).to eql(1.0)
     end
   end
 
-  with 'A single case in the users groups with a completed assessment' do
+  describe 'A single case in the users groups with a completed assessment' do
     it 'should return 100% completed assessments' do
       json = Kpi::AssessmentStatus.new(from, to, [group2, group3]).to_json
       expect(json[:data][:completed]).to eql(0.5)
     end
   end
 
-  with 'A single case in both users groups with a completed assessment' do
+  describe 'A single case in both users groups with a completed assessment' do
     it 'should return 100% completed assessments' do
       json = Kpi::AssessmentStatus.new(from, to, [group2, group4]).to_json
       expect(json[:data][:completed]).to eql(1.0)

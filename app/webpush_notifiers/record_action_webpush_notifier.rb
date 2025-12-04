@@ -85,7 +85,10 @@ class RecordActionWebpushNotifier
   end
 
   def icon
-    Rails.application.routes.url_helpers.rails_blob_path(Theme.current.logo_pictorial_144, only_path: true).to_s
+    logo = Theme.current.logo_pictorial_144
+    return '' unless logo.attached?
+
+    Rails.application.routes.url_helpers.rails_blob_path(logo, only_path: true).to_s
   rescue ActionController::UrlGenerationError
     ''
   end

@@ -57,7 +57,7 @@ describe Api::V2::DashboardsController, type: :request do
         @permission_dashboard,
         @permission_case
       ],
-      modules: [@primero_module],
+      primero_modules: [@primero_module],
       group_permission: Permission::GROUP
     )
     @role.save(validate: false)
@@ -128,6 +128,7 @@ describe Api::V2::DashboardsController, type: :request do
                   })
     Child.create!(data: { record_state: true, status: 'open', owned_by: 'bar', workflow: 'new' })
     Child.create!(data: { record_state: true, status: 'open', owned_by: 'bar' })
+    Child.create!(data: { record_state: true, status: 'identified', owned_by: 'bar' })
   end
 
   let(:json) { JSON.parse(response.body) }
@@ -363,6 +364,24 @@ describe Api::V2::DashboardsController, type: :request do
       expect(national_admin_summary['indicators']['closed_this_week']['count']).to eq(2)
     end
 
+    it 'lists statistics for the action needed identified cases dashboard' do
+      login_for_test(
+        user_name: 'foo',
+        group_permission: Permission::ALL,
+        permissions: [
+          @permission_case,
+          Permission.new(resource: Permission::DASHBOARD, actions: [Permission::DASH_ACTION_NEEDED_IDENTIFIED])
+        ]
+      )
+
+      get '/api/v2/dashboards'
+
+      expect(response).to have_http_status(200)
+
+      action_needed_identified_dashboard = json['data'].find { |d| d['name'] == 'dashboard.action_needed_identified' }
+      expect(action_needed_identified_dashboard['indicators']['identified']['count']).to eq(1)
+    end
+
     describe 'Test the shared with dashboard', search: true do
       before :each do
         @permission_refer_case = Permission.new(
@@ -388,11 +407,11 @@ describe Api::V2::DashboardsController, type: :request do
         @role = Role.new(permissions: [
                            @permission_refer_case,
                            @permission_dashboard_shared_from_my_team
-                         ], modules: [@primero_module], group_permission: Permission::GROUP)
+                         ], primero_modules: [@primero_module], group_permission: Permission::GROUP)
         @role2 = Role.new(permissions: [
                             @permission_refer_case,
                             @permission_dashboard_shared_with_my_team_overview
-                          ], group_permission: Permission::GROUP, modules: [@primero_module])
+                          ], group_permission: Permission::GROUP, primero_modules: [@primero_module])
         @role.save(validate: false)
         @group_a = UserGroup.create!(name: 'Group_a')
         @user1 = User.new(user_name: 'user1', role: @role, user_groups: [@group_a])
@@ -567,7 +586,7 @@ describe Api::V2::DashboardsController, type: :request do
         )
         @role = Role.new(
           permissions: [@permission_violation_dashboards],
-          modules: [@primero_module],
+          primero_modules: [@primero_module],
           group_permission: Permission::GROUP
         )
         @role.save(validate: false)

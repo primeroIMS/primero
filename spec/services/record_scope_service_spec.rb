@@ -19,24 +19,24 @@ describe RecordScopeService do
     @group1 = UserGroup.create!(name: 'group 1')
     @group2 = UserGroup.create!(name: 'group 2')
     @group3 = UserGroup.create!(name: 'group 3')
-    @role1 = Role.create!(name: 'role1', unique_id: 'role1', modules: [@cp],
+    @role1 = Role.create!(name: 'role1', unique_id: 'role1', primero_modules: [@cp],
                           group_permission: Permission::GROUP,
                           permissions: [Permission.new(resource: Permission::CASE,
                                                        actions: [Permission::MANAGE])])
     @role2 = Role.create!(name: 'role2', unique_id: 'role2', group_permission: Permission::AGENCY,
-                          modules: [@cp],
+                          primero_modules: [@cp],
                           permissions: [Permission.new(resource: Permission::CASE,
                                                        actions: [Permission::MANAGE])])
     @role3 = Role.create!(name: 'role3', unique_id: 'role3', group_permission: Permission::USER,
-                          modules: [@cp],
+                          primero_modules: [@cp],
                           permissions: [Permission.new(resource: Permission::CASE,
                                                        actions: [Permission::MANAGE])])
     @role4 = Role.create!(name: 'role4', unique_id: 'role4', group_permission: Permission::ALL,
-                          modules: [@cp],
+                          primero_modules: [@cp],
                           permissions: [Permission.new(resource: Permission::CASE,
                                                        actions: [Permission::MANAGE])])
     @role5 = Role.create!(name: 'role5', unique_id: 'role5',
-                          modules: [@cp],
+                          primero_modules: [@cp],
                           permissions: [Permission.new(resource: Permission::CASE,
                                                        actions: [Permission::MANAGE])])
     @user1 = User.create!(full_name: 'Admin User', user_name: 'user1', password: 'a12345678',

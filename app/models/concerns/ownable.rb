@@ -13,7 +13,8 @@ module Ownable
                    :owned_by_user_code, :owned_by_agency_office, :previously_owned_by, :previously_owned_by_full_name,
                    :previously_owned_by_agency, :previously_owned_by_location, :previously_owned_by_agency_office,
                    :assigned_user_names, :module_id, :associated_user_groups, :associated_user_agencies,
-                   :associated_user_names, :not_edited_by_owner
+                   :associated_user_names, :not_edited_by_owner, :identified_by, :identified_by_full_name,
+                   :identified_at
 
     if Rails.configuration.solr_enabled
       searchable do
@@ -85,7 +86,7 @@ module Ownable
     return revert_owned_by unless new_owner
 
     self.owned_by_full_name = new_owner&.full_name
-    self.owned_by_agency_id = new_owner&.organization&.unique_id
+    self.owned_by_agency_id = new_owner&.agency&.unique_id
     self.owned_by_groups = new_owner&.user_group_unique_ids
     self.owned_by_location = new_owner&.location
     self.owned_by_user_code = new_owner&.code

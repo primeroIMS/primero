@@ -3,6 +3,7 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 # Hacking the json_schemer gem to support validations of the params hash with Date and Time variables.
+# TODO: This is not compatible with the gem json_schemer >= 2.0. Rewrite data validations when upgrading
 JSONSchemer::Schema::Base.class_eval do
   alias_method :validate_type_old, :validate_type
   def validate_type(instance, type, &)

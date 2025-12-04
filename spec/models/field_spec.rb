@@ -382,34 +382,29 @@ describe Field do
     expect(fields.last.new_record?).to be_truthy
   end
 
-  it 'should fails save because fields changes make them duplicate' do
-    # Create the FormSection with two valid fields.
-    fields = [Field.new(name: 'test_field1', display_name_en: 'test_field1', type: Field::TEXT_FIELD),
-              Field.new(name: 'test_field2', display_name_en: 'test_field2', type: Field::TEXT_FIELD)]
-    form = FormSection.create(name: 'test_form2', unique_id: 'test_form', fields:)
-    expect(fields.first.errors.count).to be == 0
-    expect(fields.first.new_record?).to be_falsey
-    expect(fields.last.errors.count).to be == 0
-    expect(fields.last.new_record?).to be_falsey
+  it 'rejects adding a Field with a duplicate name in the same FormSection' do
+    form = FormSection.create!(name: 'test_form', unique_id: 'test_form')
 
-    # Update the first one to have the same name of the second,
-    # This make fails saving the FormSection.
-    fields.first.name = fields.last.name
-    fields.first.save
-    form.save
-    expect(form.fields.map { |x| x.errors[:name] }.flatten.count).to be > 0
-    expect(fields.first.errors.count).to be > 0
-    expect(fields.first.errors[:name]).to eq(['errors.models.field.unique_name_this'])
+    # Existing valid field
+    form.fields.create!(
+      name: 'test_field',
+      display_name_en: 'Test Field',
+      type: Field::TEXT_FIELD
+    )
 
-    # because field already came from the database should remains false
-    expect(fields.first.new_record?).to be_falsey
-    expect(fields.last.new_record?).to be_falsey
+    # Attempt to add a duplicate by name
+    dup_field = form.fields.build(
+      name: 'test_field', # duplicate
+      display_name_en: 'Another',
+      type: Field::TEXT_FIELD
+    )
 
-    # Fix the field and save again
-    fields.first.name = 'something_else'
-    fields.first.save
-    form.save
-    expect(form.errors.count).to be == 0
+    expect(dup_field.save).to be(false)
+    expect(dup_field).to be_invalid
+    expect(dup_field.errors[:name]).to include('errors.models.field.unique_name_this')
+
+    # Ensure nothing new was persisted with that name
+    expect(form.fields.where(name: 'test_field').count).to eq(1)
   end
 
   describe 'showable?' do

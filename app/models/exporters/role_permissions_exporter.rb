@@ -65,7 +65,6 @@ class Exporters::RolePermissionsExporter
   def complete
     @workbook.close
     @io.close unless @io.closed?
-    puts "Exported to #{@export_file_name}"
     @io
   end
 

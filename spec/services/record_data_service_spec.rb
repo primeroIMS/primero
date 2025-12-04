@@ -363,14 +363,14 @@ describe RecordDataService do
     let!(:role_with_service_own_entries) do
       Role.create!(
         name: 'Role with SERVICE_OWN_ENTRIES_ONLY',
-        permissions: [service_own_entries_permission], modules: [@module_cp]
+        permissions: [service_own_entries_permission], primero_modules: [@module_cp]
       )
     end
 
     let!(:role_mgr_with_service_own_entries) do
       Role.create!(
         name: 'Role Manager with SERVICE_OWN_ENTRIES_ONLY', group_permission: Permission::GROUP,
-        permissions: [service_own_entries_permission], modules: [@module_cp]
+        permissions: [service_own_entries_permission], primero_modules: [@module_cp]
       )
     end
 

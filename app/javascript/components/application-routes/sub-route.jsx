@@ -12,7 +12,8 @@ import {
   getCodeOfConductId,
   getUserAgencyTermsOfUseEnabled,
   getUserAgencyTermsOfUseChanged,
-  getUserTermsOfUseAcceptedOn
+  getUserTermsOfUseAcceptedOn,
+  getIsIdentifiedUser
 } from "../user";
 
 import { getPathToRedirect } from "./utils";
@@ -23,6 +24,7 @@ function SubRoute({ subRoute }) {
   const codeOfConductAccepted = useMemoizedSelector(state => getCodeOfConductId(state));
   const codeOfConductEnabled = useMemoizedSelector(state => getCodeOfConductEnabled(state));
   const codeOfConduct = useMemoizedSelector(state => getCodesOfConduct(state));
+  const isIdentifiedUser = useMemoizedSelector(state => getIsIdentifiedUser(state));
 
   const agencyTermsOfUseEnabled = useMemoizedSelector(state => getUserAgencyTermsOfUseEnabled(state));
   const agencyTermsOfUseAcceptedChanged = useMemoizedSelector(state => getUserAgencyTermsOfUseChanged(state));
@@ -40,6 +42,10 @@ function SubRoute({ subRoute }) {
 
   if (pathToRedirect) {
     return <Redirect to={{ pathname: pathToRedirect, state: { referrer: path } }} />;
+  }
+
+  if (isIdentifiedUser && ROUTES.dashboard === path) {
+    return <Redirect to={{ pathname: ROUTES.my_case, state: { referrer: path } }} />;
   }
 
   return PERMITTED_URL.includes(path) ? (

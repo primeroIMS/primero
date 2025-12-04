@@ -27,6 +27,6 @@ describe("<Form /> - fields/<DateInput />", () => {
 
   it("renders required indicator", () => {
     mountedFieldComponent(<DateInput />);
-    expect(screen.getByRole("textbox", { required: true })).toBeInTheDocument();
+    expect(screen.getAllByLabelText("Test Field 2 *").at(0)).toBeInTheDocument();
   });
 });

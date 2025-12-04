@@ -16,21 +16,40 @@ function TransferDetails({ transition }) {
 
   const renderRejected =
     transition.status === "rejected" ? (
-      <Grid item md={12} xs={12}>
+      <Grid
+        size={{
+          md: 12,
+          xs: 12
+        }}
+      >
         <DisplayData label="transition.rejected" value={transition.rejected_reason} />
       </Grid>
     ) : null;
 
   return (
     <Grid container spacing={2}>
-      <Grid item md={6} xs={12}>
+      <Grid
+        size={{
+          md: 6,
+          xs: 12
+        }}
+      >
         <DisplayData label="transition.recipient" value={transition.transitioned_to} />
       </Grid>
-      <Grid item md={6} xs={12}>
+      <Grid
+        size={{
+          md: 6,
+          xs: 12
+        }}
+      >
         <DisplayData label="transition.transferred_by" value={transition.transitioned_by} />
       </Grid>
-
-      <Grid item md={6} xs={12}>
+      <Grid
+        size={{
+          md: 6,
+          xs: 12
+        }}
+      >
         <DisplayData
           label="transition.no_consent_share"
           value={
@@ -47,7 +66,12 @@ function TransferDetails({ transition }) {
           }
         />
       </Grid>
-      <Grid item md={6} xs={12}>
+      <Grid
+        size={{
+          md: 6,
+          xs: 12
+        }}
+      >
         <DisplayData
           label="transition.individual_consent"
           value={
@@ -66,7 +90,12 @@ function TransferDetails({ transition }) {
           }
         />
       </Grid>
-      <Grid item md={6} xs={12}>
+      <Grid
+        size={{
+          md: 6,
+          xs: 12
+        }}
+      >
         <DateTransitions
           valueWithTime
           name="responded_at"
@@ -75,7 +104,12 @@ function TransferDetails({ transition }) {
         />
       </Grid>
       {renderRejected}
-      <Grid item md={12} xs={12}>
+      <Grid
+        size={{
+          md: 12,
+          xs: 12
+        }}
+      >
         <Divider data-testid="divider" className={css.divider} />
         <DisplayData label="transition.notes" value={transition.notes} />
       </Grid>

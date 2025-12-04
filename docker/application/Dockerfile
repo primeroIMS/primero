@@ -10,7 +10,7 @@ ENV NODE_VERSION=22.15.1-r0
 ENV BUILD_PACKAGES="bash curl wget curl-dev build-base git"
 ENV PYTHON_PACKAGES="python3 py3-pip"
 ENV BUILD_DEP_PACKAGES=postgresql-dev
-ENV RUNTIME_PACKAGES="libc6-compat nodejs=~${NODE_VERSION} gettext libintl npm imagemagick libsodium-dev"
+ENV RUNTIME_PACKAGES="libc6-compat nodejs=~${NODE_VERSION} gettext libintl npm vips libsodium-dev"
 ENV DEV_PACKAGES="busybox-extras tree cairo pixman pixman-dev"
 ENV RAILS_ENV=production
 ENV PYTHON=/usr/bin/python
@@ -106,7 +106,7 @@ ARG BUILD_REGISTRY
 FROM ${BUILD_REGISTRY}ruby:${RUBY_VERSION}-${ALPINE_VERSION}
 
 ENV BUILD_PACKAGES=bash
-ENV RUNTIME_PACKAGES="libpq gettext libintl imagemagick libsodium-dev p7zip tini curl"
+ENV RUNTIME_PACKAGES="libpq gettext libintl vips libsodium-dev p7zip tini curl"
 
 ARG APP_UID
 ARG APP_GID

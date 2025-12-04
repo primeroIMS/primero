@@ -108,8 +108,7 @@ describe("<UsersForm />", () => {
       expect(within(screen.getByTestId("page-heading")).getAllByRole("button")[1].id).toEqual("more-actions");
     });
 
-    // TODO: Add back once users.timestamp index is added
-    it.skip("renders last actions dates", () => {
+    it("renders last actions dates", () => {
       const stateForShowMode = fromJS({
         records: {
           users: {
@@ -128,9 +127,9 @@ describe("<UsersForm />", () => {
       });
 
       mountedComponent(<UsersForm mode="show" />, stateForShowMode, {}, ["/admin/users/1"], {}, "/admin/users/:id");
-      expect(screen.getByLabelText("user.last_access")).toBeInTheDocument();
-      expect(screen.getByLabelText("user.last_case_viewed")).toBeInTheDocument();
-      expect(screen.getByLabelText("user.last_case_updated")).toBeInTheDocument();
+      expect(screen.getAllByText("user.last_access")).toHaveLength(2);
+      expect(screen.getAllByText("user.last_case_viewed")).toHaveLength(2);
+      expect(screen.getAllByText("user.last_case_updated")).toHaveLength(2);
     });
   });
 

@@ -60,7 +60,12 @@ class Api::V2::BulkExportsController < ApplicationApiController
   end
 
   def export_filters
-    params.permit(:status, :record_type, :export_format)
-          .reverse_merge(status: [BulkExport::COMPLETE, BulkExport::PROCESSING, BulkExport::TERMINATED])
+    return @export_filters if @export_filters
+
+    @export_filters = params.permit(:status, :record_type, :export_format)
+                            .reverse_merge(status: [BulkExport::COMPLETE, BulkExport::PROCESSING,
+                                                    BulkExport::TERMINATED])
+    @export_filters[:format] = @export_filters.delete(:export_format) if @export_filters[:export_format].present?
+    @export_filters
   end
 end

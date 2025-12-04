@@ -166,7 +166,7 @@ function Component() {
                 }}
               />
               <DragDropContext onDragEnd={handleDragEnd}>
-                <Droppable droppableId="droppable" type="formGroup">
+                <Droppable droppableId="droppable" type="formGroup" isDropDisabled={Boolean(!isReorderEnabled)}>
                   {(provided, snapshot) => (
                     <div
                       {...provided.droppableProps}
