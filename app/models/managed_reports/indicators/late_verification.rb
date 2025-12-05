@@ -13,23 +13,26 @@ class ManagedReports::Indicators::LateVerification < ManagedReports::SqlReportIn
 
     def sql(current_user, params = {})
       <<~SQL
-        select key as name, 'total' as key,
-        violations.data ->> 'type' as group_id,
-        sum(value::int)
-        from violations violations
-        inner join incidents incidents
-          on incidents.id = violations.incident_id
+        SELECT
+          key AS name,
+          'total' AS key,
+          violations.data ->> 'type' AS group_id,
+          SUM(value::INT)
+        FROM violations violations
+        INNER JOIN incidents incidents
+          ON incidents.id = violations.incident_id
           AND incidents.srch_status = 'open'
           AND incidents.srch_record_state = TRUE
-          #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
-        cross join json_each_text((violations.data->>'violation_tally')::JSON)
-        WHERE violations.data->>'violation_tally' is not null
-        and violations.data->>'is_late_verification' = 'true'
-        and violations.data ->> 'type' != 'denial_humanitarian_access'
-        #{date_range_query(date_filter_param(params['ghn_date_filter']), 'violations')&.prepend('and ')}
-        group by key, violations.data ->> 'type'
-        order by
-        name
+          #{user_scope_query(current_user, 'incidents')&.prepend('AND ')}
+        CROSS JOIN JSON_EACH_TEXT((violations.data->>'violation_tally')::JSON)
+        WHERE violations.data @? '$[*]
+          ? (exists(@.violation_tally) && @.violation_tally != null)
+          ? (@.type != "denial_humanitarian_access" && @.type != "deprivation_liberty" && @.type != "military_use")
+          ? (@.is_late_verification == true)
+        '
+        #{date_range_query(date_filter_param(params['ghn_date_filter']), 'violations')&.prepend('AND ')}
+        GROUP BY key, violations.data ->> 'type'
+        ORDER BY name
       SQL
     end
 

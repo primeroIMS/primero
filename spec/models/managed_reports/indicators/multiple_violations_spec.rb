@@ -5,6 +5,18 @@
 require 'rails_helper'
 
 describe ManagedReports::Indicators::MultipleViolations do
+  let(:individual_victim1) do
+    IndividualVictim.create!(
+      data: { individual_sex: 'unknown', individual_age: 3, individual_multiple_violations: true }
+    )
+  end
+
+  let(:individual_victim2) do
+    IndividualVictim.create!(
+      data: { individual_sex: 'male', individual_age: 5, individual_multiple_violations: true }
+    )
+  end
+
   before do
     clean_data(Incident, Violation, Perpetrator, IndividualVictim, UserGroup, User, Agency, Role)
 
@@ -128,10 +140,6 @@ describe ManagedReports::Indicators::MultipleViolations do
       IndividualVictim.create!(data: { individual_sex: 'female', individual_age: 2 })
     ]
 
-    individual_victim = IndividualVictim.create!(
-      data: { individual_sex: 'unknown', individual_age: 3, individual_multiple_violations: true }
-    )
-
     violation3 = Violation.create!(
       data: {
         type: 'maiming',
@@ -143,7 +151,7 @@ describe ManagedReports::Indicators::MultipleViolations do
     )
     violation3.individual_victims = [
       IndividualVictim.create!(data: { individual_sex: 'unknown', individual_age: 4 }),
-      individual_victim
+      individual_victim1
     ]
 
     violation4 = Violation.create!(
@@ -157,7 +165,7 @@ describe ManagedReports::Indicators::MultipleViolations do
     )
     violation4.individual_victims = [
       IndividualVictim.create!(data: { individual_sex: 'male', individual_age: 12 }),
-      individual_victim
+      individual_victim1
     ]
 
     violation5 = Violation.create!(
@@ -170,8 +178,17 @@ describe ManagedReports::Indicators::MultipleViolations do
       IndividualVictim.create!(data: { individual_sex: 'male', individual_age: 18 }),
       IndividualVictim.create!(
         data: { individual_sex: 'unknown', individual_age: 8, individual_multiple_violations: true }
-      )
+      ),
+      individual_victim2
     ]
+
+    violation6 = Violation.create!(
+      data: {
+        type: 'deprivation_liberty', ctfmr_verified: 'verified', ctfmr_verified_date: Date.new(2022, 3, 31)
+      },
+      incident_id: incident4.id
+    )
+    violation6.individual_victims = [individual_victim2]
   end
 
   it 'return data for violations marked as verified' do

@@ -34,6 +34,12 @@ describe ManagedReports::Indicators::UnverifiedInformation do
     )
 
     Violation.create!(
+      data: { type: 'deprivation_liberty', ctfmr_verified: 'reported_not_verified',
+              violation_tally: { 'boys' => 3, 'girls' => 2, 'unknown' => 4, 'total' => 9 } },
+      incident_id: incident2.id
+    )
+
+    Violation.create!(
       data: { type: 'abduction', ctfmr_verified: 'reported_not_verified',
               violation_tally: { 'boys' => 3, 'girls' => 2, 'unknown' => 4, 'total' => 9 } },
       incident_id: incident2.id
@@ -47,6 +53,14 @@ describe ManagedReports::Indicators::UnverifiedInformation do
     Violation.create!(
       data: { type: 'maiming', violation_tally: { 'boys' => 2, 'girls' => 3, 'unknown' => 1, 'total' => 6 } },
       incident_id: incident3.id
+    )
+
+    Violation.create!(
+      data: {
+        type: 'military_use', ctfmr_verified: 'report_pending_verification',
+        violation_tally: { 'boys' => 2, 'girls' => 3, 'unknown' => 1, 'total' => 6 }
+      },
+      incident_id: incident2.id
     )
   end
 

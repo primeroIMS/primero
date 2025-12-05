@@ -26,9 +26,10 @@ class ManagedReports::Indicators::UnverifiedViolationsByPerpetrator < ManagedRep
             AND incidents.srch_record_state = TRUE
             #{user_scope_query(current_user, 'incidents')&.prepend('AND ')}
             #{date_range_query(params['ghn_date_filter'], 'incidents', 'data', 'incident_date')&.prepend('AND ')}
-          WHERE violations.data @? '$.ctfmr_verified ? (
-            @ == "report_pending_verification" || @ == "reported_not_verified"
-          )'
+          WHERE violations.data @? '$[*]
+            ? (@.ctfmr_verified == "report_pending_verification" || @.ctfmr_verified == "reported_not_verified")
+            ? (@.type != "deprivation_liberty" && @.type != "military_use")
+          '
         )
         SELECT
           perpetrators.data->>'armed_force_group_party_name' AS name,

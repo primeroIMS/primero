@@ -69,6 +69,16 @@ describe ManagedReports::Indicators::VerifiedInformationViolations do
 
     Violation.create!(
       data: {
+        type: 'deprivation_liberty',
+        ctfmr_verified: 'verified',
+        ctfmr_verified_date: Date.new(2021, 5, 23),
+        violation_tally: { 'boys' => 2, 'girls' => 3, 'unknown' => 2, 'total' => 7 }
+      },
+      incident_id: incident.id
+    )
+
+    Violation.create!(
+      data: {
         type: 'attack_on_schools', ctfmr_verified: 'verified', ctfmr_verified_date: Date.new(2021, 5, 23),
         violation_tally: { 'boys' => 1, 'girls' => 0, 'unknown' => 2, 'total' => 3 }
       },

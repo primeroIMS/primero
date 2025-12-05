@@ -47,6 +47,20 @@ describe ManagedReports::Indicators::UnverifiedViolationsByRegion do
             ctfmr_verified: 'report_pending_verification',
             violation_tally: { boys: 1, girls: 2, unknown: 1, total: 4 }
           }
+        ],
+        deprivation_liberty: [
+          {
+            unique_id: '0620b8ae-cf92-11f0-9a66-7c10c98b54af',
+            ctfmr_verified: 'report_pending_verification',
+            violation_tally: { boys: 1, girls: 2, unknown: 1, total: 4 }
+          }
+        ],
+        military_use: [
+          {
+            unique_id: 'fe87ed46-d20d-11f0-9824-7c10c98b54af',
+            ctfmr_verified: 'report_pending_verification',
+            violation_tally: { boys: 1, girls: 0, unknown: 1, total: 2 }
+          }
         ]
       }.with_indifferent_access
     )

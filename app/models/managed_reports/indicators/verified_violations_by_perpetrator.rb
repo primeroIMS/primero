@@ -25,9 +25,11 @@ class ManagedReports::Indicators::VerifiedViolationsByPerpetrator < ManagedRepor
             AND incidents.srch_status = 'open'
             AND incidents.srch_record_state = TRUE
             #{user_scope_query(current_user, 'incidents')&.prepend('AND ')}
-          WHERE violations.data @? '$[*] ? (
-            @.ctfmr_verified == "verified" && (!exists(@.is_late_verification) || @.is_late_verification != true)
-          )'
+          WHERE violations.data @? '$[*]
+            ? (@.ctfmr_verified == "verified")
+            ? (@.type != "deprivation_liberty" && @.type != "military_use")
+            ? (!exists(@.is_late_verification) || @.is_late_verification != true)
+          '
           #{date_range_query(params['ghn_date_filter'], 'violations', 'data', 'ctfmr_verified_date')&.prepend('AND ')}
         )
         SELECT
