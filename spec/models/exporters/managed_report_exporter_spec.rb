@@ -2053,10 +2053,10 @@ describe Exporters::ManagedReportExporter do
       expect(workbook.sheet(0).row(144)).to eq(['Late Verification - Violations', nil, nil, nil, nil, nil])
 
       expect(workbook.sheet(0).row(170)).to eq(['Late Verification - Violations by Perpetrator', nil, nil, nil, nil, nil])
-      expect(workbook.sheet(0).row(171)).to eq([nil, "Killing", "Maiming", "Abduction", "Attacks on schools", nil])
+      expect(workbook.sheet(0).row(171)).to eq([nil, 'Killing', 'Maiming', 'Abduction', 'Attacks on schools', 'Total'])
 
       expect(workbook.sheet(0).row(197)).to eq(['Late Verification - Violations by Region', nil, nil, nil, nil, nil])
-      expect(workbook.sheet(0).row(198)).to eq([nil, "Killing", "Maiming", "Abduction", "Attacks on schools", nil])
+      expect(workbook.sheet(0).row(198)).to eq([nil, 'Killing', 'Maiming', 'Abduction', 'Attacks on schools', 'Total'])
 
       expect(workbook.sheet(0).row(224)).to eq(['Unverified Information - Victims', nil, nil, nil, nil, nil])
       expect(workbook.sheet(0).row(225)).to eq([nil, 'Boys', 'Girls', 'Unknown', 'Total', nil])
