@@ -28,7 +28,7 @@ class ManagedReports::Indicators::UnverifiedInformation < ManagedReports::SqlRep
         WHERE violations.data @? '$[*]
           ? (exists(@.violation_tally) && @.violation_tally != null)
           ? (@.ctfmr_verified == "report_pending_verification" || @.ctfmr_verified == "reported_not_verified")
-          ? (@.type != "denial_humanitarian_access" && @.type != "deprivation_liberty")
+          ? (@.type != "denial_humanitarian_access" && @.type != "deprivation_liberty" && @.type != "military_use")
           ? (!exists(@.is_late_verification) || @.is_late_verification != true)
         '
         #{date_range_query(date_filter_param(params['ghn_date_filter']), 'incidents')&.prepend('AND ')}

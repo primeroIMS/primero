@@ -28,7 +28,7 @@ class ManagedReports::Indicators::VerifiedViolationsByRegion < ManagedReports::S
             #{user_scope_query(current_user, 'incidents')&.prepend('AND ')}
           WHERE violations.data @? '$[*]
             ? (@.ctfmr_verified == "verified")
-            ? (@.type != "deprivation_liberty")
+            ? (@.type != "deprivation_liberty" && @.type != "military_use")
             ? (!exists(@.is_late_verification) || @.is_late_verification != true)
           '
           #{date_range_query(params['ghn_date_filter'], 'violations', 'data', 'ctfmr_verified_date')&.prepend('AND ')}

@@ -29,7 +29,7 @@ class ManagedReports::Indicators::UnverifiedViolationsByRegion < ManagedReports:
             #{date_range_query(params['ghn_date_filter'], 'incidents', 'data', 'incident_date')&.prepend('AND ')}
           WHERE violations.data @? '$[*]
             ? (@.ctfmr_verified == "report_pending_verification" || @.ctfmr_verified == "reported_not_verified")
-            ? (@.type != "deprivation_liberty")
+            ? (@.type != "deprivation_liberty" && @.type != "military_use")
           '
         )
         SELECT

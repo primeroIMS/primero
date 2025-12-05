@@ -52,6 +52,14 @@ describe ManagedReports::Indicators::VerifiedViolationsByRegion do
             ctfmr_verified_date: Date.new(2022, 4, 23),
             violation_tally: { boys: 1, girls: 2, unknown: 0, total: 3 }
           }
+        ],
+        military_use: [
+          {
+            unique_id: '74cb67e4-d20e-11f0-86f1-7c10c98b54af',
+            ctfmr_verified: 'verified',
+            ctfmr_verified_date: Date.new(2022, 4, 23),
+            violation_tally: { boys: 2, girls: 1, unknown: 0, total: 3 }
+          }
         ]
       }.with_indifferent_access
     )

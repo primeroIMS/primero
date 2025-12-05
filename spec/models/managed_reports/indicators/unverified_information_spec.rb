@@ -54,6 +54,14 @@ describe ManagedReports::Indicators::UnverifiedInformation do
       data: { type: 'maiming', violation_tally: { 'boys' => 2, 'girls' => 3, 'unknown' => 1, 'total' => 6 } },
       incident_id: incident3.id
     )
+
+    Violation.create!(
+      data: {
+        type: 'military_use', ctfmr_verified: 'report_pending_verification',
+        violation_tally: { 'boys' => 2, 'girls' => 3, 'unknown' => 1, 'total' => 6 }
+      },
+      incident_id: incident2.id
+    )
   end
 
   it 'return data for unverified information indicator' do

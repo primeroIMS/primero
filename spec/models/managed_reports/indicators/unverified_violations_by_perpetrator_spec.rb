@@ -57,6 +57,13 @@ describe ManagedReports::Indicators::UnverifiedViolationsByPerpetrator do
             violation_tally: { boys: 1, girls: 2, unknown: 1, total: 4 }
           }
         ],
+        military_use: [
+          {
+            unique_id: 'c9504bdc-d20d-11f0-917b-7c10c98b54af',
+            ctfmr_verified: 'report_pending_verification',
+            violation_tally: { boys: 1, girls: 0, unknown: 1, total: 2 }
+          }
+        ],
         perpetrators: [
           {
             unique_id: 'e13ffb2e-77c3-11f0-ba4b-7c10c98b54af',
@@ -71,7 +78,7 @@ describe ManagedReports::Indicators::UnverifiedViolationsByPerpetrator do
           {
             unique_id: '4e8c13d4-cf94-11f0-987b-7c10c98b54af',
             armed_force_group_party_name: 'armed_force_3',
-            violations_ids: %w[44412e96-cf94-11f0-9bf9-7c10c98b54af]
+            violations_ids: %w[44412e96-cf94-11f0-9bf9-7c10c98b54af c9504bdc-d20d-11f0-917b-7c10c98b54af]
           }
         ]
       }.with_indifferent_access
