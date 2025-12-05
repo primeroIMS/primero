@@ -1,10 +1,10 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 /* eslint-disable react/no-multi-comp, react/display-name */
-import { useState, useRef, useLayoutEffect, useEffect } from "react";
+import { useState, useRef, useLayoutEffect, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
-import { Formik, Form, getIn } from "formik";
+import { Formik, Form, getIn, useFormikContext } from "formik";
 import { object } from "yup";
 import isEmpty from "lodash/isEmpty";
 import { useDispatch } from "react-redux";
@@ -40,6 +40,44 @@ import { useMemoizedSelector } from "../../../../../libs";
 import { RECORD_TYPES_PLURAL, SERVICES_SUBFORM_FIELD } from "../../../../../config";
 import childFunctioningFormDataTemplate from "../../../../child-functioning-form/child-functioning-form-data";
 
+// === NEW HELPER COMPONENT TO MANAGE SYNC LOGIC ===
+function ChildFunctioningFormEffects({ field }) {
+  const { values, setFieldValue } = useFormikContext();
+
+  useEffect(() => {
+    if (fromJS(field.subform_section_id.unique_id) !== "child_functioning_subform_section") return;
+
+    const age = values?.cfm_age;
+
+    if (!age) return;
+
+    Object.entries(childFunctioningFormDataTemplate).forEach(([controller, dependents]) => {
+      const controllerKey = `cfm_${age}_${controller}`;
+
+      if (values?.[controllerKey] === false) {
+        dependents.forEach(dep => {
+          const depKey = `cfm_${age}_${dep}`;
+
+          if (values?.[depKey]) setFieldValue(depKey, "");
+        });
+      }
+    });
+  }, [values, setFieldValue, field]);
+
+  // This component renders nothing, it just runs the effect
+  return null;
+}
+
+// Add prop-types validation for the helper component
+ChildFunctioningFormEffects.propTypes = {
+  field: PropTypes.shape({
+    subform_section_id: PropTypes.shape({
+      unique_id: PropTypes.string.isRequired
+    }).isRequired
+  }).isRequired
+};
+// =================================================
+
 function Component({
   arrayHelpers,
   dialogIsNew,
@@ -58,7 +96,7 @@ function Component({
   orderedValues,
   recordType,
   recordModuleID,
-  parentTitle,
+  parentTitle, // eslint-disable-line no-unused-vars
   isFamilyDetail,
   isFamilyMember,
   isViolation,
@@ -78,8 +116,6 @@ function Component({
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   const caseFromFamilyMemberLoading = useMemoizedSelector(state => getCaseFormFamilyMemberLoading(state, recordType));
   const childFormikRef = useRef();
-  const [childFormikValues, setChildFormikValues] = useState(null);
-
   const isValidIndex = index === 0 || index > 0;
   const asDrawer = isViolation || isViolationAssociation || isFamilyMember || isFamilyDetail;
   const isFamilySubform = isFamilyMember || isFamilyDetail;
@@ -89,27 +125,35 @@ function Component({
   const familyCreateLabel = isFamilyMember ? "family.family_member.create_case" : "case.create_case";
 
   const subformValues = getSubformValues(field, index, formik.values, orderedValues, isViolation);
+
   const initialSubformValues = isEmpty(subformValues) ? initialValues : subformValues;
+
   const isNewSubform = isEmpty(subformValues);
+
   const initialSubformErrors = isValidIndex ? getIn(formik.errors, `${field.name}[${index}]`) : {};
 
   const buildSchema = () => {
     const subformSchema = field.subform_section_id.fields.map(sf => fieldValidations(sf, { i18n, online }));
+
     return object().shape(Object.assign({}, ...subformSchema));
   };
 
   const { case_id: caseId, case_id_display: caseIdDisplay } = subformValues;
 
-  const handleClose = () => {
-    const compactedValues = compactValues(childFormikRef.current.values, initialSubformValues);
+  const handleClose = useCallback(() => {
+    const compactedValues = childFormikRef.current
+      ? compactValues(childFormikRef.current.values, initialSubformValues)
+      : {};
+
     if (Object.keys(childFormikRef.current.touched).length || Object.keys(compactedValues).length) {
       setOpenConfirmationModal(true);
     } else {
       setOpen({ open: false, index: null });
     }
-  };
+  }, [initialSubformValues, setOpen]);
 
   let boundSubmitForm = null;
+
   const bindSubmitForm = submitForm => {
     boundSubmitForm = submitForm;
   };
@@ -117,6 +161,7 @@ function Component({
   const onSubmit = values => {
     // eslint-disable-next-line camelcase
     const valuesWithUniqueId = { ...values, ...(!values?.unique_id ? { unique_id: uuid.v4() } : {}) };
+
     if (isValidIndex) {
       updateSubformEntries(formik, field.name, index, valuesWithUniqueId, isViolation);
     } else {
@@ -128,6 +173,7 @@ function Component({
     if (formik.submitCount) {
       formik.validateForm();
     }
+
     setOpen({ open: false, index: null });
   };
 
@@ -162,7 +208,11 @@ function Component({
   const serviceSubformFieldProps = {
     mode:
       isReadWriteForm === false
-        ? { isShow: true, isEdit: false, isNew: false }
+        ? {
+            isShow: true,
+            isEdit: false,
+            isNew: false
+          }
         : mode,
     filterState,
     setFilterState,
@@ -193,11 +243,14 @@ function Component({
     dialogText: isFamilyMember
       ? i18n.t("family.messages.confirm_create_case")
       : i18n.t("case.messages.confirm_create_case"),
-    cancelHandler: () => setDialog({ dialog: SUBFORM_CREATE_CASE_DIALOG, open: false }),
+    cancelHandler: () => {
+      setDialog({ dialog: SUBFORM_CREATE_CASE_DIALOG, open: false });
+    },
     successHandler: () => {
       if (isFamilyMember) {
         dispatch(createCaseFromFamilyMember({ familyId: params.id, familyMemberId: subformValues.unique_id }));
       }
+
       if (isFamilyDetail) {
         dispatch(createCaseFromFamilyDetail({ caseId: params.id, familyDetailId: subformValues.unique_id }));
       }
@@ -224,9 +277,9 @@ function Component({
         disableActions: isFormShow
       };
 
-  const violationTitle = i18n.t(`incident.violation.${isNewSubform ? "save" : "update"}_and_return`, {
-    association: isViolationAssociation ? parentTitle || title : i18n.t("incident.violation.title")
-  });
+  const violationTitle = (
+    <ViolationTitle title={title} values={subformValues} fields={field.subform_section_id.fields} />
+  );
   const familyMemberTitle = i18n.t(`family.family_member.${isNewSubform ? "save" : "update"}_and_return`);
   const handleBackLabel = isViolation || isViolationAssociation ? violationTitle : familyMemberTitle;
 
@@ -235,26 +288,6 @@ function Component({
       setInitialValues(constructInitialValues([field.subform_section_id]));
     }
   }, [open]);
-
-  useEffect(() => {
-    if (!childFormikValues) return;
-    const { values, setFieldValue } = childFormikValues;
-
-    if (fromJS(field.subform_section_id.unique_id) !== "child_functioning_subform_section") return;
-
-    const age = values?.cfm_age;
-    if (!age) return;
-
-    Object.entries(childFunctioningFormDataTemplate).forEach(([controller, dependents]) => {
-      const controllerKey = `cfm_${age}_${controller}`;
-      if (values?.[controllerKey] === false) {
-        dependents.forEach(dep => {
-          const depKey = `cfm_${age}_${dep}`;
-          if (values?.[depKey]) setFieldValue(depKey, "");
-        });
-      }
-    });
-  }, [childFormikValues, field]);
 
   return (
     <>
@@ -271,20 +304,17 @@ function Component({
           {({ handleSubmit, submitForm, setErrors, setTouched, errors, values, setFieldValue }) => {
             bindSubmitForm(submitForm);
 
-            // Update top-level state to trigger child-functioning effect
-            useLayoutEffect(() => {
-              setChildFormikValues({ values, setFieldValue });
-            }, [values, setFieldValue]);
-
             return (
               <Form data-testid="subForm-dialog-form" autoComplete="off" onSubmit={handleSubmit}>
+                {/* Rendered as a component within the JSX return */}
+                <ChildFunctioningFormEffects field={field} />
+
                 <SubformErrors
                   initialErrors={initialSubformErrors}
                   errors={errors}
                   setErrors={setErrors}
                   setTouched={setTouched}
                 />
-
                 {asDrawer && (
                   <SubformDrawerActions
                     showActions={
@@ -315,7 +345,6 @@ function Component({
                     isShow={mode.isShow || isReadWriteForm === false}
                   />
                 )}
-
                 {isFamilySubform && mode.isShow && caseId && !caseFromFamilyMemberLoading && (
                   <SubformLink
                     href={`/${RECORD_TYPES_PLURAL.case}/${caseId}`}
@@ -324,7 +353,6 @@ function Component({
                     disabled={!subformValues?.can_read_record}
                   />
                 )}
-
                 <components.SubformDialogFields
                   {...{
                     ...defaultSubformFieldProps,
@@ -340,7 +368,6 @@ function Component({
           }}
         </Formik>
       </ComponentToRender>
-
       {isFamilySubform && <ActionDialog {...createCaseConfirmationProps} />}
       <ActionDialog {...modalConfirmationProps} />
     </>
