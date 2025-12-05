@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { Redirect } from "react-router-dom";
 
 import ErrorBoundary from "../error-boundary";
-import { PERMITTED_URL } from "../../config";
+import { PERMITTED_URL, ROUTES } from "../../config";
 import useMemoizedSelector from "../../libs/use-memoized-selector";
 import Permission from "../permissions";
 import { getCodeOfConductEnabled, getCodesOfConduct } from "../application/selectors";
