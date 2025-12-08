@@ -136,7 +136,7 @@ describe User do
         )
         SystemSettings.stub(:current).and_return(SystemSettings.first)
         user_double = double('User')
-        allow(User).to receive(:enabled).and_return(user_double)
+        allow(User).to receive(:standard).and_return(user_double)
         allow(user_double).to receive(:count).and_return(20)
       end
 
