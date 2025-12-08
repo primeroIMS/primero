@@ -97,6 +97,11 @@ class User < ApplicationRecord
     )
   end)
 
+  scope :by_category, (lambda do |user_category|
+    joins(:role).where(disabled: false).or(where(duplicate: false))
+    .where(roles: { user_category: })
+  end)
+
   alias_attribute :organization, :agency
   alias_attribute :name, :user_name
 
@@ -189,6 +194,10 @@ class User < ApplicationRecord
       return default_permitted_params if current_user.user_name != target_user.user_name
 
       self_permitted_params
+    end
+
+    def standard
+      by_category(nil)
     end
 
     def last_login_timestamp(user_name)

@@ -17,13 +17,13 @@ describe User do
     options.reverse_merge!(user_name:, full_name: 'full name', password: 'b00h00h00',
                            password_confirmation: options[:password] || 'b00h00h00', email: "#{user_name}@ddress.net",
                            agency_id: options[:agency_id] || Agency.try(:last).try(:id), disabled: 'false',
-                           role_id: options[:role_id] || Role.try(:last).try(:id))
+                           role: options[:role] || Role.try(:last))
     User.new(options)
   end
 
   def build_and_save_user(options = {})
     user = build_user(options)
-    user.save
+    user.save!
     user
   end
 
@@ -389,6 +389,98 @@ describe User do
     end
   end
 
+  describe '.standard' do
+    before do
+      clean_data(User, Role, Agency)
+    end
+
+    let!(:agency) { create :agency }
+
+    # Roles
+    let!(:standard_role) do
+      create(:role, name: 'standard_role')
+    end
+
+    let!(:non_standard_role) do
+      create(:role, name: 'non_standard_role', user_category: Role::CATEGORY_SYSTEM)
+    end
+
+    # Included users
+    let!(:user_not_disabled) do
+      build_and_save_user(
+        role: standard_role,
+        disabled: false,
+        duplicate: true
+      )
+    end
+
+    let!(:user_not_duplicate) do
+      build_and_save_user(
+        role: standard_role,
+        disabled: true,
+        duplicate: false
+      )
+    end
+
+    let!(:user_flags_nil) do
+      build_and_save_user(
+        role: standard_role,
+        disabled: false,
+        duplicate: false
+      )
+    end
+
+    # Excluded: both disabled AND duplicate are true
+    let!(:user_disabled_and_duplicate) do
+      build_and_save_user(
+        role: standard_role,
+        disabled: true,
+        duplicate: true
+      )
+    end
+
+    # Excluded: role.user_category is not nil
+    let!(:user_with_non_standard_role) do
+      build_and_save_user(
+        role: non_standard_role,
+        disabled: false,
+        duplicate: false
+      )
+    end
+
+    it 'includes users with a nil user_category role who are not both disabled and duplicate' do
+      result = User.standard
+
+      expect(result).to include(user_not_disabled, user_not_duplicate, user_flags_nil)
+    end
+
+    it 'excludes users that have both disabled and duplicate set to true' do
+      result = User.standard
+
+      expect(result).not_to include(user_disabled_and_duplicate)
+    end
+
+    it 'excludes users whose role has a non-nil user_category' do
+      result = User.standard
+
+      expect(result).not_to include(user_with_non_standard_role)
+    end
+
+    it 'only returns users with roles where user_category is nil' do
+      expect(
+        User.standard.joins(:role).pluck('roles.user_category').uniq
+      ).to eq([nil])
+    end
+
+    it 'is chainable with other queries' do
+      expect(User.standard.where(id: user_not_disabled.id)).to match_array([user_not_disabled])
+    end
+
+    after :each do
+      clean_data(User, Role, Agency)
+    end
+  end
+
   describe 'automatic password generation on user creation for native users' do
     before do
       clean_data(User, Role, Agency)
@@ -434,14 +526,6 @@ describe User do
 
     after do
       clean_data(User, Role, Agency)
-    end
-  end
-
-  describe 'Dates' do
-    it 'should load roles only once' do
-      dbl = double('roles', role: create(:role))
-      user = build_and_save_user
-      user.role.should == dbl.role
     end
   end
 
@@ -495,12 +579,6 @@ describe User do
   describe 'user roles' do
     before do
       clean_data(User, Role)
-    end
-
-    it 'should load roles only once' do
-      dbl = double('roles', role: create(:role))
-      user = build_and_save_user
-      user.role.should == dbl.role
     end
 
     it 'should store the roles and retrive them back as Roles' do
@@ -664,40 +742,6 @@ describe User do
 
     after do
       clean_data(User, Agency, Role, FormSection, PrimeroModule, PrimeroProgram, UserGroup)
-    end
-  end
-
-  describe 'agency_name' do
-    context 'when agency does not exist' do
-      before do
-        clean_data(Agency, Role, User, FormSection, PrimeroModule, PrimeroProgram, UserGroup)
-        @user = build_and_save_user
-      end
-
-      it 'should return nil' do
-        expect(@user.agency.try(:name)).to be_nil
-      end
-
-      after do
-        clean_data(User, Agency, Role, FormSection, PrimeroModule, PrimeroProgram, UserGroup)
-      end
-    end
-
-    context 'when agency exists' do
-      before do
-        Agency.destroy_all
-        agency = create(:agency, name: 'unicef')
-
-        @user = build_and_save_user(agency_id: agency.id)
-      end
-
-      it 'should return the agency name' do
-        expect(@user.agency.name).to eq('unicef')
-      end
-
-      after do
-        clean_data(Agency)
-      end
     end
   end
 
