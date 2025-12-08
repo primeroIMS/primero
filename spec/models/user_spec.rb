@@ -173,7 +173,7 @@ describe User do
 
   describe 'other validations' do
     before do
-      clean_data(AuditLog, User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection)
+      clean_data(AuditLog, User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection, CodeOfConduct)
       create(:agency)
       create(:role)
       primero_program = create(:primero_program)
@@ -254,6 +254,44 @@ describe User do
       user = build_user(password: 't1mothy', password_confirmation: '')
       user.should_not be_valid
       user.errors[:password_confirmation].should_not be_nil
+    end
+
+    describe 'Code of conduct' do
+      let!(:code_of_conduct1) do
+        CodeOfConduct.create!(
+          created_by: 'primero_cp',
+          title: 'Code of Conduct 1',
+          content: 'Content of the code of conduct 1'
+        )
+      end
+
+      let!(:code_of_conduct2) do
+        CodeOfConduct.create!(
+          created_by: 'primero_cp',
+          title: 'Code of Conduct 1',
+          content: 'Content of the code of conduct 1'
+        )
+      end
+
+      it 'associates the latest code of conduct' do
+        user = build_user
+        user.code_of_conduct = code_of_conduct2
+        user.save
+        user.reload
+
+        expect(user).to be_valid
+        expect(user.code_of_conduct_id).to eq(code_of_conduct2.id)
+        expect(user.errors).not_to have_key(:code_of_conduct_id)
+      end
+
+      it 'rejects to associate an old code of conduct' do
+        user = build_user
+        user.code_of_conduct_id = code_of_conduct1.id
+        user.save
+
+        expect(user).not_to be_valid
+        expect(user.errors).to have_key(:code_of_conduct_id)
+      end
     end
 
     describe 'Enabled external identity providers' do

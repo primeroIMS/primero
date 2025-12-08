@@ -134,6 +134,7 @@ class User < ApplicationRecord
   validates :data_processing_consent_provided_on,
             presence: { message: 'errors.models.user.data_processing_consent_provided_on' },
             if: :data_processing_consent_required?
+  validate :validate_latest_code_of_conduct
   with_options if: :limit_maximum_users_enabled? do
     validate :validate_limit_user_reached, on: :create
     validate :validate_limit_user_reached_on_enabling, on: :update
@@ -820,6 +821,13 @@ class User < ApplicationRecord
     return if !enabling_user? || maximum_users > User.enabled.count
 
     errors.add(:base, I18n.t('users.alerts.limit_user_reached_on_enable', maximum_users:))
+  end
+
+  def validate_latest_code_of_conduct
+    return unless will_save_change_to_attribute?('code_of_conduct_id')
+    return if code_of_conduct == CodeOfConduct.current
+
+    errors.add(:code_of_conduct_id, I18n.t('errors.models.user.code_of_conduct'))
   end
 end
 # rubocop:enable Metrics/ClassLength
