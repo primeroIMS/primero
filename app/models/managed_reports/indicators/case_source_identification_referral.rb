@@ -24,7 +24,7 @@ class ManagedReports::Indicators::CaseSourceIdentificationReferral < ManagedRepo
             data->>'source_identification_referral' AS source_identification_referral,
             COALESCE(srch_sex, 'incomplete_data') AS sex
           FROM cases
-          WHERE TRUE
+          WHERE cases.srch_record_state = TRUE
           #{params['status']&.query(Child)&.prepend('AND ')}
           #{user_scope_query(current_user, 'cases')&.prepend('AND ')}
           #{user_module_query(current_user, 'cases')&.prepend('AND ')}

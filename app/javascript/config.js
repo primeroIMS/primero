@@ -23,7 +23,8 @@ import {
   READ_REGISTRY_RECORD,
   READ_FAMILY_RECORD,
   SHOW_USAGE_REPORTS,
-  GROUP_PERMISSIONS
+  GROUP_PERMISSIONS,
+  VIEW_CASE_RELATIONSHIPS
 } from "./components/permissions/constants";
 import getAdminResources from "./components/pages/admin/utils/get-admin-resources";
 
@@ -629,7 +630,7 @@ const FORM_PERMISSION_ACTION = Object.freeze({
   [SUMMARY]: SHOW_SUMMARY,
   [REGISTRY_FROM_CASE]: READ_REGISTRY_RECORD,
   [FAMILY_FROM_CASE]: READ_FAMILY_RECORD,
-  [CASE_RELATIONSHIPS]: READ_RECORDS
+  [CASE_RELATIONSHIPS]: VIEW_CASE_RELATIONSHIPS
 });
 
 const VIOLATIONS_FORM = [
@@ -726,6 +727,8 @@ const VIOLENCE_TYPE_SUBREPORTS = ["cases_violence_type", "incidents_violence_typ
 
 const CASE_MANAGEMENT_KPIS_SUBREPORTS = ["source_identification_referral"];
 
+const CASE_MANAGEMENT_KPIS_SERVICE_REFERRALS_SUBREPORTS = ["referred_appropriate_service"];
+
 const DISTRIBUTION_USERS_ROLE_SUBREPORTS = ["distribution_users_role"];
 
 const CHART_COLORS = Object.freeze({
@@ -769,7 +772,8 @@ const VIOLATION_VERIFICATION_STATUS = Object.freeze({
   verified: "verified",
   report_pending_verification: "report_pending_verification",
   not_mrm: "not_mrm",
-  verification_found_that_incident_did_not_occur: "verification_found_that_incident_did_not_occur"
+  verification_found_that_incident_did_not_occur: "verification_found_that_incident_did_not_occur",
+  reported_not_verified: "reported_not_verified"
 });
 
 const MAX_CONDITIONS = 4;
@@ -965,6 +969,7 @@ export {
   PROCESS_QUALITY_IMPLEMENTED_REFERRALS_SUBREPORTS,
   CASE_CHARACTERISTICS_SUBREPORTS,
   CASE_MANAGEMENT_KPIS_SUBREPORTS,
+  CASE_MANAGEMENT_KPIS_SERVICE_REFERRALS_SUBREPORTS,
   DISTRIBUTION_USERS_ROLE_SUBREPORTS,
   ACCESS_LOGS
 };

@@ -531,7 +531,7 @@ const usersIdentified = createCachedSelector(
   state => state.getIn(["forms", "options", "users", "identified"], fromJS([])),
   users =>
     users.reduce((acc, user) => {
-      return acc.concat({ id: user.get("user_name"), display_text: user.get("full_name") });
+      return acc.concat({ id: user.get("user_name"), display_text: user.get("user_name") });
     }, [])
 )(defaultCacheSelectorOptions);
 

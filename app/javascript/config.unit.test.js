@@ -160,6 +160,7 @@ describe("Verifying config constant", () => {
       "PROCESS_QUALITY_IMPLEMENTED_REFERRALS_SUBREPORTS",
       "CASE_CHARACTERISTICS_SUBREPORTS",
       "CASE_MANAGEMENT_KPIS_SUBREPORTS",
+      "CASE_MANAGEMENT_KPIS_SERVICE_REFERRALS_SUBREPORTS",
       "DISTRIBUTION_USERS_ROLE_SUBREPORTS"
     ].forEach(property => {
       it(`exports '${property}'`, () => {

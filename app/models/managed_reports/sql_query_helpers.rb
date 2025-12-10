@@ -14,7 +14,7 @@ module ManagedReports::SqlQueryHelpers
 
       field_name = map_to || param.field_name
       filter = search_filter(param)
-      filter.new(field_name:, value: param.value, column_name: hash_field, table_name:).query
+      filter.new(field_name:, value: param.value, json_column: hash_field, table_name:).query
     end
 
     def equal_value_query_multiple(param, table_name = nil, hash_field = 'data', map_to = nil)
@@ -23,9 +23,9 @@ module ManagedReports::SqlQueryHelpers
       field_name = map_to || param.field_name
 
       if param.respond_to?(:values)
-        SearchFilters::TextList.new(field_name:, column_name: hash_field, table_name:, values: param.values).query
+        SearchFilters::TextList.new(field_name:, json_column: hash_field, table_name:, values: param.values).query
       else
-        SearchFilters::TextValue.new(field_name:, column_name: hash_field, table_name:, value: param.value).query
+        SearchFilters::TextValue.new(field_name:, json_column: hash_field, table_name:, value: param.value).query
       end
     end
 

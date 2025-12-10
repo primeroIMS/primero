@@ -151,6 +151,7 @@ en:
     approve_case_plan: Approve Case Plan
     approve_closure: Approve Closure
     approve_gbv_closure: Approve GBV Closure
+    attribute: Attribute
     back: Back
     bundle_export: Configuration Bundle
     bundle_import: Configuration Bundle
@@ -192,6 +193,7 @@ en:
     link: Link
     mark_for_mobile: Mark for mobile
     new: New
+    next: Next
     ok: OK
     print: Print
     reassign: Assign
@@ -392,6 +394,7 @@ en:
         this user will be able to access the case as “My Case” when they login to the system.
       confirm_title: Attribute Confirmation
       confirm_text: Are you sure you want to attribute this case to the user with the following details?
+      identified_by_placeholder: Please type at least two characters to search for a username.
     mark_for_offline:
       title: Mark for Offline
       text: Are you sure you want to mark these Cases for use when you are offline?
@@ -1061,6 +1064,7 @@ en:
         user_name_uniqueness: A User with that user name already exists. Please enter a different one
         email_uniqueness: A User with this email address already exists. Please enter a different one
         data_processing_consent_provided_on: You must provide consent to data processing
+        code_of_conduct: Invalid code of conduct. Please make sure that you are accepting the latest code of conduct.
       code_of_conduct:
         title_present: Title must not be blank
         content_present: Content must not be blank
@@ -2258,6 +2262,7 @@ en:
       service_type: Type of Service
       has_late_verified_violations: Late Verified?
       age: Age
+      service_implemented: Service Implemented
     status_options:
       open: Open
       closed: Closed
@@ -2651,6 +2656,16 @@ en:
         percentage_case_reasons_for_closure: Reason for Closure
       filter_options:
         registration_date: Registration Date
+    case_management_kpis_service_referrals_report:
+      name: Case Management KPIs - Service Referrals
+      description: Number of Cases referred for appropriate ​services, per type of multi-sectoral service
+      reports:
+        referred_appropriate_service: Cases referred for appropriate services
+      sub_reports:
+        case_referred_appropriate_service: Cases referred for appropriate services
+      filter_options:
+        registration_date: Registration Date
+        service_implemented_day_time: Service Implemented On
     distribution_users_role_report:
       name: Distribution of Users by Role
       description: Gives the number of Users with each Role, broken down by User Group. This allows you to see the number of supervisory and administrative staff per case worker.
@@ -3950,6 +3965,9 @@ en:
           case_management_kpis_report:
             label: Case Management KPIs
             explanation: Tracks key indicators of CP Case Management performance, including percentage of referrals made by different stakeholders, Reporting Location and Sex for selected Protection Concerns, and percentage of cases with each reason for closure.
+          case_management_kpis_service_referrals_report:
+            label: Case Management KPIs - Service Referrals
+            explanation: Number of Cases referred for appropriate ​services, per type of multi-sectoral service
           distribution_users_role_report:
             label: Distribution of Users by Role
             explanation: Gives the number of Users with each Role, broken down by User Group. This allows you to see the number of supervisory and administrative staff per case worker.

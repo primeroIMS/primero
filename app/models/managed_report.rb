@@ -224,6 +224,16 @@ class ManagedReport < ValueObject
         ],
         module_id: 'primeromodule-cp'
       ),
+      Permission::CASE_MANAGEMENT_KPIS_SERVICE_REFERRALS_REPORT => ManagedReport.new(
+        id: 'case_management_kpis_service_referrals_report',
+        name: 'managed_reports.case_management_kpis_service_referrals_report.name',
+        description: 'managed_reports.case_management_kpis_service_referrals_report.description',
+        subreports: %w[referred_appropriate_service],
+        permitted_filters: [
+          :grouped_by, :by, :age, :service_implemented, { registration_date: {}, service_implemented_day_time: {} }
+        ],
+        module_id: 'primeromodule-cp'
+      ),
       Permission::DISTRIBUTION_USERS_ROLE_REPORT => ManagedReports::ManagedUsageReport.new(
         id: 'distribution_users_role_report',
         name: 'managed_reports.distribution_users_role_report.name',

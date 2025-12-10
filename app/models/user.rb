@@ -97,6 +97,11 @@ class User < ApplicationRecord
     )
   end)
 
+  scope :by_category, (lambda do |user_category|
+    joins(:role).where(disabled: false).or(where(duplicate: false))
+    .where(roles: { user_category: })
+  end)
+
   alias_attribute :organization, :agency
   alias_attribute :name, :user_name
 
@@ -134,6 +139,7 @@ class User < ApplicationRecord
   validates :data_processing_consent_provided_on,
             presence: { message: 'errors.models.user.data_processing_consent_provided_on' },
             if: :data_processing_consent_required?
+  validate :validate_latest_code_of_conduct
   with_options if: :limit_maximum_users_enabled? do
     validate :validate_limit_user_reached, on: :create
     validate :validate_limit_user_reached_on_enabling, on: :update
@@ -147,10 +153,13 @@ class User < ApplicationRecord
       ]
     end
 
-    def self_hidden_attributes
-      %w[role_unique_id identity_provider_unique_id user_name user_group_unique_ids agency_id
-         identity_provider_id reset_password_token reset_password_sent_at service_account
-         unlock_token locked_at failed_attempts identity_provider_sync]
+    def self_permitted_params
+      # TODO: Refactor code of conduct acceptance logic so that code_of_conduct_id is not part of this list
+      [
+        'full_name', 'code', 'password', 'password_confirmation', 'locale', { 'services' => [] }, 'email', 'position',
+        'phone', 'location', 'send_mail', 'code_of_conduct_id', 'receive_webpush',
+        { 'settings' => { 'notifications' => { 'send_mail' => {}, 'receive_webpush' => {} } } }
+      ]
     end
 
     def password_parameters
@@ -181,13 +190,14 @@ class User < ApplicationRecord
     end
 
     def permitted_api_params(current_user = nil, target_user = nil)
-      permitted_params = User.default_permitted_params
+      return default_permitted_params if current_user.nil? || target_user.nil?
+      return default_permitted_params if current_user.user_name != target_user.user_name
 
-      return permitted_params if current_user.nil? || target_user.nil?
+      self_permitted_params
+    end
 
-      return permitted_params unless current_user.user_name == target_user.user_name
-
-      permitted_params - User.self_hidden_attributes
+    def standard
+      by_category(nil)
     end
 
     def last_login_timestamp(user_name)
@@ -219,7 +229,7 @@ class User < ApplicationRecord
     end
 
     def limit_user_reached?
-      SystemSettings.current.maximum_users > User.enabled.count
+      SystemSettings.current.maximum_users > User.standard.count
     end
 
     def with_audit_dates
@@ -810,16 +820,23 @@ class User < ApplicationRecord
 
   def validate_limit_user_reached
     maximum_users = SystemSettings.current.maximum_users
-    return if maximum_users > User.enabled.count
+    return if maximum_users > User.standard.count
 
     errors.add(:base, I18n.t('users.alerts.limit_user_reached', maximum_users:))
   end
 
   def validate_limit_user_reached_on_enabling
     maximum_users = SystemSettings.current.maximum_users
-    return if !enabling_user? || maximum_users > User.enabled.count
+    return if !enabling_user? || maximum_users > User.standard.count
 
     errors.add(:base, I18n.t('users.alerts.limit_user_reached_on_enable', maximum_users:))
+  end
+
+  def validate_latest_code_of_conduct
+    return unless will_save_change_to_attribute?('code_of_conduct_id')
+    return if code_of_conduct == CodeOfConduct.current
+
+    errors.add(:code_of_conduct_id, I18n.t('errors.models.user.code_of_conduct'))
   end
 end
 # rubocop:enable Metrics/ClassLength
