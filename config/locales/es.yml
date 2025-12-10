@@ -107,6 +107,7 @@ es:
     record_owner: Propietario(a) del Registro
     timestamp: Hora
     user_name: Realizado Por
+    type: Tipo de registro
   bulk_export:
     file_name: Archivo
     record_type: Tipo
@@ -142,6 +143,7 @@ es:
     close: Cerrar
     continue: Continuar
     create_case: Crear Caso
+    referral_create_case: Crear Caso
     create_incident: Crear Incidente
     create_new_record: Crear Nuevo %{model}
     delete: Eliminar
@@ -296,6 +298,54 @@ es:
     case_opening_date: Fecha de Apertura de Caso
     case_plan: Plan del Caso
     case_worker_code: Código de Trabajadora del Caso
+    child_functioning:
+      date: "Fecha"
+      ready_to_start_cfm: "¿Está preparado para empezar el Módulo de Funcionamiento Infantil?"
+      age: "Edad"
+      vision_wear_glass: "Cristales para gafas"
+      difficulty_seeing_with_glasses: "Dificultad para ver con lentes"
+      continue_hearing_section: "Continuar con la sección de audición"
+      child_wears_hearing_aid: "El niño/niña utiliza dispositivo para la audición"
+      difficulty_hearing_with_hearing_aid: "Dificultad para escuchar con dispositivo para la audición"
+      continue_mobility_section: "Continuar con la sección de movilidad"
+      child_uses_equipment_or_receive_assistance_for_walking: "El niño/niña utiliza equipo o recibe ayuda para caminar"
+      difficulty_walking_without_equipment: "Dificultad para caminar sin equipo o asistencia"
+      mobility_difficulty_without_equipment_100m: "Dificultad de movilidad sin equipo 100m"
+      mobility_difficulty_without_equipment_500m: "Dificultad de movilidad sin equipo 500m"
+      difficulty_walking_with_equipment: "Dificultad para caminar con equipo o asistencia"
+      mobility_difficulty_with_equipment_100m: "Dificultad de movilidad con equipo 100m"
+      mobility_difficulty_with_equipment_500m: "Dificultad de movilidad con equipo 500m"
+      continue_dexterity_display_section: "Continuar con la sección de visualización sobre destreza"
+      difficulty_picking_up_small_objects_with_hand: "Dificultad para tomar objetos pequeños con la mano"
+      self_care_display: "Visualización sobre autocuidado"
+      self_care_difficulty: "Dificultad para el autocuidado"
+      communication_display_section: "Sección de visualización sobre comunicación"
+      child_have_difficulty_to_understand: "El niño/niña tiene dificultad para comprender"
+      child_have_difficulty_to_understanding_child_household: "El niño/niña tiene dificultad para comprender el hogar"
+      difficulty_to_understanding_child_others: "Dificultad para comprender a otros niños/niñas"
+      difficulty_to_understand_the_child: "Dificultad para comprender al niño/niña"
+      learning_display_section: "Sección de visualización sobre aprendizaje"
+      child_have_difficulty_for_learning: "El niño/niña tiene dificultad para el aprendizaje"
+      playing_display_section: "Sección de visualización sobre juego"
+      child_have_difficulty_for_playing: "El niño/niña tiene dificultad para jugar"
+      remembering_display: "Visualización sobre recordar"
+      remembering_difficulty: "Dificultad para recordar"
+      concentrating_display: "Visualización sobre concentración"
+      concentrating_difficulty: "Dificultad para concentrarse"
+      accepting_change_display: "Visualización sobre aceptación al cambio"
+      accepting_change_difficulty: "Dificultad para aceptar el cambio"
+      controlling_behavior_display_section: "Sección de visualización sobre control del comportamiento"
+      difficulty_for_controlling_behaviour: "Dificultad para controlar el comportamiento, como patear, morder o golpear a otros"
+      making_friends_display_section: "Sección de visualización sobre hacer amistades"
+      making_friends_difficulty: "Dificultad para hacer amistades"
+      anxiety_display_section: "Sección de visualización sobre ansiedad"
+      anxiety_how_often: "Frecuencia de ansiedad"
+      depression_display_section: "Sección de visualización sobre depresión"
+      depression_how_often: "Frecuencia de depresión"
+      cfm_yes: "Sí"
+      cfm_no: "No"
+      n_a: "N/A"
+    client_code: Código de Cliente
     clear_filter: Limpiar
     close_dialog: Al hacer clic en OK el estado de este caso cambiará a Cerrado
     close_dialog_title: Cerrar Caso
@@ -336,6 +386,7 @@ es:
       closure: Cierre
       current_location: Ubicación Actual
       date: Fecha
+      disability_status: Estado de discapacidad
       displacement_status: Estado de Desplazamiento
       district: Distrito
       duplicate: Duplicado
@@ -344,6 +395,7 @@ es:
       flag: Marcado
       flag_label: ¿Marcado?
       gbv_closure: Cierre de Violencia Basada en Género (GBV)
+      gender: Género
       high: Alta
       low: Bajo
       male: Masculino
@@ -359,26 +411,33 @@ es:
       photo_label: ¿Tiene Fotografía?
       protection_concerns: Inquietudes Sobre Protección
       protection_status: Estado de Protección
+      protection_risks: Riesgos de protección
       record_state: Estado del Registro
       referred_cases: Casos referridos a mi
       registration_date: Fecha de Registro
       risk_level: Nivel de Riesgo
       sex: Sexo
       social_worker: Caso/Trabajadora Social
+      marginalized_community_self_identifying: ¿El cliente se identifica como miembro de la comunidad LGBTQIA+?
       status: Estado
       transferred: Transferido
       type_of_risk: Tipo de Riesgo
       urgent_protection_concern: Inquietud sobre Protección Urgente
       user_group: Grupo de Usuario(a)s
       workflow: Casos por Flujo de Trabajo
+      module_id: Módulo
       include_disabled: Incluya personas con discapacidad
+      safety_plan_needed: ¿Se necesita un plan de seguridad para este caso?
+      self_harm_thoughts: En el último mes, ¿ha tenido pensamientos o planes serios para acabar con su propia vida?
     flag_summary: Resumen de registros marcados
     full_name: Nombre Completo
     gbv_closure: Cierre de Violencia Basada en Género (GBV)
+    gender: Género
     hide_name: Ocultar Nombre
     hide_name_error: Se ha producido un error al guardar sus cambios. Por favor intente nuevamente.
     id: N° de Documento de Identificación (ID)
     label: Casos
+    location_current: Ubicación
     my_filters: Mis Filtros
     name: Nombre
     notes_dialog_title: Agregar Notas
@@ -398,6 +457,8 @@ es:
     reassign:
       multiple_successfully: Primero está reasignando %{select_records}Caso(s). La actualización de todos los Casos puede tomar varios minutos.
     referral_done: Hacer clic en "Realizado" significa que usted ha completado el trabajo de referencia relacionado a este caso. Una vez usted hace clic en "Realizado" ya no tendrá acceso a este registro.
+    referral_create_case_header: Crear Caso
+    referral_create_case: ¿Está seguro(a)? Usted será responsable de gestionar el Caso que usted cree.
     referral_done_success: Referencia Realizada.
     referral_accepted_header: Aceptar Referencia
     referral_accepted: ¿Está seguro(a)? Ahora será responsable de completar el trabajo relacionado con esta Referencia.
@@ -525,7 +586,6 @@ es:
       updated: La configuración se actualizó correctamente.
       sent: Enviando la configuración a producción. Por favor, revise el sitio de producción para ver si su configuración ya llegó.
     not_allowed: No permitido
-    unavailable_server: El servidor está temporalmente fuera de servicio .
   contact:
     field:
       email: Correo electrónico
@@ -561,6 +621,7 @@ es:
       new_this_week: Nuevo esta Semana
       referrals: Referencias
       transfers: Transferencias
+      cases: Casos
     approval_action_plan_approved: Aprobado
     approval_action_plan_pending: Pendiente
     approval_action_plan_pending_group: Plan de Acción
@@ -670,6 +731,7 @@ es:
     dash_shared_from_my_team: Coompartido Desde Mi Equipo
     dash_shared_with_me: Compartido Conmigo
     dash_shared_with_my_team: Compartido Con Mi Equipo
+    dash_shared_with_my_team_overview: Compartir con mi equipo
     dash_shared_with_others: Compartido Con Otro(a)s
     dash_national_admin_summary: Resumen de Administrador(a)
     dash_violations_category_verification_status: Numero total de incidentes por estatus de verificación
@@ -775,8 +837,15 @@ es:
     shared_from_my_team_pending_transfers: Transferencias Pendientes
     shared_from_my_team_referrals: Referencias
     shared_from_my_team_rejected_transfers: Transferencias Rechazadas
+    shared_with_me_new_referrals: Nuevo
+    shared_with_me_total_referrals: Total
+    shared_with_me_transfers_awaiting_acceptance: Esperando Aprobación
+    shared_with_my_team_pending_transfers_overview: Esperando Aprobación
     shared_with_my_team_pending_transfers: Transferencias Pendientes
     shared_with_my_team_referrals: Referencias
+    shared_with_others_pending_transfers: Pendiente
+    shared_with_others_referrals: Total
+    shared_with_others_rejected_transfers: Rechazado
     status_of_cases: Estado de los Casos
     system_user: Sistema
     total: Total
@@ -800,6 +869,7 @@ es:
       other: '%{case_worker} tiene %{stat} casos totales'
     workflow: Flujo de Trabajo
     workflow_team: Flujo de Trabajo - Casos de Equipos
+    workflow_team_module: Flujo de Trabajo - Casos de Equipos
     you_have: 'Usted tiene'
   disabled:
     status:
@@ -808,13 +878,22 @@ es:
   email_notification:
     assign: '%{user} le ha asignado el siguiente %{record_type}: %{record_id}. '
     assign_subject: '%{record_type}:%{id} - Asignados a usted'
+    approval_request: '%{user}está solicitando %{approval_type}aprobación del caso (%{case_id}). Por favor inicie sesión en su cuenta para revisar.'
     approval_request_subject: 'Caso: %{id} - Solicitud de Aprobación'
+    approval_response: '%{user} ha actualizado el estatus de su solicitud de aprobación de %{approval_type} del Caso (%{case_id}) al siguiente: %{status}. Por favor inicie sesión en su cuenta para revisar.'
     approval_response_subject: 'Caso: %{id} - Respuesta de Aprobación'
     referral: '%{user} de %{agency} le ha referido el siguiente %{record_type}: %{record_id} para%{service_type}.'
     transfer: '%{user} le ha transferido el siguiente %{record_type}: %{record_id}.'
     transfer_request_subject: Solicitud de transferencia para uno de sus casos
+    transfer_subject: '%{record_type}: %{id} - Transferencia'
+    referral_subject: '%{record_type}: %{id} - Solicitud de Referencia'
     transfer_request: 'El/la usuario(a) de Primero %{user} de %{agency} está solicitando que le transfiera la propiedad de este %{record_type} registro %{record_id} para que pueda prestarle servicios de gestión de %{record_type}a la persona en su área. Si esta transferencia le parece aceptable, por favor haga clic en el vínculo de ID %{record_type} en este correo para abrir el %{record_type} en Primero e iniciar la transferencia.'
     approval_request_html: 'El/la usuario(a) <strong>%{user}</strong> está solicitando aprobación para <strong>%{approval_type}</strong> en el caso <strong>%{case_id}</strong>.'
+    approval_response_html: '%{user} ha actualizado el estatus de su solicitud de aprobación de %{approval_type} del Caso (%{case_id}) al siguiente: %{status}. Por favor inicie sesión en su cuenta para revisar.'
+    referral_html: 'Ha recibido una referencia para %{record_type} (%{record_id}) para %{service_type} de %{user} de %{agency}. Por favor %{login_url} en su cuenta para revisar.'
+    transfer_html: 'Ha recibido una transferencia para %{record_type} (%{record_id}) de %{user} de %{agency}. Por favor %{login_url} en su cuenta para revisar.'
+    assign_html: Se le ha asignado un(a) nuevo(a) %{record_type} (%{record_id}) de %{user}. Por favor %{login_url} en su cuenta para revisar.
+    transfer_request_html: 'Tiene una solicitud de transferencia para %{record_type} %{record_id} de %{user} de %{agency}. La persona solicitando la transferencia ha incluido una nota de transferencia: %{request_transfer_notes}. Si esta transferencia le parece aceptable, por favor inicie sesión para acceder a Primero para iniciar la transferencia.'
     alert: '%{record_type}%{id}-%{form_name}ha sido actualizado. Por favor, ingrese a Primero para revisar los cambios.'
     alert_subject: '%{record_type}:%{id} - %{form_name}Actualizado'
   webpush_notification:
@@ -995,6 +1074,7 @@ es:
         subforms: 'Subformulario %{subform_name}'
         collapsed_fields: 'Campos Colapsados: %{fields}'
         country: Países
+        linkedincidents: Incidentes vinculados
       summary_header:
         form_group: Formulario de Grupo de Primero
         form: Formularios de Primero
@@ -1394,7 +1474,9 @@ es:
     es-ES: Español (España)
     fr: Francés
     hu: Magyar
+    hy: Armenio
     id: Bahasa
+    it: Italiano
     km: ភាសាខ្មែរ
     ku: کوردی
     ku-IQ: کوردی (بادینی)
@@ -1405,10 +1487,12 @@ es:
     ne: नेपाली
     om: Oromo
     am-ET: Amharic (Ethiopia)
+    ti: Tigriña
     tr: Turco
     label: Pagina de inicio
     language: Idioma
     manage_system_users: Administrar la Sincronización de Usuario(a)s en el Servidor
+    mn: Mongol
     my: ဗမာစာ
     pl: Polski
     pt: Portugués
@@ -1424,6 +1508,7 @@ es:
     view_records: Ver Registros
     welcome: Bienvenido(a) a Primero
     zh: Chino
+    tet: Tetun
   incident:
     code: Código de Incidente
     associated_case: "Caso Asociado:"
@@ -1730,7 +1815,17 @@ es:
       municipality: Municipalidad
       autonomous_region: Región autónoma
       parish: Parroquia
+      cercle: Círculo
       sub-county: Sub condado
+      departement_fr: 'Departamento'
+      region_fr: 'Región'
+      wilaya: 'Provincia'
+      commune: 'Comunidad'
+      division_fr: 'División'
+      prefecture: 'Prefectura'
+      moughataa: 'Moughataa'
+      sub_division: 'Subdivisión '
+      sub-prefecture: 'Sub prefectura'
     label: Ubicación
     name: Nombre
     code: Código
@@ -1751,50 +1846,37 @@ es:
       _requested: Solicitado
       add_note: Agregar Nota
       assign: 'Asignar '
-      assign_to: Asignar a
-      attach: Adjuntar
       bulk_assign: Asignar a granel
       bulk_create: Crear a granel
       bulk_index: Indice a granel
-      case_plan_approved: Plan de caso aprobado
-      case_plan_rejected: Plan de caso rechazado
-      case_plan_requested: Plan de caso solicitado
       close: Cerrar
       create: Crear
       create_bulk: Crear a granel
+      create_family: Crear Familia
+      current: Actual
       delete: Eliminar
       destroy: Destruir
-      detach: Separar
-      enable_disable_record: Habilitar deshabilitar registro
       export: Exportar
+      family: Lista familiar
       flag: Marcar
       import: Importar
       incident_details_from_case: Detalles de incidente del caso
-      index: Indexar
       list: Listar
       login: Iniciar sesión
+      logout: Cerrar sesión
       password_reset: Restablecimiento de contraseña
       password_reset_request: Solicitud de restablecimiento de una contraseña
       refer: 'Referir '
-      refer_accepted: Referencia aceptada
-      refer_done: Referencia realizada
-      refer_rejected: Referencia rechazada
-      refer_revoke: Referencia Anulada
-      refer_to: 'Referir a '
       reopen: Reabrir
-      services_section_from_case: Sección de servicios del caso
       show: Mostrar
       show_alerts: Mostrar alertas
-      traces: Localizaciones
       transfer: 'Transferir '
-      transfer_accepted: Transferencia aceptada
-      transfer_rejected: Transferencia rechazada
-      transfer_request: Solicitud de Transferencia
-      transfer_to: Transferir a
       unflag: Desmarcar
       update: Actualizar
+      update_bulk: Actualización en bloque
       user_password_reset_request: Solicitud de restablecimiento de una contraseña de usuario(a)
       webhook: Webhook
+    add_note: Agregar nota
     approve_form:
       action_plan: Formulario de Plan de Acción
       bia: Formulario para El Mejor Interés del Niño, Niña, o Adolescente (BIA)
@@ -1803,29 +1885,45 @@ es:
       'false': Rechazar
       gbv_closure: Formulario de Cierre de Violencia Basada en Género (GVB)
       'true': Aprobando
+    action_plan_approved: "%{approval_label} aprobado para"
+    action_plan_requested: "%{approval_label} solicitado para"
+    action_plan_rejected: "Plan de Acción rechazado por"
     assessment_approved: "%{approval_label} aprobado por"
+    assessment_rejected: Rechazar aprobación de Evaluación
     assessment_requested: "%{approval_label} solicitado por"
+    assign_to: Listar usuarios para asignación de registro
+    assign: Asignar
+    attach: Agregar archivo adjunto
     bulk_index: Listar todo
     by_user: por usuario(a)
     case_plan_approved: "%{approval_label} aprobado por"
     case_plan_requested: "%{approval_label} solicitado por"
+    case_plan_rejected: Rechazar aprobación de Plan de Caso
     close: Cerrar
     closure_approved: "%{approval_label} aprobado por"
+    closure_rejected: Rechazar aprobación de Cierre
     closure_requested: "%{approval_label} solicitado por"
     consent_count: Conteo de Consentimientos
     copy: Copiar
     create: Crear
     create_subform: Crear subformulario
     destroy: Eliminar
+    detach: Eliminar archivo adjunto
     edit: Editar
     enable_disable_record: Habilitar / Deshabilitar
     export: Exportar datos para
+    family: Expediente familiar
     flag: Marcar
     flag_records: Marcar
+    gbv_closure_approved: "%{approval_label} aprobado para"
+    gbv_closure_requested: "%{approval_label} solicitado para"
+    gbv_closure_rejected: "Cierre de VBG rechazado para"
     graph_data: Ver gráfica de datos
     hide_name:
       protect: Ocultar nombre
       view: ' Ver nombre'
+    import: Importar
+    incident_details_from_case: Añadir incidente a Caso desde la vista de lista
     index: Listar Registros
     list: Listar
     login: Iniciar sesión
@@ -1835,14 +1933,17 @@ es:
       'false': Desmarcar para móvil
       'true': Marcar para móvil
     match_record: Registro Concordante
+    password_reset: Reestablecer contraseña
     permitted_field_list: Lista permitida de campo
     quick_view: Ver Vista Rápida
     reassign: Asignar
     resources:
       audit_log: Bitácora (log) de Auditoría
       user: Usuario(a)
+      flag: Marcar
       agency: Agencia
       user_group: Grupo de Usuario(a)
+      child: Caso
       alert: Alerta
       form_section: Formulario
       lookup: Búsqueda Específica
@@ -1858,12 +1959,19 @@ es:
       primero_configuration: Configuración de Primero
       code_of_conduct: Código de Conducta
       task: Tarea
+      tracing_request: Solicitud de Seguimiento
+      managed_report: Perspectivas
     record_state:
       'false': Deshabiltar
       'true': Activar
     refer: Referir
+    refer_accepted: Referencia aceptada
     refer_to: Buscar Destinatario(a) de la Referencia
     referral: Referir
+    refer_revoke: Anular referencia
+    refer_rejected: Rechazar referencia
+    refer_accpeted: Aceptar referencia
+    refer_done: Marcar referencia como realizada
     relinquish_referral: Renunciar a la Referencia Realizado
     reopen: Reabrir
     reopen_case: Reabrir
@@ -1879,12 +1987,19 @@ es:
     search: Búsqueda API
     show: Visualizar
     show_alerts: Ver alertas para
+    timestamp: Hora de registro
     to: a
     to_user: para el/la usuario(a)
+    traces: Ver seguimientos
     transfer: Transferir
+    transfer_to: Listar usuarios para transferencia de registro
     transfer_status:
       Accepted: Transferencia Aceptada
       Rejected: Transferencia Rechazada
+    transfer_accepted: Aceptar transferencia
+    transfer_rejected: Rechazar transferencia
+    transfer_request: Requerir transferencia
+    transfer_revoked: Anular transferencia
     unflag: Desmarcar
     update: Actualizar
   login:
@@ -1926,6 +2041,7 @@ es:
     total: Total
     violations_total: Violaciones
     filter_by:
+      module_id: Módulo
       date: Fecha
       verification_status: Estado de verificación
       violation_type: Tipo de violación
@@ -2071,7 +2187,6 @@ es:
         attack_on_schools: Ataques a escuelas
         military_use: Uso militar de escuela(s) y/u hospital(es)
         denial_humanitarian_access: Negación de acceso a la ayuda humanitaria para los niños/niñas
-        detention: Ataques a escuelas
       sub_reports:
         children: Niños/niñas
         combined: Violaciones
@@ -2113,17 +2228,13 @@ es:
         date_of_first_report: Fecha de la Entrevista
         incident_date: Fecha del Incidente
       reports:
+        incidents: Estadísticas sobre violencia basada en género
         perpetrators: Perpetradores
         survivors: Sobrevivientes
         referrals: Referencias
       sub_reports:
-        service_safehouse_referral: Referencia a casa segura/refugio seguro
-        service_medical_referral: Referencia médica/salud
-        service_psycho_referral: Servicios psicosociales/consejería
-        service_legal_referral: Servicios de asistencia legal
-        service_police_referral: Servicios de policía u otros servicios de seguridad
-        service_livelihoods_referral: Servicios de Subsistencia
-        service_protection_referral: Servicios de Protección a la Niñez
+        incidents: Incidentes
+        combined: Estadísticas generales
         survivors_disability_type: Con discapacidad
     workflow_report:
       name: Flujo de Trabajo
@@ -2167,6 +2278,126 @@ es:
         case_violence_type_by_sex_and_age: Número total de Casos por Sexo y Edad
         incident_violence_type_by_sex_and_age: Número total de Incidentes por Sexo y Edad
     success_message: Ha generado correctamente el archivo de exportación
+    protection_outcomes:
+      reports:
+        improved_psychosocial_wellbeing: '% que demuestra una mejora del bienestar psicosocial'
+        impacted_protection_risks: '% menos afectados por los riesgos de protección'
+      description: 'Resultados clave que incluyen a clientes con un mejor bienestar psicosocial y clientes menos afectados por riesgos después del manejo de casos'
+      name: Resultado de Protección
+      filter_options:
+        registration_date: Fecha de registro
+        date_closure: Fecha de cierre
+      sub_reports:
+        improved_wellbeing_after_support: '% de clientes con mejora en el bienestar psicosocial'
+        less_impacted_after_support: '% menos afectado por reisgo de protección'
+      improved_wellbeing_after_support:
+        improve_by_at_least_3_points: 'Mejora en al menos 3 puntos'
+        not_improve_by_at_least_3_points: 'No mejoró en al menos 3 puntos'
+      less_impacted_after_support:
+        clients_report_less_impacted: 'Reportan estar menos afectados'
+        clients_report_equally_or_more_severely_impacted: 'Reportan estar igual o más afectados'
+    process_quality_total_cases:
+      reports:
+        process_quality_total_cases: 'Clientes de gestión de casos con protección total'
+      description: Número total de casos desglosados por estado del caso, sexo y plazo.
+      name: 'Procesos y calidad - # de clientes de gestión de casos con protección total'
+      filter_options:
+        registration_date: Fecha de registro
+        date_closure: Fecha de cierre
+      sub_reports:
+        total_protection_management_cases: '# de clientes de gestión de casos con protección total'
+    process_quality_average_cases:
+      reports:
+        process_quality_average_cases: 'Casos por gestor de casos'
+      description: Número total de casos por gestor de casos, desglozados por género y periodo de tiempo
+      name: 'Procesos y calidad - media de casos por gestor de casos'
+      filter_options:
+        registration_date: Fecha de registro
+        date_closure: Fecha de cierre
+      sub_reports:
+        average_cases_per_case_worker: 'Media de casos por gestor de casos'
+      average_cases_per_case_worker: 'Media de casos por gestor de casos'
+    process_quality_successful_referrals:
+      reports:
+        process_quality_successful_referrals: Referencias exitosas
+      description: Porcentaje de referencias a servicios que tienen éxito y que no, dentro de grupos de género y marco de tiempo
+      name: 'Procesos y Calida - % de referencias exitosas'
+      filter_options:
+        referral_created_at: Fecha de referencia de servicio
+        service_response_day_time: Fecha de creación del servicio
+        case_status: Estado del caso
+      sub_reports:
+        percentage_successful_referrals: 'Porcentaje de referencias exitosas'
+      implemented: 'Correctamente'
+      not_implemented: 'Sin éxito'
+    process_quality_implemented_referrals:
+      reports:
+        process_quality_implemented_referrals: 'Referencias exitosas por fecha de implementación'
+      description: Referencias de servicios exitosas desglosadas por fecha de implementación, género y periodo de tiempo
+      name: Procesos y Calidad - Referencias extosas por fecha de implementación
+      filter_options:
+        case_status: Estado del caso
+        service_implemented_day_time: Servicio Implementado en
+      sub_reports:
+        implemented_successful_referrals: Referencias exitosas por fecha de implementación
+      implemented: Referencias exitosas
+    case_characteristics:
+      reports:
+        case_protection_risk: Casos por Riesgos de Protección
+        case_risk_level: Casos por Nivel de Riesgo
+        case_duration: Casos por Duración
+        clients_disability: Clientes con discapacidad
+        case_safety_plan: Casos con Plan de Seguridad
+        clients_gender: Casos por género
+      description: 'Características clave del caso, incluyendo % de casos por nivel de riesgo, riesgos de protección, temporalidad de la gestión de caso, estatus de discapacidad, conclusión del plan de seguridad y género.'
+      name: Características del caso
+      filter_options:
+        registration_date: Fecha de registro
+        date_closure: Fecha de cierre
+      sub_reports:
+        percentage_cases_protection_risk: 'Porcentaje de casos por riesgo de protección'
+        percentage_cases_risk_level: 'Porcentaje de casos por nivel de riesgo'
+        percentage_cases_duration: 'Porcentaje de casos por duración'
+        percentage_clients_with_disability: '% de clientes que tienen una discapacidad'
+        percentage_cases_safety_plan: 'Porcentaje de casos con plan de seguridad finalizado'
+        percentage_clients_gender: 'Porcentaje de clientes por género'
+      percentage_cases_duration:
+        1_month: < 1 mes
+        1_3_months: 1-3 meses
+        3_6_months: 3-6 meses
+        over_6_months: Más de 6 meses
+      percentage_cases_safety_plan:
+        safety_plan_completed: 'Plan de seguridad completado'
+        safety_plan_not_completed: 'Plan de seguridad no completado'
+  usage_report:
+    label: Exportar Reporte de Uso
+    file_name: Cree su propio nombre de archivo (Opcional)
+    instructions: 'Para generar informes trimestrales, haga clic en "Exportar"'
+    invalid_date_format: '%{field} debe ser una fecha válida'
+    invalid_date_range: '%{to} debe ser mayor que %{from}'
+    export:
+      users: Usuarios
+      hostname: Nombre de equipo
+      start_date: Fecha de inicio
+      end_date: Fecha de Finalización
+      quarter: Trimestre
+      agencies_total: Número Total de Agencias
+      module_yes: 'Sí'
+      module_no: 'No'
+      agency_list: Lista de Agencias
+      users_total: Total de Usuarios
+      users_active: Usuarios Activos
+      users_disabled: Usuarios deshabilitados
+      users_new: Nuevos usuarios en este trimestre
+      cases_total: Total de Casos
+      cases_open: Casos Abiertos
+      cases_closed: Casos Cerrados
+      cases_open_this_quarter: Abrir este trimestre
+      cases_closed_this_quarter: Cerrar este trimestre
+      services_total: Total de Servicios
+      followups_total: Total de Seguimientos
+      incidents_total: Total de Incidentes
+      incidents_open_this_quarter: Inicidentes en este trimestre
   messages:
     alert_items: Usted tiene %{items} items de nota.
     alerts_for:
@@ -2193,6 +2424,7 @@ es:
       no_match: Lo sentimos, no encontramos registros concordantes
       rows_per_page: Líneas por página
       sort: Ordenar
+      sort_disabled_name_fields: Ordenación desactivada al buscar por campos de nombre
   navigation:
     bulk_exports: Exportaciones
     cases: Casos
@@ -2203,6 +2435,12 @@ es:
     reports: Reportes
     insights: Perspectiva
     search: Buscar
+    phonetic_search:
+      title: Escriba un nombre para buscar un registro existente
+      label: Use Campos de Nombre
+      help_text: La búsqueda fonética está disponible para campos de Nombre
+    id_search:
+      title: Ingrese el número de ID para buscar un registro existente.
     settings: Configuraciones
     support: Apoyo
     support_menu:
@@ -2350,6 +2588,7 @@ es:
       transfer: Puede utilizarse para transferir
       user: Usuarios
       user_group: Grupos de usuario(a)s
+      usage_report: Reporte de Uso
       verify_mrm: Verifique MRM
       view_approvals: Ver Aprobaciones
       view_assessment: Ver Evaluación
@@ -2362,6 +2601,7 @@ es:
       write: Escribir
       activity_log: Registro de Actividades
       remove_alert: Eliminar alerta
+      create_case_from_referral: Crear un caso a partir de una referencia
     resource:
       kpi:
         actions:
@@ -2478,6 +2718,9 @@ es:
           assign_within_user_group:
             explanation: Permite a un(a) usuario(a) enviar un caso desde el/la propietario(a) de su registro original hacia cualquier otro(a) usuario(a) en los actuales grupos de usuario(a) de la/el usuario(a). No se necesita el consentimiento del niño, niña, o adolescente para esta acción. A diferencia de las transferencias, a el/la destinatario(a) no se le da la oportunidad de aceptar o rechazar la asignación.
             label: Asignar a un(a) usuario(a) dentro de mi grupo de usuario(a)
+          create_case_from_referral:
+            label: Crear un caso a partir de una referencia
+            explanation: Usuario puede crear un caso a partir de una referencia
           change_log:
             explanation: El/la usuario(a) puede ver el historial de todos los cambios hechos al registro desde que fue creado. Esto incluye los valores registrados para todos los campos.
             label: Cambiar Bitácora (log)
@@ -2534,6 +2777,7 @@ es:
             label: Marca
           resolve_any_flag:
             explanation: Permite al usuario resolver cualquier Alerta en el registro, independientemente de quién creó la Alerta.
+            label: Resolver cualquier alerta
           import:
             explanation: 'Permite a el/la usuario(a) crear uno o más casos nuevos importándolos desde un archivo CSV, Excel, o JSON. El archivo importado debe estar formateado "muy" específicamente para que la información se importe correctamente. Esta función sólo debe estar disponible para usuario(a)s administrativo(a)s con habilidades técnicas avanzadas y un conocimiento a fondo sobre cómo se formatean los datos en Primero. Sólo puede hacerse desde la página de listado de casos. '
             label: Importar
@@ -2543,6 +2787,9 @@ es:
           incident_from_case:
             explanation: Este permiso le permite a el/la usuario(a) hacer un clic en el botón "Crear Incidente". Esto genera un incidente que puede contener alguna información copiada desde el caso. Para casos de Violencia Basada en Género (GVB), este botón está en el margen superior de la página de presentación de caso, y corresponde a información sobre el caso como un todo. En algunos contextos de localización de incidentes, este botón está en un subformulario de "Detalles del Incidente". En esta situación, alguna información puede ser copiada desde el subformulario de detalles del incidente en donde se hizo clic al botón, así como desde el caso como un todo. Es decir, el nuevo incidente creado puede contener el campo "Tipo de Violencia" desde el subformulario de incidente individual, pero también puede contender la edad y sexo del caso mismo. Nótese que este permiso también deja que el/ usuario(a) vea un vínculo hacia el incidente que fue creado.
             label: Crear un incidente desde un caso
+          remove_alert:
+            explanation: Este permiso permite al usuario(a) eliminar una alerta de un caso. Las alertas se generan normalmente cuando se edita un campo concreto, como por ejemplo cuando se actualizan las notas. Las alertas suelen mostrarse con un punto amarillo junto al caso.
+            label: Eliminar alerta de un caso
           manage:
             explanation: Permite a un(a) usuario(a) llevar a cabo todas las acciones disponibles en los casos. El permiso "Administrar" significa en esencia "todo".
             label: Administrar (todos los permisos para este tipo de recurso)
@@ -2600,6 +2847,9 @@ es:
           services_section_from_case:
             explanation: Habilitado(a) para agregar una entrada al subformulario de Servicios sobre un caso que usted encontró en los resultados de búsqueda. El/la usuario(a) lleva a cabo esta acción desde la página de resultados de búsqueda, seleccionando uno a más casos, luego seleccionando "Agregar Prestación de Servicios" desde el menú de acciones. El/la usuario(a) puede entonces ver una vista modal que contiene todos los campos del subformulario de Servicios, en donde puede ingresar y someter información sobre un servicio. Debido a que esta acción sólo puede hacerse desde la página de resultados de búsqueda, sólo hace sentido que este permiso lo tenga un rol que también tenga el permiso "Buscar registros de casos que son propiedad de otro(a)s usuario(a)s.
             label: Agregar la prestación de Servicios al caso de otro(a) usuario(a)
+          service_own_entries_only:
+            explanation: Usuarios con este permiso, al acceder a un caso que se les ha asignado, solo verán las entradas del subformulario Servicios para las que han sido seleccionados como proveedores de servicios. Esto se utiliza normalmente para las funciones de proveedor de servicios.
+            label: Acceder solo a mis propias entradas del subformulario Servicios
           sync_external:
             explanation: Habilitado(a) para sincronizar un Registro con un sistema externo de gestión de información
             label: 'Sincronizar con un sistema externo de gestión de información '
@@ -2633,6 +2883,15 @@ es:
           mark_for_offline:
             explanation: Permite a el/la usuario(a) almacenar en caché un Caso para utilizarlo sin conexión.
             label: Marca para fuera de línea
+          view_family_record:
+            explanation: Usuarios pueden ver el formulario 'Registro familiar' del caso, que incluye un enlace al registro familiar del caso.
+            label: Ver registro familiar del caso
+          case_from_family:
+            explanation: Usuarios pueden crear un caso para uno de los miembros de la familia del caso en el subformulario Detalles de la Familia. Tenga en cuenta que automáticamente se creará un registro familiar para vincular estos dos casos.
+            label: Crear caso a partir de los detalles de la familia
+          link_family_record:
+            explanation: Permite a un usuario buscar y vincular un Registro Familiar a su Caso. Además permite a los usuarios a desvincular un Registro Familiar de un Caso.
+            label: Vincular / Desvincular el Registro Familiar del Caso
         explanation: Representa a un(a) niño/niña individual, a un(a) sobreviviente o a otro(a) beneficiario(a).
         label: Caso
       dashboard:
@@ -2695,6 +2954,7 @@ es:
             explanation: Permite a un(a) gerente ver cuántos casos tienen tareas de Servicios vencidas para cada una de sus trabajadoras de casos.
             label: tareas de Servicios Vencidas
           dash_case_incident_overview:
+            explanation: Muestra al supervisor(a) el número de casos gestionados por cada usuario de su equipo, que están siendo referidos o transferidos a otros usuarios.
             label: Información General - Mis Casos /Incidentes
           dash_cases_by_social_worker:
             explanation: Tabla que muestra el número total de casos abiertos y el número de nuevos casos gestionados por cada usuario(a) en los grupos de usuario(a)s de el/la usuario(a) actual. Cada línea es un(a) usuario(a) dentro de los grupos de usuario(a)s de el/la usuario(a) actual, mientras que columnas son dos "Total" y "Nuevo".
@@ -2733,6 +2993,7 @@ es:
             explanation: Muestra a un(a) gerente el número de casos referidos o transferidos a cada uno(a) de lo(a)s usuario(a)s en su equipo.
             label: Compartido Con Mi Equipo
           dash_shared_with_my_team_overview:
+            explanation: Muestra al supervisor(a) el número de casos referidos o transferidos a cada uno de los usuarios de su equipo.
             label: Compartido con Mi Equipo (Resumen)
           dash_shared_with_others:
             explanation: Muestra cuántos de mis casos tienen referencias activas, transferencias pendientes, o transferencias rechazadas. Típicamente no es para gerentes, a menos que también gestionen casos.
@@ -2769,6 +3030,9 @@ es:
       disabled:
         explanation: Si usted deshabilita este Rol, ya no podrá asignarlo a las cuentas de Usuario(a).
         label: Deshabilitado
+      referral_authorization:
+        explanation: Esto significa que el rol aparecerá como una opción en el menú desplegable "Tipo de Referencia" cuando el usuario realice una referencia interna. Si el usuario elige este rol como tipo de referencia, el destinatario de la referencia solo podrá acceder a los formularios a los que puede acceder el rol seleccionado. Así, por ejemplo, si el usuario elige "Proveedor de servicios médicos" como tipo de referencia y el rol de proveedor de servicios médicos solo tiene acceso a los formularios de Identidad Básica y Preocupaciones de Protección, el destinatario solo verá estos formularios.
+        label: ¿Se puede utilizar esta función para el menú desplegable "Tipo de referencia"?
       duplicate:
         actions:
           read:
@@ -2789,6 +3053,9 @@ es:
         registry_record:
           explanation: 'Limitar el acceso de un(a) usuario(a) a los formularios de registro limita la información que puede ver el/la usuario(a) sobre un registro. Por ejemplo, si el/la usuario(a) sólo tiene acceso al formulario de Propietario(a) del Registro, sólo podrá ver la información contenida en los campos de ese formulario. Si el/la usuario(a) actual tiene acceso limitado al formulario y está habilitado(a) para administrar la configuración del formulario, limitar su acceso al formulario también limita los formularios a los que puede configurar. NOTA: Si no se especifican los formularios, significa que el rol tiene acceso a todos los formularios de registro.'
           label: Formularios - Registro
+        family:
+          label: Formularios - Familia
+          explanation: 'Limitar el acceso de un usuario a los formularios para Familias limita la información que el usuario puede ver sobre una familia. Por ejemplo, si el usuario solo tiene acceso al formulario Propietario del Registro, solo podrá ver la información contenida en los campos de ese formulario. Si el usuario actual tiene acceso limitado a los formularios y puede gestionar la configuración de los mismos, limitar su acceso a los formularios también limita los formularios que puede configurar.'
       group:
         actions:
           admin_only:
@@ -2806,10 +3073,15 @@ es:
           self:
             explanation: El rol puede acceder a sus propios registros (casos, solicitudes de localización, o incidentes), y puede editar su propia cuenta de usuario(a).
             label: Acceso solo a mis registros o usuario(a)
+          webhook:
+            label: Gancho web
         explanation: Controla a qué registros (Casos, Solicitudes de Localización, o Incidentes) puede acceder el rol. Si el rol tiene acceso a Usuario(a)s y Grupos de Usuario(a)s, esto también controla a qué Usuario(a)s y Grupos de Usuario(a)s puede acceder. Los roles con acceso a "Sin Registros" sólo pueden acceder a configuraciones del sistema tales como Formularios, Usuario(a)s, y Reportes.
         label: ¿Qué registros afecta este rol?
       incident:
         actions:
+          assign:
+            explanation: Permite al usuario enviar un Incidente desde su propietario original a cualquier otro usuario del sistema. Los Incidentes que ya están vinculados a un Caso no se pueden asignar; en su lugar, debe reasignar el caso vinculado, lo que actualizará la propiedad del registro del Incidente.
+            label: Asignar
           change_log:
             explanation: El/la usuario(a) puede ver el historial de todos los cambios hechos al registro desde que fue creado. Esto incluye los valores registrados para todos los campos.
             label: Cambiar Bitácora (log)
@@ -2826,6 +3098,7 @@ es:
             explanation: Desde las páginas de listado de incidentes, o de presentación de incidentes, el/la usuario(a) puede generar la exportación de un archivo CSV que contenga todos los campos a los que el/la usuario(a) actual tiene acceso para uno, varios, o todos los incidentes a los que el/la usuario(a) tiene acceso.
             label: Exportar CSV
           export_custom:
+            explanation: Usuario puede selecionar formularios o campos específicos para exportar a un archivo XLS.
             label: Exportar personalizado
           export_incident_recorder_xls:
             explanation: El/la usuario(a) puede generar la exportación de un archivo XLS especializado que permita el intercambio de datos con la herramienta Registradora de Incidentes de Violencia Basada en Género (GBV).
@@ -2848,9 +3121,18 @@ es:
           flag:
             explanation: 'Habilitado(a) para agregar una marca a un incidente. Lo(a)s usuario(a)s con este permiso también pueden eliminar las marcas que hayan agregado a un incidente. '
             label: Marca
+          resolve_any_flag:
+            explanation: Permite al usuario resolver cualquier Alerta en el registro, independientemente de quién creó la Alerta.
+            label: Resolver cualquier alerta
           import:
             explanation: 'Permite a el/la usuario(a) crear uno o más incidentes importándolos desde un archivo CSV, Excel, o JSON. El archivo importado debe estar formateado "muy" específicamente para que la información se importe correctamente. Esta función sólo debe estar disponible para usuario(a)s administrativo(a)s con habilidades técnicas avanzadas y un conocimiento a fondo sobre cómo se formatean los datos en Primero. Sólo puede hacerse desde la página de listado de incidentes. '
             label: Importar
+          remove_alert:
+            explanation: 'Este permiso permite al usuario remover una alerta de un Incidente. Las alertas son generadas usualmente cuando un campo particular es editado, como cuando se actualiza una nota. Las alertas usualmente se muestran como un punto amarillo a lado de lncidente. '
+            label: Remover una alerta de un Incidente
+          link_incident_to_case:
+            explanation: Permite al usuario vincular el incidente al caso seleccionado.
+            label: Vincular incidente al Caso
           manage:
             explanation: Permite a un(a) usuario(a) llevar a cabo todas las acciones disponibles en los Incidentes. El permiso "Administrar" significa en esencia "todo".
             label: Administrar (todos los permisos para este tipo de recurso)
@@ -2860,6 +3142,9 @@ es:
           sync_mobile:
             explanation: Este permiso generalmente le permite a el/la usuario(a) usar la aplicación móvil. En primer lugar, le permite ver las acciones "Marcar para Móvil" y "Desmarcar para Móvil", que aparecen en las páginas de listado de incidentes y presentación de incidentes. Marcar un incidente para móvil indica que la información de ese incidente debe estar sincronizada entre el dispositivo móvil de el/la usuario(a) y la aplicación web, mientras que desmarcar un caso del móvil, detiene esta sincronización. Lo(a)s usuario(a) sin este permiso tampoco pueden sincronizar sus dispositivos móviles con la aplicación web en general, lo que significa que no pueden usar la aplicación móvil para la gestión de incidentes.
             label: Sincronizar con dispositivo móvil
+          verify_mrm:
+            explanation: Usuario MRM puede cambiar el estado de las violaciones.
+            label: Verifique MRM
           write:
             explanation: Habilitado(a) para hacer clic en el botón "Editar", actualizar la información sobre el incidente, y hacer clic en "Guardar". También permite a el/la usuario(a) deshabilitar o habilitar un incidente.
             label: Editar
@@ -2870,14 +3155,68 @@ es:
         label: ¿Es Gerente?
       managed_report:
         actions:
+          reporting_locations_report:
+            label: Ubicación del Reporte (Casos)
+            explanation: La habilidad para ver estadísticas en el número de Casos registrados dentro de un período determinado, filtrado por Ubicación del Reporte, y desglosado por edad y sexo. Este permiso también permite al usuario exportar datos de una Perspectiva.
+          followups_report:
+            label: Seguimientos (Casos)
+            explanation: La habilidad para ver estadísticas del número de Seguimientos realizados dentro de un período determinado, filtrado por Tipo de Seguimiento, y desglosado por edad y sexo. Este permiso además permite al usuario exportar datos de una Perspectiva.
+          services_report:
+            label: Servicios (Casos)
+            explanation: La habilidad para ver estadísticas del número de Servicios realizados dentro de un periodo determinado, filtrado por tipo de servicio, y desglosado por edad y sexo.  Este permiso además permite al usuario exportar data de una Perspectiva.
+          protection_concerns_report:
+            label: Preocupaciones de Protección (Casos)
+            explanation: La habilidad de ver estadísticas de las Preocupaciones de Protección de Casos registrados dentro de un período determinado. Este permiso además permite al usuario exportar datos de una Perspectiva.
+          managed_report_scope:
+            label: ¿Qué registros debe poder ver este rol en Perspectivas?
+          managed_report_scope_all:
+            label: Todos
+          managed_report_scope_group:
+            label: Datos basados en Grupos solamente
+          managed_report_scope_agency:
+            label: Datos basados en Agencia solamente
           violations:
+            explanation: Habilidad para acceder a las Violaciones MRM de Perspectiva.
             label: Violaciones
           gbv_statistics:
+            explanation: Habilidad para acceder y ver las Estadísticas de GBV en Perspectiva.
             label: Estadísticas de VBG
           ghn_report:
+            explanation: Habilidad para acceder el MRM Global.
             label: Nota Horizontal Global
           individual_children:
+            explanation: Habilidad para acceder al MRM Individual de Niños/Niñas de Perspectiva.
             label: Niños individuales
+          workflow_report:
+            label: Flujo de Trabajo (Casos e Incidentes)
+            explanation: Habilidad para ver estadísticas sobre el Estado del Flujo de Trabajo para los Casos e Incidentes vinculados a ellos. Este permiso además permite al usuario exportar data de una Perspectiva.
+          cases_workflow_report:
+            label: Flujo de Trabajo (Casos)
+            explanation: Habilidad para ver las estadísticas de los Estados de Flujo de Trabajo de los Casos. Este permiso además permite al usuario a exportar data de una Perspectiva.
+          violence_type_report:
+            label: Tipo de Violencia (Casos e Incidentes)
+            explanation: Habilidad para ver estadísticas de Tipo de Violencia. Este permiso además permite al usuario exportar datos de una Perspectiva.
+          referrals_transfers_report:
+            label: Referencias y Transferencias (Casos)
+            explanation: 'Los usuarios ven el número de casos referidos y transferidos por cada Grupo de Usuarios a los demás Grupos de Usuarios. '
+          protection_outcomes:
+            label: Resultados de Protección
+            explanation: Resultados de protección desarrollados originalmente para el módulo de PCM. Incluye el % de clientes que muestran una mejora en su bienestar psicosocial y el % que reporta verse menos afectado por los riesgos de protección.
+          process_quality_total_cases:
+            label: 'Procesos y calidad - # total de clientes de gestión de casos de protección'
+            explanation: Solo relevante para el módulo PCM (Gestión de Casos de Protección). Muestra el número total de casos que se están gestionando en la Gestión de Casos de Protección.
+          process_quality_average_cases:
+            label: 'Procesos y calidad - media de casos por gestor de casos'
+            explanation: Solo relevante para el módulo PCM (Gestión de Casos de Protección). Muestra el número promedio de casos de PCM por gestor de casos.
+          process_quality_successful_referrals:
+            label: 'Procesos y Calida - % de referencias exitosas'
+            explanation: Solo relevante para el módulo PCM (Gestión de Casos de Protección). Muestra el porcentaje de referencias a servicios implementadas exitosamente.
+          process_quality_implemented_referrals:
+            label: Procesos y Calidad - Referencias exitosas por fecha de implementación
+            explanation: Solo relevante para el módulo PCM (Gestión de Casos de Protección). Muestra el número de referencias a servicios exitosas que se implementaron cada mes.
+          case_characteristics:
+            label: 'Características del caso'
+            explanation: 'Solo relevante para el módulo PCM (Gestión de Casos de Protección). Desglosa los casos según una serie de características clave: riesgo de protección, nivel de riesgo, duración, estado de discapacidad, finalización de un plan de seguridad y género.'
       matching_configuration:
         actions:
           manage:
@@ -2952,6 +3291,9 @@ es:
           flag:
             explanation: Habilitado(a) para agregar una marca a una Ficha de Registro. Lo(a)s usuario(a)s con este permiso también pueden elimibar las marcas que hayan agregafo a una Ficha de Registro.
             label: Marcar
+          resolve_any_flag:
+            explanation: Permite al usuario resolver cualquier Alerta en el registro, independientemente de quién creó la Alerta.
+            label: Resolver cualquier alerta
           manage:
             explanation: Permite a un(a) usuario(a) llevar a cabo todas las acciones disponibles en Fichas de Registro. El permiso "Administrar" significa en esencia "todo".
             label: Administrar (todos los permisos para este tipo de recurso)
@@ -2966,6 +3308,63 @@ es:
             label: Marca para fuera de línea
         explanation: Esto puede representar a un individuo o una institución que deben vincularse a otros registros como casos o incidentes, son muy numerosos y se actualizan repetidamente con nueva información. Son similares a las búsquedas, pero con un conjunto de información más complejo para cada entrada.
         label: Ficha de Registro
+      family:
+        actions:
+          change_log:
+            explanation: El/la usuario(a) puede ver el historial de todos los cambios hechos al registro desde que fue creado. Esto incluye los valores registrados para todos los campos.
+            label: Cambiar Bitácora (log)
+          create:
+            explanation: Habilidad para crear un registro de Familia
+            label: Crear
+          enable_disable_record:
+            explanation: Capacidad para deshabilitar o habilitar una Familia. Familias "Deshabilitadas" no aparecen en la lista de Familia por defecto. Los usuarios pueden ver Familias deshabilitadas en la lista de Familia utilizando un filtro.
+            label: Habilitar / Deshabilitar
+          export_csv:
+            explanation: 'El usuario puede generar un archivo CSV desde la página de lista de Familia y en la página de visión general de Familia, la cual contiene todos los campos a los cuales el usuario actual tiene acceso para una, múltiples, o varias Familias. Nota: el archivo CSV exportado no renderiza caracteres no Latinos (p.e. Arábico, Bangla)'
+            label: Exportar CSV
+          export_json:
+            explanation: El usuario puede generar un archivo exportado JSON de una lista de Familia o página de Familia, la cual contiene todos los campos para los cuales el usuario actual tiene acceso. El formato JSON es legible para una computadora y no práctico para muchos usuarios.
+            label: Exportar JSON
+          export_xls:
+            explanation: 'El usuario puede generar un archivo exportado XLS de la lista de Familia o página de Familia, la cual contiene todos los campos a los cuales el usuario actual tiene acceso. Nota: el formato XLS renderiza caracteres no Latinos (p.e. Arábico, Bangla) en un formato de lectura, mientras que las exportaciones en CSV no. '
+            label: Exportación de Excel (archivo XLS)
+          export_list_view_csv:
+            explanation: El usuario puede generar un archivo CSV de exportación de la página de la lista de Familia, la cual contiene los mismos campos que aparecen para el usuario en la lista de Familia. Solo se realiza desde la página de lista de Familia.
+            label: Exportar vista de lista CSV
+          export_pdf:
+            explanation: Los usuarios pueden generar un archivo PDF de exportación de la página de lista de Familia y en la página de visión general de Familia, las cuales contienen todos los campos para los cuales el usuario tiene acceso, para uno, múltiples o todos los registros. En el archivo PDF de exportación, la información está listada primero por familia, y luego se organiza por el formulario en donde aparece la información.
+            label: Exportar PDF
+          export_custom:
+            label: Exportar personalizado
+            explanation: El usuario puede seleccionar formularios o campos específicos de la página de lista de Familia o la página de visión general de Familia para exportar a un archivo XLS.
+          flag:
+            explanation: Habilidad para añadir una Bandera a una Familia. Los usuarios con este permiso además pueden remover las Banderas que hayan añadido a una Familia.
+            label: Marcar
+          resolve_any_flag:
+            explanation: Permite al usuario resolver cualquier Alerta en el registro, independientemente de quién creó la Alerta.
+            label: Resolver cualquier alerta
+          manage:
+            explanation: Permite a un usuario realizar todas las acciones en Familias. El permiso de "Administrar" esencialmente significa "todo".
+            label: Administrar (todos los permisos para este tipo de recurso)
+          read:
+            explanation: Habilidad para ver Familias
+            label: Ver
+          write:
+            explanation: Habilidad para dar click en el botón de "Editar", actualizar información sobre la Familia y dar click en "Guardar".
+            label: Editar
+          sync_mobile:
+            explanation: Permite al usuario almacenar en caché los registros familiares para su uso fuera de línea.
+            label: Marca para fuera de línea
+          close:
+            explanation: Permite a los usuarios pasar el estado de "Abierto" de una Familia a "Cerrado"
+            label: Cerrar
+          reopen:
+            explanation: Permite al usuario abrir un caso familiar que está cerrado actualmente.
+            label: Reabrir
+          case_from_family:
+            explanation: Permite al usuario crear un caso nuevo de un subformulario de Miembro de Familia dentro del Registro de Familia.
+            label: Crear caso
+        label: Familia
       report:
         actions:
           create:
@@ -3061,6 +3460,9 @@ es:
           flag:
             explanation: Habilitado(a) para agregar una marca a una solicitud de localización. Lo(a)s usuario(a)s con este permiso también pueden eliminar las marcas que han agregado a una solicitud de localización.
             label: Marcar
+          resolve_any_flag:
+            explanation: Permite al usuario resolver cualquier Alerta en el registro, independientemente de quién creó la Alerta.
+            label: Resolver cualquier alerta
           import:
             explanation: 'Permite a el/la usuario(a) crear uno o más casos nuevos importándolos desde un archivo CSV, Excel, o JSON. El archivo importado debe estar formateado "muy" específicamente para que la información se importe correctamente. Esta función sólo debe estar disponible para usuario(a)s administrativo(a)s con habilidades técnicas avanzadas y un conocimiento a fondo sobre cómo se formatean los datos en Primero. Sólo puede hacerse desde la página de listado de casos. '
             label: Importar
@@ -3138,6 +3540,7 @@ es:
             label: Eliminar
           manage:
             label: Administrar (todos los permisos para este tipo de recurso)
+            explanation: Utilizado para roles de sistema que le dan acceso a los Webhooks de Primero a otros sistemas. No es recomendado para usuarios que no son desarrolladores.
       activity_log:
         actions:
           transfer:
@@ -3145,7 +3548,13 @@ es:
             label: Transferencias
           manage:
             label: Administrar (todos los permisos para este tipo de recurso)
+            explanation: Habilidad para acceder a todo.
         label: Registro de Actividades
+      usage_report:
+        actions:
+          read:
+            explanation: Habilidad para acceder a la página de Reporte de Uso.
+            label: Acceder a la página de Reporte de Uso.
   potential_match:
     case_id: Identificación de Caso
     child_age: Edad
@@ -3166,10 +3575,12 @@ es:
     display: Mostrando posibles concordancias para %{type}%{id}
   reassign:
     multiple_error: Ha ocurrido un error. %{select_records} caso(a) no asignados.
+    multiple_successfully: Primero está reevaluando %{select_records}Caso(s). La actualización de todos los Casos puede tomar varios minutos.
     notes_label: Notas
     successfully: Reasignado correctamente
     user_mandatory_label: Se requiere destinatario(a)
     users_label: Destinatario(a)
+    incident_from_case_warning: No puede asignar este Incidente, porque ya está vinculado a un Caso. Cuando asigne el Caso, el Incidente se asignará también.
   record_information:
     assigned_user_names: Otro(a)s Usuario(a)s Asignado(a)s
     created_at: Registro creado en
@@ -3189,8 +3600,10 @@ es:
   record_panel:
     record_information: Información del Registro
   referral:
+    allow_all: Permitir acceso a todos los formularios disponibles
     type_of_recipient: Tipo de Destinatario(a)
     type_of_referral_required: Se requiere Tipo de Referencia
+    referral_authorization_help_text: Esto limitará a qué formularios puede acceder el destinatario.
     agency_label: Agencia
     is_remote_label: ¿Está refiriendo a un sistema remoto?
     location_label: Ubicación
@@ -3205,6 +3618,8 @@ es:
     user_mandatory_label: Se requiere destinatario(a)
     date: Fecha
     rejected_reason: Razón del Rechazo
+    allow_case_creation: Permitir la creación del caso con esta referencia
+    allow_case_creation_help_text: Marcar esta casilla permitirá al destinatario crear su propio registro de caso para brindar servicios de gestión de casos al cliente.
   report:
     aggregate_by: Agrupar por fila
     attribute: Atributo
@@ -3252,6 +3667,7 @@ es:
     record_type: Tipo de registro
     total: Total
     value: Valor
+    incomplete_data: Datos incompletos
   reports:
     delete_report: Eliminar Reporte
     delete_report_message: ¿Está seguro(a) de que desea eliminar este reporte? La eliminación no se puede deshacer. Haga clic en OK para eliminar el informe
@@ -3315,6 +3731,7 @@ es:
       locations: Ubicaciones
       lookups: Búsquedas Específicas
       user_groups: Grupos de usuario(a)s.
+      usage_reports: Reporte de Uso
       users: Usuario(a)s
       roles: Roles
       code_of_conduct: Código de Conducta
@@ -3427,6 +3844,42 @@ es:
       title: Marca para fuera de línea
       text: ¿Está seguro(a) de que quiere marcar estas fichas de registro para usarlos cuando esté desconectado(a)?
       success: Fichas de Registro marcados correctamente para uso fuera de línea
+  families:
+    id: Documento de Identificación (ID)
+    label: Familias
+    family_id: Documento de Identificación (ID) de Familia
+    family_number: Número de Familia
+    family_name: Nombre de la Familia
+    family_registration_date: Fecha de registro
+    family_location_current: Ubicación de la Familia
+    export: Exportar
+    register_new_family: Nueva Familia
+    show_family: 'Documento de identificación (ID) de la Familia %{short_id}'
+    disable_dialog_title: Deshabilitar Familia
+    disable_dialog: Al dar click en Ok se cambiará el estado de esta Familia a Deshabilitada.
+    selected_records: '%{select_records}registro(s) de familia seleccionado(s)'
+    selected_all_records: 'Seleccionar las %{total_records}familias que coinciden con esta consulta.'
+    mark_for_offline:
+      title: Marcar para Fuera de Línea
+      text: ¿Está seguro que quiere marcar estos Registros de Familia para utilizar cuando esté fuera de línea?
+      success: Registros de Familia marcados exitosamente para uso Fuera de Línea
+    filter_by:
+      by_date: Por Fecha
+      status: Estado
+      current_location: Ubicación de la Familia
+  family:
+    family_member:
+      case_id: ID del caso
+      update_and_return: Actualizar y regresar
+      save_and_return: Agregar y regresar
+      create_case: Crear caso
+      back_to_family_members: 'Regresar a Miembros de la Familia '
+      create: Crear
+    messages:
+      update_success: 'Familia %{record_id} fue actualizada exitosamente.'
+      creation_success: 'La Familia fue creada exitosamente.'
+      disabled: Familia está deshabilitada
+      confirm_create_case: ¿Desea crear un Caso para esta persona?
   transfer:
     label: 'Transferir '
     agency_label: Agencia
@@ -3472,6 +3925,7 @@ es:
       inprogress: Pendiente
       rejected: Rechazado
       revoked: Anulado
+    transferred_by: Transferido por
     type:
       assign: Asignar
       reassign: Asignar
@@ -3492,6 +3946,7 @@ es:
     locale: Ubicación
     location: Ubicación
     messages:
+      records_update: 'Primero está actualizando los registros de este usuario para reflejar los cambios que ha realizado. Puede que los reportes y tableros tomen unos minutos para actualizarse. '
       confirmation: ¿Está seguro(a) de que desea eliminar este usuario? La eliminación no puede deshacerse. Haga clic en OK para eliminar el usuario.
       created: El usuario se generó correctamente.
       failure: Ocurrió un error, por favor contacte a apoyo.
@@ -3502,6 +3957,7 @@ es:
       passwords_do_not_match: no concuerda con la contraseña actual
       time_zone_updated: El cambio se actualizó correctamente.
       updated: El usuario se actualizó correctamente.
+      created_warning: Usted ha creado %{total_enabled} de sus %{maximum_users}usuarios habilitados permitidos.
     organization: Organización
     agency: Agencia
     services_help_text: Si no especifica servicios, a este Usuario se le darán los mismos servicios que tiene su Agencia.
@@ -3520,27 +3976,58 @@ es:
     provider_username_help: 'Ejemplo: mi.nombreseusuario@%{domain}'
     role_id: Rol
     send_mail: ¿Recibir correos electrónicos de confirmación?
+    send_mail_preferences:
+      label: ¿Qué tipos de correos de notificaciones quisiera recibir?
+      help_text: Si usted deja este campo en blanco, recibirá todos los emails de notificaciones.
+    receive_webpush:
+      label: ¿Recibir notificaciones automáticas?
+      help_text: Tome en cuenta que aún tendrá que permitir las notificaciones automáticas en el navegador de su dispositivo.
+      tooltip: Usted debe primero editar su cuenta y habilitar notificaciones automáticas para sus usuarios.
+    receive_webpush_preferences:
+      label: ¿Qué tipos de notificaciones automáticas quisiera recibir?
+      help_text: Si deja este campo en blanco, recibirá todas las notificaciones automáticas.
+    notification_preferences:
+      approval_request: 'Solicitud de Aprobación (Gerentes)'
+      approval_response: 'Respuesta de Aprobación (Gestor de Caso)'
+      transition_notification: 'Asignaciones, Transferencias, y Referencias'
+      transfer_request: 'Solicitudes de Transferencia'
     user_group_unique_ids: Grupos de usuario(a)s.
     user_name: Nombre de usuario
     services: Servicios
     welcome_email:
       subject: 'Bienvenido(a) a %{system}!'
+      subject_instructions: '%{system} Instrucciones para iniciar sesión'
       greeting: 'Bienvenido(a) %{system}!'
+      body_native: "%{greeting} Estamos creando una cuenta de %{role_name} para usted. En breve recibirá un correo electrónico por separado para configurar su contraseña. Una vez que haya iniciado sesión, vaya a su perfil de usuario para encontrar su nombre de usuario. Encontrará su perfil de usuario en el menú de navegación izquierdo de Primero."
+      body_native2: "Puede ver este %{instructional_video} si requiere orientación adicional."
+      instructional_video: Video instructivo
+      additional_support: 'Por favor contacte su %{admin_email} si requiere apoyo adicional.'
       sso:
         body: 'Usted ha sido agregado(a) como %{role_name}.'
+        step1: '¡Bienvenido(a) a %{system}! Para iniciar sesión vaya a %{system} y seleccione %{identity_provider} de su organización para iniciar sesión con inicio de sesión único. Utilice la misma contraseña que utiliza siempre para su cuenta de %{identity_provider}.'
+        step2: 'Nota: No podrá restablecer su contraseña en %{product_name} y solo podrá restablecerla a través de su cuenta de %{identity_provider}.'
       otp:
         body: 'Usted ha sido agregado(a) como %{role_name}.'
+        step1: 'Una vez que haya iniciado sesión, vaya a su perfil de usuario para encontrar su nombre de usuario. Encontrará su perfil de usuario en el menú de navegación a la izquierda de%{site_title}'
+        step2: 'Utilice lo siguiente para restablecer su contraseña a <b>%{otp}</b>'
       url_label: Primero
       enabled_label: ¿Enviar Email de Bienvenida?
       text_label: Texto de Correo Electrónico de Bienvenida
     password_reset:
       subject: 'Instrucciones para reestablecer contraseña'
+      email_body1: "Se ha realizado una solicitud para modificar su contraseña para %{system_name}. Utilice lo siguiente para restablecer su contraseña: %{password_reset_link}"
+      email_body2: "Este enlace caducará en %{hours} horas y solamente puede ser utilizado una vez. No comparta sus credenciales de usuario ni su contraseña con nadie más.  "
+      email_body3: "Si el enlace anterior ha caducado, utilice %{reset_request_href} para volver a enviar una solicitud de restablecimiento de contraseña."
       email_body_link: aquí
       request_submitted: "Solicitud para restablecimiento de contraseña, enviada"
       success: "Contraseña cambiada correctamente"
       errors:
         reset_password_token: "Token inválido para restablecer contraseña"
         password_confirmation: "Las contraseñas deben concordar"
+    onboard_email:
+      subject: "Incorporación del administrador del sistema a %{system}"
+      body1: "¡Bienvenido(a) a %{system}! Ha sido asignado(a) como administrador(a) del sistema."
+      body2: "Usted es responsable de la implementación de %{product_name}, incluyendo la gestión de los usuarios y la configuración. Para esta implementación, debe seguir el Plan de Implementación, que incluye el proceso de inducción, los protocolos de seguridad, la estrategia de gestión de usuarios y el protocolo de intercambio de información."
   user_group:
     associated_agencies: Agencias asocidadas a este Grupo de Usuario(a)s
     description: Descripción
@@ -3560,6 +4047,10 @@ es:
       user_name: Nombre de usuario
       position: Puesto
       agency: Agencia
+    alerts:
+      total_users_created: Usted ha creado %{total_enabled}de los %{maximum_users}usuarios habilitados permitidos como máximo.
+      limit_user_reached: 'Usted ha llegado a su límite de %{maximum_users}Usuarios habilitados. Debe deshabilitar uno o más Usuarios antes de crear más. '
+      limit_user_reached_on_enable: Usted ha llegado a su límite de %{maximum_users}Usuarios habilitados. Usted debe deshabilitar uno o más Usuarios antes de crear o habilitar más.
   devise:
     failure:
       already_authenticated: "Usted ya ha iniciado sesión."
@@ -3571,3 +4062,22 @@ es:
       selected_records: '%{select_records} localidad(es) seleccionada(s)'
       selected_all_records: Seleccione todos los casos %{total_records} que concuerden con esta consulta.
       updated: '%{updated_records}localidad(es) actualizada(s)'
+  push_notifications_dialog:
+    title: 'Notificación en Dispositvos '
+    body_blocked:
+      message: 'Usted ha bloqueado notificaciones de Primero en este dispositivo. Para cambiar esto, necesitará activar los permisos de notificaciones. '
+      android: "Android: Vaya a Configuración. De click en Apps. Encuentre Primero en la lista de aplicaciones y de click en esto. De click a Notificaciones. Cambie el botón de notificaciones al estado \"encendido\"."
+      ios: "iOS: Vaya al app de Configuración. De click en Notificaciones. Desplace la lista hacia abajo a la lista de Apps y encuentre Primero. Active la opción de notificaciones de Primero."
+  email:
+    greeting: "Apreciable %{full_name}"
+    admin_closing: "Para informar o resolver problemas, por favor contacte su %{sys_admin}"
+    login: Iniciar sesión
+    system_admin: 'Administrador del Sistema'
+    unsubscribe: 'Cancelar suscripción'
+    site_description: Primero es una plataforma que ayuda a los trabajadores de los servicios sociales, humanitarios y de desarrollo, a gestionar los datos relacionados con la protección, con herramientas que facilitan la gestión de casos, el seguimiento de incidentes y la reunificación familiar.
+    email_disclaimer_pre: NO RESPONDER A ESTE CORREO ELECTRÓNICO
+    email_welcome_greeting: Bienvenido al Equipo Primero
+    email_welcome_closing: Bienvenido a la Comunidad Primero
+    email_closing: 'A tu servicio, '
+    email_signature: Equipo de Primero
+    email_admin_name: Administrador del Sistema
