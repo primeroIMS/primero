@@ -185,7 +185,7 @@ it:
     approval_radio: Mi piacerebbe
     child_functioning:
       date: "Data"
-      age: "Età" 
+      age: "Età"
     clear_filter: Cancella
     export: Esporta
     mark_for_offline:
