@@ -14,6 +14,8 @@ export const TEXT_FIELD_NAME = "TextField";
 export const TICK_FIELD_NAME = "TickField";
 export const TALLY_FIELD_NAME = "TallyField";
 export const TALLY_FIELD_CONTAINER_NAME = "TallyFieldContainer";
+export const SIGNATURE_FIELD_NAME = "SignatureField";
+
 export const CUSTOM_STRINGS_SOURCE = {
   agency: "Agency",
   location: "Location",
@@ -34,3 +36,5 @@ export const VIOLATION_ASSOCIATIONS_SUBFORM = [
 ];
 
 export const ASYNC_OPTIONS = [CUSTOM_STRINGS_SOURCE.agency, CUSTOM_STRINGS_SOURCE.user];
+
+export const EMPTY_VALUE = "--";

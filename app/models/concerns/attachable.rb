@@ -10,8 +10,12 @@ module Attachable
   PHOTOS_FIELD_NAME = 'photos'
   AUDIOS_FIELD_NAME = 'recorded_audio'
   DOCUMENTS_FIELD_NAME = 'other_documents'
+  SIGNATURE = 'signature'
 
   included do
+    has_many :signatures, lambda {
+      where(attachment_type: SIGNATURE).order('date DESC NULLS LAST')
+    }, as: :record, class_name: 'Signature'
     has_many :attachments, -> { order('date DESC NULLS LAST') }, as: :record
     has_many :current_photos, -> { where(field_name: PHOTOS_FIELD_NAME).order('date DESC NULLS LAST') },
              as: :record, class_name: 'Attachment'

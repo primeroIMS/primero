@@ -14,7 +14,8 @@ import {
   NOT_FUTURE_DATE,
   TICK_FIELD,
   SELECT_FIELD,
-  TALLY_FIELD
+  TALLY_FIELD,
+  SIGNATURE_FIELD
 } from "../constants";
 import { parseExpression } from "../../../libs/expressions";
 
@@ -129,6 +130,14 @@ export const fieldValidations = (field, { i18n, online = false }) => {
 
   if (DOCUMENT_FIELD === type) {
     validations[name] = array().of(buildDocumentSchema(i18n));
+  }
+
+  if (SIGNATURE_FIELD === type) {
+    validations[name] = object()
+      .shape({
+        signature_provided_by: string().required()
+      })
+      .concat(buildDocumentSchema(i18n));
   }
 
   if (required) {

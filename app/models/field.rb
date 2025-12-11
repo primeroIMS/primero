@@ -24,6 +24,7 @@ class Field < ApplicationRecord
   TALLY_FIELD = 'tally_field'
   CUSTOM = 'custom'
   CALCULATED = 'calculated'
+  SIGNATURE = 'signature'
 
   DATE_VALIDATION_DEFAULT = 'default_date_validation'
   DATE_VALIDATION_NOT_FUTURE = 'not_future_date'
@@ -47,7 +48,12 @@ class Field < ApplicationRecord
 
   attr_readonly :name, :type, :multi_select
 
-  scope :binary, -> { where(type: [Field::PHOTO_UPLOAD_BOX, Field::AUDIO_UPLOAD_BOX, Field::DOCUMENT_UPLOAD_BOX]) }
+  scope :binary, lambda {
+    where(type: [Field::PHOTO_UPLOAD_BOX, Field::AUDIO_UPLOAD_BOX, Field::DOCUMENT_UPLOAD_BOX])
+  }
+  scope :binary_signature, lambda {
+    where(type: Field::SIGNATURE)
+  }
 
   validate :validate_unique_name_in_form
   validates :name, format: { with: /\A[a-z][a-z0-9_]*\z/, message: 'errors.models.field.name_format' },
@@ -91,6 +97,10 @@ class Field < ApplicationRecord
 
     def all_filterable_numeric_field_names(parent_form = 'case')
       fields_for_record(parent_form).where(type: Field::NUMERIC_FIELD).pluck(:name)
+    end
+
+    def all_signature_field_names(parent_form = 'case')
+      fields_for_record(parent_form).where(type: Field::SIGNATURE).pluck(:name)
     end
 
     def all_tally_fields(parent_form = 'case')

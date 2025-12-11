@@ -7,8 +7,10 @@ class Attachment < ApplicationRecord
   IMAGE = 'image'
   AUDIO = 'audio'
   DOCUMENT = 'document'
+  SIGNATURE = 'signature'
 
   # mpeg includes mp3.  mp4 includes m4a
+  SIGNATURE_CONTENT_TYPES = %w[image/png].freeze
   AUDIO_CONTENT_TYPES = %w[audio/mpeg audio/mp4].freeze
   IMAGE_CONTENT_TYPES = %w[image/jpeg image/png].freeze
   DOCUMENT_CONTENT_TYPES = %w[application/pdf text/plain application/msword
@@ -28,7 +30,7 @@ class Attachment < ApplicationRecord
   attribute :content_type, :string
 
   validates :field_name, presence: true
-  validates :attachment_type, presence: true, inclusion: { in: [IMAGE, AUDIO, DOCUMENT] }
+  validates :attachment_type, presence: true, inclusion: { in: [IMAGE, AUDIO, DOCUMENT, SIGNATURE] }
   validates :file,
             file_size: { less_than_or_equal_to: MAX_SIZE },
             file_content_type: { allow: lambda(&:valid_content_types) },
@@ -74,6 +76,7 @@ class Attachment < ApplicationRecord
     self[:content_type] || (file.attachment && file&.content_type&.to_s)
   end
 
+  # rubocop:disable Metrics/MethodLength
   def valid_content_types
     case attachment_type
     when AUDIO
@@ -82,10 +85,13 @@ class Attachment < ApplicationRecord
       DOCUMENT_CONTENT_TYPES
     when IMAGE
       IMAGE_CONTENT_TYPES
+    when SIGNATURE
+      SIGNATURE_CONTENT_TYPES
     else
       []
     end
   end
+  # rubocop:enable Metrics/MethodLength
 
   def photo?
     attachment_type == Attachment::IMAGE && field_name == Attachable::PHOTOS_FIELD_NAME

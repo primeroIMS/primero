@@ -12,41 +12,53 @@ const getAttachmentMethod = attachment => {
   return attachment?.id ? METHODS.PATCH : METHODS.POST;
 };
 
+function processAttachment({ attachment, current, id, recordType }) {
+  const method = getAttachmentMethod(attachment);
+  const isDelete = method === METHODS.DELETE;
+  const path = `${recordType}/${id}/attachments${METHODS.POST === method ? "" : `/${attachment?.id}`}`;
+  const action = isDelete ? "DELETE_ATTACHMENT" : "SAVE_ATTACHMENT";
+
+  // eslint-disable-next-line camelcase
+  if (!attachment?.attachment_url) {
+    return {
+      type: `${recordType}/${action}`,
+      api: {
+        path,
+        method,
+        ...(!isDelete && { body: { data: { ...attachment } } }),
+        db: { id, collection: DB_COLLECTIONS_NAMES.RECORDS, recordType }
+      },
+      fromQueue: uuid.v4(),
+      tries: 0,
+      fromAttachment: {
+        ...(attachment?.id ? { id: attachment.id } : {}),
+        ...(attachment?._destroy ? { _destroy: attachment._destroy } : {}),
+        field_name: current,
+        record_type: recordType,
+        record: { id }
+      }
+    };
+  }
+
+  return undefined;
+}
+
 export default async ({ attachments, id, recordType }) => {
   const actions = Object.keys(attachments).reduce((prev, current) => {
-    attachments[current].forEach(attachment => {
-      const method = getAttachmentMethod(attachment);
-      const isDelete = method === METHODS.DELETE;
-      const path = `${recordType}/${id}/attachments${METHODS.POST === method ? "" : `/${attachment?.id}`}`;
-      const action = isDelete ? "DELETE_ATTACHMENT" : "SAVE_ATTACHMENT";
+    const attachmentObj = attachments[current];
 
-      // eslint-disable-next-line camelcase
-      if (!attachment?.attachment_url) {
-        prev.push({
-          type: `${recordType}/${action}`,
-          api: {
-            path,
-            method,
-            ...(!isDelete && { body: { data: { ...attachment } } }),
-            db: { id, collection: DB_COLLECTIONS_NAMES.RECORDS, recordType }
-          },
-          fromQueue: uuid.v4(),
-          tries: 0,
-          fromAttachment: {
-            ...(attachment?.id ? { id: attachment.id } : {}),
-            ...(attachment?._destroy ? { _destroy: attachment._destroy } : {}),
-            field_name: current,
-            record_type: recordType,
-            record: { id }
-          }
-        });
-      }
-    });
+    if (Array.isArray(attachmentObj)) {
+      attachmentObj.forEach(attachment => {
+        prev.push(processAttachment({ attachment, current, id, recordType, prev }));
+      });
+    } else {
+      prev.push(processAttachment({ attachment: attachmentObj, current, id, recordType, prev }));
+    }
 
     return prev;
   }, []);
 
   if (actions) {
-    await queueIndexedDB.add(actions);
+    await queueIndexedDB.add(actions.filter(action => action));
   }
 };

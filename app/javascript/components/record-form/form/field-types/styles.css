@@ -27,3 +27,54 @@
     margin-bottom: 0px;
   }
 }
+
+.label {
+  font-size: var(--fs-13);
+  font-weight: 700;
+}
+
+.signatureFieldContainer {
+  border-bottom: 1px solid var(--c-light-gray);
+}
+
+.signaturePad {
+  border: 1px solid var(--c-black);
+  border-radius: var(--sp-1);
+  overflow: hidden;
+  margin-bottom: var(--sp-1);
+  width: 100%;
+}
+
+.signaturePad[aria-invalid="true"] {
+  border: 1px solid var(--c-red-label-error);
+} 
+
+.signatureDetails {
+  margin-top: var(--sp-1);
+  font-size: var(--fs-12);
+
+  & div {
+    margin-bottom: var(--sp-1);
+  }
+
+  & span {
+    font-weight: bold;
+  }
+}
+
+.signatureImage {
+  width: 280px;
+}
+
+.signatureErrorText {
+  margin-bottom: var(--sp-1);
+}
+
+.noSignatureProvided {
+  margin-bottom: var(--sp-2);
+  font-size: var(--fs-14);
+  color: var(--c-dark-grey);
+  padding: 10px;
+  border: 1px dashed var(--c-light-grey-2);
+  border-radius: 5px;
+}
