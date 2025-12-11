@@ -20,7 +20,8 @@ class ManagedReports::Indicators::PercentageSuccessfulReferrals < ManagedReports
       date_param = filter_date(params)
       date_query = service_date_query(params['grouped_by'], date_param)
       group_id = date_query.present? ? 'group_id' : nil
-      %(
+
+      <<~SQL
         WITH services AS (
           SELECT
             service_status_referred,
@@ -31,7 +32,8 @@ class ManagedReports::Indicators::PercentageSuccessfulReferrals < ManagedReports
             cases.id AS case_id
           FROM cases
           #{join_services(params['service_type'], date_param)}
-          WHERE data @? '$.services_section ? (@.service_status_referred == true)'
+          WHERE srch_record_state = TRUE
+          AND data @? '$.services_section ? (@.service_status_referred == true)'
           #{build_filter_query(current_user, params)&.prepend('AND ')}
         ),
         referred_services AS (
@@ -56,7 +58,7 @@ class ManagedReports::Indicators::PercentageSuccessfulReferrals < ManagedReports
         FROM referred_services
         GROUP BY #{group_id&.+(',')} gender, service_implemented
         ORDER BY service_implemented
-      )
+      SQL
     end
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/AbcSize

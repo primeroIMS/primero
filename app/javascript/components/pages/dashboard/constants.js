@@ -16,6 +16,7 @@ export const DASHBOARD_NAMES = Object.freeze({
   CASE_INCIDENT_OVERVIEW: "dashboard.dash_case_incident_overview",
   CASE_OVERVIEW: "dashboard.case_overview",
   ACTION_NEEDED_NEW_UPDATED: "dashboard.action_needed_new_updated",
+  ACTION_NEEDED_IDENTIFIED: "dashboard.action_needed_identified",
   ACTION_NEEDED_NEW_REFERRALS: "dashboard.action_needed_new_referrals",
   ACTION_NEEDED_NEW_TRANSFER_AWAITING_ACCEPTANCE: "dashboard.action_needed_transfer_awaiting_acceptance",
   CASE_RISK: "dashboard.case_risk",
@@ -87,6 +88,7 @@ export const DASHBOARD_GROUP = Object.freeze({
   action_needed: "action_needed",
   overdue_tasks: "overdue_tasks",
   workflow: "workflow",
+  approvals_pending: "approvals_pending",
   approvals: "approvals",
   referrals_transfers: "referrals_transfers",
   shared_from_my_team: "shared_from_my_team",
@@ -102,7 +104,28 @@ export const DASHBOARD_GROUP = Object.freeze({
   flags: "flags"
 });
 
-export const DASHBOARD_NAMES_FOR_GROUP = Object.freeze({
+export const PERMISSION_FOR_DASHBOARD_NAME = Object.freeze({
+  reporting_location: "dash_reporting_location"
+});
+
+export const DASHBOARD_GROUPS_WITH_MODULES = Object.freeze({
+  [DASHBOARD_GROUP.approvals_pending]: [
+    "approvals_action_plan_pending",
+    "approvals_assessment_pending",
+    "approvals_case_plan_pending",
+    "approvals_closure_pending",
+    "approvals_gbv_closure_pending"
+  ],
+  [DASHBOARD_GROUP.approvals]: [
+    "approvals_action_plan",
+    "approvals_assessment",
+    "approvals_case_plan",
+    "approvals_closure",
+    "approvals_gbv_closure"
+  ]
+});
+
+export const DASHBOARD_GROUPS_WITHOUT_MODULES = Object.freeze({
   [DASHBOARD_GROUP.overview]: [
     "case_overview",
     "case_risk",
@@ -112,6 +135,7 @@ export const DASHBOARD_NAMES_FOR_GROUP = Object.freeze({
   ],
   [DASHBOARD_GROUP.action_needed]: [
     "action_needed_new_updated",
+    "action_needed_identified",
     "action_needed_new_referrals",
     "action_needed_transfer_awaiting_acceptance"
   ],
@@ -120,18 +144,6 @@ export const DASHBOARD_NAMES_FOR_GROUP = Object.freeze({
     "cases_by_task_overdue_case_plan",
     "cases_by_task_overdue_followups",
     "cases_by_task_overdue_services"
-  ],
-  [DASHBOARD_GROUP.approvals]: [
-    "approvals_action_plan_pending",
-    "approvals_assessment_pending",
-    "approvals_case_plan_pending",
-    "approvals_closure_pending",
-    "approvals_gbv_closure_pending",
-    "approvals_action_plan",
-    "approvals_assessment",
-    "approvals_case_plan",
-    "approvals_closure",
-    "approvals_gbv_closure"
   ],
   [DASHBOARD_GROUP.referrals_transfers]: [
     "dash_shared_with_me",

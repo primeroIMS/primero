@@ -2,8 +2,8 @@
 
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-# Class to export the violations indicator
-class Exporters::ViolationsIndicatorExporter < Exporters::IndicatorExporter
+# Class to export the multiple violations indicators
+class Exporters::MultipleViolationsIndicatorExporter < Exporters::IndicatorExporter
   def load_indicator_options
     self.indicator_options = []
   end
@@ -27,20 +27,20 @@ class Exporters::ViolationsIndicatorExporter < Exporters::IndicatorExporter
 
   def write_violations_data
     values.each do |elem|
-      write_child_information(elem)
+      write_victim_information(elem)
       write_violations(elem)
 
       self.current_row += 1
     end
   end
 
-  def write_child_information(elem)
-    child_information = [
+  def write_victim_information(elem)
+    victim_information = [
       elem[:data][:unique_id].last(7),
       display_text_from_lookup(elem[:data][:individual_sex], 'lookup-gender-unknown-total'),
       elem[:data][:individual_age]
     ].compact.join(' - ')
-    worksheet.write(current_row, 0, child_information)
+    worksheet.write(current_row, 0, victim_information)
   end
 
   def write_violations(elem)

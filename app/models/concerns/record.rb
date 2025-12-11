@@ -9,6 +9,7 @@ module Record
   STATUS_OPEN = 'open'
   STATUS_CLOSED = 'closed'
   STATUS_TRANSFERRED = 'transferred'
+  STATUS_IDENTIFIED = 'identified'
 
   included do
     store_accessor :data, :unique_identifier, :short_id, :record_state, :status, :marked_for_mobile

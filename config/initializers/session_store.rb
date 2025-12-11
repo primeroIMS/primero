@@ -15,5 +15,6 @@ else
                                          key: '_app_session',
                                          expire_after: native_session_timeout.minute,
                                          same_site: 'Lax'
-  ActiveRecord::SessionStore::Session.serializer = :null
 end
+# Make sure that this is set to :null so that the Session objects are searchable
+ActiveRecord::SessionStore::Session.serializer = :null

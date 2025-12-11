@@ -3,8 +3,9 @@
 # Copyright (c) 2014 UNICEF. All rights reserved.
 
 # Class to export UsageReport
+# rubocop:disable Metrics/ClassLength
 class UsageReport < ValueObject
-  attr_accessor :from, :to, :data
+  attr_accessor :from, :to, :include_user_metrics, :data
 
   def initialize(args = {})
     args[:from] = first_day_of_quarter unless args[:from].respond_to?(:strftime)
@@ -12,14 +13,47 @@ class UsageReport < ValueObject
     super(args)
   end
 
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize
   def build
     return if data.present?
 
-    self.data = {}.with_indifferent_access
-    data[:agencies] = build_agencies
-    data[:agencies_total] = data[:agencies].size
-    data[:modules] = build_modules
+    agencies = build_agencies
+    self.data = {
+      cases_total: records(Child).count,
+      cases_open_total: records_open_count(Child),
+      incidents_total: records(Incident).count,
+      incidents_open_total: records_open_count(Incident),
+      agencies:,
+      agencies_total: agencies.size,
+      modules: build_modules,
+      users_by_role: build_users_by_role
+    }.with_indifferent_access
+    data.merge!(build_user_metrics) if include_user_metrics
   end
+  # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/AbcSize
+
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize
+  def build_user_metrics
+    {
+      maximum_users_warning: SystemSettings.current.maximum_users_warning,
+      maximum_users: SystemSettings.current.maximum_users,
+      standard_users_total: User.standard.size,
+      limited_users_total: User.by_category(Role::CATEGORY_LIMITED).size,
+      identified_users_total: User.by_category(Role::CATEGORY_IDENTIFIED).size,
+      system_users_total: User.by_category(Role::CATEGORY_SYSTEM).size,
+      maintenance_users_total: User.by_category(Role::CATEGORY_MAINTENANCE).size,
+      last_login_standard: AuditLog.last_login&.timestamp,
+      last_login_limited: AuditLog.last_login(Role::CATEGORY_LIMITED)&.timestamp,
+      last_login_identified: AuditLog.last_login(Role::CATEGORY_IDENTIFIED)&.timestamp,
+      storage_total: SystemSettings.current.total_attachment_file_size,
+      storage_per_user: SystemSettings.current.total_attachment_file_size_per_user
+    }.with_indifferent_access
+  end
+  # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/AbcSize
 
   def build_agencies
     agencies = Agency.pluck(:id, :unique_id).each_with_object({}) do |agency, hash|
@@ -63,7 +97,7 @@ class UsageReport < ValueObject
 
   def build_modules_cases(module_id)
     {
-      cases_total: records(Child, module_id).count,
+      cases_total: records_with_module(Child, module_id).count,
       cases_open: cases_open_count(module_id),
       cases_closed: cases_closed_count(module_id),
       cases_open_this_quarter: records_open_this_quarter(Child, module_id),
@@ -75,9 +109,70 @@ class UsageReport < ValueObject
 
   def build_modules_incidents(module_id)
     {
-      incidents_total: records(Incident, module_id).count,
+      incidents_total: records_with_module(Incident, module_id).count,
       incidents_open_this_quarter: records_open_this_quarter(Incident, module_id)
     }
+  end
+
+  def build_users_by_role(user = nil, params = {})
+    (
+      count_users_by_role(user, params) + count_users_by_role_and_user_group(user, params)
+    ).each_with_object({}) do |elem, memo|
+      count = elem['count']
+      memo[elem['user_group_unique_id']] ||= { 'total' => 0 }
+      group = memo[elem['user_group_unique_id']]
+
+      group[elem['role_unique_id']] ||= 0
+      group[elem['role_unique_id']] += count
+      group['total'] += count
+    end
+  end
+
+  def count_users_by_role(user, params = {})
+    query = users_with_params(user, params).group('roles.unique_id').select(
+      <<~SQL
+        'overall' AS user_group_unique_id,
+        roles.unique_id AS role_unique_id,
+        COUNT(DISTINCT(users.user_name))
+      SQL
+    )
+
+    User.connection.select_all(query.to_sql).to_a
+  end
+
+  def count_users_by_role_and_user_group(user, params = {})
+    query = users_with_params(user, params).group('user_groups.unique_id', 'roles.unique_id').select(
+      <<~SQL
+        user_groups.unique_id AS user_group_unique_id,
+        roles.unique_id AS role_unique_id,
+        COUNT(*)
+      SQL
+    )
+
+    User.connection.select_all(query.to_sql).to_a
+  end
+
+  def users_with_params(user, params)
+    users_in_scope(user).where(
+      {
+        disabled: params[:disabled],
+        user_groups: { unique_id: params[:user_group_unique_id] }.compact.presence,
+        agencies: { unique_id: params[:agency_unique_id] }.compact.presence
+      }.compact_deep
+    )
+  end
+
+  def users_in_scope(user)
+    query = User.joins(:user_groups, :role, :agency)
+    return query if user.blank? || user.managed_report_scope_all?
+
+    if user.managed_report_scope == Permission::AGENCY
+      query.where(agency_id: user.agency_id)
+    elsif user.managed_report_scope == Permission::GROUP
+      query.where(user_groups: { unique_id: user.user_group_unique_ids })
+    else
+      query.where(user_name: user.user_name)
+    end
   end
 
   def quarter
@@ -92,44 +187,52 @@ class UsageReport < ValueObject
     Time.new(today.year, first_month_of_quarter, 1)
   end
 
-  # TODO: Change these query methods in v2.13 to use the normalized value index
-  def records(recordtype, module_id)
+  def records(recordtype)
+    filter = SearchFilters::BooleanValue.new(field_name: 'record_state', value: true)
+    recordtype.where(filter.query(recordtype))
+  end
+
+  def records_open_count(recordtype)
+    filter = SearchFilters::TextValue.new(field_name: 'status', value: Record::STATUS_OPEN)
+    records(recordtype).where(filter.query(Child)).count
+  end
+
+  def records_with_module(recordtype, module_id)
     filter = SearchFilters::TextValue.new(field_name: 'module_id', value: module_id)
-    recordtype.where(filter.query)
+    records(recordtype).where(filter.query(recordtype))
   end
 
   def cases_open_count(module_id)
     filter = SearchFilters::TextValue.new(field_name: 'status', value: Record::STATUS_OPEN)
-    records(Child, module_id).where(filter.query).count
+    records_with_module(Child, module_id).where(filter.query(Child)).count
   end
 
   def cases_closed_count(module_id)
     filter = SearchFilters::TextValue.new(field_name: 'status', value: Record::STATUS_CLOSED)
-    records(Child, module_id).where(filter.query).count
+    records_with_module(Child, module_id).where(filter.query(Child)).count
   end
 
   def records_open_this_quarter(recordtype, module_id)
     filter = SearchFilters::DateRange.new(field_name: 'created_at', from:, to:)
-    records(recordtype, module_id).where(filter.query).count
+    records_with_module(recordtype, module_id).where(filter.query(recordtype)).count
   end
 
   def records_closed_this_quarter(recordtype, module_id)
     filter = SearchFilters::DateRange.new(field_name: 'date_closure', from:, to:)
-    records(recordtype, module_id).where(filter.query).count
+    records_with_module(recordtype, module_id).where(filter.query(recordtype)).count
   end
 
   def cases_subform_total_query
     <<~SQL
       SELECT
-        SUM(services) AS service_count,
-        SUM(followups) AS followups_count
-      FROM (
-        SELECT
-          JSONB_ARRAY_LENGTH(data->'services_section') AS services,
-          JSONB_ARRAY_LENGTH(data->'followup_subform_section') AS followups
-        FROM cases
-        WHERE data->>'module_id' = ?
-      ) subquery
+        SUM(JSONB_ARRAY_LENGTH(data->'services_section')) AS service_count,
+        SUM(JSONB_ARRAY_LENGTH(data->'followup_subform_section')) AS followups_count
+      FROM cases
+      WHERE srch_module_id = ?
+      AND (
+        JSONB_ARRAY_LENGTH(data->'services_section') > 0
+        OR JSONB_ARRAY_LENGTH(data->'followup_subform_section') > 0
+      )
     SQL
   end
 
@@ -141,3 +244,4 @@ class UsageReport < ValueObject
     ).to_a.first
   end
 end
+# rubocop:enable Metrics/ClassLength

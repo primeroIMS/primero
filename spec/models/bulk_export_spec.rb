@@ -63,7 +63,39 @@ describe BulkExport, { search: true } do
     end
   end
 
+  describe 'export time filtering' do
+    let(:bulk_export) do
+      BulkExport.new(
+        format: Exporters::SelectedFieldsExcelExporter.id,
+        record_type: 'case',
+        custom_export_params: { field_names: ['age'] },
+        owned_by: @user.user_name,
+        started_on: Time.now.utc,
+        filters: {'status' => 'open'}
+      )
+    end
+
+    let(:export_spreadsheet) do
+      bulk_export.export('XXX')
+      data = bulk_export.exporter.buffer.string
+      book = Roo::Spreadsheet.open(StringIO.new(data), extension: :xlsx)
+      book.sheet(book.sheets.first)
+    end
+
+    it 'does not include records created after export started' do
+      child_before = Child.create!(data: { status: 'open', age: 3, owned_by: @user.user_name, created_at: 1.hour.ago })
+
+      travel 1.minute do
+        Child.create!(data: { status: 'open', age: 4, owned_by: @user.user_name })
+      end
+
+      expect(export_spreadsheet.column(1)).to contain_exactly('ID', child_before.short_id)
+      expect(export_spreadsheet.row(2)).to eq([child_before.short_id, child_before.age])
+    end
+  end
+
   after :each do
+    travel_back
     clean_data(BulkExport, Location, UserGroup, User, Agency, Role, Field,
                FormSection, Child, PrimeroModule, PrimeroProgram, SystemSettings,
                FormPermission)

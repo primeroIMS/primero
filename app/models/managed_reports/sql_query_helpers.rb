@@ -14,7 +14,7 @@ module ManagedReports::SqlQueryHelpers
 
       field_name = map_to || param.field_name
       filter = search_filter(param)
-      filter.new(field_name:, value: param.value, column_name: hash_field, table_name:).query
+      filter.new(field_name:, value: param.value, json_column: hash_field, table_name:).query
     end
 
     def equal_value_query_multiple(param, table_name = nil, hash_field = 'data', map_to = nil)
@@ -23,9 +23,9 @@ module ManagedReports::SqlQueryHelpers
       field_name = map_to || param.field_name
 
       if param.respond_to?(:values)
-        SearchFilters::TextList.new(field_name:, column_name: hash_field, table_name:, values: param.values).query
+        SearchFilters::TextList.new(field_name:, json_column: hash_field, table_name:, values: param.values).query
       else
-        SearchFilters::TextValue.new(field_name:, column_name: hash_field, table_name:, value: param.value).query
+        SearchFilters::TextValue.new(field_name:, json_column: hash_field, table_name:, value: param.value).query
       end
     end
 
@@ -245,6 +245,16 @@ module ManagedReports::SqlQueryHelpers
 
       ActiveRecord::Base.sanitize_sql_for_conditions(
         ["(STRING_TO_ARRAY(incidents.data ->> 'reporting_location_hierarchy', '.'))[?]", admin_level]
+      )
+    end
+
+    def reporting_location_from_hierarchy(user, table_alias = nil)
+      # Adding one since admin level start from 0, but string on postgres start from 1
+      admin_level = user.reporting_location_admin_level + 1
+      table_name = table_alias || Child.table_name
+
+      ActiveRecord::Base.sanitize_sql_for_conditions(
+        ["(STRING_TO_ARRAY(%s.data ->> 'reporting_location_hierarchy', '.'))[%s]", table_name, admin_level]
       )
     end
   end

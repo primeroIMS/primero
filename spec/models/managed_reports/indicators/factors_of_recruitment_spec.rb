@@ -126,6 +126,8 @@ describe ManagedReports::Indicators::FactorsOfRecruitment do
     incident4.save!
     incident5 = Incident.new_with_user(@all_user, { incident_date: Date.new(2022, 3, 28), status: 'open' })
     incident5.save!
+    incident6 = Incident.new_with_user(@self_user, { incident_date: Date.new(2022, 3, 29), status: 'closed' })
+    incident6.save!
 
     Violation.create!(
       data: {
@@ -170,6 +172,14 @@ describe ManagedReports::Indicators::FactorsOfRecruitment do
         violation_tally: { 'boys' => 2, 'girls' => 1, 'unknown' => 0, 'total' => 3 }
       },
       incident_id: incident5.id
+    )
+    Violation.create!(
+      data: {
+        type: 'recruitment',
+        factors_of_recruitment: %w[idealism conscription],
+        violation_tally: { 'boys' => 1, 'girls' => 1, 'unknown' => 0, 'total' => 2 }
+      },
+      incident_id: incident6.id
     )
   end
 

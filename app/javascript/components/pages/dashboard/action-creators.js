@@ -4,7 +4,7 @@ import { RECORD_PATH } from "../../../config";
 import { DB_COLLECTIONS_NAMES } from "../../../db";
 
 import actions from "./actions";
-import { DASHBOARD_GROUP, DASHBOARD_NAMES_FOR_GROUP } from "./constants";
+import { DASHBOARD_GROUP } from "./constants";
 
 export const fetchFlags = (recordType, activeOnly = false) => {
   const commonPath = `record_type=${recordType}&per=10`;
@@ -31,34 +31,14 @@ export const openPageActions = payload => {
   };
 };
 
-export const fetchDashboards = ({ group }) => ({
+export const fetchDashboardsByName = ({ group, names }) => ({
   type: actions[`DASHBOARD_${group.toUpperCase()}`],
   api: {
     path: RECORD_PATH.dashboards,
-    params: { names: DASHBOARD_NAMES_FOR_GROUP[group] },
+    params: { names },
     db: {
       collection: DB_COLLECTIONS_NAMES.DASHBOARDS,
       group
-    }
-  }
-});
-
-export const fetchDashboardApprovals = primeroModules => ({
-  type: actions.DASHBOARD_APPROVALS,
-  api: {
-    path: RECORD_PATH.dashboards,
-    params: {
-      names: DASHBOARD_NAMES_FOR_GROUP.approvals.flatMap(approval =>
-        primeroModules.reduce((acc, primeroModule) => {
-          acc.push(`${approval}.${primeroModule}`);
-
-          return acc;
-        }, [])
-      )
-    },
-    db: {
-      collection: DB_COLLECTIONS_NAMES.DASHBOARDS,
-      group: DASHBOARD_GROUP.approvals
     }
   }
 });

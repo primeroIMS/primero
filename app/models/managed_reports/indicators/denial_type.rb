@@ -10,11 +10,10 @@ class ManagedReports::Indicators::DenialType < ManagedReports::SqlReportIndicato
     end
 
     # rubocop:disable Metrics/AbcSize
-    # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/CyclomaticComplexity
     # rubocop:disable Metrics/PerceivedComplexity
     def sql(current_user, params = {})
-      %{
+      <<~SQL
         select json_array_elements_text(("violations"."data"->> 'denial_method')::JSON) as name,
         'total' as key,
         #{grouped_date_query(params['grouped_by'],
@@ -25,8 +24,9 @@ class ManagedReports::Indicators::DenialType < ManagedReports::SqlReportIndicato
         inner join incidents incidents
           on incidents.id = violations.incident_id
           #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
-        where
-        #{equal_value_query(params['type'], 'violations')}
+        where incidents.srch_status = 'open'
+        AND incidents.srch_record_state = TRUE
+        #{equal_value_query(params['type'], 'violations')&.prepend('and ')}
         #{date_range_query(params['incident_date'], 'incidents')&.prepend('and ')}
         #{date_range_query(params['date_of_first_report'], 'incidents')&.prepend('and ')}
         #{date_range_query(params['ctfmr_verified_date'], 'violations')&.prepend('and ')}
@@ -35,10 +35,9 @@ class ManagedReports::Indicators::DenialType < ManagedReports::SqlReportIndicato
         group by json_array_elements_text(("violations"."data"->> 'denial_method')::JSON)
         #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
         order by name
-      }
+      SQL
     end
     # rubocop:enable Metrics/AbcSize
-    # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/CyclomaticComplexity
     # rubocop:enable Metrics/PerceivedComplexity
   end

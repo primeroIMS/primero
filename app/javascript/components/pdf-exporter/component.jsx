@@ -96,9 +96,9 @@ const Component = forwardRef(
 
     const allForms = includeAllFormsWhenEmpty ? forms : [];
 
-    const selectedForms = filteredByFields?.length
-      ? filteredByFields.map(id => forms.find(form => form.unique_id === id))
-      : allForms;
+    const selectedForms = (
+      filteredByFields?.length ? filteredByFields.map(id => forms.find(form => form.unique_id === id)) : allForms
+    ).filter(form => form);
 
     const logos = getLogosToRender(
       agenciesWithLogosEnabled,

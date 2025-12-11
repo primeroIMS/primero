@@ -23,6 +23,7 @@
     window.locationManifest = "<%= available_locations %>"
     window.useTheme = <%= @theme.present? %>
     window.themeRevision = "<%= @theme.revision %>"
+    window.idp = <%= Rails.configuration.x.idp.use_identity_provider %> 
   <% end %>
   <%= javascript_include_tag '/javascripts/i18n.js', nonce: true %>
 
@@ -35,5 +36,8 @@
     <%= javascript_include_tag "/#{translation_file}", nonce: true %>
   <% end %>
   <%= javascript_bundles_with_chunks_tag 'application', skip_pipeline: true, manifest: :application, nonce: true %>
+  <% if Rails.configuration.x.captcha[:js_client].present? %>
+    <%= javascript_include_tag Rails.configuration.x.captcha[:js_client], nonce: true, async: true, defer: true %>
+  <% end %>
 </body>
 </html>

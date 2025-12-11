@@ -121,7 +121,7 @@ describe("<RecordOwner />", () => {
     });
 
     it("should render RecordOwner and its fields", () => {
-      expect(screen.getAllByTestId("form-section-field")).toHaveLength(12);
+      expect(screen.getAllByTestId("form-section-field")).toHaveLength(13);
     });
   });
 
@@ -165,7 +165,7 @@ describe("<RecordOwner />", () => {
     });
 
     it("should render RecordOwner and its fields", () => {
-      expect(screen.getAllByTestId("form-section-field")).toHaveLength(12);
+      expect(screen.getAllByTestId("form-section-field")).toHaveLength(13);
     });
   });
 });

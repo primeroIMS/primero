@@ -107,6 +107,7 @@ es-GT:
     record_owner: Propietario(a) del Registro
     timestamp: Hora
     user_name: Realizado Por
+    type: Tipo de registro
   bulk_export:
     file_name: Archivo
     record_type: Tipo
@@ -296,6 +297,10 @@ es-GT:
     case_opening_date: Fecha de Apertura de Caso
     case_plan: Plan del Caso
     case_worker_code: Código de Trabajadora del Caso
+    child_functioning:
+      date: "Fecha"
+      age: "Edad"
+    client_code: Código de cliente
     clear_filter: Limpiar
     close_dialog: Al hacer clic en OK el estado de este caso cambiará a Cerrado
     close_dialog_title: Cerrar Caso
@@ -344,6 +349,7 @@ es-GT:
       flag: Marcado
       flag_label: ¿Marcado?
       gbv_closure: Cierre de Violencia Basada en Género (GBV)
+      gender: Género
       high: Alta
       low: Bajo
       male: Masculino
@@ -359,8 +365,10 @@ es-GT:
       photo_label: ¿Tiene Fotografía?
       protection_concerns: Inquietudes Sobre Protección
       protection_status: Estado de Protección
+      protection_risks: Riesgos de Protección
       record_state: Estado del Registro
       referred_cases: Casos referridos a mi
+      assigned_to_me: Casos asignados a mí
       registration_date: Fecha de Registro
       risk_level: Nivel de Riesgo
       sex: Sexo
@@ -371,6 +379,7 @@ es-GT:
       urgent_protection_concern: Inquietud sobre Protección Urgente
       user_group: Grupo de Usuario(a)s
       workflow: Casos por Flujo de Trabajo
+      module_id: Módulo
       include_disabled: Incluir deshabilitados
     flag_summary: Resumen de registros marcados
     full_name: Nombre Completo
@@ -525,7 +534,6 @@ es-GT:
       updated: La configuración se actualizó correctamente.
       sent: Enviando la configuración a producción. Por favor, revise el sitio de producción para ver si su configuración ya llegó.
     not_allowed: No permitido
-    unavailable_server: El servidor está temporalmente fuera de servicio .
   contact:
     field:
       email: Correo electrónico
@@ -775,6 +783,8 @@ es-GT:
     shared_from_my_team_pending_transfers: Transferencias Pendientes
     shared_from_my_team_referrals: Referencias
     shared_from_my_team_rejected_transfers: Transferencias Rechazadas
+    shared_with_me_transfers_awaiting_acceptance: Esperando Aprobación
+    shared_with_my_team_pending_transfers_overview: Esperando Aprobación
     shared_with_my_team_pending_transfers: Transferencias Pendientes
     shared_with_my_team_referrals: Referencias
     status_of_cases: Estado de los Casos
@@ -1718,46 +1728,27 @@ es-GT:
       _requested: Solicitado
       add_note: Agregar Nota
       assign: 'Asignar '
-      assign_to: Asignar a
-      attach: Adjuntar
       bulk_assign: Asignar a granel
       bulk_create: Crear a granel
       bulk_index: Indice a granel
-      case_plan_approved: Plan de caso aprobado
-      case_plan_rejected: Plan de caso rechazado
-      case_plan_requested: Plan de caso solicitado
       close: Cerrar
       create: Crear
       create_bulk: Crear a granel
       delete: Eliminar
       destroy: Destruir
-      detach: Separar
-      enable_disable_record: Habilitar deshabilitar registro
       export: Exportar
       flag: Marcar
       import: Importar
       incident_details_from_case: Detalles de incidente del caso
-      index: Indexar
       list: Listar
       login: Iniciar sesión
       password_reset: Restablecimiento de contraseña
       password_reset_request: Solicitud de restablecimiento de una contraseña
       refer: 'Referir '
-      refer_accepted: Referencia aceptada
-      refer_done: Referencia realizada
-      refer_rejected: Referencia rechazada
-      refer_revoke: Referencia Anulada
-      refer_to: 'Referir a '
       reopen: Reabrir
-      services_section_from_case: Sección de servicios del caso
       show: Mostrar
       show_alerts: Mostrar alertas
-      traces: Localizaciones
       transfer: 'Transferir '
-      transfer_accepted: Transferencia aceptada
-      transfer_rejected: Transferencia rechazada
-      transfer_request: Solicitud de Transferencia
-      transfer_to: Transferir a
       unflag: Desmarcar
       update: Actualizar
       user_password_reset_request: Solicitud de restablecimiento de una contraseña de usuario(a)
@@ -2038,7 +2029,6 @@ es-GT:
         attack_on_schools: Ataques a escuelas
         military_use: Uso militar de escuela(s) y/u hospital(es)
         denial_humanitarian_access: Negación de acceso a la ayuda humanitaria para los niños/niñas
-        detention: Detención
       sub_reports:
         children: Niños/as
         combined: Violaciones
@@ -2084,13 +2074,6 @@ es-GT:
         survivors: Sobrevivientes
         referrals: Referencias
       sub_reports:
-        service_safehouse_referral: Referencia a casa segura/refugio seguro
-        service_medical_referral: Referencia médica/salud
-        service_psycho_referral: Servicios psicosociales/consejería
-        service_legal_referral: Servicios de asistencia legal
-        service_police_referral: Servicios de policía u otros servicios de seguridad
-        service_livelihoods_referral: Servicios de Subsistencia
-        service_protection_referral: Servicios de Protección a la Niñez
         survivors_disability_type: Con discapacidad
     workflow_report:
       name: Flujo de Trabajo
@@ -3302,7 +3285,6 @@ es-GT:
   referral:
     type_of_recipient: Tipo de Destinatario(a)
     type_of_referral_required: Se requiere Tipo de Referencia
-    referral_authorization_label: Quisiera especificar un Tipo de Referencia?
     referral_authorization_help_text: Esto limitará a qué formularios puede acceder el receptor.
     agency_label: Agencia
     is_remote_label: ¿Está refiriendo a un sistema remoto?
@@ -3696,6 +3678,8 @@ es-GT:
       greeting: 'Bienvenido(a) %{system}!'
       sso:
         body: 'Usted ha sido agregado(a) como %{role_name}.'
+        step1: '¡Bienvenido(a) a %{system}! Para iniciar sesión vaya a %{system} y seleccione %{identity_provider} de su organización para iniciar sesión con inicio de sesión único. Utilice la misma contraseña que utiliza siempre para su cuenta de %{identity_provider}.'
+        step2: 'Nota: No podrá restablecer su contraseña en %{product_name} y solo podrá restablecerla a través de su cuenta de %{identity_provider}.'
       otp:
         body: 'Usted ha sido agregado(a) como %{role_name}.'
       url_label: Primero

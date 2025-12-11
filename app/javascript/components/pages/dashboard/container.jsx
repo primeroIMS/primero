@@ -3,15 +3,16 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Grid } from "@mui/material";
+import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../i18n";
 import PageContainer, { PageHeading, PageContent } from "../../page";
-import { getCurrentUserModules, getPermissions } from "../../user/selectors";
+import { getCurrentUserModules } from "../../user/selectors";
 import { OfflineAlert } from "../../disable-offline";
 import { usePermissions, ACTIONS, RESOURCES, DASH_APPROVALS } from "../../permissions";
-import { RECORD_PATH } from "../../../config";
 import { useMemoizedSelector } from "../../../libs";
 import { ACTION_NEEDED_DASHBOARD, OVERDUE_TASKS_DASHBOARD, OVERVIEW_DASHBOARD } from "../../permissions/constants";
+import { RECORD_PATH } from "../../../config";
 
 import {
   ActionNeeded,
@@ -32,25 +33,32 @@ import {
   WorkflowIndividualCases,
   WorkflowTeamCases
 } from "./components";
-import { DASHBOARD_GROUP, NAME } from "./constants";
-import { fetchDashboardApprovals, fetchDashboards, fetchFlags } from "./action-creators";
+import { DASHBOARD_GROUPS_WITH_MODULES, DASHBOARD_GROUPS_WITHOUT_MODULES, NAME } from "./constants";
+import { fetchDashboardsByName, fetchFlags } from "./action-creators";
 import css from "./styles.css";
 import permittedDashboards from "./utils/permitted-dashboards";
+import { permittedDashboardNames } from "./utils";
 
 const tableDashboards = [
-  { component: SharedFromMyTeam, actions: [ACTIONS.DASH_SHARED_FROM_MY_TEAM] },
-  { component: SharedWithMyTeam, actions: [ACTIONS.DASH_SHARED_WITH_MY_TEAM] },
-  { component: OverdueTasks, actions: OVERDUE_TASKS_DASHBOARD },
-  { component: CasesBySocialWorker, actions: [ACTIONS.DASH_CASES_BY_SOCIAL_WORKER] },
-  { component: WorkflowTeamCases, actions: [ACTIONS.DASH_WORKFLOW_TEAM] },
-  { component: ReportingLocation, actions: [ACTIONS.DASH_REPORTING_LOCATION] },
-  { component: ProtectionConcern, actions: [ACTIONS.DASH_PROTECTION_CONCERNS] },
+  { key: "shared-from-my-team", component: SharedFromMyTeam, actions: [ACTIONS.DASH_SHARED_FROM_MY_TEAM] },
+  { key: "shared-with-my-team", component: SharedWithMyTeam, actions: [ACTIONS.DASH_SHARED_WITH_MY_TEAM] },
+  { key: "overdue-tasks", component: OverdueTasks, actions: OVERDUE_TASKS_DASHBOARD },
+  { key: "cases-by-social-worker", component: CasesBySocialWorker, actions: [ACTIONS.DASH_CASES_BY_SOCIAL_WORKER] },
+  { key: "workflow-team-cases", component: WorkflowTeamCases, actions: [ACTIONS.DASH_WORKFLOW_TEAM] },
+  { key: "reporting-location", component: ReportingLocation, actions: [ACTIONS.DASH_REPORTING_LOCATION] },
+  { key: "protection-concern", component: ProtectionConcern, actions: [ACTIONS.DASH_PROTECTION_CONCERNS] },
   {
+    key: "violations-category-verification-status",
     component: ViolationsCategoryVerificationStatus,
     actions: [ACTIONS.DASH_VIOLATIONS_CATEGORY_VERIFICATION_STATUS]
   },
-  { component: ViolationsCategoryRegion, actions: [ACTIONS.DASH_VIOLATIONS_CATEGORY_REGION] },
   {
+    key: "violations-category-region",
+    component: ViolationsCategoryRegion,
+    actions: [ACTIONS.DASH_VIOLATIONS_CATEGORY_REGION]
+  },
+  {
+    key: "perpetrator-armed-force-group-party-names",
     component: PerpetratorArmedForceGroupPartyNames,
     actions: [ACTIONS.DASH_PERPETRATOR_ARMED_FORCE_GROUP_PARTY_NAMES]
   }
@@ -67,18 +75,6 @@ function Dashboard() {
     canSeeActionNeededDashboards,
     canSeeOverviewDashboard,
     canSeeWorkflowDashboard,
-    canSeeApprovalsDashboard,
-    canSeeCasesToAssignDashboard,
-    canSeeSharedFromMyTeamDashboard,
-    canSeeSharedWithMyTeamDashboard,
-    canSeeOverdueTasksDashboard,
-    canSeeCasesBySocialWorkerDashboard,
-    canSeeWorkflowTeamDashboard,
-    canSeeReportingLocationDashboard,
-    canSeeProtectionConcernsDashboard,
-    canSeeViolationsCategoryVerificationStatusDashboard,
-    canSeeViolationsCategoryRegionDashboard,
-    canSeePerpetratorArmedForceGroupPartyNames,
     permittedAbilities
   } = usePermissions(RESOURCES.dashboards, {
     canFetchFlags: [ACTIONS.DASH_FLAGS],
@@ -87,26 +83,13 @@ function Dashboard() {
     canSeeSharedWithMyTeamOverview: [ACTIONS.DASH_SHARED_WITH_MY_TEAM_OVERVIEW],
     canSeeActionNeededDashboards: ACTION_NEEDED_DASHBOARD,
     canSeeOverviewDashboard: OVERVIEW_DASHBOARD,
-    canSeeWorkflowDashboard: [ACTIONS.DASH_WORKFLOW],
-    canSeeApprovalsDashboard: DASH_APPROVALS,
-    canSeeCasesToAssignDashboard: [ACTIONS.DASH_CASES_TO_ASSIGN],
-    canSeeSharedFromMyTeamDashboard: [ACTIONS.DASH_SHARED_FROM_MY_TEAM],
-    canSeeSharedWithMyTeamDashboard: [ACTIONS.DASH_SHARED_WITH_MY_TEAM],
-    canSeeOverdueTasksDashboard: OVERDUE_TASKS_DASHBOARD,
-    canSeeCasesBySocialWorkerDashboard: [ACTIONS.DASH_CASES_BY_SOCIAL_WORKER],
-    canSeeWorkflowTeamDashboard: [ACTIONS.DASH_WORKFLOW_TEAM],
-    canSeeReportingLocationDashboard: [ACTIONS.DASH_REPORTING_LOCATION],
-    canSeeProtectionConcernsDashboard: [ACTIONS.DASH_PROTECTION_CONCERNS],
-    canSeeViolationsCategoryVerificationStatusDashboard: [ACTIONS.DASH_VIOLATIONS_CATEGORY_VERIFICATION_STATUS],
-    canSeeViolationsCategoryRegionDashboard: [ACTIONS.DASH_VIOLATIONS_CATEGORY_REGION],
-    canSeePerpetratorArmedForceGroupPartyNames: [ACTIONS.DASH_PERPETRATOR_ARMED_FORCE_GROUP_PARTY_NAMES]
+    canSeeWorkflowDashboard: [ACTIONS.DASH_WORKFLOW]
   });
 
   const currentUserModules = useMemoizedSelector(state => getCurrentUserModules(state));
 
   const canSeeReferrals = usePermissions(RESOURCES.cases, [ACTIONS.RECEIVE_REFERRAL, ACTIONS.MANAGE]);
   const canSeeTransfers = usePermissions(RESOURCES.cases, [ACTIONS.RECEIVE_TRANSFER, ACTIONS.MANAGE]);
-  const userPermissions = useMemoizedSelector(state => getPermissions(state));
 
   const showReferralsDashboard = (canSeeReferrals && canSeeSharedWithMe) || canSeeSharedWithOthers;
   const showTransferDashboard =
@@ -119,9 +102,14 @@ function Dashboard() {
   const xlSizeActionNeeded = canSeeOverviewDashboard ? 8 : 12;
 
   const columnDashboards = [
-    { component: Approvals, actions: DASH_APPROVALS },
-    { component: ReferralsAndTransfers, actions: [], permitted: showReferralsDashboard || showTransferDashboard },
-    { component: CasesToAssign, actions: [ACTIONS.DASH_CASES_TO_ASSIGN] }
+    { key: "approvals", component: Approvals, actions: DASH_APPROVALS },
+    {
+      key: "referrals-and-transfers",
+      component: ReferralsAndTransfers,
+      actions: [],
+      permitted: showReferralsDashboard || showTransferDashboard
+    },
+    { key: "cases-to-assign", component: CasesToAssign, actions: [ACTIONS.DASH_CASES_TO_ASSIGN] }
   ];
 
   const [permittedColumnDashboards, permittedTableDashboards] = permittedDashboards({
@@ -133,51 +121,39 @@ function Dashboard() {
   const xlSizeFlags = permittedColumnDashboards.length > 0 ? 3 : 12;
   const mdSizeFlags = permittedColumnDashboards.length > 0 ? 4 : 12;
 
-  const dashboards = [
-    { group: DASHBOARD_GROUP.action_needed, permitted: canSeeActionNeededDashboards },
-    { group: DASHBOARD_GROUP.overview, permitted: canSeeOverviewDashboard },
-    { group: DASHBOARD_GROUP.workflow, permitted: canSeeWorkflowDashboard },
-    {
-      group: DASHBOARD_GROUP.approvals,
-      permitted: canSeeApprovalsDashboard,
-      fetchAction: fetchDashboardApprovals(currentUserModules)
-    },
-    { group: DASHBOARD_GROUP.referrals_transfers, permitted: showReferralsDashboard || showTransferDashboard },
-    { group: DASHBOARD_GROUP.cases_to_assign, permitted: canSeeCasesToAssignDashboard },
-    { group: DASHBOARD_GROUP.shared_from_my_team, permitted: canSeeSharedFromMyTeamDashboard },
-    { group: DASHBOARD_GROUP.shared_with_my_team, permitted: canSeeSharedWithMyTeamDashboard },
-    { group: DASHBOARD_GROUP.overdue_tasks, permitted: canSeeOverdueTasksDashboard },
-    { group: DASHBOARD_GROUP.cases_by_social_worker, permitted: canSeeCasesBySocialWorkerDashboard },
-    { group: DASHBOARD_GROUP.workflow_team, permitted: canSeeWorkflowTeamDashboard },
-    { group: DASHBOARD_GROUP.reporting_location, permitted: canSeeReportingLocationDashboard },
-    { group: DASHBOARD_GROUP.protection_concerns, permitted: canSeeProtectionConcernsDashboard },
-    {
-      group: DASHBOARD_GROUP.violations_category_verification_status,
-      permitted: canSeeViolationsCategoryVerificationStatusDashboard
-    },
-    { group: DASHBOARD_GROUP.violations_category_region, permitted: canSeeViolationsCategoryRegionDashboard },
-    {
-      group: DASHBOARD_GROUP.perpetrator_armed_force_group_party_names,
-      permitted: canSeePerpetratorArmedForceGroupPartyNames
-    },
-    {
-      group: DASHBOARD_GROUP.flags,
-      permitted: canFetchFlags,
-      fetchAction: fetchFlags(RECORD_PATH.cases, true)
+  useEffect(() => {
+    if (!currentUserModules.isEmpty() && !permittedAbilities.isEmpty()) {
+      Object.entries(DASHBOARD_GROUPS_WITH_MODULES).forEach(([group, names]) => {
+        currentUserModules.forEach(primeroModule => {
+          const permittedNames = permittedDashboardNames({ names, permittedAbilities }).map(
+            permittedName => `${permittedName}.${primeroModule}`
+          );
+
+          if (!isEmpty(permittedNames)) {
+            dispatch(fetchDashboardsByName({ group, names: permittedNames }));
+          }
+        });
+      });
     }
-  ];
+  }, [currentUserModules.isEmpty(), permittedAbilities.isEmpty()]);
 
   useEffect(() => {
-    dashboards.forEach(dashboard => {
-      if (dashboard.permitted) {
-        if (dashboard.fetchAction) {
-          dispatch(dashboard.fetchAction);
-        } else {
-          dispatch(fetchDashboards({ group: dashboard.group }));
+    if (!permittedAbilities.isEmpty()) {
+      Object.entries(DASHBOARD_GROUPS_WITHOUT_MODULES).forEach(([group, names]) => {
+        const permittedNames = permittedDashboardNames({ names, permittedAbilities });
+
+        if (!isEmpty(permittedNames)) {
+          dispatch(fetchDashboardsByName({ group, names: permittedNames }));
         }
-      }
-    });
-  }, []);
+      });
+    }
+  }, [permittedAbilities.isEmpty()]);
+
+  useEffect(() => {
+    if (canFetchFlags) {
+      dispatch(fetchFlags(RECORD_PATH.cases, true));
+    }
+  }, [canFetchFlags]);
 
   return (
     <PageContainer>
@@ -192,7 +168,7 @@ function Dashboard() {
           )}
           {canSeeActionNeededDashboards && (
             <Grid item xl={xlSizeActionNeeded} md={xlSizeActionNeeded} xs={12} className={css.flex}>
-              <ActionNeeded userPermissions={userPermissions} />
+              <ActionNeeded />
             </Grid>
           )}
           {canSeeWorkflowDashboard && (
@@ -202,7 +178,7 @@ function Dashboard() {
           )}
           <Grid item xl={xlSize} md={mdSize} xs={12} className={css.flexFlow}>
             {permittedColumnDashboards.map(dashboard => (
-              <dashboard.component userPermissions={userPermissions} />
+              <dashboard.component key={dashboard.key} />
             ))}
           </Grid>
           {canFetchFlags && (
@@ -212,7 +188,7 @@ function Dashboard() {
           )}
           <Grid item xl={12} md={12} xs={12}>
             {permittedTableDashboards.map(dashboard => (
-              <dashboard.component userPermissions={userPermissions} />
+              <dashboard.component key={dashboard.key} />
             ))}
           </Grid>
         </Grid>

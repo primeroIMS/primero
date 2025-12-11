@@ -5,6 +5,10 @@
 require 'rails_helper'
 
 describe MonitoringReportingMechanism, search: true do
+  before do
+    clean_data(User, UserGroup, Role, PrimeroModule, Incident, Violation, IndividualVictim)
+  end
+
   let(:user1) do
     primero_module = PrimeroModule.new(name: 'CP')
 
@@ -18,7 +22,7 @@ describe MonitoringReportingMechanism, search: true do
     user
   end
 
-  let(:incident1) do
+  let!(:incident1) do
     incident1 = Incident.new_with_user(
       user1,
       {
@@ -60,7 +64,7 @@ describe MonitoringReportingMechanism, search: true do
     incident1
   end
 
-  let(:incident2) do
+  let!(:incident2) do
     incident2 = Incident.new_with_user(
       user1,
       {
@@ -113,7 +117,7 @@ describe MonitoringReportingMechanism, search: true do
     incident2
   end
 
-  let(:incident3) do
+  let!(:incident3) do
     incident3 = Incident.new_with_user(
       user1,
       {
@@ -131,7 +135,7 @@ describe MonitoringReportingMechanism, search: true do
     incident3
   end
 
-  let(:incident4) do
+  let!(:incident4) do
     incident4 = Incident.new_with_user(
       user1,
       {
@@ -158,7 +162,7 @@ describe MonitoringReportingMechanism, search: true do
     incident4
   end
 
-  let(:incident5) do
+  let!(:incident5) do
     incident5 = Incident.new_with_user(
       user1,
       {
@@ -178,15 +182,6 @@ describe MonitoringReportingMechanism, search: true do
       }
     )
     incident5.save!
-    incident5
-  end
-
-  before do
-    clean_data(User, UserGroup, Role, PrimeroModule, Incident, Violation, IndividualVictim)
-    incident1
-    incident2
-    incident3
-    incident4
     incident5
   end
 
@@ -542,5 +537,73 @@ describe MonitoringReportingMechanism, search: true do
 
   it 'calculates child_types from the violations_killed_tally and violation_injured_tally' do
     expect(incident5.child_types).to match_array(%w[girls unknown])
+  end
+
+  describe 'when incident_date changes' do
+    before do
+      travel_to Time.zone.parse('2023-08-10 12:00:00')
+    end
+
+    let!(:incident_with_late_violations) do
+      incident_with_late_violations = Incident.new_with_user(
+        user1,
+        {
+          'module_id' => PrimeroModule::MRM,
+          'killing' => [
+            {
+              'unique_id' => 'c383355a-d133-11f0-bbd0-7c10c98b54af',
+              'type' => 'killing',
+              'ctfmr_verified' => 'verified',
+              'ctfmr_verified_date' => Date.today + 1.days,
+              'weapon_type' => 'small_arm',
+              'violation_tally' => { 'boys' => 2, 'girls' => 1, 'total' => 3 }
+            }
+          ],
+          'maiming' => [
+            'unique_id' => 'cf2a474a-d133-11f0-bc35-7c10c98b54af',
+            'type' => 'maiming',
+            'ctfmr_verified' => 'verified',
+            'ctfmr_verified_date' => Date.today + 1.days,
+            'violation_tally' => { 'boys' => 1, 'unknown' => 1, 'girls' => 2, 'total' => 4 }
+          ]
+        }
+      )
+      incident_with_late_violations.save!
+      incident_with_late_violations
+    end
+
+    it 'recalculates late verified violations' do
+      incident_with_late_violations.incident_date = Date.parse('2023-02-21')
+      incident_with_late_violations.save!
+
+      expect(incident_with_late_violations.has_late_verified_violations).to eq(true)
+      expect(incident_with_late_violations.violations.map(&:is_late_verification)).to eq([true, true])
+    end
+
+    it 'recalculates late verified violations for updated violations' do
+      incident_with_late_violations.update_properties(
+        user1,
+        {
+          'incident_date' => Date.parse('2023-02-21'),
+          'maiming' => [
+            {
+              'unique_id' => 'cf2a474a-d133-11f0-bc35-7c10c98b54af',
+              'ctfmr_verified_date' => Date.parse('2023-03-01')
+            }
+          ]
+        }
+      )
+      incident_with_late_violations.save!
+
+      expect(incident_with_late_violations.has_late_verified_violations).to eq(true)
+      expect(
+        incident_with_late_violations.violations.map { |violation| [violation.id, violation.is_late_verification] }
+      ).to match_array(
+        [
+          ['c383355a-d133-11f0-bbd0-7c10c98b54af', true],
+          ['cf2a474a-d133-11f0-bc35-7c10c98b54af', false]
+        ]
+      )
+    end
   end
 end

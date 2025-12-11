@@ -12,13 +12,14 @@ class ManagedReports::Indicators::TotalGBVSexualViolence < ManagedReports::SqlRe
     # rubocop:disable Metrics/MethodLength
     def sql(current_user, params = {})
       date_param = filter_date(params)
-      %{
+      <<~SQL
         SELECT
          'incidents' AS id,
           #{grouped_date_query(params['grouped_by'], date_param)&.concat(' AS group_id,')}
           count(*) AS total
-        from  incidents
-        WHERE data @? '$[*] ? (
+        FROM  incidents
+        WHERE srch_record_state = TRUE
+        AND data @? '$[*] ? (
           @.consent_reporting == "true" && @.gbv_sexual_violence_type != null && @.gbv_sexual_violence_type != "non-gbv"
         ) ? (
           !exists(@.gbv_reported_elsewhere) || @.gbv_reported_elsewhere != "gbvims-org"
@@ -27,7 +28,7 @@ class ManagedReports::Indicators::TotalGBVSexualViolence < ManagedReports::SqlRe
         #{equal_value_query(params['module_id'])&.prepend('AND ')}
         #{user_scope_query(current_user)&.prepend('AND ')}
         #{grouped_date_query(params['grouped_by'], date_param)&.prepend('GROUP BY ')}
-      }
+      SQL
     end
     # rubocop:enable Metrics/MethodLength
   end

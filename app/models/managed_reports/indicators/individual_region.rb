@@ -18,14 +18,17 @@ class ManagedReports::Indicators::IndividualRegion < ManagedReports::SqlReportIn
       date_group_query = grouped_date_query(params['grouped_by'], date_filter, 'violations_in_scope')
       group_id = date_group_query.present? ? 'group_id' : nil
 
-      %{
+      <<~SQL
         WITH violations_in_scope AS (
           SELECT
             violations.id,
             #{table_name_for_query(params)}.data AS data,
             #{incident_region_query(current_user)} AS region
           FROM violations
-          INNER JOIN incidents ON violations.incident_id = incidents.id
+          INNER JOIN incidents
+            ON violations.incident_id = incidents.id
+            AND incidents.srch_status = 'open'
+            AND incidents.srch_record_state = TRUE
           WHERE incidents.data ->> 'reporting_location_hierarchy' IS NOT NULL
           #{user_scope_query(current_user, 'incidents')&.prepend('AND ')}
           #{date_range_query(params['incident_date'], 'incidents')&.prepend('AND ')}
@@ -53,7 +56,7 @@ class ManagedReports::Indicators::IndividualRegion < ManagedReports::SqlReportIn
           COUNT(*) AS sum
         FROM individual_children
         GROUP BY #{group_id&.+(',')} region
-      }
+      SQL
     end
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength

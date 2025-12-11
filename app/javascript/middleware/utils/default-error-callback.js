@@ -6,22 +6,56 @@ import { SET_DIALOG_PENDING } from "../../components/action-dialog";
 
 import handleRestCallback from "./handle-rest-callback";
 
-export default ({ store, response = {}, json = {}, recordType = null, fromQueue = false, id = null, error }) => {
-  const messages = fromQueue
-    ? `sync.error.${id ? "update" : "create"}`
-    : json?.errors?.map(err => err.message).join(", ");
+function getMessageKey(isAttachmentError, fromQueue, jsonErrors, id) {
+  if (isAttachmentError) return "sync.error.attachment";
+  if (fromQueue) return `sync.error.${id ? "update" : "create"}`;
+
+  return jsonErrors?.at(0)?.message || "errors.api.internal_server";
+}
+
+function getMessageParams(isAttachmentError, fromAttachment, fromQueue, id) {
+  if (isAttachmentError && fromAttachment?.field_name) {
+    return { record_type: fromAttachment?.record_type };
+  }
+  if (fromQueue && id) {
+    return { short_id: getShortIdFromUniqueId(id) };
+  }
+
+  return null;
+}
+
+function getErrorKey(isAttachmentError, fromQueue, fromAttachmentRecordId, id) {
+  if (isAttachmentError) return `attachment_sync_error_${fromAttachmentRecordId || id || "create"}`;
+  if (fromQueue) return `record_sync_error_${id || "create"}`;
+
+  return "internal_server";
+}
+
+export default ({
+  store,
+  response = {},
+  json = {},
+  recordType = null,
+  fromQueue = false,
+  id = null,
+  error,
+  fromAttachment = null
+}) => {
+  const isAttachmentError = !!(fromQueue && fromAttachment);
+  const jsonErrors = json?.errors || null;
+  const messageParams = getMessageParams(isAttachmentError, fromAttachment, fromQueue, id);
 
   const errorPayload = [
     {
       action: ENQUEUE_SNACKBAR,
       payload: {
-        messageKey: messages || "errors.api.internal_server",
+        messageKey: getMessageKey(isAttachmentError, fromQueue, jsonErrors, id),
         messageDetailed: response?.message || error?.message,
-        ...(fromQueue && id ? { messageParams: { short_id: getShortIdFromUniqueId(id) } } : {}),
+        ...(messageParams && Object.keys(messageParams).length ? { messageParams } : {}),
         ...(recordType ? { recordType } : {}),
         options: {
           variant: SNACKBAR_VARIANTS.error,
-          key: fromQueue ? `record_sync_error_${id || "create"}` : "internal_server"
+          key: getErrorKey(isAttachmentError, fromQueue, fromAttachment?.record?.id, id)
         }
       }
     },

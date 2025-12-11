@@ -213,6 +213,34 @@ class ManagedReport < ValueObject
           :grouped_by, :by, :location, { status: {}, registration_date: {}, date_closure: {} }, :module_id
         ],
         module_id: 'primeromodule-pcm'
+      ),
+      Permission::CASE_MANAGEMENT_KPIS_REPORT => ManagedReport.new(
+        id: 'case_management_kpis_report',
+        name: 'managed_reports.case_management_kpis_report.name',
+        description: 'managed_reports.case_management_kpis_report.description',
+        subreports: %w[source_identification_referral protection_concerns_reporting_location reasons_for_closure],
+        permitted_filters: [
+          :grouped_by, :by, :age, { status: {}, protection_concerns: [], registration_date: {} }
+        ],
+        module_id: 'primeromodule-cp'
+      ),
+      Permission::CASE_MANAGEMENT_KPIS_SERVICE_REFERRALS_REPORT => ManagedReport.new(
+        id: 'case_management_kpis_service_referrals_report',
+        name: 'managed_reports.case_management_kpis_service_referrals_report.name',
+        description: 'managed_reports.case_management_kpis_service_referrals_report.description',
+        subreports: %w[referred_appropriate_service],
+        permitted_filters: [
+          :grouped_by, :by, :age, :service_implemented, { registration_date: {}, service_implemented_day_time: {} }
+        ],
+        module_id: 'primeromodule-cp'
+      ),
+      Permission::DISTRIBUTION_USERS_ROLE_REPORT => ManagedReports::ManagedUsageReport.new(
+        id: 'distribution_users_role_report',
+        name: 'managed_reports.distribution_users_role_report.name',
+        description: 'managed_reports.distribution_users_role_report.description',
+        subreports: %w[distribution_users_role],
+        permitted_filters: %i[disabled user_group_unique_id agency_unique_id],
+        module_id: 'primeromodule-cp'
       )
     }.freeze
   end
@@ -273,6 +301,10 @@ class ManagedReport < ValueObject
 
   def verified_value
     filters&.find { |filter| filter&.field_name == 'ctfmr_verified' }&.value
+  end
+
+  def distribution_users_role?
+    id == ManagedReport.list[Permission::DISTRIBUTION_USERS_ROLE_REPORT].id
   end
 end
 # rubocop:enable Metrics/ClassLength

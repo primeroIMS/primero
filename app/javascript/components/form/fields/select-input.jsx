@@ -31,6 +31,7 @@ function SelectInput({ commonInputProps, metaInputProps, options: allOptions = [
     groupBy,
     tooltip,
     onChange,
+    onInputChange,
     disableClearable,
     asyncParamsFromWatched,
     asyncParams,
@@ -69,7 +70,7 @@ function SelectInput({ commonInputProps, metaInputProps, options: allOptions = [
   );
 
   const fetchAsyncOptions = () => {
-    if (asyncOptions) {
+    if (asyncOptions && asyncAction) {
       const params = asyncParamsFromWatched.reduce((prev, next) => {
         const obj = prev;
 
@@ -281,6 +282,7 @@ function SelectInput({ commonInputProps, metaInputProps, options: allOptions = [
           name={name}
           onOpen={handleOpen}
           onChange={handleAutocompleteOnChange(fieldOnChange)}
+          onInputChange={onInputChange}
           groupBy={handleGroupBy}
           ListboxComponent={virtualize(options.length)}
           classes={{ listbox: listboxClasses }}

@@ -9,6 +9,7 @@ import { SELECTED_IDP } from "../../../user/constants";
 
 import { setMsalApp, setMsalConfig, getLoginRequest, getTokenRequest } from "./utils";
 
+// eslint-disable-next-line import/no-mutable-exports
 let msalApp;
 let forceStandardOIDC = false;
 let tokenRequest;
@@ -124,4 +125,4 @@ export const signOut = () => {
   }
 };
 
-export { getIDPToken };
+export { getIDPToken, msalApp };

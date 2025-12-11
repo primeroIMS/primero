@@ -22,6 +22,7 @@ describe("pages - index", () => {
       "LocationsList",
       "LookupsForm",
       "LookupsList",
+      "MyCase",
       "NotAuthorized",
       "NotFound",
       "PotentialMatches",

@@ -25,7 +25,7 @@ import { useMemoizedSelector } from "../../../../libs";
 import { DEFAULT_FILTERS, DATA } from "../constants";
 
 import { fetchUsers, setUsersFilters } from "./action-creators";
-import { LIST_HEADERS, AGENCY, DISABLED, USER_GROUP, LAST_DATE } from "./constants";
+import { LIST_HEADERS, AGENCY, DISABLED, USER_GROUP, LAST_DATE, ACTIVITY_FILTERS } from "./constants";
 import { agencyBodyRender, buildObjectWithIds, buildUsersQuery, getFilters } from "./utils";
 import AlertMaxUser from "./components/alert-max-user";
 import CustomToolbar from "./components/custom-toolbar";
@@ -112,7 +112,11 @@ function Container() {
     initialFilters: DEFAULT_FILTERS,
     onSubmit: data => {
       const filters = typeof data === "undefined" ? defaultFilters : buildUsersQuery(data);
-      const mergedFilters = currentFilters.merge(fromJS(filters)).set("page", 1);
+      let mergedFilters = currentFilters.merge(fromJS(filters)).set("page", 1);
+
+      if (ACTIVITY_FILTERS.some(key => mergedFilters.has(key))) {
+        mergedFilters = mergedFilters.set("activity_stats", true);
+      }
 
       batch(() => {
         dispatch(setUsersFilters({ data: mergedFilters }));

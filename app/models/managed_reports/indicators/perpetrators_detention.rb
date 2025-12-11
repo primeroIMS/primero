@@ -2,19 +2,18 @@
 
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-# An indicator that returns the perpetators of individual victioms - detention
+# An indicator that returns the perpetators of individual victims - detention
 class ManagedReports::Indicators::PerpetratorsDetention < ManagedReports::SqlReportIndicator
   class << self
     def id
       'perpetrator_detention'
     end
 
-    # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/CyclomaticComplexity
     # rubocop:disable Metrics/PerceivedComplexity
     def sql(current_user, params = {})
-      %{
+      <<~SQL
         with detention as (
           select
             iv.data->>'individual_sex' as key,
@@ -28,6 +27,7 @@ class ManagedReports::Indicators::PerpetratorsDetention < ManagedReports::SqlRep
           inner join violations on violations.id = ivv.violation_id
           inner join incidents incidents
             on incidents.id = violations.incident_id
+            AND incidents.srch_record_state = TRUE
             #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
           WHERE iv.data->>'armed_force_group_party_name' is not null
           and iv.data->>'individual_sex' is not null
@@ -46,9 +46,8 @@ class ManagedReports::Indicators::PerpetratorsDetention < ManagedReports::SqlRep
           *,
           cast(sum(detention.sum) over (partition by name) as integer) as total
         from detention
-      }
+      SQL
     end
-    # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/CyclomaticComplexity
     # rubocop:enable Metrics/PerceivedComplexity

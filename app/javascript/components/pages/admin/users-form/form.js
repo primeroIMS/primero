@@ -206,6 +206,18 @@ const sharedUserFields = (
     required: true
   },
   {
+    display_name: i18n.t("user.self_registered"),
+    name: FIELD_NAMES.SELF_REGISTERED,
+    type: TICK_FIELD,
+    editable: false
+  },
+  {
+    display_name: i18n.t("user.duplicate"),
+    name: FIELD_NAMES.DUPLICATE,
+    type: TICK_FIELD,
+    editable: false
+  },
+  {
     display_name: i18n.t("user.disabled"),
     name: FIELD_NAMES.DISABLED,
     type: TICK_FIELD,
@@ -230,7 +242,7 @@ const sharedUserFields = (
     display_name: i18n.t("user.last_access"),
     name: FIELD_NAMES.LAST_ACCESS,
     type: DATE_FIELD,
-    visible: false, // TODO: Add logic back once users.timestamp index is added
+    visible: formMode.get("isShow") && !hideOnAccountPage,
     date_include_time: true,
     editable: false
   },
@@ -238,7 +250,7 @@ const sharedUserFields = (
     display_name: i18n.t("user.last_case_viewed"),
     name: FIELD_NAMES.LAST_CASE_VIEWED,
     type: DATE_FIELD,
-    visible: false, // TODO: Add logic back once users.timestamp index is added
+    visible: formMode.get("isShow") && !hideOnAccountPage,
     date_include_time: true,
     editable: false
   },
@@ -246,7 +258,7 @@ const sharedUserFields = (
     display_name: i18n.t("user.last_case_updated"),
     name: FIELD_NAMES.LAST_CASE_UPDATED,
     type: DATE_FIELD,
-    visible: false, // TODO: Add logic back once users.timestamp index is added
+    visible: formMode.get("isShow") && !hideOnAccountPage,
     date_include_time: true,
     editable: false
   }
