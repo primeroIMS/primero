@@ -900,7 +900,7 @@ describe Api::V2::UsersController, type: :request do
 
         params = {
           data: {
-            id: [@user_a.id, @user_b.id]
+            ids: [@user_a.id, @user_b.id]
           }
         }
 
@@ -985,7 +985,7 @@ describe Api::V2::UsersController, type: :request do
 
         params = {
           data: {
-            id: [@user_a.id]
+            ids: [@user_a.id]
           }
         }
 
@@ -1008,7 +1008,7 @@ describe Api::V2::UsersController, type: :request do
 
         params = {
           data: {
-            id: [@user_a.id, @user_b.id]
+            ids: [@user_a.id, @user_b.id]
           }
         }
 

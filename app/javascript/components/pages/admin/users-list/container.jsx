@@ -145,9 +145,6 @@ function Container() {
     dispatch(setUsersFilters({ data: defaultFilters }));
   }, []);
 
-  console.log("[0]canDisableMultiple", canDisableMultiple);
-  console.log("[0]Boolean(actions.length)", Boolean(actions.length));
-
   return (
     <>
       <PageHeading title={i18n.t("users.label")}>

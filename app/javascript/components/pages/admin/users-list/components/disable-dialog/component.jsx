@@ -37,7 +37,7 @@ function Component({ filters, selectedRecords, setSelectedRecords, recordType })
     batch(() => {
       dispatch(
         disableUsers({
-          filters: selectedRecordsLength <= data.getIn(["data"]).size ? fromJS({ id: userIds }) : filters,
+          filters: selectedRecordsLength <= data.getIn(["data"]).size ? fromJS({ ids: userIds }) : filters,
           currentFilters: filters,
           message: i18n.t(`users.${action}_success`, { users_selected: selectedRecordsLength })
         })

@@ -158,7 +158,7 @@ describe PermittedUsersService do
   end
 
   it 'disables users in batches' do
-    PermittedUsersService.new(@super_user).disable_in_batches({ query: 'user' })
+    PermittedUsersService.new(@super_user).bulk_disable_users({ query: 'user' })
     expect(User.find_by(user_name: 'user1').disabled).to be true
     expect(User.find_by(user_name: 'user2').disabled).to be true
     expect(User.find_by(user_name: 'user3').disabled).to be true
