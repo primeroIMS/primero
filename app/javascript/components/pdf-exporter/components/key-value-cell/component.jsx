@@ -12,8 +12,9 @@ import { cx } from "@emotion/css";
 import { optionText } from "../../../form/utils";
 import { useI18n } from "../../../i18n";
 import { DATE_TIME_FORMAT, DATE_FORMAT } from "../../../../config";
-import { DATE_FIELD, TICK_FIELD, RADIO_FIELD } from "../../../form";
+import { DATE_FIELD, TICK_FIELD, RADIO_FIELD, SIGNATURE_FIELD } from "../../../form";
 import useOptions from "../../../form/use-options";
+import { AssetJwt } from "../../../asset-jwt";
 
 import css from "./styles.css";
 
@@ -33,12 +34,25 @@ function Component({
   const isDateField = type === DATE_FIELD;
   const isBooleanField = type === TICK_FIELD;
   const isRadioField = type === RADIO_FIELD;
+  const isSignatureField = type === SIGNATURE_FIELD;
 
   const hasOptions = optionsStringSource || !isEmpty(options);
   const isAgency = optionsStringSource === "Agency";
   const cellValue = value || defaultValue;
 
   const lookups = useOptions({ source: optionsStringSource, options, useUniqueId: isAgency });
+
+  const signatureInfo = (fieldValue, signatureMetaField) => {
+    const metaValue = fieldValue?.get(signatureMetaField);
+
+    if (!metaValue) return false;
+
+    return (
+      <div>
+        {i18n.t(`fields.${signatureMetaField}`)}: <span>{metaValue}</span>
+      </div>
+    );
+  };
 
   const renderValue = fieldValue => {
     if (Array.isArray(fieldValue) || List.isList(fieldValue)) {
@@ -82,6 +96,19 @@ function Component({
         <div className={css.radioButtons}>
           {checkbox}
           {i18n.t("yes_label")}
+        </div>
+      );
+    }
+
+    if (isSignatureField) {
+      return (
+        <div>
+          <AssetJwt src={fieldValue?.get("attachment_url")} alt="Signature" className={css.signatureImage} />
+          <div className={css.signatureDetails}>
+            {signatureInfo(fieldValue, "signature_provided_on")}
+            {signatureInfo(fieldValue, "signature_provided_by")}
+            {signatureInfo(fieldValue, "signature_created_by_user")}
+          </div>
         </div>
       );
     }

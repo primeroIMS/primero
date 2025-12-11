@@ -132,14 +132,6 @@ export const fieldValidations = (field, { i18n, online = false }) => {
     validations[name] = array().of(buildDocumentSchema(i18n));
   }
 
-  if (SIGNATURE_FIELD === type) {
-    validations[name] = object()
-      .shape({
-        signature_provided_by: string().required()
-      })
-      .concat(buildDocumentSchema(i18n));
-  }
-
   if (required) {
     const requiredMessage = i18n.t("form_section.required_field", {
       field: field.display_name[i18n.locale]
@@ -151,6 +143,16 @@ export const fieldValidations = (field, { i18n, online = false }) => {
         break;
       case type === SELECT_FIELD && multiSelect:
         validations[name] = array();
+        break;
+      case type === SIGNATURE_FIELD:
+        validations[name] = object({
+          attachment_url: string().url().nullable(),
+          attachment: string().nullable()
+        }).test("attachment-or-url", requiredMessage, value => {
+          if (!value) return false;
+
+          return !!value.attachment_url || !!value.attachment;
+        });
         break;
       default:
         validations[name] = (validations[name] || string()).nullable();

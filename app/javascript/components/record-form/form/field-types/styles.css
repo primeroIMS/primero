@@ -78,3 +78,8 @@
   border: 1px dashed var(--c-light-grey-2);
   border-radius: 5px;
 }
+
+.noSignatureProvided[aria-invalid="true"] {
+  border: 1px dashed var(--c-red-label-error);
+  color: var(--c-red-label-error);
+}
