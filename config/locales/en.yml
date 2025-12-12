@@ -1480,6 +1480,7 @@ en:
     form_description: Description
     form_group: Form Group
     form_title: Form title
+    export_unused_fields: Export Unused Fields
     help_text:
       must_be_english: Must be entered in English
       related_groups: Place form into a related group for users

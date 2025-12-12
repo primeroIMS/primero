@@ -5,11 +5,11 @@ import { batch, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { useLocation } from "react-router-dom";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
-import { Add as AddIcon, List as ListIcon, SwapVert } from "@mui/icons-material";
+import { Add as AddIcon, List as ListIcon } from "@mui/icons-material";
 
 import LoadingIndicator from "../../../loading-indicator";
 import { useI18n } from "../../../i18n";
-import { useApp } from "../../../application";
+import { useApp, getUnusedFieldsReport } from "../../../application";
 import { PageHeading, PageContent } from "../../../page";
 import { MODULES, RECORD_TYPES } from "../../../../config";
 import Permission, { usePermissions, CREATE_RECORDS, RESOURCES, MANAGE } from "../../../permissions";
@@ -19,6 +19,7 @@ import { useDialog } from "../../../action-dialog";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import useOptions from "../../../form/use-options";
+import Menu from "../../../menu";
 
 import FormExporter from "./components/form-exporter";
 import { FORM_EXPORTER_DIALOG } from "./components/form-exporter/constants";
@@ -53,6 +54,7 @@ function Component() {
   const isLoading = useMemoizedSelector(state => getIsLoading(state));
   const isReorderEnabled = useMemoizedSelector(state => getReorderEnabled(state));
   const formSectionsByGroup = useMemoizedSelector(state => getFormSectionsByFormGroup(state, filterValues));
+  const unusedFieldsReport = useMemoizedSelector(state => getUnusedFieldsReport(state));
   const allFormGroupsLookups = useOptions({ source: OPTION_TYPES.FORM_GROUP_LOOKUP });
 
   const { modules } = useApp();
@@ -128,11 +130,22 @@ function Component() {
 
   const hasFormSectionsByGroup = Boolean(formSectionsByGroup?.size);
   const handleClickExport = () => handleExport(FORM_EXPORTER_DIALOG);
+  const actions = [
+    {
+      action: handleClickExport,
+      name: i18n.t("buttons.export")
+    },
+    {
+      action: () => {
+        window.open(unusedFieldsReport);
+      },
+      name: i18n.t("forms.export_unused_fields")
+    }
+  ];
 
   return (
     <Permission resources={RESOURCES.metadata} actions={MANAGE} redirect>
       <PageHeading title={i18n.t("forms.label")}>
-        <FormAction actionHandler={handleClickExport} text={i18n.t("buttons.export")} startIcon={<SwapVert />} />
         {canAddForms && (
           <FormAction
             actionHandler={handleNew}
@@ -141,6 +154,7 @@ function Component() {
             options={{ hide: limitedProductionSite }}
           />
         )}
+        <Menu showMenu actions={actions} />
       </PageHeading>
       <PageContent>
         <FormExporter

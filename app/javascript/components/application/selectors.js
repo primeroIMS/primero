@@ -353,3 +353,5 @@ export const getListHeadersByRecordAndCaseType = (state, { caseType, recordType,
 export const getExactSearchFields = state => state.getIn([NAMESPACE, "exactSearchFields"], fromJS({}));
 
 export const getPhoneticSearchFields = state => state.getIn([NAMESPACE, "phoneticSearchFields"], fromJS({}));
+
+export const getUnusedFieldsReport = state => state.getIn([NAMESPACE, "unusedFieldsReport"]);

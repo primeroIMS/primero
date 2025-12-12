@@ -15,6 +15,7 @@ class SystemSettings < ApplicationRecord
 
   TIMEFRAME_HOURS_TO_ASSIGN = 3
   TIMEFRAME_HOURS_TO_ASSIGN_HIGH = 1
+  EXPIRES = 60.seconds # Expiry for the delegated ActiveStorage url
 
   store_accessor(:system_options, :due_date_from_appointment_date,
                  :show_alerts, :code_of_conduct_enabled, :timeframe_hours_to_assign,
@@ -30,6 +31,8 @@ class SystemSettings < ApplicationRecord
   localize_jsonb_properties %i[field_labels registration_streams_link_labels registration_streams_consent_text]
 
   has_one_attached :location_file
+
+  has_one_attached :unused_fields_report_file
 
   validate :validate_reporting_location,
            if: ->(system_setting) { system_setting.reporting_location_config.present? }
@@ -210,6 +213,15 @@ class SystemSettings < ApplicationRecord
     user_count = 1.0 unless user_count.positive?
 
     (total_attachment_file_size / user_count).to_i
+  end
+
+  def unused_fields_report_url(user)
+    return unless user.can?(:index, FormSection) || user.can?(:index, Lookup)
+    return unless unused_fields_report_file.attached?
+
+    Rails.application.routes.url_helpers.rails_blob_path(
+      unused_fields_report_file, only_path: true, expires_in: EXPIRES, disposition: :attachment
+    )
   end
 
   class << self
