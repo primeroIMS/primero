@@ -4,7 +4,7 @@ import { fromJS } from "immutable";
 
 import { FILTER_TYPES } from "../../../index-filters";
 
-import { DISABLED, AGENCY, USER_GROUP } from "./constants";
+import { DISABLED, AGENCY, USER_GROUP, ACTION_IDS } from "./constants";
 import * as helper from "./utils";
 
 describe("<AuditLogs /> - Helpers", () => {
@@ -12,11 +12,13 @@ describe("<AuditLogs /> - Helpers", () => {
     it("should have known methods", () => {
       const clone = { ...helper };
 
-      ["agencyBodyRender", "buildObjectWithIds", "buildUsersQuery", "getFilters"].forEach(property => {
-        expect(clone).toHaveProperty(property);
-        expect(clone[property]).toBeInstanceOf(Function);
-        delete clone[property];
-      });
+      ["agencyBodyRender", "buildObjectWithIds", "buildUsersQuery", "getFilters", "buildActionList"].forEach(
+        property => {
+          expect(clone).toHaveProperty(property);
+          expect(clone[property]).toBeInstanceOf(Function);
+          delete clone[property];
+        }
+      );
       expect(Object.keys(clone)).toHaveLength(0);
     });
   });
@@ -103,6 +105,49 @@ describe("<AuditLogs /> - Helpers", () => {
       };
 
       expect(helper.getFilters(i18n, options, null, filterPermission)).toEqual(expected);
+    });
+  });
+
+  describe("buildActionList", () => {
+    it("should return action list when canDisableMultiple is true", () => {
+      const i18n = { t: value => value };
+      const handleDialogClick = jest.fn();
+      const canDisableMultiple = true;
+      const expected = [
+        {
+          id: ACTION_IDS.disable,
+          name: "actions.disable",
+          disableOffline: true,
+          condition: true,
+          action: expect.any(Function)
+        }
+      ];
+
+      const result = helper.buildActionList({ i18n, handleDialogClick, canDisableMultiple });
+
+      expect(result).toEqual(expected);
+    });
+
+    it("should return empty array when canDisableMultiple is false", () => {
+      const i18n = { t: value => value };
+      const handleDialogClick = jest.fn();
+      const canDisableMultiple = false;
+
+      const result = helper.buildActionList({ i18n, handleDialogClick, canDisableMultiple });
+
+      expect(result).toEqual([]);
+    });
+
+    it("should call handleDialogClick when action is executed", () => {
+      const i18n = { t: value => value };
+      const handleDialogClick = jest.fn();
+      const canDisableMultiple = true;
+
+      const result = helper.buildActionList({ i18n, handleDialogClick, canDisableMultiple });
+
+      result[0].action();
+
+      expect(handleDialogClick).toHaveBeenCalledWith("DisableDialog", "disable");
     });
   });
 });

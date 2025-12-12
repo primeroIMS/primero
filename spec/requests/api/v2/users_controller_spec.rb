@@ -886,6 +886,141 @@ describe Api::V2::UsersController, type: :request do
     end
   end
 
+  describe 'POST /api/v2/users/update_bulk' do
+    before do
+      @disable_multiple_permission = Permission.new(
+        resource: Permission::USER,
+        actions: [Permission::MANAGE, Permission::DISABLE_MULTIPLE]
+      )
+    end
+
+    context 'when user has disable_multiple permission' do
+      it 'disables multiple users by IDs' do
+        login_for_test(permissions: [@disable_multiple_permission])
+
+        params = {
+          data: {
+            ids: [@user_a.id, @user_b.id]
+          }
+        }
+
+        post '/api/v2/users/update_bulk', params:, as: :json
+
+        expect(response).to have_http_status(200)
+
+        @user_a.reload
+        @user_b.reload
+
+        expect(@user_a.disabled).to be_truthy
+        expect(@user_b.disabled).to be_truthy
+        expect(@user_c.reload.disabled).to be_falsey
+      end
+
+      it 'disables users by filters (agency)' do
+        login_for_test(permissions: [@disable_multiple_permission])
+
+        params = {
+          data: {
+            agency: @agency_a.id
+          }
+        }
+
+        post '/api/v2/users/update_bulk', params:, as: :json
+
+        expect(response).to have_http_status(200)
+
+        @user_a.reload
+        @user_b.reload
+        @user_c.reload
+
+        expect(@user_a.disabled).to be_truthy
+        expect(@user_b.disabled).to be_truthy
+        expect(@user_c.disabled).to be_falsey
+      end
+
+      it 'disables users by filters (user_group_ids)' do
+        login_for_test(permissions: [@disable_multiple_permission])
+
+        params = {
+          data: {
+            user_group_ids: @user_group_a.unique_id
+          }
+        }
+
+        post '/api/v2/users/update_bulk', params:, as: :json
+
+        expect(response).to have_http_status(200)
+
+        @user_a.reload
+        @user_c.reload
+
+        expect(@user_a.disabled).to be_truthy
+        expect(@user_c.disabled).to be_falsey
+      end
+
+      it 'disables users by query filter' do
+        login_for_test(permissions: [@disable_multiple_permission])
+
+        params = {
+          data: {
+            query: 'Test User 1'
+          }
+        }
+
+        post '/api/v2/users/update_bulk', params:, as: :json
+
+        expect(response).to have_http_status(200)
+
+        @user_a.reload
+        @user_b.reload
+
+        expect(@user_a.disabled).to be_truthy
+        expect(@user_b.disabled).to be_falsey
+      end
+
+      it 'updates updated_at timestamp' do
+        login_for_test(permissions: [@disable_multiple_permission])
+
+        original_updated_at = @user_a.updated_at
+
+        params = {
+          data: {
+            ids: [@user_a.id]
+          }
+        }
+
+        post '/api/v2/users/update_bulk', params:, as: :json
+
+        expect(response).to have_http_status(200)
+
+        @user_a.reload
+        expect(@user_a.updated_at).to be > original_updated_at
+      end
+    end
+
+    context 'when user does not have disable_multiple permission' do
+      it 'returns 403 forbidden' do
+        login_for_test(
+          permissions: [
+            Permission.new(resource: Permission::USER, actions: [Permission::READ])
+          ]
+        )
+
+        params = {
+          data: {
+            ids: [@user_a.id, @user_b.id]
+          }
+        }
+
+        post '/api/v2/users/update_bulk', params:, as: :json
+
+        expect(response).to have_http_status(403)
+        expect(json['errors'].size).to eq(1)
+        expect(json['errors'][0]['resource']).to eq('/api/v2/users/update_bulk')
+      end
+    end
+  end
+
   describe 'DELETE /api/v2/users/:id' do
     it 'successfully deletes a user with a code of 200' do
       login_for_test(

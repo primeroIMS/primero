@@ -17,7 +17,7 @@ function Component({ maximumUsers, totalUsersEnabled, limitUsersReached }) {
     }
   ]);
 
-  if (!limitUsersReached) {
+  if (limitUsersReached || !maximumUsers || !totalUsersEnabled) {
     return null;
   }
 
