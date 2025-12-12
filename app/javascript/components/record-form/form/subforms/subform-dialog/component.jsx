@@ -277,9 +277,9 @@ function Component({
         disableActions: isFormShow
       };
 
-  const violationTitle = (
-    <ViolationTitle title={title} values={subformValues} fields={field.subform_section_id.fields} />
-  );
+  const violationTitle = i18n.t(`incident.violation.${isNewSubform ? "save" : "update"}_and_return`, {
+    association: isViolationAssociation ? parentTitle || title : i18n.t("incident.violation.title")
+  });
   const familyMemberTitle = i18n.t(`family.family_member.${isNewSubform ? "save" : "update"}_and_return`);
   const handleBackLabel = isViolation || isViolationAssociation ? violationTitle : familyMemberTitle;
 
