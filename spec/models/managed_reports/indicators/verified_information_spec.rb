@@ -57,6 +57,16 @@ describe ManagedReports::Indicators::VerifiedInformation do
     )
 
     Violation.create!(
+      data: {
+        type: 'deprivation_liberty',
+        violation_tally: { 'boys' => 10, 'girls' => 15, 'unknown' => 0, 'total' => 25 },
+        ctfmr_verified_date: Date.new(2021, 5, 23),
+        ctfmr_verified: 'verified'
+      },
+      incident_id: incident.id
+    )
+
+    Violation.create!(
       data: { type: 'abduction', violation_tally: { 'boys' => 10, 'girls' => 10, 'unknown' => 30, 'total' => 50 },
               ctfmr_verified: 'verified', ctfmr_verified_date: Date.new(2021, 6, 23), is_late_verification: true },
       incident_id: incident3.id
@@ -142,7 +152,6 @@ describe ManagedReports::Indicators::VerifiedInformation do
       has_late_verified_violations=false
       ctfmr_verified_date=2021-04-01..2022-06-10
     ]
-
 
     expect(data).to match_array(
       [

@@ -12,9 +12,8 @@ class ManagedReports::Indicators::IncidentAttackOn < ManagedReports::SqlReportIn
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/CyclomaticComplexity
     # rubocop:disable Metrics/PerceivedComplexity
-    # rubocop:disable Metrics/MethodLength
     def sql(current_user, params = {})
-      %{
+      <<~SQL
         select
         'violation' as id,
         #{grouped_date_query(params['grouped_by'],
@@ -25,6 +24,7 @@ class ManagedReports::Indicators::IncidentAttackOn < ManagedReports::SqlReportIn
         inner join incidents incidents
           on incidents.id = violations.incident_id
           AND incidents.srch_status = 'open'
+          AND incidents.srch_record_state = TRUE
           #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
         where #{equal_value_query(params['type'], 'violations')}
         #{date_range_query(params['incident_date'], 'incidents')&.prepend('and ')}
@@ -33,11 +33,10 @@ class ManagedReports::Indicators::IncidentAttackOn < ManagedReports::SqlReportIn
         #{equal_value_query(params['ctfmr_verified'], 'violations')&.prepend('and ')}
         #{equal_value_query(params['has_late_verified_violations'], 'incidents')&.prepend('and ')}
         #{group_id_alias(params['grouped_by'])&.dup&.prepend('group by ')}
-      }
+      SQL
     end
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/CyclomaticComplexity
     # rubocop:enable Metrics/PerceivedComplexity
-    # rubocop:enable Metrics/MethodLength
   end
 end

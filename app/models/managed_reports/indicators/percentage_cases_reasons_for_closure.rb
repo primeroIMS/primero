@@ -28,6 +28,7 @@ class ManagedReports::Indicators::PercentageCasesReasonsForClosure < ManagedRepo
             COALESCE(srch_sex, 'incomplete_data') AS sex
           FROM cases
           WHERE srch_status = 'closed'
+          AND srch_record_state = TRUE
           #{params['record_state']&.query(Child)&.prepend('AND ')}
           #{user_scope_query(current_user, 'cases')&.prepend('AND ')}
           #{user_module_query(current_user, 'cases')&.prepend('AND ')}

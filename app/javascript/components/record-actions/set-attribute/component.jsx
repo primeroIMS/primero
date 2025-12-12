@@ -59,7 +59,7 @@ function ActionAttribute({ close, open, record, recordType, pending, setPending 
         omitCloseAfterSuccess
         dialogSubHeader={i18n.t("cases.attribute.text")}
         dialogTitle={i18n.t("cases.attribute.title")}
-        confirmButtonLabel={i18n.t("buttons.save")}
+        confirmButtonLabel={i18n.t("buttons.next")}
         confirmButtonProps={{
           form: FORM_ID,
           type: "submit"
@@ -79,12 +79,12 @@ function ActionAttribute({ close, open, record, recordType, pending, setPending 
         successHandler={succesConfirmationModal}
         cancelHandler={cancelConfirmationModal}
         dialogTitle={i18n.t("cases.attribute.confirm_title")}
-        confirmButtonLabel={i18n.t("buttons.ok")}
+        confirmButtonLabel={i18n.t("buttons.attribute")}
       >
         <p className={css.userText}>{i18n.t("cases.attribute.confirm_text")}</p>
         <ul className={css.userList}>
           <li>
-            <span className={css.userField}>{i18n.t("cases.attribute.name")}:</span> {selectedUser?.get("user_name")}
+            <span className={css.userField}>{i18n.t("cases.attribute.name")}:</span> {selectedUser?.get("full_name")}
           </li>
           <li>
             <span className={css.userField}>{i18n.t("cases.attribute.email")}:</span> {selectedUser?.get("email")}

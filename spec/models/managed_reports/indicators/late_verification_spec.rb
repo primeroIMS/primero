@@ -44,6 +44,18 @@ describe ManagedReports::Indicators::LateVerification do
               ctfmr_verified: 'verified', ctfmr_verified_date: Date.new(2022, 1, 1) },
       incident_id: incident3.id
     )
+
+    Violation.create!(
+      data: { type: 'deprivation_liberty', violation_tally: { 'boys' => 1, 'girls' => 2, 'unknown' => 1, 'total' => 4 },
+              ctfmr_verified: 'verified', ctfmr_verified_date: Date.new(2022, 1, 1) },
+      incident_id: incident2.id
+    )
+
+    Violation.create!(
+      data: { type: 'military_use', violation_tally: { 'boys' => 1, 'girls' => 2, 'unknown' => 1, 'total' => 4 },
+              ctfmr_verified: 'verified', ctfmr_verified_date: Date.new(2022, 1, 1) },
+      incident_id: incident2.id
+    )
   end
 
   after do

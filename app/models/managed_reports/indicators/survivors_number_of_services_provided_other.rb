@@ -17,14 +17,15 @@ class ManagedReports::Indicators::SurvivorsNumberOfServicesProvidedOther < Manag
       date_param = filter_date(params)
       grouped_by_date = grouped_date_query(params['grouped_by'], date_param)
       group_column = grouped_by_date.present? ? 'group_id' : nil
-      %{
+      <<~SQL
         WITH filtered_incidents AS (
           SELECT
             id,
             #{grouped_by_date&.dup&.concat(' AS group_id,')}
             data
           FROM incidents
-          WHERE data @? '$[*] ? (@.consent_reporting == "true")'
+          WHERE srch_record_state = TRUE
+          AND data @? '$[*] ? (@.consent_reporting == "true")'
           #{date_range_query(date_param)&.prepend('AND ')}
           #{equal_value_query(params['module_id'])&.prepend('AND ')}
           #{user_scope_query(current_user)&.prepend('AND ')}
@@ -129,7 +130,7 @@ class ManagedReports::Indicators::SurvivorsNumberOfServicesProvidedOther < Manag
           GROUP BY #{group_column&.dup&.+(',')} name, key
         ) AS services
         ORDER BY name
-      }
+      SQL
     end
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/AbcSize

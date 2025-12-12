@@ -18,6 +18,6 @@ describe ManagedReports::SubReports::GhnReport do
 
   it 'return a Hash of Lookups' do
     expect(ghn_report.lookups).to be_an_instance_of(Hash)
-    expect(ghn_report.lookups.size).to eq(7)
+    expect(ghn_report.lookups.size).to eq(6)
   end
 end

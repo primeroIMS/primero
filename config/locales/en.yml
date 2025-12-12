@@ -151,6 +151,7 @@ en:
     approve_case_plan: Approve Case Plan
     approve_closure: Approve Closure
     approve_gbv_closure: Approve GBV Closure
+    attribute: Attribute
     back: Back
     bundle_export: Configuration Bundle
     bundle_import: Configuration Bundle
@@ -192,6 +193,7 @@ en:
     link: Link
     mark_for_mobile: Mark for mobile
     new: New
+    next: Next
     ok: OK
     print: Print
     reassign: Assign
@@ -1062,6 +1064,7 @@ en:
         user_name_uniqueness: A User with that user name already exists. Please enter a different one
         email_uniqueness: A User with this email address already exists. Please enter a different one
         data_processing_consent_provided_on: You must provide consent to data processing
+        code_of_conduct: Invalid code of conduct. Please make sure that you are accepting the latest code of conduct.
       code_of_conduct:
         title_present: Title must not be blank
         content_present: Content must not be blank
@@ -4428,6 +4431,9 @@ en:
           create:
             explanation: Ability to create a user account.
             label: Create
+          disable_multiple:
+            explanation: Disable multiple users from the users list. Disabled users can no longer access the system.
+            label: Disable multiple users
           manage:
             explanation: 'Allows a user to perform all available actions on users.
               The "Manage" permission essentially means "everything". IMPORTANT: This
@@ -5032,6 +5038,12 @@ en:
       date_last_login: Date of Last Log In
       date_last_case_view: Date of Last Case View
       date_last_case_updated: Date of Last Case Modification
+    disable_text: Are you sure you want to disable these users? They will no longer be able to login to the system.
+    disable_title: Disable Users
+    disable_selection_indicartor: '%{users_selected} user(s) selected'
+    disable_success: Primero is disabling %{users_selected} user(s). It may take several minutes for all of these user(s) to update.
+    selected_records: '%{select_records} user(s) selected'
+    selected_all_records: Select all %{total_records} users that match this query.
   devise:
     failure:
       already_authenticated: "You are already signed in."

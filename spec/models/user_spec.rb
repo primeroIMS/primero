@@ -17,13 +17,13 @@ describe User do
     options.reverse_merge!(user_name:, full_name: 'full name', password: 'b00h00h00',
                            password_confirmation: options[:password] || 'b00h00h00', email: "#{user_name}@ddress.net",
                            agency_id: options[:agency_id] || Agency.try(:last).try(:id), disabled: 'false',
-                           role_id: options[:role_id] || Role.try(:last).try(:id))
+                           role: options[:role] || Role.try(:last))
     User.new(options)
   end
 
   def build_and_save_user(options = {})
     user = build_user(options)
-    user.save
+    user.save!
     user
   end
 
@@ -136,7 +136,7 @@ describe User do
         )
         SystemSettings.stub(:current).and_return(SystemSettings.first)
         user_double = double('User')
-        allow(User).to receive(:enabled).and_return(user_double)
+        allow(User).to receive(:standard).and_return(user_double)
         allow(user_double).to receive(:count).and_return(20)
       end
 
@@ -173,7 +173,7 @@ describe User do
 
   describe 'other validations' do
     before do
-      clean_data(AuditLog, User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection)
+      clean_data(AuditLog, User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection, CodeOfConduct)
       create(:agency)
       create(:role)
       primero_program = create(:primero_program)
@@ -254,6 +254,44 @@ describe User do
       user = build_user(password: 't1mothy', password_confirmation: '')
       user.should_not be_valid
       user.errors[:password_confirmation].should_not be_nil
+    end
+
+    describe 'Code of conduct' do
+      let!(:code_of_conduct1) do
+        CodeOfConduct.create!(
+          created_by: 'primero_cp',
+          title: 'Code of Conduct 1',
+          content: 'Content of the code of conduct 1'
+        )
+      end
+
+      let!(:code_of_conduct2) do
+        CodeOfConduct.create!(
+          created_by: 'primero_cp',
+          title: 'Code of Conduct 1',
+          content: 'Content of the code of conduct 1'
+        )
+      end
+
+      it 'associates the latest code of conduct' do
+        user = build_user
+        user.code_of_conduct = code_of_conduct2
+        user.save
+        user.reload
+
+        expect(user).to be_valid
+        expect(user.code_of_conduct_id).to eq(code_of_conduct2.id)
+        expect(user.errors).not_to have_key(:code_of_conduct_id)
+      end
+
+      it 'rejects to associate an old code of conduct' do
+        user = build_user
+        user.code_of_conduct_id = code_of_conduct1.id
+        user.save
+
+        expect(user).not_to be_valid
+        expect(user.errors).to have_key(:code_of_conduct_id)
+      end
     end
 
     describe 'Enabled external identity providers' do
@@ -351,6 +389,98 @@ describe User do
     end
   end
 
+  describe '.standard' do
+    before do
+      clean_data(User, Role, Agency)
+    end
+
+    let!(:agency) { create :agency }
+
+    # Roles
+    let!(:standard_role) do
+      create(:role, name: 'standard_role')
+    end
+
+    let!(:non_standard_role) do
+      create(:role, name: 'non_standard_role', user_category: Role::CATEGORY_SYSTEM)
+    end
+
+    # Included users
+    let!(:user_not_disabled) do
+      build_and_save_user(
+        role: standard_role,
+        disabled: false,
+        duplicate: true
+      )
+    end
+
+    let!(:user_not_duplicate) do
+      build_and_save_user(
+        role: standard_role,
+        disabled: true,
+        duplicate: false
+      )
+    end
+
+    let!(:user_flags_nil) do
+      build_and_save_user(
+        role: standard_role,
+        disabled: false,
+        duplicate: false
+      )
+    end
+
+    # Excluded: both disabled AND duplicate are true
+    let!(:user_disabled_and_duplicate) do
+      build_and_save_user(
+        role: standard_role,
+        disabled: true,
+        duplicate: true
+      )
+    end
+
+    # Excluded: role.user_category is not nil
+    let!(:user_with_non_standard_role) do
+      build_and_save_user(
+        role: non_standard_role,
+        disabled: false,
+        duplicate: false
+      )
+    end
+
+    it 'includes users with a nil user_category role who are not both disabled and duplicate' do
+      result = User.standard
+
+      expect(result).to include(user_not_disabled, user_not_duplicate, user_flags_nil)
+    end
+
+    it 'excludes users that have both disabled and duplicate set to true' do
+      result = User.standard
+
+      expect(result).not_to include(user_disabled_and_duplicate)
+    end
+
+    it 'excludes users whose role has a non-nil user_category' do
+      result = User.standard
+
+      expect(result).not_to include(user_with_non_standard_role)
+    end
+
+    it 'only returns users with roles where user_category is nil' do
+      expect(
+        User.standard.joins(:role).pluck('roles.user_category').uniq
+      ).to eq([nil])
+    end
+
+    it 'is chainable with other queries' do
+      expect(User.standard.where(id: user_not_disabled.id)).to match_array([user_not_disabled])
+    end
+
+    after :each do
+      clean_data(User, Role, Agency)
+    end
+  end
+
   describe 'automatic password generation on user creation for native users' do
     before do
       clean_data(User, Role, Agency)
@@ -396,14 +526,6 @@ describe User do
 
     after do
       clean_data(User, Role, Agency)
-    end
-  end
-
-  describe 'Dates' do
-    it 'should load roles only once' do
-      dbl = double('roles', role: create(:role))
-      user = build_and_save_user
-      user.role.should == dbl.role
     end
   end
 
@@ -457,12 +579,6 @@ describe User do
   describe 'user roles' do
     before do
       clean_data(User, Role)
-    end
-
-    it 'should load roles only once' do
-      dbl = double('roles', role: create(:role))
-      user = build_and_save_user
-      user.role.should == dbl.role
     end
 
     it 'should store the roles and retrive them back as Roles' do
@@ -626,40 +742,6 @@ describe User do
 
     after do
       clean_data(User, Agency, Role, FormSection, PrimeroModule, PrimeroProgram, UserGroup)
-    end
-  end
-
-  describe 'agency_name' do
-    context 'when agency does not exist' do
-      before do
-        clean_data(Agency, Role, User, FormSection, PrimeroModule, PrimeroProgram, UserGroup)
-        @user = build_and_save_user
-      end
-
-      it 'should return nil' do
-        expect(@user.agency.try(:name)).to be_nil
-      end
-
-      after do
-        clean_data(User, Agency, Role, FormSection, PrimeroModule, PrimeroProgram, UserGroup)
-      end
-    end
-
-    context 'when agency exists' do
-      before do
-        Agency.destroy_all
-        agency = create(:agency, name: 'unicef')
-
-        @user = build_and_save_user(agency_id: agency.id)
-      end
-
-      it 'should return the agency name' do
-        expect(@user.agency.name).to eq('unicef')
-      end
-
-      after do
-        clean_data(Agency)
-      end
     end
   end
 

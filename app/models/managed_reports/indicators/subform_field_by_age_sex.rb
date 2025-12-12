@@ -30,15 +30,15 @@ class ManagedReports::Indicators::SubformFieldByAgeSex < ManagedReports::SqlRepo
     end
 
     def date_value_query(date_param)
-      return date_range_query(date_param, '', 'subform_section') if date_filter_nested?
+      return date_range_query(date_param, 'subform_section') if date_filter_nested?
 
-      date_range_query(date_param)
+      date_range_query(date_param, 'cases')
     end
 
     def field_grouped_date_query(grouped_by_param, date_param)
-      return grouped_date_query(grouped_by_param, date_param, nil, 'subform_section') if date_filter_nested?
+      return grouped_date_query(grouped_by_param, date_param, 'subform_section') if date_filter_nested?
 
-      grouped_date_query(grouped_by_param, date_param)
+      grouped_date_query(grouped_by_param, date_param, 'cases')
     end
 
     # rubocop:disable Metrics/MethodLength
@@ -48,57 +48,58 @@ class ManagedReports::Indicators::SubformFieldByAgeSex < ManagedReports::SqlRepo
     def sql(current_user, params = {})
       date_param = filter_date(params)
 
-      %{
-          with #{id}_by_sex_and_age as (
-            select
-              data->> 'sex' as name,
-              #{age_ranges_query(module_id: params['module_id'])} as key,
-              #{field_grouped_date_query(params['grouped_by'], filter_date(params))&.concat(' as group_id,')}
-              count(*) as sum
-            from cases
-            cross join jsonb_array_elements(cases.data -> '#{subform_section}') as subform_section
-            where 1 = 1
-            #{equal_value_query_multiple(params['owned_by_groups'])&.prepend('and ')}
-            #{equal_value_query_multiple(params['created_by_groups'])&.prepend('and ')}
-            #{equal_value_query_multiple(params['owned_by_agency_id'])&.prepend('and ')}
-            #{equal_value_query_multiple(params['created_organization'])&.prepend('and ')}
-            #{equal_value_query_multiple(params['status'])&.prepend('and ')}
-            #{date_value_query(date_param)&.prepend('and ')}
-            #{equal_value_query(params['module_id'])&.prepend('and ')}
-            #{field_value(params[field_name])&.prepend('and ')}
-            #{user_scope_query(current_user)&.prepend('and ')}
-            group by name, key
-              #{field_grouped_date_query(params['grouped_by'], date_param)&.prepend(', ')}
-            order by name, key
-          )
-          select
-            name, key, sum #{params['grouped_by'].present? ? ', group_id' : ''}
-          from #{id}_by_sex_and_age
-          union all
-          select
-            name,
-            'total' as key,
-            cast(sum(sum) as integer) as sum
-            #{params['grouped_by'].present? ? ', group_id' : ''}
-          from #{id}_by_sex_and_age
-          group by name #{params['grouped_by'].present? ? ', group_id' : ''}
-          union all
-          select
-           'total' as name,
-            key,
-            cast(sum(sum) as integer) as sum
-            #{params['grouped_by'].present? ? ', group_id' : ''}
-          from #{id}_by_sex_and_age
-          group by key #{params['grouped_by'].present? ? ', group_id' : ''}
-          union all
-          select
-           'total' as name,
-           'total' as key,
-           cast(sum(sum) as integer) as sum
-           #{params['grouped_by'].present? ? ', group_id' : ''}
-          from #{id}_by_sex_and_age
-          #{params['grouped_by'].present? ? 'group by group_id' : ''}
-      }
+      <<~SQL
+        WITH #{id}_by_sex_and_age AS (
+          SELECT
+            cases.data->> 'sex' AS name,
+            #{age_ranges_query(module_id: params['module_id'], table_name: 'cases')} AS key,
+            #{field_grouped_date_query(params['grouped_by'], filter_date(params))&.concat(' AS group_id,')}
+            COUNT(*) AS sum
+          FROM cases
+          CROSS JOIN LATERAL (
+            SELECT JSONB_ARRAY_ELEMENTS(cases.data -> '#{subform_section}') AS data
+          ) AS subform_section
+          WHERE cases.srch_record_state = TRUE
+          #{equal_value_query_multiple(params['owned_by_groups'], 'cases')&.prepend('AND ')}
+          #{equal_value_query_multiple(params['created_by_groups'], 'cases')&.prepend('AND ')}
+          #{equal_value_query_multiple(params['owned_by_agency_id'], 'cases')&.prepend('AND ')}
+          #{equal_value_query_multiple(params['created_organization'], 'cases')&.prepend('AND ')}
+          #{equal_value_query_multiple(params['status'], 'cases')&.prepend('AND ')}
+          #{date_value_query(date_param)&.prepend('AND ')}
+          #{equal_value_query(params['module_id'], 'cases')&.prepend('AND ')}
+          #{field_value(params[field_name])&.prepend('AND ')}
+          #{user_scope_query(current_user, 'cases')&.prepend('AND ')}
+          GROUP BY name, key #{field_grouped_date_query(params['grouped_by'], date_param)&.prepend(', ')}
+          ORDER BY name, key
+        )
+        SELECT
+          name, key, sum #{params['grouped_by'].present? ? ', group_id' : ''}
+        FROM #{id}_by_sex_and_age
+        UNION ALL
+        SELECT
+          name,
+          'total' AS key,
+          CAST(SUM(sum) AS INTEGER) AS sum
+          #{params['grouped_by'].present? ? ', group_id' : ''}
+        FROM #{id}_by_sex_and_age
+        GROUP BY name #{params['grouped_by'].present? ? ', group_id' : ''}
+        UNION ALL
+        SELECT
+          'total' AS name,
+          key,
+          CAST(SUM(sum) AS INTEGER) AS sum
+          #{params['grouped_by'].present? ? ', group_id' : ''}
+        FROM #{id}_by_sex_and_age
+        GROUP BY key #{params['grouped_by'].present? ? ', group_id' : ''}
+        UNION ALL
+        SELECT
+          'total' AS name,
+          'total' AS key,
+          CAST(SUM(sum) AS INTEGER) AS sum
+          #{params['grouped_by'].present? ? ', group_id' : ''}
+        FROM #{id}_by_sex_and_age
+        #{params['grouped_by'].present? ? 'group by group_id' : ''}
+      SQL
     end
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/AbcSize

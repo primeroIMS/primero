@@ -97,6 +97,11 @@ class User < ApplicationRecord
     )
   end)
 
+  scope :by_category, (lambda do |user_category|
+    joins(:role).where(disabled: false).or(where(duplicate: false))
+    .where(roles: { user_category: })
+  end)
+
   alias_attribute :organization, :agency
   alias_attribute :name, :user_name
 
@@ -134,6 +139,7 @@ class User < ApplicationRecord
   validates :data_processing_consent_provided_on,
             presence: { message: 'errors.models.user.data_processing_consent_provided_on' },
             if: :data_processing_consent_required?
+  validate :validate_latest_code_of_conduct
   with_options if: :limit_maximum_users_enabled? do
     validate :validate_limit_user_reached, on: :create
     validate :validate_limit_user_reached_on_enabling, on: :update
@@ -192,6 +198,10 @@ class User < ApplicationRecord
       self_permitted_params
     end
 
+    def standard
+      by_category(nil)
+    end
+
     def last_login_timestamp(user_name)
       AuditLog.where(action_name: 'login', user_name:).try(:last).try(:timestamp)
     end
@@ -221,7 +231,7 @@ class User < ApplicationRecord
     end
 
     def limit_user_reached?
-      SystemSettings.current.maximum_users > User.enabled.count
+      SystemSettings.current.maximum_users > User.standard.count
     end
 
     def with_audit_dates
@@ -812,16 +822,23 @@ class User < ApplicationRecord
 
   def validate_limit_user_reached
     maximum_users = SystemSettings.current.maximum_users
-    return if maximum_users > User.enabled.count
+    return if maximum_users > User.standard.count
 
     errors.add(:base, I18n.t('users.alerts.limit_user_reached', maximum_users:))
   end
 
   def validate_limit_user_reached_on_enabling
     maximum_users = SystemSettings.current.maximum_users
-    return if !enabling_user? || maximum_users > User.enabled.count
+    return if !enabling_user? || maximum_users > User.standard.count
 
     errors.add(:base, I18n.t('users.alerts.limit_user_reached_on_enable', maximum_users:))
+  end
+
+  def validate_latest_code_of_conduct
+    return unless will_save_change_to_attribute?('code_of_conduct_id')
+    return if code_of_conduct == CodeOfConduct.current
+
+    errors.add(:code_of_conduct_id, I18n.t('errors.models.user.code_of_conduct'))
   end
 end
 # rubocop:enable Metrics/ClassLength
