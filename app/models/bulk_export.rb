@@ -134,7 +134,8 @@ class BulkExport < ApplicationRecord
       {
         filters:,
         scope: record_query_scope, query:,
-        sort: order, pagination: { page:, per_page: batch }
+        sort: order, pagination: { page:, per_page: batch },
+        skip_attachments: exporter.skip_attachments?
       }
     )
   end

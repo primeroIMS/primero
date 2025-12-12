@@ -26,8 +26,9 @@ class Search::SearchQuery
     self
   end
 
-  def build
-    record_query = record_class.eager_loaded_class
+  def build(skip_attachments = false)
+    record_query = skip_attachments ? record_class.includes(:alerts, :active_flags) : record_class.eager_loaded_class
+
     query_filters = Search::SearchScope.scope_filters(scope) + filters
     query_filters.each { |filter| record_query = record_query.where(filter.query(record_class)) }
     record_query
