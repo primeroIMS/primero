@@ -1,13 +1,14 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 /* eslint-disable react/no-multi-comp, react/display-name */
-import { useState, useRef, useLayoutEffect } from "react";
+import { useState, useRef, useLayoutEffect, useEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
-import { Formik, Form, getIn } from "formik";
+import { Formik, Form, getIn, useFormikContext } from "formik";
 import { object } from "yup";
 import isEmpty from "lodash/isEmpty";
 import { useDispatch } from "react-redux";
+import { fromJS } from "immutable";
 
 import { fieldValidations } from "../../validations";
 import { SUBFORM_CREATE_CASE_DIALOG, SUBFORM_DIALOG } from "../constants";
@@ -37,6 +38,45 @@ import {
 } from "../../../../records";
 import { useMemoizedSelector } from "../../../../../libs";
 import { RECORD_TYPES_PLURAL, SERVICES_SUBFORM_FIELD } from "../../../../../config";
+import childFunctioningFormDataTemplate from "../../../../child-functioning-form/child-functioning-form-data";
+
+// === NEW HELPER COMPONENT TO MANAGE SYNC LOGIC ===
+function ChildFunctioningFormEffects({ field }) {
+  const { values, setFieldValue } = useFormikContext();
+
+  useEffect(() => {
+    if (fromJS(field.subform_section_id.unique_id) !== "child_functioning_subform_section") return;
+
+    const age = values?.cfm_age;
+
+    if (!age) return;
+
+    Object.entries(childFunctioningFormDataTemplate).forEach(([controller, dependents]) => {
+      const controllerKey = `cfm_${age}_${controller}`;
+
+      if (values?.[controllerKey] === false) {
+        dependents.forEach(dep => {
+          const depKey = `cfm_${age}_${dep}`;
+
+          if (values?.[depKey]) setFieldValue(depKey, "");
+        });
+      }
+    });
+  }, [values, setFieldValue, field]);
+
+  // This component renders nothing, it just runs the effect
+  return null;
+}
+
+// Add prop-types validation for the helper component
+ChildFunctioningFormEffects.propTypes = {
+  field: PropTypes.shape({
+    subform_section_id: PropTypes.shape({
+      unique_id: PropTypes.string.isRequired
+    }).isRequired
+  }).isRequired
+};
+// =================================================
 
 function Component({
   arrayHelpers,
@@ -56,7 +96,7 @@ function Component({
   orderedValues,
   recordType,
   recordModuleID,
-  parentTitle,
+  parentTitle, // eslint-disable-line no-unused-vars
   isFamilyDetail,
   isFamilyMember,
   isViolation,
@@ -100,15 +140,17 @@ function Component({
 
   const { case_id: caseId, case_id_display: caseIdDisplay } = subformValues;
 
-  const handleClose = () => {
-    const compactedValues = compactValues(childFormikRef.current.values, initialSubformValues);
+  const handleClose = useCallback(() => {
+    const compactedValues = childFormikRef.current
+      ? compactValues(childFormikRef.current.values, initialSubformValues)
+      : {};
 
     if (Object.keys(childFormikRef.current.touched).length || Object.keys(compactedValues).length) {
       setOpenConfirmationModal(true);
     } else {
       setOpen({ open: false, index: null });
     }
-  };
+  }, [initialSubformValues, setOpen]);
 
   let boundSubmitForm = null;
 
@@ -264,6 +306,9 @@ function Component({
 
             return (
               <Form data-testid="subForm-dialog-form" autoComplete="off" onSubmit={handleSubmit}>
+                {/* Rendered as a component within the JSX return */}
+                <ChildFunctioningFormEffects field={field} />
+
                 <SubformErrors
                   initialErrors={initialSubformErrors}
                   errors={errors}
