@@ -54,15 +54,15 @@ const childFunctioningSummaryData = [
     label: "cases.child_functioning.mobility_difficulty_with_equipment_500m",
     key: latestValue => `cfm_${latestValue?.cfm_age}_mobility_difficulty_with_equipment_500m`
   },
-   {
+  {
     label: "cases.child_functioning.difficulty_comparative",
     key: latestValue => `cfm_${latestValue?.cfm_age}_mobility_difficulty_comparative`
   },
-   {
+  {
     label: "cases.child_functioning.mobility_difficulty_comparative_100m",
     key: latestValue => `cfm_${latestValue?.cfm_age}_mobility_difficulty_comparative_100m`
   },
-   {
+  {
     label: "cases.child_functioning.mobility_difficulty_comparative_500m",
     key: latestValue => `cfm_${latestValue?.cfm_age}_mobility_difficulty_comparative_500m`
   },

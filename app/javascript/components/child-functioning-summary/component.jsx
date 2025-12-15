@@ -21,7 +21,7 @@ const formatValue = (key, value, i18n) => {
     if (key.includes("age") && value.includes("_")) return `${value.replace("_", " to ")} years`;
     if (value.includes("_")) return value.replace(/_/g, " ").replace(/\b\w/g, char => char.toUpperCase());
     if (/^[a-z]+$/.test(value)) {
-    return value.charAt(0).toUpperCase() + value.slice(1);
+      return value.charAt(0).toUpperCase() + value.slice(1);
     }
     const parsedDate = new Date(value);
 
