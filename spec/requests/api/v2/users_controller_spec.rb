@@ -572,37 +572,6 @@ describe Api::V2::UsersController, type: :request do
       end
     end
 
-    describe 'empty response' do
-      let(:json) { nil }
-
-      it 'creates a new record with 204 and returns no JSON if the client generated the id' do
-        login_for_test(
-          permissions: [
-            Permission.new(resource: Permission::USER, actions: [Permission::CREATE])
-          ]
-        )
-        id = (rand * 1000).to_i
-        params = {
-          data: {
-            id:,
-            full_name: 'Test User API 2',
-            user_name: 'test_user_api_2',
-            code: 'test/code',
-            email: 'test_user_api@localhost.com',
-            agency_id: @agency_a.id,
-            role_unique_id: @role.unique_id,
-            password_confirmation: 'a12345678',
-            password: 'a12345678'
-          }
-        }
-
-        post '/api/v2/users', params:, as: :json
-
-        expect(response).to have_http_status(204)
-        expect(User.find_by(id:)).not_to be_nil
-      end
-    end
-
     it "returns 403 if user isn't authorized to create records" do
       login_for_test
 
@@ -622,33 +591,6 @@ describe Api::V2::UsersController, type: :request do
       post('/api/v2/users', params:)
 
       expect(response).to have_http_status(403)
-      expect(json['errors'].size).to eq(1)
-      expect(json['errors'][0]['resource']).to eq('/api/v2/users')
-    end
-
-    it 'returns a 409 if record already exists' do
-      login_for_test(
-        permissions: [
-          Permission.new(resource: Permission::USER, actions: [Permission::CREATE])
-        ]
-      )
-      params = {
-        data: {
-          id: @user_a.id,
-          full_name: 'Test User 5',
-          user_name: 'test_user_5',
-          code: 'test/code',
-          email: 'test_user_5@localhost.com',
-          agency_id: @agency_a.id,
-          role_unique_id: @role.unique_id,
-          password_confirmation: 'a12345678',
-          password: 'a12345678'
-        }
-      }
-
-      post '/api/v2/users', params:, as: :json
-
-      expect(response).to have_http_status(409)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq('/api/v2/users')
     end

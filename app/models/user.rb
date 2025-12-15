@@ -162,32 +162,30 @@ class User < ApplicationRecord
       ]
     end
 
-    def password_parameters
-      %w[password password_confirmation]
-    end
-
     def unique_id_parameters
       %w[user_group_unique_ids role_unique_id identity_provider_unique_id]
-    end
-
-    def permitted_attribute_names
-      User.attribute_names.reject { |name| name == 'services' } + [{ 'services' => [] }]
     end
 
     def order_insensitive_attribute_names
       %w[full_name user_name position]
     end
 
+    # rubocop:disable Metrics/MethodLength
     def default_permitted_params
       (
-        User.permitted_attribute_names + User.password_parameters +
-        [
-          { 'user_group_ids' => [] }, { 'user_group_unique_ids' => [] },
-          { 'module_unique_ids' => [] }, 'role_unique_id', 'identity_provider_unique_id',
-          { 'settings' => { 'notifications' => { 'send_mail' => {}, 'receive_webpush' => {} } } }
-        ]
+        %w[full_name user_name code phone email agency_id position
+           location reporting_location_code role_id time_zone locale send_mail disabled
+           agency_office reset_password_token identity_provider_id code_of_conduct_id
+           receive_webpush registration_stream password password_confirmation role_unique_id
+           identity_provider_unique_id] +
+           [{ 'services' => [] },
+            { 'user_group_ids' => [] }, { 'user_group_unique_ids' => [] },
+            { 'module_unique_ids' => [] },
+            { 'settings' => { 'notifications' =>
+            { 'send_mail' => {}, 'receive_webpush' => {} } } }]
       ) - User.hidden_attributes
     end
+    # rubocop:enable Metrics/MethodLength
 
     def permitted_api_params(current_user = nil, target_user = nil)
       return default_permitted_params if current_user.nil? || target_user.nil?
