@@ -173,7 +173,7 @@ class User < ApplicationRecord
     # rubocop:disable Metrics/MethodLength
     def default_permitted_params
       (
-        %w[id full_name user_name code phone email agency_id position
+        %w[full_name user_name code phone email agency_id position
            location reporting_location_code role_id time_zone locale send_mail disabled
            agency_office reset_password_token identity_provider_id code_of_conduct_id
            receive_webpush registration_stream password password_confirmation role_unique_id
