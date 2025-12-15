@@ -5,7 +5,11 @@ import { useI18n } from "../i18n";
 
 import childFunctioningSummaryData from "./child-functioning-summary-data";
 
-const formatKey = key => key.replace(/_/g, " ").replace(/\b\w/g, char => char.toUpperCase());
+const formatKey = key => {
+  const str = key.replace(/_/g, " ");
+
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+};
 
 const formatValue = (key, value, i18n) => {
   if (typeof value === "boolean") {
@@ -16,7 +20,9 @@ const formatValue = (key, value, i18n) => {
     if (value === "false") return i18n.t("cases.child_functioning.cfm_no");
     if (key.includes("age") && value.includes("_")) return `${value.replace("_", " to ")} years`;
     if (value.includes("_")) return value.replace(/_/g, " ").replace(/\b\w/g, char => char.toUpperCase());
-
+    if (/^[a-z]+$/.test(value)) {
+    return value.charAt(0).toUpperCase() + value.slice(1);
+    }
     const parsedDate = new Date(value);
 
     if (!Number.isNaN(parsedDate.getTime())) {
@@ -50,7 +56,7 @@ function Component({ values = null }) {
 
         return (
           <div key={key} style={{ marginBottom: "8px" }}>
-            <strong>{formatKey(i18n.t(field.label))}:</strong> {formatValue(key, value, i18n)}
+            <strong>{formatKey(i18n.t(`${field.label}`))}:</strong> {formatValue(key, value, i18n)}
           </div>
         );
       })}
