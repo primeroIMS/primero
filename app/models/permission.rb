@@ -308,7 +308,12 @@ class Permission < ValueObject
       Permission::VIEW_INCIDENT_FROM_CASE,
       Permission::FIND_TRACING_MATCH,
       Permission::VIEW_FAMILY_RECORD,
-      Permission::VIEW_REGISTRY_RECORD
+      Permission::VIEW_REGISTRY_RECORD,
+      Permission::REFERRAL_FROM_SERVICE,
+      Permission::REMOVE_ASSIGNED_USERS,
+      Permission::REFERRAL,
+      Permission::RECEIVE_REFERRAL,
+      Permission::RECEIVE_REFERRAL_DIFFERENT_MODULE
     ],
     INCIDENT => [
       Permission::MANAGE,
