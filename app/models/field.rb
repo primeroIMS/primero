@@ -31,7 +31,7 @@ class Field < ApplicationRecord
 
   ADMIN_LEVEL_REGEXP = Regexp.new("[#{Location::ADMIN_LEVELS.join}]$").freeze
 
-  localize_properties :display_name, :help_text, :guiding_questions, :tick_box_label
+  localize_properties :display_name, :help_text, :guiding_questions, :tick_box_label, :signature_provided_by_label
   localize_properties :option_strings_text, :tally, options_list: true
 
   attr_reader :options
@@ -71,7 +71,8 @@ class Field < ApplicationRecord
     [
       'id', 'name', 'type', 'multi_select', 'form_section_id', 'visible', 'mobile_visible',
       'hide_on_view_page', 'show_on_minify_form', 'disabled', { 'display_name' => {} }, { 'help_text' => {} },
-      { 'guiding_questions' => {} }, { 'tally' => {} }, { 'tick_box_label' => {} },
+      { 'guiding_questions' => {} }, { 'signature_provided_by_label' => {} },
+      { 'tally' => {} }, { 'tick_box_label' => {} },
       { 'option_strings_text' => [:id, :disabled, { display_text: {} }] },
       'option_strings_source', 'order', 'hidden_text_field', 'subform_section_id',
       'collapsed_field_for_subform_section_id', 'autosum_total', 'autosum_group', 'selected_value', 'link_to_path',

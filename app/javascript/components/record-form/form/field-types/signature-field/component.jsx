@@ -137,14 +137,16 @@ function Component({ helperText, label, mode, name, field }) {
     </InputLabel>
   );
 
-  const signatureInfo = signatureMetaField => {
+  const signatureInfo = (signatureMetaField, labelFromField) => {
     const fieldValue = value?.[signatureMetaField];
 
     if (!fieldValue) return false;
+    const selectedLabelFromField = field.getIn([labelFromField, i18n.locale], null);
+    const signatureLabel = selectedLabelFromField || i18n.t(`fields.${signatureMetaField}`);
 
     return (
       <div>
-        {i18n.t(`fields.${signatureMetaField}`)}: <span>{fieldValue || EMPTY_VALUE}</span>
+        {signatureLabel}: <span>{fieldValue || EMPTY_VALUE}</span>
       </div>
     );
   };
@@ -168,7 +170,7 @@ function Component({ helperText, label, mode, name, field }) {
             />
             <div className={css.signatureDetails}>
               {signatureInfo("signature_provided_on")}
-              {signatureInfo("signature_provided_by")}
+              {signatureInfo("signature_provided_by", "signature_provided_by_label")}
               {signatureInfo("signature_created_by_user")}
             </div>
           </div>
