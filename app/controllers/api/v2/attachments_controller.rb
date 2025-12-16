@@ -68,7 +68,7 @@ class Api::V2::AttachmentsController < Api::V2::RecordResourceController
   end
 
   def initialize_attachment
-    @attachment = if params.dig(:data, :attachment_type) == Field::SIGNATURE
+    @attachment = if params.dig(:data, :attachment_type) == Field::SIGNATURE_FIELD
                     Signature.new_with_user(current_user, attachment_params)
                   else
                     Attachment.new(attachment_params)

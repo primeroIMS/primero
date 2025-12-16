@@ -24,7 +24,7 @@ class Field < ApplicationRecord
   TALLY_FIELD = 'tally_field'
   CUSTOM = 'custom'
   CALCULATED = 'calculated'
-  SIGNATURE = 'signature'
+  SIGNATURE_FIELD = 'signature'
 
   DATE_VALIDATION_DEFAULT = 'default_date_validation'
   DATE_VALIDATION_NOT_FUTURE = 'not_future_date'
@@ -52,7 +52,7 @@ class Field < ApplicationRecord
     where(type: [Field::PHOTO_UPLOAD_BOX, Field::AUDIO_UPLOAD_BOX, Field::DOCUMENT_UPLOAD_BOX])
   }
   scope :binary_signature, lambda {
-    where(type: Field::SIGNATURE)
+    where(type: Field::SIGNATURE_FIELD)
   }
 
   validate :validate_unique_name_in_form
@@ -101,7 +101,7 @@ class Field < ApplicationRecord
     end
 
     def all_signature_field_names(parent_form = 'case')
-      fields_for_record(parent_form).where(type: Field::SIGNATURE).pluck(:name)
+      fields_for_record(parent_form).where(type: Field::SIGNATURE_FIELD).pluck(:name)
     end
 
     def all_tally_fields(parent_form = 'case')

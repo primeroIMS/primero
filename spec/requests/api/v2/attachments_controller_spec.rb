@@ -11,7 +11,7 @@ describe Api::V2::AttachmentsController, type: :request do
     @field = Field.create!(
       name: 'consent_signature',
       display_name: 'Consent Signature',
-      type: Field::SIGNATURE
+      type: Field::SIGNATURE_FIELD
     )
   end
 
@@ -31,7 +31,7 @@ describe Api::V2::AttachmentsController, type: :request do
         params = {
           data: {
             field_name: 'consent_signature',
-            attachment_type: Field::SIGNATURE,
+            attachment_type: Field::SIGNATURE_FIELD,
             file_name: 'signature.png',
             attachment: attachment_base64('sample.png'),
             signature_provided_by: 'John Doe'

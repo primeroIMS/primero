@@ -11,7 +11,8 @@ module EagerLoadable
     def eager_loaded_class
       # @clazz.eager_load(:alerts, :attachments, :flags)
       includes(
-        :alerts, :active_flags, attachments: { file_attachment: :blob }, current_photos: { file_attachment: :blob }
+        :alerts, :active_flags, attachments: { file_attachment: :blob }, signatures: { file_attachment: :blob },
+                                current_photos: { file_attachment: :blob }
       )
     end
   end

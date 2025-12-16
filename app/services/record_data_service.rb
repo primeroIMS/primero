@@ -22,7 +22,6 @@ class RecordDataService
     data = embebed_data(data, record, selected_field_names, user)
     data = embed_photo_metadata(data, record, selected_field_names)
     data = embed_attachments(data, record, selected_field_names)
-    data = embed_signatures(data, record, selected_field_names)
     data = embed_associations_as_data(data, record, selected_field_names, user)
     data = select_service_section(data, record, selected_field_names, user)
     data['last_updated_at'] = record.last_updated_at
@@ -87,28 +86,30 @@ class RecordDataService
     data
   end
 
-  def embed_attachments(data, record, selected_field_names)
-    field_names = attachment_field_names & selected_field_names
-    return data unless field_names.present?
+  def embed_attachment_properties(data, attachments, field_names, multiple: false)
+    return data if field_names.blank?
 
-    attachments = record.attachments
     field_names.each do |field_name|
       for_field = attachments.select { |a| a.field_name == field_name }
-      data[field_name] = for_field.map(&:to_h_api)
+
+      data[field_name] = if multiple
+                           for_field.map(&:to_h_api)
+                         else
+                           for_field.first&.to_h_api
+                         end
     end
+
     data
   end
 
-  def embed_signatures(data, record, selected_field_names)
-    field_names = signature_field_names & selected_field_names
-    return data unless field_names.present?
+  def embed_attachments(data, record, selected_field_names)
+    attachment_fields = attachment_field_names & selected_field_names
+    signature_fields = signature_field_names
 
-    attachments = record.signatures
-    field_names.each do |field_name|
-      for_field = attachments.select { |a| a.field_name == field_name }.first
-      data[field_name] = for_field.to_h_api if for_field.present?
-    end
-    data
+    return data unless (attachment_fields + signature_fields).present?
+
+    data = embed_attachment_properties(data, record.attachments, attachment_fields, multiple: true)
+    embed_attachment_properties(data, record.signatures, signature_fields)
   end
 
   def embed_alert_metadata(data, record, selected_field_names)
