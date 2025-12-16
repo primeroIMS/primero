@@ -33,7 +33,7 @@ describe SavedSearch do
             actions: [Permission::MANAGE]
           )
         ],
-        modules: [@cp]
+        primero_modules: [@cp]
       )
 
       @agency1 = Agency.create!(name: 'Agency 1', agency_code: 'agency1')

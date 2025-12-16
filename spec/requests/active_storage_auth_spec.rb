@@ -37,7 +37,7 @@ describe ActiveStorageAuth do
 
   describe 'ActiveStorage disk service update' do
     before(:each) do
-      ActiveStorage::Current.host = 'http://example.com'
+      ActiveStorage::Current.url_options = { host: 'http://www.example.com' }
     end
 
     let(:http_response) do

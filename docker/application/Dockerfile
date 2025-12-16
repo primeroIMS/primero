@@ -2,14 +2,15 @@
 
 # -------------------------------------------------------------------- BUILD STAGE
 ARG BUILD_REGISTRY
-ARG RUBY_VERSION=3.3.8
-FROM ${BUILD_REGISTRY}ruby:${RUBY_VERSION}-alpine3.21 AS build-env
+ARG RUBY_VERSION=3.4.5
+ARG ALPINE_VERSION=alpine3.22
+FROM ${BUILD_REGISTRY}ruby:${RUBY_VERSION}-${ALPINE_VERSION} AS build-env
 
 ENV NODE_VERSION=22.15.1-r0
 ENV BUILD_PACKAGES="bash curl wget curl-dev build-base git"
 ENV PYTHON_PACKAGES="python3 py3-pip"
 ENV BUILD_DEP_PACKAGES=postgresql-dev
-ENV RUNTIME_PACKAGES="libc6-compat nodejs=~${NODE_VERSION} gettext libintl npm imagemagick libsodium-dev"
+ENV RUNTIME_PACKAGES="libc6-compat nodejs=~${NODE_VERSION} gettext libintl npm vips libsodium-dev"
 ENV DEV_PACKAGES="busybox-extras tree cairo pixman pixman-dev"
 ENV RAILS_ENV=production
 ENV PYTHON=/usr/bin/python
@@ -102,10 +103,10 @@ RUN set -euox pipefail \
 
 # -------------------------------------------------------------------- FINAL
 ARG BUILD_REGISTRY
-FROM ${BUILD_REGISTRY}ruby:${RUBY_VERSION}-alpine3.21
+FROM ${BUILD_REGISTRY}ruby:${RUBY_VERSION}-${ALPINE_VERSION}
 
 ENV BUILD_PACKAGES=bash
-ENV RUNTIME_PACKAGES="libpq gettext libintl imagemagick libsodium-dev p7zip tini curl"
+ENV RUNTIME_PACKAGES="libpq gettext libintl vips imagemagick libsodium-dev p7zip tini curl"
 ENV WORKER_PACKAGES="libreoffice font-noto font-noto-cjk font-noto-emoji font-noto-extra font-dejavu"
 
 ARG APP_UID

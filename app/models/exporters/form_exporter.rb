@@ -236,7 +236,7 @@ class Exporters::FormExporter < ValueObject
   end
 
   def field_options_subform(field)
-    subform = field.subform_section
+    subform = field.subform
     export_form(subform)
     options = I18n.t('exports.forms.options.subforms', subform_name: subform.name, locale:)
     return options if subform.collapsed_fields.blank?

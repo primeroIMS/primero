@@ -49,7 +49,7 @@ describe("pages/admin/<CodeOfConductForm />", () => {
       expect(screen.getByLabelText("code_of_conduct.field.title *")).toHaveValue("Some Title");
       expect(screen.getByLabelText("code_of_conduct.field.content *")).toHaveValue("Some Content");
       // Month is translated to t, due to i18n mocks in jest
-      expect(screen.getByLabelText("code_of_conduct.field.created_on")).toHaveValue("14-t-2021 13:52");
+      expect(screen.getAllByLabelText("code_of_conduct.field.created_on").at(1)).toHaveValue("14-t-2021 13:52");
     });
 
     it("should render an empty form if code of conduct is not present", () => {
@@ -57,7 +57,7 @@ describe("pages/admin/<CodeOfConductForm />", () => {
       expect(screen.getByLabelText("code_of_conduct.field.created_by")).toHaveValue("");
       expect(screen.getByLabelText("code_of_conduct.field.title *")).toHaveValue("");
       expect(screen.getByLabelText("code_of_conduct.field.content *")).toHaveValue("");
-      expect(screen.getByLabelText("code_of_conduct.field.created_on")).toHaveValue("");
+      expect(screen.getAllByLabelText("code_of_conduct.field.created_on").at(1)).toHaveValue("");
     });
   });
 });

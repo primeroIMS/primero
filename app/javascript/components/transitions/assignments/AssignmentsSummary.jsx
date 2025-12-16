@@ -19,7 +19,12 @@ function AssignmentsSummary({ transition, classes }) {
 
   return (
     <Grid container spacing={2}>
-      <Grid item md={6} xs={10}>
+      <Grid
+        size={{
+          md: 6,
+          xs: 10
+        }}
+      >
         <div className={classes.wrapper} data-testid="wrapper">
           <div className={classes.date} data-testid="date">
             {i18n.localizeDate(transition.created_at)}

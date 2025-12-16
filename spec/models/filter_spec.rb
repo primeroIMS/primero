@@ -51,13 +51,13 @@ describe Filter do
       name: 'Test Role 1',
       unique_id: 'test-role-1',
       permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])],
-      modules: [@cp]
+      primero_modules: [@cp]
     )
     @role_b = Role.create!(
       name: 'Test Role 2',
       unique_id: 'test-role-2',
       permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])],
-      modules: [@cp, @gbv]
+      primero_modules: [@cp, @gbv]
     )
     @role_c = Role.create!(
       name: 'Test Role 3',
@@ -65,7 +65,7 @@ describe Filter do
       permissions: [
         Permission.new(resource: Permission::INCIDENT, actions: [Permission::MANAGE])
       ],
-      modules: [@mrm]
+      primero_modules: [@mrm]
     )
     @role_d = Role.create!(
       name: 'Test Role 4',
@@ -73,7 +73,7 @@ describe Filter do
       permissions: [
         Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])
       ],
-      modules: [@custom_module]
+      primero_modules: [@custom_module]
     )
     @agency_a = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
     @group1 = UserGroup.create!(name: 'Group1')

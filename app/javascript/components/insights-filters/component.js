@@ -157,11 +157,12 @@ function Component({ id, subReport, toggleControls }) {
 
   const applyLabel = i18n.t("buttons.apply");
   const clearLabel = i18n.t("buttons.clear");
+  const dateControls = filterInputs(DATE_CONTROLS_GROUP);
 
   return (
     <form noValidate onSubmit={formMethods.handleSubmit(submit)}>
       <div className={css.container}>
-        <div className={css.dateControlGroup}>{filterInputs(DATE_CONTROLS_GROUP)}</div>
+        {dateControls && <div className={css.dateControlGroup}>{filterInputs(DATE_CONTROLS_GROUP)}</div>}
         <div className={css.filters}>{filterInputs()}</div>
       </div>
       <div className={css.actions}>

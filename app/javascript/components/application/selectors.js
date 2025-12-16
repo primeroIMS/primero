@@ -2,8 +2,8 @@
 
 import { List, Map, fromJS } from "immutable";
 import { isEqual, isNil, omitBy, uniqBy } from "lodash";
-import createCachedSelector from "re-reselect";
-import { createSelectorCreator, defaultMemoize } from "reselect";
+import { createCachedSelector } from "re-reselect";
+import { createSelectorCreator, lruMemoize } from "reselect";
 import { memoize } from "proxy-memoize";
 
 import displayNameHelper from "../../libs/display-name-helper";
@@ -11,6 +11,7 @@ import { getLocale } from "../i18n/selectors";
 import { DATA_PROTECTION_FIELDS } from "../record-creation-flow/constants";
 import { currentUser } from "../user/selectors";
 import { MODULES, RECORD_TYPES_PLURAL } from "../../config";
+import { formatAgeRange } from "../form/utils";
 
 import { PERMISSIONS, RESOURCE_ACTIONS, DEMO, LIMITED } from "./constants";
 import NAMESPACE from "./namespace";
@@ -144,6 +145,9 @@ export const getPrimaryAgeRange = state => {
 
 export const getPrimaryAgeRanges = state => getAgeRanges(state, getPrimaryAgeRange(state));
 
+export const getFormattedAgeRanges = state =>
+  (getPrimaryAgeRanges(state) || fromJS([])).reduce((acc, range) => acc.concat(formatAgeRange(range)), []);
+
 export const getReportableTypes = state => state.getIn([NAMESPACE, "reportableTypes"], fromJS([]));
 
 export const approvalsLabels = state => {
@@ -172,7 +176,7 @@ export const getApprovalsLabels = createCachedSelector(getLocale, approvalsLabel
   return labels;
 })({
   keySelector: (_state, options) => JSON.stringify(omitBy(options, isNil)),
-  selectorCreator: createSelectorCreator(defaultMemoize, isEqual)
+  selectorCreator: createSelectorCreator(lruMemoize, isEqual)
 });
 
 export const getUserGroups = state => state.getIn([NAMESPACE, "userGroups"], fromJS([]));
@@ -193,6 +197,18 @@ export const getDemo = state => state.getIn([NAMESPACE, "primero", DEMO], false)
 export const getConfigUI = state => state.getIn([NAMESPACE, "primero", "config_ui"], "");
 
 export const getLimitedConfigUI = state => getConfigUI(state) === LIMITED;
+
+export const getRegistrationStreams = state => state.getIn([NAMESPACE, "primero", "registration_streams"], fromJS([]));
+
+export const getRegistrationStreamsLinkLabels = state =>
+  state.getIn([NAMESPACE, "primero", "registration_streams_link_labels"], fromJS({}));
+
+export const getRegistrationStreamsConsentText = state =>
+  state.getIn([NAMESPACE, "primero", "registration_streams_consent_text"], fromJS([]));
+
+export const getCaptchaConfig = state => state.getIn([NAMESPACE, "primero", "captcha"], null);
+
+export const getAllowSelfRegistration = state => state.getIn([NAMESPACE, "primero", "allow_self_registration"], false);
 
 export const getIsEnabledWebhookSyncFor = (state, primeroModule, recordType) => {
   const useWebhookSyncFor = getAppModuleByUniqueId(state, primeroModule).getIn(
@@ -264,6 +280,11 @@ export const getAppData = memoize(state => {
   const hasLoginLogo = getLoginBackground(state);
   const maximumttachmentsPerRecord = getMaximumAttachmentsPerRecord(state);
   const fieldLabels = getFieldLabels(state);
+  const allowSelfRegistration = getAllowSelfRegistration(state);
+  const registrationStreams = getRegistrationStreams(state);
+  const registrationStreamsLinkLabels = getRegistrationStreamsLinkLabels(state);
+  const registrationStreamsConsentText = getRegistrationStreamsConsentText(state);
+  const captcha = getCaptchaConfig(state);
 
   return {
     modules,
@@ -279,7 +300,12 @@ export const getAppData = memoize(state => {
     showPoweredByPrimero,
     hasLoginLogo,
     maximumttachmentsPerRecord,
-    fieldLabels
+    fieldLabels,
+    allowSelfRegistration,
+    registrationStreams,
+    registrationStreamsLinkLabels,
+    registrationStreamsConsentText,
+    captcha
   };
 });
 

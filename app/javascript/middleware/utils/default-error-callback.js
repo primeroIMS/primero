@@ -7,9 +7,7 @@ import { SET_DIALOG_PENDING } from "../../components/action-dialog";
 import handleRestCallback from "./handle-rest-callback";
 
 export default ({ store, response = {}, json = {}, recordType = null, fromQueue = false, id = null, error }) => {
-  const messages = fromQueue
-    ? `sync.error.${id ? "update" : "create"}`
-    : json?.errors?.map(err => err.message).join(", ");
+  const messages = fromQueue ? `sync.error.${id ? "update" : "create"}` : json?.errors?.map(err => err.message).at(0);
 
   const errorPayload = [
     {

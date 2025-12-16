@@ -231,7 +231,7 @@ describe RecordActionMailer, type: :mailer do
           Permission::REFERRAL, Permission::RECEIVE_REFERRAL
         ]
       )
-      @role = Role.new(permissions: [@permission_assign_case], modules: [@primero_module])
+      @role = Role.new(permissions: [@permission_assign_case], primero_modules: [@primero_module])
       @role.save(validate: false)
       agency = Agency.create!(name: 'Test Agency', agency_code: 'TA')
       @group1 = UserGroup.create!(name: 'Group1')
@@ -452,7 +452,7 @@ describe RecordActionMailer, type: :mailer do
               #{@case.short_id} \(https://localhost:3000/v2/cases/#{@case.id}\)
               بحيث يتمكنون من تقديم خدمات إدارة للشخص في منطقتهم. إذا كان التحويل مقبولا من طرفك، يرجى النقر على رابط معرف نوع السجل
               Case في هذا الايميل لفتح نوع السجل Case في بريميرو والبدء بعملية التحويل.).squish
-            )
+          )
       end
     end
 

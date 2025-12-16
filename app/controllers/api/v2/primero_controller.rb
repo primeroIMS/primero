@@ -11,5 +11,6 @@ class Api::V2::PrimeroController < ApplicationApiController
     agencies = Agency.with_logos.or(Agency.with_pdf_logo_option)
     @agencies_with_system_logos = agencies.select(&:logo_enabled)[0..2]
     @agencies_with_logo_options = agencies.select(&:pdf_logo_option)
+    @system_options = SystemSettings.current.system_options
   end
 end

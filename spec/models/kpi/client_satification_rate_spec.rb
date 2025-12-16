@@ -77,14 +77,14 @@ describe Kpi::ClientSatisfactionRate, { search: true, skip_when_solr_disabled: t
     Sunspot.commit
   end
 
-  with 'No cases in the users groups' do
+  describe 'No cases in the users groups' do
     it 'satisfaction rate should be nil' do
       json = Kpi::ClientSatisfactionRate.new(from, to, [group1]).to_json
       expect(json[:data][:satisfaction_rate]).to eq(nil)
     end
   end
 
-  with 'One satisfied case in the users groups' do
+  describe 'One satisfied case in the users groups' do
     it 'should have a satisfaction_rate of 1.0' do
       json = Kpi::ClientSatisfactionRate.new(from, to, [group2]).to_json
       expect(json[:data][:satisfaction_rate]).to eq(1.0)

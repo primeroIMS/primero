@@ -7,7 +7,7 @@ describe("<UsersList /> - constants", () => {
     const clone = { ...constants };
 
     expect(typeof clone).toEqual("object");
-    ["AGENCY", "DISABLED", "LIST_HEADERS", "USER_GROUP", "LAST_DATE"].forEach(property => {
+    ["AGENCY", "DISABLED", "LIST_HEADERS", "USER_GROUP", "LAST_DATE", "ACTIVITY_FILTERS"].forEach(property => {
       expect(clone).toHaveProperty(property);
       delete clone[property];
     });

@@ -32,6 +32,7 @@ describe("<Report /> - constants", () => {
       "FILTER_BY_HAS_LATE_VERIFIED_VIOLATIONS_DISPLAY_NAME",
       "FILTER_BY_VERIFICATION_STATUS_DISPLAY_NAME",
       "FILTER_BY_VIOLATION_TYPE_DISPLAY_NAME",
+      "FILTER_BY_AGE_DISPLAY_NAME",
       "GROUPED_BY",
       "INSIGHTS_CONFIG",
       "INSIGHTS_EXPORTER_DIALOG",
@@ -116,7 +117,9 @@ describe("<Report /> - constants", () => {
       "process_quality_average_cases",
       "process_quality_successful_referrals",
       "process_quality_implemented_referrals",
-      "case_characteristics"
+      "case_characteristics",
+      "case_management_kpis_report",
+      "distribution_users_role_report"
     ]);
   });
 });

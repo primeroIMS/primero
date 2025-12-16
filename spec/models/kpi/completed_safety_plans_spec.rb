@@ -37,21 +37,21 @@ describe Kpi::CompletedCaseSafetyPlans, { search: true, skip_when_solr_disabled:
     Sunspot.commit
   end
 
-  with 'No cases in the users groups with completed assessment plans' do
+  describe 'No cases in the users groups with completed assessment plans' do
     it 'should return 0% completed assessments' do
       json = Kpi::CompletedCaseSafetyPlans.new(from, to, [group1]).to_json
       expect(json[:data][:completed]).to eql(0)
     end
   end
 
-  with 'A single case in the users groups with a completed assessment plan' do
+  describe 'A single case in the users groups with a completed assessment plan' do
     it 'should return 100% completed assessments' do
       json = Kpi::CompletedCaseSafetyPlans.new(from, to, [group2]).to_json
       expect(json[:data][:completed]).to eql(1.0)
     end
   end
 
-  with 'A single case in the users groups with a completed assessment plan' do
+  describe 'A single case in the users groups with a completed assessment plan' do
     it 'should return 100% completed assessments' do
       json = Kpi::CompletedCaseSafetyPlans.new(from, to, [group2, group3]).to_json
       expect(json[:data][:completed]).to eql(0.5)
