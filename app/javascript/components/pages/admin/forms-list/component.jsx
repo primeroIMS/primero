@@ -9,7 +9,7 @@ import { Add as AddIcon, List as ListIcon } from "@mui/icons-material";
 
 import LoadingIndicator from "../../../loading-indicator";
 import { useI18n } from "../../../i18n";
-import { useApp, getUnusedFieldsReport } from "../../../application";
+import { useApp } from "../../../application";
 import { PageHeading, PageContent } from "../../../page";
 import { MODULES, RECORD_TYPES } from "../../../../config";
 import Permission, { usePermissions, CREATE_RECORDS, RESOURCES, MANAGE } from "../../../permissions";
@@ -20,6 +20,7 @@ import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import useOptions from "../../../form/use-options";
 import Menu from "../../../menu";
+import { fetchUnusedFieldsReport, getUnusedFieldsReportUrl } from "../../../unused-fields-report";
 
 import FormExporter from "./components/form-exporter";
 import { FORM_EXPORTER_DIALOG } from "./components/form-exporter/constants";
@@ -54,7 +55,7 @@ function Component() {
   const isLoading = useMemoizedSelector(state => getIsLoading(state));
   const isReorderEnabled = useMemoizedSelector(state => getReorderEnabled(state));
   const formSectionsByGroup = useMemoizedSelector(state => getFormSectionsByFormGroup(state, filterValues));
-  const unusedFieldsReport = useMemoizedSelector(state => getUnusedFieldsReport(state));
+  const unusedFieldsReportUrl = useMemoizedSelector(state => getUnusedFieldsReportUrl(state));
   const allFormGroupsLookups = useOptions({ source: OPTION_TYPES.FORM_GROUP_LOOKUP });
 
   const { modules } = useApp();
@@ -137,11 +138,17 @@ function Component() {
     },
     {
       action: () => {
-        window.open(unusedFieldsReport);
+        dispatch(fetchUnusedFieldsReport());
       },
       name: i18n.t("forms.export_unused_fields")
     }
   ];
+
+  useEffect(() => {
+    if (unusedFieldsReportUrl) {
+      window.open(unusedFieldsReportUrl);
+    }
+  }, [unusedFieldsReportUrl]);
 
   return (
     <Permission resources={RESOURCES.metadata} actions={MANAGE} redirect>

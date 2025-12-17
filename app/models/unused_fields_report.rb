@@ -2,44 +2,26 @@
 
 # Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
 
-# PeriodicJob to generate the Unused Fields Report
-class UnusedFieldsReport < PeriodicJob
-  def self.reschedule_after
-    1.day
-  end
+# Class for Unused Fields Report
+class UnusedFieldsReport < ValueObject
+  EXPIRES = 60.seconds # Expiry for the delegated ActiveStorage url
 
-  def perform_rescheduled
-    Rails.logger.info 'Generating the Unused Fields Report...'
-    UnusedFieldsReport.new.generate!
-    Rails.logger.info 'Unused Fields Report generated.'
-  end
+  attr_accessor :data
 
-  def self.generate!
-    new.generate!
-  end
-
-  def generate!
-    unused_fields_stats = build_unused_field_stats
-    export_data = Exporters::UnusedFieldsExporter.export(unused_fields_stats)
-    SystemSettings.current.unused_fields_report_file.attach(io: StringIO.new(export_data), filename: default_file_name)
-    SystemSettings.current.save!
-  end
-
-  def build_unused_field_stats
-    PrimeroModule.all.each_with_object([]).each do |primero_module, memo|
-      field_stats = init_field_stats(primero_module)
+  def build
+    self.data = PrimeroModule.all.each_with_object([]).each do |primero_module, memo|
       total_records = Child.where(srch_module_id: primero_module.unique_id).count
       memo << {
         'module_id' => primero_module.unique_id,
-        'field_stats' => calculate_field_stats(primero_module, field_stats, total_records),
+        'field_stats' => calculate_field_stats(primero_module, total_records),
         'total_records' => total_records
       }
     end
   end
 
-  def calculate_field_stats(primero_module, field_stats, total_records)
+  def calculate_field_stats(primero_module, total_records)
     total_fields_by_name = count_record_fields_by_name(primero_module.unique_id)
-    field_stats.map do |elem|
+    fields_with_stats(primero_module).map do |elem|
       next(elem) unless total_fields_by_name[elem['field'].name].present?
 
       total = total_fields_by_name[elem['field'].name]
@@ -48,7 +30,7 @@ class UnusedFieldsReport < PeriodicJob
     end
   end
 
-  def init_field_stats(primero_module)
+  def fields_with_stats(primero_module)
     form_sections = primero_module.form_sections.includes(:fields).where(
       { parent_form: 'case', is_nested: false, visible: true, fields: { visible: true } }
     ).where.not(fields: { type: [Field::SUBFORM, Field::SEPARATOR] }).order('form_sections.order')
@@ -96,12 +78,5 @@ class UnusedFieldsReport < PeriodicJob
         )
       ) AS fields
     SQL
-  end
-
-  def default_file_name
-    timestamp = Time.now.strftime('%Y%m%d.%M%S%M%L')
-    file_name = 'unused_fields_report'
-
-    "#{file_name}_#{timestamp}.xlsx"
   end
 end

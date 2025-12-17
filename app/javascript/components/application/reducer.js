@@ -32,8 +32,7 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         audit_log: auditLog,
         field_labels: fieldLabels,
         exact_search_fields: exactSearchFields,
-        phonetic_search_fields: phoneticSearchFields,
-        unused_fields_report: unusedFieldsReport
+        phonetic_search_fields: phoneticSearchFields
       } = payload.data;
 
       return state.merge(
@@ -54,8 +53,7 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
           auditLog,
           fieldLabels: fieldLabels ?? fromJS({}),
           exactSearchFields,
-          phoneticSearchFields,
-          unusedFieldsReport
+          phoneticSearchFields
         })
       );
     }
