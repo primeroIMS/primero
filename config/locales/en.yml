@@ -4707,6 +4707,8 @@ en:
     view_button: View Terms of Use
     changed_message: Your agency's Terms of Use have changed.
     date_updated: Updated
+    date_upload_updated: Upload Updated
+    terms_of_use_accepted: The Terms of Use have been reviewed, agreed to and signed on behalf of your Agency.
     content: "The Terms of Use is an agreement signed by the relevant authority in each user organization at programme level. The Terms of Use constitutes the agreement between authorized users' and access to and use of Primero. The Terms of Use have been reviewed, agreed to and signed on behalf of your Agency. By selecting \"Accept\", you are accepting the Terms of Use and agree to the terms and conditions."
     accepted: Terms of Use accepted successfully.
   tracing_request:
