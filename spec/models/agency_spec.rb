@@ -6,7 +6,7 @@ require 'rails_helper'
 
 describe Agency do
   before :each do
-    clean_data(Agency)
+    clean_data(User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency)
   end
 
   describe 'validations' do
@@ -301,7 +301,9 @@ describe Agency do
 
     describe '#attach_terms_of_use' do
       let(:agency) { Agency.new(name: 'Test Agency', agency_code: 'test123') }
-      let(:user_name) { 'test_user' }
+      let(:user) do
+        create(:user, user_name: 'test_user', agency:, full_name: 'Test User 1', email: 'test_user@primero.dev')
+      end
       let(:terms_params) do
         {
           terms_of_use_file_name: 'terms.pdf',
@@ -311,16 +313,16 @@ describe Agency do
 
       context 'when terms_of_use file and base64 are present' do
         it 'attaches the file and stamps terms of use' do
-          allow(ENV).to receive(:fetch).with('PRIMERO_ENFORCE_TERMS_OF_USE', false).and_return('true')
+          allow(Rails.configuration).to receive(:enforce_terms_of_use).and_return(true)
 
           expect(agency).to receive(:attach_file).with(
             'terms.pdf',
             Base64.encode64('fake pdf content'),
             agency.terms_of_use
           )
-          expect(agency).to receive(:stamp_terms_of_use!).with(user_name).and_call_original
+          expect(agency).to receive(:stamp_terms_of_use!).with(user).and_call_original
 
-          agency.attach_terms_of_use(terms_params, user_name)
+          agency.attach_terms_of_use(terms_params, user)
 
           expect(agency.terms_of_use_signed).to be_truthy
         end
@@ -333,7 +335,7 @@ describe Agency do
           expect(agency).not_to receive(:attach_file)
           expect(agency).not_to receive(:stamp_terms_of_use!)
 
-          agency.attach_terms_of_use(params, user_name)
+          agency.attach_terms_of_use(params, user)
         end
       end
 
@@ -344,7 +346,7 @@ describe Agency do
           expect(agency).not_to receive(:attach_file)
           expect(agency).not_to receive(:stamp_terms_of_use!)
 
-          agency.attach_terms_of_use(params, user_name)
+          agency.attach_terms_of_use(params, user)
         end
       end
 
@@ -360,31 +362,33 @@ describe Agency do
 
     describe '#stamp_terms_of_use!' do
       let(:agency) { Agency.new(name: 'Test Agency', agency_code: 'test123') }
-      let(:user_name) { 'test_user' }
+      let(:user) do
+        create(:user, user_name: 'test_user2', agency:, full_name: 'Test User 2', email: 'test_user2@primero.dev')
+      end
 
       context 'when PRIMERO_ENFORCE_TERMS_OF_USE is enabled' do
         before do
-          allow(ENV).to receive(:fetch).with('PRIMERO_ENFORCE_TERMS_OF_USE', false).and_return('true')
+          allow(Rails.configuration).to receive(:enforce_terms_of_use).and_return(true)
         end
 
         it 'sets terms_of_use_signed to true' do
           travel_to Time.zone.parse('2023-01-01 12:00:00') do
-            agency.stamp_terms_of_use!(user_name)
+            agency.stamp_terms_of_use!(user)
 
             expect(agency.terms_of_use_signed).to be true
             expect(agency.terms_of_use_uploaded_at).to eq(DateTime.parse('2023-01-01 12:00:00'))
-            expect(agency.terms_of_use_uploaded_by).to eq(user_name)
+            expect(agency.terms_of_use_uploaded_by).to eq(user.user_name)
           end
         end
       end
 
       context 'when PRIMERO_ENFORCE_TERMS_OF_USE is disabled' do
         before do
-          allow(ENV).to receive(:fetch).with('PRIMERO_ENFORCE_TERMS_OF_USE', false).and_return('false')
+          allow(Rails.configuration).to receive(:enforce_terms_of_use).and_return(false)
         end
 
         it 'does not set terms_of_use fields' do
-          agency.stamp_terms_of_use!(user_name)
+          agency.stamp_terms_of_use!(user)
 
           expect(agency.terms_of_use_signed).to be false
           expect(agency.terms_of_use_uploaded_at).to be_nil
@@ -394,11 +398,11 @@ describe Agency do
 
       context 'when PRIMERO_ENFORCE_TERMS_OF_USE is not set' do
         before do
-          allow(ENV).to receive(:fetch).with('PRIMERO_ENFORCE_TERMS_OF_USE', false).and_return(nil)
+          allow(Rails.configuration).to receive(:enforce_terms_of_use).and_return(nil)
         end
 
         it 'does not set terms_of_use fields' do
-          agency.stamp_terms_of_use!(user_name)
+          agency.stamp_terms_of_use!(user)
 
           expect(agency.terms_of_use_signed).to be false
           expect(agency.terms_of_use_uploaded_at).to be_nil
@@ -412,7 +416,7 @@ describe Agency do
 
       context 'when PRIMERO_ENFORCE_TERMS_OF_USE is enabled' do
         before do
-          allow(ENV).to receive(:fetch).with('PRIMERO_ENFORCE_TERMS_OF_USE', false).and_return('true')
+          allow(Rails.configuration).to receive(:enforce_terms_of_use).and_return(true)
         end
 
         context 'and terms_of_use_signed is false' do
@@ -445,7 +449,7 @@ describe Agency do
 
       context 'when PRIMERO_ENFORCE_TERMS_OF_USE is disabled' do
         before do
-          allow(ENV).to receive(:fetch).with('PRIMERO_ENFORCE_TERMS_OF_USE', false).and_return('false')
+          allow(Rails.configuration).to receive(:enforce_terms_of_use).and_return(false)
           agency.terms_of_use_signed = false
         end
 
