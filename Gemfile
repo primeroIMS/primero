@@ -3,7 +3,7 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 source 'https://rubygems.org'
-ruby '3.4.5'
+ruby '3.4.7'
 
 gem 'activerecord-nulldb-adapter' # Running Rake tasks at build time before DB is set up. TODO: Still needed?
 gem 'activerecord-session_store', '~> 2.0'
@@ -42,7 +42,7 @@ gem 'prawn-table',         '~> 0.2'    # PDF generation
 gem 'puma',                '~> 7.0'    # Ruby Rack server
 gem 'rack',                '~> 3.2'
 gem 'rack-attack',         '~> 6.6'    # Rack middleware to rate limit sensetive routes, such as those used for auth
-gem 'rails',               '8.0.3'
+gem 'rails',               '8.1.1'
 gem 'rake',                '~> 13.0'
 gem 'rbnacl',              '>= 7.1.1'  # Libsodium Ruby binding. Used for encrypting export file passwords.
 gem 'resolv',              '~> 0.6'    # DNS resolver. TODO: Used by what?

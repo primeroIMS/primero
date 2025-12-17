@@ -345,7 +345,7 @@ class FormSection < ApplicationRecord
 
   def touch_roles
     roles_to_touch = is_nested? ? parent_roles : roles
-    roles_to_touch.touch_all
+    Role.where(id: roles_to_touch.pluck(:id).uniq).touch_all
   end
 end
 # rubocop:enable Metrics/ClassLength
