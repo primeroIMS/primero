@@ -16,7 +16,8 @@ import {
   AUDIO_FIELD,
   DOCUMENT_FIELD,
   LINK_TO_FORM,
-  TALLY_FIELD
+  TALLY_FIELD,
+  SIGNATURE_FIELD
 } from "../constants";
 import Tooltip from "../../tooltip";
 import { ConditionalWrapper, displayNameHelper } from "../../../libs";
@@ -35,6 +36,7 @@ import RadioField from "./field-types/radio-field";
 import AttachmentField from "./field-types/attachments";
 import LinkToForm from "./field-types/link-to-form";
 import TallyField from "./field-types/tally-field";
+import SignatureField from "./field-types/signature-field";
 import css from "./styles.css";
 import { asyncFieldOffline } from "./utils";
 
@@ -149,6 +151,8 @@ function FormSectionField({
         return AttachmentField;
       case TALLY_FIELD:
         return TallyField;
+      case SIGNATURE_FIELD:
+        return SignatureField;
       default:
         return TextField;
     }

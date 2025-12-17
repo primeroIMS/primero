@@ -14,7 +14,8 @@ import {
   NOT_FUTURE_DATE,
   TICK_FIELD,
   SELECT_FIELD,
-  TALLY_FIELD
+  TALLY_FIELD,
+  SIGNATURE_FIELD
 } from "../constants";
 import { parseExpression } from "../../../libs/expressions";
 
@@ -142,6 +143,16 @@ export const fieldValidations = (field, { i18n, online = false }) => {
         break;
       case type === SELECT_FIELD && multiSelect:
         validations[name] = array();
+        break;
+      case type === SIGNATURE_FIELD:
+        validations[name] = object({
+          attachment_url: string().url().nullable(),
+          attachment: string().nullable()
+        }).test("attachment-or-url", requiredMessage, value => {
+          if (!value) return false;
+
+          return !!value.attachment_url || !!value.attachment;
+        });
         break;
       default:
         validations[name] = (validations[name] || string()).nullable();

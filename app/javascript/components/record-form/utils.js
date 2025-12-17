@@ -32,7 +32,8 @@ import {
   SELECT_FIELD,
   DATE_FIELD,
   TICK_FIELD,
-  TALLY_FIELD
+  TALLY_FIELD,
+  SIGNATURE_FIELD
 } from "./constants";
 import { valuesWithHiddenAttribute } from "./form/subforms/subform-field-array/utils";
 import { RECORD_FORM_PERMISSION } from "./form/constants";
@@ -163,6 +164,10 @@ export const compactBlank = values =>
 export const getFieldDefaultValue = field => {
   if (FIELD_TYPES_WITHOUT_DEFAULT.includes(field.type)) {
     return [];
+  }
+
+  if (field.type === SIGNATURE_FIELD) {
+    return {};
   }
 
   if (field.type === SELECT_FIELD && field.multi_select) {

@@ -7,15 +7,20 @@ class Attachment < ApplicationRecord
   IMAGE = 'image'
   AUDIO = 'audio'
   DOCUMENT = 'document'
+  SIGNATURE = 'signature'
 
   # mpeg includes mp3.  mp4 includes m4a
+  SIGNATURE_CONTENT_TYPES = %w[image/png].freeze
   AUDIO_CONTENT_TYPES = %w[audio/mpeg audio/mp4].freeze
   IMAGE_CONTENT_TYPES = %w[image/jpeg image/png].freeze
   DOCUMENT_CONTENT_TYPES = %w[application/pdf text/plain application/msword
                               application/vnd.openxmlformats-officedocument.wordprocessingml.document
                               text/csv application/vnd.ms-excel
                               application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
-                              image/jpeg image/png].freeze
+                              image/jpg image/jpeg image/png].freeze
+  WORD_DOCUMENT_CONTENT_TYPES = %w[application/msword
+                                   application/vnd.openxmlformats-officedocument.wordprocessingml.document
+                                   image/jpeg image/png].freeze
 
   MAX_SIZE = 20.megabytes.freeze
   EXPIRES = 60.seconds # Expiry for the delegated ActiveStorage url
@@ -23,12 +28,13 @@ class Attachment < ApplicationRecord
 
   belongs_to :record, polymorphic: true, optional: true
   has_one_attached :file
+  has_one_attached :pdf_file
   attribute :attachment, :string # This is a base64 encoded representation of the file
   attribute :file_name, :string
   attribute :content_type, :string
 
   validates :field_name, presence: true
-  validates :attachment_type, presence: true, inclusion: { in: [IMAGE, AUDIO, DOCUMENT] }
+  validates :attachment_type, presence: true, inclusion: { in: [IMAGE, AUDIO, DOCUMENT, SIGNATURE] }
   validates :file,
             file_size: { less_than_or_equal_to: MAX_SIZE },
             file_content_type: { allow: lambda(&:valid_content_types) },
@@ -37,6 +43,8 @@ class Attachment < ApplicationRecord
   validate :maximum_attachments_space_exceeded, on: :create
 
   after_create_commit :send_email_maximum_attachments_space_warning_exceeded
+
+  after_commit :convert_docx_to_pdf, if: -> { previous_changes.key?('attachment') }
 
   def attach
     return unless record.present?
@@ -74,6 +82,7 @@ class Attachment < ApplicationRecord
     self[:content_type] || (file.attachment && file&.content_type&.to_s)
   end
 
+  # rubocop:disable Metrics/MethodLength
   def valid_content_types
     case attachment_type
     when AUDIO
@@ -82,10 +91,13 @@ class Attachment < ApplicationRecord
       DOCUMENT_CONTENT_TYPES
     when IMAGE
       IMAGE_CONTENT_TYPES
+    when SIGNATURE
+      SIGNATURE_CONTENT_TYPES
     else
       []
     end
   end
+  # rubocop:enable Metrics/MethodLength
 
   def photo?
     attachment_type == Attachment::IMAGE && field_name == Attachable::PHOTOS_FIELD_NAME
@@ -98,11 +110,25 @@ class Attachment < ApplicationRecord
                                                                disposition: :attachment)
   end
 
+  def pdf_url
+    return nil unless pdf_file.attached?
+
+    Rails.application.routes.url_helpers.rails_blob_path(pdf_file, only_path: true, expires_in: EXPIRES,
+                                                                   disposition: :attachment)
+  end
+
   def to_h_api
     hash = slice(:id, :field_name, :file_name, :date, :description, :is_current, :comments)
     hash[:attachment_url] = url
+    hash[:pdf_attachment_url] = pdf_url
     hash[:content_type] = content_type
     hash
+  end
+
+  def convert_docx_to_pdf
+    return unless content_type.in?(WORD_DOCUMENT_CONTENT_TYPES)
+
+    ConvertDocumentJob.perform_later(id)
   end
 
   private

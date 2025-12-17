@@ -86,16 +86,30 @@ class RecordDataService
     data
   end
 
-  def embed_attachments(data, record, selected_field_names)
-    field_names = attachment_field_names & selected_field_names
-    return data unless field_names.present?
+  def embed_attachment_properties(data, attachments, field_names, multiple: false)
+    return data if field_names.blank?
 
-    attachments = record.attachments
     field_names.each do |field_name|
       for_field = attachments.select { |a| a.field_name == field_name }
-      data[field_name] = for_field.map(&:to_h_api)
+
+      data[field_name] = if multiple
+                           for_field.map(&:to_h_api)
+                         else
+                           for_field.first&.to_h_api
+                         end
     end
+
     data
+  end
+
+  def embed_attachments(data, record, selected_field_names)
+    attachment_fields = attachment_field_names & selected_field_names
+    signature_fields = signature_field_names
+
+    return data unless (attachment_fields + signature_fields).present?
+
+    data = embed_attachment_properties(data, record.attachments, attachment_fields, multiple: true)
+    embed_attachment_properties(data, record.signatures, signature_fields)
   end
 
   def embed_alert_metadata(data, record, selected_field_names)
@@ -186,6 +200,10 @@ class RecordDataService
 
   def attachment_field_names
     @attachment_field_names ||= Field.binary.pluck(:name)
+  end
+
+  def signature_field_names
+    @signature_field_names ||= Field.binary_signature.pluck(:name)
   end
 
   def calculate_family_member_record_user_access(family_members, cases_grouped_by_id, user)

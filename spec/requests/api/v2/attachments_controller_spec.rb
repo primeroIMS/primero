@@ -8,6 +8,11 @@ describe Api::V2::AttachmentsController, type: :request do
   include ActiveJob::TestHelper
   before :each do
     @case = Child.create(data: { name: 'Test', owned_by: 'faketest' })
+    @field = Field.create!(
+      name: 'consent_signature',
+      display_name: 'Consent Signature',
+      type: Field::SIGNATURE_FIELD
+    )
   end
 
   let(:json) { JSON.parse(response.body) }
@@ -19,6 +24,50 @@ describe Api::V2::AttachmentsController, type: :request do
   end
 
   describe 'POST /api/v2/:record/:id/attachments', search: true do
+    context 'when attachment_type is signature' do
+      it 'initializes a Signature model' do
+        login_for_test({ permitted_field_names: [@field.name] })
+
+        params = {
+          data: {
+            field_name: 'consent_signature',
+            attachment_type: Field::SIGNATURE_FIELD,
+            file_name: 'signature.png',
+            attachment: attachment_base64('sample.png'),
+            signature_provided_by: 'John Doe'
+          }
+        }
+
+        expect(Signature).to receive(:new_with_user).and_call_original
+
+        post "/api/v2/cases/#{@case.id}/attachments", params: params
+        puts response.body
+        expect(response).to have_http_status(200)
+      end
+    end
+
+    context 'when attachment_type is not signature' do
+      it 'initializes an Attachment model' do
+        login_for_test({ permitted_field_names: [Attachable::PHOTOS_FIELD_NAME] })
+
+        params = {
+          data: {
+            field_name: 'photos',
+            attachment_type: Attachment::IMAGE,
+            file_name: 'photo.jpg',
+            attachment: attachment_base64('jorge.jpg')
+          }
+        }
+
+        expect(Attachment).to receive(:new).and_call_original
+        expect(Signature).not_to receive(:new_with_user)
+
+        post "/api/v2/cases/#{@case.id}/attachments", params: params
+
+        expect(response).to have_http_status(200)
+      end
+    end
+
     it 'attaches a file to an existing record and sets has_photo to true' do
       login_for_test({ permitted_field_names: [Attachable::PHOTOS_FIELD_NAME] })
 
@@ -196,6 +245,6 @@ describe Api::V2::AttachmentsController, type: :request do
 
   after :each do
     clear_enqueued_jobs
-    clean_data(Attachment, Child)
+    clean_data(Attachment, Child, Field, FormSection)
   end
 end

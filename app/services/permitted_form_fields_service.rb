@@ -12,7 +12,7 @@ class PermittedFormFieldsService
     Field::TEXT_FIELD, Field::TEXT_AREA, Field::RADIO_BUTTON, Field::TICK_BOX,
     Field::SELECT_BOX, Field::NUMERIC_FIELD, Field::DATE_FIELD,
     Field::AUDIO_UPLOAD_BOX, Field::PHOTO_UPLOAD_BOX, Field::DOCUMENT_UPLOAD_BOX,
-    Field::SUBFORM, Field::TALLY_FIELD, Field::CALCULATED
+    Field::SUBFORM, Field::TALLY_FIELD, Field::CALCULATED, Field::SIGNATURE_FIELD
   ].freeze
 
   # TODO: Primero is assuming that these forms exist in the configuration.

@@ -41,7 +41,8 @@ export const FieldRecord = Record({
   type: "",
   visible: null,
   watchedInputs: null,
-  calculation: {}
+  calculation: {},
+  signature_provided_by_label: {}
 });
 
 export const FormSectionRecord = Record({

@@ -13,7 +13,8 @@ describe("pages/admin/<FormBuilder />/components/<FieldDialog />/forms - index",
       "subformField",
       "tallyFieldForm",
       "textFieldForm",
-      "tickboxFieldForm"
+      "tickboxFieldForm",
+      "signatureFieldForm"
     ].forEach(property => {
       expect(indexValues).toHaveProperty(property);
       delete indexValues[property];
