@@ -4,19 +4,19 @@
 
 # Class to export the UnusedFieldsReport
 class Exporters::UnusedFieldsExporter < ValueObject
-  HEADERS = [
-    'Field ID',
-    'Field Name',
-    'Form Name',
-    'Cases where filled',
-    'Prevalence',
-    'Created At'
+  HEADERS = %w[
+    field_id
+    field_name
+    form_name
+    cases_where_filled
+    prevalence
+    created_at
   ].freeze
 
-  attr_accessor :data, :file_name, :errors, :workbook, :formats, :worksheet
+  attr_accessor :data, :file_name, :errors, :workbook, :formats, :worksheet, :locale
 
-  def self.export(data)
-    exporter = new(data:)
+  def self.export(data, locale = I18n.default_locale)
+    exporter = new(data:, locale:)
     exporter.export
   end
 
@@ -52,9 +52,15 @@ class Exporters::UnusedFieldsExporter < ValueObject
   end
 
   def write_last_generated
-    last_generated = Time.zone.now.strftime('%B %d, %Y at %-l:%M%P')
+    last_generated_on = I18n.localize(Time.zone.now, format: '%B %d, %Y', locale:)
+    last_generated_at = I18n.localize(Time.zone.now, format: '%-l:%M%P', locale:)
     worksheet&.merge_range(
-      @current_row, 0, @current_row, 5, "Generated Periodically. Last generated on #{last_generated}.", @formats[:title]
+      @current_row, 0, @current_row, 5,
+      I18n.t(
+        'unused_fields_report.generated_message',
+        deep_interpolation: true, locale:, date: last_generated_on, time: last_generated_at
+      ),
+      @formats[:title]
     )
   end
 
@@ -70,7 +76,7 @@ class Exporters::UnusedFieldsExporter < ValueObject
     @current_row += 3
     worksheet.set_column(0, 5, 20)
     HEADERS.each_with_index do |header, index|
-      worksheet&.write(@current_row, index, header, @formats[:header])
+      worksheet&.write(@current_row, index, I18n.t("unused_fields_report.#{header}", locale:), @formats[:header])
     end
   end
 
@@ -86,12 +92,12 @@ class Exporters::UnusedFieldsExporter < ValueObject
 
   def write_field(field)
     worksheet.write(@current_row, 0, field.name)
-    worksheet.write(@current_row, 1, field.display_name)
-    worksheet.write(@current_row, 5, field.created_at.strftime('%b %-d, %Y %I:%M %p'))
+    worksheet.write(@current_row, 1, field.display_name(locale))
+    worksheet.write(@current_row, 5, I18n.localize(field.created_at, format: '%b %-d, %Y %I:%M %p', locale:))
   end
 
   def write_form_section(form_section)
-    worksheet.write(@current_row, 2, form_section.name)
+    worksheet.write(@current_row, 2, form_section.name(locale))
   end
 
   def write_stat(total, prevalence)

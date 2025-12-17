@@ -2705,6 +2705,15 @@ en:
       followups_total: Total Followups
       incidents_total: Total Incidents
       incidents_open_this_quarter: Incidents this quarter
+  unused_fields_report:
+    field_id: Field ID
+    field_name: Field Name
+    form_name: Form Name
+    cases_where_filled:  Cases where filled
+    prevalence: Prevalence
+    created_at: Created At
+    generated_message: Generated Periodically. Last generated on %{date} at %{time}.
+    not_found_error: Unused Fields Report not found. Please try again later.
   messages:
     alert_items: You have %{items} items of note.
     alerts_for:
