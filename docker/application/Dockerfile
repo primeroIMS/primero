@@ -107,9 +107,12 @@ FROM ${BUILD_REGISTRY}ruby:${RUBY_VERSION}-${ALPINE_VERSION}
 
 ENV BUILD_PACKAGES=bash
 ENV RUNTIME_PACKAGES="libpq gettext libintl vips libsodium-dev p7zip tini curl"
+ENV WORKER_PACKAGES="libreoffice font-noto font-noto-cjk font-noto-emoji font-noto-extra font-dejavu"
 
 ARG APP_UID
 ARG APP_GID
+ARG IS_WORKER
+ENV IS_WORKER=${IS_WORKER:-false}
 ENV USER_ID=${APP_UID}
 ENV GROUP_ID=${APP_GID}
 
@@ -122,6 +125,9 @@ RUN set -euox pipefail \
         ; apk update \
         ; apk add --no-cache $BUILD_PACKAGES \
         ; apk add --no-cache $RUNTIME_PACKAGES \
+        ; if [ "$IS_WORKER" = true ]; then \
+          apk add --no-cache $WORKER_PACKAGES; \
+        fi \
         ; rm -rf /var/cache/apk/*
 
 COPY [ "docker/sub.sh", "docker/application/root/", "/" ]

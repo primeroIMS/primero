@@ -17,7 +17,10 @@ class Attachment < ApplicationRecord
                               application/vnd.openxmlformats-officedocument.wordprocessingml.document
                               text/csv application/vnd.ms-excel
                               application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
-                              image/jpeg image/png].freeze
+                              image/jpg image/jpeg image/png].freeze
+  WORD_DOCUMENT_CONTENT_TYPES = %w[application/msword
+                                   application/vnd.openxmlformats-officedocument.wordprocessingml.document
+                                   image/jpeg image/png].freeze
 
   MAX_SIZE = 20.megabytes.freeze
   EXPIRES = 60.seconds # Expiry for the delegated ActiveStorage url
@@ -25,6 +28,7 @@ class Attachment < ApplicationRecord
 
   belongs_to :record, polymorphic: true, optional: true
   has_one_attached :file
+  has_one_attached :pdf_file
   attribute :attachment, :string # This is a base64 encoded representation of the file
   attribute :file_name, :string
   attribute :content_type, :string
@@ -39,6 +43,8 @@ class Attachment < ApplicationRecord
   validate :maximum_attachments_space_exceeded, on: :create
 
   after_create_commit :send_email_maximum_attachments_space_warning_exceeded
+
+  after_commit :convert_docx_to_pdf, if: -> { previous_changes.key?('attachment') }
 
   def attach
     return unless record.present?
@@ -104,11 +110,25 @@ class Attachment < ApplicationRecord
                                                                disposition: :attachment)
   end
 
+  def pdf_url
+    return nil unless pdf_file.attached?
+
+    Rails.application.routes.url_helpers.rails_blob_path(pdf_file, only_path: true, expires_in: EXPIRES,
+                                                                   disposition: :attachment)
+  end
+
   def to_h_api
     hash = slice(:id, :field_name, :file_name, :date, :description, :is_current, :comments)
     hash[:attachment_url] = url
+    hash[:pdf_attachment_url] = pdf_url
     hash[:content_type] = content_type
     hash
+  end
+
+  def convert_docx_to_pdf
+    return unless content_type.in?(WORD_DOCUMENT_CONTENT_TYPES)
+
+    ConvertDocumentJob.perform_later(id)
   end
 
   private
