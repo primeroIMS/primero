@@ -140,36 +140,37 @@ const fetchSinglePayload = async (action, store, options) => {
         if (!action.type.includes("SAVE_ATTACHMENT") && status !== 422) {
           throw new Error(window.I18n.t("error_message.error_something_went_wrong"));
         }
-      }
-      await handleSuccess(store, {
-        type,
-        json,
-        normalizeFunc,
-        path,
-        db,
-        fromQueue,
-        fromAttachment,
-        params: urlParams
-      });
-
-      messageQueueSuccess(action);
-
-      handleRestCallback(store, successCallback, response, json, fromQueue);
-
-      if (attachments) {
-        processAttachments({
-          attachments,
-          id: id || json?.data?.id,
-          recordType
+      } else {
+        await handleSuccess(store, {
+          type,
+          json,
+          normalizeFunc,
+          path,
+          db,
+          fromQueue,
+          fromAttachment,
+          params: urlParams
         });
-      }
 
-      fetchStatus({ store, type }, "FINISHED", false);
+        messageQueueSuccess(action);
 
-      if (configurationCallback && response.ok) {
-        store.dispatch(disableNavigation());
-        handleRestCallback(store, applyingConfigMessage(), response, {});
-        fetchSinglePayload(configurationCallback, store, options);
+        handleRestCallback(store, successCallback, response, json, fromQueue);
+
+        if (attachments) {
+          processAttachments({
+            attachments,
+            id: id || json?.data?.id,
+            recordType
+          });
+        }
+
+        fetchStatus({ store, type }, "FINISHED", false);
+
+        if (configurationCallback && response.ok) {
+          store.dispatch(disableNavigation());
+          handleRestCallback(store, applyingConfigMessage(), response, {});
+          fetchSinglePayload(configurationCallback, store, options);
+        }
       }
     } catch (error) {
       const silenceErrors = [["AbortError", "SyntaxError"].includes(error.name), error === "logging_out"];

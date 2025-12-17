@@ -158,6 +158,7 @@ en:
     clear_default: Clear default
     clear_selection: Clear selection
     clear: Clear
+    clear_signature: Clear Signature
     close: Close
     continue: Continue
     create_case: Create Case
@@ -217,6 +218,9 @@ en:
     unflag_model_history: Flag History %{model}
     unmark_for_mobile: Un-mark for mobile
     update: Update
+    update_signature: Update Signature
+    add_signature: Add Signature
+    remove_signature: Remove Signature
     view: View
     view_flags_history: View History
     return_to_case: Return to Case
@@ -1275,6 +1279,7 @@ en:
     add_existing_field: Add Existing Field
     add_field: Add Field
     add_field_type: Add %{file_type}
+    additional_settings: Additional Settings
     attachments:
       maximum_attached: Maximum attachments limit per record (%{maximumttachmentsPerRecord}) reached. This includes photos, audio, and documents. Please remove a file before adding another.
     audio:
@@ -1384,6 +1389,13 @@ en:
     show: Show?
     show_on: Show on
     show_on_minify_form: Short form
+    signature: Signature
+    signature_provided_on: Signature provided on
+    signature_provided_by: Signature provided by
+    signature_provided_by_label: Signature provided by label
+    signature_created_by_user: Signature created by user
+    signature_save_confirmation: Are you sure? Once you submit your signature and save, you cannot withdraw or update it.
+    signature_save_confirmation_title: Confirm Saving Signature
     skip_logic:
       name: Skip Logic?
       record_section:
@@ -2695,6 +2707,7 @@ en:
     logout_confirmation_text: Are you sure you want to log out?
     no_changes: You made no field changes
     not_available: Not available
+    no_signature_provided: No signature provided
     record_list:
       column_header_tooltip: Sort for %{column}
       of: of

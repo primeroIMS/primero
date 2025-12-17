@@ -29,18 +29,21 @@ export const ATTACHMENT_FIELDS_INITIAL_VALUES = Object.freeze({
 export const ATTACHMENT_TYPES = Object.freeze({
   document: "document",
   photo: "image",
-  audio: "audio"
+  audio: "audio",
+  signature: "signature"
 });
 
 export const FIELD_ATTACHMENT_TYPES = Object.freeze({
   photo_upload_box: ATTACHMENT_TYPES.photo,
   audio_upload_box: ATTACHMENT_TYPES.audio,
-  document_upload_box: ATTACHMENT_TYPES.document
+  document_upload_box: ATTACHMENT_TYPES.document,
+  signature: ATTACHMENT_TYPES.signature
 });
 
 export const ATTACHMENT_ACCEPTED_TYPES = Object.freeze({
   audio: ".m4a, audio/mpeg, audio/mp4",
   image: "image/png, image/gif, image/jpeg, image/jpg",
+  signature: "image/png, image/gif, image/jpeg, image/jpg",
   document:
     "application/pdf, text/plain, .csv, text/csv, .doc, .docx, .xlsx, application/msword, " +
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document, " +
