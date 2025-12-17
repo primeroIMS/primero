@@ -205,6 +205,13 @@ class SystemSettings < ApplicationRecord
     end
   end
 
+  def total_attachment_file_size_per_user
+    user_count = User.standard.count.to_f
+    user_count = 1.0 unless user_count.positive?
+
+    (total_attachment_file_size / user_count).to_i
+  end
+
   class << self
     def current(rebuild = false)
       return @current unless @current.nil? || rebuild

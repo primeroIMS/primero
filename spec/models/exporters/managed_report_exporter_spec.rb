@@ -1939,7 +1939,7 @@ describe Exporters::ManagedReportExporter do
             {
               unique_id: 'ac5e4216-76d9-11f0-b06c-7c10c98b54af',
               ctfmr_verified: 'report_pending_verification',
-              violation_tally: { boys: 3, girls: 4, unknown: 5, total: 12 }
+              violation_tally: { boys: 3, girls: 4, unknown: 5, total: 10 }
             },
             {
               unique_id: 'c5285e76-76d9-11f0-96e6-7c10c98b54af',
@@ -1959,7 +1959,7 @@ describe Exporters::ManagedReportExporter do
               armed_force_group_party_name: 'armed_force_1',
               violations_ids: ['ac5e4216-76d9-11f0-b06c-7c10c98b54af']
             }
-          ],
+          ]
         }.with_indifferent_access
       )
       incident0.save!
@@ -2040,11 +2040,11 @@ describe Exporters::ManagedReportExporter do
         ['Verified Information - Violations by Perpetrator', nil, nil, nil, nil, nil]
       )
       expect(workbook.sheet(0).row(63)).to eq([nil, 'Killing', 'Maiming', 'Abduction', 'Attacks on schools', 'Total'])
-      expect(workbook.sheet(0).row(64)).to eq(['Armed Force 2', 0, 0, 0, 1, 1])
+      expect(workbook.sheet(0).row(64)).to eq(['Armed Force 2', 0, 0, 0, 12, 12])
 
       expect(workbook.sheet(0).row(90)).to eq(['Verified Information - Violations by Region', nil, nil, nil, nil, nil])
       expect(workbook.sheet(0).row(91)).to eq([nil, 'Killing', 'Maiming', 'Abduction', 'Attacks on schools', 'Total'])
-      expect(workbook.sheet(0).row(92)).to eq(['Incomplete Data', 1, 0, 2, 1, 4])
+      expect(workbook.sheet(0).row(92)).to eq(['Incomplete Data', 4, 0, 12, 12, 28])
 
       expect(workbook.sheet(0).row(118)).to eq(['Late Verification - Victims', nil, nil, nil, nil, nil])
 
@@ -2053,14 +2053,14 @@ describe Exporters::ManagedReportExporter do
       expect(workbook.sheet(0).row(144)).to eq(['Late Verification - Violations', nil, nil, nil, nil, nil])
 
       expect(workbook.sheet(0).row(170)).to eq(['Late Verification - Violations by Perpetrator', nil, nil, nil, nil, nil])
-      expect(workbook.sheet(0).row(171)).to eq([nil, "Killing", "Maiming", "Abduction", "Attacks on schools", nil])
+      expect(workbook.sheet(0).row(171)).to eq([nil, 'Killing', 'Maiming', 'Abduction', 'Attacks on schools', 'Total'])
 
       expect(workbook.sheet(0).row(197)).to eq(['Late Verification - Violations by Region', nil, nil, nil, nil, nil])
-      expect(workbook.sheet(0).row(198)).to eq([nil, "Killing", "Maiming", "Abduction", "Attacks on schools", nil])
+      expect(workbook.sheet(0).row(198)).to eq([nil, 'Killing', 'Maiming', 'Abduction', 'Attacks on schools', 'Total'])
 
       expect(workbook.sheet(0).row(224)).to eq(['Unverified Information - Victims', nil, nil, nil, nil, nil])
       expect(workbook.sheet(0).row(225)).to eq([nil, 'Boys', 'Girls', 'Unknown', 'Total', nil])
-      expect(workbook.sheet(0).row(226)).to eq(['Attacks on school(s)', 3, 4, 5, 12, nil])
+      expect(workbook.sheet(0).row(226)).to eq(['Attacks on school(s)', 3, 4, 5, 10, nil])
       expect(workbook.sheet(0).row(227)).to eq(['Maiming of Children', 2, 3, 2, 7, nil])
 
       expect(workbook.sheet(0).row(252)).to eq(['Unverified Information - Violations', nil, nil, nil, nil, nil])
@@ -2071,11 +2071,11 @@ describe Exporters::ManagedReportExporter do
         ['Unverified Information - Violations by Perpetrator', nil, nil, nil, nil, nil]
       )
       expect(workbook.sheet(0).row(281)).to eq([nil, 'Killing', 'Maiming', 'Abduction', 'Attacks on schools', 'Total'])
-      expect(workbook.sheet(0).row(282)).to eq(['Armed Force 1', 0, 0, 0, 1, 1])
+      expect(workbook.sheet(0).row(282)).to eq(['Armed Force 1', 0, 0, 0, 10, 10])
 
       expect(workbook.sheet(0).row(308)).to eq(['Unverified Information - Violations by Region', nil, nil, nil, nil, nil])
       expect(workbook.sheet(0).row(309)).to eq([nil, 'Killing', 'Maiming', 'Abduction', 'Attacks on schools', 'Total'])
-      expect(workbook.sheet(0).row(310)).to eq(['Incomplete Data', 0, 1, 0, 1, 2])
+      expect(workbook.sheet(0).row(310)).to eq(['Incomplete Data', 0, 7, 0, 10, 17])
 
       expect(workbook.sheet(0).row(336)).to eq(['Children affected by multiple violations', nil, nil, nil, nil, nil])
       expect(workbook.sheet(0).row(337)).to eq([nil, 'Associated Violations', nil, nil, nil, nil])

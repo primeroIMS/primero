@@ -34,6 +34,12 @@ describe ManagedReports::Indicators::UnverifiedInformation do
     )
 
     Violation.create!(
+      data: { type: 'deprivation_liberty', ctfmr_verified: 'reported_not_verified',
+              violation_tally: { 'boys' => 3, 'girls' => 2, 'unknown' => 4, 'total' => 9 } },
+      incident_id: incident2.id
+    )
+
+    Violation.create!(
       data: { type: 'abduction', ctfmr_verified: 'reported_not_verified',
               violation_tally: { 'boys' => 3, 'girls' => 2, 'unknown' => 4, 'total' => 9 } },
       incident_id: incident2.id
@@ -48,11 +54,19 @@ describe ManagedReports::Indicators::UnverifiedInformation do
       data: { type: 'maiming', violation_tally: { 'boys' => 2, 'girls' => 3, 'unknown' => 1, 'total' => 6 } },
       incident_id: incident3.id
     )
+
+    Violation.create!(
+      data: {
+        type: 'military_use', ctfmr_verified: 'report_pending_verification',
+        violation_tally: { 'boys' => 2, 'girls' => 3, 'unknown' => 1, 'total' => 6 }
+      },
+      incident_id: incident2.id
+    )
   end
 
   it 'return data for unverified information indicator' do
     common_query = %w[
-      violation_with_verification_status=abduction_report_pending_verification
+      violation_with_verification_status=abduction_report_pending_verification,abduction_reported_not_verified
       incident_date=2022-01-01..2022-06-10
     ]
 
@@ -100,12 +114,12 @@ describe ManagedReports::Indicators::UnverifiedInformation do
 
   it 'return data for unverified information for multiple quarters' do
     abduction_query = %w[
-      violation_with_verification_status=abduction_report_pending_verification
+      violation_with_verification_status=abduction_report_pending_verification,abduction_reported_not_verified
       incident_date=2021-04-01..2022-06-10
     ]
 
     killing_query = %w[
-      violation_with_verification_status=killing_report_pending_verification
+      violation_with_verification_status=killing_report_pending_verification,killing_reported_not_verified
       incident_date=2021-04-01..2022-06-10
     ]
 
@@ -124,7 +138,7 @@ describe ManagedReports::Indicators::UnverifiedInformation do
     expect(data).to match_array(
       [
         {
-          group_id: 'boys', 
+          group_id: 'boys',
           data: [
             { id: 'abduction', total: { count: 4, query: %w[child_types=boys] + abduction_query } },
             { id: 'killing', total: { count: 2, query: %w[child_types=boys] + killing_query } }

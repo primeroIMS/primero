@@ -9,12 +9,11 @@ class ManagedReports::Indicators::TypeOfUse < ManagedReports::SqlReportIndicator
       'type_of_use'
     end
 
-    # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/CyclomaticComplexity
     # rubocop:disable Metrics/PerceivedComplexity
     def sql(current_user, params = {})
-      %{
+      <<~SQL
         select name, key, sum(value::integer)
         #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
         from (
@@ -28,6 +27,7 @@ class ManagedReports::Indicators::TypeOfUse < ManagedReports::SqlReportIndicator
         inner join incidents incidents
           on incidents.id = violations.incident_id
           AND incidents.srch_status = 'open'
+          AND incidents.srch_record_state = TRUE
           #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
         cross join json_each_text((violations."data"->>'violation_tally')::JSON)
         where violations.data->>'violation_tally' is not null
@@ -42,9 +42,8 @@ class ManagedReports::Indicators::TypeOfUse < ManagedReports::SqlReportIndicator
         group by key, name
         #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
         order by name, key
-      }
+      SQL
     end
-    # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/CyclomaticComplexity
     # rubocop:enable Metrics/PerceivedComplexity

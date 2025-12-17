@@ -11,19 +11,20 @@ class ManagedReports::Indicators::SurvivorsDisplacementStatus < ManagedReports::
 
     def sql(current_user, params = {})
       date_param = filter_date(params)
-      %{
+      <<~SQL
         SELECT
           data ->> 'displacement_status' AS id,
           #{grouped_date_query(params['grouped_by'], date_param)&.concat(' AS group_id,')}
           COUNT(*) AS total
         FROM incidents
-        WHERE data @? '$[*] ? (@.displacement_status != null && @.consent_reporting == "true")'
+        WHERE srch_record_state = TRUE
+        AND data @? '$[*] ? (@.displacement_status != null && @.consent_reporting == "true")'
         #{date_range_query(date_param)&.prepend('AND ')}
         #{equal_value_query(params['module_id'])&.prepend('AND ')}
         #{user_scope_query(current_user)&.prepend('AND ')}
         GROUP BY data ->> 'displacement_status'
         #{grouped_date_query(params['grouped_by'], date_param)&.prepend(', ')}
-      }
+      SQL
     end
   end
 end

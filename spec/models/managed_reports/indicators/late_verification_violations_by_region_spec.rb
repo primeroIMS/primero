@@ -33,13 +33,27 @@ describe ManagedReports::Indicators::LateVerificationViolationsByRegion do
           {
             unique_id: 'bbfd214c-77c4-11f0-8941-7c10c98b54af',
             ctfmr_verified: 'verified',
-            ctfmr_verified_date: Date.new(2022, 8, 23),
-            violation_tally: { boys: 2, girls: 0, unknown: 2, total: 4 }
+            ctfmr_verified_date: Date.new(2022, 8, 23)
+          }
+        ],
+        deprivation_liberty: [
+          {
+            unique_id: '540b31c2-cf09-11f0-b955-7c10c98b54af',
+            ctfmr_verified: 'verified',
+            ctfmr_verified_date: Date.new(2022, 8, 25)
           }
         ],
         maiming: [
           {
             unique_id: '8edd80b2-76d9-11f0-8338-7c10c98b54af',
+            ctfmr_verified: 'verified',
+            ctfmr_verified_date: Date.new(2022, 8, 23),
+            violation_tally: { boys: 2, girls: 3, unknown: 2, total: 7 }
+          }
+        ],
+        military_use: [
+          {
+            unique_id: '26071584-d20b-11f0-a14b-7c10c98b54af',
             ctfmr_verified: 'verified',
             ctfmr_verified_date: Date.new(2022, 8, 23),
             violation_tally: { boys: 2, girls: 3, unknown: 2, total: 7 }
@@ -67,8 +81,7 @@ describe ManagedReports::Indicators::LateVerificationViolationsByRegion do
         attack_on_hospitals: [
           {
             unique_id: '164f9b14-874e-11f0-accb-7c10c98b54af',
-            ctfmr_verified: 'report_pending_verification',
-            violation_tally: { boys: 1, girls: 0, unknown: 2, total: 3 }
+            ctfmr_verified: 'report_pending_verification'
           }
         ]
       }.with_indifferent_access
@@ -86,8 +99,7 @@ describe ManagedReports::Indicators::LateVerificationViolationsByRegion do
           {
             unique_id: 'ee0b7fee-be5a-11f0-aa99-7c10c98b54af',
             ctfmr_verified: 'verified',
-            ctfmr_verified_date: Date.new(2022, 10, 15),
-            violation_tally: { boys: 1, girls: 0, unknown: 2, total: 3 }
+            ctfmr_verified_date: Date.new(2022, 10, 15)
           }
         ]
       }.with_indifferent_access
@@ -110,8 +122,8 @@ describe ManagedReports::Indicators::LateVerificationViolationsByRegion do
 
     expect(data).to match_array(
       [
-        { id: 'CT01', attack_on_schools: 1, maiming: 1, total: 2 },
-        { id: 'CT02', killing: 1, total: 1 }
+        { id: 'CT01', attack_on_schools: 1, maiming: 7, total: 8 },
+        { id: 'CT02', killing: 3, total: 3 }
       ]
     )
   end

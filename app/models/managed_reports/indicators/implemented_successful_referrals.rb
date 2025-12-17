@@ -15,7 +15,7 @@ class ManagedReports::Indicators::ImplementedSuccessfulReferrals < ManagedReport
       date_query = grouped_service_implemented_day_time(params['grouped_by'], date_param)
       group_id = date_query.present? ? 'group_id' : nil
 
-      %(
+      <<~SQL
         WITH implemented_services AS (
           SELECT
               #{date_query&.+(' AS group_id,')}
@@ -29,7 +29,7 @@ class ManagedReports::Indicators::ImplementedSuccessfulReferrals < ManagedReport
               cases.id AS case_id
             FROM cases
             #{join_services(params['service_type'], date_param)}
-            WHERE 1 = 1
+            WHERE srch_record_state = TRUE
             #{build_filter_query(current_user, params)&.prepend('AND ')}
         )
         SELECT
@@ -40,7 +40,7 @@ class ManagedReports::Indicators::ImplementedSuccessfulReferrals < ManagedReport
           SUM(COUNT(*)) OVER (#{group_id&.dup&.prepend('PARTITION BY ')}) AS total
         FROM implemented_services
         GROUP BY #{group_id&.+(',')} service_implemented, gender
-      )
+      SQL
     end
     # rubocop:enable Metrics/MethodLength
 

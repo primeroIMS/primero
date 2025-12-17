@@ -29,6 +29,7 @@ class ManagedReports::Indicators::CaseProtectionConcernsReportingLocation < Mana
             COALESCE(srch_sex, 'incomplete_data') AS sex
           FROM cases
           WHERE srch_protection_concerns IS NOT NULL
+          AND srch_record_state = TRUE
           #{params['status']&.query(Child)&.prepend('AND ')}
           #{user_scope_query(current_user, 'cases')&.prepend('AND ')}
           #{user_module_query(current_user, 'cases')&.prepend('AND ')}

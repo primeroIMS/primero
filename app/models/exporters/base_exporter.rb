@@ -148,6 +148,10 @@ class Exporters::BaseExporter
     record_constraints&.field_names || export_constraints.field_names
   end
 
+  def skip_attachments?
+    true
+  end
+
   private
 
   def preload_referrals(records)

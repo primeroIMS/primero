@@ -97,6 +97,11 @@ class User < ApplicationRecord
     )
   end)
 
+  scope :by_category, (lambda do |user_category|
+    joins(:role).where(disabled: false).or(where(duplicate: false))
+    .where(roles: { user_category: })
+  end)
+
   alias_attribute :organization, :agency
   alias_attribute :name, :user_name
 
@@ -134,6 +139,7 @@ class User < ApplicationRecord
   validates :data_processing_consent_provided_on,
             presence: { message: 'errors.models.user.data_processing_consent_provided_on' },
             if: :data_processing_consent_required?
+  validate :validate_latest_code_of_conduct
   with_options if: :limit_maximum_users_enabled? do
     validate :validate_limit_user_reached, on: :create
     validate :validate_limit_user_reached_on_enabling, on: :update
@@ -156,38 +162,40 @@ class User < ApplicationRecord
       ]
     end
 
-    def password_parameters
-      %w[password password_confirmation]
-    end
-
     def unique_id_parameters
       %w[user_group_unique_ids role_unique_id identity_provider_unique_id]
-    end
-
-    def permitted_attribute_names
-      User.attribute_names.reject { |name| name == 'services' } + [{ 'services' => [] }]
     end
 
     def order_insensitive_attribute_names
       %w[full_name user_name position]
     end
 
+    # rubocop:disable Metrics/MethodLength
     def default_permitted_params
       (
-        User.permitted_attribute_names + User.password_parameters +
-        [
-          { 'user_group_ids' => [] }, { 'user_group_unique_ids' => [] },
-          { 'module_unique_ids' => [] }, 'role_unique_id', 'identity_provider_unique_id',
-          { 'settings' => { 'notifications' => { 'send_mail' => {}, 'receive_webpush' => {} } } }
-        ]
+        %w[full_name user_name code phone email agency_id position
+           location reporting_location_code role_id time_zone locale send_mail disabled
+           agency_office reset_password_token identity_provider_id code_of_conduct_id
+           receive_webpush registration_stream password password_confirmation role_unique_id
+           identity_provider_unique_id] +
+           [{ 'services' => [] },
+            { 'user_group_ids' => [] }, { 'user_group_unique_ids' => [] },
+            { 'module_unique_ids' => [] },
+            { 'settings' => { 'notifications' =>
+            { 'send_mail' => {}, 'receive_webpush' => {} } } }]
       ) - User.hidden_attributes
     end
+    # rubocop:enable Metrics/MethodLength
 
     def permitted_api_params(current_user = nil, target_user = nil)
       return default_permitted_params if current_user.nil? || target_user.nil?
       return default_permitted_params if current_user.user_name != target_user.user_name
 
       self_permitted_params
+    end
+
+    def standard
+      by_category(nil)
     end
 
     def last_login_timestamp(user_name)
@@ -219,7 +227,7 @@ class User < ApplicationRecord
     end
 
     def limit_user_reached?
-      SystemSettings.current.maximum_users > User.enabled.count
+      SystemSettings.current.maximum_users > User.standard.count
     end
 
     def with_audit_dates
@@ -810,16 +818,23 @@ class User < ApplicationRecord
 
   def validate_limit_user_reached
     maximum_users = SystemSettings.current.maximum_users
-    return if maximum_users > User.enabled.count
+    return if maximum_users > User.standard.count
 
     errors.add(:base, I18n.t('users.alerts.limit_user_reached', maximum_users:))
   end
 
   def validate_limit_user_reached_on_enabling
     maximum_users = SystemSettings.current.maximum_users
-    return if !enabling_user? || maximum_users > User.enabled.count
+    return if !enabling_user? || maximum_users > User.standard.count
 
     errors.add(:base, I18n.t('users.alerts.limit_user_reached_on_enable', maximum_users:))
+  end
+
+  def validate_latest_code_of_conduct
+    return unless will_save_change_to_attribute?('code_of_conduct_id')
+    return if code_of_conduct == CodeOfConduct.current
+
+    errors.add(:code_of_conduct_id, I18n.t('errors.models.user.code_of_conduct'))
   end
 end
 # rubocop:enable Metrics/ClassLength
