@@ -35,6 +35,8 @@ Rails.application.configure do
     ActiveRecord::Type::Boolean.new.cast(ENV.fetch('PRIMERO_DISPOSABLE_EMAIL_CHECKER_ENABLED',
                                                    false))
 
+  config.enforce_terms_of_use = ActiveRecord::Type::Boolean.new.cast(ENV.fetch('PRIMERO_ENFORCE_TERMS_OF_USE', false))
+
   config.silence_logging = [
     'GET /health', 'GET /health/database', 'GET /health/solr', 'GET /health/server'
   ]

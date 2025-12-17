@@ -378,7 +378,7 @@ describe Api::V2::AgenciesController, type: :request do
 
     context 'when creating agency with terms of use' do
       it 'creates agency with terms of use and stamps with current user' do
-        allow(ENV).to receive(:fetch).with('PRIMERO_ENFORCE_TERMS_OF_USE', false).and_return('true')
+        allow(Rails.configuration).to receive(:enforce_terms_of_use).and_return(true)
 
         login_for_test(
           permissions: [
@@ -407,7 +407,7 @@ describe Api::V2::AgenciesController, type: :request do
       end
 
       it 'creates agency without stamping when PRIMERO_ENFORCE_TERMS_OF_USE is disabled' do
-        allow(ENV).to receive(:fetch).with('PRIMERO_ENFORCE_TERMS_OF_USE', false).and_return('false')
+        allow(Rails.configuration).to receive(:enforce_terms_of_use).and_return(false)
 
         login_for_test(
           permissions: [
@@ -548,7 +548,7 @@ describe Api::V2::AgenciesController, type: :request do
 
     context 'when updating agency with terms of use' do
       it 'updates agency with new terms of use and stamps with current user' do
-        allow(ENV).to receive(:fetch).with('PRIMERO_ENFORCE_TERMS_OF_USE', false).and_return('true')
+        allow(Rails.configuration).to receive(:enforce_terms_of_use).and_return(true)
 
         login_for_test(
           permissions: [
@@ -572,7 +572,7 @@ describe Api::V2::AgenciesController, type: :request do
       end
 
       it 'updates agency without stamping when PRIMERO_ENFORCE_TERMS_OF_USE is disabled' do
-        allow(ENV).to receive(:fetch).with('PRIMERO_ENFORCE_TERMS_OF_USE', false).and_return('false')
+        allow(Rails.configuration).to receive(:enforce_terms_of_use).and_return(false)
 
         login_for_test(
           permissions: [
