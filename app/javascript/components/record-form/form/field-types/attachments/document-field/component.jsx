@@ -62,6 +62,7 @@ function DocumentField({
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const {
     attachment_url: attachmentUrl,
+    pdf_attachment_url: pdfAttachmentUrl,
     id,
     _destroy: destroyed,
     file_name: fileName,
@@ -158,6 +159,7 @@ function DocumentField({
               <div className={viewerCss.viewer}>
                 <Content
                   attachmentUrl={attachmentUrl}
+                  pdfAttachmentUrl={pdfAttachmentUrl}
                   contentType={contentType}
                   fileName={fileName}
                   mobileDisplay={mobileDisplay}

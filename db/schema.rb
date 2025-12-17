@@ -113,6 +113,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_16_000001) do
     t.string "resource_url"
     t.datetime "timestamp", precision: nil
     t.jsonb "metadata"
+    t.index ["action"], name: "index_audit_logs_on_action"
     t.index ["metadata"], name: "index_audit_logs_on_metadata", using: :gin
     t.index ["record_type", "record_id"], name: "index_audit_logs_on_record_type_and_record_id"
     t.index ["timestamp", "user_id"], name: "index_audit_logs_on_timestamp_and_user_id"
@@ -215,6 +216,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_16_000001) do
     t.datetime "srch_identified_at", precision: nil
     t.index "((data ->> 'case_id'::text))", name: "cases_case_id_unique_idx", unique: true
     t.index "((phonetic_data -> 'tokens'::text))", name: "cases_phonetic_tokens_idx", using: :gin
+    t.index "jsonb_array_length((data -> 'followup_subform_section'::text))", name: "cases_followup_subform_section_length", where: "(jsonb_array_length((data -> 'followup_subform_section'::text)) > 0)"
+    t.index "jsonb_array_length((data -> 'services_section'::text))", name: "cases_services_section_length", where: "(jsonb_array_length((data -> 'services_section'::text)) > 0)"
     t.index ["data"], name: "index_cases_on_data", using: :gin
     t.index ["duplicate_case_id"], name: "index_cases_on_duplicate_case_id"
     t.index ["family_id"], name: "index_cases_on_family_id"
@@ -416,6 +419,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_16_000001) do
     t.jsonb "option_strings_condition"
     t.jsonb "calculation"
     t.jsonb "subform_summary"
+    t.jsonb "signature_provided_by_label_i18n"
     t.index ["form_section_id"], name: "index_fields_on_form_section_id"
     t.index ["name"], name: "index_fields_on_name"
     t.index ["subform_summary"], name: "index_fields_on_subform_summary", using: :gin
@@ -723,6 +727,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_16_000001) do
     t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.boolean "referral_authorization", default: false, null: false
+    t.string "user_category"
     t.index ["permissions"], name: "index_roles_on_permissions", using: :gin
     t.index ["unique_id"], name: "index_roles_on_unique_id", unique: true
   end
@@ -753,6 +758,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_16_000001) do
     t.index ["data"], name: "index_sessions_on_data", using: :gin
     t.index ["session_id"], name: "index_sessions_on_session_id", unique: true
     t.index ["updated_at"], name: "index_sessions_on_updated_at"
+  end
+
+  create_table "signatures", force: :cascade do |t|
+    t.string "field_name", null: false
+    t.boolean "consent_provided", default: false, null: false
+    t.datetime "signature_provided_on", precision: nil, null: false
+    t.string "signature_provided_by"
+    t.bigint "user_id", null: false
+    t.string "record_type"
+    t.uuid "record_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["record_type", "record_id"], name: "index_signatures_on_record"
+    t.index ["user_id"], name: "index_signatures_on_user_id"
   end
 
   create_table "sources", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -928,6 +947,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_16_000001) do
     t.boolean "unverified", default: false
     t.string "registration_stream"
     t.datetime "data_processing_consent_provided_on", precision: nil
+    t.boolean "self_registered", default: false
+    t.boolean "duplicate", default: false
     t.index ["agency_id"], name: "index_users_on_agency_id"
     t.index ["code_of_conduct_id"], name: "index_users_on_code_of_conduct_id"
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -1013,6 +1034,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_16_000001) do
   add_foreign_key "primero_modules_saved_searches", "saved_searches"
   add_foreign_key "responses", "violations"
   add_foreign_key "saved_searches", "users"
+  add_foreign_key "signatures", "users"
   add_foreign_key "sources_violations", "sources"
   add_foreign_key "sources_violations", "violations"
   add_foreign_key "traces", "cases", column: "matched_case_id"

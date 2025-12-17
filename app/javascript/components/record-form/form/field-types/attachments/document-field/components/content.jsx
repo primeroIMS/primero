@@ -8,6 +8,7 @@ import css from "./styles.css";
 
 function Content({
   attachmentUrl,
+  pdfAttachmentUrl,
   contentType,
   fileName,
   mobileDisplay,
@@ -29,11 +30,11 @@ function Content({
     </div>
   );
 
-  if (contentType === PDF_CONTENT_TYPE) {
+  if (contentType === PDF_CONTENT_TYPE || pdfAttachmentUrl) {
     return (
       <object
         type="application/pdf"
-        data={`/pdf-viewer?file=${attachmentUrl}&${previewParams}`}
+        data={`/pdf-viewer?file=${pdfAttachmentUrl || attachmentUrl}&${previewParams}`}
         width="100%"
         height="100%"
       >
@@ -57,6 +58,7 @@ Content.propTypes = {
   fileName: PropTypes.string.isRequired,
   handleAttachmentDownload: PropTypes.func.isRequired,
   mobileDisplay: PropTypes.bool.isRequired,
+  pdfAttachmentUrl: PropTypes.string.isRequired,
   previewParams: PropTypes.string
 };
 

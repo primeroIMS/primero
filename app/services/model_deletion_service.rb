@@ -6,7 +6,7 @@
 # rubocop:disable Metrics/ClassLength
 class ModelDeletionService < ValueObject
   UUID_REFERENCED_MODELS = [
-    Alert, Attachment, Trace, Violation, SearchableIdentifier, SearchableValue,
+    Alert, Attachment, Signature, Trace, Violation, SearchableIdentifier, SearchableValue,
     SearchableDatetime, SearchableNumeric, SearchableBoolean
   ].freeze
 

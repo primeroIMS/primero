@@ -29,6 +29,7 @@ export const DIALOG_TRIGGER = "dialog_trigger";
 export const HIDDEN_FIELD = "hidden";
 export const LINK_FIELD = "link_field";
 export const TALLY_FIELD = "tally_field";
+export const SIGNATURE_FIELD = "signature";
 
 export const OPTION_TYPES = {
   AGENCY: "Agency",

@@ -24,13 +24,14 @@ class Field < ApplicationRecord
   TALLY_FIELD = 'tally_field'
   CUSTOM = 'custom'
   CALCULATED = 'calculated'
+  SIGNATURE_FIELD = 'signature'
 
   DATE_VALIDATION_DEFAULT = 'default_date_validation'
   DATE_VALIDATION_NOT_FUTURE = 'not_future_date'
 
   ADMIN_LEVEL_REGEXP = Regexp.new("[#{Location::ADMIN_LEVELS.join}]$").freeze
 
-  localize_properties :display_name, :help_text, :guiding_questions, :tick_box_label
+  localize_properties :display_name, :help_text, :guiding_questions, :tick_box_label, :signature_provided_by_label
   localize_properties :option_strings_text, :tally, options_list: true
 
   attr_reader :options
@@ -47,7 +48,12 @@ class Field < ApplicationRecord
 
   attr_readonly :name, :type, :multi_select
 
-  scope :binary, -> { where(type: [Field::PHOTO_UPLOAD_BOX, Field::AUDIO_UPLOAD_BOX, Field::DOCUMENT_UPLOAD_BOX]) }
+  scope :binary, lambda {
+    where(type: [Field::PHOTO_UPLOAD_BOX, Field::AUDIO_UPLOAD_BOX, Field::DOCUMENT_UPLOAD_BOX])
+  }
+  scope :binary_signature, lambda {
+    where(type: Field::SIGNATURE_FIELD)
+  }
 
   validate :validate_unique_name_in_form
   validates :name, format: { with: /\A[a-z][a-z0-9_]*\z/, message: 'errors.models.field.name_format' },
@@ -65,7 +71,8 @@ class Field < ApplicationRecord
     [
       'id', 'name', 'type', 'multi_select', 'form_section_id', 'visible', 'mobile_visible',
       'hide_on_view_page', 'show_on_minify_form', 'disabled', { 'display_name' => {} }, { 'help_text' => {} },
-      { 'guiding_questions' => {} }, { 'tally' => {} }, { 'tick_box_label' => {} },
+      { 'guiding_questions' => {} }, { 'signature_provided_by_label' => {} },
+      { 'tally' => {} }, { 'tick_box_label' => {} },
       { 'option_strings_text' => [:id, :disabled, { display_text: {} }] },
       'option_strings_source', 'order', 'hidden_text_field', 'subform_section_id',
       'collapsed_field_for_subform_section_id', 'autosum_total', 'autosum_group', 'selected_value', 'link_to_path',
@@ -91,6 +98,10 @@ class Field < ApplicationRecord
 
     def all_filterable_numeric_field_names(parent_form = 'case')
       fields_for_record(parent_form).where(type: Field::NUMERIC_FIELD).pluck(:name)
+    end
+
+    def all_signature_field_names(parent_form = 'case')
+      fields_for_record(parent_form).where(type: Field::SIGNATURE_FIELD).pluck(:name)
     end
 
     def all_tally_fields(parent_form = 'case')

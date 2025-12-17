@@ -61,6 +61,10 @@ describe SavedSearch do
       )
     end
 
+    after do
+      clean_data(SavedSearch, Field, FormSection, User, Role, Agency, PrimeroModule, PrimeroProgram)
+    end
+
     describe 'index' do
       it 'should return all saved searches created by a user' do
         SavedSearch.where(user: @user1).should_not be_empty

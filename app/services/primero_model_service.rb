@@ -8,7 +8,7 @@ class PrimeroModelService
   VALID_MODEL_NAMES = %w[
     Child Incident Violation TracingRequest Trace RegistryRecord Family
     ReportableFollowUp ReportableProtectionConcern ReportableService Dashboard
-    Flag Alert Attachment AuditLog BulkExport RecordHistory SavedSearch Transition Task ActivityLog
+    Flag Alert Attachment Signature AuditLog BulkExport RecordHistory SavedSearch Transition Task ActivityLog
     Agency ContactInformation Field FormSection Location Lookup PrimeroModule PrimeroProgram Report User Role
     Permission SystemSettings UserGroup ExportConfiguration PrimeroConfiguration Webhook IdentityProvider Kpi
   ].freeze
