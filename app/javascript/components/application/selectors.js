@@ -257,6 +257,8 @@ export const getEnforceTermsOfUse = state => state.getIn([NAMESPACE, "systemOpti
 
 export const getTermsOfUseAgencySign = state => state.getIn([NAMESPACE, "termsOfUseAgencySign"], false);
 
+export const getTermsOfUseAcknowledge = state => state.getIn([NAMESPACE, "termsOfUseAcknowledge"], false);
+
 export const getTheme = state => state.getIn([NAMESPACE, "theme"], fromJS({}));
 
 export const getShowPoweredByPrimero = state => state.getIn([NAMESPACE, "theme", "showPoweredByPrimero"], false);

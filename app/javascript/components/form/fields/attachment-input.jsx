@@ -217,6 +217,7 @@ function AttachmentInput({ commonInputProps, metaInputProps, formMode, formMetho
                 fileName={file.fileName}
                 mobileDisplay={mobileDisplay}
                 handleAttachmentDownload={handleDownloadFile}
+                previewParams="show_buttons=downloadButton"
               />
             </div>
           </div>

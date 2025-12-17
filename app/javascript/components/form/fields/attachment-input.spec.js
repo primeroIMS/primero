@@ -40,7 +40,7 @@ describe("<Form /> - fields/<AttachmentInput />", () => {
   });
 
   afterEach(() => {
-    jest.resetAllMocks();
+    jest.clearAllMocks();
   });
 
   describe("Basic rendering", () => {

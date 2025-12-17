@@ -192,6 +192,7 @@ const ROUTES = {
   configurations: "/admin/configurations",
   admin_configurations_new: "/admin/configurations/new",
   code_of_conduct: "/code_of_conduct",
+  terms_of_use: "/terms_of_use",
   admin_code_of_conduct: "/admin/code_of_conduct",
   contact_information: "/admin/contact_information",
   dashboard: "/dashboards",
@@ -247,6 +248,7 @@ const PERMITTED_URL = [
   ROUTES.registry_records,
   ROUTES.families,
   ROUTES.code_of_conduct,
+  ROUTES.terms_of_use,
   ROUTES.password_reset_request
 ];
 

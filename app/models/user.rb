@@ -29,6 +29,7 @@ class User < ApplicationRecord
     'password_reset' => { 'type' => 'boolean' }, 'role_id' => { 'type' => 'string' },
     'agency_office' => { 'type' => %w[string null] }, 'code_of_conduct_id' => { 'type' => 'integer' },
     'send_mail' => { 'type' => 'boolean' }, 'receive_webpush' => { 'type' => 'boolean' },
+    'terms_of_use_accepted_on' => { 'type' => %w[string null] },
     'settings' => {
       'type' => %w[object null], 'properties' => {
         'notifications' => {
@@ -701,6 +702,16 @@ class User < ApplicationRecord
     incident_admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
   end
 
+  def accept_terms_of_use!
+    update!(terms_of_use_accepted_on: DateTime.now)
+  end
+
+  def agency_terms_of_use_changed?
+    return false if terms_of_use_accepted_on.nil? || agency&.terms_of_use_uploaded_at.nil?
+
+    terms_of_use_accepted_on < agency.terms_of_use_uploaded_at
+  end
+
   private
 
   def set_locale
@@ -738,6 +749,15 @@ class User < ApplicationRecord
 
   def set_code_of_conduct_accepted_on
     self.code_of_conduct_accepted_on ||= DateTime.now if code_of_conduct_id.present?
+  end
+
+  def needs_terms_of_use_acceptance?
+    return false unless agency&.terms_of_use_enabled?
+
+    return true if terms_of_use_accepted_on.nil?
+
+    agency.terms_of_use_uploaded_at.present? &&
+      terms_of_use_accepted_on < agency.terms_of_use_uploaded_at
   end
 
   def mark_user_groups_changed(_user_group)

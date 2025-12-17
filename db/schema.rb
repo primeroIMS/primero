@@ -812,6 +812,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_16_000001) do
     t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.jsonb "incident_reporting_location_config"
     t.jsonb "terms_of_use_agency_sign"
+    t.jsonb "terms_of_use_acknowledge"
   end
 
   create_table "themes", force: :cascade do |t|
@@ -941,6 +942,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_16_000001) do
     t.bigint "code_of_conduct_id"
     t.boolean "receive_webpush"
     t.jsonb "settings"
+    t.datetime "terms_of_use_accepted_on"
+    t.string "user_category"
     t.boolean "unverified", default: false
     t.string "registration_stream"
     t.datetime "data_processing_consent_provided_on", precision: nil
@@ -1020,7 +1023,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_16_000001) do
   add_foreign_key "form_sections_roles", "roles"
   add_foreign_key "group_victims_violations", "group_victims"
   add_foreign_key "group_victims_violations", "violations"
-  add_foreign_key "incidents", "cases", column: "incident_case_id"
   add_foreign_key "individual_victims_violations", "individual_victims"
   add_foreign_key "individual_victims_violations", "violations"
   add_foreign_key "perpetrators_violations", "perpetrators"
@@ -1045,5 +1047,4 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_16_000001) do
   add_foreign_key "users", "roles"
   add_foreign_key "violations", "incidents"
   add_foreign_key "webpush_subscriptions", "users"
-  add_foreign_key "whitelisted_jwts", "users", on_delete: :cascade
 end
