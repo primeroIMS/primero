@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_15_182452) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_16_000001) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
   enable_extension "pg_catalog.plpgsql"
@@ -58,6 +58,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_15_182452) do
     t.boolean "pdf_logo_option", default: false, null: false
     t.boolean "exclude_agency_from_lookups", default: false, null: false
     t.boolean "terms_of_use_enabled", default: false, null: false
+    t.boolean "terms_of_use_signed", default: false, null: false
+    t.datetime "terms_of_use_uploaded_at"
+    t.string "terms_of_use_uploaded_by"
     t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["agency_code"], name: "index_agencies_on_agency_code", unique: true
@@ -808,6 +811,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_15_182452) do
     t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.jsonb "incident_reporting_location_config"
+    t.jsonb "terms_of_use_agency_sign"
   end
 
   create_table "themes", force: :cascade do |t|

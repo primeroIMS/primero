@@ -129,10 +129,12 @@ const stateWithRecords = fromJS({
     userGroups,
     roles,
     disabledApplication: true,
+    termsOfUseAgencySign: true,
     systemOptions: {
       maximum_users: 50,
       maximum_users_warning: 45,
-      maximum_attachments_per_record: 55
+      maximum_attachments_per_record: 55,
+      enforce_terms_of_use: true
     }
   }
 });
@@ -741,6 +743,22 @@ describe("Application - Selectors", () => {
       const result = selectors.getPhoneticSearchFields(stateWithRecords);
 
       expect(result).toEqual(expected);
+    });
+  });
+
+  describe("getEnforceTermsOfUse", () => {
+    it("should return enforce terms of use", () => {
+      const result = selectors.getEnforceTermsOfUse(stateWithRecords);
+
+      expect(result).toBe(true);
+    });
+  });
+
+  describe("getTermsOfUseAgencySign", () => {
+    it("should return terms of use agency sign", () => {
+      const result = selectors.getTermsOfUseAgencySign(stateWithRecords);
+
+      expect(result).toBe(true);
     });
   });
 });

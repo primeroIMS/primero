@@ -101,6 +101,9 @@ en:
     terms_of_use_help: Only PDF files permitted.
     terms_of_use_download_button: Download PDF
     terms_of_use_enabled: Display Terms of Use?
+    terms_of_use_title: Terms of Use Acknowledgement
+    terms_of_use_view_button: View Terms of Use
+    terms_of_use_acknowledgement: By uploading the Terms of Use document for this Agency you are acknowledging on the Agency's behalf that the Agency has reviewed, agreed to, and endorsed the Terms of Use, and you assume the responsibility for managing access for this Agency’s users. Do you accept this?
   approvals:
     no_requests: There are no approval requests for this Case
     approved_by: Approved By
@@ -1012,6 +1015,7 @@ en:
         logo_format: File should be png
         terms_of_use_format: File should be png
         name_present: must not be blank
+        must_sign_terms_of_use: Agency Term of Use must be signed
       child:
         age: Age must be between 0 and 130
         date_of_birth: Please enter a valid date of birth for this case record

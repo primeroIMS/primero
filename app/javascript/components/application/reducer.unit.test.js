@@ -139,7 +139,8 @@ describe("Application - Reducers", () => {
       },
       codesOfConduct,
       systemOptions,
-      exportRequirePassword: true
+      exportRequirePassword: true,
+      termsOfUseAgencySign: true
     });
 
     const action = {
@@ -233,7 +234,8 @@ describe("Application - Reducers", () => {
               ar: "GBV Closure-AR"
             }
           },
-          system_options: systemOptions
+          system_options: systemOptions,
+          terms_of_use_agency_sign: true
         }
       }
     };

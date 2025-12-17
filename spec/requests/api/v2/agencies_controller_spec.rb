@@ -183,6 +183,7 @@ describe Api::V2::AgenciesController, type: :request do
       get "/api/v2/agencies/#{@agency_b.id}"
       expect(response).to have_http_status(200)
       expect(json['data']['unique_id']).to eq(@agency_b.unique_id)
+      expect(json['data']['enforce_terms_of_use']).to be_falsey
     end
 
     it 'returns 403 if user is not authorized to access' do
@@ -374,6 +375,68 @@ describe Api::V2::AgenciesController, type: :request do
       expect(json['errors'][0]['detail']).to eq('name')
       expect(json['errors'][0]['resource']).to eq('/api/v2/agencies')
     end
+
+    context 'when creating agency with terms of use' do
+      it 'creates agency with terms of use and stamps with current user' do
+        allow(Rails.configuration).to receive(:enforce_terms_of_use).and_return(true)
+
+        login_for_test(
+          permissions: [
+            Permission.new(resource: Permission::AGENCY, actions: [Permission::MANAGE])
+          ]
+        )
+
+        params = {
+          data: {
+            unique_id: 'agency_terms_test',
+            agency_code: 'at001',
+            name: { en: 'Terms Test Agency' },
+            description: { en: 'Agency for testing terms of use' },
+            terms_of_use_file_name: 'terms.pdf',
+            terms_of_use_base64: attachment_strict_base64('dummy.pdf')
+          }
+        }
+
+        post '/api/v2/agencies', params:, as: :json
+
+        expect(response).to have_http_status(200)
+        expect(json['data']['unique_id']).to eq(params[:data][:unique_id])
+
+        created_agency = Agency.find_by(unique_id: 'agency_terms_test')
+        expect(created_agency.terms_of_use.attached?).to be_truthy
+      end
+
+      it 'creates agency without stamping when PRIMERO_ENFORCE_TERMS_OF_USE is disabled' do
+        allow(Rails.configuration).to receive(:enforce_terms_of_use).and_return(false)
+
+        login_for_test(
+          permissions: [
+            Permission.new(resource: Permission::AGENCY, actions: [Permission::MANAGE])
+          ]
+        )
+
+        params = {
+          data: {
+            unique_id: 'agency_no_stamp_test',
+            agency_code: 'at002',
+            name: { en: 'No Stamp Test Agency' },
+            description: { en: 'Agency for testing without stamping' },
+            terms_of_use_file_name: 'terms.pdf',
+            terms_of_use_base64: attachment_strict_base64('dummy.pdf')
+          }
+        }
+
+        post '/api/v2/agencies', params:, as: :json
+
+        expect(response).to have_http_status(200)
+
+        created_agency = Agency.find_by(unique_id: 'agency_no_stamp_test')
+        expect(created_agency.terms_of_use.attached?).to be_truthy
+        expect(created_agency.terms_of_use_signed).to be false
+        expect(created_agency.terms_of_use_uploaded_by).to be_nil
+        expect(created_agency.terms_of_use_uploaded_at).to be_nil
+      end
+    end
   end
 
   describe 'PATCH /api/v2/agencies/:id' do
@@ -481,6 +544,96 @@ describe Api::V2::AgenciesController, type: :request do
       expect(response).to have_http_status(403)
       expect(json['errors'][0]['resource']).to eq("/api/v2/agencies/#{@agency_a.id}")
       expect(json['errors'][0]['message']).to eq('Forbidden')
+    end
+
+    context 'when updating agency with terms of use' do
+      it 'updates agency with new terms of use and stamps with current user' do
+        allow(Rails.configuration).to receive(:enforce_terms_of_use).and_return(true)
+
+        login_for_test(
+          permissions: [
+            Permission.new(resource: Permission::AGENCY, actions: [Permission::MANAGE])
+          ]
+        )
+
+        params = {
+          data: {
+            terms_of_use_file_name: 'updated_terms.pdf',
+            terms_of_use_base64: attachment_strict_base64('dummy.pdf')
+          }
+        }
+
+        patch "/api/v2/agencies/#{@agency_a.id}", params:, as: :json
+
+        expect(response).to have_http_status(200)
+
+        @agency_a.reload
+        expect(@agency_a.terms_of_use.attached?).to be_truthy
+      end
+
+      it 'updates agency without stamping when PRIMERO_ENFORCE_TERMS_OF_USE is disabled' do
+        allow(Rails.configuration).to receive(:enforce_terms_of_use).and_return(false)
+
+        login_for_test(
+          permissions: [
+            Permission.new(resource: Permission::AGENCY, actions: [Permission::MANAGE])
+          ]
+        )
+
+        params = {
+          data: {
+            terms_of_use_file_name: 'updated_terms_no_stamp.pdf',
+            terms_of_use_base64: attachment_strict_base64('dummy.pdf')
+          }
+        }
+
+        patch "/api/v2/agencies/#{@agency_a.id}", params:, as: :json
+
+        expect(response).to have_http_status(200)
+
+        @agency_a.reload
+        expect(@agency_a.terms_of_use.attached?).to be_truthy
+        expect(@agency_a.terms_of_use_signed).to be false
+        expect(@agency_a.terms_of_use_uploaded_by).to be_nil
+        expect(@agency_a.terms_of_use_uploaded_at).to be_nil
+      end
+
+      it 'preserves existing terms of use when updating other attributes' do
+        @agency_a.update!(
+          terms_of_use_signed: true,
+          terms_of_use_uploaded_by: 'previous_user',
+          terms_of_use_uploaded_at: 1.day.ago
+        )
+        original_uploaded_at = @agency_a.terms_of_use_uploaded_at.iso8601(3)
+
+        login_for_test(
+          permissions: [
+            Permission.new(resource: Permission::AGENCY, actions: [Permission::MANAGE])
+          ]
+        )
+
+        params = {
+          data: {
+            name: { en: 'Updated Agency Name' },
+            description: { en: 'Updated description' }
+          }
+        }
+
+        patch "/api/v2/agencies/#{@agency_a.id}", params:, as: :json
+
+        expect(response).to have_http_status(200)
+
+        @agency_a.reload
+
+        expect(json['data']['unique_id']).to eq(@agency_a.unique_id)
+        expect(json['data']['agency_code']).to eq(@agency_a.agency_code)
+        expect(json['data']['name']['en']).to eq(params[:data][:name][:en])
+        expect(json['data']['description']['en']).to eq(params[:data][:description][:en])
+        expect(@agency_a.terms_of_use.attached?).to be_truthy
+        expect(@agency_a.terms_of_use_signed).to be true
+        expect(@agency_a.terms_of_use_uploaded_by).to eq('previous_user')
+        expect(@agency_a.terms_of_use_uploaded_at.iso8601(3)).to eq(original_uploaded_at)
+      end
     end
   end
 
