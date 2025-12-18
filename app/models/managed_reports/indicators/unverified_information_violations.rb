@@ -22,10 +22,10 @@ class ManagedReports::Indicators::UnverifiedInformationViolations < ManagedRepor
           AND incidents.srch_status = 'open'
           AND incidents.srch_record_state = TRUE
           #{user_scope_query(current_user, 'incidents')&.prepend('AND ')}
-        WHERE violations.data @? '$[*] ? (
-          @.type == "attack_on_hospitals" || @.type == "attack_on_schools" || @.type == "denial_humanitarian_access"
-        )'
-        AND violations.data @? '$.ctfmr_verified ? (@ == "report_pending_verification" || @ == "reported_not_verified")'
+        WHERE violations.data @? '$[*]
+          ? (@.type == "attack_on_hospitals" || @.type == "attack_on_schools" || @.type == "denial_humanitarian_access")
+          ? (@.ctfmr_verified == "report_pending_verification" || @.ctfmr_verified == "reported_not_verified")
+        '
         #{date_range_query(date_filter_param(params['ghn_date_filter']), 'incidents')&.prepend('AND ')}
         GROUP BY violations.data ->> 'type'
         ORDER BY id
