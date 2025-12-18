@@ -52,7 +52,7 @@ module Exporters
     it 'exports the stats for the fields' do
       expect(workbook.sheets.size).to eq(1)
       expect(workbook.sheet(0).row(1)).to eq(
-        ['Generated Periodically. Last generated on August 10, 2023 at 12:18pm.', nil, nil, nil, nil, nil]
+        ['Generated Periodically. Last generated at Aug 10, 2023 12:18 PM.', nil, nil, nil, nil, nil]
       )
       expect(workbook.sheet(0).row(2)).to eq(['Primero Module 1 - Case', nil, nil, nil, nil, nil])
       expect(workbook.sheet(0).row(4)).to eq(['Out of 4 Cases...', nil, nil, nil, nil, nil])

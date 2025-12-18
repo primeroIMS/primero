@@ -61,13 +61,11 @@ class Exporters::UnusedFieldsExporter < ValueObject
   end
 
   def write_last_generated
-    last_generated_on = I18n.localize(Time.zone.now, format: '%B %d, %Y', locale:)
-    last_generated_at = I18n.localize(Time.zone.now, format: '%-l:%M%P', locale:)
     worksheet&.merge_range(
       @current_row, 0, @current_row, 5,
       I18n.t(
         'unused_fields_report.generated_message',
-        deep_interpolation: true, locale:, date: last_generated_on, time: last_generated_at
+        deep_interpolation: true, locale:, date: I18n.localize(Time.zone.now, format: '%b %-d, %Y %I:%M %p', locale:)
       ),
       @formats[:title]
     )

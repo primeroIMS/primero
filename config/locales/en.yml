@@ -2702,7 +2702,7 @@ en:
     cases_where_filled:  Cases where filled
     prevalence: Prevalence
     created_at: Created At
-    generated_message: Generated Periodically. Last generated on %{date} at %{time}.
+    generated_message: Generated Periodically. Last generated at %{date}.
     not_found_error: Unused Fields Report not found. Please try again later.
   messages:
     alert_items: You have %{items} items of note.
