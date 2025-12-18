@@ -10,7 +10,7 @@ class GenerateUnusedFieldsReport < PeriodicJob
 
   def perform_rescheduled
     Rails.logger.info 'Generating the Unused Fields Report...'
-    GenerateUnusedFieldsReport.new.generate!
+    GenerateUnusedFieldsReport.generate!
     Rails.logger.info 'Unused Fields Report generated.'
   end
 
@@ -18,14 +18,10 @@ class GenerateUnusedFieldsReport < PeriodicJob
     unused_fields_report = UnusedFieldsReport.new
     unused_fields_report.build
     export_data = Exporters::UnusedFieldsExporter.export(unused_fields_report)
-    SystemSettings.current.unused_fields_report_file.attach(io: StringIO.new(export_data), filename: default_file_name)
+    SystemSettings.current.unused_fields_report_file.attach(
+      io: StringIO.new(export_data),
+      filename: Exporters::UnusedFieldsExporter.default_file_name
+    )
     SystemSettings.current.save!
-  end
-
-  def self.default_file_name
-    timestamp = Time.now.strftime('%Y%m%d.%M%S%M%L')
-    file_name = 'unused_fields_report'
-
-    "#{file_name}_#{timestamp}.xlsx"
   end
 end

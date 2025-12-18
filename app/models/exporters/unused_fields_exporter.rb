@@ -13,11 +13,20 @@ class Exporters::UnusedFieldsExporter < ValueObject
     created_at
   ].freeze
 
-  attr_accessor :unused_fields_report, :file_name, :errors, :workbook, :formats, :worksheet, :locale
+  attr_accessor :unused_fields_report, :errors, :workbook, :formats, :worksheet, :locale
 
-  def self.export(unused_fields_report, locale = I18n.locale)
-    exporter = new(unused_fields_report:, locale:)
-    exporter.export
+  class << self
+    def export(unused_fields_report, locale = I18n.locale)
+      exporter = new(unused_fields_report:, locale:)
+      exporter.export
+    end
+
+    def default_file_name
+      timestamp = Time.now.strftime('%Y%m%d.%M%S%M%L')
+      file_name = 'unused_fields_report'
+
+      "#{file_name}_#{timestamp}.xlsx"
+    end
   end
 
   def export
