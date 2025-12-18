@@ -6,7 +6,7 @@
 class Api::V2::UnusedFieldsReportController < ApplicationApiController
   def current
     authorize_unused_fields_report!
-    @unused_fields_report_file = SystemSettings.current.unused_fields_report_file
+    @unused_fields_report_file = SystemSettings.current(true).unused_fields_report_file
     raise ActiveRecord::RecordNotFound unless @unused_fields_report_file.attached?
   end
 

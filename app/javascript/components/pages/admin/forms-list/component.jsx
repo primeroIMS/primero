@@ -20,7 +20,7 @@ import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import useOptions from "../../../form/use-options";
 import Menu from "../../../menu";
-import { fetchUnusedFieldsReport, getUnusedFieldsReportUrl } from "../../../unused-fields-report";
+import { fetchUnusedFieldsReport, getUnusedFieldsReport } from "../../../unused-fields-report";
 
 import FormExporter from "./components/form-exporter";
 import { FORM_EXPORTER_DIALOG } from "./components/form-exporter/constants";
@@ -55,7 +55,7 @@ function Component() {
   const isLoading = useMemoizedSelector(state => getIsLoading(state));
   const isReorderEnabled = useMemoizedSelector(state => getReorderEnabled(state));
   const formSectionsByGroup = useMemoizedSelector(state => getFormSectionsByFormGroup(state, filterValues));
-  const unusedFieldsReportUrl = useMemoizedSelector(state => getUnusedFieldsReportUrl(state));
+  const unusedFieldsReport = useMemoizedSelector(state => getUnusedFieldsReport(state));
   const allFormGroupsLookups = useOptions({ source: OPTION_TYPES.FORM_GROUP_LOOKUP });
 
   const { modules } = useApp();
@@ -145,10 +145,12 @@ function Component() {
   ];
 
   useEffect(() => {
+    const unusedFieldsReportUrl = unusedFieldsReport?.get("unused_fields_report");
+
     if (unusedFieldsReportUrl) {
       window.open(unusedFieldsReportUrl);
     }
-  }, [unusedFieldsReportUrl]);
+  }, [unusedFieldsReport]);
 
   return (
     <Permission resources={RESOURCES.metadata} actions={MANAGE} redirect>
