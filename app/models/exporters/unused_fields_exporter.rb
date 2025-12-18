@@ -15,7 +15,7 @@ class Exporters::UnusedFieldsExporter < ValueObject
 
   attr_accessor :unused_fields_report, :file_name, :errors, :workbook, :formats, :worksheet, :locale
 
-  def self.export(unused_fields_report, locale = I18n.default_locale)
+  def self.export(unused_fields_report, locale = I18n.locale)
     exporter = new(unused_fields_report:, locale:)
     exporter.export
   end
