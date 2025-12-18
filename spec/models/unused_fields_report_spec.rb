@@ -5,7 +5,10 @@
 require 'rails_helper'
 
 describe UnusedFieldsReport do
-  clean_data(FormSection, PrimeroModule, PrimeroProgram, Child)
+  before do
+    clean_data(FormSection, PrimeroModule, PrimeroProgram, Child)
+    travel_to Time.zone.parse('2023-08-10 12:18:05')
+  end
 
   let!(:primero_module1) do
     create(:primero_module, name: 'Primero Module 1', unique_id: 'primero-module-1', form_sections: [form_section1])
