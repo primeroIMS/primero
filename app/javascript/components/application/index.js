@@ -28,7 +28,6 @@ export {
   getWebpushConfig,
   getListHeaders,
   getExactSearchFields,
-  getPhoneticSearchFields,
-  getUnusedFieldsReport
+  getPhoneticSearchFields
 } from "./selectors";
 export { PERMISSIONS, RESOURCES, RESOURCE_ACTIONS } from "./constants";
