@@ -60,9 +60,9 @@ class Violation < ApplicationRecord
   end
 
   def calculate_late_verifications
-    return unless ctfmr_verified == 'verified'
-
     self.is_late_verification = late_verification?
+
+    is_late_verification
   end
 
   def late_verification_date_range?
@@ -70,7 +70,7 @@ class Violation < ApplicationRecord
   end
 
   def late_verification?
-    return false unless ctfmr_verified_date.present? && incident.incident_date.present?
+    return false unless ctfmr_verified == 'verified' && ctfmr_verified_date.present? && incident.incident_date.present?
 
     return late_verification_date_range? if incident.is_incident_date_range
 

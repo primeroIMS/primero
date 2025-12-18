@@ -143,7 +143,7 @@ describe Api::V2::IncidentsController, type: :request do
           {
             unique_id: '0fff1c74-7626-11ef-998a-18c04db5c362',
             type: 'killing',
-            verified: 'verified',
+            ctfmr_verified: 'verified',
             ctfmr_verified_date: Date.new(2023, 5, 12),
             is_late_verification: true
           }
