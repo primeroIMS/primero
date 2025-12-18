@@ -1457,20 +1457,6 @@ describe User do
     let(:agency) { create(:agency, terms_of_use_enabled: true) }
     let(:user) { create(:user, agency: agency) }
 
-    describe '#accept_terms_of_use!' do
-      it 'sets terms_of_use_accepted_on to current time' do
-        freeze_time do
-          expect { user.accept_terms_of_use! }.to change { user.terms_of_use_accepted_on }
-            .from(nil).to(DateTime.now)
-        end
-      end
-
-      it 'updates the user record' do
-        expect { user.accept_terms_of_use! }.to change { user.reload.terms_of_use_accepted_on }
-          .from(nil)
-      end
-    end
-
     describe '#needs_terms_of_use_acceptance?' do
       context 'when agency does not have terms of use enabled' do
         let(:agency) { create(:agency, terms_of_use_enabled: false) }

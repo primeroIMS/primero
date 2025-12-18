@@ -16,7 +16,7 @@ user_hash = user_hash.merge({
   managed_report_scope: user.managed_report_scope
 }.compact)
 
-if ActiveRecord::Type::Boolean.new.cast(ENV.fetch('PRIMERO_ENFORCE_TERMS_OF_USE', false))
+if Rails.configuration.enforce_terms_of_use
   user_hash = user_hash.merge(
     agency_terms_of_use_enabled: user.agency&.terms_of_use_enabled,
     agency_terms_of_use_changed: user.agency_terms_of_use_changed?

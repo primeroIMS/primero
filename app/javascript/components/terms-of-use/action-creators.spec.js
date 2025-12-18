@@ -13,8 +13,13 @@ describe("TermsOfUse - Action Creators", () => {
 
     it("should have correct API configuration & type", () => {
       expect(expectedAction.type).toEqual(actions.ACCEPT_TERMS_OF_USE);
-      expect(expectedAction.api.path).toEqual(`users/${userId}/accept_terms_of_use`);
+      expect(expectedAction.api.path).toEqual(`users/${userId}`);
       expect(expectedAction.api.method).toEqual(METHODS.PATCH);
+      expect(expectedAction.api.body).toEqual({
+        data: {
+          accept_terms_of_use: true
+        }
+      });
     });
   });
 });

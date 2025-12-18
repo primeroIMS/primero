@@ -7,7 +7,7 @@ class Api::V2::UsersController < ApplicationApiController
   include Api::V2::Concerns::Pagination
   include Api::V2::Concerns::JsonValidateParams
 
-  before_action :load_user, only: %i[show update destroy accept_terms_of_use]
+  before_action :load_user, only: %i[show update destroy]
   before_action :user_params, only: %i[create update]
   before_action :load_extended, only: %i[index show]
   after_action :welcome, only: %i[create]
@@ -41,6 +41,7 @@ class Api::V2::UsersController < ApplicationApiController
     authorize! :disable, @user if @user_params.include?('disabled')
     authorize! :edit_user, @user
     validate_json!(User::USER_FIELDS_SCHEMA, user_params)
+    stamp_terms_if_accepted
     @user.update_with_properties(@user_params)
     @user.save!
     keep_user_signed_in
@@ -49,13 +50,6 @@ class Api::V2::UsersController < ApplicationApiController
   def destroy
     authorize! :enable_disable_record, User
     @user.destroy!
-  end
-
-  def accept_terms_of_use
-    authorize! :edit_user, @user
-
-    @user.accept_terms_of_use!
-    render 'show'
   end
 
   protected
@@ -94,5 +88,12 @@ class Api::V2::UsersController < ApplicationApiController
 
   def include_activity_stats?
     params[:activity_stats].to_s == 'true'
+  end
+
+  def stamp_terms_if_accepted
+    return unless @user_params[:accept_terms_of_use]
+
+    @user_params[:terms_of_use_accepted_on] = DateTime.now
+    @user_params.delete(:accept_terms_of_use)
   end
 end
