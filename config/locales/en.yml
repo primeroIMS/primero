@@ -2706,6 +2706,7 @@ en:
       incidents_total: Total Incidents
       incidents_open_this_quarter: Incidents this quarter
   unused_fields_report:
+    label: Unused Fields Report
     field_id: Field ID
     field_name: Field Name
     form_name: Form Name

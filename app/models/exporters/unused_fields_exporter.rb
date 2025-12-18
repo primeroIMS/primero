@@ -13,10 +13,10 @@ class Exporters::UnusedFieldsExporter < ValueObject
     created_at
   ].freeze
 
-  attr_accessor :data, :file_name, :errors, :workbook, :formats, :worksheet, :locale
+  attr_accessor :unused_fields_report, :file_name, :errors, :workbook, :formats, :worksheet, :locale
 
-  def self.export(data, locale = I18n.default_locale)
-    exporter = new(data:, locale:)
+  def self.export(unused_fields_report, locale = I18n.default_locale)
+    exporter = new(unused_fields_report:, locale:)
     exporter.export
   end
 
@@ -34,7 +34,7 @@ class Exporters::UnusedFieldsExporter < ValueObject
   end
 
   def write_report_data
-    self.worksheet = workbook.add_worksheet('Unused Fields Report')
+    self.worksheet = workbook.add_worksheet(I18n.t('unused_fields_report.label', locale:))
     @current_row = 0
 
     write_last_generated
@@ -42,7 +42,7 @@ class Exporters::UnusedFieldsExporter < ValueObject
   end
 
   def write_field_data
-    data.each do |elem|
+    unused_fields_report.data.each do |elem|
       primero_module = PrimeroModule.find_by(unique_id: elem['module_id'])
       write_title(primero_module, elem['total_records'])
       write_headers
