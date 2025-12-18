@@ -82,4 +82,72 @@ describe("<UsersList /> - Reducers", () => {
 
     expect(newState).toEqual(expected);
   });
+
+  it("should handle DISABLE_USERS_STARTED", () => {
+    const expected = fromJS({
+      disableUsers: {
+        loading: true,
+        errors: false
+      }
+    });
+
+    const action = {
+      type: actions.DISABLE_USERS_STARTED
+    };
+
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).toEqual(expected);
+  });
+
+  it("should handle DISABLE_USERS_SUCCESS", () => {
+    const expected = fromJS({
+      disableUsers: {
+        loading: false,
+        errors: false
+      }
+    });
+
+    const action = {
+      type: actions.DISABLE_USERS_SUCCESS
+    };
+
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).toEqual(expected);
+  });
+
+  it("should handle DISABLE_USERS_FAILURE", () => {
+    const expected = fromJS({
+      disableUsers: {
+        loading: false,
+        errors: true
+      }
+    });
+
+    const action = {
+      type: actions.DISABLE_USERS_FAILURE
+    };
+
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).toEqual(expected);
+  });
+
+  it("should handle DISABLE_USERS_FINISHED", () => {
+    const expected = fromJS({
+      disableUsers: {
+        loading: false,
+        errors: false
+      }
+    });
+
+    const action = {
+      type: actions.DISABLE_USERS_FINISHED
+    };
+
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).toEqual(expected);
+  });
 });

@@ -68,13 +68,16 @@ const fetchSinglePayload = async (action, store, options) => {
       )
     : [false, false];
 
+  const bodyData = formData ? { data: formData } : body;
+  const serializedBody = isImmutable(bodyData) ? bodyData.toJS() : bodyData;
+
   const fetchOptions = {
     ...DEFAULT_FETCH_OPTIONS,
     method,
     mode,
     signal: controller.signal,
     ...((formData || body) && {
-      body: JSON.stringify(formData ? { data: formData } : body)
+      body: JSON.stringify(serializedBody)
     })
   };
 

@@ -1,15 +1,16 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { batch, useDispatch } from "react-redux";
 import { fromJS } from "immutable";
 import Grid from "@mui/material/Unstable_Grid2";
+import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../../i18n";
 import IndexTable from "../../../index-table";
 import { PageHeading, PageContent } from "../../../page";
 import NAMESPACE from "../namespace";
-import { usePermissions, CREATE_RECORDS, READ_RECORDS, RESOURCES } from "../../../permissions";
+import { usePermissions, READ_RECORDS, RESOURCES } from "../../../permissions";
 import { FiltersForm } from "../../../form-filters/components";
 import { fetchAgencies } from "../agencies-list/action-creators";
 import {
@@ -23,20 +24,34 @@ import { getAppliedFilters, getMetadata } from "../../../record-list";
 import { useMetadata } from "../../../records";
 import { useMemoizedSelector } from "../../../../libs";
 import { DEFAULT_FILTERS, DATA } from "../constants";
+import { useDialog } from "../../../action-dialog";
+import Menu from "../../../menu";
 
 import { fetchUsers, setUsersFilters } from "./action-creators";
-import { LIST_HEADERS, AGENCY, DISABLED, USER_GROUP, LAST_DATE, ACTIVITY_FILTERS } from "./constants";
-import { agencyBodyRender, buildObjectWithIds, buildUsersQuery, getFilters } from "./utils";
+import {
+  LIST_HEADERS,
+  AGENCY,
+  DISABLED,
+  USER_GROUP,
+  LAST_DATE,
+  ACTIVITY_FILTERS,
+  USERS_DIALOG,
+  ACTION_IDS,
+  USERS_ABILITIES
+} from "./constants";
+import { agencyBodyRender, buildObjectWithIds, buildUsersQuery, getFilters, buildActionList } from "./utils";
 import AlertMaxUser from "./components/alert-max-user";
-import CustomToolbar from "./components/custom-toolbar";
 import NewUserBtn from "./components/new-user-button";
+import DisableDialog from "./components/disable-dialog";
 
 function Container() {
   const i18n = useI18n();
   const dispatch = useDispatch();
+  const [selectedRecords, setSelectedRecords] = useState({});
   const { maximumUsers, maximumUsersWarning } = useApp();
-  const canAddUsers = usePermissions(NAMESPACE, CREATE_RECORDS);
+  const { canAddUsers, canDisableMultiple } = usePermissions(NAMESPACE, USERS_ABILITIES);
   const canListAgencies = usePermissions(RESOURCES.agencies, READ_RECORDS);
+  const { setDialog } = useDialog(USERS_DIALOG);
   const recordType = "users";
 
   const agencies = useMemoizedSelector(state => selectAgencies(state));
@@ -84,21 +99,17 @@ function Container() {
     recordType,
     columns,
     options: {
-      selectableRows: "none"
+      selectableRows: "multiple"
     },
     defaultFilters,
     onTableChange,
     bypassInitialFetch: true,
-    // eslint-disable-next-line react/display-name, react/no-multi-comp
-    customToolbarSelect: ({ displayData }) => (
-      <CustomToolbar
-        displayData={displayData}
-        limitUsersReached={limitUsersReached}
-        maximumUsers={maximumUsersLimit}
-        totalUsersEnabled={totalUsersEnabled}
-        data-testid="custom-toolbar"
-      />
-    )
+    setSelectedRecords,
+    selectedRecords
+  };
+
+  const handleDialogClick = (dialog, action) => {
+    setDialog({ dialog, open: true, params: { action } });
   };
 
   const filterPermission = {
@@ -125,6 +136,11 @@ function Container() {
     }
   };
 
+  const actions = buildActionList({ i18n, handleDialogClick, canDisableMultiple });
+
+  const disabledCondition = action =>
+    [ACTION_IDS.disable].includes(action.id) ? isEmpty(Object.values(selectedRecords).flat()) : false;
+
   useEffect(() => {
     dispatch(setUsersFilters({ data: defaultFilters }));
   }, []);
@@ -133,6 +149,12 @@ function Container() {
     <>
       <PageHeading title={i18n.t("users.label")}>
         <NewUserBtn canAddUsers={canAddUsers} limitUsersReached={limitUsersReached} maximumUsers={maximumUsers} />
+        <Menu
+          data-testid="action-menu"
+          showMenu={Boolean(actions.length)}
+          actions={actions}
+          disabledCondition={disabledCondition}
+        />
       </PageHeading>
       <PageContent>
         <Grid container spacing={2}>
@@ -145,6 +167,12 @@ function Container() {
             <IndexTable title={i18n.t("users.label")} {...tableOptions} showCustomToolbar renderTitleMessage />
           </Grid>
           <Grid item xs={12} sm={4}>
+            <DisableDialog
+              selectedRecords={selectedRecords}
+              recordType={recordType}
+              filters={currentFilters}
+              setSelectedRecords={setSelectedRecords}
+            />
             <FiltersForm {...filterProps} noMargin searchFieldLabel={i18n.t("users.filters.search")} showSearchField />
           </Grid>
         </Grid>

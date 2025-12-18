@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 /* eslint-disable react/no-multi-comp, react/display-name */
-import { useState, useRef, useLayoutEffect } from "react";
+import { useState, useRef, useLayoutEffect, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import { Formik, Form, getIn } from "formik";
@@ -37,6 +37,7 @@ import {
 } from "../../../../records";
 import { useMemoizedSelector } from "../../../../../libs";
 import { RECORD_TYPES_PLURAL, SERVICES_SUBFORM_FIELD } from "../../../../../config";
+import ChildFunctioningFormEffects from "../child-functioning-form-effects";
 
 function Component({
   arrayHelpers,
@@ -100,15 +101,17 @@ function Component({
 
   const { case_id: caseId, case_id_display: caseIdDisplay } = subformValues;
 
-  const handleClose = () => {
-    const compactedValues = compactValues(childFormikRef.current.values, initialSubformValues);
+  const handleClose = useCallback(() => {
+    const compactedValues = childFormikRef.current
+      ? compactValues(childFormikRef.current.values, initialSubformValues)
+      : {};
 
     if (Object.keys(childFormikRef.current.touched).length || Object.keys(compactedValues).length) {
       setOpenConfirmationModal(true);
     } else {
       setOpen({ open: false, index: null });
     }
-  };
+  }, [initialSubformValues, setOpen]);
 
   let boundSubmitForm = null;
 
@@ -264,6 +267,9 @@ function Component({
 
             return (
               <Form data-testid="subForm-dialog-form" autoComplete="off" onSubmit={handleSubmit}>
+                {/* Rendered as a component within the JSX return */}
+                <ChildFunctioningFormEffects field={field} />
+
                 <SubformErrors
                   initialErrors={initialSubformErrors}
                   errors={errors}

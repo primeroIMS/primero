@@ -488,6 +488,44 @@ module Exporters
         exporter.export(@records)
         exporter.complete
       end
+
+      context 'Generic Agency Preloading' do
+        let(:agency1_id) { "agency_#{SecureRandom.hex(4)}" }
+        let(:agency2_id) { "agency_#{SecureRandom.hex(4)}" }
+        let(:agency1) { create(:agency, name_en: 'Agency One', unique_id: agency1_id) }
+        let(:agency2) { create(:agency, name_en: 'Agency Two', unique_id: agency2_id) }
+
+        let(:record_agency1) do
+          create(:child,
+                 created_organization: agency1.unique_id,
+                 owned_by_agency_id: agency2.unique_id)
+        end
+
+        let(:records_agency) { [record_agency1] }
+        let(:exporter_agency) { described_class.new(nil, { user: @user }) }
+
+        before do
+          # Mock the Field query to ensure our test fields are returned regardless of DB state
+          allow(Field).to receive(:where).with(option_strings_source: 'Agency')
+                                         .and_return(double(pluck: %w[created_organization owned_by_agency_id]))
+        end
+
+        it 'loads all agencies from multiple fields' do
+          exporter_agency.send(:preload_agency_names, records_agency)
+          cache = exporter_agency.instance_variable_get(:@agency_names_cache)
+          expect(cache).to include(
+            agency1.unique_id => 'Agency One',
+            agency2.unique_id => 'Agency Two'
+          )
+        end
+
+        it 'passes the cache to FieldValueService' do
+          exporter_agency.constraint_subforms
+          exporter_agency.build_worksheets_with_headers
+          expect(exporter_agency.field_value_service).to receive(:agencies=).with(kind_of(Hash))
+          exporter_agency.export_records(records_agency)
+        end
+      end
     end
 
     after :each do
