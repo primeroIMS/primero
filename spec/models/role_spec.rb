@@ -916,11 +916,34 @@ describe Role do
       role2
     end
 
+    let!(:role3) do
+      Role.new_with_properties(
+        name: 'permission_role_3',
+        unique_id: 'permission_role_3',
+        group_permission: Permission::SELF,
+        primero_modules: [primero_module_cp],
+        permissions: [
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::READ, Permission::RECEIVE_REFERRAL]
+          )
+        ]
+      )
+    end
+
     it 'returns merged permissions for different roles' do
       expect(Role.resource_form_actions([role1, role2])).to eq(
         {
           'case' => %w[manage approve_assessment change_log view_incident_from_case],
           'incident' => %w[manage]
+        }
+      )
+    end
+
+    it 'returns merged permissions for a single role' do
+      expect(Role.resource_form_actions([role3])).to eq(
+        {
+          'case' => %w[receive_referral]
         }
       )
     end

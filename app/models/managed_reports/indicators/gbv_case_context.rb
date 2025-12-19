@@ -12,14 +12,15 @@ class ManagedReports::Indicators::GBVCaseContext < ManagedReports::SqlReportIndi
     # rubocop:disable Metrics/MethodLength
     def sql(current_user, params = {})
       date_param = filter_date(params)
-      %{
+      <<~SQL
         SELECT
           context AS id,
           #{grouped_date_query(params['grouped_by'], date_param)&.concat(' AS group_id,')}
           COUNT(*) AS total
         FROM incidents,
-        JSONB_ARRAY_ELEMENTS_TEXT(data -> 'gbv_case_context') AS context
-         WHERE data @? '$[*] ? (
+          JSONB_ARRAY_ELEMENTS_TEXT(data -> 'gbv_case_context') AS context
+        WHERE incidents.srch_record_state = TRUE
+        AND data @? '$[*] ? (
           @.consent_reporting  == "true" && @.gbv_case_context != null
         ) ? (
           !exists(@.gbv_reported_elsewhere) || @.gbv_reported_elsewhere != "gbvims-org"
@@ -30,7 +31,7 @@ class ManagedReports::Indicators::GBVCaseContext < ManagedReports::SqlReportIndi
         GROUP BY context
         #{grouped_date_query(params['grouped_by'], date_param)&.prepend(', ')}
         ORDER BY context
-      }
+      SQL
     end
     # rubocop:enable Metrics/MethodLength
   end

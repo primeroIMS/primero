@@ -249,7 +249,7 @@ function DocumentField({
                       {...supportingInputsProps}
                       field={field}
                       name={ATTACHMENT_FIELDS.date}
-                      label={i18n.t("fields.document.date")}
+                      displayName={i18n.t("fields.document.date")}
                       mode={mode}
                     />
                   </Box>

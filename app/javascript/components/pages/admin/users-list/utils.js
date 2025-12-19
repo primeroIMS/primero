@@ -4,7 +4,7 @@ import { fromJS } from "immutable";
 
 import { FILTER_TYPES } from "../../../index-filters";
 
-import { AGENCY, DISABLED, USER_GROUP, LAST_DATE } from "./constants";
+import { AGENCY, DISABLED, USER_GROUP, LAST_DATE, DISABLE_DIALOG_NAME, ACTION_NAMES, ACTION_IDS } from "./constants";
 
 const searchableAgencies = (data, i18n) => {
   return data.reduce(
@@ -81,3 +81,23 @@ export const buildObjectWithIds = elems =>
     (previousValue, currentValue) => previousValue.merge(fromJS({ [currentValue.get("id")]: currentValue })),
     fromJS({})
   );
+
+export const buildActionList = ({ i18n, handleDialogClick, canDisableMultiple }) => {
+  const actions = [
+    {
+      id: ACTION_IDS.disable,
+      name: i18n.t("actions.disable"),
+      disableOffline: true,
+      condition: canDisableMultiple,
+      action: () => handleDialogClick(DISABLE_DIALOG_NAME, ACTION_NAMES.disable)
+    }
+  ];
+
+  return actions.filter(action => {
+    if (action.condition) {
+      return action;
+    }
+
+    return null;
+  });
+};

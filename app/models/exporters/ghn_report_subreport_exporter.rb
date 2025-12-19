@@ -31,15 +31,13 @@ class Exporters::GhnReportSubreportExporter < Exporters::SubreportExporter
   def indicator_exporter_class(key, values)
     if values.any? { |g| g[:group_id].present? }
       Exporters::GroupedGhnIndicatorExporter
-    elsif violations_indicator?(key)
-      Exporters::ViolationsIndicatorExporter
+    elsif ManagedReports::Indicators::MultipleViolations.id == key
+      Exporters::MultipleViolationsIndicatorExporter
+    elsif ManagedReports::Indicators::GroupMultipleViolations.id == key
+      Exporters::GroupMultipleViolationsIndicatorExporter
     else
       Exporters::IndicatorExporter
     end
-  end
-
-  def violations_indicator?(indicator_key)
-    indicator_key == ManagedReports::Indicators::MultipleViolations.id
   end
 
   def params_list

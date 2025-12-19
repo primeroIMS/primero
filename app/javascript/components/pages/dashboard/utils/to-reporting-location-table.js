@@ -39,10 +39,15 @@ export const dashboardTableData = (optionsByIndex, data, indicators, listKey) =>
   return Object.keys(rows).map(key => rows[key]);
 };
 
-export default (data, reportingLocationConfig, i18n, locations) => {
+export default (data, reportingLocationConfig, i18n, locations, label) => {
   const options = { customBodyRender: defaultBodyRender };
   const columns = [
-    { name: "", label: reportingLocationLabel(dataToJS(reportingLocationConfig), i18n) },
+    {
+      name: "",
+      label: label("dashboard.reporting_locations", reportingLocationLabel(dataToJS(reportingLocationConfig), i18n), {
+        noTranslateFallback: true
+      })
+    },
     {
       name: INDICATOR_NAMES.REPORTING_LOCATION_OPEN,
       label: i18n.t("dashboard.open_cases"),

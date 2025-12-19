@@ -68,13 +68,16 @@ const fetchSinglePayload = async (action, store, options) => {
       )
     : [false, false];
 
+  const bodyData = formData ? { data: formData } : body;
+  const serializedBody = isImmutable(bodyData) ? bodyData.toJS() : bodyData;
+
   const fetchOptions = {
     ...DEFAULT_FETCH_OPTIONS,
     method,
     mode,
     signal: controller.signal,
     ...((formData || body) && {
-      body: JSON.stringify(formData ? { data: formData } : body)
+      body: JSON.stringify(serializedBody)
     })
   };
 
@@ -182,7 +185,7 @@ const fetchSinglePayload = async (action, store, options) => {
         return;
       }
 
-      const errorDataObject = { json: error?.json, recordType, fromQueue, id, error };
+      const errorDataObject = { json: error?.json, recordType, fromQueue, id, error, fromAttachment };
 
       if (fromAttachment && error?.response?.status === 422) {
         deleteFromQueue(fromQueue);

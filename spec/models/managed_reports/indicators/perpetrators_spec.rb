@@ -132,6 +132,8 @@ describe ManagedReports::Indicators::Perpetrators do
     incident3.save!
     incident4 = Incident.new_with_user(@all_user, { incident_date: Date.new(2022, 3, 28), status: 'open' })
     incident4.save!
+    incident5 = Incident.new_with_user(@self_user, { incident_date: Date.new(2022, 3, 30), status: 'closed' })
+    incident5.save!
 
     violation2 = Violation.create!(
       data: {
@@ -162,6 +164,15 @@ describe ManagedReports::Indicators::Perpetrators do
       incident_id: incident4.id
     )
     violation4.perpetrators = [Perpetrator.create!(data: { armed_force_group_party_name: 'armed_force_4' })]
+
+    violation5 = Violation.create!(
+      data: {
+        type: 'killing', attack_type: 'arson',
+        violation_tally: { 'boys' => 1, 'girls' => 1, 'unknown' => 1, 'total' => 3 }
+      },
+      incident_id: incident5.id
+    )
+    violation5.perpetrators = [Perpetrator.create!(data: { armed_force_group_party_name: 'armed_force_1' })]
   end
 
   it 'returns data for perpetrators indicator' do

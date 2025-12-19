@@ -12,6 +12,7 @@ describe ManagedReports::Indicators::DenialType do
       data: { incident_date: Date.new(2021, 5, 23), status: 'open', module_id: PrimeroModule::MRM }
     )
     incident1 = Incident.create!(data: { incident_date: Date.new(2022, 4, 4), status: 'open' })
+    incident2 = Incident.create!(data: { incident_date: Date.new(2022, 5, 4), status: 'closed' })
     Violation.create!(
       data: { type: 'denial_humanitarian_access', denial_method: %w[abduction_of_humanitarian_personnel other] },
       incident_id: incident.id
@@ -56,6 +57,10 @@ describe ManagedReports::Indicators::DenialType do
     Violation.create!(
       data: { type: 'denial_humanitarian_access', denial_method: ['property_damage'] },
       incident_id: incident1.id
+    )
+    Violation.create!(
+      data: { type: 'denial_humanitarian_access', denial_method: ['property_damage'] },
+      incident_id: incident2.id
     )
   end
 

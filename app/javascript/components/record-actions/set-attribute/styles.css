@@ -1,0 +1,14 @@
+/* Copyright (c) 2014 - 2025 UNICEF. All rights reserved.*/
+
+.userText {
+  margin: 0;
+}
+
+.userList {
+  list-style: none;
+  padding: 0;
+}
+
+.userField {
+  font-weight: bold;
+}

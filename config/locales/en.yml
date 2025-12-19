@@ -49,6 +49,7 @@ en:
     error:
       create: Failed to create %{record_type}. Please contact support.
       update: Update to %{record_type} %{short_id} failed. Please contact support.
+      attachment: Failed to upload attachment(s) for %{record_type}. Please contact support.
 
   actions:
     approvals: Approvals
@@ -71,6 +72,7 @@ en:
     services_from_case_creation_success: Service Provision record successfully created.
     services_section_from_case: Add Service Provision
     mark_for_offline: Mark for Offline
+    attribute: Attribute
   agencies:
     label: Agency
     translations:
@@ -152,6 +154,7 @@ en:
     approve_case_plan: Approve Case Plan
     approve_closure: Approve Closure
     approve_gbv_closure: Approve GBV Closure
+    attribute: Attribute
     back: Back
     bundle_export: Configuration Bundle
     bundle_import: Configuration Bundle
@@ -194,6 +197,7 @@ en:
     link: Link
     mark_for_mobile: Mark for mobile
     new: New
+    next: Next
     ok: OK
     print: Print
     reassign: Assign
@@ -332,10 +336,8 @@ en:
       age: "Age"
       vision_wear_glass: "Vision wear glass"
       difficulty_seeing_with_glasses: "Difficulty seeing with glasses"
-      continue_hearing_section: "Continue hearing section"
       child_wears_hearing_aid: "The child wears hearing aid"
       difficulty_hearing_with_hearing_aid: "Difficulty hearing with hearing aid"
-      continue_mobility_section: "Continue mobility section"
       child_uses_equipment_or_receive_assistance_for_walking: "The child uses equipment or receive assistance for walking"
       difficulty_walking_without_equipment: "Difficulty walking without equipment/assistance"
       mobility_difficulty_without_equipment_100m: "Mobility difficulty without equipment 100m"
@@ -343,32 +345,23 @@ en:
       difficulty_walking_with_equipment: "Difficulty walking with equipment/assistance"
       mobility_difficulty_with_equipment_100m: "Mobility difficulty with equipment 100m"
       mobility_difficulty_with_equipment_500m: "Mobility difficulty with equipment 500m"
-      continue_dexterity_display_section: "Continue dexterity display section"
+      difficulty_comparative: "Difficulty walking comparative"
+      mobility_difficulty_comparative_100m: "Mobility difficulty comparative 100m"
+      mobility_difficulty_comparative_500m: "Mobility difficulty comparative 500m"
       difficulty_picking_up_small_objects_with_hand: "Difficulty picking up small objects with hand"
-      self_care_display: "Self care display"
       self_care_difficulty: "Self care difficulty"
-      communication_display_section: "Communication display section"
       child_have_difficulty_to_understand: "The child have difficulty to understand"
       child_have_difficulty_to_understanding_child_household: "child have difficulty to understanding child household"
       difficulty_to_understanding_child_others: "Difficulty to understanding child others"
       difficulty_to_understand_the_child: "Difficulty to understand the child"
-      learning_display_section: "Learning display section"
       child_have_difficulty_for_learning: "The child have difficulty for Learning"
-      playing_display_section: "Playing display section"
       child_have_difficulty_for_playing: "The child have difficulty for playing"
-      remembering_display: "Remembering display"
       remembering_difficulty: "Remembering difficulty"
-      concentrating_display: "Concentrating display"
       concentrating_difficulty: "Concentrating difficulty"
-      accepting_change_display: "Accepting change display"
       accepting_change_difficulty: "Accepting change difficulty"
-      controlling_behavior_display_section: "Controlling behavior display section"
       difficulty_for_controlling_behaviour: "Difficulty for controlling behaviour like kick,bite or hit others"
-      making_friends_display_section: "Making friends display section"
       making_friends_difficulty: "Making friends difficulty"
-      anxiety_display_section: "Anxiety display section"
       anxiety_how_often: "Anxiety how often"
-      depression_display_section: "Depression display section"
       depression_how_often: "Depression how often"
       cfm_yes: "Yes"
       cfm_no: "No"
@@ -388,6 +381,16 @@ en:
     enable_dialog_title: Enable Case
     enable_success: Successfully enabled case
     export: Export
+    attribute:
+      name: Name
+      email: Email
+      success: Attribute updated successfully
+      title: Attribute
+      text: Select the user who identified this case. If your system allows for self-registration,
+        this user will be able to access the case as “My Case” when they login to the system.
+      confirm_title: Attribute Confirmation
+      confirm_text: Are you sure you want to attribute this case to the user with the following details?
+      identified_by_placeholder: Please type at least two characters to search for a username.
     mark_for_offline:
       title: Mark for Offline
       text: Are you sure you want to mark these Cases for use when you are offline?
@@ -842,6 +845,7 @@ en:
     new_incident_assigned_to_you: New Assigned Incidents
     new_last_week: New (last week)
     new_or_updated: New or Updated
+    recently_assigned_to_me: Recently Assigned to Me
     new_referred: New Referrals
     new_service_provision: New Service Provisions
     new_this_week: New (this week)
@@ -1020,6 +1024,7 @@ en:
         age: Age must be between 0 and 130
         date_of_birth: Please enter a valid date of birth for this case record
         identified_by_unique: An identified record already exists for this user
+        identified_by_exists: Invalid user. User does not exist
       export_configuration:
         opt_out_field_does_not_exist: Specified opt_out field does not exist on the
           record.
@@ -1056,6 +1061,7 @@ en:
         user_name_uniqueness: A User with that user name already exists. Please enter a different one
         email_uniqueness: A User with this email address already exists. Please enter a different one
         data_processing_consent_provided_on: You must provide consent to data processing
+        code_of_conduct: Invalid code of conduct. Please make sure that you are accepting the latest code of conduct.
       code_of_conduct:
         title_present: Title must not be blank
         content_present: Content must not be blank
@@ -2261,6 +2267,7 @@ en:
       service_type: Type of Service
       has_late_verified_violations: Late Verified?
       age: Age
+      service_implemented: Service Implemented
     status_options:
       open: Open
       closed: Closed
@@ -2364,6 +2371,8 @@ en:
         unverified_violations_by_perpetrator: Unverified Information - Violations by Perpetrator
         unverified_violations_by_region: Unverified Information - Violations by Region
         late_verification_violations: Late Verification - Violations
+        late_verification_violations_by_region: Late Verification - Violations by Region
+        late_verification_violations_by_perpetrator: Late Verification - Violations by Perpetrator
         unverified_information_violations: Unverified Information - Violations
         killing: Killing of Children
         maiming: Maiming of Children
@@ -2383,6 +2392,7 @@ en:
         unknown: Unknown
         associated_violations: Associated Violations
         deprivation_liberty: Deprivation of Liberty
+        group_multiple_violations: Group victims affected by multiple violations
     violations:
       name: Violations
       description: ''
@@ -2648,13 +2658,23 @@ en:
       sub_reports:
         case_source_identification_referral: Source of Identification / Referral
         case_protection_concerns_reporting_location: Protection Concerns by Reporting Location
-        case_reasons_for_closure: Reason for Closure
+        percentage_case_reasons_for_closure: Reason for Closure
       filter_options:
         registration_date: Registration Date
+    case_management_kpis_service_referrals_report:
+      name: Case Management KPIs - Service Referrals
+      description: Number of Cases referred for appropriate ​services, per type of multi-sectoral service
+      reports:
+        referred_appropriate_service: Cases referred for appropriate services
+      sub_reports:
+        case_referred_appropriate_service: Cases referred for appropriate services
+      filter_options:
+        registration_date: Registration Date
+        service_implemented_day_time: Service Implemented On
     distribution_users_role_report:
       name: Distribution of Users by Role
       description: Gives the number of Users with each Role, broken down by User Group. This allows you to see the number of supervisory and administrative staff per case worker.
-      reports: 
+      reports:
         distribution_users_role: Distribution of Users by Role
       sub_reports:
         distribution_users_role: Distribution of Users by Role
@@ -3430,6 +3450,11 @@ en:
           update_case_relationships:
             explanation: Allows a user updating their Case to search for another, existing Case and link it to their Case. Also allows users to un-link this second Case from their Case.
             label: Link/Unlink Case to another Case
+          attribute:
+            explanation: Select the user who identified the case. For some systems, this may simply be the user who first
+              initiated the beneficiary’s path into case management. In other systems which allow for self-registration,
+              this user may be the beneficiary themselves.
+            label: Attribute
         explanation: Represents an individual child, survivor, or other beneficiary.
         label: Case
       dashboard:
@@ -3946,6 +3971,9 @@ en:
           case_management_kpis_report:
             label: Case Management KPIs
             explanation: Tracks key indicators of CP Case Management performance, including percentage of referrals made by different stakeholders, Reporting Location and Sex for selected Protection Concerns, and percentage of cases with each reason for closure.
+          case_management_kpis_service_referrals_report:
+            label: Case Management KPIs - Service Referrals
+            explanation: Number of Cases referred for appropriate ​services, per type of multi-sectoral service
           distribution_users_role_report:
             label: Distribution of Users by Role
             explanation: Gives the number of Users with each Role, broken down by User Group. This allows you to see the number of supervisory and administrative staff per case worker.
@@ -4409,6 +4437,9 @@ en:
           create:
             explanation: Ability to create a user account.
             label: Create
+          disable_multiple:
+            explanation: Disable multiple users from the users list. Disabled users can no longer access the system.
+            label: Disable multiple users
           manage:
             explanation: 'Allows a user to perform all available actions on users.
               The "Manage" permission essentially means "everything". IMPORTANT: This
@@ -4533,6 +4564,7 @@ en:
     record_history_separator: Record History
     last_updated_at: Last Updated At
     last_updated_by: Last Updated By
+    identified_by: Identified By
   record_panel:
     record_information: Record Information
   referral:
@@ -4939,6 +4971,8 @@ en:
     position: Position
     provider_username_help: 'Example: my.username@%{domain}'
     role_id: Role
+    duplicate: Is this user the second account of an individual who needs multiple accounts in the system because of Primero’s role limitations?
+    self_registered: Did this user get created through one of our self-registration flows?
     send_mail: Receive email notifications?
     send_mail_preferences:
       label: Which types of email notifications would you like to receive?
@@ -5021,6 +5055,12 @@ en:
       date_last_login: Date of Last Log In
       date_last_case_view: Date of Last Case View
       date_last_case_updated: Date of Last Case Modification
+    disable_text: Are you sure you want to disable these users? They will no longer be able to login to the system.
+    disable_title: Disable Users
+    disable_selection_indicartor: '%{users_selected} user(s) selected'
+    disable_success: Primero is disabling %{users_selected} user(s). It may take several minutes for all of these user(s) to update.
+    selected_records: '%{select_records} user(s) selected'
+    selected_all_records: Select all %{total_records} users that match this query.
   devise:
     failure:
       already_authenticated: "You are already signed in."
@@ -5032,6 +5072,7 @@ en:
     locale: Preferred Language
     title: Register
     save: Register
+    user_name_help_text: This will also be your user name
     success:
       return_button: Return to login
       header: Please verify your email

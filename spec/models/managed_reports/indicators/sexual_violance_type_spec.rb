@@ -109,6 +109,8 @@ describe ManagedReports::Indicators::SexualViolenceType do
     incident3.save!
     incident4 = Incident.new_with_user(@all_user, { incident_date: Date.new(2022, 3, 28), status: 'open' })
     incident4.save!
+    incident5 = Incident.new_with_user(@self_user, { incident_date: Date.new(2022, 3, 29), status: 'closed' })
+    incident5.save!
 
     Violation.create!(
       data: {
@@ -146,6 +148,13 @@ describe ManagedReports::Indicators::SexualViolenceType do
         violation_tally: { 'boys' => 2, 'girls' => 4, 'unknown' => 3, 'total' => 9 }
       },
       incident_id: incident4.id
+    )
+    Violation.create!(
+      data: {
+        type: 'killing', sexual_violence_type: %w[forced_abortion],
+        violation_tally: { 'boys' => 2, 'girls' => 1, 'unknown' => 3, 'total' => 6 }
+      },
+      incident_id: incident5.id
     )
   end
 

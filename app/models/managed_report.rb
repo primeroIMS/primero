@@ -220,7 +220,17 @@ class ManagedReport < ValueObject
         description: 'managed_reports.case_management_kpis_report.description',
         subreports: %w[source_identification_referral protection_concerns_reporting_location reasons_for_closure],
         permitted_filters: [
-          :grouped_by, :by, :age, { protection_concerns: [], registration_date: {} }
+          :grouped_by, :by, :age, { status: {}, protection_concerns: [], registration_date: {} }
+        ],
+        module_id: 'primeromodule-cp'
+      ),
+      Permission::CASE_MANAGEMENT_KPIS_SERVICE_REFERRALS_REPORT => ManagedReport.new(
+        id: 'case_management_kpis_service_referrals_report',
+        name: 'managed_reports.case_management_kpis_service_referrals_report.name',
+        description: 'managed_reports.case_management_kpis_service_referrals_report.description',
+        subreports: %w[referred_appropriate_service],
+        permitted_filters: [
+          :grouped_by, :by, :age, :service_implemented, { registration_date: {}, service_implemented_day_time: {} }
         ],
         module_id: 'primeromodule-cp'
       ),

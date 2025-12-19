@@ -9,6 +9,7 @@ describe("<RecordActions /> - Constants", () => {
     [
       "APPROVAL_DIALOG",
       "APPROVAL_TYPE",
+      "ATTRIBUTE_CASE_DIALOG",
       "ASSIGN_DIALOG",
       "EXPORT_DIALOG",
       "ENABLED_FOR_ONE",
@@ -55,6 +56,7 @@ describe("<RecordActions /> - Constants", () => {
         "canApproveCasePlan",
         "canApproveClosure",
         "canApproveGbvClosure",
+        "canAttributeCase",
         "canAssign",
         "canCreateIncident",
         "canClose",

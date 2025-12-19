@@ -10,20 +10,22 @@ class ManagedReports::Indicators::FacilityAttackType < ManagedReports::SqlReport
     end
 
     # rubocop:disable Metrics/AbcSize
-    # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/CyclomaticComplexity
     # rubocop:disable Metrics/PerceivedComplexity
     def sql(current_user, params = {})
-      %{
-        select json_array_elements_text(("violations"."data"->> 'facility_attack_type')::JSON) as name,
-        'total' as key,
-        #{grouped_date_query(params['grouped_by'],
-                             filter_date(params),
-                             table_name_for_query(params))&.concat(' as group_id,')}
-        count(violations.id) as sum
+      <<~SQL
+        select
+          json_array_elements_text(("violations"."data"->> 'facility_attack_type')::JSON) as name,
+          'total' as key,
+          #{grouped_date_query(params['grouped_by'],
+                               filter_date(params),
+                               table_name_for_query(params))&.concat(' as group_id,')}
+          count(violations.id) as sum
         from violations
         inner join incidents incidents
           on incidents.id = violations.incident_id
+          AND incidents.srch_status = 'open'
+          AND incidents.srch_record_state = TRUE
           #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
         where
         #{equal_value_query(params['type'], 'violations')}
@@ -35,10 +37,9 @@ class ManagedReports::Indicators::FacilityAttackType < ManagedReports::SqlReport
         group by json_array_elements_text(("violations"."data"->> 'facility_attack_type')::JSON)
         #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
         order by name
-      }
+      SQL
     end
     # rubocop:enable Metrics/AbcSize
-    # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/CyclomaticComplexity
     # rubocop:enable Metrics/PerceivedComplexity
   end

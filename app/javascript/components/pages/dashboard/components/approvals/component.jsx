@@ -54,8 +54,14 @@ function Component() {
   });
 
   const userModules = useMemoizedSelector(state => selectUserModules(state));
-  const loading = useMemoizedSelector(state => getIsDashboardGroupLoading(state, DASHBOARD_GROUP.approvals));
-  const hasData = useMemoizedSelector(state => getDashboardGroupHasData(state, DASHBOARD_GROUP.approvals));
+  const approvalsLoading = useMemoizedSelector(state => getIsDashboardGroupLoading(state, DASHBOARD_GROUP.approvals));
+  const approvalsPendingloading = useMemoizedSelector(state =>
+    getIsDashboardGroupLoading(state, DASHBOARD_GROUP.approvals_pending)
+  );
+  const approvalsHasData = useMemoizedSelector(state => getDashboardGroupHasData(state, DASHBOARD_GROUP.approvals));
+  const approvalsPendingHasData = useMemoizedSelector(state =>
+    getDashboardGroupHasData(state, DASHBOARD_GROUP.approvals_pending)
+  );
   const approvalsAssessmentPending = useMemoizedSelector(state => getApprovalsAssessmentPending(state));
   const approvalsCasePlanPending = useMemoizedSelector(state => getApprovalsClosurePending(state));
   const approvalsClosurePending = useMemoizedSelector(state => getApprovalsCasePlanPending(state));
@@ -66,6 +72,9 @@ function Component() {
   const approvalsClosure = useMemoizedSelector(state => getApprovalsClosure(state));
   const approvalsActionPlan = useMemoizedSelector(state => getApprovalsActionPlan(state));
   const approvalsGbvClosure = useMemoizedSelector(state => getApprovalsGbvClosure(state));
+
+  const loading = approvalsLoading || approvalsPendingloading;
+  const hasData = approvalsHasData || approvalsPendingHasData;
 
   const renderDashboards = primeroModule => {
     const moduleID = primeroModule.unique_id;

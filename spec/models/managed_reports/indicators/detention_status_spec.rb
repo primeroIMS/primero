@@ -111,6 +111,8 @@ describe ManagedReports::Indicators::DetentionStatus do
     incident4.save!
     incident5 = Incident.new_with_user(@all_user, { incident_date: Date.new(2022, 3, 28), status: 'open' })
     incident5.save!
+    incident6 = Incident.new_with_user(@self_user, { incident_date: Date.new(2022, 4, 28), status: 'closed' })
+    incident6.save!
 
     Violation.create!(
       data: {
@@ -159,6 +161,15 @@ describe ManagedReports::Indicators::DetentionStatus do
         violation_tally: { boys: 2, girls: 3, unknown: 2, total: 7 }
       },
       incident_id: incident5.id
+    )
+    Violation.create!(
+      data: {
+        type: 'deprivation_liberty',
+        victim_deprived_liberty_security_reasons: 'no',
+        deprivation_liberty_date: Date.today.beginning_of_year,
+        violation_tally: { boys: 1, girls: 2, unknown: 0, total: 3 }
+      },
+      incident_id: incident6.id
     )
   end
 

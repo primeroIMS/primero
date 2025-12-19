@@ -50,7 +50,6 @@ module MonitoringReportingMechanism
     has_many :sources, through: :violations
 
     before_save :save_violations_and_associations
-    before_save :update_violations
     before_save :recalculate_child_types
   end
 
@@ -98,6 +97,8 @@ module MonitoringReportingMechanism
   end
 
   def save_violations_and_associations
+    @violations_to_save ||= []
+    recalculate_late_verifications
     save_violations
     save_violations_associations
 
@@ -105,6 +106,27 @@ module MonitoringReportingMechanism
 
     reload_violations_and_associations
     recalculate_association_fields
+  end
+
+  def recalculate_late_verifications
+    return unless should_recalculate_late_verifications?
+
+    violations.each do |violation|
+      next if will_save_violation_id?(violation.id)
+
+      violation.calculate_late_verifications
+      @violations_to_save << violation if violation.changed?
+    end
+  end
+
+  def will_save_violation_id?(violation_id)
+    return false unless @violations_to_save.present?
+
+    @violations_to_save.any? { |violation| violation.id == violation_id }
+  end
+
+  def should_recalculate_late_verifications?
+    !new_record? && mrm? && (incident_date_changed? || incident_date_end_changed?)
   end
 
   def save_violations
@@ -159,14 +181,6 @@ module MonitoringReportingMechanism
     violations_result += Violation.where(id: ids - violations_result.map(&:id))
 
     violations_result
-  end
-
-  def update_violations
-    should_update_violations = !new_record? && mrm? && (incident_date_changed? || incident_date_end_changed?)
-
-    return unless should_update_violations
-
-    violations.each(&:calculate_late_verifications)
   end
 
   # TODO: This method will trigger queries to reload the violations and associations in order to store the latest data

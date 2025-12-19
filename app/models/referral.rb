@@ -9,6 +9,16 @@ class Referral < Transition
   REFERRAL_FORM_UNIQUE_ID = 'referral'
   REFERRAL_ALERT_TYPE = 'referral'
 
+  scope :active_for_user, lambda { |user_name, record_ids, record_type|
+    where(
+      record_id: record_ids,
+      record_type: record_type,
+      type: name,
+      transitioned_to: user_name,
+      status: [Transition::STATUS_INPROGRESS, Transition::STATUS_ACCEPTED]
+    )
+  }
+
   class << self
     def alert_form_unique_id
       REFERRAL_FORM_UNIQUE_ID

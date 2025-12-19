@@ -357,7 +357,7 @@ describe ManagedReports::Indicators::SurvivorsNumberOfServicesProvidedOther do
                   { id: 'service_livelihoods_referral', internal_referral: 1, total: 1 },
                   { id: 'service_police_referral', referred: 1, total: 1 },
                   { id: 'service_protection_referral', external_referral: 1, total: 1 },
-                  { id: 'service_safehouse_referral', self_referral: 1, service_unavailable: 1, total: 2}
+                  { id: 'service_safehouse_referral', self_referral: 1, service_unavailable: 1, total: 2 }
                 ]
             },
             {
@@ -372,6 +372,56 @@ describe ManagedReports::Indicators::SurvivorsNumberOfServicesProvidedOther do
           ]
         )
       end
+    end
+  end
+
+  describe 'when key is nil' do
+    before do
+      Incident.new_with_user(
+        @all_user,
+        incident_date: Date.new(2020, 10, 10),
+        consent_reporting: 'true',
+        health_medical_referral_subform_section: [
+          { unique_id: 'm-001' }
+        ],
+        psychosocial_counseling_services_subform_section: [
+          { unique_id: 'p-001' }
+        ],
+        legal_assistance_services_subform_section: [
+          { unique_id: 'l-001' }
+        ],
+        police_or_other_type_of_security_services_subform_section: [
+          { unique_id: 'po-001' }
+        ],
+        livelihoods_services_subform_section: [
+          { unique_id: 'lv-001' }
+        ],
+        child_protection_services_subform_section: [
+          { unique_id: 'cp-001' }
+        ]
+      ).save!
+    end
+
+    it "groups missing subform values under 'incomplete_data'" do
+      data = ManagedReports::Indicators::SurvivorsNumberOfServicesProvidedOther.build(nil).data
+
+      expect(data).to match_array(
+        [
+          { id: 'service_legal_referral', incomplete_data: 1, total: 2, service_unavailable: 1 },
+          { id: 'service_livelihoods_referral', incomplete_data: 1, total: 2, internal_referral: 1 },
+          { id: 'service_medical_referral', incomplete_data: 1, total: 3, referred: 1, internal_referral: 1 },
+          { id: 'service_police_referral', referred: 1, total: 2, incomplete_data: 1 },
+          { id: 'service_protection_referral', incomplete_data: 1, total: 2, external_referral: 1 },
+          { id: 'service_psycho_referral', incomplete_data: 1, total: 2, external_referral: 1 },
+          { id: 'service_safehouse_referral',
+            service_unavailable: 1,
+            self_referral: 1,
+            internal_referral: 1,
+            external_referral: 1,
+            total: 4
+          }
+        ]
+      )
     end
   end
 end

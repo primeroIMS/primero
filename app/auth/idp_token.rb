@@ -72,6 +72,8 @@ class IdpToken
   end
 
   def unique_id
+    return unless payload.present?
+
     payload['jti'].presence || payload['nonce'].presence || payload['sub'].presence
   end
 
@@ -93,6 +95,6 @@ class IdpToken
   end
 
   def blacklist
-    session.destroy
+    session&.destroy
   end
 end

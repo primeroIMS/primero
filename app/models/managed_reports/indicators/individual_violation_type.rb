@@ -9,12 +9,11 @@ class ManagedReports::Indicators::IndividualViolationType < ManagedReports::SqlR
       'individual_violation_type'
     end
 
-    # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/CyclomaticComplexity
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/PerceivedComplexity
     def sql(current_user, params = {})
-      %{
+      <<~SQL
         SELECT
         violations.data ->> 'type' as name, 'total' as key,
         #{grouped_date_query(params['grouped_by'],
@@ -24,12 +23,13 @@ class ManagedReports::Indicators::IndividualViolationType < ManagedReports::SqlR
         from
         violations violations
         inner join incidents incidents
-        on incidents.id = violations.incident_id
+          on incidents.id = violations.incident_id
+          AND incidents.srch_status = 'open'
+          AND incidents.srch_record_state = TRUE
         inner join individual_victims_violations on violations.id = individual_victims_violations.violation_id
         inner join individual_victims on individual_victims.id = individual_victims_violations.individual_victim_id
         #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
-        where
-        violations.data ->> 'type' is not null
+        where violations.data ->> 'type' is not null
         #{date_range_query(params['incident_date'], 'incidents')&.prepend('and ')}
         #{date_range_query(params['date_of_first_report'], 'incidents')&.prepend('and ')}
         #{date_range_query(params['ctfmr_verified_date'], 'violations')&.prepend('and ')}
@@ -38,11 +38,10 @@ class ManagedReports::Indicators::IndividualViolationType < ManagedReports::SqlR
         group by violations.data ->> 'type', name
         #{grouped_date_query(params['grouped_by'], filter_date(params), table_name_for_query(params))&.prepend(', ')}
         order by name
-      }
+      SQL
     end
     # rubocop:enable Metrics/PerceivedComplexity
     # rubocop:enable Metrics/AbcSize
-    # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/CyclomaticComplexity
   end
 end
