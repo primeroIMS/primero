@@ -30,6 +30,7 @@ class ManagedReports::Indicators::IndividualRegion < ManagedReports::SqlReportIn
             AND incidents.srch_status = 'open'
             AND incidents.srch_record_state = TRUE
           WHERE incidents.data ->> 'reporting_location_hierarchy' IS NOT NULL
+          AND violations.data @? '$[*] ? (@.type != "deprivation_liberty")'
           #{user_scope_query(current_user, 'incidents')&.prepend('AND ')}
           #{date_range_query(params['incident_date'], 'incidents')&.prepend('AND ')}
           #{date_range_query(params['date_of_first_report'], 'incidents')&.prepend('AND ')}

@@ -66,6 +66,7 @@ const REFERRAL_CREATED_AT = "referral_created_at";
 const CASE_STATUS = "case_status";
 const HAS_LATE_VERIFIED_VIOLATIONS = "has_late_verified_violations";
 const SERVICE_IMPLEMENTED = "service_implemented";
+const DEPRIVATION_LIBERTY_TYPE = "deprivation_liberty";
 
 const GBV_STATISTICS = "gbv_statistics";
 const VIOLATIONS = "violations";
@@ -451,7 +452,8 @@ export const INSIGHTS_CONFIG = {
         display_name: FILTER_BY_VIOLATION_TYPE_DISPLAY_NAME,
         option_strings_source: LOOKUPS.violation_type,
         multi_select: true,
-        type: SELECT_FIELD
+        type: SELECT_FIELD,
+        filterOptionSource: (_, options) => options.filter(option => option.id !== DEPRIVATION_LIBERTY_TYPE)
       }
     ].map(filter => FieldRecord(filter))
   },
