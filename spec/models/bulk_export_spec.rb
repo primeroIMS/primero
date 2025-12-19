@@ -24,7 +24,8 @@ describe BulkExport, { search: true } do
       ]
     )
     primero_module = create(:primero_module)
-    role = create(:role, form_sections: [@form_section], modules: [primero_module], group_permission: Permission::SELF)
+    role = create(:role, form_sections: [@form_section], primero_modules: [primero_module],
+                         group_permission: Permission::SELF)
     @user = create(:user, role:)
   end
 

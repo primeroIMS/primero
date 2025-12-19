@@ -12,6 +12,9 @@ module Attachable
   DOCUMENTS_FIELD_NAME = 'other_documents'
 
   included do
+    has_many :signatures, lambda {
+      where(attachment_type: Attachment::SIGNATURE).order('date DESC NULLS LAST')
+    }, as: :record, class_name: 'Signature'
     has_many :attachments, -> { order('date DESC NULLS LAST') }, as: :record
     has_many :current_photos, -> { where(field_name: PHOTOS_FIELD_NAME).order('date DESC NULLS LAST') },
              as: :record, class_name: 'Attachment'
@@ -34,7 +37,7 @@ module Attachable
   end
 
   def photo_url
-    return unless photo&.file
+    return unless photo&.file&.attached?
 
     Rails.application.routes.url_helpers.rails_blob_path(photo.file, only_path: true)
   end

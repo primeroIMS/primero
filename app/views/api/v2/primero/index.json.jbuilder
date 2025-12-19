@@ -13,16 +13,16 @@ json.data do
     json.array!(@agencies_with_system_logos) do |agency|
       json.unique_id agency.unique_id
       json.name agency.name
-      json.logo_full rails_blob_path(agency.logo_full, only_path: true)
-      json.logo_icon rails_blob_path(agency.logo_icon, only_path: true)
+      json.logo_full rails_blob_path(agency.logo_full, only_path: true) if agency&.logo_full&.attached?
+      json.logo_icon rails_blob_path(agency.logo_icon, only_path: true) if agency&.logo_icon&.attached?
     end
   end
   json.agencies_logo_options do
     json.array!(@agencies_with_logo_options) do |agency|
       json.unique_id agency.unique_id
       json.name agency.name
-      json.logo_full rails_blob_path(agency.logo_full, only_path: true)
-      json.logo_icon rails_blob_path(agency.logo_icon, only_path: true)
+      json.logo_full rails_blob_path(agency.logo_full, only_path: true) if agency&.logo_full&.attached?
+      json.logo_icon rails_blob_path(agency.logo_icon, only_path: true) if agency&.logo_icon&.attached?
     end
   end
 

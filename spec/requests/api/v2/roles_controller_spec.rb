@@ -61,7 +61,7 @@ describe Api::V2::RolesController, type: :request do
       is_manager: true,
       permissions: @permissions_test,
       form_sections: [@form_section_a],
-      modules: [@cp_a]
+      primero_modules: [@cp_a]
     )
     @role_b = Role.new(
       unique_id: 'role_test_02',
@@ -74,7 +74,7 @@ describe Api::V2::RolesController, type: :request do
       reporting_location_level: 2,
       permissions: @permissions_test,
       form_sections: [@form_section_a],
-      modules: [@cp_b]
+      primero_modules: [@cp_b]
     )
     @role_c = Role.new(
       unique_id: 'role_test_03',
@@ -87,7 +87,7 @@ describe Api::V2::RolesController, type: :request do
       reporting_location_level: 1,
       permissions: @permissions_test,
       form_sections: [@form_section_a],
-      modules: [@cp_a]
+      primero_modules: [@cp_a]
     )
     @role_a.save!
     @role_b.save!
@@ -158,25 +158,25 @@ describe Api::V2::RolesController, type: :request do
           unique_id: 'role_referral', name: 'Referral',
           referral: true, transfer: false,
           permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::READ])],
-          form_sections: [@form_section_a], modules: [@cp_a]
+          form_sections: [@form_section_a], primero_modules: [@cp_a]
         )
         @referral_disabled_role = Role.create!(
           unique_id: 'role_referral_disabled', name: 'Referral Disabled',
           referral: true, transfer: false, disabled: true,
           permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::READ])],
-          form_sections: [@form_section_a], modules: [@cp_a]
+          form_sections: [@form_section_a], primero_modules: [@cp_a]
         )
         @transfer_role = Role.create!(
           unique_id: 'role_transfer', name: 'Transfer',
           referral: false, transfer: true,
           permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::READ])],
-          form_sections: [@form_section_a], modules: [@cp_a]
+          form_sections: [@form_section_a], primero_modules: [@cp_a]
         )
         @transfer_disabled_role = Role.create!(
           unique_id: 'role_transfer_disabled', name: 'Transfer Disabled',
           referral: false, transfer: true, disabled: true,
           permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::READ])],
-          form_sections: [@form_section_a], modules: [@cp_a]
+          form_sections: [@form_section_a], primero_modules: [@cp_a]
         )
       end
 

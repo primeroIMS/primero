@@ -31,7 +31,7 @@ describe ArchiveBulkExports do
           actions: [Permission::MANAGE]
         )
       ],
-      modules: [primero_module]
+      primero_modules: [primero_module]
     )
     @user = User.create!(
       full_name: 'Test User',

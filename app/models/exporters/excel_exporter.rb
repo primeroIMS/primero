@@ -119,7 +119,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
     name = form_name(form)
     return format_form_name(name) if subform_field.blank?
 
-    subform_name = form_name(subform_field.form).strip.slice(0, 15).concat("-#{name}")
+    subform_name = form_name(subform_field.form_section).strip.slice(0, 15).concat("-#{name}")
     format_form_name(subform_name)
   end
 
@@ -230,7 +230,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   end
 
   def subform_path(field)
-    "#{field.form.unique_id}.#{field.name}"
+    "#{field.form_section.unique_id}.#{field.name}"
   end
 
   def constraint_subform_fields(field)

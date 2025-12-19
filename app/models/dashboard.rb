@@ -184,7 +184,7 @@ class Dashboard < ValueObject
 
     # rubocop:disable Metrics/MethodLength
     def approvals_assessment(role = nil)
-      role.modules.map do |primero_module|
+      role.primero_modules.map do |primero_module|
         Dashboard.new(
           name: "approvals_assessment.#{primero_module.unique_id}",
           type: 'indicator',
@@ -198,7 +198,7 @@ class Dashboard < ValueObject
     end
 
     def approvals_case_plan(role = nil)
-      role.modules.map do |primero_module|
+      role.primero_modules.map do |primero_module|
         Dashboard.new(
           name: "approvals_case_plan.#{primero_module.unique_id}",
           type: 'indicator',
@@ -212,7 +212,7 @@ class Dashboard < ValueObject
     end
 
     def approvals_closure(role = nil)
-      role.modules.map do |primero_module|
+      role.primero_modules.map do |primero_module|
         Dashboard.new(
           name: "approvals_closure.#{primero_module.unique_id}",
           type: 'indicator',
@@ -226,7 +226,7 @@ class Dashboard < ValueObject
     end
 
     def approvals_action_plan(role = nil)
-      role.modules.map do |primero_module|
+      role.primero_modules.map do |primero_module|
         Dashboard.new(
           name: "approvals_action_plan.#{primero_module.unique_id}",
           type: 'indicator',
@@ -240,7 +240,7 @@ class Dashboard < ValueObject
     end
 
     def approvals_gbv_closure(role = nil)
-      role.modules.map do |primero_module|
+      role.primero_modules.map do |primero_module|
         Dashboard.new(
           name: "approvals_gbv_closure.#{primero_module.unique_id}",
           type: 'indicator',
@@ -255,7 +255,7 @@ class Dashboard < ValueObject
     # rubocop:enable Metrics/MethodLength
 
     def approvals_assessment_pending(role = nil)
-      role.modules.map do |primero_module|
+      role.primero_modules.map do |primero_module|
         Dashboard.new(
           name: "approvals_assessment_pending.#{primero_module.unique_id}",
           type: 'indicator',
@@ -265,7 +265,7 @@ class Dashboard < ValueObject
     end
 
     def approvals_case_plan_pending(role = nil)
-      role.modules.map do |primero_module|
+      role.primero_modules.map do |primero_module|
         Dashboard.new(
           name: "approvals_case_plan_pending.#{primero_module.unique_id}",
           type: 'indicator',
@@ -275,7 +275,7 @@ class Dashboard < ValueObject
     end
 
     def approvals_closure_pending(role = nil)
-      role.modules.map do |primero_module|
+      role.primero_modules.map do |primero_module|
         Dashboard.new(
           name: "approvals_closure_pending.#{primero_module.unique_id}",
           type: 'indicator',
@@ -285,7 +285,7 @@ class Dashboard < ValueObject
     end
 
     def approvals_action_plan_pending(role = nil)
-      role.modules.map do |primero_module|
+      role.primero_modules.map do |primero_module|
         Dashboard.new(
           name: "approvals_action_plan_pending.#{primero_module.unique_id}",
           type: 'indicator',
@@ -295,7 +295,7 @@ class Dashboard < ValueObject
     end
 
     def approvals_gbv_closure_pending(role = nil)
-      role.modules.map do |primero_module|
+      role.primero_modules.map do |primero_module|
         Dashboard.new(
           name: "approvals_gbv_closure_pending.#{primero_module.unique_id}",
           type: 'indicator',

@@ -56,40 +56,36 @@ function Component({ showTable = false, caseInfo, handleBack, handleOk, handleRo
           />
         </div>
         <Grid container spacing={3}>
-          <Grid container item>
-            <Grid item xs={12}>
+          <Grid container>
+            <Grid size={12}>
               <h3 className={css.caseID}>
                 {i18n.t("case.label")}{" "}
                 <span className={css.recordId}>{caseInfo.get("case_id_display", VALUE_PLACEHOLDER)}</span>
               </h3>
             </Grid>
           </Grid>
-          <Grid container item className={css.fieldRow}>
-            <Grid item xs={2}>
+          <Grid container className={css.fieldRow}>
+            <Grid size={2}>
               <span className={css.fieldTitle}>{i18n.t("cases.name")}</span>
             </Grid>
-            <Grid item xs={4}>
-              {caseInfo.get("name", VALUE_PLACEHOLDER)}
-            </Grid>
+            <Grid size={4}>{caseInfo.get("name", VALUE_PLACEHOLDER)}</Grid>
           </Grid>
-          <Grid container item className={css.fieldRow}>
-            <Grid item xs={2}>
+          <Grid container className={css.fieldRow}>
+            <Grid size={2}>
               <span className={css.fieldTitle}>{i18n.t("cases.age")}</span>
             </Grid>
-            <Grid item xs={4}>
-              {caseInfo.get("age", VALUE_PLACEHOLDER)}
-            </Grid>
+            <Grid size={4}>{caseInfo.get("age", VALUE_PLACEHOLDER)}</Grid>
           </Grid>
-          <Grid container item className={css.fieldRow}>
-            <Grid item xs={2}>
+          <Grid container className={css.fieldRow}>
+            <Grid size={2}>
               <span className={css.fieldTitle}>{i18n.t("cases.sex")}</span>
             </Grid>
-            <Grid item xs={4}>
+            <Grid size={4}>
               {getOptionText({ options: genderLookups, value: caseInfo.get("sex", VALUE_PLACEHOLDER) })}
             </Grid>
           </Grid>
-          <Grid container item className={css.fieldRow} spacing={4}>
-            <Grid item xs={6}>
+          <Grid container className={css.fieldRow} spacing={4}>
+            <Grid size={6}>
               <div className={css.fieldTitle}>{i18n.t("tracing_request.case_photos")}</div>
               {images.length ? <PhotoArray images={images} /> : <span className={css.nothingFound}>--</span>}
             </Grid>

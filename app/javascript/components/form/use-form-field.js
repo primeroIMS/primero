@@ -109,7 +109,16 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
   } = field;
 
   const i18n = useI18n();
-  const error = errors ? get(errors, name) : undefined;
+  let error;
+
+  if (!errors) {
+    error = undefined;
+  } else if (type === DOCUMENT_FIELD) {
+    error = get(errors, `${name}_base64`) || get(errors, name);
+  } else {
+    error = get(errors, name);
+  }
+
   const errorsToCheck = checkErrors ? checkErrors.concat(fieldCheckErrors) : fieldCheckErrors;
 
   const optionSelector = watchedInputsValues => ({

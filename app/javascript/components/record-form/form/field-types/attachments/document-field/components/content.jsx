@@ -10,15 +10,23 @@ import { getIDPToken } from "../../../../../../login/components/idp-selection/au
 import ImageViewer from "./image-viewer";
 import css from "./styles.css";
 
-function Content({ attachmentUrl, contentType, fileName, mobileDisplay, handleAttachmentDownload }) {
-  const [attachmentSrc, setAttachmentSrc] = useState(attachmentUrl);
+function Content({
+  previewParams = "",
+  attachmentUrl,
+  pdfAttachmentUrl,
+  contentType,
+  fileName,
+  mobileDisplay,
+  handleAttachmentDownload
+}) {
+  const [attachmentSrc, setAttachmentSrc] = useState(pdfAttachmentUrl || attachmentUrl);
   const [attachmentLoaded, setAttachmentLoaded] = useState(false);
   const isIDP = useMemoizedSelector(state => getUseIdentityProvider(state));
 
   async function fetchAttachment() {
     const token = await getIDPToken();
 
-    const response = await fetch(attachmentUrl, {
+    const response = await fetch(pdfAttachmentUrl || attachmentUrl, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -52,9 +60,14 @@ function Content({ attachmentUrl, contentType, fileName, mobileDisplay, handleAt
     </div>
   );
 
-  if (contentType === PDF_CONTENT_TYPE && attachmentLoaded) {
+  if ((contentType === PDF_CONTENT_TYPE || pdfAttachmentUrl) && attachmentLoaded) {
     return (
-      <object type="application/pdf" data={`/pdf-viewer?file=${attachmentSrc}`} width="100%" height="100%">
+      <object
+        type="application/pdf"
+        data={`/pdf-viewer?file=${attachmentSrc}&${previewParams}`}
+        width="100%"
+        height="100%"
+      >
         {fallbackComponent}
       </object>
     );
@@ -74,7 +87,9 @@ Content.propTypes = {
   contentType: PropTypes.string.isRequired,
   fileName: PropTypes.string.isRequired,
   handleAttachmentDownload: PropTypes.func.isRequired,
-  mobileDisplay: PropTypes.bool.isRequired
+  mobileDisplay: PropTypes.bool.isRequired,
+  pdfAttachmentUrl: PropTypes.string.isRequired,
+  previewParams: PropTypes.string
 };
 
 export default Content;

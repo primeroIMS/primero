@@ -936,7 +936,7 @@ describe User do
                                   associated_record_types: %w[case tracing_request incident], primero_program: @program,
                                   form_sections: [@form_section])
       @role1 = Role.create!(name: 'Admin role', unique_id: 'role_admin',
-                            form_sections: [@form_section], modules: [@cp],
+                            form_sections: [@form_section], primero_modules: [@cp],
                             permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])])
       @agency1 = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
       @group1 = UserGroup.create!(name: 'group 1')
@@ -1028,7 +1028,7 @@ describe User do
         name: 'permission_role_1',
         unique_id: 'permission_role_1',
         group_permission: Permission::SELF,
-        modules: [primero_module_cp],
+        primero_modules: [primero_module_cp],
         permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
       )
       role1.save!
@@ -1040,7 +1040,7 @@ describe User do
         name: 'permission_role_2',
         unique_id: 'permission_role_2',
         group_permission: Permission::SELF,
-        modules: [primero_module_cp],
+        primero_modules: [primero_module_cp],
         permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
       )
       role2.save!
@@ -1052,7 +1052,7 @@ describe User do
         name: 'permission_role_3',
         unique_id: 'permission_role_3',
         group_permission: Permission::SELF,
-        modules: [primero_module_cp],
+        primero_modules: [primero_module_cp],
         permissions: [
           Permission.new(
             resource: Permission::CASE,
@@ -1070,7 +1070,7 @@ describe User do
       role4 = Role.new(
         name: 'permission_role_4',
         group_permission: Permission::SELF,
-        modules: [primero_module_cp]
+        primero_modules: [primero_module_cp]
       )
       role4.save(validate: false)
       role4.unique_id = nil
@@ -1177,11 +1177,12 @@ describe User do
           Permission::READ
         ]
       )
-      @role = Role.new(permissions: [permission_case], modules: [@module_cp])
+      @role = Role.new(permissions: [permission_case], primero_modules: [@module_cp])
       @role.save(validate: false)
-      @role_case_incident = Role.new(permissions: [permission_case, permission_incident_assign], modules: [@module_cp])
+      @role_case_incident = Role.new(permissions: [permission_case, permission_incident_assign],
+                                     primero_modules: [@module_cp])
       @role_case_incident.save(validate: false)
-      @role_incident = Role.new(permissions: [permission_incident], modules: [@module_cp])
+      @role_incident = Role.new(permissions: [permission_incident], primero_modules: [@module_cp])
       @role_incident.save(validate: false)
       @group1 = UserGroup.create!(name: 'Group1')
       @user1 = User.new(user_name: 'user1', role: @role_case_incident, user_groups: [@group1])
@@ -1219,7 +1220,7 @@ describe User do
         resource: Permission::CASE,
         actions: [Permission::READ, Permission::WRITE, Permission::CREATE]
       )
-      @role = Role.new(permissions: [permission_case], modules: [@module_cp])
+      @role = Role.new(permissions: [permission_case], primero_modules: [@module_cp])
       @role.save(validate: false)
       @group1 = UserGroup.create!(name: 'Group1')
       @user1 = User.new(user_name: 'user1', role: @role, user_groups: [@group1])
@@ -1247,7 +1248,7 @@ describe User do
         resource: Permission::CASE,
         actions: [Permission::MANAGE]
       )
-      @role = Role.new(permissions: [permission_case], modules: [@module_cp])
+      @role = Role.new(permissions: [permission_case], primero_modules: [@module_cp])
       @role.save(validate: false)
       @group1 = UserGroup.create!(name: 'Group1')
       @user1 = User.new(user_name: 'user1', role: @role, user_groups: [@group1])
@@ -1308,7 +1309,7 @@ describe User do
     end
 
     let(:role) do
-      create(:role, is_manager: true, modules: [primero_module], permissions: [Permission.new(
+      create(:role, is_manager: true, primero_modules: [primero_module], permissions: [Permission.new(
         resource: Permission::CASE,
         actions: [Permission::MANAGE]
       )])
@@ -1396,7 +1397,7 @@ describe User do
     end
 
     let(:role) do
-      create(:role, is_manager: true, modules: [primero_module], permissions: [Permission.new(
+      create(:role, is_manager: true, primero_modules: [primero_module], permissions: [Permission.new(
         resource: Permission::CASE,
         actions: [Permission::MANAGE]
       )])
@@ -1464,7 +1465,7 @@ describe User do
     end
 
     let(:role) do
-      create(:role, is_manager: true, modules: [primero_module], permissions: [Permission.new(
+      create(:role, is_manager: true, primero_modules: [primero_module], permissions: [Permission.new(
         resource: Permission::CASE,
         actions: [Permission::MANAGE]
       )])
@@ -1691,6 +1692,111 @@ describe User do
       result = @user1.referred_record_ids([], 'Child')
 
       expect(result).to be_empty
+    end
+  end
+
+  describe 'terms of use' do
+    let(:agency) { create(:agency, terms_of_use_enabled: true) }
+    let(:user) { create(:user, agency: agency) }
+
+    describe '#accept_terms_of_use!' do
+      it 'sets terms_of_use_accepted_on to current time' do
+        freeze_time do
+          expect { user.accept_terms_of_use! }.to change { user.terms_of_use_accepted_on }
+            .from(nil).to(DateTime.now)
+        end
+      end
+
+      it 'updates the user record' do
+        expect { user.accept_terms_of_use! }.to change { user.reload.terms_of_use_accepted_on }
+          .from(nil)
+      end
+    end
+
+    describe '#needs_terms_of_use_acceptance?' do
+      context 'when agency does not have terms of use enabled' do
+        let(:agency) { create(:agency, terms_of_use_enabled: false) }
+
+        it 'returns false' do
+          expect(user.send(:needs_terms_of_use_acceptance?)).to be false
+        end
+      end
+
+      context 'when agency has terms of use enabled' do
+        context 'when user has never accepted terms of use' do
+          it 'returns true' do
+            expect(user.send(:needs_terms_of_use_acceptance?)).to be true
+          end
+        end
+
+        context 'when user has accepted terms of use' do
+          before { user.update!(terms_of_use_accepted_on: 1.day.ago) }
+
+          context 'when agency has not uploaded new terms' do
+            it 'returns false' do
+              expect(user.send(:needs_terms_of_use_acceptance?)).to be false
+            end
+          end
+
+          context 'when agency has uploaded new terms after user acceptance' do
+            before do
+              agency.update!(terms_of_use_uploaded_at: DateTime.now)
+            end
+
+            it 'returns true' do
+              expect(user.send(:needs_terms_of_use_acceptance?)).to be true
+            end
+          end
+
+          context 'when agency uploaded terms before user acceptance' do
+            before do
+              agency.update!(terms_of_use_uploaded_at: 2.days.ago)
+            end
+
+            it 'returns false' do
+              expect(user.send(:needs_terms_of_use_acceptance?)).to be false
+            end
+          end
+        end
+      end
+    end
+
+    describe '#agency_terms_of_use_changed?' do
+      context 'when user has not accepted terms' do
+        it 'returns false' do
+          user.terms_of_use_accepted_on = nil
+          agency.terms_of_use_uploaded_at = 1.day.ago
+
+          expect(user.agency_terms_of_use_changed?).to be false
+        end
+      end
+
+      context 'when agency has not uploaded terms' do
+        it 'returns false' do
+          user.terms_of_use_accepted_on = 1.day.ago
+          agency.terms_of_use_uploaded_at = nil
+
+          expect(user.agency_terms_of_use_changed?).to be false
+        end
+      end
+
+      context 'when user accepted before agency uploaded new terms' do
+        it 'returns true' do
+          user.terms_of_use_accepted_on = 2.days.ago
+          agency.terms_of_use_uploaded_at = 1.day.ago
+
+          expect(user.agency_terms_of_use_changed?).to be true
+        end
+      end
+
+      context 'when user accepted after agency uploaded terms' do
+        it 'returns false' do
+          user.terms_of_use_accepted_on = 1.day.ago
+          agency.terms_of_use_uploaded_at = 2.days.ago
+
+          expect(user.agency_terms_of_use_changed?).to be false
+        end
+      end
     end
   end
 

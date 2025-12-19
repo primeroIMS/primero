@@ -68,12 +68,12 @@ describe Exporters::JsonExporter do
       resource: Permission::CASE, actions: [Permission::READ, Permission::RECEIVE_REFERRAL]
     )
     role = Role.new(
-      is_manager: false, modules: [primero_module],
+      is_manager: false, primero_modules: [primero_module],
       permissions: [permissions], form_sections: [form, form_family]
     )
     role.save(validate: false)
     role_referral = Role.new(
-      unique_id: 'role-referral', is_manager: false, form_sections: [form], modules: [primero_module],
+      unique_id: 'role-referral', is_manager: false, form_sections: [form], primero_modules: [primero_module],
       permissions: [permissions]
     )
     role_referral.save(validate: false)

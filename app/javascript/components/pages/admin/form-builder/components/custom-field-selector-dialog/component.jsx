@@ -17,7 +17,8 @@ import {
   RADIO_FIELD,
   SELECT_FIELD,
   SUBFORM_SECTION,
-  TALLY_FIELD
+  TALLY_FIELD,
+  SIGNATURE_FIELD
 } from "../../../../../form/constants";
 import { ADMIN_FIELDS_DIALOG } from "../field-dialog/constants";
 import { useI18n } from "../../../../../i18n";
@@ -36,7 +37,8 @@ import {
   SelectInput,
   MultiSelectInput,
   DateAndTimeInput,
-  SubformField
+  SubformField,
+  SignatureInput
 } from "../../../../../../images/primero-icons";
 
 import css from "./styles.css";
@@ -53,6 +55,7 @@ const fields = [
   [TALLY_FIELD, TallyInput],
   [DATE_FIELD, DateInput],
   [DATE_TIME_FIELD, DateAndTimeInput],
+  [SIGNATURE_FIELD, SignatureInput],
   // [DATE_FIELD, DateRangeInput],
   [SEPARATOR, Seperator],
   [SUBFORM_SECTION, SubformField]

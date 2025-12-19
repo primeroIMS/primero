@@ -11,6 +11,7 @@ describe RecordActionWebpushNotifier do
       WebpushSubscription, User, Agency, Role, Child, Transition
     )
     Rails.configuration.x.webpush.enabled = true
+    allow(ENV).to receive(:fetch).and_call_original
     allow(ENV).to receive(:fetch).with('PRIMERO_MESSAGE_SECRET').and_return('aVnNTxSI1EZmiG1dW6Z_I9fbQCbZB3Po')
     SystemSettings.stub(:current).and_return(
       SystemSettings.new(
@@ -43,11 +44,11 @@ describe RecordActionWebpushNotifier do
   end
 
   let(:role) do
-    create(:role, is_manager: true, modules: [primero_module])
+    create(:role, is_manager: true, primero_modules: [primero_module])
   end
 
   let(:role2) do
-    create(:role, is_manager: true, modules: [primero_module], group_permission: Permission::ALL)
+    create(:role, is_manager: true, primero_modules: [primero_module], group_permission: Permission::ALL)
   end
 
   let(:user) do

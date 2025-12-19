@@ -94,7 +94,7 @@ describe Api::V2::ReportsController, type: :request do
                              editable: false)
     @role = Role.create!(name: 'Test Role 1', unique_id: 'test-role-1',
                          permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])],
-                         modules: [@cp])
+                         primero_modules: [@cp])
     @agency1 = Agency.create!(name: 'Agency 1', agency_code: 'agency1', unique_id: 'agency1')
     @agency2 = Agency.create!(name: 'Agency 2', agency_code: 'agency2', unique_id: 'agency2')
     @test_user1 = User.create!(full_name: 'Test User 1', user_name: 'test_user_1', password: 'a12345678',

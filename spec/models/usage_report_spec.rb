@@ -54,14 +54,14 @@ describe UsageReport do
 
   let(:role_manager) do
     Role.create!(
-      name: 'Role Manager', unique_id: 'role_manager', is_manager: true, modules: [primero_module_cp],
+      name: 'Role Manager', unique_id: 'role_manager', is_manager: true, primero_modules: [primero_module_cp],
       permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
     )
   end
 
   let(:role_worker) do
     Role.create!(
-      name: 'Role Worker', unique_id: 'role_worker', is_manager: false, modules: [primero_module_cp],
+      name: 'Role Worker', unique_id: 'role_worker', is_manager: false, primero_modules: [primero_module_cp],
       permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])]
     )
   end
@@ -71,7 +71,7 @@ describe UsageReport do
       name: 'Group Usage Report Role',
       unique_id: 'group_usage_report_role',
       is_manager: false,
-      modules: [primero_module_cp],
+      primero_modules: [primero_module_cp],
       permissions: [
         Permission.new(
           managed_report_scope: Permission::GROUP,
@@ -87,7 +87,7 @@ describe UsageReport do
       name: 'Agency Usage Report Role',
       unique_id: 'agency_usage_report_role',
       is_manager: false,
-      modules: [primero_module_cp],
+      primero_modules: [primero_module_cp],
       permissions: [
         Permission.new(
           managed_report_scope: Permission::AGENCY,

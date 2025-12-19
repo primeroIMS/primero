@@ -109,11 +109,11 @@ describe Attachment, search: true do
     it 'cannot attach image files of an improper mimetype' do
       attachment = Attachment.new(
         record: child, field_name: 'other_documents', attachment_type: Attachment::IMAGE,
-        file_name: 'sample.bmp', attachment: attachment_base64('sample.bmp')
+        file_name: 'test.gif', attachment: attachment_base64('test.gif')
       )
       attachment.attach
       expect(attachment.valid?).to be_falsey
-      expect(attachment.errors[:file][0]).to include('image/jpg')
+      expect(attachment.errors[:file][0]).to include('image/jpeg')
     end
 
     context 'with 100 attachments' do

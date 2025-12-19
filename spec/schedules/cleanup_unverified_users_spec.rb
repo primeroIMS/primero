@@ -35,7 +35,7 @@ describe CleanupUnverifiedUsers do
           actions: [Permission::MANAGE]
         )
       ],
-      modules: [primero_module]
+      primero_modules: [primero_module]
     )
   end
 

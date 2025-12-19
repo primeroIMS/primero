@@ -631,7 +631,7 @@ module Indicators
 
     # rubocop:disable Metrics/MethodLength
     def self.workflow_team(role)
-      role_modules = role.modules.reject do |primero_module|
+      role_modules = role.primero_modules.reject do |primero_module|
         [PrimeroModule::GBV, PrimeroModule::MRM].include?(primero_module)
       end
 
@@ -662,7 +662,7 @@ module Indicators
     end
 
     def self.workflows(role)
-      role_modules = role.modules.reject do |primero_module|
+      role_modules = role.primero_modules.reject do |primero_module|
         [PrimeroModule::GBV, PrimeroModule::MRM].include?(primero_module)
       end
 

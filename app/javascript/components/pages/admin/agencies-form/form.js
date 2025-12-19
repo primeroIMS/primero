@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { fromJS } from "immutable";
-import { object, string, boolean, array } from "yup";
+import { object, string, boolean, array, lazy } from "yup";
 
 import {
   FieldRecord,
@@ -18,14 +18,28 @@ import { FILE_FORMAT } from "../../../../config";
 
 import { TERMS_OF_USE, TERMS_OF_USE_ENABLED } from "./constants";
 
-export const validations = i18n =>
+const logoValidations = (i18n, formMode, enforceTermsOfUse) => ({
+  terms_of_use_base64: lazy(() =>
+    enforceTermsOfUse && formMode.get("isNew")
+      ? string().required(
+          i18n.t("forms.required_field", {
+            field: i18n.t("agency.terms_of_use")
+          })
+        )
+      : string().nullable()
+  )
+});
+
+export const validations = (i18n, formMode, enforceTermsOfUse) =>
   object().shape({
-    agency_code: string().required(),
+    agency_code: string().required(
+      i18n.t("forms.required_field", {
+        field: i18n.t("agency.code")
+      })
+    ),
     description: object(),
     disabled: boolean(),
     logo_enabled: boolean(),
-    logo_full_base64: string(),
-    logo_full_file_name: string(),
     name: object().shape({
       en: string().required(
         i18n.t("forms.required_field", {
@@ -34,10 +48,11 @@ export const validations = i18n =>
       )
     }),
     services: array(),
-    telephone: string()
+    telephone: string(),
+    ...logoValidations(i18n, formMode, enforceTermsOfUse)
   });
 
-export const form = (i18n, formMode) => {
+export const form = (i18n, formMode, enforceTermsOfUse) => {
   return fromJS([
     FormSectionRecord({
       unique_id: "agencies",
@@ -70,7 +85,9 @@ export const form = (i18n, formMode) => {
         FieldRecord({
           display_name: i18n.t("agency.terms_of_use_enabled"),
           name: TERMS_OF_USE_ENABLED,
-          type: TICK_FIELD
+          type: TICK_FIELD,
+          selected_value: enforceTermsOfUse,
+          disabled: enforceTermsOfUse
         }),
         FieldRecord({
           display_name: i18n.t("agency.terms_of_use"),
@@ -81,6 +98,7 @@ export const form = (i18n, formMode) => {
           renderDownloadButton: true,
           downloadButtonLabel: i18n.t("agency.terms_of_use_download_button"),
           watchedInputs: [TERMS_OF_USE_ENABLED],
+          required: enforceTermsOfUse,
           handleWatchedInputs: value => {
             const { terms_of_use_enabled: termsOfUseEnabled } = value;
 

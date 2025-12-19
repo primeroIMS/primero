@@ -12,7 +12,7 @@ json.theme_color @theme&.colors&.[]('manifestThemeColor')
 json.icons do
   Theme::PICTORIAL_SIZES.each do |size|
     logo = @theme.send(:"logo_pictorial_#{size}")
-    img_src = if logo.present?
+    img_src = if logo&.attached?
                 rails_blob_path(logo, only_path: true)
               else
                 "/primero-pictorial-#{size}.png"

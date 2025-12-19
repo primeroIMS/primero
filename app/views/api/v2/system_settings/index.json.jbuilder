@@ -20,7 +20,8 @@ json.data do
                                               'maximum_attachments_per_record' =>
                                                   @system_setting.maximum_attachments_per_record,
                                               'allow_case_creation_from_referral' =>
-                                                  @system_setting.create_case_from_referral?
+                                                  @system_setting.create_case_from_referral?,
+                                              'enforce_terms_of_use' => Rails.configuration.enforce_terms_of_use
                                             })
   json.field_labels FieldI18nService.to_localized_values(@system_setting.field_labels_i18n)
   json.audit_log do

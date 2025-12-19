@@ -29,7 +29,7 @@ services:
     tty: true
     restart: always
   worker:
-    image: '${PRIMERO_IMAGE_REPOSITORY:-primeroims}/application:${PRIMERO_TAG:-latest}'
+    image: '${PRIMERO_IMAGE_REPOSITORY:-primeroims}/worker:${PRIMERO_TAG:-latest}'
     depends_on:
       solr:
         condition: 'service_started'

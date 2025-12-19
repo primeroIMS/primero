@@ -164,29 +164,29 @@ function Component({
     <>
       <TraceActions {...traceActionsProps} />
       <Grid container spacing={4} data-testid="trace-comparison-form">
-        <Grid container item>
+        <Grid container>
           {renderText && alreadyMatchedMessage && (
-            <Grid item xs={12}>
+            <Grid size={12}>
               <div className={css.alreadyMatched}>
                 <span>{alreadyMatchedMessage}</span>
               </div>
             </Grid>
           )}
-          <Grid item xs={2} />
-          <Grid item xs={4}>
+          <Grid size={2} />
+          <Grid size={4}>
             <h2>
               {i18n.t("tracing_request.trace")} <span className={css.recordId}>{traceShortId}</span>
             </h2>
           </Grid>
-          <Grid item xs={4}>
+          <Grid size={4}>
             <h2>
               {i18n.t("case.label")} <span className={css.recordId}>{caseShortId}</span>
             </h2>
           </Grid>
         </Grid>
         <FieldRows comparisons={topComparisons} />
-        <Grid container item className={css.fieldRow} spacing={4}>
-          <Grid item xs={6}>
+        <Grid container className={css.fieldRow} spacing={4}>
+          <Grid size={6}>
             <h2>{i18n.t("tracing_request.tracing_request_photos")}</h2>
             {isEmpty(tracingRequestPhotos) ? (
               <span className={fieldRowCss.nothingFound}>{i18n.t("tracing_request.messages.nothing_found")}</span>
@@ -194,7 +194,7 @@ function Component({
               <PhotoArray isGallery images={tracingRequestPhotos} />
             )}
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={6}>
             <h2>{i18n.t("tracing_request.case_photos")}</h2>
             {isEmpty(casePhotos) ? (
               <span className={fieldRowCss.nothingFound}>{i18n.t("tracing_request.messages.nothing_found")}</span>
@@ -203,8 +203,8 @@ function Component({
             )}
           </Grid>
         </Grid>
-        <Grid container item className={css.fieldRow} spacing={4}>
-          <Grid item xs={6}>
+        <Grid container className={css.fieldRow} spacing={4}>
+          <Grid size={6}>
             <h2>{i18n.t("tracing_request.tracing_request_audios")}</h2>
             {isEmpty(tracingRequestAudios) ? (
               <span className={fieldRowCss.nothingFound}>{i18n.t("tracing_request.messages.nothing_found")}</span>
@@ -212,7 +212,7 @@ function Component({
               <AudioArray attachments={tracingRequestAudios} />
             )}
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={6}>
             <h2>{i18n.t("tracing_request.case_audios")}</h2>
             {isEmpty(caseAudios) ? (
               <span className={fieldRowCss.nothingFound}>{i18n.t("tracing_request.messages.nothing_found")}</span>

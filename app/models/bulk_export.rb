@@ -14,8 +14,6 @@ class BulkExport < ApplicationRecord
   PASSWORD_LENGTH = 8
   EXPIRES = 60.seconds # Expiry for the delegated ActiveStorage url
 
-  alias_attribute :export_format, :format
-
   scope :owned, ->(owner_user_name) { where(owned_by: owner_user_name) }
   belongs_to :owner, class_name: 'User', foreign_key: 'owned_by', primary_key: 'user_name'
   has_one_attached :export_file
@@ -59,6 +57,16 @@ class BulkExport < ApplicationRecord
       { record_type:, user: owner },
       custom_export_params&.with_indifferent_access || {}
     )
+  end
+
+  # We really shouldn't have named a column "format" because Rails/Ruby magic reserves that name.
+  # This getter/setter pair is replacing the alias_attribute that changed behavior in Rails 7.2
+  def export_format
+    self.format
+  end
+
+  def export_format=(format)
+    self.format = format
   end
 
   def search_filters
@@ -111,6 +119,8 @@ class BulkExport < ApplicationRecord
   end
 
   def url
+    return unless export_file&.attached?
+
     Rails.application.routes.url_helpers.rails_blob_path(export_file, only_path: true, expires_in: EXPIRES)
   end
 

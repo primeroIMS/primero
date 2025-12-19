@@ -55,7 +55,7 @@ module Historical
   def creation_fields_for(user)
     self.created_by = user&.user_name
     self.created_by_full_name = user&.full_name
-    self.created_organization = user&.organization&.unique_id
+    self.created_organization = user&.agency&.unique_id
     self.created_agency_office = user&.agency_office
     self.created_by_groups = user&.user_group_unique_ids
     other_creation_fields_for(user)
@@ -68,7 +68,7 @@ module Historical
   end
 
   def update_organization
-    self.created_organization ||= created_by_user&.organization&.unique_id
+    self.created_organization ||= created_by_user&.agency&.unique_id
   end
 
   def created_by_user

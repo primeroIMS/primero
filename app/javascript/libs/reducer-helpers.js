@@ -52,6 +52,7 @@ export const arrayToObject = (data, key = "id") => {
 
 export const listAttachmentFields = (formSections = [], fields = []) => {
   const types = Object.keys(FIELD_ATTACHMENT_TYPES);
+
   const filteredFields = Object.values(fields).filter(field => types.includes(field.type));
   const fieldIds = filteredFields.map(field => field.form_section_id);
   const attachmentFormSections = Object.values(formSections).filter(formSection => fieldIds.includes(formSection.id));

@@ -87,7 +87,7 @@ module Exporters
         resource: Permission::CASE, actions: [Permission::READ, Permission::RECEIVE_REFERRAL]
       )
       role = Role.new(
-        is_manager: false, modules: [primero_module],
+        is_manager: false, primero_modules: [primero_module],
         permissions: [permissions], form_sections: [form_basic, form_family, form_name, form_age_sex]
       )
       role.save(validate: false)
@@ -96,7 +96,7 @@ module Exporters
 
       role_referral = Role.new(
         unique_id: 'role-referral', is_manager: false, form_sections: [form_name, form_age_sex],
-        modules: [primero_module], permissions: [permissions]
+        primero_modules: [primero_module], permissions: [permissions]
       )
       role_referral.save(validate: false)
       @user_referral = User.new(user_name: 'fakerefer', role:)
@@ -152,12 +152,12 @@ module Exporters
       parsed = CSV.parse(data)
 
       expect(parsed[1][8]).to eq(
-        '[{"unique_id"=>"004", "relation_name"=>"John", "relation"=>"father"}, ' \
-        '{"unique_id"=>"005", "relation_name"=>"Mary", "relation"=>"mother"}]'
+        '[{"unique_id" => "004", "relation_name" => "John", "relation" => "father"}, ' \
+        '{"unique_id" => "005", "relation_name" => "Mary", "relation" => "mother"}]'
       )
       expect(parsed[3][8]).to eq(
-        '[{"unique_id"=>"002", "relation"=>"relation2", "relation_name"=>"FirstName2 LastName2", ' \
-        '"relation_age"=>12, "relation_sex"=>"female"}]'
+        '[{"unique_id" => "002", "relation" => "relation2", "relation_name" => "FirstName2 LastName2", ' \
+        '"relation_age" => 12, "relation_sex" => "female"}]'
       )
     end
 
@@ -182,7 +182,8 @@ module Exporters
         data = CsvExporter.export(@records, nil, { user: @user_referral })
         parsed = CSV.parse(data)
 
-        expect(parsed[0]).to eq %w[id name address age sex family_number family_size family_notes family_details_section]
+        expect(parsed[0]).to eq %w[id name address age sex family_number family_size family_notes
+                                   family_details_section]
         expect(parsed[1][1..4]).to eq(['Joe', nil, '12', 'male'])
         expect(parsed[1][7]).to be_nil
         expect(parsed[2][1..4]).to eq(%w[Mo case_2_address 14 male])

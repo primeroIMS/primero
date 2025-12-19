@@ -69,7 +69,7 @@ class Exporters::Constraints::ExporterConstraints < ValueObject
   end
 
   def duplicate_form(form)
-    form_dup = FormSection.new(form.as_json.except('id'))
+    form_dup = SelectedFieldsForm.new(form.as_json.except('id'))
     form_dup.subform_field = Field.new(form.subform_field.as_json.except('id')) if form.subform_field.present?
     form_dup.fields = duplicate_fields(form_dup, form.fields)
     form_dup
@@ -82,5 +82,11 @@ class Exporters::Constraints::ExporterConstraints < ValueObject
       field_dup.form_section = form_dup
       field_dup
     end
+  end
+
+  # FormSection objects are used to organize fields in the exporters. Rails 7 is stricter about reverse associations
+  # the fields association needs to be converted to a simple array.
+  class SelectedFieldsForm < FormSection
+    attr_accessor :fields
   end
 end

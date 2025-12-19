@@ -50,9 +50,7 @@ class Role < ApplicationRecord
 
   has_many :users
 
-  alias_attribute :modules, :primero_modules
-
-  serialize :permissions, Permission::PermissionSerializer
+  serialize :permissions, coder: Permission::PermissionSerializer
 
   validates :permissions, presence: { message: 'errors.models.role.permission_presence' }
   validates :name, presence: { message: 'errors.models.role.name_present' },
@@ -304,7 +302,7 @@ class Role < ApplicationRecord
   end
 
   def module_unique_ids
-    modules.pluck(:unique_id)
+    primero_modules.pluck(:unique_id)
   end
 
   def update_properties(role_properties)
@@ -357,7 +355,7 @@ class Role < ApplicationRecord
   def update_modules(module_unique_ids)
     return if module_unique_ids.nil?
 
-    self.modules = PrimeroModule.where(unique_id: module_unique_ids)
+    self.primero_modules = PrimeroModule.where(unique_id: module_unique_ids)
   end
 
   def managed_resources?(resources)

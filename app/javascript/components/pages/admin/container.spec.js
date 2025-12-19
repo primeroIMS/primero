@@ -39,7 +39,7 @@ describe("<Admin />", () => {
 
     it("renders only the permitted items", () => {
       expect(screen.getAllByRole("navigation").at(1)).toBeInTheDocument();
-      expect(screen.getAllByRole("button")).toHaveLength(3);
+      expect(screen.getAllByRole("link")).toHaveLength(3);
     });
   });
 });

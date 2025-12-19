@@ -141,7 +141,7 @@ module FakeDeviseLogin
       user_category: opts[:user_category],
       form_sections: opts[:form_sections] || []
     )
-    role.stub(:modules).and_return(opts[:modules] || [])
+    role.stub(:primero_modules).and_return(opts[:modules] || [])
     role
   end
 

@@ -1,6 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import "mutationobserver-shim";
+import "./mock-text-encoder";
 
 import get from "lodash/get";
 import { parseISO, format as formatDate } from "date-fns";
@@ -12,6 +13,10 @@ global.html2pdf = {};
 if (typeof jest !== "undefined") {
   global.window.fetch = jest.fn();
 }
+
+global.structuredClone = val => {
+  return JSON.parse(JSON.stringify(val));
+};
 
 global.innerWidth = 2000;
 
@@ -41,8 +46,11 @@ global.window.defaultMediaQueryList = (args = {}) => ({
   matches: false,
   media: "",
   onchange: null,
-  addListener: () => {},
-  removeListener: () => {},
+  addListener: jest.fn(),
+  removeListener: jest.fn(),
+  addEventListener: jest.fn(),
+  removeEventListener: jest.fn(),
+  dispatchEvent: jest.fn(),
   ...args
 });
 

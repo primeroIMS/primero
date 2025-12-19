@@ -41,6 +41,7 @@ import InsightsSubReport from "./components/insights-sub-report";
 import Account from "./components/pages/account";
 import PasswordReset from "./components/password-reset";
 import CodeOfConduct from "./components/code-of-conduct";
+import TermsOfUse from "./components/terms-of-use";
 import ActivityLog from "./components/activity-log";
 import { AppLayout, LoginLayout, EmptyLayout } from "./components/layouts";
 import {
@@ -556,6 +557,10 @@ export default [
       {
         path: ROUTES.code_of_conduct,
         component: CodeOfConduct
+      },
+      {
+        path: ROUTES.terms_of_use,
+        component: TermsOfUse
       },
       {
         path: ROUTES.logout,

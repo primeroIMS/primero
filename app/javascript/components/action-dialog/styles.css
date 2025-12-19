@@ -24,3 +24,12 @@
   font-size: var(--fs-13);
   margin-left: 1rem;
 }
+
+.dialogActions {
+  justify-content: space-between;
+}
+
+.dialogPrimaryActions {
+  display: flex;
+  gap: var(--sp-1);
+}

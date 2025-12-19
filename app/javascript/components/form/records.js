@@ -93,7 +93,8 @@ export const FieldRecord = Record({
   type: "",
   visible: null,
   watchedInputs: null,
-  wrapWithComponent: null
+  wrapWithComponent: null,
+  signature_provided_by_label: {}
 });
 
 export const FormSectionRecord = Record({
