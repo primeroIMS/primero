@@ -33,12 +33,12 @@ describe Api::V2::ReferralsController, type: :request do
     )
     @role_service.save(validate: false)
     @system_role = Role.new(
-      permissions: [@permission_refer_case], modules: [@primero_module], user_category: Role::CATEGORY_SYSTEM
+      permissions: [@permission_refer_case], primero_modules: [@primero_module], user_category: Role::CATEGORY_SYSTEM
     )
     @system_role.save(validate: false)
 
     @maintenance_role = Role.new(
-      permissions: [@permission_refer_case], modules: [@primero_module], user_category: Role::CATEGORY_MAINTENANCE
+      permissions: [@permission_refer_case], primero_modules: [@primero_module], user_category: Role::CATEGORY_MAINTENANCE
     )
     @maintenance_role.save(validate: false)
     @group1 = UserGroup.create!(name: 'Group1')

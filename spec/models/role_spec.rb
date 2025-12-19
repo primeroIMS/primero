@@ -921,7 +921,7 @@ describe Role do
         name: 'permission_role_3',
         unique_id: 'permission_role_3',
         group_permission: Permission::SELF,
-        modules: [primero_module_cp],
+        primero_modules: [primero_module_cp],
         permissions: [
           Permission.new(
             resource: Permission::CASE,

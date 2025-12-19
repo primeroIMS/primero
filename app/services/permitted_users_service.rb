@@ -86,7 +86,7 @@ class PermittedUsersService
     return users_query if query_filter.blank?
 
     users_query.where(
-      'user_name ILIKE :value OR full_name ILIKE :value',
+      'users.user_name ILIKE :value OR users.full_name ILIKE :value',
       value: "%#{ActiveRecord::Base.sanitize_sql_like(query_filter)}%"
     )
   end

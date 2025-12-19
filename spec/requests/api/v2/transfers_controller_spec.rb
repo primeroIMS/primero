@@ -35,12 +35,12 @@ describe Api::V2::TransfersController, type: :request do
     @role_accept_or_reject.save(validate: false)
 
     @system_role = Role.new(
-      permissions: [@permission_transfer_case], modules: [@primero_module], user_category: Role::CATEGORY_SYSTEM
+      permissions: [@permission_transfer_case], primero_modules: [@primero_module], user_category: Role::CATEGORY_SYSTEM
     )
     @system_role.save(validate: false)
 
     @maintenance_role = Role.new(
-      permissions: [@permission_transfer_case], modules: [@primero_module], user_category: Role::CATEGORY_MAINTENANCE
+      permissions: [@permission_transfer_case], primero_modules: [@primero_module], user_category: Role::CATEGORY_MAINTENANCE
     )
     @maintenance_role.save(validate: false)
 
@@ -139,8 +139,6 @@ describe Api::V2::TransfersController, type: :request do
 
       expect(audit_params['action']).to eq('transfer')
     end
-
-    
 
     it "get a forbidden message if the user doesn't have transfer permission" do
       login_for_test

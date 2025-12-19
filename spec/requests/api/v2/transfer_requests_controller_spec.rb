@@ -20,12 +20,12 @@ describe Api::V2::TransferRequestsController, type: :request do
     @role = Role.new(permissions: [@permission_transfer_case], primero_modules: [@primero_module])
     @role.save(validate: false)
     @system_role = Role.new(
-      permissions: [@permission_transfer_case], modules: [@primero_module], user_category: Role::CATEGORY_SYSTEM
+      permissions: [@permission_transfer_case], primero_modules: [@primero_module], user_category: Role::CATEGORY_SYSTEM
     )
     @system_role.save(validate: false)
 
     @maintenance_role = Role.new(
-      permissions: [@permission_transfer_case], modules: [@primero_module], user_category: Role::CATEGORY_MAINTENANCE
+      permissions: [@permission_transfer_case], primero_modules: [@primero_module], user_category: Role::CATEGORY_MAINTENANCE
     )
     @maintenance_role.save(validate: false)
     @group1 = UserGroup.create!(name: 'Group1')
