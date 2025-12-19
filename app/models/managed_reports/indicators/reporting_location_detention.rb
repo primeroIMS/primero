@@ -16,7 +16,7 @@ class ManagedReports::Indicators::ReportingLocationDetention < ManagedReports::S
     def sql(current_user, params = {})
       admin_level = user_reporting_location_admin_level(current_user)
 
-      %{
+      <<~SQL
         select
         subquery.name, subquery.key,
         count(id) as sum,
@@ -34,6 +34,7 @@ class ManagedReports::Indicators::ReportingLocationDetention < ManagedReports::S
         from violations violations
         inner join incidents incidents
           on incidents.id = violations.incident_id
+          AND incidents.srch_record_state = TRUE
           #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
         inner join individual_victims_violations ivv on violations .id = ivv.violation_id
         inner join individual_victims iv on ivv.individual_victim_id = iv.id
@@ -49,7 +50,7 @@ class ManagedReports::Indicators::ReportingLocationDetention < ManagedReports::S
         group by key, name
         #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
         order by name
-      }
+      SQL
     end
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength

@@ -1238,7 +1238,7 @@ describe("<RecordForm /> - Selectors", () => {
           fromJS({
             user: {
               permissions: {
-                cases: [ACTIONS.CHANGE_LOG]
+                cases: [ACTIONS.CHANGE_LOG, ACTIONS.REFERRAL]
               }
             }
           }),
@@ -1258,6 +1258,11 @@ describe("<RecordForm /> - Selectors", () => {
       const result = selectors
         .getRecordInformationNav(
           fromJS({
+            user: {
+              permissions: {
+                cases: [ACTIONS.READ]
+              }
+            },
             records: {
               cases: {
                 data: [{ id: "001", permitted_form_actions: { case: [ACTIONS.CHANGE_LOG] } }],
@@ -1274,7 +1279,35 @@ describe("<RecordForm /> - Selectors", () => {
         .toList()
         .sort();
 
-      expect(result).toEqual(fromJS([CHANGE_LOGS, RECORD_OWNER, REFERRAL, TRANSFERS_ASSIGNMENTS]));
+      expect(result).toEqual(fromJS([CHANGE_LOGS, RECORD_OWNER, TRANSFERS_ASSIGNMENTS]));
+    });
+
+    it("should prioritize record permissions over user permissions when record permissions exist", () => {
+      const result = selectors
+        .getRecordInformationNav(
+          fromJS({
+            user: {
+              permissions: {
+                cases: [ACTIONS.CHANGE_LOG, ACTIONS.REFERRAL, ACTIONS.APPROVALS]
+              }
+            },
+            records: {
+              cases: {
+                data: [{ id: "002", permitted_form_actions: { case: [ACTIONS.REFERRAL] } }],
+                selectedRecord: "002"
+              }
+            }
+          }),
+          {
+            recordType: "case",
+            primeroModule: "primeromodule-cp"
+          }
+        )
+        .map(form => form.formId)
+        .toList()
+        .sort();
+
+      expect(result).toEqual(fromJS([RECORD_OWNER, REFERRAL, TRANSFERS_ASSIGNMENTS]));
     });
   });
 
@@ -1676,6 +1709,25 @@ describe("<RecordForm /> - Selectors", () => {
 
       expect(subform.id).toBe(3);
       expect(subform.unique_id).toBe("nested_services");
+    });
+  });
+
+  describe("getIdentifiedUser", () => {
+    it("returns the user", () => {
+      const user = selectors.getIdentifiedUser(
+        fromJS({
+          forms: {
+            options: {
+              users: { identified: [{ user_name: "user1", full_name: "User 1", email: "user1@example.com" }] }
+            }
+          }
+        }),
+        "user1"
+      );
+
+      expect(user.get("user_name")).toEqual("user1");
+      expect(user.get("full_name")).toEqual("User 1");
+      expect(user.get("email")).toEqual("user1@example.com");
     });
   });
 });

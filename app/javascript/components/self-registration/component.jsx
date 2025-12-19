@@ -39,6 +39,7 @@ function Component() {
     <div>
       <PageHeading title={i18n.t("self_registration.title")} noPadding noElevation />
       <Form
+        initialValues={{ locale: i18n.applicationLocales?.[0]?.id }}
         formSections={formSections}
         validations={validations}
         onSubmit={handleSubmit}

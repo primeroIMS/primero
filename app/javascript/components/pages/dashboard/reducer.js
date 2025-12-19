@@ -6,6 +6,7 @@ import orderBy from "lodash/orderBy";
 import actions from "./actions";
 import NAMESPACE from "./namespace";
 import { DASHBOARD_FLAGS_SORT_ORDER, DASHBOARD_FLAGS_SORT_FIELD, DASHBOARD_GROUP } from "./constants";
+import updateApprovals from "./utils/update-approvals";
 
 const DEFAULT_STATE = Map({});
 
@@ -52,13 +53,27 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         .setIn([DASHBOARD_GROUP.approvals, "loading"], true)
         .setIn([DASHBOARD_GROUP.approvals, "errors"], false);
     case actions.DASHBOARD_APPROVALS_SUCCESS:
-      return state.setIn([DASHBOARD_GROUP.approvals, "data"], fromJS(payload.data));
+      return state.updateIn([DASHBOARD_GROUP.approvals, "data"], approvals => updateApprovals(approvals, payload));
     case actions.DASHBOARD_APPROVALS_FAILURE:
       return state
         .setIn([DASHBOARD_GROUP.approvals, "loading"], false)
         .setIn([DASHBOARD_GROUP.approvals, "errors"], true);
     case actions.DASHBOARD_APPROVALS_FINISHED:
       return state.setIn([DASHBOARD_GROUP.approvals, "loading"], false);
+    case actions.DASHBOARD_APPROVALS_PENDING_STARTED:
+      return state
+        .setIn([DASHBOARD_GROUP.approvals_pending, "loading"], true)
+        .setIn([DASHBOARD_GROUP.approvals_pending, "errors"], false);
+    case actions.DASHBOARD_APPROVALS_PENDING_SUCCESS:
+      return state.updateIn([DASHBOARD_GROUP.approvals_pending, "data"], approvals =>
+        updateApprovals(approvals, payload)
+      );
+    case actions.DASHBOARD_APPROVALS_PENDING_FAILURE:
+      return state
+        .setIn([DASHBOARD_GROUP.approvals_pending, "loading"], false)
+        .setIn([DASHBOARD_GROUP.approvals_pending, "errors"], true);
+    case actions.DASHBOARD_APPROVALS_PENDING_FINISHED:
+      return state.setIn([DASHBOARD_GROUP.approvals_pending, "loading"], false);
     case actions.DASHBOARD_REFERRALS_TRANSFERS_STARTED:
       return state
         .setIn([DASHBOARD_GROUP.referrals_transfers, "loading"], true)

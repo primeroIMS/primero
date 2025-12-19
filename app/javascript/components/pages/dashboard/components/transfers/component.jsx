@@ -1,7 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import { useMemo } from "react";
-import PropTypes from "prop-types";
 
 import Permission, { usePermissions, RESOURCES, ACTIONS } from "../../../../permissions";
 import { OptionsBox } from "../../../../dashboard";
@@ -16,12 +15,14 @@ import {
 } from "../../selectors";
 import { useMemoizedSelector } from "../../../../../libs";
 import DashboardColumns from "../../../../dashboard/dashboard-columns";
+import { getPermissions } from "../../../../user";
 
 const sharedWithMeIndicators = ["shared_with_me_transfers_awaiting_acceptance"];
 const sharedWithOthersIndicators = ["shared_with_others_pending_transfers", "shared_with_others_rejected_transfers"];
 
-function Component({ userPermissions }) {
+function Component() {
   const i18n = useI18n();
+  const userPermissions = useMemoizedSelector(state => getPermissions(state));
   const loading = useMemoizedSelector(state => getIsDashboardGroupLoading(state, DASHBOARD_GROUP.referrals_transfers));
   const sharedWithMe = useMemoizedSelector(state => getSharedWithMe(state));
   const sharedWithOthers = useMemoizedSelector(state => getSharedWithOthers(state));
@@ -100,9 +101,5 @@ function Component({ userPermissions }) {
 }
 
 Component.displayName = "Transfers";
-
-Component.propTypes = {
-  userPermissions: PropTypes.object
-};
 
 export default Component;

@@ -93,6 +93,37 @@ const approvalsClosurePending = {
   }
 };
 
+const approvalsAssessment = {
+  name: "dashboard.approvals_assessment.primeromodule-cp",
+  type: "indicator",
+  indicators: {
+    "approval_assessment_pending.primeromodule-cp": {
+      count: 5,
+      query: ["record_state=true", "status=open", "approval_status_assessment=pending"]
+    }
+  }
+};
+const approvalsCasePlan = {
+  name: "dashboard.approvals_case_plan.primeromodule-cp",
+  type: "indicator",
+  indicators: {
+    "approval_case_plan.primeromodule-cp": {
+      count: 2,
+      query: ["record_state=true", "status=open", "approval_status_case_plan=pending"]
+    }
+  }
+};
+const approvalsClosure = {
+  name: "dashboard.approvals_closure.primeromodule-cp",
+  type: "indicator",
+  indicators: {
+    approval_closure_pending_group: {
+      count: 1,
+      query: ["record_state=true", "status=open", "approval_status_closure=pending"]
+    }
+  }
+};
+
 const protectionConcern = {
   name: "dashboard.dash_protection_concerns",
   type: "indicator",
@@ -328,6 +359,11 @@ const initialState = fromJS({
       approvals: {
         loading: false,
         errors: false,
+        data: [approvalsAssessment, approvalsCasePlan, approvalsClosure]
+      },
+      approvals_pending: {
+        loading: false,
+        errors: false,
         data: [approvalsAssessmentPending, approvalsCasePlanPending, approvalsClosurePending]
       },
       protection_concerns: {
@@ -409,6 +445,30 @@ describe("<Dashboard /> - Selectors", () => {
       const values = selectors.getApprovalsClosurePending(initialState)["primeromodule-cp"];
 
       expect(values).toEqual(fromJS(approvalsClosurePending));
+    });
+  });
+
+  describe("getApprovalsAssessment", () => {
+    it("should return the approvals assessment", () => {
+      const values = selectors.getApprovalsAssessment(initialState)["primeromodule-cp"];
+
+      expect(values).toEqual(fromJS(approvalsAssessment));
+    });
+  });
+
+  describe("getApprovalsCasePlan", () => {
+    it("should return the approvals case plan", () => {
+      const values = selectors.getApprovalsCasePlan(initialState)["primeromodule-cp"];
+
+      expect(values).toEqual(fromJS(approvalsCasePlan));
+    });
+  });
+
+  describe("getApprovalsClosure", () => {
+    it("should return the approvals closure", () => {
+      const values = selectors.getApprovalsClosure(initialState)["primeromodule-cp"];
+
+      expect(values).toEqual(fromJS(approvalsClosure));
     });
   });
 

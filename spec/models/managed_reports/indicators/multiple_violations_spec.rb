@@ -5,6 +5,18 @@
 require 'rails_helper'
 
 describe ManagedReports::Indicators::MultipleViolations do
+  let(:individual_victim1) do
+    IndividualVictim.create!(
+      data: { individual_sex: 'unknown', individual_age: 3, individual_multiple_violations: true }
+    )
+  end
+
+  let(:individual_victim2) do
+    IndividualVictim.create!(
+      data: { individual_sex: 'male', individual_age: 5, individual_multiple_violations: true }
+    )
+  end
+
   before do
     clean_data(Incident, Violation, Perpetrator, IndividualVictim, UserGroup, User, Agency, Role)
 
@@ -94,15 +106,15 @@ describe ManagedReports::Indicators::MultipleViolations do
       @group_user, { incident_date: Date.new(2021, 8, 8), date_of_first_report: Date.new(2021, 8, 8), status: 'open' }
     )
     incident2.save!
-    incident3 = Incident.new_with_user(
+    @incident3 = Incident.new_with_user(
       @agency_user,
       { incident_date: Date.new(2022, 2, 18), date_of_first_report: Date.new(2022, 2, 18), status: 'open' }
     )
-    incident3.save!
-    @incident4 = Incident.new_with_user(
+    @incident3.save!
+    incident4 = Incident.new_with_user(
       @all_user, { incident_date: Date.new(2022, 3, 28), date_of_first_report: Date.new(2022, 3, 28), status: 'open' }
     )
-    @incident4.save!
+    incident4.save!
 
     violation1 = Violation.create!(
       data: {
@@ -133,25 +145,50 @@ describe ManagedReports::Indicators::MultipleViolations do
         type: 'maiming',
         attack_type: 'aerial_attack',
         ctfmr_verified: 'verified',
-        ctfmr_verified_date: Date.new(2020, 8, 8)
+        ctfmr_verified_date: Date.new(2022, 3, 10)
       },
-      incident_id: incident3.id
+      incident_id: @incident3.id
     )
     violation3.individual_victims = [
-      IndividualVictim.create!(data: { individual_sex: 'unknown', individual_age: 4 })
+      IndividualVictim.create!(data: { individual_sex: 'unknown', individual_age: 4 }),
+      individual_victim1
     ]
 
     violation4 = Violation.create!(
       data: {
-        type: 'killing', attack_type: 'arson', ctfmr_verified: 'verified', ctfmr_verified_date: Date.new(2022, 3, 28)
+        type: 'killing',
+        attack_type: 'arson',
+        ctfmr_verified: 'verified',
+        ctfmr_verified_date: Date.new(2022, 3, 28)
       },
-      incident_id: @incident4.id
+      incident_id: @incident3.id
     )
     violation4.individual_victims = [
       IndividualVictim.create!(data: { individual_sex: 'male', individual_age: 12 }),
-      IndividualVictim.create!(data: { individual_sex: 'unknown', individual_age: 3,
-                                       individual_multiple_violations: true })
+      individual_victim1
     ]
+
+    violation5 = Violation.create!(
+      data: {
+        type: 'killing', attack_type: 'arson', ctfmr_verified: 'verified', ctfmr_verified_date: Date.new(2022, 3, 31)
+      },
+      incident_id: incident4.id
+    )
+    violation5.individual_victims = [
+      IndividualVictim.create!(data: { individual_sex: 'male', individual_age: 18 }),
+      IndividualVictim.create!(
+        data: { individual_sex: 'unknown', individual_age: 8, individual_multiple_violations: true }
+      ),
+      individual_victim2
+    ]
+
+    violation6 = Violation.create!(
+      data: {
+        type: 'deprivation_liberty', ctfmr_verified: 'verified', ctfmr_verified_date: Date.new(2022, 3, 31)
+      },
+      incident_id: incident4.id
+    )
+    violation6.individual_victims = [individual_victim2]
   end
 
   it 'return data for violations marked as verified' do
@@ -176,11 +213,11 @@ describe ManagedReports::Indicators::MultipleViolations do
         {
           'data' => {
             'unique_id' => nil,
-            'violations' => ['killing'],
+            'violations' => match_array(%w[killing maiming]),
             'individual_age' => '3',
             'individual_sex' => 'unknown',
-            'incident_id' => @incident4.id,
-            'incident_short_id' => @incident4.short_id
+            'incident_id' => @incident3.id,
+            'incident_short_id' => @incident3.short_id
           }
         }
       ]

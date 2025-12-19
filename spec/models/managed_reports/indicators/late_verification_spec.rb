@@ -13,6 +13,7 @@ describe ManagedReports::Indicators::LateVerification do
     incident = Incident.create!(data: { incident_date: Date.new(2022, 1, 23), status: 'open' })
     incident1 = Incident.create!(data: { incident_date: Date.new(2022, 6, 29), status: 'open' })
     incident2 = Incident.create!(data: { incident_date: Date.new(2021, 10, 21), status: 'open' })
+    incident3 = Incident.create!(data: { incident_date: Date.new(2021, 10, 25), status: 'closed' })
 
     Violation.create!(
       data: { type: 'killing', violation_tally: { 'boys' => 2, 'girls' => 0, 'unknown' => 2, 'total' => 4 },
@@ -34,6 +35,24 @@ describe ManagedReports::Indicators::LateVerification do
 
     Violation.create!(
       data: { type: 'maiming', violation_tally: { 'boys' => 1, 'girls' => 2, 'unknown' => 0, 'total' => 3 },
+              ctfmr_verified: 'verified', ctfmr_verified_date: Date.new(2022, 1, 1) },
+      incident_id: incident2.id
+    )
+
+    Violation.create!(
+      data: { type: 'killing', violation_tally: { 'boys' => 1, 'girls' => 2, 'unknown' => 1, 'total' => 4 },
+              ctfmr_verified: 'verified', ctfmr_verified_date: Date.new(2022, 1, 1) },
+      incident_id: incident3.id
+    )
+
+    Violation.create!(
+      data: { type: 'deprivation_liberty', violation_tally: { 'boys' => 1, 'girls' => 2, 'unknown' => 1, 'total' => 4 },
+              ctfmr_verified: 'verified', ctfmr_verified_date: Date.new(2022, 1, 1) },
+      incident_id: incident2.id
+    )
+
+    Violation.create!(
+      data: { type: 'military_use', violation_tally: { 'boys' => 1, 'girls' => 2, 'unknown' => 1, 'total' => 4 },
               ctfmr_verified: 'verified', ctfmr_verified_date: Date.new(2022, 1, 1) },
       incident_id: incident2.id
     )

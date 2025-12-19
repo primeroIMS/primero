@@ -10,11 +10,10 @@ class ManagedReports::Indicators::ViolationTally < ManagedReports::SqlReportIndi
     end
 
     # rubocop:disable Metrics/AbcSize
-    # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/CyclomaticComplexity
     # rubocop:disable Metrics/PerceivedComplexity
     def sql(current_user, params = {})
-      %{
+      <<~SQL
         select key as name, 'total' as key,
         #{grouped_date_query(params['grouped_by'],
                              filter_date(params),
@@ -23,6 +22,8 @@ class ManagedReports::Indicators::ViolationTally < ManagedReports::SqlReportIndi
         from violations violations
         inner join incidents incidents
           on incidents.id = violations.incident_id
+          AND incidents.srch_status = 'open'
+          AND incidents.srch_record_state = TRUE
           #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
         cross join json_each_text((violations.data->>'violation_tally')::JSON)
         WHERE violations.data->>'violation_tally' is not null
@@ -37,10 +38,9 @@ class ManagedReports::Indicators::ViolationTally < ManagedReports::SqlReportIndi
         order by
         #{group_id_alias(params['grouped_by'])&.dup&.+(',')}
         name
-      }
+      SQL
     end
     # rubocop:enable Metrics/AbcSize
-    # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/CyclomaticComplexity
     # rubocop:enable Metrics/PerceivedComplexity
   end

@@ -12,13 +12,14 @@ class ManagedReports::Indicators::IncidentLocationType < ManagedReports::SqlRepo
     # rubocop:disable Metrics/MethodLength
     def sql(current_user, params = {})
       date_param = filter_date(params)
-      %{
+      <<~SQL
         SELECT
           data->> 'incident_location_type' AS id,
           #{grouped_date_query(params['grouped_by'], date_param)&.concat(' AS group_id,')}
           COUNT(*) AS total
         FROM incidents
-        WHERE data @? '$[*] ? (@.incident_location_type != null) ? (
+        WHERE srch_record_state = TRUE
+        AND data @? '$[*] ? (@.incident_location_type != null) ? (
           !exists(@.gbv_reported_elsewhere) || @.gbv_reported_elsewhere != "gbvims-org"
         )'
         #{date_range_query(date_param)&.prepend('AND ')}
@@ -27,7 +28,7 @@ class ManagedReports::Indicators::IncidentLocationType < ManagedReports::SqlRepo
         GROUP BY data ->> 'incident_location_type'
         #{grouped_date_query(params['grouped_by'], date_param)&.prepend(', ')}
         ORDER BY id
-      }
+      SQL
     end
     # rubocop:enable Metrics/MethodLength
   end

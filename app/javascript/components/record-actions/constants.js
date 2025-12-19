@@ -28,6 +28,7 @@ export const ENABLE_DISABLE_DIALOG = "enableDisable";
 export const OPEN_CLOSE_DIALOG = "openClose";
 export const MARK_FOR_OFFLINE_DIALOG = "markForOffline";
 export const LINK_INCIDENT_TO_CASE_DIALOG = "linkIncidentToCase";
+export const ATTRIBUTE_CASE_DIALOG = "attributeCase";
 
 export const ONE = "one";
 export const MANY = "many";
@@ -67,5 +68,6 @@ export const RECORD_ACTION_ABILITIES = {
   canTransfer: [ACTIONS.MANAGE, ACTIONS.TRANSFER],
   canMarkForOffline: [ACTIONS.MANAGE, ACTIONS.MARK_FOR_OFFLINE],
   canLinkIncidentToCase: [ACTIONS.MANAGE, ACTIONS.LINK_INCIDENT_TO_CASE],
-  canVerify: [ACTIONS.MANAGE, ACTIONS.VERIFY_MRM]
+  canVerify: [ACTIONS.MANAGE, ACTIONS.VERIFY_MRM],
+  canAttributeCase: [ACTIONS.MANAGE, ACTIONS.ATTRIBUTE]
 };

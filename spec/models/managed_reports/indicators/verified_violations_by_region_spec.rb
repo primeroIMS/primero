@@ -34,8 +34,7 @@ describe ManagedReports::Indicators::VerifiedViolationsByRegion do
           {
             unique_id: 'bbfd214c-77c4-11f0-8941-7c10c98b54af',
             ctfmr_verified: 'verified',
-            ctfmr_verified_date: Date.new(2022, 4, 23),
-            violation_tally: { boys: 2, girls: 0, unknown: 2, total: 4 }
+            ctfmr_verified_date: Date.new(2022, 4, 23)
           }
         ],
         maiming: [
@@ -44,6 +43,22 @@ describe ManagedReports::Indicators::VerifiedViolationsByRegion do
             ctfmr_verified: 'verified',
             ctfmr_verified_date: Date.new(2022, 4, 23),
             violation_tally: { boys: 2, girls: 3, unknown: 2, total: 7 }
+          }
+        ],
+        deprivation_liberty: [
+          {
+            unique_id: '1c1317ee-cf9a-11f0-a7e9-7c10c98b54af',
+            ctfmr_verified: 'verified',
+            ctfmr_verified_date: Date.new(2022, 4, 23),
+            violation_tally: { boys: 1, girls: 2, unknown: 0, total: 3 }
+          }
+        ],
+        military_use: [
+          {
+            unique_id: '74cb67e4-d20e-11f0-86f1-7c10c98b54af',
+            ctfmr_verified: 'verified',
+            ctfmr_verified_date: Date.new(2022, 4, 23),
+            violation_tally: { boys: 2, girls: 1, unknown: 0, total: 3 }
           }
         ]
       }.with_indifferent_access
@@ -69,13 +84,32 @@ describe ManagedReports::Indicators::VerifiedViolationsByRegion do
         attack_on_hospitals: [
           {
             unique_id: '164f9b14-874e-11f0-accb-7c10c98b54af',
-            ctfmr_verified: 'report_pending_verification',
-            violation_tally: { boys: 1, girls: 0, unknown: 2, total: 3 }
+            ctfmr_verified: 'report_pending_verification'
           }
         ]
       }.with_indifferent_access
     )
     incident1.save!
+
+    incident2 = Incident.new_with_user(
+      managed_report_user,
+      {
+        incident_date: Date.new(2022, 4, 18),
+        date_of_first_report: Date.new(2022, 4, 15),
+        status: 'closed',
+        module_id: PrimeroModule::MRM,
+        reporting_location_hierarchy: 'CT.CT02.CT022003.CT022003001',
+        killing: [
+          {
+            unique_id: '0e3deb24-be58-11f0-a953-7c10c98b54af',
+            ctfmr_verified: 'verified',
+            ctfmr_verified_date: Date.new(2022, 4, 20),
+            violation_tally: { boys: 1, girls: 1, unknown: 2, total: 4 }
+          }
+        ]
+      }.with_indifferent_access
+    )
+    incident2.save!
   end
 
   it 'return data for verified violations by region' do
@@ -93,8 +127,8 @@ describe ManagedReports::Indicators::VerifiedViolationsByRegion do
 
     expect(data).to match_array(
       [
-        { id: 'CT01', attack_on_schools: 1, maiming: 1, total: 2 },
-        { id: 'CT02', killing: 1, total: 1 }
+        { id: 'CT01', attack_on_schools: 1, maiming: 7, total: 8 },
+        { id: 'CT02', killing: 3, total: 3 }
       ]
     )
   end

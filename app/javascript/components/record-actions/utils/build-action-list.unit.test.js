@@ -54,6 +54,7 @@ describe("record-actions/utils/build-action-list", () => {
       canAssign: true,
       canCreateIncident: false,
       canEnable: false,
+      canAttributeCase: false,
       canOnlyExportPdf: true,
       canOpenOrClose: false,
       canRefer: false,
@@ -89,7 +90,8 @@ describe("record-actions/utils/build-action-list", () => {
       "approve",
       "export",
       "markForOffline",
-      "linkIncidentToCase"
+      "linkIncidentToCase",
+      "attributeCase"
     ]);
   });
 

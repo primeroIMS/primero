@@ -13,6 +13,7 @@ class Api::V2::SelfRegisterController < Api::V2::RecordResourceController
     @user = User.create_self_registration_user(self_register_params)
     return unless @user.save!
 
+    @user.send_welcome_email
     render json: {}, status: :created
   end
 
@@ -30,7 +31,7 @@ class Api::V2::SelfRegisterController < Api::V2::RecordResourceController
 
   def self_register_params
     params.require(:user)
-          .permit(:full_name, :email, :locale, :user_name, :registration_stream,
+          .permit(:full_name, :email, :locale, :registration_stream,
                   :data_processing_consent_provided, :send_mail, :captcha_token)
           .except(:captcha_token)
   end

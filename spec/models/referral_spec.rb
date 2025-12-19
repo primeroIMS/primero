@@ -89,6 +89,16 @@ describe Referral do
         expect(referral.valid?).to be_falsey
         expect(@case.assigned_user_names.present?).to be_falsey
       end
+
+      it 'does not perform the referral if the receiving user is disabled' do
+        @user2.disabled = true
+        @user2.save(validate: false)
+
+        referral = Referral.create(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
+
+        expect(referral.valid?).to be_falsey
+        expect(referral.errors[:transitioned_to]).to include('transition.errors.to_user_can_receive')
+      end
     end
   end
 
@@ -117,6 +127,17 @@ describe Referral do
       @case.update_properties(@user2, { consent_for_services: true })
       @revoke_referral.done!(@user1)
       expect(@case.ordered_histories.first.user_name).to eq(@user1.user_name)
+    end
+
+    context 'when transitioned_to is disabled ' do
+      it 'allows revoking the referral' do
+        @user2.disabled = true
+        @user2.save(validate: false)
+
+        @revoke_referral.revoke!(@user1)
+        expect(@revoke_referral.valid?).to be_truthy
+        expect(@revoke_referral.errors[:transitioned_to]).to be_empty
+      end
     end
 
     after :each do
@@ -600,6 +621,22 @@ describe Referral do
       @record.reload
 
       expect(@record.alerts).to be_empty
+    end
+  end
+
+  describe 'active_for_user' do
+    before :each do
+      @referral1 = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
+      @referral2 = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case2)
+      @referral2.accept!
+      @referral3 = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
+      @referral3.reject!(@user2)
+    end
+    it 'returns only in-progress referrals for the specified user' do
+      active_referrals = Referral.active_for_user(@user2.user_name, [@case.id, @case2.id], 'Child')
+
+      expect(active_referrals.size).to eq(2)
+      expect(active_referrals.ids).to match_array([@referral1.id, @referral2.id])
     end
   end
 

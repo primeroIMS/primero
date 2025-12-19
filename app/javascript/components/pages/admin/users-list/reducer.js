@@ -20,6 +20,14 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("filters", fromJS(payload.data));
     case actions.CLEAR_METADATA:
       return state.set("metadata", fromJS(DEFAULT_METADATA));
+    case actions.DISABLE_USERS_STARTED:
+      return state.setIn(["disableUsers", "loading"], true).setIn(["disableUsers", "errors"], false);
+    case actions.DISABLE_USERS_FAILURE:
+      return state.setIn(["disableUsers", "loading"], false).setIn(["disableUsers", "errors"], true);
+    case actions.DISABLE_USERS_SUCCESS:
+      return state.setIn(["disableUsers", "loading"], false).setIn(["disableUsers", "errors"], false);
+    case actions.DISABLE_USERS_FINISHED:
+      return state.setIn(["disableUsers", "loading"], false).setIn(["disableUsers", "errors"], false);
     default:
       return state;
   }

@@ -138,6 +138,7 @@ module FakeDeviseLogin
     role = Role.new(
       permissions: role_permissions,
       group_permission:,
+      user_category: opts[:user_category],
       form_sections: opts[:form_sections] || []
     )
     role.stub(:primero_modules).and_return(opts[:modules] || [])

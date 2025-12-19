@@ -35,7 +35,8 @@ import {
   ENABLE_DISABLE_DIALOG,
   OPEN_CLOSE_DIALOG,
   MARK_FOR_OFFLINE_DIALOG,
-  LINK_INCIDENT_TO_CASE_DIALOG
+  LINK_INCIDENT_TO_CASE_DIALOG,
+  ATTRIBUTE_CASE_DIALOG
 } from "./constants";
 import { NAME } from "./config";
 import { isDisabledAction, buildApprovalList, buildActionList, subformExists } from "./utils";
@@ -64,7 +65,8 @@ function Container({
     SERVICE_DIALOG,
     TRANSFER_DIALOG,
     MARK_FOR_OFFLINE_DIALOG,
-    LINK_INCIDENT_TO_CASE_DIALOG
+    LINK_INCIDENT_TO_CASE_DIALOG,
+    ATTRIBUTE_CASE_DIALOG
   ]);
   const { handleCreateIncident } = useIncidentFromCase({ record, mode });
   const selectedRecordsFromList = useMemoizedSelector(state =>
@@ -132,7 +134,8 @@ function Container({
     canOnlyExportPdf,
     permittedAbilities,
     canMarkForOffline,
-    canLinkIncidentToCase
+    canLinkIncidentToCase,
+    canAttributeCase
   } = usePermissions(recordType, RECORD_ACTION_ABILITIES);
 
   const canOpenOrClose = (canReopen && openState === "reopen") || (canClose && openState === "close");
@@ -170,6 +173,7 @@ function Container({
     canShowExports,
     canMarkForOffline,
     canLinkIncidentToCase,
+    canAttributeCase,
     canTransfer,
     canOnlyExportPdf,
     enableState,

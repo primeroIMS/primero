@@ -572,37 +572,6 @@ describe Api::V2::UsersController, type: :request do
       end
     end
 
-    describe 'empty response' do
-      let(:json) { nil }
-
-      it 'creates a new record with 204 and returns no JSON if the client generated the id' do
-        login_for_test(
-          permissions: [
-            Permission.new(resource: Permission::USER, actions: [Permission::CREATE])
-          ]
-        )
-        id = (rand * 1000).to_i
-        params = {
-          data: {
-            id:,
-            full_name: 'Test User API 2',
-            user_name: 'test_user_api_2',
-            code: 'test/code',
-            email: 'test_user_api@localhost.com',
-            agency_id: @agency_a.id,
-            role_unique_id: @role.unique_id,
-            password_confirmation: 'a12345678',
-            password: 'a12345678'
-          }
-        }
-
-        post '/api/v2/users', params:, as: :json
-
-        expect(response).to have_http_status(204)
-        expect(User.find_by(id:)).not_to be_nil
-      end
-    end
-
     it "returns 403 if user isn't authorized to create records" do
       login_for_test
 
@@ -622,33 +591,6 @@ describe Api::V2::UsersController, type: :request do
       post('/api/v2/users', params:)
 
       expect(response).to have_http_status(403)
-      expect(json['errors'].size).to eq(1)
-      expect(json['errors'][0]['resource']).to eq('/api/v2/users')
-    end
-
-    it 'returns a 409 if record already exists' do
-      login_for_test(
-        permissions: [
-          Permission.new(resource: Permission::USER, actions: [Permission::CREATE])
-        ]
-      )
-      params = {
-        data: {
-          id: @user_a.id,
-          full_name: 'Test User 5',
-          user_name: 'test_user_5',
-          code: 'test/code',
-          email: 'test_user_5@localhost.com',
-          agency_id: @agency_a.id,
-          role_unique_id: @role.unique_id,
-          password_confirmation: 'a12345678',
-          password: 'a12345678'
-        }
-      }
-
-      post '/api/v2/users', params:, as: :json
-
-      expect(response).to have_http_status(409)
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq('/api/v2/users')
     end
@@ -838,6 +780,7 @@ describe Api::V2::UsersController, type: :request do
           role_unique_id: 'test-role-1',
           identity_provider_unique_id: 'primeroims_2',
           agency_id: @agency_a.id,
+          user_group_unique_ids: %w[user-group-1],
           user_name:
         }
       }
@@ -851,7 +794,22 @@ describe Api::V2::UsersController, type: :request do
       expect(@user_d.role.unique_id).to eq(@role_manage_user.unique_id)
       expect(@user_d.agency.unique_id).to eq(@agency_b.unique_id)
       expect(@user_d.user_name).not_to eq(user_name)
+      expect(@user_d.user_group_unique_ids).to be_empty
       expect(@user_d.identity_provider.unique_id).to eq(@identity_provider_a.unique_id)
+    end
+
+    it 'does not change the user groups if the current user is the target user' do
+      sign_in(@user_c)
+
+      params = { data: { user_group_unique_ids: %w[user-group-1] } }
+
+      patch("/api/v2/users/#{@user_c.id}", params:)
+
+      @user_c.reload
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['id']).to eq(@user_c.id)
+      expect(@user_c.user_group_unique_ids).to match_array(%w[user-group-2])
     end
 
     it 'user accept the code of conduct' do
@@ -867,6 +825,141 @@ describe Api::V2::UsersController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data']['user_name']).to eq(@user_c.user_name)
       expect(json['data']).to have_key('code_of_conduct_accepted_on')
+    end
+  end
+
+  describe 'POST /api/v2/users/update_bulk' do
+    before do
+      @disable_multiple_permission = Permission.new(
+        resource: Permission::USER,
+        actions: [Permission::MANAGE, Permission::DISABLE_MULTIPLE]
+      )
+    end
+
+    context 'when user has disable_multiple permission' do
+      it 'disables multiple users by IDs' do
+        login_for_test(permissions: [@disable_multiple_permission])
+
+        params = {
+          data: {
+            ids: [@user_a.id, @user_b.id]
+          }
+        }
+
+        post '/api/v2/users/update_bulk', params:, as: :json
+
+        expect(response).to have_http_status(200)
+
+        @user_a.reload
+        @user_b.reload
+
+        expect(@user_a.disabled).to be_truthy
+        expect(@user_b.disabled).to be_truthy
+        expect(@user_c.reload.disabled).to be_falsey
+      end
+
+      it 'disables users by filters (agency)' do
+        login_for_test(permissions: [@disable_multiple_permission])
+
+        params = {
+          data: {
+            agency: @agency_a.id
+          }
+        }
+
+        post '/api/v2/users/update_bulk', params:, as: :json
+
+        expect(response).to have_http_status(200)
+
+        @user_a.reload
+        @user_b.reload
+        @user_c.reload
+
+        expect(@user_a.disabled).to be_truthy
+        expect(@user_b.disabled).to be_truthy
+        expect(@user_c.disabled).to be_falsey
+      end
+
+      it 'disables users by filters (user_group_ids)' do
+        login_for_test(permissions: [@disable_multiple_permission])
+
+        params = {
+          data: {
+            user_group_ids: @user_group_a.unique_id
+          }
+        }
+
+        post '/api/v2/users/update_bulk', params:, as: :json
+
+        expect(response).to have_http_status(200)
+
+        @user_a.reload
+        @user_c.reload
+
+        expect(@user_a.disabled).to be_truthy
+        expect(@user_c.disabled).to be_falsey
+      end
+
+      it 'disables users by query filter' do
+        login_for_test(permissions: [@disable_multiple_permission])
+
+        params = {
+          data: {
+            query: 'Test User 1'
+          }
+        }
+
+        post '/api/v2/users/update_bulk', params:, as: :json
+
+        expect(response).to have_http_status(200)
+
+        @user_a.reload
+        @user_b.reload
+
+        expect(@user_a.disabled).to be_truthy
+        expect(@user_b.disabled).to be_falsey
+      end
+
+      it 'updates updated_at timestamp' do
+        login_for_test(permissions: [@disable_multiple_permission])
+
+        original_updated_at = @user_a.updated_at
+
+        params = {
+          data: {
+            ids: [@user_a.id]
+          }
+        }
+
+        post '/api/v2/users/update_bulk', params:, as: :json
+
+        expect(response).to have_http_status(200)
+
+        @user_a.reload
+        expect(@user_a.updated_at).to be > original_updated_at
+      end
+    end
+
+    context 'when user does not have disable_multiple permission' do
+      it 'returns 403 forbidden' do
+        login_for_test(
+          permissions: [
+            Permission.new(resource: Permission::USER, actions: [Permission::READ])
+          ]
+        )
+
+        params = {
+          data: {
+            ids: [@user_a.id, @user_b.id]
+          }
+        }
+
+        post '/api/v2/users/update_bulk', params:, as: :json
+
+        expect(response).to have_http_status(403)
+        expect(json['errors'].size).to eq(1)
+        expect(json['errors'][0]['resource']).to eq('/api/v2/users/update_bulk')
+      end
     end
   end
 

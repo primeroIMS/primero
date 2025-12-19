@@ -22,6 +22,7 @@ class Transition < ApplicationRecord
   validates :transitioned_by, presence: true
   validate :consent_given_or_overridden
   validate :user_can_receive, unless: :remote
+  validate :user_can_receive, unless: -> { remote || status == STATUS_REVOKED }
 
   after_initialize :defaults, unless: :persisted?
   before_create :perform

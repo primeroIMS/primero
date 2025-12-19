@@ -12,13 +12,14 @@ class ManagedReports::Indicators::NumberOfPerpetrators < ManagedReports::SqlRepo
     # rubocop:disable Metrics/MethodLength
     def sql(current_user, params = {})
       date_param = filter_date(params)
-      %{
+      <<~SQL
         SELECT
           data ->>'number_of_perpetrators' AS id,
           #{grouped_date_query(params['grouped_by'], date_param)&.concat(' AS group_id,')}
           COUNT(*) AS total
         FROM incidents
-        WHERE data @? '$[*] ? (
+        WHERE srch_record_state = TRUE
+        AND data @? '$[*] ? (
           @.consent_reporting  == "true" && @.number_of_perpetrators != null
         ) ? (
           !exists(@.gbv_reported_elsewhere) || @.gbv_reported_elsewhere != "gbvims-org"
@@ -29,7 +30,7 @@ class ManagedReports::Indicators::NumberOfPerpetrators < ManagedReports::SqlRepo
         GROUP BY data ->>'number_of_perpetrators'
         #{grouped_date_query(params['grouped_by'], date_param)&.prepend(', ')}
         ORDER BY id
-      }
+      SQL
     end
     # rubocop:enable Metrics/MethodLength
   end

@@ -60,6 +60,7 @@ export const FieldRecord = Record({
   on_collapsed_subform: false,
   onBlur: null,
   onChange: null,
+  onInputChange: null,
   onClick: null,
   onKeyPress: null,
   option_strings_condition: null,
