@@ -9,6 +9,21 @@ class Violation < ApplicationRecord
   TYPES = %w[killing maiming recruitment sexual_violence abduction attack_on_hospitals attack_on_schools military_use
              denial_humanitarian_access deprivation_liberty].freeze
   MRM_ASSOCIATIONS_KEYS = %w[sources perpetrators individual_victims group_victims responses].freeze
+  # Grave violations types serve as the basis to gather information and report on violations affecting children
+  # The GHN Insight, for example, only reports on Grave violation types
+  GRAVE_TYPES = %w[
+    killing maiming recruitment sexual_violence abduction attack_on_hospitals attack_on_schools
+    denial_humanitarian_access
+  ].freeze
+  # Some violation types are counted by the number of victims while others are counted by the violation itself
+  TYPES_FOR_VICTIM_COUNT = %w[killing maiming recruitment sexual_violence abduction].freeze
+  TYPES_FOR_VIOLATION_COUNT = %w[
+    attack_on_hospitals attack_on_schools military_use denial_humanitarian_access deprivation_liberty
+  ].freeze
+  # When we need to report on grave violation types only(e.g. GHN Insight), we need to know if we are counting by
+  # violation or by number of victims.
+  GRAVE_TYPES_FOR_VICTIM_COUNT = (GRAVE_TYPES & TYPES_FOR_VICTIM_COUNT).freeze
+  GRAVE_TYPES_FOR_VIOLATION_COUNT = (GRAVE_TYPES & TYPES_FOR_VIOLATION_COUNT).freeze
 
   has_and_belongs_to_many :individual_victims
   has_and_belongs_to_many :group_victims

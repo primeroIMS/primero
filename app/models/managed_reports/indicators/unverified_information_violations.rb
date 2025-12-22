@@ -23,9 +23,9 @@ class ManagedReports::Indicators::UnverifiedInformationViolations < ManagedRepor
           AND incidents.srch_record_state = TRUE
           #{user_scope_query(current_user, 'incidents')&.prepend('AND ')}
         WHERE violations.data @? '$[*]
-          ? (@.type == "attack_on_hospitals" || @.type == "attack_on_schools" || @.type == "denial_humanitarian_access")
           ? (@.ctfmr_verified == "report_pending_verification" || @.ctfmr_verified == "reported_not_verified")
         '
+        AND #{filter_types(Violation::GRAVE_TYPES_FOR_VIOLATION_COUNT).query}
         #{date_range_query(date_filter_param(params['ghn_date_filter']), 'incidents')&.prepend('AND ')}
         GROUP BY violations.data ->> 'type'
         ORDER BY id
