@@ -87,6 +87,16 @@ class AuditLog < ApplicationRecord
     logs
   end
 
+  # The last time a user has successfully logged into the system
+  # By default returns for standrad users
+  def self.last_login(user_category = nil)
+    joins(user: :role)
+      .where(action: AuditLog::LOGIN)
+      .where(users: { roles: { user_category: } })
+      .order(timestamp: :desc)
+      .first
+  end
+
   def display_id
     # TODO: In order to fix this, we should add new column for Records not storaged in the database
     return '' if record_type.in?(%w[ManagedReport])

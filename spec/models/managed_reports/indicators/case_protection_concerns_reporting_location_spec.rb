@@ -7,6 +7,9 @@ require 'rails_helper'
 describe ManagedReports::Indicators::CaseProtectionConcernsReportingLocation do
   let(:managed_report_user) do
     fake_user(
+      role: {
+
+      },
       permissions: [
         Permission.new(
           resource: Permission::MANAGED_REPORT,
@@ -21,6 +24,7 @@ describe ManagedReports::Indicators::CaseProtectionConcernsReportingLocation do
     clean_data(SystemSettings, Child, Location)
 
     managed_report_user.stub(:reporting_location_admin_level).and_return(1)
+    managed_report_user.stub(:module_unique_ids).and_return(['primero-module-fake'])
 
     Child.create!(
       data: {
@@ -28,6 +32,7 @@ describe ManagedReports::Indicators::CaseProtectionConcernsReportingLocation do
         status: 'open',
         age: 10,
         sex: 'female',
+        module_id: 'primero-module-fake',
         reporting_location_hierarchy: 'CT.CT001.CT00101',
         protection_concerns: %w[concern_1]
       }
@@ -39,6 +44,7 @@ describe ManagedReports::Indicators::CaseProtectionConcernsReportingLocation do
         status: 'open',
         age: 2,
         sex: 'female',
+        module_id: 'primero-module-fake',
         reporting_location_hierarchy: 'CT.CT002.CT00201',
         protection_concerns: %w[concern_1]
       }
@@ -49,6 +55,7 @@ describe ManagedReports::Indicators::CaseProtectionConcernsReportingLocation do
         registration_date: Date.new(2022, 5, 23),
         status: 'open',
         age: 15,
+        module_id: 'primero-module-fake',
         reporting_location_hierarchy: 'CT.CT001.CT00101',
         protection_concerns: %w[concern_2]
       }
@@ -60,6 +67,7 @@ describe ManagedReports::Indicators::CaseProtectionConcernsReportingLocation do
         status: 'open',
         age: 9,
         sex: 'male',
+        module_id: 'primero-module-fake',
         protection_concerns: %w[concern_3]
       }
     )

@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import { getIn } from "formik";
 import { cx } from "@emotion/css";
 import { List } from "@mui/material";
+import sortBy from "lodash/sortBy";
 
 import SubformFields from "../subform-fields";
 import SubformEmptyData from "../subform-empty-data";
@@ -112,8 +113,9 @@ function Component({
     </div>
   );
 
+  const sortedOrderValues = sortBy(orderedValues, ["date_cfm_start"]).reverse();
   const getlatestValue = arr => arr?.[0] ?? null;
-  const latestValue = getlatestValue(orderedValues);
+  const latestValue = getlatestValue(sortedOrderValues);
 
   return (
     <div className={css.fieldArray} data-testid="subform-field-array">

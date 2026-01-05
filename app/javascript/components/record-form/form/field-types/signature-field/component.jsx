@@ -32,6 +32,7 @@ import { AssetJwt } from "../../../../asset-jwt";
 import { FormAction } from "../../../../form";
 import ActionDialog from "../../../../action-dialog";
 import { ATTACHMENT_TYPES } from "../attachments/constants";
+import { buildTallyErrors } from "../../utils";
 
 // Note: Using a hidden field 'touched' to track if user has interacted with the signature pad for validation.
 
@@ -164,7 +165,7 @@ function Component({ helperText, label, mode, name, field }) {
         <div>
           <div>
             <AssetJwt
-              src={value.attachment_url || `data:image/png;base64,${value?.attachment}`}
+              src={value?.attachment_url || `data:image/png;base64,${value?.attachment}`}
               alt="Signature"
               className={css.signatureImage}
             />
@@ -278,7 +279,7 @@ function Component({ helperText, label, mode, name, field }) {
         </>
       )}
       {(mode.isEdit || mode.isNew) && helperText && (
-        <FormHelperText error={hasError}>{hasError || helperText}</FormHelperText>
+        <FormHelperText error={hasError}>{buildTallyErrors(hasError) || helperText}</FormHelperText>
       )}
     </div>
   );

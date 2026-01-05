@@ -12,26 +12,29 @@ describe ManagedReports::Indicators::LateVerificationViolations do
 
     incident = Incident.create!(data: { incident_date: Date.new(2022, 1, 23), status: 'open' })
     incident1 = Incident.create!(data: { incident_date: Date.new(2022, 5, 4), status: 'open' })
-    incident2 = Incident.create!(data: {
-                                   incident_date: Date.new(2022, 1, 23),
-                                   incident_date_end: Date.new(2022, 1, 28),
-                                   status: 'open',
-                                   is_incident_date_range: true
-                                 })
-    incident3 = Incident.create!(data: {
-                                   incident_date: Date.new(2022, 1, 23),
-                                   status: 'open',
-                                   is_incident_date_range: true
-                                 })
+    incident2 = Incident.create!(
+      data: {
+        incident_date: Date.new(2022, 1, 23),
+        incident_date_end: Date.new(2022, 1, 28),
+        status: 'open',
+        is_incident_date_range: true
+      }
+    )
+    incident3 = Incident.create!(
+      data: { incident_date: Date.new(2022, 1, 23), status: 'open', is_incident_date_range: true }
+    )
+    incident4 = Incident.create!(
+      data: { incident_date: Date.new(2022, 1, 28), status: 'closed', is_incident_date_range: true }
+    )
 
     Violation.create!(
-      data: { type: 'killing', violation_tally: { 'boys': 2, 'girls': 0, 'unknown': 2, 'total': 4 },
+      data: { type: 'killing', violation_tally: { 'boys' => 2, 'girls' => 0, 'unknown' => 2, 'total' => 4 },
               ctfmr_verified: 'verified' },
       incident_id: incident.id
     )
 
     Violation.create!(
-      data: { type: 'attack_on_hospitals', violation_tally: { 'boys': 2, 'girls': 30, 'unknown': 2, 'total': 34 },
+      data: { type: 'attack_on_hospitals', violation_tally: { 'boys' => 2, 'girls' => 30, 'unknown' => 2, 'total' => 34 },
               ctfmr_verified: 'verified' },
       incident_id: incident1.id
     )
@@ -39,32 +42,44 @@ describe ManagedReports::Indicators::LateVerificationViolations do
     Violation.create!(
       data: { type: 'attack_on_schools', ctfmr_verified: 'verified',
               ctfmr_verified_date: Date.new(2022, 5, 1),
-              violation_tally: { 'boys': 1, 'girls': 2, 'unknown': 5, 'total': 8 } },
+              violation_tally: { 'boys' => 1, 'girls' => 2, 'unknown' => 5, 'total' => 8 } },
       incident_id: incident.id
     )
 
     Violation.create!(
-      data: { type: 'attack_on_hospitals', violation_tally: { 'boys': 2, 'girls': 3, 'unknown': 2, 'total': 7 },
+      data: { type: 'attack_on_hospitals', violation_tally: { 'boys' => 2, 'girls' => 3, 'unknown' => 2, 'total' => 7 },
               ctfmr_verified: 'verified', ctfmr_verified_date: Date.new(2022, 5, 1) },
       incident_id: incident.id
     )
 
     Violation.create!(
-      data: { type: 'attack_on_hospitals', violation_tally: { 'boys': 2, 'girls': 3, 'unknown': 2, 'total': 7 },
+      data: { type: 'attack_on_hospitals', violation_tally: { 'boys' => 2, 'girls' => 3, 'unknown' => 2, 'total' => 7 },
               ctfmr_verified: 'verified', ctfmr_verified_date: Date.new(2022, 5, 23) },
       incident_id: incident2.id
     )
 
     Violation.create!(
-      data: { type: 'attack_on_hospitals', violation_tally: { 'boys': 2, 'girls': 3, 'unknown': 2, 'total': 7 },
+      data: { type: 'attack_on_hospitals', violation_tally: { 'boys' => 2, 'girls' => 3, 'unknown' => 2, 'total' => 7 },
               ctfmr_verified: 'verified', ctfmr_verified_date: Date.new(2022, 5, 1) },
       incident_id: incident2.id
     )
 
     Violation.create!(
-      data: { type: 'attack_on_hospitals', violation_tally: { 'boys': 2, 'girls': 3, 'unknown': 2, 'total': 7 },
+      data: { type: 'attack_on_hospitals', violation_tally: { 'boys' => 2, 'girls' => 3, 'unknown' => 2, 'total' => 7 },
               ctfmr_verified: 'verified', ctfmr_verified_date: Date.new(2022, 5, 1) },
       incident_id: incident3.id
+    )
+
+    Violation.create!(
+      data: { type: 'deprivation_liberty', violation_tally: { 'boys' => 2, 'girls' => 3, 'unknown' => 2, 'total' => 7 },
+              ctfmr_verified: 'verified', ctfmr_verified_date: Date.new(2022, 11, 12) },
+      incident_id: incident3.id
+    )
+
+    Violation.create!(
+      data: { type: 'attack_on_hospitals', violation_tally: { 'boys' => 1, 'girls' => 1, 'unknown' => 0, 'total' => 2 },
+              ctfmr_verified: 'verified', ctfmr_verified_date: Date.new(2022, 5, 1) },
+      incident_id: incident4.id
     )
   end
 
@@ -75,7 +90,7 @@ describe ManagedReports::Indicators::LateVerificationViolations do
   it 'return data for late verification indicator' do
     common_query = %w[
       has_late_verified_violations=true
-      ctfmr_verified_date=2021-05-01..2022-05-31
+      ctfmr_verified_date=2021-05-01..2022-11-30
     ]
 
     data = ManagedReports::Indicators::LateVerificationViolations.build(
@@ -85,12 +100,10 @@ describe ManagedReports::Indicators::LateVerificationViolations do
         'ghn_date_filter' => SearchFilters::DateRange.new(
           field_name: 'ghn_date_filter',
           from: Date.parse('2021-05-01'),
-          to: Date.parse('2022-05-31')
+          to: Date.parse('2022-11-30')
         )
       }
     ).data
-
-
 
     expect(data).to match_array(
       [
@@ -104,8 +117,8 @@ describe ManagedReports::Indicators::LateVerificationViolations do
         {
           'id' => 'attack_on_schools',
           'total' => {
-             count: 1,
-             query: %w[violation_with_verification_status=attack_on_schools_verified] + common_query
+            count: 1,
+            query: %w[violation_with_verification_status=attack_on_schools_verified] + common_query
           }
         }
       ]

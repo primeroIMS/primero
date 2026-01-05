@@ -134,6 +134,8 @@ describe ManagedReports::Indicators::AbductedStatus do
     incident4.save!
     incident5 = Incident.new_with_user(@all_user, { incident_date: Date.new(2022, 3, 28), status: 'open' })
     incident5.save!
+    incident6 = Incident.new_with_user(@self_user, { incident_date: Date.new(2022, 3, 28), status: 'closed' })
+    incident6.save!
 
     Violation.create!(
       data: {
@@ -167,6 +169,15 @@ describe ManagedReports::Indicators::AbductedStatus do
         abduction_regained_freedom_how: ['payment_of_ransom']
       },
       incident_id: incident5.id
+    )
+    Violation.create!(
+      data: {
+        type: 'abduction',
+        violation_tally: { 'boys' => 1, 'girls' => 1, 'unknown' => 1, 'total' => 3 },
+        abduction_regained_freedom: 'yes',
+        abduction_regained_freedom_how: ['payment_of_ransom']
+      },
+      incident_id: incident6.id
     )
   end
 

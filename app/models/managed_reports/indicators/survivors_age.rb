@@ -14,7 +14,7 @@ class ManagedReports::Indicators::SurvivorsAge < ManagedReports::SqlReportIndica
     def sql(current_user, params = {})
       date_param = filter_date(params)
       group_query = grouped_date_query(params['grouped_by'], date_param)
-      %{
+      <<~SQL
         WITH filtered_incidents AS (
           SELECT
             #{group_query&.dup&.concat(' AS group_id,')}
@@ -28,7 +28,8 @@ class ManagedReports::Indicators::SurvivorsAge < ManagedReports::SqlReportIndica
               WHEN int4range(50, 999, '[]') @> srch_age THEN ARRAY['50+']
             END AS age_range
           FROM incidents
-          WHERE data @? '$[*] ? (@.consent_reporting == "true")'
+          WHERE srch_record_state = TRUE
+          AND data @? '$[*] ? (@.consent_reporting == "true")'
           #{date_range_query(date_param)&.prepend('AND ')}
           #{equal_value_query(params['module_id'])&.prepend('AND ')}
           #{user_scope_query(current_user)&.prepend('AND ')}
@@ -39,7 +40,7 @@ class ManagedReports::Indicators::SurvivorsAge < ManagedReports::SqlReportIndica
           COUNT(*) AS total
         FROM filtered_incidents
         GROUP BY #{'group_id,' if group_query.present?} UNNEST(age_range)
-      }
+      SQL
     end
     # rubocop:enable Metrics/CyclomaticComplexity
     # rubocop:enable Metrics/MethodLength

@@ -91,4 +91,280 @@ describe("<Dashboard /> - Reducers", () => {
 
     expect(newState).toEqual(expected);
   });
+
+  it("handles DASHBOARD_APPROVALS_STARTED", () => {
+    const defaultState = fromJS({});
+
+    const action = {
+      type: actions.DASHBOARD_APPROVALS_STARTED,
+      payload: true
+    };
+
+    const newState = nsReducer(defaultState, action);
+
+    expect(newState).toEqual(fromJS({ approvals: { loading: true, errors: false } }));
+  });
+
+  describe("DASHBOARD_APPROVALS_SUCCESS", () => {
+    const approvalCp = {
+      name: "dashboard.approvals_assessment.primeromodule-cp",
+      type: "indicator",
+      indicators: {
+        "approval_assessment_pending.primeromodule-cp": {
+          count: 5,
+          query: [
+            "record_state=true",
+            "status=open",
+            "approval_status_assessment=pending",
+            "module_id=primeromodule-cp"
+          ]
+        }
+      }
+    };
+
+    it("stores the response when is empty", () => {
+      const defaultState = fromJS({});
+
+      const action = {
+        type: actions.DASHBOARD_APPROVALS_SUCCESS,
+        payload: {
+          data: [approvalCp]
+        }
+      };
+
+      const newState = nsReducer(defaultState, action);
+
+      expect(newState).toEqual(fromJS({ approvals: { data: [approvalCp] } }));
+    });
+
+    it("replaces data for the same module", () => {
+      const defaultState = fromJS({
+        approvals: {
+          data: [approvalCp]
+        }
+      });
+
+      const newApprovalCp = {
+        name: "dashboard.approvals_assessment.primeromodule-cp",
+        type: "indicator",
+        indicators: {
+          "approval_assessment_pending.primeromodule-cp": {
+            count: 5,
+            query: [
+              "record_state=true",
+              "status=open",
+              "approval_status_assessment=pending",
+              "module_id=primeromodule-cp"
+            ]
+          }
+        }
+      };
+
+      const action = {
+        type: actions.DASHBOARD_APPROVALS_SUCCESS,
+        payload: {
+          data: [newApprovalCp]
+        }
+      };
+
+      const newState = nsReducer(defaultState, action);
+
+      expect(newState).toEqual(fromJS({ approvals: { data: [newApprovalCp] } }));
+    });
+
+    it("adds data for a different module", () => {
+      const approvalGbv = {
+        name: "dashboard.approvals_assessment.primeromodule-gbv",
+        type: "indicator",
+        indicators: {
+          "approval_assessment_pending.primeromodule-gbv": {
+            count: 7,
+            query: [
+              "record_state=true",
+              "status=open",
+              "approval_status_assessment=pending",
+              "module_id=primeromodule-gbv"
+            ]
+          }
+        }
+      };
+
+      const defaultState = fromJS({
+        approvals: { data: [approvalGbv] }
+      });
+
+      const action = {
+        type: actions.DASHBOARD_APPROVALS_SUCCESS,
+        payload: {
+          data: [approvalCp]
+        }
+      };
+
+      const newState = nsReducer(defaultState, action);
+
+      expect(newState).toEqual(fromJS({ approvals: { data: [approvalGbv, approvalCp] } }));
+    });
+  });
+
+  it("handles DASHBOARD_APPROVALS_FAILURE", () => {
+    const defaultState = fromJS({});
+
+    const action = {
+      type: actions.DASHBOARD_APPROVALS_FAILURE,
+      payload: true
+    };
+
+    const newState = nsReducer(defaultState, action);
+
+    expect(newState).toEqual(fromJS({ approvals: { loading: false, errors: true } }));
+  });
+
+  it("handles DASHBOARD_APPROVALS_FINISHED", () => {
+    const defaultState = fromJS({});
+
+    const action = {
+      type: actions.DASHBOARD_APPROVALS_FINISHED,
+      payload: true
+    };
+
+    const newState = nsReducer(defaultState, action);
+
+    expect(newState).toEqual(fromJS({ approvals: { loading: false } }));
+  });
+
+  it("handles DASHBOARD_APPROVALS_PENDING_STARTED", () => {
+    const defaultState = fromJS({});
+
+    const action = {
+      type: actions.DASHBOARD_APPROVALS_PENDING_STARTED,
+      payload: true
+    };
+
+    const newState = nsReducer(defaultState, action);
+
+    expect(newState).toEqual(fromJS({ approvals_pending: { loading: true, errors: false } }));
+  });
+
+  describe("DASHBOARD_APPROVALS_PENDING_SUCCESS", () => {
+    const approvalCp = {
+      name: "dashboard.approvals_assessment_pending.primeromodule-cp",
+      type: "indicator",
+      indicators: {
+        "approval_assessment_pending_group.primeromodule-cp": {
+          count: 5,
+          query: [
+            "record_state=true",
+            "status=open",
+            "approval_status_assessment=pending",
+            "module_id=primeromodule-cp"
+          ]
+        }
+      }
+    };
+
+    it("stores the response when is empty", () => {
+      const defaultState = fromJS({});
+
+      const action = {
+        type: actions.DASHBOARD_APPROVALS_PENDING_SUCCESS,
+        payload: {
+          data: [approvalCp]
+        }
+      };
+
+      const newState = nsReducer(defaultState, action);
+
+      expect(newState).toEqual(fromJS({ approvals_pending: { data: [approvalCp] } }));
+    });
+
+    it("replaces data for the same module", () => {
+      const defaultState = fromJS({
+        approvals_pending: {
+          data: [approvalCp]
+        }
+      });
+
+      const newApprovalCp = {
+        name: "dashboard.approvals_assessment_pending.primeromodule-cp",
+        type: "indicator",
+        indicators: {
+          "approval_assessment_pending_group.primeromodule-cp": {
+            count: 5,
+            query: [
+              "record_state=true",
+              "status=open",
+              "approval_status_assessment=pending",
+              "module_id=primeromodule-cp"
+            ]
+          }
+        }
+      };
+
+      const action = {
+        type: actions.DASHBOARD_APPROVALS_PENDING_SUCCESS,
+        payload: {
+          data: [newApprovalCp]
+        }
+      };
+
+      const newState = nsReducer(defaultState, action);
+
+      expect(newState).toEqual(fromJS({ approvals_pending: { data: [newApprovalCp] } }));
+    });
+
+    it("adds data for a different module", () => {
+      const approvalGbv = {
+        name: "dashboard.approvals_assessment_pending.primeromodule-gbv",
+        type: "indicator",
+        indicators: {
+          "approval_assessment_pending_group.primeromodule-gbv": {
+            count: 7,
+            query: [
+              "record_state=true",
+              "status=open",
+              "approval_status_assessment=pending",
+              "module_id=primeromodule-gbv"
+            ]
+          }
+        }
+      };
+
+      const defaultState = fromJS({ approvals_pending: { data: [approvalGbv] } });
+
+      const action = {
+        type: actions.DASHBOARD_APPROVALS_PENDING_SUCCESS,
+        payload: { data: [approvalCp] }
+      };
+
+      const newState = nsReducer(defaultState, action);
+
+      expect(newState).toEqual(fromJS({ approvals_pending: { data: [approvalGbv, approvalCp] } }));
+    });
+  });
+
+  it("handles DASHBOARD_APPROVALS_PENDING_FAILURE", () => {
+    const defaultState = fromJS({});
+
+    const action = {
+      type: actions.DASHBOARD_APPROVALS_PENDING_FAILURE,
+      payload: true
+    };
+
+    const newState = nsReducer(defaultState, action);
+
+    expect(newState).toEqual(fromJS({ approvals_pending: { loading: false, errors: true } }));
+  });
+
+  it("handles DASHBOARD_APPROVALS_PENDING_FINISHED", () => {
+    const defaultState = fromJS({});
+
+    const action = {
+      type: actions.DASHBOARD_APPROVALS_PENDING_FINISHED,
+      payload: true
+    };
+
+    const newState = nsReducer(defaultState, action);
+
+    expect(newState).toEqual(fromJS({ approvals_pending: { loading: false } }));
+  });
 });

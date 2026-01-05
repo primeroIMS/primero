@@ -49,6 +49,10 @@ module Exporters
       end
     end
 
+    def skip_attachments?
+      false
+    end
+
     private
 
     def no_photo_available(pdf)

@@ -20,6 +20,7 @@ describe("Verifying config constant", () => {
       "ASSIGN_WITHIN_AGENCY",
       "ASSIGN_WITHIN_USER_GROUP",
       "ASSIGN",
+      "ATTRIBUTE",
       "CASE_FROM_FAMILY",
       "CASE_MANAGEMENT_KPIS_REPORT",
       "CHANGE_LOG",
@@ -68,7 +69,9 @@ describe("Verifying config constant", () => {
       "DASH_WORKFLOW_TEAM",
       "DASH_WORKFLOW",
       "DELETE",
+      "DISABLE_MULTIPLE",
       "DISPLAY_VIEW_PAGE",
+      "DISTRIBUTION_USERS_ROLE_REPORT",
       "ENABLE_DISABLE_RECORD",
       "EXPORT_CASE_PDF",
       "EXPORT_CSV",
@@ -112,6 +115,7 @@ describe("Verifying config constant", () => {
       "PROTECTION_OUTCOMES",
       "READ",
       "RECEIVE_REFERRAL",
+      "RECEIVE_REFERRAL_DIFFERENT_MODULE",
       "RECEIVE_TRANSFER",
       "REFERRAL_FROM_SERVICE",
       "REFERRAL",
@@ -440,6 +444,24 @@ describe("Verifying config constant", () => {
       PERMISSIONS.ACTIONS.REQUEST_APPROVAL_CLOSURE,
       PERMISSIONS.ACTIONS.REQUEST_APPROVAL_ACTION_PLAN,
       PERMISSIONS.ACTIONS.REQUEST_APPROVAL_GBV_CLOSURE
+    ].forEach(element => {
+      expect(permissions).toEqual(expect.arrayContaining([element]));
+      permissions.splice(permissions.indexOf(element), 1);
+    });
+    expect(Object.keys(permissions)).toHaveLength(0);
+  });
+
+  it("should have SHOW_REFERRALS", () => {
+    const permissions = [...PERMISSIONS.SHOW_REFERRALS];
+
+    expect(Array.isArray(permissions)).toBe(true);
+    [
+      PERMISSIONS.ACTIONS.MANAGE,
+      PERMISSIONS.ACTIONS.REFERRAL_FROM_SERVICE,
+      PERMISSIONS.ACTIONS.REMOVE_ASSIGNED_USERS,
+      PERMISSIONS.ACTIONS.REFERRAL,
+      PERMISSIONS.ACTIONS.RECEIVE_REFERRAL,
+      PERMISSIONS.ACTIONS.RECEIVE_REFERRAL_DIFFERENT_MODULE
     ].forEach(element => {
       expect(permissions).toEqual(expect.arrayContaining([element]));
       permissions.splice(permissions.indexOf(element), 1);

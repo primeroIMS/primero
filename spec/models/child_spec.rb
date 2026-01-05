@@ -1278,7 +1278,7 @@ describe Child do
     end
 
     it 'sets the identified fields' do
-      user = fake_user(group_permission: Permission::IDENTIFIED)
+      user = fake_user(group_permission: Permission::IDENTIFIED, user_category: Role::CATEGORY_IDENTIFIED)
       user.stub(:full_name).and_return('Fake User Name')
       child = Child.new_with_user(user, { name: 'Identified Case', sex: 'male', age: 10 })
       child.save!
@@ -1291,7 +1291,7 @@ describe Child do
     end
 
     it 'returns a validation error if the user has an identified record' do
-      user = fake_user(group_permission: Permission::IDENTIFIED)
+      user = fake_user(group_permission: Permission::IDENTIFIED, user_category: Role::CATEGORY_IDENTIFIED)
       user.stub(:full_name).and_return('Fake User Name')
       child = Child.new_with_user(user, { name: 'Identified Case', sex: 'male', age: 10 })
       child.save!

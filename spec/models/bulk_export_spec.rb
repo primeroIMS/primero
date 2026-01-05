@@ -64,7 +64,82 @@ describe BulkExport, { search: true } do
     end
   end
 
+  describe 'export time filtering' do
+    let(:bulk_export) do
+      BulkExport.new(
+        format: Exporters::SelectedFieldsExcelExporter.id,
+        record_type: 'case',
+        custom_export_params: { field_names: ['age'] },
+        owned_by: @user.user_name,
+        started_on: Time.now.utc,
+        filters: {'status' => 'open'}
+      )
+    end
+
+    let(:export_spreadsheet) do
+      bulk_export.export('XXX')
+      data = bulk_export.exporter.buffer.string
+      book = Roo::Spreadsheet.open(StringIO.new(data), extension: :xlsx)
+      book.sheet(book.sheets.first)
+    end
+
+    it 'does not include records created after export started' do
+      child_before = Child.create!(data: { status: 'open', age: 3, owned_by: @user.user_name, created_at: 1.hour.ago })
+
+      travel 1.minute do
+        Child.create!(data: { status: 'open', age: 4, owned_by: @user.user_name })
+      end
+
+      expect(export_spreadsheet.column(1)).to contain_exactly('ID', child_before.short_id)
+      expect(export_spreadsheet.row(2)).to eq([child_before.short_id, child_before.age])
+    end
+  end
+
+
+  describe '#search_records' do
+    let(:bulk_export) { BulkExport.new(record_type: 'case') }
+    let(:default_exporter) { instance_double(Exporters::ExcelExporter) }
+    let(:photowall_exporter) { instance_double(Exporters::PhotoWallExporter) }
+
+    before do
+      allow(bulk_export).to receive(:record_query_scope).and_return(nil)
+    end
+
+    context 'when using a default exporter' do
+      before do
+        allow(bulk_export).to receive(:exporter).and_return(default_exporter)
+        allow(default_exporter).to receive(:skip_attachments?).and_return(true)
+      end
+
+      it 'calls PhoneticSearchService with skip_attachments: true' do
+        expect(PhoneticSearchService).to receive(:search).with(
+          any_args,
+          hash_including(skip_attachments: true)
+        ).and_return(double(records: [], total: 0))
+
+        bulk_export.search_records({}, 100, 1, nil)
+      end
+    end
+
+    context 'when using PhotoWallExporter' do
+      before do
+        allow(bulk_export).to receive(:exporter).and_return(photowall_exporter)
+        allow(photowall_exporter).to receive(:skip_attachments?).and_return(false)
+      end
+
+      it 'calls PhoneticSearchService with skip_attachments: false' do
+        expect(PhoneticSearchService).to receive(:search).with(
+          any_args,
+          hash_including(skip_attachments: false)
+        ).and_return(double(records: [], total: 0))
+
+        bulk_export.search_records({}, 100, 1, nil)
+      end
+    end
+  end
+
   after :each do
+    travel_back
     clean_data(BulkExport, Location, UserGroup, User, Agency, Role, Field,
                FormSection, Child, PrimeroModule, PrimeroProgram, SystemSettings,
                FormPermission)

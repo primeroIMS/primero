@@ -21,6 +21,7 @@ class ManagedReports::Indicators::AverageCasesPerCaseWorker < ManagedReports::Sq
             COALESCE(srch_gender, 'incomplete_data') AS gender
           FROM cases
           WHERE srch_next_steps && '{a_continue_protection_assessment}'
+          AND srch_record_state = TRUE
           #{build_filter_query(current_user, params)&.prepend('AND ')}
         )
         SELECT

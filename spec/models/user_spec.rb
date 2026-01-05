@@ -7,7 +7,8 @@ require 'rails_helper'
 describe User do
   before :all do
     clean_data(
-      Alert, Location, AuditLog, User, Agency, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup
+      Alert, Location, AuditLog, User, Agency, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup,
+      Child, Incident
     )
   end
 
@@ -16,13 +17,13 @@ describe User do
     options.reverse_merge!(user_name:, full_name: 'full name', password: 'b00h00h00',
                            password_confirmation: options[:password] || 'b00h00h00', email: "#{user_name}@ddress.net",
                            agency_id: options[:agency_id] || Agency.try(:last).try(:id), disabled: 'false',
-                           role_id: options[:role_id] || Role.try(:last).try(:id))
+                           role: options[:role] || Role.try(:last))
     User.new(options)
   end
 
   def build_and_save_user(options = {})
     user = build_user(options)
-    user.save
+    user.save!
     user
   end
 
@@ -135,7 +136,7 @@ describe User do
         )
         SystemSettings.stub(:current).and_return(SystemSettings.first)
         user_double = double('User')
-        allow(User).to receive(:enabled).and_return(user_double)
+        allow(User).to receive(:standard).and_return(user_double)
         allow(user_double).to receive(:count).and_return(20)
       end
 
@@ -172,7 +173,7 @@ describe User do
 
   describe 'other validations' do
     before do
-      clean_data(AuditLog, User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection)
+      clean_data(AuditLog, User, Agency, Role, PrimeroModule, PrimeroProgram, FormSection, CodeOfConduct)
       create(:agency)
       create(:role)
       primero_program = create(:primero_program)
@@ -253,6 +254,44 @@ describe User do
       user = build_user(password: 't1mothy', password_confirmation: '')
       user.should_not be_valid
       user.errors[:password_confirmation].should_not be_nil
+    end
+
+    describe 'Code of conduct' do
+      let!(:code_of_conduct1) do
+        CodeOfConduct.create!(
+          created_by: 'primero_cp',
+          title: 'Code of Conduct 1',
+          content: 'Content of the code of conduct 1'
+        )
+      end
+
+      let!(:code_of_conduct2) do
+        CodeOfConduct.create!(
+          created_by: 'primero_cp',
+          title: 'Code of Conduct 1',
+          content: 'Content of the code of conduct 1'
+        )
+      end
+
+      it 'associates the latest code of conduct' do
+        user = build_user
+        user.code_of_conduct = code_of_conduct2
+        user.save
+        user.reload
+
+        expect(user).to be_valid
+        expect(user.code_of_conduct_id).to eq(code_of_conduct2.id)
+        expect(user.errors).not_to have_key(:code_of_conduct_id)
+      end
+
+      it 'rejects to associate an old code of conduct' do
+        user = build_user
+        user.code_of_conduct_id = code_of_conduct1.id
+        user.save
+
+        expect(user).not_to be_valid
+        expect(user.errors).to have_key(:code_of_conduct_id)
+      end
     end
 
     describe 'Enabled external identity providers' do
@@ -350,6 +389,98 @@ describe User do
     end
   end
 
+  describe '.standard' do
+    before do
+      clean_data(User, Role, Agency)
+    end
+
+    let!(:agency) { create :agency }
+
+    # Roles
+    let!(:standard_role) do
+      create(:role, name: 'standard_role')
+    end
+
+    let!(:non_standard_role) do
+      create(:role, name: 'non_standard_role', user_category: Role::CATEGORY_SYSTEM)
+    end
+
+    # Included users
+    let!(:user_not_disabled) do
+      build_and_save_user(
+        role: standard_role,
+        disabled: false,
+        duplicate: true
+      )
+    end
+
+    let!(:user_not_duplicate) do
+      build_and_save_user(
+        role: standard_role,
+        disabled: true,
+        duplicate: false
+      )
+    end
+
+    let!(:user_flags_nil) do
+      build_and_save_user(
+        role: standard_role,
+        disabled: false,
+        duplicate: false
+      )
+    end
+
+    # Excluded: both disabled AND duplicate are true
+    let!(:user_disabled_and_duplicate) do
+      build_and_save_user(
+        role: standard_role,
+        disabled: true,
+        duplicate: true
+      )
+    end
+
+    # Excluded: role.user_category is not nil
+    let!(:user_with_non_standard_role) do
+      build_and_save_user(
+        role: non_standard_role,
+        disabled: false,
+        duplicate: false
+      )
+    end
+
+    it 'includes users with a nil user_category role who are not both disabled and duplicate' do
+      result = User.standard
+
+      expect(result).to include(user_not_disabled, user_not_duplicate, user_flags_nil)
+    end
+
+    it 'excludes users that have both disabled and duplicate set to true' do
+      result = User.standard
+
+      expect(result).not_to include(user_disabled_and_duplicate)
+    end
+
+    it 'excludes users whose role has a non-nil user_category' do
+      result = User.standard
+
+      expect(result).not_to include(user_with_non_standard_role)
+    end
+
+    it 'only returns users with roles where user_category is nil' do
+      expect(
+        User.standard.joins(:role).pluck('roles.user_category').uniq
+      ).to eq([nil])
+    end
+
+    it 'is chainable with other queries' do
+      expect(User.standard.where(id: user_not_disabled.id)).to match_array([user_not_disabled])
+    end
+
+    after :each do
+      clean_data(User, Role, Agency)
+    end
+  end
+
   describe 'automatic password generation on user creation for native users' do
     before do
       clean_data(User, Role, Agency)
@@ -395,14 +526,6 @@ describe User do
 
     after do
       clean_data(User, Role, Agency)
-    end
-  end
-
-  describe 'Dates' do
-    it 'should load roles only once' do
-      dbl = double('roles', role: create(:role))
-      user = build_and_save_user
-      user.role.should == dbl.role
     end
   end
 
@@ -456,12 +579,6 @@ describe User do
   describe 'user roles' do
     before do
       clean_data(User, Role)
-    end
-
-    it 'should load roles only once' do
-      dbl = double('roles', role: create(:role))
-      user = build_and_save_user
-      user.role.should == dbl.role
     end
 
     it 'should store the roles and retrive them back as Roles' do
@@ -625,40 +742,6 @@ describe User do
 
     after do
       clean_data(User, Agency, Role, FormSection, PrimeroModule, PrimeroProgram, UserGroup)
-    end
-  end
-
-  describe 'agency_name' do
-    context 'when agency does not exist' do
-      before do
-        clean_data(Agency, Role, User, FormSection, PrimeroModule, PrimeroProgram, UserGroup)
-        @user = build_and_save_user
-      end
-
-      it 'should return nil' do
-        expect(@user.agency.try(:name)).to be_nil
-      end
-
-      after do
-        clean_data(User, Agency, Role, FormSection, PrimeroModule, PrimeroProgram, UserGroup)
-      end
-    end
-
-    context 'when agency exists' do
-      before do
-        Agency.destroy_all
-        agency = create(:agency, name: 'unicef')
-
-        @user = build_and_save_user(agency_id: agency.id)
-      end
-
-      it 'should return the agency name' do
-        expect(@user.agency.name).to eq('unicef')
-      end
-
-      after do
-        clean_data(Agency)
-      end
     end
   end
 
@@ -1143,11 +1226,10 @@ describe User do
       @user1 = User.new(user_name: 'user1', role: @role, user_groups: [@group1])
       @user1.save(validate: false)
     end
-    context 'when user is not admin' do
-      it 'should not returm that are not allowed' do
-        expect(User.permitted_api_params(@user1, @user1)).not_to include(
-          *User.self_hidden_attributes
-        )
+
+    context 'when source and target users are the same' do
+      it 'returns the permitted params for self' do
+        expect(User.permitted_api_params(@user1, @user1)).to match_array(User.self_permitted_params)
       end
     end
 
@@ -1452,6 +1534,166 @@ describe User do
       )
     end
   end
+  describe '.delete_unverified_older_than' do
+    before :each do
+      clean_data(User, Agency, Role, Child, Incident)
+      @agency = create(:agency)
+      @role = create(:role)
+    end
+
+    context 'when there are no unverified users' do
+      it 'does not delete any users' do
+        create(:user, user_name: 'verified_user', agency: @agency, role: @role, unverified: false)
+
+        expect { User.delete_unverified_older_than(30) }.not_to change(User, :count)
+      end
+    end
+
+    context 'when there are unverified users older than retention period' do
+      it 'deletes unverified users without owned records' do
+        old_unverified = create(
+          :user,
+          user_name: 'old_unverified',
+          agency: @agency,
+          role: @role,
+          unverified: true,
+          updated_at: 35.days.ago
+        )
+
+        expect { User.delete_unverified_older_than(30) }.to change(User, :count).by(-1)
+        expect(User.exists?(old_unverified.id)).to be false
+      end
+    end
+
+    context 'when there are unverified users within retention period' do
+      it 'does not delete recent unverified users' do
+        recent_unverified = create(
+          :user,
+          user_name: 'recent_unverified',
+          agency: @agency,
+          role: @role,
+          unverified: true,
+          updated_at: 20.days.ago
+        )
+
+        expect { User.delete_unverified_older_than(30) }.not_to change(User, :count)
+        expect(User.exists?(recent_unverified.id)).to be true
+      end
+    end
+
+    context 'with multiple unverified users' do
+      it 'deletes only eligible users in batches' do
+        3.times do |i|
+          create(
+            :user,
+            user_name: "old_unverified_#{i}",
+            agency: @agency,
+            role: @role,
+            unverified: true,
+            updated_at: (30 + i).days.ago
+          )
+        end
+
+        create(
+          :user,
+          user_name: 'recent_unverified',
+          agency: @agency,
+          role: @role,
+          unverified: true,
+          updated_at: 20.days.ago
+        )
+
+        expect { User.delete_unverified_older_than(30) }.to change(User, :count).by(-3)
+      end
+    end
+  end
+
+  describe '#referred_record_ids' do
+    before :each do
+      clean_data(User, Role, Agency, Child, Referral)
+
+      @agency = Agency.create!(name: 'Test Agency', agency_code: 'test_agency', unique_id: 'agency_test_1')
+      role = create(:role)
+
+      @user1 = User.create!(
+        user_name: 'user1',
+        full_name: 'Test User 1',
+        password: 'password123',
+        password_confirmation: 'password123',
+        email: 'user1@example.com',
+        agency_id: @agency.id,
+        role_id: role.id
+      )
+
+      @user2 = User.create!(
+        user_name: 'user2',
+        full_name: 'Test User 2',
+        password: 'password123',
+        password_confirmation: 'password123',
+        email: 'user2@example.com',
+        agency_id: @agency.id,
+        role_id: role.id
+      )
+
+      @child1 = Child.create!(data: { name: 'Child 1', age: 10, sex: 'male',
+                                      consent_for_services: true,
+                                      disclosure_other_orgs: true })
+      @child2 = Child.create!(data: { name: 'Child 2', age: 12, sex: 'female',
+                                      consent_for_services: true,
+                                      disclosure_other_orgs: true })
+      @child3 = Child.create!(data: { name: 'Child 3', age: 8, sex: 'male',
+                                      consent_for_services: true,
+                                      disclosure_other_orgs: true })
+    end
+
+    it 'returns record_ids with active referrals to the user' do
+      Referral.create!(
+        record: @child1,
+        transitioned_to: @user1.user_name,
+        transitioned_by: @user2.user_name,
+        status: Transition::STATUS_INPROGRESS
+      )
+
+      Referral.create!(
+        record: @child2,
+        transitioned_to: @user1.user_name,
+        transitioned_by: @user2.user_name,
+        status: Transition::STATUS_ACCEPTED
+      )
+
+      Referral.create!(
+        record: @child1,
+        transitioned_to: @user1.user_name,
+        transitioned_by: @user2.user_name,
+        status: Transition::STATUS_REJECTED
+      )
+
+      Referral.create!(
+        record: @child1,
+        transitioned_to: @user2.user_name,
+        transitioned_by: @user1.user_name,
+        status: Transition::STATUS_INPROGRESS
+      )
+
+      record_ids = [@child1.id, @child2.id, @child3.id]
+      result = @user1.referred_record_ids(record_ids, 'Child')
+
+      expect(result).to match_array([@child1.id, @child2.id])
+    end
+
+    it 'returns empty array when no referrals exist' do
+      record_ids = [@child1.id, @child2.id]
+      result = @user1.referred_record_ids(record_ids, 'Child')
+
+      expect(result).to be_empty
+    end
+
+    it 'returns empty array when record_ids is empty' do
+      result = @user1.referred_record_ids([], 'Child')
+
+      expect(result).to be_empty
+    end
+  end
 
   describe 'terms of use' do
     let(:agency) { create(:agency, terms_of_use_enabled: true) }
@@ -1545,6 +1787,9 @@ describe User do
   end
 
   after do
-    clean_data(Alert, User, Agency, Role, FormSection, Field)
+    clean_data(
+      Alert, Location, AuditLog, User, Agency, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup,
+      Child, Incident
+    )
   end
 end

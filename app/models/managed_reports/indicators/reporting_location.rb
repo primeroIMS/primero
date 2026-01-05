@@ -16,7 +16,7 @@ class ManagedReports::Indicators::ReportingLocation < ManagedReports::SqlReportI
     def sql(current_user, params = {})
       admin_level = user_reporting_location_admin_level(current_user)
 
-      %{
+      <<~SQL
         select name, key, sum(value::integer)
         #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
         from (
@@ -29,6 +29,8 @@ class ManagedReports::Indicators::ReportingLocation < ManagedReports::SqlReportI
             from violations violations
             inner join incidents incidents
               on incidents.id = violations.incident_id
+              AND incidents.srch_status = 'open'
+              AND incidents.srch_record_state = TRUE
               #{user_scope_query(current_user, 'incidents')&.prepend('and ')}
             cross join json_each_text((violations."data"->>'violation_tally')::JSON)
             where incidents.data->>'reporting_location_hierarchy' is not null
@@ -43,7 +45,7 @@ class ManagedReports::Indicators::ReportingLocation < ManagedReports::SqlReportI
         group by key, name
         #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
         order by name
-      }
+      SQL
     end
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength

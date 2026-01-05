@@ -6,19 +6,20 @@ import isNil from "lodash/isNil";
 
 import { RECORD_TYPES } from "../../../config";
 import { useMemoizedSelector } from "../../../libs";
-import { getWorkflowLabels } from "../../application";
+import { getWorkflowLabels, useApp } from "../../application";
 import useOptions from "../../form/use-options";
 import { get, optionText } from "../../form/utils";
 import transformOptions from "../../form/utils/transform-options";
 import { DATE_FIELD } from "../../form/constants";
 import { useI18n } from "../../i18n";
 import { selectInsightsFilters } from "../../insights-list/selectors";
-import { WORKFLOW } from "../../insights/constants";
+import { MODULE_ID, WORKFLOW } from "../../insights/constants";
 
 import css from "./styles.css";
 
 function InsightFilterTags({ filters = [], moduleID }) {
   const i18n = useI18n();
+  const app = useApp();
   const workflowLabels = useMemoizedSelector(state => getWorkflowLabels(state, moduleID, RECORD_TYPES.cases));
   const insightFilters = useMemoizedSelector(state => selectInsightsFilters(state));
 
@@ -86,6 +87,10 @@ function InsightFilterTags({ filters = [], moduleID }) {
   return (
     <div className={css.container}>
       {filters.map(filter => {
+        if (app.userModules.size <= 1 && filter.name === MODULE_ID) {
+          return false;
+        }
+
         const value = getOption(filter, insightFilters.get(filter.name));
 
         if (!value) {

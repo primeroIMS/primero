@@ -9,7 +9,8 @@ class PhoneticSearchService
     scope: {},
     sort: { created_at: :desc },
     pagination: {},
-    phonetic: false
+    phonetic: false,
+    skip_attachments: false
   }.freeze
 
   attr_accessor :record_class, :search_params
@@ -28,7 +29,7 @@ class PhoneticSearchService
       search_query.with_scope(search_params[:scope])
       .with_filters(search_params[:filters])
       .with_query(search_params[:query])
-      .build
+      .build(search_params[:skip_attachments])
     ).paginate(search_params[:pagination])
   end
 

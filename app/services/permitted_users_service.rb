@@ -24,6 +24,11 @@ class PermittedUsersService
     { total:, users: }
   end
 
+  def bulk_disable_users(filters)
+    users = apply_filters(permitted_users, filters)
+    users.update_all(disabled: true, updated_at: Time.current)
+  end
+
   private
 
   def permitted_users
@@ -58,6 +63,8 @@ class PermittedUsersService
 
     users_query = users_query.apply_date_filters(users_query, filters) if include_activity_stats
 
+    users_query = users_query.where(id: filters[:ids]) if filters[:ids].present?
+
     query_filters = build_query_filters(filters)
     users_query = users_query.joins(:user_groups) if query_filters[:user_groups].present?
 
@@ -66,7 +73,7 @@ class PermittedUsersService
   end
 
   def build_query_filters(filters)
-    query_filters = filters.except(:query, *User::AUDIT_LAST_DATE.keys).compact
+    query_filters = filters.except(:query, :ids, *User::AUDIT_LAST_DATE.keys).compact
     query_filters['disabled'] = query_filters['disabled'].values if query_filters['disabled'].present?
     user_group_ids = query_filters.delete('user_group_ids')
 
@@ -79,7 +86,7 @@ class PermittedUsersService
     return users_query if query_filter.blank?
 
     users_query.where(
-      'user_name ILIKE :value OR full_name ILIKE :value',
+      'users.user_name ILIKE :value OR users.full_name ILIKE :value',
       value: "%#{ActiveRecord::Base.sanitize_sql_like(query_filter)}%"
     )
   end

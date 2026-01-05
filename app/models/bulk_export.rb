@@ -74,7 +74,7 @@ class BulkExport < ApplicationRecord
     return @search_filters if @search_filters.present?
 
     service = SearchFilterService.new
-    @search_filters = service.build_filters(filters)
+    @search_filters = service.build_filters(filters.merge(created_at_filter))
   end
 
   def record_query_scope
@@ -144,7 +144,8 @@ class BulkExport < ApplicationRecord
       {
         filters:,
         scope: record_query_scope, query:,
-        sort: order, pagination: { page:, per_page: batch }
+        sort: order, pagination: { page:, per_page: batch },
+        skip_attachments: exporter.skip_attachments?
       }
     )
   end
@@ -157,5 +158,11 @@ class BulkExport < ApplicationRecord
       filename: File.basename(file)
     )
     File.delete(file)
+  end
+
+  private
+
+  def created_at_filter
+    { 'created_at' => { 'from' => Time.at(0).utc, 'to' => started_on } }
   end
 end

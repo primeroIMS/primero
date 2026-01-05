@@ -14,6 +14,9 @@ describe ManagedReports::Indicators::VerifiedInformationViolations do
     incident1 = Incident.create!(
       data: { incident_date: Date.new(2022, 4, 4), date_of_first_report: Date.new(2022, 4, 4), status: 'open' }
     )
+    incident2 = Incident.create!(
+      data: { incident_date: Date.new(2022, 5, 8), date_of_first_report: Date.new(2022, 5, 8), status: 'closed' }
+    )
 
     Violation.create!(
       data: {
@@ -62,6 +65,24 @@ describe ManagedReports::Indicators::VerifiedInformationViolations do
         violation_tally: { 'boys' => 2, 'girls' => 3, 'unknown' => 2, 'total' => 7 }
       },
       incident_id: incident.id
+    )
+
+    Violation.create!(
+      data: {
+        type: 'deprivation_liberty',
+        ctfmr_verified: 'verified',
+        ctfmr_verified_date: Date.new(2021, 5, 23),
+        violation_tally: { 'boys' => 2, 'girls' => 3, 'unknown' => 2, 'total' => 7 }
+      },
+      incident_id: incident.id
+    )
+
+    Violation.create!(
+      data: {
+        type: 'attack_on_schools', ctfmr_verified: 'verified', ctfmr_verified_date: Date.new(2021, 5, 23),
+        violation_tally: { 'boys' => 1, 'girls' => 0, 'unknown' => 2, 'total' => 3 }
+      },
+      incident_id: incident2.id
     )
   end
 

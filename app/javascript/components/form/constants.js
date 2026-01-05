@@ -41,6 +41,7 @@ export const OPTION_TYPES = {
   FORM_GROUP: "FormGroup",
   LOOKUPS: "Lookups",
   USER: "User",
+  USER_IDENTIFIED: "UserIdentified",
   REPORTING_LOCATIONS: "ReportingLocation",
   USER_GROUP: "UserGroup",
   USER_GROUP_PERMITTED: "UserGroupPermitted",

@@ -10,11 +10,10 @@ class ManagedReports::Indicators::AttackType < ManagedReports::SqlReportIndicato
     end
 
     # rubocop:disable Metrics/AbcSize
-    # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/CyclomaticComplexity
     # rubocop:disable Metrics/PerceivedComplexity
     def sql(current_user, params = {})
-      %{
+      <<~SQL
         SELECT
           name,
           key,
@@ -31,6 +30,8 @@ class ManagedReports::Indicators::AttackType < ManagedReports::SqlReportIndicato
           FROM violations violations
           INNER JOIN incidents incidents
           ON incidents.id = violations.incident_id
+          AND incidents.srch_status = 'open'
+          AND incidents.srch_record_state = TRUE
           #{user_scope_query(current_user, 'incidents')&.prepend('AND ')}
           CROSS JOIN JSONB_EACH_TEXT((violations."data"->'violation_tally'))
           WHERE violations."data"->>'weapon_type' IS NOT NULL
@@ -44,10 +45,9 @@ class ManagedReports::Indicators::AttackType < ManagedReports::SqlReportIndicato
         ) keys_values
         GROUP BY key, name #{group_id_alias(params['grouped_by'])&.dup&.prepend(', ')}
         ORDER BY name
-      }
+      SQL
     end
     # rubocop:enable Metrics/AbcSize
-    # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/CyclomaticComplexity
     # rubocop:enable Metrics/PerceivedComplexity
   end

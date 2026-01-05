@@ -113,6 +113,13 @@ class ManagedReports::SqlReportIndicator < ValueObject
       end
     end
 
+    def user_module_query(current_user, table_name = nil)
+      return if current_user.blank?
+
+      field_name = quoted_query(table_name, 'srch_module_id')
+      ActiveRecord::Base.sanitize_sql_for_conditions(["#{field_name} IN (?) ", current_user.module_unique_ids])
+    end
+
     def build_date_group(params = {}, opts = {}, model_class = nil)
       date_param = filter_date(params)
       return unless date_param.present?

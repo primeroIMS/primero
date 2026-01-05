@@ -19,12 +19,25 @@ describe Api::V2::TransferRequestsController, type: :request do
     )
     @role = Role.new(permissions: [@permission_transfer_case], primero_modules: [@primero_module])
     @role.save(validate: false)
+    @system_role = Role.new(
+      permissions: [@permission_transfer_case], primero_modules: [@primero_module], user_category: Role::CATEGORY_SYSTEM
+    )
+    @system_role.save(validate: false)
+
+    @maintenance_role = Role.new(
+      permissions: [@permission_transfer_case], primero_modules: [@primero_module], user_category: Role::CATEGORY_MAINTENANCE
+    )
+    @maintenance_role.save(validate: false)
     @group1 = UserGroup.create!(name: 'Group1')
     @user1 = User.new(user_name: 'user1', role: @role, user_groups: [@group1])
     @user1.save(validate: false)
     @group2 = UserGroup.create!(name: 'Group2')
     @user2 = User.new(user_name: 'user2', role: @role, user_groups: [@group2])
     @user2.save(validate: false)
+    @user3 = User.new(user_name: 'user3', role: @maintenance_role, user_groups: [@group2])
+    @user3.save(validate: false)
+    @user4 = User.new(user_name: 'user4', role: @system_role, user_groups: [@group1])
+    @user4.save(validate: false)
     @case = Child.create(
       data: {
         name: 'Test', owned_by: 'user1',
@@ -81,6 +94,30 @@ describe Api::V2::TransferRequestsController, type: :request do
       expect(json['data']['notes']).to eq('Test Notes')
 
       expect(audit_params['action']).to eq('transfer_request')
+    end
+
+    it 'returns a 422 invalid if the target user has the maintenance category' do
+      sign_in(@user1)
+      params = { data: { transitioned_to: 'user3', notes: 'Test Notes' } }
+      post("/api/v2/cases/#{@case.id}/transfer_requests", params:)
+
+      expect(response).to have_http_status(422)
+      expect(json['errors'][0]['status']).to eq(422)
+      expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case.id}/transfer_requests")
+      expect(json['errors'][0]['detail']).to eq('transitioned_to')
+      expect(json['errors'][0]['message'][0]).to eq('transition.errors.to_user_can_receive')
+    end
+
+    it 'returns a 422 invalid if the target user has the system category' do
+      sign_in(@user1)
+      params = { data: { transitioned_to: 'user4', notes: 'Test Notes' } }
+      post("/api/v2/cases/#{@case.id}/transfer_requests", params:)
+
+      expect(response).to have_http_status(422)
+      expect(json['errors'][0]['status']).to eq(422)
+      expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case.id}/transfer_requests")
+      expect(json['errors'][0]['detail']).to eq('transitioned_to')
+      expect(json['errors'][0]['message'][0]).to eq('transition.errors.to_user_can_receive')
     end
 
     it "get a forbidden message if the user doesn't have transfer permission" do
