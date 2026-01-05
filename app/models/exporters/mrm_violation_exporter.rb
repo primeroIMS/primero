@@ -109,6 +109,7 @@ module Exporters
       @formats = {
         black: workbook.add_format(color: '#231F20'),
         centered_black: workbook.add_format(color: '#231F20', center_across: 1),
+        string_centered_black: workbook.add_format(color: '#231F20', num_format: '@'),
         date: workbook.add_format(num_format: 'dd-mm-yyyy'),
         date_time: workbook.add_format(num_format: 'dd-mm-yyyyThh:mm:ss.sss')
       }
@@ -201,8 +202,8 @@ module Exporters
     def write_association_header(worksheet, id)
       worksheet.set_column_pixels(name_first_cell_by_column(4), name_first_cell_by_column(4), INCIDENT_CODE_CELL_LENGTH)
       worksheet.set_column_pixels(name_first_cell_by_column(5), name_first_cell_by_column(5), ID_CELL_LENGTH)
-      worksheet.write(@header_row, 4, I18n.t('incident.code'))
-      worksheet.write(@header_row, 5, "#{ASSOCIATION_ID_NAME[id]} ID")
+      worksheet.write_string(@header_row, 4, I18n.t('incident.code'))
+      worksheet.write_string(@header_row, 5, "#{ASSOCIATION_ID_NAME[id]} ID")
     end
 
     def write_violation_headers_by_type(worksheet)
@@ -219,10 +220,10 @@ module Exporters
     def write_violation_id_headers(worksheet)
       worksheet.set_column_pixels(name_first_cell_by_column(0), name_first_cell_by_column(3), ID_CELL_LENGTH)
       worksheet.merge_range(@header_row - 1, 0, @header_row - 1, 1, I18n.t('incidents.id'), @formats[:centered_black])
-      worksheet.write(@header_row, 0, I18n.t('forms.record_types.incident'))
-      worksheet.write(@header_row, 1, I18n.t('forms.record_types.violation'))
-      worksheet.write(@header_row, 2, I18n.t('incidents.violation_type'))
-      worksheet.write(@header_row, 3, I18n.t('incidents.violation_summary'))
+      worksheet.write_string(@header_row, 0, I18n.t('forms.record_types.incident'))
+      worksheet.write_string(@header_row, 1, I18n.t('forms.record_types.violation'))
+      worksheet.write_string(@header_row, 2, I18n.t('incidents.violation_type'))
+      worksheet.write_string(@header_row, 3, I18n.t('incidents.violation_summary'))
     end
 
     def write_violation_type_header(start_column, end_column, worksheet, violation_fields, type)
@@ -231,7 +232,7 @@ module Exporters
           0, start_column, 0, end_column, I18n.t("incident.violation.types.#{type}"), @formats[:centered_black]
         )
       else
-        worksheet.write(0, end_column, I18n.t("incident.violation.types.#{type}"))
+        worksheet.write_string(0, end_column, I18n.t("incident.violation.types.#{type}"))
       end
     end
 
@@ -254,7 +255,7 @@ module Exporters
         name_first_cell_by_column(@header_column),
         display_name.length * 11
       )
-      worksheet.write(@header_row, @header_column, display_name)
+      worksheet.write_string(@header_row, @header_column, display_name)
       @header_column += 1
     end
 
@@ -266,7 +267,7 @@ module Exporters
         tally_row,
         @header_column + field.tally.size,
         field_display_name(field),
-        @formats[:centered_black]
+        @formats[:string_centered_black]
       )
       write_tally_option_headers(worksheet, field)
     end
@@ -276,13 +277,13 @@ module Exporters
         display_text = option['display_text']
         worksheet.set_column_pixels(name_first_cell_by_column(@header_column),
                                     name_first_cell_by_column(@header_column), display_text.length * 11)
-        worksheet.write(@header_row, @header_column, display_text)
+        worksheet.write_string(@header_row, @header_column, display_text)
         @header_column += 1
       end
 
       return unless field.autosum_total
 
-      worksheet.write(@header_row, @header_column, I18n.t('fields.total'))
+      worksheet.write_string(@header_row, @header_column, I18n.t('fields.total'))
       @header_column += 1
     end
 
@@ -366,13 +367,15 @@ module Exporters
     def write_tally_data(worksheet, record, field)
       tally_options = field.tally(locale)
       tally_options.each do |option|
-        worksheet.write(@record_row, @record_column, record.data.dig(field.name, option['id']))
+        value = record.data.dig(field.name, option['id'])
+        worksheet.write_number(@record_row, @record_column, value) if value.present?
         @record_column += 1
       end
 
       return unless field.autosum_total
 
-      worksheet.write(@record_row, @record_column, record.data.dig(field.name, 'total'))
+      total = record.data.dig(field.name, 'total')
+      worksheet.write_number(@record_row, @record_column, total) if total.present?
       @record_column += 1
     end
 
@@ -387,6 +390,7 @@ module Exporters
 
     def date_value(value, field)
       return unless value.present?
+      return value unless value.respond_to?(:strftime)
       return value.strftime('%Y-%m-%dT%H:%M:%S.%L') if field.date_include_time
 
       value.strftime('%Y-%m-%dT')

@@ -93,7 +93,7 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
       cell_format = formats[:bold_black]
       cell_format = formats[:bold_black_blue_bottom_border] if option == indicator_options.last
 
-      worksheet.write(row_index, 0, option['display_text'], cell_format)
+      worksheet.write_string(row_index, 0, option['display_text'], cell_format)
     end
   end
 
@@ -104,7 +104,7 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
       row_index,
       columns_number * subitems_size,
       option['display_text'],
-      formats[:bold_blue]
+      formats[:string_bold_blue]
     )
   end
 
@@ -146,19 +146,19 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
   def write_week_header(start_index, group)
     translated_group = translate_group(group)
     if subitems_size == 1
-      worksheet.write(current_row, start_index, translated_group, formats[:bold_blue])
+      worksheet.write_string(current_row, start_index, translated_group, formats[:bold_blue])
     else
       worksheet.merge_range(
         current_row, start_index,
         current_row, start_index + subitems_size - 1,
-        translated_group, formats[:bold_blue_align]
+        translated_group, formats[:string_bold_blue_align]
       )
     end
   end
 
   def write_year_header(start_index, year)
     if subitems_size == 1
-      worksheet.write(current_row, start_index, year, formats[:bold_blue])
+      worksheet.write_number(current_row, start_index, year, formats[:bold_blue])
     else
       worksheet.merge_range(
         current_row, start_index,
@@ -182,7 +182,7 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
       translated_group = translate_group(group)
       group_header_label = header_include_year? ? "#{parent_group}-#{translated_group}" : translated_group
       if subitems_size == 1
-        worksheet.write(current_row, start_index + group_index, group_header_label, formats[:bold_blue])
+        worksheet.write_string(current_row, start_index + group_index, group_header_label, formats[:bold_blue])
       else
         write_group_subcolumn_header(start_index, group_index, group_header_label)
       end
@@ -193,7 +193,7 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
     worksheet.merge_range(
       current_row, calculate_position(start_index, group_index * subitems_size),
       current_row, calculate_position(start_index, ((group_index + 1) * subitems_size) - 1),
-      group_header_label, formats[:bold_blue]
+      group_header_label, formats[:string_bold_blue]
     )
   end
 
@@ -242,7 +242,7 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
     if subcolumn_options.present?
       write_indicators_subcolumns_data(params)
     else
-      worksheet.write(
+      worksheet.write_number(
         current_row + params[:option_index],
         params[:initial_index] + params[:group_index],
         grouped_subcolumn_total(params[:group_data], params[:option]),
@@ -253,7 +253,7 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
 
   def write_indicators_subcolumns_data(params)
     subcolumn_options.each_with_index do |subcolumn, subcolumn_index|
-      worksheet.write(
+      worksheet.write_number(
         grouped_subcolumn_row(params[:option_index]),
         grouped_subcolumn_column(params[:initial_index], params[:group_index], subcolumn_index),
         grouped_subcolumn_value(params[:group_data], params[:option], subcolumn),
@@ -288,8 +288,8 @@ class Exporters::GroupedIndicatorExporter < Exporters::IndicatorExporter
       start_index = start_index_header(parent_group, parent_group_index)
 
       indicators_subcolums_per_group(parent_group).each_with_index do |subcolumn, subcolumn_index|
-        worksheet.write(current_row, calculate_position(start_index, subcolumn_index),
-                        build_label(subcolumn), formats[:bold_blue])
+        worksheet.write_string(current_row, calculate_position(start_index, subcolumn_index),
+                               build_label(subcolumn), formats[:bold_blue])
       end
     end
 

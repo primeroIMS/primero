@@ -100,7 +100,7 @@ class Exporters::IndicatorExporter < ValueObject
   def write_relevant_field
     return unless I18n.exists?("managed_reports.#{managed_report.id}.header_title.#{key}", locale)
 
-    worksheet.write(
+    worksheet.write_string(
       current_row,
       0,
       I18n.t("managed_reports.#{managed_report.id}.header_title.#{key}", locale:),
@@ -128,7 +128,7 @@ class Exporters::IndicatorExporter < ValueObject
 
   def write_total_row
     worksheet.set_row(current_row, 40)
-    worksheet.write(current_row, 1, I18n.t(TOTAL_I18N_KEY, locale:), formats[:bold_blue])
+    worksheet.write_string(current_row, 1, I18n.t(TOTAL_I18N_KEY, locale:), formats[:bold_blue])
     self.current_row += 1
   end
 
@@ -136,7 +136,7 @@ class Exporters::IndicatorExporter < ValueObject
     return if subcolumn_options.blank?
 
     subcolumn_options.each_with_index do |subcolumn, subcolumn_index|
-      worksheet.write(
+      worksheet.write_string(
         current_row, subcolumn_index + 1, build_label(subcolumn), formats[:bold_blue]
       )
     end
@@ -272,27 +272,27 @@ class Exporters::IndicatorExporter < ValueObject
       row_index,
       columns_number,
       option['display_text'],
-      formats[:bold_blue]
+      formats[:string_bold_blue]
     )
   end
 
   def write_indicator_row(elem)
-    worksheet.write(current_row, 0, elem['display_text'], formats[:bold_black])
+    worksheet.write_string(current_row, 0, elem['display_text'], formats[:bold_black])
     write_indicators_subcolumns_data(option: elem, cell_format: formats[:black])
-    worksheet.write(current_row, columns_number, subcolumn_total(elem))
+    worksheet.write_number(current_row, columns_number, subcolumn_total(elem))
   end
 
   def write_indicator_last_row(elem)
-    worksheet.write(current_row, 0, elem['display_text'], formats[:bold_black_blue_bottom_border])
+    worksheet.write_string(current_row, 0, elem['display_text'], formats[:bold_black_blue_bottom_border])
     write_indicators_subcolumns_data(option: elem, cell_format: formats[:blue_bottom_border])
-    worksheet.write(current_row, columns_number, subcolumn_total(elem), formats[:blue_bottom_border])
+    worksheet.write_number(current_row, columns_number, subcolumn_total(elem), formats[:blue_bottom_border])
   end
 
   def write_indicators_subcolumns_data(params = {})
     return if subcolumn_options.blank?
 
     subcolumn_options.each_with_index do |subcolumn, subcolumn_index|
-      worksheet.write(
+      worksheet.write_number(
         current_row,
         subcolumn_index + 1,
         subcolumn_value(params[:option], subcolumn),
