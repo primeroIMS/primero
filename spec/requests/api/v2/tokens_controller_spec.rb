@@ -57,6 +57,14 @@ describe Api::V2::TokensController, type: :request do
           metadata:
         )
     end
+    it 'does not log audit entry for failures on other paths' do
+      # User added a filter for '/api/v2/tokens' in warden_hooks.rb
+      # failures on other paths (like dashboards) should be ignored by the hook.
+      expect(AuditLogJob).not_to receive(:perform_later)
+
+      get '/api/v2/dashboards', params: { user: { user_name: 'someuser', password: 'wrongpassword' } }
+      expect(response.status).to eq 401
+    end
 
     context 'external identity enabled' do
       before(:each) do
@@ -81,6 +89,23 @@ describe Api::V2::TokensController, type: :request do
         expect(response).to have_http_status(200)
         expect(json['id']).to eq(@idp_user.id)
         expect(json['token']).to eq('VALIDTOKEN')
+      end
+
+
+      it 'returns a 401 and logs failure for invalid IDP token' do
+        invalid_token_string = 'INVALIDTOKEN'
+        invalid_idp_token = instance_double('IdpToken', valid?: false, user_name: nil)
+        allow(IdpToken).to receive(:build).with(invalid_token_string).and_return(invalid_idp_token)
+
+        expect(AuditLogJob).to receive(:perform_later).with(
+          hash_including(
+            action: AuditLog::FAILED_LOGIN
+          )
+        )
+
+        post '/api/v2/tokens', headers: { 'Authorization' => "Bearer #{invalid_token_string}" }
+
+        expect(response).to have_http_status(401)
       end
 
       it 'returns a 401 when attempting to log in with a valid non-idp user and password' do
