@@ -29,7 +29,7 @@ class User < ApplicationRecord
     'password_reset' => { 'type' => 'boolean' }, 'role_id' => { 'type' => 'string' },
     'agency_office' => { 'type' => %w[string null] }, 'code_of_conduct_id' => { 'type' => 'integer' },
     'send_mail' => { 'type' => 'boolean' }, 'receive_webpush' => { 'type' => 'boolean' },
-    'terms_of_use_accepted_on' => { 'type' => %w[string null] },
+    'accept_terms_of_use' => { 'type' => 'boolean' },
     'settings' => {
       'type' => %w[object null], 'properties' => {
         'notifications' => {
@@ -159,7 +159,8 @@ class User < ApplicationRecord
       [
         'full_name', 'code', 'password', 'password_confirmation', 'locale', { 'services' => [] }, 'email', 'position',
         'phone', 'location', 'send_mail', 'code_of_conduct_id', 'receive_webpush',
-        { 'settings' => { 'notifications' => { 'send_mail' => {}, 'receive_webpush' => {} } } }
+        { 'settings' => { 'notifications' => { 'send_mail' => {}, 'receive_webpush' => {} } } },
+        'accept_terms_of_use'
       ]
     end
 
@@ -733,10 +734,6 @@ class User < ApplicationRecord
     incident_admin_level = role.incident_reporting_location_config&.admin_level
 
     incident_admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
-  end
-
-  def accept_terms_of_use!
-    update!(terms_of_use_accepted_on: DateTime.now)
   end
 
   def agency_terms_of_use_changed?
