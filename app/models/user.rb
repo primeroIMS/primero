@@ -159,7 +159,8 @@ class User < ApplicationRecord
       [
         'full_name', 'code', 'password', 'password_confirmation', 'locale', { 'services' => [] }, 'email', 'position',
         'phone', 'location', 'send_mail', 'code_of_conduct_id', 'receive_webpush',
-        { 'settings' => { 'notifications' => { 'send_mail' => {}, 'receive_webpush' => {} } } }
+        { 'settings' => { 'notifications' => { 'send_mail' => {}, 'receive_webpush' => {} } } },
+        'accept_terms_of_use'
       ]
     end
 
@@ -183,8 +184,7 @@ class User < ApplicationRecord
             { 'user_group_ids' => [] }, { 'user_group_unique_ids' => [] },
             { 'module_unique_ids' => [] },
             { 'settings' => { 'notifications' =>
-            { 'send_mail' => {}, 'receive_webpush' => {} } } },
-            'accept_terms_of_use']
+            { 'send_mail' => {}, 'receive_webpush' => {} } } }]
       ) - User.hidden_attributes
     end
     # rubocop:enable Metrics/MethodLength
