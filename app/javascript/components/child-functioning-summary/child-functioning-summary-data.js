@@ -8,14 +8,18 @@ const childFunctioningSummaryData = [
     label: "cases.child_functioning.vision_wear_glass",
     key: latestValue => `cfm_${latestValue?.cfm_age}_vision_wears_glasses`
   },
+
+  // When child DOES NOT wear glasses
   {
-    label: "cases.child_functioning.difficulty_seeing_with_glasses",
+    label: "cases.child_functioning.difficulty_seeing_without_glasses",
     key: latestValue => `cfm_${latestValue?.cfm_age}_vision_difficulty`,
     showIf: {
       key: latestValue => `cfm_${latestValue?.cfm_age}_vision_wears_glasses`,
       equals: "no"
     }
   },
+
+  // When child DOES wear glasses
   {
     label: "cases.child_functioning.difficulty_seeing_with_glasses",
     key: latestValue => `cfm_${latestValue?.cfm_age}_vision_difficulty_with_glasses`,
@@ -30,14 +34,18 @@ const childFunctioningSummaryData = [
     label: "cases.child_functioning.child_wears_hearing_aid",
     key: latestValue => `cfm_${latestValue?.cfm_age}_hearing_uses_hearing_aid`
   },
+
+  // When NO hearing aid
   {
-    label: "cases.child_functioning.difficulty_hearing_with_hearing_aid",
+    label: "cases.child_functioning.difficulty_hearing_without_hearing_aid",
     key: latestValue => `cfm_${latestValue?.cfm_age}_hearing_difficulty`,
     showIf: {
       key: latestValue => `cfm_${latestValue?.cfm_age}_hearing_uses_hearing_aid`,
       equals: "no"
     }
   },
+
+  // When YES hearing aid
   {
     label: "cases.child_functioning.difficulty_hearing_with_hearing_aid",
     key: latestValue => `cfm_${latestValue?.cfm_age}_hearing_difficulty_with_hearing_aid`,
