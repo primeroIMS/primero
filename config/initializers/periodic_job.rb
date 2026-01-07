@@ -5,6 +5,8 @@
 # Check or initialize Primero PeriodicJobs
 
 return unless Rails.env.production?
+
+require "#{Rails.root}/app/services/health_check_service.rb"
 return unless HealthCheckService.database_accessible? && ActiveRecord::Base.connection.table_exists?(:delayed_jobs)
 
 Rails.logger.info('Setting up PeriodicJobs')
