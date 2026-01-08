@@ -34,6 +34,7 @@ Rails.application.routes.draw do
 
   get 'manifest', to: 'themes#manifest', defaults: { format: :json }
   get :theme, to: 'themes#index', defaults: { format: :js }
+  get 'storage/:id', to: 'storage#show', as: :storage_file
 
   namespace :api do
     namespace :v2, defaults: { format: :json },

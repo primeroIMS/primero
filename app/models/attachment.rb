@@ -106,15 +106,13 @@ class Attachment < ApplicationRecord
   def url
     return unless file&.attached?
 
-    Rails.application.routes.url_helpers.rails_blob_path(file, only_path: true, expires_in: EXPIRES,
-                                                               disposition: :attachment)
+    Rails.application.routes.url_helpers.storage_file_path(file.id, only_path: true)
   end
 
   def pdf_url
     return nil unless pdf_file.attached?
 
-    Rails.application.routes.url_helpers.rails_blob_path(pdf_file, only_path: true, expires_in: EXPIRES,
-                                                                   disposition: :attachment)
+    Rails.application.routes.url_helpers.storage_file_path(pdf_file.id, only_path: true)
   end
 
   def to_h_api
