@@ -120,6 +120,7 @@ describe ManagedReports::Indicators::DetentionStatus do
         victim_deprived_liberty_security_reasons: 'yes',
         deprivation_liberty_date: Date.today.beginning_of_month - 1.week,
         deprivation_liberty_end_date: Date.today - 1.day,
+        deprivation_liberty_date_range: true,
         violation_tally: { boys: 1, girls: 2, unknown: 3, total: 6 }
       },
       incident_id: incident1.id
@@ -130,6 +131,7 @@ describe ManagedReports::Indicators::DetentionStatus do
         victim_deprived_liberty_security_reasons: 'yes',
         deprivation_liberty_date: Date.today.beginning_of_month - 1.month,
         deprivation_liberty_end_date: Date.today - 3.days,
+        deprivation_liberty_date_range: true,
         violation_tally: { boys: 1, girls: 1, unknown: 1, total: 3 }
       },
       incident_id: incident2.id
@@ -149,6 +151,7 @@ describe ManagedReports::Indicators::DetentionStatus do
         victim_deprived_liberty_security_reasons: 'yes',
         deprivation_liberty_date: Date.today.beginning_of_month,
         deprivation_liberty_end_date: Date.today + 3.days,
+        deprivation_liberty_date_range: true,
         violation_tally: { boys: 2, girls: 3, unknown: 2, total: 7 }
       },
       incident_id: incident4.id
@@ -158,6 +161,8 @@ describe ManagedReports::Indicators::DetentionStatus do
         type: 'deprivation_liberty',
         victim_deprived_liberty_security_reasons: 'no',
         deprivation_liberty_date: Date.today.beginning_of_year,
+        # This violation is counted as detention_detained since deprivation_liberty_date_range is not present 
+        deprivation_liberty_end_date: Date.today - 3.days,
         violation_tally: { boys: 2, girls: 3, unknown: 2, total: 7 }
       },
       incident_id: incident5.id
