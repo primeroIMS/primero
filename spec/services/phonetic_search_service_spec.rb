@@ -126,7 +126,7 @@ describe PhoneticSearchService, search: true do
     end
 
     describe 'searches with integer filters' do
-      let(:record1) { Child.create!(data: { name: 'Record 1', age: 5 }) }
+      let(:record1) { Child.create!(data: { name: 'Record 1', age: 5, individual_age: [3] }) }
       let(:record2) { Child.create!(data: { name: 'Record 2', age: 2 }) }
       let(:record3) { Child.create!(data: { name: 'Record 3' }) }
       let(:record4) { Child.create!(data: { name: 'Record 4', age: nil }) }
@@ -161,6 +161,14 @@ describe PhoneticSearchService, search: true do
 
         expect(search.total).to eq(1)
         expect(search.records.first.name).to eq(record2.name)
+      end
+
+      it 'matches the numeric range filter for json fields' do
+        filter = SearchFilters::NumericRange.new(field_name: 'individual_age', from: 0, to: 3)
+        search = PhoneticSearchService.search(Child, filters: [filter])
+
+        expect(search.total).to eq(1)
+        expect(search.records.first.name).to eq(record1.name)
       end
 
       it 'matches the numeric range list' do
