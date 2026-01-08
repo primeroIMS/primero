@@ -40,10 +40,6 @@ describe Api::V2::AttachmentsController, type: :request do
 
     let(:file_content) { File.read(Rails.root.join('spec/resources/jorge.jpg')) }
 
-    # before do
-    #   allow_any_instance_of(ActiveStorage::Blob).to receive(:download).and_return(file_content)
-    # end
-
     context 'when user is authenticated' do
       before :each do
         login_for_test({ permitted_field_names: [@field2.name] }) 
