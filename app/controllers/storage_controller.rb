@@ -12,7 +12,7 @@ class StorageController < ApplicationController
       @blob.download,
       filename: @blob.filename.to_s,
       type: @blob.content_type,
-      disposition: "inline"
+      disposition: 'inline'
     )
   end
 
@@ -23,10 +23,6 @@ class StorageController < ApplicationController
   end
 
   def set_blob
-    begin
-      @blob = ActiveStorage::Blob.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      head :not_found
-    end
+    @blob = ActiveStorage::Blob.find(params[:id])
   end
 end
