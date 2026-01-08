@@ -34,7 +34,6 @@ Rails.application.routes.draw do
 
   get 'manifest', to: 'themes#manifest', defaults: { format: :json }
   get :theme, to: 'themes#index', defaults: { format: :js }
-  get 'storage/:id', to: 'storage#show', as: :storage_file
 
   namespace :api do
     namespace :v2, defaults: { format: :json },
@@ -54,7 +53,7 @@ Rails.application.routes.draw do
         resources :transfers, only: %i[index create update]
         resources :transfer_requests, only: %i[index create update]
         resources :transitions, only: [:index]
-        resources :attachments, only: %i[create destroy update]
+        resources :attachments, only: %i[create destroy update show]
         resources :approvals, only: [:update]
         resources :potential_matches, only: [:index]
         resources :webhook_syncs, as: :sync, path: :sync, only: [:create]
@@ -75,7 +74,7 @@ Rails.application.routes.draw do
         resources :flags, only: %i[index create update]
         resources :alerts, only: %i[index destroy]
         resources :approvals, only: [:update]
-        resources :attachments, only: %i[create destroy]
+        resources :attachments, only: %i[create destroy show]
         resources :assigns, only: %i[index create]
         resources :transitions, only: [:index]
         post :flags, to: 'flags#create_bulk', on: :collection
@@ -92,7 +91,7 @@ Rails.application.routes.draw do
         resources :flags, only: %i[index create update]
         resources :alerts, only: [:index]
         resources :approvals, only: [:update]
-        resources :attachments, only: %i[create destroy]
+        resources :attachments, only: %i[create destroy show]
         get :traces, to: 'tracing_requests#traces'
         post :flags, to: 'flags#create_bulk', on: :collection
         get :record_history, to: 'record_histories#index'
