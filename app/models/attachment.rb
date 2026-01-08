@@ -106,13 +106,18 @@ class Attachment < ApplicationRecord
   def url
     return unless file&.attached?
 
-    Rails.application.routes.url_helpers.api_v2_case_attachment_path(self.record_id, id, only_path: true)
+    url_path
   end
 
   def pdf_url
     return nil unless pdf_file.attached?
 
-    Rails.application.routes.url_helpers.api_v2_case_attachment_path(self.record_id, id, only_path: true)
+    url_path
+  end
+
+  def url_path
+    path = "api_v2_#{record.class.parent_form}_attachment_path"
+    Rails.application.routes.url_helpers.send(path, record_id, id, only_path: true) 
   end
 
   def to_h_api
