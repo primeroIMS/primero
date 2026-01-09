@@ -34,9 +34,7 @@ class RecordActionMailer < ApplicationMailer
 
   def transition_notify(transition_notification)
     @transition_notification = transition_notification
-    @subject = @transition_notification.subject
-    @locale = @transition_notification.locale
-    @user = @transition_notification&.transitioned_to
+    setup_notification_variables(@transition_notification)
 
     return if @transition_notification.transition.nil?
     return unless assert_notifications_enabled(
@@ -44,15 +42,13 @@ class RecordActionMailer < ApplicationMailer
     )
 
     mail(to: email_address_with_name(@transition_notification&.transitioned_to&.email,
-                                      @transition_notification&.transitioned_to&.full_name),
+                                     @transition_notification&.transitioned_to&.full_name),
          subject: @subject)
   end
 
   def transfer_request(transfer_request_notification)
     @transfer_request_notification = transfer_request_notification
-    @subject = @transfer_request_notification.subject
-    @locale = @transfer_request_notification.locale
-    @user = @transfer_request_notification&.transitioned_to
+    setup_notification_variables(@transfer_request_notification)
 
     return if @transfer_request_notification.transition.nil?
     return unless assert_notifications_enabled(
@@ -60,17 +56,16 @@ class RecordActionMailer < ApplicationMailer
     )
 
     mail(to: email_address_with_name(@transfer_request_notification&.transitioned_to&.email,
-                                      @transfer_request_notification&.transitioned_to&.full_name),
+                                     @transfer_request_notification&.transitioned_to&.full_name),
          subject: @subject)
   end
 
   def alert_notify(alert_notification)
     @alert_notification = alert_notification
-    @subject = @alert_notification.subject
-    @locale = @alert_notification.locale
+    setup_notification_variables(@alert_notification, false)
 
     return unless assert_notifications_enabled(@alert_notification.user)
-    return if @alert_notification.user == @alert_notification.record.last_updated_by
+    return if skip_self_notification?(@alert_notification)
 
     Rails.logger.info("Sending alert notification to #{@alert_notification.user.user_name}")
 
@@ -86,5 +81,15 @@ class RecordActionMailer < ApplicationMailer
     Rails.logger.info("Mail not sent. Mail notifications disabled for #{user&.user_name || 'nil user'}")
 
     false
+  end
+
+  def setup_notification_variables(notification, is_transition = true)
+    @subject = notification.subject
+    @locale = notification.locale
+    @user = is_transition ? notification&.transitioned_to : notification&.user
+  end
+
+  def skip_self_notification?(alert_notification)
+    alert_notification.user == alert_notification.record.last_updated_by
   end
 end
