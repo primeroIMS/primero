@@ -6,6 +6,17 @@
 class Api::V2::AttachmentsController < Api::V2::RecordResourceController
   before_action :validate_update_params!, only: [:update]
   before_action :initialize_attachment, only: [:create]
+  before_action :set_attachment, only: %i[show update destroy]
+
+  def show
+    authorize! :read, @attachment
+    send_data(
+      @attachment.file.download,
+      filename: @attachment.file.filename.to_s,
+      type: @attachment.file.content_type,
+      disposition: 'inline'
+    )
+  end
 
   def create
     authorize! :create, @attachment
@@ -14,14 +25,12 @@ class Api::V2::AttachmentsController < Api::V2::RecordResourceController
   end
 
   def update
-    @attachment = Attachment.find(params[:id])
     @attachment.assign_attributes(attachment_update_params)
     @attachment.save!
     updates_for_record(@record)
   end
 
   def destroy
-    @attachment = Attachment.find(params[:id])
     authorize! :destroy, @attachment
     @attachment.detach!
     updates_for_record(@record)
@@ -73,5 +82,9 @@ class Api::V2::AttachmentsController < Api::V2::RecordResourceController
                   else
                     Attachment.new(attachment_params)
                   end
+  end
+
+  def set_attachment
+    @attachment = Attachment.find(params[:id])
   end
 end
