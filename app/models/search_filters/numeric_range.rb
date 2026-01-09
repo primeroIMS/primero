@@ -9,7 +9,7 @@ class SearchFilters::NumericRange < SearchFilters::SearchFilter
   def json_path_query
     return if from.blank? && to.blank?
 
-    "(#{ActiveRecord::Base.sanitize_sql_for_conditions(['data->? IS NOT NULL', field_name])} AND #{super})"
+    "#{safe_json_column} @? '#{json_field_query} ? (#{json_path_predicate})'"
   end
 
   def json_path_predicate
