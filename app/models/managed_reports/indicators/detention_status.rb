@@ -19,9 +19,11 @@ class ManagedReports::Indicators::DetentionStatus < ManagedReports::SqlReportInd
                                filter_date(params),
                                table_name_for_query(params))&.concat(' AS group_id,')}
           CASE
-            WHEN violations.data->>'deprivation_liberty_end_date' IS NULL
-            THEN 'detention_detained'
-            ELSE 'detention_released'
+            WHEN violations.data @? '$[*] ? (
+              @.deprivation_liberty_end_date != null && @.deprivation_liberty_date_range == true
+            )'
+            THEN 'detention_released'
+            ELSE 'detention_detained'
           END AS name,
           violation_tally.key AS key,
           SUM(violation_tally.value::INT) AS sum
