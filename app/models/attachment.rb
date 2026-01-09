@@ -3,6 +3,7 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 # Represents file attachments for Primero records: images, audio, documents
+# rubocop:disable Metrics/ClassLength
 class Attachment < ApplicationRecord
   IMAGE = 'image'
   AUDIO = 'audio'
@@ -117,7 +118,7 @@ class Attachment < ApplicationRecord
 
   def url_path
     path = "api_v2_#{record.class.parent_form}_attachment_path"
-    Rails.application.routes.url_helpers.send(path, record_id, id, only_path: true) 
+    Rails.application.routes.url_helpers.send(path, record_id, id, only_path: true)
   end
 
   def to_h_api
@@ -173,3 +174,4 @@ class Attachment < ApplicationRecord
     AdministratorNotificationMailJob.perform_later(:maximum_attachments_space_warning)
   end
 end
+# rubocop:enable Metrics/ClassLength

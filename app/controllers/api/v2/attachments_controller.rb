@@ -6,7 +6,7 @@
 class Api::V2::AttachmentsController < Api::V2::RecordResourceController
   before_action :validate_update_params!, only: [:update]
   before_action :initialize_attachment, only: [:create]
-  before_action :set_attachment, only: [:show, :update, :destroy]
+  before_action :set_attachment, only: %i[show update destroy]
 
   def show
     authorize! :read, @attachment
