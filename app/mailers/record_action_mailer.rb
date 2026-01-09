@@ -15,7 +15,8 @@ class RecordActionMailer < ApplicationMailer
     return unless @approval_notification.send_notification?
     return unless assert_notifications_enabled(@approval_notification.manager, Approval::NOTIFICATION_ACTIONS_REQUEST)
 
-    mail(to: @approval_notification.manager.email, subject: @subject)
+    mail(to: email_address_with_name(@approval_notification.manager.email, @approval_notification.manager.full_name),
+         subject: @subject)
   end
 
   def manager_approval_response(approval_notification)
@@ -27,7 +28,8 @@ class RecordActionMailer < ApplicationMailer
     return unless @approval_notification.send_notification?
     return unless assert_notifications_enabled(@approval_notification.owner, Approval::NOTIFICATION_ACTIONS_RESPONSE)
 
-    mail(to: @approval_notification.owner.email, subject: @subject)
+    mail(to: email_address_with_name(@approval_notification.owner.email, @approval_notification.owner.full_name),
+         subject: @subject)
   end
 
   def transition_notify(transition_notification)
@@ -41,7 +43,9 @@ class RecordActionMailer < ApplicationMailer
       @transition_notification.transitioned_to, Transition::NOTIFICATION_ACTION
     )
 
-    mail(to: @transition_notification&.transitioned_to&.email, subject: @subject)
+    mail(to: email_address_with_name(@transition_notification&.transitioned_to&.email,
+                                      @transition_notification&.transitioned_to&.full_name),
+         subject: @subject)
   end
 
   def transfer_request(transfer_request_notification)
@@ -55,7 +59,9 @@ class RecordActionMailer < ApplicationMailer
       @transfer_request_notification.transitioned_to, Transfer::NOTIFICATION_ACTION
     )
 
-    mail(to: @transfer_request_notification&.transitioned_to&.email, subject: @subject)
+    mail(to: email_address_with_name(@transfer_request_notification&.transitioned_to&.email,
+                                      @transfer_request_notification&.transitioned_to&.full_name),
+         subject: @subject)
   end
 
   def alert_notify(alert_notification)
@@ -68,7 +74,8 @@ class RecordActionMailer < ApplicationMailer
 
     Rails.logger.info("Sending alert notification to #{@alert_notification.user.user_name}")
 
-    mail(to: @alert_notification.user.email, subject: @subject, locale: @alert_notification.locale)
+    mail(to: email_address_with_name(@alert_notification.user.email, @alert_notification.user.full_name),
+         subject: @subject, locale: @alert_notification.locale)
   end
 
   private

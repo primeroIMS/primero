@@ -29,6 +29,10 @@ describe UserMailer, type: :mailer do
       expect(mail.subject).to eq('Primero Login Instructions')
     end
 
+    it 'renders the to field with name and email' do
+      expect(mail['to'].to_s).to eq('James Joy <user@test.org>')
+    end
+
     it 'renders the body' do
       body = mail.body.encoded
       fragment = 'Once logged in please go to your user profile to find your username. ' \
@@ -51,6 +55,10 @@ describe UserMailer, type: :mailer do
 
     it 'renders the subject' do
       expect(mail.subject).to eq('Welcome to Primero!')
+    end
+
+    it 'renders the to field with name and email' do
+      expect(mail['to'].to_s).to eq('James Joy <user@test.org>')
     end
 
     it 'renders the body' do
@@ -83,6 +91,10 @@ describe UserMailer, type: :mailer do
 
     it 'renders the subject' do
       expect(mail.subject).to eq('Welcome to Primero!')
+    end
+
+    it 'renders the to field with name and email' do
+      expect(mail['to'].to_s).to eq('James Joy <user@test.org>')
     end
 
     it 'renders the body' do
