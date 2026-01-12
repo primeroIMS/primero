@@ -13,7 +13,7 @@ module MonitoringReportingMechanism
   }.freeze
 
   ASSOCIATION_FIELDS = {
-    'individual_victims' => %w[individual_age individual_sex],
+    'individual_victims' => %w[individual_age individual_sex victim_deprived_liberty_security_reasons],
     'perpetrators' => %w[armed_force_group_party_name perpetrator_category],
     'violations' => %w[
       verified_ghn_reported weapon_type facility_impact facility_attack_type child_role abduction_purpose_single
@@ -28,8 +28,7 @@ module MonitoringReportingMechanism
   }.freeze
 
   DEPRIVATION_LIBERTY_FIELDS = %w[
-    victim_deprived_liberty_security_reasons reasons_deprivation_liberty facilty_victims_held
-    torture_punishment_while_deprivated_liberty
+    reasons_deprivation_liberty facilty_victims_held torture_punishment_while_deprivated_liberty
   ].freeze
 
   DEPRIVATION_LIBERTY_MAPPING = {
