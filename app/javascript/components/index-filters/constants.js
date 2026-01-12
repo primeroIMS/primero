@@ -48,7 +48,11 @@ export const VIOLATIONS_FILTER_NAMES = Object.freeze([
   "child_role",
   "abduction_purpose_single",
   "military_use_type",
-  "types_of_aid_disrupted_denial"
+  "types_of_aid_disrupted_denial",
+  "victim_deprived_liberty_security_reasons",
+  "reasons_deprivation_liberty",
+  "victim_facilty_victims_held",
+  "torture_punishment_while_deprivated_liberty"
 ]);
 
 export const PRIMARY_FILTERS = ["sex", "gender", "age", "risk_level", "approval_status_case_plan", "last_updated_at"];
