@@ -161,8 +161,8 @@ describe ManagedReports::Indicators::DetentionStatus do
         type: 'deprivation_liberty',
         victim_deprived_liberty_security_reasons: 'no',
         deprivation_liberty_date: Date.today.beginning_of_year,
-        # This violation is counted as detention_detained since deprivation_liberty_date_range is not present 
-        deprivation_liberty_end_date: Date.today - 3.days,
+        # This violation is counted as detention_detained since deprivation_liberty_end_date is not present
+        deprivation_liberty_date_range: true,
         violation_tally: { boys: 2, girls: 3, unknown: 2, total: 7 }
       },
       incident_id: incident5.id
@@ -185,8 +185,8 @@ describe ManagedReports::Indicators::DetentionStatus do
 
     expect(violation_tally_data).to match_array(
       [
-        { id: 'detention_detained', boys: 4, girls: 4, unknown: 4, total: 12 },
-        { id: 'detention_released', boys: 4, girls: 6, unknown: 6, total: 16 }
+        { id: 'detention_detained', boys: 2, girls: 3, unknown: 2, total: 7 },
+        { id: 'detention_released', boys: 6, girls: 7, unknown: 8, total: 21 }
       ]
     )
   end
@@ -207,8 +207,8 @@ describe ManagedReports::Indicators::DetentionStatus do
 
       expect(violation_tally_data).to match_array(
         [
-          { id: 'detention_detained', boys: 4, girls: 4, unknown: 4, total: 12 },
-          { id: 'detention_released', boys: 3, girls: 4, unknown: 3, total: 10 }
+          { id: 'detention_detained', boys: 2, girls: 3, unknown: 2, total: 7 },
+          { id: 'detention_released', boys: 5, girls: 5, unknown: 5, total: 15 }
         ]
       )
     end
@@ -218,8 +218,7 @@ describe ManagedReports::Indicators::DetentionStatus do
 
       expect(violation_tally_data).to match_array(
         [
-          { id: 'detention_detained', boys: 2, girls: 1, unknown: 2, total: 5 },
-          { id: 'detention_released', boys: 1, girls: 1, unknown: 1, total: 3 }
+          { id: 'detention_released', boys: 3, girls: 2, unknown: 3, total: 8 }
         ]
       )
     end
@@ -229,8 +228,8 @@ describe ManagedReports::Indicators::DetentionStatus do
 
       expect(violation_tally_data).to match_array(
         [
-          { id: 'detention_detained', boys: 4, girls: 4, unknown: 4, total: 12 },
-          { id: 'detention_released', boys: 4, girls: 6, unknown: 6, total: 16 }
+          { id: 'detention_detained', boys: 2, girls: 3, unknown: 2, total: 7 },
+          { id: 'detention_released', boys: 6, girls: 7, unknown: 8, total: 21 }
         ]
       )
     end
@@ -260,8 +259,8 @@ describe ManagedReports::Indicators::DetentionStatus do
               group_id: 2022,
               data: match_array(
                 [
-                  { id: 'detention_detained', boys: 4, girls: 4, unknown: 4, total: 12 },
-                  { id: 'detention_released', boys: 2, girls: 3, unknown: 2, total: 7 }
+                  { id: 'detention_detained', boys: 2, girls: 3, unknown: 2, total: 7 },
+                  { id: 'detention_released', boys: 4, girls: 4, unknown: 4, total: 12 }
                 ]
               )
             }
@@ -304,7 +303,7 @@ describe ManagedReports::Indicators::DetentionStatus do
             { group_id: '2021-10', data: [] },
             { group_id: '2021-11', data: [] },
             { group_id: '2021-12', data: [] },
-            { group_id: '2022-01', data: [{ id: 'detention_detained', boys: 2, girls: 1, unknown: 2, total: 5 }] },
+            { group_id: '2022-01', data: [{ id: 'detention_released', boys: 2, girls: 1, unknown: 2, total: 5 }] },
             { group_id: '2022-02', data: [{ id: 'detention_released', boys: 2, girls: 3, unknown: 2, total: 7 }] },
             { group_id: '2022-03', data: [] }
           ]
@@ -339,8 +338,8 @@ describe ManagedReports::Indicators::DetentionStatus do
               group_id: '2022-Q1',
               data: match_array(
                 [
-                  { id: 'detention_detained', boys: 4, girls: 4, unknown: 4, total: 12 },
-                  { id: 'detention_released', boys: 2, girls: 3, unknown: 2, total: 7 }
+                  { id: 'detention_detained', boys: 2, girls: 3, unknown: 2, total: 7 },
+                  { id: 'detention_released', boys: 4, girls: 4, unknown: 4, total: 12 }
                 ]
               )
             }
