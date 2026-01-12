@@ -62,7 +62,6 @@ describe MonitoringReportingMechanism, search: true do
           {
             'unique_id' => '9bbd0b84-ed7d-11f0-aaf1-7c10c98b54af',
             'type' => 'deprivation_liberty',
-            'victim_deprived_liberty_security_reasons' => 'no',
             'facilty_victims_held' => 'facility_3',
             'reasons_deprivation_liberty' => 'reason_7',
             'torture_punishment_while_deprivated_liberty' => 'no'
@@ -243,8 +242,8 @@ describe MonitoringReportingMechanism, search: true do
         SearchFilters::TextValue.new(field_name: 'victim_deprived_liberty_security_reasons', value: 'no')
       ]
     )
-    expect(search_result.total).to eq(2)
-    expect(search_result.records.map(&:id)).to match_array([incident1.id, incident2.id])
+    expect(search_result.total).to eq(1)
+    expect(search_result.records.map(&:id)).to match_array([incident2.id])
   end
 
   it 'can find incidents where violations with torture_punishment_while_deprivated_liberty' do
@@ -550,7 +549,7 @@ describe MonitoringReportingMechanism, search: true do
   it 'the records has been stamped with fields from violations' do
     expect(incident1.individual_violations).to match_array(%w[killing])
     expect(incident1.individual_sex).to match_array(%w[male])
-    expect(incident1.victim_deprived_liberty_security_reasons).to match_array(%w[yes no])
+    expect(incident1.victim_deprived_liberty_security_reasons).to match_array(%w[yes])
     expect(incident1.reasons_deprivation_liberty).to match_array(%w[reason_1 reason_7])
     expect(incident1.victim_facilty_victims_held).to match_array(%w[facility_1 facility_3])
     expect(incident1.torture_punishment_while_deprivated_liberty).to match_array(%w[no])

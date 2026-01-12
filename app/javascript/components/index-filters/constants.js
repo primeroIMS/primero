@@ -49,7 +49,6 @@ export const VIOLATIONS_FILTER_NAMES = Object.freeze([
   "abduction_purpose_single",
   "military_use_type",
   "types_of_aid_disrupted_denial",
-  "victim_deprived_liberty_security_reasons",
   "reasons_deprivation_liberty",
   "victim_facilty_victims_held",
   "torture_punishment_while_deprivated_liberty"

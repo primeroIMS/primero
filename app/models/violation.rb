@@ -37,8 +37,7 @@ class Violation < ApplicationRecord
                  :verified_ghn_reported, :is_late_verification, :weapon_type, :facility_impact, :child_role,
                  :abduction_purpose_single, :facility_attack_type, :military_use_type, :types_of_aid_disrupted_denial,
                  :violation_killed_tally, :violation_injured_tally, :violation_tally,
-                 :victim_deprived_liberty_security_reasons, :reasons_deprivation_liberty, :facilty_victims_held,
-                 :torture_punishment_while_deprivated_liberty
+                 :reasons_deprivation_liberty, :facilty_victims_held, :torture_punishment_while_deprivated_liberty
 
   after_initialize :set_unique_id
 
