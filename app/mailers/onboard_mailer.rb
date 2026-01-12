@@ -10,7 +10,7 @@ class OnboardMailer < ApplicationMailer
     @locale = @user.locale
 
     mail(
-      to: @user.email,
+      to: email_address_with_name(@user.email, @user.full_name),
       subject: @subject
     )
   end
