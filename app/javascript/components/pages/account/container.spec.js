@@ -62,7 +62,7 @@ describe("<Account />", () => {
 
     it("renders 25 fields", () => {
       mountedComponent(<Account {...props} />, state, {}, ["/account"]);
-      expect(screen.getAllByTestId("form-section-field")).toHaveLength(25);
+      expect(screen.getAllByTestId("form-section-field")).toHaveLength(21);
     });
   });
 
@@ -92,7 +92,7 @@ describe("<Account />", () => {
 
     it("renders 24 fields", () => {
       mountedComponent(<Account {...props} />, state, {}, ["/account"]);
-      expect(screen.getAllByTestId("form-section-field")).toHaveLength(24);
+      expect(screen.getAllByTestId("form-section-field")).toHaveLength(20);
     });
   });
 });

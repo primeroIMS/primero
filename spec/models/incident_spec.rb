@@ -676,6 +676,7 @@ describe Incident do
               'name' => 'violation1',
               'type' => 'recruitment',
               'unique_id' => '8dccaf74-e9aa-452a-9b58-dc365b1062a2',
+              'is_late_verification' => false,
               'violation_tally' => { 'boys' => 3, 'girls' => 1, 'total' => 4, 'unknown' => 0 }
             }
           ],
@@ -707,6 +708,7 @@ describe Incident do
               'violations_ids' => '8dccaf74-e9aa-452a-9b58-dc365b1062a2' }
           ]
         }
+
       expect(incident.incident_code).to eq('987654')
       expect(incident.associations_as_data('user')).to eq(incident_associations_as_data)
     end

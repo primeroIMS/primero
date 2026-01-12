@@ -1,9 +1,11 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useFormikContext } from "formik";
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { fromJS } from "immutable";
 
-import childFunctioningFormDataTemplate from "../child-functioning-form/child-functioning-form-data";
+import childFunctioningFormDataTemplate from "../../../../child-functioning-form/child-functioning-form-data";
 
 function ChildFunctioningFormEffects({ field }) {
   const { values, setFieldValue } = useFormikContext();
@@ -32,6 +34,7 @@ function ChildFunctioningFormEffects({ field }) {
   return null;
 }
 
+ChildFunctioningFormEffects.displayName = "ChildFunctioningFormEffects";
 
 ChildFunctioningFormEffects.propTypes = {
   field: PropTypes.shape({
@@ -42,4 +45,3 @@ ChildFunctioningFormEffects.propTypes = {
 };
 
 export default ChildFunctioningFormEffects;
-

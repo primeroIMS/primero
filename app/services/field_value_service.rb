@@ -6,7 +6,7 @@
 # This logic is normally handled on the front end, but use this service
 # when generating server-side exports or sending emails.
 class FieldValueService < ValueObject
-  attr_accessor :lookups, :location_service
+  attr_accessor :lookups, :agencies, :location_service
 
   def self.value(field, value, opts = {})
     new(opts).value(field, value, opts)
@@ -51,6 +51,8 @@ class FieldValueService < ValueObject
   end
 
   def record_name_value(class_name, value, opts = {})
+    return agencies[value] if class_name == 'Agency' && agencies&.key?(value)
+
     record_class = if class_name.in?(%w[Location ReportingLocation])
                      location_service
                    else

@@ -27,9 +27,9 @@ class ManagedReports::Indicators::LateVerification < ManagedReports::SqlReportIn
         CROSS JOIN JSON_EACH_TEXT((violations.data->>'violation_tally')::JSON)
         WHERE violations.data @? '$[*]
           ? (exists(@.violation_tally) && @.violation_tally != null)
-          ? (@.type != "denial_humanitarian_access" && @.type != "deprivation_liberty" && @.type != "military_use")
           ? (@.is_late_verification == true)
         '
+        AND #{filter_types(Violation::GRAVE_TYPES_FOR_VICTIM_COUNT).query}
         #{date_range_query(date_filter_param(params['ghn_date_filter']), 'violations')&.prepend('AND ')}
         GROUP BY key, violations.data ->> 'type'
         ORDER BY name

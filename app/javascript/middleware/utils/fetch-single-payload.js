@@ -68,13 +68,16 @@ const fetchSinglePayload = async (action, store, options) => {
       )
     : [false, false];
 
+  const bodyData = formData ? { data: formData } : body;
+  const serializedBody = isImmutable(bodyData) ? bodyData.toJS() : bodyData;
+
   const fetchOptions = {
     ...DEFAULT_FETCH_OPTIONS,
     method,
     mode,
     signal: controller.signal,
     ...((formData || body) && {
-      body: JSON.stringify(formData ? { data: formData } : body)
+      body: JSON.stringify(serializedBody)
     })
   };
 
@@ -138,7 +141,7 @@ const fetchSinglePayload = async (action, store, options) => {
         }
 
         if (!action.type.includes("SAVE_ATTACHMENT") && status !== 422) {
-          throw new Error(window.I18n.t("error_message.error_something_went_wrong"));
+          throw new FetchError(response, json, window.I18n.t("error_message.error_something_went_wrong"));
         }
       }
       await handleSuccess(store, {
@@ -198,7 +201,7 @@ const fetchSinglePayload = async (action, store, options) => {
       fetchStatus({ store, type }, "FAILURE", false);
 
       if (failureCallback) {
-        handleRestCallback(store, failureCallback, {}, {});
+        handleRestCallback(store, failureCallback, error?.response, {});
       } else {
         defaultErrorCallback({ ...errorDataObject, store, response: error?.response });
       }

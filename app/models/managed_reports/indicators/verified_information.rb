@@ -2,7 +2,7 @@
 
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-# An indicator that returns the type of use of violation type Recruitment
+# An indicator that returns the total of victims by violation type
 class ManagedReports::Indicators::VerifiedInformation < ManagedReports::SqlReportIndicator
   include ManagedReports::GhnIndicatorHelper
 
@@ -28,9 +28,9 @@ class ManagedReports::Indicators::VerifiedInformation < ManagedReports::SqlRepor
         WHERE violations.data @? '$[*]
           ? (exists(@.violation_tally) && @.violation_tally != null)
           ? (@.ctfmr_verified == "verified")
-          ? (@.type != "denial_humanitarian_access" && @.type != "deprivation_liberty" && @.type != "military_use")
           ? (!exists(@.is_late_verification) || @.is_late_verification != true)
         '
+        AND #{filter_types(Violation::GRAVE_TYPES_FOR_VICTIM_COUNT).query}
         #{date_range_query(date_filter_param(params['ghn_date_filter']), 'violations')&.prepend('AND ')}
         GROUP BY key, violations.data ->> 'type'
         ORDER BY name

@@ -119,6 +119,7 @@ Rails.application.routes.draw do
           post :'password-reset-request', to: 'password_reset#password_reset_request'
           post :'password-reset', to: 'password_reset#password_reset'
           post :'self-register', to: 'self_register#create'
+          post :update_bulk, to: 'users#update_bulk'
         end
       end
       resources :identity_providers, only: [:index]
@@ -178,6 +179,10 @@ Rails.application.routes.draw do
         get 'config', action: :config, controller: 'webpush_config'
         patch 'subscriptions/current', action: :current, controller: 'webpush_subscriptions'
         resources :webpush_subscriptions, path: :subscriptions, only: %i[index create]
+      end
+
+      scope '/unused_fields_report' do
+        get 'current', action: :current, controller: 'unused_fields_report'
       end
     end
   end

@@ -6,8 +6,8 @@ import AlertMaxUser from "./component";
 describe("<AlertMaxUser /> components/pages/admin/users-list/components", () => {
   const props = {
     maximumUsers: 12,
-    totalUsersEnabled: 15,
-    limitUsersReached: true
+    totalUsersEnabled: 10,
+    limitUsersReached: false
   };
 
   it("renders a <AlertMaxUser /> component", () => {

@@ -41,6 +41,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
     constraint_subforms
     build_worksheets_with_headers
     preload_agency_names(records)
+    field_value_service.agencies = @agency_names_cache
     preload_referrals(records)
     records.each do |record|
       establish_record_constraints(record)
@@ -197,10 +198,10 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   end
 
   def export_value(value, field)
-    if field.name == 'created_organization' && value.present?
-      return @agency_names_cache[value] if @agency_names_cache.present?
+    if (field.agency? || field.name == 'created_organization') && value.present?
+      return @agency_names_cache[value] if @agency_names_cache&.key?(value)
 
-      return Agency.get_field_using_unique_id(value, :name_i18n)[locale.to_s]
+      return agency_name(value)
     end
     value = super(value, field)
 
@@ -268,10 +269,23 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   private
 
   def preload_agency_names(records)
-    agency_ids = records.map { |record| record.data['created_organization'] }.compact.uniq
+    agency_field_names = Field.where(option_strings_source: 'Agency').pluck(:name)
+    agency_field_names << 'created_organization'
+
+    agency_ids = records.flat_map do |record|
+      collect_agency_ids(record, agency_field_names)
+    end.flatten.compact.uniq
 
     agencies = Agency.where(unique_id: agency_ids).pluck(:unique_id, :name_i18n)
     @agency_names_cache = agencies.to_h.transform_values { |names| names[locale.to_s] || '' }
+  end
+
+  def collect_agency_ids(record, field_names)
+    field_names.filter_map { |field_name| record.data[field_name] }
+  end
+
+  def agency_name(value)
+    Agency.get_field_using_unique_id(value, :name_i18n)&.[](locale.to_s)
   end
 end
 # rubocop:enable Metrics/ClassLength

@@ -339,7 +339,7 @@ en:
       mobility_difficulty_without_equipment_500m: "Mobility difficulty without equipment 500m"
       difficulty_walking_with_equipment: "Difficulty walking with equipment/assistance"
       mobility_difficulty_with_equipment_100m: "Mobility difficulty with equipment 100m"
-      mobility_difficulty_with_equipment_500m: "Mobility difficulty with equipment 500m"      
+      mobility_difficulty_with_equipment_500m: "Mobility difficulty with equipment 500m"
       difficulty_comparative: "Difficulty walking comparative"
       mobility_difficulty_comparative_100m: "Mobility difficulty comparative 100m"
       mobility_difficulty_comparative_500m: "Mobility difficulty comparative 500m"
@@ -355,8 +355,8 @@ en:
       concentrating_difficulty: "Concentrating difficulty"
       accepting_change_difficulty: "Accepting change difficulty"
       difficulty_for_controlling_behaviour: "Difficulty for controlling behaviour like kick,bite or hit others"
-      making_friends_difficulty: "Making friends difficulty"      
-      anxiety_how_often: "Anxiety how often"      
+      making_friends_difficulty: "Making friends difficulty"
+      anxiety_how_often: "Anxiety how often"
       depression_how_often: "Depression how often"
       cfm_yes: "Yes"
       cfm_no: "No"
@@ -1471,6 +1471,7 @@ en:
     form_description: Description
     form_group: Form Group
     form_title: Form title
+    export_unused_fields: Export Unused Fields
     help_text:
       must_be_english: Must be entered in English
       related_groups: Place form into a related group for users
@@ -2695,6 +2696,16 @@ en:
       followups_total: Total Followups
       incidents_total: Total Incidents
       incidents_open_this_quarter: Incidents this quarter
+  unused_fields_report:
+    label: Unused Fields Report
+    field_id: Field ID
+    field_name: Field Name
+    form_name: Form Name
+    cases_where_filled:  Cases where filled
+    prevalence: Prevalence
+    created_at: Created At
+    generated_message: Generated Periodically. Last generated at %{date}.
+    not_found_error: Unused Fields Report not found. Please try again later.
   messages:
     alert_items: You have %{items} items of note.
     alerts_for:
@@ -4422,6 +4433,9 @@ en:
           create:
             explanation: Ability to create a user account.
             label: Create
+          disable_multiple:
+            explanation: Disable multiple users from the users list. Disabled users can no longer access the system.
+            label: Disable multiple users
           manage:
             explanation: 'Allows a user to perform all available actions on users.
               The "Manage" permission essentially means "everything". IMPORTANT: This
@@ -5026,6 +5040,12 @@ en:
       date_last_login: Date of Last Log In
       date_last_case_view: Date of Last Case View
       date_last_case_updated: Date of Last Case Modification
+    disable_text: Are you sure you want to disable these users? They will no longer be able to login to the system.
+    disable_title: Disable Users
+    disable_selection_indicartor: '%{users_selected} user(s) selected'
+    disable_success: Primero is disabling %{users_selected} user(s). It may take several minutes for all of these user(s) to update.
+    selected_records: '%{select_records} user(s) selected'
+    selected_all_records: Select all %{total_records} users that match this query.
   devise:
     failure:
       already_authenticated: "You are already signed in."

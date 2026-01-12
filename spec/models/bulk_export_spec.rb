@@ -94,6 +94,49 @@ describe BulkExport, { search: true } do
     end
   end
 
+
+  describe '#search_records' do
+    let(:bulk_export) { BulkExport.new(record_type: 'case') }
+    let(:default_exporter) { instance_double(Exporters::ExcelExporter) }
+    let(:photowall_exporter) { instance_double(Exporters::PhotoWallExporter) }
+
+    before do
+      allow(bulk_export).to receive(:record_query_scope).and_return(nil)
+    end
+
+    context 'when using a default exporter' do
+      before do
+        allow(bulk_export).to receive(:exporter).and_return(default_exporter)
+        allow(default_exporter).to receive(:skip_attachments?).and_return(true)
+      end
+
+      it 'calls PhoneticSearchService with skip_attachments: true' do
+        expect(PhoneticSearchService).to receive(:search).with(
+          any_args,
+          hash_including(skip_attachments: true)
+        ).and_return(double(records: [], total: 0))
+
+        bulk_export.search_records({}, 100, 1, nil)
+      end
+    end
+
+    context 'when using PhotoWallExporter' do
+      before do
+        allow(bulk_export).to receive(:exporter).and_return(photowall_exporter)
+        allow(photowall_exporter).to receive(:skip_attachments?).and_return(false)
+      end
+
+      it 'calls PhoneticSearchService with skip_attachments: false' do
+        expect(PhoneticSearchService).to receive(:search).with(
+          any_args,
+          hash_including(skip_attachments: false)
+        ).and_return(double(records: [], total: 0))
+
+        bulk_export.search_records({}, 100, 1, nil)
+      end
+    end
+  end
+
   after :each do
     travel_back
     clean_data(BulkExport, Location, UserGroup, User, Agency, Role, Field,
