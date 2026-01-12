@@ -38,45 +38,7 @@ import {
 } from "../../../../records";
 import { useMemoizedSelector } from "../../../../../libs";
 import { RECORD_TYPES_PLURAL, SERVICES_SUBFORM_FIELD } from "../../../../../config";
-import childFunctioningFormDataTemplate from "../../../../child-functioning-form/child-functioning-form-data";
-
-// === NEW HELPER COMPONENT TO MANAGE SYNC LOGIC ===
-function ChildFunctioningFormEffects({ field }) {
-  const { values, setFieldValue } = useFormikContext();
-
-  useEffect(() => {
-    if (fromJS(field.subform_section_id.unique_id) !== "child_functioning_subform_section") return;
-
-    const age = values?.cfm_age;
-
-    if (!age) return;
-
-    Object.entries(childFunctioningFormDataTemplate).forEach(([controller, dependents]) => {
-      const controllerKey = `cfm_${age}_${controller}`;
-
-      if (values?.[controllerKey] === false) {
-        dependents.forEach(dep => {
-          const depKey = `cfm_${age}_${dep}`;
-
-          if (values?.[depKey]) setFieldValue(depKey, "");
-        });
-      }
-    });
-  }, [values, setFieldValue, field]);
-
-  // This component renders nothing, it just runs the effect
-  return null;
-}
-
-// Add prop-types validation for the helper component
-ChildFunctioningFormEffects.propTypes = {
-  field: PropTypes.shape({
-    subform_section_id: PropTypes.shape({
-      unique_id: PropTypes.string.isRequired
-    }).isRequired
-  }).isRequired
-};
-// =================================================
+import ChildFunctioningFormEffects from "../../../../helper/ChildFunctioningFormEffects"
 
 function Component({
   arrayHelpers,
@@ -96,7 +58,7 @@ function Component({
   orderedValues,
   recordType,
   recordModuleID,
-  parentTitle, // eslint-disable-line no-unused-vars
+  parentTitle, 
   isFamilyDetail,
   isFamilyMember,
   isViolation,
@@ -277,9 +239,9 @@ function Component({
         disableActions: isFormShow
       };
 
-  const violationTitle = (
-    <ViolationTitle title={title} values={subformValues} fields={field.subform_section_id.fields} />
-  );
+  const violationTitle = i18n.t(`incident.violation.${isNewSubform ? "save" : "update"}_and_return`, {
+    association: isViolationAssociation ? parentTitle || title : i18n.t("incident.violation.title")
+  });
   const familyMemberTitle = i18n.t(`family.family_member.${isNewSubform ? "save" : "update"}_and_return`);
   const handleBackLabel = isViolation || isViolationAssociation ? violationTitle : familyMemberTitle;
 
