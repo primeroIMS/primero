@@ -5,6 +5,8 @@ import { fromJS } from "immutable";
 import toReportingLocationTable, { dashboardTableData } from "./to-reporting-location-table";
 
 describe("toReportingLocationTable - pages/dashboard/utils/", () => {
+  const label = labelString => labelString;
+
   it("should convert the data for the table", () => {
     const locations = fromJS([
       {
@@ -92,10 +94,11 @@ describe("toReportingLocationTable - pages/dashboard/utils/", () => {
 
     const i18nMock = { t: () => ({}), locale: "en" };
 
-    const converted = toReportingLocationTable(data, reportingLocationConfig, i18nMock, locations).data;
+    const converted = toReportingLocationTable(data, reportingLocationConfig, i18nMock, locations, label).data;
 
     expect(converted).toEqual(expected);
   });
+
   describe("dashboardTableData", () => {
     it("should return data for table", () => {
       const optionsByIndex = { CODE1: "My District", code2: "My District 2" };
@@ -132,7 +135,7 @@ describe("toReportingLocationTable - pages/dashboard/utils/", () => {
           ]
         }
       ];
-      const converted = dashboardTableData(optionsByIndex, data, indicators, listKey);
+      const converted = dashboardTableData(optionsByIndex, data, indicators, listKey, label);
 
       expect(converted).toEqual(expected);
     });

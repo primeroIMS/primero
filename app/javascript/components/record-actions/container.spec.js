@@ -376,7 +376,7 @@ describe("<RecordActions />", () => {
           })
         );
         fireEvent.click(screen.getByRole("button"));
-        expect(screen.getAllByRole("menuitem")).toHaveLength(10);
+        expect(screen.getAllByRole("menuitem")).toHaveLength(11);
       });
 
       it("renders MenuItem with Refer Cases option", () => {

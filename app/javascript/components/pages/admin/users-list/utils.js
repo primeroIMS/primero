@@ -4,7 +4,7 @@ import { fromJS } from "immutable";
 
 import { FILTER_TYPES } from "../../../index-filters";
 
-import { AGENCY, DISABLED, USER_GROUP } from "./constants";
+import { AGENCY, DISABLED, USER_GROUP, LAST_DATE, DISABLE_DIALOG_NAME, ACTION_NAMES, ACTION_IDS } from "./constants";
 
 const searchableAgencies = (data, i18n) => {
   return data.reduce(
@@ -58,20 +58,19 @@ export const getFilters = (i18n, filterAgencies, filterUserGroups, filterPermiss
     options: userGroupOptions(filterUserGroups),
     type: FILTER_TYPES.MULTI_SELECT,
     multiple: false
-  } // ,
-  // TODO: Add back once users.timestamp index is added
-  // {
-  //   name: "cases.filter_by.by_date",
-  //   field_name: LAST_DATE,
-  //   type: FILTER_TYPES.DATES,
-  //   options: {
-  //     [i18n.locale]: [
-  //       { id: "last_access", display_name: i18n.t("users.filters.date_last_login") },
-  //       { id: "last_case_viewed", display_name: i18n.t("users.filters.date_last_case_view") },
-  //       { id: "last_case_updated", display_name: i18n.t("users.filters.date_last_case_updated") }
-  //     ]
-  //   }
-  // }
+  },
+  {
+    name: "cases.filter_by.by_date",
+    field_name: LAST_DATE,
+    type: FILTER_TYPES.DATES,
+    options: {
+      [i18n.locale]: [
+        { id: "last_access", display_name: i18n.t("users.filters.date_last_login") },
+        { id: "last_case_viewed", display_name: i18n.t("users.filters.date_last_case_view") },
+        { id: "last_case_updated", display_name: i18n.t("users.filters.date_last_case_updated") }
+      ]
+    }
+  }
 ];
 
 export const agencyBodyRender = (i18n, agencies, value) =>
@@ -82,3 +81,23 @@ export const buildObjectWithIds = elems =>
     (previousValue, currentValue) => previousValue.merge(fromJS({ [currentValue.get("id")]: currentValue })),
     fromJS({})
   );
+
+export const buildActionList = ({ i18n, handleDialogClick, canDisableMultiple }) => {
+  const actions = [
+    {
+      id: ACTION_IDS.disable,
+      name: i18n.t("actions.disable"),
+      disableOffline: true,
+      condition: canDisableMultiple,
+      action: () => handleDialogClick(DISABLE_DIALOG_NAME, ACTION_NAMES.disable)
+    }
+  ];
+
+  return actions.filter(action => {
+    if (action.condition) {
+      return action;
+    }
+
+    return null;
+  });
+};

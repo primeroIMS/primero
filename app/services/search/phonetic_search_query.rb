@@ -13,8 +13,8 @@ class Search::PhoneticSearchQuery < Search::SearchQuery
     )
   )
 
-  def build
-    record_query = super
+  def build(skip_attachments = false)
+    record_query = super(skip_attachments)
     return record_query unless query.present?
 
     self.tokens = LanguageService.tokenize(query)

@@ -58,7 +58,6 @@ function Component({ name, field, label, disabled, formik, mode, recordType, hel
     initialAttachmentValue = {
       ...initialAttachmentValue,
       document_description: "",
-      date: null,
       comments: ""
     };
   }

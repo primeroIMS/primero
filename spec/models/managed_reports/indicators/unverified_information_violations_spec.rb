@@ -14,6 +14,9 @@ describe ManagedReports::Indicators::UnverifiedInformationViolations do
     incident1 = Incident.create!(
       data: { incident_date: Date.new(2022, 4, 4), date_of_first_report: Date.new(2022, 4, 4), status: 'open' }
     )
+    incident2 = Incident.create!(
+      data: { incident_date: Date.new(2022, 4, 8), date_of_first_report: Date.new(2022, 4, 8), status: 'closed' }
+    )
 
     Violation.create!(
       data: { type: 'killing', violation_tally: { 'boys' => 2, 'girls' => 0, 'unknown' => 2, 'total' => 4 },
@@ -22,7 +25,13 @@ describe ManagedReports::Indicators::UnverifiedInformationViolations do
     )
 
     Violation.create!(
-      data: { type: 'attack_on_hospitals', ctfmr_verified: 'report_pending_verification',
+      data: { type: 'attack_on_hospitals', ctfmr_verified: 'reported_not_verified',
+              violation_tally: { 'boys' => 1, 'girls' => 2, 'unknown' => 5, 'total' => 8 } },
+      incident_id: incident1.id
+    )
+
+    Violation.create!(
+      data: { type: 'deprivation_liberty', ctfmr_verified: 'reported_not_verified',
               violation_tally: { 'boys' => 1, 'girls' => 2, 'unknown' => 5, 'total' => 8 } },
       incident_id: incident1.id
     )
@@ -37,13 +46,23 @@ describe ManagedReports::Indicators::UnverifiedInformationViolations do
               violation_tally: { 'boys' => 3, 'girls' => 4, 'unknown' => 5, 'total' => 12 } },
       incident_id: incident.id
     )
+
+    Violation.create!(
+      data: { type: 'attack_on_schools', ctfmr_verified: 'reported_not_verified',
+              violation_tally: { 'boys' => 3, 'girls' => 1, 'unknown' => 5, 'total' => 9 } },
+      incident_id: incident2.id
+    )
+  end
+
+  let(:attack_on_hospitals_statuses) do
+    'attack_on_hospitals_report_pending_verification,attack_on_hospitals_reported_not_verified'
+  end
+
+  let(:attack_on_schools_statuses) do
+    'attack_on_schools_report_pending_verification,attack_on_schools_reported_not_verified'
   end
 
   it 'return data for unverified information indicator' do
-    query = %w[
-      incident_date=2021-04-01..2022-06-10
-    ]
-
     data = ManagedReports::Indicators::UnverifiedInformationViolations.build(
       nil,
       {
@@ -62,9 +81,9 @@ describe ManagedReports::Indicators::UnverifiedInformationViolations do
           'id' => 'attack_on_hospitals',
           'total' => {
             count: 1,
-            query: %w[
-              violation_with_verification_status=attack_on_hospitals_report_pending_verification
-              incident_date=2021-04-01..2022-06-10
+            query: [
+              "violation_with_verification_status=#{attack_on_hospitals_statuses}",
+              'incident_date=2021-04-01..2022-06-10'
             ]
           }
         },
@@ -72,9 +91,9 @@ describe ManagedReports::Indicators::UnverifiedInformationViolations do
           'id' => 'attack_on_schools',
           'total' => {
             count: 1,
-            query: %w[
-              violation_with_verification_status=attack_on_schools_report_pending_verification
-              incident_date=2021-04-01..2022-06-10
+            query: [
+              "violation_with_verification_status=#{attack_on_schools_statuses}",
+              'incident_date=2021-04-01..2022-06-10'
             ]
           }
         }

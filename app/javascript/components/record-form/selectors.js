@@ -68,10 +68,11 @@ const forms = ({
   checkPermittedForms = false,
   includeDefaultForms = true
 }) => {
+  const defaultFormKeys = Object.keys(getDefaultForms(appLocale));
   const arrayOfPermittedFormIDs = permittedFormIDs?.keySeq()?.toArray() || [];
   const formsPermitted = includeDefaultForms
-    ? arrayOfPermittedFormIDs.concat(Object.keys(getDefaultForms(appLocale)))
-    : arrayOfPermittedFormIDs;
+    ? arrayOfPermittedFormIDs.concat(defaultFormKeys)
+    : arrayOfPermittedFormIDs.filter(id => !defaultFormKeys.includes(id));
 
   if (isEmpty(formSections)) return null;
 
@@ -280,10 +281,9 @@ export const getRecordInformationNav = createCachedSelector(
     return formSections
       .map(form => buildFormNav(form))
       .filter(form => {
-        return (
-          isEmpty(form.permission_actions) ||
-          checkPermissions(recordPermissions || userPermissions, form.permission_actions)
-        );
+        const currentPermissions = recordPermissions?.size > 0 ? recordPermissions : userPermissions;
+
+        return isEmpty(form.permission_actions) || checkPermissions(currentPermissions, form.permission_actions);
       })
       .sortBy(form => form.order);
   }
@@ -408,6 +408,11 @@ export const getLookups = (state, page = 1, per = 20) => {
 
   return fromJS({});
 };
+
+export const getIdentifiedUser = (state, username) =>
+  state
+    .getIn([NAMESPACE, "options", "users", "identified"], fromJS([]))
+    .find(user => user.get("user_name") === username);
 
 export const getLocations = state => state.getIn([NAMESPACE, "options", "locations"], fromJS([]));
 

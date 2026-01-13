@@ -39,6 +39,11 @@ class Role < ApplicationRecord
     'referral_authorization' => { 'type' => 'boolean' }
   }.freeze
 
+  CATEGORY_LIMITED = 'limited'
+  CATEGORY_SYSTEM = 'system'
+  CATEGORY_MAINTENANCE = 'maintenance'
+  CATEGORY_IDENTIFIED = 'identified'
+
   has_many :form_permissions
   has_many :form_sections, through: :form_permissions, dependent: :destroy
   has_and_belongs_to_many :primero_modules, -> { distinct }

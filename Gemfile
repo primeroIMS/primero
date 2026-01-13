@@ -44,14 +44,15 @@ gem 'rails',               '6.1.7.10'
 gem 'rake',                '~> 13.0'
 gem 'rbnacl',              '>= 7.1.1'  # Libsodium Ruby binding. Used for encrypting export file passwords.
 gem 'resolv',              '>= 0.3.1'  # CVE-2025-24294
+gem 'ruby-mailchecker',    '~> 6.0'    # Suggests correct email domains for mistyped email addresses
 gem 'rubyzip',             '~> 2.3',   # Zip and encrypt exported files
     require: 'zip'
 gem 'spreadsheet',         '~> 1.3'    # Read XLS spreadsheets for imports (not XLSX!). TODO: Different gem? Reconsider?
 # Note: if upgrading Sunspot, update the corresponding version of Solr on the Docker image
 # Current Solr version is 5.3.1
-gem 'sunspot_rails',       '~> 2.6',    # Rails ODM bindings to Solr
+gem 'sunspot_rails',       '~> 2.6',   # Rails ODM bindings to Solr
     require: false
-gem 'sunspot_solr',        '~> 2.6',    # Ruby bindings to Solr
+gem 'sunspot_solr',        '~> 2.6',   # Ruby bindings to Solr
     require: false
 gem 'text',                '~> 1.3'    # Phonetic Search Algorithms
 gem 'thor',                '>= 1.3.3'  # CVE-2025-54314

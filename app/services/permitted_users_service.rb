@@ -4,10 +4,11 @@
 
 # Calculate the permitted users for a user if specified
 class PermittedUsersService
-  attr_accessor :user
+  attr_accessor :user, :include_activity_stats
 
-  def initialize(user = nil)
+  def initialize(user = nil, include_activity_stats = false)
     self.user = user
+    self.include_activity_stats = include_activity_stats
   end
 
   def find_permitted_users(filters = nil, pagination = nil, order_params = nil)
@@ -23,11 +24,15 @@ class PermittedUsersService
     { total:, users: }
   end
 
+  def bulk_disable_users(filters)
+    users = apply_filters(permitted_users, filters)
+    users.update_all(disabled: true, updated_at: Time.current)
+  end
+
   private
 
   def permitted_users
-    # TODO: Add `with_audit_dates` back once users.timestamp index is added
-    users = User.all.includes(:user_groups, role: :primero_modules)
+    users = User.with_audit_dates_if(include_activity_stats).all.includes(:user_groups, role: :primero_modules)
 
     return users if user.blank? || user.super_user?
 
@@ -56,8 +61,9 @@ class PermittedUsersService
   def apply_filters(users_query, filters)
     return users_query unless filters.present?
 
-    # TODO: Add `with_audit_dates` back once users.timestamp index is added
-    # users_query = users_query.apply_date_filters(users_query, filters)
+    users_query = users_query.apply_date_filters(users_query, filters) if include_activity_stats
+
+    users_query = users_query.where(id: filters[:ids]) if filters[:ids].present?
 
     query_filters = build_query_filters(filters)
     users_query = users_query.joins(:user_groups) if query_filters[:user_groups].present?
@@ -67,7 +73,7 @@ class PermittedUsersService
   end
 
   def build_query_filters(filters)
-    query_filters = filters.except(:query, *User::AUDIT_LAST_DATE.keys).compact
+    query_filters = filters.except(:query, :ids, *User::AUDIT_LAST_DATE.keys).compact
     query_filters['disabled'] = query_filters['disabled'].values if query_filters['disabled'].present?
     user_group_ids = query_filters.delete('user_group_ids')
 

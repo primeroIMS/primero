@@ -115,7 +115,7 @@ describe("middleware/utils/default-error-callback.js", () => {
       {
         action: "notifications/ENQUEUE_SNACKBAR",
         payload: {
-          messageKey: "test error, test error 2",
+          messageKey: "test error",
           messageDetailed: undefined,
           options: {
             variant: "error",
@@ -138,5 +138,33 @@ describe("middleware/utils/default-error-callback.js", () => {
 
     defaultErrorCallback({ store, response });
     expect(handleRestCallback).not.toHaveBeenCalled();
+  });
+
+  it("returns an attachment upload error for queued attachment failures", () => {
+    const response = { status: 500 };
+    const fromAttachment = { field_name: "file_field", record_type: "case", record: { id: "rec123" } };
+
+    const errorPayload = [
+      {
+        action: "notifications/ENQUEUE_SNACKBAR",
+        payload: {
+          messageKey: "sync.error.attachment",
+          messageDetailed: undefined,
+          messageParams: { record_type: "case" },
+          recordType: RECORD_TYPES.cases,
+          options: {
+            variant: "error",
+            key: "attachment_sync_error_rec123"
+          }
+        }
+      },
+      {
+        action: "SET_DIALOG_PENDING",
+        payload: false
+      }
+    ];
+
+    defaultErrorCallback({ store, response, recordType: RECORD_TYPES.cases, fromQueue: true, fromAttachment });
+    expect(handleRestCallback).toHaveBeenCalledWith(store, errorPayload, response, {});
   });
 });

@@ -12,13 +12,14 @@ class ManagedReports::Indicators::IncidentsFromOtherServiceProvider < ManagedRep
     # rubocop:disable Metrics/MethodLength
     def sql(current_user, params = {})
       date_param = filter_date(params)
-      %{
+      <<~SQL
         SELECT
           'incidents' AS id,
           #{grouped_date_query(params['grouped_by'], date_param)&.concat(' as group_id,')}
           COUNT(*) AS total
         FROM incidents
-        WHERE data @? '$[*] ? (
+        WHERE srch_record_state = TRUE
+        AND data @? '$[*] ? (
           @.consent_reporting  == "true" && @.service_referred_from != "self_referral"
         ) ? (
           !exists(@.gbv_reported_elsewhere) || @.gbv_reported_elsewhere != "gbvims-org"
@@ -26,7 +27,7 @@ class ManagedReports::Indicators::IncidentsFromOtherServiceProvider < ManagedRep
         #{user_scope_query(current_user)&.prepend('AND ')}
         #{date_range_query(date_param)&.prepend('AND ')}
         #{grouped_date_query(params['grouped_by'], date_param)&.prepend('group by ')}
-      }
+      SQL
     end
     # rubocop:enable Metrics/MethodLength
   end

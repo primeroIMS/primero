@@ -15,12 +15,11 @@ class Api::V2::UsersController < ApplicationApiController
 
   def index
     authorize! :index, User
-    filters = params.permit(:user_name, :agency, :location, :services, :user_group_ids,
+    filters = params.permit(:user_name, :agency, :location, :services, :user_group_ids, :ids,
                             :query, last_access: %i[from to], last_case_viewed: %i[from to],
                                     last_case_updated: %i[from to], disabled: {}).to_h
-    results = PermittedUsersService.new(current_user).find_permitted_users(
-      filters.compact, pagination, order_params
-    )
+    results = PermittedUsersService.new(current_user, include_activity_stats?)
+                                   .find_permitted_users(filters.compact, pagination, order_params)
 
     @users = results[:users]
     @total = results[:total]
@@ -52,6 +51,13 @@ class Api::V2::UsersController < ApplicationApiController
     @user.destroy!
   end
 
+  def update_bulk
+    authorize! :disable_multiple, User
+    PermittedUsersService.new(current_user, include_activity_stats?)
+                         .bulk_disable_users(users_bulk_params)
+    render :index
+  end
+
   protected
 
   def order_params
@@ -62,9 +68,19 @@ class Api::V2::UsersController < ApplicationApiController
     @user_params ||= params.require(:data).permit(User.permitted_api_params(current_user, @user))
   end
 
+  def users_bulk_params
+    params.require(:data).permit(:disabled, :agency, :user_group_ids, :query,
+                                 ids: [],
+                                 last_access: %i[from to],
+                                 last_case_viewed: %i[from to],
+                                 last_case_updated: %i[from to]).to_h
+  end
+
   def load_user
-    # TODO: Add `with_audit_dates` back once users.timestamp index is added
-    @user = User.includes(:role, :user_groups).joins(:role).find(params[:id])
+    @user = User.with_audit_dates_if(include_activity_stats?)
+                .includes(:role, :user_groups)
+                .joins(:role)
+                .find(params[:id])
   end
 
   def load_extended
@@ -81,5 +97,9 @@ class Api::V2::UsersController < ApplicationApiController
 
   def keep_user_signed_in
     bypass_sign_in(@user) if @user.saved_change_to_encrypted_password? && current_user == @user
+  end
+
+  def include_activity_stats?
+    params[:activity_stats].to_s == 'true'
   end
 end

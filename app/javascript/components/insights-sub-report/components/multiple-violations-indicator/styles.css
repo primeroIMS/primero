@@ -24,6 +24,8 @@
   color: var(--c-blue);
   text-transform: none;
   display: inline-block;
+  font-size: var(--fs-14);
+  margin: 6px 0;
 }
 
 .listItem:hover {
@@ -62,11 +64,16 @@
   border-bottom: 1px solid var(--c-warm-grey-2);
 }
 
+.listIncident {
+  color:  var(--c-mid-grey);
+}
+
 .secondaryTitle {
   margin: var(--sp-1) 0;
 }
 
 .secondaryList {
+  font-weight: normal;
   padding-left: var(--sp-3);
   list-style: none;
 }

@@ -16,7 +16,7 @@ class Api::V2::UsageReportsController < ApplicationApiController
   def usage_report_params
     return @usage_report_params if @usage_report_params.present?
 
-    @usage_report_params = params.permit(:from, :to, :file_name, :export_type)
+    @usage_report_params = params.permit(:from, :to, :include_user_metrics, :file_name, :export_type)
     @usage_report_params = DestringifyService.destringify(@usage_report_params.to_h, true)
   end
 
@@ -25,7 +25,7 @@ class Api::V2::UsageReportsController < ApplicationApiController
   end
 
   def report
-    @report ||= UsageReport.new(usage_report_params.slice(:from, :to)).tap(&:build)
+    @report ||= UsageReport.new(usage_report_params.slice(:from, :to, :include_user_metrics)).tap(&:build)
   end
 
   def module_id

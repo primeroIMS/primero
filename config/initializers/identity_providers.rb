@@ -4,6 +4,6 @@
 
 Rails.application.config.before_initialize do
   Rails.application.configure do
-    config.x.idp.use_identity_provider = ActiveRecord::Type::Boolean.new.cast(ENV.fetch('PRIMERO_ID_EXTERNAL', nil))
+    config.x.idp.use_identity_provider = ActiveRecord::Type::Boolean.new.cast(ENV.fetch('PRIMERO_ID_EXTERNAL', false))
   end
 end

@@ -1,0 +1,53 @@
+# frozen_string_literal: true
+
+# Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
+
+# An indicator that returns the violations late verified by perpetrator
+class ManagedReports::Indicators::LateVerificationViolationsByPerpetrator < ManagedReports::SqlReportIndicator
+  include ManagedReports::GhnIndicatorHelper
+
+  class << self
+    def id
+      'late_verification_violations_by_perpetrator'
+    end
+
+    def sql(current_user, params = {})
+      <<~SQL
+        WITH violations_in_scope AS (
+          SELECT
+            violations.id,
+            violations.data->>'type' AS type,
+            CASE WHEN #{filter_types(Violation::GRAVE_TYPES_FOR_VIOLATION_COUNT).query}
+              THEN 1
+              ELSE COALESCE(CAST(violations.data->'violation_tally'->'total' AS INTEGER), 0)
+            END AS violation_tally_total
+          FROM violations
+          INNER JOIN incidents incidents ON incidents.id = violations.incident_id
+            AND incidents.srch_status = 'open'
+            AND incidents.srch_record_state = TRUE
+            #{user_scope_query(current_user, 'incidents')&.prepend('AND ')}
+            #{date_range_query(params['ghn_date_filter'], 'violations', 'data', 'ctfmr_verified_date')&.prepend('AND ')}
+          WHERE violations.data @? '$[*] ? (@.is_late_verification == true)'
+          AND #{filter_types(Violation::GRAVE_TYPES).query}
+        )
+        SELECT
+          perpetrators.data->>'armed_force_group_party_name' AS name,
+          violations_in_scope.type AS key,
+          SUM(violation_tally_total) AS sum,
+          CAST(
+            SUM(SUM(violation_tally_total)) OVER (
+              PARTITION BY perpetrators.data->>'armed_force_group_party_name'
+            ) AS INTEGER
+          ) AS total
+        FROM violations_in_scope
+        INNER JOIN perpetrators_violations ON perpetrators_violations.violation_id = violations_in_scope.id
+        INNER JOIN perpetrators ON perpetrators.id = perpetrators_violations.perpetrator_id
+        GROUP BY name, key
+      SQL
+    end
+
+    def group_by_victim?
+      false
+    end
+  end
+end

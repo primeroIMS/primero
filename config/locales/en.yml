@@ -49,6 +49,7 @@ en:
     error:
       create: Failed to create %{record_type}. Please contact support.
       update: Update to %{record_type} %{short_id} failed. Please contact support.
+      attachment: Failed to upload attachment(s) for %{record_type}. Please contact support.
 
   actions:
     approvals: Approvals
@@ -71,6 +72,7 @@ en:
     services_from_case_creation_success: Service Provision record successfully created.
     services_section_from_case: Add Service Provision
     mark_for_offline: Mark for Offline
+    attribute: Attribute
   agencies:
     label: Agency
     translations:
@@ -149,6 +151,7 @@ en:
     approve_case_plan: Approve Case Plan
     approve_closure: Approve Closure
     approve_gbv_closure: Approve GBV Closure
+    attribute: Attribute
     back: Back
     bundle_export: Configuration Bundle
     bundle_import: Configuration Bundle
@@ -190,6 +193,7 @@ en:
     link: Link
     mark_for_mobile: Mark for mobile
     new: New
+    next: Next
     ok: OK
     print: Print
     reassign: Assign
@@ -335,7 +339,7 @@ en:
       mobility_difficulty_without_equipment_500m: "Mobility difficulty without equipment 500m"
       difficulty_walking_with_equipment: "Difficulty walking with equipment/assistance"
       mobility_difficulty_with_equipment_100m: "Mobility difficulty with equipment 100m"
-      mobility_difficulty_with_equipment_500m: "Mobility difficulty with equipment 500m"      
+      mobility_difficulty_with_equipment_500m: "Mobility difficulty with equipment 500m"
       difficulty_comparative: "Difficulty walking comparative"
       mobility_difficulty_comparative_100m: "Mobility difficulty comparative 100m"
       mobility_difficulty_comparative_500m: "Mobility difficulty comparative 500m"
@@ -351,8 +355,8 @@ en:
       concentrating_difficulty: "Concentrating difficulty"
       accepting_change_difficulty: "Accepting change difficulty"
       difficulty_for_controlling_behaviour: "Difficulty for controlling behaviour like kick,bite or hit others"
-      making_friends_difficulty: "Making friends difficulty"      
-      anxiety_how_often: "Anxiety how often"      
+      making_friends_difficulty: "Making friends difficulty"
+      anxiety_how_often: "Anxiety how often"
       depression_how_often: "Depression how often"
       cfm_yes: "Yes"
       cfm_no: "No"
@@ -372,6 +376,16 @@ en:
     enable_dialog_title: Enable Case
     enable_success: Successfully enabled case
     export: Export
+    attribute:
+      name: Name
+      email: Email
+      success: Attribute updated successfully
+      title: Attribute
+      text: Select the user who identified this case. If your system allows for self-registration,
+        this user will be able to access the case as “My Case” when they login to the system.
+      confirm_title: Attribute Confirmation
+      confirm_text: Are you sure you want to attribute this case to the user with the following details?
+      identified_by_placeholder: Please type at least two characters to search for a username.
     mark_for_offline:
       title: Mark for Offline
       text: Are you sure you want to mark these Cases for use when you are offline?
@@ -819,12 +833,14 @@ en:
     name: Name
     name_or_survivor_code: Name or Survivor Code
     near_deadline: Near Deadline
+    identified: Identified
     new: New & Updated
     new_child_assigned_to_you: New Cases Assigned To You
     new_incident: New Incidents
     new_incident_assigned_to_you: New Assigned Incidents
     new_last_week: New (last week)
     new_or_updated: New or Updated
+    recently_assigned_to_me: Recently Assigned to Me
     new_referred: New Referrals
     new_service_provision: New Service Provisions
     new_this_week: New (this week)
@@ -984,6 +1000,10 @@ en:
   errors:
     api:
       internal_server: Server Error
+      user:
+        disposable_email: "Looks like this is a temporary email provider. To keep accounts secure, please use your personal or work email."
+        captcha_service_unavailable: "Verification service is currently unavailable. Please try submitting again: refreshing the page usually helps if the connection was interrupted."
+        invalid_captcha: "We couldn't verify you just now. Please try submitting again: refreshing the page usually helps if the connection was interrupted."
     attachments:
       maximum: You have reached your maximum attachments per record.
       file_upload_unsuccessful: File upload unsuccessful. The system has reached the document storage limit. Please contact your system administrator.
@@ -997,6 +1017,8 @@ en:
       child:
         age: Age must be between 0 and 130
         date_of_birth: Please enter a valid date of birth for this case record
+        identified_by_unique: An identified record already exists for this user
+        identified_by_exists: Invalid user. User does not exist
       export_configuration:
         opt_out_field_does_not_exist: Specified opt_out field does not exist on the
           record.
@@ -1030,7 +1052,10 @@ en:
         email: "Please enter a valid email (example: 'name@example.org')"
         password_mismatch: The password fields do not have the same password
         password_length: The password must be at least %{min} characters
+        user_name_uniqueness: A User with that user name already exists. Please enter a different one
         email_uniqueness: A User with this email address already exists. Please enter a different one
+        data_processing_consent_provided_on: You must provide consent to data processing
+        code_of_conduct: Invalid code of conduct. Please make sure that you are accepting the latest code of conduct.
       code_of_conduct:
         title_present: Title must not be blank
         content_present: Content must not be blank
@@ -1446,6 +1471,7 @@ en:
     form_description: Description
     form_group: Form Group
     form_title: Form title
+    export_unused_fields: Export Unused Fields
     help_text:
       must_be_english: Must be entered in English
       related_groups: Place form into a related group for users
@@ -1566,7 +1592,9 @@ en:
     my: ဗမာစာ
     pl: Polski
     pt: Português
+    pt-AO: Português (Angola)
     pt-BR: Português (Brasil)
+    pt-MZ: Português (Moçambique)
     records_need_attention: Records need Attention
     ro: Română
     ru: Русский
@@ -2225,6 +2253,8 @@ en:
       followup_type: Type of Follow Up
       service_type: Type of Service
       has_late_verified_violations: Late Verified?
+      age: Age
+      service_implemented: Service Implemented
     status_options:
       open: Open
       closed: Closed
@@ -2328,6 +2358,8 @@ en:
         unverified_violations_by_perpetrator: Unverified Information - Violations by Perpetrator
         unverified_violations_by_region: Unverified Information - Violations by Region
         late_verification_violations: Late Verification - Violations
+        late_verification_violations_by_region: Late Verification - Violations by Region
+        late_verification_violations_by_perpetrator: Late Verification - Violations by Perpetrator
         unverified_information_violations: Unverified Information - Violations
         killing: Killing of Children
         maiming: Maiming of Children
@@ -2347,6 +2379,7 @@ en:
         unknown: Unknown
         associated_violations: Associated Violations
         deprivation_liberty: Deprivation of Liberty
+        group_multiple_violations: Group victims affected by multiple violations
     violations:
       name: Violations
       description: ''
@@ -2602,6 +2635,38 @@ en:
       percentage_cases_safety_plan:
         safety_plan_completed: 'Safety Plan completed'
         safety_plan_not_completed: 'Safety Plan not completed'
+    case_management_kpis_report:
+      name: Case Management KPIs
+      description: Tracks key indicators of CP Case Management performance, including percentage of referrals made by different stakeholders, Reporting Location and Sex for selected Protection Concerns, and percentage of cases with each reason for closure.
+      reports:
+        source_identification_referral: Source of Identification / Referral
+        protection_concerns_reporting_location: Protection Concerns by Reporting Location
+        reasons_for_closure: Reason for Closure
+      sub_reports:
+        case_source_identification_referral: Source of Identification / Referral
+        case_protection_concerns_reporting_location: Protection Concerns by Reporting Location
+        percentage_case_reasons_for_closure: Reason for Closure
+      filter_options:
+        registration_date: Registration Date
+    case_management_kpis_service_referrals_report:
+      name: Case Management KPIs - Service Referrals
+      description: Number of Cases referred for appropriate ​services, per type of multi-sectoral service
+      reports:
+        referred_appropriate_service: Cases referred for appropriate services
+      sub_reports:
+        case_referred_appropriate_service: Cases referred for appropriate services
+      filter_options:
+        registration_date: Registration Date
+        service_implemented_day_time: Service Implemented On
+    distribution_users_role_report:
+      name: Distribution of Users by Role
+      description: Gives the number of Users with each Role, broken down by User Group. This allows you to see the number of supervisory and administrative staff per case worker.
+      reports:
+        distribution_users_role: Distribution of Users by Role
+      sub_reports:
+        distribution_users_role: Distribution of Users by Role
+      distribution_users_role:
+        overall: Overall
   usage_report:
     label: Export Usage Report
     file_name: Create your own file name (Optional)
@@ -2631,6 +2696,16 @@ en:
       followups_total: Total Followups
       incidents_total: Total Incidents
       incidents_open_this_quarter: Incidents this quarter
+  unused_fields_report:
+    label: Unused Fields Report
+    field_id: Field ID
+    field_name: Field Name
+    form_name: Form Name
+    cases_where_filled:  Cases where filled
+    prevalence: Prevalence
+    created_at: Created At
+    generated_message: Generated Periodically. Last generated at %{date}.
+    not_found_error: Unused Fields Report not found. Please try again later.
   messages:
     alert_items: You have %{items} items of note.
     alerts_for:
@@ -2664,6 +2739,7 @@ en:
     bulk_exports: Exports
     cases: Cases
     home: Home
+    my_case: My Case
     key_performance_indicators: Pulse/KPIs
     incidents: Incidents
     logout: Log out
@@ -3370,6 +3446,11 @@ en:
           update_case_relationships:
             explanation: Allows a user updating their Case to search for another, existing Case and link it to their Case. Also allows users to un-link this second Case from their Case.
             label: Link/Unlink Case to another Case
+          attribute:
+            explanation: Select the user who identified the case. For some systems, this may simply be the user who first
+              initiated the beneficiary’s path into case management. In other systems which allow for self-registration,
+              this user may be the beneficiary themselves.
+            label: Attribute
         explanation: Represents an individual child, survivor, or other beneficiary.
         label: Case
       dashboard:
@@ -3379,6 +3460,9 @@ en:
               This includes Cases which are newly assigned to the current user, or which another
               user has updated since the last time the current user updated it.
             label: 'Action Needed: New or Updated'
+          action_needed_identified:
+            explanation: Shows the number of cases which have been identified but which are not yet open and receiving case management.
+            label: 'Action Needed: Identified Cases'
           action_needed_new_referrals:
             explanation: Displays the 'New Referrals' indicator in the 'Action Needed' dashboard.
               This includes any Cases with a new Referral sent to the current user,
@@ -3880,6 +3964,15 @@ en:
           case_characteristics:
             label: 'Case Characteristics'
             explanation: 'Only relevant for the PCM (Protection Case Management) module. Disaggregates cases by a number of key characteristics: protection risk, risk level, duration, disability status, completion of a safety plan, and gender.'
+          case_management_kpis_report:
+            label: Case Management KPIs
+            explanation: Tracks key indicators of CP Case Management performance, including percentage of referrals made by different stakeholders, Reporting Location and Sex for selected Protection Concerns, and percentage of cases with each reason for closure.
+          case_management_kpis_service_referrals_report:
+            label: Case Management KPIs - Service Referrals
+            explanation: Number of Cases referred for appropriate ​services, per type of multi-sectoral service
+          distribution_users_role_report:
+            label: Distribution of Users by Role
+            explanation: Gives the number of Users with each Role, broken down by User Group. This allows you to see the number of supervisory and administrative staff per case worker.
       matching_configuration:
         actions:
           manage:
@@ -4340,6 +4433,9 @@ en:
           create:
             explanation: Ability to create a user account.
             label: Create
+          disable_multiple:
+            explanation: Disable multiple users from the users list. Disabled users can no longer access the system.
+            label: Disable multiple users
           manage:
             explanation: 'Allows a user to perform all available actions on users.
               The "Manage" permission essentially means "everything". IMPORTANT: This
@@ -4464,6 +4560,7 @@ en:
     record_history_separator: Record History
     last_updated_at: Last Updated At
     last_updated_by: Last Updated By
+    identified_by: Identified By
   record_panel:
     record_information: Record Information
   referral:
@@ -4859,6 +4956,8 @@ en:
     position: Position
     provider_username_help: 'Example: my.username@%{domain}'
     role_id: Role
+    duplicate: Is this user the second account of an individual who needs multiple accounts in the system because of Primero’s role limitations?
+    self_registered: Did this user get created through one of our self-registration flows?
     send_mail: Receive email notifications?
     send_mail_preferences:
       label: Which types of email notifications would you like to receive?
@@ -4941,12 +5040,29 @@ en:
       date_last_login: Date of Last Log In
       date_last_case_view: Date of Last Case View
       date_last_case_updated: Date of Last Case Modification
+    disable_text: Are you sure you want to disable these users? They will no longer be able to login to the system.
+    disable_title: Disable Users
+    disable_selection_indicartor: '%{users_selected} user(s) selected'
+    disable_success: Primero is disabling %{users_selected} user(s). It may take several minutes for all of these user(s) to update.
+    selected_records: '%{select_records} user(s) selected'
+    selected_all_records: Select all %{total_records} users that match this query.
   devise:
     failure:
       already_authenticated: "You are already signed in."
       invalid: "Invalid %{authentication_keys} or password."
       locked: "Your account is locked."
       last_attempt: "You have one more attempt before your account is locked."
+  self_registration:
+    data_processing_consent_required: You must provide consent for data processing.
+    locale: Preferred Language
+    title: Register
+    save: Register
+    user_name_help_text: This will also be your user name
+    success:
+      return_button: Return to login
+      header: Please verify your email
+      success: User account successfully created.
+      text: "Thanks for registering! We are creating a user account for you now and have sent an email to the address you provided. \n\n Please click the confirmation link in the email to set your account password and continue with registration."
   admin:
     locations:
       selected_records: '%{select_records} location(s) selected'

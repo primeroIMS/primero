@@ -147,14 +147,24 @@ describe PermittedUsersService do
     expect(users[:users].map(&:user_name)).to match_array(%w[admin_user])
   end
 
-  # TODO: Add back once users.timestamp index is added
-  xit 'search users by last_access' do
-    results = PermittedUsersService.new(@super_user).find_permitted_users(
+  it 'search users by last_access' do
+    results = PermittedUsersService.new(@super_user, true).find_permitted_users(
       { last_access: { 'from' => Time.utc(2023, 2, 1, 10, 0, 0).iso8601(3),
                        'to' => Time.utc(2023, 4, 1, 10, 0, 0).iso8601(3) } }
     )
 
     expect(results[:total]).to eq(1)
     expect(results[:users].first.last_access.iso8601(3)).to eq('2023-02-10T10:00:00.000Z')
+  end
+
+  it 'disables users in batches' do
+    PermittedUsersService.new(@super_user).bulk_disable_users({ query: 'user' })
+    expect(User.find_by(user_name: 'user1').disabled).to be true
+    expect(User.find_by(user_name: 'user2').disabled).to be true
+    expect(User.find_by(user_name: 'user3').disabled).to be true
+    expect(User.find_by(user_name: 'user4').disabled).to be true
+    expect(User.find_by(user_name: 'user5').disabled).to be true
+    expect(User.find_by(user_name: 'admin_user').disabled).to be true
+    expect(User.find_by(user_name: 'super_user').disabled).to be true
   end
 end

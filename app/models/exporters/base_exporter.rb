@@ -78,7 +78,7 @@ class Exporters::BaseExporter
   end
 
   def establish_record_constraints(record)
-    if user.referred_to_record?(record)
+    if referred_to_record?(record)
       self.record_constraints = Exporters::Constraints::ExporterConstraints.new(
         record:, record_type:, user:, excluded_field_names: self.class.excluded_field_names, options:
       )
@@ -86,6 +86,12 @@ class Exporters::BaseExporter
     else
       self.record_constraints = export_constraints
     end
+  end
+
+  def referred_to_record?(record)
+    return @referred_record_ids.include?(record.id) if @referred_record_ids
+
+    user&.referred_to_record?(record)
   end
 
   def setup_export_constraints?
@@ -140,5 +146,18 @@ class Exporters::BaseExporter
     return [] unless setup_export_constraints?
 
     record_constraints&.field_names || export_constraints.field_names
+  end
+
+  def skip_attachments?
+    true
+  end
+
+  private
+
+  def preload_referrals(records)
+    return unless user.present?
+    return if records.empty?
+
+    @referred_record_ids = user.referred_record_ids(records.map(&:id), records.first.class.name)
   end
 end

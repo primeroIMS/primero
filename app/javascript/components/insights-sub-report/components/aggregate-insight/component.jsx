@@ -8,8 +8,8 @@ import isString from "lodash/isString";
 import namespace from "../../namespace";
 import { useI18n } from "../../../i18n";
 import { useMemoizedSelector } from "../../../../libs";
-import { getPrimaryAgeRanges } from "../../../application/selectors";
-import { formatAgeRange, getIndicatorSubcolumnKeys, getSubColumnItems, hasTotalColumn } from "../../utils";
+import { getFormattedAgeRanges } from "../../../application/selectors";
+import { getIndicatorSubcolumnKeys, getSubColumnItems, hasTotalColumn } from "../../utils";
 import {
   GHN_VIOLATIONS_INDICATORS_IDS,
   GROUPED_BY_FILTER,
@@ -24,17 +24,11 @@ import MultipleViolationsIndicator from "../multiple-violations-indicator";
 import DefaultIndicator from "../default-indicator";
 import { getInsightFilter } from "../../selectors";
 
+const MULTIPLE_VIOLATIONS_INDICATORS = ["multiple_violations", "group_multiple_violations"];
+
 const cellRender = (val, index) => (index === 0 ? val : `${val}%`);
 
 const chartRender = val => `${val}%`;
-
-const getIndicator = indicator => {
-  if (indicator === "multiple_violations") {
-    return MultipleViolationsIndicator;
-  }
-
-  return DefaultIndicator;
-};
 
 function Component({
   insight,
@@ -49,8 +43,9 @@ function Component({
 }) {
   const i18n = useI18n();
   const groupedBy = useMemoizedSelector(state => getInsightFilter(state, GROUPED_BY_FILTER));
-  const primaryAgeRanges = useMemoizedSelector(state => getPrimaryAgeRanges(state));
+  const ageRanges = useMemoizedSelector(state => getFormattedAgeRanges(state));
   const isGHNIndicator = GHN_VIOLATIONS_INDICATORS_IDS.includes(indicatorKey);
+  const isMultipleViolationsIndicator = MULTIPLE_VIOLATIONS_INDICATORS.includes(indicatorKey);
 
   const indicatorLabels = useMemo(
     () => ({
@@ -61,7 +56,6 @@ function Component({
   );
 
   const includeZeros = insight.get("include_zeros", false);
-  const ageRanges = (primaryAgeRanges || fromJS([])).reduce((acc, range) => acc.concat(formatAgeRange(range)), []);
   const insightMetadata = insight.getIn(["report_data", subReport, "metadata"], fromJS({}));
   const displayGraph = insightMetadata.get("display_graph", true);
   const headerKeys = HEADER_TITLE_KEYS[insight.get("id")] || {};
@@ -80,11 +74,11 @@ function Component({
   const indicatorIsGrouped = indicatorData.some(elem => elem.get("group_id"));
   const indicatorHasTotalColumn = hasTotalColumn(indicatorIsGrouped, indicatorData);
   const indicatorSubColumnKeys = getIndicatorSubcolumnKeys(indicatorData);
-  const Indicator = getIndicator(indicatorKey);
+
   const subColumnItems = getSubColumnItems({
     hasTotalColumn: indicatorHasTotalColumn,
     subColumnLookups,
-    indicatorKey,
+    valueKey: indicatorKey,
     ageRanges,
     indicatorsSubcolumns,
     indicatorSubColumnKeys,
@@ -96,8 +90,14 @@ function Component({
   const cellValueRender = PERCENTAGE_INDICATORS.includes(indicatorKey) ? cellRender : null;
   const chartValueRender = PERCENTAGE_INDICATORS.includes(indicatorKey) ? chartRender : null;
 
+  if (isMultipleViolationsIndicator) {
+    return (
+      <MultipleViolationsIndicator subReportTitle={subReportTitle} value={indicatorData} indicatorKey={indicatorKey} />
+    );
+  }
+
   return (
-    <Indicator
+    <DefaultIndicator
       indicatorKey={indicatorKey}
       value={indicatorData}
       includeZeros={includeZeros}
@@ -108,7 +108,7 @@ function Component({
       insightMetadata={insightMetadata}
       isGrouped={indicatorIsGrouped}
       lookups={lookups[indicatorKey]}
-      indicatorsRows={indicatorRows[indicatorKey]}
+      indicatorRows={indicatorRows[indicatorKey]}
       lookupValue={lookupValue}
       namespace={namespace}
       headerTitle={headerTitle}

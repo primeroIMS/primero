@@ -62,7 +62,38 @@ describe Api::V2::ChildrenController, type: :request do
         )
       ]
     )
+    @role_identified = Role.create!(
+      name: 'Role Identified',
+      unique_id: 'test-role-identified',
+      group_permission: Permission::IDENTIFIED,
+      user_category: Role::CATEGORY_IDENTIFIED,
+      permissions: [
+        Permission.new(
+          resource: Permission::CASE,
+          actions: [Permission::READ, Permission::WRITE]
+        )
+      ]
+    )
     @group1 = UserGroup.create!(name: 'Group1')
+    @identified_user2 = User.create!(
+      full_name: 'Identified User 2',
+      user_name: 'identified_user2',
+      password: 'a12345632',
+      password_confirmation: 'a12345632',
+      email: 'identified_user2@localhost.com',
+      agency_id: @agency.id,
+      role: @role_identified
+    )
+    @identified_user3 = User.create!(
+      full_name: 'Identified User 3',
+      user_name: 'identified_user3',
+      password: 'a12345632',
+      password_confirmation: 'a12345632',
+      email: 'identified_user3@localhost.com',
+      unverified: true,
+      agency_id: @agency.id,
+      role: @role_identified
+    )
     @user = User.create!(
       full_name: 'Test User 2',
       user_name: 'test_user_2',
@@ -149,6 +180,7 @@ describe Api::V2::ChildrenController, type: :request do
       user_group_ids: [@group1.id],
       role: @role1
     )
+
     Location.create!(placename: 'Country', type: 'country', location_code: 'LOC')
     Location.create!(placename: 'State', type: 'state', location_code: 'LOC01', hierarchy_path: 'LOC.LOC01')
     Location.create!(placename: 'City', type: 'city', location_code: 'LOC0102', hierarchy_path: 'LOC.LOC01.LOC0102')
@@ -285,6 +317,13 @@ describe Api::V2::ChildrenController, type: :request do
       transitioned_by: 'user_cp', transitioned_to: 'user_referral', record: @case11,
       authorized_role_unique_id: 'role-restricted'
     )
+
+    @identified_case = Child.create!(
+      data: {
+        name: 'Identified Case', age: 15, sex: 'female', module_id: 'primeromodule-gbv',
+        identified_by: 'identified_user', identified_at: DateTime.now
+      }
+    )
   end
 
   let(:json) { JSON.parse(response.body) }
@@ -295,9 +334,9 @@ describe Api::V2::ChildrenController, type: :request do
       get '/api/v2/cases'
 
       expect(response).to have_http_status(200)
-      expect(json['data'].size).to eq(11)
+      expect(json['data'].size).to eq(12)
       expect(json['data'].map { |c| c['name'] }).to include(@case1.name, @case2.name)
-      expect(json['metadata']['total']).to eq(11)
+      expect(json['metadata']['total']).to eq(12)
       expect(json['metadata']['per']).to eq(20)
       expect(json['metadata']['page']).to eq(1)
       case1_data = json['data'].find { |r| r['id'] == @case1.id }
@@ -397,9 +436,12 @@ describe Api::V2::ChildrenController, type: :request do
       login_for_test(permitted_field_names: ['urgent_protection_concern'])
       get '/api/v2/cases?urgent_protection_concern=false'
 
-      expect(json['data'].count).to eq(10)
+      expect(json['data'].count).to eq(11)
       expect(json['data'].map { |elem| elem['id'] }).to match_array(
-        [@case1.id, @case3.id, @case4.id, @case5.id, @case6.id, @case7.id, @case8.id, @case9.id, @case10.id, @case11.id]
+        [
+          @case1.id, @case3.id, @case4.id, @case5.id, @case6.id, @case7.id, @case8.id,
+          @case9.id, @case10.id, @case11.id, @identified_case.id
+        ]
       )
       expect(json['data'].map { |elem| elem['urgent_protection_concern'] }).to all(be_falsey)
       expect(response).to have_http_status(200)
@@ -431,7 +473,7 @@ describe Api::V2::ChildrenController, type: :request do
 
         get '/api/v2/cases?id_search=true'
 
-        expect(json['data'].count).to eq(11)
+        expect(json['data'].count).to eq(12)
         expect(response).to have_http_status(200)
       end
     end
@@ -439,8 +481,8 @@ describe Api::V2::ChildrenController, type: :request do
     it 'return records sort by age' do
       login_for_test
       get '/api/v2/cases?fields=short&order=asc&order_by=age'
-      expect(json['data'].count).to eq(11)
-      expect(json['data'].map { |rr| rr['age'] }).to eq([2, 5, 5, 6, 9, 10, 10, 12, 16, 17, 18])
+      expect(json['data'].count).to eq(12)
+      expect(json['data'].map { |rr| rr['age'] }).to eq([2, 5, 5, 6, 9, 10, 10, 12, 15, 16, 17, 18])
     end
 
     it 'return records by location_current' do
@@ -463,6 +505,18 @@ describe Api::V2::ChildrenController, type: :request do
 
         expect(response).to have_http_status(200)
         expect(json['data'].map { |c| c['id'] }).to include(@case5.id)
+      end
+    end
+
+    context 'when a user has Permission::IDENTIFIED scope' do
+      it 'returns only those cases where the user is the identified_by' do
+        login_for_test(user_name: 'identified_user', group_permission: Permission::IDENTIFIED)
+
+        get '/api/v2/cases'
+
+        expect(response).to have_http_status(200)
+        expect(json['data'].count).to eq(1)
+        expect(json['data'].map { |c| c['id'] }).to include(@identified_case.id)
       end
     end
   end
@@ -663,6 +717,58 @@ describe Api::V2::ChildrenController, type: :request do
         end
       end
     end
+
+    context 'when a user has Permission::IDENTIFIED scope' do
+      it 'fetches the identified record with status 200' do
+        login_for_test(user_name: 'identified_user', group_permission: Permission::IDENTIFIED)
+
+        get "/api/v2/cases/#{@identified_case.id}"
+
+        expect(response).to have_http_status(200)
+        expect(json['data']['id']).to eq(@identified_case.id)
+      end
+
+      it 'returns 403 when is not an identified record' do
+        login_for_test(user_name: 'identified_user', group_permission: Permission::IDENTIFIED)
+
+        get "/api/v2/cases/#{@case1.id}"
+
+        expect(response).to have_http_status(403)
+        expect(json['errors'].size).to eq(1)
+        expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case1.id}")
+      end
+    end
+  end
+
+  describe 'GET /api/v2/cases/identified' do
+    it 'fetches the identified record with status 200' do
+      login_for_test(user_name: 'identified_user', group_permission: Permission::IDENTIFIED)
+
+      get '/api/v2/cases/identified'
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['id']).to eq(@identified_case.id)
+    end
+
+    it 'returns 404 if the user does not have the Permission::IDENTIFIED scope' do
+      login_for_test
+
+      get '/api/v2/cases/identified'
+
+      expect(response).to have_http_status(404)
+      expect(json['errors'].size).to eq(1)
+      expect(json['errors'][0]['resource']).to eq('/api/v2/cases/identified')
+    end
+
+    it "returns 403 if user isn't authorized to access" do
+      login_for_test(permissions: [])
+
+      get '/api/v2/cases/identified'
+
+      expect(response).to have_http_status(403)
+      expect(json['errors'].size).to eq(1)
+      expect(json['errors'][0]['resource']).to eq('/api/v2/cases/identified')
+    end
   end
 
   describe 'POST /api/v2/cases' do
@@ -785,6 +891,41 @@ describe Api::V2::ChildrenController, type: :request do
         expect(@family3.family_members[0]['relation_sex']).to eq(params[:data][:sex])
         expect(@family3.family_members[0]['case_id']).to eq(json['data']['id'])
         expect(@family3.family_members[0]['case_id_display']).to eq(json['data']['case_id_display'])
+      end
+    end
+
+    context 'when a user has Permission::IDENTIFIED scope' do
+      it 'creates a new identified record with status 200' do
+        login_for_test(
+          user_name: 'identified_user2',
+          user_category: Role::CATEGORY_IDENTIFIED,
+          group_permission: Permission::IDENTIFIED
+        )
+
+        params = { data: { name: 'New Identified Case', sex: 'male', age: 15 } }
+        post '/api/v2/cases', params:, as: :json
+
+        expect(response).to have_http_status(200)
+        expect(json['data']['id']).not_to be_empty
+        expect(json['data']['name']).to eq(params[:data][:name])
+        expect(json['data']['age']).to eq(params[:data][:age])
+        expect(json['data']['sex']).to eq(params[:data][:sex])
+        expect(json['data']['status']).to eq(Child::STATUS_IDENTIFIED)
+      end
+
+      it 'returns 422 if an identified case already exists for a user' do
+        login_for_test(
+          user_name: 'identified_user',
+          user_category: Role::CATEGORY_IDENTIFIED,
+          group_permission: Permission::IDENTIFIED
+        )
+
+        params = { data: { name: 'Existing Identified Case', sex: 'male', age: 12 } }
+        post '/api/v2/cases', params:, as: :json
+
+        expect(response).to have_http_status(422)
+        expect(json['errors'].size).to eq(1)
+        expect(json['errors'][0]['resource']).to eq('/api/v2/cases')
       end
     end
   end
@@ -1346,6 +1487,74 @@ describe Api::V2::ChildrenController, type: :request do
           expect(json['data']['field_a']).to eq('new value for field_a')
           expect(json['data']['permitted_forms']).to eq({ 'form_a' => 'rw' })
         end
+      end
+    end
+
+    describe 'identified_by attribute' do
+      it 'sets the identified by fields and returns 200' do
+        login_for_test(
+          permissions: [
+            Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::ATTRIBUTE])
+          ]
+        )
+
+        params = { data: { identified_by: 'identified_user2' }, record_action: Permission::ATTRIBUTE }
+        patch "/api/v2/cases/#{@identified_case.id}", params:, as: :json
+
+        expect(response).to have_http_status(200)
+        expect(json['data']['id']).to eq(@identified_case.id)
+        expect(json['data']['identified_by']).to eq(params[:data][:identified_by])
+      end
+
+      it 'returns 422 if the user does not exist' do
+        login_for_test(
+          permissions: [
+            Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::ATTRIBUTE])
+          ]
+        )
+
+        params = { data: { identified_by: 'not_a_user' }, record_action: Permission::ATTRIBUTE }
+        patch "/api/v2/cases/#{@identified_case.id}", params:, as: :json
+
+        expect(response).to have_http_status(422)
+        expect(json['errors'].size).to eq(1)
+        expect(json['errors'][0]['detail']).to eq(%w[identified_by])
+        expect(json['errors'][0]['message']).to eq('errors.models.child.identified_by_exists')
+        expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@identified_case.id}")
+      end
+
+      it 'returns 422 if the user is not identified' do
+        login_for_test(
+          permissions: [
+            Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::ATTRIBUTE])
+          ]
+        )
+
+        params = { data: { identified_by: 'test_user_2' }, record_action: Permission::ATTRIBUTE }
+        patch "/api/v2/cases/#{@identified_case.id}", params:, as: :json
+
+        expect(response).to have_http_status(422)
+        expect(json['errors'].size).to eq(1)
+        expect(json['errors'][0]['detail']).to eq(%w[identified_by])
+        expect(json['errors'][0]['message']).to eq('errors.models.child.identified_by_exists')
+        expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@identified_case.id}")
+      end
+
+      it 'returns 422 if the user is not verified' do
+        login_for_test(
+          permissions: [
+            Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::ATTRIBUTE])
+          ]
+        )
+
+        params = { data: { identified_by: 'identified_user3' }, record_action: Permission::ATTRIBUTE }
+        patch "/api/v2/cases/#{@identified_case.id}", params:, as: :json
+
+        expect(response).to have_http_status(422)
+        expect(json['errors'].size).to eq(1)
+        expect(json['errors'][0]['detail']).to eq(%w[identified_by])
+        expect(json['errors'][0]['message']).to eq('errors.models.child.identified_by_exists')
+        expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@identified_case.id}")
       end
     end
   end

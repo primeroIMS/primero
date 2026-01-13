@@ -9,26 +9,29 @@ class ManagedReports::Indicators::DetentionStatus < ManagedReports::SqlReportInd
       'detention_status'
     end
 
-    # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/CyclomaticComplexity
     # rubocop:disable Metrics/PerceivedComplexity
     def sql(current_user, params = {})
-      %{
+      <<~SQL
         SELECT
           #{grouped_date_query(params['grouped_by'],
                                filter_date(params),
                                table_name_for_query(params))&.concat(' AS group_id,')}
           CASE
-            WHEN violations.data->>'deprivation_liberty_end_date' IS NULL
-            THEN 'detention_detained'
-            ELSE 'detention_released'
+            WHEN violations.data @? '$[*] ? (
+              @.deprivation_liberty_end_date != null && @.deprivation_liberty_date_range == true
+            )'
+            THEN 'detention_released'
+            ELSE 'detention_detained'
           END AS name,
           violation_tally.key AS key,
           SUM(violation_tally.value::INT) AS sum
         FROM violations violations
         INNER JOIN incidents incidents
           ON incidents.id = violations.incident_id
+          AND incidents.srch_status = 'open'
+          AND incidents.srch_record_state = TRUE
           #{user_scope_query(current_user, 'incidents')&.prepend('AND ')}
         CROSS JOIN JSONB_EACH_TEXT(violations.data->'violation_tally') AS violation_tally
         WHERE violations.data @? '$.type ? (@ == "deprivation_liberty")'
@@ -43,9 +46,8 @@ class ManagedReports::Indicators::DetentionStatus < ManagedReports::SqlReportInd
         ORDER BY
         #{group_id_alias(params['grouped_by'])&.dup&.+(',')}
         name, key
-      }
+      SQL
     end
-    # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/CyclomaticComplexity
     # rubocop:enable Metrics/PerceivedComplexity

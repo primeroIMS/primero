@@ -90,7 +90,7 @@ describe("<Account />", () => {
       }
     });
 
-    it("renders 20 fields", () => {
+    it("renders 24 fields", () => {
       mountedComponent(<Account {...props} />, state, {}, ["/account"]);
       expect(screen.getAllByTestId("form-section-field")).toHaveLength(20);
     });

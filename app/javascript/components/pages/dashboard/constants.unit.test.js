@@ -12,10 +12,12 @@ describe("Verifying config constant", () => {
       "DASHBOARD_NAMES",
       "DASHBOARD_TYPES",
       "DASHBOARD_GROUP",
-      "DASHBOARD_NAMES_FOR_GROUP",
+      "DASHBOARD_GROUPS_WITH_MODULES",
+      "DASHBOARD_GROUPS_WITHOUT_MODULES",
       "INDICATOR_NAMES",
       "MAX_VISIBLE_DASHBOARDS",
       "NAME",
+      "PERMISSION_FOR_DASHBOARD_NAME",
       "PROTECTION_CONCERNS_ORDER_NAMES",
       "RISK_LEVELS"
     ].forEach(property => {

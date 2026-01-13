@@ -8,9 +8,11 @@ describe Api::V2::TokensController, type: :request do
   include ActiveJob::TestHelper
 
   before :all do
+    clean_data(PrimeroModule, PrimeroProgram, FormSection, Role)
+
     user_name = 'tokenstestuser'
     password = 'tokenstestuser0'
-    @user = User.new(user_name:, password:, password_confirmation: password)
+    @user = User.new(user_name:, password:, password_confirmation: password, role: create(:role))
     @user.save(validate: false)
     @params = { user: { user_name:, password: } }
   end
@@ -40,10 +42,11 @@ describe Api::V2::TokensController, type: :request do
 
     it 'enqueues an audit log job that records the login attempt' do
       metadata = {
-        user_name: @user.user_name, remote_ip: '127.0.0.1', agency_id: nil, role_id: nil, http_method: 'POST',
-        record_ids: []
+        user_name: @user.user_name, remote_ip: '127.0.0.1', agency_id: nil, role_id: @user.role_id,
+        http_method: 'POST', record_ids: []
       }
       post '/api/v2/tokens', params: @params
+
       expect(AuditLogJob).to have_been_enqueued
         .with(
           record_type: 'User',
@@ -54,11 +57,20 @@ describe Api::V2::TokensController, type: :request do
           metadata:
         )
     end
+    it 'does not log audit entry for failures on other paths' do
+      # User added a filter for '/api/v2/tokens' in warden_hooks.rb
+      # failures on other paths (like dashboards) should be ignored by the hook.
+      expect(AuditLogJob).not_to receive(:perform_later)
+
+      get '/api/v2/dashboards', params: { user: { user_name: 'someuser', password: 'wrongpassword' } }
+      expect(response.status).to eq 401
+    end
 
     context 'external identity enabled' do
       before(:each) do
+        Session.delete_all
         @use_identity_provider = Rails.configuration.x.idp.use_identity_provider
-        @idp_user = User.new(user_name: idp_user_name)
+        @idp_user = User.new(user_name: idp_user_name, role: create(:role))
         @idp_user.save(validate: false)
         @non_idp_user = User.new(user_name: non_idp_user_name, password:, password_confirmation: password)
         @non_idp_user.save(validate: false)
@@ -67,7 +79,8 @@ describe Api::V2::TokensController, type: :request do
       let(:non_idp_user_name) { 'non_idp_user' }
       let(:password) { 'tokenstestuser0' }
       let(:idp_user_name) { 'idp_user' }
-      let(:token) { instance_double('IdpToken', valid?: true, user: @idp_user) }
+      let(:session) { Session.new(session_id: 'session123') }
+      let(:token) { instance_double('IdpToken', valid?: true, user: @idp_user, session:) }
 
       it 'returns the user id and token when signing in with a valid bearer token' do
         allow(IdpToken).to receive(:build).and_return(token)
@@ -76,6 +89,23 @@ describe Api::V2::TokensController, type: :request do
         expect(response).to have_http_status(200)
         expect(json['id']).to eq(@idp_user.id)
         expect(json['token']).to eq('VALIDTOKEN')
+      end
+
+
+      it 'returns a 401 and logs failure for invalid IDP token' do
+        invalid_token_string = 'INVALIDTOKEN'
+        invalid_idp_token = instance_double('IdpToken', valid?: false, user_name: nil)
+        allow(IdpToken).to receive(:build).with(invalid_token_string).and_return(invalid_idp_token)
+
+        expect(AuditLogJob).to receive(:perform_later).with(
+          hash_including(
+            action: AuditLog::FAILED_LOGIN
+          )
+        )
+
+        post '/api/v2/tokens', headers: { 'Authorization' => "Bearer #{invalid_token_string}" }
+
+        expect(response).to have_http_status(401)
       end
 
       it 'returns a 401 when attempting to log in with a valid non-idp user and password' do

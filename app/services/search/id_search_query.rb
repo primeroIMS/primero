@@ -6,8 +6,8 @@
 class Search::IdSearchQuery < Search::SearchQuery
   attr_accessor :sort
 
-  def build
-    record_query = super
+  def build(skip_attachments = false)
+    record_query = super(skip_attachments)
     record_query = apply_sort(record_query)
     return record_query unless query.present?
 

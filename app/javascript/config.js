@@ -13,6 +13,7 @@ import {
   SHOW_CHANGE_LOG,
   SHOW_EXPORTS,
   SHOW_TASKS,
+  SHOW_REFERRALS,
   ADMIN_RESOURCES,
   ADMIN_ACTIONS,
   VIEW_INCIDENTS_FROM_CASE,
@@ -21,7 +22,9 @@ import {
   READ_MANAGED_REPORTS,
   READ_REGISTRY_RECORD,
   READ_FAMILY_RECORD,
-  SHOW_USAGE_REPORTS
+  SHOW_USAGE_REPORTS,
+  GROUP_PERMISSIONS,
+  VIEW_CASE_RELATIONSHIPS
 } from "./components/permissions/constants";
 import getAdminResources from "./components/pages/admin/utils/get-admin-resources";
 
@@ -202,9 +205,12 @@ const ROUTES = {
   login: "/login",
   login_idp_redirect: "/login/:id",
   logout: "/logout",
+  self_registration: "/registration",
+  self_registration_success: "/registration/success",
   lookups: "/admin/lookups",
   lookups_new: "/admin/lookups/new",
   matches: "/matches",
+  my_case: "/my_case",
   not_authorized: "/not-authorized",
   reports: "/reports",
   reports_new: "/reports/new",
@@ -231,6 +237,8 @@ const PERMITTED_URL = [
   ROUTES.login,
   ROUTES.login_redirect,
   ROUTES.login_idp_redirect,
+  ROUTES.self_registration,
+  ROUTES.self_registration_success,
   ROUTES.logout,
   ROUTES.not_authorized,
   ROUTES.password_reset,
@@ -284,6 +292,7 @@ const LOOKUPS = {
   cp_violence_type: "lookup-cp-violence-type",
   gender: "lookup-gender",
   gender_unknown: "lookup-gender-unknown",
+  gender_unknown_mixed: "lookup-gender-mixed",
   legitimate_basis: "lookup-legitimate-basis",
   legitimate_basis_explanations: "lookup-legitimate-basis-explanations",
   verification_status: "lookup-verification-status",
@@ -405,7 +414,22 @@ const APPLICATION_NAV = (permissions, userId) => {
       jewelCount: "case",
       resources: RESOURCES.cases,
       actions: READ_RECORDS,
-      validateWithUserPermissions: true
+      validateWithUserPermissions: true,
+      groupPermissions: [
+        GROUP_PERMISSIONS.ALL,
+        GROUP_PERMISSIONS.GROUP,
+        GROUP_PERMISSIONS.AGENCY,
+        GROUP_PERMISSIONS.SELF
+      ]
+    },
+    {
+      name: "navigation.my_case",
+      to: ROUTES.my_case,
+      icon: "cases",
+      resources: RESOURCES.cases,
+      actions: READ_RECORDS,
+      validateWithUserPermissions: true,
+      groupPermissions: [GROUP_PERMISSIONS.IDENTIFIED]
     },
     {
       name: "navigation.incidents",
@@ -602,10 +626,11 @@ const FORM_PERMISSION_ACTION = Object.freeze({
   [ACCESS_LOGS]: SHOW_ACCESS_LOG,
   [CHANGE_LOGS]: SHOW_CHANGE_LOG,
   [APPROVALS]: SHOW_APPROVALS,
+  [REFERRAL]: SHOW_REFERRALS,
   [SUMMARY]: SHOW_SUMMARY,
   [REGISTRY_FROM_CASE]: READ_REGISTRY_RECORD,
   [FAMILY_FROM_CASE]: READ_FAMILY_RECORD,
-  [CASE_RELATIONSHIPS]: READ_RECORDS
+  [CASE_RELATIONSHIPS]: VIEW_CASE_RELATIONSHIPS
 });
 
 const VIOLATIONS_FORM = [
@@ -700,6 +725,12 @@ const CASE_CHARACTERISTICS_SUBREPORTS = ["case_protection_risk"];
 
 const VIOLENCE_TYPE_SUBREPORTS = ["cases_violence_type", "incidents_violence_type"];
 
+const CASE_MANAGEMENT_KPIS_SUBREPORTS = ["source_identification_referral"];
+
+const CASE_MANAGEMENT_KPIS_SERVICE_REFERRALS_SUBREPORTS = ["referred_appropriate_service"];
+
+const DISTRIBUTION_USERS_ROLE_SUBREPORTS = ["distribution_users_role"];
+
 const CHART_COLORS = Object.freeze({
   blue: "rgb(0, 147, 186)",
   grey: "rgb(89, 89, 82)",
@@ -741,7 +772,8 @@ const VIOLATION_VERIFICATION_STATUS = Object.freeze({
   verified: "verified",
   report_pending_verification: "report_pending_verification",
   not_mrm: "not_mrm",
-  verification_found_that_incident_did_not_occur: "verification_found_that_incident_did_not_occur"
+  verification_found_that_incident_did_not_occur: "verification_found_that_incident_did_not_occur",
+  reported_not_verified: "reported_not_verified"
 });
 
 const MAX_CONDITIONS = 4;
@@ -936,5 +968,8 @@ export {
   PROCESS_QUALITY_TOTAL_CASES_SUBREPORTS,
   PROCESS_QUALITY_IMPLEMENTED_REFERRALS_SUBREPORTS,
   CASE_CHARACTERISTICS_SUBREPORTS,
+  CASE_MANAGEMENT_KPIS_SUBREPORTS,
+  CASE_MANAGEMENT_KPIS_SERVICE_REFERRALS_SUBREPORTS,
+  DISTRIBUTION_USERS_ROLE_SUBREPORTS,
   ACCESS_LOGS
 };

@@ -17,11 +17,14 @@ class ManagedReports::SubReports::GhnReport < ManagedReports::SubReport
       ManagedReports::Indicators::VerifiedViolationsByRegion,
       ManagedReports::Indicators::LateVerification,
       ManagedReports::Indicators::LateVerificationViolations,
+      ManagedReports::Indicators::LateVerificationViolationsByPerpetrator,
+      ManagedReports::Indicators::LateVerificationViolationsByRegion,
       ManagedReports::Indicators::UnverifiedInformation,
       ManagedReports::Indicators::UnverifiedInformationViolations,
       ManagedReports::Indicators::UnverifiedViolationsByPerpetrator,
       ManagedReports::Indicators::UnverifiedViolationsByRegion,
-      ManagedReports::Indicators::MultipleViolations
+      ManagedReports::Indicators::MultipleViolations,
+      ManagedReports::Indicators::GroupMultipleViolations
     ]
   end
   # rubocop:enable Metrics/MethodLength
@@ -29,7 +32,9 @@ class ManagedReports::SubReports::GhnReport < ManagedReports::SubReport
   def lookups
     {
       ManagedReports::Indicators::VerifiedViolationsByPerpetrator.id => 'lookup-armed-force-group-or-other-party',
-      ManagedReports::Indicators::MultipleViolations.id => %w[lookup-gender-unknown-total lookup-violation-type],
+      ManagedReports::Indicators::LateVerificationViolationsByPerpetrator.id =>
+        'lookup-armed-force-group-or-other-party',
+      ManagedReports::Indicators::LateVerificationViolationsByRegion.id => 'Location',
       ManagedReports::Indicators::VerifiedViolationsByRegion.id => 'Location',
       ManagedReports::Indicators::UnverifiedViolationsByPerpetrator.id => 'lookup-armed-force-group-or-other-party',
       ManagedReports::Indicators::UnverifiedViolationsByRegion.id => 'Location'
@@ -38,10 +43,12 @@ class ManagedReports::SubReports::GhnReport < ManagedReports::SubReport
 
   def indicators_subcolumns
     {
-      ManagedReports::Indicators::VerifiedViolationsByPerpetrator.id => 'lookup-violation-type',
-      ManagedReports::Indicators::VerifiedViolationsByRegion.id => 'lookup-violation-type',
-      ManagedReports::Indicators::UnverifiedViolationsByPerpetrator.id => 'lookup-violation-type',
-      ManagedReports::Indicators::UnverifiedViolationsByRegion.id => 'lookup-violation-type'
+      ManagedReports::Indicators::VerifiedViolationsByPerpetrator.id => 'lookup-grave-violations',
+      ManagedReports::Indicators::VerifiedViolationsByRegion.id => 'lookup-grave-violations',
+      ManagedReports::Indicators::LateVerificationViolationsByPerpetrator.id => 'lookup-grave-violations',
+      ManagedReports::Indicators::LateVerificationViolationsByRegion.id => 'lookup-grave-violations',
+      ManagedReports::Indicators::UnverifiedViolationsByPerpetrator.id => 'lookup-grave-violations',
+      ManagedReports::Indicators::UnverifiedViolationsByRegion.id => 'lookup-grave-violations'
     }
   end
 

@@ -8,6 +8,10 @@ export default (name, currLocale) => {
     return "";
   }
 
+  if (typeof name === "string") {
+    return name;
+  }
+
   if (isImmutable(name)) {
     return isEmpty(name?.get(currLocale)) ? name?.get(window.I18n.defaultLocale) : name?.get(currLocale);
   }
