@@ -459,7 +459,7 @@ class Filter < ValueObject
     # rubocop:disable Metrics/MethodLength
     def case_filters(user)
       filters = []
-      filters << MODULE_ID if user.multiple_modules?
+      filters << MODULE_ID if include_module_id?(user)
       filters << FLAGGED_CASE
       filters << SOCIAL_WORKER if user.manager?
       filters += [MY_CASES, WORKFLOW]
@@ -565,6 +565,7 @@ class Filter < ValueObject
     end
 
     # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/MethodLength
     def incident_filters(user)
       filters = [FLAGGED_CASE] + violence_type_filter(user) + social_worker_filter(user)
       filters += agency_office_filter(user) + user_group_filter(user) + status_filters(user)
@@ -574,10 +575,12 @@ class Filter < ValueObject
       filters += [INCIDENT_DATE] + unaccompanied_filter(user)
       filters += perpetrator_category_filters(user) + armed_force_group_filters(user)
       filters << ENABLED
+      filters << MODULE_ID if include_module_id?(user)
       filters += mrm_incident_filters if user.mrm?
       filters
     end
     # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/MethodLength
 
     def mrm_incident_filters
       [
@@ -647,6 +650,7 @@ class Filter < ValueObject
 
     def tracing_request_filter(user)
       filters = []
+      filters << MODULE_ID if include_module_id?(user)
       filters << FLAGGED_CASE
       filters << SOCIAL_WORKER if user.manager?
       filters << INQUIRY_DATE
@@ -657,8 +661,9 @@ class Filter < ValueObject
       filters
     end
 
-    def registry_record_filter(_user)
+    def registry_record_filter(user)
       filters = []
+      filters << MODULE_ID if include_module_id?(user)
       filters << FLAGGED_CASE
       filters << REGISTRY_STATUS
       filters << ENABLED
@@ -667,8 +672,9 @@ class Filter < ValueObject
       filters
     end
 
-    def family_filter(_user)
+    def family_filter(user)
       filters = []
+      filters << MODULE_ID if include_module_id?(user)
       filters << FLAGGED_CASE
       filters << FAMILY_STATUS
       filters << ENABLED
@@ -682,6 +688,10 @@ class Filter < ValueObject
     def visible?(field_name, filter_fields)
       field = filter_fields[field_name]
       field.present? && field.visible?
+    end
+
+    def include_module_id?(user)
+      user.multiple_modules? || PrimeroModule.available_module_ids.size > 1
     end
   end
 
@@ -709,13 +719,13 @@ class Filter < ValueObject
   end
 
   def module_id_options(opts = {})
-    user_modules = opts[:user].modules_for_record_type(opts[:record_type])
-    self.options = user_modules.map do |primero_module|
-      {
-        id: primero_module.unique_id,
-        display_name: primero_module.name
-      }
-    end
+    modules = if PrimeroModule.available_module_ids.size > 1
+                PrimeroModule.all
+              else
+                opts[:user].modules_for_record_type(opts[:record_type])
+              end
+
+    self.options = modules.map { |primero_module| { id: primero_module.unique_id, display_name: primero_module.name } }
   end
 
   def owned_by_agency_id_options(opts = {})

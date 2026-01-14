@@ -140,7 +140,7 @@ describe Filter do
 
     describe 'case filters' do
       it 'has 26 filters' do
-        expect(@filters_cp[0]['cases'].count).to eq(26)
+        expect(@filters_cp[0]['cases'].count).to eq(27)
       end
 
       it 'has filters' do
@@ -315,7 +315,7 @@ describe Filter do
     end
     describe 'incident filters' do
       it 'has 29 filters' do
-        expect(@filters_mrm.first[:incidents].count).to eq(29)
+        expect(@filters_mrm.first[:incidents].count).to eq(30)
         expect(@filters_mrm.first[:incidents].map(&:name)).to match_array(
           %w[
             cases.filter_by.flag
@@ -347,6 +347,7 @@ describe Filter do
             incidents.filter_by.weapon_type
             incidents.filter_by.record_owner
             cases.filter_by.agency
+            cases.filter_by.module_id
           ]
         )
       end
@@ -388,6 +389,102 @@ describe Filter do
         end.options[:en]
         expect(late_verified_violations_options.count).to eq(1)
         expect(late_verified_violations_options.first[:display_name]).to eq('Yes')
+      end
+    end
+  end
+
+  describe '.include_module_id?' do
+    context 'when user has multiple modules' do
+      it 'returns true' do
+        expect(Filter.send(:include_module_id?, @user_b)).to be true
+      end
+    end
+
+    context 'when user has single module but system has multiple modules' do
+      it 'returns true' do
+        expect(Filter.send(:include_module_id?, @user_a)).to be true
+      end
+    end
+  end
+
+  describe '#module_id_options' do
+    context 'when system has multiple modules' do
+      it 'returns all available modules' do
+        filter = Filter.new(field_name: 'module_id')
+        filter.module_id_options(user: @user_a, record_type: 'case')
+
+        expect(filter.options.count).to be >= 2
+        expect(filter.options.map { |opt| opt[:id] }).to include('primeromodule-cp', 'primeromodule-gbv')
+      end
+    end
+
+    context 'when system has single module' do
+      before do
+        @original_modules = PrimeroModule.all.to_a
+        PrimeroModule.where.not(unique_id: 'primeromodule-cp').destroy_all
+      end
+
+      it 'returns only user modules' do
+        filter = Filter.new(field_name: 'module_id')
+        filter.module_id_options(user: @user_a, record_type: 'case')
+
+        expect(filter.options.count).to eq(1)
+        expect(filter.options.first[:id]).to eq('primeromodule-cp')
+      end
+
+      after do
+        @original_modules.each do |mod|
+          mod.save! unless PrimeroModule.exists?(unique_id: mod.unique_id)
+        end
+      end
+    end
+  end
+
+  describe 'filters with module_id' do
+    context 'when user has multiple modules' do
+      it 'includes module_id filter in case_filters' do
+        filters = Filter.filters(@user_b, 'case')
+        module_id_filter = filters.find { |f| f.field_name == 'module_id' }
+
+        expect(module_id_filter).not_to be_nil
+        expect(module_id_filter.name).to eq('cases.filter_by.module_id')
+      end
+
+      it 'includes module_id filter in incident_filters' do
+        filters = Filter.filters(@user_c, 'incident')
+        module_id_filter = filters.find { |f| f.field_name == 'module_id' }
+
+        expect(module_id_filter).not_to be_nil
+      end
+
+      it 'includes module_id filter in tracing_request_filter' do
+        filters = Filter.filters(@user_b, 'tracing_request')
+        module_id_filter = filters.find { |f| f.field_name == 'module_id' }
+
+        expect(module_id_filter).not_to be_nil
+      end
+
+      it 'includes module_id filter in registry_record_filter' do
+        filters = Filter.filters(@user_b, 'registry_record')
+        module_id_filter = filters.find { |f| f.field_name == 'module_id' }
+
+        expect(module_id_filter).not_to be_nil
+      end
+
+      it 'includes module_id filter in family_filter' do
+        filters = Filter.filters(@user_b, 'family')
+        module_id_filter = filters.find { |f| f.field_name == 'module_id' }
+
+        expect(module_id_filter).not_to be_nil
+      end
+    end
+
+    context 'when user has single module but system has multiple' do
+      it 'includes module_id filter in case_filters' do
+        filters = Filter.filters(@user_a, 'case')
+        module_id_filter = filters.find { |f| f.field_name == 'module_id' }
+
+        expect(module_id_filter).not_to be_nil
       end
     end
   end
