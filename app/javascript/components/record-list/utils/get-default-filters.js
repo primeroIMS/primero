@@ -1,9 +1,9 @@
 // Copyright (c) 2014 - 2026 UNICEF. All rights reserved.
-import { DEFAULT_FILTERS, DEFAULT_FILTERS_WITH_MODULE_ID } from "../constants";
 import { fromJS } from "immutable";
 
-const defaultFiltersConstant = (modules, userModules) => {
+import { DEFAULT_FILTERS } from "../constants";
 
+const defaultFiltersConstant = (modules, userModules) => {
   if (modules?.size > 1) {
     return {
       ...DEFAULT_FILTERS,
@@ -12,11 +12,10 @@ const defaultFiltersConstant = (modules, userModules) => {
   }
 
   return DEFAULT_FILTERS;
+};
 
-}
-
-export default ({queryParams, metadata, modules, userModules }) => {
+export default ({ queryParams, metadata, modules, userModules }) => {
   const filters = defaultFiltersConstant(modules, userModules);
 
-  return fromJS(Object.keys(queryParams).length ? queryParams : filters).merge(metadata)
-}
+  return fromJS(Object.keys(queryParams).length ? queryParams : filters).merge(metadata);
+};
