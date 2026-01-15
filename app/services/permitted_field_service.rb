@@ -11,11 +11,30 @@ class PermittedFieldService
 
   UUID_REGEX = '\A[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\z'
 
+  PERMITTED_STATUS_VALUES = [
+    Record::STATUS_OPEN,
+    Record::STATUS_CLOSED,
+    Record::STATUS_TRANSFERRED,
+    Record::STATUS_IDENTIFIED
+  ].freeze
+
+  PERMITTED_WORKFLOW_VALUES = [
+    Workflow::WORKFLOW_NEW,
+    Workflow::WORKFLOW_CLOSED,
+    Workflow::WORKFLOW_REOPENED,
+    Workflow::WORKFLOW_SERVICE_PROVISION,
+    Workflow::WORKFLOW_SERVICE_IMPLEMENTED,
+    Workflow::WORKFLOW_CASE_PLAN,
+    Workflow::WORKFLOW_ASSESSMENT
+  ].freeze
+
   # case_status_reopened, record_state, incident_case_id, owned_by, module_id,
   PERMITTED_CORE_FIELDS_SCHEMA = {
     'id' => { 'type' => 'string', 'format' => 'regex', 'pattern' => UUID_REGEX },
-    'status' => { 'type' => 'string' }, 'state' => { 'type' => 'boolean' },
-    'case_status_reopened' => { 'type' => %w[boolean null] }, 'record_state' => { 'type' => 'boolean' },
+    'status' => { 'type' => 'string', 'enum' => PERMITTED_STATUS_VALUES },
+    'state' => { 'type' => 'boolean' },
+    'case_status_reopened' => { 'type' => %w[boolean null] },
+    'record_state' => { 'type' => 'boolean' },
     'incident_case_id' => { 'type' => 'string', 'format' => 'regex', 'pattern' => UUID_REGEX },
     'registry_record_id' => { 'type' => '%w[string null]', 'format' => 'regex', 'pattern' => UUID_REGEX },
     'family_id' => { 'type' => '%w[string null]', 'format' => 'regex', 'pattern' => UUID_REGEX },
@@ -55,9 +74,13 @@ class PermittedFieldService
   }.freeze
 
   PERMITTED_FIELDS_FOR_ACTION_SCHEMA = {
-    Permission::CLOSE => { 'status' => { 'type' => 'string' }, 'date_closure' => { 'type' => 'date' } },
+    Permission::CLOSE => {
+      'status' => { 'type' => 'string', 'enum' => PERMITTED_STATUS_VALUES },
+      'date_closure' => { 'type' => 'date' }
+    },
     Permission::REOPEN => {
-      'status' => { 'type' => 'string' }, 'workflow' => { 'type' => 'string' },
+      'status' => { 'type' => 'string', 'enum' => PERMITTED_STATUS_VALUES },
+      'workflow' => { 'type' => 'string', 'enum' => PERMITTED_WORKFLOW_VALUES },
       'case_status_reopened' => { 'type' => 'boolean' }
     },
     Permission::ENABLE_DISABLE_RECORD => { 'record_state' => { 'type' => 'boolean' } },

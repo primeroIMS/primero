@@ -75,11 +75,11 @@ class PermittedFormFieldsService
 
   alias with_cache? with_cache
 
-  def permitted_fields(roles, record_type, module_unique_id, writeable)
+  def permitted_fields(roles, record_type, module_unique_id, action_name)
     if with_cache?
-      permitted_fields_from_cache(roles, record_type, module_unique_id, writeable)
+      permitted_fields_from_cache(roles, record_type, module_unique_id, action_name)
     else
-      permitted_fields_from_forms(roles, record_type, module_unique_id, writeable).to_a
+      permitted_fields_from_forms(roles, record_type, module_unique_id, action_name).to_a
     end
   end
 
@@ -109,7 +109,7 @@ class PermittedFormFieldsService
   end
 
   def eagerloaded_fields
-    Field.includes(subform: :fields).left_outer_joins(form_section: %i[roles primero_modules])
+    Field.includes(:form_section, subform: :fields).left_outer_joins(form_section: %i[roles primero_modules])
   end
 
   def fetch_filtered_fields(roles, record_type, module_unique_id, visible_only)
