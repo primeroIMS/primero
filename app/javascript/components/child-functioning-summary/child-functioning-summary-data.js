@@ -8,8 +8,6 @@ const childFunctioningSummaryData = [
     label: "cases.child_functioning.vision_wear_glass",
     key: latestValue => `cfm_${latestValue?.cfm_age}_vision_wears_glasses`
   },
-
-  // When child DOES NOT wear glasses
   {
     label: "cases.child_functioning.difficulty_seeing_without_glasses",
     key: latestValue => `cfm_${latestValue?.cfm_age}_vision_difficulty`,
@@ -18,8 +16,6 @@ const childFunctioningSummaryData = [
       equals: "no"
     }
   },
-
-  // When child DOES wear glasses
   {
     label: "cases.child_functioning.difficulty_seeing_with_glasses",
     key: latestValue => `cfm_${latestValue?.cfm_age}_vision_difficulty_with_glasses`,
@@ -34,8 +30,6 @@ const childFunctioningSummaryData = [
     label: "cases.child_functioning.child_wears_hearing_aid",
     key: latestValue => `cfm_${latestValue?.cfm_age}_hearing_uses_hearing_aid`
   },
-
-  // When NO hearing aid
   {
     label: "cases.child_functioning.difficulty_hearing_without_hearing_aid",
     key: latestValue => `cfm_${latestValue?.cfm_age}_hearing_difficulty`,
@@ -44,8 +38,6 @@ const childFunctioningSummaryData = [
       equals: "no"
     }
   },
-
-  // When YES hearing aid
   {
     label: "cases.child_functioning.difficulty_hearing_with_hearing_aid",
     key: latestValue => `cfm_${latestValue?.cfm_age}_hearing_difficulty_with_hearing_aid`,
@@ -61,7 +53,63 @@ const childFunctioningSummaryData = [
     key: latestValue => `cfm_${latestValue?.cfm_age}_mobility_uses_equipment`
   },
 
-  // When YES (child uses equipment)
+  // ---------- Age 5-7 ----------
+
+  // When YES
+  {
+    label: "cases.child_functioning.difficulty_walking_without_equipment_100m",
+    key: latestValue => `cfm_${latestValue?.cfm_age}_mobility_difficulty_without_equipment_100m`,
+    showIf: {
+      key: latestValue => `cfm_${latestValue?.cfm_age}_mobility_uses_equipment`,
+      equals: "yes"
+    }
+  },
+  {
+    label: "cases.child_functioning.mobility_difficulty_without_equipment_500m",
+    key: latestValue => `cfm_${latestValue?.cfm_age}_mobility_difficulty_without_equipment_500m`,
+    showIf: {
+      key: latestValue => `cfm_${latestValue?.cfm_age}_mobility_uses_equipment`,
+      equals: "yes"
+    }
+  },
+  {
+    label: "cases.child_functioning.mobility_difficulty_with_equipment_100m",
+    key: latestValue => `cfm_${latestValue?.cfm_age}_mobility_difficulty_with_equipment_100m`,
+    showIf: {
+      key: latestValue => `cfm_${latestValue?.cfm_age}_mobility_uses_equipment`,
+      equals: "yes"
+    }
+  },
+  {
+    label: "cases.child_functioning.mobility_difficulty_with_equipment_500m",
+    key: latestValue => `cfm_${latestValue?.cfm_age}_mobility_difficulty_with_equipment_500m`,
+    showIf: {
+      key: latestValue => `cfm_${latestValue?.cfm_age}_mobility_uses_equipment`,
+      equals: "yes"
+    }
+  },
+
+  // When NO
+  {
+    label: "cases.child_functioning.mobility_difficulty_comparative_100m",
+    key: latestValue => `cfm_${latestValue?.cfm_age}_mobility_difficulty_comparative_100m`,
+    showIf: {
+      key: latestValue => `cfm_${latestValue?.cfm_age}_mobility_uses_equipment`,
+      equals: "no"
+    }
+  },
+  {
+    label: "cases.child_functioning.mobility_difficulty_comparative_500m",
+    key: latestValue => `cfm_${latestValue?.cfm_age}_mobility_difficulty_comparative_500m`,
+    showIf: {
+      key: latestValue => `cfm_${latestValue?.cfm_age}_mobility_uses_equipment`,
+      equals: "no"
+    }
+  },
+
+  // ---------- Age 2-4 ----------
+
+  // When YES
   {
     label: "cases.child_functioning.difficulty_walking_without_equipment",
     key: latestValue => `cfm_${latestValue?.cfm_age}_mobility_difficulty_without_equipment`,
@@ -79,7 +127,7 @@ const childFunctioningSummaryData = [
     }
   },
 
-  // When NO (child does not use equipment)
+  // When NO
   {
     label: "cases.child_functioning.difficulty_comparative",
     key: latestValue => `cfm_${latestValue?.cfm_age}_mobility_difficulty_comparative`,
