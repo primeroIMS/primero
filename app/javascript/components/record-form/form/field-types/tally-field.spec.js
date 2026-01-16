@@ -100,4 +100,71 @@ describe("<FormSectionField />", () => {
       expect(screen.getByText("field required")).toBeInTheDocument();
     });
   });
+  describe("Total calculation", () => {
+    it("sets null (empty) when values are empty", async () => {
+      const tallyFormProps = {
+        initialValues: {
+          Test: { test1: null, test2: "" }
+        }
+      };
+
+      const testProps = {
+        ...props,
+        mode: { isShow: false },
+        field: {
+          ...props.field,
+          autosum_total: true,
+          display_name: { en: "Test" },
+          tally: [
+            { id: "test1", display_text: { en: "Test 1" } },
+            { id: "test2", display_text: { en: "Test 2" } }
+          ]
+        },
+        formik: {
+          setFieldValue: () => {},
+          registerField: () => {}
+        },
+        formSection: {}
+      };
+
+      mountedComponent(<TallyField {...testProps} />, {}, [], {}, tallyFormProps);
+
+      const totalField = await screen.findByLabelText("fields.total");
+
+      expect(totalField).toHaveValue(null);
+    });
+
+    it("sets sum when values are present", async () => {
+      const tallyFormProps = {
+        initialValues: {
+          Test: { test1: 5, test2: 10 }
+        }
+      };
+
+      const testProps = {
+        ...props,
+        mode: { isShow: false },
+        field: {
+          ...props.field,
+          autosum_total: true,
+          display_name: { en: "Test" },
+          tally: [
+            { id: "test1", display_text: { en: "Test 1" } },
+            { id: "test2", display_text: { en: "Test 2" } }
+          ]
+        },
+        formik: {
+          setFieldValue: () => {},
+          registerField: () => {}
+        },
+        formSection: {}
+      };
+
+      mountedComponent(<TallyField {...testProps} />, {}, [], {}, tallyFormProps);
+
+      const totalField = await screen.findByLabelText("fields.total");
+
+      expect(totalField).toHaveValue(15);
+    });
+  });
 });
