@@ -109,7 +109,7 @@ class PermittedFormFieldsService
   end
 
   def eagerloaded_fields
-    Field.includes(subform: :fields).left_outer_joins(form_section: %i[roles primero_modules])
+    Field.includes(:form_section, subform: :fields).left_outer_joins(form_section: %i[roles primero_modules])
   end
 
   def fetch_filtered_fields(roles, record_type, module_unique_id, visible_only)

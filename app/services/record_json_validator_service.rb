@@ -14,11 +14,13 @@ class RecordJsonValidatorService < JsonValidatorService
   # rubocop:disable Metrics/PerceivedComplexity
   # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/BlockLength
-  def build_schema(fields)
+  def build_schema(fields, filter_nested: true)
     object = { 'type' => 'object', 'properties' => {}, 'additionalProperties' => false }
     return object unless fields.present?
 
-    fields.each_with_object(object) do |field, schema_hash|
+    fields_to_process = filter_nested ? fields.reject(&:nested?) : fields
+
+    fields_to_process.each_with_object(object) do |field, schema_hash|
       properties = schema_hash['properties']
       case field.type
       when Field::DATE_FIELD
@@ -46,7 +48,7 @@ class RecordJsonValidatorService < JsonValidatorService
       when Field::SUBFORM
         properties[field.name] = {
           'type' => %w[array null], 'items' => with_subform_fields(
-            build_schema(field.subform&.fields)
+            build_schema(field.subform&.fields, filter_nested: false)
           )
         }
       when Field::TEXT_FIELD, Field::TEXT_AREA
