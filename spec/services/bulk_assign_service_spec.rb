@@ -131,6 +131,28 @@ describe BulkAssignService do
         expect(Assign.pluck(:record_id)).to match_array([incident.id, incident3.id])
       end
     end
+
+    context 'when there are more than 10 records' do
+      let(:bulk_assign_params) do
+        {
+          filters: {}
+        }.merge(bulk_assign_shared_params)
+      end
+
+      before do
+        # Create 8 additional children to have a total of 11 (3 existing + 8 new)
+        8.times do |i|
+          create(:child, name: "Extra Child #{i}", sex: 'female', owned_by: user.user_name,
+                         consent_for_services: true, disclosure_other_orgs: true, module_id: PrimeroModule::CP)
+        end
+      end
+
+      it 'assigns all records' do
+        expect(Child.count).to eq(11)
+        BulkAssignService.new(Child, user, **bulk_assign_params).assign_records!
+        expect(Assign.count).to eq(11)
+      end
+    end
   end
 
   after :each do
