@@ -254,5 +254,56 @@ describe RecordJsonValidatorService do
         expect(service.valid?('foo' => nil)).to be_falsey
       end
     end
+
+    describe 'when subform has field with same name as top-level field' do
+      let(:top_level_form) { FormSection.new(is_nested: false) }
+      let(:nested_form) { FormSection.new(is_nested: true) }
+
+      let(:fields_with_same_name) do
+        [
+          # Top-level numeric age field
+          Field.new(name: 'age', type: Field::NUMERIC_FIELD, form_section: top_level_form),
+          Field.new(name: 'name', type: Field::TEXT_FIELD, form_section: top_level_form),
+          # Subform field with nested form containing text age field
+          Field.new(
+            name: 'services',
+            type: Field::SUBFORM,
+            form_section: top_level_form,
+            subform: FormSection.new(
+              is_nested: true,
+              fields: [
+                Field.new(name: 'age', type: Field::TEXT_FIELD, form_section: nested_form),
+                Field.new(name: 'service_type', type: Field::SELECT_BOX, form_section: nested_form)
+              ]
+            )
+          ),
+          # This simulates a nested field that was eager-loaded as a flat field
+          # (which was causing the bug - the nested text 'age' was overwriting the numeric 'age')
+          Field.new(name: 'age', type: Field::TEXT_FIELD, form_section: nested_form)
+        ]
+      end
+
+      let(:service_with_same_names) { RecordJsonValidatorService.new(fields: fields_with_same_name) }
+
+      it 'validates top-level age as numeric (not as text from subform)' do
+        expect(service_with_same_names.valid?('age' => 10)).to be_truthy
+      end
+
+      it 'rejects text values for top-level numeric age field' do
+        expect(service_with_same_names.valid?('age' => 'ten')).to be_falsey
+      end
+
+      it 'validates subform age as text within the subform' do
+        expect(service_with_same_names.valid?('services' => [{ 'age' => 'ten', 'service_type' => 'health' }])).to be_truthy
+      end
+
+      it 'validates both top-level and subform age fields correctly together' do
+        expect(service_with_same_names.valid?(
+          'age' => 10,
+          'name' => 'John',
+          'services' => [{ 'age' => 'under 18', 'service_type' => 'education' }]
+        )).to be_truthy
+      end
+    end
   end
 end
