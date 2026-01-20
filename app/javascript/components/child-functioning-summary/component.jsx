@@ -15,19 +15,34 @@ const formatKey = key => {
 
 const isYes = value => value === true || value === "true" || value === "yes" || value === "Yes";
 
+const isSevereDifficulty = value => value === "a_lot_of_difficulty" || value === "cannot_do_at_all";
+
 const shouldShowField = (field, values) => {
-  if (!field.showIf) return true;
+  // Existing showIf logic
+  if (field.showIf) {
+    const conditionKey = typeof field.showIf.key === "function" ? field.showIf.key(values) : field.showIf.key;
 
-  const conditionKey = typeof field.showIf.key === "function" ? field.showIf.key(values) : field.showIf.key;
+    const conditionValue = values[conditionKey];
 
-  const conditionValue = values[conditionKey];
+    if (field.showIf.equals === "yes") {
+      if (!isYes(conditionValue)) return false;
+    }
 
-  if (field.showIf.equals === "yes") {
-    return isYes(conditionValue);
+    if (field.showIf.equals === "no") {
+      if (isYes(conditionValue)) return false;
+    }
   }
 
-  if (field.showIf.equals === "no") {
-    return !isYes(conditionValue);
+  // 🔴 NEW: hide 500m if 100m is severe
+  if (field.hideIfSevere100m) {
+    const hundredKey =
+      typeof field.hideIfSevere100m === "function" ? field.hideIfSevere100m(values) : field.hideIfSevere100m;
+
+    const hundredValue = values[hundredKey];
+
+    if (isSevereDifficulty(hundredValue)) {
+      return false;
+    }
   }
 
   return true;

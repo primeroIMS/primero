@@ -53,9 +53,9 @@ const childFunctioningSummaryData = [
     key: latestValue => `cfm_${latestValue?.cfm_age}_mobility_uses_equipment`
   },
 
-  // ---------- Age 5-7 ----------
+  // ===== Age 5–7 =====
 
-  // When YES
+  // ---- YES : Without equipment ----
   {
     label: "cases.child_functioning.difficulty_walking_without_equipment_100m",
     key: latestValue => `cfm_${latestValue?.cfm_age}_mobility_difficulty_without_equipment_100m`,
@@ -70,8 +70,11 @@ const childFunctioningSummaryData = [
     showIf: {
       key: latestValue => `cfm_${latestValue?.cfm_age}_mobility_uses_equipment`,
       equals: "yes"
-    }
+    },
+    hideIfSevere100m: latestValue => `cfm_${latestValue?.cfm_age}_mobility_difficulty_without_equipment_100m`
   },
+
+  // ---- YES : With equipment ----
   {
     label: "cases.child_functioning.mobility_difficulty_with_equipment_100m",
     key: latestValue => `cfm_${latestValue?.cfm_age}_mobility_difficulty_with_equipment_100m`,
@@ -86,10 +89,11 @@ const childFunctioningSummaryData = [
     showIf: {
       key: latestValue => `cfm_${latestValue?.cfm_age}_mobility_uses_equipment`,
       equals: "yes"
-    }
+    },
+    hideIfSevere100m: latestValue => `cfm_${latestValue?.cfm_age}_mobility_difficulty_with_equipment_100m`
   },
 
-  // When NO
+  // ---- NO : Comparative ----
   {
     label: "cases.child_functioning.mobility_difficulty_comparative_100m",
     key: latestValue => `cfm_${latestValue?.cfm_age}_mobility_difficulty_comparative_100m`,
@@ -104,12 +108,11 @@ const childFunctioningSummaryData = [
     showIf: {
       key: latestValue => `cfm_${latestValue?.cfm_age}_mobility_uses_equipment`,
       equals: "no"
-    }
+    },
+    hideIfSevere100m: latestValue => `cfm_${latestValue?.cfm_age}_mobility_difficulty_comparative_100m`
   },
 
-  // ---------- Age 2-4 ----------
-
-  // When YES
+  // ===== Age 2–4 =====
   {
     label: "cases.child_functioning.difficulty_walking_without_equipment",
     key: latestValue => `cfm_${latestValue?.cfm_age}_mobility_difficulty_without_equipment`,
@@ -126,8 +129,6 @@ const childFunctioningSummaryData = [
       equals: "yes"
     }
   },
-
-  // When NO
   {
     label: "cases.child_functioning.difficulty_comparative",
     key: latestValue => `cfm_${latestValue?.cfm_age}_mobility_difficulty_comparative`,
