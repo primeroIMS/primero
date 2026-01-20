@@ -57,7 +57,7 @@ const childFunctioningSummaryData = [
 
   // ---- YES : Without equipment ----
   {
-    label: "cases.child_functioning.difficulty_walking_without_equipment_100m",
+    label: "cases.child_functioning.mobility_difficulty_without_equipment_100m",
     key: latestValue => `cfm_${latestValue?.cfm_age}_mobility_difficulty_without_equipment_100m`,
     showIf: {
       key: latestValue => `cfm_${latestValue?.cfm_age}_mobility_uses_equipment`,
