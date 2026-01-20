@@ -349,6 +349,20 @@ module Indicators
       scope_to_referred: true
     ).freeze
 
+    SHARED_WITH_ME_PENDING_REFERRALS = QueriedIndicator.new(
+      name: 'shared_with_me_pending_referrals',
+      record_model: Child,
+      queries: OPEN_ENABLED,
+      scope_to_referred_users_pending: true
+    ).freeze
+
+    SHARED_WITH_ME_ACCEPTED_REFERRALS = QueriedIndicator.new(
+      name: 'shared_with_me_accepted_referrals',
+      record_model: Child,
+      queries: OPEN_ENABLED,
+      scope_to_referred_users_accepted: true
+    ).freeze
+
     SHARED_WITH_ME_NEW_REFERRALS = QueriedIndicator.new(
       name: 'shared_with_me_new_referrals',
       record_model: Child,

@@ -12,7 +12,11 @@ import { useMemoizedSelector } from "../../../../../libs";
 import DashboardColumns from "../../../../dashboard/dashboard-columns";
 import { getPermissions } from "../../../../user";
 
-const sharedWithMeIndicators = ["shared_with_me_new_referrals", "shared_with_me_total_referrals"];
+const sharedWithMeIndicators = [
+  "shared_with_me_pending_referrals",
+  "shared_with_me_accepted_referrals",
+  "shared_with_me_total_referrals"
+];
 const sharedWithOthersIndicators = ["shared_with_others_referrals"];
 
 function Component() {

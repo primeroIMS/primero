@@ -99,8 +99,9 @@ class Dashboard < ValueObject
     name: 'dash_shared_with_me',
     type: 'indicator',
     indicators: [
+      Indicators::Case::SHARED_WITH_ME_PENDING_REFERRALS,
+      Indicators::Case::SHARED_WITH_ME_ACCEPTED_REFERRALS,
       Indicators::Case::SHARED_WITH_ME_TOTAL_REFERRALS,
-      Indicators::Case::SHARED_WITH_ME_NEW_REFERRALS,
       Indicators::Case::SHARED_WITH_ME_TRANSFERS_AWAITING_ACCEPTANCE
     ]
   ).freeze

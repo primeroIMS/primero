@@ -455,6 +455,9 @@ describe Api::V2::DashboardsController, type: :request do
           ]
         )
         Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case_a)
+        referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case_a)
+        referral.accept!
+
         Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case_a)
         Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case_b)
         @case_b.update(transfer_status: Transition::STATUS_REJECTED)
@@ -473,13 +476,17 @@ describe Api::V2::DashboardsController, type: :request do
 
         shared_with_me_dashboard = json['data'][0]['indicators']
         expect(shared_with_me_dashboard['shared_with_me_total_referrals']['count']).to eq(1)
-        expect(shared_with_me_dashboard['shared_with_me_new_referrals']['count']).to eq(1)
+        expect(shared_with_me_dashboard['shared_with_me_pending_referrals']['count']).to eq(1)
+        expect(shared_with_me_dashboard['shared_with_me_accepted_referrals']['count']).to eq(1)
         expect(shared_with_me_dashboard['shared_with_me_transfers_awaiting_acceptance']['count']).to eq(2)
         expect(shared_with_me_dashboard['shared_with_me_total_referrals']['query']).to match_array(
           %w[referred_users=user2 record_state=true status=open]
         )
-        expect(shared_with_me_dashboard['shared_with_me_new_referrals']['query']).to match_array(
-          %w[referred_users=user2 not[last_updated_by]=user2 record_state=true status=open]
+        expect(shared_with_me_dashboard['shared_with_me_pending_referrals']['query']).to match_array(
+          %w[referred_users_pending=user2 record_state=true status=open]
+        )
+        expect(shared_with_me_dashboard['shared_with_me_accepted_referrals']['query']).to match_array(
+          %w[referred_users_accepted=user2 record_state=true status=open]
         )
         expect(shared_with_me_dashboard['shared_with_me_transfers_awaiting_acceptance']['query']).to match_array(
           %w[transferred_to_users=user2 record_state=true status=open]

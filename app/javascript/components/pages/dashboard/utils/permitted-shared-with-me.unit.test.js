@@ -15,9 +15,13 @@ describe("permittedSharedWithMe - pages/dashboard/utils/", () => {
         count: 0,
         query: ["record_state=true", "status=open"]
       },
-      shared_with_me_new_referrals: {
+      shared_with_me_pending_referrals: {
         count: 0,
-        query: ["record_state=true", "status=open", "not_edited_by_owner=true"]
+        query: ["record_state=true", "status=open", "referred_users_pending=user"]
+      },
+      shared_with_me_accepted_referrals: {
+        count: 0,
+        query: ["record_state=true", "status=open", "referred_users_accepted=user"]
       },
       shared_with_me_transfers_awaiting_acceptance: {
         count: 0,
@@ -56,9 +60,13 @@ describe("permittedSharedWithMe - pages/dashboard/utils/", () => {
           count: 0,
           query: ["record_state=true", "status=open"]
         },
-        shared_with_me_new_referrals: {
+        shared_with_me_pending_referrals: {
           count: 0,
-          query: ["record_state=true", "status=open", "not_edited_by_owner=true"]
+          query: ["record_state=true", "status=open", "referred_users_pending=user"]
+        },
+        shared_with_me_accepted_referrals: {
+          count: 0,
+          query: ["record_state=true", "status=open", "referred_users_accepted=user"]
         }
       }
     });
@@ -79,9 +87,13 @@ describe("permittedSharedWithMe - pages/dashboard/utils/", () => {
           count: 0,
           query: ["record_state=true", "status=open"]
         },
-        shared_with_me_new_referrals: {
+        shared_with_me_pending_referrals: {
           count: 0,
-          query: ["record_state=true", "status=open", "not_edited_by_owner=true"]
+          query: ["record_state=true", "status=open", "referred_users_pending=user"]
+        },
+        shared_with_me_accepted_referrals: {
+          count: 0,
+          query: ["record_state=true", "status=open", "referred_users_accepted=user"]
         },
         shared_with_me_transfers_awaiting_acceptance: {
           count: 0,

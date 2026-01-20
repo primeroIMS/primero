@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_16_000001) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_19_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
   enable_extension "pg_catalog.plpgsql"
@@ -204,6 +204,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_16_000001) do
     t.datetime "srch_reassigned_transferred_on", precision: nil
     t.boolean "srch_record_state", default: false
     t.string "srch_referred_users", default: [], array: true
+    t.string "srch_referred_users_accepted", default: [], array: true
+    t.string "srch_referred_users_pending", default: [], array: true
     t.boolean "srch_referred_users_present", default: false
     t.datetime "srch_registration_date", precision: nil
     t.string "srch_risk_level"
@@ -295,8 +297,14 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_16_000001) do
     t.index ["srch_date_closure"], name: "cases_srch_date_closure_idx"
     t.index ["srch_identified_at"], name: "index_cases_on_srch_identified_at"
     t.index ["srch_identified_by"], name: "index_cases_on_srch_identified_by"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_agencies", "srch_referred_users_accepted"], name: "shared_with_me_accepted_referrals_dashboard_agency_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_agencies", "srch_referred_users_pending"], name: "shared_with_me_pending_referrals_dashboard_agency_idx"
     t.index ["srch_record_state", "srch_status", "srch_associated_user_agencies"], name: "cases_default_associated_user_agencies_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_groups", "srch_referred_users_accepted"], name: "shared_with_me_accepted_referrals_dashboard_group_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_groups", "srch_referred_users_pending"], name: "shared_with_me_pending_referrals_dashboard_group_idx"
     t.index ["srch_record_state", "srch_status", "srch_associated_user_groups"], name: "cases_default_associated_user_groups_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_names", "srch_referred_users_accepted"], name: "shared_with_me_accepted_referrals_dashboard_user_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_names", "srch_referred_users_pending"], name: "shared_with_me_pending_referrals_dashboard_user_idx"
     t.index ["srch_record_state", "srch_status", "srch_associated_user_names"], name: "cases_default_associated_user_names_idx"
     t.index ["srch_registration_date"], name: "cases_srch_registration_date_idx"
   end
@@ -542,6 +550,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_16_000001) do
     t.string "srch_owned_by_agency_office"
     t.string "srch_owned_by_groups", default: [], array: true
     t.boolean "srch_record_state", default: false
+    t.string "srch_referred_users_accepted", default: [], array: true
+    t.string "srch_referred_users_pending", default: [], array: true
     t.string "srch_status"
     t.string "srch_transferred_to_user_groups", default: [], array: true
     t.string "srch_transferred_to_users", default: [], array: true
@@ -758,20 +768,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_16_000001) do
     t.index ["data"], name: "index_sessions_on_data", using: :gin
     t.index ["session_id"], name: "index_sessions_on_session_id", unique: true
     t.index ["updated_at"], name: "index_sessions_on_updated_at"
-  end
-
-  create_table "signatures", force: :cascade do |t|
-    t.boolean "consent_provided", default: false, null: false
-    t.datetime "created_at", null: false
-    t.string "field_name", null: false
-    t.uuid "record_id"
-    t.string "record_type"
-    t.string "signature_provided_by"
-    t.datetime "signature_provided_on", precision: nil, null: false
-    t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
-    t.index ["record_type", "record_id"], name: "index_signatures_on_record"
-    t.index ["user_id"], name: "index_signatures_on_user_id"
   end
 
   create_table "sources", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -1034,7 +1030,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_16_000001) do
   add_foreign_key "primero_modules_saved_searches", "saved_searches"
   add_foreign_key "responses", "violations"
   add_foreign_key "saved_searches", "users"
-  add_foreign_key "signatures", "users"
   add_foreign_key "sources_violations", "sources"
   add_foreign_key "sources_violations", "violations"
   add_foreign_key "traces", "cases", column: "matched_case_id"
