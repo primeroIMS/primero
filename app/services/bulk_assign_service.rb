@@ -20,7 +20,8 @@ class BulkAssignService
   def search_records
     PhoneticSearchService.search(
       @model_class, query:, phonetic:, filters: search_filters,
-                    sort: sort_order, scope: query_scope
+                    sort: sort_order, scope: query_scope,
+                    pagination: { page: 1, per_page: Assign::MAX_BULK_RECORDS }
     )
   end
 
