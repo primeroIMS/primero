@@ -13,7 +13,7 @@ describe Api::V2::ChildrenController, type: :request do
       Family, Field, FormSection, Location
     )
 
-    @agency = Agency.create!(name: 'Test Agency', agency_code: 'TA', services: ['Test type'])
+    @agency = Agency.create!(name: 'Test Agency', agency_code: 'TA', services: ['test-type'])
     @cp = PrimeroModule.create!(unique_id: PrimeroModule::CP, name: 'CP', description: 'Child Protection',
                                 associated_record_types: %w[case tracing_request incident])
     @form_a = FormSection.create!(
@@ -102,7 +102,7 @@ describe Api::V2::ChildrenController, type: :request do
       email: 'test_user_2@localhost.com',
       agency_id: @agency.id,
       role: role_self,
-      services: ['Test type']
+      services: ['test-type']
     )
     @role_owned_others = Role.create!(
       name: 'Test Role Owned Others',
@@ -189,7 +189,7 @@ describe Api::V2::ChildrenController, type: :request do
       unique_id: 'lookup-service-type',
       name_en: 'Service Type',
       lookup_values_en: [
-        { id: 'Test type', display_text: 'Safehouse Service' }.with_indifferent_access
+        { id: 'test-type', display_text: 'Safehouse Service' }.with_indifferent_access
       ]
     )
     @registry_record1 = RegistryRecord.create!(
@@ -1097,14 +1097,14 @@ describe Api::V2::ChildrenController, type: :request do
         )
 
         params = {
-          data: { name: 'Tester 1', services_section: [{ service_type: 'Test type' }] },
+          data: { name: 'Tester 1', services_section: [{ service_type: 'test-type' }] },
           record_action: Permission::SERVICES_SECTION_FROM_CASE
         }
 
         patch "/api/v2/cases/#{@case1.id}", params:, as: :json
 
         expect(response).to have_http_status(200)
-        expect(json['data']['services_section'].first['service_type']).to eq('Test type')
+        expect(json['data']['services_section'].first['service_type']).to eq('test-type')
         expect(json['data']['name']).to be_nil
         @case1.reload
         expect(@case1.name).to eq('Test1')
@@ -1125,14 +1125,14 @@ describe Api::V2::ChildrenController, type: :request do
         )
 
         params = {
-          data: { services_section: [{ service_type: 'Test type' }] },
+          data: { services_section: [{ service_type: 'test-type' }] },
           record_action: Permission::SERVICES_SECTION_FROM_CASE
         }
 
         patch "/api/v2/cases/#{@case1.id}", params:, as: :json
 
         expect(response).to have_http_status(200)
-        expect(json['data']['services_section'].first['service_type']).to eq('Test type')
+        expect(json['data']['services_section'].first['service_type']).to eq('test-type')
         expect(json['data']['name']).to be_nil
         @case1.reload
         expect(@case1.name).to eq('Test1')
@@ -1141,7 +1141,7 @@ describe Api::V2::ChildrenController, type: :request do
       it 'returns 403 if the user is not authorized' do
         login_for_test(group_permission: Permission::SELF)
         params = {
-          data: { services_section: [{ service_type: 'Test type' }] },
+          data: { services_section: [{ service_type: 'test-type' }] },
           record_action: Permission::SERVICES_SECTION_FROM_CASE
         }
         patch "/api/v2/cases/#{@case1.id}", params:, as: :json

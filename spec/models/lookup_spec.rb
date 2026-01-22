@@ -20,6 +20,13 @@ describe Lookup do
     lookup.should be_valid
   end
 
+  it 'is not valid if unique_id has invalid format' do
+    lookup = Lookup.new(unique_id: '=lookup-invalid-id')
+
+    expect(lookup.valid?).to be_falsey
+    expect(lookup.errors[:unique_id]).to be_present
+  end
+
   it 'should have a unique id when the name is the same as an existing lookup' do
     lookup1 = create :lookup, name: 'Unique', lookup_values: [
       { id: 'value1', display_text: 'value1' }, { id: 'value2', display_text: 'value2' }
@@ -34,7 +41,15 @@ describe Lookup do
     lookup = Lookup.new(name: 'test_lookup')
     lookup.lookup_values = [{ id: nil, display_text: { en: 'example' } }]
     expect(lookup.valid?).to be false
-    expect(lookup.errors[:lookup_values].first).to eq('A lookup_value id is blank')
+    expect(lookup.errors[:lookup_values].first).to eq('A lookup_value id is invalid')
+  end
+
+  it 'does not allow invalid id on the lookup_values' do
+    lookup = Lookup.new(name: 'test_lookup')
+    lookup.lookup_values = [{ id: '=example', display_text: { en: 'example' } }]
+
+    expect(lookup.valid?).to be false
+    expect(lookup.errors[:lookup_values].first).to eq('A lookup_value id is invalid')
   end
 
   it 'should create a valid lookup' do
