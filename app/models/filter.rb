@@ -459,7 +459,7 @@ class Filter < ValueObject
     # rubocop:disable Metrics/MethodLength
     def case_filters(user)
       filters = []
-      filters << MODULE_ID if include_module_id?(user)
+      filters << MODULE_ID if include_module_id?
       filters << FLAGGED_CASE
       filters << SOCIAL_WORKER if user.manager?
       filters += [MY_CASES, WORKFLOW]
@@ -575,7 +575,7 @@ class Filter < ValueObject
       filters += [INCIDENT_DATE] + unaccompanied_filter(user)
       filters += perpetrator_category_filters(user) + armed_force_group_filters(user)
       filters << ENABLED
-      filters << MODULE_ID if include_module_id?(user)
+      filters << MODULE_ID if include_module_id?
       filters += mrm_incident_filters if user.mrm?
       filters
     end
@@ -650,7 +650,7 @@ class Filter < ValueObject
 
     def tracing_request_filter(user)
       filters = []
-      filters << MODULE_ID if include_module_id?(user)
+      filters << MODULE_ID if include_module_id?
       filters << FLAGGED_CASE
       filters << SOCIAL_WORKER if user.manager?
       filters << INQUIRY_DATE
@@ -661,9 +661,9 @@ class Filter < ValueObject
       filters
     end
 
-    def registry_record_filter(user)
+    def registry_record_filter(_user)
       filters = []
-      filters << MODULE_ID if include_module_id?(user)
+      filters << MODULE_ID if include_module_id?
       filters << FLAGGED_CASE
       filters << REGISTRY_STATUS
       filters << ENABLED
@@ -672,9 +672,9 @@ class Filter < ValueObject
       filters
     end
 
-    def family_filter(user)
+    def family_filter(_user)
       filters = []
-      filters << MODULE_ID if include_module_id?(user)
+      filters << MODULE_ID if include_module_id?
       filters << FLAGGED_CASE
       filters << FAMILY_STATUS
       filters << ENABLED
@@ -690,8 +690,8 @@ class Filter < ValueObject
       field.present? && field.visible?
     end
 
-    def include_module_id?(user)
-      user.multiple_modules? || PrimeroModule.available_module_ids.size > 1
+    def include_module_id?
+      PrimeroModule.available_module_ids.size > 1
     end
   end
 

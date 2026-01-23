@@ -396,13 +396,13 @@ describe Filter do
   describe '.include_module_id?' do
     context 'when user has multiple modules' do
       it 'returns true' do
-        expect(Filter.send(:include_module_id?, @user_b)).to be true
+        expect(Filter.send(:include_module_id?)).to be true
       end
     end
 
     context 'when user has single module but system has multiple modules' do
       it 'returns true' do
-        expect(Filter.send(:include_module_id?, @user_a)).to be true
+        expect(Filter.send(:include_module_id?)).to be true
       end
     end
   end
