@@ -63,7 +63,9 @@ class PermittedFormFieldsService
     end
   end
 
-  def permitted_fields_from_forms(roles, record_type, module_unique_id, action_name, visible_only = false)
+  def permitted_fields_from_forms(
+    roles, record_type, module_unique_id, action_name, visible_only = false, field_names_schema = []
+  )
     fields = fetch_filtered_fields(roles, record_type, module_unique_id, visible_only)
     return fields unless writeable?(action_name)
 
@@ -71,16 +73,33 @@ class PermittedFormFieldsService
     fields = filter_create_only_fields(fields, record_type, action_name)
     action_subform_fields = permitted_subforms_from_actions(roles, record_type)
     append_action_subform_fields(fields, action_subform_fields, record_type, module_unique_id)
+    append_action_schema_fields(fields, record_type, field_names_schema)
   end
 
   alias with_cache? with_cache
 
-  def permitted_fields(roles, record_type, module_unique_id, action_name)
+  def permitted_fields(
+    roles, record_type, module_unique_id, action_name, visible_only = false, field_names_schema = []
+  )
     if with_cache?
-      permitted_fields_from_cache(roles, record_type, module_unique_id, action_name)
+      permitted_fields_from_cache(roles, record_type, module_unique_id, action_name, visible_only, field_names_schema)
     else
-      permitted_fields_from_forms(roles, record_type, module_unique_id, action_name).to_a
+      permitted_fields_from_forms(
+        roles, record_type, module_unique_id, action_name, visible_only, field_names_schema
+      ).to_a
     end
+  end
+
+  def append_action_schema_fields(fields, record_type, field_names_schema)
+    fields.or(
+      eagerloaded_fields.where(
+        fields: {
+          name: field_names_schema,
+          type: [Field::SELECT_BOX, Field::RADIO_BUTTON],
+          form_sections: { is_nested: false, parent_form: record_type }
+        }
+      )
+    )
   end
 
   def permitted_field_names(roles, record_type, module_unique_id, action_name)

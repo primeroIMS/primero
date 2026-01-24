@@ -7,7 +7,8 @@
 #       but this functionality should be extracted.
 # rubocop:disable Metrics/ClassLength
 class PermittedFieldService
-  attr_accessor :user, :model_class, :action_name, :id_search, :permitted_form_field_service
+  attr_accessor :user, :model_class, :action_name, :id_search, :permitted_form_field_service,
+                :permitted_field_values_service
 
   UUID_REGEX = '\A[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\z'
 
@@ -110,12 +111,15 @@ class PermittedFieldService
 
   ID_SEARCH_FIELDS = %w[age date_of_birth estimated name sex].freeze
 
-  def initialize(user, model_class, permitted_form_field_service = nil, options = {})
+  def initialize(
+    user, model_class, permitted_form_field_service = nil, permitted_field_values_service = nil, options = {}
+  )
     self.user = user
     self.model_class = model_class
     self.action_name = options[:action_name]
     self.id_search = options[:id_search]
     self.permitted_form_field_service = permitted_form_field_service || PermittedFormFieldsService.instance
+    self.permitted_field_values_service = permitted_field_values_service || PermittedFieldValuesService.instance
   end
 
   # This is a long series of permission conditions. Sacrificing Rubocop for readability.
