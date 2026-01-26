@@ -14,7 +14,8 @@ describe PermittedFormFieldsService do
       unique_id: 'family_details', parent_form: 'case', name_en: 'family_details', is_nested: true,
       fields: [
         Field.new(name: 'relation_name', type: Field::TEXT_FIELD, display_name_en: 'A'),
-        Field.new(name: 'relation_type', type: Field::SELECT_BOX, display_name_en: 'A')
+        Field.new(name: 'relation_type', type: Field::SELECT_BOX, display_name_en: 'A'),
+        Field.new(name: 'age', type: Field::TEXT_FIELD, display_name_en: 'Age')
       ]
     )
     FormSection.create!(
@@ -44,7 +45,7 @@ describe PermittedFormFieldsService do
 
   let!(:form_section2) do
     FormSection.create!(
-      unique_id: 'form_section2', parent_form: 'case', name_en: 'form_section2', is_nested: true,
+      unique_id: 'form_section2', parent_form: 'case', name_en: 'form_section2', is_nested: false,
       fields: [
         Field.new(name: 'interview_date', type: Field::DATE_FIELD, display_name_en: 'A'),
         Field.new(name: 'consent_for_referral', type: Field::TICK_BOX, display_name_en: 'A')
@@ -417,6 +418,78 @@ describe PermittedFormFieldsService do
         permitted_fields = service.permitted_fields([role_gbv], 'case', PrimeroModule::GBV, 'update')
         expect(permitted_fields.size).to eq(1)
         expect(permitted_fields.first.subform.fields.map(&:name)).to match_array(%w[name age])
+      end
+    end
+
+    describe 'when subform has field with same name as top-level field' do
+      let(:nested_collision_form) do
+        FormSection.create!(
+          unique_id: 'nested_collision_form', parent_form: 'case', name_en: 'nested_collision_form', is_nested: true,
+          fields: [
+            Field.new(name: 'age', type: Field::TEXT_FIELD, display_name_en: 'Age (Text)'),
+            Field.new(name: 'service_type', type: Field::SELECT_BOX, display_name_en: 'Service Type')
+          ]
+        )
+      end
+
+      let(:top_level_collision_form) do
+        FormSection.create!(
+          unique_id: 'top_level_collision_form', parent_form: 'case', name_en: 'top_level_collision_form',
+          fields: [
+            Field.new(name: 'age', type: Field::NUMERIC_FIELD, display_name_en: 'Age (Numeric)'),
+            Field.new(name: 'name', type: Field::TEXT_FIELD, display_name_en: 'Name'),
+            Field.new(
+              name: 'services',
+              type: Field::SUBFORM,
+              display_name_en: 'Services',
+              subform: nested_collision_form
+            )
+          ]
+        )
+      end
+
+      let(:primero_module_collision) do
+        PrimeroModule.create!(
+          unique_id: 'primeromodule-collision', name: 'Collision', description: 'Collision Module',
+          associated_record_types: %w[case],
+          primero_program: PrimeroProgram.new(name: 'program'),
+          form_sections: [top_level_collision_form]
+        )
+      end
+
+      let(:role_collision) do
+        Role.create(
+          unique_id: 'role_collision',
+          name: 'role_collision',
+          description: 'role_collision',
+          group_permission: 'all',
+          permissions: [
+            Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE])
+          ],
+          form_permissions: [
+            FormPermission.new(form_section: top_level_collision_form, permission: FormPermission::PERMISSIONS[:read_write])
+          ],
+          primero_modules: [primero_module_collision]
+        )
+      end
+
+      it 'validates top-level age as numeric and subform age as text' do
+        permitted_fields = service.permitted_fields([role_collision], 'case', 'primeromodule-collision', 'update')
+
+        # Check top-level 'age'
+        top_level_age = permitted_fields.find { |f| f.name == 'age' && f.type == Field::NUMERIC_FIELD }
+        expect(top_level_age).to be_present
+        expect(top_level_age.type).to eq(Field::NUMERIC_FIELD)
+
+        # Check subform field
+        services_field = permitted_fields.find { |f| f.name == 'services' }
+        expect(services_field).to be_present
+        expect(services_field.subform).to be_present
+
+        # Check nested 'age'
+        nested_age = services_field.subform.fields.find { |f| f.name == 'age' }
+        expect(nested_age).to be_present
+        expect(nested_age.type).to eq(Field::TEXT_FIELD)
       end
     end
 
