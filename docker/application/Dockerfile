@@ -6,7 +6,7 @@ ARG RUBY_VERSION=3.4.7
 ARG ALPINE_VERSION=alpine3.22
 FROM ${BUILD_REGISTRY}ruby:${RUBY_VERSION}-${ALPINE_VERSION} AS build-env
 
-ENV NODE_VERSION=22.16.0-r2
+ENV NODE_VERSION=22.22.0-r0
 ENV BUILD_PACKAGES="bash curl wget curl-dev build-base git"
 ENV PYTHON_PACKAGES="python3 py3-pip"
 ENV BUILD_DEP_PACKAGES="postgresql-dev yaml-dev"
