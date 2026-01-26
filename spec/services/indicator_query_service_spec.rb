@@ -38,25 +38,30 @@ describe IndicatorQueryService, search: true do
     Child.create!(
       data: {
         record_state: true, status: 'open', owned_by: 'foo', workflow: 'new',
-        owned_by_groups: %w[usergroup-group1]
+        owned_by_groups: %w[usergroup-group1], module_id: 'primeromodule-cp'
       }
     )
     Child.create!(data: {
                     record_state: true, status: 'open', owned_by: 'foo',
-                    last_updated_by: 'bar', workflow: 'assessment', owned_by_groups: %w[usergroup-group1]
+                    last_updated_by: 'bar', workflow: 'assessment', owned_by_groups: %w[usergroup-group1],
+                    module_id: 'primeromodule-cp'
                   })
-    Child.create!(data: { record_state: false, status: 'open', owned_by: 'foo', workflow: 'new' })
+    Child.create!(data: { record_state: false, status: 'open', owned_by: 'foo', workflow: 'new',
+                          module_id: 'primeromodule-cp' })
     Child.create!(data: {
                     record_state: true, status: 'closed', owned_by: 'foo',
-                    date_closure: 1.day.ago, workflow: 'closed', owned_by_groups: %w[usergroup-group1]
+                    date_closure: 1.day.ago, workflow: 'closed', owned_by_groups: %w[usergroup-group1],
+                    module_id: 'primeromodule-cp'
                   })
     Child.create!(data: {
                     record_state: true, status: 'closed', owned_by: 'foo',
-                    date_closure: 2.days.ago, workflow: 'closed', owned_by_groups: %w[usergroup-group1]
+                    date_closure: 2.days.ago, workflow: 'closed', owned_by_groups: %w[usergroup-group1],
+                    module_id: 'primeromodule-cp'
                   })
     Child.create!(data: {
                     record_state: true, status: 'closed', owned_by: 'foo',
-                    date_closure: 15.days.ago, workflow: 'closed', owned_by_groups: %w[usergroup-group1]
+                    date_closure: 15.days.ago, workflow: 'closed', owned_by_groups: %w[usergroup-group1],
+                    module_id: 'primeromodule-cp'
                   })
     Child.create!(
       data: {
@@ -64,13 +69,16 @@ describe IndicatorQueryService, search: true do
         assigned_user_names: %w[user_service],
         services_section: [
           { 'service_response_day_time' => 5.day.ago, 'service_response_timeframe' => '3_hours' }
-        ]
+        ], module_id: 'primeromodule-cp'
       }
     )
-    Child.create!(data: { record_state: true, status: 'open', owned_by: 'baz', workflow: 'new' })
-    Child.create!(data: { record_state: true, status: 'closed', owned_by: 'baz', workflow: 'closed' })
+    Child.create!(data: { record_state: true, status: 'open', owned_by: 'baz', workflow: 'new',
+                          module_id: 'primeromodule-cp' })
+    Child.create!(data: { record_state: true, status: 'closed', owned_by: 'baz', workflow: 'closed',
+                          module_id: 'primeromodule-cp' })
 
-    assigned_child = Child.create!(data: { record_state: true, status: 'open', owned_by: 'assigner' })
+    assigned_child = Child.create!(data: { record_state: true, status: 'open', owned_by: 'assigner',
+                                           module_id: 'primeromodule-cp' })
     assignment = Assign.new(
       record: assigned_child, transitioned_to: 'foo', transitioned_by: 'assigner'
     )
@@ -87,7 +95,7 @@ describe IndicatorQueryService, search: true do
     end
 
     it 'shows the string queries to get all open cases' do
-      expected_query = %w[record_state=true status=open]
+      expected_query = %w[record_state=true status=open module_id=primeromodule-cp]
       expect(stats['case']['total']['total']['query']).to match_array(expected_query)
     end
 
@@ -96,7 +104,7 @@ describe IndicatorQueryService, search: true do
     end
 
     it 'shows the string queries to get all updated cases' do
-      expected_query = %w[record_state=true status=open not_edited_by_owner=true]
+      expected_query = %w[record_state=true status=open not_edited_by_owner=true module_id=primeromodule-cp]
       expect(stats['case']['new_or_updated']['new_or_updated']['query']).to match_array(expected_query)
     end
 
@@ -118,7 +126,7 @@ describe IndicatorQueryService, search: true do
     end
 
     it 'shows the string queries to get all recently_assigned cases' do
-      expected_static = %w[status=open assign=foo record_state=true]
+      expected_static = %w[status=open assign=foo record_state=true module_id=primeromodule-cp]
       query_strings = stats['case']['recently_assigned_to_me']['recently_assigned_to_me']['query']
       dynamic_queries, static_queries = query_strings.partition { |q| q.start_with? 'reassigned_transferred_on' }
       dynamic_query, = dynamic_queries

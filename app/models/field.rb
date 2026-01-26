@@ -341,7 +341,7 @@ class Field < ApplicationRecord
     return false unless option.is_a?(Hash)
 
     option = option.with_indifferent_access
-    option[:id].present? && option[:display_text].is_a?(Hash) &&
+    option[:id].present? && option[:id].match?(UNIQUE_ID_FORMAT) && option[:display_text].is_a?(Hash) &&
       option[:display_text].with_indifferent_access[:en].present?
   end
 end

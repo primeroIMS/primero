@@ -134,7 +134,8 @@ class PermittedFormFieldsService
         form_sections: {
           roles: { id: roles },
           visible: visible_only || nil,
-          parent_form: record_type
+          parent_form: record_type,
+          is_nested: false
         }.compact.merge(module_unique_id.present? ? { primero_modules: { unique_id: module_unique_id } } : {})
       }
     )
@@ -167,7 +168,7 @@ class PermittedFormFieldsService
       eagerloaded_fields.where(
         name: action_subform_fields,
         type: Field::SUBFORM,
-        form_sections: { primero_modules: { unique_id: module_unique_id }, parent_form: record_type }
+        form_sections: { primero_modules: { unique_id: module_unique_id }, parent_form: record_type, is_nested: false }
       )
     )
   end

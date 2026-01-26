@@ -1014,6 +1014,8 @@ en:
       file_upload_unsuccessful: File upload unsuccessful. The system has reached the document storage limit. Please contact your system administrator.
     error_loading: Error Loading Record(s)
     models:
+      configuration_record:
+        unique_id: Unique identifier is not valid
       agency:
         code_present: must not be blank
         logo_format: File should be png
@@ -1038,9 +1040,10 @@ en:
         unique_location_code: A Location with that location code already exists, please
           enter a different location code
       lookup:
+        unique_id_present: Unique ID must not be blank.
         being_used: This lookup is being used and cannot be deleted
         name_present: Name must not be blank
-        values_ids_blank: A lookup_value id is blank
+        values_ids_format: A lookup_value id is invalid
       primero_module:
         associated_record_types: At least one record type must be associated with
           this module
