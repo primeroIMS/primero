@@ -42,7 +42,7 @@ class Exporters::GroupedMergedIndicatorExporter < Exporters::GroupedIndicatorExp
   end
 
   def write_merged_indicator_title(indicator, title_format)
-    worksheet.write(
+    worksheet.write_string(
       current_row,
       0,
       I18n.t("managed_reports.#{managed_report.id}.sub_reports.#{indicator}"),
@@ -59,7 +59,7 @@ class Exporters::GroupedMergedIndicatorExporter < Exporters::GroupedIndicatorExp
 
   def write_combined_subcolumns_data(grouped_data, initial_index, parent_group, cell_format)
     sort_group(parent_group).each_with_index do |group, group_index|
-      worksheet.write(
+      worksheet.write_number(
         current_row,
         initial_index + group_index,
         merged_indicator_total(grouped_data, parent_group, group),

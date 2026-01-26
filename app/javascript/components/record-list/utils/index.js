@@ -2,3 +2,4 @@
 
 export { default as buildTableColumns } from "./build-table-columns";
 export { default as filtersToQueryString } from "./filters-to-query-string";
+export { default as getDefaultFilters } from "./get-default-filters";

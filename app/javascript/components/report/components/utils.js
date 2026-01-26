@@ -4,7 +4,30 @@
 
 const hasMergedRows = () => [...document.querySelectorAll("tr td").entries()].some(([, row]) => row.colSpan > 1);
 
-const escapeCsvText = text => `"${text.replace(/"/g, '""')}"`;
+const escapeCsvText = value => {
+  if (value === null || value === undefined) return "";
+
+  let str = String(value);
+
+  // Trim NULL bytes and similar junk
+  str = str.replace(/\0/g, "");
+
+  // Prevent CSV injection (Excel / Sheets formulas)
+  // If value starts with = + - @ or tab or whitespace+these
+  if (/^\s*[=+\-@]/.test(str)) {
+    str = `'${str}`;
+  }
+
+  // Escape double quotes
+  str = str.replace(/"/g, '""');
+
+  // Wrap in quotes if it contains commas, quotes, or newlines
+  if (/[",\n\r]/.test(str)) {
+    str = `"${str}"`;
+  }
+
+  return str;
+};
 
 const buildHeaders = (headers, mergedRows = false) => {
   const headerRows = mergedRows ? [""] : [];

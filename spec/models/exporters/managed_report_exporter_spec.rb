@@ -445,9 +445,9 @@ describe Exporters::ManagedReportExporter do
             ['Perpetrator Statistics - Number of Primary Perpetrators', nil, nil, nil, nil]
           )
           expect(workbook.sheet(0).row(431)).to eq([nil, 'Total', nil, nil, nil])
-          expect(workbook.sheet(0).row(432)).to eq([1, 1, nil, nil, nil])
-          expect(workbook.sheet(0).row(433)).to eq([2, 1, nil, nil, nil])
-          expect(workbook.sheet(0).row(434)).to eq([3, 1, nil, nil, nil])
+          expect(workbook.sheet(0).row(432)).to eq(['1', 1, nil, nil, nil])
+          expect(workbook.sheet(0).row(433)).to eq(['2', 1, nil, nil, nil])
+          expect(workbook.sheet(0).row(434)).to eq(['3', 1, nil, nil, nil])
           expect(workbook.sheet(0).row(435)).to eq(['More than 3', 0, nil, nil, nil])
           expect(workbook.sheet(0).row(436)).to eq(['Unknown', 0, nil, nil, nil])
 
@@ -777,9 +777,9 @@ describe Exporters::ManagedReportExporter do
               ['Perpetrator Statistics - Number of Primary Perpetrators'] + empty_columns_for_title
             )
             expect(workbook_grouped.sheet(0).row(293)).to match_array(year_range)
-            expect(workbook_grouped.sheet(0).row(294)).to match_array([1, 0, 0, 1, 0, 0] + empty_columns_for_rows)
-            expect(workbook_grouped.sheet(0).row(295)).to match_array([2, 0, 0, 1, 0, 0] + empty_columns_for_rows)
-            expect(workbook_grouped.sheet(0).row(296)).to match_array([3, 0, 0, 1, 0, 0] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(294)).to match_array(['1', 0, 0, 1, 0, 0] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(295)).to match_array(['2', 0, 0, 1, 0, 0] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(296)).to match_array(['3', 0, 0, 1, 0, 0] + empty_columns_for_rows)
             expect(workbook_grouped.sheet(0).row(297)).to match_array(
               ['More than 3', 0, 0, 0, 0, 0] + empty_columns_for_rows
             )
@@ -1126,9 +1126,9 @@ describe Exporters::ManagedReportExporter do
               ['Perpetrator Statistics - Number of Primary Perpetrators'] + empty_columns_for_title
             )
             expect(workbook_grouped.sheet(0).row(293)).to match_array(year_range)
-            expect(workbook_grouped.sheet(0).row(294)).to match_array([1, 0, 1] + empty_columns_for_rows)
-            expect(workbook_grouped.sheet(0).row(295)).to match_array([2, 0, 1] + empty_columns_for_rows)
-            expect(workbook_grouped.sheet(0).row(296)).to match_array([3, 0, 1] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(294)).to match_array(['1', 0, 1] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(295)).to match_array(['2', 0, 1] + empty_columns_for_rows)
+            expect(workbook_grouped.sheet(0).row(296)).to match_array(['3', 0, 1] + empty_columns_for_rows)
             expect(workbook_grouped.sheet(0).row(297)).to match_array(['More than 3', 0, 0] + empty_columns_for_rows)
             expect(workbook_grouped.sheet(0).row(298)).to match_array(['Unknown', 0, 0] + empty_columns_for_rows)
 
@@ -1395,9 +1395,9 @@ describe Exporters::ManagedReportExporter do
               ['Perpetrator Statistics - Number of Primary Perpetrators', nil, nil, nil, nil]
             )
             expect(workbook_grouped.sheet(0).row(293)).to match_array(quarter_range)
-            expect(workbook_grouped.sheet(0).row(294)).to match_array([1, 1, nil, nil, nil])
-            expect(workbook_grouped.sheet(0).row(295)).to match_array([2, 1, nil, nil, nil])
-            expect(workbook_grouped.sheet(0).row(296)).to match_array([3, 1, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(294)).to match_array(['1', 1, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(295)).to match_array(['2', 1, nil, nil, nil])
+            expect(workbook_grouped.sheet(0).row(296)).to match_array(['3', 1, nil, nil, nil])
             expect(workbook_grouped.sheet(0).row(297)).to match_array(['More than 3', 0, nil, nil, nil])
             expect(workbook_grouped.sheet(0).row(298)).to match_array(['Unknown', 0, nil, nil, nil])
 

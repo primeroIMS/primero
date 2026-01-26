@@ -121,17 +121,17 @@ class Exporters::UsageReportExporter < ValueObject
 
   def write_roles_headers(worksheet, roles)
     roles.entries.each.with_index(1) do |(_, name), index|
-      worksheet.write(0, index, name)
+      worksheet.write_string(0, index, name)
       worksheet.set_column(0, index, 20) # Adjust column width
     end
   end
 
   def write_roles_content(worksheet, roles, user_groups)
     user_groups.entries.each.with_index(1) do |(user_group_key, user_group_name), group_idx|
-      worksheet.write(group_idx, 0, user_group_name)
+      worksheet.write_string(group_idx, 0, user_group_name)
       roles.keys.each.with_index(1) do |role, role_idx|
         value = usage_report.data[:users_by_role].dig(user_group_key, role) || 0
-        worksheet.write(group_idx, role_idx, value)
+        worksheet.write_number(group_idx, role_idx, value)
       end
     end
   end

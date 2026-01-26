@@ -80,7 +80,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
         build_worksheet_with_headers(constrained_subforms[subform_path(field)], field)
       else
         index += 1
-        worksheet&.write(0, index, field.display_name(locale))
+        worksheet&.write_string(0, index, field.display_name(locale))
       end
     end
   end
@@ -192,8 +192,21 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
       if column.zero?
         worksheet&.write_string(worksheets[current_worksheet_id][:row] + i, column, val)
       else
-        worksheet&.write(worksheets[current_worksheet_id][:row] + i, column, val)
+        row = worksheets[current_worksheet_id][:row] + i
+        write_export_value(worksheet, val, row, column)
       end
+    end
+  end
+
+  def write_export_value(worksheet, value, row, column)
+    case value
+    when String
+      # Force string format for string values in order to prevent formula injections
+      worksheet&.write_string(row, column, value)
+    when TrueClass, FalseClass
+      worksheet&.write_boolean(row, column, value)
+    else
+      worksheet.write(row, column, value)
     end
   end
 

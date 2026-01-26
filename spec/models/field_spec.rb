@@ -114,6 +114,14 @@ describe Field do
       expect(field.errors[:option_strings_text].first).to eq('errors.models.field.option_strings_text.not_hash')
     end
 
+    it 'should not allow invalid id on the option_string_text' do
+      field = Field.new(name: 'test_field', display_name: 'tesf_field', type: Field::SELECT_BOX)
+      field.option_strings_text = [{ id: '=c_lot_4_pts', display_text: { en: 'C lot (4 pts)' } }]
+
+      expect(field.valid?).to be false
+      expect(field.errors[:option_strings_text].first).to eq('errors.models.field.option_strings_text.not_hash')
+    end
+
     describe 'select box option strings' do
       before :each do
         @field = Field.new(name: 'test', display_name: 'test', type: Field::SELECT_BOX)

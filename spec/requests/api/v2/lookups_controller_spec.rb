@@ -195,14 +195,20 @@ describe Api::V2::LookupsController, type: :request do
       expect(json['errors'][0]['resource']).to eq('/api/v2/lookups')
     end
 
-    it 'returns a 422 if the lookup is invalid' do
+    it 'returns a 422 if the lookup name is invalid' do
       login_for_test(
         permissions: [
           Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])
         ]
       )
 
-      params = { data: { name: { en: '' }, values: [{ id: 'test1', display_text: { en: 'Test 1' } }] } }
+      params = {
+        data: {
+          unique_id: 'lookup-test-id',
+          name: { en: '' },
+          values: [{ id: 'test1', display_text: { en: 'Test 1' } }]
+        }
+      }
 
       post '/api/v2/lookups', params:, as: :json
 
@@ -210,6 +216,29 @@ describe Api::V2::LookupsController, type: :request do
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq('/api/v2/lookups')
       expect(json['errors'][0]['detail']).to eq('name')
+    end
+
+    it 'returns a 422 if the lookup id is invalid' do
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])
+        ]
+      )
+
+      params = {
+        data: {
+          unique_id: '=lookup-test',
+          name: { en: 'Test' },
+          values: [{ id: 'test1', display_text: { en: 'Test 1' } }]
+        }
+      }
+
+      post '/api/v2/lookups', params:, as: :json
+
+      expect(response).to have_http_status(422)
+      expect(json['errors'].size).to eq(1)
+      expect(json['errors'][0]['resource']).to eq('/api/v2/lookups')
+      expect(json['errors'][0]['detail']).to eq('unique_id')
     end
   end
 

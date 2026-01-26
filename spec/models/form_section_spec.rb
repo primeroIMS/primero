@@ -222,6 +222,13 @@ describe FormSection do
       form_section = FormSection.new(name: 'Unique Name', unique_id: 'unique_name')
       form_section.save!
     end
+
+    it 'validates the unique_id format' do
+      form_section = FormSection.new(unique_id: '=form-id1', name: 'Form with invalid unique_id')
+
+      expect(form_section.valid?).to be_falsey
+      expect(form_section.errors[:unique_id]).to be_present
+    end
   end
 
   describe 'Create FormSection Or Add Fields' do
