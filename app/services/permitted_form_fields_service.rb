@@ -147,6 +147,7 @@ class PermittedFormFieldsService
 
   def append_action_subform_fields(fields, action_subform_fields, record_type, module_unique_id)
     return fields unless action_subform_fields.present?
+
     fields.or(
       eagerloaded_fields.where(
         name: action_subform_fields,
