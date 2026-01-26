@@ -10,9 +10,7 @@ class JsonValidatorService < ValueObject
     super(opts)
 
     self.schema ||= build_schema(fields, field_values || {})
-    if schema_supplement.present?
-      schema['properties'] = schema['properties'].reverse_merge(schema_supplement_with_values)
-    end
+    with_schema_supplement
     self.schemer ||= JSONSchemer.schema(schema)
   end
 
@@ -66,14 +64,18 @@ class JsonValidatorService < ValueObject
     { 'type' => 'object', 'properties' => {}, 'additionalProperties' => false }
   end
 
+  def with_schema_supplement
+    return unless schema_supplement.present?
+
+    schema['properties'] = schema['properties'].reverse_merge(
+      field_values.present? ? schema_supplement_with_values : schema_supplement
+    )
+  end
+
   def schema_supplement_with_values
     schema_supplement.each_with_object({}) do |(field_name, schema), memo|
-      memo[field_name] = if field_values[field_name].present?
-                           enum = schema['enum'] || []
-                           schema.merge('enum' => (enum + field_values[field_name]).compact.uniq)
-                         else
-                           schema
-                         end
+      enum = (schema['enum'] || []) + (field_values[field_name] || [])
+      memo[field_name] = enum.present? ? schema.merge('enum' => enum.compact.uniq) : schema
     end
   end
 end

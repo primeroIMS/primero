@@ -76,7 +76,8 @@ module Api::V2::Concerns::Record
 
     action_fields_schema = @permitted_field_service.permitted_fields_schema(update?)
     permitted_fields = @permitted_form_fields_service.permitted_fields(
-      authorized_roles, model_class.parent_form, module_unique_id, action_name, action_fields_schema.keys
+      authorized_roles, model_class.parent_form, module_unique_id, action_name,
+      { action_schema_field_names: action_fields_schema.keys }
     )
     permitted_field_values = @permitted_field_values_service.permitted_field_values(permitted_fields)
     @json_validation_service = RecordJsonValidatorService.new(
