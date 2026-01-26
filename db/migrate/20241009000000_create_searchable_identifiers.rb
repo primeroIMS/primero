@@ -2,7 +2,7 @@
 
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 class CreateSearchableIdentifiers < ActiveRecord::Migration[6.1]
-  enable_extension 'pg_trgm' unless ENV['PRIMERO_PG_APP_ROLE'] || extension_enabled?('pg_trgm')
+  enable_extension 'pg_trgm'
 
   def change
     create_table :searchable_identifiers do |t|

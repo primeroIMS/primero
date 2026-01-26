@@ -3,7 +3,7 @@
 # Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 class CreateCases < ActiveRecord::Migration[5.0]
-  enable_extension 'pgcrypto' unless ENV['PRIMERO_PG_APP_ROLE'] || extension_enabled?('pgcrypto')
+  enable_extension 'pgcrypto'
 
   def change
     create_table :cases, id: :uuid, default: 'gen_random_uuid()' do |t|

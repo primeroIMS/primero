@@ -24,7 +24,9 @@ module FakeDeviseLogin
       name: 'family_details_section',
       display_name_en: 'A',
       type: Field::SUBFORM,
-      subform: FormSection.new(fields: FAMILY_DETAILS_FIELDS)
+      subform: FormSection.new(
+        unique_id: 'family_details_section', parent_form: 'case', is_nested: true, fields: FAMILY_DETAILS_FIELDS
+      )
     ),
     Field.new(name: 'description', type: Field::TEXT_AREA, display_name_en: 'Current Address', visible: false),
     Field.new(name: 'incident_date', type: Field::DATE_FIELD, display_name_en: 'A'),
@@ -38,6 +40,9 @@ module FakeDeviseLogin
       display_name_en: 'A',
       type: Field::SUBFORM,
       subform: FormSection.new(
+        unique_id: 'tracing_request_subform_section',
+        parent_form: 'tracing_request',
+        is_nested: true,
         fields: [
           Field.new(name: 'relation_name', type: Field::TEXT_FIELD),
           Field.new(name: 'relation_type', type: Field::SELECT_BOX)
@@ -52,7 +57,9 @@ module FakeDeviseLogin
       name: 'family_members',
       display_name_en: 'Family Members',
       type: Field::SUBFORM,
-      subform: FormSection.new(fields: FAMILY_DETAILS_FIELDS)
+      subform: FormSection.new(
+        unique_id: 'family_members', parent_form: 'family', is_nested: true, fields: FAMILY_DETAILS_FIELDS
+      )
     )
   ].freeze
 

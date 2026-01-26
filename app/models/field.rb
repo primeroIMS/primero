@@ -224,6 +224,12 @@ class Field < ApplicationRecord
     option_strings_source == 'Agency'
   end
 
+  def lookup?
+    return false unless option_strings_source.present?
+
+    option_strings_source.split.first == 'lookup'
+  end
+
   def nested?
     form_section&.is_nested
   end

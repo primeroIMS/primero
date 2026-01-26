@@ -231,7 +231,7 @@ describe PermittedFieldService, search: true do
 
   it 'returns the permitted fields for id_search = true' do
     permitted_field_names = PermittedFieldService.new(
-      user, Child, nil, { action_name: nil, id_search: true }
+      user, Child, nil, nil, { action_name: nil, id_search: true }
     ).permitted_field_names
 
     expect((PermittedFieldService::ID_SEARCH_FIELDS - permitted_field_names).empty?).to be true
