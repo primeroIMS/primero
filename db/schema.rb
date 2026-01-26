@@ -590,6 +590,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_20_000000) do
     t.string "unique_id"
     t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.index ["unique_id"], name: "index_lookups_on_unique_id", unique: true
+    t.index ["updated_at"], name: "index_lookups_on_updated_at"
   end
 
   create_table "perpetrators", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

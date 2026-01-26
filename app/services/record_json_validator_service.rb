@@ -14,11 +14,13 @@ class RecordJsonValidatorService < JsonValidatorService
   # rubocop:disable Metrics/PerceivedComplexity
   # rubocop:disable Metrics/MethodLength
   # rubocop:disable Metrics/BlockLength
-  def build_schema(fields)
+  def build_schema(fields, values = {}, subform = false)
     object = { 'type' => 'object', 'properties' => {}, 'additionalProperties' => false }
     return object unless fields.present?
 
     fields.each_with_object(object) do |field, schema_hash|
+      next if field&.form_section&.is_nested? && !subform
+
       properties = schema_hash['properties']
       case field.type
       when Field::DATE_FIELD
@@ -33,20 +35,13 @@ class RecordJsonValidatorService < JsonValidatorService
         # Numeric, min and max are Solr limitations
         properties[field.name] = { 'type' => %w[integer null], 'minimum' => -2_147_483_648, 'maximum' => 2_147_483_647 }
       when Field::SELECT_BOX
-        # TODO: Consider validating enums based on options
-        properties[field.name] = if field.multi_select
-                                   # Array of Strings
-                                   { 'type' => %w[array null], 'items' => { 'type' => 'string' } }
-                                 else
-                                   # String
-                                   { 'type' => %w[string null] }
-                                 end
+        properties[field.name] = select_field_schema(field, values[field.name])
       when Field::RADIO_BUTTON
-        properties[field.name] = { 'type' => %w[string boolean null] }
+        properties[field.name] = radio_field_schema(field, values[field.name])
       when Field::SUBFORM
         properties[field.name] = {
           'type' => %w[array null], 'items' => with_subform_fields(
-            build_schema(field.subform&.fields)
+            build_schema(field.subform&.fields, values[field.subform&.unique_id] || {}, true)
           )
         }
       when Field::TEXT_FIELD, Field::TEXT_AREA
@@ -65,6 +60,27 @@ class RecordJsonValidatorService < JsonValidatorService
   # rubocop:enable Metrics/PerceivedComplexity
   # rubocop:enable Metrics/MethodLength
   # rubocop:enable Metrics/BlockLength
+
+  def select_field_schema(field, values)
+    enum_hash = field.lookup? ? { 'enum' => values } : {}
+
+    # String
+    return { 'type' => %w[string null] }.merge(enum_hash) unless field.multi_select
+
+    # Array of Strings
+    { 'type' => %w[array null], 'items' => { 'type' => 'string' }.merge(enum_hash) }
+  end
+
+  def radio_field_schema(field, values)
+    enum_hash = field.lookup? ? { 'enum' => values } : {}
+    schemas = [{ 'type' => %w[string null] }.merge(enum_hash)]
+
+    # Permit booleans only if no other values are present
+    booleans = field.lookup? && (values - %w[true false]).blank?
+    schemas << { 'type' => %w[boolean null] } if booleans
+
+    { 'anyOf' => schemas }
+  end
 
   def with_subform_fields(object_schema)
     object_schema.tap do |schema|

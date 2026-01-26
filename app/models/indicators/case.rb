@@ -10,7 +10,8 @@ module Indicators
     # rubocop:enable Style/ClassAndModuleChildren
     OPEN_ENABLED = [
       SearchFilters::BooleanValue.new(field_name: 'record_state', value: true),
-      SearchFilters::TextValue.new(field_name: 'status', value: Record::STATUS_OPEN)
+      SearchFilters::TextValue.new(field_name: 'status', value: Record::STATUS_OPEN),
+      SearchFilters::TextValue.new(field_name: 'module_id', value: 'primeromodule-cp')
     ].freeze
 
     CLOSED_ENABLED = [

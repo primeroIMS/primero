@@ -2,7 +2,6 @@
 
 import PropTypes from "prop-types";
 import { useState, useEffect, useMemo, useCallback } from "react";
-import { fromJS } from "immutable";
 import { withRouter } from "react-router-dom";
 import { batch, useDispatch } from "react-redux";
 import { push, replace } from "connected-react-router";
@@ -24,8 +23,8 @@ import { usePermissions, ACTIONS } from "../permissions";
 import PageContainer, { PageContent } from "../page";
 import useSystemStrings, { LIST_HEADER, PAGE } from "../application/use-system-strings";
 
-import { NAME, DEFAULT_FILTERS } from "./constants";
-import { buildTableColumns } from "./utils";
+import { NAME } from "./constants";
+import { buildTableColumns, getDefaultFilters } from "./utils";
 import RecordListToolbar from "./record-list-toolbar";
 import { getMetadata, getAppliedFiltersAsQueryString } from "./selectors";
 import css from "./styles.css";
@@ -40,7 +39,7 @@ function Container({ match, location }) {
   const { label } = useSystemStrings(LIST_HEADER);
   const { label: pageLabel } = useSystemStrings(PAGE);
   const currentQueryString = location.search.replace("?", "");
-  const { online } = useApp();
+  const { online, modules, userModules } = useApp();
   const { url } = match;
   const recordType = url.replace("/", "");
   const dispatch = useDispatch();
@@ -59,7 +58,7 @@ function Container({ match, location }) {
   const queryParams = useMemo(() => qs.parse(currentQueryString), [currentQueryString]);
 
   const defaultFilters = useMemo(
-    () => fromJS(Object.keys(queryParams).length ? queryParams : DEFAULT_FILTERS).merge(metadata),
+    () => getDefaultFilters({ queryParams, metadata, modules, userModules }),
     [metadata, queryParams]
   );
 
