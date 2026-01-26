@@ -4,13 +4,13 @@
 
 # Validate if the submitted json data
 class JsonValidatorService < ValueObject
-  attr_accessor :fields, :schema, :schema_supplement, :schemer
+  attr_accessor :fields, :schema, :schema_supplement, :schemer, :field_values
 
   def initialize(opts = {})
     super(opts)
 
-    self.schema ||= build_schema(fields)
-    schema['properties'] = schema['properties'].reverse_merge(schema_supplement) if schema_supplement.present?
+    self.schema ||= build_schema(fields, field_values || {})
+    with_schema_supplement
     self.schemer ||= JSONSchemer.schema(schema)
   end
 
@@ -60,7 +60,22 @@ class JsonValidatorService < ValueObject
   # rubocop:enable Metrics/MethodLength
   # rubocop:enable Metrics/AbcSize
 
-  def build_schema(_fields)
+  def build_schema(_fields, _values = {}, _subform = false)
     { 'type' => 'object', 'properties' => {}, 'additionalProperties' => false }
+  end
+
+  def with_schema_supplement
+    return unless schema_supplement.present?
+
+    schema['properties'] = schema['properties'].reverse_merge(
+      field_values.present? ? schema_supplement_with_values : schema_supplement
+    )
+  end
+
+  def schema_supplement_with_values
+    schema_supplement.each_with_object({}) do |(field_name, schema), memo|
+      enum = (schema['enum'] || []) + (field_values[field_name] || [])
+      memo[field_name] = enum.present? ? schema.merge('enum' => enum.compact.uniq) : schema
+    end
   end
 end

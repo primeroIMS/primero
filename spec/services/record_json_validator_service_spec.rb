@@ -255,4 +255,99 @@ describe RecordJsonValidatorService do
       end
     end
   end
+
+  describe 'field values' do
+    before :each do
+      clean_data(Field, FormSection, Lookup)
+    end
+
+    let!(:lookup_true_false) do
+      create(
+        :lookup,
+        unique_id: 'lookup-true-false',
+        name: 'True/False',
+        lookup_values_en: [
+          { id: 'true', display_text: 'True' },
+          { id: 'false', display_text: 'False' }
+        ]
+      )
+    end
+
+    let!(:lookup_gender) do
+      create(
+        :lookup,
+        unique_id: 'lookup-gender',
+        name: 'Gender',
+        lookup_values_en: [
+          { id: 'female', display_text: 'Female' },
+          { id: 'male', display_text: 'Male' }
+        ]
+      )
+    end
+
+    let(:form_section_child) do
+      FormSection.create!(
+        unique_id: 'child_form',
+        name_en: 'Child Form',
+        is_nested: true,
+        fields: [
+          Field.new(
+            name: 'sex',
+            display_name_en: 'Sex',
+            type: Field::SELECT_BOX,
+            option_strings_text_i18n: [
+              { 'id' => 'other_female', 'display_text' => { 'en' => 'Female (Other)' } },
+              { 'id' => 'other_male', 'display_text' => { 'en' => 'Male (Other)' } }
+            ]
+          ),
+          Field.new(
+            name: 'consent_given',
+            display_name_en: 'Consent Given',
+            type: Field::RADIO_BUTTON,
+            option_strings_source: 'lookup lookup-true-false'
+          )
+        ]
+      )
+    end
+
+    let!(:form_section_parent) do
+      FormSection.create!(
+        unique_id: 'parent_form',
+        name_en: 'Parent Form',
+        fields: [
+          Field.new(
+            name: 'sex',
+            display_name_en: 'Sex',
+            type: Field::SELECT_BOX,
+            option_strings_source: 'lookup lookup-gender'
+          ),
+          Field.new(
+            name: 'child_form', display_name_en: 'Child Form', type: Field::SUBFORM, subform: form_section_child
+          )
+        ]
+      )
+    end
+
+    let(:validator_with_values) do
+      fields = Field.where(name: %w[sex child_form consent_given])
+      field_values = PermittedFieldValuesService.instance.permitted_field_values(fields)
+      RecordJsonValidatorService.new(fields:, field_values:)
+    end
+
+    it 'validates values for fields with lookups' do
+      expect(validator_with_values.valid?('sex' => 'male')).to eq(true)
+    end
+
+    it 'accepts booleans for true/false lookups in RadioButton' do
+      expect(validator_with_values.valid?('child_form' => [{ 'consent_given' => true }])).to eq(true)
+    end
+
+    it 'accepts string for true/false lookups in RadioButton' do
+      expect(validator_with_values.valid?('child_form' => [{ 'consent_given' => 'true' }])).to eq(true)
+    end
+
+    it 'correctly validates nested fields with the same name' do
+      expect(validator_with_values.valid?('sex' => 'female', 'child_form' => [{ 'sex' => 'other_female' }])).to eq(true)
+    end
+  end
 end
