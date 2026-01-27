@@ -106,6 +106,13 @@ describe Field do
       expect(field.valid?).to be true
     end
 
+    it 'allows a plus sign (+) in the option_strings_text id' do
+      field = Field.new(name: 'test_field', display_name: 'tesf_field', type: Field::SELECT_BOX)
+      field.option_strings_text = [{ id: '61+', display_text: { en: '61+' } }]
+
+      expect(field.valid?).to be true
+    end
+
     it 'should not allow blank id on the option_string_text' do
       field = Field.new(name: 'test_field', display_name: 'tesf_field', type: Field::SELECT_BOX)
       field.option_strings_text = [{ id: nil, display_text: { en: 'C lot (4 pts)' } }]

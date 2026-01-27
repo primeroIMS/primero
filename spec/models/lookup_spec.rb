@@ -27,6 +27,12 @@ describe Lookup do
     expect(lookup.errors[:unique_id]).to be_present
   end
 
+  it 'allows plus sign(+) in the lookup unique_id' do
+    lookup = Lookup.new(name: 'valid lookup', unique_id: 'lookup-is-valid+')
+
+    expect(lookup.valid?).to be true
+  end
+
   it 'should have a unique id when the name is the same as an existing lookup' do
     lookup1 = create :lookup, name: 'Unique', lookup_values: [
       { id: 'value1', display_text: 'value1' }, { id: 'value2', display_text: 'value2' }
@@ -35,6 +41,13 @@ describe Lookup do
       { id: 'value3', display_text: 'value3' }, { id: 'value4', display_text: 'value4' }
     ]
     lookup1.id.should_not == lookup2.id
+  end
+
+  it 'allows plus sign(+) in the id of the lookup_values' do
+    lookup = Lookup.new(name: 'test_lookup')
+    lookup.lookup_values = [{ id: 'example+', display_text: { en: 'example' } }]
+
+    expect(lookup.valid?).to be true
   end
 
   it 'should not allow blank id on the lookup_values' do

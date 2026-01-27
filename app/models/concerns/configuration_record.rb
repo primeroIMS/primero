@@ -6,7 +6,7 @@
 module ConfigurationRecord
   extend ActiveSupport::Concern
 
-  UNIQUE_ID_FORMAT = /^\w+(-\w+)*$/
+  UNIQUE_ID_FORMAT = /^\w+((-|\+)\w*)*$/
 
   included do
     # Set the default unique id attributes
