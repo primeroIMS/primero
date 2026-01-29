@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_21_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_22_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
   enable_extension "pg_catalog.plpgsql"
@@ -187,6 +187,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_21_000000) do
     t.datetime "srch_identified_at", precision: nil
     t.string "srch_identified_by"
     t.string "srch_identified_by_full_name"
+    t.datetime "srch_last_referral_done_at"
+    t.datetime "srch_last_referral_rejected_at"
     t.string "srch_last_updated_by"
     t.string "srch_location_current"
     t.string "srch_module_id"
@@ -205,7 +207,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_21_000000) do
     t.boolean "srch_record_state", default: false
     t.string "srch_referred_users", default: [], array: true
     t.string "srch_referred_users_accepted", default: [], array: true
+    t.boolean "srch_referred_users_accepted_present", default: false
     t.string "srch_referred_users_pending", default: [], array: true
+    t.boolean "srch_referred_users_pending_present", default: false
     t.boolean "srch_referred_users_present", default: false
     t.datetime "srch_registration_date", precision: nil
     t.string "srch_risk_level"
@@ -297,14 +301,28 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_21_000000) do
     t.index ["srch_date_closure"], name: "cases_srch_date_closure_idx"
     t.index ["srch_identified_at"], name: "index_cases_on_srch_identified_at"
     t.index ["srch_identified_by"], name: "index_cases_on_srch_identified_by"
+    t.index ["srch_last_referral_done_at"], name: "index_cases_on_srch_last_referral_done_at"
+    t.index ["srch_last_referral_rejected_at"], name: "index_cases_on_srch_last_referral_rejected_at"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_agencies", "srch_last_referral_done_at"], name: "shared_with_others_referrals_done_dashboard_agency_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_agencies", "srch_last_referral_rejected_at"], name: "shared_with_others_referrals_rejected_dashboard_agency_idx"
     t.index ["srch_record_state", "srch_status", "srch_associated_user_agencies", "srch_referred_users_accepted"], name: "shared_with_me_accepted_referrals_dashboard_agency_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_agencies", "srch_referred_users_accepted_present"], name: "shared_with_others_referrals_accepted_dashboard_agency_idx"
     t.index ["srch_record_state", "srch_status", "srch_associated_user_agencies", "srch_referred_users_pending"], name: "shared_with_me_pending_referrals_dashboard_agency_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_agencies", "srch_referred_users_pending_present"], name: "shared_with_others_referrals_pending__dashboard_agency_idx"
     t.index ["srch_record_state", "srch_status", "srch_associated_user_agencies"], name: "cases_default_associated_user_agencies_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_groups", "srch_last_referral_done_at"], name: "shared_with_others_referrals_done_dashboard_group_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_groups", "srch_last_referral_rejected_at"], name: "shared_with_others_referrals_rejected_dashboard_group_idx"
     t.index ["srch_record_state", "srch_status", "srch_associated_user_groups", "srch_referred_users_accepted"], name: "shared_with_me_accepted_referrals_dashboard_group_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_groups", "srch_referred_users_accepted_present"], name: "shared_with_others_referrals_accepted_dashboard_group_idx"
     t.index ["srch_record_state", "srch_status", "srch_associated_user_groups", "srch_referred_users_pending"], name: "shared_with_me_pending_referrals_dashboard_group_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_groups", "srch_referred_users_pending_present"], name: "shared_with_others_referrals_pending__dashboard_group_idx"
     t.index ["srch_record_state", "srch_status", "srch_associated_user_groups"], name: "cases_default_associated_user_groups_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_names", "srch_last_referral_done_at"], name: "shared_with_others_referrals_done_dashboard_user_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_names", "srch_last_referral_rejected_at"], name: "shared_with_others_referrals_rejected_dashboard_user_idx"
     t.index ["srch_record_state", "srch_status", "srch_associated_user_names", "srch_referred_users_accepted"], name: "shared_with_me_accepted_referrals_dashboard_user_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_names", "srch_referred_users_accepted_present"], name: "shared_with_others_referrals_accepted_dashboard_user_idx"
     t.index ["srch_record_state", "srch_status", "srch_associated_user_names", "srch_referred_users_pending"], name: "shared_with_me_pending_referrals_dashboard_user_idx"
+    t.index ["srch_record_state", "srch_status", "srch_associated_user_names", "srch_referred_users_pending_present"], name: "shared_with_others_referrals_pending_dashboard_user_idx"
     t.index ["srch_record_state", "srch_status", "srch_associated_user_names"], name: "cases_default_associated_user_names_idx"
     t.index ["srch_registration_date"], name: "cases_srch_registration_date_idx"
   end
@@ -543,6 +561,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_21_000000) do
     t.datetime "srch_incident_date", precision: nil
     t.datetime "srch_incident_date_derived", precision: nil
     t.string "srch_incident_location"
+    t.datetime "srch_last_referral_done_at"
+    t.datetime "srch_last_referral_rejected_at"
     t.string "srch_module_id"
     t.boolean "srch_not_edited_by_owner", default: false
     t.string "srch_owned_by"
@@ -551,7 +571,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_21_000000) do
     t.string "srch_owned_by_groups", default: [], array: true
     t.boolean "srch_record_state", default: false
     t.string "srch_referred_users_accepted", default: [], array: true
+    t.boolean "srch_referred_users_accepted_present", default: false
     t.string "srch_referred_users_pending", default: [], array: true
+    t.boolean "srch_referred_users_pending_present", default: false
     t.string "srch_status"
     t.string "srch_transferred_to_user_groups", default: [], array: true
     t.string "srch_transferred_to_users", default: [], array: true
@@ -563,6 +585,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_21_000000) do
     t.index ["incident_case_id"], name: "index_incidents_on_incident_case_id"
     t.index ["srch_created_at"], name: "incidents_srch_created_at_idx"
     t.index ["srch_incident_date"], name: "incidents_srch_incident_date_idx"
+    t.index ["srch_last_referral_done_at"], name: "index_incidents_on_srch_last_referral_done_at"
+    t.index ["srch_last_referral_rejected_at"], name: "index_incidents_on_srch_last_referral_rejected_at"
     t.index ["srch_record_state", "srch_status", "srch_associated_user_agencies"], name: "incidents_default_associated_user_agencies_idx"
     t.index ["srch_record_state", "srch_status", "srch_associated_user_groups"], name: "incidents_default_associated_user_groups_idx"
     t.index ["srch_record_state", "srch_status", "srch_associated_user_names"], name: "incidents_default_associated_user_names_idx"

@@ -20,6 +20,7 @@ class Dashboard < ValueObject
     dash_cases_to_assign
     dash_national_admin_summary
     dash_violations_category_region
+    dash_shared_with_others
   ].freeze
 
   DYMANIC_WITH_SELF = %w[
@@ -82,16 +83,6 @@ class Dashboard < ValueObject
     type: 'indicator',
     indicators: [
       Indicators::Case::SHARED_WITH_ME_TRANSFERS_AWAITING_ACCEPTANCE
-    ]
-  ).freeze
-
-  DASH_SHARED_WITH_OTHERS = Dashboard.new(
-    name: 'dash_shared_with_others',
-    type: 'indicator',
-    indicators: [
-      Indicators::Case::SHARED_WITH_OTHERS_REFERRALS,
-      Indicators::Case::SHARED_WITH_OTHERS_PENDING_TRANSFERS,
-      Indicators::Case::SHARED_WITH_OTHERS_REJECTED_TRANSFERS
     ]
   ).freeze
 
@@ -401,6 +392,24 @@ class Dashboard < ValueObject
         indicators: Indicators::Case.workflow_team(role)
       ).freeze
     end
+
+    # rubocop:disable Metrics/MethodLength
+    def dash_shared_with_others
+      Dashboard.new(
+        name: 'dash_shared_with_others',
+        type: 'indicator',
+        indicators: [
+          Indicators::Case::SHARED_WITH_OTHERS_REFERRALS,
+          Indicators::Case::SHARED_WITH_OTHERS_REFERRALS_PENDING,
+          Indicators::Case::SHARED_WITH_OTHERS_REFERRALS_ACCEPTED,
+          Indicators::Case.shared_with_others_referrals_rejected,
+          Indicators::Case.shared_with_others_referrals_done,
+          Indicators::Case::SHARED_WITH_OTHERS_PENDING_TRANSFERS,
+          Indicators::Case::SHARED_WITH_OTHERS_REJECTED_TRANSFERS
+        ]
+      ).freeze
+    end
+    # rubocop:enable Metrics/MethodLength
   end
 end
 # rubocop:enable Metrics/ClassLength

@@ -15,6 +15,7 @@ class SystemSettings < ApplicationRecord
 
   TIMEFRAME_HOURS_TO_ASSIGN = 3
   TIMEFRAME_HOURS_TO_ASSIGN_HIGH = 1
+  DAYS_SINCE_REFERRAL_STATUS_CHANGED = 14
 
   store_accessor(:system_options, :due_date_from_appointment_date,
                  :show_alerts, :code_of_conduct_enabled, :timeframe_hours_to_assign,
@@ -23,7 +24,7 @@ class SystemSettings < ApplicationRecord
                  :primero_promote_config, :field_labels_i18n, :maximum_attachments_space,
                  :maximum_attachments_space_warning, :registration_streams,
                  :registration_streams_link_labels_i18n, :registration_streams_consent_text_i18n,
-                 :reporting_location_i18n)
+                 :reporting_location_i18n, :days_since_referral_status_changed)
 
   localize_properties %i[welcome_email_text approvals_labels field_labels registration_streams_link_labels
                          registration_streams_consent_text]
@@ -133,6 +134,10 @@ class SystemSettings < ApplicationRecord
 
   def timeframe_hours_to_assign_high
     super || TIMEFRAME_HOURS_TO_ASSIGN_HIGH
+  end
+
+  def days_since_referral_status_changed
+    super || DAYS_SINCE_REFERRAL_STATUS_CHANGED
   end
 
   def validate_maximum_users

@@ -17,6 +17,7 @@ function OverviewBox({
   loading,
   errors,
   highlights = [],
+  displayOrder = [],
   titleHasModule = false
 }) {
   const indicators = items.get("indicators", fromJS({}));
@@ -30,6 +31,7 @@ function OverviewBox({
         sumTitle={sumTitle}
         withTotal={withTotal}
         highlights={highlights}
+        displayOrder={displayOrder}
       />
     </>
   );
@@ -69,6 +71,7 @@ OverviewBox.displayName = "OverviewBox";
 
 OverviewBox.propTypes = {
   chartData: PropTypes.object,
+  displayOrder: PropTypes.array,
   errors: PropTypes.bool,
   highlights: PropTypes.array,
   items: PropTypes.object.isRequired,
