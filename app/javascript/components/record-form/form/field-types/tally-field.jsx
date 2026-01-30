@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { FormHelperText, InputLabel } from "@mui/material";
 import PropTypes from "prop-types";
 import compact from "lodash/compact";
+import isEmpty from "lodash/isEmpty";
 
 import { TALLY_FIELD_NAME } from "../constants";
 import { buildTallyErrors } from "../utils";
@@ -24,8 +25,9 @@ function TallyField({ name, formik, field, helperText, InputLabelProps, label, m
   useEffect(() => {
     if (!mode.isShow && field.autosum_total) {
       const total = tallyValues.reduce((acc, value) => acc + value, 0);
+      const totalValue = isEmpty(tallyValues) ? null : total;
 
-      formik.setFieldValue(totalName, total === 0 ? "" : total);
+      formik.setFieldValue(totalName, totalValue);
     }
   }, [JSON.stringify(tallyValues)]);
 

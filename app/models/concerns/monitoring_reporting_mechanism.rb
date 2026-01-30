@@ -9,15 +9,11 @@ module MonitoringReportingMechanism
 
   ASSOCIATION_MAPPING = {
     'armed_force_group_party_name' => 'armed_force_group_party_names',
-    'ctfmr_verified' => 'verification_status',
-    'facilty_victims_held' => 'victim_facilty_victims_held'
+    'ctfmr_verified' => 'verification_status'
   }.freeze
 
   ASSOCIATION_FIELDS = {
-    'individual_victims' => %w[
-      individual_age individual_sex victim_deprived_liberty_security_reasons reasons_deprivation_liberty
-      facilty_victims_held torture_punishment_while_deprivated_liberty
-    ],
+    'individual_victims' => %w[individual_age individual_sex victim_deprived_liberty_security_reasons],
     'perpetrators' => %w[armed_force_group_party_name perpetrator_category],
     'violations' => %w[
       verified_ghn_reported weapon_type facility_impact facility_attack_type child_role abduction_purpose_single
@@ -29,6 +25,14 @@ module MonitoringReportingMechanism
     'violation_with_verification_status' => 'ctfmr_verified',
     'violation_with_weapon_type' => 'weapon_type',
     'violation_with_facility_impact' => 'facility_impact'
+  }.freeze
+
+  DEPRIVATION_LIBERTY_FIELDS = %w[
+    reasons_deprivation_liberty facilty_victims_held torture_punishment_while_deprivated_liberty
+  ].freeze
+
+  DEPRIVATION_LIBERTY_MAPPING = {
+    'facilty_victims_held' => 'victim_facilty_victims_held'
   }.freeze
 
   included do
@@ -196,6 +200,7 @@ module MonitoringReportingMechanism
   def recalculate_association_fields
     stamp_association_fields
     stamp_fields_with_violation_type
+    stamp_deprivation_liberty_fields
     calculate_individual_violations
     calculate_late_verified_violations
     calculate_has_late_verified_violations
@@ -274,6 +279,39 @@ module MonitoringReportingMechanism
 
   def late_verified_violations?
     has_late_verified_violations
+  end
+
+  def stamp_deprivation_liberty_fields
+    deprivation_liberty_violations = deprivation_liberty_from_violations
+    deprivation_liberty_victims = deprivation_liberty_from_individual_victims
+
+    DEPRIVATION_LIBERTY_FIELDS.each do |field|
+      record_field_name = DEPRIVATION_LIBERTY_MAPPING[field] || field
+      violation_values = deprivation_liberty_violations[field] || []
+      victim_values = deprivation_liberty_victims[field] || []
+
+      data[record_field_name] = (violation_values + victim_values).flatten.compact.uniq
+    end
+  end
+
+  def deprivation_liberty_from_individual_victims
+    individual_victims.each_with_object({}) do |individual_victim, memo|
+      DEPRIVATION_LIBERTY_FIELDS.each do |field|
+        memo[field] ||= []
+        memo[field] << individual_victim.send(field)
+      end
+    end
+  end
+
+  def deprivation_liberty_from_violations
+    violations.each_with_object({}) do |violation, memo|
+      next unless violation.type == 'deprivation_liberty'
+
+      DEPRIVATION_LIBERTY_FIELDS.each do |field|
+        memo[field] ||= []
+        memo[field] << violation.send(field)
+      end
+    end
   end
 
   def calculate_violation_with_facility_attack_type

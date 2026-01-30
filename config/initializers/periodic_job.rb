@@ -11,7 +11,7 @@ return unless HealthCheckService.database_accessible? && ActiveRecord::Base.conn
 
 Rails.logger.info('Setting up PeriodicJobs')
 
-jobs = %w[ArchiveBulkExports RecalculateAge]
+jobs = %w[ArchiveBulkExports RecalculateAge GenerateUnusedFieldsReport]
 jobs << 'OptimizeSolr' if Rails.configuration.solr_enabled
 jobs << 'SessionCleanup' unless Rails.configuration.x.idp.use_identity_provider
 

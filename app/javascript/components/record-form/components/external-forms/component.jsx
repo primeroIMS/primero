@@ -44,8 +44,8 @@ const externalForms =
     userPermittedFormsIds
   }) =>
   (form, setFieldValue, handleSubmit, values, dirty, formSections) => {
-    const canSeeAccessLog = usePermissions(recordType, SHOW_ACCESS_LOG);
-    const canSeeChangeLog = usePermissions(recordType, SHOW_CHANGE_LOG);
+    const canSeeAccessLog = usePermissions(RECORD_TYPES_PLURAL[recordType], SHOW_ACCESS_LOG);
+    const canSeeChangeLog = usePermissions(RECORD_TYPES_PLURAL[recordType], SHOW_CHANGE_LOG);
 
     const isTransitions = TRANSITION_TYPE.includes(form);
 

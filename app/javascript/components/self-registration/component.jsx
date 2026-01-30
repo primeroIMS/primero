@@ -1,14 +1,16 @@
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
+import { push } from "connected-react-router";
 
 import Form from "../form";
 import { useI18n } from "../i18n";
 import { useApp } from "../application";
 import DisableOffline from "../disable-offline";
-import { ConditionalWrapper, useThemeHelper } from "../../libs";
+import { ConditionalWrapper, useMemoizedSelector, useThemeHelper } from "../../libs";
 import ActionButton, { ACTION_BUTTON_TYPES } from "../action-button";
 import { PageHeading } from "../page";
 import { ROUTES } from "../../config";
+import { getLoading } from "../application/selectors";
 import { checkServerStatus } from "../connectivity/action-creators";
 
 import { form, validationSchema } from "./form";
@@ -21,6 +23,7 @@ function Component() {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { mobileDisplay } = useThemeHelper();
+  const loading = useMemoizedSelector(state => getLoading(state));
 
   // TODO: Will need to adjust currentStream if we eventually allow multiple streams
   const currentStream = registrationStreams.getIn([0, "id"]);
@@ -31,9 +34,11 @@ function Component() {
     dispatch(checkServerStatus(true, false, [registerUser({ ...values, registration_stream: currentStream })]));
   };
 
-  if (!allowSelfRegistration) {
-    return <Redirect to={ROUTES.login} />;
-  }
+  useEffect(() => {
+    if (!loading && !allowSelfRegistration) {
+      dispatch(push(ROUTES.login));
+    }
+  }, [loading, allowSelfRegistration]);
 
   return (
     <div>

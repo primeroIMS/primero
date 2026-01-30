@@ -32,7 +32,7 @@ describe AdministratorNotificationMailer, type: :mailer do
     context 'when maximum_attachments_space is positive' do
       it 'build email and to' do
         mail = AdministratorNotificationMailer.notify(:maximum_attachments_space)
-
+        expect(mail['to'].to_s).to eq('administrator <myemail@local.host>')
         expect(mail.to).to eq(['myemail@local.host'])
         expect(mail.subject).to eq('Reached attachment storage limit for ')
       end

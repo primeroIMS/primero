@@ -31,6 +31,8 @@ class SystemSettings < ApplicationRecord
 
   has_one_attached :location_file
 
+  has_one_attached :unused_fields_report_file
+
   validate :validate_reporting_location,
            if: ->(system_setting) { system_setting.reporting_location_config.present? }
 

@@ -108,8 +108,14 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
       return state.setIn(["referralAuthorizationRoles", "loading"], false);
     case actions.FETCH_REFERRAL_AUTHORIZATION_ROLES_FAILURE:
       return state.setIn(["referralAuthorizationRoles", "errors"], true);
+    case actions.FETCH_SANDBOX_UI_STARTED:
+      return state.set("loading", true).set("errors", false);
     case actions.FETCH_SANDBOX_UI_SUCCESS:
       return state.set("primero", fromJS(payload.data));
+    case actions.FETCH_SANDBOX_UI_FAILURE:
+      return state.set("errors", true);
+    case actions.FETCH_SANDBOX_UI_FINISHED:
+      return state.set("loading", false);
     case actions.FETCH_AGENCY_LOGO_OPTIONS_SUCCESS:
       return state.setIn(["primero", "agenciesLogoPdf"], fromJS(payload.data));
     case actions.SET_RETURN_URL:

@@ -319,6 +319,8 @@ export const getAppData = memoize(state => {
   };
 });
 
+export const getLoading = state => state.getIn([NAMESPACE, "loading"], false);
+
 export const getWebpushConfig = state => state.getIn([NAMESPACE, "webpush"], fromJS({}));
 
 export const getReferralAuthorizationRoles = state =>

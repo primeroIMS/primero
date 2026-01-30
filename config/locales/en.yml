@@ -1488,6 +1488,7 @@ en:
     form_description: Description
     form_group: Form Group
     form_title: Form title
+    export_unused_fields: Export Unused Fields
     help_text:
       must_be_english: Must be entered in English
       related_groups: Place form into a related group for users
@@ -1956,6 +1957,7 @@ en:
       moughataa: 'Moughataa'
       sub_division: 'Sub-division'
       sub-prefecture: 'Sub-Prefecture'
+      zip_code: Zip Code
     label: Location
     name: Name
     code: Code
@@ -2712,6 +2714,16 @@ en:
       followups_total: Total Followups
       incidents_total: Total Incidents
       incidents_open_this_quarter: Incidents this quarter
+  unused_fields_report:
+    label: Unused Fields Report
+    field_id: Field ID
+    field_name: Field Name
+    form_name: Form Name
+    cases_where_filled:  Cases where filled
+    prevalence: Prevalence
+    created_at: Created At
+    generated_message: Generated Periodically. Last generated at %{date}.
+    not_found_error: Unused Fields Report not found. Please try again later.
   messages:
     alert_items: You have %{items} items of note.
     alerts_for:

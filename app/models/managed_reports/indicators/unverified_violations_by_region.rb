@@ -4,6 +4,8 @@
 
 # An indicator that returns the unverified violations by region
 class ManagedReports::Indicators::UnverifiedViolationsByRegion < ManagedReports::SqlReportIndicator
+  include ManagedReports::GhnIndicatorHelper
+
   class << self
     def id
       'unverified_violations_by_region'
@@ -16,9 +18,9 @@ class ManagedReports::Indicators::UnverifiedViolationsByRegion < ManagedReports:
             violations.id,
             violations.data->>'type' AS type,
             #{incident_region_query(current_user)} AS region,
-            CASE WHEN violations.data->'violation_tally'->'total' IS NULL
+            CASE WHEN #{filter_types(Violation::GRAVE_TYPES_FOR_VIOLATION_COUNT).query}
               THEN 1
-              ELSE CAST(violations.data->'violation_tally'->'total' AS INTEGER)
+              ELSE COALESCE(CAST(violations.data->'violation_tally'->'total' AS INTEGER), 0)
             END AS violation_tally_total
           FROM violations
           INNER JOIN incidents incidents
@@ -29,8 +31,8 @@ class ManagedReports::Indicators::UnverifiedViolationsByRegion < ManagedReports:
             #{date_range_query(params['ghn_date_filter'], 'incidents', 'data', 'incident_date')&.prepend('AND ')}
           WHERE violations.data @? '$[*]
             ? (@.ctfmr_verified == "report_pending_verification" || @.ctfmr_verified == "reported_not_verified")
-            ? (@.type != "deprivation_liberty" && @.type != "military_use")
           '
+          AND #{filter_types(Violation::GRAVE_TYPES).query}
         )
         SELECT
           violations_in_scope.region as name,
@@ -40,6 +42,10 @@ class ManagedReports::Indicators::UnverifiedViolationsByRegion < ManagedReports:
         FROM violations_in_scope
         GROUP BY name, key
       SQL
+    end
+
+    def group_by_victim?
+      false
     end
   end
 end

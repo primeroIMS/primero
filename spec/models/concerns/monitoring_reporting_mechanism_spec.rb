@@ -57,6 +57,15 @@ describe MonitoringReportingMechanism, search: true do
             'torture_punishment_while_deprivated_liberty' => 'no',
             'violations_ids' => ['b23b70de-9132-4c89-be8d-57e85a69ec68']
           }
+        ],
+        'deprivation_liberty' => [
+          {
+            'unique_id' => '9bbd0b84-ed7d-11f0-aaf1-7c10c98b54af',
+            'type' => 'deprivation_liberty',
+            'facilty_victims_held' => 'facility_3',
+            'reasons_deprivation_liberty' => 'reason_7',
+            'torture_punishment_while_deprivated_liberty' => 'no'
+          }
         ]
       }
     )
@@ -220,6 +229,52 @@ describe MonitoringReportingMechanism, search: true do
       Incident,
       filters: [
         SearchFilters::TextValue.new(field_name: 'violation_with_verification_status', value: 'killing_verified')
+      ]
+    )
+    expect(search_result.total).to eq(1)
+    expect(search_result.records.first.id).to eq(incident1.id)
+  end
+
+  it 'can find incidents where violations have a victim_deprived_liberty_security_reasons' do
+    search_result = PhoneticSearchService.search(
+      Incident,
+      filters: [
+        SearchFilters::TextValue.new(field_name: 'victim_deprived_liberty_security_reasons', value: 'no')
+      ]
+    )
+    expect(search_result.total).to eq(1)
+    expect(search_result.records.map(&:id)).to match_array([incident2.id])
+  end
+
+  it 'can find incidents where violations with torture_punishment_while_deprivated_liberty' do
+    search_result = PhoneticSearchService.search(
+      Incident,
+      filters: [
+        SearchFilters::TextValue.new(field_name: 'torture_punishment_while_deprivated_liberty', value: 'no')
+      ]
+    )
+
+    expect(search_result.total).to eq(1)
+    expect(search_result.records.first.id).to eq(incident1.id)
+  end
+
+  it 'can find incidents where violations have reasons_deprivation_liberty' do
+    search_result = PhoneticSearchService.search(
+      Incident,
+      filters: [
+        SearchFilters::TextValue.new(field_name: 'reasons_deprivation_liberty', value: 'reason_7')
+      ]
+    )
+
+    expect(search_result.total).to eq(1)
+    expect(search_result.records.first.id).to eq(incident1.id)
+  end
+
+  it 'can find incidents where violations have a facilty_victims_held' do
+    search_result = PhoneticSearchService.search(
+      Incident,
+      filters: [
+        SearchFilters::TextValue.new(field_name: 'victim_facilty_victims_held', value: 'facility_3')
       ]
     )
     expect(search_result.total).to eq(1)
@@ -495,8 +550,8 @@ describe MonitoringReportingMechanism, search: true do
     expect(incident1.individual_violations).to match_array(%w[killing])
     expect(incident1.individual_sex).to match_array(%w[male])
     expect(incident1.victim_deprived_liberty_security_reasons).to match_array(%w[yes])
-    expect(incident1.reasons_deprivation_liberty).to match_array(%w[reason_1])
-    expect(incident1.victim_facilty_victims_held).to match_array(%w[facility_1])
+    expect(incident1.reasons_deprivation_liberty).to match_array(%w[reason_1 reason_7])
+    expect(incident1.victim_facilty_victims_held).to match_array(%w[facility_1 facility_3])
     expect(incident1.torture_punishment_while_deprivated_liberty).to match_array(%w[no])
     expect(incident1.armed_force_group_party_names).to match_array(%w[armed_force_1])
     expect(incident1.perpetrator_category).to match_array(%w[crossfire])

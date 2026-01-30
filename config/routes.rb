@@ -180,6 +180,10 @@ Rails.application.routes.draw do
         patch 'subscriptions/current', action: :current, controller: 'webpush_subscriptions'
         resources :webpush_subscriptions, path: :subscriptions, only: %i[index create]
       end
+
+      scope '/unused_fields_report' do
+        get 'current', action: :current, controller: 'unused_fields_report'
+      end
     end
   end
 end

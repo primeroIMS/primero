@@ -4,8 +4,6 @@
 
 # Describes Killing subreport in Primero.
 class ManagedReports::SubReports::GhnReport < ManagedReports::SubReport
-  EXCLUDED_VIOLATION_TYPES = %w[deprivation_liberty military_use].freeze
-
   def id
     'ghn_report'
   end
@@ -45,12 +43,12 @@ class ManagedReports::SubReports::GhnReport < ManagedReports::SubReport
 
   def indicators_subcolumns
     {
-      ManagedReports::Indicators::VerifiedViolationsByPerpetrator.id => violation_type_options,
-      ManagedReports::Indicators::VerifiedViolationsByRegion.id => violation_type_options,
-      ManagedReports::Indicators::LateVerificationViolationsByPerpetrator.id => violation_type_options,
-      ManagedReports::Indicators::LateVerificationViolationsByRegion.id => violation_type_options,
-      ManagedReports::Indicators::UnverifiedViolationsByPerpetrator.id => violation_type_options,
-      ManagedReports::Indicators::UnverifiedViolationsByRegion.id => violation_type_options
+      ManagedReports::Indicators::VerifiedViolationsByPerpetrator.id => 'lookup-grave-violations',
+      ManagedReports::Indicators::VerifiedViolationsByRegion.id => 'lookup-grave-violations',
+      ManagedReports::Indicators::LateVerificationViolationsByPerpetrator.id => 'lookup-grave-violations',
+      ManagedReports::Indicators::LateVerificationViolationsByRegion.id => 'lookup-grave-violations',
+      ManagedReports::Indicators::UnverifiedViolationsByPerpetrator.id => 'lookup-grave-violations',
+      ManagedReports::Indicators::UnverifiedViolationsByRegion.id => 'lookup-grave-violations'
     }
   end
 
@@ -64,13 +62,5 @@ class ManagedReports::SubReports::GhnReport < ManagedReports::SubReport
 
   def table_type
     id
-  end
-
-  def violation_type_options
-    @violation_type_options ||= Lookup.find_by(
-      unique_id: 'lookup-violation-type'
-    ).lookup_values.reject do |value|
-      EXCLUDED_VIOLATION_TYPES.include?(value['id'])
-    end + [{ id: 'total', display_text: I18n.t('managed_reports.total') }]
   end
 end

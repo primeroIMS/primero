@@ -4,6 +4,9 @@
 
 Warden::Manager.before_failure do |env, _opts|
   request = ActionDispatch::Request.new(env)
+  attempted_path = env.dig('warden.options', :attempted_path)
+
+  next unless attempted_path == '/api/v2/tokens'
 
   user_name = request.params.dig('user', 'user_name')
   user = user_name && User.find_by(user_name:)

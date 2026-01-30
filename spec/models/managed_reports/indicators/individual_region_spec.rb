@@ -76,6 +76,17 @@ describe ManagedReports::Indicators::IndividualRegion do
       IndividualVictim.create!(data: { individual_age: 12, individual_sex: 'unknown' }),
       shared_victim
     ]
+
+    violation4 = Violation.create!(
+      data: {
+        type: 'deprivation_liberty', violation_tally: { 'boys' => 2, 'girls' => 0, 'unknown' => 1, 'total' => 3 }
+      },
+      incident_id: incident1.id
+    )
+
+    violation4.individual_victims = [
+      IndividualVictim.create!(data: { individual_age: 7, individual_sex: 'unknown' })
+    ]
   end
 
   it 'return data for individual age indicator' do
