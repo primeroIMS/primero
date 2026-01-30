@@ -7,6 +7,13 @@
 return unless Rails.env.production?
 
 require "#{Rails.root}/app/services/health_check_service.rb"
+require "#{Rails.root}/app/jobs/periodic_job.rb"
+require "#{Rails.root}/app/schedules/archive_bulk_exports.rb"
+require "#{Rails.root}/app/schedules/recalculate_age.rb"
+require "#{Rails.root}/app/schedules/generate_unused_fields_report.rb"
+require "#{Rails.root}/app/schedules/optimize_solr.rb" if Rails.configuration.solr_enabled
+require "#{Rails.root}/app/schedules/session_cleanup.rb" unless Rails.configuration.x.idp.use_identity_provider
+
 return unless HealthCheckService.database_accessible? && ActiveRecord::Base.connection.table_exists?(:delayed_jobs)
 
 Rails.logger.info('Setting up PeriodicJobs')
