@@ -2,7 +2,7 @@
 
 import clone from "lodash/clone";
 import configureStore from "redux-mock-store";
-import thunk from "redux-thunk";
+import { thunk } from "redux-thunk";
 
 import * as actionCreators from "./action-creators";
 import actions from "./actions";

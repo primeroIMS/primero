@@ -22,7 +22,7 @@ class Api::V2::AgenciesController < ApplicationApiController
 
   def create
     authorize!(:create, Agency) && validate_json!(Agency::AGENCY_FIELDS_SCHEMA, agency_params)
-    @agency = Agency.new_with_properties(agency_params)
+    @agency = Agency.new_with_properties(agency_params, current_user)
     @agency.save!
     status = params[:data][:id].present? ? 204 : 200
     render :create, status:
@@ -30,7 +30,7 @@ class Api::V2::AgenciesController < ApplicationApiController
 
   def update
     authorize!(:update, @agency) && validate_json!(Agency::AGENCY_FIELDS_SCHEMA, agency_params)
-    @agency.update_properties(agency_params)
+    @agency.update_properties(agency_params, current_user)
     @agency.save!
   end
 

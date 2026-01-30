@@ -191,7 +191,7 @@ module Importers
         Field.new(name: 'services_section',
                   type: 'subform',
                   editable: true,
-                  subform_section: @services_section,
+                  subform: @services_section,
                   display_name_en: 'Remediation Activities',
                   subform_sort_by: 'service_appointment_date')
       ]

@@ -6,7 +6,7 @@
 class DataRemovalService
   RECORD_MODELS = [Child, Incident, TracingRequest].freeze
   DATA_MODELS = [
-    Trace, Flag, Alert, Attachment, AuditLog, BulkExport, RecordHistory, SavedSearch, Transition, Violation,
+    Trace, Flag, Alert, Attachment, Signature, AuditLog, BulkExport, RecordHistory, SavedSearch, Transition, Violation,
     SearchableIdentifier
   ].freeze
   METADATA_MODELS = [

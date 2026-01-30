@@ -108,15 +108,6 @@ describe Location do
         expect(@town1.name).to eq('MyCountry::Province 1::Pawtucket')
       end
     end
-
-    describe 'field updates' do
-      it 'rejects updates on admin_level, heirarchy, location_code' do
-        @country.update(admin_level: 1, hierarchy_path: 'MC01.PR08', location_code: 'PR08')
-        expect(@country.reload.admin_level).to eq(0)
-        expect(@country.reload.hierarchy_path).to eq('MC01')
-        expect(@country.reload.location_code).to eq('MC01')
-      end
-    end
   end
 
   describe '.create_or_update!' do

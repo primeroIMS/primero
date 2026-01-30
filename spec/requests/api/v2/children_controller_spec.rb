@@ -13,7 +13,7 @@ describe Api::V2::ChildrenController, type: :request do
       Family, Field, FormSection, Location
     )
 
-    @agency = Agency.create!(name: 'Test Agency', agency_code: 'TA', services: ['Test type'])
+    @agency = Agency.create!(name: 'Test Agency', agency_code: 'TA', services: ['test-type'])
     @cp = PrimeroModule.create!(unique_id: PrimeroModule::CP, name: 'CP', description: 'Child Protection',
                                 associated_record_types: %w[case tracing_request incident])
     @form_a = FormSection.create!(
@@ -35,7 +35,7 @@ describe Api::V2::ChildrenController, type: :request do
           name: 'scores',
           type: 'subform',
           editable: true,
-          subform_section: @score_section,
+          subform: @score_section,
           display_name_en: 'Scores',
           subform_sort_by: 'score_date'
         ),
@@ -102,13 +102,13 @@ describe Api::V2::ChildrenController, type: :request do
       email: 'test_user_2@localhost.com',
       agency_id: @agency.id,
       role: role_self,
-      services: ['Test type']
+      services: ['test-type']
     )
     @role_owned_others = Role.create!(
       name: 'Test Role Owned Others',
       unique_id: 'test-role-owned-others',
       group_permission: Permission::SELF,
-      modules: [@cp],
+      primero_modules: [@cp],
       permissions: [
         Permission.new(
           resource: Permission::CASE,
@@ -125,7 +125,7 @@ describe Api::V2::ChildrenController, type: :request do
       name: 'Role restricted',
       unique_id: 'role-restricted',
       group_permission: Permission::SELF,
-      modules: [@cp],
+      primero_modules: [@cp],
       permissions: [
         Permission.new(
           resource: Permission::CASE,
@@ -146,7 +146,7 @@ describe Api::V2::ChildrenController, type: :request do
     @cp.roles = [@role_restricted]
     @cp.save!
 
-    @role1 = Role.create!(name: 'Role self permission', unique_id: 'role_self_permission', modules: [@cp],
+    @role1 = Role.create!(name: 'Role self permission', unique_id: 'role_self_permission', primero_modules: [@cp],
                           referral: true, transfer: true, group_permission: 'self',
                           permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])])
 
@@ -189,7 +189,7 @@ describe Api::V2::ChildrenController, type: :request do
       unique_id: 'lookup-service-type',
       name_en: 'Service Type',
       lookup_values_en: [
-        { id: 'Test type', display_text: 'Safehouse Service' }.with_indifferent_access
+        { id: 'test-type', display_text: 'Safehouse Service' }.with_indifferent_access
       ]
     )
     @registry_record1 = RegistryRecord.create!(
@@ -788,14 +788,14 @@ describe Api::V2::ChildrenController, type: :request do
     end
 
     it 'filters sensitive information from logs' do
-      allow(Rails.logger).to receive(:debug).and_return(nil)
+      allow(Rails.logger).to receive(:debug)
 
       login_for_test
 
       post '/api/v2/cases', params:, as: :json
 
       %w[data].each do |fp|
-        expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/)
+        expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/).at_least(:once)
       end
     end
 
@@ -978,7 +978,7 @@ describe Api::V2::ChildrenController, type: :request do
       patch "/api/v2/cases/#{@case1.id}", params:, as: :json
 
       %w[data].each do |fp|
-        expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/)
+        expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/).at_least(:once)
       end
     end
 
@@ -1097,14 +1097,14 @@ describe Api::V2::ChildrenController, type: :request do
         )
 
         params = {
-          data: { name: 'Tester 1', services_section: [{ service_type: 'Test type' }] },
+          data: { name: 'Tester 1', services_section: [{ service_type: 'test-type' }] },
           record_action: Permission::SERVICES_SECTION_FROM_CASE
         }
 
         patch "/api/v2/cases/#{@case1.id}", params:, as: :json
 
         expect(response).to have_http_status(200)
-        expect(json['data']['services_section'].first['service_type']).to eq('Test type')
+        expect(json['data']['services_section'].first['service_type']).to eq('test-type')
         expect(json['data']['name']).to be_nil
         @case1.reload
         expect(@case1.name).to eq('Test1')
@@ -1125,14 +1125,14 @@ describe Api::V2::ChildrenController, type: :request do
         )
 
         params = {
-          data: { services_section: [{ service_type: 'Test type' }] },
+          data: { services_section: [{ service_type: 'test-type' }] },
           record_action: Permission::SERVICES_SECTION_FROM_CASE
         }
 
         patch "/api/v2/cases/#{@case1.id}", params:, as: :json
 
         expect(response).to have_http_status(200)
-        expect(json['data']['services_section'].first['service_type']).to eq('Test type')
+        expect(json['data']['services_section'].first['service_type']).to eq('test-type')
         expect(json['data']['name']).to be_nil
         @case1.reload
         expect(@case1.name).to eq('Test1')
@@ -1141,7 +1141,7 @@ describe Api::V2::ChildrenController, type: :request do
       it 'returns 403 if the user is not authorized' do
         login_for_test(group_permission: Permission::SELF)
         params = {
-          data: { services_section: [{ service_type: 'Test type' }] },
+          data: { services_section: [{ service_type: 'test-type' }] },
           record_action: Permission::SERVICES_SECTION_FROM_CASE
         }
         patch "/api/v2/cases/#{@case1.id}", params:, as: :json

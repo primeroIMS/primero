@@ -103,6 +103,9 @@ en:
     terms_of_use_help: Only PDF files permitted.
     terms_of_use_download_button: Download PDF
     terms_of_use_enabled: Display Terms of Use?
+    terms_of_use_title: Terms of Use Acknowledgement
+    terms_of_use_view_button: View Terms of Use
+    terms_of_use_acknowledgement: By uploading the Terms of Use document for this Agency you are acknowledging on the Agency's behalf that the Agency has reviewed, agreed to, and endorsed the Terms of Use, and you assume the responsibility for managing access for this Agency’s users. Do you accept this?
   approvals:
     no_requests: There are no approval requests for this Case
     approved_by: Approved By
@@ -161,6 +164,7 @@ en:
     clear_default: Clear default
     clear_selection: Clear selection
     clear: Clear
+    clear_signature: Clear Signature
     close: Close
     continue: Continue
     create_case: Create Case
@@ -221,6 +225,9 @@ en:
     unflag_model_history: Flag History %{model}
     unmark_for_mobile: Un-mark for mobile
     update: Update
+    update_signature: Update Signature
+    add_signature: Add Signature
+    remove_signature: Remove Signature
     view: View
     view_flags_history: View History
     return_to_case: Return to Case
@@ -1007,11 +1014,14 @@ en:
       file_upload_unsuccessful: File upload unsuccessful. The system has reached the document storage limit. Please contact your system administrator.
     error_loading: Error Loading Record(s)
     models:
+      configuration_record:
+        unique_id: Unique identifier is not valid
       agency:
         code_present: must not be blank
         logo_format: File should be png
         terms_of_use_format: File should be png
         name_present: must not be blank
+        must_sign_terms_of_use: Agency Term of Use must be signed
       child:
         age: Age must be between 0 and 130
         date_of_birth: Please enter a valid date of birth for this case record
@@ -1030,9 +1040,10 @@ en:
         unique_location_code: A Location with that location code already exists, please
           enter a different location code
       lookup:
+        unique_id_present: Unique ID must not be blank.
         being_used: This lookup is being used and cannot be deleted
         name_present: Name must not be blank
-        values_ids_blank: A lookup_value id is blank
+        values_ids_format: A lookup_value id is invalid
       primero_module:
         associated_record_types: At least one record type must be associated with
           this module
@@ -1281,6 +1292,7 @@ en:
     add_existing_field: Add Existing Field
     add_field: Add Field
     add_field_type: Add %{file_type}
+    additional_settings: Additional Settings
     attachments:
       maximum_attached: Maximum attachments limit per record (%{maximumttachmentsPerRecord}) reached. This includes photos, audio, and documents. Please remove a file before adding another.
     audio:
@@ -1390,6 +1402,13 @@ en:
     show: Show?
     show_on: Show on
     show_on_minify_form: Short form
+    signature: Signature
+    signature_provided_on: Signature provided on
+    signature_provided_by: Signature provided by
+    signature_provided_by_label: Signature provided by label
+    signature_created_by_user: Signature created by user
+    signature_save_confirmation: Are you sure? Once you submit your signature and save, you cannot withdraw or update it.
+    signature_save_confirmation_title: Confirm Saving Signature
     skip_logic:
       name: Skip Logic?
       record_section:
@@ -2727,6 +2746,7 @@ en:
     logout_confirmation_text: Are you sure you want to log out?
     no_changes: You made no field changes
     not_available: Not available
+    no_signature_provided: No signature provided
     record_list:
       column_header_tooltip: Sort for %{column}
       of: of
@@ -4727,6 +4747,17 @@ en:
       case_plan: Case Plan
       follow_up: Follow Up - %{subtype}
       service: Service - %{subtype}
+  terms_of_use:
+    title: Terms of Use
+    preview_title: Terms of Use Preview
+    document: Terms of Use Document
+    view_button: View Terms of Use
+    changed_message: Your agency's Terms of Use have changed.
+    date_updated: Updated
+    date_upload_updated: Upload Updated
+    terms_of_use_accepted: The Terms of Use have been reviewed, agreed to and signed on behalf of your Agency.
+    content: "The Terms of Use is an agreement signed by the relevant authority in each user organization at programme level. The Terms of Use constitutes the agreement between authorized users' and access to and use of Primero. The Terms of Use have been reviewed, agreed to and signed on behalf of your Agency. By selecting \"Accept\", you are accepting the Terms of Use and agree to the terms and conditions."
+    accepted: Terms of Use accepted successfully.
   tracing_request:
     label: Tracing Request
     has_match: Has Match

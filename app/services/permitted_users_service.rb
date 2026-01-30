@@ -86,7 +86,7 @@ class PermittedUsersService
     return users_query if query_filter.blank?
 
     users_query.where(
-      'user_name ILIKE :value OR full_name ILIKE :value',
+      'users.user_name ILIKE :value OR users.full_name ILIKE :value',
       value: "%#{ActiveRecord::Base.sanitize_sql_like(query_filter)}%"
     )
   end
@@ -108,7 +108,7 @@ class PermittedUsersService
   end
 
   def agency_only_users(users_query)
-    users_query.where(organization: user.organization)
+    users_query.where(agency: user.agency)
   end
 
   def group_permitted_users(users_query)

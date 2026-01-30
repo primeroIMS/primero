@@ -109,24 +109,64 @@ function Component({ mode, formMethods }) {
         formMode={formMode}
       />
       <Grid container spacing={1}>
-        <Grid item xs={12} md={12}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 12
+          }}
+        >
           <h1>{i18n.t("forms.label")}</h1>
         </Grid>
-        <Grid item xs={12} md={3} className={css.header}>
+        <Grid
+          className={css.header}
+          size={{
+            xs: 12,
+            md: 3
+          }}
+        >
           {i18n.t("fields.detail")}
         </Grid>
-        <Grid item xs={12} md={3} className={css.header}>
+        <Grid
+          className={css.header}
+          size={{
+            xs: 12,
+            md: 3
+          }}
+        >
           {i18n.t("fields.english_text")}
         </Grid>
-        <Grid item xs={12} md={3} className={css.header}>
+        <Grid
+          className={css.header}
+          size={{
+            xs: 12,
+            md: 3
+          }}
+        >
           {i18n.t("fields.translation_text")}
         </Grid>
-        <Grid item xs={12} md={3} />
+        <Grid
+          size={{
+            xs: 12,
+            md: 3
+          }}
+        />
 
-        <Grid item xs={12} md={3} className={classes}>
+        <Grid
+          className={classes}
+          size={{
+            xs: 12,
+            md: 3
+          }}
+        >
           {i18n.t("forms.title")}
         </Grid>
-        <Grid item xs={12} md={3} className={css.translationsRow}>
+        <Grid
+          className={css.translationsRow}
+          size={{
+            xs: 12,
+            md: 3
+          }}
+        >
           <FormSectionField
             field={FieldRecord({
               display_name: "",
@@ -139,15 +179,38 @@ function Component({ mode, formMethods }) {
             formMode={formMode}
           />
         </Grid>
-        <Grid item xs={12} md={3} className={css.translationsRow}>
+        <Grid
+          className={css.translationsRow}
+          size={{
+            xs: 12,
+            md: 3
+          }}
+        >
           {renderFormField("name")}
         </Grid>
-        <Grid item xs={12} md={3} />
+        <Grid
+          size={{
+            xs: 12,
+            md: 3
+          }}
+        />
 
-        <Grid item xs={12} md={3} className={classes}>
+        <Grid
+          className={classes}
+          size={{
+            xs: 12,
+            md: 3
+          }}
+        >
           {i18n.t("forms.description")}
         </Grid>
-        <Grid item xs={12} md={3} className={css.translationsRow}>
+        <Grid
+          className={css.translationsRow}
+          size={{
+            xs: 12,
+            md: 3
+          }}
+        >
           <FormSectionField
             field={FieldRecord({
               display_name: "",
@@ -160,25 +223,64 @@ function Component({ mode, formMethods }) {
             formMode={formMode}
           />
         </Grid>
-        <Grid item xs={12} md={3} className={css.translationsRow}>
+        <Grid
+          className={css.translationsRow}
+          size={{
+            xs: 12,
+            md: 3
+          }}
+        >
           {renderFormField("description")}
         </Grid>
-        <Grid item xs={12} md={3} />
+        <Grid
+          size={{
+            xs: 12,
+            md: 3
+          }}
+        />
       </Grid>
       <Grid container spacing={1}>
-        <Grid item xs={12} md={12}>
+        <Grid
+          size={{
+            xs: 12,
+            md: 12
+          }}
+        >
           <h1>{i18n.t("fields.label")}</h1>
         </Grid>
-        <Grid item xs={12} md={3} className={css.header}>
+        <Grid
+          className={css.header}
+          size={{
+            xs: 12,
+            md: 3
+          }}
+        >
           {i18n.t("fields.detail")}
         </Grid>
-        <Grid item xs={12} md={3} className={css.header}>
+        <Grid
+          className={css.header}
+          size={{
+            xs: 12,
+            md: 3
+          }}
+        >
           {i18n.t("fields.english_text")}
         </Grid>
-        <Grid item xs={12} md={3} className={css.header}>
+        <Grid
+          className={css.header}
+          size={{
+            xs: 12,
+            md: 3
+          }}
+        >
           {i18n.t("fields.translation_text")}
         </Grid>
-        <Grid item xs={12} md={3} />
+        <Grid
+          size={{
+            xs: 12,
+            md: 3
+          }}
+        />
         {renderFields()}
       </Grid>
     </>

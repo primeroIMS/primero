@@ -16,4 +16,5 @@ json.logo_full rails_blob_path(agency.logo_full, only_path: true) if agency.logo
 json.logo_icon rails_blob_path(agency.logo_icon, only_path: true) if agency.logo_icon.attached?
 json.terms_of_use rails_blob_path(agency.terms_of_use, only_path: true) if agency.terms_of_use.attached?
 json.terms_of_use_enabled agency.terms_of_use_enabled
+json.terms_of_use_uploaded_at agency.terms_of_use_uploaded_at
 json.disabled agency.disabled

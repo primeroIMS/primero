@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { batch, useDispatch } from "react-redux";
 import { fromJS } from "immutable";
-import Grid from "@mui/material/Unstable_Grid2";
+import Grid from "@mui/material/Grid";
 import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../../i18n";
@@ -158,7 +158,12 @@ function Container() {
       </PageHeading>
       <PageContent>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={8}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 8
+            }}
+          >
             <AlertMaxUser
               limitUsersReached={limitUsersReached}
               maximumUsers={maximumUsersLimit}

@@ -9,7 +9,12 @@
 }
 
 .nav :global(.MuiTypography-root) {
+  color: var(--c-black) !important;
   font-size: .89rem !important;
+}
+
+.nav a[aria-current="page"] {
+  background-color: var(--c-light-blue-menu) !important;
 }
 
 .content {

@@ -72,7 +72,7 @@ function Component({
         )}
       </div>
       {items.length > 0 && (
-        <Grid item xs={12} className={gridClassName}>
+        <Grid className={gridClassName} size={12}>
           <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId="droppableLookup" type="lookupGroup">
               {(provided, snapshot) => (

@@ -41,6 +41,7 @@ class Api::V2::UsersController < ApplicationApiController
     authorize! :disable, @user if @user_params.include?('disabled')
     authorize! :edit_user, @user
     validate_json!(User::USER_FIELDS_SCHEMA, user_params)
+    stamp_terms_if_accepted
     @user.update_with_properties(@user_params)
     @user.save!
     keep_user_signed_in
@@ -77,10 +78,11 @@ class Api::V2::UsersController < ApplicationApiController
   end
 
   def load_user
+    user_id = params[:id] || params[:user_id]
     @user = User.with_audit_dates_if(include_activity_stats?)
-                .includes(:role, :user_groups)
+                .includes(:role, :user_groups, :agency)
                 .joins(:role)
-                .find(params[:id])
+                .find(user_id)
   end
 
   def load_extended
@@ -101,5 +103,12 @@ class Api::V2::UsersController < ApplicationApiController
 
   def include_activity_stats?
     params[:activity_stats].to_s == 'true'
+  end
+
+  def stamp_terms_if_accepted
+    return unless @user_params[:accept_terms_of_use]
+
+    @user_params[:terms_of_use_accepted_on] = DateTime.now
+    @user_params.delete(:accept_terms_of_use)
   end
 end

@@ -360,7 +360,7 @@ describe Child do
     end
 
     it 'should be set from user' do
-      User.stub(:find_by_user_name).with('mj').and_return(double(organization: double(unique_id: 'UNICEF')))
+      User.stub(:find_by_user_name).with('mj').and_return(double(agency: double(unique_id: 'UNICEF')))
       child = Child.create(data: { 'name' => 'Jaco', :created_by => 'mj' })
 
       child.created_organization.should == 'UNICEF'
@@ -647,7 +647,7 @@ describe Child do
   describe 'syncing of protection concerns' do
     before do
       clean_data(SearchableIdentifier, Child)
-      User.stub(:find_by_user_name).and_return(double(organization: double(unique_id: 'UNICEF')))
+      User.stub(:find_by_user_name).and_return(double(agency: double(unique_id: 'UNICEF')))
       @protection_concerns = %w[Separated Unaccompanied]
     end
 

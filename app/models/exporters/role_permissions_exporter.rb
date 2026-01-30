@@ -65,7 +65,6 @@ class Exporters::RolePermissionsExporter
   def complete
     @workbook.close
     @io.close unless @io.closed?
-    puts "Exported to #{@export_file_name}"
     @io
   end
 
@@ -215,7 +214,7 @@ class Exporters::RolePermissionsExporter
   end
 
   def write_row(row_data, bold = false)
-    format = @workbook.add_format(bold: 1, text_wrap: 1) if bold
+    format = @workbook.add_format({ num_format: '@' }.merge(bold ? { bold: 1, text_wrap: 1 } : {}))
 
     @worksheet.write(@row, 0, row_data, format)
     @row += 1

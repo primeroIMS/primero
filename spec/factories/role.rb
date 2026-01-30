@@ -7,7 +7,7 @@ FactoryBot.define do
     name { "test_role_#{counter}" }
     description { 'test description' }
     permissions { Permission.all_available }
-    modules { [FactoryBot.create(:primero_module)] }
+    primero_modules { [FactoryBot.create(:primero_module)] }
     user_category { nil }
   end
 end

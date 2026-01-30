@@ -9,7 +9,8 @@ import {
   TEXT_FIELD,
   TICK_FIELD,
   SELECT_FIELD,
-  SUBFORM_SECTION
+  SUBFORM_SECTION,
+  SIGNATURE_FIELD
 } from "../../../../../form";
 
 const subformForms = ({
@@ -89,7 +90,8 @@ export const translationsFieldForm = ({
     display_name: displayName,
     help_text: helpText,
     guiding_questions: guidingQuestions,
-    tick_box_label: tickBoxLabel
+    tick_box_label: tickBoxLabel,
+    signature_provided_by_label: signatureProvidedByLabel
   } = currentValues[field.get("name")] || {};
 
   const fieldForms = [
@@ -150,6 +152,22 @@ export const translationsFieldForm = ({
     })
   ];
 
+  const signatureForm = [
+    FormSectionRecord({
+      unique_id: `form_signature`,
+      name: i18n.t("fields.signature_provided_by_label"),
+      fields: locales.map(locale =>
+        FieldRecord({
+          display_name: `${i18n.t("home.en")}: ${signatureProvidedByLabel?.en || ""}`,
+          name: `${field.get("name")}.signature_provided_by_label.${locale.get("id")}`,
+          type: TEXT_FIELD,
+          inputClassname: locale.get("id") !== selectedLocaleId ? cssHideField : cssTranslationField,
+          disabled: limitedProductionSite
+        })
+      )
+    })
+  ];
+
   const forms = [
     FormSectionRecord({
       unique_id: "edit_translations",
@@ -177,7 +195,8 @@ export const translationsFieldForm = ({
           limitedProductionSite
         })
       : fieldForms),
-    ...(field.get("type") === TICK_FIELD ? tickBoxForm : [])
+    ...(field.get("type") === TICK_FIELD ? tickBoxForm : []),
+    ...(field.get("type") === SIGNATURE_FIELD ? signatureForm : [])
   ];
 
   return fromJS(forms);

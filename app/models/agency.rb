@@ -69,6 +69,7 @@ class Agency < ApplicationRecord
 
   validate :validate_logo_full_dimension, if: -> { logo_full.attached? }
   validate :validate_logo_icon_dimension, if: -> { logo_icon.attached? }
+  validate :terms_of_use_signed_if_enforced
 
   before_create :generate_unique_id
   before_save :set_logo_enabled
@@ -78,11 +79,11 @@ class Agency < ApplicationRecord
       %w[name description]
     end
 
-    def new_with_properties(agency_params)
+    def new_with_properties(agency_params, current_user)
       agency = Agency.new(agency_params.except(:name, :description))
       agency.name_i18n = agency_params[:name]
       agency.description_i18n = agency_params[:description]
-      agency.attach_files(agency_params)
+      agency.attach_files(agency_params, current_user)
       agency
     end
 
@@ -101,7 +102,7 @@ class Agency < ApplicationRecord
     end
   end
 
-  def update_properties(agency_params)
+  def update_properties(agency_params, current_user = nil)
     agency_params = agency_params.with_indifferent_access if agency_params.is_a?(Hash)
     converted_params = FieldI18nService.convert_i18n_properties(Agency, agency_params)
     merged_props = FieldI18nService.merge_i18n_properties(attributes, converted_params)
@@ -111,13 +112,29 @@ class Agency < ApplicationRecord
         :terms_of_use_file_name, :terms_of_use_base64
       ).merge(merged_props)
     )
-    attach_files(agency_params)
+    attach_files(agency_params, current_user)
   end
 
-  def attach_files(agency_params)
+  def attach_files(agency_params, current_user = nil)
     attach_file(agency_params[:logo_full_file_name], agency_params[:logo_full_base64], logo_full)
     attach_file(agency_params[:logo_icon_file_name], agency_params[:logo_icon_base64], logo_icon)
+
+    attach_terms_of_use(agency_params, current_user)
+  end
+
+  def attach_terms_of_use(agency_params, current_user = nil)
+    return unless agency_params[:terms_of_use_file_name].present? && agency_params[:terms_of_use_base64].present?
+
     attach_file(agency_params[:terms_of_use_file_name], agency_params[:terms_of_use_base64], terms_of_use)
+    stamp_terms_of_use!(current_user) if current_user
+  end
+
+  def stamp_terms_of_use!(user)
+    return unless Rails.configuration.enforce_terms_of_use
+
+    self.terms_of_use_signed = true
+    self.terms_of_use_uploaded_at = DateTime.now
+    self.terms_of_use_uploaded_by = user&.user_name
   end
 
   def logo_full_file_name
@@ -215,6 +232,12 @@ class Agency < ApplicationRecord
     return if logo_full.attached? && logo_icon.attached?
 
     self.logo_enabled = false
+  end
+
+  def terms_of_use_signed_if_enforced
+    return if !Rails.configuration.enforce_terms_of_use || terms_of_use_signed
+
+    errors.add(:base, I18n.t('errors.models.agency.must_sign_terms_of_use'))
   end
 end
 # rubocop:enable Metrics/ClassLength

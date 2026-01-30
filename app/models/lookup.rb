@@ -17,11 +17,13 @@ class Lookup < ApplicationRecord
   localize_properties :lookup_values, options_list: true
   self.unique_id_from_attribute = 'name_en'
 
+  validates :unique_id, presence: { message: 'errors.models.lookup.unique_id_present' }
+  validate :validate_unique_id_format
   validate :validate_name_in_english
   validate :validate_options_have_default_locale
-  validate :validate_values_id
+  validate :validate_values_ids_format
 
-  before_create :generate_unique_id
+  before_validation :generate_unique_id
   before_destroy :check_is_being_used
 
   class << self
@@ -146,10 +148,11 @@ class Lookup < ApplicationRecord
     errors.add(:lookup_values, I18n.t('errors.models.lookup.default_options_blank'))
   end
 
-  def validate_values_id
-    return if lookup_values_i18n.blank? || lookup_values_i18n.all? { |h| h['id'].present? }
+  def validate_values_ids_format
+    return if lookup_values_i18n.blank?
+    return if lookup_values_i18n.all? { |value| value['id'].present? && value['id'].match?(UNIQUE_ID_FORMAT) }
 
-    errors.add(:lookup_values, I18n.t('errors.models.lookup.values_ids_blank'))
+    errors.add(:lookup_values, I18n.t('errors.models.lookup.values_ids_format'))
   end
 
   def being_used?

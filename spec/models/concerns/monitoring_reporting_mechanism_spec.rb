@@ -12,7 +12,7 @@ describe MonitoringReportingMechanism, search: true do
   let(:user1) do
     primero_module = PrimeroModule.new(name: 'CP')
 
-    role = Role.new(permissions: [], modules: [primero_module])
+    role = Role.new(permissions: [], primero_modules: [primero_module])
     role.save(validate: false)
 
     group1 = UserGroup.create!(name: 'Group1')

@@ -42,28 +42,28 @@ describe Kpi::NumberOfIncidents, { search: true, skip_when_solr_disabled: true }
     Sunspot.commit
   end
 
-  with 'No incidents' do
+  describe 'No incidents' do
     it 'should return no data for each of the three months' do
       json = Kpi::NumberOfIncidents.new(from, to, [group1]).to_json
       expect(json[:dates].length).to eq(3)
     end
   end
 
-  with 'A single incident made on 2020/10/01 by someone in the users groups' do
+  describe 'A single incident made on 2020/10/01 by someone in the users groups' do
     it 'should return a single case in the second month' do
       json = Kpi::NumberOfIncidents.new(from, to, [group1]).to_json
       expect(json[:data][0][json[:dates].second]).to eq(1)
     end
   end
 
-  with 'A a user not in the groups that own the incident' do
+  describe 'A a user not in the groups that own the incident' do
     it 'should return no data' do
       json = Kpi::NumberOfIncidents.new(from, to, [group2]).to_json
       expect(json[:data][0]).to be(nil)
     end
   end
 
-  with 'A a user in 2 groups each with 1 incident' do
+  describe 'A a user in 2 groups each with 1 incident' do
     it 'should return 2 incidents' do
       json = Kpi::NumberOfIncidents.new(from, to, [group1, group3]).to_json
       expect(json[:data][0][json[:dates].second]).to eq(2)

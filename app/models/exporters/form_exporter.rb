@@ -6,7 +6,7 @@
 # rubocop:disable Metrics/ClassLength
 class Exporters::FormExporter < ValueObject
   attr_accessor :file_name, :form_params, :locale, :visible, :workbook, :header, :visible_column_index, :errors,
-                :total, :success_total
+                :total, :success_total, :forced_string_format
 
   def initialize(opts = {})
     initialize_locale(opts)
@@ -55,6 +55,7 @@ class Exporters::FormExporter < ValueObject
 
   def export
     self.workbook = WriteXLSX.new(file_name)
+    self.forced_string_format = workbook.add_format(num_format: '@')
     forms = sorted_forms
     write_key_worksheet
     export_form_summary(forms)
@@ -91,14 +92,14 @@ class Exporters::FormExporter < ValueObject
     self.total += 1
     worksheet = workbook.add_worksheet('Key')
     key_row = ['source', file_name.split('/').last]
-    worksheet.write(0, 0, key_row)
+    worksheet.write(0, 0, key_row, forced_string_format)
     self.success_total += 1
   end
 
   def export_form_summary(forms)
     self.total += 1
     worksheet = workbook.add_worksheet('Primero Forms')
-    worksheet.write(0, 0, summary_header)
+    worksheet.write(0, 0, summary_header, forced_string_format)
     forms.each_with_index { |form, i| worksheet.write(i + 1, 0, form_summary_row(form)) }
     self.success_total += 1
   end
@@ -129,8 +130,8 @@ class Exporters::FormExporter < ValueObject
 
   def export_form_to_workbook(form)
     worksheet = workbook.add_worksheet(worksheet_name(form))
-    worksheet.write(0, 0, form.unique_id)
-    worksheet.write(1, 0, header)
+    worksheet.write_string(0, 0, form.unique_id)
+    worksheet.write(1, 0, header, forced_string_format)
     export_form_fields(form, worksheet)
   end
 
@@ -172,7 +173,7 @@ class Exporters::FormExporter < ValueObject
     form.fields.order(:order).each do |field|
       next if visible && !field.visible?
 
-      worksheet.write(row_number, 0, field_row(form, field))
+      worksheet.write(row_number, 0, field_row(form, field), forced_string_format)
       row_number += 1
     end
   end
@@ -236,7 +237,7 @@ class Exporters::FormExporter < ValueObject
   end
 
   def field_options_subform(field)
-    subform = field.subform_section
+    subform = field.subform
     export_form(subform)
     options = I18n.t('exports.forms.options.subforms', subform_name: subform.name, locale:)
     return options if subform.collapsed_fields.blank?
@@ -263,12 +264,12 @@ class Exporters::FormExporter < ValueObject
     return if lookups.blank?
 
     worksheet = workbook.add_worksheet('lookups')
-    worksheet.write(0, 0, lookup_header)
+    worksheet.write(0, 0, lookup_header, forced_string_format)
 
     row_number = 1
     lookups.each do |lookup|
       lookup.lookup_values.each do |lookup_value|
-        worksheet.write(row_number, 0, lookup_row(lookup, lookup_value))
+        worksheet.write(row_number, 0, lookup_row(lookup, lookup_value), forced_string_format)
         row_number += 1
       end
     end

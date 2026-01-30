@@ -248,20 +248,20 @@ describe Role do
         )
       end
       it 'When save, reject forms from another primero-module' do
-        role = create(:role, modules: [@primero_module], form_sections: [@form_section_c])
+        role = create(:role, primero_modules: [@primero_module], form_sections: [@form_section_c])
         expect(role.form_sections).to eq([])
       end
       it "When save, eject forms from any primero-module if the role doesn't have primero-module" do
-        role = create(:role, modules: [], form_sections: [@form_section_c])
+        role = create(:role, primero_modules: [], form_sections: [@form_section_c])
         expect(role.form_sections).to eq([])
       end
       it 'When update, reject forms from another primero-module' do
-        role = create(:role, modules: [@primero_module])
+        role = create(:role, primero_modules: [@primero_module])
         role.update(form_sections: [@form_section_c])
         expect(role.form_sections).to eq([])
       end
       it "When update, reject forms from any primero-module if the role doesn't have primero-module" do
-        role = create(:role, modules: [])
+        role = create(:role, primero_modules: [])
         role.update(form_sections: [@form_section_c])
         expect(role.form_sections).to eq([])
       end
@@ -319,7 +319,7 @@ describe Role do
         is_manager: true,
         permissions: @permissions_test,
         form_sections: [@form_section_a],
-        modules: [@module_cp]
+        primero_modules: [@module_cp]
       )
     end
     let(:full_properties) do
@@ -423,7 +423,7 @@ describe Role do
       it 'should update the role' do
         expect(subject.name).to eq('CP Administrator 02')
         expect(subject.description).to eq('no updating module')
-        expect(subject.modules).to eq([@module_cp])
+        expect(subject.primero_modules).to eq([@module_cp])
       end
     end
 
@@ -592,7 +592,7 @@ describe Role do
           Permission.new(resource: Permission::USER, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
         ],
         form_sections: [@form_section1, @form_section2],
-        modules: [
+        primero_modules: [
           PrimeroModule.new(
             unique_id: 'primeromodule-cp-a', name: 'CPA', description: 'Child Protection A',
             associated_record_types: %w[case tracing_request incident],
@@ -684,7 +684,7 @@ describe Role do
           Permission.new(resource: Permission::USER, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
         ],
         form_sections: [@form_section1, @form_section2],
-        modules: [
+        primero_modules: [
           PrimeroModule.new(
             unique_id: 'primeromodule-cp-a', name: 'CPA', description: 'Child Protection A',
             associated_record_types: %w[case tracing_request incident],
@@ -707,7 +707,7 @@ describe Role do
           Permission.new(resource: Permission::USER, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
         ],
         form_sections: [@form_section1, @form_section2],
-        modules: [
+        primero_modules: [
           PrimeroModule.new(
             unique_id: 'primeromodule-cp-a', name: 'CPA', description: 'Child Protection A',
             associated_record_types: %w[case tracing_request incident],
@@ -732,7 +732,7 @@ describe Role do
           Permission.new(resource: Permission::USER, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
         ],
         form_sections: [@form_section1, @form_section2, @subform1],
-        modules: [
+        primero_modules: [
           PrimeroModule.new(
             unique_id: 'primeromodule-cp-a', name: 'CPA', description: 'Child Protection A',
             associated_record_types: %w[case tracing_request incident],
@@ -757,7 +757,7 @@ describe Role do
           Permission.new(resource: Permission::USER, actions: [Permission::READ, Permission::WRITE, Permission::CREATE])
         ],
         form_sections: [@form_section1, @form_section2, @subform1],
-        modules: [
+        primero_modules: [
           PrimeroModule.new(
             unique_id: 'primeromodule-cp-a', name: 'CPA', description: 'Child Protection A',
             associated_record_types: %w[case tracing_request incident],
@@ -816,7 +816,7 @@ describe Role do
         transfer: false,
         is_manager: true,
         permissions: permission,
-        modules: [module_mrm]
+        primero_modules: [module_mrm]
       )
     end
 
@@ -842,7 +842,7 @@ describe Role do
         name: 'permission_role_1',
         unique_id: 'permission_role_1',
         group_permission: Permission::SELF,
-        modules: [primero_module_cp],
+        primero_modules: [primero_module_cp],
         permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])],
         form_section_read_write: { form_a.unique_id => 'rw' }
       )
@@ -855,7 +855,7 @@ describe Role do
         name: 'permission_role_2',
         unique_id: 'permission_role_2',
         group_permission: Permission::SELF,
-        modules: [primero_module_cp],
+        primero_modules: [primero_module_cp],
         permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])],
         form_section_read_write: { form_a.unique_id => 'r', form_b.unique_id => 'r' }
       )
@@ -885,7 +885,7 @@ describe Role do
         name: 'permission_role_1',
         unique_id: 'permission_role_1',
         group_permission: Permission::SELF,
-        modules: [primero_module_cp],
+        primero_modules: [primero_module_cp],
         permissions: [
           Permission.new(
             resource: Permission::CASE,
@@ -903,7 +903,7 @@ describe Role do
         name: 'permission_role_2',
         unique_id: 'permission_role_2',
         group_permission: Permission::SELF,
-        modules: [primero_module_cp],
+        primero_modules: [primero_module_cp],
         permissions: [
           Permission.new(
             resource: Permission::CASE,
@@ -921,7 +921,7 @@ describe Role do
         name: 'permission_role_3',
         unique_id: 'permission_role_3',
         group_permission: Permission::SELF,
-        modules: [primero_module_cp],
+        primero_modules: [primero_module_cp],
         permissions: [
           Permission.new(
             resource: Permission::CASE,

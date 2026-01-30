@@ -63,6 +63,7 @@ import { reducer as changeLogsReducers } from "./components/change-logs";
 import { reducer as accessLogsReducers } from "./components/access-logs";
 import { reducer as codesOfConductReducer } from "./components/code-of-conduct";
 import { reducer as adminCodeOfConductReducer } from "./components/pages/admin/code-of-conduct";
+import { reducer as termsOfUseReducer } from "./components/terms-of-use";
 import { reducer as drawerReducer } from "./components/drawer";
 import { reducer as formFiltersReducer } from "./components/form-filters";
 import { reducer as insightsReducer } from "./components/insights";
@@ -129,7 +130,7 @@ const rootReducer = {
     transferApprovalReducer,
     revokeModalReducer
   ),
-  user: reduceReducers(initialState, userReducer, accountReducer, codesOfConductReducer),
+  user: reduceReducers(initialState, userReducer, accountReducer, codesOfConductReducer, termsOfUseReducer),
   ui: combineReducers({
     ...navReducer,
     ...i18nReducer,

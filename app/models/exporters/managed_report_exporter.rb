@@ -106,7 +106,9 @@ class Exporters::ManagedReportExporter < ValueObject
     @formats = {
       header: @workbook.add_format(bold: 1, size: 16, align: 'vcenter'),
       bold_blue: @workbook.add_format(bold: 1, color: COLORS[:blue]),
+      string_bold_blue: @workbook.add_format(bold: 1, color: COLORS[:blue], num_format: '@'),
       bold_blue_align: @workbook.add_format(bold: 1, color: COLORS[:blue], align: 'center'),
+      string_bold_blue_align: @workbook.add_format(bold: 1, color: COLORS[:blue], align: 'center', num_format: '@'),
       black: @workbook.add_format(color: COLORS[:black]),
       bold_black: @workbook.add_format(bold: 1, color: COLORS[:black]),
       grey_space: @workbook.add_format(bg_color: COLORS[:light_grey], top: 1, top_color: COLORS[:light_grey2]),

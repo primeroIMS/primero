@@ -3,10 +3,11 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { List, ListItem, ListItemText, ListItemSecondaryAction, Divider } from "@mui/material";
+import { List, ListItemText, ListItemSecondaryAction, Divider } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { push } from "connected-react-router";
 import qs from "qs";
+import ListItemButton from "@mui/material/ListItemButton";
 
 import { useI18n } from "../i18n";
 import ActionDialog from "../action-dialog";
@@ -78,7 +79,7 @@ function ListSavedSearches({ recordType, savedSearches, setTabIndex, setRerender
 
     return savedSearches.valueSeq().map(savedSearch => {
       return (
-        <ListItem button onClick={handleClickListItem(savedSearch.id)} key={savedSearch.id}>
+        <ListItemButton onClick={handleClickListItem(savedSearch.id)} key={savedSearch.id}>
           <ListItemText primary={savedSearch.name} />
           <ListItemSecondaryAction>
             <ActionButton
@@ -91,7 +92,7 @@ function ListSavedSearches({ recordType, savedSearches, setTabIndex, setRerender
               }}
             />
           </ListItemSecondaryAction>
-        </ListItem>
+        </ListItemButton>
       );
     });
   };

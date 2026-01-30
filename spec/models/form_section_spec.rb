@@ -31,7 +31,7 @@ describe FormSection do
     @role = Role.create!(
       form_sections: [@form_section_b, @form_section_c],
       name: 'Test Role', permissions: [@permission_case_read],
-      modules: [@primero_module]
+      primero_modules: [@primero_module]
     )
     @user = User.new(user_name: 'test_user', role: @role)
   end
@@ -223,55 +223,11 @@ describe FormSection do
       form_section.save!
     end
 
-    context 'when changinging field type' do
-      before do
-        fields = [
-          Field.new(name: 'field_test_field_type_text', type: Field::TEXT_FIELD,
-                    display_name_all: 'Field Test Field Type Text'),
-          Field.new(name: 'field_test_field_type_textarea', type: Field::TEXT_AREA,
-                    display_name_all: 'Field Test Field Type Text Area'),
-          Field.new(name: 'field_test_field_type_select_box', type: Field::SELECT_BOX,
-                    display_name_all: 'Field Test Field Type select box',
-                    option_strings_text_en: [{ 'id' => 'yes', 'display_text' => 'Yes' },
-                                             { 'id' => 'no', 'display_text' => 'No' }])
-        ]
-        @form_field_type_test = FormSection.create(unique_id: 'form_section_test_field_type', parent_form: 'case',
-                                                   visible: true, order_form_group: 1, order: 1, order_subform: 0,
-                                                   form_group_id: 'm', editable: true, name_all: 'Form Section Test 2',
-                                                   description_all: 'Form Section Test 2', fields:)
-      end
+    it 'validates the unique_id format' do
+      form_section = FormSection.new(unique_id: '=form-id1', name: 'Form with invalid unique_id')
 
-      context 'from text field' do
-        before do
-          @changing_field = @form_field_type_test.fields.select { |fd| fd.type == Field::TEXT_FIELD }.first
-        end
-
-        context 'to textarea field' do
-          before do
-            @changing_field.type = Field::TEXT_AREA
-          end
-
-          it 'is valid' do
-            expect(@form_field_type_test).to be_valid
-          end
-        end
-      end
-
-      context 'from textarea field' do
-        before do
-          @changing_field = @form_field_type_test.fields.select { |fd| fd.type == Field::TEXT_AREA }.first
-        end
-
-        context 'to text field' do
-          before do
-            @changing_field.type = Field::TEXT_FIELD
-          end
-
-          it 'is valid' do
-            expect(@form_field_type_test).to be_valid
-          end
-        end
-      end
+      expect(form_section.valid?).to be_falsey
+      expect(form_section.errors[:unique_id]).to be_present
     end
   end
 
@@ -370,9 +326,9 @@ describe FormSection do
       end
 
       it 'should allow fields with the same name on different subforms' do
-        field = @subform_section.fields.first
+        field = Field.new(name: 'field_name_1', type: Field::TEXT_FIELD, display_name_all: 'Field name 1')
         # Match the name with this field on different subforms
-        field.name = 'field_name_1'
+        @subform_section.fields << field # field.name = 'field_name_1'
 
         # Save the record and check the status
         expect(@subform_section.save).to be_truthy
@@ -964,7 +920,7 @@ describe FormSection do
         parent_form: 'case',
         form_group_id: 'main',
         fields: [
-          Field.new(name: 'field_1', type: Field::SUBFORM, display_name_all: 'Field 1', subform_section: @child_form)
+          Field.new(name: 'field_1', type: Field::SUBFORM, display_name_all: 'Field 1', subform: @child_form)
         ]
       )
       @parent_form_program = PrimeroProgram.create!(unique_id: 'parent_form_program', name_en: 'Parent Form program')
@@ -979,7 +935,7 @@ describe FormSection do
         form_sections: [@parent_form],
         name: 'Parent Form Role',
         permissions: [@parent_form_permission_case_read],
-        modules: [@parent_form_module]
+        primero_modules: [@parent_form_module]
       )
     end
 

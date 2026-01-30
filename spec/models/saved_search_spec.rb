@@ -33,7 +33,7 @@ describe SavedSearch do
             actions: [Permission::MANAGE]
           )
         ],
-        modules: [@cp]
+        primero_modules: [@cp]
       )
 
       @agency1 = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
@@ -59,6 +59,10 @@ describe SavedSearch do
           { 'record_state' => %w[list true] }
         ]
       )
+    end
+
+    after do
+      clean_data(SavedSearch, Field, FormSection, User, Role, Agency, PrimeroModule, PrimeroProgram)
     end
 
     describe 'index' do

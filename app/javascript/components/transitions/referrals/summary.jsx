@@ -12,7 +12,13 @@ import DateTransitionsSummary from "../components/date-transitions-summary";
 function Summary({ transition, classes, showMode, recordType }) {
   const i18n = useI18n();
   const transitionStatus = transition.status ? (
-    <Grid item md={3} xs={8} className={classes.status}>
+    <Grid
+      className={classes.status}
+      size={{
+        md: 3,
+        xs: 8
+      }}
+    >
       <TransitionStatus status={transition.status} />
       <TransitionActions classes={classes} transition={transition} showMode={showMode} recordType={recordType} />
     </Grid>
@@ -20,7 +26,12 @@ function Summary({ transition, classes, showMode, recordType }) {
 
   return (
     <Grid container spacing={2} alignItems="center">
-      <Grid item md={9} xs={4}>
+      <Grid
+        size={{
+          md: 9,
+          xs: 4
+        }}
+      >
         <div className={classes.wrapper}>
           <DateTransitionsSummary value={transition.created_at} />
           <div className={classes.titleHeader}>

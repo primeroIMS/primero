@@ -41,7 +41,7 @@ describe Kpi::TimeFromCaseOpenToClose, { search: true, skip_when_solr_disabled: 
     Sunspot.commit
   end
 
-  with 'No cases in the users group' do
+  describe 'No cases in the users group' do
     it 'should return 0 for all time periods' do
       json = Kpi::TimeFromCaseOpenToClose.new(from, to, [group1]).to_json
       delays = json[:data].map { |delay| delay.map(&:second) }.to_h
@@ -52,7 +52,7 @@ describe Kpi::TimeFromCaseOpenToClose, { search: true, skip_when_solr_disabled: 
     end
   end
 
-  with 'One case with almost a year between creation and closure.' do
+  describe 'One case with almost a year between creation and closure.' do
     it 'should return 1.0 in  > 6 months' do
       json = Kpi::TimeFromCaseOpenToClose.new(from, to, [group2]).to_json
       delays = json[:data].map { |delay| delay.map(&:second) }.to_h
@@ -63,7 +63,7 @@ describe Kpi::TimeFromCaseOpenToClose, { search: true, skip_when_solr_disabled: 
     end
   end
 
-  with 'Two cases one with a year and 1 with 5 months between open and closure' do
+  describe 'Two cases one with a year and 1 with 5 months between open and closure' do
     it 'should return 0.5 in > 6 months and 0.5 in 3-6 months' do
       json = Kpi::TimeFromCaseOpenToClose.new(from, to, [group2, group3]).to_json
       delays = json[:data].map { |delay| delay.map(&:second) }.to_h

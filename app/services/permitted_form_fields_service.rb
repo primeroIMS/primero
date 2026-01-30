@@ -5,6 +5,7 @@
 # This service handles computing the permitted fields for a given role,
 # based on the forms associated with that role. The query is optionally cached.
 # The similarly named PermittedFieldService uses this service to compute the full list of permitted fields
+# rubocop:disable Metrics/ClassLength
 class PermittedFormFieldsService
   attr_accessor :with_cache
 
@@ -12,7 +13,7 @@ class PermittedFormFieldsService
     Field::TEXT_FIELD, Field::TEXT_AREA, Field::RADIO_BUTTON, Field::TICK_BOX,
     Field::SELECT_BOX, Field::NUMERIC_FIELD, Field::DATE_FIELD,
     Field::AUDIO_UPLOAD_BOX, Field::PHOTO_UPLOAD_BOX, Field::DOCUMENT_UPLOAD_BOX,
-    Field::SUBFORM, Field::TALLY_FIELD, Field::CALCULATED
+    Field::SUBFORM, Field::TALLY_FIELD, Field::CALCULATED, Field::SIGNATURE_FIELD
   ].freeze
 
   # TODO: Primero is assuming that these forms exist in the configuration.
@@ -47,47 +48,62 @@ class PermittedFormFieldsService
     "permitted_form_fields_service/#{role_keys.join('/')}/#{module_unique_id}/#{record_type}/#{action_name}"
   end
 
-  def permitted_fields_from_cache(roles, record_type, module_unique_id, action_name, force = false)
+  def permitted_fields_from_cache(roles, record_type, module_unique_id, action_name, opts = {})
     cache_key = generate_cache_key(roles, record_type, module_unique_id, action_name)
 
-    Rails.cache.fetch(cache_key, expires_in: 48.hours, force:) do
-      permitted_fields_from_forms(roles, record_type, module_unique_id, action_name).to_a
+    Rails.cache.fetch(cache_key, expires_in: 48.hours, force: opts[:force]) do
+      permitted_fields_from_forms(roles, record_type, module_unique_id, action_name, opts).to_a
     end
   end
 
-  def permitted_field_names_from_cache(roles, record_type, module_unique_id, action_name, force = false)
+  def permitted_field_names_from_cache(roles, record_type, module_unique_id, action_name, opts = {})
     cache_key = generate_cache_key(roles, record_type, module_unique_id, action_name)
 
-    Rails.cache.fetch("#{cache_key}/names", expires_in: 48.hours, force:) do
-      permitted_fields_from_cache(roles, record_type, module_unique_id, action_name, force).map(&:name).uniq
+    Rails.cache.fetch("#{cache_key}/names", expires_in: 48.hours, force: opts[:force]) do
+      permitted_fields_from_cache(roles, record_type, module_unique_id, action_name, opts).map(&:name).uniq
     end
   end
 
-  def permitted_fields_from_forms(roles, record_type, module_unique_id, action_name, visible_only = false)
-    fields = fetch_filtered_fields(roles, record_type, module_unique_id, visible_only)
+  def permitted_fields_from_forms(roles, record_type, module_unique_id, action_name, opts = {})
+    fields = fetch_filtered_fields(roles, record_type, module_unique_id, opts[:visible_only])
     return fields unless writeable?(action_name)
 
     fields = filter_writeable_fields(fields, permission_level(writeable?(action_name)), record_type, module_unique_id)
     fields = filter_create_only_fields(fields, record_type, action_name)
     action_subform_fields = permitted_subforms_from_actions(roles, record_type)
-    append_action_subform_fields(fields, action_subform_fields, record_type, module_unique_id)
+    fields = append_action_subform_fields(fields, action_subform_fields, record_type, module_unique_id)
+    append_action_schema_fields(fields, record_type, opts[:action_schema_field_names])
   end
 
   alias with_cache? with_cache
 
-  def permitted_fields(roles, record_type, module_unique_id, writeable)
+  def permitted_fields(roles, record_type, module_unique_id, action_name, opts = {})
     if with_cache?
-      permitted_fields_from_cache(roles, record_type, module_unique_id, writeable)
+      permitted_fields_from_cache(roles, record_type, module_unique_id, action_name, opts)
     else
-      permitted_fields_from_forms(roles, record_type, module_unique_id, writeable).to_a
+      permitted_fields_from_forms(roles, record_type, module_unique_id, action_name, opts).to_a
     end
   end
 
-  def permitted_field_names(roles, record_type, module_unique_id, action_name)
+  def append_action_schema_fields(fields, record_type, action_schema_field_names)
+    return fields unless action_schema_field_names.present?
+
+    fields.or(
+      eagerloaded_fields.where(
+        fields: {
+          name: action_schema_field_names,
+          type: [Field::SELECT_BOX, Field::RADIO_BUTTON],
+          form_sections: { is_nested: false, parent_form: record_type }
+        }
+      )
+    )
+  end
+
+  def permitted_field_names(roles, record_type, module_unique_id, action_name, opts = {})
     if with_cache?
-      permitted_field_names_from_cache(roles, record_type, module_unique_id, action_name)
+      permitted_field_names_from_cache(roles, record_type, module_unique_id, action_name, opts)
     else
-      permitted_fields_from_forms(roles, record_type, module_unique_id, action_name).map(&:name).uniq
+      permitted_fields_from_forms(roles, record_type, module_unique_id, action_name, opts).map(&:name).uniq
     end
   end
 
@@ -109,7 +125,7 @@ class PermittedFormFieldsService
   end
 
   def eagerloaded_fields
-    Field.includes(subform: :fields).left_outer_joins(form_section: %i[roles primero_modules])
+    Field.includes(:form_section, subform: :fields).left_outer_joins(form_section: %i[roles primero_modules])
   end
 
   def fetch_filtered_fields(roles, record_type, module_unique_id, visible_only)
@@ -118,7 +134,8 @@ class PermittedFormFieldsService
         form_sections: {
           roles: { id: roles },
           visible: visible_only || nil,
-          parent_form: record_type
+          parent_form: record_type,
+          is_nested: false
         }.compact.merge(module_unique_id.present? ? { primero_modules: { unique_id: module_unique_id } } : {})
       }
     )
@@ -151,8 +168,9 @@ class PermittedFormFieldsService
       eagerloaded_fields.where(
         name: action_subform_fields,
         type: Field::SUBFORM,
-        form_sections: { primero_modules: { unique_id: module_unique_id }, parent_form: record_type }
+        form_sections: { primero_modules: { unique_id: module_unique_id }, parent_form: record_type, is_nested: false }
       )
     )
   end
 end
+# rubocop:enable Metrics/ClassLength

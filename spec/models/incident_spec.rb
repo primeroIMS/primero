@@ -302,7 +302,7 @@ describe Incident do
     end
 
     it 'should be set from user' do
-      User.stub(:find_by_user_name).with('mj').and_return(double(organization: double(unique_id: 'UNICEF')))
+      User.stub(:find_by_user_name).with('mj').and_return(double(agency: double(unique_id: 'UNICEF')))
       incident = Incident.create 'description' => 'My Test Incident Description', :created_by => 'mj'
 
       incident.created_organization.should == 'UNICEF'

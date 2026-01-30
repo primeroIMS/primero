@@ -2,8 +2,8 @@
 
 import { List, Map, fromJS } from "immutable";
 import { isEqual, isNil, omitBy, uniqBy } from "lodash";
-import createCachedSelector from "re-reselect";
-import { createSelectorCreator, defaultMemoize } from "reselect";
+import { createCachedSelector } from "re-reselect";
+import { createSelectorCreator, lruMemoize } from "reselect";
 import { memoize } from "proxy-memoize";
 
 import displayNameHelper from "../../libs/display-name-helper";
@@ -176,7 +176,7 @@ export const getApprovalsLabels = createCachedSelector(getLocale, approvalsLabel
   return labels;
 })({
   keySelector: (_state, options) => JSON.stringify(omitBy(options, isNil)),
-  selectorCreator: createSelectorCreator(defaultMemoize, isEqual)
+  selectorCreator: createSelectorCreator(lruMemoize, isEqual)
 });
 
 export const getUserGroups = state => state.getIn([NAMESPACE, "userGroups"], fromJS([]));
@@ -253,6 +253,12 @@ export const getMaximumAttachmentsPerRecord = state =>
 export const getAllowCaseCreationFromReferral = state =>
   state.getIn([NAMESPACE, "systemOptions", "allow_case_creation_from_referral"]);
 
+export const getEnforceTermsOfUse = state => state.getIn([NAMESPACE, "systemOptions", "enforce_terms_of_use"], false);
+
+export const getTermsOfUseAgencySign = state => state.getIn([NAMESPACE, "termsOfUseAgencySign"], false);
+
+export const getTermsOfUseAcknowledge = state => state.getIn([NAMESPACE, "termsOfUseAcknowledge"], false);
+
 export const getTheme = state => state.getIn([NAMESPACE, "theme"], fromJS({}));
 
 export const getShowPoweredByPrimero = state => state.getIn([NAMESPACE, "theme", "showPoweredByPrimero"], false);
@@ -280,6 +286,8 @@ export const getAppData = memoize(state => {
   const hasLoginLogo = getLoginBackground(state);
   const maximumttachmentsPerRecord = getMaximumAttachmentsPerRecord(state);
   const fieldLabels = getFieldLabels(state);
+  const enforceTermsOfUse = getEnforceTermsOfUse(state);
+  const termsOfUseAgencySign = getTermsOfUseAgencySign(state);
   const allowSelfRegistration = getAllowSelfRegistration(state);
   const registrationStreams = getRegistrationStreams(state);
   const registrationStreamsLinkLabels = getRegistrationStreamsLinkLabels(state);
@@ -301,6 +309,8 @@ export const getAppData = memoize(state => {
     hasLoginLogo,
     maximumttachmentsPerRecord,
     fieldLabels,
+    enforceTermsOfUse,
+    termsOfUseAgencySign,
     allowSelfRegistration,
     registrationStreams,
     registrationStreamsLinkLabels,

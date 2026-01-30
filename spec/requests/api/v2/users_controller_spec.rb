@@ -826,6 +826,25 @@ describe Api::V2::UsersController, type: :request do
       expect(json['data']['user_name']).to eq(@user_c.user_name)
       expect(json['data']).to have_key('code_of_conduct_accepted_on')
     end
+
+    it 'user accepts terms of use with server-side timestamp' do
+      sign_in(@user_c)
+      @agency_b.update(terms_of_use_enabled: true, terms_of_use_signed: true, terms_of_use_uploaded_at: 2.days.ago)
+
+      freeze_time do
+        params = {
+          data: {
+            accept_terms_of_use: true
+          }
+        }
+
+        patch "/api/v2/users/#{@user_c.id}", params:, as: :json
+
+        expect(response).to have_http_status(200)
+        expect(json['data']['user_name']).to eq(@user_c.user_name)
+        expect(@user_c.reload.terms_of_use_accepted_on).to eq(DateTime.now.utc)
+      end
+    end
   end
 
   describe 'POST /api/v2/users/update_bulk' do

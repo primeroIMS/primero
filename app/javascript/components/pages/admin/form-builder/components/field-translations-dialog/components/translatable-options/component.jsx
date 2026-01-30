@@ -69,14 +69,29 @@ function Component({ field, selectedLocaleId, formMode, formMethods }) {
 
   return (
     <Grid container spacing={1}>
-      <Grid item xs={12} md={12}>
+      <Grid
+        size={{
+          xs: 12,
+          md: 12
+        }}
+      >
         <h1>{formTitle}</h1>
       </Grid>
-      <Grid item xs={12} md={6}>
+      <Grid
+        size={{
+          xs: 12,
+          md: 6
+        }}
+      >
         <h1 className={css.translationHeader}>{i18n.t("fields.english_text")}</h1>
         {renderEnglishOptions()}
       </Grid>
-      <Grid item xs={12} md={6}>
+      <Grid
+        size={{
+          xs: 12,
+          md: 6
+        }}
+      >
         <h1 className={css.translationHeader}>{i18n.t("fields.translation_text")}</h1>
         {renderOptions()}
       </Grid>

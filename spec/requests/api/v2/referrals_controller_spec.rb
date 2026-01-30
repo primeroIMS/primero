@@ -22,23 +22,23 @@ describe Api::V2::ReferralsController, type: :request do
     @permission_referral_from_service = Permission.new(
       resource: Permission::CASE, actions: [Permission::REFERRAL_FROM_SERVICE]
     )
-    @role = Role.new(permissions: [@permission_refer_case], modules: [@primero_module])
+    @role = Role.new(permissions: [@permission_refer_case], primero_modules: [@primero_module])
     @role.save(validate: false)
-    @role_receive = Role.new(permissions: [@permission_receive_referral], modules: [@primero_module])
+    @role_receive = Role.new(permissions: [@permission_receive_referral], primero_modules: [@primero_module])
     @role_receive.save(validate: false)
     @role_service = Role.new(
       permissions: [@permission_referral_from_service],
-      modules: [@primero_module],
+      primero_modules: [@primero_module],
       unique_id: 'role-receive-referral'
     )
     @role_service.save(validate: false)
     @system_role = Role.new(
-      permissions: [@permission_refer_case], modules: [@primero_module], user_category: Role::CATEGORY_SYSTEM
+      permissions: [@permission_refer_case], primero_modules: [@primero_module], user_category: Role::CATEGORY_SYSTEM
     )
     @system_role.save(validate: false)
 
     @maintenance_role = Role.new(
-      permissions: [@permission_refer_case], modules: [@primero_module], user_category: Role::CATEGORY_MAINTENANCE
+      permissions: [@permission_refer_case], primero_modules: [@primero_module], user_category: Role::CATEGORY_MAINTENANCE
     )
     @maintenance_role.save(validate: false)
     @group1 = UserGroup.create!(name: 'Group1')

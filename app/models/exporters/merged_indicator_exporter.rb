@@ -18,8 +18,8 @@ class Exporters::MergedIndicatorExporter < Exporters::IndicatorExporter
 
   def write_combined_data
     build_combined_data.each do |elem|
-      worksheet.write(current_row, 0, elem.first, formats[:bold_black])
-      worksheet.write(current_row, 1, elem.last)
+      worksheet.write_string(current_row, 0, elem.first, formats[:bold_black])
+      worksheet.write_number(current_row, 1, elem.last)
       self.current_row += 1
     end
   end

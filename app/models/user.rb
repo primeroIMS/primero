@@ -29,6 +29,7 @@ class User < ApplicationRecord
     'password_reset' => { 'type' => 'boolean' }, 'role_id' => { 'type' => 'string' },
     'agency_office' => { 'type' => %w[string null] }, 'code_of_conduct_id' => { 'type' => 'integer' },
     'send_mail' => { 'type' => 'boolean' }, 'receive_webpush' => { 'type' => 'boolean' },
+    'accept_terms_of_use' => { 'type' => 'boolean' },
     'settings' => {
       'type' => %w[object null], 'properties' => {
         'notifications' => {
@@ -102,7 +103,7 @@ class User < ApplicationRecord
     .where(roles: { user_category: })
   end)
 
-  alias_attribute :organization, :agency
+  alias organization agency
   alias_attribute :name, :user_name
 
   before_validation :generate_random_password
@@ -158,7 +159,8 @@ class User < ApplicationRecord
       [
         'full_name', 'code', 'password', 'password_confirmation', 'locale', { 'services' => [] }, 'email', 'position',
         'phone', 'location', 'send_mail', 'code_of_conduct_id', 'receive_webpush',
-        { 'settings' => { 'notifications' => { 'send_mail' => {}, 'receive_webpush' => {} } } }
+        { 'settings' => { 'notifications' => { 'send_mail' => {}, 'receive_webpush' => {} } } },
+        'accept_terms_of_use'
       ]
     end
 
@@ -397,7 +399,7 @@ class User < ApplicationRecord
   end
 
   def modules
-    @modules ||= role.modules
+    @modules ||= role.primero_modules
   end
 
   def module_unique_ids
@@ -734,6 +736,12 @@ class User < ApplicationRecord
     incident_admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
   end
 
+  def agency_terms_of_use_changed?
+    return false if terms_of_use_accepted_on.nil? || agency&.terms_of_use_uploaded_at.nil?
+
+    terms_of_use_accepted_on < agency.terms_of_use_uploaded_at
+  end
+
   def self.delete_unverified_older_than(retention_days = 30)
     cutoff_date = Time.zone.now - retention_days.days
 
@@ -783,6 +791,15 @@ class User < ApplicationRecord
 
   def set_code_of_conduct_accepted_on
     self.code_of_conduct_accepted_on ||= DateTime.now if code_of_conduct_id.present?
+  end
+
+  def needs_terms_of_use_acceptance?
+    return false unless agency&.terms_of_use_enabled?
+
+    return true if terms_of_use_accepted_on.nil?
+
+    agency.terms_of_use_uploaded_at.present? &&
+      terms_of_use_accepted_on < agency.terms_of_use_uploaded_at
   end
 
   def mark_user_groups_changed(_user_group)

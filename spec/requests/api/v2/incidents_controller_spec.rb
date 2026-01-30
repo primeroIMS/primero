@@ -110,7 +110,7 @@ describe Api::V2::IncidentsController, type: :request do
           actions: [Permission::READ, Permission::CREATE, Permission::WRITE]
         )
       ],
-      modules: [@mrm_module]
+      primero_modules: [@mrm_module]
     )
     @mrm_agency = Agency.create!(name: 'Test Agency', agency_code: 'TA', services: ['Test type'])
     @mrm_user = User.create!(
@@ -274,7 +274,7 @@ describe Api::V2::IncidentsController, type: :request do
       post '/api/v2/incidents', params:, as: :json
 
       %w[data].each do |fp|
-        expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/)
+        expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/).at_least(:once)
       end
     end
     context 'when incident with violation is created ' do
@@ -399,7 +399,7 @@ describe Api::V2::IncidentsController, type: :request do
       patch "/api/v2/incidents/#{@incident1.id}", params:, as: :json
 
       %w[data].each do |fp|
-        expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/)
+        expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/).at_least(:once)
       end
     end
 

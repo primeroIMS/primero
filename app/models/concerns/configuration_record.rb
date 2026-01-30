@@ -6,6 +6,8 @@
 module ConfigurationRecord
   extend ActiveSupport::Concern
 
+  UNIQUE_ID_FORMAT = /^\w+(-\w+)*$/
+
   included do
     # Set the default unique id attributes
     self.unique_id_attribute = 'unique_id'
@@ -63,5 +65,11 @@ module ConfigurationRecord
     code = SecureRandom.uuid.to_s.last(7)
     string = string.gsub(/[^A-Za-z0-9_ ]/, '')
     "#{self.class.name}-#{string}-#{code}".parameterize.dasherize
+  end
+
+  def validate_unique_id_format
+    return if unique_id&.match?(UNIQUE_ID_FORMAT)
+
+    errors.add(:unique_id, 'errors.models.configuration_record.unique_id')
   end
 end

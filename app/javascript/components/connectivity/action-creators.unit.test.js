@@ -2,7 +2,7 @@
 
 import { fromJS } from "immutable";
 import configureStore from "redux-mock-store";
-import thunk from "redux-thunk";
+import { thunk } from "redux-thunk";
 
 import { CLOSE_SNACKBAR } from "../notifier/actions";
 

@@ -57,7 +57,7 @@ describe Api::V2::DashboardsController, type: :request do
         @permission_dashboard,
         @permission_case
       ],
-      modules: [@primero_module],
+      primero_modules: [@primero_module],
       group_permission: Permission::GROUP
     )
     @role.save(validate: false)
@@ -161,11 +161,11 @@ describe Api::V2::DashboardsController, type: :request do
       case_overview_dashboard = json['data'].find { |d| d['name'] == 'dashboard.case_overview' }
       expect(case_overview_dashboard['indicators']['total']['count']).to eq(2)
       expect(case_overview_dashboard['indicators']['total']['query']).to match_array(
-        %w[record_state=true status=open]
+        %w[record_state=true status=open module_id=primeromodule-cp]
       )
       expect(case_overview_dashboard['indicators']['new_or_updated']['count']).to eq(1)
       expect(case_overview_dashboard['indicators']['new_or_updated']['query']).to match_array(
-        %w[record_state=true status=open not_edited_by_owner=true]
+        %w[record_state=true status=open not_edited_by_owner=true module_id=primeromodule-cp]
       )
     end
 
@@ -407,11 +407,11 @@ describe Api::V2::DashboardsController, type: :request do
         @role = Role.new(permissions: [
                            @permission_refer_case,
                            @permission_dashboard_shared_from_my_team
-                         ], modules: [@primero_module], group_permission: Permission::GROUP)
+                         ], primero_modules: [@primero_module], group_permission: Permission::GROUP)
         @role2 = Role.new(permissions: [
                             @permission_refer_case,
                             @permission_dashboard_shared_with_my_team_overview
-                          ], group_permission: Permission::GROUP, modules: [@primero_module])
+                          ], group_permission: Permission::GROUP, primero_modules: [@primero_module])
         @role.save(validate: false)
         @group_a = UserGroup.create!(name: 'Group_a')
         @user1 = User.new(user_name: 'user1', role: @role, user_groups: [@group_a])
@@ -476,13 +476,13 @@ describe Api::V2::DashboardsController, type: :request do
         expect(shared_with_me_dashboard['shared_with_me_new_referrals']['count']).to eq(1)
         expect(shared_with_me_dashboard['shared_with_me_transfers_awaiting_acceptance']['count']).to eq(2)
         expect(shared_with_me_dashboard['shared_with_me_total_referrals']['query']).to match_array(
-          %w[referred_users=user2 record_state=true status=open]
+          %w[referred_users=user2 record_state=true status=open module_id=primeromodule-cp]
         )
         expect(shared_with_me_dashboard['shared_with_me_new_referrals']['query']).to match_array(
-          %w[referred_users=user2 not[last_updated_by]=user2 record_state=true status=open]
+          %w[referred_users=user2 not[last_updated_by]=user2 record_state=true status=open module_id=primeromodule-cp]
         )
         expect(shared_with_me_dashboard['shared_with_me_transfers_awaiting_acceptance']['query']).to match_array(
-          %w[transferred_to_users=user2 record_state=true status=open]
+          %w[transferred_to_users=user2 record_state=true status=open module_id=primeromodule-cp]
         )
       end
 
@@ -586,7 +586,7 @@ describe Api::V2::DashboardsController, type: :request do
         )
         @role = Role.new(
           permissions: [@permission_violation_dashboards],
-          modules: [@primero_module],
+          primero_modules: [@primero_module],
           group_permission: Permission::GROUP
         )
         @role.save(validate: false)

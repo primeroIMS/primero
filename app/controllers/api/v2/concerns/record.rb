@@ -74,12 +74,15 @@ module Api::V2::Concerns::Record
   def json_validation_service
     return @json_validation_service if @json_validation_service
 
+    action_fields_schema = @permitted_field_service.permitted_fields_schema(update?)
     permitted_fields = @permitted_form_fields_service.permitted_fields(
-      authorized_roles, model_class.parent_form, module_unique_id, action_name
+      authorized_roles, model_class.parent_form, module_unique_id, action_name,
+      { action_schema_field_names: action_fields_schema.keys }
     )
-    action_fields = @permitted_field_service.permitted_fields_schema(update?)
-    @json_validation_service = RecordJsonValidatorService.new(fields: permitted_fields,
-                                                              schema_supplement: action_fields)
+    permitted_field_values = @permitted_field_values_service.permitted_field_values(permitted_fields)
+    @json_validation_service = RecordJsonValidatorService.new(
+      fields: permitted_fields, schema_supplement: action_fields_schema, field_values: permitted_field_values
+    )
   end
 
   def validate_json!
@@ -136,6 +139,7 @@ module Api::V2::Concerns::Record
   def instantiate_app_services
     @record_data_service = RecordDataService.new
     @permitted_form_fields_service = PermittedFormFieldsService.instance
+    @permitted_field_values_service = PermittedFieldValuesService.instance
     @permitted_field_service = PermittedFieldService.new(
       current_user,
       model_class,
