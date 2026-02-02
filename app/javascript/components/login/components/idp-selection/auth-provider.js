@@ -118,7 +118,13 @@ export const signOut = () => {
         }
       });
     } else {
-      msalApp.logout();
+      msalApp.logoutRedirect({
+        account: msalApp.getActiveAccount(),
+        onRedirectNavigate: () => {
+          // Return false to stop navigation after local logout
+          return false;
+        }
+      });
     }
     msalApp = null;
     forceStandardOIDC = false;
