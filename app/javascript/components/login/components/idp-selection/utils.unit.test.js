@@ -40,7 +40,8 @@ describe("auth-utils", () => {
   it("returns login request", () => {
     const expected = {
       scopes: ["123"],
-      extraQueryParameters: { domain_hint: "domain" }
+      extraQueryParameters: { domain_hint: "domain" },
+      prompt: "select_account"
     };
 
     expect(getLoginRequest(["123"], "domain")).toEqual(expected);
