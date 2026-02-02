@@ -11,6 +11,7 @@ describe Api::V2::UnusedFieldsReportController, type: :request do
     it 'returns the current Unused Fields Report with status 200' do
       system_settings = SystemSettings.new
       system_settings.unused_fields_report_file.attach(io: StringIO.new, filename: 'unused_fields_report')
+      system_settings.save!
 
       SystemSettings.stub(:current).and_return(system_settings)
 
