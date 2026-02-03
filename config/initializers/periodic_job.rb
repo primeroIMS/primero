@@ -7,6 +7,9 @@
 return unless Rails.env.production?
 
 require "#{Rails.root}/app/services/health_check_service.rb"
+require "#{Rails.root}/app/jobs/periodic_job.rb"
+Dir["#{Rails.root}/app/schedules/*.rb"].each(&method(:require))
+
 return unless HealthCheckService.database_accessible? && ActiveRecord::Base.connection.table_exists?(:delayed_jobs)
 
 Rails.logger.info('Setting up PeriodicJobs')
