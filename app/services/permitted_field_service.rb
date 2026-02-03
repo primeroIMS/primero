@@ -179,6 +179,14 @@ class PermittedFieldService
     @permitted_field_names
   end
 
+  # TODO: The method is essentially duplicating some logic from permitted_field_names. DRY!
+  def permitted_fields_for_webhook(module_unique_id = nil)
+    @permitted_field_names = permitted_form_field_service.permitted_field_names(
+      [user.role], model_class.parent_form, module_unique_id, false
+    )
+    @permitted_field_names += permitted_core_fields(false)
+  end
+
   def permitted_identified_fields(writeable = false)
     return [] if writeable
 
