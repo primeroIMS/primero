@@ -229,6 +229,12 @@ describe FormSection do
       expect(form_section.valid?).to be_falsey
       expect(form_section.errors[:unique_id]).to be_present
     end
+
+    it 'allow plus sign in unique_id' do
+      form_section = FormSection.new(unique_id: 'form-id1+', name: 'Form+')
+
+      expect(form_section.valid?).to eq(true)
+    end
   end
 
   describe 'Create FormSection Or Add Fields' do
