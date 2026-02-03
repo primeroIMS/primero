@@ -58,7 +58,8 @@ export const setMsalApp = async (msalConfig, historyObj) => {
 export const getLoginRequest = (identityScope, domainHint) => {
   return {
     scopes: identityScope,
-    extraQueryParameters: { domain_hint: domainHint }
+    extraQueryParameters: { domain_hint: domainHint },
+    prompt: "select_account"
   };
 };
 
