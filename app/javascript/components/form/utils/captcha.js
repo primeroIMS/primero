@@ -51,7 +51,7 @@ function useCaptcha({ formInstance, enabled = false, ref }) {
         configuration?.[captcha?.get("provider")]?.cleanup(widgetId);
       };
     })();
-  }, []);
+  }, [captcha?.size]);
 }
 
 export default useCaptcha;
