@@ -1938,6 +1938,7 @@ en:
       moughataa: 'Moughataa'
       sub_division: 'Sub-division'
       sub-prefecture: 'Sub-Prefecture'
+      zip_code: Zip Code
     label: Location
     name: Name
     code: Code
