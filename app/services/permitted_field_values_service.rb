@@ -30,7 +30,7 @@ class PermittedFieldValuesService
   end
 
   def values_for_field(field, lookups)
-    return [] unless field.lookup? || field.option_strings_text.present?
+    return [] unless field.options?
 
     field.options_list(locale: I18n.locale, lookups:).map { |option| option['id'] }
   end

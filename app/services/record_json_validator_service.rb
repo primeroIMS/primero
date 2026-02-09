@@ -62,22 +62,22 @@ class RecordJsonValidatorService < JsonValidatorService
   # rubocop:enable Metrics/BlockLength
 
   def select_field_schema(field, values)
-    enum_hash = field.lookup? ? { 'enum' => values } : {}
-
-    # String
-    return { 'type' => %w[string null] }.merge(enum_hash) unless field.multi_select
+    enum_hash = field.options? ? { 'enum' => values } : {}
 
     # Array of Strings
-    { 'type' => %w[array null], 'items' => { 'type' => 'string' }.merge(enum_hash) }
+    return { 'type' => %w[array null], 'items' => { 'type' => 'string' }.merge(enum_hash) } if field.multi_select
+
+    # Allow null values for single selects
+    { 'anyOf' => [{ 'type' => %w[string] }.merge(enum_hash), { 'type' => %w[null] }] }
   end
 
   def radio_field_schema(field, values)
-    enum_hash = field.lookup? ? { 'enum' => values } : {}
-    schemas = [{ 'type' => %w[string null] }.merge(enum_hash)]
+    enum_hash = field.options? ? { 'enum' => values } : {}
+    schemas = [{ 'type' => %w[null] }, { 'type' => %w[string] }.merge(enum_hash)]
 
     # Permit booleans only if no other values are present
-    booleans = field.lookup? && (values - %w[true false]).blank?
-    schemas << { 'type' => %w[boolean null] } if booleans
+    booleans = field.options? && (values - %w[true false]).blank?
+    schemas << { 'type' => %w[boolean] } if booleans
 
     { 'anyOf' => schemas }
   end

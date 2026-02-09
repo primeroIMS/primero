@@ -5,15 +5,47 @@
 require 'rails_helper'
 
 describe RecordJsonValidatorService do
+  before do
+    clean_data(Lookup)
+  end
+
+  let!(:lookup_sex) do
+    Lookup.create(
+      unique_id: 'lookup-sex',
+      name_i18n: { 'en' => 'Sex' },
+      lookup_values_i18n: [
+        { id: 'male', display_text: { 'en' => 'Male' } },
+        { id: 'female', display_text: { 'en' => 'Female' } }
+      ]
+    )
+  end
+
   let(:fields) do
     [
       Field.new(name: 'name', type: Field::TEXT_FIELD),
       Field.new(name: 'age', type: Field::NUMERIC_FIELD),
-      Field.new(name: 'sex', type: Field::SELECT_BOX),
+      Field.new(name: 'sex', type: Field::SELECT_BOX, option_strings_source: 'lookup lookup-sex'),
+      Field.new(name: 'radio_sex', type: Field::RADIO_BUTTON, option_strings_source: 'lookup lookup-sex'),
       Field.new(name: 'national_id_no', type: Field::TEXT_FIELD),
       Field.new(name: 'consent_for_services', type: Field::TICK_BOX),
+      Field.new(
+        name: 'consent',
+        type: Field::RADIO_BUTTON,
+        option_strings_text_i18n: [
+          { 'id' => 'true', display_text: { 'en' => 'Yes' } },
+          { 'id' => 'false', display_text: { 'en' => 'No' } }
+        ]
+      ),
       Field.new(name: 'current_address', type: Field::TEXT_AREA),
-      Field.new(name: 'protection_concerns', type: Field::SELECT_BOX, multi_select: true),
+      Field.new(
+        name: 'protection_concerns',
+        type: Field::SELECT_BOX,
+        multi_select: true,
+        option_strings_text_i18n: [
+          { 'id' => 'unaccompanied', display_text: { 'en' => 'Unaccompanied' } },
+          { 'id' => 'separated', display_text: { 'en' => 'Separated' } }
+        ]
+      ),
       Field.new(name: 'registration_date', type: Field::DATE_FIELD),
       Field.new(name: 'created_on', type: Field::DATE_FIELD, date_include_time: true),
       Field.new(name: 'separator1', type: Field::SEPARATOR),
@@ -42,7 +74,12 @@ describe RecordJsonValidatorService do
     ]
   end
 
-  let(:service) { RecordJsonValidatorService.new(fields:) }
+  let(:service) do
+    RecordJsonValidatorService.new(
+      fields:,
+      field_values: PermittedFieldValuesService.new.permitted_field_values(fields)
+    )
+  end
 
   describe '.valid?' do
     describe 'TEXT_FIELD' do
@@ -177,6 +214,28 @@ describe RecordJsonValidatorService do
         it 'rejects text' do
           expect(service.valid?('protection_concerns' => 'unaccompanied')).to be_falsey
         end
+      end
+    end
+
+    describe 'RADIO_BUTTON' do
+      it 'accepts text' do
+        expect(service.valid?('radio_sex' => 'female')).to be_truthy
+      end
+
+      it 'accepts nil values' do
+        expect(service.valid?('radio_sex' => nil)).to be_truthy
+      end
+
+      it 'rejects arrays' do
+        expect(service.valid?('radio_sex' => ['female'])).to be_falsey
+      end
+
+      it 'accepts booleans when options are true and false' do
+        expect(service.valid?('consent' => true)).to be_truthy
+      end
+
+      it 'accepts text when options are true and false' do
+        expect(service.valid?('consent' => 'true')).to be_truthy
       end
     end
 

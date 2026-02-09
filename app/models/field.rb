@@ -224,6 +224,10 @@ class Field < ApplicationRecord
     option_strings_source == 'Agency'
   end
 
+  def options?
+    lookup? || option_strings_text.present?
+  end
+
   def lookup?
     return false unless option_strings_source.present?
 
