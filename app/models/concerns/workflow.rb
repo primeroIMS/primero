@@ -23,7 +23,7 @@ module Workflow
     store_accessor :data, :workflow
     alias_method :workflow_status, :workflow
 
-    before_create :set_workflow_new
+    before_save :set_workflow_new, if: :new_record?
     before_save :calculate_workflow
   end
 

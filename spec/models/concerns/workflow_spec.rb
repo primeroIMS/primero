@@ -136,6 +136,13 @@ describe Workflow do
       it 'workflow status should be NEW' do
         expect(@case1.workflow).to eq(Workflow::WORKFLOW_NEW)
       end
+
+      it 'populates srch_workflow on create' do
+        user = User.new(user_name: 'test_user')
+        record = Child.new_with_user(user, name: 'Test Record')
+        record.save!
+        expect(record.srch_workflow).to eq(Workflow::WORKFLOW_NEW)
+      end
     end
 
     context 'when case is open' do
