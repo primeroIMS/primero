@@ -71,7 +71,7 @@ describe BulkExport, { search: true } do
         custom_export_params: { field_names: ['age'] },
         owned_by: @user.user_name,
         started_on: Time.now.utc,
-        filters: {'status' => 'open'}
+        filters: { 'status' => 'open' }
       )
     end
 
@@ -92,8 +92,48 @@ describe BulkExport, { search: true } do
       expect(export_spreadsheet.column(1)).to contain_exactly('ID', child_before.short_id)
       expect(export_spreadsheet.row(2)).to eq([child_before.short_id, child_before.age])
     end
-  end
 
+    describe 'when user send created_at filter' do
+      let(:start_date) { Time.utc(2025, 12, 1) }
+      let(:end_date) { Time.utc(2026, 1, 20) }
+      let!(:old_case) do
+        Child.create!(data: { status: 'open', age: 10, owned_by: @user.user_name, created_at: start_date - 10.days })
+      end
+      let!(:target_case) do
+        Child.create!(data: { status: 'open', age: 5, owned_by: @user.user_name, created_at: start_date + 10.days })
+      end
+      let!(:future_case) do
+        Child.create!(data: { status: 'open', age: 8, owned_by: @user.user_name, created_at: end_date + 10.days })
+      end
+      let!(:xlsx_export) do
+        BulkExport.new(
+          format: Exporters::SelectedFieldsExcelExporter.id,
+          record_type: 'case',
+          custom_export_params: { field_names: ['age'] },
+          owned_by: @user.user_name,
+          started_on: Time.now.utc,
+          filters: {
+            'created_at' => {
+              'from' => start_date,
+              'to' => end_date
+            }
+          }
+        )
+      end
+
+      it 'respects user provided created_at filter' do
+        xlsx_export.export('XXX')
+        data = xlsx_export.exporter.buffer.string
+        book = Roo::Spreadsheet.open(StringIO.new(data), extension: :xlsx)
+        sheet = book.sheet(book.sheets.first)
+        first_column = sheet.column(1)
+
+        expect(first_column).to include(target_case.short_id)
+        expect(first_column).not_to include(old_case.short_id)
+        expect(first_column).not_to include(future_case.short_id)
+      end
+    end
+  end
 
   describe '#search_records' do
     let(:bulk_export) { BulkExport.new(record_type: 'case') }
