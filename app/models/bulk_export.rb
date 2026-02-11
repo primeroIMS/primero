@@ -66,7 +66,7 @@ class BulkExport < ApplicationRecord
     return @search_filters if @search_filters.present?
 
     service = SearchFilterService.new
-    @search_filters = service.build_filters(filters.merge(created_at_filter))
+    @search_filters = service.build_filters(created_at_filter.deep_merge(filters))
   end
 
   def record_query_scope
