@@ -106,6 +106,7 @@ FROM ${BUILD_REGISTRY}ruby:${RUBY_VERSION}-alpine3.21
 
 ENV BUILD_PACKAGES=bash
 ENV RUNTIME_PACKAGES="libpq gettext libintl imagemagick libsodium-dev p7zip tini curl"
+ENV SECURITY_UPDATED_PACKAGES="openssl=3.3.6-r0 yaml=0.2.5-r2 busybox=1.37.0-r14"
 
 ARG APP_UID
 ARG APP_GID
@@ -119,6 +120,7 @@ ENV RAILS_ENV=production
 # Install our packages
 RUN set -euox pipefail \
         ; apk update \
+        ; apk add --no-cache $SECURITY_UPDATED_PACKAGES \
         ; apk add --no-cache $BUILD_PACKAGES \
         ; apk add --no-cache $RUNTIME_PACKAGES \
         ; rm -rf /var/cache/apk/*
