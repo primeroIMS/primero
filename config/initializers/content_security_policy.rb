@@ -35,6 +35,7 @@ Rails.application.config.content_security_policy do |policy|
   policy.style_src(*style_sources)
   policy.child_src(*child_sources)
   policy.frame_src(*child_sources)
+  policy.worker_src(*child_sources)
   policy.base_uri(:self)
   policy.frame_ancestors(:self)
 
