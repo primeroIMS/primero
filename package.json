@@ -106,7 +106,7 @@
     "formik": "^2.4.6",
     "fuzzysort": "^2.0.4",
     "history": "^4.9.0",
-    "html2pdf-dom-to-image-more": "0.9.8",
+    "html2pdf-dom-to-image-more": "0.9.6",
     "i18n-js": "^3.5.1",
     "idb": "^4.0.4",
     "identity-obj-proxy": "^3.0.0",
