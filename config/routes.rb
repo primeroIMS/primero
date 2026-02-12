@@ -136,7 +136,9 @@ Rails.application.routes.draw do
           post :update_bulk, to: 'locations#update_bulk'
         end
       end
-      resources :bulk_exports, as: :exports, path: :exports, only: %i[index show create destroy]
+      resources :bulk_exports, as: :exports, path: :exports, only: %i[index show create destroy] do
+        get :export_file, to: 'bulk_exports#export_file'
+      end
       get 'alerts', to: 'alerts#bulk_index'
       # TODO: Make usage_reports a resourceful route if/when they start getting saved
       get 'usage_reports/current', to: 'usage_reports#show'
