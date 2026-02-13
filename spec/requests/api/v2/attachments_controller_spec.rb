@@ -42,7 +42,7 @@ describe Api::V2::AttachmentsController, type: :request do
 
     context 'when user is authenticated' do
       before :each do
-        login_for_test({ permitted_field_names: [@field2.name] }) 
+        login_for_test({ permitted_field_names: [@field2.name] })
       end
 
       it 'returns the attached file' do
@@ -56,6 +56,16 @@ describe Api::V2::AttachmentsController, type: :request do
         get "/api/v2/cases/#{@case.id}/attachments/#{attachment.id}"
 
         expect(response.content_type).to eq(attachment.file.content_type)
+      end
+
+      it 'return nil when the attached file blob is missing' do
+        allow(attachment.file).to receive(:download).and_raise(ActiveStorage::FileNotFoundError)
+        allow(Attachment).to receive(:find).with(attachment.id.to_s).and_return(attachment)
+
+        get "/api/v2/cases/#{@case.id}/attachments/#{attachment.id}"
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to eq('')
       end
 
       it 'sets inline disposition' do

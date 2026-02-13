@@ -10,12 +10,8 @@ class Api::V2::AttachmentsController < Api::V2::RecordResourceController
 
   def show
     authorize! :read, @attachment
-    send_data(
-      @attachment.file.download,
-      filename: @attachment.file.filename.to_s,
-      type: @attachment.file.content_type,
-      disposition: 'inline'
-    )
+
+    send_file
   end
 
   def create
@@ -45,6 +41,17 @@ class Api::V2::AttachmentsController < Api::V2::RecordResourceController
   end
 
   private
+
+  def send_file
+    send_data(
+      @attachment.file.download,
+      filename: @attachment.file.filename.to_s,
+      type: @attachment.file.content_type,
+      disposition: 'inline'
+    )
+  rescue ActiveStorage::FileNotFoundError
+    nil
+  end
 
   def attachment_params
     return @attachment_params if @attachment_params
