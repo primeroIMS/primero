@@ -210,6 +210,24 @@ describe Api::V2::BulkExportsController, type: :request do
     end
   end
 
+  describe 'GET /api/v2/exports/:export_id/export_file' do
+    it 'allows downloading the export file' do
+      login_for_test(permissions: [@export_permission])
+      @export1.export_file.attach(io: StringIO.new('file content'), filename: 'export1.json',
+                                  content_type: 'application/json')
+      get "/api/v2/exports/#{@export1.id}/export_file"
+
+      expect(response).to have_http_status(200)
+    end
+
+    it 'returns 404 if export file is not attached' do
+      login_for_test(permissions: [@export_permission])
+      get "/api/v2/exports/#{@export1.id}/export_file"
+
+      expect(response).to have_http_status(404)
+    end
+  end
+
   describe 'DELETE /api/v2/exports/:id' do
     it 'archives an existing bulk export' do
       login_for_test(permissions: [@export_permission])

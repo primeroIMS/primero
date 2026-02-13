@@ -4,4 +4,4 @@
 
 json.merge! bulk_export.attributes.except(%w[format password_ciphertext file_name])
                        .merge('export_format' => bulk_export.format).compact
-json.export_file api_v2_export_export_file_path(bulk_export)
+json.export_file api_v2_export_export_file_path(bulk_export) if bulk_export.export_file.attached?

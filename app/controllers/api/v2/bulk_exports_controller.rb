@@ -23,8 +23,10 @@ class Api::V2::BulkExportsController < ApplicationApiController
 
   def export_file
     @export = BulkExport.find(params[:export_id])
-
     authorize! :read, @export
+
+    raise Errors::AttachmentNotFound unless @export.export_file.attached?
+
     send_data(
       @export.export_file.download,
       filename: @export.export_file.filename.to_s,
