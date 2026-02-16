@@ -5,7 +5,8 @@ html2pdf.js converts any webpage or element into a printable PDF entirely client
 ## Table of contents
 
 - [Getting started](#getting-started)
-  - [HTML](#html)
+  - [CDN](#cdn)
+  - [Raw JS](#raw-js)
   - [NPM](#npm)
   - [Bower](#bower)
   - [Console](#console)
@@ -30,15 +31,25 @@ html2pdf.js converts any webpage or element into a printable PDF entirely client
 
 ## Getting started
 
-#### HTML
+#### CDN
 
-The simplest way to use html2pdf.js is to download `dist/html2pdf.bundle.min.js` to your project folder and include it in your HTML with:
+The simplest way to use html2pdf.js is to include it as a script in your HTML by using cdnjs:
+
+```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+```
+
+Using a CDN URL will lock you to a specific version, which should ensure stability and give you control over when to change versions. cdnjs gives you access to [all past versions of html2pdf.js](https://cdnjs.com/libraries/html2pdf.js).
+
+*Note: [Read about dependencies](#dependencies) for more information about using the unbundled version `dist/html2canvas.min.js`.*
+
+#### Raw JS
+
+ You may also download `dist/html2pdf.bundle.min.js` directly to your project folder and include it in your HTML with:
 
 ```html
 <script src="html2pdf.bundle.min.js"></script>
 ```
-
-*Note: [Click here](#dependencies) for more information about using the unbundled version `dist/html2canvas.min.js`.*
 
 #### NPM
 
@@ -63,7 +74,7 @@ If you're on a webpage that you can't modify directly and wish to use html2pdf.j
         script.src = url;
         document.head.appendChild(script);
     }
-    addScript('https://raw.githack.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js');
+    addScript('https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js');
     ```
 3. You may now execute html2pdf.js commands directly from the console. To capture a default PDF of the entire page, use `html2pdf(document.body)`.
 
@@ -218,18 +229,20 @@ The Worker object returned by `html2pdf()` has a built-in progress-tracking mech
 
 ## Dependencies
 
-html2pdf.js depends on the external packages [html2canvas](https://github.com/niklasvh/html2canvas), [jsPDF](https://github.com/MrRio/jsPDF), and [es6-promise](https://github.com/stefanpenner/es6-promise). These dependencies are automatically loaded when using NPM or the bundled package.
+html2pdf.js depends on the external packages [html2canvas](https://github.com/niklasvh/html2canvas) and [jsPDF](https://github.com/MrRio/jsPDF). These dependencies are automatically loaded when using NPM or the bundled package.
 
 If using the unbundled `dist/html2pdf.min.js` (or its un-minified version), you must also include each dependency. Order is important, otherwise html2canvas will be overridden by jsPDF's own internal implementation:
 
 ```html
-<script src="es6-promise.auto.min.js"></script>
 <script src="jspdf.min.js"></script>
 <script src="html2canvas.min.js"></script>
 <script src="html2pdf.min.js"></script>
 ```
 
 ## Contributing
+
+> [!TIP]
+> Working on html2pdf.js locally? Use `npm start` to host local demos on http://localhost:8000.
 
 ### Issues
 
@@ -256,7 +269,6 @@ When submitting an issue, please provide reproducible code that highlights the i
     - Related project: [Feature: New renderer](https://github.com/eKoopmans/html2pdf.js/projects/4)
 
 5. **Promise clashes:** html2pdf.js relies on specific Promise behaviour, and can fail when used with custom Promise libraries.
-    - In the next release, Promises will be sandboxed in html2pdf.js to remove this issue.
     - Related project: [Bugfix: Sandboxed promises](https://github.com/eKoopmans/html2pdf.js/projects/11)
 
 6. **Maximum size:** HTML5 canvases have a [maximum height/width](https://stackoverflow.com/a/11585939/4080966). Anything larger will fail to render.
@@ -266,11 +278,11 @@ When submitting an issue, please provide reproducible code that highlights the i
 
 ### Tests
 
-html2pdf.js is currently sorely lacking in unit tests. Any contributions or suggestions of automated (or manual) tests are welcome. This is high on the to-do list for this project.
+html2pdf.js performs automatic vdiff (visual difference) comparisons on PDFs generated from a collection of sample HTML files. Contributions of additional test cases are more than welcome - see `test/vdiff/html2pdf.vdiff.js` and `test/reference/*.html` for examples. Some changes may require adding more options to the test harness, `test/util/test-harness.js`.
 
 ### Pull requests
 
-If you want to create a new feature or bugfix, please feel free to fork and submit a pull request! Create a fork, branch off of `master`, and make changes to the `/src/` files (rather than directly to `/dist/`). You can test your changes by rebuilding with `npm run build`.
+If you want to create a new feature or bugfix, please feel free to fork and submit a pull request! Create a fork, branch off of `main`, and make changes to the `/src/` files (rather than directly to `/dist/`). You can test your changes by rebuilding with `npm run build`.
 
 ## Credits
 

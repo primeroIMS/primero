@@ -1,8 +1,7 @@
-import jsPDF from 'jspdf';
-import { objType, createElement, cloneNode, toPx } from './utils.js';
-import es6promise from 'es6-promise';
-
-var Promise = es6promise.Promise;
+import { jsPDF } from 'jspdf/dist/jspdf.es.min.js';
+import html2canvas from 'html2canvas';
+import { deepCloneBasic } from './snapdom/clone.js';
+import { objType, createElement, toPx } from './utils.js';
 
 /* ----- CONSTRUCTOR ----- */
 
@@ -67,7 +66,7 @@ Worker.prototype.from = function from(src, type) {
   function getType(src) {
     switch (objType(src)) {
       case 'string':  return 'string';
-      case 'element': return src.nodeName.toLowerCase === 'canvas' ? 'canvas' : 'element';
+      case 'element': return src.nodeName.toLowerCase && src.nodeName.toLowerCase() === 'canvas' ? 'canvas' : 'element';
       default:        return 'unknown';
     }
   }
@@ -124,15 +123,15 @@ Worker.prototype.toContainer = function toContainer() {
     overlayCSS.opacity = 0;
 
     // Create and attach the elements.
-    var source = cloneNode(this.prop.src, this.opt.renderer.options.javascriptEnabled);
-
-    source.style.display = 'block';
-
+    var source = deepCloneBasic(this.prop.src);
     this.prop.overlay = createElement('div',   { className: 'html2pdf__overlay', style: overlayCSS });
     this.prop.container = createElement('div', { className: 'html2pdf__container', style: containerCSS });
     this.prop.container.appendChild(source);
     this.prop.overlay.appendChild(this.prop.container);
     document.body.appendChild(this.prop.overlay);
+
+    // Delay to better ensure content is fully cloned and rendering before capturing.
+    return new Promise(resolve => setTimeout(resolve, 10));
   });
 };
 
@@ -176,7 +175,8 @@ Worker.prototype.toImg = function toImg() {
 Worker.prototype.toPdf = function toPdf() {
   // Set up function prerequisites.
   var prereqs = [
-    function checkCanvas() { return this.prop.canvas || this.toCanvas(); }
+    function checkCanvas() { return this.prop.canvas || this.toCanvas(); },
+    function checkPageSize() { return this.prop.pageSize || this.setPageSize(); }
   ];
 
   // Fulfill prereqs then create the image.
@@ -307,22 +307,22 @@ Worker.prototype.set = function set(opt) {
 
   // Build an array of setter functions to queue.
   var fns = Object.keys(opt || {}).map(function (key) {
-      if (key in Worker.template.prop) {
-        // Set pre-defined properties.
-        return function set_prop() { this.prop[key] = opt[key]; }
-      } else {
-        switch (key) {
-          case 'margin':
-            return this.setMargin.bind(this, opt.margin);
-          case 'jsPDF':
-            return function set_jsPDF() { this.opt.jsPDF = opt.jsPDF; return this.setPageSize(); }
-          case 'pageSize':
-            return this.setPageSize.bind(this, opt.pageSize);
-          default:
-            // Set any other properties in opt.
-            return function set_opt() { this.opt[key] = opt[key] };
+    switch (key) {
+      case 'margin':
+        return this.setMargin.bind(this, opt.margin);
+      case 'jsPDF':
+        return function set_jsPDF() { this.opt.jsPDF = opt.jsPDF; return this.setPageSize(); }
+      case 'pageSize':
+        return this.setPageSize.bind(this, opt.pageSize);
+      default:
+        if (key in Worker.template.prop) {
+          // Set pre-defined properties in prop.
+          return function set_prop() { this.prop[key] = opt[key]; }
+        } else {
+          // Set any other properties in opt.
+          return function set_opt() { this.opt[key] = opt[key] };
         }
-      }
+    }
   }, this);
 
   // Set properties within the promise chain.

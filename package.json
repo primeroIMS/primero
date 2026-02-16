@@ -1,15 +1,17 @@
 {
   "name": "html2pdf-dom-to-image-more",
-  "version": "0.9.7",
+  "version": "0.9.8",
   "description": "Client-side HTML-to-PDF rendering using pure JS",
   "main": "dist/html2pdf.js",
+  "types": "./type.d.ts",
   "files": [
     "/src",
-    "/dist"
+    "/dist",
+    "./type.d.ts"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Quoin/html2pdf.js.git"
+   "repository": {
+     "type": "git",
+     "url": "git+https://github.com/Quoin/html2pdf.js.git"
   },
   "keywords": [
     "javascript",
@@ -19,42 +21,49 @@
     "canvas"
   ],
   "author": {
-    "name": "primeroIMS",
-    "email": "primero.dev@quoininc.com"
+    "name": "Erik Koopmans",
+    "email": "erik@erik-koopmans.com",
+    "url": "https://www.erik-koopmans.com"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Quoin/html2pdf.js/issues"
+    "url": "https://github.com/eKoopmans/html2pdf.js/issues"
   },
+  "homepage": "https://ekoopmans.github.io/html2pdf.js/",
   "dependencies": {
-    "dom-to-image-more": "^3.5.0",
-    "es6-promise": "^4.2.8",
+    "dompurify": "^3.3.1",
+    "html2canvas": "^1.0.0",
     "jspdf": "^4.1.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.8",
-    "@babel/preset-env": "^7.16.11",
-    "babel-loader": "^8.2.4",
-    "commander": "^9.1.0",
+    "@babel/core": "^7.14.8",
+    "@babel/preset-env": "^7.14.8",
+    "@brightspace-ui/core": "^3.156.4",
+    "@brightspace-ui/testing": "^1.31.2",
+    "@web/dev-server": "^0.4.6",
+    "babel-loader": "^10.0.0",
+    "bootstrap": "^5.3.8",
     "core-js": "^3.16.0",
-    "minimist": "^1.2.0",
-    "rimraf": "^2.6.2",
-    "webpack": "^5.70.0",
-    "webpack-bundle-analyzer": "^4.5.0",
-    "webpack-cli": "^4.9.2"
+    "json5": "^2.2.3",
+    "lit": "^3.3.1",
+    "pdfjs-dist": "^5.3.93",
+    "rimraf": "^6.0.1",
+    "sinon": "^21.0.0",
+    "vue": "^2.7.16",
+    "webpack": "^5.101.0",
+    "webpack-bundle-analyzer": "^4.4.2",
+    "webpack-cli": "^6.0.1"
   },
   "scripts": {
     "build": "npm run clean && webpack --env=prod",
     "build:analyze": "npm run clean && webpack --env=prod --env=analyzer",
     "clean": "rimraf dist/*",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "release": "node ./build-scripts.js release",
-    "publish-gh": "node ./build-scripts.js publish-gh",
-    "prebuild": "npm install && npm run clean"
-  },
-  "browserslist": [
-    "last 1 version",
-    "> 1%",
-    "IE 10"
-  ]
+    "dev": "webpack --env=dev",
+    "dev:analyze": "webpack --env=dev --env=analyzer",
+    "start": "web-dev-server --open demo/ --node-resolve --watch",
+    "test": "npm run test:unit && npm run test:vdiff",
+    "test:unit": "d2l-test-runner --chrome",
+    "test:vdiff": "d2l-test-runner vdiff",
+    "test:vdiff:golden": "d2l-test-runner vdiff golden"
+  }
 }
