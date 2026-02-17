@@ -199,10 +199,11 @@ describe Api::V2::ChildrenController, type: :request do
       data: { name: 'Test1', age: 5, sex: 'male', urgent_protection_concern: false, location_current: 'LOC0102' },
       registry_record: @registry_record1
     )
-    Attachment.new(
+    @attachment = Attachment.new(
       record: @case1, field_name: 'photos', attachment_type: Attachment::IMAGE,
       file_name: 'jorge.jpg', attachment: attachment_base64('jorge.jpg')
-    ).attach!
+    )
+    @attachment.attach!
     @case2 = Child.create!(
       data: { name: 'Test2', age: 10, sex: 'female', urgent_protection_concern: true, location_current: 'LOC0102' },
       alerts: [
@@ -376,7 +377,7 @@ describe Api::V2::ChildrenController, type: :request do
 
       expect(response).to have_http_status(200)
       photo = json['data'].select { |child| child['name'] == 'Test1' }.first['photo']
-      expect(photo).to match(/.+jorge\.jpg$/)
+      expect(photo).to match(%r{/api/v2/cases/#{@case1.id}/attachments/#{@attachment.id}$})
     end
 
     it 'returns flag_count for the short form ' do
@@ -573,7 +574,7 @@ describe Api::V2::ChildrenController, type: :request do
 
       expect(response).to have_http_status(200)
       photo = json['data']['photo']
-      expect(photo).to match(/.+jorge\.jpg$/)
+      expect(photo).to match(%r{/api/v2/cases/#{@case1.id}/attachments/#{@attachment.id}$})
     end
 
     describe 'registry_record_id' do

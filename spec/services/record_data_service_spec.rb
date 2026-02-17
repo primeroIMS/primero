@@ -72,20 +72,16 @@ describe RecordDataService do
   describe 'embed_photo_metadata' do
     before :each do
       @record.save!
-      Attachment.new(
+      @attachment = Attachment.new(
         record: @record, field_name: 'photos', attachment_type: Attachment::IMAGE,
         file_name: 'jorge.jpg', attachment: attachment_base64('jorge.jpg')
-      ).attach!
+      )
+      @attachment.attach!
     end
 
     it 'injects the paths to the photo for the photos field' do
       data = RecordDataService.new.embed_photo_metadata({}, @record, %w[photos])
-      expect(data['photo']).to match(/.+jorge\.jpg$/)
-    end
-
-    it 'injects the paths to the photo for the photo field' do
-      data = RecordDataService.new.embed_photo_metadata({}, @record, %w[photo])
-      expect(data['photo']).to match(/.+jorge\.jpg$/)
+      expect(data['photo']).to match(%r{/api/v2/cases/#{@record.id}/attachments/#{@attachment.id}$})
     end
 
     after :each do
