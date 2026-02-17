@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import reduce from "image-blob-reduce";
+import ImageBlobReduce from "image-blob-reduce";
 
 import { MAX_IMAGE_SIZE } from "../config";
 import { ATTACHMENT_TYPES } from "../components/record-form/form/field-types/attachments/constants";
@@ -22,7 +22,7 @@ export default async (file, attachment, max = MAX_IMAGE_SIZE) => {
   try {
     const image = [ATTACHMENT_TYPES.audio, ATTACHMENT_TYPES.document].includes(attachment)
       ? file
-      : await reduce().toBlob(file, { max });
+      : await ImageBlobReduce({ pica: ImageBlobReduce.pica({ features: ["js"] }) }).toBlob(file, { max });
 
     const results = await readFileAsync(image);
 

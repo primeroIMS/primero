@@ -22,6 +22,8 @@ function AttachmentPreview({ name, attachment, attachmentUrl }) {
     return <AssetJwt id={name} src={attachmentUrl} type="audio" />;
   }
 
+  if (!attachmentUrl || attachmentUrl === "undefinedundefined") return null;
+
   return <AssetJwt data-testid="attachment" src={attachmentUrl} alt="" className={css.editImg} />;
 }
 
