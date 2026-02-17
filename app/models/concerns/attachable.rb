@@ -39,7 +39,7 @@ module Attachable
   def photo_url
     return unless photo&.file&.attached?
 
-    Rails.application.routes.url_helpers.rails_blob_path(photo.file, only_path: true)
+    Rails.application.routes.url_helpers.send("api_v2_#{self.class.parent_form}_attachment_path", id, photo.id)
   end
 
   def calculate_has_photo

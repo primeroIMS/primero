@@ -13,10 +13,11 @@ describe Attachable do
       record: child, field_name: 'photos', attachment_type: Attachment::IMAGE,
       file_name: 'jorge.jpg', attachment: attachment_base64('jorge.jpg'), date: Date.new(2020, 1, 1)
     ).attach!
-    Attachment.new(
+    @photo_url = Attachment.new(
       record: child, field_name: 'photos', attachment_type: Attachment::IMAGE,
       file_name: 'unicef.png', attachment: attachment_base64('unicef.png'), date: Date.new(2020, 2, 1)
-    ).attach!
+    )
+    @photo_url.attach!
     child
   end
 
@@ -28,8 +29,7 @@ describe Attachable do
 
   describe '.photo_url' do
     it 'returns the active storage url for the attached primary photo' do
-      expect(child.photo_url).to include('active_storage')
-      expect(child.photo_url).to include('unicef.png')
+      expect(child.photo_url).to match(%r{/api/v2/cases/#{child.id}/attachments/#{@photo_url.id}$})
     end
   end
 
