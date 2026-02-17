@@ -14,7 +14,7 @@ class ErrorService
       code = 403
       errors = [ApplicationError.new(code: 403, message: 'Forbidden', resource: request.path)]
     when ActiveRecord::RecordNotFound, Errors::UnknownPrimeroEntityType, ActionController::RoutingError,
-      Errors::WebpushNotEnabled
+      Errors::AttachmentNotFound, Errors::WebpushNotEnabled
       code = 404
       errors = [ApplicationError.new(code: 404, message: 'Not Found', resource: request.path, detail: error&.message)]
     when ActiveRecord::RecordNotUnique
