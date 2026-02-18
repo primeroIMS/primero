@@ -54,7 +54,8 @@ class User < ApplicationRecord
 
   delegate :can?, :cannot?, to: :ability
 
-  devise :database_authenticatable, :timeoutable, :recoverable, :lockable
+  devise :database_authenticatable, :recoverable, :lockable
+  devise :timeoutable unless Rails.configuration.x.idp.use_identity_provider
 
   self.unique_id_attribute = 'user_name'
 
