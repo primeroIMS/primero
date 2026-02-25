@@ -9,6 +9,11 @@ class LogUtils
   end
 
   def self.remote_ip(request)
-    request.headers['HTTP_X_REAL_IP'].presence || request.headers['HTTP_X_FORWARD_FOR'].presence || request.remote_ip
+    puts "request.class = #{request.class}"
+    puts "request.headers['HTTP_X_REAL_IP'] = #{request.headers['HTTP_X_REAL_IP']}"
+    puts "request.headers['HTTP_X_FORWARDED_FOR'] = #{request.headers['HTTP_X_FORWARDED_FOR']}"
+    puts "request.ip = #{request.ip}"
+    puts "request.remote_ip = #{request.remote_ip}"
+    request.headers['HTTP_X_REAL_IP'].presence || request.headers['HTTP_X_FORWARDED_FOR'].presence || request.remote_ip
   end
 end

@@ -6,6 +6,11 @@
 
 # 6 login attempts per user name per minute
 Rack::Attack.throttle('Login attempts', limit: 6, period: 60) do |request|
+  puts "request.class = #{request.class}"
+  puts "request.class.superclass = #{request.class.superclass}"
+  puts "request.env['HTTP_X_REAL_IP'] = #{request.env['HTTP_X_REAL_IP']}"
+  puts "request.env['HTTP_X_FORWARD_FOR'] = #{request.env['HTTP_X_FORWARD_FOR']}"
+  puts "request.ip = #{request.ip}"
   next unless request.path == '/api/v2/tokens' && request.post?
 
   params = ActionDispatch::Request.new(request.env).params
