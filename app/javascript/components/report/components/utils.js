@@ -4,6 +4,7 @@
 
 const hasMergedRows = () => [...document.querySelectorAll("tr td").entries()].some(([, row]) => row.colSpan > 1);
 
+// TODO: This is not high risk, but review and bring in line with the Ruby CSVSanitizerService
 const escapeCsvText = value => {
   if (value === null || value === undefined) return "";
 

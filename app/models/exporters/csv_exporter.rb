@@ -27,7 +27,7 @@ class Exporters::CsvExporter < Exporters::BaseExporter
 
   def export(records)
     super(records)
-    csv_export = CSVSafe.generate do |rows|
+    csv_export = CSVSafer.generate do |rows|
       if single_record_export
         export_single_record(records, rows)
       else
