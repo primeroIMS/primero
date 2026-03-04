@@ -273,7 +273,8 @@ namespace :primero do
   #   service_account - true/false (optional)
   #   password        - Optional; if not provided for new users, a random password is generated
   desc 'Create or update a user'
-  task :create_user, %i[user_name email role_id user_group_id agency_id service_account password] => :environment do |_, args|
+  task :create_user,
+       %i[user_name email role_id user_group_id agency_id service_account password] => :environment do |_, args|
     required = %i[user_name role_id user_group_id agency_id]
     missing = required.select { |key| args[key].blank? }
     if missing.any?
