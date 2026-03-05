@@ -5,8 +5,8 @@
 # Zip and encrypt a file with a system configured zipper
 class ZipService
   class << self
-    def zip(file, password)
-      zipper.zip(file, password)
+    def zip(file, password, target_file_name = nil)
+      zipper.zip(file, password, target_file_name)
     end
 
     def zipper

@@ -21,7 +21,7 @@ class BulkExport < ApplicationRecord
   validates :record_type, presence: true
   validates :format, presence: true
   validates :export_file, file_size: { less_than_or_equal_to: 50.megabytes }, if: -> { export_file.attached? }
-  before_save :generate_file_name
+  before_create :generate_file_name
 
   def self.validate_password!(password)
     return unless ZipService.require_password? && password.length < PASSWORD_LENGTH
@@ -36,7 +36,7 @@ class BulkExport < ApplicationRecord
   def export(password)
     process_records_in_batches(500) { |records_batch| exporter.export(records_batch) }
     exporter.complete
-    zipped_file = ZipService.zip(stored_file_name, password)
+    zipped_file = ZipService.zip(temp_file_name, password, file_name)
     attach_export_file(zipped_file)
     mark_completed!
   end
@@ -53,7 +53,7 @@ class BulkExport < ApplicationRecord
     return @exporter if @exporter.present?
 
     @exporter = exporter_type.new(
-      stored_file_name,
+      temp_file_name,
       { record_type:, user: owner },
       custom_export_params&.with_indifferent_access || {}
     )
@@ -112,16 +112,11 @@ class BulkExport < ApplicationRecord
     self.file_name = "#{record_type&.pluralize}-#{Time.now.strftime('%Y%m%d.%M%S%M%L')}.#{exporter_type&.mime_type}"
   end
 
-  def stored_file_name
+  def temp_file_name
     return unless file_name.present?
 
-    File.join(Rails.configuration.exports_directory, "#{id}_#{file_name}")
-  end
-
-  def url
-    return unless export_file&.attached?
-
-    Rails.application.routes.url_helpers.rails_blob_path(export_file, only_path: true, expires_in: EXPIRES)
+    @temp_file_name ||= File.join(Rails.configuration.exports_directory,
+                                  "#{SecureRandom.uuid}#{File.extname(file_name)}")
   end
 
   def process_records_in_batches(batch = 500)
@@ -153,16 +148,24 @@ class BulkExport < ApplicationRecord
   def attach_export_file(file)
     return unless file && File.size?(file)
 
-    export_file.attach(
-      io: File.open(file),
-      filename: File.basename(file)
-    )
+    zipped_file_name = zipped_file_name(file)
+    export_file.attach(io: File.open(file), filename: zipped_file_name)
     File.delete(file)
+    self.file_name = zipped_file_name
+    # Update the file_name to match the attached file, which may have a different extension if zipped
   end
 
   private
 
   def created_at_filter
     { 'created_at' => { 'from' => Time.at(0).utc, 'to' => started_on } }
+  end
+
+  def zipped_file_name(zipped_file)
+    file_name_ext = File.extname(file_name)
+    zipped_file_ext = File.extname(zipped_file)
+    return file_name if file_name_ext == zipped_file_ext
+
+    "#{file_name}#{zipped_file_ext}"
   end
 end
