@@ -56,7 +56,7 @@ class Exporters::ConfigurableExporter < Exporters::BaseExporter
   end
 
   def export(cases, *_args)
-    duplicate_export = CSVSafe.generate do |rows|
+    duplicate_export = CSVSafer.generate do |rows|
       write_header(rows)
       cases.each_with_index do |record, index|
         write_case(record, index, rows)

@@ -187,7 +187,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   end
 
   def write_value(worksheet, value, column, rows_to_write, current_worksheet_id)
-    value_array = value.is_a?(Array) ? value : Array.new(rows_to_write, value)
+    value_array = value.is_a?(Array) ? value : Array.new(rows_to_write, CsvSanitizerService.sanitize(value))
     value_array.each_with_index do |val, i|
       if column.zero?
         worksheet&.write_string(worksheets[current_worksheet_id][:row] + i, column, val)
@@ -202,7 +202,7 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
     case value
     when String
       # Force string format for string values in order to prevent formula injections
-      worksheet&.write_string(row, column, value)
+      worksheet&.write_string(row, column, CsvSanitizerService.sanitize(value))
     when TrueClass, FalseClass
       worksheet&.write_boolean(row, column, value)
     else

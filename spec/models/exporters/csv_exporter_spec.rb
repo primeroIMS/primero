@@ -177,6 +177,14 @@ module Exporters
       expect(parsed[1][1..4]).to eq(['Joe', nil, '12', "'=10+10"])
     end
 
+    it 'sanitizes formula injections prefixed by ascii control characters' do
+      unsafe_record = Child.new(data: { name: 'Joe', age: 12, sex: "\x00=10+10", address: "\t+1+1" })
+      data = CsvExporter.export([unsafe_record], nil, { user: @user })
+      parsed = CSV.parse(data)
+
+      expect(parsed[1][1..4]).to eq(['Joe', "'\t+1+1", '12', "'\x00=10+10"])
+    end
+
     context 'when the user was referred to a record' do
       it 'does not export non permitted fields for a referred record' do
         data = CsvExporter.export(@records, nil, { user: @user_referral })

@@ -37,7 +37,7 @@ class Exporters::CsvListViewExporter < Exporters::BaseExporter
   end
 
   def build_csv_export(records, list_headers)
-    CSVSafe.generate do |rows|
+    CSVSafer.generate do |rows|
       next unless list_headers
 
       rows << headers(list_headers) if @called_first_time.nil?
