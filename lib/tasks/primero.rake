@@ -263,31 +263,49 @@ namespace :primero do
   end
 
   # Creates or updates a user.
-  # USAGE: rails primero:create_user[user_name,email,role_id,user_group_id,agency_id,service_account,password]
+  # USAGE:
+  # rails primero:create_user[
+  #   user_name,email,role_unique_id,user_group_unique_id,agency_unique_id,service_account,password]
   # Args:
-  #   user_name       - The user's user_name (required)
-  #   email           - The user's email
-  #   role_id         - Role id (required)
-  #   user_group_id   - UserGroup id (required)
-  #   agency_id       - Agency id
-  #   service_account - true/false (optional)
-  #   password        - Optional; if not provided for new users, a random password is generated
+  #   user_name         - The user's user_name (required)
+  #   email             - The user's email
+  #   role_unique_id    - Role unique_id (required)
+  #   user_group_unique_id - UserGroup unique_id (required)
+  #   agency_unique_id  - Agency unique_id
+  #   service_account   - true/false (optional)
+  #   password          - Optional; if not provided for new users, a random password is generated
   desc 'Create or update a user'
   task :create_user,
-       %i[user_name email role_id user_group_id agency_id service_account password] => :environment do |_, args|
-    required = %i[user_name role_id user_group_id agency_id]
+       %i[user_name email role_unique_id user_group_unique_id agency_unique_id service_account
+          password] => :environment do |_, args|
+    required = %i[user_name role_unique_id user_group_unique_id]
     missing = required.select { |key| args[key].blank? }
-    if missing.any?
-      puts "ERROR: Missing required args: #{missing.join(', ')}"
-      return
-    end
+    abort "Missing required args: #{missing.join(', ')}" if missing.any?
 
     user = User.find_or_initialize_by(user_name: args[:user_name])
 
     user.email = args[:email] if args[:email].present?
-    user.role_id = args[:role_id].to_i
-    user.agency_id = args[:agency_id].to_i if args[:agency_id].present?
-    user.user_group_ids = [args[:user_group_id].to_i]
+
+    role_identifier = args[:role_unique_id].to_s.strip
+    role = Role.find_by(unique_id: role_identifier)
+
+    abort "Role #{role_identifier} not found" if role.blank?
+    user.role = role
+
+    user_group_identifier = args[:user_group_unique_id].to_s.strip
+    user_group = UserGroup.find_by(unique_id: user_group_identifier)
+
+    abort "UserGroup #{user_group_identifier} not found" if user_group.blank?
+    user.user_groups = [user_group]
+
+    if args[:agency_unique_id].present?
+      agency_identifier = args[:agency_unique_id].to_s.strip
+      agency = Agency.find_by(unique_id: agency_identifier)
+
+      abort "Agency #{agency_identifier} not found" if agency.blank?
+      user.agency = agency
+    end
+
     user.full_name = args[:user_name] if user.full_name.blank?
 
     if args[:service_account].present?
