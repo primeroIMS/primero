@@ -33,5 +33,5 @@ end
 Rack::Attack.throttle('Self registration', limit: 6, period: 60) do |request|
   next unless request.path == '/api/v2/self-register' && request.post?
 
-  request.ip
+  request.remote_ip
 end

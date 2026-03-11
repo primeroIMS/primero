@@ -41,7 +41,10 @@ gem 'prawn',               '~> 2.4'    # PDF generation
 gem 'prawn-table',         '~> 0.2'    # PDF generation
 gem 'puma',                '~> 7.0'    # Ruby Rack server
 gem 'rack',                '~> 3.2'
-gem 'rack-attack',         '~> 6.6'    # Rack middleware to rate limit sensetive routes, such as those used for auth
+# TODO: We are using the latest rack-attack commit on the 'main' branch in order to have access to the
+# ActionDispatch::Request.remote_ip functionality. The diff with latest stable v6.8.0 has been approved:
+# https://github.com/rack/rack-attack/compare/v6.8.0...e938879178075afbf0dda4e99f0e11d408720b41
+gem 'rack-attack', git: 'https://github.com/rack/rack-attack/', ref: 'e938879178075afbf0dda4e99f0e11d408720b41'
 gem 'rails',               '8.1.1'
 gem 'rake',                '~> 13.0'
 gem 'rbnacl',              '>= 7.1.1'  # Libsodium Ruby binding. Used for encrypting export file passwords.
