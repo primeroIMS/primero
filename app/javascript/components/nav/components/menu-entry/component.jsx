@@ -51,6 +51,7 @@ function Component({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
   if (FILTERABLE_ROUTES.includes(to) && modules?.size > 1) {
     const filters = getDefaultFilters({ queryParams: {}, metadata: fromJS({}), modules, userModules });
     const queryString = filtersToQueryString(filters);
+
     linkTo = `${to}?${queryString}`;
   }
 

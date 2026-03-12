@@ -3,8 +3,9 @@
 import { screen, mountedComponent, userEvent, setScreenSizeToMobile } from "test-utils";
 import { fromJS } from "immutable";
 
-import IndexFilters from "./component";
 import { useApp } from "../application";
+
+import IndexFilters from "./component";
 
 jest.mock("../application", () => ({
   ...jest.requireActual("../application"),

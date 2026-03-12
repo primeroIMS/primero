@@ -4,12 +4,12 @@ import { mountedComponent, screen } from "../../../../test-utils";
 import { ACTIONS } from "../../../permissions";
 import { useApp } from "../../../application";
 
+import MenuEntry from "./component";
+
 jest.mock("../../../application", () => ({
   ...jest.requireActual("../../../application"),
   useApp: jest.fn()
 }));
-
-import MenuEntry from "./component";
 
 describe("<Nav />", () => {
   const permissions = {
