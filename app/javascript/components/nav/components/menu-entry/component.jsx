@@ -6,6 +6,7 @@ import { ListItem, ListItemText, ListItemIcon } from "@mui/material";
 import { NavLink } from "react-router-dom";
 import { isEqual } from "lodash";
 import { cx } from "@emotion/css";
+import { fromJS } from "immutable";
 
 import ListIcon from "../../../list-icon";
 import Jewel from "../../../jewel";
@@ -18,9 +19,10 @@ import { setDialog } from "../../../action-dialog";
 import { LOGOUT_DIALOG, NAV_SETTINGS } from "../../constants";
 import { ROUTES } from "../../../../config";
 import useSystemStrings, { NAVIGATION } from "../../../application/use-system-strings";
+import { getDefaultFilters, filtersToQueryString } from "../../../record-list/utils";
 
 function Component({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username }) {
-  const { disabledApplication, online, useContainedNavStyle } = useApp();
+  const { disabledApplication, online, useContainedNavStyle, modules, userModules } = useApp();
 
   const dispatch = useDispatch();
   const { label } = useSystemStrings(NAVIGATION);
@@ -36,6 +38,21 @@ function Component({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
     resources,
     groupPermissions
   } = menuEntry;
+
+  let linkTo = to;
+  const FILTERABLE_ROUTES = [
+    ROUTES.cases,
+    ROUTES.incidents,
+    ROUTES.tracing_requests,
+    ROUTES.registry_records,
+    ROUTES.families
+  ];
+
+  if (FILTERABLE_ROUTES.includes(to) && modules?.size > 1) {
+    const filters = getDefaultFilters({ queryParams: {}, metadata: fromJS({}), modules, userModules });
+    const queryString = filtersToQueryString(filters);
+    linkTo = `${to}?${queryString}`;
+  }
 
   const jewel = jewelCount ? (
     <Jewel
@@ -54,7 +71,7 @@ function Component({ closeDrawer, menuEntry, mobileDisplay, jewelCount, username
     ...(!disabledApplication &&
       !disabled && {
         component: NavLink,
-        to,
+        to: linkTo,
         activeClassName: cx(css.navActive, { [css.contained]: useContainedNavStyle }),
         onClick: closeDrawer,
         disabled: disabledApplication

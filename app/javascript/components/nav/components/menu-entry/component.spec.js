@@ -2,6 +2,12 @@ import { fromJS } from "immutable";
 
 import { mountedComponent, screen } from "../../../../test-utils";
 import { ACTIONS } from "../../../permissions";
+import { useApp } from "../../../application";
+
+jest.mock("../../../application", () => ({
+  ...jest.requireActual("../../../application"),
+  useApp: jest.fn()
+}));
 
 import MenuEntry from "./component";
 
@@ -48,6 +54,14 @@ describe("<Nav />", () => {
     username: "joshua"
   };
 
+  beforeEach(() => {
+    useApp.mockReturnValue({
+      modules: fromJS([]),
+      userModules: fromJS([]),
+      online: true
+    });
+  });
+
   it("renders menu", () => {
     mountedComponent(<MenuEntry {...props} />, state);
     expect(screen.getByText(/test/i)).toBeInTheDocument();
@@ -70,5 +84,27 @@ describe("<Nav />", () => {
       mountedComponent(<MenuEntry {...props} />, stateWithDisabledApp);
       expect(screen.getByTestId("listItem")).toBeInTheDocument();
     });
+  });
+
+  it("renders a ListItem with module_id query param when user has multiple modules and route is filterable", () => {
+    useApp.mockReturnValue({
+      modules: fromJS([{ unique_id: "cases" }, { unique_id: "incidents" }]),
+      userModules: fromJS([{ unique_id: "cases" }, { unique_id: "incidents" }]),
+      online: true
+    });
+
+    const multiModuleProps = {
+      ...props,
+      menuEntry: {
+        ...props.menuEntry,
+        to: "/cases"
+      }
+    };
+
+    mountedComponent(<MenuEntry {...multiModuleProps} />, state);
+    const link = screen.getByRole("link");
+
+    expect(link).toHaveAttribute("href", expect.stringMatching(/\/cases\?.*module_id.*=cases/));
+    expect(link).toHaveAttribute("href", expect.stringMatching(/module_id.*=incidents/));
   });
 });

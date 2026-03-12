@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { useCallback, useState, useEffect } from "react";
+import { useCallback, useState, useEffect, useMemo } from "react";
 import PropTypes from "prop-types";
 import { useForm, FormProvider } from "react-hook-form";
 import { useDispatch, batch } from "react-redux";
@@ -10,14 +10,15 @@ import omit from "lodash/omit";
 import { useLocation } from "react-router-dom";
 import { push } from "connected-react-router";
 import { Tabs, Tab } from "@mui/material";
-import { fromJS } from "immutable";
 
 import SavedSearches, { fetchSavedSearches } from "../saved-searches";
 import SavedSearchesForm from "../saved-searches/SavedSearchesForm";
 import { currentUser } from "../user";
+import { useApp } from "../application";
 import { useI18n } from "../i18n";
 import { getReportingLocationConfig } from "../user/selectors";
 import { DEFAULT_FILTERS } from "../record-list/constants";
+import { getDefaultFilters } from "../record-list/utils";
 import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { reduceMapToObject } from "../../libs/component-helpers";
 
@@ -34,6 +35,7 @@ function Component({ recordType, setSelectedRecords, metadata }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const location = useLocation();
+  const { modules, userModules } = useApp();
 
   const queryString = location.search.replace("?", "");
   const queryParams = qs.parse(queryString);
@@ -45,7 +47,10 @@ function Component({ recordType, setSelectedRecords, metadata }) {
   const [reset, setReset] = useState(false);
   const [moreSectionFilters, setMoreSectionFilters] = useState({});
 
-  const defaultFiltersForClear = reduceMapToObject(fromJS(DEFAULT_FILTERS).merge(metadata));
+  const defaultFiltersForClear = useMemo(
+    () => reduceMapToObject(getDefaultFilters({ queryParams: {}, metadata, modules, userModules })),
+    [modules, userModules, metadata]
+  );
 
   const resetSelectedRecords = () => {
     setSelectedRecords(DEFAULT_SELECTED_RECORDS_VALUE);
@@ -79,7 +84,7 @@ function Component({ recordType, setSelectedRecords, metadata }) {
 
   useEffect(() => {
     if (rerender) {
-      const filtersToApply = isEmpty(queryParams) ? DEFAULT_FILTERS : queryParams;
+      const filtersToApply = isEmpty(queryParams) ? defaultFiltersForClear : queryParams;
 
       Object.keys(methods.getValues()).forEach(value => {
         if (!Object.keys(filtersToApply).includes(value) && !isEmpty(value)) {
