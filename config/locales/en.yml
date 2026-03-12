@@ -3477,10 +3477,9 @@ en:
             explanation: Shows the number of cases which have been identified but which are not yet open and receiving case management.
             label: 'Action Needed: Identified Cases'
           action_needed_new_referrals:
-            explanation: Displays the 'New Referrals' indicator in the 'Action Needed' dashboard.
-              This includes any Cases with a new Referral sent to the current user,
-              where the current user is not the last person to update the Case.
-            label: 'Action Needed: New Referrals'
+            explanation: Displays the 'Pending Referrals' indicator in the 'Action Needed' dashboard.
+              This includes cases where the current user has a Referral which they have not yet accepted.
+            label: 'Action Needed: Pending Referrals'
           action_needed_transfer_awaiting_acceptance:
             explanation: Displays the 'Transfers Awaiting Acceptance' indicator in the 'Action Needed' dashboard.
               This includes any Cases with a Transfer to the current user, which the current user has not accepted.
