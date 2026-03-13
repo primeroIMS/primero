@@ -897,6 +897,8 @@ en:
     shared_from_my_team_referrals: Referrals
     shared_from_my_team_rejected_transfers: Rejected Transfers
     shared_with_me_new_referrals: New
+    shared_with_me_pending_referrals: Pending
+    shared_with_me_accepted_referrals: Accepted
     shared_with_me_total_referrals: Total
     shared_with_me_transfers_awaiting_acceptance: Awaiting Acceptance
     shared_with_my_team_pending_transfers_overview: Awaiting Acceptance

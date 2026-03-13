@@ -10,12 +10,15 @@ module Transitionable
     has_many :transitions, as: :record
 
     store_accessor :data, :transfer_status, :reassigned_transferred_on, :referred_users, :transferred_to_users,
-                   :transferred_to_user_groups, :referred_users_present
+                   :transferred_to_user_groups, :referred_users_present, :referred_users_pending,
+                   :referred_users_accepted
 
     before_save :calculate_transferred_to_users
     before_save :calculate_transferred_to_user_groups
     before_save :calculate_referred_users
     before_save :calculate_referred_users_present
+    before_save :calculate_referred_users_pending
+    before_save :calculate_referred_users_accepted
   end
 
   def assigns
@@ -75,6 +78,16 @@ module Transitionable
                                    .pluck(:transitioned_to)
                                    .uniq
     referred_users
+  end
+
+  def calculate_referred_users_pending
+    self.referred_users_pending = referrals.where(status: [Transition::STATUS_INPROGRESS]).pluck(:transitioned_to).uniq
+    referred_users_pending
+  end
+
+  def calculate_referred_users_accepted
+    self.referred_users_accepted = referrals.where(status: [Transition::STATUS_ACCEPTED]).pluck(:transitioned_to).uniq
+    referred_users_accepted
   end
 
   def calculate_referred_users_present

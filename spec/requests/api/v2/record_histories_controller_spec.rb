@@ -179,7 +179,9 @@ describe Api::V2::RecordHistoriesController, type: :request do
           { 'incident_date_derived' => { 'from' => nil, 'to' => '2019-04-01' } },
           { 'associated_user_groups' => { 'from' => nil, 'to' => [] } },
           { 'elapsed_reporting_time' => { 'from' => nil, 'to' => 'over_1_month' } },
+          { 'referred_users_pending' => { 'from' => nil, 'to' => [] } },
           { 'referred_users_present' => { 'from' => nil, 'to' => false } },
+          { 'referred_users_accepted' => { 'from' => nil, 'to' => [] } },
           { 'associated_user_agencies' => { 'from' => nil, 'to' => [] } },
           { 'transferred_to_user_groups' => { 'from' => nil, 'to' => [] } }
         ]
@@ -264,7 +266,9 @@ describe Api::V2::RecordHistoriesController, type: :request do
           { 'transferred_to_users' => { 'from' => nil, 'to' => [] } },
           { 'associated_user_names' => { 'from' => nil, 'to' => ['faketest'] } },
           { 'associated_user_groups' => { 'from' => nil, 'to' => [] } },
+          { 'referred_users_pending' => { 'from' => nil, 'to' => [] } },
           { 'referred_users_present' => { 'from' => nil, 'to' => false } },
+          { 'referred_users_accepted' => { 'from' => nil, 'to' => [] } },
           { 'associated_user_agencies' => { 'from' => nil, 'to' => [] } },
           { 'transferred_to_user_groups' => { 'from' => nil, 'to' => [] } }
         ]
@@ -323,7 +327,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
           { 'owned_by' => { 'from' => nil, 'to' => 'faketest' } },
           { 'short_id' => { 'from' => nil, 'to' => Child.first.short_id } },
           { 'workflow' => { 'from' => nil, 'to' => 'new' } },
-          { 'case_type' => {"from"=>nil, "to"=>"person" } },
+          { 'case_type' => { 'from' => nil, 'to' => 'person' } },
           { 'has_photo' => { 'from' => nil, 'to' => false } },
           { 'posted_at' => { 'from' => nil, 'to' => Child.first.posted_at.strftime('%Y-%m-%dT%H:%M:%S.%LZ') } },
           { 'created_at' => { 'from' => nil, 'to' => Child.first.created_at.strftime('%Y-%m-%dT%H:%M:%S.%LZ') } },
@@ -349,11 +353,14 @@ describe Api::V2::RecordHistoriesController, type: :request do
           { 'transferred_to_users' => { 'from' => nil, 'to' => [] } },
           { 'associated_user_names' => { 'from' => nil, 'to' => ['faketest'] } },
           { 'associated_user_groups' => { 'from' => nil, 'to' => [] } },
+          { 'referred_users_pending' => { 'from' => nil, 'to' => [] } },
           { 'referred_users_present' => { 'from' => nil, 'to' => false } },
+          { 'referred_users_accepted' => { 'from' => nil, 'to' => [] } },
           { 'associated_user_agencies' => { 'from' => nil, 'to' => [] } },
           { 'transferred_to_user_groups' => { 'from' => nil, 'to' => [] } }
         ]
       }
+
       expect(json['data'][0]).to eq(record_history_b.deep_stringify_keys)
     end
 
