@@ -894,7 +894,10 @@ en:
     services: Services
     services_implemented: Services Implemented
     shared_from_my_team_pending_transfers: Pending Transfers
-    shared_from_my_team_referrals: Referrals
+    shared_from_my_team_pending_referrals: Pending Referrals
+    shared_from_my_team_accepted_referrals: Accepted Referrals
+    shared_from_my_team_rejected_referrals: Rejected Referrals
+    shared_from_my_team_done_referrals: Done Referrals
     shared_from_my_team_rejected_transfers: Rejected Transfers
     shared_with_me_new_referrals: New
     shared_with_me_pending_referrals: Pending

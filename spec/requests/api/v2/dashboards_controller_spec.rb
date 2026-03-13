@@ -525,10 +525,16 @@ describe Api::V2::DashboardsController, type: :request do
         expect(response).to have_http_status(200)
 
         dash = json['data'][0]['indicators']
-        expect(dash['shared_from_my_team_referrals'][@user1.user_name]['count']).to eq(1)
+        expect(dash['shared_from_my_team_pending_referrals'][@user1.user_name]['count']).to eq(1)
+        expect(dash['shared_from_my_team_accepted_referrals'][@user1.user_name]['count']).to eq(1)
+        expect(dash['shared_from_my_team_rejected_referrals'][@user1.user_name]['count']).to eq(1)
+        expect(dash['shared_from_my_team_done_referrals'][@user1.user_name]['count']).to eq(1)
         expect(dash['shared_from_my_team_pending_transfers'][@user1.user_name]['count']).to eq(1)
         expect(dash['shared_from_my_team_rejected_transfers'][@user1.user_name]['count']).to eq(1)
-        expect(dash['shared_from_my_team_referrals'].count).to eq(1)
+        expect(dash['shared_from_my_team_pending_referrals'].count).to eq(1)
+        expect(dash['shared_from_my_team_accepted_referrals'].count).to eq(1)
+        expect(dash['shared_from_my_team_rejected_referrals'].count).to eq(1)
+        expect(dash['shared_from_my_team_done_referrals'].count).to eq(1)
         expect(dash['shared_from_my_team_pending_transfers'].count).to eq(1)
         expect(dash['shared_from_my_team_rejected_transfers'].count).to eq(1)
       end

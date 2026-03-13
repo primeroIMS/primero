@@ -21,6 +21,7 @@ class Dashboard < ValueObject
     dash_national_admin_summary
     dash_violations_category_region
     dash_shared_with_others
+    dash_shared_from_my_team
   ].freeze
 
   DYMANIC_WITH_SELF = %w[
@@ -103,16 +104,6 @@ class Dashboard < ValueObject
     indicators: [
       Indicators::Case::GROUP_OVERVIEW_OPEN,
       Indicators::Case::GROUP_OVERVIEW_CLOSED
-    ]
-  ).freeze
-
-  DASH_SHARED_FROM_MY_TEAM = Dashboard.new(
-    name: 'dash_shared_from_my_team',
-    type: 'indicator',
-    indicators: [
-      Indicators::Case::SHARED_FROM_MY_TEAM_REFERRALS,
-      Indicators::Case::SHARED_FROM_MY_TEAM_PENDING_TRANSFERS,
-      Indicators::Case::SHARED_FROM_MY_TEAM_REJECTED_TRANSFERS
     ]
   ).freeze
 
@@ -406,6 +397,23 @@ class Dashboard < ValueObject
           Indicators::Case.shared_with_others_referrals_done,
           Indicators::Case::SHARED_WITH_OTHERS_PENDING_TRANSFERS,
           Indicators::Case::SHARED_WITH_OTHERS_REJECTED_TRANSFERS
+        ]
+      ).freeze
+    end
+    # rubocop:enable Metrics/MethodLength
+
+    # rubocop:disable Metrics/MethodLength
+    def dash_shared_from_my_team
+      Dashboard.new(
+        name: 'dash_shared_from_my_team',
+        type: 'indicator',
+        indicators: [
+          Indicators::Case::SHARED_FROM_MY_TEAM_PENDING_REFERRALS,
+          Indicators::Case::SHARED_FROM_MY_TEAM_ACCEPTED_REFERRALS,
+          Indicators::Case.shared_from_my_team_rejected_referrals,
+          Indicators::Case.shared_from_my_team_done_referrals,
+          Indicators::Case::SHARED_FROM_MY_TEAM_PENDING_TRANSFERS,
+          Indicators::Case::SHARED_FROM_MY_TEAM_REJECTED_TRANSFERS
         ]
       ).freeze
     end
