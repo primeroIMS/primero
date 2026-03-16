@@ -4,5 +4,14 @@ Migrations in v2.15
 ========
 
 ## Introduction
-In `v2.15` we added a new searchable columns for dashboards. Please run the script `calculate_searchable_values.rb` from `v2.13`
-for the `Child` and `Incident` model. Look at the [README](/db/data_migration/v2.13/README.md) for more information.
+In `v2.15` we added a new transition fields and searchable columns for dashboards. Please run the scripts in the following order:
+
+```bash
+rails r ./db/data_migration/v2.15/calculate_transitionable_values.rb Child true
+```
+
+If the previous script was not executed the searchable values will not be calculated correctly.
+
+```bash
+rails r ./db/data_migration/v2.15/calculate_searchable_values.rb Child true
+```
