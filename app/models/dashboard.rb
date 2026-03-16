@@ -74,7 +74,7 @@ class Dashboard < ValueObject
     name: 'action_needed_new_referrals',
     type: 'indicator',
     indicators: [
-      Indicators::Case::SHARED_WITH_ME_NEW_REFERRALS
+      Indicators::Case::SHARED_WITH_ME_PENDING_REFERRALS
     ]
   ).freeze
 

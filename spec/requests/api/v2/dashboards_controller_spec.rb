@@ -673,6 +673,55 @@ describe Api::V2::DashboardsController, type: :request do
         ).to eq(1)
       end
     end
+
+    describe 'action needed dashboards' do
+      before do
+        clean_data(Alert, User, UserGroup, Role, Incident, Child, Location, SystemSettings, Lookup)
+
+        @permission_refer_case = Permission.new(
+          resource: Permission::CASE,
+          actions: [
+            Permission::READ, Permission::WRITE, Permission::CREATE,
+            Permission::REFERRAL, Permission::RECEIVE_REFERRAL,
+            Permission::TRANSFER, Permission::RECEIVE_TRANSFER
+          ]
+        )
+        @permission_dashboard_action_needed_new_referrals = Permission.new(
+          resource: Permission::DASHBOARD,
+          actions: [Permission::DASH_ACTION_NEEDED_NEW_REFERRALS]
+        )
+        @role = Role.new(
+          permissions: [@permission_refer_case, @permission_dashboard_action_needed_new_referrals],
+          primero_modules: [@primero_module],
+          group_permission: Permission::SELF
+        )
+        @role.save(validate: false)
+        @group_a = UserGroup.create!(name: 'Group_a')
+        @user_action_needed = User.new(user_name: 'user_action_needed', role: @role, user_groups: [@group_a])
+        @user_action_needed.save(validate: false)
+        @user2 = User.new(user_name: 'user2', role: @role, user_groups: [@group_a])
+        @user2.save(validate: false)
+        @pending_referral_case = Child.create(
+          data: {
+            name: 'Test_a', owned_by: 'user2',
+            disclosure_other_orgs: true, consent_for_services: true,
+            module_id: @primero_module.unique_id
+          }
+        )
+        Referral.create!(
+          transitioned_by: 'user2', transitioned_to: 'user_action_needed', record: @pending_referral_case
+        )
+      end
+
+      it 'list statistics for a user with admin permissions' do
+        sign_in(@user_action_needed)
+        get '/api/v2/dashboards'
+
+        expect(response).to have_http_status(200)
+        indicators = json['data'][0]['indicators']
+        expect(indicators['shared_with_me_pending_referrals']['count']).to eq(1)
+      end
+    end
   end
 
   it 'returns an empty dashboard set if no explicit dashboard authorization' do
