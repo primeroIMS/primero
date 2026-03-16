@@ -455,13 +455,19 @@ describe Api::V2::DashboardsController, type: :request do
           ]
         )
         Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case_a)
-        referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case_a)
-        referral.accept!
+        referral1 = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case_a)
+        referral1.accept!
+
+        referral2 = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case_a)
+        referral2.reject!(@user2)
+
+        referral3 = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case_a)
+        referral3.accept!
+        referral3.done!(@user2)
 
         Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case_a)
-        Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case_b)
-        @case_b.update(transfer_status: Transition::STATUS_REJECTED)
-        @case_a.save!
+        transfer2 = Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case_b)
+        transfer2.reject!(@user2)
       end
 
       it 'lists statistics for permitted shared with me dashboards' do
@@ -478,7 +484,7 @@ describe Api::V2::DashboardsController, type: :request do
         expect(shared_with_me_dashboard['shared_with_me_total_referrals']['count']).to eq(1)
         expect(shared_with_me_dashboard['shared_with_me_pending_referrals']['count']).to eq(1)
         expect(shared_with_me_dashboard['shared_with_me_accepted_referrals']['count']).to eq(1)
-        expect(shared_with_me_dashboard['shared_with_me_transfers_awaiting_acceptance']['count']).to eq(2)
+        expect(shared_with_me_dashboard['shared_with_me_transfers_awaiting_acceptance']['count']).to eq(1)
         expect(shared_with_me_dashboard['shared_with_me_total_referrals']['query']).to match_array(
           %w[referred_users=user2 record_state=true status=open module_id=primeromodule-cp]
         )
@@ -504,6 +510,10 @@ describe Api::V2::DashboardsController, type: :request do
         expect(response).to have_http_status(200)
 
         expect(json['data'][0]['indicators']['shared_with_others_referrals']['count']).to eq(1)
+        expect(json['data'][0]['indicators']['shared_with_others_referrals_pending']['count']).to eq(1)
+        expect(json['data'][0]['indicators']['shared_with_others_referrals_accepted']['count']).to eq(1)
+        expect(json['data'][0]['indicators']['shared_with_others_referrals_rejected']['count']).to eq(1)
+        expect(json['data'][0]['indicators']['shared_with_others_referrals_done']['count']).to eq(1)
         expect(json['data'][0]['indicators']['shared_with_others_pending_transfers']['count']).to eq(1)
         expect(json['data'][0]['indicators']['shared_with_others_rejected_transfers']['count']).to eq(1)
       end
@@ -534,7 +544,7 @@ describe Api::V2::DashboardsController, type: :request do
           expect(response).to have_http_status(200)
           indicators = json['data'][0]['indicators']
           expect(indicators['shared_with_my_team_referrals'][@user2.user_name]['count']).to eq(1)
-          expect(indicators['shared_with_my_team_pending_transfers'][@user2.user_name]['count']).to eq(2)
+          expect(indicators['shared_with_my_team_pending_transfers'][@user2.user_name]['count']).to eq(1)
         end
 
         it 'lists statistics for a user with group permissions' do
@@ -548,7 +558,7 @@ describe Api::V2::DashboardsController, type: :request do
           expect(response).to have_http_status(200)
           indicators = json['data'][0]['indicators']
           expect(indicators['shared_with_my_team_referrals'][@user2.user_name]['count']).to eq(1)
-          expect(indicators['shared_with_my_team_pending_transfers'][@user2.user_name]['count']).to eq(2)
+          expect(indicators['shared_with_my_team_pending_transfers'][@user2.user_name]['count']).to eq(1)
         end
 
         it 'do not list statistics if values are not in the scope of the user' do

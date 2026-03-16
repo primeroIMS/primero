@@ -325,6 +325,24 @@ module Indicators
       scope_to_owner: true
     ).freeze
 
+    SHARED_WITH_OTHERS_REFERRALS_PENDING = QueriedIndicator.new(
+      name: 'shared_with_others_referrals_pending',
+      record_model: Child,
+      queries: OPEN_ENABLED + [
+        SearchFilters::BooleanValue.new(field_name: 'referred_users_pending_present', value: true)
+      ],
+      scope_to_owner: true
+    ).freeze
+
+    SHARED_WITH_OTHERS_REFERRALS_ACCEPTED = QueriedIndicator.new(
+      name: 'shared_with_others_referrals_accepted',
+      record_model: Child,
+      queries: OPEN_ENABLED + [
+        SearchFilters::BooleanValue.new(field_name: 'referred_users_accepted_present', value: true)
+      ],
+      scope_to_owner: true
+    ).freeze
+
     SHARED_WITH_OTHERS_PENDING_TRANSFERS = QueriedIndicator.new(
       name: 'shared_with_others_pending_transfers',
       record_model: Child,
@@ -643,6 +661,42 @@ module Indicators
         queries: CLOSED_ENABLED + [SearchFilters::DateRange.last_week('date_closure')].freeze
       )
     end
+
+    # rubocop:disable Metrics/MethodLength
+    def self.shared_with_others_referrals_rejected
+      days_since_referral_status_changed = SystemSettings.current.days_since_referral_status_changed
+      QueriedIndicator.new(
+        name: 'shared_with_others_referrals_rejected',
+        record_model: Child,
+        queries: OPEN_ENABLED + [
+          SearchFilters::DateRange.new(
+            field_name: 'last_referral_rejected_at',
+            from: Time.zone.now - days_since_referral_status_changed.days,
+            to: Time.zone.now
+          )
+        ],
+        scope_to_owner: true
+      )
+    end
+    # rubocop:enable Metrics/MethodLength
+
+    # rubocop:disable Metrics/MethodLength
+    def self.shared_with_others_referrals_done
+      days_since_referral_status_changed = SystemSettings.current.days_since_referral_status_changed
+      QueriedIndicator.new(
+        name: 'shared_with_others_referrals_done',
+        record_model: Child,
+        queries: OPEN_ENABLED + [
+          SearchFilters::DateRange.new(
+            field_name: 'last_referral_done_at',
+            from: Time.zone.now - days_since_referral_status_changed.days,
+            to: Time.zone.now
+          )
+        ],
+        scope_to_owner: true
+      )
+    end
+    # rubocop:enable Metrics/MethodLength
 
     # rubocop:disable Metrics/MethodLength
     def self.workflow_team(role)

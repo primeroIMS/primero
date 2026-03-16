@@ -906,6 +906,10 @@ en:
     shared_with_my_team_referrals: Referrals
     shared_with_others_pending_transfers: Pending
     shared_with_others_referrals: Total
+    shared_with_others_referrals_pending: Pending
+    shared_with_others_referrals_accepted: Accepted
+    shared_with_others_referrals_rejected: Rejected
+    shared_with_others_referrals_done: Done
     shared_with_others_rejected_transfers: Rejected
     status_of_cases: Status of Cases
     system_user: System
