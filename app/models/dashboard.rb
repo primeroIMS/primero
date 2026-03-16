@@ -111,7 +111,8 @@ class Dashboard < ValueObject
     name: 'dash_shared_with_my_team',
     type: 'indicator',
     indicators: [
-      Indicators::Case::SHARED_WITH_MY_TEAM_REFERRALS,
+      Indicators::Case::SHARED_WITH_MY_TEAM_PENDING_REFERRALS,
+      Indicators::Case::SHARED_WITH_MY_TEAM_ACCEPTED_REFERRALS,
       Indicators::Case::SHARED_WITH_MY_TEAM_PENDING_TRANSFERS
     ]
   ).freeze

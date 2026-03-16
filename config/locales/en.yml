@@ -906,7 +906,8 @@ en:
     shared_with_me_transfers_awaiting_acceptance: Awaiting Acceptance
     shared_with_my_team_pending_transfers_overview: Awaiting Acceptance
     shared_with_my_team_pending_transfers: Pending Transfers
-    shared_with_my_team_referrals: Referrals
+    shared_with_my_team_pending_referrals: Pending Referrals
+    shared_with_my_team_accepted_referrals: Accepted Referrals
     shared_with_others_pending_transfers: Pending
     shared_with_others_referrals: Total
     shared_with_others_referrals_pending: Pending
