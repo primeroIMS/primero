@@ -6,3 +6,8 @@
   padding: 8px;
   margin-bottom: 1em;
 }
+
+.emptyState {
+  font-size: var(--fs-13);
+  padding: 8px;
+}

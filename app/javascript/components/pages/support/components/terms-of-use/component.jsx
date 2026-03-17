@@ -34,7 +34,14 @@ function Component() {
   const handleViewTerms = () => setPreviewOpen(!previewOpen);
 
   if (!termsOfUseUrl) {
-    return null;
+    return (
+      <div className={parentCss.termsOfUse}>
+        <h2>{i18n.t("navigation.support_menu.terms_of_use")}</h2>
+        <Typography className={css.emptyState}>
+          {i18n.t("terms_of_use.empty_state")}
+        </Typography>
+      </div>
+    );
   }
 
   return (
