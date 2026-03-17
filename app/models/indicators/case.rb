@@ -456,7 +456,7 @@ module Indicators
     SHARED_WITH_MY_TEAM_PENDING_REFERRALS = GroupedIndicator.new(
       name: 'shared_with_my_team_pending_referrals',
       record_model: Child,
-      pivots: [{ field_name: 'referred_users', multivalue: true, constrained: true }],
+      pivots: [{ field_name: 'referred_users_pending', multivalue: true, constrained: true }],
       exclude_zeros: true,
       scope: OPEN_ENABLED + [
         SearchFilters::BooleanValue.new(field_name: 'referred_users_pending_present', value: true)
@@ -466,7 +466,7 @@ module Indicators
     SHARED_WITH_MY_TEAM_ACCEPTED_REFERRALS = GroupedIndicator.new(
       name: 'shared_with_my_team_accepted_referrals',
       record_model: Child,
-      pivots: [{ field_name: 'referred_users', multivalue: true, constrained: true }],
+      pivots: [{ field_name: 'referred_users_accepted', multivalue: true, constrained: true }],
       exclude_zeros: true,
       scope: OPEN_ENABLED + [
         SearchFilters::BooleanValue.new(field_name: 'referred_users_accepted_present', value: true)
