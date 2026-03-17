@@ -37,9 +37,7 @@ function Component() {
     return (
       <div className={parentCss.termsOfUse}>
         <h2>{i18n.t("navigation.support_menu.terms_of_use")}</h2>
-        <Typography className={css.emptyState}>
-          {i18n.t("terms_of_use.empty_state")}
-        </Typography>
+        <Typography className={css.emptyState}>{i18n.t("terms_of_use.empty_state")}</Typography>
       </div>
     );
   }
