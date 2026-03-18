@@ -147,11 +147,13 @@ export const fieldValidations = (field, { i18n, online = false }) => {
       case type === SIGNATURE_FIELD:
         validations[name] = object({
           attachment: string().nullable()
-        }).test("attachment-or-url", requiredMessage, value => {
-          if (!value) return false;
+        })
+          .nullable()
+          .test("attachment-or-url", requiredMessage, value => {
+            if (!value) return false;
 
-          return !!value.attachment_url || !!value.attachment;
-        });
+            return !!value.attachment_url || !!value.attachment;
+          });
         break;
       default:
         validations[name] = (validations[name] || string()).nullable();
