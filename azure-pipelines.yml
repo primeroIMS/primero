@@ -19,7 +19,6 @@ variables:
 jobs:
   - job: Build
     displayName: 'Build and push'
-    dependsOn: Test
     pool: $(buildAgentPool)
     steps:
       - bash: echo "##vso[task.setvariable variable=tag]$(docker/git-to-docker-tag.sh ${BUILD_SOURCEBRANCH} ${BUILD_SOURCEVERSION})"
