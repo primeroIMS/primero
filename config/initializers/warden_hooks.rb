@@ -19,7 +19,7 @@ Warden::Manager.before_failure do |env, _opts|
     resource_url: request.original_url,
     metadata: {
       user_name: user_name,
-      remote_ip: LogUtils.remote_ip(request)
+      remote_ip: request.remote_ip
     }
   )
 end
