@@ -83,3 +83,13 @@
   border: 1px dashed var(--c-red-label-error);
   color: var(--c-red-label-error);
 }
+
+.fieldInputWarning {
+  & fieldset {
+    border-color: var(--c-tia-maria) !important;
+
+    &:focus {
+      border-color: var(--c-tia-maria) !important;
+    }
+  }
+}

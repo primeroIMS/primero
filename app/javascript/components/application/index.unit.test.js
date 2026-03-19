@@ -25,6 +25,8 @@ describe("<Application /> - index", () => {
       "selectAgencies",
       "getAgency",
       "getUserGroups",
+      "getDefaultPhoneFormat",
+      "getPhoneFormats",
       "selectLocales",
       "selectModule",
       "selectModules",

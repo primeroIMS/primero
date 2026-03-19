@@ -37,6 +37,9 @@ en:
   online: Online
   yes_label: 'Yes'
   or_label: or,
+  phone_number:
+    placeholder: Enter phone number
+    invalid: Invalid phone number
   select_provider: Select provider
   select_language: Select language
   log_in_primero_idp: log in with %{idp_name} username

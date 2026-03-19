@@ -28,6 +28,7 @@ export const FieldRecord = Record({
   option_strings_text: null,
   order: null,
   parent_form: null,
+  phone_number: false,
   required: false,
   selected_value: null,
   show_on_minify_form: false,
