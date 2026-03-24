@@ -148,7 +148,7 @@ function Component({ isSubform }) {
         [css.inputIconTickBox]: [RADIO_FIELD, TICK_FIELD].includes(name)
       });
 
-      if (name === SUBFORM_SECTION && isSubform) {
+      if ([SUBFORM_SECTION, SIGNATURE_FIELD].includes(name) && isSubform) {
         return null;
       }
 
