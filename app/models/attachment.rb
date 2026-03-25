@@ -124,7 +124,7 @@ class Attachment < ApplicationRecord
   def to_h_api
     hash = slice(:id, :field_name, :file_name, :date, :description, :is_current, :comments)
     hash[:attachment_url] = url
-    hash[:pdf_attachment_url] = pdf_url
+    hash[:pdf_attachment_url] = "#{pdf_url}/pdf" if pdf_file.attached?
     hash[:content_type] = content_type
     hash
   end

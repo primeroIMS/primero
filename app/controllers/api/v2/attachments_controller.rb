@@ -44,9 +44,9 @@ class Api::V2::AttachmentsController < Api::V2::RecordResourceController
 
   def send_file
     send_data(
-      @attachment.file.download,
-      filename: @attachment.file.filename.to_s,
-      type: @attachment.file.content_type,
+      file.download,
+      filename: file.filename.to_s,
+      type: file.content_type,
       disposition: 'inline'
     )
   rescue ActiveStorage::FileNotFoundError
@@ -93,5 +93,11 @@ class Api::V2::AttachmentsController < Api::V2::RecordResourceController
 
   def set_attachment
     @attachment = Attachment.find(params[:id])
+  end
+
+  def file
+    return @attachment.pdf_file if params[:type] == 'pdf'
+
+    @attachment.file
   end
 end

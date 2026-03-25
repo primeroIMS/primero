@@ -26,7 +26,7 @@ function Content({
   async function fetchAttachment() {
     const token = await getIDPToken();
 
-    const response = await fetch(pdfAttachmentUrl || attachmentUrl, {
+    const response = await fetch(attachmentSrc, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -64,7 +64,7 @@ function Content({
     return (
       <object
         type="application/pdf"
-        data={`/pdf-viewer?file=${attachmentSrc}&${previewParams}`}
+        data={`/pdf-viewer?file=${encodeURIComponent(attachmentSrc)}&${pdfAttachmentUrl ? "" : previewParams}`}
         width="100%"
         height="100%"
       >

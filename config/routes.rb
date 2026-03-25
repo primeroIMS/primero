@@ -53,7 +53,11 @@ Rails.application.routes.draw do
         resources :transfers, only: %i[index create update]
         resources :transfer_requests, only: %i[index create update]
         resources :transitions, only: [:index]
-        resources :attachments, only: %i[create destroy update show]
+        resources :attachments, only: %i[create destroy update show] do
+          member do
+            get '(:type)', action: :show
+          end
+        end
         resources :approvals, only: [:update]
         resources :potential_matches, only: [:index]
         resources :webhook_syncs, as: :sync, path: :sync, only: [:create]
@@ -74,7 +78,11 @@ Rails.application.routes.draw do
         resources :flags, only: %i[index create update]
         resources :alerts, only: %i[index destroy]
         resources :approvals, only: [:update]
-        resources :attachments, only: %i[create destroy show]
+        resources :attachments, only: %i[create destroy show] do
+          member do
+            get '(:type)', action: :show
+          end
+        end
         resources :assigns, only: %i[index create]
         resources :transitions, only: [:index]
         post :flags, to: 'flags#create_bulk', on: :collection
@@ -91,7 +99,11 @@ Rails.application.routes.draw do
         resources :flags, only: %i[index create update]
         resources :alerts, only: [:index]
         resources :approvals, only: [:update]
-        resources :attachments, only: %i[create destroy show]
+        resources :attachments, only: %i[create destroy show] do
+          member do
+            get '(:type)', action: :show
+          end
+        end
         get :traces, to: 'tracing_requests#traces'
         post :flags, to: 'flags#create_bulk', on: :collection
         get :record_history, to: 'record_histories#index'

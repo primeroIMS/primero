@@ -183,6 +183,19 @@ function DocumentField({
                   </div>
                 )}
                 <div className={viewerCss.drawerContent}>
+                  {contentType.endsWith("document") && (
+                    <ActionButton
+                      text="buttons.download"
+                      className={viewerCss.downloadButton}
+                      type={ACTION_BUTTON_TYPES.default}
+                      isTransparent
+                      rest={{
+                        variant: "outlined",
+                        component: "a",
+                        onClick: handleAttachmentDownload
+                      }}
+                    />
+                  )}
                   <FieldValue label={i18n.t("fields.document.content_type")} value={contentType} />
                   <FieldValue label={i18n.t("fields.document.date")} value={value[ATTACHMENT_FIELDS.date]} />
                   <FieldValue
