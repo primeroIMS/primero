@@ -183,7 +183,7 @@ function DocumentField({
                   </div>
                 )}
                 <div className={viewerCss.drawerContent}>
-                  {contentType.endsWith("document") && (
+                  {contentType?.endsWith("document") && (
                     <ActionButton
                       text="buttons.download"
                       className={viewerCss.downloadButton}
