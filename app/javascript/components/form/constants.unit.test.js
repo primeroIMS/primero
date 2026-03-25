@@ -30,6 +30,7 @@ describe("<Form /> - Constants", () => {
       "ORDERABLE_OPTIONS_FIELD",
       "PARENT_FORM",
       "PHOTO_FIELD",
+      "PHONE_NUMBER_FIELD",
       "PHOTO_RECORD_FIELD",
       "RADIO_FIELD",
       "SELECT_CHANGE_REASON",

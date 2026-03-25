@@ -69,6 +69,8 @@ function Component({ mode }) {
   });
 
   const {
+    getValues,
+    reset,
     formState: { dirtyFields }
   } = methods;
 
@@ -166,7 +168,7 @@ function Component({ mode }) {
   }, [id]);
 
   useEffect(() => {
-    if (selectedForm?.toSeq()?.size) {
+    if (reset && selectedForm?.toSeq()?.size) {
       if (selectedForm.get("is_nested")) {
         dispatch(push(ROUTES.forms));
       } else {
@@ -176,7 +178,7 @@ function Component({ mode }) {
         );
         const formData = selectedForm.delete("display_conditions").set("fields", fieldTree).toJS();
 
-        methods.reset({
+        reset({
           ...formData,
           selected_locale_id: selectedLocaleId,
           skip_logic: !selectedForm.getIn(["display_conditions", "disabled"], true),
@@ -187,23 +189,25 @@ function Component({ mode }) {
         setParentForm(selectedForm.get("parent_form"));
       }
     }
-  }, [selectedForm]);
+  }, [selectedForm, reset]);
 
   useEffect(() => {
-    const currentValues = methods.getValues({ nest: true });
+    if (getValues) {
+      const currentValues = getValues({ nest: true });
 
-    if (tab === 2) {
-      const moduleIds = currentValues.module_ids;
+      if (tab === 2) {
+        const moduleIds = currentValues.module_ids;
 
-      if (moduleIds && moduleIds[0] !== moduleId) {
-        setModuleId(moduleIds[0]);
-      }
+        if (moduleIds && moduleIds[0] !== moduleId) {
+          setModuleId(moduleIds[0]);
+        }
 
-      if (parentForm !== currentValues.parentForm) {
-        setParentForm(currentValues.parent_form);
+        if (parentForm !== currentValues.parentForm) {
+          setParentForm(currentValues.parent_form);
+        }
       }
     }
-  }, [tab]);
+  }, [getValues, tab]);
 
   return (
     <Permission resources={RESOURCES.metadata} actions={MANAGE} redirect>

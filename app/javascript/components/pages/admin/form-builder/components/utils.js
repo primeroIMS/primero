@@ -6,6 +6,7 @@ import { fromJS } from "immutable";
 
 import { getObjectPath } from "../../../../../libs";
 import { LOCALE_KEYS } from "../../../../../config";
+import { PHONE_NUMBER_FIELD } from "../../../../form";
 
 import { MULTI_SELECT_FIELD, DATE_TIME_FIELD } from "./custom-field-selector-dialog/constants";
 
@@ -51,12 +52,16 @@ export const getFiedListItemTheme = currentTheme => ({
 export const getLabelTypeField = field => {
   const isMultiSelect = field.get("multi_select");
   const isDateTime = field.get("date_include_time");
+  const isPhoneNumber = field.get("phone_number");
 
   if (isMultiSelect) {
     return MULTI_SELECT_FIELD;
   }
   if (isDateTime) {
     return DATE_TIME_FIELD;
+  }
+  if (isPhoneNumber) {
+    return PHONE_NUMBER_FIELD;
   }
 
   return field.get("type") === "date_range" ? "date_range_field" : field.get("type");
