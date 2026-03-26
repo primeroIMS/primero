@@ -17,6 +17,7 @@ Rails.logger.info('Setting up PeriodicJobs')
 jobs = %w[ArchiveBulkExports RecalculateAge GenerateUnusedFieldsReport]
 jobs << 'OptimizeSolr' if Rails.configuration.solr_enabled
 jobs << 'SessionCleanup' unless Rails.configuration.x.idp.use_identity_provider
+jobs << 'CleanupUnverifiedUsers' if Primero::Application.config.allow_self_registration
 
 jobs.each do |job_name|
   next if Delayed::Job.where('handler LIKE :job_class', job_class: "%job_class: #{job_name}%").exists?
