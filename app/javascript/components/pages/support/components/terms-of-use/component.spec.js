@@ -48,20 +48,41 @@ describe("<TermOfUse />", () => {
     }
   };
 
-  beforeEach(() => {
-    mountedComponent(<TermOfUse />, state);
-  });
-
   it("should render title", () => {
+    mountedComponent(<TermOfUse />, state);
     expect(screen.getByRole("heading", { level: 2 })).toHaveTextContent("navigation.support_menu.terms_of_use");
   });
 
   it("should render sub header", () => {
+    mountedComponent(<TermOfUse />, state);
     expect(screen.getByText(/agency.label Other/i)).toBeInTheDocument();
     expect(screen.getByText("terms_of_use.date_upload_updated")).toBeInTheDocument();
   });
 
   it("should render view button", () => {
+    mountedComponent(<TermOfUse />, state);
     expect(screen.getByText("terms_of_use.view_button")).toBeInTheDocument();
+  });
+
+  it("should show empty state when agency has no Terms of Use", () => {
+    const noTermsState = {
+      ...state,
+      application: {
+        agencies: [
+          {
+            id: 1,
+            agency_code: "Other",
+            name: {
+              en: "Other"
+            },
+            terms_of_use_enabled: false
+          }
+        ]
+      }
+    };
+
+    mountedComponent(<TermOfUse />, noTermsState);
+    expect(screen.getByText("terms_of_use.empty_state")).toBeInTheDocument();
+    expect(screen.queryByText("terms_of_use.view_button")).not.toBeInTheDocument();
   });
 });
