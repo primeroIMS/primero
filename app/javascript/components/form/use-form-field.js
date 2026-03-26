@@ -39,8 +39,10 @@ import {
   DOCUMENT_FIELD,
   LINK_FIELD,
   PHOTO_RECORD_FIELD,
-  AUDIO_RECORD_FIELD
+  AUDIO_RECORD_FIELD,
+  SIGNATURE_FIELD
 } from "./constants";
+import SignatureInput from "./fields/signature-input";
 
 export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
   const {
@@ -105,7 +107,8 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
     showDisableOption,
     maxOptionsAllowed,
     optionFieldName,
-    additionalOptions
+    additionalOptions,
+    signature_provided_by_label: signatureProvidedByLabel
   } = field;
 
   const i18n = useI18n();
@@ -208,7 +211,8 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
     showDisableOption,
     maxOptionsAllowed,
     optionFieldName,
-    additionalOptions
+    additionalOptions,
+    signatureProvidedByLabel
   };
 
   const Field = (fieldType => {
@@ -225,6 +229,8 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
       case PHOTO_FIELD:
       case DOCUMENT_FIELD:
         return AttachmentInput;
+      case SIGNATURE_FIELD:
+        return SignatureInput;
       case LABEL_FIELD:
         return Label;
       case ERROR_FIELD:

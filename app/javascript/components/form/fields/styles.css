@@ -150,3 +150,26 @@
   font-weight: bold;
   color: var(--c-solid-black);
 }
+
+.signatureLabel {
+  font-weight: bold;
+  color: var(--c-solid-black);
+  margin-bottom: var(--sp-2);
+}
+
+.signatureDetails {
+  margin-top: var(--sp-1);
+  font-size: var(--fs-12);
+
+  & div {
+    margin-bottom: var(--sp-1);
+  }
+
+  & span {
+    font-weight: bold;
+  }
+}
+
+.signatureImage {
+  width: 280px;
+}

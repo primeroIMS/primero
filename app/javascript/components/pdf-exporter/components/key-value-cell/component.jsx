@@ -27,7 +27,9 @@ function Component({
   options,
   optionsStringSource = null,
   type,
-  value = ""
+  value = "",
+  signatureProvidedByLabel,
+  helperText
 }) {
   const i18n = useI18n();
 
@@ -42,14 +44,14 @@ function Component({
 
   const lookups = useOptions({ source: optionsStringSource, options, useUniqueId: isAgency });
 
-  const signatureInfo = (fieldValue, signatureMetaField) => {
+  const signatureInfo = (fieldValue, signatureMetaField, label) => {
     const metaValue = fieldValue?.get(signatureMetaField);
 
     if (!metaValue) return false;
 
     return (
       <div>
-        {i18n.t(`fields.${signatureMetaField}`)}: <span>{metaValue}</span>
+        {label?.[i18n.locale] || i18n.t(`fields.${signatureMetaField}`)}: <span>{metaValue}</span>
       </div>
     );
   };
@@ -106,8 +108,9 @@ function Component({
           <AssetJwt src={fieldValue?.get("attachment_url")} alt="Signature" className={css.signatureImage} />
           <div className={css.signatureDetails}>
             {signatureInfo(fieldValue, "signature_provided_on")}
-            {signatureInfo(fieldValue, "signature_provided_by")}
+            {signatureInfo(fieldValue, "signature_provided_by", signatureProvidedByLabel)}
             {signatureInfo(fieldValue, "signature_created_by_user")}
+            {helperText?.[i18n.locale]}
           </div>
         </div>
       );
@@ -133,10 +136,12 @@ Component.propTypes = {
   classes: PropTypes.object.isRequired,
   defaultValue: PropTypes.any,
   displayName: PropTypes.string.isRequired,
+  helperText: PropTypes.object,
   isDateWithTime: PropTypes.bool,
   isSubform: PropTypes.bool,
   options: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   optionsStringSource: PropTypes.string,
+  signatureProvidedByLabel: PropTypes.object,
   type: PropTypes.string.isRequired,
   value: PropTypes.any
 };
