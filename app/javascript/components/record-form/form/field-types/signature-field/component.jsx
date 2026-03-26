@@ -36,10 +36,10 @@ import { buildTallyErrors } from "../../utils";
 
 // Note: Using a hidden field 'touched' to track if user has interacted with the signature pad for validation.
 
-function buildSchema(i18n) {
+function buildSchema(i18n, fieldLabel) {
   return object().shape({
     signature_provided_by: string().required(
-      i18n.t("fields.required_field", { field: i18n.t("fields.signature_provided_by") })
+      i18n.t("fields.required_field", { field: fieldLabel || i18n.t("fields.signature_provided_by") })
     ),
     touched: boolean().oneOf([true], i18n.t("fields.required_field", { field: i18n.t("fields.signature") }))
   });
@@ -53,6 +53,7 @@ function Component({ helperText, label, mode, name, field }) {
   const [valuesToSave, setValuesToSave] = useState(null);
   const formikContext = useFormikContext();
   const value = getIn(formikContext.values, name);
+  const valueFromField = Array.isArray(value) ? value[0] : value;
   const mobileDisplay = useMediaQuery(theme => theme.breakpoints.down("sm"));
   const hasError = getIn(formikContext.touched, name) && getIn(formikContext.errors, name);
 
@@ -88,7 +89,11 @@ function Component({ helperText, label, mode, name, field }) {
     }
   };
 
-  const signatureDialogBtnText = `buttons.${!value?.attachment_url && value?.attachment ? "update" : "add"}_signature`;
+  const signatureDialogBtnText = `buttons.${
+    !valueFromField?.attachment_url && valueFromField?.attachment ? "update" : "add"
+  }_signature`;
+  const signatureProvidedByLabel =
+    field.signature_provided_by_label?.[i18n.locale] || i18n.t("fields.signature_provided_by");
 
   const handleOpen = event => {
     event.preventDefault();
@@ -139,7 +144,7 @@ function Component({ helperText, label, mode, name, field }) {
   );
 
   const signatureInfo = (signatureMetaField, labelFromField) => {
-    const fieldValue = value?.[signatureMetaField];
+    const fieldValue = valueFromField?.[signatureMetaField];
 
     if (!fieldValue) return false;
     const selectedLabelFromField = field.getIn([labelFromField, i18n.locale], null);
@@ -155,17 +160,17 @@ function Component({ helperText, label, mode, name, field }) {
   return (
     <div>
       {inputLabel}
-      {isEmpty(value) && mode.isShow && EMPTY_VALUE}
-      {isEmpty(value) && (mode.isEdit || mode.isNew) && (
+      {isEmpty(valueFromField) && mode.isShow && EMPTY_VALUE}
+      {isEmpty(valueFromField) && (mode.isEdit || mode.isNew) && (
         <div className={css.noSignatureProvided} aria-invalid={Boolean(hasError)}>
           {i18n.t("messages.no_signature_provided")}
         </div>
       )}
-      {value && (value?.attachment_url || value?.attachment) && (
+      {valueFromField && (valueFromField?.attachment_url || valueFromField?.attachment) && (
         <div>
           <div>
             <AssetJwt
-              src={value?.attachment_url || `data:image/png;base64,${value?.attachment}`}
+              src={valueFromField?.attachment_url || `data:image/png;base64,${valueFromField?.attachment}`}
               alt="Signature"
               className={css.signatureImage}
             />
@@ -177,7 +182,7 @@ function Component({ helperText, label, mode, name, field }) {
           </div>
         </div>
       )}
-      {(mode.isEdit || mode.isNew) && !value?.attachment_url && (
+      {(mode.isEdit || mode.isNew) && !valueFromField?.attachment_url && (
         <>
           <ActionButton icon={<HistoryEduIcon />} onClick={handleOpen} text={signatureDialogBtnText} />
 
@@ -186,7 +191,7 @@ function Component({ helperText, label, mode, name, field }) {
               initialValues={{ signature_provided_by: "", touched: false }}
               validateOnBlur={false}
               validateOnChange={false}
-              validationSchema={buildSchema(i18n)}
+              validationSchema={buildSchema(i18n, field.signature_provided_by_label?.[i18n.locale])}
               enableReinitialize
               onSubmit={values => openAlert(values)}
             >
@@ -236,7 +241,7 @@ function Component({ helperText, label, mode, name, field }) {
                       <FastField
                         {...inputsProps}
                         component={TextField}
-                        label={i18n.t("fields.signature_provided_by")}
+                        label={signatureProvidedByLabel}
                         name="signature_provided_by"
                       />
                       <FastField {...inputsProps} type="hidden" name="touched" />
@@ -278,7 +283,7 @@ function Component({ helperText, label, mode, name, field }) {
           </Dialog>
         </>
       )}
-      {(mode.isEdit || mode.isNew) && helperText && (
+      {(helperText || hasError) && (
         <FormHelperText error={hasError}>{buildTallyErrors(hasError) || helperText}</FormHelperText>
       )}
     </div>

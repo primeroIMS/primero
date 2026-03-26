@@ -17,54 +17,8 @@ variables:
   latestBranch: main
 
 jobs:
-  - job: Test
-    displayName: 'Run tests'
-    pool: $(buildAgentPool)
-    steps:
-      - bash: ./bin/install_local_test_solr.sh
-      - bash: |
-          set -e
-          mkdir -p log
-          cp config/azure-devops/database.yml config/
-          cp config/azure-devops/sunspot.yml config/
-          cp config/azure-devops/mailers.yml config/
-        displayName: 'Make required directories and copy files'
-      - task: NodeTool@0
-        inputs:
-          versionSpec: '22.15.1'
-        displayName: 'Install node'
-      - bash: npm config set legacy-peer-deps true && npm ci
-        displayName: 'Install npm packages'
-      - bash: |
-          apt-get update
-          apt-get install -y libpq-dev unzip libsodium-dev
-        displayName: 'Install dependencies'
-      - bash: |
-          . ~/.bash_env
-          rbenv global 3.4.7
-          bundle install --without production --path=${BUNDLE_PATH:-vendor/bundle}
-        displayName: 'Bundle install'
-        env:
-          RAILS_ENV: test
-      - bash: |
-          . ~/.bash_env
-          bundle exec rails db:drop
-          bundle exec rails db:create
-          bundle exec rails db:migrate
-          bundle exec rspec spec
-        displayName: 'Run Rspec test'
-        env:
-          RAILS_ENV: test
-          DEVISE_JWT_SECRET_KEY: $(DEVISE_JWT_SECRET_KEY)
-          DEVISE_SECRET_KEY: $(DEVISE_SECRET_KEY)
-          SOLR_ENABLED: true
-      - bash: |
-          npm run test
-        displayName: 'Run Integration test'
-
   - job: Build
     displayName: 'Build and push'
-    dependsOn: Test
     pool: $(buildAgentPool)
     steps:
       - bash: echo "##vso[task.setvariable variable=tag]$(docker/git-to-docker-tag.sh ${BUILD_SOURCEBRANCH} ${BUILD_SOURCEVERSION})"

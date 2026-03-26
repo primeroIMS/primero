@@ -4,6 +4,7 @@ import { cx } from "@emotion/css";
 
 import { TICK_FIELD, RADIO_FIELD, SUBFORM_SECTION } from "../../../../../form/constants";
 import { useI18n } from "../../../../../i18n";
+import { SIGNATURE_FIELD } from "../../../../../record-form/constants";
 
 import css from "./styles.css";
 
@@ -14,7 +15,7 @@ function Component({ name, Icon, onItemChange, isSubform, selectedItem }) {
     [css.inputIconTickBox]: [RADIO_FIELD, TICK_FIELD].includes(name)
   });
 
-  if (name === SUBFORM_SECTION && isSubform) {
+  if ([SUBFORM_SECTION, SIGNATURE_FIELD].includes(name) && isSubform) {
     return null;
   }
 

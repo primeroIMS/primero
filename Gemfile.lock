@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/rack/rack-attack
+  revision: e938879178075afbf0dda4e99f0e11d408720b41
+  ref: e938879178075afbf0dda4e99f0e11d408720b41
+  specs:
+    rack-attack (6.8.0)
+      rack (>= 1.0, < 4)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -304,8 +312,6 @@ GEM
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.2.2)
-    rack-attack (6.7.0)
-      rack (>= 1.0, < 4)
     rack-mini-profiler (3.3.1)
       rack (>= 1.2.0)
     rack-session (2.1.1)
@@ -546,7 +552,7 @@ DEPENDENCIES
   pry-byebug
   puma (~> 7.0)
   rack (~> 3.2)
-  rack-attack (~> 6.6)
+  rack-attack!
   rack-mini-profiler (>= 1.0.0)
   rack-test (~> 2.2)
   rack_session_access (~> 0.2)
