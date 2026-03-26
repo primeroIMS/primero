@@ -55,7 +55,7 @@ Rails.application.routes.draw do
         resources :transitions, only: [:index]
         resources :attachments, only: %i[create destroy update show] do
           member do
-            get '(:type)', action: :show
+            get '(:preview_type)', action: :show
           end
         end
         resources :approvals, only: [:update]
@@ -80,7 +80,7 @@ Rails.application.routes.draw do
         resources :approvals, only: [:update]
         resources :attachments, only: %i[create destroy show] do
           member do
-            get '(:type)', action: :show
+            get '(:preview_type)', action: :show
           end
         end
         resources :assigns, only: %i[index create]
@@ -101,7 +101,7 @@ Rails.application.routes.draw do
         resources :approvals, only: [:update]
         resources :attachments, only: %i[create destroy show] do
           member do
-            get '(:type)', action: :show
+            get '(:preview_type)', action: :show
           end
         end
         get :traces, to: 'tracing_requests#traces'

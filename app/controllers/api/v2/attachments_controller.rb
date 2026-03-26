@@ -96,7 +96,7 @@ class Api::V2::AttachmentsController < Api::V2::RecordResourceController
   end
 
   def file
-    return @attachment.pdf_file if params[:type] == 'pdf'
+    return @attachment.preview_file if params[:preview_type] == 'pdf'
 
     @attachment.file
   end

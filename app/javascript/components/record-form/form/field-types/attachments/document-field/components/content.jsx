@@ -13,13 +13,13 @@ import css from "./styles.css";
 function Content({
   previewParams = "",
   attachmentUrl,
-  pdfAttachmentUrl,
+  previewUrl,
   contentType,
   fileName,
   mobileDisplay,
   handleAttachmentDownload
 }) {
-  const [attachmentSrc, setAttachmentSrc] = useState(pdfAttachmentUrl || attachmentUrl);
+  const [attachmentSrc, setAttachmentSrc] = useState(previewUrl || attachmentUrl);
   const [attachmentLoaded, setAttachmentLoaded] = useState(false);
   const isIDP = useMemoizedSelector(state => getUseIdentityProvider(state));
 
@@ -60,11 +60,11 @@ function Content({
     </div>
   );
 
-  if ((contentType === PDF_CONTENT_TYPE || pdfAttachmentUrl) && attachmentLoaded) {
+  if ((contentType === PDF_CONTENT_TYPE || previewUrl) && attachmentLoaded) {
     return (
       <object
         type="application/pdf"
-        data={`/pdf-viewer?file=${encodeURIComponent(attachmentSrc)}&${pdfAttachmentUrl ? "" : previewParams}`}
+        data={`/pdf-viewer?file=${encodeURIComponent(attachmentSrc)}&${previewUrl ? "" : previewParams}`}
         width="100%"
         height="100%"
       >
@@ -88,8 +88,8 @@ Content.propTypes = {
   fileName: PropTypes.string.isRequired,
   handleAttachmentDownload: PropTypes.func.isRequired,
   mobileDisplay: PropTypes.bool.isRequired,
-  pdfAttachmentUrl: PropTypes.string.isRequired,
-  previewParams: PropTypes.string
+  previewParams: PropTypes.string,
+  previewUrl: PropTypes.string.isRequired
 };
 
 export default Content;
