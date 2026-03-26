@@ -409,13 +409,24 @@ module Indicators
       queries: CLOSED_ENABLED
     ).freeze
 
-    SHARED_FROM_MY_TEAM_REFERRALS = GroupedIndicator.new(
-      name: 'shared_from_my_team_referrals',
+    SHARED_FROM_MY_TEAM_PENDING_REFERRALS = GroupedIndicator.new(
+      name: 'shared_from_my_team_pending_referrals',
       pivots: [{ field_name: 'owned_by' }],
       exclude_zeros: true,
       record_model: Child,
       scope: OPEN_ENABLED + [
-        SearchFilters::BooleanValue.new(field_name: 'referred_users_present', value: true)
+        SearchFilters::BooleanValue.new(field_name: 'referred_users_pending_present', value: true)
+      ],
+      scope_to_owned_by_groups: true
+    ).freeze
+
+    SHARED_FROM_MY_TEAM_ACCEPTED_REFERRALS = GroupedIndicator.new(
+      name: 'shared_from_my_team_accepted_referrals',
+      pivots: [{ field_name: 'owned_by' }],
+      exclude_zeros: true,
+      record_model: Child,
+      scope: OPEN_ENABLED + [
+        SearchFilters::BooleanValue.new(field_name: 'referred_users_accepted_present', value: true)
       ],
       scope_to_owned_by_groups: true
     ).freeze
@@ -442,13 +453,23 @@ module Indicators
       scope_to_owned_by_groups: true
     ).freeze
 
-    SHARED_WITH_MY_TEAM_REFERRALS = GroupedIndicator.new(
-      name: 'shared_with_my_team_referrals',
+    SHARED_WITH_MY_TEAM_PENDING_REFERRALS = GroupedIndicator.new(
+      name: 'shared_with_my_team_pending_referrals',
       record_model: Child,
-      pivots: [{ field_name: 'referred_users', multivalue: true, constrained: true }],
+      pivots: [{ field_name: 'referred_users_pending', multivalue: true, constrained: true }],
       exclude_zeros: true,
       scope: OPEN_ENABLED + [
-        SearchFilters::BooleanValue.new(field_name: 'referred_users_present', value: true)
+        SearchFilters::BooleanValue.new(field_name: 'referred_users_pending_present', value: true)
+      ]
+    )
+
+    SHARED_WITH_MY_TEAM_ACCEPTED_REFERRALS = GroupedIndicator.new(
+      name: 'shared_with_my_team_accepted_referrals',
+      record_model: Child,
+      pivots: [{ field_name: 'referred_users_accepted', multivalue: true, constrained: true }],
+      exclude_zeros: true,
+      scope: OPEN_ENABLED + [
+        SearchFilters::BooleanValue.new(field_name: 'referred_users_accepted_present', value: true)
       ]
     )
 
@@ -694,6 +715,46 @@ module Indicators
           )
         ],
         scope_to_owner: true
+      )
+    end
+    # rubocop:enable Metrics/MethodLength
+
+    # rubocop:disable Metrics/MethodLength
+    def self.shared_from_my_team_rejected_referrals
+      days_since_referral_status_changed = SystemSettings.current.days_since_referral_status_changed
+      GroupedIndicator.new(
+        name: 'shared_from_my_team_rejected_referrals',
+        record_model: Child,
+        pivots: [{ field_name: 'owned_by' }],
+        exclude_zeros: true,
+        scope: OPEN_ENABLED + [
+          SearchFilters::DateRange.new(
+            field_name: 'last_referral_rejected_at',
+            from: Time.zone.now - days_since_referral_status_changed.days,
+            to: Time.zone.now
+          )
+        ],
+        scope_to_owned_by_groups: true
+      )
+    end
+    # rubocop:enable Metrics/MethodLength
+
+    # rubocop:disable Metrics/MethodLength
+    def self.shared_from_my_team_done_referrals
+      days_since_referral_status_changed = SystemSettings.current.days_since_referral_status_changed
+      GroupedIndicator.new(
+        name: 'shared_from_my_team_done_referrals',
+        record_model: Child,
+        pivots: [{ field_name: 'owned_by' }],
+        exclude_zeros: true,
+        scope: OPEN_ENABLED + [
+          SearchFilters::DateRange.new(
+            field_name: 'last_referral_done_at',
+            from: Time.zone.now - days_since_referral_status_changed.days,
+            to: Time.zone.now
+          )
+        ],
+        scope_to_owned_by_groups: true
       )
     end
     # rubocop:enable Metrics/MethodLength

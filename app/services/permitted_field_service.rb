@@ -47,11 +47,10 @@ class PermittedFieldService
 
   # Calculated fields needed to perform searches
   PERMITTED_FILTER_FIELD_NAMES = %w[
-    or not cases_by_date record_in_scope associated_user_names not_edited_by_owner referred_users referred_users_present
-    transferred_to_users transferred_to_user_groups has_photo survivor_code survivor_code_no case_id_display
-    created_at has_incidents short_id record_state sex age registration_date date_closure
-    reassigned_transferred_on current_alert_types location_current reporting_location_hierarchy followup_dates
-    reunification_dates tracing_dates service_implemented_day_times
+    or not cases_by_date record_in_scope associated_user_names not_edited_by_owner has_photo survivor_code
+    survivor_code_no case_id_display created_at has_incidents short_id record_state sex age registration_date
+    date_closure reassigned_transferred_on current_alert_types location_current reporting_location_hierarchy
+    followup_dates reunification_dates tracing_dates service_implemented_day_times
   ].freeze
 
   PERMITTED_MRM_FILTER_FIELD_NAMES = %w[
@@ -70,8 +69,24 @@ class PermittedFieldService
 
   PERMITTED_DASHBOARD_FILTERS = {
     Permission::DASH_CASE_RISK => %w[risk_level],
-    Permission::DASH_SHARED_WITH_OTHERS => %w[transfer_status],
-    Permission::DASH_SHARED_FROM_MY_TEAM => %w[transfer_status]
+    Permission::DASH_SHARED_WITH_ME => %w[
+      referred_users referred_users_pending referred_users_accepted transferred_to_users
+    ],
+    Permission::DASH_SHARED_WITH_OTHERS => %w[
+      referred_users_present referred_users_pending_present referred_users_accepted_present last_referral_rejected_at
+      last_referral_done_at transfer_status
+    ],
+    Permission::DASH_SHARED_FROM_MY_TEAM => %w[
+      referred_users_pending_present referred_users_accepted_present last_referral_rejected_at last_referral_done_at
+      transfer_status
+    ],
+    Permission::DASH_SHARED_WITH_MY_TEAM => %w[
+      referred_users_pending referred_users_accepted referred_users_pending_present referred_users_accepted_present
+      transferred_to_users
+    ],
+    Permission::DASH_SHARED_WITH_MY_TEAM_OVERVIEW => %w[
+      transferred_to_user_groups transfer_status
+    ]
   }.freeze
 
   PERMITTED_FIELDS_FOR_ACTION_SCHEMA = {
