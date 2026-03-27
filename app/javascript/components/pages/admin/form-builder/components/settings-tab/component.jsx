@@ -66,9 +66,6 @@ function Component({ index, mode, tab, formMethods, limitedProductionSite }) {
     dialogClose();
   }, []);
 
-  // const getFormValues = useCallback(props => getValues(props), [getValues]);
-  // const formReset = useCallback(props => reset(props), [reset]);
-
   return (
     <TabPanel tab={tab} index={index}>
       <div className={css.tabContent} data-testid="settings-tab">
