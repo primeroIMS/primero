@@ -21,6 +21,7 @@ import TextInput from "./fields/text-input";
 import CheckboxInput from "./fields/checkbox-input";
 import AttachmentInput from "./fields/attachment-input";
 import RecordAttachmentInput from "./fields/record-attachment-input";
+import PhoneNumberInput from "./fields/phone-number-input";
 import Label from "./fields/label";
 import {
   CHECK_BOX_FIELD,
@@ -66,6 +67,7 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
     hint,
     disabled,
     inputClassname,
+    phone_number: isPhoneNumber,
     date_include_time: dateIncludeTime,
     selected_value: selectedValue,
     visible,
@@ -251,8 +253,13 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
         return HiddenInput;
       case LINK_FIELD:
         return LinkField;
-      default:
+      default: {
+        if (isPhoneNumber) {
+          return PhoneNumberInput;
+        }
+
         return TextInput;
+      }
     }
   })(type);
 

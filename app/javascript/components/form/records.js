@@ -70,6 +70,7 @@ export const FieldRecord = Record({
   optionFieldName: null,
   order: null,
   password: false,
+  phone_number: false,
   placeholder: "",
   rawOptions: false,
   renderChildren: true,

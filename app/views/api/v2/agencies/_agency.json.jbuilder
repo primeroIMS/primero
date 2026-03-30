@@ -18,3 +18,7 @@ json.terms_of_use rails_blob_path(agency.terms_of_use, only_path: true) if agenc
 json.terms_of_use_enabled agency.terms_of_use_enabled
 json.terms_of_use_uploaded_at agency.terms_of_use_uploaded_at
 json.disabled agency.disabled
+json.contact_email agency.contact_email
+json.contact_name agency.contact_name
+json.contact_phone agency.contact_phone
+json.notes agency.notes

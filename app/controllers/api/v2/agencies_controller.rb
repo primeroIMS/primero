@@ -45,7 +45,9 @@ class Api::V2::AgenciesController < ApplicationApiController
       :id, :unique_id, :agency_code, :order, :telephone, :logo_enabled,
       :logo_full_base64, :logo_full_file_name, :logo_icon_base64, :logo_icon_file_name,
       :terms_of_use_file_name, :terms_of_use_base64, :terms_of_use_enabled,
-      :disabled, :pdf_logo_option, :exclude_agency_from_lookups, services: [], name: {}, description: {}
+      :disabled, :pdf_logo_option, :exclude_agency_from_lookups,
+      :contact_email, :contact_name, :contact_phone, :notes,
+      services: [], name: {}, description: {}
     )
   end
 
