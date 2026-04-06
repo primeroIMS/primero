@@ -16,6 +16,7 @@ import SearchNameToggle from "../search-name-toggle";
 import { registerInput } from "../filter-types/utils";
 import handleFilterChange from "../filter-types/value-handlers";
 import PhoneticHelpText from "../phonetic-help-text";
+import SearchFieldToggle from "../search-field-toggle";
 import { useMemoizedSelector } from "../../../../libs";
 import { getTooltipFields } from "../../selectors";
 import displayNameHelper from "../../../../libs/display-name-helper";
@@ -26,6 +27,7 @@ import { searchTitleI18nKey } from "./utils";
 const FIELD_NAME_QUERY = "query";
 const FIELD_NAME_ID_SEARCH = "id_search";
 const PHONETIC_FIELD_NAME = "phonetic";
+const PHONE_NUMBER_FIELD_NAME = "phone_number";
 
 function SearchBox({
   showSearchButton = true,
@@ -41,8 +43,10 @@ function SearchBox({
   const searchTitle = isEmpty(searchFieldLabel) ? i18n.t(searchTitleI18nKey(watchPhonetic)) : searchFieldLabel;
   const [inputValue, setInputValue] = useState();
   const [switchValue, setSwitchValue] = useState();
+  const [toggleValue, setToggleValue] = useState();
   const valueRef = useRef();
   const switchRef = useRef();
+  const toggleRef = useRef();
 
   const tooltipFields = useMemoizedSelector(state => getTooltipFields(state, recordType, switchValue));
   const searchFieldTooltips = tooltipFields?.map(obj => displayNameHelper(obj, i18n.locale));
@@ -64,10 +68,19 @@ function SearchBox({
       setInputValue: setSwitchValue
     });
 
+    registerInput({
+      register,
+      name: PHONE_NUMBER_FIELD_NAME,
+      defaultValue: false,
+      ref: toggleRef,
+      setInputValue: setSwitchValue
+    });
+
     return () => {
       unregister(FIELD_NAME_QUERY);
       unregister(FIELD_NAME_ID_SEARCH);
       unregister(PHONETIC_FIELD_NAME);
+      unregister(PHONE_NUMBER_FIELD_NAME);
     };
   }, [register, unregister]);
 
@@ -99,12 +112,17 @@ function SearchBox({
     setValue(FIELD_NAME_ID_SEARCH, !event.target.checked);
   };
 
+  const handleToggleChange = event => {
+    setToggleValue(event.target.value);
+  };
+
   const handleClear = () => {
     setValue(FIELD_NAME_QUERY, undefined);
   };
 
   return (
     <div className={cx({ [css.searchContainer]: !useFullWidth, [css.searchContainerFullWidth]: useFullWidth })}>
+      <SearchFieldToggle value={toggleValue} handleChange={handleToggleChange} />
       <p className={css.searchTitle}>{searchTitle}</p>
       <div className={css.searchInputContainer}>
         <InputBase

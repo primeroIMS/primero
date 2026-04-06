@@ -104,7 +104,7 @@ describe PhoneticSearchService, search: true do
       end
     describe 'search options' do
       it 'passes skip_attachments option to search query' do
-        expect(Search::IdSearchQuery).to receive(:new).and_wrap_original do |original_method, *args|
+        expect(Search::IdentifierSearchQuery).to receive(:new).and_wrap_original do |original_method, *args|
           query = original_method.call(*args)
           expect(query).to receive(:build).with(true).and_call_original
           query
