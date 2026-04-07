@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # An indicator that returns the reporting locations of violation type detention
 class ManagedReports::Indicators::MilitaryUse < ManagedReports::SqlReportIndicator
   class << self

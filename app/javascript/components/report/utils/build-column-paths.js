@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 export default (columns, i18n) => {
   const hasObject = columns.some(column => typeof column === "object");
   const labelTotal = i18n.t("report.total");

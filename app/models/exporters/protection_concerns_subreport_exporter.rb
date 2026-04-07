@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2024 UNICEF. All rights reserved.
-
 # Concern for Protection Concerns Subreport Exporter
 class Exporters::ProtectionConcernsSubreportExporter < Exporters::FieldSubreportExporter
   def field

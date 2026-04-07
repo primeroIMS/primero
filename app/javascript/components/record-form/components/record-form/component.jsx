@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useMediaQuery } from "@mui/material";

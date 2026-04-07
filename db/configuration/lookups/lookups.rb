@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 Lookup.create_or_update!(
   unique_id: 'lookup-location-type',
   name_en: 'Location Type',

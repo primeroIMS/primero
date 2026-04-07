@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # TODO: Adding the frozen_string_literal breaks rspec tests
 
 require 'write_xlsx'

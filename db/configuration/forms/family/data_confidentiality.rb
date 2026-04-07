@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 consent_fields = [
   Field.new(name: 'family_legitimate_basis',
             type: 'select_box',

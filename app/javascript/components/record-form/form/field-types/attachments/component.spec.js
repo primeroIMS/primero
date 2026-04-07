@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2024 UNICEF. All rights reserved.
-
 import { mountedComponent, screen } from "test-utils";
 
 import AttachmentField from "./component";

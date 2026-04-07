@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { convertToFieldsObject } from "../../../utils";
 
 export default subform => {

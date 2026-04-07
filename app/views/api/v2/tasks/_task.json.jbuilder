@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 json.record_type 'case'
 json.merge!(
   id: task.parent_case.id,

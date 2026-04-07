@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
 import { CLEAR_DIALOG, SET_DIALOG_PENDING } from "../../action-dialog";
 import { FETCH_RECORD_ALERTS } from "../../records/actions";

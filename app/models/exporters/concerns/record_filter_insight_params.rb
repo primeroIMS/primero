@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Concern that handles Record Filter Insight Params
 module Exporters::Concerns::RecordFilterInsightParams
   extend ActiveSupport::Concern

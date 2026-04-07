@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Calculate the permitted users for a user if specified
 class PermittedUsersService
   attr_accessor :user, :include_activity_stats

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Monkey patch Minipack
 Minipack::Manifest.class_eval do
   def lookup_pack_with_chunks!(name, type: nil)

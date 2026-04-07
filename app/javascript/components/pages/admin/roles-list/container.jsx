@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { useEffect } from "react";
 import { fromJS, List } from "immutable";
 import AddIcon from "@mui/icons-material/Add";

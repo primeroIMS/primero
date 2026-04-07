@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
-
 import { isEmpty, isNil } from "lodash";
 
 import { ROUTES } from "../../config";

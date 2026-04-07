@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
-
 import PropTypes from "prop-types";
 
 import ActionDialog, { useDialog } from "../../../action-dialog";

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # API endpoint for generating usage reports
 class Api::V2::UsageReportsController < ApplicationApiController
   include Api::V2::Concerns::Export

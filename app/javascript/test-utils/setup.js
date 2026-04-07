@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import "./globals";
 import "@testing-library/jest-dom";
 import { MessageChannel } from "worker_threads";

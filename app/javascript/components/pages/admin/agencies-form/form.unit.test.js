@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
-
 import { fromJS } from "immutable";
 
 import { TEXT_FIELD, TEXT_AREA, SELECT_FIELD, TICK_FIELD, PHOTO_FIELD, DOCUMENT_FIELD, SEPARATOR } from "../../../form";

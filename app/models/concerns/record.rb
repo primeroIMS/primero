@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # A shared concern for all core Primero record types: Cases (child), Incidents, Tracing Requests
 module Record
   extend ActiveSupport::Concern

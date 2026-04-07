@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Transform API query parameter field_name=false,true,... into a sql query
 class SearchFilters::TextList < SearchFilters::ValueList
   def json_path_query

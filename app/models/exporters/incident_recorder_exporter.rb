@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Exports Incident Recorder to an Excel File
 # rubocop:disable Metrics/ClassLength
 class Exporters::IncidentRecorderExporter < Exporters::BaseExporter

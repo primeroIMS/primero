@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2024 UNICEF. All rights reserved.
-
 import { screen, mountedFormComponent, userEvent } from "test-utils";
 
 import CheckboxFilter from "./component";

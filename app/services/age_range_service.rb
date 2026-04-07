@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # A service that returns age ranges
 class AgeRangeService
   def self.primary_age_ranges(module_unique_id = nil)

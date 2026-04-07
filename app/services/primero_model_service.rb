@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2024 UNICEF. All rights reserved.
-
 # Use this service to convert name strings of Primero models into class objects.
 # Thsi is useful if a record saves a type field. Only permitted strings can be turned into classes.
 class PrimeroModelService

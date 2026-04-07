@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # A form is a collection of fields. Forms describe how a user may interact with a record.
 # rubocop:disable Metrics/ClassLength
 class FormSection < ApplicationRecord

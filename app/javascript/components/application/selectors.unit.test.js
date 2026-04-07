@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { fromJS } from "immutable";
 
 import { RECORD_TYPES, MODULES, RECORD_TYPES_PLURAL } from "../../config";

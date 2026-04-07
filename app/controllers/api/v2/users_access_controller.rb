@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
-
 # API to list users that accessed to a record
 class Api::V2::UsersAccessController < Api::V2::RecordResourceController
   include Api::V2::Concerns::SupplementData

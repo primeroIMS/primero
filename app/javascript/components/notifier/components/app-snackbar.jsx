@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { useState, useCallback, forwardRef } from "react";
 import { useSnackbar, SnackbarContent } from "notistack";
 import PropTypes from "prop-types";

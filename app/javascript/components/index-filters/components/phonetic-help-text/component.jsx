@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import PropTypes from "prop-types";
 import { cx } from "@emotion/css";

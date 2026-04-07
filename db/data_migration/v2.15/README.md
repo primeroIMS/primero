@@ -1,5 +1,3 @@
-<!-- Copyright (c) 2014 - 2026 UNICEF. All rights reserved. -->
-
 Migrations in v2.15
 ========
 

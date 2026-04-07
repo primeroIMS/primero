@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { FieldRecord, FormSectionRecord, TEXT_FIELD, TICK_FIELD } from "../../../../../../../form";
 
 export const subformFields = ({ i18n, limitedProductionSite }) => ({

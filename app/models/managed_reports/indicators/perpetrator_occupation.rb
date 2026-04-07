@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # An indicator that returns the total of incidents grouped by the perpetrator_occupation
 class ManagedReports::Indicators::PerpetratorOccupation < ManagedReports::SqlReportIndicator
   class << self

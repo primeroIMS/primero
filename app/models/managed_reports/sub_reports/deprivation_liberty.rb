@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Describes DeprivationLiberty subreport in Primero.
 class ManagedReports::SubReports::DeprivationLiberty < ManagedReports::SubReport
   def id

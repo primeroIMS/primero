@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import * as actionCreators from "./action-creators";
 import * as actions from "./actions";
 
