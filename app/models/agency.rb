@@ -17,6 +17,8 @@ class Agency < ApplicationRecord
 
   AGENCY_FIELDS_SCHEMA = {
     'id' => { 'type' => 'integer' }, 'unique_id' => { 'type' => 'string' },
+    'contact_name' => { 'type' => 'string' }, 'contact_email' => { 'type' => 'string' },
+    'contact_phone' => { 'type' => 'string' }, 'notes' => { 'type' => 'string' },
     'agency_code' => { 'type' => 'string' }, 'order' => { 'type' => 'integer' },
     'telephone' => { 'type' => 'string' }, 'logo_enabled' => { 'type' => 'boolean' },
     'terms_of_use_enabled' => { 'type' => 'boolean' }, 'disabled' => { 'type' => 'boolean' },
