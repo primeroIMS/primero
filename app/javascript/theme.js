@@ -62,6 +62,7 @@ const colors = {
   greenLight: "#E6EED3", // u,
   redMedium: "#E7712D",
   redLow: "#F7D0BA",
+  tiaMaria: "#C2410C",
   forgotPasswordLink: "var(--c-blue)",
   networkIndicatorBorder: "var(--c-solid-green)",
   navListIcon: "var(--c-dark-grey))",

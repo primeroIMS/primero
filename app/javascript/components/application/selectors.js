@@ -271,6 +271,12 @@ export const getThemeLogos = state => state.getIn([NAMESPACE, "theme", "images",
 
 export const getFieldLabels = state => state.getIn([NAMESPACE, "fieldLabels"], fromJS({}));
 
+export const getPhoneFormats = state =>
+  state.getIn([NAMESPACE, "systemOptions", "phone_formats"], fromJS([])).map(format => format.toUpperCase());
+
+export const getDefaultPhoneFormat = state =>
+  state.getIn([NAMESPACE, "systemOptions", "default_phone_format"], null)?.toUpperCase();
+
 export const getAppData = memoize(state => {
   const modules = selectModules(state);
   const userModules = selectUserModules(state);

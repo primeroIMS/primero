@@ -12,7 +12,7 @@ const rules = [
   },
   {
     test: /\.css$/,
-    exclude: /index.css$/,
+    exclude: [/index.css$/, /node_modules/],
     use: [
       MiniCssExtractPlugin.loader,
       {
@@ -36,7 +36,8 @@ const rules = [
     ]
   },
   {
-    test: /index.css$/,
+    test: /\.css$/,
+    include: [/index.css$/, /node_modules/],
     use: [MiniCssExtractPlugin.loader, "css-loader"]
   },
   {

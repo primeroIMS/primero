@@ -28,6 +28,8 @@ export {
   getWebpushConfig,
   getListHeaders,
   getExactSearchFields,
-  getPhoneticSearchFields
+  getPhoneticSearchFields,
+  getPhoneFormats,
+  getDefaultPhoneFormat
 } from "./selectors";
 export { PERMISSIONS, RESOURCES, RESOURCE_ACTIONS } from "./constants";

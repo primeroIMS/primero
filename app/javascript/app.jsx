@@ -13,6 +13,7 @@ import { history } from "./store";
 import ApplicationRoutes from "./components/application-routes";
 import ThemeProvider from "./theme-provider";
 import "mui-nepali-datepicker-reactjs/dist/index.css";
+import "react-phone-number-input/style.css";
 import appInit from "./app-init";
 import DateProvider from "./date-provider";
 
