@@ -11,23 +11,52 @@
   margin-bottom: 10px;
 }
 
-.searchIconButton {
-  padding: 6px;
-  margin-left: 5px;
-}
+.searchBoxContainer {
+  display: flex;
+  margin-bottom: 5px;
 
-.searchInput {
-  width: 100%;
-  flex: 1;
   & input {
-    padding: 6px;
+  padding: 6px;
   }
 }
 
-.searchTitle {
-  font-size: var(--fs-14);
-  margin: 0 0 10px 0;
-  font-weight: 700;
+.searchActions {
+  & button {
+    min-width: auto;
+    padding: 6px 0 8px 10px;
+    margin-left: 4px;
+  }
+}
+
+.phoneNumberError {
+  color: var(--c-tia-maria);
+  font-size: var(--fs-12);
+  margin: 5px 0;
+}
+
+.phoneNumberWarning {
+  border-color: var(--c-tia-maria) !important;
+}
+
+.searchHelpText {
+  color: var(--c-mid-grey);
+  margin: 0;
+  font-size: var(--fs-12);
+  & svg {
+    color: var(--c-gold-yellow);
+    height: var(--fs-12);
+    width: 0.5em;
+  }
+
+  & span {
+    padding-left: 5px;
+  }
+}
+
+.searchHelpTextNoPhonetic {
+  & svg {
+    color: var(--c-mid-grey);
+  }
 }
 
 .searchInputContainer {
@@ -38,8 +67,45 @@
   align-items: center;
 }
 
-.searchActions {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
+.searchInput {
+  width: 100%;
+  flex: 1;
+  & input {
+    padding: 0 6px;
+  }
+}
+
+.label {
+  & span {
+    font-weight: 700 !important;
+    color: var(--c-black);
+
+    & span {
+      color: var(--c-dark-grey);
+    }
+  }
+}
+
+.checked {
+  color: var(--c-gold-yellow) !important;
+
+  & span {
+    color: var(--c-gold-yellow) !important;
+  }
+}
+
+.checked + .track {
+  background-color: var(--c-gold-yellow) !important;
+}
+
+.searchLabel {
+  font-size: var(--fs-14);
+  font-weight: 700;
+  margin: 5px 0;
+}
+
+.searchTitle {
+  font-size: var(--fs-14);
+  font-weight: 700;
+  margin: 0px 0 5px 0;
 }

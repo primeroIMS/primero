@@ -20,9 +20,8 @@ import { applyFilters } from "../../index-filters";
 import { getRecordsData } from "../../index-table";
 import { enqueueSnackbar } from "../../notifier";
 import { SEARCH_OR_CREATE_FILTERS } from "../constants";
-import SearchNameToggle from "../../index-filters/components/search-name-toggle";
-import PhoneticHelpText from "../../index-filters/components/phonetic-help-text";
-import { searchTitleI18nKey } from "../../index-filters/components/search-box/utils";
+import SearchNameToggle from "../../index-filters/components/search-box/search-name-toggle";
+import PhoneticHelpText from "../../index-filters/components/search-box/search-help-text";
 import SearchButton from "../../record-creation-flow/components/search-button";
 import { setRedirectedToCreateNewRecord } from "../../record-form/action-creators";
 import useSystemStrings, { PAGE } from "../../application/use-system-strings";
@@ -50,7 +49,8 @@ function Component({ moduleUniqueId, open = false, recordType, setOpen }) {
   const { label } = useSystemStrings(PAGE);
   const phonetic = useWatch({ control, name: PHONETIC_FIELD_NAME, defaultValue: false });
   const record = useMemoizedSelector(state => getRecordsData(state, recordType));
-  const searchTitle = i18n.t(searchTitleI18nKey(phonetic));
+  // const searchTitle = i18n.t(searchTitleI18nKey(phonetic));
+  const searchTitle = "title";
   const searchHelpText = i18n.t("case.search_helper_text");
 
   const onSubmit = data => {

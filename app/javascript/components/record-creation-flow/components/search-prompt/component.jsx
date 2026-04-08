@@ -12,8 +12,8 @@ import { submitHandler, whichFormMode } from "../../../form";
 import { FORM_MODE_NEW } from "../../../form/constants";
 import { useMemoizedSelector } from "../../../../libs";
 import { getRecordsData } from "../../../index-table";
-import SearchNameToggle from "../../../index-filters/components/search-name-toggle";
-import PhoneticHelpText from "../../../index-filters/components/phonetic-help-text";
+import SearchNameToggle from "../../../index-filters/components/search-box/search-name-toggle";
+import PhoneticHelpText from "../../../index-filters/components/search-box/search-help-text";
 import SearchButton from "../search-button";
 
 import { NAME, FORM_ID, QUERY, PHONETIC_FIELD_NAME } from "./constants";

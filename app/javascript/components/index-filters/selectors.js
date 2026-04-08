@@ -60,13 +60,14 @@ export const getFiltersValueByRecordType = (state, recordType, key) => {
   return getFiltersValuesByRecordType(state, recordType).get(key, null);
 };
 
-export const getTooltipFields = (state, recordType, isPhonetic) => {
+export const getTooltipFields = (state, recordType, searchField) => {
   if (isEmpty(recordType)) return null;
 
   const userModuleList = [...selectUserModules(state)];
-  const searchFieldsByRecord = isPhonetic
-    ? getPhoneticSearchFields(state).get(recordType)
-    : getExactSearchFields(state).get(recordType);
+  const searchFieldsByRecord =
+    searchField === "phonetic"
+      ? getPhoneticSearchFields(state).get(recordType)
+      : getExactSearchFields(state).get(recordType);
 
   const fieldsArray = searchFieldsByRecord ? [...searchFieldsByRecord] : [];
 

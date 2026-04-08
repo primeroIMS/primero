@@ -7,11 +7,12 @@ import { useI18n } from "../../../i18n";
 
 import css from "./styles.css";
 
-function Component({ isPhonetic = true, searchFieldTooltips = [] }) {
+function Component({ searchField, searchFieldTooltips = [] }) {
   const i18n = useI18n();
-  const tooltipTitleHeader = isPhonetic
-    ? i18n.t("navigation.phonetic_search.tooltip_label")
-    : i18n.t("navigation.id_search.tooltip_label");
+  const tooltipTitleHeader =
+    searchField === "phonetic"
+      ? i18n.t("navigation.phonetic_search.tooltip_label")
+      : i18n.t("navigation.id_search.tooltip_label");
 
   if (isEmpty(searchFieldTooltips)) {
     return null;
@@ -32,7 +33,7 @@ function Component({ isPhonetic = true, searchFieldTooltips = [] }) {
 Component.displayName = "ToogleTooltip";
 
 Component.propTypes = {
-  isPhonetic: PropTypes.bool,
+  searchField: PropTypes.string,
   searchFieldTooltips: PropTypes.array
 };
 
