@@ -66,7 +66,7 @@ module Api::V2::Concerns::Record
 
     @index_params = params.permit(
       :fields, :order, :order_by, :page, :per, :total,
-      :id_search, :query, :query_scope, :phonetic, :format,
+      :id_search, :query, :query_scope, :phonetic, :phone_number, :format,
       *permitted_index_params(params)
     )
   end
