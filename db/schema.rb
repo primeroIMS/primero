@@ -47,12 +47,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_31_000000) do
 
   create_table "agencies", id: :serial, force: :cascade do |t|
     t.string "agency_code", null: false
+    t.string "contact_email"
+    t.string "contact_name"
+    t.string "contact_phone"
     t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.jsonb "description_i18n"
     t.boolean "disabled", default: false, null: false
     t.boolean "exclude_agency_from_lookups", default: false, null: false
     t.boolean "logo_enabled", default: false, null: false
     t.jsonb "name_i18n"
+    t.text "notes"
     t.integer "order", default: 0
     t.boolean "pdf_logo_option", default: false, null: false
     t.string "services", default: [], array: true

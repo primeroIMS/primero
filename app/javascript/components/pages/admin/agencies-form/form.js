@@ -90,6 +90,27 @@ export const form = (i18n, formMode, enforceTermsOfUse) => {
           disabled: enforceTermsOfUse
         }),
         FieldRecord({
+          display_name: i18n.t("agency.contact_name"),
+          name: "contact_name",
+          type: TEXT_FIELD
+        }),
+        FieldRecord({
+          display_name: i18n.t("agency.contact_email"),
+          name: "contact_email",
+          type: TEXT_FIELD
+        }),
+        FieldRecord({
+          display_name: i18n.t("agency.contact_phone"),
+          name: "contact_phone",
+          type: TEXT_FIELD,
+          phone_number: true
+        }),
+        FieldRecord({
+          display_name: i18n.t("agency.notes"),
+          name: "notes",
+          type: TEXT_AREA
+        }),
+        FieldRecord({
           display_name: i18n.t("agency.terms_of_use"),
           name: TERMS_OF_USE,
           type: DOCUMENT_FIELD,
