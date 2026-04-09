@@ -33,7 +33,7 @@ const shouldShowField = (field, values) => {
     }
   }
 
-  // 🔴 NEW: hide 500m if 100m is severe
+  // NEW: hide 500m if 100m is severe
   if (field.hideIfSevere100m) {
     const hundredKey =
       typeof field.hideIfSevere100m === "function" ? field.hideIfSevere100m(values) : field.hideIfSevere100m;
