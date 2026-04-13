@@ -136,7 +136,7 @@ describe("<IndexFilters /> - Selectors", () => {
       it("return list of display_name fields", () => {
         const expected = [{ en: "Name", es: "Nombre" }];
 
-        const records = getTooltipFields(state, RECORD_PATH.cases, true);
+        const records = getTooltipFields(state, RECORD_PATH.cases, "phonetic");
 
         expect(records).toEqual(expected);
       });
@@ -148,7 +148,7 @@ describe("<IndexFilters /> - Selectors", () => {
           { en: "Case ID", es: "ID del caso" }
         ];
 
-        const records = getTooltipFields(state, RECORD_PATH.cases, false);
+        const records = getTooltipFields(state, RECORD_PATH.cases, "id_search");
 
         expect(records).toEqual(expected);
       });

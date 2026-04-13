@@ -94,7 +94,7 @@ function Component({
           <FormProvider {...methods} user={userName} initialFilters={initialFilters}>
             <form onSubmit={methods.handleSubmit(handleOnSubmit)}>
               {showSearchField && (
-                <SearchBox showSearchNameToggle={false} searchFieldLabel={searchFieldLabel} useFullWidth={noMargin} />
+                <SearchBox showFieldToggle={false} searchFieldLabel={searchFieldLabel} useFullWidth={noMargin} />
               )}
               <Actions handleClear={onClear} />
               {renderFilters()}

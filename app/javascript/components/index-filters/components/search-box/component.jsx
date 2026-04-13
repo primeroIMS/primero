@@ -20,7 +20,7 @@ function SearchBox({
   showSearchButton = true,
   useFullWidth = false,
   searchFieldLabel,
-  showSearchNameToggle = true,
+  showFieldToggle = true,
   recordType = ""
 }) {
   const i18n = useI18n();
@@ -60,8 +60,8 @@ function SearchBox({
 
   return (
     <div className={cx({ [css.searchContainer]: !useFullWidth, [css.searchContainerFullWidth]: useFullWidth })}>
-      <p className={css.searchTitle}>{i18n.t("navigation.search_by")}</p>
-      <SearchFieldToggle handleChange={handleToggleChange} value={searchField} />
+      {showFieldToggle && <p className={css.searchTitle}>{i18n.t("navigation.search_by")}</p>}
+      {showFieldToggle && <SearchFieldToggle handleChange={handleToggleChange} value={searchField} />}
       <SearchTitle label={searchFieldLabel} searchField={searchField} />
       <div className={css.searchBoxContainer}>
         <SearchInput onInvalidNumber={handleInvalidNumber} phoneNumber={phoneNumber} />
@@ -70,7 +70,7 @@ function SearchBox({
       {phoneError && phoneNumber && (
         <p className={css.phoneNumberError}>{i18n.t("navigation.phone_number_search.warning_text")}</p>
       )}
-      {showSearchNameToggle && <SearchHelpText recordType={recordType} searchField={searchField} />}
+      {showFieldToggle && <SearchHelpText recordType={recordType} searchField={searchField} />}
     </div>
   );
 }
@@ -80,8 +80,8 @@ SearchBox.displayName = "SearchBox";
 SearchBox.propTypes = {
   recordType: PropTypes.string,
   searchFieldLabel: PropTypes.string,
+  showFieldToggle: PropTypes.bool,
   showSearchButton: PropTypes.bool,
-  showSearchNameToggle: PropTypes.bool,
   useFullWidth: PropTypes.bool
 };
 

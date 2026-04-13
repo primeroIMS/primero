@@ -7,9 +7,9 @@ import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 
 import css from "./styles.css";
 
-function SearchActions({ showSearchButton }) {
+function SearchActions({ showSearchButton = true }) {
   return (
-    <div className={css.searchActions}>
+    <div className={css.searchActions} data-testid="search-actions">
       {showSearchButton && (
         <ActionButton icon={<SearchIcon />} type={ACTION_BUTTON_TYPES.default} rest={{ type: "submit" }} />
       )}

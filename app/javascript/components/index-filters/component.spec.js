@@ -49,7 +49,7 @@ describe("<IndexFitlers>", () => {
 
   it("renders search bar", () => {
     mountedComponent(<IndexFilters {...props} />, state);
-    expect(document.querySelector("#search-input")).toBeInTheDocument();
+    expect(screen.getByTestId("search-text-input")).toBeInTheDocument();
   });
 
   it("renders FilterActions filters", () => {
@@ -60,8 +60,8 @@ describe("<IndexFitlers>", () => {
 
   it("renders SearchBox", () => {
     mountedComponent(<IndexFilters {...props} />, state);
-    expect(screen.getByText("navigation.search")).toBeInTheDocument();
-    expect(screen.getByText("navigation.phonetic_search.help_text")).toBeInTheDocument();
+    expect(screen.getByText("navigation.search_by")).toBeInTheDocument();
+    expect(screen.getByText("navigation.id_search.help_text")).toBeInTheDocument();
   });
 
   it("clear filters button is clicked", async () => {

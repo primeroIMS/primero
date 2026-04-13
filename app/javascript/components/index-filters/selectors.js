@@ -4,7 +4,12 @@ import { fromJS, List } from "immutable";
 import isEmpty from "lodash/isEmpty";
 
 import { RECORD_TYPES_PLURAL } from "../../config";
-import { selectUserModules, getExactSearchFields, getPhoneticSearchFields, getPhoneNumberSearchFields } from "../application/selectors";
+import {
+  selectUserModules,
+  getExactSearchFields,
+  getPhoneticSearchFields,
+  getPhoneNumberSearchFields
+} from "../application/selectors";
 import { getFieldByName } from "../record-form/selectors";
 
 import transformFieldTooltips from "./utils/transform-field-tooltips";

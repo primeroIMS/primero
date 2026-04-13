@@ -25,6 +25,7 @@ const SearchTextInput = forwardRef(({ error, ...rest }, ref) => {
   return (
     <div className={classes}>
       <InputBase
+        data-testid="search-text-input"
         className={css.searchInput}
         placeholder={i18n.t("navigation.search")}
         inputRef={ref}
