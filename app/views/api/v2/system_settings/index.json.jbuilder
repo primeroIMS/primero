@@ -62,5 +62,8 @@ json.data do
     Family
   ].map { |record_type| { record_type.parent_form.pluralize => record_type.const_get('PHONETIC_FIELD_NAMES') } })
     .inject(&:merge)
+  json.phone_number_search_fields ([Child, Incident, TracingRequest, RegistryRecord, Family].map do |record_type|
+                                     { record_type.parent_form.pluralize => record_type.phone_number_fields }
+                                   end).inject(&:merge)
 end.compact!
 # rubocop:enable Metrics/BlockLength
