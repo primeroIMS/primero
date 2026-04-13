@@ -2799,7 +2799,7 @@ en:
     phone_number_search:
       title: Enter a phone number to search for an existing record.
       help_text: Phone numbers are searched using a standardized format
-      tooltip_label: 'Phone number search is available for the following phone number fields:'
+      tooltip_label: 'Phone number search is available for the following phone fields:'
       warning_text: 'Warning: This phone number is not formatted correctly.'
     settings: Settings
     support: Support

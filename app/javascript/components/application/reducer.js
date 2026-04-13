@@ -33,6 +33,7 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         field_labels: fieldLabels,
         exact_search_fields: exactSearchFields,
         phonetic_search_fields: phoneticSearchFields,
+        phone_number_search_fields: phoneNumberSearchFields,
         terms_of_use_agency_sign: termsOfUseAgencySign,
         terms_of_use_acknowledge: termsOfUseAcknowledge
       } = payload.data;
@@ -56,6 +57,7 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
           fieldLabels: fieldLabels ?? fromJS({}),
           exactSearchFields,
           phoneticSearchFields,
+          phoneNumberSearchFields,
           termsOfUseAgencySign,
           termsOfUseAcknowledge
         })
