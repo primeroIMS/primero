@@ -49,6 +49,10 @@ class RegistryRecord < ApplicationRecord
     def phonetic_field_names
       %w[name]
     end
+
+    def phone_number_fields
+      %w[telephone_current]
+    end
   end
 
   alias super_defaults defaults

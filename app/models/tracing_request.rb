@@ -55,6 +55,10 @@ class TracingRequest < ApplicationRecord
       %w[relation_name relation_nickname relation_other_family tracing_names tracing_nicknames]
     end
 
+    def phone_number_fields
+      %w[relation_telephone telephone_last]
+    end
+
     alias super_new_with_user new_with_user
     def new_with_user(user, data)
       traces_data = data.delete('tracing_request_subform_section')

@@ -104,7 +104,10 @@ class Child < ApplicationRecord
   end
 
   def self.phone_number_fields
-    %w[telephone_current telephone_child_future telephone_caregivers telephone_future_caregivers telephone_last]
+    %w[
+      telephone_current telephone_child_future telephone_caregivers telephone_future_caregivers telephone_last
+      telephone_searchable_1 telephone_searchable_2 telephone_searchable_3
+    ]
   end
 
   def self.summary_field_names

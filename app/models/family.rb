@@ -44,6 +44,10 @@ class Family < ApplicationRecord
     def phonetic_field_names
       %w[family_name]
     end
+
+    def phone_number_fields
+      %w[family_telephone_current]
+    end
   end
 
   alias super_defaults defaults
