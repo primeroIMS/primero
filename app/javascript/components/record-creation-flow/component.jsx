@@ -50,7 +50,7 @@ function Component({ open, onClose, recordType, primeroModule }) {
     dispatch(
       applyFilters({
         recordType,
-        data: { ...SEARCH_OR_CREATE_FILTERS, ...(!isEmpty(data) && { ...data, id_search: true }) }
+        data: { ...SEARCH_OR_CREATE_FILTERS, ...(!isEmpty(data) && { ...data }) }
       })
     );
   };

@@ -1,7 +1,7 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
 import PropTypes from "prop-types";
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { cx } from "@emotion/css";
 
@@ -24,8 +24,11 @@ function SearchBox({
   recordType = ""
 }) {
   const i18n = useI18n();
-  const { register, unregister, setValue } = useFormContext();
-  const { searchField, phoneError, handleInvalidNumber, phoneNumber } = useSearchBox();
+  const { control, register, unregister, setValue } = useFormContext();
+  const { searchField, phoneError, handleInvalidNumber, phoneNumber, handleToggleChange } = useSearchBox({
+    control,
+    setValue
+  });
 
   useEffect(() => {
     register({ name: FIELD_NAME_ID_SEARCH });
@@ -40,31 +43,17 @@ function SearchBox({
     };
   }, [register, unregister]);
 
-  const handleToggleChange = useCallback(
-    event => {
-      const { value } = event.target;
-
-      setValue(FIELD_NAME_ID_SEARCH, value === "id_search");
-      setValue(PHONETIC_FIELD_NAME, value === "phonetic");
-
-      // NOTE: Avoid invalid phone numbers when a user switches to phone number search
-      if (value === "phone_number") {
-        setValue(FIELD_NAME_QUERY, "");
-        setValue(PHONE_NUMBER_FIELD_NAME, true);
-      } else {
-        setValue(PHONE_NUMBER_FIELD_NAME, false);
-      }
-    },
-    [setValue]
-  );
-
   return (
     <div className={cx({ [css.searchContainer]: !useFullWidth, [css.searchContainerFullWidth]: useFullWidth })}>
       {showFieldToggle && <p className={css.searchTitle}>{i18n.t("navigation.search_by")}</p>}
       {showFieldToggle && <SearchFieldToggle handleChange={handleToggleChange} value={searchField} />}
       <SearchTitle label={searchFieldLabel} searchField={searchField} />
       <div className={css.searchBoxContainer}>
-        <SearchInput onInvalidNumber={handleInvalidNumber} phoneNumber={phoneNumber} />
+        <SearchInput
+          formMethods={{ control, setValue }}
+          onInvalidNumber={handleInvalidNumber}
+          phoneNumber={phoneNumber}
+        />
         <SearchActions showSearchButton={showSearchButton} />
       </div>
       {phoneError && phoneNumber && (
