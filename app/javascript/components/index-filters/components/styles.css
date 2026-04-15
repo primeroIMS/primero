@@ -1,7 +1,8 @@
 /* Copyright (c) 2014 - 2023 UNICEF. All rights reserved. */
 
 .root {
-  width: 100%;
+  width: 300px;
+  margin-left: 10px;
 }
 
 .heading {
@@ -70,12 +71,6 @@
   flex-wrap: wrap;
 }
 
-.root {
-  width: 300px;
-  min-height: 100dvh;
-  margin-left: 10px;
-}
-
 .tabs {
   height: 34px;
   min-height: 34px;
@@ -119,6 +114,7 @@
 @media (max-width:900px) {
   .root {
     margin-left: 0;
-    padding: 0.7em;
+    padding: 0.3em;
+    width: 100%;
   }
 }

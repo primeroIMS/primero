@@ -6,11 +6,10 @@ import { FIELD_NAME_ID_SEARCH, FIELD_NAME_QUERY, PHONETIC_FIELD_NAME, PHONE_NUMB
 function useSearchBox({ control, setValue }) {
   const phonetic = useWatch({ control, name: PHONETIC_FIELD_NAME, defaultValue: false });
   const phoneNumber = useWatch({ control, name: PHONE_NUMBER_FIELD_NAME, defaultValue: false });
+  const isPhoneNumber = phoneNumber === "true" || phoneNumber === true;
+  const isPhonetic = phonetic === "true" || phonetic === true;
   const [phoneError, setPhoneError] = useState();
-  const searchField =
-    ((phonetic === "true" || phonetic === true) && "phonetic") ||
-    ((phoneNumber === "true" || phoneNumber === true) && "phone_number") ||
-    "id_search";
+  const searchField = (isPhonetic && "phonetic") || (isPhoneNumber && "phone_number") || "id_search";
   const handleInvalidNumber = useCallback(error => {
     setPhoneError(error);
   }, []);
@@ -33,7 +32,7 @@ function useSearchBox({ control, setValue }) {
     [setValue]
   );
 
-  return { searchField, phonetic, phoneNumber, phoneError, handleInvalidNumber, handleToggleChange };
+  return { searchField, isPhonetic, isPhoneNumber, phoneError, handleInvalidNumber, handleToggleChange };
 }
 
 export default useSearchBox;

@@ -25,7 +25,7 @@ function SearchBox({
 }) {
   const i18n = useI18n();
   const { control, register, unregister, setValue } = useFormContext();
-  const { searchField, phoneError, handleInvalidNumber, phoneNumber, handleToggleChange } = useSearchBox({
+  const { searchField, phoneError, handleInvalidNumber, isPhoneNumber, handleToggleChange } = useSearchBox({
     control,
     setValue
   });
@@ -52,11 +52,11 @@ function SearchBox({
         <SearchInput
           formMethods={{ control, setValue }}
           onInvalidNumber={handleInvalidNumber}
-          phoneNumber={phoneNumber}
+          isPhoneNumber={isPhoneNumber}
         />
         <SearchActions showSearchButton={showSearchButton} />
       </div>
-      {phoneError && phoneNumber && (
+      {phoneError && isPhoneNumber && (
         <p className={css.phoneNumberError}>{i18n.t("navigation.phone_number_search.warning_text")}</p>
       )}
       {showFieldToggle && <SearchHelpText recordType={recordType} searchField={searchField} />}

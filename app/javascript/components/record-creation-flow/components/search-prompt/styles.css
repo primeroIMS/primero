@@ -19,6 +19,7 @@
     & div {
       padding: 0 !important;
       margin-bottom: 0;
+      width: 100%;
     }
   }
 }
@@ -30,8 +31,6 @@
 }
 
 .searchBox {
-  flex: 1 0 auto;
-
   & :global(.MuiFormControl-root) {
     margin-top: 0;
   }
@@ -41,6 +40,7 @@
   display: flex;
   gap: 10px;
   align-items: center;
+  max-width: 400px;
 }
 
 .searchHelpText {
@@ -51,24 +51,17 @@
   margin: 0 0 15px 0;
 }
 
-
-.mobileSearchButton{
-  display: none;
-}
-
 @media (max-width:959.95px) {
   .searchBox {
     display: flex;
-    gap: 10px;
+    gap: 5px;
     align-items: center;
-
-    & button {
-      padding: 6px 16px;
-    }
   }
 
   .mobileSearchButton {
-    display: block;
+    & button {
+      padding: 6px;
+    }
   }
 
   .searchButton {

@@ -42,7 +42,7 @@ function Component({
       [PHONE_NUMBER_FIELD_NAME]: false
     }
   });
-  const { searchField, phoneError, handleInvalidNumber, phoneNumber, handleToggleChange } = useSearchBox({
+  const { searchField, phoneError, handleInvalidNumber, isPhoneNumber, handleToggleChange } = useSearchBox({
     control: methods.control,
     setValue: methods.setValue
   });
@@ -95,7 +95,7 @@ function Component({
         setOpenConsentPrompt(true);
       }
     }
-  }, [records, isSubmitted]);
+  }, [records, isSubmitted, goToNewCase, setSearchValue, getValues, setOpenConsentPrompt, onCloseDrawer]);
 
   if (openConsentPrompt) {
     return null;
@@ -118,16 +118,20 @@ function Component({
               placeholder={placeholder}
               formMethods={methods}
               onInvalidNumber={handleInvalidNumber}
-              phoneNumber={phoneNumber}
+              isPhoneNumber={isPhoneNumber}
               showInputBorder={false}
             />
             <div className={css.searchButton}>
               <SearchButton formId={FORM_ID} />
             </div>
           </div>
-          {mobileDisplay && <SearchButton formId={FORM_ID} />}
+          {mobileDisplay && (
+            <div className={css.mobileSearchButton}>
+              <SearchButton formId={FORM_ID} />
+            </div>
+          )}
         </div>
-        {phoneError && phoneNumber && (
+        {phoneError && isPhoneNumber && (
           <p className={searchBoxCss.phoneNumberError}>{i18n.t("navigation.phone_number_search.warning_text")}</p>
         )}
         <div className={css.searchHelpText}>

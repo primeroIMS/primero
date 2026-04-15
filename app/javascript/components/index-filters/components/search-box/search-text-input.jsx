@@ -14,6 +14,7 @@ const SearchTextInput = forwardRef(({ error, formMethods, showInputBorder = true
   const { setValue } = formMethods;
   const classes = cx({
     [css.searchInputContainer]: showInputBorder,
+    [css.searchContainerFullWidth]: true,
     [css.phoneNumberWarning]: !!error
   });
   const placeholder = rest.placeholder || i18n.t("navigation.search");

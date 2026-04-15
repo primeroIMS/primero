@@ -6,8 +6,8 @@ import { FIELD_NAME_QUERY } from "./constants";
 import SearchTextInput from "./search-text-input";
 import SearchPhoneInput from "./search-phone-input";
 
-function Component({ formMethods, onInvalidNumber, phoneNumber = false, ...rest }) {
-  if (phoneNumber) {
+function Component({ formMethods, onInvalidNumber, isPhoneNumber = false, ...rest }) {
+  if (isPhoneNumber) {
     return <SearchPhoneInput formMethods={formMethods} onInvalidNumber={onInvalidNumber} {...rest} />;
   }
 
@@ -27,8 +27,8 @@ Component.displayName = "SearchInput";
 
 Component.propTypes = {
   formMethods: PropTypes.object,
-  onInvalidNumber: PropTypes.func,
-  phoneNumber: PropTypes.bool
+  isPhoneNumber: PropTypes.bool,
+  onInvalidNumber: PropTypes.func
 };
 
 export default memo(Component);

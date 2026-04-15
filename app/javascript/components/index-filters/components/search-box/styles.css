@@ -14,6 +14,7 @@
 .searchBoxContainer {
   display: flex;
   margin-bottom: 5px;
+  align-items: center;
 
   & input {
   padding: 6px;
@@ -67,10 +68,17 @@
   align-items: center;
 }
 
+.searchContainerFullWidth {
+  width: 100%;
+  margin: 0;
+}
+
 .searchInput {
   width: 100%;
   flex: 1;
+
   & input {
+    width: 100%;
     padding: 0 6px;
   }
 }
@@ -108,4 +116,13 @@
   font-size: var(--fs-14);
   font-weight: 700;
   margin: 0px 0 5px 0;
+}
+
+
+@media (max-width: 959.95px) {
+  .searchActions {
+    & button {
+      padding: 6px
+    }
+  }
 }
