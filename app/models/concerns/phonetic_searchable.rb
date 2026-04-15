@@ -47,7 +47,7 @@ module PhoneticSearchable
   end
 
   def generate_searchable_identifiers(field_names, identifier_type = IDENTIFIER_TYPE_ID)
-    identifiers_to_save = identifiers_to_update
+    identifiers_to_save = identifiers_to_update(identifier_type)
 
     field_names.each do |field_name|
       value = data[field_name]&.strip
@@ -59,8 +59,8 @@ module PhoneticSearchable
     self.searchable_identifiers_attributes = identifiers_to_save
   end
 
-  def identifiers_to_update
-    searchable_identifiers.map do |searchable_identifier|
+  def identifiers_to_update(identifier_type)
+    searchable_identifiers.where(identifier_type:).map do |searchable_identifier|
       {
         field_name: searchable_identifier.field_name,
         value: data[searchable_identifier.field_name]&.strip,
