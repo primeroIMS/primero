@@ -1569,6 +1569,7 @@ en:
     es-GT: Español
     es-ES: Español (España)
     fr: Français
+    hi-IN: Hindi
     hu: Magyar
     hy: Armenian
     id: Bahasa
@@ -1589,6 +1590,7 @@ en:
     language: Language
     manage_system_users: Manage Server Synchronisation Users
     mn: Mongolian
+    mr: Marathi
     my: ဗမာစာ
     pl: Polski
     pt: Português
