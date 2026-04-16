@@ -1,0 +1,116 @@
+mr:
+  cases:
+    child_functioning:
+      ready_to_start_cfm: "तुम्ही चाइल्ड फंक्शनिंग मॉड्यूल सुरू करण्यास तयार आहात का?"
+      child_wears_hearing_aid: "मुलाने श्रवणयंत्र घातले आहे"
+      child_uses_equipment_or_receive_assistance_for_walking: "मूल चालण्यासाठी उपकरण वापरते किंवा मदत घेते"
+      child_have_difficulty_to_understand: "मुलाला समजण्यास त्रास होतो"
+      child_have_difficulty_to_understanding_child_household: "मुलाला घरातल्या गोष्टी समजून घेण्यास अडचण येते"
+      difficulty_to_understanding_child_others: "इतर मुलांना समजून घेण्यात अडचण येणे"
+      difficulty_to_understand_the_child: "मुलाला समजून घेण्यात अडचण येणे."
+      child_have_difficulty_for_learning: "मुलाला शिकण्यात अडचण येते"
+      child_have_difficulty_for_playing: "मुलाला खेळण्यात अडचण येते"
+    quick_view:
+      tracing_message: 'टीप: या मुलाचा शोध घेणाऱ्या चौकशीकर्त्याशी सिस्टममध्ये एक जुळणी आहे. जर मुलाला हवे असेल तर पुढील कारवाईसाठी या रेकॉर्डच्या सामाजिक कार्यकर्त्याशी संपर्क साधा.'
+    summary:
+      fields:
+        consent_for_tracing:
+          help_text: जर या क्षेत्राचे मूल्य 'नाही' असेल, तर चौकशीकर्त्याच्या शोध विनंत्यांशी मॅच होणाऱ्या परिणामांमध्ये मुलाची केस नोंद दिसून येणार नाही.
+        wishes_child_family_tracing:
+          label: मुलाला कुटुंबातील सदस्यांचा शोध घ्यायचा आहे का?
+        wishes_reunification:
+          label: त्या मुलाला कुटुंबाबरोबर परत एकत्र यायचे आहे का?
+        child_wishes_link:
+          label: मुलाच्या इच्छा पहा
+  errors:
+    models:
+      export_configuration:
+        record_type: अवैध रेकॉर्ड प्रकार. मूल, शोध विनंती किंवा घटना असणे आवश्यक आहे.
+  exports:
+    duplicate_id_csv:
+      headers:
+        child_name_last_first: मुलाचे नाव
+    unhcr_csv:
+      headers:
+        name_of_child_last_first: मुलाचे पूर्ण नाव
+  incident:
+    violation:
+      types:
+        killing: मुलांची हत्या
+        maiming: मुलांचे अपंगत्व
+        recruitment: मुलांची भरती आणि/किंवा वापर
+        denial_humanitarian_access: मुलांना मानवतावादी मदत नाकारणे
+  incidents:
+    filter_by:
+      children: मुले
+      torture_punishment_while_deprivated_liberty: स्वातंत्र्य हिरावून घेतलेले असताना मुलाला(मुलांना) छळ किंवा इतर क्रूर, अमानवीय किंवा अपमानजनक वागणूक किंवा शिक्षा देण्यात आली होती का?
+      child_role: 'सशस्त्र दलांमध्ये/गटामध्ये मुलाने(मुलांनी) कोणती भूमिका बजावली?'
+    summary_mrm:
+      fields:
+        children_multiple_violation:
+          label: अनेक उल्लंघनांमुळे प्रभावित झालेली मुले
+  key_performance_indicators:
+    completed_case_safety_plans:
+      helptext: "हा निर्देशक अशा सक्रिय प्रकरणांचे प्रमाण मोजतो, ज्यांच्यासाठी सुरक्षा योजना आवश्यक\nमानली गेली आणि पूर्ण केली गेली (उदा. जवळच्या जोडीदाराकडून होणारी हिंसा, आत्महत्या/हत्येचा धोका, बाल संरक्षण). \nजेव्हा सुरक्षा योजना फॉर्ममधील अनिवार्य रकाने भरले जातात, तेव्हा सुरक्षा \nयोजना पूर्ण झाली असे मानले जाते.\n"
+  managed_reports:
+    individual_children:
+      name: वैयक्तिक मुले
+      reports:
+        individual_children: वैयक्तिक मुले
+      sub_reports:
+        individual_age: वयानुसार प्रत्येक मूल
+        individual_violation_type: उल्लंघनाच्या प्रकारानुसार प्रत्येक मुल
+        individual_region: प्रदेशानुसार प्रत्येक मुल
+        individual_perpetrator: गुन्हेगारानुसार प्रत्येक मूल
+    ghn_report:
+      sub_reports:
+        killing: मुलांची हत्या
+        maiming: मुलांचे अपंगत्व
+        recruitment: मुलांची भरती आणि/किंवा वापर
+        denial_humanitarian_access: मुलांना मानवतावादी मदत नाकारणे
+        multiple_violations: अनेक उल्लंघनांमुळे प्रभावित झालेली मुले
+    violations:
+      reports:
+        killing: मुलांची हत्या
+        maiming: मुलांचे अपंगत्व
+        recruitment: मुलांची भरती आणि/किंवा वापर
+        denial_humanitarian_access: मुलांना मानवतावादी मदत नाकारणे
+      sub_reports:
+        children: मुले
+        perpetrators: गुन्हेगारांनुसार मुलांची संख्या
+        perpetrator_detention: गुन्हेगारांनुसार मुलांची संख्या
+        reporting_location: प्रदेशानुसार मुलांची संख्या
+        reporting_location_detention: प्रदेशानुसार मुलांची संख्या
+        attack_type: हल्ल्याच्या प्रकारानुसार मुलांची संख्या
+        detention_status: अटक केलेल्या मुलांची स्थिती
+        received_response: मुलांना प्रतिसाद मिळाला
+    gbv_statistics:
+      services_provided:
+        service_protection_referral: बाल संरक्षण सेवा
+      survivors_age:
+        children_17_younger: मुले - 17 वर्षे व त्याहून कमी वयाची
+  permissions:
+    resource:
+      case:
+        actions:
+          assign:
+            explanation: यूजरला एखादी केस त्याच्या मूळ मालकाकडून सिस्टममधील इतर कोणत्याही यूजरकडे पाठवण्याची मंजूरी देते. या कृतीसाठी मुलाच्या संमतीची आवश्यकता नाही. हस्तांतरणाच्या विपरीत, प्राप्तकर्त्याला हे काम स्वीकारण्याची किंवा नाकारण्याची संधी दिली जात नाही.
+          assign_within_agency:
+            explanation: यूजरला एखादी केस त्याच्या मूळ मालकाकडून सध्याच्या यूजरच्या एजन्सीमधील इतर कोणत्याही यूजरकडे पाठवण्याची परवानगी देते. या कृतीसाठी मुलाच्या संमतीची आवश्यकता नाही. हस्तांतरणाच्या विपरीत, प्राप्तकर्त्याला हे काम स्वीकारण्याची किंवा नाकारण्याची संधी दिली जात नाही.
+          assign_within_user_group:
+            explanation: यूजरला एखादी केस त्याच्या मूळ मालकाकडून सध्याच्या यूजरच्या यूजर गटामधील इतर कोणत्याही यूजरकडे पाठवण्याची परवानगी देते. या कृतीसाठी मुलाच्या संमतीची आवश्यकता नाही. हस्तांतरणाच्या विपरीत, प्राप्तकर्त्याला हे काम स्वीकारण्याची किंवा नाकारण्याची संधी दिली जात नाही.
+          request_transfer:
+            explanation: '''व्ह्यू मोडल''वर "हस्तांतरणाची विनंती" बटण उघडते. हे बटण युजरला, केसच्या सध्याच्या रेकॉर्ड मालकाला, केस विनंती करणाऱ्या युजरकडे हस्तांतरित करण्याची विनंती करणारा एक वैयक्तिक संदेश ईमेलद्वारे पाठवण्याची परवानगी देते. ज्या संदर्भांमध्ये मुले वारंवार स्थळे बदलतात, आणि दुहेरी नोंद तयार होणे टाळण्यासाठी केस वर्कर्सना मुलाच्या मागील केस वर्करने मुलाबद्दलची माहिती पाठवणे आवश्यक असते, अशा परिस्थितीत हे उपयुक्त ठरते.'
+          view_photo:
+            explanation: युजरला केस यादी व्ह्यूमधून केसचे फोटो पाहण्याची परवानगी देते. या परवानगीशिवाय, युजरला केस यादी टेबलमधील "फोटो" कॉलम किंवा तिथे दिसणारे फोटो आयकॉन्स दिसत नाहीत. ही परवानगी युजरला "व्ह्यू मोडल" मध्ये मुलाचे फोटो पाहण्याची अनुमती देते.
+        explanation: एखाद्या मुलाचे, सर्वाइवर किंवा इतर लाभार्थ्याचे प्रतिनिधित्व करते.
+      managed_report:
+        actions:
+          individual_children:
+            explanation: MRM वैयक्तिक बालक इनसाइटमध्ये प्रवेश करण्याची क्षमता.
+            label: वैयक्तिक मुले
+  potential_match:
+    child_id: मूल id#
+  tracing_request:
+    messages:
+      already_matched: या मुलाचा शोध घेणाऱ्या एका चौकशीकर्त्यासोबत सिस्टीममध्ये आधीच जुळणी झालेली आहे.
