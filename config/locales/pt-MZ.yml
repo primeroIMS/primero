@@ -8,7 +8,7 @@ pt-MZ:
   connected: Conectado
   no_connection: Sem conexão
   clear: Limpar
-  sandbox_ui: Demostração
+  sandbox_ui: Demonstração
   description: 'Descrição '
   form: Formulário
   minimum_reportable_fields: "Campos mínimos reportáveis %{record_type}"
@@ -310,10 +310,8 @@ pt-MZ:
       age: "Idade"
       vision_wear_glass: "Óculos graduados"
       difficulty_seeing_with_glasses: "Dificuldade para ver com óculo"
-      continue_hearing_section: "Continue com a seção de audição"
       child_wears_hearing_aid: "A criança usa aparelho auditivo"
       difficulty_hearing_with_hearing_aid: "Dificuldade em ouvir com aparelho auditivo"
-      continue_mobility_section: "Continuar com a seção de mobilidade"
       child_uses_equipment_or_receive_assistance_for_walking: "A criança usa equipamentos ou recebe ajuda para andar"
       difficulty_walking_without_equipment: "Dificuldade de andar sem equipamento/assistência"
       mobility_difficulty_without_equipment_100m: "Dificuldade de mobilidade sem equipamento 100m"
@@ -321,32 +319,20 @@ pt-MZ:
       difficulty_walking_with_equipment: "Dificuldade de andar com equipamento/assistência"
       mobility_difficulty_with_equipment_100m: "Dificuldade de mobilidade com equipamento 100m"
       mobility_difficulty_with_equipment_500m: "Dificuldade de mobilidade com equipamento 500m"
-      continue_dexterity_display_section: "Continuar a seção de exibição de destreza"
       difficulty_picking_up_small_objects_with_hand: "Dificuldade de pegar objetos pequenos com a mão"
-      self_care_display: "Exposição sobre auto-cuidados"
       self_care_difficulty: "Dificuldade em auto-cuidado"
-      communication_display_section: "Seção de exibição de comunicação"
       child_have_difficulty_to_understand: "A criança tem dificuldade de percepção "
       child_have_difficulty_to_understanding_child_household: "A criança tem dificuldade de perceber as crianças do agregado familiar"
       difficulty_to_understanding_child_others: "Dificuldade em entender outras crianças"
       difficulty_to_understand_the_child: "Dificuldade em entender a criança"
-      learning_display_section: "Exibir a Seção de aprendizagem"
       child_have_difficulty_for_learning: "A criança tem dificuldade em aprender"
-      playing_display_section: "Exibir a Seção de reprodução"
       child_have_difficulty_for_playing: "A criança tem dificuldades de brincar"
-      remembering_display: "Exibição de lembranças"
       remembering_difficulty: "Dificuldade em lembrar"
-      concentrating_display: "Exibição de concentração"
       concentrating_difficulty: "Dificuldade de concentração"
-      accepting_change_display: "Aceitar alteração visual"
       accepting_change_difficulty: "Aceitar alteração das dificuldades"
-      controlling_behavior_display_section: "Secção de exibição de comportamento de controlo"
       difficulty_for_controlling_behaviour: "Dificuldade em controlar comportamentos como pontapear, morder ou bater noutras pessoas"
-      making_friends_display_section: "Secção de visualização \"Fazendo amigos\""
       making_friends_difficulty: "Dificuldade em fazer amigos"
-      anxiety_display_section: "Secção de exibição de ansiedade"
       anxiety_how_often: "Frequência de Ansiedade"
-      depression_display_section: "Secção de exibição de depressão"
       depression_how_often: "Frequência de Depressão"
       cfm_yes: "Sim"
       cfm_no: "Não"
@@ -821,12 +807,30 @@ pt-MZ:
       disabled: Desativado
       enabled: Activado
   email_notification:
+    assign: '%{user}atribuiu o seguinte %{record_type} a você: %{record_id}.'
+    assign_subject: '%{record_type}: %{id} - Atribuído a você'
+    approval_request: '%{user}está a solicitar uma %{approval_type} aprovação para o caso (%{case_id}). Entre na sua conta para analisar.'
     approval_request_subject: 'Caso: %{id} - Solicitação de Aprovação '
+    approval_response: '%{user}atualizou o estado do seu pedido de aprovação no %{approval_type} Caso (%{case_id}) para o seguinte: %{status}. Faça login na sua conta para analisar.'
     approval_response_subject: 'Caso: %{id} - Resposta de Aprovação '
     referral: '%{user} da %{agency} encaminhou o seguinte %{record_type} para você: %{record_id} para %{service_type}.'
     transfer: '%{user} transferiu o seguinte %{record_type} para você: %{record_id}.'
     transfer_request_subject: 'Solicitação de Transferência para um de seus casos '
     transfer_subject: '%{record_type}: %{id} - Transferir'
+    referral_subject: '%{record_type}: %{id}- Pedido de encaminhamento'
+    transfer_request: 'Usuário Primero %{user} da %{agency} está solicitando que você transfira a propriedade deste %{record_type} registro %{record_id} para que eles possam fornecer serviços de gerenciamento de %{record_type} para o indivíduo em sua área. Se esta transferência for aceitável para você, por favor clique no link da ID do %{record_type} neste email para abrir o %{record_type} no Primero e iniciar a transferência. '
+    approval_request_html: 'O usuário <strong>%{user}</strong> está solicitando aprovação para <strong>%{approval_type}</strong> no caso <strong>%{case_id}</strong>.'
+    approval_response_html: '%{user}atualizou o estado do seu pedido de aprovaçãoo no %{approval_type} Caso (%{case_id}) para o seguinte: %{status}. Faça login na sua conta para analisar.'
+    referral_html: 'Recebeu uma indicação para %{record_type} (%{record_id}) para %{service_type}de %{user}de %{agency}. Por favor %{login_url}, aceda à sua conta para análise.'
+    transfer_html: 'Recebeu uma indicação para %{record_type} (%{record_id}) para %{service_type}de %{user}de %{agency}. Aceda à sua conta para análise.'
+    assign_html: Recebeu um novo%{record_type} (%{record_id}) de %{user}de %{agency}. Aceda à sua conta para análise.
+    transfer_request_html: 'Recebeu uma solicitação de transferência para %{record_type}%{record_id}de %{user}de %{agency}. A pessoa que fez o pedido incluiu uma nota de transferência: %{request_transfer_notes}. Se esta transferência for aceitável para si, inicie sessão para aceder ao Primero e iniciar a transferência.'
+    alert: '%{record_type}%{id}- %{form_name}foi atualizado. Faça login no Primero para verificar as alterações.'
+    alert_subject: '%{record_type}:%{id}-%{form_name}atualizado'
+    maximum_attachments_space_subject: Atingiu o limite de armazenamento de anexos para%{system_name}
+    maximum_attachments_space_body: Está a ser contactado como Administrador do Sistema designado para %{system_name}. O sistema atingiu a capacidade máxima de armazenamento de anexos de %{maximum_attachments_space}. Os utilizadores não poderão enviar mais documentos. Pode aumentar a capacidade de armazenamento do sistema atualizando o seu serviço através da equipa Primero.
+    maximum_attachments_space_warning_subject: Aproximando-se do limite de armazenamento de anexos para%{system_name}
+    maximum_attachments_space_warning_body: Está a ser contactado como Administrador do Sistema designado para %{system_name}. O sistema está a aproximar-se da capacidade máxima de armazenamento de anexos de %{maximum_attachments_space}. Os utilizadores não poderão enviar mais documentos quando o limite for atingido. Pode aumentar a capacidade de armazenamento do sistema atualizando o seu serviço através da equipa Primero.
   webpush_notification:
     action_label: Ir para Caso
     approval_request:
@@ -897,7 +901,6 @@ pt-MZ:
       lookup:
         being_used: Essa pesquisa está sendo usada e não pode ser deletada
         name_present: 'Nome não deve estar em branco '
-        values_ids_blank: Um id de lookup_value está em branco
       primero_module:
         associated_record_types: 'Pelo menos um tipo de registro deve ser associado a este módulo '
         form_section_ids: Pelo menos um formulário deve ser associado a este módulo
@@ -3406,6 +3409,7 @@ pt-MZ:
             label: Vista
           write:
             explanation: Capacidade de clicar no botão "Editar", actualizar informações sobre o registo do Registo e clicar em "Guardar".
+            label: Editar
           sync_mobile:
             explanation: Permite ao utilizador armazenar em cache registos do registo para uso offline.
             label: Marcar para off-line
