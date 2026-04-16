@@ -5,7 +5,7 @@ ARG BUILD_REGISTRY
 ARG RUBY_VERSION=3.3.8
 FROM ${BUILD_REGISTRY}ruby:${RUBY_VERSION}-alpine3.21 AS build-env
 
-ENV NODE_VERSION=22.15.1-r0
+ENV NODE_VERSION=22.22
 ENV BUILD_PACKAGES="bash curl wget curl-dev build-base git"
 ENV PYTHON_PACKAGES="python3 py3-pip"
 ENV BUILD_DEP_PACKAGES=postgresql-dev
@@ -106,7 +106,7 @@ FROM ${BUILD_REGISTRY}ruby:${RUBY_VERSION}-alpine3.21
 
 ENV BUILD_PACKAGES=bash
 ENV RUNTIME_PACKAGES="libpq gettext libintl imagemagick libsodium-dev p7zip tini curl"
-ENV SECURITY_UPDATED_PACKAGES="openssl=3.3.6-r0 yaml=0.2.5-r2 busybox=1.37.0-r14"
+ENV SECURITY_UPDATED_PACKAGES="openssl=3.3.7-r0 yaml=0.2.5-r2 busybox=1.37.0-r14 musl=1.2.5-r11 curl=8.14.1-r2"
 
 ARG APP_UID
 ARG APP_GID
