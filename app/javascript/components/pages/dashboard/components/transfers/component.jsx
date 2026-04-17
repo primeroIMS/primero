@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { useMemo } from "react";
 
 import Permission, { usePermissions, RESOURCES, ACTIONS } from "../../../../permissions";

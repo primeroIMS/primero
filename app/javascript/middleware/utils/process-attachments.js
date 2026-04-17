@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { DB_COLLECTIONS_NAMES, queueIndexedDB } from "../../db";
 import { METHODS } from "../../config";
 import uuid from "../../libs/uuid";

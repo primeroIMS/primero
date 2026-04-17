@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Methods that allow the dynamic generation of i18n getters and setters
 module LocalizableJsonProperty
   extend ActiveSupport::Concern

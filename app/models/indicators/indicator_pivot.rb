@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+# Class for Indicator Pivot
 class Indicators::IndicatorPivot < ValueObject
   # number: The pivot number, determined by its index position in the indicator definition.
   attr_accessor :field_name, :number, :multivalue, :type, :admin_level, :constrained, :query_param

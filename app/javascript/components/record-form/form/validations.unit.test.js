@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { object } from "yup";
 
 import { SELECT_FIELD, SUBFORM_SECTION, TEXT_FIELD, TALLY_FIELD } from "../constants";

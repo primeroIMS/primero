@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Represents an administrative level: country, state, province, township
 # rubocop:disable Metrics/ClassLength
 class Location < ApplicationRecord

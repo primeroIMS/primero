@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # API endpoint for case relationships
 class Api::V2::CaseRelationshipsController < Api::V2::RecordResourceController
   before_action :selected_field_names

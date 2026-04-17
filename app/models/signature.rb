@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2025 UNICEF. All rights reserved.
-
 # Model for signatures
 class Signature < Attachment
   store_accessor :metadata, :consent_provided, :signature_provided_on, :signature_provided_by,

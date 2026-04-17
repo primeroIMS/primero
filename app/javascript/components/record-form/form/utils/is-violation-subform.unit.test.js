@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import sample from "lodash/sample";
 
 import { CASES, INCIDENTS, VIOLATIONS_FORM, VIOLATIONS_SUBFORM_UNIQUE_IDS } from "../../../../config";

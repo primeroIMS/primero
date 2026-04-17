@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { List, OrderedMap, fromJS } from "immutable";
 import extend from "lodash/extend";
 import mapValues from "lodash/mapValues";

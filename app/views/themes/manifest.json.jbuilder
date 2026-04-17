@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 json.short_name @theme&.site_title
 json.name @theme&.site_title
 json.description @theme&.site_description

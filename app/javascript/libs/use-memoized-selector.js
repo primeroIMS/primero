@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { useSelector } from "react-redux";
 import { createSelectorCreator, lruMemoize } from "reselect";
 import isNil from "lodash/isNil";

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # AssessmentStatus
 #
 # Kpi for tracking the percentage of classes with a completed survivor

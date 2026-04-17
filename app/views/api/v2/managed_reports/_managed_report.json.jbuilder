@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 json.id managed_report.id
 json.name managed_report.name
 json.description managed_report.description

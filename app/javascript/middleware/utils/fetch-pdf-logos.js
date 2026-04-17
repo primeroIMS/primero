@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { getAgencyLogosPdf } from "../../components/application/selectors";
 import { METHODS, syncIndexedDB } from "../../db";
 import Logos from "../../db/collections/logos";

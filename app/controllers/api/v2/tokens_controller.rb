@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # The endpoint used to authenticate a user.
 class Api::V2::TokensController < Devise::SessionsController
   include AuditLogActions

@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import Validations from "./validations";
 
 describe("pages/admin/<RolesForm>/forms - Validations", () => {

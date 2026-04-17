@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { List, Map, fromJS } from "immutable";
 import { isEqual, isNil, omitBy, uniqBy } from "lodash";
 import { createCachedSelector } from "re-reselect";

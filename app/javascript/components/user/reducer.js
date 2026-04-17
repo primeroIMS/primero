@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { Map, fromJS } from "immutable";
 import isEmpty from "lodash/isEmpty";
 

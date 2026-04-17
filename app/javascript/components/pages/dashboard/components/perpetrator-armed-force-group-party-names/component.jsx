@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { getIsDashboardGroupLoading, getPerpetratorArmedForceGroupPartyNames } from "../../selectors";
 import { useI18n } from "../../../../i18n";
 import toFacetedTable from "../../utils/to-faceted-table";

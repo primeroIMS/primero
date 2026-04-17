@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # An indicator that returns the total of victims by violation type
 class ManagedReports::Indicators::VerifiedInformation < ManagedReports::SqlReportIndicator
   include ManagedReports::GhnIndicatorHelper

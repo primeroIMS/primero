@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { FORM_MODE_NEW } from "../constants";
 
 import { whichFormMode } from "./which-mode";

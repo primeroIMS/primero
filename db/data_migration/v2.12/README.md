@@ -1,5 +1,3 @@
-<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
-
 # Migrations in 2.12
 
 This migration updates roles to include new dashboards and reports.

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
-
 Warden::Manager.before_failure do |env, _opts|
   request = ActionDispatch::Request.new(env)
   attempted_path = env.dig('warden.options', :attempted_path)

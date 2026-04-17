@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 /* eslint-disable react/sort-prop-types */
 
 import { buildSearchParams, buildValidation } from "./utils";

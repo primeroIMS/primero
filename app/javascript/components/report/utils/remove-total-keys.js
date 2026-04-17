@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import reject from "lodash/reject";
 import isEmpty from "lodash/isEmpty";
 

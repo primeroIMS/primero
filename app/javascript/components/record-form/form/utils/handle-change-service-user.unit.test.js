@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import getConnectedFields from "./get-connected-fields";
 import handleChangeOnServiceUser from "./handle-change-service-user";
 
