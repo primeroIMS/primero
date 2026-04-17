@@ -15,6 +15,7 @@ import SearchFieldToggle from "../../../index-filters/components/search-box/sear
 import searchBoxCss from "../../../index-filters/components/search-box/styles.css";
 import useSearchBox from "../../../index-filters/components/search-box/use-search-box";
 import SearchInput from "../../../index-filters/components/search-box/search-input";
+import useQueryParams from "../../../record-list/use-query-params";
 import {
   FIELD_NAME_QUERY,
   PHONE_NUMBER_FIELD_NAME,
@@ -35,6 +36,7 @@ function Component({
   onSearchCases,
   openConsentPrompt
 }) {
+  const { queryParams } = useQueryParams();
   const methods = useForm({
     defaultValues: {
       [FIELD_NAME_QUERY]: "",
@@ -96,6 +98,14 @@ function Component({
       }
     }
   }, [records, isSubmitted, goToNewCase, setSearchValue, getValues, setOpenConsentPrompt, onCloseDrawer]);
+
+  useEffect(() => {
+    if (setValue && queryParams) {
+      setValue(FIELD_NAME_QUERY, queryParams[FIELD_NAME_QUERY] || "");
+      setValue(PHONETIC_FIELD_NAME, queryParams[PHONETIC_FIELD_NAME] || false);
+      setValue(PHONE_NUMBER_FIELD_NAME, queryParams[PHONE_NUMBER_FIELD_NAME] || false);
+    }
+  }, [setValue, queryParams]);
 
   if (openConsentPrompt) {
     return null;

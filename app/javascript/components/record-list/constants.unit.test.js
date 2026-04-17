@@ -16,6 +16,7 @@ describe("<RecordList /> - constants", () => {
       "NAME",
       "SEARCH_OR_CREATE_FILTERS",
       "SEARCH_AND_CREATE_WORKFLOW",
+      "PREVENT_CASE_CREATION_WITHOUT_SEARCH",
       "COMPLETE"
     ].forEach(property => {
       expect(clone).toHaveProperty(property);

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { Drawer } from "@mui/material";
+import { Drawer, FormHelperText } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import AddIcon from "@mui/icons-material/Add";
 import isEmpty from "lodash/isEmpty";
@@ -18,13 +18,15 @@ import { SEARCH_OR_CREATE_FILTERS } from "../record-list/constants";
 import { applyFilters } from "../index-filters";
 import { setRedirectedToCreateNewRecord } from "../record-form/action-creators";
 import useSystemStrings, { PAGE } from "../application/use-system-strings";
+import useQueryParams from "../record-list/use-query-params";
 
 import { ConsentPrompt, SearchPrompt } from "./components";
 import { NAME, DATA_PROTECTION_FIELDS } from "./constants";
 import css from "./styles.css";
 
-function Component({ open, onClose, recordType, primeroModule }) {
+function Component({ open, onClose, recordType, primeroModule, preventCaseCreationWithoutSearch = false }) {
   const i18n = useI18n();
+  const { queryParams } = useQueryParams();
 
   const { label } = useSystemStrings(PAGE);
   const dispatch = useDispatch();
@@ -80,10 +82,12 @@ function Component({ open, onClose, recordType, primeroModule }) {
         icon={<AddIcon />}
         text="case.skip_and_create"
         type={ACTION_BUTTON_TYPES.default}
+        disabled={!preventCaseCreationWithoutSearch || (preventCaseCreationWithoutSearch && isEmpty(queryParams.query))}
         rest={{
           onClick: handleSkipAndCreate
         }}
       />
+      <FormHelperText>{i18n.t("case.skip_and_create_helper_text")}</FormHelperText>
     </div>
   );
 
@@ -134,6 +138,7 @@ Component.displayName = NAME;
 Component.propTypes = {
   onClose: PropTypes.func,
   open: PropTypes.bool,
+  preventCaseCreationWithoutSearch: PropTypes.bool,
   primeroModule: PropTypes.string,
   recordType: PropTypes.string
 };

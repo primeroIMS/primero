@@ -67,7 +67,8 @@ class PrimeroModule < ApplicationRecord
     :list_filters, :list_headers, :approval_forms_to_alert,
     :approvals_labels_i18n, :changes_field_to_form, :search_and_create_workflow,
     :violation_type_field, :creation_field_map, :data_protection_case_create_field_names,
-    :age_ranges, :workflow_lookup, :response_type_lookup, :case_type, :field_labels_i18n
+    :age_ranges, :workflow_lookup, :response_type_lookup, :case_type, :field_labels_i18n,
+    :prevent_case_creation_without_search
   )
 
   localize_jsonb_properties %i[approvals_labels field_labels]

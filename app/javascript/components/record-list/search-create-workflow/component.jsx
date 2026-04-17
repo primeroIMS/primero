@@ -7,11 +7,14 @@ import { getOptionFromAppModule } from "../../application/selectors";
 import { useMemoizedSelector } from "../../../libs";
 import RecordCreationFlow from "../../record-creation-flow";
 import CreateRecordDialog from "../create-record-dialog";
-import { SEARCH_AND_CREATE_WORKFLOW } from "../constants";
+import { SEARCH_AND_CREATE_WORKFLOW, PREVENT_CASE_CREATION_WITHOUT_SEARCH } from "../constants";
 
 function Component({ open, onClose, primeroModuleUniqueId, recordType, setOpen }) {
   const searchAndCreateWorkflow = useMemoizedSelector(state =>
     getOptionFromAppModule(state, primeroModuleUniqueId, SEARCH_AND_CREATE_WORKFLOW)
+  );
+  const preventCaseCreationWithoutSearch = useMemoizedSelector(state =>
+    getOptionFromAppModule(state, primeroModuleUniqueId, PREVENT_CASE_CREATION_WITHOUT_SEARCH)
   );
 
   if (searchAndCreateWorkflow && recordType === RECORD_PATH.cases) {
@@ -21,6 +24,7 @@ function Component({ open, onClose, primeroModuleUniqueId, recordType, setOpen }
         onClose={onClose}
         recordType={recordType}
         primeroModule={primeroModuleUniqueId}
+        preventCaseCreationWithoutSearch={preventCaseCreationWithoutSearch}
       />
     );
   }

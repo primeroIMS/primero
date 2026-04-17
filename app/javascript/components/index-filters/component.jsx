@@ -4,10 +4,8 @@ import { useCallback, useState, useEffect, useMemo } from "react";
 import PropTypes from "prop-types";
 import { useForm, FormProvider } from "react-hook-form";
 import { useDispatch, batch } from "react-redux";
-import qs from "qs";
 import isEmpty from "lodash/isEmpty";
 import omit from "lodash/omit";
-import { useLocation } from "react-router-dom";
 import { push } from "connected-react-router";
 import { Tabs, Tab } from "@mui/material";
 
@@ -19,6 +17,7 @@ import { useI18n } from "../i18n";
 import { getReportingLocationConfig } from "../user/selectors";
 import { DEFAULT_FILTERS } from "../record-list/constants";
 import { getDefaultFilters } from "../record-list/utils";
+import useQueryParams from "../record-list/use-query-params";
 import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { reduceMapToObject } from "../../libs/component-helpers";
 
@@ -34,11 +33,8 @@ const tabs = [{ name: "saved_search.filters_tab", selected: true }, { name: "sav
 function Component({ recordType, setSelectedRecords, metadata }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const location = useLocation();
+  const { queryString, queryParams } = useQueryParams();
   const { modules, userModules } = useApp();
-
-  const queryString = location.search.replace("?", "");
-  const queryParams = qs.parse(queryString);
 
   const [open, setOpen] = useState(false);
   const [rerender, setRerender] = useState(false);
