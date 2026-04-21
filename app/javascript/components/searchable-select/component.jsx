@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2024 UNICEF. All rights reserved.
-
 /* eslint-disable react/display-name */
 import PropTypes from "prop-types";
 import Autocomplete from "@mui/material/Autocomplete";

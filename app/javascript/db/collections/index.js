@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import Options from "./options";
 import Forms from "./forms";
 import Records from "./records";

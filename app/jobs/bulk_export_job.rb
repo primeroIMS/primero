@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Executes a bulk export
 class BulkExportJob < ApplicationJob
   queue_as :export

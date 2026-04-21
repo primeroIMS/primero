@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 export const TEXT_FIELD = "text_field";
 export const NUMERIC_FIELD = "numeric_field";
 export const SUBFORM_SECTION = "subform";

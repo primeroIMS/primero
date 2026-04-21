@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 class AddReferralStatusColumns < ActiveRecord::Migration[8.1]
   def change
     add_column :cases, :srch_referred_users_pending, :string, array: true, default: []

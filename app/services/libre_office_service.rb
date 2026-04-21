@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Service to convert documents using LibreOffice
 class LibreOfficeService
   def initialize(attachment, model_property, output_file_type = 'pdf')

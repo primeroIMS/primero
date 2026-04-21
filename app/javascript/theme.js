@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import mapKeys from "lodash/mapKeys";
 import kebabCase from "lodash/kebabCase";
 import { alpha } from "@mui/material";

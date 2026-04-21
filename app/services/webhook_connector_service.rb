@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Produce singleton webhook connectors given a webhook.
 # TODO: In the future we could be more efficient by creating a webhook connector for each destination host
 class WebhookConnectorService

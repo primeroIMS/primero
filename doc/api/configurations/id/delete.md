@@ -1,5 +1,3 @@
-<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
-
 # Delete an existing configuration
 
 Delete a configuration with the specified id.

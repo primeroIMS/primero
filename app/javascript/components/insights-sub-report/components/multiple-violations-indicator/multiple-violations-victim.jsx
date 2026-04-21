@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
-
 import PropTypes from "prop-types";
 import { ListItem, Typography } from "@mui/material";
 import { NavLink } from "react-router-dom";

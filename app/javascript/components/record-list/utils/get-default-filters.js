@@ -1,4 +1,3 @@
-// Copyright (c) 2014 - 2026 UNICEF. All rights reserved.
 import { fromJS } from "immutable";
 
 import { DEFAULT_FILTERS } from "../constants";

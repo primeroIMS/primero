@@ -1,5 +1,3 @@
-<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
-
 # Query for transfer users
 
 Shows a list of all users that this user can transfer records to.

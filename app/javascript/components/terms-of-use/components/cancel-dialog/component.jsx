@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import PropTypes from "prop-types";
 import { push } from "connected-react-router";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";

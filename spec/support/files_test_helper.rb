@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Rspec helpers for file attachment
 module FilesTestHelper
   module_function # TODO: Delete after agency

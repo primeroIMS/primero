@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # API for fetching the aggregate statistics backing the dashboards
 class Api::V2::DashboardsController < ApplicationApiController
   def index

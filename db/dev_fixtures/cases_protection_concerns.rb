@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 def read_file(filename)
   f = File.open(filename, 'r')
   names = []

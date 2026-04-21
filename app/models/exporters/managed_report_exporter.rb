@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Class to export ManagedReport (insights)
 class Exporters::ManagedReportExporter < ValueObject
   attr_accessor :managed_report, :opts, :file_name, :errors

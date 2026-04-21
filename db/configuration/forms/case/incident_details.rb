@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 incident_details_subform_fields = [
   Field.new('name' => 'cp_incident_identification_violence',
             'type' => 'select_box',

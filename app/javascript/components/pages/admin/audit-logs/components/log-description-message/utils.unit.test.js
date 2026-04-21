@@ -1,5 +1,3 @@
-// Copyright (c) 2014 UNICEF. All rights reserved.
-
 import { fromJS } from "immutable";
 
 import { getRecordValue } from "./utils";

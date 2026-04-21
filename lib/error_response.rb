@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Description Errorresponses
 class ErrorResponse < StandardError
   attr_reader :status_code

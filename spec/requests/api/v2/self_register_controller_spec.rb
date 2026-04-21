@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2025rspe UNICEF. All rights reserved.
-
 require 'rails_helper'
 
 describe Api::V2::SelfRegisterController, type: :request do

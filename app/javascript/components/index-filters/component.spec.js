@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2024 UNICEF. All rights reserved.
-
 import { screen, mountedComponent, userEvent, setScreenSizeToMobile } from "test-utils";
 import { fromJS } from "immutable";
 

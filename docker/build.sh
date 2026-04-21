@@ -1,6 +1,4 @@
 #!/bin/bash
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 set -euxo pipefail
 
 # Grab the variables set in the defaults

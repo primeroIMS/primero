@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 user_hash = user.attributes.except(*User.hidden_attributes)
 user_hash = user_hash.merge({
   agency_id: user.agency_id,

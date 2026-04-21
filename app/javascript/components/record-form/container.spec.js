@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { fromJS, Map, List, OrderedMap } from "immutable";
 
 import { PrimeroModuleRecord } from "../application/records";

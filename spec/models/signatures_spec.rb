@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2025 UNICEF. All rights reserved.
-
 require 'rails_helper'
 
 describe Signature do

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2026 UNICEF. All rights reserved.
-
 # Example of usage:
 # rails r bin/calculate_transitionable_values Child,Incident,TracingRequest true file/path.txt
 
