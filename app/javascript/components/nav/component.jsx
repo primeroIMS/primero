@@ -14,7 +14,7 @@ import ModuleLogo from "../module-logo";
 import useMemoizedSelector from "../../libs/use-memoized-selector";
 import MobileToolbar from "../mobile-toolbar";
 import { useApp } from "../application";
-import Permission, { usePermissions, MANAGE, RESOURCES } from "../permissions";
+import Permission, { usePermissions, RESOURCES } from "../permissions";
 import { getLocationsAvailable } from "../application/selectors";
 import TranslationsToggle from "../translations-toggle";
 import NetworkIndicator from "../network-indicator";
@@ -24,6 +24,7 @@ import { useI18n } from "../i18n";
 import { hasQueueData } from "../connectivity/selectors";
 import FieldMode from "../network-indicator/components/field-mode";
 import PoweredBy from "../powered-by";
+import { MANAGE_RESTRICTED } from "../permissions/constants";
 
 import { NAME, LOGOUT_DIALOG } from "./constants";
 import css from "./styles.css";
@@ -51,7 +52,7 @@ function Nav() {
   const hasLocationsAvailable = useMemoizedSelector(state => getLocationsAvailable(state), isEqual);
   const hasUnsubmittedOfflineChanges = useMemoizedSelector(state => hasQueueData(state));
 
-  const canManageMetadata = usePermissions(RESOURCES.metadata, MANAGE);
+  const canManageMetadata = usePermissions(RESOURCES.metadata, MANAGE_RESTRICTED);
 
   const handleToggleDrawer = open => event => {
     if (event.type === "keydown" && (event.key === "Tab" || event.key === "Shift")) {

@@ -8,7 +8,7 @@ import {
   TICK_FIELD
 } from "../../../../../../../form";
 
-export const visibilityFields = ({ fieldName, i18n, limitedProductionSite }) => ({
+export const visibilityFields = ({ fieldName, i18n, limitedProductionSite, canManage }) => ({
   showOn: FieldRecord({
     display_name: i18n.t("fields.show_on"),
     name: `${fieldName}.show_on`,
@@ -25,7 +25,7 @@ export const visibilityFields = ({ fieldName, i18n, limitedProductionSite }) => 
     display_name: i18n.t("fields.skip_logic.name"),
     name: `${fieldName}.skip_logic`,
     type: TICK_FIELD,
-    disabled: limitedProductionSite
+    disabled: limitedProductionSite || !canManage
   }),
   mobileVisible: FieldRecord({
     display_name: i18n.t("fields.mobile_visible"),
@@ -37,19 +37,19 @@ export const visibilityFields = ({ fieldName, i18n, limitedProductionSite }) => 
     display_name: i18n.t("fields.hide_on_view_page"),
     name: `${fieldName}.hide_on_view_page`,
     type: TICK_FIELD,
-    disabled: limitedProductionSite
+    disabled: limitedProductionSite || !canManage
   }),
   showOnMinifyForm: FieldRecord({
     display_name: i18n.t("fields.show_on_minify_form"),
     name: `${fieldName}.show_on_minify_form`,
     type: TICK_FIELD,
-    disabled: limitedProductionSite
+    disabled: limitedProductionSite || !canManage
   }),
   onCollapsedSubform: FieldRecord({
     display_name: i18n.t("fields.on_collapsed_subform"),
     name: `${fieldName}.on_collapsed_subform`,
     type: TICK_FIELD,
-    disabled: limitedProductionSite
+    disabled: limitedProductionSite || !canManage
   })
 });
 

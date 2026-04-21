@@ -13,7 +13,7 @@ import {
   OPTION_TYPES
 } from "../../../../../../../form";
 
-export const optionsTabs = (fieldName, i18n, mode, field, limitedProductionSite, parentForm) => {
+export const optionsTabs = (fieldName, i18n, mode, field, limitedProductionSite, parentForm, canManage) => {
   const optionStringsText = field?.get("option_strings_text", fromJS([]));
 
   return [
@@ -34,7 +34,7 @@ export const optionsTabs = (fieldName, i18n, mode, field, limitedProductionSite,
 
             return lookupOptions;
           },
-          disabled: mode.get("isEdit"),
+          disabled: mode.get("isEdit") || !canManage,
           clearDependentValues: [`${fieldName}.selected_value`]
         }),
         FieldRecord({
@@ -43,7 +43,7 @@ export const optionsTabs = (fieldName, i18n, mode, field, limitedProductionSite,
           type: SELECT_FIELD,
           option_strings_source: "Lookups",
           watchedInputs: `${fieldName}.option_strings_source`,
-          disabled: limitedProductionSite,
+          disabled: limitedProductionSite || !canManage,
           filterOptionSource: (watchedInputsValues, lookupOptions) => {
             if (!watchedInputsValues) return [];
 
@@ -76,23 +76,32 @@ export const optionsTabs = (fieldName, i18n, mode, field, limitedProductionSite,
 };
 
 /* eslint-disable import/prefer-default-export */
-export const optionsForm = ({ fieldName, i18n, formMode, field, css, limitedProductionSite, parentForm }) => {
+export const optionsForm = ({
+  fieldName,
+  i18n,
+  formMode,
+  field,
+  css,
+  limitedProductionSite,
+  parentForm,
+  canManage
+}) => {
   const optionsFormFields = [
     FieldRecord({
       display_name: i18n.t("fields.options_indications_lookup_values"),
       name: "options_indications",
       type: LABEL_FIELD,
-      disabled: limitedProductionSite
+      disabled: limitedProductionSite || !canManage
     }),
     FieldRecord({
       display_name: i18n.t("fields.options_indications_restrictions"),
       name: "options_indications_restrictions",
       inputClassname: css.boldLabel,
       type: LABEL_FIELD,
-      disabled: limitedProductionSite
+      disabled: limitedProductionSite || !canManage
     }),
     {
-      tabs: optionsTabs(fieldName, i18n, formMode, field, limitedProductionSite, parentForm),
+      tabs: optionsTabs(fieldName, i18n, formMode, field, limitedProductionSite, parentForm, canManage),
       handleTabChange: ({ selectedTab, formMode: formTabMode, formMethods }) => {
         if (formTabMode.isNew && selectedTab === 0) {
           formMethods.setValue(`${fieldName}.option_strings_text`, []);

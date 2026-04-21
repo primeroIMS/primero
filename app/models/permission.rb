@@ -19,6 +19,7 @@ class Permission < ValueObject
   VERIFY_MRM = 'verify_mrm'
   READ = 'read'
   WRITE = 'write'
+  MANAGE_RESTRICTED = 'manage_restricted'
   ENABLE_DISABLE_RECORD = 'enable_disable_record'
   FLAG = 'flag'
   FLAG_RESOLVE_ANY = 'resolve_any_flag'
@@ -256,7 +257,7 @@ class Permission < ValueObject
       REPORTING_LOCATIONS_REPORT, CASE_MANAGEMENT_KPIS_REPORT, CASE_MANAGEMENT_KPIS_SERVICE_REFERRALS_REPORT,
       DISTRIBUTION_USERS_ROLE_REPORT
     ],
-    METADATA => [MANAGE],
+    METADATA => [MANAGE, MANAGE_RESTRICTED],
     POTENTIAL_MATCH => [READ, VIEW_AUDIO, VIEW_PHOTO, MANAGE],
     DUPLICATE => [READ],
     SYSTEM => [MANAGE],

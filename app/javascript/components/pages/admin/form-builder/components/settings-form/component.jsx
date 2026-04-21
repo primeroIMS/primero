@@ -5,20 +5,22 @@ import PropTypes from "prop-types";
 import FormSection from "../../../../../form/components/form-section";
 import { useI18n } from "../../../../../i18n";
 import { settingsForm } from "../../forms";
+import { MANAGE, RESOURCES, usePermissions } from "../../../../../permissions";
 
 function Component({ formMethods, formMode, onManageTranslation, onEnglishTextChange, limitedProductionSite }) {
   const i18n = useI18n();
+  const canManage = usePermissions(RESOURCES.metadata, MANAGE);
 
-  return settingsForm({ formMode, onManageTranslation, onEnglishTextChange, i18n, limitedProductionSite }).map(
-    formSection => (
-      <FormSection
-        formSection={formSection}
-        key={formSection.unique_id}
-        formMethods={formMethods}
-        formMode={formMode}
-      />
-    )
-  );
+  return settingsForm({
+    canManage,
+    formMode,
+    onManageTranslation,
+    onEnglishTextChange,
+    i18n,
+    limitedProductionSite
+  }).map(formSection => (
+    <FormSection formSection={formSection} key={formSection.unique_id} formMethods={formMethods} formMode={formMode} />
+  ));
 }
 
 Component.displayName = "SettingsForm";

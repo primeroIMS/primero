@@ -83,6 +83,23 @@ class Field < ApplicationRecord
       { 'display_conditions_subform' => {} }, 'subform_sort_by_direction'
     ]
   end
+
+  def self.permitted_api_restricted_params
+    permitted_api_params - [
+      'id', 'name', 'type', 'multi_select', 'form_section_id', 'visible', 'mobile_visible',
+      'hide_on_view_page', 'show_on_minify_form', 'disabled', { 'display_name' => {} }, { 'help_text' => {} },
+      { 'guiding_questions' => {} }, { 'signature_provided_by_label' => {} },
+      { 'tally' => {} }, { 'tick_box_label' => {} },
+      { 'option_strings_text' => [:id, :disabled, { display_text: {} }] },
+      'option_strings_source', 'order', 'hidden_text_field', 'subform_section_id',
+      'collapsed_field_for_subform_section_id', 'autosum_total', 'autosum_group', 'selected_value', 'link_to_path',
+      'link_to_path_external', 'field_tags', 'searchable_select', 'expose_unique_id', 'subform_sort_by',
+      'subform_group_by', 'required', 'date_validation', 'date_include_time', 'matchable',
+      { 'subform_section_configuration' => {} }, { 'tally' => [:id, { display_text: {} }] }, { 'calculation' => {} },
+      'display_conditions_record', { 'display_conditions_record' => {} }, 'display_conditions_subform',
+      { 'display_conditions_subform' => {} }, 'subform_sort_by_direction'
+    ]
+  end
   # rubocop:enable Metrics/MethodLength
 
   # TODO: Move the logic for all_*_field_names methods to the Searchable concern

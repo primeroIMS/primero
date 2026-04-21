@@ -2,7 +2,7 @@
 
 import { FieldRecord, FormSectionRecord, TEXT_FIELD, TICK_FIELD, TEXT_AREA } from "../../../../../../../form";
 
-export const generalFields = ({ fieldName, formMode, i18n, limitedProductionSite }) => ({
+export const generalFields = ({ canManage, fieldName, formMode, i18n, limitedProductionSite }) => ({
   displayName: FieldRecord({
     display_name: i18n.t("fields.name"),
     name: `${fieldName}.display_name.en`,
@@ -31,17 +31,25 @@ export const generalFields = ({ fieldName, formMode, i18n, limitedProductionSite
     name: `${fieldName}.required`,
     type: TICK_FIELD,
     required: true,
-    disabled: limitedProductionSite
+    disabled: limitedProductionSite || !canManage
   }),
   disabled: FieldRecord({
     display_name: i18n.t("fields.enabled_label"),
     name: `${fieldName}.disabled`,
     type: TICK_FIELD,
-    disabled: limitedProductionSite
+    disabled: limitedProductionSite || !canManage
   })
 });
 
-export const generalForm = ({ fields = [], fieldName, formMode, i18n, onManageTranslations, limitedProductionSite }) =>
+export const generalForm = ({
+  canManage,
+  fields = [],
+  fieldName,
+  formMode,
+  i18n,
+  onManageTranslations,
+  limitedProductionSite
+}) =>
   FormSectionRecord({
     unique_id: "field_form",
     actions: formMode.get("isEdit")
@@ -53,5 +61,7 @@ export const generalForm = ({ fields = [], fieldName, formMode, i18n, onManageTr
           }
         ]
       : [],
-    fields: fields.length ? fields : Object.values(generalFields({ fieldName, formMode, i18n, limitedProductionSite }))
+    fields: fields.length
+      ? fields
+      : Object.values(generalFields({ canManage, fieldName, formMode, i18n, limitedProductionSite }))
   });

@@ -2,7 +2,7 @@
 
 import { FieldRecord, FormSectionRecord, TEXT_FIELD, TICK_FIELD } from "../../../../../../../form";
 
-export const subformFields = ({ i18n, limitedProductionSite }) => ({
+export const subformFields = ({ canManage, i18n, limitedProductionSite }) => ({
   name: FieldRecord({
     display_name: i18n.t("fields.subform_section.name"),
     name: "subform_section.name.en",
@@ -21,18 +21,18 @@ export const subformFields = ({ i18n, limitedProductionSite }) => ({
     display_name: i18n.t("fields.subform_section.subform_append_only"),
     name: "subform_section.subform_append_only",
     type: TICK_FIELD,
-    disabled: limitedProductionSite
+    disabled: limitedProductionSite || !canManage
   }),
   subform_prevent_item_removal: FieldRecord({
     display_name: i18n.t("fields.subform_section.subform_prevent_item_removal"),
     name: "subform_section.subform_prevent_item_removal",
     type: TICK_FIELD,
-    disabled: limitedProductionSite
+    disabled: limitedProductionSite || !canManage
   })
 });
 
-export const subform = ({ fields = [], i18n, limitedProductionSite }) =>
+export const subform = ({ fields = [], i18n, limitedProductionSite, canManage }) =>
   FormSectionRecord({
     unique_id: "subform_field",
-    fields: fields.length ? fields : Object.values(subformFields({ i18n, limitedProductionSite }))
+    fields: fields.length ? fields : Object.values(subformFields({ canManage, i18n, limitedProductionSite }))
   });

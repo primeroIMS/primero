@@ -27,6 +27,7 @@ import { getLookup, getSavingLookup } from "./selectors";
 import { clearSelectedLookup, fetchLookup } from "./action-creators";
 import { LookupForm } from "./components";
 import { FORM_ID } from "./components/form/constants";
+import { MANAGE_RESTRICTED } from "../../../permissions/constants";
 
 function Container({ mode }) {
   const i18n = useI18n();
@@ -100,7 +101,7 @@ function Container({ mode }) {
   );
 
   return (
-    <Permission resources={RESOURCES.metadata} actions={MANAGE} redirect>
+    <Permission resources={RESOURCES.metadata} actions={formMode.get("isNew") ? MANAGE : MANAGE_RESTRICTED} redirect>
       <LoadingIndicator hasData={formMode.get("isNew") || lookup?.size > 0} loading={!lookup.size} type={NAMESPACE}>
         <PageHeading title={pageHeading}>
           {editButton}

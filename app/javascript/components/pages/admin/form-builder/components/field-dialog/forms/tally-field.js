@@ -8,7 +8,15 @@ import { FormSectionRecord, FieldRecord, ORDERABLE_OPTIONS_FIELD } from "../../.
 import { validationSchema, generalForm, visibilityForm } from "./base";
 
 /* eslint-disable import/prefer-default-export */
-export const tallyFieldForm = ({ field, formMode, i18n, isNested, onManageTranslations, limitedProductionSite }) => {
+export const tallyFieldForm = ({
+  field,
+  formMode,
+  i18n,
+  isNested,
+  onManageTranslations,
+  limitedProductionSite,
+  canManage
+}) => {
   const fieldName = field.get("name");
   let extraValidations = {};
 
@@ -49,9 +57,9 @@ export const tallyFieldForm = ({ field, formMode, i18n, isNested, onManageTransl
 
   return {
     forms: fromJS([
-      generalForm({ fieldName, i18n, formMode, onManageTranslations, limitedProductionSite }),
-      optionsForm(formMode),
-      visibilityForm({ fieldName, i18n, isNested, limitedProductionSite })
+      generalForm({ fieldName, i18n, formMode, onManageTranslations, limitedProductionSite, canManage }),
+      optionsForm(formMode, canManage),
+      visibilityForm({ fieldName, i18n, isNested, limitedProductionSite, canManage })
     ]),
     validationSchema: validationSchema({
       fieldName,

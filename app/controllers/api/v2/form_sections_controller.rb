@@ -44,8 +44,17 @@ class Api::V2::FormSectionsController < ApplicationApiController
   protected
 
   def form_section_params
-    nested_props = [{ fields: [Field.permitted_api_params] }, { module_ids: [] }]
-    @form_section_params ||= params.require(:data).permit(FormSection.permitted_api_params + nested_props)
+    @form_section_params ||= params.require(:data).permit(permitted_params)
+  end
+
+  def permitted_params
+    if current_user.can?(:manage, FormSection)
+      return FormSection.permitted_api_params + [{ fields: [Field.permitted_api_params] }, { module_ids: [] }]
+    end
+
+    return unless current_user.can?(:manage_restricted, FormSection)
+
+    FormSection.permitted_api_restricted_params + [{ fields: [Field.permitted_api_restricted_params] }]
   end
 
   def model_class

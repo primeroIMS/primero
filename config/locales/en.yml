@@ -4014,6 +4014,9 @@ en:
         label: Matching Configuration
       metadata:
         actions:
+          manage_restricted:
+            label: Manage restricted
+            explanation: ''
           manage:
             explanation: Ability to create, edit, translate, and delete forms, form
               fields, and lookups. Please note that a user with this permission will

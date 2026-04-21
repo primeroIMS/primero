@@ -119,8 +119,14 @@ class Ability
   end
 
   def metadata_permissions
-    [FormSection, Field, Location, Lookup, PrimeroProgram, PrimeroModule].each do |resource|
-      can :manage, resource
+    if user.permission_by_permission_type?(Permission::METADATA, Permission::MANAGE)
+      [FormSection, Field, Location, Lookup, PrimeroProgram, PrimeroModule].each do |resource|
+        can :manage, resource
+      end
+    elsif user.permission_by_permission_type?(Permission::METADATA, Permission::MANAGE_RESTRICTED)
+      can %i[read write destroy], FormSection
+      can %i[read write destroy], Field
+      can %i[read write destroy], Lookup
     end
   end
 

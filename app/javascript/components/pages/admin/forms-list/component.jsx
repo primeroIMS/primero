@@ -12,7 +12,7 @@ import { useI18n } from "../../../i18n";
 import { useApp } from "../../../application";
 import { PageHeading, PageContent } from "../../../page";
 import { MODULES, RECORD_TYPES } from "../../../../config";
-import Permission, { usePermissions, CREATE_RECORDS, RESOURCES, MANAGE } from "../../../permissions";
+import Permission, { usePermissions, CREATE_RECORDS, RESOURCES } from "../../../permissions";
 import { FormAction, OPTION_TYPES } from "../../../form";
 import { useMemoizedSelector } from "../../../../libs";
 import { useDialog } from "../../../action-dialog";
@@ -21,6 +21,7 @@ import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import useOptions from "../../../form/use-options";
 import Menu from "../../../menu";
 import { fetchUnusedFieldsReport, getUnusedFieldsReport } from "../../../unused-fields-report";
+import { MANAGE_RESTRICTED } from "../../../permissions/constants";
 
 import FormExporter from "./components/form-exporter";
 import { FORM_EXPORTER_DIALOG } from "./components/form-exporter/constants";
@@ -153,7 +154,7 @@ function Component() {
   }, [unusedFieldsReport]);
 
   return (
-    <Permission resources={RESOURCES.metadata} actions={MANAGE} redirect>
+    <Permission resources={RESOURCES.metadata} actions={MANAGE_RESTRICTED} redirect>
       <PageHeading title={i18n.t("forms.label")}>
         {canAddForms && (
           <FormAction
