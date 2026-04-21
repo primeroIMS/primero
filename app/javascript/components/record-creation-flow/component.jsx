@@ -88,7 +88,9 @@ function Component({ open, onClose, recordType, primeroModule, preventCaseCreati
           onClick: handleSkipAndCreate
         }}
       />
-      <FormHelperText>{i18n.t("case.skip_and_create_helper_text")}</FormHelperText>
+      {preventCaseCreationWithoutSearch && isEmpty(queryParams.query) && (
+        <FormHelperText>{i18n.t("case.skip_and_create_helper_text")}</FormHelperText>
+      )}
     </div>
   );
 
