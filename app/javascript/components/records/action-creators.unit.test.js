@@ -64,6 +64,7 @@ describe("records - Action Creators", () => {
       "saveRecord",
       "setCaseIdForIncident",
       "setMachedCaseForTrace",
+      "setIsRecordCreationFlow",
       "setSelectedCasePotentialMatch",
       "setSelectedPotentialMatch",
       "setSelectedRecord",

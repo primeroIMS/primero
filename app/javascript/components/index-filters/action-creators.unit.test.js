@@ -58,7 +58,11 @@ describe("<IndexFilters /> - Action Creators", () => {
           recordType: "cases"
         },
         params: options,
-        path: `/${RECORD_PATH.cases}`
+        path: `/${RECORD_PATH.cases}`,
+        successCallback: {
+          action: "cases/SET_IS_RECORD_CREATION_FLOW",
+          payload: false
+        }
       },
       type: "cases/RECORDS"
     });

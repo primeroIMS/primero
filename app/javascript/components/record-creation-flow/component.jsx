@@ -7,7 +7,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import AddIcon from "@mui/icons-material/Add";
 import isEmpty from "lodash/isEmpty";
 import { push } from "connected-react-router";
-import { useDispatch, batch } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
@@ -19,6 +19,7 @@ import { applyFilters } from "../index-filters";
 import { setRedirectedToCreateNewRecord } from "../record-form/action-creators";
 import useSystemStrings, { PAGE } from "../application/use-system-strings";
 import useQueryParams from "../record-list/use-query-params";
+import { setIsRecordCreationFlow } from "../records";
 
 import { ConsentPrompt, SearchPrompt } from "./components";
 import { NAME, DATA_PROTECTION_FIELDS } from "./constants";
@@ -42,17 +43,16 @@ function Component({ open, onClose, recordType, primeroModule, preventCaseCreati
   };
 
   const redirectToNewCase = () => {
-    batch(() => {
-      dispatch(setRedirectedToCreateNewRecord(true));
-      dispatch(push(`/${recordType}/${primeroModule}/new`));
-    });
+    dispatch(setRedirectedToCreateNewRecord(true));
+    dispatch(push(`/${recordType}/${primeroModule}/new`));
   };
 
   const onSearchCases = data => {
     dispatch(
       applyFilters({
         recordType,
-        data: { ...SEARCH_OR_CREATE_FILTERS, ...(!isEmpty(data) && { ...data }) }
+        data: { ...SEARCH_OR_CREATE_FILTERS, ...(!isEmpty(data) && { ...data }) },
+        isRecordCreationFlow: true
       })
     );
   };
@@ -69,6 +69,7 @@ function Component({ open, onClose, recordType, primeroModule, preventCaseCreati
   const handleCloseDrawer = () => {
     setOpenConsentPrompt(false);
     onClose();
+    dispatch(setIsRecordCreationFlow(recordType, false));
 
     if (searchValue) {
       onSearchCases();
