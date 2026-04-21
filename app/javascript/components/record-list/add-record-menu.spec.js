@@ -52,7 +52,7 @@ describe("<AddRecordMenu /> record-list/add-record-menu", () => {
     expect(screen.getByTestId("menu")).toBeInTheDocument();
   });
 
-  it("opens a <CreateRecordDialog /> if module allow_searchable_ids", async () => {
+  it("opens a <RecordCreationFlow /> if module allow_searchable_ids", async () => {
     const user = userEvent.setup();
 
     mountedComponent(
@@ -62,7 +62,7 @@ describe("<AddRecordMenu /> record-list/add-record-menu", () => {
 
     await user.click(screen.getByText(/buttons.new/));
 
-    expect(screen.queryByTestId("CreateRecordDialog")).toBeInTheDocument();
+    expect(screen.queryByTestId("record-creation-flow")).toBeInTheDocument();
   });
 
   it("does not render <CreateRecordDialog /> if module does not allow_searchable_ids", async () => {
@@ -72,10 +72,10 @@ describe("<AddRecordMenu /> record-list/add-record-menu", () => {
 
     await user.click(screen.getByText(/buttons.new/));
 
-    expect(screen.queryByTestId("CreateRecordDialog")).toBeNull();
+    expect(screen.queryByTestId("record-creation-flow")).toBeNull();
   });
 
-  it("does not render <CreateRecordDialog /> if recordType is not cases", async () => {
+  it("does not render <RecordCreationFlow /> if recordType is not cases", async () => {
     const user = userEvent.setup();
 
     mountedComponent(
@@ -85,6 +85,6 @@ describe("<AddRecordMenu /> record-list/add-record-menu", () => {
 
     await user.click(screen.getByText(/buttons.new/));
 
-    expect(screen.queryByTestId("CreateRecordDialog")).toBeNull();
+    expect(screen.queryByTestId("record-creation-flow")).toBeNull();
   });
 });

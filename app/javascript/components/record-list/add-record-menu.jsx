@@ -71,7 +71,6 @@ function AddRecordMenu({ recordType }) {
           onClose={onClose}
           primeroModuleUniqueId={moduleUniqueId}
           recordType={recordType}
-          setOpen={setOpen}
         />
       )}
     </>

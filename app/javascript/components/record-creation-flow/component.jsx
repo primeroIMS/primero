@@ -95,7 +95,13 @@ function Component({ open, onClose, recordType, primeroModule, preventCaseCreati
   );
 
   return (
-    <Drawer anchor="right" open={open} onClose={handleCloseDrawer} classes={{ paper: css.subformDrawer }}>
+    <Drawer
+      anchor="right"
+      open={open}
+      onClose={handleCloseDrawer}
+      classes={{ paper: css.subformDrawer }}
+      data-testid="record-creation-flow"
+    >
       <div className={css.container}>
         <div className={css.title}>
           <h2>{label("case.create_new_case")}</h2>
