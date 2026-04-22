@@ -19,13 +19,13 @@ import { useMemoizedSelector } from "../../../../libs";
 import Permission, { RESOURCES, MANAGE } from "../../../permissions";
 import InternalAlert from "../../../internal-alert";
 import LockedIcon from "../../../locked-icon";
+import { MANAGE_RESTRICTED } from "../../../permissions/constants";
 
 import { NAME } from "./constants";
 import { getLookup, getSavingLookup } from "./selectors";
 import { clearSelectedLookup, fetchLookup } from "./action-creators";
 import { LookupForm } from "./components";
 import { FORM_ID } from "./components/form/constants";
-import { MANAGE_RESTRICTED } from "../../../permissions/constants";
 
 function Container({ mode }) {
   const i18n = useI18n();
