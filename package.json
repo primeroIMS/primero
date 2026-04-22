@@ -31,7 +31,8 @@
     "dom-to-image-more": "2.8.0",
     "immutable": "$immutable",
     "xml2js": "0.5.0",
-    "@emotion/cache": "11.11.0"
+    "@emotion/cache": "11.11.0",
+    "serialize-javascript": "7.0.5"
   },
   "resolutions": {
     "tss-react": "4.9.10",
@@ -81,7 +82,7 @@
     "canvg": "^3.0.6",
     "chart.js": "^2.9.4",
     "clean-webpack-plugin": "^4.0.0",
-    "compression-webpack-plugin": "^11.1.0",
+    "compression-webpack-plugin": "^12.0.0",
     "connected-react-router": "^6.9.3",
     "core-js": "3.45.1",
     "css-loader": "^7.1.2",
@@ -105,12 +106,12 @@
     "formik": "^2.4.6",
     "fuzzysort": "^3.1.0",
     "history": "^4.9.0",
-    "html2pdf-dom-to-image-more": "0.9.6",
+    "html2pdf-dom-to-image-more": "^0.9.8",
     "i18n-js": "^4.5.1",
     "idb": "^8.0.3",
     "identity-obj-proxy": "^3.0.0",
     "image-blob-reduce": "^4.1.0",
-    "immutable": "4.3.6",
+    "immutable": "^4.3.8",
     "jest": "^30.1.3",
     "jest-environment-jsdom": "^30.1.2",
     "jscpd": "^4.0.5",
@@ -171,7 +172,7 @@
     "workbox-precaching": "^7.3.0",
     "workbox-routing": "^7.3.0",
     "workbox-strategies": "^7.3.0",
-    "workbox-webpack-plugin": "^7.3.0",
+    "workbox-webpack-plugin": "^7.0.0",
     "yup": "^0.32.9"
   },
   "jscpd": {
