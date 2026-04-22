@@ -84,11 +84,8 @@ class FormSection < ApplicationRecord
 
     def permitted_api_restricted_params
       [
-        'id', 'unique_id', { 'name' => {} }, { 'help_text' => {} }, { 'description' => {} },
-        'visible', 'order', 'order_form_group', 'order_subform', 'form_group_id', 'is_nested',
-        'is_first_tab', 'initial_subforms',
-        'subform_header_links', 'display_help_text_view', 'shared_subform', 'shared_subform_group',
-        'is_summary_section', 'hide_subform_placeholder', 'mobile_form', { 'collapsed_field_names' => [] }
+        { 'name' => {} }, { 'description' => {} }, 'mobile_form', 'visible', 'order', 'order_form_group',
+        'order_subform', 'form_group_id'
       ]
     end
 

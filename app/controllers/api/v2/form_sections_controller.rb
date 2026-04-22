@@ -52,7 +52,7 @@ class Api::V2::FormSectionsController < ApplicationApiController
       return FormSection.permitted_api_params + [{ fields: [Field.permitted_api_params] }, { module_ids: [] }]
     end
 
-    return unless current_user.can?(:manage_restricted, FormSection)
+    return unless current_user.can_manage_restricted_metadata?
 
     FormSection.permitted_api_restricted_params + [{ fields: [Field.permitted_api_restricted_params] }]
   end

@@ -920,6 +920,61 @@ describe Api::V2::FormSectionsController, type: :request do
     end
   end
 
+  describe 'when user has managed_restricted metadata permission' do
+    let(:restricted_permissions) do
+      [Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE_RESTRICTED])]
+    end
+
+    it 'allows GET /api/v2/forms' do
+      login_for_test(permissions: restricted_permissions)
+      get '/api/v2/forms'
+      expect(response).to have_http_status(200)
+    end
+
+    it 'allows GET /api/v2/forms/:id' do
+      login_for_test(permissions: restricted_permissions)
+      get "/api/v2/forms/#{@form1.id}"
+      expect(response).to have_http_status(200)
+    end
+
+    it 'forbids POST /api/v2/forms' do
+      login_for_test(permissions: restricted_permissions)
+      params = { data: { unique_id: 'restricted_create', name: { en: 'Restricted Create' } } }
+      post '/api/v2/forms', params:, as: :json
+      expect(response).to have_http_status(403)
+    end
+
+    it 'allows PATCH /api/v2/forms/:id for allowed fields' do
+      login_for_test(permissions: restricted_permissions)
+      params = { data: { name: { en: 'Updated by restricted' }, visible: false } }
+      patch "/api/v2/forms/#{@form2.id}", params:, as: :json
+      expect(response).to have_http_status(200)
+    end
+
+    it 'forbids PATCH /api/v2/forms/:id for restricted fields' do
+      login_for_test(permissions: restricted_permissions)
+      unique_id = @form2.unique_id
+      is_first_tab = @form2.is_first_tab
+      module_ids = @form2.primero_modules.pluck(:unique_id)
+
+      params = { data: { unique_id: 'new_unique_id',
+                         module_ids: ['forbidden-model-change'],
+                         is_first_tab: true, name: { en: 'Updated name' } } }
+      patch "/api/v2/forms/#{@form2.id}", params:, as: :json
+      @form2.reload
+      expect(@form2.name_en).to eq('Updated name')
+      expect(@form2.unique_id).to eq(unique_id)
+      expect(@form2.is_first_tab).to eq(is_first_tab)
+      expect(@form2.primero_modules.pluck(:unique_id)).to eq(module_ids)
+    end
+
+    it 'forbids DELETE /api/v2/forms/:id' do
+      login_for_test(permissions: restricted_permissions)
+      delete "/api/v2/forms/#{@form2.id}"
+      expect(response).to have_http_status(403)
+    end
+  end
+
   after do
     clean_data(Field, FormSection, Role, PrimeroModule, PrimeroProgram, Lookup)
   end

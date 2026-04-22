@@ -24,7 +24,7 @@ describe Api::V2::LocationsController, type: :request do
 
   describe 'GET /api/v2/locations' do
     it 'lists locations without hierarchy param' do
-      login_for_test(permissions: [Permission.new(resource: Permission::METADATA)])
+      login_for_test(permissions: [Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])])
       get '/api/v2/locations'
 
       expect(response).to have_http_status(200)
@@ -43,7 +43,7 @@ describe Api::V2::LocationsController, type: :request do
     end
 
     it 'lists locations with hierarchy param false' do
-      login_for_test(permissions: [Permission.new(resource: Permission::METADATA)])
+      login_for_test(permissions: [Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])])
       get '/api/v2/locations?hierarchy=false'
 
       expect(response).to have_http_status(200)
@@ -61,7 +61,7 @@ describe Api::V2::LocationsController, type: :request do
     end
 
     it 'lists locations with hierarchy param true' do
-      login_for_test(permissions: [Permission.new(resource: Permission::METADATA)])
+      login_for_test(permissions: [Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])])
       get '/api/v2/locations?hierarchy=true'
 
       expect(response).to have_http_status(200)
@@ -104,7 +104,7 @@ describe Api::V2::LocationsController, type: :request do
 
   describe 'POST /api/v2/locations' do
     it 'creates a new location and returns 200 and json' do
-      login_for_test(permissions: [Permission.new(resource: Permission::METADATA)])
+      login_for_test(permissions: [Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])])
       params = { data: { code: 'CI01', type: 'city', placename: { en: 'city01_en', es: 'city01_es' },
                          parent_code: 'D02' } }
       post '/api/v2/locations', params:, as: :json
@@ -119,7 +119,7 @@ describe Api::V2::LocationsController, type: :request do
     end
 
     it 'creates a new record parent with 200 and returns it as JSON' do
-      login_for_test(permissions: [Permission.new(resource: Permission::METADATA)])
+      login_for_test(permissions: [Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])])
       params = { data: { code: 'CT02', type: 'country', admin_level: 0,
                          placename: { en: 'country02_en', es: 'country02_en' }, parent_code: '' } }
       post '/api/v2/locations', params:, as: :json
@@ -134,7 +134,7 @@ describe Api::V2::LocationsController, type: :request do
     end
 
     it 'returns a 422 if location_code is blank' do
-      login_for_test(permissions: [Permission.new(resource: Permission::METADATA)])
+      login_for_test(permissions: [Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])])
       params = { data: { type: 'departament', placename: { en: 'departament03_en', es: 'departament03_es' },
                          parent_code: 'CT01' } }
       post '/api/v2/locations', params:, as: :json
@@ -147,7 +147,7 @@ describe Api::V2::LocationsController, type: :request do
     end
 
     it 'returns a 422 if location_code is repeated' do
-      login_for_test(permissions: [Permission.new(resource: Permission::METADATA)])
+      login_for_test(permissions: [Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])])
       params = { data: { code: 'D01', type: 'departament',
                          placename: { en: 'Departament01_en', es: 'Departament01_es' }, parent_code: 'CT01' } }
       post '/api/v2/locations', params:, as: :json
@@ -177,7 +177,7 @@ describe Api::V2::LocationsController, type: :request do
 
   describe 'GET /api/v2/locations/:id' do
     it 'fetches the correct parent record' do
-      login_for_test(permissions: [Permission.new(resource: Permission::METADATA)])
+      login_for_test(permissions: [Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])])
       get "/api/v2/locations/#{@locations_ct01.id}"
 
       expect(response).to have_http_status(200)
@@ -186,7 +186,7 @@ describe Api::V2::LocationsController, type: :request do
     end
 
     it 'fetches the correct child record' do
-      login_for_test(permissions: [Permission.new(resource: Permission::METADATA)])
+      login_for_test(permissions: [Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])])
       get "/api/v2/locations/#{@locations_d01.id}"
 
       expect(response).to have_http_status(200)
@@ -204,7 +204,7 @@ describe Api::V2::LocationsController, type: :request do
     end
 
     it 'returns a 404 when trying to fetch a record with a non-existant id' do
-      login_for_test(permissions: [Permission.new(resource: Permission::METADATA)])
+      login_for_test(permissions: [Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])])
       get '/api/v2/locations/thisdoesntexist'
 
       expect(response).to have_http_status(404)
@@ -215,7 +215,7 @@ describe Api::V2::LocationsController, type: :request do
 
   describe 'DELETE /api/v2/locations/:id' do
     it 'successfully deletes a record with a code of 200' do
-      login_for_test(permissions: [Permission.new(resource: Permission::METADATA)])
+      login_for_test(permissions: [Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])])
       delete "/api/v2/locations/#{@locations_d01.id}"
       expect(response).to have_http_status(200)
       expect(json['data']['id']).to eq(@locations_d01.id)
@@ -234,7 +234,7 @@ describe Api::V2::LocationsController, type: :request do
     end
 
     it 'returns a 404 when trying to disable a record with a non-existant id' do
-      login_for_test(permissions: [Permission.new(resource: Permission::METADATA)])
+      login_for_test(permissions: [Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])])
       delete '/api/v2/locations/thisdoesntexist'
 
       expect(response).to have_http_status(404)
@@ -245,7 +245,7 @@ describe Api::V2::LocationsController, type: :request do
 
   describe 'PATCH /api/v2/locations/:id' do
     it 'updates an existing child record with 200' do
-      login_for_test(permissions: [Permission.new(resource: Permission::METADATA)])
+      login_for_test(permissions: [Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])])
       params = { data: { code: 'D03', type: 'departament3',
                          placename: { en: 'Departament03_en', es: 'Departament03_es' }, parent_code: 'CT01' } }
       patch "/api/v2/locations/#{@locations_d02.id}", params:, as: :json
@@ -257,7 +257,7 @@ describe Api::V2::LocationsController, type: :request do
     end
 
     it 'updates an existing parent record and observe changes in children' do
-      login_for_test(permissions: [Permission.new(resource: Permission::METADATA)])
+      login_for_test(permissions: [Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])])
       params = {
         data: {
           code: 'CT02',
@@ -289,7 +289,7 @@ describe Api::V2::LocationsController, type: :request do
     end
 
     it 'returns a 404 when trying to update a record with a non-existant id' do
-      login_for_test(permissions: [Permission.new(resource: Permission::METADATA)])
+      login_for_test(permissions: [Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])])
       params = {
         data: {
           location_code: 'CT02',
@@ -315,7 +315,7 @@ describe Api::V2::LocationsController, type: :request do
       end
 
       it 'imports locatons' do
-        login_for_test(permissions: [Permission.new(resource: Permission::METADATA)])
+        login_for_test(permissions: [Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])])
         params = { data: { file_name: @file_name, data_base64: @data_base64 } }
         post '/api/v2/locations/import', params:, as: :json
 
@@ -331,7 +331,7 @@ describe Api::V2::LocationsController, type: :request do
       end
 
       it 'logs errors for the invalid rows' do
-        login_for_test(permissions: [Permission.new(resource: Permission::METADATA)])
+        login_for_test(permissions: [Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])])
         params = { data: { file_name: @file_name, data_base64: @data_base64 } }
         post '/api/v2/locations/import', params:, as: :json
 
@@ -356,7 +356,7 @@ describe Api::V2::LocationsController, type: :request do
 
   describe 'POST /api/v2/locations/update_bulk' do
     it 'updates all locations' do
-      login_for_test(permissions: [Permission.new(resource: Permission::METADATA)])
+      login_for_test(permissions: [Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])])
       params = {
         data: [
           { id: @locations_d01.id, disabled: true },
@@ -371,6 +371,64 @@ describe Api::V2::LocationsController, type: :request do
       expect(json['data'][0]['disabled']).to eq(true)
       expect(json['data'][1]['id']).to eq(@locations_d02.id)
       expect(json['data'][1]['disabled']).to eq(true)
+    end
+  end
+
+  describe 'with MANAGE_RESTRICTED permission' do
+    let(:restricted_permissions) do
+      [Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE_RESTRICTED])]
+    end
+
+    it 'returns 403 on GET /api/v2/locations/:id' do
+      login_for_test(permissions: restricted_permissions)
+      get "/api/v2/locations/#{@locations_ct01.id}"
+
+      expect(response).to have_http_status(403)
+      expect(json['errors'][0]['resource']).to eq("/api/v2/locations/#{@locations_ct01.id}")
+    end
+
+    it 'returns 403 on POST /api/v2/locations' do
+      login_for_test(permissions: restricted_permissions)
+      params = { data: { code: 'CI01', type: 'city', placename: { en: 'city01_en' }, parent_code: 'D01' } }
+      post '/api/v2/locations', params:, as: :json
+
+      expect(response).to have_http_status(403)
+      expect(json['errors'][0]['resource']).to eq('/api/v2/locations')
+    end
+
+    it 'returns 403 on PATCH /api/v2/locations/:id' do
+      login_for_test(permissions: restricted_permissions)
+      params = { data: { type: 'departament2', placename: { en: 'Departament01_en' } } }
+      patch "/api/v2/locations/#{@locations_d01.id}", params:, as: :json
+
+      expect(response).to have_http_status(403)
+      expect(json['errors'][0]['resource']).to eq("/api/v2/locations/#{@locations_d01.id}")
+    end
+
+    it 'returns 403 on DELETE /api/v2/locations/:id' do
+      login_for_test(permissions: restricted_permissions)
+      delete "/api/v2/locations/#{@locations_d01.id}"
+
+      expect(response).to have_http_status(403)
+      expect(json['errors'][0]['resource']).to eq("/api/v2/locations/#{@locations_d01.id}")
+    end
+
+    it 'returns 403 on POST /api/v2/locations/import' do
+      login_for_test(permissions: restricted_permissions)
+      params = { data: { file_name: 'hxl_location_sample.csv', data_base64: '' } }
+      post '/api/v2/locations/import', params:, as: :json
+
+      expect(response).to have_http_status(403)
+      expect(json['errors'][0]['resource']).to eq('/api/v2/locations/import')
+    end
+
+    it 'returns 403 on POST /api/v2/locations/update_bulk' do
+      login_for_test(permissions: restricted_permissions)
+      params = { data: [{ id: @locations_d01.id, disabled: true }] }
+      post '/api/v2/locations/update_bulk', params:, as: :json
+
+      expect(response).to have_http_status(403)
+      expect(json['errors'][0]['resource']).to eq('/api/v2/locations/update_bulk')
     end
   end
 
