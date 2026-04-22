@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 class CreateLocations < ActiveRecord::Migration[5.0]
   enable_extension 'ltree'
   def change

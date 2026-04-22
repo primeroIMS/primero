@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # A class to generate a SQL query for a phonetic search
 class Search::PhoneticSearchQuery < Search::SearchQuery
   attr_accessor :tokens

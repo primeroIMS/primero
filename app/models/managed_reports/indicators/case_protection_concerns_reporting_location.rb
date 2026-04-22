@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
-
 # An indicator that returns the total of cases by reporting location
 class ManagedReports::Indicators::CaseProtectionConcernsReportingLocation < ManagedReports::SqlReportIndicator
   class << self

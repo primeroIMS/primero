@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Organizations that users who manage the the data in Primero belong to.
 # rubocop:disable Metrics/ClassLength
 class Agency < ApplicationRecord
@@ -17,6 +15,8 @@ class Agency < ApplicationRecord
 
   AGENCY_FIELDS_SCHEMA = {
     'id' => { 'type' => 'integer' }, 'unique_id' => { 'type' => 'string' },
+    'contact_name' => { 'type' => 'string' }, 'contact_email' => { 'type' => 'string' },
+    'contact_phone' => { 'type' => 'string' }, 'notes' => { 'type' => 'string' },
     'agency_code' => { 'type' => 'string' }, 'order' => { 'type' => 'integer' },
     'telephone' => { 'type' => 'string' }, 'logo_enabled' => { 'type' => 'boolean' },
     'terms_of_use_enabled' => { 'type' => 'boolean' }, 'disabled' => { 'type' => 'boolean' },
@@ -37,9 +37,8 @@ class Agency < ApplicationRecord
   attribute :logo_icon_file_name, :string
   attribute :terms_of_use_base64, :string
   attribute :terms_of_use_file_name, :string
-
-  validates :agency_code, presence: { message: 'errors.models.agency.code_present' }
-  validate :validate_name_in_english
+  # Set when creating agencies in config loaders
+  attribute :skip_terms_of_use, :boolean
 
   has_one_attached :logo_full, dependent: false
   has_one_attached :logo_icon, dependent: false
@@ -51,6 +50,8 @@ class Agency < ApplicationRecord
   scope :with_logos, -> { enabled.where(logo_enabled: true) }
   scope :with_pdf_logo_option, -> { enabled.where(pdf_logo_option: true) }
 
+  validates :agency_code, presence: { message: 'errors.models.agency.code_present' }
+  validate :validate_name_in_english
   validates :logo_full, file_size: { less_than_or_equal_to: 1.megabytes },
                         file_content_type: {
                           allow: 'image/png',
@@ -69,7 +70,7 @@ class Agency < ApplicationRecord
 
   validate :validate_logo_full_dimension, if: -> { logo_full.attached? }
   validate :validate_logo_icon_dimension, if: -> { logo_icon.attached? }
-  validate :terms_of_use_signed_if_enforced
+  validate :terms_of_use_signed_if_enforced, if: -> { Rails.configuration.enforce_terms_of_use }
 
   before_create :generate_unique_id
   before_save :set_logo_enabled
@@ -235,7 +236,7 @@ class Agency < ApplicationRecord
   end
 
   def terms_of_use_signed_if_enforced
-    return if !Rails.configuration.enforce_terms_of_use || terms_of_use_signed
+    return if skip_terms_of_use || terms_of_use_signed
 
     errors.add(:base, I18n.t('errors.models.agency.must_sign_terms_of_use'))
   end

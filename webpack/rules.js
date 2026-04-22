@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 const path = require("path");
 
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
@@ -12,7 +10,7 @@ const rules = [
   },
   {
     test: /\.css$/,
-    exclude: /index.css$/,
+    exclude: [/index.css$/, /node_modules/],
     use: [
       MiniCssExtractPlugin.loader,
       {
@@ -36,7 +34,8 @@ const rules = [
     ]
   },
   {
-    test: /index.css$/,
+    test: /\.css$/,
+    include: [/index.css$/, /node_modules/],
     use: [MiniCssExtractPlugin.loader, "css-loader"]
   },
   {

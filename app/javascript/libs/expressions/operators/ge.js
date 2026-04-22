@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { isAfter, parseISO, isEqual } from "date-fns";
 import first from "lodash/first";
 

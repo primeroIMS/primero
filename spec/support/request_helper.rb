@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Helpers for request specs.
 
 shared_examples 'a paginated resource' do

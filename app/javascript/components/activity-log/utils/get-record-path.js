@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { CASE, INCIDENT, RECORD_TYPES_PLURAL, TRACING_REQUEST } from "../../../config";
 
 export default record => {

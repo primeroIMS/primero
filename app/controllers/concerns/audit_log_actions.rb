@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Set the audit log properties
 module AuditLogActions
   extend ActiveSupport::Concern

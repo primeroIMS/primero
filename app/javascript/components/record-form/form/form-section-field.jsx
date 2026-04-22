@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { memo, useCallback } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
@@ -39,6 +37,7 @@ import TallyField from "./field-types/tally-field";
 import SignatureField from "./field-types/signature-field";
 import css from "./styles.css";
 import { asyncFieldOffline } from "./utils";
+import PhoneField from "./field-types/phone-field";
 
 function FormSectionField({
   name,
@@ -70,7 +69,8 @@ function FormSectionField({
     link_to_form: linkToForm,
     option_strings_source: optionStringsSource,
     option_strings_text: optionsStringsText,
-    options
+    options,
+    phone_number: isPhoneNumber
   } = field;
 
   const classes = cx(css.field, { [css.readonly]: mode.isShow });
@@ -154,6 +154,10 @@ function FormSectionField({
       case SIGNATURE_FIELD:
         return SignatureField;
       default:
+        if (isPhoneNumber) {
+          return PhoneField;
+        }
+
         return TextField;
     }
   })(type);

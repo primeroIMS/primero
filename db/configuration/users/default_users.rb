@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 unicef = Agency.find_by(agency_code: 'UNICEF')
 
 User.create_or_update!(

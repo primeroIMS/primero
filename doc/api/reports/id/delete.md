@@ -1,5 +1,3 @@
-<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
-
 # Delete an existing report
 
 Delete an report with the specified id.

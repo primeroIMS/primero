@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import transformFilters from "./transform-filters";
 
 describe("<IndexFilters>/utils - transformFilters", () => {

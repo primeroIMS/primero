@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { fromJS } from "immutable";
 import { object, string, boolean, array, lazy } from "yup";
 
@@ -88,6 +86,27 @@ export const form = (i18n, formMode, enforceTermsOfUse) => {
           type: TICK_FIELD,
           selected_value: enforceTermsOfUse,
           disabled: enforceTermsOfUse
+        }),
+        FieldRecord({
+          display_name: i18n.t("agency.contact_name"),
+          name: "contact_name",
+          type: TEXT_FIELD
+        }),
+        FieldRecord({
+          display_name: i18n.t("agency.contact_email"),
+          name: "contact_email",
+          type: TEXT_FIELD
+        }),
+        FieldRecord({
+          display_name: i18n.t("agency.contact_phone"),
+          name: "contact_phone",
+          type: TEXT_FIELD,
+          phone_number: true
+        }),
+        FieldRecord({
+          display_name: i18n.t("agency.notes"),
+          name: "notes",
+          type: TEXT_AREA
         }),
         FieldRecord({
           display_name: i18n.t("agency.terms_of_use"),

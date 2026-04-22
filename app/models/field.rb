@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Model for Field
 # rubocop:disable Metrics/ClassLength
 class Field < ApplicationRecord
@@ -69,7 +67,7 @@ class Field < ApplicationRecord
   # rubocop:disable Metrics/MethodLength
   def self.permitted_api_params
     [
-      'id', 'name', 'type', 'multi_select', 'form_section_id', 'visible', 'mobile_visible',
+      'id', 'name', 'type', 'multi_select', 'form_section_id', 'visible', 'mobile_visible', 'phone_number',
       'hide_on_view_page', 'show_on_minify_form', 'disabled', { 'display_name' => {} }, { 'help_text' => {} },
       { 'guiding_questions' => {} }, { 'signature_provided_by_label' => {} },
       { 'tally' => {} }, { 'tick_box_label' => {} },

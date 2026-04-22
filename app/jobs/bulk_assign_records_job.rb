@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Job that bulk assign records to an user
 class BulkAssignRecordsJob < ApplicationJob
   queue_as :long_running_process

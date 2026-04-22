@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import mapKeys from "lodash/mapKeys";
 import kebabCase from "lodash/kebabCase";
 import { alpha } from "@mui/material";
@@ -62,6 +60,7 @@ const colors = {
   greenLight: "#E6EED3", // u,
   redMedium: "#E7712D",
   redLow: "#F7D0BA",
+  tiaMaria: "#C2410C",
   forgotPasswordLink: "var(--c-blue)",
   networkIndicatorBorder: "var(--c-solid-green)",
   navListIcon: "var(--c-dark-grey))",

@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import buildColumnPaths from "./build-column-paths";
 
 describe("<Report /> - utils", () => {

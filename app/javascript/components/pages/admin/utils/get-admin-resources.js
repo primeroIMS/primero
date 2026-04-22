@@ -1,6 +1,4 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
-import { ACTIONS, ADMIN_RESOURCES, MANAGE, MANAGE_RESTRICTED } from "../../../permissions/constants";
+import { ACTIONS, ADMIN_RESOURCES } from "../../../permissions/constants";
 
 export default userPermissions => {
   return ADMIN_RESOURCES.filter(

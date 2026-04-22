@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { List, Map, fromJS } from "immutable";
 import { isEqual, isNil, omitBy, uniqBy } from "lodash";
 import { createCachedSelector } from "re-reselect";
@@ -270,6 +268,12 @@ export const getSiteTitle = state => state.getIn([NAMESPACE, "theme", "siteTitle
 export const getThemeLogos = state => state.getIn([NAMESPACE, "theme", "images", "logos"], {});
 
 export const getFieldLabels = state => state.getIn([NAMESPACE, "fieldLabels"], fromJS({}));
+
+export const getPhoneFormats = state =>
+  state.getIn([NAMESPACE, "systemOptions", "phone_formats"], fromJS([])).map(format => format.toUpperCase());
+
+export const getDefaultPhoneFormat = state =>
+  state.getIn([NAMESPACE, "systemOptions", "default_phone_format"], null)?.toUpperCase();
 
 export const getAppData = memoize(state => {
   const modules = selectModules(state);

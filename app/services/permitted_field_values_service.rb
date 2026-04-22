@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # This service computes the permitted values for the given fields
 class PermittedFieldValuesService
   attr_accessor :with_cache

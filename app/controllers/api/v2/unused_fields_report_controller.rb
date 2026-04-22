@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
-
 # API to fetch the unused fields report
 class Api::V2::UnusedFieldsReportController < ApplicationApiController
   def current

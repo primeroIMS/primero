@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # This represents the elements that are to be displayed on the Dashboard
 # rubocop:disable Metrics/ClassLength
 class Dashboard < ValueObject

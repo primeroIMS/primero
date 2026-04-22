@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Class to export a merged Indicator
 class Exporters::MergedIndicatorExporter < Exporters::IndicatorExporter
   include Exporters::MergeableIndicatorExporter

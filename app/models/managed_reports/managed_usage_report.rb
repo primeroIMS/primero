@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2024 UNICEF. All rights reserved.
+# Class for Managed Usage Report
 class ManagedReports::ManagedUsageReport < ManagedReport
   attr_accessor :subreport
 

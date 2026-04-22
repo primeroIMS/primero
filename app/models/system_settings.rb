@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # This model encapsulates system-wide configuration settings.
 # These are selected at system bootstrap time,
 # and will not be configured by the system administrator.
@@ -24,7 +22,8 @@ class SystemSettings < ApplicationRecord
                  :primero_promote_config, :field_labels_i18n, :maximum_attachments_space,
                  :maximum_attachments_space_warning, :registration_streams,
                  :registration_streams_link_labels_i18n, :registration_streams_consent_text_i18n,
-                 :reporting_location_i18n, :days_since_referral_status_changed)
+                 :reporting_location_i18n, :days_since_referral_status_changed,
+                 :phone_formats, :default_phone_format)
 
   localize_properties %i[welcome_email_text approvals_labels field_labels registration_streams_link_labels
                          registration_streams_consent_text]

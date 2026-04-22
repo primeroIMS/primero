@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # A shared concern for all Records that can be linked to a Family Record
 # rubocop:disable Metrics/ModuleLength
 module FamilyLinkable

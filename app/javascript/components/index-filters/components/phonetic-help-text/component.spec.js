@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { mountedFormComponent, screen } from "../../../../test-utils";
 
 import PhoneticHelpText from "./component";

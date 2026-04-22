@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 Rails.application.configure do
   # The production environment is meant for finished, "live" apps.
   # Code is not reloaded between requests

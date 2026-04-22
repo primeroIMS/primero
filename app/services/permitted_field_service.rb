@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Calculate the permitted fields for a record based on the user's role.
 # TODO: Currently allows some permitted fields to be represented as a JSON schema,
 #       but this functionality should be extracted.

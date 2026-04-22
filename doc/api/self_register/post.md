@@ -1,5 +1,3 @@
-<!-- Copyright (c) 2014 - 2025 UNICEF. All rights reserved. -->
-
 # Create a new user
 
 Create a new unverified user via self registration.

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # rubocop:disable Metrics/ModuleLength
 # This describes all models that may be owned by a particular user
 module Ownable

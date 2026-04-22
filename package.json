@@ -143,6 +143,7 @@
     "react-dom": "^19.2.3",
     "react-hook-form": "6.15.1",
     "react-idle-timer": "^5.7.2",
+    "react-phone-number-input": "^3.4.16",
     "react-redux": "^9.2.0",
     "react-router-dom": "^5.0.1",
     "react-router-navigation-prompt": "^1.9.6",

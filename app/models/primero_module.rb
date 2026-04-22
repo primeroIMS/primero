@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Configures the behavior of a module of Primero
 # rubocop:disable Metrics/ClassLength
 class PrimeroModule < ApplicationRecord

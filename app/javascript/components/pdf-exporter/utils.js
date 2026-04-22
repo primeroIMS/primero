@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import domtoimage from "dom-to-image-more";
 import isEmpty from "lodash/isEmpty";
 import uniqBy from "lodash/uniqBy";

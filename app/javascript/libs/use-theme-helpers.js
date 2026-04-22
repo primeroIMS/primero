@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { createTheme, useTheme } from "@mui/material/styles";
 import { useMediaQuery } from "@mui/material";
 import isFunction from "lodash/isFunction";

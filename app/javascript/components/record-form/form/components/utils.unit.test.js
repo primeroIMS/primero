@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import * as utils from "./utils";
 import { SYNC_RECORD_STATUS } from "./constants";
 

@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
-
 import { fromJS } from "immutable";
 
 import { TEXT_FIELD, TEXT_AREA, SELECT_FIELD, TICK_FIELD, PHOTO_FIELD, DOCUMENT_FIELD, SEPARATOR } from "../../../form";
@@ -20,7 +18,7 @@ describe("<AgencyForm /> - agencies-form/form", () => {
     isNew: true
   });
 
-  const TOTAL_FIELDS_ON_FORM = 13;
+  const TOTAL_FIELDS_ON_FORM = 17;
 
   describe("form structure", () => {
     it("returns correct number of form sections", () => {
@@ -354,8 +352,8 @@ describe("<AgencyForm /> - agencies-form/form", () => {
       const documentFields = fields.filter(field => field.type === DOCUMENT_FIELD);
       const separatorFields = fields.filter(field => field.type === SEPARATOR);
 
-      expect(textFields).toHaveLength(2);
-      expect(textAreaFields).toHaveLength(1);
+      expect(textFields).toHaveLength(5);
+      expect(textAreaFields).toHaveLength(2);
       expect(selectFields).toHaveLength(1);
       expect(tickFields).toHaveLength(5);
       expect(photoFields).toHaveLength(2);

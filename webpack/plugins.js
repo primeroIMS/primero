@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const { WebpackAssetsManifest } = require("webpack-assets-manifest");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");

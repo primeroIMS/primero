@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 /* eslint-disable camelcase */
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";

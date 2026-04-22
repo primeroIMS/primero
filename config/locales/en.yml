@@ -1,6 +1,5 @@
 # encoding: utf-8
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 #
 # This is the English localization file for Primero.  It is based on the sample
 # English localization file found in the repository linked below[1].
@@ -37,6 +36,9 @@ en:
   online: Online
   yes_label: 'Yes'
   or_label: or,
+  phone_number:
+    placeholder: Enter phone number
+    invalid: Invalid phone number
   select_provider: Select provider
   select_language: Select language
   log_in_primero_idp: log in with %{idp_name} username
@@ -103,6 +105,10 @@ en:
     terms_of_use_help: Only PDF files permitted.
     terms_of_use_download_button: Download PDF
     terms_of_use_enabled: Display Terms of Use?
+    contact_name: Primary Contact
+    contact_email: Primary Contact Email
+    contact_phone: Primary Contact Phone Number
+    notes: Notes
     terms_of_use_title: Terms of Use Acknowledgement
     terms_of_use_view_button: View Terms of Use
     terms_of_use_acknowledgement: By uploading the Terms of Use document for this Agency you are acknowledging on the Agency's behalf that the Agency has reviewed, agreed to, and endorsed the Terms of Use, and you assume the responsibility for managing access for this Agency’s users. Do you accept this?
@@ -1397,6 +1403,7 @@ en:
       both.
     other_documents: Other Document
     photo_upload_box: Photo Upload
+    phone_number_field: Phone Number
     predifined_lookups: Use pre-defined lookup
     radio_button: Radio Button
     remove: Remove

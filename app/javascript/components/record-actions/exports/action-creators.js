@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 /* eslint-disable import/prefer-default-export */
 import { ENQUEUE_SNACKBAR, generate } from "../../notifier";
 import { CLEAR_DIALOG } from "../../action-dialog";

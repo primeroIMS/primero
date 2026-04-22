@@ -1,5 +1,3 @@
-// Copyright (c) 2014 UNICEF. All rights reserved.
-
 import { ACTIONS_WITH_RECORD_ID } from "./constants";
 
 /* eslint-disable import/prefer-default-export */

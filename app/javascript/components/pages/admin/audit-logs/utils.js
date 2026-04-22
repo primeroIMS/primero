@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { FILTER_TYPES } from "../../../index-filters";
 
 import { AUDIT_LOG_ACTIONS, RECORD_TYPE, TIMESTAMP, USER_NAME } from "./constants";

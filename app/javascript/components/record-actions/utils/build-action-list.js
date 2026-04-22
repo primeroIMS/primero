@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import {
   ENABLED_FOR_ONE_MANY,
   ENABLED_FOR_ONE,

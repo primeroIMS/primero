@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { NESTED_DATA_FIELDS } from "../constants";
 
 export default (field, fieldUpdate) => {
