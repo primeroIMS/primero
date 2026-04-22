@@ -27,7 +27,7 @@ class Attachment < ApplicationRecord
 
   belongs_to :record, polymorphic: true, optional: true
   has_one_attached :file
-  has_one_attached :pdf_file
+  has_one_attached :preview_file
   attribute :attachment, :string # This is a base64 encoded representation of the file
   attribute :file_name, :string
   attribute :content_type, :string
@@ -108,10 +108,10 @@ class Attachment < ApplicationRecord
     url_path
   end
 
-  def pdf_url
-    return nil unless pdf_file.attached?
+  def preview_url
+    return nil unless preview_file.attached?
 
-    url_path
+    "#{url_path}/pdf"
   end
 
   def url_path
@@ -122,7 +122,7 @@ class Attachment < ApplicationRecord
   def to_h_api
     hash = slice(:id, :field_name, :file_name, :date, :description, :is_current, :comments)
     hash[:attachment_url] = url
-    hash[:pdf_attachment_url] = pdf_url
+    hash[:preview_url] = preview_url if preview_file.attached?
     hash[:content_type] = content_type
     hash
   end

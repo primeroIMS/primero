@@ -9,6 +9,6 @@ class ConvertDocumentJob < ApplicationJob
 
     return unless attachment.file.attached?
 
-    LibreOfficeService.convert(attachment, :pdf_file)
+    LibreOfficeService.convert(attachment, :preview_file)
   end
 end
