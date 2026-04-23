@@ -68,7 +68,7 @@ describe Api::V2::FamiliesController, type: :request do
     end
 
     context 'when the authorized user is not the record owner' do
-      it 'can list all families' do
+      it 'cannot list families' do
         login_for_test(
           permissions: [Permission.new(resource: Permission::FAMILY, actions: [Permission::READ])],
           group_permission: Permission::GROUP
@@ -76,8 +76,8 @@ describe Api::V2::FamiliesController, type: :request do
         get '/api/v2/families'
 
         expect(response).to have_http_status(200)
-        expect(json['data'].size).to eq(4)
-        expect(json['metadata']['total']).to eq(4)
+        expect(json['data'].size).to eq(0)
+        expect(json['metadata']['total']).to eq(0)
         expect(json['metadata']['per']).to eq(20)
         expect(json['metadata']['page']).to eq(1)
       end

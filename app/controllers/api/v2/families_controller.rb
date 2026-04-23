@@ -5,10 +5,6 @@ class Api::V2::FamiliesController < ApplicationApiController
   include Api::V2::Concerns::Pagination
   include Api::V2::Concerns::Record
 
-  def query_scope
-    { user: {} }
-  end
-
   def create_case
     authorize! :case_from_family, Family
     @current_record = Family.find(create_case_params[:family_id])
