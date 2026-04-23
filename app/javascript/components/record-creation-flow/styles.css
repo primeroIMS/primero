@@ -44,3 +44,9 @@
     margin-top: 1.5em;
   }
 }
+
+@media (max-width: 959.95px) {
+  .subformDrawer {
+    width: 80%;
+  }
+}

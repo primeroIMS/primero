@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_26_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_31_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
   enable_extension "pg_catalog.plpgsql"
@@ -782,9 +782,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_26_000000) do
 
   create_table "searchable_identifiers", force: :cascade do |t|
     t.string "field_name"
+    t.string "identifier_type"
     t.uuid "record_id"
     t.string "record_type"
     t.string "value"
+    t.index ["identifier_type", "value"], name: "index_searchable_identifiers_on_identifier_type_and_value"
     t.index ["record_type", "record_id"], name: "index_searchable_identifiers_on_record"
     t.index ["value"], name: "searchable_identifiers_value_idx", opclass: :gin_trgm_ops, using: :gin
   end

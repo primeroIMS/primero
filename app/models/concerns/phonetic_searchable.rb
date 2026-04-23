@@ -5,6 +5,9 @@
 module PhoneticSearchable
   extend ActiveSupport::Concern
 
+  IDENTIFIER_TYPE_ID = 'id'
+  IDENTIFIER_TYPE_PHONE_NUMBER = 'phone_number'
+
   included do
     has_many :searchable_identifiers, as: :record
     store_accessor :phonetic_data, :tokens
@@ -21,6 +24,10 @@ module PhoneticSearchable
     def phonetic_field_names
       []
     end
+
+    def phone_number_fields
+      []
+    end
   end
 
   def recalculate_phonetic_tokens
@@ -30,29 +37,32 @@ module PhoneticSearchable
   end
 
   def recalculate_searchable_identifiers
-    return unless filterable_id_fields_changed?
+    generate_searchable_identifiers(self.class.filterable_id_fields) if filterable_id_fields_changed?
 
-    generate_searchable_identifiers
+    return unless phone_number_fields_changed?
+
+    generate_searchable_identifiers(self.class.phone_number_fields, IDENTIFIER_TYPE_PHONE_NUMBER)
   end
 
-  def generate_searchable_identifiers
-    identifiers_to_save = identifiers_to_update
+  def generate_searchable_identifiers(field_names, identifier_type = IDENTIFIER_TYPE_ID)
+    identifiers_to_save = identifiers_to_update(identifier_type)
 
-    self.class.filterable_id_fields.each do |field_name|
+    field_names.each do |field_name|
       value = data[field_name]&.strip
       next if value.blank? || identifiers_to_save.any? { |identifier| identifier[:field_name] == field_name }
 
-      identifiers_to_save << { field_name:, value: }
+      identifiers_to_save << { field_name:, value:, identifier_type: }
     end
 
     self.searchable_identifiers_attributes = identifiers_to_save
   end
 
-  def identifiers_to_update
-    searchable_identifiers.map do |searchable_identifier|
+  def identifiers_to_update(identifier_type)
+    searchable_identifiers.where(identifier_type:).map do |searchable_identifier|
       {
         field_name: searchable_identifier.field_name,
         value: data[searchable_identifier.field_name]&.strip,
+        identifier_type: searchable_identifier.identifier_type,
         id: searchable_identifier.id
       }
     end
@@ -60,6 +70,10 @@ module PhoneticSearchable
 
   def filterable_id_fields_changed?
     (changes_to_save_for_record.keys & self.class.filterable_id_fields).present?
+  end
+
+  def phone_number_fields_changed?
+    (changes_to_save_for_record.keys & self.class.phone_number_fields).present?
   end
 
   def generate_tokens

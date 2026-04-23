@@ -100,17 +100,18 @@ describe PhoneticSearchService, search: true do
         expect(search.total).to eq(1)
         expect(search.records.first.name).to eq(record1.name)
       end
-    describe 'search options' do
-      it 'passes skip_attachments option to search query' do
-        expect(Search::IdSearchQuery).to receive(:new).and_wrap_original do |original_method, *args|
-          query = original_method.call(*args)
-          expect(query).to receive(:build).with(true).and_call_original
-          query
-        end
 
-        PhoneticSearchService.search(Child, skip_attachments: true)
+      describe 'search options' do
+        it 'passes skip_attachments option to search query' do
+          expect(Search::IdentifierSearchQuery).to receive(:new).and_wrap_original do |original_method, *args|
+            query = original_method.call(*args)
+            expect(query).to receive(:build).with(true).and_call_original
+            query
+          end
+
+          PhoneticSearchService.search(Child, skip_attachments: true)
+        end
       end
-    end
 
       it 'matches the not filter for true value' do
         filter = SearchFilters::Not.new(
@@ -718,6 +719,31 @@ describe PhoneticSearchService, search: true do
         expect(includes_values).to include(:alerts, :active_flags)
         expect(includes_values.any? { |v| v.is_a?(Hash) && v.key?(:attachments) }).to be true
       end
+    end
+  end
+
+  describe 'phone number search' do
+    before do
+      clean_data(SearchableIdentifier, Child)
+    end
+
+    let!(:record1) { Child.create!(data: { name: 'Record 1', telephone_current: '+13055550106' }) }
+    let!(:record2) { Child.create!(data: { name: 'Record 2', telephone_searchable_1: '+13055550178' }) }
+    let!(:record3) { Child.create!(data: { name: 'Record 3' }) }
+    let!(:record4) { Child.create!(data: { name: 'Record 4' }) }
+
+    it 'matches the phone number' do
+      search = PhoneticSearchService.search(Child, phone_number: 'true', query: '+13055550106')
+
+      expect(search.total).to eq(1)
+      expect(search.records.first.id).to eq(record1.id)
+    end
+
+    it 'matches the phone number in a searchable field' do
+      search = PhoneticSearchService.search(Child, phone_number: 'true', query: '+13055550178')
+
+      expect(search.total).to eq(1)
+      expect(search.records.first.id).to eq(record2.id)
     end
   end
 end

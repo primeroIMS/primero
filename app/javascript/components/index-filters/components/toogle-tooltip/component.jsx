@@ -5,11 +5,15 @@ import { useI18n } from "../../../i18n";
 
 import css from "./styles.css";
 
-function Component({ isPhonetic = true, searchFieldTooltips = [] }) {
+const TOOLTIP_HEADER_I18N_KEY = {
+  id_search: "navigation.id_search.tooltip_label",
+  phonetic: "navigation.phonetic_search.tooltip_label",
+  phone_number: "navigation.phone_number_search.tooltip_label"
+};
+
+function Component({ searchField, searchFieldTooltips = [] }) {
   const i18n = useI18n();
-  const tooltipTitleHeader = isPhonetic
-    ? i18n.t("navigation.phonetic_search.tooltip_label")
-    : i18n.t("navigation.id_search.tooltip_label");
+  const tooltipTitleHeader = i18n.t(TOOLTIP_HEADER_I18N_KEY[searchField]);
 
   if (isEmpty(searchFieldTooltips)) {
     return null;
@@ -30,7 +34,7 @@ function Component({ isPhonetic = true, searchFieldTooltips = [] }) {
 Component.displayName = "ToogleTooltip";
 
 Component.propTypes = {
-  isPhonetic: PropTypes.bool,
+  searchField: PropTypes.string,
   searchFieldTooltips: PropTypes.array
 };
 

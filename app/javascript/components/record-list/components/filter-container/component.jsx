@@ -11,7 +11,12 @@ function FilterContainer({ children, mobileDisplay, noMargin, drawerName = FILTE
 
   if (mobileDisplay) {
     return (
-      <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer}>
+      <Drawer
+        anchor="right"
+        open={drawerOpen}
+        onClose={toggleDrawer}
+        classes={{ paperAnchorRight: css.paperAnchorRight }}
+      >
         {children}
       </Drawer>
     );

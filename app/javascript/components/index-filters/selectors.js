@@ -2,7 +2,12 @@ import { fromJS, List } from "immutable";
 import isEmpty from "lodash/isEmpty";
 
 import { RECORD_TYPES_PLURAL } from "../../config";
-import { selectUserModules, getExactSearchFields, getPhoneticSearchFields } from "../application/selectors";
+import {
+  selectUserModules,
+  getExactSearchFields,
+  getPhoneticSearchFields,
+  getPhoneNumberSearchFields
+} from "../application/selectors";
 import { getFieldByName } from "../record-form/selectors";
 
 import transformFieldTooltips from "./utils/transform-field-tooltips";
@@ -58,14 +63,23 @@ export const getFiltersValueByRecordType = (state, recordType, key) => {
   return getFiltersValuesByRecordType(state, recordType).get(key, null);
 };
 
-export const getTooltipFields = (state, recordType, isPhonetic) => {
+export const getSearchFieldsByRecordType = (state, recordType, searchField) => {
+  if (searchField === "phonetic") {
+    return getPhoneticSearchFields(state).get(recordType);
+  }
+
+  if (searchField === "phone_number") {
+    return getPhoneNumberSearchFields(state).get(recordType);
+  }
+
+  return getExactSearchFields(state).get(recordType);
+};
+
+export const getTooltipFields = (state, recordType, searchField) => {
   if (isEmpty(recordType)) return null;
 
   const userModuleList = [...selectUserModules(state)];
-  const searchFieldsByRecord = isPhonetic
-    ? getPhoneticSearchFields(state).get(recordType)
-    : getExactSearchFields(state).get(recordType);
-
+  const searchFieldsByRecord = getSearchFieldsByRecordType(state, recordType, searchField);
   const fieldsArray = searchFieldsByRecord ? [...searchFieldsByRecord] : [];
 
   return transformFieldTooltips(getFieldByName(state, fieldsArray, userModuleList, RECORD_TYPES_PLURAL[recordType]));

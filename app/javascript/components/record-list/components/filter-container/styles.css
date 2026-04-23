@@ -1,3 +1,5 @@
-.filterContainer {
-  margin: 0 var(--sp-2);
+@media (max-width: 959.95px) {
+  .paperAnchorRight {
+    width: 80%;
+  }
 }

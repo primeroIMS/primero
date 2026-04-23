@@ -1,9 +1,6 @@
 .search {
+  width: 50%;
   padding: 0 20px;
-}
-
-.searchPromptFormContainer {
-  display: flex;
 }
 
 .container {
@@ -14,19 +11,13 @@
   border: 1px solid var(--c-warm-grey-4);
   border-radius: 6px;
   padding: .3em .3em .3em .5em;
-  flex: 1 0 auto;
 
   & form {
     width: 100%;
-
-    & fieldset {
-      margin-bottom: 0 !important;
-      border: none;
-    }
-
     & div {
       padding: 0 !important;
       margin-bottom: 0;
+      width: 100%;
     }
   }
 }
@@ -38,36 +29,54 @@
 }
 
 .searchBox {
-  flex: 1 0 auto;
-
   & :global(.MuiFormControl-root) {
     margin-top: 0;
   }
 }
 
-
 .searchToggle {
-  flex: 0 0 auto;
-  align-content: center;
-  padding: 0 10px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  max-width: 400px;
 }
 
-.phoneticHelpText {
-  margin-top: 20px;
+.searchHelpText {
+  margin-top: 10px;
 }
 
+.searchPreventativeText {
+  margin: 0 0 15px 0;
+}
 
 @media (max-width:959.95px) {
+  .searchBox {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+  }
+
+  .mobileSearchButton {
+    & button {
+      padding: 6px;
+    }
+  }
+
   .searchButton {
     display: none;
   }
 
-  .searchPromptFormContainer {
+  .container {
+    padding: 0 0.3em;
+  }
+
+  .search {
     display: block;
+    width: 100%
   }
 
   .searchToggle {
-    display: flex;
+    display: block;
     padding: 0;
     align-items: center;
     justify-content: space-between;

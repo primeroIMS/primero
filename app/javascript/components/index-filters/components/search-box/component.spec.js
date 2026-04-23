@@ -4,13 +4,13 @@ import SearchBox from "./component";
 
 describe("<SearchBox /> index-filters/components/search-box", () => {
   const props = {
-    recordType: "cases"
+    recordType: "case"
   };
 
-  it("renders IconButton", () => {
+  it("renders search actions", () => {
     mountedFormComponent(<SearchBox {...props} />, { includeFormProvider: true });
 
-    expect(screen.getAllByRole("button")).toHaveLength(2);
+    expect(screen.getByTestId("search-actions")).toBeInTheDocument();
   });
 
   it("renders InputBase", () => {
@@ -30,28 +30,31 @@ describe("<SearchBox /> index-filters/components/search-box", () => {
     expect(screen.queryByText("This is a label")).toBeInTheDocument();
   });
 
-  describe("when showSearchNameToggle", () => {
-    it("is true it renders SearchNameToggle and PhoneticHelpText", () => {
+  describe("when showFieldToggle", () => {
+    it("is true it renders SearchFieldToggle", () => {
       const seachNameToggleProps = {
         ...props,
-        showSearchNameToggle: true
+        showFieldToggle: true
       };
 
-      mountedFormComponent(<SearchBox {...seachNameToggleProps} />, { includeFormProvider: true });
+      mountedFormComponent(<SearchBox {...seachNameToggleProps} />, {
+        includeFormProvider: true
+      });
 
-      expect(screen.queryByText("navigation.phonetic_search.label")).toBeInTheDocument();
-      expect(screen.queryByText("navigation.phonetic_search.help_text")).toBeInTheDocument();
+      expect(screen.getByTestId("search-field-toggle")).toBeInTheDocument();
     });
 
-    it("is false it should not render SearchNameToggle", () => {
+    it("is false it should not render showFieldToggle", () => {
       const seachNameToggleProps = {
         ...props,
-        showSearchNameToggle: false
+        showFieldToggle: false
       };
 
-      mountedFormComponent(<SearchBox {...seachNameToggleProps} />, { includeFormProvider: true });
+      mountedFormComponent(<SearchBox {...seachNameToggleProps} />, {
+        includeFormProvider: true
+      });
 
-      expect(screen.queryByText("navigation.phonetic_search.label")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("search-field-toggle")).not.toBeInTheDocument();
     });
   });
 });

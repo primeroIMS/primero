@@ -36,6 +36,6 @@ describe("<SearchPrompt />", () => {
   });
 
   it("should render a <ActionButton /> component", () => {
-    expect(screen.getAllByRole("button")).toHaveLength(2);
+    expect(screen.getAllByRole("button")).toHaveLength(5);
   });
 });
