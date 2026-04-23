@@ -26,7 +26,7 @@ describe PhoneticSearchable do
           name_last: 'Last 2',
           unhcr_id_no: 'UNHCR/2024-002',
           national_id_no: 'NID-002',
-          telephone_current: '+18263399209'
+          telephone_current: '+13055550196'
         }
       )
       searchable_identifiers = SearchableIdentifier.where(record_type: Child.name, record_id: child.id)
@@ -43,7 +43,7 @@ describe PhoneticSearchable do
           child.short_id,
           child.case_id,
           child.case_id_display,
-          '+18263399209'
+          '+13055550196'
         ]
       )
     end
@@ -66,7 +66,7 @@ describe PhoneticSearchable do
     it 'updates the searchable identifiers for the record' do
       child1.unhcr_id_no = 'UNHCR/2025-001'
       child1.national_id_no = nil
-      child1.data['telephone_current'] = '+13052297706'
+      child1.data['telephone_current'] = '+13055550106'
       child1.save!
 
       searchable_identifiers = SearchableIdentifier.where(record_type: Child.name, record_id: child1.id)
@@ -78,7 +78,7 @@ describe PhoneticSearchable do
           child1.short_id,
           child1.case_id,
           child1.case_id_display,
-          '+13052297706'
+          '+13055550106'
         ]
       )
     end
