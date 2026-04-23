@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
-
 # Class for Unused Fields Report
 class UnusedFieldsReport < ValueObject
   EXPIRES = 60.seconds # Expiry for the delegated ActiveStorage url

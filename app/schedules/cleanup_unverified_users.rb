@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
-
 # PeriodicJob to clean up unverified users.
 class CleanupUnverifiedUsers < PeriodicJob
   def self.reschedule_after

@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 export { default as ConditionDialog } from "./condition-dialog";
 export { default as ConditionList } from "./condition-list";
 export { default as FormBuilderActionButtons } from "./action-buttons";

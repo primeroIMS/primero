@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # An indicator that returns the total of cases by source indentification
 class ManagedReports::Indicators::CaseSourceIdentificationReferral < ManagedReports::SqlReportIndicator
   class << self

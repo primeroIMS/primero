@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # CompletedCaseActionPlans
 #
 # A Kpi to track the percentage of cases with a completed case action plan

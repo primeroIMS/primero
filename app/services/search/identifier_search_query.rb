@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # A class to generate a SQL query for id search
 class Search::IdentifierSearchQuery < Search::SearchQuery
   attr_accessor :sort, :identifier_type

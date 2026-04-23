@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
-
 # Describes ReferredAppropiateService subreport in Primero.
 class ManagedReports::SubReports::ReferredAppropriateService < ManagedReports::SubReport
   def id

@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { mountedComponent, screen, waitFor } from "test-utils";
 import { fireEvent } from "@testing-library/react";
 

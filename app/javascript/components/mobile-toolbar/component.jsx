@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import MenuIcon from "@mui/icons-material/Menu";
 import { AppBar, Toolbar, IconButton, Box } from "@mui/material";
 import PropTypes from "prop-types";

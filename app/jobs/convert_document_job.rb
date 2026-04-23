@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 # Converts a doc/docx file to a pdf
 class ConvertDocumentJob < ApplicationJob
   queue_as :default
@@ -10,6 +9,6 @@ class ConvertDocumentJob < ApplicationJob
 
     return unless attachment.file.attached?
 
-    LibreOfficeService.convert(attachment, :pdf_file)
+    LibreOfficeService.convert(attachment, :preview_file)
   end
 end

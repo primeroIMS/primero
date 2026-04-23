@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 const isNewAttachment = (fromAttachment, json) => json?.data?.id && !fromAttachment.id;
 
 const isAttachmentUpdate = (attachment, json) => json.data.id === attachment.id;

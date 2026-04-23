@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Concern that allow records to be searchable through phonetics
 # TODO: Once the Searchable concern is deprecated this concern will be renamed to Searchable
 module PhoneticSearchable

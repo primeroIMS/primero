@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { useMemoizedSelector } from "../../libs";
 import ActionDialog, { useDialog } from "../action-dialog";
 import { useApp } from "../application/use-app";

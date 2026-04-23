@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { CssBaseline } from "@mui/material";
 import { createTheme, ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
 import PropTypes from "prop-types";

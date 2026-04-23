@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Users CRUD API
 class Api::V2::UsersController < ApplicationApiController
   include Api::V2::Concerns::Pagination

@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import PropTypes from "prop-types";
 import { FormGroup, FormControl, FormLabel, FormHelperText } from "@mui/material";
 import { Controller } from "react-hook-form";

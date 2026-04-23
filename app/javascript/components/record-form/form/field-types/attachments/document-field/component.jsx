@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 /* eslint-disable jsx-a11y/label-has-for */
 import { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -62,7 +60,7 @@ function DocumentField({
   const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const {
     attachment_url: attachmentUrl,
-    pdf_attachment_url: pdfAttachmentUrl,
+    preview_url: previewUrl,
     id,
     _destroy: destroyed,
     file_name: fileName,
@@ -159,7 +157,7 @@ function DocumentField({
               <div className={viewerCss.viewer}>
                 <Content
                   attachmentUrl={attachmentUrl}
-                  pdfAttachmentUrl={pdfAttachmentUrl}
+                  previewUrl={previewUrl}
                   contentType={contentType}
                   fileName={fileName}
                   mobileDisplay={mobileDisplay}
@@ -183,6 +181,19 @@ function DocumentField({
                   </div>
                 )}
                 <div className={viewerCss.drawerContent}>
+                  {contentType?.endsWith("document") && (
+                    <ActionButton
+                      text="buttons.download"
+                      className={viewerCss.downloadButton}
+                      type={ACTION_BUTTON_TYPES.default}
+                      isTransparent
+                      rest={{
+                        variant: "outlined",
+                        component: "a",
+                        onClick: handleAttachmentDownload
+                      }}
+                    />
+                  )}
                   <FieldValue label={i18n.t("fields.document.content_type")} value={contentType} />
                   <FieldValue label={i18n.t("fields.document.date")} value={value[ATTACHMENT_FIELDS.date]} />
                   <FieldValue

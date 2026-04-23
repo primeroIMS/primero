@@ -1,6 +1,4 @@
 #! /usr/bin/env bash
-# Copyright (c) 2014 - 2024 UNICEF. All rights reserved.
-
 set -e
 
 cat `find config/locales -type f -iname en.yml` | awk  'BEGIN {FS="%{"} /%{/ { for(i=2; i<=NF; i++) {split($i,a,"}"); print(a[1])}}' | sort -u > en_keys.txt

@@ -1,6 +1,4 @@
 #!/bin/bash
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 set -eux
 
 nohup /usr/local/bin/dockerd --host=unix:///var/run/docker.sock --host=tcp://127.0.0.1:2375 --storage-driver=overlay2 &

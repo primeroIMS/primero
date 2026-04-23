@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 require 'rails_helper'
 
 describe PhoneticSearchService, search: true do
@@ -729,20 +727,20 @@ describe PhoneticSearchService, search: true do
       clean_data(SearchableIdentifier, Child)
     end
 
-    let!(:record1) { Child.create!(data: { name: 'Record 1', telephone_current: '+13052297706' }) }
-    let!(:record2) { Child.create!(data: { name: 'Record 2', telephone_searchable_1: '+18263399209' }) }
+    let!(:record1) { Child.create!(data: { name: 'Record 1', telephone_current: '+13055550106' }) }
+    let!(:record2) { Child.create!(data: { name: 'Record 2', telephone_searchable_1: '+13055550178' }) }
     let!(:record3) { Child.create!(data: { name: 'Record 3' }) }
     let!(:record4) { Child.create!(data: { name: 'Record 4' }) }
 
     it 'matches the phone number' do
-      search = PhoneticSearchService.search(Child, phone_number: 'true', query: '+13052297706')
+      search = PhoneticSearchService.search(Child, phone_number: 'true', query: '+13055550106')
 
       expect(search.total).to eq(1)
       expect(search.records.first.id).to eq(record1.id)
     end
 
     it 'matches the phone number in a searchable field' do
-      search = PhoneticSearchService.search(Child, phone_number: 'true', query: '+18263399209')
+      search = PhoneticSearchService.search(Child, phone_number: 'true', query: '+13055550178')
 
       expect(search.total).to eq(1)
       expect(search.records.first.id).to eq(record2.id)

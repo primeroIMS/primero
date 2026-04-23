@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
-
 # API to list identified users
 class Api::V2::UsersIdentifiedController < ApplicationApiController
   include Api::V2::Concerns::Pagination

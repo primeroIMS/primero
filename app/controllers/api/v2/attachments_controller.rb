@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # API endpoints for adding and removing attachments on Primero resources (usually records)
 class Api::V2::AttachmentsController < Api::V2::RecordResourceController
   before_action :validate_update_params!, only: [:update]
@@ -44,9 +42,9 @@ class Api::V2::AttachmentsController < Api::V2::RecordResourceController
 
   def send_file
     send_data(
-      @attachment.file.download,
-      filename: @attachment.file.filename.to_s,
-      type: @attachment.file.content_type,
+      file.download,
+      filename: file.filename.to_s,
+      type: file.content_type,
       disposition: 'inline'
     )
   rescue ActiveStorage::FileNotFoundError
@@ -93,5 +91,11 @@ class Api::V2::AttachmentsController < Api::V2::RecordResourceController
 
   def set_attachment
     @attachment = Attachment.find(params[:id])
+  end
+
+  def file
+    return @attachment.preview_file if params[:preview_type] == 'pdf'
+
+    @attachment.file
   end
 end

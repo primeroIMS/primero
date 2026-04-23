@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # A service that performs phonetic searches using SQL
 class PhoneticSearchService
   DEFAULT_SEARCH_PARAMS = {

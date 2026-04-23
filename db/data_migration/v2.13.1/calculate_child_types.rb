@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
-
 # Example of usage:
 # rails r bin/calculate_child_types.rb true file/path.txt
 

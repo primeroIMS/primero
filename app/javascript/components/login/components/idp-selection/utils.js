@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { ProtocolMode, PublicClientApplication } from "@azure/msal-browser";
 
 import CustomNavigationClient from "./custom-navigation-client";

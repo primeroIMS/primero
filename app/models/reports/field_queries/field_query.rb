@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Represents a query against a field
 class Reports::FieldQueries::FieldQuery < ValueObject
   PG_MAX_IDENTIFIER_LENGTH = 62

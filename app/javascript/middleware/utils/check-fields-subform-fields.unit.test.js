@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import checkFieldSubformErrors from "./check-fields-subform-errors";
 
 describe("middleware/utils/check-fields-subform-errors.js", () => {

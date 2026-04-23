@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
-
 # Sends email notifications for Administrator
 class AdministratorNotificationMailer < ApplicationMailer
   def notify(notification_type)

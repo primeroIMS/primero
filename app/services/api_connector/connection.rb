@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Wraps an HTTP connection with an external service.
 class ApiConnector::Connection
   attr_accessor :options, :driver

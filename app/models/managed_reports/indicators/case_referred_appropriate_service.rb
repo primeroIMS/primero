@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
-
 # An indicator that returns the number of cases referred to appropriate services
 class ManagedReports::Indicators::CaseReferredAppropriateService < ManagedReports::SqlReportIndicator
   class << self

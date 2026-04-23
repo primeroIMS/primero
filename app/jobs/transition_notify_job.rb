@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Job that sends out emails and webpush notifications for transitions
 class TransitionNotifyJob < ApplicationJob
   queue_as :mailer
