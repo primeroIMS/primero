@@ -4240,6 +4240,18 @@ en:
           case_from_family:
             explanation: Allows users to create a new case from a Family Members subform within the Family Record.
             label: Create Case
+          search_owned_by_others:
+            explanation: Allows a user to perform a search for records which they
+              would not usually have access to, either because they are not the record
+              owner for that family, or (for managers) because the record owner is not
+              in their user groups. Note that, while the user will see the family in
+              the search results view, they will not be able to click into the family
+              show page for that family, meaning they will not be able to see any detailed
+              information about the family.
+            label: Search for family records owned by other users
+          display_view_page:
+            explanation: Ability to view the family record page
+            label: View family record page
         label: Family
       report:
         actions:

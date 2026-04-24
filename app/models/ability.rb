@@ -137,6 +137,7 @@ class Ability
       end
       can(:index, Task) if (resource == Child) && user.permission?(Permission::DASH_TASKS)
       can(:index, Flag) if user.permission?(Permission::DASH_FLAGS)
+      can(:index, Family) if user.permission_by_permission_type?(Permission::FAMILY, Permission::SEARCH_OWNED_BY_OTHERS)
     else
       can actions, resource
     end

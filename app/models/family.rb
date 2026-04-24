@@ -46,6 +46,10 @@ class Family < ApplicationRecord
     def phone_number_fields
       %w[family_telephone_current]
     end
+
+    def preview_field_names
+      %w[family_id_display family_name family_number family_registration_date]
+    end
   end
 
   alias super_defaults defaults
