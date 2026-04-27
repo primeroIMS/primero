@@ -23,3 +23,10 @@ export const getFilters = (state, namespace) => state.getIn(getNamespacePath(nam
 export const getLoading = (state, namespace) => state.getIn(getNamespacePath(namespace).concat("loading"));
 
 export const getErrors = (state, namespace) => state.getIn(getNamespacePath(namespace).concat("errors"), false);
+
+export const getIsEmptyRecords = (state, namespace) => {
+  const loading = getLoading(state, namespace);
+  const recordsData = getRecordsData(state, namespace);
+
+  return !loading && recordsData.size === 0;
+};

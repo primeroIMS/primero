@@ -53,7 +53,8 @@ import {
   REMOVE_RECORD_RELATIONSHIP,
   CLEAR_RECORD_RELATIONSHIPS,
   REDIRECT_TO_NEW_IDENTIFIED_RECORD,
-  SET_SELECTED_IDENTIFIED_RECORD
+  SET_SELECTED_IDENTIFIED_RECORD,
+  SET_IS_RECORD_CREATION_FLOW
 } from "./actions";
 
 const getSuccessCallback = ({
@@ -577,4 +578,9 @@ export const removeRecordRelationship = ({ recordType, linkedRecordType, linkedR
 export const clearRecordRelationships = (recordId, recordType) => ({
   type: `${recordType}/${CLEAR_RECORD_RELATIONSHIPS}`,
   payload: { id: recordId, recordType }
+});
+
+export const setIsRecordCreationFlow = (recordType, payload) => ({
+  type: `${recordType}/${SET_IS_RECORD_CREATION_FLOW}`,
+  payload
 });

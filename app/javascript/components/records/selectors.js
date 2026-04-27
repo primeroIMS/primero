@@ -175,3 +175,6 @@ export const getRelatedRecord = (state, query = {}) => {
 
   return state.getIn(["records", recordType, "related_records", "data", index], Map({}));
 };
+
+export const getIsRecordCreationFlow = (state, recordType) =>
+  state.getIn(["records", recordType, "isRecordCreationFlow"], false);
