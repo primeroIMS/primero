@@ -1,0 +1,79 @@
+mr:
+  permissions:
+    permission:
+      export_incident_recorder_xls: "घटना रेकॉर्डर xls एक्सपोर्ट करा"
+  exports:
+    incident_recorder_xls:
+      all:  घटना रेकॉर्डर
+      one:  घटना रेकॉर्डर
+      selected:  घटना रेकॉर्डर निवडले
+      "yes": "होय"
+      "no": "नाही"
+      gender:
+        male: "पुरुष"
+        female: "स्त्री "
+        both: "पुरूष आणि स्त्री "
+      age_group:
+        age: "वय"
+        61_older: "61 आणि अधिक "
+        unknown: "अज्ञात"
+        header: "कथित गुन्हेगाराचा वयोगट"
+      age_type:
+        adult: "प्रौढ "
+        minor: "अल्पवयीन "
+        both: "प्रौढ आणि अल्पवयीन "
+        unknown: "अज्ञात"
+        header: "कथित गुन्हेगाराचा वयोगट"
+      service_referral:
+        undecided: "अनिश्चित "
+      headers:
+        incident_id: "घटना ID"
+        survivor_code: "सर्वाइवर कोड"
+        case_manager_code: "केस व्यवस्थापक कोड"
+        case_worker_code: "केस कार्यकर्ता कोड"
+        date_of_interview: "मुलाखतीची तारीख"
+        date_of_incident: "घटनेची तारीख"
+        date_of_birth: "जन्म तारीख "
+        sex: "लिंग "
+        ethnicity: "वांशिकता"
+        country_of_origin: "मूळ देश"
+        marital_status: "नागरी / वैवाहिक स्थिती"
+        displacement_status: "अहवाला वेळीची विस्थापन स्थिती"
+        disability_type: "दिव्यांग व्यक्ती?"
+        unaccompanied_separated_status: "एकटे किंवा विभक्त झालेले मूल?"
+        stage_of_displacement: "घटनेच्या ठिकाणी विस्थापनाची अवस्था"
+        time_of_day: "घटनेची वेळ"
+        location: "घटनेचे स्थळ"
+        county: "घटना काउंटी"
+        district: "घटना जिल्हा"
+        camp_town: "घटना कॅम्प / शहर"
+        camp: "घटना कॅम्प"
+        gbv_type: "GBV प्रकार"
+        harmful_traditional_practice: "हानिकारक पारंपारिक प्रथा"
+        goods_money_exchanged: "पैसे, वस्तू, फायदे आणि/किंवा सेवांची देवाणघेवाण झाली का?"
+        abduction_type: "अपहरणाचा प्रकार"
+        previously_reported: "या घटनेबद्दल यापूर्वी वृत्त दिले आहे का?"
+        gbv_previous_incidents: "मागील GBV घटना?"
+        number_primary_perpetrators: "नाही. संभाव्य मुख्य गुन्हेगार(गुन्हेगार)"
+        perpetrator:
+          sex: "संभाव्य गुन्हेगाराचे लिंग"
+          former: "या गुन्हेगाराशी संबंधित मागील घटना"
+          relationship: "संभाव्य आरोपी - सर्वाइवर यांच्यातील संबंध"
+          occupation: "संभाव्य गुन्हेगाराचा व्यवसाय"
+          age_group: "संभाव्य गुन्हेगाराचा वयोगट"
+          age_type: "संभाव्य गुन्हेगारच्या वयाचा प्रकार"
+        service:
+          referred_from: "तुम्हाला कोणी शिफारस केले आहे?"
+          safehouse_referral: "सुरक्षित घर / निवारा"
+          medical_referral: "आरोग्य / वैद्यकीय सेवा"
+          psycho_referral: "मनोसामाजिक सेवा"
+          wants_legal_action: "कायदेशीर कारवाई हवी आहे का?"
+          legal_referral: "कायदेशीर सहाय्य सेवा"
+          police_referral: "पोलीस / इतर सुरक्षा रक्षक"
+          livelihoods_referral: "उपजीविका कार्यक्रम"
+          protection_referral: "बाल संरक्षण सेवा / शिक्षण सेवा"
+        consent: "संमती दिली"
+        agency_code: "रिपोर्टिंग एजन्सी कोड"
+      number_primary_perpetrators:
+          more_than_three: "3 पेक्षा अधिक "
+        

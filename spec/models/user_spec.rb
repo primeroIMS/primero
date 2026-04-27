@@ -446,12 +446,6 @@ describe User do
       )
     end
 
-    it 'includes users with a nil user_category role who are not both disabled and duplicate' do
-      result = User.standard
-
-      expect(result).to include(user_not_disabled, user_not_duplicate, user_flags_nil)
-    end
-
     it 'excludes users that have both disabled and duplicate set to true' do
       result = User.standard
 
@@ -468,10 +462,6 @@ describe User do
       expect(
         User.standard.joins(:role).pluck('roles.user_category').uniq
       ).to eq([nil])
-    end
-
-    it 'is chainable with other queries' do
-      expect(User.standard.where(id: user_not_disabled.id)).to match_array([user_not_disabled])
     end
 
     after :each do

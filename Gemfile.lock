@@ -172,7 +172,6 @@ GEM
       faraday (~> 2.5)
       net-http-persistent (>= 4.0.4, < 5)
     ffi (1.17.2-arm64-darwin)
-    ffi (1.17.2-x86_64-linux-gnu)
     file_validators (3.0.0)
       activemodel (>= 3.2)
       mime-types (>= 1.0)
@@ -182,7 +181,7 @@ GEM
     hana (1.3.7)
     highline (3.1.2)
       reline
-    i18n (1.14.7)
+    i18n (1.14.8)
       concurrent-ruby (~> 1.0)
     i18n-js (3.9.2)
       i18n (>= 0.6.6)
@@ -218,7 +217,7 @@ GEM
       rspec (>= 2.0, < 4.0)
     jwt (3.1.2)
       base64
-    language_server-protocol (3.17.0.4)
+    language_server-protocol (3.17.0.5)
     launchy (3.1.1)
       addressable (~> 2.8)
       childprocess (~> 5.0)
@@ -230,7 +229,7 @@ GEM
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
     logger (1.7.0)
-    loofah (2.24.1)
+    loofah (2.25.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
     mail (2.8.1)
@@ -273,8 +272,6 @@ GEM
     nkf (0.2.0)
     nokogiri (1.18.10-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.18.10-x86_64-linux-gnu)
-      racc (~> 1.4)
     observer (0.1.2)
     openssl (3.3.1)
     orm_adapter (0.5.0)
@@ -286,7 +283,6 @@ GEM
     pdf-core (0.10.0)
     pdfjs_viewer (0.1.3)
     pg (1.6.2-arm64-darwin)
-    pg (1.6.2-x86_64-linux)
     pp (0.6.2)
       prettyprint
     pr_geohash (1.0.0)
@@ -297,7 +293,7 @@ GEM
     prawn-table (0.2.2)
       prawn (>= 1.3.0, < 3.0.0)
     prettyprint (0.2.0)
-    prism (1.4.0)
+    prism (1.9.0)
     pry (0.15.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -346,8 +342,8 @@ GEM
       activesupport (>= 5.0.0)
       minitest
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.6.2)
-      loofah (~> 2.21)
+    rails-html-sanitizer (1.7.0)
+      loofah (~> 2.25)
       nokogiri (>= 1.15.7, != 1.16.7, != 1.16.6, != 1.16.5, != 1.16.4, != 1.16.3, != 1.16.2, != 1.16.1, != 1.16.0.rc1, != 1.16.0)
     rails-i18n (8.0.2)
       i18n (>= 0.7, < 2)
@@ -368,19 +364,21 @@ GEM
       ffi (~> 1.0)
     rbnacl (7.1.2)
       ffi (~> 1)
-    rbs (3.9.2)
+    rbs (4.0.2)
       logger
+      prism (>= 1.6.0)
+      tsort
     rdoc (6.14.2)
       erb
       psych (>= 4.0.0)
     regexp_parser (2.11.3)
     reline (0.6.1)
       io-console (~> 0.5)
-    resolv (0.6.2)
+    resolv (0.7.1)
     responders (3.1.1)
       actionpack (>= 5.2)
       railties (>= 5.2)
-    rexml (3.4.1)
+    rexml (3.4.4)
     roo (2.10.1)
       nokogiri (~> 1)
       rubyzip (>= 1.3.0, < 3.0.0)
@@ -434,11 +432,10 @@ GEM
       lint_roller (~> 1.1)
       rubocop (>= 1.75.0, < 2.0)
       rubocop-ast (>= 1.38.0, < 2.0)
-    ruby-lsp (0.23.17)
+    ruby-lsp (0.26.9)
       language_server-protocol (~> 3.17.0)
       prism (>= 1.2, < 2.0)
-      rbs (>= 3, < 4)
-      sorbet-runtime (>= 0.5.10782)
+      rbs (>= 3, < 5)
     ruby-mailchecker (6.0.19)
     ruby-ole (1.2.13.1)
     ruby-progressbar (1.13.0)
@@ -454,7 +451,6 @@ GEM
     simplecov-html (0.13.1)
     simplecov_json_formatter (0.1.4)
     simpleidn (0.2.3)
-    sorbet-runtime (0.5.12079)
     spreadsheet (1.3.4)
       bigdecimal
       logger
@@ -474,7 +470,7 @@ GEM
     terminal-table (4.0.0)
       unicode-display_width (>= 1.1.1, < 4)
     text (1.3.1)
-    thor (1.4.0)
+    thor (1.5.0)
     timeout (0.4.3)
     tsort (0.2.0)
     ttfunk (1.8.0)
@@ -501,11 +497,10 @@ GEM
     write_xlsx (1.12.1)
       nkf
       rubyzip (>= 1.0.0)
-    zeitwerk (2.7.2)
+    zeitwerk (2.7.5)
 
 PLATFORMS
   arm64-darwin-24
-  x86_64-linux-gnu
 
 DEPENDENCIES
   activerecord-nulldb-adapter

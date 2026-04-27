@@ -98,7 +98,7 @@ class User < ApplicationRecord
   end)
 
   scope :by_category, (lambda do |user_category|
-    joins(:role).where(disabled: false).or(where(duplicate: false))
+    joins(:role).where(disabled: false, duplicate: false)
     .where(roles: { user_category: })
   end)
 

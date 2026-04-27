@@ -1,0 +1,79 @@
+hi-IN:
+  permissions:
+    permission:
+      export_incident_recorder_xls: " घटना रजिस्टर एक्सपोर्ट करें"
+  exports:
+    incident_recorder_xls:
+      all:  घटना रिकॉर्डर
+      one:  घटना रिकॉर्डर
+      selected:  घटना रिकॉर्डर के लिए चयनित
+      "yes": "हाँ"
+      "no": "नहीं"
+      gender:
+        male: "पुरुष"
+        female: "महिला"
+        both: "महिला और पुरुष"
+      age_group:
+        age: "उम्र"
+        61_older: "61 और उससे अधिक"
+        unknown: "अज्ञात"
+        header: "कथित अपराधी का आयु वर्ग"
+      age_type:
+        adult: "वयस्क"
+        minor: "नाबालिग"
+        both: "वयस्क और नाबालिग"
+        unknown: "अज्ञात"
+        header: "कथित अपराधी की आयु प्रकार"
+      service_referral:
+        undecided: " अनिर्णीत"
+      headers:
+        incident_id: "घटना आईडी"
+        survivor_code: "सर्वाइवर कोड"
+        case_manager_code: "केस मैनेजर कोड"
+        case_worker_code: "केसवर्कर कोड"
+        date_of_interview: "साक्षात्कार की तिथि"
+        date_of_incident: "घटना की तिथि"
+        date_of_birth: "जन्म तिथि"
+        sex: "लिंग"
+        ethnicity: "जातीयता"
+        country_of_origin: "मूल देश"
+        marital_status: "नागरिक/वैवाहिक स्थिति"
+        displacement_status: "रिपोर्ट के समय विस्थापन की स्थिति"
+        disability_type: "विकलांग व्यक्ति?"
+        unaccompanied_separated_status: "अकेला या अलग बच्चा?"
+        stage_of_displacement: "घटना के समय विस्थापन का चरण"
+        time_of_day: "घटना का समय"
+        location: "घटना स्थल"
+        county: "घटनाग्रस्त काउंटी"
+        district: "घटनाग्रस्त ज़िला"
+        camp_town: "घटनाग्रस्त शिविर/नगर"
+        camp: "घटनाग्रस्त शिविर"
+        gbv_type: "जी.बी.वी. प्रकार"
+        harmful_traditional_practice: "हानिकारक पारंपरिक प्रथा"
+        goods_money_exchanged: "धन, माल, लाभ और/या सेवाओं का आदान-प्रदान?"
+        abduction_type: "अपहरण का प्रकार"
+        previously_reported: "क्या आपने पहले इस घटना की रिपोर्ट की है?"
+        gbv_previous_incidents: "पिछली जी.बी.वी. घटनाएँ?"
+        number_primary_perpetrators: "कोई मुख्य आरोपी नहीं"
+        perpetrator:
+          sex: " कथित अपराधी का लिंग"
+          former: " इस अपराधी के साथ पूर्व घटना"
+          relationship: "अपराधी–पीड़ित संबंध"
+          occupation: "अपराधी का व्यवसाय"
+          age_group: "अपराधी की आयु-समूह"
+          age_type: "अपराधी की आयु"
+        service:
+          referred_from: "आपको कहाँ से रेफर किया गया है?"
+          safehouse_referral: "सुरक्षित घर/आश्रय"
+          medical_referral: "स्वास्थ्य / चिकित्सा सेवाएँ"
+          psycho_referral: "मनोवैज्ञानिक सेवाएँ"
+          wants_legal_action: "कानूनी कार्रवाई चाहते हैं?"
+          legal_referral: "कानूनी सहायता सेवाएँ"
+          police_referral: "पुलिस / अन्य सुरक्षाकर्मी"
+          livelihoods_referral: "आजीविका कार्यक्रम"
+          protection_referral: "बाल संरक्षण सेवाएँ / शिक्षा सेवाएँ"
+        consent: "सहमति दी गई"
+        agency_code: "रिपोर्टिंग एजेंसी कोड"
+      number_primary_perpetrators:
+          more_than_three: "3 से अधिक"
+        
