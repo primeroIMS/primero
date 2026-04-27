@@ -71,11 +71,10 @@ class FormSection < ApplicationRecord
   class << self
     def permitted_api_params
       [
-        'id', 'unique_id', { 'name' => {} }, { 'help_text' => {} }, { 'description' => {} }, 'parent_form',
+        'id', 'unique_id', { 'name' => {} }, { 'description' => {} }, 'parent_form',
         'visible', 'order', 'order_form_group', 'order_subform', 'form_group_keyed', 'form_group_id', 'is_nested',
-        'is_first_tab', 'initial_subforms', 'subform_prevent_item_removal', 'subform_append_only',
-        'subform_header_links', 'display_help_text_view', 'shared_subform', 'shared_subform_group',
-        'is_summary_section', 'hide_subform_placeholder', 'mobile_form', { 'collapsed_field_names' => [] },
+        'initial_subforms', 'subform_prevent_item_removal', 'subform_append_only',
+        'hide_subform_placeholder', 'mobile_form', { 'collapsed_field_names' => [] },
         'display_conditions', { 'display_conditions' => {} }
       ]
     end
