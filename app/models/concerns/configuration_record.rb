@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # A shared concern for all Primero configuration types: FormSections, Agencies, Lookups, etc.
 module ConfigurationRecord
   extend ActiveSupport::Concern
+
+  UNIQUE_ID_FORMAT = /^\w+((-|\+)\w*)*$/
 
   included do
     # Set the default unique id attributes
@@ -63,5 +63,11 @@ module ConfigurationRecord
     code = SecureRandom.uuid.to_s.last(7)
     string = string.gsub(/[^A-Za-z0-9_ ]/, '')
     "#{self.class.name}-#{string}-#{code}".parameterize.dasherize
+  end
+
+  def validate_unique_id_format
+    return if unique_id&.match?(UNIQUE_ID_FORMAT)
+
+    errors.add(:unique_id, 'errors.models.configuration_record.unique_id')
   end
 end

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Service to send a WebPush Notification
 class WebpushService
   MAX_ATTEMPTS = 3

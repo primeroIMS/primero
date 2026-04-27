@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # NOTE: Currently this concern contains logic / fields specific to Child/Case.
 # Note: This is dependent on the Serviceable concern.  Serviceable must be included before Workflow
 # Concern for Workflow

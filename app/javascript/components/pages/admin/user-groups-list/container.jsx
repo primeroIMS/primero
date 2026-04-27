@@ -1,9 +1,7 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { useEffect } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
-import Grid from "@mui/material/Unstable_Grid2";
+import Grid from "@mui/material/Grid";
 import { useDispatch } from "react-redux";
 import { fromJS } from "immutable";
 
@@ -98,10 +96,20 @@ function Container() {
       <PageHeading title={i18n.t("user_groups.label")}>{newUserGroupBtn}</PageHeading>
       <PageContent>
         <Grid container spacing={2}>
-          <Grid item xs={12} sm={8}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 8
+            }}
+          >
             <IndexTable title={i18n.t("user_groups.label")} {...tableOptions} />
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid
+            size={{
+              xs: 12,
+              sm: 4
+            }}
+          >
             <FiltersForm {...filterProps} noMargin />
           </Grid>
         </Grid>

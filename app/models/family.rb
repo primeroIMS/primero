@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Describes the family linkages
 class Family < ApplicationRecord
   include Record
@@ -43,6 +41,10 @@ class Family < ApplicationRecord
 
     def phonetic_field_names
       %w[family_name]
+    end
+
+    def phone_number_fields
+      %w[family_telephone_current]
     end
   end
 

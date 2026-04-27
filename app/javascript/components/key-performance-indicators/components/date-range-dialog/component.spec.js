@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { format } from "date-fns";
 
 import { fireEvent, mountedComponent, screen } from "../../../../test-utils";
@@ -85,7 +83,7 @@ describe("<DateRangeDialog />", () => {
       />
     );
 
-    fireEvent.click(screen.getAllByRole("button").at(0));
+    fireEvent.click(screen.getAllByRole("button").at(2));
 
     expect(setRange).toHaveBeenCalledTimes(1);
   });

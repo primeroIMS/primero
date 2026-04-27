@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import PropTypes from "prop-types";
 import { Grid, Divider } from "@mui/material";
 import { Form, Field } from "formik";
@@ -24,10 +22,10 @@ function RequestForm({ formProps, record }) {
     <>
       <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
         <Grid container spacing={2}>
-          <Grid item xs={6}>
+          <Grid size={6}>
             <DisplayData label="cases.case_worker_code" value={record && record.get("owned_by")} />
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={6}>
             <DisplayData label="cases.agency" />
           </Grid>
         </Grid>

@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import * as constants from "./constants";
 
 describe("<Form /> - Constants", () => {
@@ -30,6 +28,7 @@ describe("<Form /> - Constants", () => {
       "ORDERABLE_OPTIONS_FIELD",
       "PARENT_FORM",
       "PHOTO_FIELD",
+      "PHONE_NUMBER_FIELD",
       "PHOTO_RECORD_FIELD",
       "RADIO_FIELD",
       "SELECT_CHANGE_REASON",
@@ -40,7 +39,8 @@ describe("<Form /> - Constants", () => {
       "TEXT_AREA",
       "TEXT_FIELD",
       "TICK_FIELD",
-      "TOGGLE_FIELD"
+      "TOGGLE_FIELD",
+      "SIGNATURE_FIELD"
     ].forEach(property => {
       expect(clonedConstants).toHaveProperty(property);
       delete clonedConstants[property];

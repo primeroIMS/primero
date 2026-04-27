@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import * as recordConstants from "./constants";
 
 describe("Verifying config constant", () => {
@@ -24,7 +22,8 @@ describe("Verifying config constant", () => {
       "TEXT_AREA",
       "TEXT_FIELD",
       "TICK_FIELD",
-      "URL_LOOKUPS"
+      "URL_LOOKUPS",
+      "SIGNATURE_FIELD"
     ].forEach(property => {
       expect(constants).toHaveProperty(property);
       delete constants[property];

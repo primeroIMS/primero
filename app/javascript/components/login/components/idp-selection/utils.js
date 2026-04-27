@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { ProtocolMode, PublicClientApplication } from "@azure/msal-browser";
 
 import CustomNavigationClient from "./custom-navigation-client";
@@ -58,7 +56,8 @@ export const setMsalApp = async (msalConfig, historyObj) => {
 export const getLoginRequest = (identityScope, domainHint) => {
   return {
     scopes: identityScope,
-    extraQueryParameters: { domain_hint: domainHint }
+    extraQueryParameters: { domain_hint: domainHint },
+    prompt: "select_account"
   };
 };
 

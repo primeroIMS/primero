@@ -1,19 +1,49 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 require 'rails_helper'
 
 describe RecordJsonValidatorService do
+  before do
+    clean_data(Lookup)
+  end
+
+  let!(:lookup_sex) do
+    Lookup.create(
+      unique_id: 'lookup-sex',
+      name_i18n: { 'en' => 'Sex' },
+      lookup_values_i18n: [
+        { id: 'male', display_text: { 'en' => 'Male' } },
+        { id: 'female', display_text: { 'en' => 'Female' } }
+      ]
+    )
+  end
+
   let(:fields) do
     [
       Field.new(name: 'name', type: Field::TEXT_FIELD),
       Field.new(name: 'age', type: Field::NUMERIC_FIELD),
-      Field.new(name: 'sex', type: Field::SELECT_BOX),
+      Field.new(name: 'sex', type: Field::SELECT_BOX, option_strings_source: 'lookup lookup-sex'),
+      Field.new(name: 'radio_sex', type: Field::RADIO_BUTTON, option_strings_source: 'lookup lookup-sex'),
       Field.new(name: 'national_id_no', type: Field::TEXT_FIELD),
       Field.new(name: 'consent_for_services', type: Field::TICK_BOX),
+      Field.new(
+        name: 'consent',
+        type: Field::RADIO_BUTTON,
+        option_strings_text_i18n: [
+          { 'id' => 'true', display_text: { 'en' => 'Yes' } },
+          { 'id' => 'false', display_text: { 'en' => 'No' } }
+        ]
+      ),
       Field.new(name: 'current_address', type: Field::TEXT_AREA),
-      Field.new(name: 'protection_concerns', type: Field::SELECT_BOX, multi_select: true),
+      Field.new(
+        name: 'protection_concerns',
+        type: Field::SELECT_BOX,
+        multi_select: true,
+        option_strings_text_i18n: [
+          { 'id' => 'unaccompanied', display_text: { 'en' => 'Unaccompanied' } },
+          { 'id' => 'separated', display_text: { 'en' => 'Separated' } }
+        ]
+      ),
       Field.new(name: 'registration_date', type: Field::DATE_FIELD),
       Field.new(name: 'created_on', type: Field::DATE_FIELD, date_include_time: true),
       Field.new(name: 'separator1', type: Field::SEPARATOR),
@@ -42,7 +72,12 @@ describe RecordJsonValidatorService do
     ]
   end
 
-  let(:service) { RecordJsonValidatorService.new(fields:) }
+  let(:service) do
+    RecordJsonValidatorService.new(
+      fields:,
+      field_values: PermittedFieldValuesService.new.permitted_field_values(fields)
+    )
+  end
 
   describe '.valid?' do
     describe 'TEXT_FIELD' do
@@ -180,6 +215,28 @@ describe RecordJsonValidatorService do
       end
     end
 
+    describe 'RADIO_BUTTON' do
+      it 'accepts text' do
+        expect(service.valid?('radio_sex' => 'female')).to be_truthy
+      end
+
+      it 'accepts nil values' do
+        expect(service.valid?('radio_sex' => nil)).to be_truthy
+      end
+
+      it 'rejects arrays' do
+        expect(service.valid?('radio_sex' => ['female'])).to be_falsey
+      end
+
+      it 'accepts booleans when options are true and false' do
+        expect(service.valid?('consent' => true)).to be_truthy
+      end
+
+      it 'accepts text when options are true and false' do
+        expect(service.valid?('consent' => 'true')).to be_truthy
+      end
+    end
+
     describe 'SUBFORM' do
       let(:father) { { 'relation_name' => 'James', 'relation_type' => 'father' } }
       let(:mother) { { 'relation_name' => 'Maria', 'relation_type' => 'mother' } }
@@ -253,6 +310,101 @@ describe RecordJsonValidatorService do
         expect(service.valid?('foo' => 'haxxxxx')).to be_falsey
         expect(service.valid?('foo' => nil)).to be_falsey
       end
+    end
+  end
+
+  describe 'field values' do
+    before :each do
+      clean_data(Field, FormSection, Lookup)
+    end
+
+    let!(:lookup_true_false) do
+      create(
+        :lookup,
+        unique_id: 'lookup-true-false',
+        name: 'True/False',
+        lookup_values_en: [
+          { id: 'true', display_text: 'True' },
+          { id: 'false', display_text: 'False' }
+        ]
+      )
+    end
+
+    let!(:lookup_gender) do
+      create(
+        :lookup,
+        unique_id: 'lookup-gender',
+        name: 'Gender',
+        lookup_values_en: [
+          { id: 'female', display_text: 'Female' },
+          { id: 'male', display_text: 'Male' }
+        ]
+      )
+    end
+
+    let(:form_section_child) do
+      FormSection.create!(
+        unique_id: 'child_form',
+        name_en: 'Child Form',
+        is_nested: true,
+        fields: [
+          Field.new(
+            name: 'sex',
+            display_name_en: 'Sex',
+            type: Field::SELECT_BOX,
+            option_strings_text_i18n: [
+              { 'id' => 'other_female', 'display_text' => { 'en' => 'Female (Other)' } },
+              { 'id' => 'other_male', 'display_text' => { 'en' => 'Male (Other)' } }
+            ]
+          ),
+          Field.new(
+            name: 'consent_given',
+            display_name_en: 'Consent Given',
+            type: Field::RADIO_BUTTON,
+            option_strings_source: 'lookup lookup-true-false'
+          )
+        ]
+      )
+    end
+
+    let!(:form_section_parent) do
+      FormSection.create!(
+        unique_id: 'parent_form',
+        name_en: 'Parent Form',
+        fields: [
+          Field.new(
+            name: 'sex',
+            display_name_en: 'Sex',
+            type: Field::SELECT_BOX,
+            option_strings_source: 'lookup lookup-gender'
+          ),
+          Field.new(
+            name: 'child_form', display_name_en: 'Child Form', type: Field::SUBFORM, subform: form_section_child
+          )
+        ]
+      )
+    end
+
+    let(:validator_with_values) do
+      fields = Field.where(name: %w[sex child_form consent_given])
+      field_values = PermittedFieldValuesService.instance.permitted_field_values(fields)
+      RecordJsonValidatorService.new(fields:, field_values:)
+    end
+
+    it 'validates values for fields with lookups' do
+      expect(validator_with_values.valid?('sex' => 'male')).to eq(true)
+    end
+
+    it 'accepts booleans for true/false lookups in RadioButton' do
+      expect(validator_with_values.valid?('child_form' => [{ 'consent_given' => true }])).to eq(true)
+    end
+
+    it 'accepts string for true/false lookups in RadioButton' do
+      expect(validator_with_values.valid?('child_form' => [{ 'consent_given' => 'true' }])).to eq(true)
+    end
+
+    it 'correctly validates nested fields with the same name' do
+      expect(validator_with_values.valid?('sex' => 'female', 'child_form' => [{ 'sex' => 'other_female' }])).to eq(true)
     end
   end
 end

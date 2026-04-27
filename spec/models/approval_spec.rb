@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 require 'rails_helper'
 
 describe Approval do
@@ -41,7 +39,7 @@ describe Approval do
           actions: [Permission::MANAGE]
         )
       ],
-      modules: [@module]
+      primero_modules: [@module]
     )
     @user = User.create!(
       full_name: 'Test User',

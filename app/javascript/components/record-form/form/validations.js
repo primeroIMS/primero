@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 /* eslint-disable import/prefer-default-export */
 import { number, date, array, object, string, bool, lazy } from "yup";
 import { addDays } from "date-fns";
@@ -14,7 +12,8 @@ import {
   NOT_FUTURE_DATE,
   TICK_FIELD,
   SELECT_FIELD,
-  TALLY_FIELD
+  TALLY_FIELD,
+  SIGNATURE_FIELD
 } from "../constants";
 import { parseExpression } from "../../../libs/expressions";
 
@@ -143,6 +142,11 @@ export const fieldValidations = (field, { i18n, online = false }) => {
       case type === SELECT_FIELD && multiSelect:
         validations[name] = array();
         break;
+      case type === SIGNATURE_FIELD:
+        validations[name] = object({
+          attachment: string().nullable()
+        }).nullable();
+        break;
       default:
         validations[name] = (validations[name] || string()).nullable();
         break;
@@ -170,6 +174,14 @@ export const fieldValidations = (field, { i18n, online = false }) => {
           if (type === TALLY_FIELD) {
             return $schema.test(name, requiredMessage, value => {
               return compact(Object.values(value)).length > 0;
+            });
+          }
+
+          if (type === SIGNATURE_FIELD) {
+            return $schema.test("attachment-or-url", requiredMessage, value => {
+              if (!value) return false;
+
+              return !!value.attachment_url || !!value.attachment;
             });
           }
 
@@ -205,6 +217,14 @@ export const fieldValidations = (field, { i18n, online = false }) => {
       if (type === TALLY_FIELD) {
         validations[name] = schema.test(name, requiredMessage, value => {
           return compact(Object.values(value)).length > 0;
+        });
+      }
+
+      if (type === SIGNATURE_FIELD) {
+        validations[name] = schema.test("attachment-or-url", requiredMessage, value => {
+          if (!value) return false;
+
+          return !!value.attachment_url || !!value.attachment;
         });
       }
     }

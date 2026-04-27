@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { fromJS } from "immutable";
 
 import { mapEntriesToRecord } from "../../libs/reducer-helpers";
@@ -32,7 +30,10 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         audit_log: auditLog,
         field_labels: fieldLabels,
         exact_search_fields: exactSearchFields,
-        phonetic_search_fields: phoneticSearchFields
+        phonetic_search_fields: phoneticSearchFields,
+        phone_number_search_fields: phoneNumberSearchFields,
+        terms_of_use_agency_sign: termsOfUseAgencySign,
+        terms_of_use_acknowledge: termsOfUseAcknowledge
       } = payload.data;
 
       return state.merge(
@@ -53,7 +54,10 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
           auditLog,
           fieldLabels: fieldLabels ?? fromJS({}),
           exactSearchFields,
-          phoneticSearchFields
+          phoneticSearchFields,
+          phoneNumberSearchFields,
+          termsOfUseAgencySign,
+          termsOfUseAcknowledge
         })
       );
     }

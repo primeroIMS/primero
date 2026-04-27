@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # rubocop:disable Style/ClassAndModuleChildren
 module Indicators
   # Case Class for Indicators
@@ -10,7 +8,8 @@ module Indicators
     # rubocop:enable Style/ClassAndModuleChildren
     OPEN_ENABLED = [
       SearchFilters::BooleanValue.new(field_name: 'record_state', value: true),
-      SearchFilters::TextValue.new(field_name: 'status', value: Record::STATUS_OPEN)
+      SearchFilters::TextValue.new(field_name: 'status', value: Record::STATUS_OPEN),
+      SearchFilters::TextValue.new(field_name: 'module_id', value: 'primeromodule-cp')
     ].freeze
 
     CLOSED_ENABLED = [
@@ -324,6 +323,24 @@ module Indicators
       scope_to_owner: true
     ).freeze
 
+    SHARED_WITH_OTHERS_REFERRALS_PENDING = QueriedIndicator.new(
+      name: 'shared_with_others_referrals_pending',
+      record_model: Child,
+      queries: OPEN_ENABLED + [
+        SearchFilters::BooleanValue.new(field_name: 'referred_users_pending_present', value: true)
+      ],
+      scope_to_owner: true
+    ).freeze
+
+    SHARED_WITH_OTHERS_REFERRALS_ACCEPTED = QueriedIndicator.new(
+      name: 'shared_with_others_referrals_accepted',
+      record_model: Child,
+      queries: OPEN_ENABLED + [
+        SearchFilters::BooleanValue.new(field_name: 'referred_users_accepted_present', value: true)
+      ],
+      scope_to_owner: true
+    ).freeze
+
     SHARED_WITH_OTHERS_PENDING_TRANSFERS = QueriedIndicator.new(
       name: 'shared_with_others_pending_transfers',
       record_model: Child,
@@ -347,6 +364,20 @@ module Indicators
       record_model: Child,
       queries: OPEN_ENABLED,
       scope_to_referred: true
+    ).freeze
+
+    SHARED_WITH_ME_PENDING_REFERRALS = QueriedIndicator.new(
+      name: 'shared_with_me_pending_referrals',
+      record_model: Child,
+      queries: OPEN_ENABLED,
+      scope_to_referred_users_pending: true
+    ).freeze
+
+    SHARED_WITH_ME_ACCEPTED_REFERRALS = QueriedIndicator.new(
+      name: 'shared_with_me_accepted_referrals',
+      record_model: Child,
+      queries: OPEN_ENABLED,
+      scope_to_referred_users_accepted: true
     ).freeze
 
     SHARED_WITH_ME_NEW_REFERRALS = QueriedIndicator.new(
@@ -376,13 +407,24 @@ module Indicators
       queries: CLOSED_ENABLED
     ).freeze
 
-    SHARED_FROM_MY_TEAM_REFERRALS = GroupedIndicator.new(
-      name: 'shared_from_my_team_referrals',
+    SHARED_FROM_MY_TEAM_PENDING_REFERRALS = GroupedIndicator.new(
+      name: 'shared_from_my_team_pending_referrals',
       pivots: [{ field_name: 'owned_by' }],
       exclude_zeros: true,
       record_model: Child,
       scope: OPEN_ENABLED + [
-        SearchFilters::BooleanValue.new(field_name: 'referred_users_present', value: true)
+        SearchFilters::BooleanValue.new(field_name: 'referred_users_pending_present', value: true)
+      ],
+      scope_to_owned_by_groups: true
+    ).freeze
+
+    SHARED_FROM_MY_TEAM_ACCEPTED_REFERRALS = GroupedIndicator.new(
+      name: 'shared_from_my_team_accepted_referrals',
+      pivots: [{ field_name: 'owned_by' }],
+      exclude_zeros: true,
+      record_model: Child,
+      scope: OPEN_ENABLED + [
+        SearchFilters::BooleanValue.new(field_name: 'referred_users_accepted_present', value: true)
       ],
       scope_to_owned_by_groups: true
     ).freeze
@@ -409,13 +451,23 @@ module Indicators
       scope_to_owned_by_groups: true
     ).freeze
 
-    SHARED_WITH_MY_TEAM_REFERRALS = GroupedIndicator.new(
-      name: 'shared_with_my_team_referrals',
+    SHARED_WITH_MY_TEAM_PENDING_REFERRALS = GroupedIndicator.new(
+      name: 'shared_with_my_team_pending_referrals',
       record_model: Child,
-      pivots: [{ field_name: 'referred_users', multivalue: true, constrained: true }],
+      pivots: [{ field_name: 'referred_users_pending', multivalue: true, constrained: true }],
       exclude_zeros: true,
       scope: OPEN_ENABLED + [
-        SearchFilters::BooleanValue.new(field_name: 'referred_users_present', value: true)
+        SearchFilters::BooleanValue.new(field_name: 'referred_users_pending_present', value: true)
+      ]
+    )
+
+    SHARED_WITH_MY_TEAM_ACCEPTED_REFERRALS = GroupedIndicator.new(
+      name: 'shared_with_my_team_accepted_referrals',
+      record_model: Child,
+      pivots: [{ field_name: 'referred_users_accepted', multivalue: true, constrained: true }],
+      exclude_zeros: true,
+      scope: OPEN_ENABLED + [
+        SearchFilters::BooleanValue.new(field_name: 'referred_users_accepted_present', value: true)
       ]
     )
 
@@ -630,8 +682,84 @@ module Indicators
     end
 
     # rubocop:disable Metrics/MethodLength
+    def self.shared_with_others_referrals_rejected
+      days_since_referral_status_changed = SystemSettings.current.days_since_referral_status_changed
+      QueriedIndicator.new(
+        name: 'shared_with_others_referrals_rejected',
+        record_model: Child,
+        queries: OPEN_ENABLED + [
+          SearchFilters::DateRange.new(
+            field_name: 'last_referral_rejected_at',
+            from: Time.zone.now - days_since_referral_status_changed.days,
+            to: Time.zone.now
+          )
+        ],
+        scope_to_owner: true
+      )
+    end
+    # rubocop:enable Metrics/MethodLength
+
+    # rubocop:disable Metrics/MethodLength
+    def self.shared_with_others_referrals_done
+      days_since_referral_status_changed = SystemSettings.current.days_since_referral_status_changed
+      QueriedIndicator.new(
+        name: 'shared_with_others_referrals_done',
+        record_model: Child,
+        queries: OPEN_ENABLED + [
+          SearchFilters::DateRange.new(
+            field_name: 'last_referral_done_at',
+            from: Time.zone.now - days_since_referral_status_changed.days,
+            to: Time.zone.now
+          )
+        ],
+        scope_to_owner: true
+      )
+    end
+    # rubocop:enable Metrics/MethodLength
+
+    # rubocop:disable Metrics/MethodLength
+    def self.shared_from_my_team_rejected_referrals
+      days_since_referral_status_changed = SystemSettings.current.days_since_referral_status_changed
+      GroupedIndicator.new(
+        name: 'shared_from_my_team_rejected_referrals',
+        record_model: Child,
+        pivots: [{ field_name: 'owned_by' }],
+        exclude_zeros: true,
+        scope: OPEN_ENABLED + [
+          SearchFilters::DateRange.new(
+            field_name: 'last_referral_rejected_at',
+            from: Time.zone.now - days_since_referral_status_changed.days,
+            to: Time.zone.now
+          )
+        ],
+        scope_to_owned_by_groups: true
+      )
+    end
+    # rubocop:enable Metrics/MethodLength
+
+    # rubocop:disable Metrics/MethodLength
+    def self.shared_from_my_team_done_referrals
+      days_since_referral_status_changed = SystemSettings.current.days_since_referral_status_changed
+      GroupedIndicator.new(
+        name: 'shared_from_my_team_done_referrals',
+        record_model: Child,
+        pivots: [{ field_name: 'owned_by' }],
+        exclude_zeros: true,
+        scope: OPEN_ENABLED + [
+          SearchFilters::DateRange.new(
+            field_name: 'last_referral_done_at',
+            from: Time.zone.now - days_since_referral_status_changed.days,
+            to: Time.zone.now
+          )
+        ],
+        scope_to_owned_by_groups: true
+      )
+    end
+    # rubocop:enable Metrics/MethodLength
+
+    # rubocop:disable Metrics/MethodLength
     def self.workflow_team(role)
-      role_modules = role.modules.reject do |primero_module|
+      role_modules = role.primero_modules.reject do |primero_module|
         [PrimeroModule::GBV, PrimeroModule::MRM].include?(primero_module)
       end
 
@@ -662,7 +790,7 @@ module Indicators
     end
 
     def self.workflows(role)
-      role_modules = role.modules.reject do |primero_module|
+      role_modules = role.primero_modules.reject do |primero_module|
         [PrimeroModule::GBV, PrimeroModule::MRM].include?(primero_module)
       end
 

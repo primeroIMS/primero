@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # TODO: Adding the frozen_string_literal breaks rspec tests
 
 require 'write_xlsx'
@@ -65,7 +63,6 @@ class Exporters::RolePermissionsExporter
   def complete
     @workbook.close
     @io.close unless @io.closed?
-    puts "Exported to #{@export_file_name}"
     @io
   end
 
@@ -215,7 +212,7 @@ class Exporters::RolePermissionsExporter
   end
 
   def write_row(row_data, bold = false)
-    format = @workbook.add_format(bold: 1, text_wrap: 1) if bold
+    format = @workbook.add_format({ num_format: '@' }.merge(bold ? { bold: 1, text_wrap: 1 } : {}))
 
     @worksheet.write(@row, 0, row_data, format)
     @row += 1

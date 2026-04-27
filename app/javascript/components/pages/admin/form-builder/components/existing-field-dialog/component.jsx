@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { memo, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Grid } from "@mui/material";
@@ -114,7 +112,7 @@ function Component({ parentForm, primeroModule }) {
     <ActionDialog {...modalProps}>
       <form className={baseCss.formBuilderDialog}>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <div className={css.searchBox}>
               <SearchIcon />
               <input
@@ -127,7 +125,7 @@ function Component({ parentForm, primeroModule }) {
               />
             </div>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <FieldsTable
               fieldQuery={watchedFieldQuery}
               selectedFields={existingSelectedFields}

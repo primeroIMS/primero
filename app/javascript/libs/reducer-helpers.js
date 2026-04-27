@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { List, OrderedMap, fromJS } from "immutable";
 import extend from "lodash/extend";
 import mapValues from "lodash/mapValues";
@@ -52,6 +50,7 @@ export const arrayToObject = (data, key = "id") => {
 
 export const listAttachmentFields = (formSections = [], fields = []) => {
   const types = Object.keys(FIELD_ATTACHMENT_TYPES);
+
   const filteredFields = Object.values(fields).filter(field => types.includes(field.type));
   const fieldIds = filteredFields.map(field => field.form_section_id);
   const attachmentFormSections = Object.values(formSections).filter(formSection => fieldIds.includes(formSection.id));

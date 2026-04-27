@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Set the audit log properties
 module AuditLogActions
   extend ActiveSupport::Concern
@@ -19,7 +17,7 @@ module AuditLogActions
   def default_metadata_audit_params
     {
       user_name: guessed_user_name,
-      remote_ip: LogUtils.remote_ip(request),
+      remote_ip: request.remote_ip,
       agency_id: current_user.try(:agency_id),
       role_id: current_user.try(:role_id),
       http_method: request.method,

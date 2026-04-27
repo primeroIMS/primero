@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 require 'rails_helper'
 
 describe GBVKpiCalculationService do
@@ -13,9 +11,9 @@ describe GBVKpiCalculationService do
     form(:action_plan_form, [
            field(:test),
            field(:action_plan_section, {
-                   subform_section: form(:action_plan_section, [
-                                           field(:test, mandatory_for_completion: true)
-                                         ])
+                   subform: form(:action_plan_section, [
+                                   field(:test, mandatory_for_completion: true)
+                                 ])
                  })
          ])
   end

@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { useEffect, useState } from "react";
 import { batch, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
@@ -189,7 +187,7 @@ function Component() {
                 }}
               />
               <DragDropContext onDragEnd={handleDragEnd}>
-                <Droppable droppableId="droppable" type="formGroup">
+                <Droppable droppableId="droppable" type="formGroup" isDropDisabled={Boolean(!isReorderEnabled)}>
                   {(provided, snapshot) => (
                     <div
                       {...provided.droppableProps}

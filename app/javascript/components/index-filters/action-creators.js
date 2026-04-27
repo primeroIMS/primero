@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { isImmutable } from "immutable";
 import omitBy from "lodash/omitBy";
 
@@ -11,7 +9,7 @@ export const setFilters = ({ recordType, data }) => ({
 });
 
 export const applyFilters =
-  ({ recordType, data }) =>
+  ({ recordType, data, isRecordCreationFlow = false }) =>
   async dispatch => {
     dispatch(setFilters({ recordType, data }));
 
@@ -27,7 +25,11 @@ export const applyFilters =
         params: filteredData,
         ...(IDB_SAVEABLE_RECORD_TYPES.includes(recordType) && {
           db: { collection: DB_COLLECTIONS_NAMES.RECORDS, recordType }
-        })
+        }),
+        successCallback: {
+          action: `${recordType}/SET_IS_RECORD_CREATION_FLOW`,
+          payload: isRecordCreationFlow
+        }
         // queueOffline: true
       }
     });

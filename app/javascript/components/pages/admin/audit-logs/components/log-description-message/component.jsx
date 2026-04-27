@@ -1,5 +1,3 @@
-// Copyright (c) 2014 UNICEF. All rights reserved.
-
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import { NavLink } from "react-router-dom";

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
-
 json.data do
   json.array! @audit_logs do |audit_log|
     json.extract! audit_log, :id, :timestamp, :action, :record_type, :record_id

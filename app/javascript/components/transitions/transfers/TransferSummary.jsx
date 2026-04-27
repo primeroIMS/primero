@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 /* eslint-disable react/display-name */
 import PropTypes from "prop-types";
 import { Grid } from "@mui/material";
@@ -12,7 +10,13 @@ import DateTransitionsSummary from "../components/date-transitions-summary";
 function TransferSummary({ transition, classes, showMode, recordType }) {
   const i18n = useI18n();
   const transitionStatus = transition.status ? (
-    <Grid item md={3} xs={3} className={classes.status}>
+    <Grid
+      className={classes.status}
+      size={{
+        md: 3,
+        xs: 3
+      }}
+    >
       <TransitionStatus status={transition.status} />
       <TransitionActions classes={classes} transition={transition} showMode={showMode} recordType={recordType} />
     </Grid>
@@ -20,7 +24,12 @@ function TransferSummary({ transition, classes, showMode, recordType }) {
 
   return (
     <Grid container spacing={2} alignItems="center">
-      <Grid item md={9} xs={9}>
+      <Grid
+        size={{
+          md: 9,
+          xs: 9
+        }}
+      >
         <div className={classes.wrapper}>
           <DateTransitionsSummary value={transition.created_at} />
           <div className={classes.titleHeader}>{i18n.t("transition.type.transfer")}</div>

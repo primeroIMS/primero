@@ -1,11 +1,9 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { fromJS } from "immutable";
 import { createMemoryHistory } from "history";
 import { connectRouter, routerMiddleware } from "connected-react-router/immutable";
 import { applyMiddleware, compose, createStore } from "redux";
 import { combineReducers } from "redux-immutable";
-import thunk from "redux-thunk";
+import { thunk } from "redux-thunk";
 
 import rootReducer from "../reducer";
 import restMiddleware from "../middleware/rest-middleware";

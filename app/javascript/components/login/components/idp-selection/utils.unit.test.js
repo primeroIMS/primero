@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { setMsalConfig, getLoginRequest, getTokenRequest } from "./utils";
 
 describe("auth-utils", () => {
@@ -40,7 +38,8 @@ describe("auth-utils", () => {
   it("returns login request", () => {
     const expected = {
       scopes: ["123"],
-      extraQueryParameters: { domain_hint: "domain" }
+      extraQueryParameters: { domain_hint: "domain" },
+      prompt: "select_account"
     };
 
     expect(getLoginRequest(["123"], "domain")).toEqual(expected);

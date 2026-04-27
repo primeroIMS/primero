@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 require 'rails_helper'
 
 describe Alertable do
@@ -41,7 +39,7 @@ describe Alertable do
             actions: [Permission::MANAGE, Permission::REFERRAL, Permission::RECEIVE_REFERRAL]
           )
         ],
-        modules: [cp]
+        primero_modules: [cp]
       )
       role_group = Role.create!(
         name: 'Test Role 2',
@@ -53,7 +51,7 @@ describe Alertable do
             actions: [Permission::MANAGE, Permission::REFERRAL, Permission::RECEIVE_REFERRAL]
           )
         ],
-        modules: [cp]
+        primero_modules: [cp]
       )
       role_self = Role.create!(
         name: 'Test Role 3',
@@ -68,7 +66,7 @@ describe Alertable do
             ]
           )
         ],
-        modules: [cp]
+        primero_modules: [cp]
       )
       agency_a = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
       agency_b = Agency.create!(name: 'Agency 2', agency_code: 'agency2')
@@ -354,7 +352,7 @@ describe Alertable do
             actions: [Permission::MANAGE, Permission::REFERRAL, Permission::RECEIVE_REFERRAL]
           )
         ],
-        modules: [cp]
+        primero_modules: [cp]
       )
       agency_a = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
 

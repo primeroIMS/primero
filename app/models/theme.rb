@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Model for Theme
 # rubocop:disable Naming/VariableNumber
 class Theme < ApplicationRecord

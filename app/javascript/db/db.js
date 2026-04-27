@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import isEmpty from "lodash/isEmpty";
 import { openDB } from "idb";
 import fuzzysort from "fuzzysort";
@@ -47,7 +45,7 @@ async function getDB() {
     }
   }
 
-  return openDB(DATABASE_NAME, 7, {
+  const dbInstance = await openDB(DATABASE_NAME, 7, {
     upgrade: (db, oldVersion, _newVersion, transaction) => {
       if (oldVersion < 1) {
         DB_COLLECTIONS_V1.forEach(collection => createCollections(collection, db));
@@ -72,6 +70,8 @@ async function getDB() {
       }
     }
   });
+
+  return dbInstance;
 }
 
 const DB = {

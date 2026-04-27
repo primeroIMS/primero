@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # ClientFeedbackResponse
 #
 # Represents a filled out client feedback form. Has notional understanding

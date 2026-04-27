@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Supporting logic and fields for transitions
+# rubocop:disable Metrics/ModuleLength
 module Transitionable
   extend ActiveSupport::Concern
 
@@ -10,12 +9,20 @@ module Transitionable
     has_many :transitions, as: :record
 
     store_accessor :data, :transfer_status, :reassigned_transferred_on, :referred_users, :transferred_to_users,
-                   :transferred_to_user_groups, :referred_users_present
+                   :transferred_to_user_groups, :referred_users_present, :referred_users_pending,
+                   :referred_users_pending_present, :referred_users_accepted, :referred_users_accepted_present,
+                   :last_referral_rejected_at, :last_referral_done_at
 
     before_save :calculate_transferred_to_users
     before_save :calculate_transferred_to_user_groups
     before_save :calculate_referred_users
     before_save :calculate_referred_users_present
+    before_save :calculate_referred_users_pending
+    before_save :calculate_referred_users_pending_present
+    before_save :calculate_referred_users_accepted
+    before_save :calculate_referred_users_accepted_present
+    before_save :calculate_last_referral_rejected_at
+    before_save :calculate_last_referral_done_at
   end
 
   def assigns
@@ -77,9 +84,39 @@ module Transitionable
     referred_users
   end
 
+  def calculate_referred_users_pending
+    self.referred_users_pending = referrals.where(status: [Transition::STATUS_INPROGRESS]).pluck(:transitioned_to).uniq
+    referred_users_pending
+  end
+
+  def calculate_referred_users_pending_present
+    self.referred_users_pending_present = referred_users_pending.present?
+    referred_users_pending_present
+  end
+
+  def calculate_referred_users_accepted
+    self.referred_users_accepted = referrals.where(status: [Transition::STATUS_ACCEPTED]).pluck(:transitioned_to).uniq
+    referred_users_accepted
+  end
+
+  def calculate_referred_users_accepted_present
+    self.referred_users_accepted_present = referred_users_accepted.present?
+    referred_users_accepted_present
+  end
+
   def calculate_referred_users_present
     self.referred_users_present = referred_users.present?
     referred_users_present
+  end
+
+  def calculate_last_referral_rejected_at
+    self.last_referral_rejected_at = referrals.where(status: [Transition::STATUS_REJECTED]).maximum(:responded_at)
+    last_referral_rejected_at
+  end
+
+  def calculate_last_referral_done_at
+    self.last_referral_done_at = referrals.where(status: [Transition::STATUS_DONE]).maximum(:responded_at)
+    last_referral_done_at
   end
 
   def referrals_self_scope(user)
@@ -117,3 +154,4 @@ module Transitionable
     true
   end
 end
+# rubocop:enable Metrics/ModuleLength

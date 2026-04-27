@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 
@@ -21,6 +19,8 @@ function AttachmentPreview({ name, attachment, attachmentUrl }) {
   if (isAudioAttachment) {
     return <AssetJwt id={name} src={attachmentUrl} type="audio" />;
   }
+
+  if (!attachmentUrl || attachmentUrl === "undefinedundefined") return null;
 
   return <AssetJwt data-testid="attachment" src={attachmentUrl} alt="" className={css.editImg} />;
 }

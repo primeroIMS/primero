@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import isObject from "lodash/isObject";
 
 import { DB_COLLECTIONS_NAMES } from "../../db";
@@ -64,6 +62,7 @@ describe("records - Action Creators", () => {
       "saveRecord",
       "setCaseIdForIncident",
       "setMachedCaseForTrace",
+      "setIsRecordCreationFlow",
       "setSelectedCasePotentialMatch",
       "setSelectedPotentialMatch",
       "setSelectedRecord",

@@ -1,10 +1,8 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { Fragment, useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Radio, ListItem, ListItemSecondaryAction, ListItemText, List, ListSubheader, Divider } from "@mui/material";
+import { ListItemSecondaryAction, ListItemText, List, ListSubheader, Divider } from "@mui/material";
+import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import { useDispatch, batch } from "react-redux";
-import { cx } from "@emotion/css";
 
 import ActionDialog, { useDialog } from "../../../../../action-dialog";
 import {
@@ -17,7 +15,9 @@ import {
   RADIO_FIELD,
   SELECT_FIELD,
   SUBFORM_SECTION,
-  TALLY_FIELD
+  TALLY_FIELD,
+  SIGNATURE_FIELD,
+  PHONE_NUMBER_FIELD
 } from "../../../../../form/constants";
 import { ADMIN_FIELDS_DIALOG } from "../field-dialog/constants";
 import { useI18n } from "../../../../../i18n";
@@ -36,9 +36,11 @@ import {
   SelectInput,
   MultiSelectInput,
   DateAndTimeInput,
-  SubformField
+  SubformField,
+  SignatureInput
 } from "../../../../../../images/primero-icons";
 
+import FieldItem from "./field-item";
 import css from "./styles.css";
 import { CUSTOM_FIELD_SELECTOR_DIALOG, DATE_TIME_FIELD, NAME, MULTI_SELECT_FIELD } from "./constants";
 
@@ -53,6 +55,8 @@ const fields = [
   [TALLY_FIELD, TallyInput],
   [DATE_FIELD, DateInput],
   [DATE_TIME_FIELD, DateAndTimeInput],
+  [SIGNATURE_FIELD, SignatureInput],
+  [PHONE_NUMBER_FIELD, LocalPhoneIcon],
   // [DATE_FIELD, DateRangeInput],
   [SEPARATOR, Seperator],
   [SUBFORM_SECTION, SubformField]
@@ -69,12 +73,6 @@ function Component({ isSubform }) {
     setSelectedItem("");
   }, [dialogOpen]);
 
-  const handleListItem = item => {
-    setSelectedItem(item);
-  };
-
-  const isItemSelected = item => selectedItem === item;
-
   const handleSelected = () => {
     const newFieldAttributtes = {
       name: NEW_FIELD,
@@ -82,7 +80,8 @@ function Component({ isSubform }) {
       visible: true,
       mobile_visible: true,
       hide_on_view_page: false,
-      disabled: false
+      disabled: false,
+      phone_number: selectedItem === PHONE_NUMBER_FIELD
     };
     const multiSelectAttributtes = selectedItem === MULTI_SELECT_FIELD && {
       type: SELECT_FIELD,
@@ -135,39 +134,6 @@ function Component({ isSubform }) {
     });
   };
 
-  const renderFields = () => {
-    const handleClickListItem = name => () => handleListItem(name);
-
-    return fields.map(field => {
-      const [name, Icon] = field;
-
-      const classes = cx(css.inputIcon, {
-        [css.inputIconTickBox]: [RADIO_FIELD, TICK_FIELD].includes(name)
-      });
-
-      if (name === SUBFORM_SECTION && isSubform) {
-        return null;
-      }
-
-      return (
-        <Fragment key={field}>
-          <ListItem selected={isItemSelected(name)} onClick={handleClickListItem(name)}>
-            <ListItemText className={css.label}>
-              <div data-testid="field">{i18n.t(`fields.${name}`)}</div>
-              <div className={css.inputPreviewContainer}>
-                <Icon className={classes} />
-              </div>
-            </ListItemText>
-            <ListItemSecondaryAction>
-              <Radio value={name} checked={isItemSelected(name)} onChange={handleClickListItem(name)} />
-            </ListItemSecondaryAction>
-          </ListItem>
-          <Divider />
-        </Fragment>
-      );
-    });
-  };
-
   return (
     <>
       <ActionDialog
@@ -185,7 +151,22 @@ function Component({ isSubform }) {
             <ListItemSecondaryAction className={css.listHeader}>{i18n.t("forms.select_label")}</ListItemSecondaryAction>
           </ListSubheader>
           <Divider />
-          {renderFields()}
+          {fields.map(field => {
+            const [name, Icon] = field;
+
+            return (
+              <Fragment key={name}>
+                <FieldItem
+                  name={name}
+                  Icon={Icon}
+                  onItemChange={() => setSelectedItem(name)}
+                  isSubform={isSubform}
+                  selectedItem={selectedItem}
+                />
+                <Divider />
+              </Fragment>
+            );
+          })}
         </List>
       </ActionDialog>
     </>

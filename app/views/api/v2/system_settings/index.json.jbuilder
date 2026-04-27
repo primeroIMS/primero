@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 code_of_conduct = CodeOfConduct.current
 
 # rubocop:disable Metrics/BlockLength
@@ -20,7 +18,8 @@ json.data do
                                               'maximum_attachments_per_record' =>
                                                   @system_setting.maximum_attachments_per_record,
                                               'allow_case_creation_from_referral' =>
-                                                  @system_setting.create_case_from_referral?
+                                                  @system_setting.create_case_from_referral?,
+                                              'enforce_terms_of_use' => Rails.configuration.enforce_terms_of_use
                                             })
   json.field_labels FieldI18nService.to_localized_values(@system_setting.field_labels_i18n)
   json.audit_log do
@@ -61,5 +60,8 @@ json.data do
     Family
   ].map { |record_type| { record_type.parent_form.pluralize => record_type.const_get('PHONETIC_FIELD_NAMES') } })
     .inject(&:merge)
+  json.phone_number_search_fields ([Child, Incident, TracingRequest, RegistryRecord, Family].map do |record_type|
+                                     { record_type.parent_form.pluralize => record_type.phone_number_fields }
+                                   end).inject(&:merge)
 end.compact!
 # rubocop:enable Metrics/BlockLength

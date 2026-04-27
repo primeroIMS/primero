@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 require 'rails_helper'
 
 describe DuplicateBulkExport do
@@ -25,7 +23,8 @@ describe DuplicateBulkExport do
       ]
     )
     primero_module = create(:primero_module)
-    role = create(:role, form_sections: [@form_section], modules: [primero_module], group_permission: Permission::ALL)
+    role = create(:role, form_sections: [@form_section], primero_modules: [primero_module],
+                         group_permission: Permission::ALL)
     @user = create(:user, role:)
 
     @expected_headers = [

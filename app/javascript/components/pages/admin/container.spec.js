@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { fromJS } from "immutable";
 
 import { MANAGE } from "../../permissions";
@@ -39,7 +37,7 @@ describe("<Admin />", () => {
 
     it("renders only the permitted items", () => {
       expect(screen.getAllByRole("navigation").at(1)).toBeInTheDocument();
-      expect(screen.getAllByRole("button")).toHaveLength(3);
+      expect(screen.getAllByRole("link")).toHaveLength(3);
     });
   });
 });

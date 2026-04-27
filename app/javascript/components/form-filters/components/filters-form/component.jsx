@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useForm, FormProvider } from "react-hook-form";
@@ -94,7 +92,7 @@ function Component({
           <FormProvider {...methods} user={userName} initialFilters={initialFilters}>
             <form onSubmit={methods.handleSubmit(handleOnSubmit)}>
               {showSearchField && (
-                <SearchBox showSearchNameToggle={false} searchFieldLabel={searchFieldLabel} useFullWidth={noMargin} />
+                <SearchBox showFieldToggle={false} searchFieldLabel={searchFieldLabel} useFullWidth={noMargin} />
               )}
               <Actions handleClear={onClear} />
               {renderFilters()}

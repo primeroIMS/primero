@@ -1,4 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 import { mountedComponent, screen } from "test-utils";
 import { fromJS } from "immutable";
 
@@ -37,6 +36,6 @@ describe("<SearchPrompt />", () => {
   });
 
   it("should render a <ActionButton /> component", () => {
-    expect(screen.getAllByRole("button")).toHaveLength(2);
+    expect(screen.getAllByRole("button")).toHaveLength(5);
   });
 });

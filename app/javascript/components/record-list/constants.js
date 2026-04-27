@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 export const NAME = "RecordListContainer";
 export const ALERTS = "alerts";
 export const COMPLETE = "complete";
@@ -15,6 +13,7 @@ export const DEFAULT_FILTERS = {
   record_state: ["true"]
 };
 export const SEARCH_AND_CREATE_WORKFLOW = "search_and_create_workflow";
+export const PREVENT_CASE_CREATION_WITHOUT_SEARCH = "prevent_case_creation_without_search";
 export const ID_COLUMNS = Object.freeze({
   short_id: "short_id",
   case_id_display: "case_id_display"

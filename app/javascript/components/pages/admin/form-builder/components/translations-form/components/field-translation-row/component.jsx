@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import PropTypes from "prop-types";
 import { Grid } from "@mui/material";
 import { useDispatch, batch } from "react-redux";
@@ -62,10 +60,22 @@ function Component({ field, selectedLocaleId, formMethods, formMode }) {
 
   return (
     <>
-      <Grid item xs={12} md={3} className={classes}>
+      <Grid
+        className={classes}
+        size={{
+          xs: 12,
+          md: 3
+        }}
+      >
         {displayName}
       </Grid>
-      <Grid item xs={12} md={3} className={css.translationsRow}>
+      <Grid
+        className={css.translationsRow}
+        size={{
+          xs: 12,
+          md: 3
+        }}
+      >
         <FormSectionField
           field={FieldRecord({
             display_name: "",
@@ -77,10 +87,22 @@ function Component({ field, selectedLocaleId, formMethods, formMode }) {
           formMethods={formMethods}
         />
       </Grid>
-      <Grid item xs={12} md={3} className={css.translationsRow}>
+      <Grid
+        className={css.translationsRow}
+        size={{
+          xs: 12,
+          md: 3
+        }}
+      >
         {renderTranslationFields()}
       </Grid>
-      <Grid item xs={12} md={3} className={css.translationsRow}>
+      <Grid
+        className={css.translationsRow}
+        size={{
+          xs: 12,
+          md: 3
+        }}
+      >
         <ActionButton text="forms.manage" outlined rest={{ onClick: onClickManage }} />
       </Grid>
     </>

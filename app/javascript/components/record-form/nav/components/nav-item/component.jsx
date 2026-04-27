@@ -1,12 +1,11 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 /* eslint-disable react/display-name */
 /* eslint-disable react/no-multi-comp */
 import PropTypes from "prop-types";
-import { ListItem, ListItemText } from "@mui/material";
+import { ListItemText } from "@mui/material";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import isEmpty from "lodash/isEmpty";
+import ListItemButton from "@mui/material/ListItemButton";
 
 import Jewel from "../../../../jewel";
 import css from "../../styles.css";
@@ -62,12 +61,11 @@ function Component({
   };
 
   return (
-    <ListItem
+    <ListItemButton
       data-testid={testID || "list-item"}
       aria-expanded={open}
       id={`${formId}-${group}`}
       selected={selectedForm === formId && !isNested}
-      button
       key={formId}
       onClick={handleOnClick}
       classes={{
@@ -80,7 +78,7 @@ function Component({
         {formText()}
       </ListItemText>
       {isNested && (open ? <ExpandMore /> : <ExpandLess />)}
-    </ListItem>
+    </ListItemButton>
   );
 }
 

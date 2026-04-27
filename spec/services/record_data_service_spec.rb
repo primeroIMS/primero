@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 require 'rails_helper'
 
 describe RecordDataService do
@@ -72,20 +70,16 @@ describe RecordDataService do
   describe 'embed_photo_metadata' do
     before :each do
       @record.save!
-      Attachment.new(
+      @attachment = Attachment.new(
         record: @record, field_name: 'photos', attachment_type: Attachment::IMAGE,
         file_name: 'jorge.jpg', attachment: attachment_base64('jorge.jpg')
-      ).attach!
+      )
+      @attachment.attach!
     end
 
     it 'injects the paths to the photo for the photos field' do
       data = RecordDataService.new.embed_photo_metadata({}, @record, %w[photos])
-      expect(data['photo']).to match(/.+jorge\.jpg$/)
-    end
-
-    it 'injects the paths to the photo for the photo field' do
-      data = RecordDataService.new.embed_photo_metadata({}, @record, %w[photo])
-      expect(data['photo']).to match(/.+jorge\.jpg$/)
+      expect(data['photo']).to match(%r{/api/v2/cases/#{@record.id}/attachments/#{@attachment.id}$})
     end
 
     after :each do
@@ -363,14 +357,14 @@ describe RecordDataService do
     let!(:role_with_service_own_entries) do
       Role.create!(
         name: 'Role with SERVICE_OWN_ENTRIES_ONLY',
-        permissions: [service_own_entries_permission], modules: [@module_cp]
+        permissions: [service_own_entries_permission], primero_modules: [@module_cp]
       )
     end
 
     let!(:role_mgr_with_service_own_entries) do
       Role.create!(
         name: 'Role Manager with SERVICE_OWN_ENTRIES_ONLY', group_permission: Permission::GROUP,
-        permissions: [service_own_entries_permission], modules: [@module_cp]
+        permissions: [service_own_entries_permission], primero_modules: [@module_cp]
       )
     end
 

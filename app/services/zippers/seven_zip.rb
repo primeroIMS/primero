@@ -1,13 +1,11 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 require 'English'
 
 # Wrapper for the p7zip library. Generates
 # The only secure option.
 class Zippers::SevenZip
-  def zip(_file, _password)
+  def zip(_file, _password, _target_file_name)
     raise NotImplementedError
   end
 

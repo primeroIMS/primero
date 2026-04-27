@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
@@ -34,7 +32,7 @@ function Container({ mode }) {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const { id } = useParams();
-  const { limitedProductionSite } = useApp();
+  const { limitedProductionSite, enforceTermsOfUse } = useApp();
   const { dialogOpen, setDialog } = useDialog(TranslationsFormName);
 
   const agency = useMemoizedSelector(state => getAgency(state));
@@ -43,11 +41,13 @@ function Container({ mode }) {
 
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
 
-  const validationSchema = validations(i18n);
+  const validationSchema = validations(i18n, formMode, enforceTermsOfUse);
 
   const canEditAgencies = usePermissions(NAMESPACE, WRITE_RECORDS);
 
   const registeredFields = buildLocaleFields(localesToRender(i18n.applicationLocales));
+
+  const termsOfUseEnabledData = enforceTermsOfUse ? { terms_of_use_enabled: true } : {};
 
   const handleSubmit = data => {
     dispatch(
@@ -55,7 +55,9 @@ function Container({ mode }) {
         id,
         saveMethod: formMode.get("isEdit") ? SAVE_METHODS.update : SAVE_METHODS.new,
         body: {
-          data: formMode.get("isNew") ? { ...data, name: { en: "No translation provided", ...data.name } } : data
+          data: formMode.get("isNew")
+            ? { ...data, ...termsOfUseEnabledData, name: { en: "No translation provided", ...data.name } }
+            : data
         },
         message: i18n.t(`agency.messages.${formMode.get("isEdit") ? "updated" : "created"}`)
       })
@@ -110,14 +112,17 @@ function Container({ mode }) {
     ? `${i18n.t("agencies.label")} ${agency.getIn(["name", i18n.locale])}`
     : i18n.t("agencies.label");
 
-  const selectedAgency = {
-    ...agency.toJS(),
-    ...{
-      logo_full_url: agency.get("logo_full"),
-      logo_icon_url: agency.get("logo_icon"),
-      terms_of_use_url: agency.get("terms_of_use")
-    }
-  };
+  const selectedAgency =
+    formMode.get("isNew") && enforceTermsOfUse
+      ? termsOfUseEnabledData
+      : {
+          ...agency.toJS(),
+          ...{
+            logo_full_url: agency.get("logo_full"),
+            logo_icon_url: agency.get("logo_icon"),
+            terms_of_use_url: agency.get("terms_of_use")
+          }
+        };
 
   return (
     <LoadingIndicator hasData={formMode.get("isNew") || agency?.size > 0} loading={!agency.size} type={NAMESPACE}>
@@ -130,7 +135,7 @@ function Container({ mode }) {
           formID={FORM_ID}
           useCancelPrompt
           mode={mode}
-          formSections={form(i18n, formMode)}
+          formSections={form(i18n, formMode, enforceTermsOfUse)}
           onSubmit={handleSubmit}
           validations={validationSchema}
           registerFields={registeredFields}

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
-
 require 'rails_helper'
 
 describe CleanupUnverifiedUsers do
@@ -35,7 +33,7 @@ describe CleanupUnverifiedUsers do
           actions: [Permission::MANAGE]
         )
       ],
-      modules: [primero_module]
+      primero_modules: [primero_module]
     )
   end
 

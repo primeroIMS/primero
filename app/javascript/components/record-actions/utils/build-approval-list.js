@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { RECORD_TYPES, APPROVALS_TYPES } from "../../../config";
 import { APPROVAL_STATUS } from "../request-approval/constants";
 

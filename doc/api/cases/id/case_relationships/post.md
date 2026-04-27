@@ -1,5 +1,3 @@
-<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
-
 # Create a new case relationship
 
 Create a new case relationship on a case. Returns the created case relationship.

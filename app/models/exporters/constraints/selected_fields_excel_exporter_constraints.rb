@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Class to generate export constraints for the SelectedFieldExporter
 class Exporters::Constraints::SelectedFieldsExcelExporterConstraints < Exporters::Constraints::ExporterConstraints
   attr_accessor :constraining_forms_and_fields, :constraining_fields, :locale
@@ -49,7 +47,7 @@ class Exporters::Constraints::SelectedFieldsExcelExporterConstraints < Exporters
   end
 
   def selected_fields_form
-    form = FormSection.new(unique_id: 'selected_fields', fields:)
+    form = SelectedFieldsForm.new(unique_id: 'selected_fields', fields:)
     form.send(:name=, I18n.t('exports.selected_xls.selected_fields', locale:), locale)
     form
   end

@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { FIELD_NAMES } from "../users-form/constants";
 import { CAN_DISABLE_MULTIPLE_USERS, CREATE_RECORDS } from "../../../permissions/constants";
 

@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { Map, List, fromJS } from "immutable";
 
 import { RECORD_PATH } from "../../config";
@@ -177,3 +175,6 @@ export const getRelatedRecord = (state, query = {}) => {
 
   return state.getIn(["records", recordType, "related_records", "data", index], Map({}));
 };
+
+export const getIsRecordCreationFlow = (state, recordType) =>
+  state.getIn(["records", recordType, "isRecordCreationFlow"], false);

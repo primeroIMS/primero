@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 require 'rails_helper'
 
 describe Api::V2::TracingRequestsController, type: :request do
@@ -92,7 +90,7 @@ describe Api::V2::TracingRequestsController, type: :request do
       post '/api/v2/tracing_requests', params:, as: :json
 
       %w[data].each do |fp|
-        expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/)
+        expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/).at_least(:once)
       end
     end
   end
@@ -118,7 +116,7 @@ describe Api::V2::TracingRequestsController, type: :request do
       patch "/api/v2/tracing_requests/#{@tracing_request1.id}", params:, as: :json
 
       %w[data].each do |fp|
-        expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/)
+        expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/).at_least(:once)
       end
     end
 

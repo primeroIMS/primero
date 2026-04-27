@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Uses 7zip to create an AES256 encrypted, Zip-encoded archive.
 # Actually secure, but no one supports this.
 class Zippers::SevenZipZip < Zippers::SevenZip
-  def zip(file, password)
+  def zip(file, password, _target_file_name)
     run_7za['7za', 'a', '-tzip', '-mem=AES256', "-p#{password}", zipped_file_name(file), file]
+    # TODO: When this matters we can rename the zipped file inside the archive. Something like:
+    # run_7za['7za', 'rn', zipped_file_name(file), file, (target_file_name || file)]
     File.delete(file) && zipped_file_name(file)
   end
 

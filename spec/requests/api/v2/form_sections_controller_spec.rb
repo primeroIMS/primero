@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 require 'rails_helper'
 
 describe Api::V2::FormSectionsController, type: :request do
@@ -77,7 +75,7 @@ describe Api::V2::FormSectionsController, type: :request do
       Field.create!(
         name: 'subform_form_4',
         type: Field::SUBFORM,
-        subform_section: @form4,
+        subform: @form4,
         display_name: {
           en: 'Subform Field for Form 4'
         }
@@ -251,7 +249,7 @@ describe Api::V2::FormSectionsController, type: :request do
       @role = Role.create!(
         form_sections: [@form_section_a],
         name: 'Test Role', permissions: [@permission_form_manage],
-        modules: [@primero_module]
+        primero_modules: [@primero_module]
       )
     end
 

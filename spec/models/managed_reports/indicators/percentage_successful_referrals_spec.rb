@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 require 'rails_helper'
 
 describe ManagedReports::Indicators::PercentageSuccessfulReferrals do
@@ -22,7 +20,7 @@ describe ManagedReports::Indicators::PercentageSuccessfulReferrals do
       name: 'Role 1',
       unique_id: 'role-1',
       group_permission: Permission::SELF,
-      modules: [module1, module2],
+      primero_modules: [module1, module2],
       permissions: [
         Permission.new(
           resource: Permission::CASE,

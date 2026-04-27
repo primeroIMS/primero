@@ -1,11 +1,9 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { connectRouter, routerMiddleware } from "connected-react-router/immutable";
 import { createBrowserHistory } from "history";
 import Immutable, { fromJS } from "immutable";
 import { applyMiddleware, compose, createStore } from "redux";
 import { combineReducers } from "redux-immutable";
-import thunkMiddleware from "redux-thunk";
+import { thunk } from "redux-thunk";
 
 import customMiddleware from "./middleware";
 import rootReducer from "./reducer";
@@ -20,7 +18,7 @@ export default () => {
 
   const middleware = [
     routerMiddleware(history),
-    thunkMiddleware,
+    thunk,
     customMiddleware.restMiddleware({
       baseUrl: API_BASE_PATH
     }),

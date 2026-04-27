@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 require 'rails_helper'
 
 describe Ownable do
@@ -11,7 +9,7 @@ describe Ownable do
     @primero_module = PrimeroModule.new(name: 'CP')
     @primero_module.save(validate: false)
     permission_case = Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE])
-    @role = Role.new(permissions: [permission_case], modules: [@primero_module])
+    @role = Role.new(permissions: [permission_case], primero_modules: [@primero_module])
     @role.save(validate: false)
     @group1 = UserGroup.create!(name: 'Group1')
     @agency1 = Agency.create!(name: 'Agency One', agency_code: 'agency1')

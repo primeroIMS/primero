@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 /* eslint-disable react/display-name, react/no-multi-comp */
 import PropTypes from "prop-types";
 import { Controller, useWatch } from "react-hook-form";
@@ -91,8 +89,13 @@ function DateInput({ commonInputProps, metaInputProps = {}, formMethods }) {
         control={control}
         as={renderPicker}
         {...commonInputProps}
-        helperText={<>{helperText}</>}
         defaultValue=""
+        slotProps={{
+          textField: {
+            error,
+            helperText: error || helperText
+          }
+        }}
       />
     </DateProvider>
   );

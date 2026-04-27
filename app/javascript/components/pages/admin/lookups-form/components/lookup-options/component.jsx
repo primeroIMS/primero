@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import PropTypes from "prop-types";
 import { Grid } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -72,7 +70,7 @@ function Component({
         )}
       </div>
       {items.length > 0 && (
-        <Grid item xs={12} className={gridClassName}>
+        <Grid className={gridClassName} size={12}>
           <DragDropContext onDragEnd={onDragEnd}>
             <Droppable droppableId="droppableLookup" type="lookupGroup">
               {(provided, snapshot) => (

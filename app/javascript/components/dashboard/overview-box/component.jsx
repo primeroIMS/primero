@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { Grid } from "@mui/material";
 import PropTypes from "prop-types";
 import { fromJS } from "immutable";
@@ -17,6 +15,7 @@ function OverviewBox({
   loading,
   errors,
   highlights = [],
+  displayOrder = [],
   titleHasModule = false
 }) {
   const indicators = items.get("indicators", fromJS({}));
@@ -30,6 +29,7 @@ function OverviewBox({
         sumTitle={sumTitle}
         withTotal={withTotal}
         highlights={highlights}
+        displayOrder={displayOrder}
       />
     </>
   );
@@ -39,11 +39,22 @@ function OverviewBox({
       <div className={css.root} data-testid="overview-box">
         <Grid container spacing={3}>
           {chartData && (
-            <Grid item md={4} xs={12} className={css.dashboardChart}>
+            <Grid
+              className={css.dashboardChart}
+              size={{
+                md: 4,
+                xs: 12
+              }}
+            >
               <DoughnutChart chartData={chartData} />
             </Grid>
           )}
-          <Grid item md={8} xs={12}>
+          <Grid
+            size={{
+              md: 8,
+              xs: 12
+            }}
+          >
             {indicatorSection}
           </Grid>
         </Grid>
@@ -58,6 +69,7 @@ OverviewBox.displayName = "OverviewBox";
 
 OverviewBox.propTypes = {
   chartData: PropTypes.object,
+  displayOrder: PropTypes.array,
   errors: PropTypes.bool,
   highlights: PropTypes.array,
   items: PropTypes.object.isRequired,

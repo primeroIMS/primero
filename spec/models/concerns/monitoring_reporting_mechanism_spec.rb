@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 require 'rails_helper'
 
 describe MonitoringReportingMechanism, search: true do
@@ -12,7 +10,7 @@ describe MonitoringReportingMechanism, search: true do
   let(:user1) do
     primero_module = PrimeroModule.new(name: 'CP')
 
-    role = Role.new(permissions: [], modules: [primero_module])
+    role = Role.new(permissions: [], primero_modules: [primero_module])
     role.save(validate: false)
 
     group1 = UserGroup.create!(name: 'Group1')

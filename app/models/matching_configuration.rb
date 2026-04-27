@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # This governs the selection of fields that are used to match cases and traces in Primero
 # rubocop:disable Metrics/ClassLength
 class MatchingConfiguration

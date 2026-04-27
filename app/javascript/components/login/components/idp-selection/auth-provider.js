@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 /* eslint-disable no-return-await */
 import { InteractionRequiredAuthError } from "@azure/msal-common";
 import { isImmutable } from "immutable";
@@ -118,7 +116,13 @@ export const signOut = () => {
         }
       });
     } else {
-      msalApp.logout();
+      msalApp.logoutRedirect({
+        account: msalApp.getActiveAccount(),
+        onRedirectNavigate: () => {
+          // Return false to stop navigation after local logout
+          return false;
+        }
+      });
     }
     msalApp = null;
     forceStandardOIDC = false;

@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { useMemo } from "react";
 
 import Permission, { usePermissions, RESOURCES, ACTIONS } from "../../../../permissions";
@@ -12,8 +10,18 @@ import { useMemoizedSelector } from "../../../../../libs";
 import DashboardColumns from "../../../../dashboard/dashboard-columns";
 import { getPermissions } from "../../../../user";
 
-const sharedWithMeIndicators = ["shared_with_me_new_referrals", "shared_with_me_total_referrals"];
-const sharedWithOthersIndicators = ["shared_with_others_referrals"];
+const sharedWithMeIndicators = [
+  "shared_with_me_pending_referrals",
+  "shared_with_me_accepted_referrals",
+  "shared_with_me_total_referrals"
+];
+const sharedWithOthersIndicators = [
+  "shared_with_others_referrals_pending",
+  "shared_with_others_referrals_accepted",
+  "shared_with_others_referrals_rejected",
+  "shared_with_others_referrals_done",
+  "shared_with_others_referrals"
+];
 
 function Component() {
   const i18n = useI18n();
@@ -37,7 +45,8 @@ function Component() {
           items: filterIndicatorsByKey(permittedSharedWithMe(sharedWithMe, userPermissions), sharedWithMeIndicators),
           sumTitle: i18n.t("dashboard.dash_shared_with_me"),
           withTotal: false,
-          highlights: ["shared_with_me_new_referrals"]
+          highlights: ["shared_with_me_new_referrals"],
+          displayOrder: sharedWithMeIndicators
         }
       }
     ]);
@@ -51,7 +60,8 @@ function Component() {
         options: {
           items: filterIndicatorsByKey(sharedWithOthers, sharedWithOthersIndicators),
           sumTitle: i18n.t("dashboard.dash_shared_with_others"),
-          withTotal: false
+          withTotal: false,
+          displayOrder: sharedWithOthersIndicators
         }
       }
     ]);

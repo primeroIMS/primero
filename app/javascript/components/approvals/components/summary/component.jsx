@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import PropTypes from "prop-types";
 import { Grid } from "@mui/material";
 import Chip from "@mui/material/Chip";
@@ -29,7 +27,12 @@ function Component({ approvalSubform, css, isRequest, isResponse, primeroModule 
   const classes = cx(css.chip, css[status]);
 
   const renderStatus = isResponse ? (
-    <Grid item md={2} xs={4}>
+    <Grid
+      size={{
+        md: 2,
+        xs: 4
+      }}
+    >
       <div className={css.approvalsStatus}>
         <Chip label={i18n.t(`approvals.status.${status}`)} className={classes} size="small" />
       </div>
@@ -48,7 +51,12 @@ function Component({ approvalSubform, css, isRequest, isResponse, primeroModule 
 
   return (
     <Grid container spacing={2} alignItems="center" data-testid="approval-summary">
-      <Grid item md={10} xs={8}>
+      <Grid
+        size={{
+          md: 10,
+          xs: 8
+        }}
+      >
         <div className={css.wrapper}>
           {/* TODO: The date should be localized */}
           <div className={css.titleHeader}>{renderApprovalDate()}</div>

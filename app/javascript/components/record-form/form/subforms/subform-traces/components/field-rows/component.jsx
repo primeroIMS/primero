@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 import { Grid } from "@mui/material";
@@ -14,8 +12,8 @@ function FieldRows({ comparisons }) {
 
   if (isEmpty(comparisons)) {
     return (
-      <Grid container item>
-        <Grid item xs={12}>
+      <Grid container>
+        <Grid size={12}>
           <span className={css.nothingFound}>{i18n.t("tracing_request.messages.nothing_found")}</span>
         </Grid>
       </Grid>

@@ -80,7 +80,7 @@ describe("layouts/components/<EmptyLayout />", () => {
     expect(screen.getByText("sandbox_ui")).toBeInTheDocument();
     await act(() => jest.advanceTimersByTimeAsync(16 * 1000 * 60));
     await waitFor(() => {
-      expect(screen.queryByRole("dialog")).toBeInTheDocument();
+      expect(screen.queryByRole("presentation")).toBeInTheDocument();
     });
   });
 });

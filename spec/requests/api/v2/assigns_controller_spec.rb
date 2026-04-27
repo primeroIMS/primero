@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 require 'rails_helper'
 
 describe Api::V2::AssignsController, type: :request do
@@ -14,7 +12,7 @@ describe Api::V2::AssignsController, type: :request do
       resource: Permission::CASE,
       actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::ASSIGN]
     )
-    @role = Role.new(permissions: [@permission_assign_case], modules: [@primero_module])
+    @role = Role.new(permissions: [@permission_assign_case], primero_modules: [@primero_module])
     @role.save(validate: false)
     @group1 = UserGroup.create!(name: 'Group1')
     @user1 = User.new(user_name: 'user1', role: @role, user_groups: [@group1])
@@ -118,7 +116,7 @@ describe Api::V2::AssignsController, type: :request do
           resource: Permission::CASE,
           actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::ASSIGN_WITHIN_USER_GROUP]
         )
-        role = Role.new(permissions: [permission], modules: [@primero_module])
+        role = Role.new(permissions: [permission], primero_modules: [@primero_module])
         role.save(validate: false)
         @user1.role = role
         @user1.save(validate: false)

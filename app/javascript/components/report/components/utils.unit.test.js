@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import * as utils from "./utils";
 
 describe("components/report/components/utils.js", () => {
@@ -118,12 +116,12 @@ describe("components/report/components/utils.js", () => {
 
       it("creates a csv for merged columns and rows", () => {
         const expected = [
-          ',"Header 1","Header 1","Header 1","Total"',
-          ',"Column 1","Column 2","Column Total",""',
-          '"Group 1",,,,"8"',
-          '"Group 1","Value 1","1","1","1"',
-          '"Group 2",,,,"8"',
-          '"Group 2","Value 2","2","2","2"'
+          ",Header 1,Header 1,Header 1,Total",
+          ",Column 1,Column 2,Column Total,",
+          "Group 1,,,,8",
+          "Group 1,Value 1,1,1,1",
+          "Group 2,,,,8",
+          "Group 2,Value 2,2,2,2"
         ];
 
         expect(utils.tableToCsv().split("\n")).toEqual(expected);

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 require 'rails_helper'
 
 describe Kpi::CaseLoad, { search: true, skip_when_solr_disabled: true } do
@@ -53,7 +51,7 @@ describe Kpi::CaseLoad, { search: true, skip_when_solr_disabled: true } do
     Sunspot.commit
   end
 
-  with 'No cases in the users groups' do
+  describe 'No cases in the users groups' do
     it 'should return a case load of 0 in all categories' do
       json = Kpi::CaseLoad.new(nil, nil, ['group1'], @agency.unique_id).to_json
       case_loads = json[:data].map { |case_load| case_load.map(&:second) }.to_h
@@ -64,7 +62,7 @@ describe Kpi::CaseLoad, { search: true, skip_when_solr_disabled: true } do
     end
   end
 
-  with 'One case by a single user' do
+  describe 'One case by a single user' do
     it 'should return a case load of 1.0 for < 10 cases' do
       json = Kpi::CaseLoad.new(nil, nil, ['group2'], @agency.unique_id).to_json
       case_loads = json[:data].map { |case_load| case_load.map(&:second) }.to_h
@@ -75,7 +73,7 @@ describe Kpi::CaseLoad, { search: true, skip_when_solr_disabled: true } do
     end
   end
 
-  with '10 cases by a single user' do
+  describe '10 cases by a single user' do
     it 'should return a case load of 1.0 for < 20 cases' do
       json = Kpi::CaseLoad.new(nil, nil, ['group3'], @agency.unique_id).to_json
       case_loads = json[:data].map { |case_load| case_load.map(&:second) }.to_h
@@ -86,7 +84,7 @@ describe Kpi::CaseLoad, { search: true, skip_when_solr_disabled: true } do
     end
   end
 
-  with '11 cases between 2 users' do
+  describe '11 cases between 2 users' do
     it 'should return a case load of 0.5 for < 10 cases and 0.5 for < 20' do
       json = Kpi::CaseLoad.new(nil, nil, %w[group2 group3], @agency.unique_id).to_json
       case_loads = json[:data].map { |case_load| case_load.map(&:second) }.to_h

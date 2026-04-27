@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 class CreateLocations < ActiveRecord::Migration[5.0]
-  enable_extension 'ltree' unless ENV['PRIMERO_PG_APP_ROLE'] || extension_enabled?('ltree')
+  enable_extension 'ltree'
   def change
     create_table :locations do |t|
       t.jsonb   'name_i18n'

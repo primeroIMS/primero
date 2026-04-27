@@ -1,5 +1,3 @@
-<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
-
 # Disable an existing case relationship
 
 **URL** : `/api/v2/cases/:id/case_relationships/:relationship_id`

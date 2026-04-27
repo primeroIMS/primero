@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # A service that performs phonetic searches using SQL
 class PhoneticSearchService
   DEFAULT_SEARCH_PARAMS = {
@@ -10,6 +8,7 @@ class PhoneticSearchService
     sort: { created_at: :desc },
     pagination: {},
     phonetic: false,
+    phone_number: false,
     skip_attachments: false
   }.freeze
 
@@ -37,11 +36,17 @@ class PhoneticSearchService
     search_params[:phonetic] == 'true'
   end
 
+  def phone_number?
+    search_params[:phone_number] == 'true'
+  end
+
   private
 
   def search_query
     return Search::PhoneticSearchQuery.new(record_class) if phonetic?
 
-    Search::IdSearchQuery.new(record_class).with_sort(search_params[:sort])
+    Search::IdentifierSearchQuery.new(record_class).with_sort(search_params[:sort]).with_identifier_type(
+      phone_number? ? PhoneticSearchable::IDENTIFIER_TYPE_PHONE_NUMBER : PhoneticSearchable::IDENTIFIER_TYPE_ID
+    )
   end
 end

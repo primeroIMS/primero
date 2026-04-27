@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { mountedComponent, translateOptions, screen } from "../../../../../test-utils";
 
 import SubformEmptyData from "./component";

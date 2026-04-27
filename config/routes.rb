@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 Rails.application.routes.draw do
   root to: 'home#v2'
 
@@ -53,7 +51,11 @@ Rails.application.routes.draw do
         resources :transfers, only: %i[index create update]
         resources :transfer_requests, only: %i[index create update]
         resources :transitions, only: [:index]
-        resources :attachments, only: %i[create destroy update]
+        resources :attachments, only: %i[create destroy update show] do
+          member do
+            get '(:preview_type)', action: :show
+          end
+        end
         resources :approvals, only: [:update]
         resources :potential_matches, only: [:index]
         resources :webhook_syncs, as: :sync, path: :sync, only: [:create]
@@ -74,7 +76,11 @@ Rails.application.routes.draw do
         resources :flags, only: %i[index create update]
         resources :alerts, only: %i[index destroy]
         resources :approvals, only: [:update]
-        resources :attachments, only: %i[create destroy]
+        resources :attachments, only: %i[create destroy show] do
+          member do
+            get '(:preview_type)', action: :show
+          end
+        end
         resources :assigns, only: %i[index create]
         resources :transitions, only: [:index]
         post :flags, to: 'flags#create_bulk', on: :collection
@@ -91,7 +97,11 @@ Rails.application.routes.draw do
         resources :flags, only: %i[index create update]
         resources :alerts, only: [:index]
         resources :approvals, only: [:update]
-        resources :attachments, only: %i[create destroy]
+        resources :attachments, only: %i[create destroy show] do
+          member do
+            get '(:preview_type)', action: :show
+          end
+        end
         get :traces, to: 'tracing_requests#traces'
         post :flags, to: 'flags#create_bulk', on: :collection
         get :record_history, to: 'record_histories#index'
@@ -136,7 +146,9 @@ Rails.application.routes.draw do
           post :update_bulk, to: 'locations#update_bulk'
         end
       end
-      resources :bulk_exports, as: :exports, path: :exports, only: %i[index show create destroy]
+      resources :bulk_exports, as: :exports, path: :exports, only: %i[index show create destroy] do
+        get :export_file, to: 'bulk_exports#export_file'
+      end
       get 'alerts', to: 'alerts#bulk_index'
       # TODO: Make usage_reports a resourceful route if/when they start getting saved
       get 'usage_reports/current', to: 'usage_reports#show'

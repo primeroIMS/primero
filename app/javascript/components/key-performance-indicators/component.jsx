@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { withRouter } from "react-router-dom";
 import { Grid } from "@mui/material";
 
@@ -44,17 +42,35 @@ function KeyPerformanceIndicators() {
           <Grid>
             <div>
               <Grid container spacing={2}>
-                <Grid item className={css.grow} xs={12} md={6}>
+                <Grid
+                  className={css.grow}
+                  size={{
+                    xs: 12,
+                    md: 6
+                  }}
+                >
                   <NumberOfCases dateRanges={allDateRanges} />
                 </Grid>
 
-                <Grid item className={css.grow} xs={12} md={6}>
+                <Grid
+                  className={css.grow}
+                  size={{
+                    xs: 12,
+                    md: 6
+                  }}
+                >
                   <NumberOfIncidents dateRanges={allDateRanges} />
                 </Grid>
               </Grid>
 
               <Grid container spacing={2}>
-                <Grid item className={css.grow} xs={12} md={12}>
+                <Grid
+                  className={css.grow}
+                  size={{
+                    xs: 12,
+                    md: 12
+                  }}
+                >
                   <ReportingDelay dateRanges={allDateRanges} />
                 </Grid>
               </Grid>
@@ -64,7 +80,7 @@ function KeyPerformanceIndicators() {
               <Permission resources={RESOURCES.kpis} actions={[ACTIONS.KPI_ASSESSMENT_STATUS]}>
                 <h2 className={css.subtitle}>{i18n.t("key_performance_indicators.case_assessment")}</h2>
                 <Grid container spacing={2}>
-                  <Grid item className={css.grow} xs={12}>
+                  <Grid className={css.grow} size={12}>
                     <AssessmentStatus dateRanges={allDateRanges} />
                   </Grid>
                 </Grid>
@@ -82,15 +98,35 @@ function KeyPerformanceIndicators() {
               >
                 <h2 className={css.subtitle}>{i18n.t("key_performance_indicators.case_action_planning")}</h2>
                 <Grid container spacing={2}>
-                  <Grid item className={css.grow} xs={12} md={6} xl={4}>
+                  <Grid
+                    className={css.grow}
+                    size={{
+                      xs: 12,
+                      md: 6,
+                      xl: 4
+                    }}
+                  >
                     <CompletedCaseSafetyPlan dateRanges={allDateRanges} />
                   </Grid>
 
-                  <Grid item className={css.grow} xs={12} md={6} xl={4}>
+                  <Grid
+                    className={css.grow}
+                    size={{
+                      xs: 12,
+                      md: 6,
+                      xl: 4
+                    }}
+                  >
                     <CompletedCaseActionPlan dateRanges={allDateRanges} />
                   </Grid>
 
-                  <Grid item className={css.grow} xs={12} xl={4}>
+                  <Grid
+                    className={css.grow}
+                    size={{
+                      xs: 12,
+                      xl: 4
+                    }}
+                  >
                     <CompletedSupervisorApprovedCaseActionPlan dateRanges={allDateRanges} />
                   </Grid>
                 </Grid>
@@ -104,13 +140,13 @@ function KeyPerformanceIndicators() {
               >
                 <h2 className={css.subtitle}>{i18n.t("key_performance_indicators.case_action_plan_implementation")}</h2>
                 <Grid container spacing={2}>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <ServicesProvided dateRanges={allDateRanges} />
                   </Grid>
                 </Grid>
 
                 <Grid container spacing={2}>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <AverageReferrals dateRanges={allDateRanges} />
                   </Grid>
                 </Grid>
@@ -121,7 +157,13 @@ function KeyPerformanceIndicators() {
               <Permission resources={[RESOURCES.kpis]} actions={[ACTIONS.KPI_AVERAGE_FOLLOWUP_MEETINGS_PER_CASE]}>
                 <h2 className={css.subtitle}>{i18n.t("key_performance_indicators.case_follow_up")}</h2>
                 <Grid container spacing={2}>
-                  <Grid item className={css.grow} xs={12} md={12}>
+                  <Grid
+                    className={css.grow}
+                    size={{
+                      xs: 12,
+                      md: 12
+                    }}
+                  >
                     <AverageFollowupMeetingsPerCase dateRanges={allDateRanges} />
                   </Grid>
                 </Grid>
@@ -135,13 +177,19 @@ function KeyPerformanceIndicators() {
               >
                 <h2 className={css.subtitle}>{i18n.t("key_performance_indicators.case_closure")}</h2>
                 <Grid container spacing={2}>
-                  <Grid item className={css.grow} xs={12} md={12}>
+                  <Grid
+                    className={css.grow}
+                    size={{
+                      xs: 12,
+                      md: 12
+                    }}
+                  >
                     <TimeFromCaseOpenToClose dateRanges={allDateRanges} />
                   </Grid>
                 </Grid>
 
                 <Grid container spacing={2}>
-                  <Grid item className={css.grow} xs={12}>
+                  <Grid className={css.grow} size={12}>
                     <CaseClosureRate dateRanges={allDateRanges} />
                   </Grid>
                 </Grid>
@@ -152,7 +200,7 @@ function KeyPerformanceIndicators() {
               <Permission resources={[RESOURCES.kpis]} actions={[ACTIONS.KPI_CLIENT_SATISFACTION_RATE]}>
                 <h2 className={css.subtitle}>{i18n.t("key_performance_indicators.feedback")}</h2>
                 <Grid container spacing={2}>
-                  <Grid item className={css.grow} xs={12}>
+                  <Grid className={css.grow} size={12}>
                     <ClientSatisfactionRate dateRanges={allDateRanges} />
                   </Grid>
                 </Grid>
@@ -167,13 +215,19 @@ function KeyPerformanceIndicators() {
                 <h2 className={css.subtitle}>{i18n.t("key_performance_indicators.other")}</h2>
 
                 <Grid container spacing={2}>
-                  <Grid item className={css.grow} xs={12} md={12}>
+                  <Grid
+                    className={css.grow}
+                    size={{
+                      xs: 12,
+                      md: 12
+                    }}
+                  >
                     <SupervisorToCaseworkerRatio />
                   </Grid>
                 </Grid>
 
                 <Grid container spacing={2}>
-                  <Grid item className={css.grow} xs={12}>
+                  <Grid className={css.grow} size={12}>
                     <CaseLoad dateRanges={allDateRanges} />
                   </Grid>
                 </Grid>

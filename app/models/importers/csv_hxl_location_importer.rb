@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Import HXL Location data into Primero from CSV.
 # https://hxlstandard.org/standard/1-1final/dictionary/
 # rubocop:disable Metrics/ClassLength
@@ -27,7 +25,7 @@ class Importers::CsvHxlLocationImporter < ValueObject
   private
 
   def process_import(data_io)
-    rows = CSVSafe.parse(data_io, headers: true)
+    rows = CSVSafer.parse(data_io, headers: true)
     return log_errors(I18n.t('imports.csv_hxl_location.messages.csv_parse_error')) if rows.blank?
 
     process_rows(rows)

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Implements class methods for declaring attachments of type image, audio, and document
 # on Records. Has idiomatic methods for handing case photos
 module Attachable
@@ -12,6 +10,9 @@ module Attachable
   DOCUMENTS_FIELD_NAME = 'other_documents'
 
   included do
+    has_many :signatures, lambda {
+      where(attachment_type: Attachment::SIGNATURE).order('date DESC NULLS LAST')
+    }, as: :record, class_name: 'Signature'
     has_many :attachments, -> { order('date DESC NULLS LAST') }, as: :record
     has_many :current_photos, -> { where(field_name: PHOTOS_FIELD_NAME).order('date DESC NULLS LAST') },
              as: :record, class_name: 'Attachment'
@@ -34,9 +35,9 @@ module Attachable
   end
 
   def photo_url
-    return unless photo&.file
+    return unless photo&.file&.attached?
 
-    Rails.application.routes.url_helpers.rails_blob_path(photo.file, only_path: true)
+    Rails.application.routes.url_helpers.send("api_v2_#{self.class.parent_form}_attachment_path", id, photo.id)
   end
 
   def calculate_has_photo

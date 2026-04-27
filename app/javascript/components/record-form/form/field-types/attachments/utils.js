@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 /* eslint-disable import/prefer-default-export */
 
 import { ATTACHMENT_FIELDS } from "./constants";
@@ -13,4 +11,5 @@ export const buildAttachmentFieldsObject = (name, index) =>
     return obj;
   }, {});
 
-export const buildBase64URL = (contentType, data) => `data:${contentType};base64,${data}`;
+export const buildBase64URL = (contentType, data) =>
+  contentType && data ? `data:${contentType};base64,${data}` : null;

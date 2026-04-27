@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Class to export the multiple violations indicators
 class Exporters::MultipleViolationsIndicatorExporter < Exporters::IndicatorExporter
   def load_indicator_options
@@ -16,7 +14,7 @@ class Exporters::MultipleViolationsIndicatorExporter < Exporters::IndicatorExpor
 
   def write_total_row
     worksheet.set_row(current_row, 40)
-    worksheet.write(
+    worksheet.write_string(
       current_row,
       1,
       I18n.t('managed_reports.ghn_report.sub_reports.associated_violations', locale:),
@@ -40,13 +38,13 @@ class Exporters::MultipleViolationsIndicatorExporter < Exporters::IndicatorExpor
       display_text_from_lookup(elem[:data][:individual_sex], 'lookup-gender-unknown-total'),
       elem[:data][:individual_age]
     ].compact.join(' - ')
-    worksheet.write(current_row, 0, victim_information)
+    worksheet.write_string(current_row, 0, victim_information)
   end
 
   def write_violations(elem)
     violations = elem[:data][:violations].map do |v|
       I18n.t("managed_reports.#{managed_report.id}.sub_reports.#{v}", locale:)
     end.join(",\n")
-    worksheet.write(current_row, 1, violations)
+    worksheet.write_string(current_row, 1, violations)
   end
 end

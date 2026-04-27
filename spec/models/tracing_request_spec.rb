@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 require 'rails_helper'
 require 'sunspot' if Rails.configuration.solr_enabled
 require 'will_paginate'
@@ -37,7 +35,7 @@ describe TracingRequest do
         'jdoe',
         'location_last' => 'London',
         'relation_age' => '6',
-        'tracing_request_subform_section' => [{ 'name': 'Trace Name' }]
+        'tracing_request_subform_section' => [{ name: 'Trace Name' }]
       )
       tracing_request.save!
       expect(tracing_request.location_last).to eq('London')
@@ -175,7 +173,7 @@ describe TracingRequest do
     end
 
     it 'should be set from user' do
-      User.stub(:find_by_user_name).with('mj').and_return(double(organization: double(unique_id: 'UNICEF')))
+      User.stub(:find_by_user_name).with('mj').and_return(double(agency: double(unique_id: 'UNICEF')))
       tracing_request = TracingRequest.create 'relation_name' => 'Jaco', :created_by => 'mj'
 
       tracing_request.created_organization.should == 'UNICEF'
