@@ -5,6 +5,12 @@ class Api::V2::FamiliesController < ApplicationApiController
   include Api::V2::Concerns::Pagination
   include Api::V2::Concerns::Record
 
+  def authorize_index!
+    authorize!(:index, Family)
+  rescue CanCan::AccessDenied
+    authorize!(:search_and_select_family_record, Family)
+  end
+
   def create_case
     authorize! :case_from_family, Family
     @current_record = Family.find(create_case_params[:family_id])

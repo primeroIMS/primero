@@ -4249,6 +4249,11 @@ en:
               show page for that family, meaning they will not be able to see any detailed
               information about the family.
             label: Search for family records owned by other users
+          search_and_select_family_record:
+            explanation: Allows a user to search for and select a Family Record when performing
+              actions on other records, (example: linking a Family to their Case). This permission does not
+              give access to the Family list or view pages.
+            label: Search for and select a Family Record
           display_view_page:
             explanation: Ability to view the family record page
             label: View family record page

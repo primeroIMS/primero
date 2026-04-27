@@ -15,7 +15,7 @@ module Api::V2::Concerns::Record
   end
 
   def index
-    authorize! :index, model_class
+    authorize_index!
     result = search_records
     @total = result[:total]
     @records = result[:records]
@@ -187,6 +187,8 @@ module Api::V2::Concerns::Record
   end
 
   def record_search?
+    # TODO: We'll have a search_type param instead of three different
+    #       id_search, phonetic and phone_number params
     action_name == 'index' && index_params[:query].present? && index_params.slice(
       :id_search, :phonetic, :phone_number
     ).values.include?('true')
@@ -206,6 +208,10 @@ module Api::V2::Concerns::Record
     else
       authorize!(:update, @record)
     end
+  end
+
+  def authorize_index!
+    authorize!(:index, model_class)
   end
 
   def permitted_index_params(params)

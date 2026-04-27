@@ -48,7 +48,7 @@ class Family < ApplicationRecord
     end
 
     def preview_field_names
-      %w[family_id_display family_name family_number family_registration_date]
+      %w[family_id_display family_name family_number family_registration_date] + super
     end
   end
 

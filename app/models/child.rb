@@ -138,6 +138,11 @@ class Child < ApplicationRecord
     MatchingConfiguration.matchable_fields('case', true).pluck(:name) | MatchingConfiguration::DEFAULT_INQUIRER_FIELDS
   end
 
+  def self.preview_field_names
+    # TODO: Move this constant to this model
+    PermittedFieldService::ID_SEARCH_FIELDS + super
+  end
+
   def self.api_path
     '/api/v2/cases'
   end
