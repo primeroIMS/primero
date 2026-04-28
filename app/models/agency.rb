@@ -242,7 +242,7 @@ class Agency < ApplicationRecord
   end
 
   def legacy_terms_of_use_exempt?
-    persisted? && terms_of_use_enabled_was == false
+    persisted? && terms_of_use_enabled_was.blank?
   end
 end
 # rubocop:enable Metrics/ClassLength
