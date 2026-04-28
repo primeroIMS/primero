@@ -16,7 +16,7 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("loading", fromJS(payload));
     case actions.FETCH_AGENCY_FAILURE:
     case actions.SAVE_AGENCY_FAILURE:
-      return state.set("errors", true).set("serverErrors", fromJS(payload.errors));
+      return state.set("errors", true).set("serverErrors", fromJS(payload.errors)).set(SAVING, false);
     case actions.CLEAR_SELECTED_AGENCY:
       return state.set("selectedAgency", fromJS({})).set("errors", false).set("serverErrors", fromJS([]));
     case actions.SAVE_AGENCY_STARTED:

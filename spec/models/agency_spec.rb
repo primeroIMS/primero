@@ -443,6 +443,46 @@ describe Agency do
             expect(agency.errors[:base]).to include(I18n.t('errors.models.agency.must_sign_terms_of_use'))
           end
         end
+
+        context 'and agency is legacy with persisted terms_of_use_enabled false' do
+          let(:legacy_agency) do
+            allow(Rails.configuration).to receive(:enforce_terms_of_use).and_return(false)
+            created_agency = Agency.create!(
+              name: 'Legacy Agency',
+              agency_code: 'legacy123',
+              terms_of_use_enabled: false,
+              terms_of_use_signed: false
+            )
+            allow(Rails.configuration).to receive(:enforce_terms_of_use).and_return(true)
+            created_agency
+          end
+
+          it 'does not add validation error on update' do
+            legacy_agency.name = 'Legacy Agency Updated'
+            legacy_agency.valid?
+            expect(legacy_agency.errors[:base]).not_to include(I18n.t('errors.models.agency.must_sign_terms_of_use'))
+          end
+        end
+
+        context 'and agency exists with persisted terms_of_use_enabled true' do
+          let(:enforced_agency) do
+            allow(Rails.configuration).to receive(:enforce_terms_of_use).and_return(false)
+            created_agency = Agency.create!(
+              name: 'Enforced Agency',
+              agency_code: 'enforced123',
+              terms_of_use_enabled: true,
+              terms_of_use_signed: false
+            )
+            allow(Rails.configuration).to receive(:enforce_terms_of_use).and_return(true)
+            created_agency
+          end
+
+          it 'adds validation error on update' do
+            enforced_agency.name = 'Enforced Agency Updated'
+            enforced_agency.valid?
+            expect(enforced_agency.errors[:base]).to include(I18n.t('errors.models.agency.must_sign_terms_of_use'))
+          end
+        end
       end
 
       context 'when PRIMERO_ENFORCE_TERMS_OF_USE is disabled' do
