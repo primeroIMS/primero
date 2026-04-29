@@ -20,7 +20,7 @@ const SearchTextInput = forwardRef(({ error, formMethods, showInputBorder = true
   const placeholder = rest.placeholder || i18n.t("navigation.search");
 
   const handleClear = () => {
-    setValue(FIELD_NAME_QUERY, undefined);
+    setValue(FIELD_NAME_QUERY, "");
   };
 
   return (

@@ -262,6 +262,66 @@ namespace :primero do
     end
   end
 
+  # Creates or updates a user.
+  # USAGE:
+  # rails primero:create_user[
+  #   user_name,email,role_unique_id,user_group_unique_id,agency_unique_id,service_account,password]
+  # Args:
+  #   user_name         - The user's user_name (required)
+  #   email             - The user's email
+  #   role_unique_id    - Role unique_id (required)
+  #   user_group_unique_id - UserGroup unique_id (required)
+  #   agency_unique_id  - Agency unique_id
+  #   service_account   - true/false (optional)
+  #   password          - Optional; if not provided for new users, a random password is generated
+  desc 'Create or update a user'
+  task :create_user,
+       %i[user_name email role_unique_id user_group_unique_id agency_unique_id service_account
+          password] => :environment do |_, args|
+    required = %i[user_name role_unique_id user_group_unique_id]
+    missing = required.select { |key| args[key].blank? }
+    abort "Missing required args: #{missing.join(', ')}" if missing.any?
+
+    user = User.find_or_initialize_by(user_name: args[:user_name])
+
+    user.email = args[:email] if args[:email].present?
+
+    role_identifier = args[:role_unique_id].to_s.strip
+    role = Role.find_by(unique_id: role_identifier)
+
+    abort "Role #{role_identifier} not found" if role.blank?
+    user.role = role
+
+    user_group_identifier = args[:user_group_unique_id].to_s.strip
+    user_group = UserGroup.find_by(unique_id: user_group_identifier)
+
+    abort "UserGroup #{user_group_identifier} not found" if user_group.blank?
+    user.user_groups = [user_group]
+
+    if args[:agency_unique_id].present?
+      agency_identifier = args[:agency_unique_id].to_s.strip
+      agency = Agency.find_by(unique_id: agency_identifier)
+
+      abort "Agency #{agency_identifier} not found" if agency.blank?
+      user.agency = agency
+    end
+
+    user.full_name = args[:user_name] if user.full_name.blank?
+
+    if args[:service_account].present?
+      user.service_account = ActiveModel::Type::Boolean.new.cast(args[:service_account])
+    end
+
+    if args[:password].present?
+      user.password = args[:password]
+      user.password_confirmation = args[:password]
+    end
+
+    user.save!
+    action = user.previous_changes.key?('id') ? 'Created' : 'Updated'
+    puts "#{action} user #{user.user_name} (id=#{user.id})"
+  end
+
   # TODO: Check if this is still useful
   # desc "Recalculates admin_level on all locations"
   # task :recalculate_admin_level => :environment do

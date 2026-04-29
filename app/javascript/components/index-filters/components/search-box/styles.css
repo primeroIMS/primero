@@ -1,3 +1,11 @@
+:global(.PhoneInput) {
+  width: 100%;
+}
+
+:global(.PhoneInputInput) {
+  width: 100%;
+}
+
 .searchContainer {
   background-color: var(--c-white);
   padding: 10px;

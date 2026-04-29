@@ -18,11 +18,11 @@ function useSearchBox({ control, setValue }) {
     event => {
       const { value } = event.target;
 
-      setValue(FIELD_NAME_ID_SEARCH, value === "id_search");
-      setValue(PHONETIC_FIELD_NAME, value === "phonetic");
+      setValue(FIELD_NAME_ID_SEARCH, value === FIELD_NAME_ID_SEARCH);
+      setValue(PHONETIC_FIELD_NAME, value === PHONETIC_FIELD_NAME);
 
       // NOTE: Avoid invalid phone numbers when a user switches to phone number search
-      if (value === "phone_number") {
+      if (value === PHONE_NUMBER_FIELD_NAME) {
         setValue(FIELD_NAME_QUERY, "");
         setValue(PHONE_NUMBER_FIELD_NAME, true);
       } else {

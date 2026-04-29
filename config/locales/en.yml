@@ -291,6 +291,7 @@ en:
     save: Save Case
     save_text: Before continuing, please save your changes to the Case.
     skip_and_create: Skip and Create New Case
+    skip_and_create_helper_text: Please search for an existing case before creating a new one.
     search_existing: Search existing cases
     search_helper_text: Why? To prevent creation of duplicate cases.
     consent_agreements: Select all consent agreements that apply
@@ -340,10 +341,12 @@ en:
       date: "Date"
       ready_to_start_cfm: "Are you ready to start the Child Functioning Module"
       age: "Age"
-      vision_wear_glass: "Vision wear glass"
+      vision_wear_glass: "Child wear glasses"
       difficulty_seeing_with_glasses: "Difficulty seeing with glasses"
+      difficulty_seeing_without_glasses: "Difficulty seeing without glasses"
       child_wears_hearing_aid: "The child wears hearing aid"
       difficulty_hearing_with_hearing_aid: "Difficulty hearing with hearing aid"
+      difficulty_hearing_without_hearing_aid: "Difficulty hearing without hearing aid"
       child_uses_equipment_or_receive_assistance_for_walking: "The child uses equipment or receive assistance for walking"
       difficulty_walking_without_equipment: "Difficulty walking without equipment/assistance"
       mobility_difficulty_without_equipment_100m: "Mobility difficulty without equipment 100m"
@@ -351,24 +354,24 @@ en:
       difficulty_walking_with_equipment: "Difficulty walking with equipment/assistance"
       mobility_difficulty_with_equipment_100m: "Mobility difficulty with equipment 100m"
       mobility_difficulty_with_equipment_500m: "Mobility difficulty with equipment 500m"
-      difficulty_comparative: "Difficulty walking comparative"
+      difficulty_comparative: "Difficulty walking compared to other children"
       mobility_difficulty_comparative_100m: "Mobility difficulty comparative 100m"
       mobility_difficulty_comparative_500m: "Mobility difficulty comparative 500m"
       difficulty_picking_up_small_objects_with_hand: "Difficulty picking up small objects with hand"
       self_care_difficulty: "Self care difficulty"
-      child_have_difficulty_to_understand: "The child have difficulty to understand"
-      child_have_difficulty_to_understanding_child_household: "child have difficulty to understanding child household"
-      difficulty_to_understanding_child_others: "Difficulty to understanding child others"
-      difficulty_to_understand_the_child: "Difficulty to understand the child"
-      child_have_difficulty_for_learning: "The child have difficulty for Learning"
-      child_have_difficulty_for_playing: "The child have difficulty for playing"
-      remembering_difficulty: "Remembering difficulty"
-      concentrating_difficulty: "Concentrating difficulty"
-      accepting_change_difficulty: "Accepting change difficulty"
-      difficulty_for_controlling_behaviour: "Difficulty for controlling behaviour like kick,bite or hit others"
-      making_friends_difficulty: "Making friends difficulty"
-      anxiety_how_often: "Anxiety how often"
-      depression_how_often: "Depression how often"
+      child_have_difficulty_to_understand: "The child have difficulty to understand others"
+      child_have_difficulty_to_understanding_child_household: "When speaking, difficulty being understood – inside household"
+      difficulty_to_understanding_child_others: "When speaking, difficulty being understood – outside household"
+      difficulty_to_understand_the_child: "Others have difficulty understanding the child"
+      child_have_difficulty_for_learning: "The child have difficulty learning"
+      child_have_difficulty_for_playing: "The child have difficulty playing"
+      remembering_difficulty: "Difficulty remembering"
+      concentrating_difficulty: "Difficulty concentrating"
+      accepting_change_difficulty: "Difficulty accepting changes"
+      difficulty_for_controlling_behaviour: "Difficulty controlling behaviour"
+      making_friends_difficulty: "Difficulty making friends"
+      anxiety_how_often: "How often child feels anxious"
+      depression_how_often: "How often child feels depressed"
       cfm_yes: "Yes"
       cfm_no: "No"
       n_a: "N/A"
@@ -1037,7 +1040,7 @@ en:
         logo_format: File should be png
         terms_of_use_format: File should be png
         name_present: must not be blank
-        must_sign_terms_of_use: Agency Term of Use must be signed
+        must_sign_terms_of_use: Agency Terms of Use must be signed
       child:
         age: Age must be between 0 and 130
         date_of_birth: Please enter a valid date of birth for this case record
@@ -1403,7 +1406,7 @@ en:
       both.
     other_documents: Other Document
     photo_upload_box: Photo Upload
-    phone_number_field: Phone Number
+    phone_number: Phone Number
     predifined_lookups: Use pre-defined lookup
     radio_button: Radio Button
     remove: Remove
@@ -1603,6 +1606,7 @@ en:
     es-GT: Español
     es-ES: Español (España)
     fr: Français
+    hi-IN: Hindi
     hu: Magyar
     hy: Armenian
     id: Bahasa
@@ -1623,6 +1627,7 @@ en:
     language: Language
     manage_system_users: Manage Server Synchronisation Users
     mn: Mongolian
+    mr: Marathi
     my: ဗမာစာ
     pl: Polski
     pt: Português

@@ -19,7 +19,8 @@ const ALLOWED_FILTER_KEYS = [
   "referred_cases",
   "my_cases",
   "type_of_risk",
-  "loc:owned_by_location2"
+  "loc:owned_by_location2",
+  "urgent_protection_concern"
 ];
 const ALLOWED_LIST_HEADER_KEYS = [
   "priority",

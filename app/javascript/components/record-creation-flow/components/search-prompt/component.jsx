@@ -6,18 +6,20 @@ import isEmpty from "lodash/isEmpty";
 import { cx } from "@emotion/css";
 
 import { useMemoizedSelector } from "../../../../libs";
-import { getRecordsData } from "../../../index-table";
+import { getIsEmptyRecords } from "../../../index-table";
 import SearchHelpText from "../../../index-filters/components/search-box/search-help-text";
 import SearchButton from "../search-button";
 import SearchFieldToggle from "../../../index-filters/components/search-box/search-field-toggle";
 import searchBoxCss from "../../../index-filters/components/search-box/styles.css";
 import useSearchBox from "../../../index-filters/components/search-box/use-search-box";
 import SearchInput from "../../../index-filters/components/search-box/search-input";
+import useQueryParams from "../../../record-list/use-query-params";
 import {
   FIELD_NAME_QUERY,
   PHONE_NUMBER_FIELD_NAME,
   PHONETIC_FIELD_NAME
 } from "../../../index-filters/components/search-box/constants";
+import { getIsRecordCreationFlow } from "../../../records";
 
 import { NAME, FORM_ID } from "./constants";
 import css from "./styles.css";
@@ -33,6 +35,7 @@ function Component({
   onSearchCases,
   openConsentPrompt
 }) {
+  const { queryParams } = useQueryParams();
   const methods = useForm({
     defaultValues: {
       [FIELD_NAME_QUERY]: "",
@@ -44,17 +47,11 @@ function Component({
     control: methods.control,
     setValue: methods.setValue
   });
-  const records = useMemoizedSelector(state => getRecordsData(state, recordType));
+  const isEmptyRecords = useMemoizedSelector(state => getIsEmptyRecords(state, recordType));
+  const isRecordCreationFlow = useMemoizedSelector(state => getIsRecordCreationFlow(state, recordType));
   const mobileDisplay = useMediaQuery(theme => theme.breakpoints.down("sm"));
 
-  const {
-    formState: { isSubmitted },
-    handleSubmit,
-    getValues,
-    setValue,
-    register,
-    unregister
-  } = methods;
+  const { handleSubmit, getValues, setValue, register, unregister } = methods;
 
   const classes = cx({
     [css.container]: true,
@@ -83,8 +80,8 @@ function Component({
   }, []);
 
   useEffect(() => {
-    if (isSubmitted) {
-      if (records.size > 0) {
+    if (isRecordCreationFlow) {
+      if (!isEmptyRecords) {
         onCloseDrawer();
       } else if (isEmpty(dataProtectionFields)) {
         goToNewCase();
@@ -93,7 +90,23 @@ function Component({
         setOpenConsentPrompt(true);
       }
     }
-  }, [records, isSubmitted, goToNewCase, setSearchValue, getValues, setOpenConsentPrompt, onCloseDrawer]);
+  }, [
+    isEmptyRecords,
+    isRecordCreationFlow,
+    goToNewCase,
+    setSearchValue,
+    getValues,
+    setOpenConsentPrompt,
+    onCloseDrawer
+  ]);
+
+  useEffect(() => {
+    if (setValue && queryParams) {
+      setValue(FIELD_NAME_QUERY, queryParams[FIELD_NAME_QUERY] || "");
+      setValue(PHONETIC_FIELD_NAME, queryParams[PHONETIC_FIELD_NAME] || false);
+      setValue(PHONE_NUMBER_FIELD_NAME, queryParams[PHONE_NUMBER_FIELD_NAME] || false);
+    }
+  }, [setValue, queryParams]);
 
   if (openConsentPrompt) {
     return null;

@@ -28,7 +28,6 @@ export const HIDDEN_FIELD = "hidden";
 export const LINK_FIELD = "link_field";
 export const TALLY_FIELD = "tally_field";
 export const SIGNATURE_FIELD = "signature";
-export const PHONE_NUMBER_FIELD = "phone_number_field";
 
 export const OPTION_TYPES = {
   AGENCY: "Agency",

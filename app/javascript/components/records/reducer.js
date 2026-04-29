@@ -85,7 +85,8 @@ import {
   ADD_RECORD_RELATIONSHIP,
   REMOVE_RECORD_RELATIONSHIP,
   CLEAR_RECORD_RELATIONSHIPS,
-  SET_SELECTED_IDENTIFIED_RECORD
+  SET_SELECTED_IDENTIFIED_RECORD,
+  SET_IS_RECORD_CREATION_FLOW
 } from "./actions";
 
 const DEFAULT_STATE = Map({ data: List([]) });
@@ -490,6 +491,9 @@ export default namespace =>
       }
       case `${namespace}/${CLEAR_RECORD_RELATIONSHIPS}`: {
         return state.set("relationships", fromJS({}));
+      }
+      case `${namespace}/${SET_IS_RECORD_CREATION_FLOW}`: {
+        return state.set("isRecordCreationFlow", payload);
       }
       default:
         return state;

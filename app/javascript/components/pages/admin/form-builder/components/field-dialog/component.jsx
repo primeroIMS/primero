@@ -11,7 +11,7 @@ import set from "lodash/set";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import ActionDialog, { useDialog } from "../../../../../action-dialog";
-import { PHONE_NUMBER_FIELD, RADIO_FIELD, SELECT_FIELD, submitHandler, whichFormMode } from "../../../../../form";
+import { RADIO_FIELD, SELECT_FIELD, submitHandler, whichFormMode } from "../../../../../form";
 import { useI18n } from "../../../../../i18n";
 import { getObjectPath, displayNameHelper, useMemoizedSelector, reduceMapToObject } from "../../../../../../libs";
 import { getSelectedField, getSelectedFields, getSelectedSubform, getSelectedSubformField } from "../../selectors";
@@ -342,8 +342,7 @@ function Component({ formId, mode, onClose, onSuccess, parentForm, primeroModule
             skip_logic: !skipLogicSelectedField,
             ...([RADIO_FIELD, SELECT_FIELD].includes(selectedField.get("type"))
               ? { option_strings_text: optionStringsText }
-              : {}),
-            ...(PHONE_NUMBER_FIELD === selectedField.get("type") ? { phone_number: true } : {})
+              : {})
           },
           ...subform
         },

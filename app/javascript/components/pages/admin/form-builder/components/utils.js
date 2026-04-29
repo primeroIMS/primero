@@ -4,9 +4,8 @@ import { fromJS } from "immutable";
 
 import { getObjectPath } from "../../../../../libs";
 import { LOCALE_KEYS } from "../../../../../config";
-import { PHONE_NUMBER_FIELD } from "../../../../form";
 
-import { MULTI_SELECT_FIELD, DATE_TIME_FIELD } from "./custom-field-selector-dialog/constants";
+import { MULTI_SELECT_FIELD, DATE_TIME_FIELD, PHONE_NUMBER_FIELD } from "./custom-field-selector-dialog/constants";
 
 export const getFieldsAttribute = isNested => (isNested ? "subform_section.fields" : "fields");
 

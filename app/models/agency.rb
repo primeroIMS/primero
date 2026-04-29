@@ -236,9 +236,13 @@ class Agency < ApplicationRecord
   end
 
   def terms_of_use_signed_if_enforced
-    return if skip_terms_of_use || terms_of_use_signed
+    return if skip_terms_of_use || terms_of_use_signed || legacy_terms_of_use_exempt?
 
     errors.add(:base, I18n.t('errors.models.agency.must_sign_terms_of_use'))
+  end
+
+  def legacy_terms_of_use_exempt?
+    persisted? && terms_of_use_enabled_was.blank?
   end
 end
 # rubocop:enable Metrics/ClassLength

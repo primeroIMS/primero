@@ -16,8 +16,7 @@ import {
   SELECT_FIELD,
   SUBFORM_SECTION,
   TALLY_FIELD,
-  SIGNATURE_FIELD,
-  PHONE_NUMBER_FIELD
+  SIGNATURE_FIELD
 } from "../../../../../form/constants";
 import { ADMIN_FIELDS_DIALOG } from "../field-dialog/constants";
 import { useI18n } from "../../../../../i18n";
@@ -42,7 +41,13 @@ import {
 
 import FieldItem from "./field-item";
 import css from "./styles.css";
-import { CUSTOM_FIELD_SELECTOR_DIALOG, DATE_TIME_FIELD, NAME, MULTI_SELECT_FIELD } from "./constants";
+import {
+  CUSTOM_FIELD_SELECTOR_DIALOG,
+  DATE_TIME_FIELD,
+  NAME,
+  MULTI_SELECT_FIELD,
+  PHONE_NUMBER_FIELD
+} from "./constants";
 
 const fields = [
   [TEXT_FIELD, TextInput],
@@ -80,8 +85,11 @@ function Component({ isSubform }) {
       visible: true,
       mobile_visible: true,
       hide_on_view_page: false,
-      disabled: false,
-      phone_number: selectedItem === PHONE_NUMBER_FIELD
+      disabled: false
+    };
+    const phoneNumberAttributtes = selectedItem === PHONE_NUMBER_FIELD && {
+      type: TEXT_FIELD,
+      phone_number: true
     };
     const multiSelectAttributtes = selectedItem === MULTI_SELECT_FIELD && {
       type: SELECT_FIELD,
@@ -101,6 +109,7 @@ function Component({ isSubform }) {
         setNewField(
           {
             ...newFieldAttributtes,
+            ...phoneNumberAttributtes,
             ...multiSelectAttributtes,
             ...dateTimeAttributtes
           },

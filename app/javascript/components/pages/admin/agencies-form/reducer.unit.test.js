@@ -16,7 +16,7 @@ describe("<AgenciesForm /> - Reducers", () => {
   });
 
   it("should handle FETCH_AGENCY_FAILURE", () => {
-    const expected = fromJS({ errors: true, serverErrors: ["some error"] });
+    const expected = fromJS({ errors: true, serverErrors: ["some error"], saving: false });
     const action = {
       type: actions.FETCH_AGENCY_FAILURE,
       payload: { errors: ["some error"] }
