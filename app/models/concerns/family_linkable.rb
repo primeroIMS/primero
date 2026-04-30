@@ -72,9 +72,21 @@ module FamilyLinkable
   end
 
   def save_family
-    return unless family.present? && family.has_changes_to_save?
+    if family.present?
+      family.assigned_user_names = (family.assigned_user_names || []) | [owned_by]
+      family.save! if family.has_changes_to_save?
+    else
+      remove_assigned_user_from_family
+    end
+  end
 
-    family.save!
+  def remove_assigned_user_from_family
+    return unless @family_to_disassociate.present?
+
+    # NOTE: Family is not transitionable: assigned_user_names can only be users
+    # associated to the family through cases.
+    @family_to_disassociate.assigned_user_names&.delete(owned_by)
+    @family_to_disassociate.save!
   end
 
   def update_family_fields(properties)

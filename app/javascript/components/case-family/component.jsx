@@ -6,10 +6,10 @@ import { useDispatch } from "react-redux";
 import { useI18n } from "../i18n";
 import { useApp } from "../application";
 import { useMemoizedSelector } from "../../libs";
-import { FAMILY_FROM_CASE, RECORD_PATH, RECORD_TYPES } from "../../config";
+import { FAMILY_FROM_CASE, RECORD_TYPES, RECORD_TYPES_PLURAL } from "../../config";
 import { LINK_FAMILY_RECORD_FROM_CASE, VIEW_FAMILY_RECORD_FROM_CASE, RESOURCES, usePermissions } from "../permissions";
 import CaseLinkedRecord from "../case-linked-record";
-import { fetchRecord, getLoadingRecordState, selectRecord } from "../records";
+import { fetchRelatedRecords, getLoadingRecordState, getRelatedRecord } from "../records";
 
 import { FAMILY_ID, FAMILY_ID_DISPLAY, FAMILY_NAME, FAMILY_NUMBER, FAMILY_OVERVIEW } from "./constants";
 
@@ -22,8 +22,9 @@ function Component({ handleToggleNav, mobileDisplay, mode, primeroModule, record
     linkFamilyRecord: LINK_FAMILY_RECORD_FROM_CASE,
     viewFamilyRecord: VIEW_FAMILY_RECORD_FROM_CASE
   });
+  const recordTypePlural = RECORD_TYPES_PLURAL[recordType];
   const familyRecord = useMemoizedSelector(state =>
-    selectRecord(state, { isEditOrShow: true, recordType: RECORD_PATH.families, id: familyId })
+    getRelatedRecord(state, { recordType: recordTypePlural, fromRelationship: false, id: familyId })
   );
   const isRecordLoading = useMemoizedSelector(state => getLoadingRecordState(state, RECORD_TYPES.families));
 
@@ -31,7 +32,13 @@ function Component({ handleToggleNav, mobileDisplay, mode, primeroModule, record
 
   useEffect(() => {
     if (familyRecord.isEmpty() && familyId && online) {
-      dispatch(fetchRecord(RECORD_PATH.families, familyId));
+      dispatch(
+        fetchRelatedRecords({
+          recordType: recordTypePlural,
+          relatedRecordType: RECORD_TYPES_PLURAL.family,
+          data: { ids: [familyId] }
+        })
+      );
     }
   }, [familyId, online, familyRecord.isEmpty()]);
 
@@ -62,6 +69,7 @@ function Component({ handleToggleNav, mobileDisplay, mode, primeroModule, record
       permissions={{ linkFamilyRecord, viewFamilyRecord }}
       isPermitted={linkFamilyRecord || viewFamilyRecord}
       phoneticFieldNames={[FAMILY_NAME]}
+      shouldFetchRecord={false}
     />
   );
 }

@@ -119,6 +119,7 @@ export const ACTIONS = {
   SELF_APPROVE: "self_approve",
   SERVICES_SECTION_FROM_CASE: "services_section_from_case",
   SYNC_EXTERNAL: "sync_external",
+  SEARCH_AND_SELECT_FAMILY_RECORD: "search_and_select_family_record",
   TRANSFER: "transfer",
   VERIFY_MRM: "verify_mrm",
   VIEW_INCIDENT_FROM_CASE: "view_incident_from_case",
@@ -217,6 +218,8 @@ export const WRITE_RECORDS = [...MANAGE, ACTIONS.WRITE];
 export const COPY_ROLES = [...MANAGE, ACTIONS.COPY];
 
 export const READ_RECORDS = [...MANAGE, ACTIONS.READ];
+
+export const READ_FAMILY_RECORDS = [...READ_RECORDS, ACTIONS.SEARCH_AND_SELECT_FAMILY_RECORD];
 
 export const ENABLE_DISABLE_RECORD = [...MANAGE, ACTIONS.ENABLE_DISABLE_RECORD];
 

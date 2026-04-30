@@ -246,7 +246,6 @@ const PERMITTED_URL = [
   ROUTES.tracing_requests,
   ROUTES.incidents,
   ROUTES.registry_records,
-  ROUTES.families,
   ROUTES.code_of_conduct,
   ROUTES.terms_of_use,
   ROUTES.password_reset_request

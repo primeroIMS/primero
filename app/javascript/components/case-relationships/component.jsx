@@ -170,6 +170,7 @@ function Component({ handleToggleNav, mobileDisplay, mode, primeroModule, record
       onRecordDeselect={onRecordDeselect}
       isRecordSelectable={selectableOpts.isRecordSelectable}
       onResultClick={onResultClick}
+      isRelationship
     />
   );
 }
