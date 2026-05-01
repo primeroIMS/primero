@@ -75,7 +75,7 @@ module.exports = {
     "react/no-unstable-nested-components": "off",
     "no-unsafe-optional-chaining": "off",
     "no-promise-executor-return": "off",
-    "import/no-unresolved": [2, { ignore: ["test-utils"] }]
+    "import/no-unresolved": [2, { ignore: ["test-utils", "uuid"] }]
   },
   env: {
     browser: true,
