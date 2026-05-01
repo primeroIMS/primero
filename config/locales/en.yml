@@ -4022,8 +4022,8 @@ en:
       metadata:
         actions:
           manage_restricted:
-            label: Manage restricted
-            explanation: ''
+            label: Manage (Restricted)
+            explanation: Limited ability to rename, rearrange, and hide forms, form fields, and lookups. Please note that a user with this permission will only be able to modify forms which they have access to. For instance, if a national administrator only has the ability to see the Record Owner form on cases, then they will only ever be able to update the configuration for this form.
           manage:
             explanation: Ability to create, edit, translate, and delete forms, form
               fields, and lookups. Please note that a user with this permission will
