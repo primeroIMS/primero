@@ -4025,7 +4025,7 @@ en:
             label: Manage (Restricted)
             explanation: Limited ability to rename, rearrange, and hide forms, form fields, and lookups.
           manage:
-            explanation: Ability to create, edit, translate, form fields, and lookups.
+            explanation: Ability to create, edit, and translate forms, form fields, and lookups.
             label: Manage (all permissions for this resource type)
         explanation: Controls the ability to configure Primero Forms and Fields, as well
           as Lookup options used within them.
