@@ -5,3 +5,5 @@ export const FAMILY_NUMBER = "family_number";
 export const FAMILY_NAME = "family_name";
 export const FORM_ID = "family-form";
 export const FAMILY_OVERVIEW = "family_overview";
+export const FAMILY_REGISTRATION_DATE = "family_registration_date";
+export const FAMILY_PREVIEW_FIELDS = [FAMILY_ID_DISPLAY, FAMILY_NUMBER, FAMILY_NAME, FAMILY_REGISTRATION_DATE];

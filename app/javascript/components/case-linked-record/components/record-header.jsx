@@ -5,14 +5,14 @@ import { KeyboardArrowLeft, KeyboardArrowRight } from "@mui/icons-material";
 import LoadingIndicator from "../../loading-indicator/component";
 import { ConditionalWrapper, useMemoizedSelector, useThemeHelper } from "../../../libs";
 import DisableOffline from "../../disable-offline";
-import { getLoadingRecordState, getRecordRelationshipsLoading } from "../../records";
+import { getLoadingRecordState, getRecordRelationshipsLoading, getRelatedRecordIsLoading } from "../../records";
 import ActionButton, { ACTION_BUTTON_TYPES } from "../../action-button";
 import css from "../../record-form/form/subforms/styles.css";
 import SubformEmptyData from "../../record-form/form/subforms/subform-empty-data";
 import { useApp } from "../../application";
 import { RECORD_TYPES_PLURAL } from "../../../config";
 
-function Component({ fieldNames, handleOpenMatch, idField, linkedRecordType, linkedRecords, formName }) {
+function Component({ fieldNames, handleOpenMatch, idField, linkedRecordType, linkedRecords, formName, recordType }) {
   const { online } = useApp();
   const { isRTL } = useThemeHelper();
 
@@ -24,6 +24,10 @@ function Component({ fieldNames, handleOpenMatch, idField, linkedRecordType, lin
     getRecordRelationshipsLoading(state, RECORD_TYPES_PLURAL[linkedRecordType])
   );
 
+  const isRelatedRecordLoading = useMemoizedSelector(state =>
+    getRelatedRecordIsLoading(state, RECORD_TYPES_PLURAL[recordType])
+  );
+
   const hasData = !linkedRecords.isEmpty();
 
   if (!isRecordLoading && !isRecordRelationshipsLoading && !hasData) {
@@ -31,7 +35,10 @@ function Component({ fieldNames, handleOpenMatch, idField, linkedRecordType, lin
   }
 
   return (
-    <LoadingIndicator loading={isRecordLoading || isRecordRelationshipsLoading} hasData={hasData}>
+    <LoadingIndicator
+      loading={isRecordLoading || isRecordRelationshipsLoading || isRelatedRecordLoading}
+      hasData={hasData}
+    >
       <List dense classes={{ root: css.list }} disablePadding>
         {linkedRecords.map(linkedRecord => (
           <ConditionalWrapper

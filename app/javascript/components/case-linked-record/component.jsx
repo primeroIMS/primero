@@ -210,6 +210,7 @@ function Component({
 
       {showHeader && (
         <RecordHeader
+          recordType={recordType}
           fieldNames={headerFieldNames}
           linkedRecordType={linkedRecordType}
           handleOpenMatch={handleOpenMatch}
