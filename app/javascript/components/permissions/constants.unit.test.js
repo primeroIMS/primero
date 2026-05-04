@@ -109,6 +109,7 @@ describe("Verifying config constant", () => {
       "LINK_FAMILY_RECORD",
       "LINK_INCIDENT_TO_CASE",
       "MANAGE",
+      "MANAGE_RESTRICTED",
       "MARK_FOR_OFFLINE",
       "PROTECTION_OUTCOMES",
       "READ",

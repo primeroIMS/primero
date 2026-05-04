@@ -17,7 +17,7 @@ import FieldListHeaders from "../field-list-headers";
 import css from "./styles.css";
 import { NAME } from "./constants";
 
-function Component({ formMethods, subformField, subformSortBy, subformGroupBy }) {
+function Component({ canManage, formMethods, subformField, subformSortBy, subformGroupBy }) {
   const dispatch = useDispatch();
   const isNested = Boolean(subformField?.size || subformField?.toSeq()?.size);
 
@@ -114,6 +114,7 @@ function Component({ formMethods, subformField, subformSortBy, subformGroupBy })
               </div>
               <Fields
                 fields={fields}
+                canManage={canManage}
                 formMethods={formMethods}
                 subformField={subformField}
                 subformGroupBy={subformGroupBy}
@@ -131,6 +132,7 @@ function Component({ formMethods, subformField, subformSortBy, subformGroupBy })
 Component.displayName = NAME;
 
 Component.propTypes = {
+  canManage: PropTypes.bool,
   formMethods: PropTypes.object.isRequired,
   subformField: PropTypes.object,
   subformGroupBy: PropTypes.string,

@@ -1094,7 +1094,7 @@ describe Ability do
   end
 
   describe 'Other resources' do
-    it 'allows viewing and editing of Metadata resources if that permission is set along with "read" and "write"' do
+    it 'allows viewing and editing of Metadata resources if that permission is set along with "manage"' do
       permission_metadata = Permission.new(
         resource: Permission::METADATA, actions: [Permission::READ, Permission::WRITE, Permission::CREATE]
       )
@@ -1105,6 +1105,22 @@ describe Ability do
       ability = Ability.new @user1
 
       [FormSection, Field, Location, Lookup, PrimeroModule, PrimeroProgram].each do |resource|
+        expect(ability).to authorize(:read, resource)
+        expect(ability).to authorize(:write, resource)
+      end
+    end
+
+    it 'allows viewing and editing of Metadata resources if that permission is set along with "manage_restricted"' do
+      permission_metadata = Permission.new(
+        resource: Permission::METADATA, actions: [Permission::MANAGE_RESTRICTED]
+      )
+      role = create :role, permissions: [permission_metadata]
+      @user1.role = role
+      @user1.save
+
+      ability = Ability.new @user1
+
+      [FormSection, Field, Lookup].each do |resource|
         expect(ability).to authorize(:read, resource)
         expect(ability).to authorize(:write, resource)
       end

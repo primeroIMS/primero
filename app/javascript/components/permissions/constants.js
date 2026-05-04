@@ -98,6 +98,7 @@ export const ACTIONS = {
   KPI_SUPERVISOR_TO_CASEWORKER_RATIO: "kpi_supervisor_to_caseworker_ratio",
   KPI_TIME_FROM_CASE_OPEN_TO_CLOSE: "kpi_time_from_case_open_to_close",
   MANAGE: "manage",
+  MANAGE_RESTRICTED: "manage_restricted",
   MARK_FOR_OFFLINE: "sync_mobile",
   LINK_INCIDENT_TO_CASE: "link_incident_to_case",
   READ: "read",
@@ -171,7 +172,7 @@ export const RESOURCES = {
 
 export const RECORD_RESOURCES = [RESOURCES.cases, RESOURCES.incidents, RESOURCES.tracing_requests];
 
-export const ADMIN_ACTIONS = [...MANAGE, ACTIONS.READ, ACTIONS.WRITE, ACTIONS.CREATE];
+export const ADMIN_ACTIONS = [...MANAGE, ACTIONS.READ, ACTIONS.WRITE, ACTIONS.CREATE, ACTIONS.MANAGE_RESTRICTED];
 
 export const ADMIN_RESOURCES = [
   RESOURCES.users,
@@ -196,6 +197,8 @@ export const READ_FAMILY_RECORD = [...MANAGE, ACTIONS.VIEW_FAMILY_RECORD];
 export const CREATE_REPORTS = [...MANAGE, ACTIONS.CREATE];
 
 export const READ_REPORTS = [...MANAGE, ACTIONS.READ, ACTIONS.GROUP_READ, ACTIONS.AGENCY_READ];
+
+export const MANAGE_RESTRICTED = [...MANAGE, ACTIONS.MANAGE_RESTRICTED];
 
 export const READ_MANAGED_REPORTS = [
   ...MANAGE,

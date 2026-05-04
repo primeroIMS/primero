@@ -39,6 +39,7 @@ import { useApp } from "../../../../../application";
 import { conditionsToFieldArray } from "../../utils";
 import SkipLogic from "../skip-logic";
 import { NAME as CONDITIONS_DIALOG } from "../condition-dialog/constants";
+import { MANAGE, RESOURCES, usePermissions } from "../../../../../permissions";
 
 import css from "./styles.css";
 import {
@@ -64,6 +65,7 @@ function Component({ formId, mode, onClose, onSuccess, parentForm, primeroModule
   const dispatch = useDispatch();
   const { limitedProductionSite } = useApp();
 
+  const canManage = usePermissions(RESOURCES.metadata, MANAGE);
   const { dialogOpen, dialogClose, setDialog } = useDialog([
     ADMIN_FIELDS_DIALOG,
     FieldTranslationsDialogName,
@@ -92,7 +94,8 @@ function Component({ formId, mode, onClose, onSuccess, parentForm, primeroModule
     onManageTranslations: () => {
       setDialog({ dialog: FieldTranslationsDialogName, open: true });
     },
-    limitedProductionSite
+    limitedProductionSite,
+    canManage
   });
   const formMethods = useForm({ resolver: yupResolver(validationSchema), shouldUnregister: false, mode: "onSubmit" });
   const {
@@ -381,6 +384,7 @@ function Component({ formId, mode, onClose, onSuccess, parentForm, primeroModule
           )}
           {selectedIsSubformField && (
             <SubformFieldsList
+              canManage={canManage}
               formMethods={formMethods}
               subformField={selectedField}
               subformSortBy={subformSortBy}

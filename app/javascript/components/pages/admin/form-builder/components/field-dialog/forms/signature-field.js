@@ -11,7 +11,8 @@ export const signatureFieldForm = ({
   formMode,
   isNested,
   onManageTranslations,
-  limitedProductionSite
+  limitedProductionSite,
+  canManage
 }) => {
   const fieldName = field.get("name");
   const fieldType = field.get("type");
@@ -35,9 +36,9 @@ export const signatureFieldForm = ({
 
   return {
     forms: fromJS([
-      generalForm({ fieldName, i18n, formMode, onManageTranslations, limitedProductionSite }),
+      generalForm({ fieldName, i18n, formMode, onManageTranslations, limitedProductionSite, canManage }),
       metaForm(formMode),
-      visibilityForm({ fieldName, fieldType, i18n, isNested, limitedProductionSite })
+      visibilityForm({ fieldName, fieldType, i18n, isNested, limitedProductionSite, canManage })
     ]),
     validationSchema: validationSchema({ fieldName, i18n })
   };

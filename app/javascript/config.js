@@ -22,7 +22,8 @@ import {
   READ_FAMILY_RECORD,
   SHOW_USAGE_REPORTS,
   GROUP_PERMISSIONS,
-  VIEW_CASE_RELATIONSHIPS
+  VIEW_CASE_RELATIONSHIPS,
+  MANAGE_RESTRICTED
 } from "./components/permissions/constants";
 import getAdminResources from "./components/pages/admin/utils/get-admin-resources";
 
@@ -333,17 +334,17 @@ const ADMIN_NAV = [
       {
         to: "/forms",
         label: "settings.navigation.forms",
-        permission: MANAGE,
+        permission: MANAGE_RESTRICTED,
         recordType: RESOURCES.metadata
       },
       {
         to: "/lookups",
         label: "settings.navigation.lookups",
-        permission: MANAGE,
+        permission: MANAGE_RESTRICTED,
         recordType: RESOURCES.metadata
       }
     ],
-    permission: MANAGE,
+    permission: MANAGE_RESTRICTED,
     recordType: RESOURCES.metadata
   },
   { to: "/locations", label: "settings.navigation.locations", permission: MANAGE, recordType: RESOURCES.metadata },

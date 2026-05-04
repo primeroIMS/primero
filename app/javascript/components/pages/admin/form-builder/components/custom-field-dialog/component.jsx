@@ -22,7 +22,7 @@ import { useApp } from "../../../../../application";
 import css from "./styles.css";
 import { NAME, CUSTOM_FIELD_DIALOG } from "./constants";
 
-function Component({ getValues }) {
+function Component({ getValues, canManage }) {
   const i18n = useI18n();
 
   const dispatch = useDispatch();
@@ -104,16 +104,18 @@ function Component({ getValues }) {
         dialogTitle={i18n.t("fields.add_field")}
       >
         <div className={css.actionBtns}>
-          <ActionButton
-            icon={<FormatListBulletedIcon />}
-            text="fields.add_new_field"
-            type={ACTION_BUTTON_TYPES.default}
-            rest={{
-              onClick: handleCustomFieldSelectorDialog,
-              fullWidth: true
-            }}
-            keepTextOnMobile
-          />
+          {canManage && (
+            <ActionButton
+              icon={<FormatListBulletedIcon />}
+              text="fields.add_new_field"
+              type={ACTION_BUTTON_TYPES.default}
+              rest={{
+                onClick: handleCustomFieldSelectorDialog,
+                fullWidth: true
+              }}
+              keepTextOnMobile
+            />
+          )}
           {renderAddExistingFieldButton}
           <ActionButton
             icon={<CloseIcon />}
@@ -137,6 +139,7 @@ function Component({ getValues }) {
 Component.displayName = NAME;
 
 Component.propTypes = {
+  canManage: PropTypes.bool,
   getValues: PropTypes.func
 };
 

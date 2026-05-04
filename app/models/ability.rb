@@ -116,9 +116,17 @@ class Ability
     end
   end
 
-  def metadata_permissions
-    [FormSection, Field, Location, Lookup, PrimeroProgram, PrimeroModule].each do |resource|
-      can :manage, resource
+  def metadata_permissions(permission)
+    actions = permission.action_symbols
+
+    if actions.include?(Permission::MANAGE_RESTRICTED.to_sym)
+      [FormSection, Field, Lookup].each do |resource|
+        can %i[read write], resource
+      end
+    else
+      [FormSection, Field, Location, Lookup, PrimeroProgram, PrimeroModule].each do |resource|
+        can :manage, resource
+      end
     end
   end
 
@@ -257,7 +265,7 @@ class Ability
     when Permission::AGENCY
       agency_permissions(permission)
     when Permission::METADATA
-      metadata_permissions
+      metadata_permissions(permission)
     when Permission::SYSTEM
       system_permissions
     when Permission::TRACING_REQUEST

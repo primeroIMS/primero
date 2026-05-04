@@ -9,7 +9,7 @@ import css from "../fields-list/styles.css";
 
 import { NAME } from "./constants";
 
-function Component({ field, handleClick, isNotEditable }) {
+function Component({ canManage, field, handleClick, isNotEditable }) {
   const i18n = useI18n();
   const icon = isNotEditable ? <LockedIcon /> : <span />;
   const className = cx({ [css.editable]: !isNotEditable });
@@ -17,7 +17,12 @@ function Component({ field, handleClick, isNotEditable }) {
   return (
     <>
       {icon}
-      <Button id="field-name-button" className={className} onClick={handleClick}>
+      <Button
+        id="field-name-button"
+        className={className}
+        disabled={isNotEditable && !canManage}
+        onClick={canManage || (!canManage && !isNotEditable) ? handleClick : undefined}
+      >
         {displayNameHelper(field.get("display_name"), i18n.locale)}
       </Button>
     </>
@@ -27,6 +32,7 @@ function Component({ field, handleClick, isNotEditable }) {
 Component.displayName = NAME;
 
 Component.propTypes = {
+  canManage: PropTypes.bool,
   field: PropTypes.object.isRequired,
   handleClick: PropTypes.func,
   isNotEditable: PropTypes.bool

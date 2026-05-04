@@ -21,8 +21,9 @@ import NAMESPACE from "../forms-list/namespace";
 import { getIsLoading } from "../forms-list/selectors";
 import { fetchForms } from "../forms-list/action-creators";
 import { useApp } from "../../../application";
-import Permission, { RESOURCES, MANAGE } from "../../../permissions";
+import Permission, { RESOURCES } from "../../../permissions";
 import getDisplayConditions from "../../../record-form/form/utils/get-display-conditions";
+import { MANAGE_RESTRICTED } from "../../../permissions/constants";
 
 import { FormBuilderActionButtons, TranslationsTab, SettingsTab, FieldsTab } from "./components";
 import { localesToRender } from "./components/utils";
@@ -208,7 +209,7 @@ function Component({ mode }) {
   }, [getValues, tab]);
 
   return (
-    <Permission resources={RESOURCES.metadata} actions={MANAGE} redirect>
+    <Permission resources={RESOURCES.metadata} actions={MANAGE_RESTRICTED} redirect>
       <LoadingIndicator hasData={hasData} loading={loading} type={NAMESPACE}>
         <PageHeading title={pageTitle}>
           <FormBuilderActionButtons

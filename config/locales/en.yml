@@ -4035,13 +4035,11 @@ en:
         label: Matching Configuration
       metadata:
         actions:
+          manage_restricted:
+            label: Manage (Restricted)
+            explanation: Limited ability to rename, rearrange, and hide forms, form fields, and lookups.
           manage:
-            explanation: Ability to create, edit, translate, and delete forms, form
-              fields, and lookups. Please note that a user with this permission will
-              only be able to manage forms which they have access to. For instance,
-              if a national administrator only has the ability to see the Record Owner
-              form on cases, then they will only ever be able to update the configuration
-              for this form.
+            explanation: Ability to create, edit, and translate forms, form fields, and lookups.
             label: Manage (all permissions for this resource type)
         explanation: Controls the ability to configure Primero Forms and Fields, as well
           as Lookup options used within them.

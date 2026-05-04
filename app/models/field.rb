@@ -81,6 +81,15 @@ class Field < ApplicationRecord
       { 'display_conditions_subform' => {} }, 'subform_sort_by_direction'
     ]
   end
+
+  def self.permitted_api_restricted_params
+    [
+      'form_section_id', 'visible', 'mobile_visible',
+      { 'display_name' => {} }, { 'help_text' => {} },
+      { 'guiding_questions' => {} }, { 'signature_provided_by_label' => {} },
+      'order', 'subform_section_id'
+    ]
+  end
   # rubocop:enable Metrics/MethodLength
 
   # TODO: Move the logic for all_*_field_names methods to the Searchable concern

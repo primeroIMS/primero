@@ -8,7 +8,7 @@ import css from "../field-dialog/styles.css";
 
 import { NAME } from "./constants";
 
-function Component({ formMethods, subformField, subformSortBy, subformGroupBy }) {
+function Component({ canManage, formMethods, subformField, subformSortBy, subformGroupBy }) {
   const i18n = useI18n();
   const { getValues } = formMethods;
 
@@ -18,9 +18,10 @@ function Component({ formMethods, subformField, subformSortBy, subformGroupBy })
     <>
       <div className={css.subformFieldTitle}>
         <h1>{i18n.t("forms.fields")}</h1>
-        <CustomFieldDialog getValues={getFieldValues} />
+        <CustomFieldDialog getValues={getFieldValues} canManage={canManage} />
       </div>
       <FieldsList
+        canManage={canManage}
         formMethods={formMethods}
         subformField={subformField}
         subformSortBy={subformSortBy}
@@ -33,6 +34,7 @@ function Component({ formMethods, subformField, subformSortBy, subformGroupBy })
 Component.displayName = NAME;
 
 Component.propTypes = {
+  canManage: PropTypes.bool,
   formMethods: PropTypes.object.isRequired,
   subformField: PropTypes.object.isRequired,
   subformGroupBy: PropTypes.string,

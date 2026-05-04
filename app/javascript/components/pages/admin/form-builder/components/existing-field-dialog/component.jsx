@@ -28,7 +28,7 @@ import { FieldsTable } from "./components";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-function Component({ parentForm, primeroModule }) {
+function Component({ parentForm, primeroModule, canManage }) {
   const dispatch = useDispatch();
   const i18n = useI18n();
   const { control, register } = useForm();
@@ -85,7 +85,7 @@ function Component({ parentForm, primeroModule }) {
   const dialogTitle = (
     <>
       <span className={css.existingFieldDialogTitle}>{i18n.t("fields.add_field")}</span>
-      <ActionButton outlined text="fields.add_new_field" rest={{ onClick: onCreateNewField }} />
+      {canManage && <ActionButton outlined text="fields.add_new_field" rest={{ onClick: onCreateNewField }} />}
     </>
   );
 
@@ -144,6 +144,7 @@ function Component({ parentForm, primeroModule }) {
 Component.displayName = NAME;
 
 Component.propTypes = {
+  canManage: PropTypes.bool,
   parentForm: PropTypes.string.isRequired,
   primeroModule: PropTypes.string.isRequired
 };

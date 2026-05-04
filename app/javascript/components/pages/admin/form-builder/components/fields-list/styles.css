@@ -30,6 +30,11 @@
       &.editable {
         margin-left: 1.7em;
       }
+
+      &:disabled {
+        color: var(--c-black);
+        background: none !important;
+      }
     }
   }
 

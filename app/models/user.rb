@@ -444,6 +444,10 @@ class User < ApplicationRecord
     permission_by_permission_type?(record_type.parent_form, Permission::DISPLAY_VIEW_PAGE)
   end
 
+  def can_manage_restricted_metadata?
+    permission_by_permission_type?(Permission::METADATA, Permission::MANAGE_RESTRICTED)
+  end
+
   def managed_users
     if group_permission? Permission::ALL
       User.all
