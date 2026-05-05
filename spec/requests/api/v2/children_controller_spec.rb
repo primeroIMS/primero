@@ -467,13 +467,15 @@ describe Api::V2::ChildrenController, type: :request do
         expect(response).to have_http_status(200)
       end
 
-      it 'list all cases if the param id_search=true' do
+      it 'list a case not owned by the user if a user performs an id_search=true' do
         sign_in(@user_owned_others)
 
-        get '/api/v2/cases?id_search=true'
+        get "/api/v2/cases?id_search=true&query=#{@case1.display_id}"
 
-        expect(json['data'].count).to eq(12)
         expect(response).to have_http_status(200)
+        expect(json['data'].count).to eq(1)
+        expect(json['data'][0]['id']).to eq(@case1.id)
+        expect(json['data'][0]['owned_by']).not_to eq(@user_owned_others.user_name)
       end
     end
 

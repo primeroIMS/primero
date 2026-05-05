@@ -33,16 +33,18 @@ describe("<CaseFamily />", () => {
     const initialState = {
       forms: { formSections: {} },
       records: {
-        families: {
-          data: [
-            {
-              id: "2bece164-7eff-451b-a150-7dfd8905ee7b",
-              family_id_display: "2bece164",
-              family_number: "0001",
-              family_name: "Some name"
-            }
-          ],
-          loading: false
+        cases: {
+          related_records: {
+            data: [
+              {
+                id: "2bece164-7eff-451b-a150-7dfd8905ee7b",
+                family_id_display: "2bece164",
+                family_number: "0001",
+                family_name: "Some name"
+              }
+            ],
+            loading: false
+          }
         }
       },
       user: {
