@@ -5,6 +5,7 @@ class Family < ApplicationRecord
   include Record
   include Searchable
   include Historical
+  include Assignable
   include Ownable
   include Flaggable
   include Alertable
@@ -85,5 +86,13 @@ class Family < ApplicationRecord
 
   def cases_grouped_by_id
     cases&.group_by(&:id) || {}
+  end
+
+  def recalculate_assigned_user_names
+    # NOTE: Family is not transitionable: assigned_user_names can only be users
+    # associated to the family through cases.
+    self.assigned_user_names = cases.map(&:owned_by).uniq
+
+    assigned_user_names
   end
 end

@@ -10,9 +10,7 @@ module FamilyLinkable
 
     before_save :stamp_family_fields
     before_save :sync_family_members
-    after_save :associate_family_member
     after_save :save_family
-    after_save :disassociate_family_member
   end
 
   def stamp_family_fields
@@ -58,7 +56,6 @@ module FamilyLinkable
 
       member.merge('case_id' => nil, 'case_id_display' => nil)
     end
-    @family_to_disassociate.save!
   end
 
   def update_associated_family(properties)
@@ -73,20 +70,12 @@ module FamilyLinkable
 
   def save_family
     if family.present?
-      family.assigned_user_names = (family.assigned_user_names || []) | [owned_by]
-      family.save! if family.has_changes_to_save?
-    else
-      remove_assigned_user_from_family
+      associate_family_member
+      family.save!
+    elsif @family_to_disassociate.present?
+      disassociate_family_member
+      @family_to_disassociate.save!
     end
-  end
-
-  def remove_assigned_user_from_family
-    return unless @family_to_disassociate.present?
-
-    # NOTE: Family is not transitionable: assigned_user_names can only be users
-    # associated to the family through cases.
-    @family_to_disassociate.assigned_user_names&.delete(owned_by)
-    @family_to_disassociate.save!
   end
 
   def update_family_fields(properties)
