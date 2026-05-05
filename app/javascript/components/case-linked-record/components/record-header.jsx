@@ -87,7 +87,8 @@ Component.propTypes = {
   handleOpenMatch: PropTypes.func.isRequired,
   idField: PropTypes.string.isRequired,
   linkedRecords: PropTypes.object.isRequired,
-  linkedRecordType: PropTypes.string.isRequired
+  linkedRecordType: PropTypes.string.isRequired,
+  recordType: PropTypes.string
 };
 
 export default Component;
