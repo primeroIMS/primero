@@ -9,6 +9,7 @@ describe("bulk-transitons - Actions", () => {
     [
       "BULK_ASSIGN_CASES",
       "BULK_ASSIGN_INCIDENTS",
+      "BULK_ASSIGN_FAMILIES",
       "BULK_ASSIGN_USER_SAVE",
       "BULK_ASSIGN_USER_SAVE_SUCCESS",
       "BULK_ASSIGN_USER_SAVE_STARTED",

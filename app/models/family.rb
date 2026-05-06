@@ -19,7 +19,10 @@ class Family < ApplicationRecord
     :data,
     :status, :family_id, :family_name, :family_number, :family_size, :family_notes,
     :family_registration_date, :family_id_display, :family_location_current,
-    :family_members
+    :family_members,
+    # NOTE: This property is part of the Transitionable concern, but Family is not transitionable.
+    # It is here to ensure that a family can be reassigned.
+    :reassigned_transferred_on
   )
 
   has_many :cases, class_name: 'Child', foreign_key: :family_id
