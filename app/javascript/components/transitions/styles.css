@@ -28,6 +28,7 @@
   flex-wrap: wrap;
   align-items: center;
   gap: var(--sp-2);
+  width: 100%;
 }
 
 .transtionLabel {

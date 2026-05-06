@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { cx } from "@emotion/css";
-import { Draggable } from "react-beautiful-dnd";
+import { Draggable } from "@hello-pangea/dnd";
 import { Controller, useWatch } from "react-hook-form";
 import { Radio } from "@mui/material";
 import get from "lodash/get";

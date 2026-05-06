@@ -93,6 +93,25 @@ const drawerWidth = "240px";
 const spacing = [1, 2, 3, 4];
 
 const components = {
+  MuiPickersSectionList: {
+    styleOverrides: {
+      root: {
+        direction: "inherit"
+      },
+      sectionContent: {
+        direction: "inherit"
+      }
+    }
+  },
+  MuiPickersArrowSwitcher: {
+    styleOverrides: {
+      button: {
+        '[dir="rtl"] &': {
+          transform: "scaleX(-1)"
+        }
+      }
+    }
+  },
   MuiCssBaseline: {
     styleOverrides: {
       "#root": {
@@ -168,6 +187,9 @@ const components = {
           opacity: 1,
           WebkitTextFillColor: "var(--c-black)"
         }
+      },
+      multiline: {
+        padding: "0 !important"
       }
     }
   },

@@ -12,7 +12,7 @@ function FieldRows({ comparisons }) {
 
   if (isEmpty(comparisons)) {
     return (
-      <Grid container>
+      <Grid container width="100%">
         <Grid size={12}>
           <span className={css.nothingFound}>{i18n.t("tracing_request.messages.nothing_found")}</span>
         </Grid>

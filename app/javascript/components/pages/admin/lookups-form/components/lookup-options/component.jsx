@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { Grid } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 
 import { useI18n } from "../../../../../i18n";
 import ActionButton, { ACTION_BUTTON_TYPES } from "../../../../../action-button";

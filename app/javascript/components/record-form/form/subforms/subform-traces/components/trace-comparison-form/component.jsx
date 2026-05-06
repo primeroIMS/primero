@@ -162,7 +162,7 @@ function Component({
     <>
       <TraceActions {...traceActionsProps} />
       <Grid container spacing={4} data-testid="trace-comparison-form">
-        <Grid container>
+        <Grid container width="100%">
           {renderText && alreadyMatchedMessage && (
             <Grid size={12}>
               <div className={css.alreadyMatched}>
@@ -170,8 +170,7 @@ function Component({
               </div>
             </Grid>
           )}
-          <Grid size={2} />
-          <Grid size={4}>
+          <Grid size={4} offset={3}>
             <h2>
               {i18n.t("tracing_request.trace")} <span className={css.recordId}>{traceShortId}</span>
             </h2>
@@ -183,7 +182,7 @@ function Component({
           </Grid>
         </Grid>
         <FieldRows comparisons={topComparisons} />
-        <Grid container className={css.fieldRow} spacing={4}>
+        <Grid container className={css.fieldRow} spacing={4} width="100%">
           <Grid size={6}>
             <h2>{i18n.t("tracing_request.tracing_request_photos")}</h2>
             {isEmpty(tracingRequestPhotos) ? (
@@ -201,7 +200,7 @@ function Component({
             )}
           </Grid>
         </Grid>
-        <Grid container className={css.fieldRow} spacing={4}>
+        <Grid container className={css.fieldRow} spacing={4} width="100%">
           <Grid size={6}>
             <h2>{i18n.t("tracing_request.tracing_request_audios")}</h2>
             {isEmpty(tracingRequestAudios) ? (

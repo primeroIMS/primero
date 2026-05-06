@@ -3,7 +3,7 @@ import { useCallback, useEffect } from "react";
 import { hash } from "immutable";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 
 import { getObjectPath, useMemoizedSelector } from "../../../../../../libs";
 import { useI18n } from "../../../../../i18n";

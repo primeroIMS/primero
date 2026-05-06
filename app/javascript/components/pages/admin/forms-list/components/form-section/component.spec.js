@@ -1,6 +1,6 @@
 import { mountedComponent, screen } from "test-utils";
 import { List } from "immutable";
-import { DragDropContext } from "react-beautiful-dnd";
+import { DragDropContext } from "@hello-pangea/dnd";
 
 import FormSection from "./component";
 
