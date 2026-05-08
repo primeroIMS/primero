@@ -10,7 +10,7 @@ describe("<AuditLogs /> - Helpers", () => {
     it("should have known methods", () => {
       const clone = { ...helper };
 
-      ["agencyBodyRender", "buildObjectWithIds", "buildUsersQuery", "getFilters", "buildActionList"].forEach(
+      ["agencyBodyRender", "roleBodyRender", "buildObjectWithIds", "getFilters", "buildActionList"].forEach(
         property => {
           expect(clone).toHaveProperty(property);
           expect(clone[property]).toBeInstanceOf(Function);
@@ -18,22 +18,6 @@ describe("<AuditLogs /> - Helpers", () => {
         }
       );
       expect(Object.keys(clone)).toHaveLength(0);
-    });
-  });
-
-  describe("buildUsersQuery", () => {
-    it("should convert the data to filter users", () => {
-      const data = {
-        agency: { id: 1, display_name: "agency_test" }
-      };
-
-      const expected = {
-        agency: 1
-      };
-
-      const converted = helper.buildUsersQuery(data);
-
-      expect(converted).toEqual(expected);
     });
   });
 
@@ -65,12 +49,19 @@ describe("<AuditLogs /> - Helpers", () => {
             }
           ],
           type: FILTER_TYPES.MULTI_SELECT,
-          multiple: false,
+          multiple: true,
           permitted_filter: false
         },
         {
+          field_name: "role_id",
+          multiple: true,
+          name: "cases.filter_by.role",
+          options: undefined,
+          type: "multi_select"
+        },
+        {
           field_name: USER_GROUP,
-          multiple: false,
+          multiple: true,
           name: "cases.filter_by.user_group",
           options: [],
           type: FILTER_TYPES.MULTI_SELECT

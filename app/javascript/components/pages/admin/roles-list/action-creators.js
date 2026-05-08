@@ -11,7 +11,8 @@ export const fetchRoles = params => {
     type: actions.ROLES,
     api: {
       path: RECORD_PATH.roles,
-      params: isImmutable(data) ? data.set("managed", true) : { ...data, managed: true }
+      params: isImmutable(data) ? data.set("managed", true) : { ...data, managed: true },
+      arrayFormat: "brackets"
     }
   };
 };

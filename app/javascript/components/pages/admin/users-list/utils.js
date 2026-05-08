@@ -11,25 +11,17 @@ const searchableAgencies = (data, i18n) => {
   );
 };
 
+const searchableRoles = data => {
+  return data?.reduce((acc, role) => [...acc, { id: role.get("id"), display_name: role.get("name") }], []);
+};
+
 const userGroupOptions = data => {
   return data
     ? data.reduce((acc, group) => [...acc, { id: group.get("unique_id"), display_name: group.get("name") }], [])
     : [];
 };
 
-export const buildUsersQuery = data => {
-  return Object.entries(data).reduce((acc, obj) => {
-    const [key, value] = obj;
-
-    if ([AGENCY, USER_GROUP].includes(key)) {
-      return { ...acc, [key]: value?.id };
-    }
-
-    return { ...acc, [key]: value };
-  }, {});
-};
-
-export const getFilters = (i18n, filterAgencies, filterUserGroups, filterPermission) => [
+export const getFilters = (i18n, filterAgencies, filterUserGroups, filterPermission, roles) => [
   {
     name: "cases.filter_by.enabled_disabled",
     field_name: DISABLED,
@@ -47,15 +39,22 @@ export const getFilters = (i18n, filterAgencies, filterUserGroups, filterPermiss
     field_name: AGENCY,
     options: searchableAgencies(filterAgencies, i18n),
     type: FILTER_TYPES.MULTI_SELECT,
-    multiple: false,
+    multiple: true,
     permitted_filter: filterPermission?.agency
+  },
+  {
+    name: "cases.filter_by.role",
+    field_name: "role_id",
+    options: searchableRoles(roles),
+    type: FILTER_TYPES.MULTI_SELECT,
+    multiple: true
   },
   {
     name: "cases.filter_by.user_group",
     field_name: USER_GROUP,
     options: userGroupOptions(filterUserGroups),
     type: FILTER_TYPES.MULTI_SELECT,
-    multiple: false
+    multiple: true
   },
   {
     name: "cases.filter_by.by_date",
@@ -73,6 +72,10 @@ export const getFilters = (i18n, filterAgencies, filterUserGroups, filterPermiss
 
 export const agencyBodyRender = (i18n, agencies, value) =>
   agencies.get(String(value), fromJS({})).getIn(["name", i18n.locale]);
+
+export const roleBodyRender = (roles, value) => {
+  return roles.filter(role => role.get("unique_id") === value).getIn([0, "name"]);
+};
 
 export const buildObjectWithIds = elems =>
   elems.reduce(

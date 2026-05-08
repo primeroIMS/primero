@@ -20,7 +20,8 @@ describe("<RolesList /> - Action Creators", () => {
       type: actions.ROLES,
       api: {
         params: { managed: true },
-        path: RECORD_PATH.roles
+        path: RECORD_PATH.roles,
+        arrayFormat: "brackets"
       }
     };
 
