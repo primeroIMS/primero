@@ -17,8 +17,11 @@
   }
 
   & span {
+    width: 100%;
+    
     &.message {
       padding: 10px 0;
+
     }
   }
 }

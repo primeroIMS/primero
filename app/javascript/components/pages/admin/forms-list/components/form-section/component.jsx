@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Droppable } from "react-beautiful-dnd";
+import { Droppable } from "@hello-pangea/dnd";
 import { cx } from "@emotion/css";
 
 import { useI18n } from "../../../../../i18n";
