@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
-import { connect, FastField } from "formik";
+import { connect, FastField, getIn } from "formik";
 import PhoneInput, { isPossiblePhoneNumber } from "react-phone-number-input";
 import ar from "react-phone-number-input/locale/ar";
 import en from "react-phone-number-input/locale/en";
@@ -23,6 +23,7 @@ import { useMemoizedSelector } from "../../../../libs";
 import { getDefaultPhoneFormat, getPhoneFormats } from "../../../application";
 
 import PhoneTextInput from "./phone-text-input";
+import css from "./styles.css";
 
 const LOCALIZED_COUNTRY_LABELS = { ar, en, es, it, fr, pt, ru, sk, th, ua };
 
@@ -35,7 +36,7 @@ function PhoneField({ name, field, formik, mode, recordType, recordID, formSecti
   const baseLocale = first(i18n.locale.split("-"));
   const countryLabels = LOCALIZED_COUNTRY_LABELS[baseLocale] || en;
 
-  const { label, disabled, placeholder, autoComplete } = rest;
+  const { label, disabled, placeholder, autoComplete, helperText, InputLabelProps } = rest;
 
   const inputPlaceholder = mode.isShow ? placeholder : i18n.t("phone_number.placeholder");
   const defaultCountry = mode.isShow ? null : defaultPhoneformat || phoneFormats.first();
@@ -60,6 +61,8 @@ function PhoneField({ name, field, formik, mode, recordType, recordID, formSecti
 
   const warningStyle = fieldError ? { color: "var(--c-tia-maria)" } : {};
 
+  const fieldFormikError = getIn(formik.errors, name);
+
   return (
     <FastField name={name} shouldUpdate={shouldFieldUpdate} locale={i18n.locale}>
       {renderProps => {
@@ -67,8 +70,8 @@ function PhoneField({ name, field, formik, mode, recordType, recordID, formSecti
         const countryComponent = mode.isShow && !fieldValue ? { countrySelectComponent: () => <></> } : {};
 
         return (
-          <>
-            <InputLabel htmlFor={name} sx={warningStyle}>
+          <div className={css.phoneFieldContainer}>
+            <InputLabel htmlFor={name} sx={warningStyle} required={InputLabelProps.required}>
               {label}
             </InputLabel>
             <PhoneInput
@@ -78,6 +81,7 @@ function PhoneField({ name, field, formik, mode, recordType, recordID, formSecti
               labels={countryLabels}
               placeholder={inputPlaceholder}
               value={fieldValue}
+              error={!!fieldFormikError}
               fieldError={fieldError}
               disabled={disabled}
               useNationalFormatForDefaultCountryValue={false}
@@ -90,8 +94,11 @@ function PhoneField({ name, field, formik, mode, recordType, recordID, formSecti
               {...(phoneFormats.size > 0 ? { countries: phoneFormats } : {})}
               {...countryComponent}
             />
+            {(helperText || fieldFormikError) && (
+              <FormHelperText error={!!fieldFormikError}>{fieldFormikError || helperText}</FormHelperText>
+            )}
             {fieldError && <FormHelperText sx={warningStyle}>{fieldError}</FormHelperText>}
-          </>
+          </div>
         );
       }}
     </FastField>
