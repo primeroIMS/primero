@@ -4243,6 +4243,11 @@ en:
           case_from_family:
             explanation: Allows users to create a new case from a Family Members subform within the Family Record.
             label: Create Case
+          assign:
+            explanation: Allows a user to send a Family Record from its original record owner to any other user
+              in the system. No consent is needed for this action. Also allows the user to assign multiple
+              Family Records from the list view.
+            label: Assign
           search_owned_by_others:
             explanation: Allows a user to perform a search for records which they
               would not usually have access to, either because they are not the record
@@ -4906,6 +4911,7 @@ en:
     disable_dialog_title: Disable Family
     disable_dialog: Clicking OK will change the status of this Family to Disabled.
     selected_records: '%{select_records} family record(s) selected'
+    selected_records_assign: '%{select_records} family record(s) selected'
     selected_all_records: 'Select all %{total_records} families that match this query.'
     mark_for_offline:
       title: Mark for Offline
@@ -4915,6 +4921,9 @@ en:
       by_date: By Date
       status: Status
       current_location: Family Location
+    reassign:
+      multiple_successfully: Primero is reassigning %{select_records} family record(s).
+        It may take several minutes for all of these family records to update.
   family:
     family_member:
       case_id: Case ID

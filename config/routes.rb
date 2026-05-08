@@ -181,10 +181,13 @@ Rails.application.routes.draw do
       resources :families do
         resources :flags, only: %i[index create update]
         resources :alerts, only: [:index]
+        resources :assigns, only: %i[index create]
         post :case, to: 'families#create_case'
         get :record_history, to: 'record_histories#index'
-
         get :access_log, to: 'record_access#index'
+        collection do
+          post :assigns, to: 'assigns#create_bulk'
+        end
       end
 
       scope '/webpush' do
