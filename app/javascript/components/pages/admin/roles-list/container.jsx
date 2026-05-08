@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import { useDispatch } from "react-redux";
 
+import { FILTER_TYPES } from "../../../index-filters";
 import { useI18n } from "../../../i18n";
 import IndexTable from "../../../index-table";
 import { PageHeading, PageContent } from "../../../page";
@@ -55,6 +56,15 @@ function Container() {
 
   useMetadata(recordType, metadata, fetchRoles, DATA, { defaultFilterFields: DEFAULT_FILTERS });
 
+  const permissions = systemPermissions.get("management", fromJS([])).reduce((acc, permission) => {
+    acc.push({
+      id: permission,
+      display_name: i18n.t(`permissions.resource.group.actions.${permission}.label`)
+    });
+
+    return acc;
+  }, []);
+
   const onSubmit = data =>
     onSubmitFilters(currentFilters.merge(fromJS(data || DEFAULT_FILTERS)), dispatch, fetchRoles, setRolesFilter);
 
@@ -62,7 +72,16 @@ function Container() {
 
   const filterProps = {
     clearFields: [DISABLED],
-    filters: getFilters(i18n, systemPermissions),
+    filters: [
+      ...getFilters(i18n),
+      {
+        name: "roles.filter_by.group_permission",
+        field_name: "group_permission",
+        options: permissions,
+        type: FILTER_TYPES.MULTI_SELECT,
+        multiple: true
+      }
+    ],
     onSubmit,
     defaultFilters,
     initialFilters: DEFAULT_FILTERS

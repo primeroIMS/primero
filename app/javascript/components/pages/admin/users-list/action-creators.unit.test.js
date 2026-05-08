@@ -22,7 +22,8 @@ describe("<UsersList /> - Action Creators", () => {
       type: actions.USERS,
       api: {
         params: undefined,
-        path: RECORD_PATH.users
+        path: RECORD_PATH.users,
+        arrayFormat: "brackets"
       }
     };
 

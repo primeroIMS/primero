@@ -38,14 +38,7 @@ import {
   ACTION_IDS,
   USERS_ABILITIES
 } from "./constants";
-import {
-  agencyBodyRender,
-  buildObjectWithIds,
-  buildUsersQuery,
-  getFilters,
-  buildActionList,
-  roleBodyRender
-} from "./utils";
+import { agencyBodyRender, buildObjectWithIds, getFilters, buildActionList, roleBodyRender } from "./utils";
 import AlertMaxUser from "./components/alert-max-user";
 import NewUserBtn from "./components/new-user-button";
 import DisableDialog from "./components/disable-dialog";
@@ -137,7 +130,7 @@ function Container() {
     defaultFilters,
     initialFilters: DEFAULT_FILTERS,
     onSubmit: data => {
-      const filters = typeof data === "undefined" ? defaultFilters : buildUsersQuery(data);
+      const filters = typeof data === "undefined" ? defaultFilters : data;
       let mergedFilters = currentFilters.merge(fromJS(filters)).set("page", 1);
 
       if (ACTIVITY_FILTERS.some(key => mergedFilters.has(key))) {

@@ -12,21 +12,13 @@ const searchableAgencies = (data, i18n) => {
 };
 
 const searchableRoles = data => {
-  return data.reduce((acc, role) => [...acc, { id: role.get("id"), display_name: role.get("name") }], []);
+  return data?.reduce((acc, role) => [...acc, { id: role.get("id"), display_name: role.get("name") }], []);
 };
 
 const userGroupOptions = data => {
   return data
     ? data.reduce((acc, group) => [...acc, { id: group.get("unique_id"), display_name: group.get("name") }], [])
     : [];
-};
-
-export const buildUsersQuery = data => {
-  return Object.entries(data).reduce((acc, obj) => {
-    const [key, value] = obj;
-
-    return { ...acc, [key]: value };
-  }, {});
 };
 
 export const getFilters = (i18n, filterAgencies, filterUserGroups, filterPermission, roles) => [

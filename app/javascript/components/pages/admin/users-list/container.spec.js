@@ -46,11 +46,11 @@ describe("<UsersList />", () => {
   });
 
   it("renders FormFilters", () => {
-    expect(screen.getByTestId("select-filter")).toBeInTheDocument();
+    expect(screen.getAllByTestId("select-filter").length).toBe(2);
   });
 
   it("renders CustomToolbar as label", () => {
-    expect(screen.getByTestId("select-filter")).toBeInTheDocument();
+    expect(screen.getAllByTestId("select-filter").length).toBe(2);
   });
 
   it("should NOT render warning to list user", () => {
