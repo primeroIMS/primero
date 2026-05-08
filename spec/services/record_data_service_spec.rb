@@ -182,13 +182,13 @@ describe RecordDataService do
   end
 
   describe 'family_members' do
-    let(:user2) do
+    let!(:user2) do
       user = User.new(user_name: 'user_mgr_cp', full_name: 'Test User Mgr CP', role: @role)
 
       user.save(validate: false) && user
     end
 
-    let(:family) do
+    let!(:family) do
       family = Family.new_with_user(
         @user,
         {
@@ -215,7 +215,7 @@ describe RecordDataService do
       family
     end
 
-    let(:child1) do
+    let!(:child1) do
       child = Child.new_with_user(@user, { age: 6, sex: 'male' })
       child.id = '530e67c2-81fa-41ee-aa7b-b98b552954ca'
       child.family = family
@@ -228,7 +228,7 @@ describe RecordDataService do
       child
     end
 
-    let(:child2) do
+    let!(:child2) do
       child = Child.new_with_user(user2, { age: 7, sex: 'male' })
       child.id = '9de12cce-16f9-498c-83e9-4b1317d70e42'
       child.family = family
@@ -241,7 +241,7 @@ describe RecordDataService do
       child
     end
 
-    let(:child3) do
+    let!(:child3) do
       child = Child.new_with_user(@user, { age: 8, sex: 'male' })
       child.id = '98e25d95-1365-4ae9-afd0-53f18e86a101'
       child.family = family
@@ -255,13 +255,8 @@ describe RecordDataService do
     end
 
     describe '.embed_family_details_section' do
-      before do
-        child2
-        child3
-        user2
-      end
-
       it 'returns fields included can_read_record for family family_details_section' do
+        family.reload
         data = RecordDataService.new.embed_family_details_section({}, child1, %w[family_details_section], @user)
 
         expect(data['family_details_section']).to match_array(
@@ -278,14 +273,8 @@ describe RecordDataService do
     end
 
     describe '.embed_family_members_user_access' do
-      before do
-        child1
-        child2
-        child3
-        user2
-      end
-
       it 'returns fields included can_read_record for family family_details_section' do
+        family.reload
         data = RecordDataService.new.embed_family_members_user_access(
           { 'family_members' => family.family_members }, family, %w[family_members], @user
         )

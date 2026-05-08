@@ -160,6 +160,9 @@ export const getRecordRelationship = (state, query) => {
 export const getRecordRelationshipsLoading = (state, recordType = "cases") =>
   state.getIn(["records", recordType, "relationships", "loading"], false);
 
+export const getRelatedRecordIsLoading = (state, recordType = "cases") =>
+  state.getIn(["records", recordType, "related_records", "loading"], false);
+
 export const getRelatedRecord = (state, query = {}) => {
   const { recordType, id, fromRelationship } = query;
 

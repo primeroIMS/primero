@@ -175,6 +175,7 @@ describe Child do
 
     it 'links a family and a family_member to a case' do
       expect(case1.family).to eq(family1)
+      family1.reload
       expect(family1.cases).to include(case1)
 
       family_member = family1.family_members.find { |member| member['unique_id'] == '001' }

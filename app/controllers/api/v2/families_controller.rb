@@ -5,8 +5,10 @@ class Api::V2::FamiliesController < ApplicationApiController
   include Api::V2::Concerns::Pagination
   include Api::V2::Concerns::Record
 
-  def query_scope
-    { user: {} }
+  def authorize_index!
+    authorize!(:index, Family)
+  rescue CanCan::AccessDenied
+    authorize!(:search_and_select_family_record, Family)
   end
 
   def create_case

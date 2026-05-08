@@ -481,8 +481,8 @@ class User < ApplicationRecord
   # Returns list of UserGroups if can only query from those user groups that this user has access to
   # Returns the Agency if can only query from the agency this user has access to
   # Returns empty list if can query for all records in the system
-  def record_query_scope(record_model, id_search = false)
-    user_scope = case user_query_scope(record_model, id_search)
+  def record_query_scope(record_model, record_search = false)
+    user_scope = case user_query_scope(record_model, record_search)
                  when Permission::AGENCY then { 'agency' => agency.unique_id, 'agency_id' => agency_id }
                  when Permission::GROUP then { 'group' => user_groups.map(&:unique_id).compact }
                  when Permission::IDENTIFIED then { 'identified' => user_name }
@@ -492,8 +492,8 @@ class User < ApplicationRecord
     { user: user_scope }
   end
 
-  def user_query_scope(record_model = nil, id_search = false)
-    return Permission::ALL if can_search_for_all?(record_model, id_search)
+  def user_query_scope(record_model = nil, record_search = false)
+    return Permission::ALL if can_search_for_all?(record_model, record_search)
     return Permission::AGENCY if group_permission?(Permission::AGENCY)
     return Permission::GROUP if group_permission?(Permission::GROUP) && user_group_ids.present?
     return Permission::IDENTIFIED if group_permission?(Permission::IDENTIFIED)
@@ -513,8 +513,8 @@ class User < ApplicationRecord
     end
   end
 
-  def can_search_for_all?(record_model, id_search = false)
-    group_permission?(Permission::ALL) || (can?(:search_owned_by_others, record_model) && id_search && record_model)
+  def can_search_for_all?(record_model, record_search = false)
+    group_permission?(Permission::ALL) || (can?(:search_owned_by_others, record_model) && record_search && record_model)
   end
 
   def mobile_login_history

@@ -42,7 +42,7 @@ function Component({ handleToggleNav, mobileDisplay, mode, primeroModule, record
 
   useEffect(() => {
     if (registryRecord.isEmpty() && registryId && online) {
-      dispatch(fetchRecord(RECORD_PATH.families, registryId));
+      dispatch(fetchRecord(RECORD_PATH.registry_records, registryId));
     }
   }, [registryId, online, registryRecord.isEmpty()]);
 
