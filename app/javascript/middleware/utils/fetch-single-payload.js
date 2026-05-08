@@ -57,7 +57,8 @@ const fetchSinglePayload = async (action, store, options) => {
     db,
     external,
     queueAttachments,
-    mode
+    mode,
+    arrayFormat
   } = api;
 
   const [attachments, formData] = queueAttachments
@@ -92,7 +93,7 @@ const fetchSinglePayload = async (action, store, options) => {
 
   const urlParams = isImmutable(params) ? params.toJS() : params;
 
-  const fetchPath = buildPath(path, options, urlParams, external);
+  const fetchPath = buildPath(path, options, urlParams, external, arrayFormat);
 
   const fetch = async () => {
     fetchStatus({ store, type }, "STARTED", true);

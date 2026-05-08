@@ -12,6 +12,7 @@ import { usePermissions, READ_RECORDS, RESOURCES } from "../../../permissions";
 import { FiltersForm } from "../../../form-filters/components";
 import { fetchAgencies } from "../agencies-list/action-creators";
 import {
+  fetchRoles,
   fetchUserGroups,
   getEnabledAgencies,
   getEnabledUserGroups,
@@ -24,6 +25,7 @@ import { useMemoizedSelector } from "../../../../libs";
 import { DEFAULT_FILTERS, DATA } from "../constants";
 import { useDialog } from "../../../action-dialog";
 import Menu from "../../../menu";
+import { getRoles } from "../../../application/selectors";
 
 import { fetchUsers, setUsersFilters } from "./action-creators";
 import {
@@ -37,7 +39,14 @@ import {
   ACTION_IDS,
   USERS_ABILITIES
 } from "./constants";
-import { agencyBodyRender, buildObjectWithIds, buildUsersQuery, getFilters, buildActionList } from "./utils";
+import {
+  agencyBodyRender,
+  buildObjectWithIds,
+  buildUsersQuery,
+  getFilters,
+  buildActionList,
+  roleBodyRender
+} from "./utils";
 import AlertMaxUser from "./components/alert-max-user";
 import NewUserBtn from "./components/new-user-button";
 import DisableDialog from "./components/disable-dialog";
@@ -53,6 +62,7 @@ function Container() {
   const recordType = "users";
 
   const agencies = useMemoizedSelector(state => selectAgencies(state));
+  const roles = useMemoizedSelector(state => getRoles(state, recordType));
   const currentFilters = useMemoizedSelector(state => getAppliedFilters(state, recordType));
   const enabledAgencies = useMemoizedSelector(state => getEnabledAgencies(state));
   const filterUserGroups = useMemoizedSelector(state => getEnabledUserGroups(state));
@@ -63,10 +73,16 @@ function Container() {
   const maximumUsersLimit = maximumUsersWarningEnabled ? maximumUsersWarning : maximumUsers;
 
   const agenciesWithId = buildObjectWithIds(agencies);
-
   const columns = LIST_HEADERS.map(({ label, ...rest }) => ({
     label: i18n.t(label),
     ...rest,
+    ...(rest.name === "role_unique_id"
+      ? {
+          options: {
+            customBodyRender: value => roleBodyRender(roles, value)
+          }
+        }
+      : {}),
     ...(rest.name === "agency_id"
       ? { options: { customBodyRender: value => agencyBodyRender(i18n, agenciesWithId, value) } }
       : {})
@@ -78,6 +94,7 @@ function Container() {
     if (canListAgencies) {
       dispatch(fetchAgencies({ options: { per: 999 } }));
     }
+    dispatch(fetchRoles());
     dispatch(fetchUserGroups());
   }, []);
 
@@ -116,7 +133,7 @@ function Container() {
 
   const filterProps = {
     clearFields: [AGENCY, DISABLED, USER_GROUP, LAST_DATE],
-    filters: getFilters(i18n, enabledAgencies, filterUserGroups, filterPermission),
+    filters: getFilters(i18n, enabledAgencies, filterUserGroups, filterPermission, roles),
     defaultFilters,
     initialFilters: DEFAULT_FILTERS,
     onSubmit: data => {

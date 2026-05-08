@@ -91,7 +91,8 @@ class Role < ApplicationRecord
       return list_referral_authorization if options[:referral_authorization]
 
       roles_list = options[:managed] ? list_managed(user) : all
-      roles_list = roles_list.where(disabled: options[:disabled].values) if options[:disabled]
+      roles_list = roles_list.where(disabled: options[:disabled]) if options[:disabled]
+      roles_list = roles_list.where(group_permission: options[:group_permission]) if options[:group_permission]
 
       OrderByPropertyService.apply_order(roles_list, options)
     end

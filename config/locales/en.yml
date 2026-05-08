@@ -467,6 +467,7 @@ en:
       user_group: User Group
       workflow: Cases by Workflow
       module_id: Module
+      role: Role
       include_disabled: Include disabled
       safety_plan_needed: Is a safety plan needed for this case?
       self_harm_thoughts: In the past month, have you had serious thoughts or plans to end your own life?
@@ -4727,6 +4728,8 @@ en:
     read_write: Show and Edit
   roles:
     label: Roles
+    filter_by:
+      group_permission: What records does this role affect?
   saved_search:
     deleted: Search deleted successfully.
     filters_tab: Filters
@@ -5088,7 +5091,7 @@ en:
     headers:
       full_name: Full Name
       user_name: Username
-      position: Position
+      role: Role
       agency: Agency
     alerts:
       total_users_created: You have created %{total_enabled} out of your implementation's permitted %{maximum_users} enabled Users.

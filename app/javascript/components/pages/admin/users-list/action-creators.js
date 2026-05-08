@@ -11,7 +11,8 @@ export const fetchUsers = (params, asCallback = false) => {
     [asCallback ? "action" : "type"]: actions.USERS,
     api: {
       path: RECORD_PATH.users,
-      params: data
+      params: data,
+      arrayFormat: "brackets"
     }
   };
 };

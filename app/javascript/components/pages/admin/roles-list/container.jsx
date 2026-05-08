@@ -15,7 +15,7 @@ import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { usePermissions, RESOURCES, CREATE_RECORDS } from "../../../permissions";
 import { useMetadata } from "../../../records";
-import { useApp } from "../../../application";
+import { getSystemPermissions, useApp } from "../../../application";
 import { useMemoizedSelector } from "../../../../libs";
 import { FiltersForm } from "../../../form-filters/components";
 import { DEFAULT_FILTERS, DATA, DISABLED } from "../constants";
@@ -36,6 +36,7 @@ function Container() {
   }));
   const metadata = useMemoizedSelector(state => getMetadata(state, "roles"));
   const currentFilters = useMemoizedSelector(state => getAppliedFilters(state, [ADMIN_NAMESPACE, NAMESPACE]));
+  const systemPermissions = useMemoizedSelector(state => getSystemPermissions(state));
 
   const defaultFilters = fromJS(DEFAULT_FILTERS).merge(metadata);
   const canAddRoles = usePermissions(NAMESPACE, CREATE_RECORDS);
@@ -61,7 +62,7 @@ function Container() {
 
   const filterProps = {
     clearFields: [DISABLED],
-    filters: getFilters(i18n),
+    filters: getFilters(i18n, systemPermissions),
     onSubmit,
     defaultFilters,
     initialFilters: DEFAULT_FILTERS
