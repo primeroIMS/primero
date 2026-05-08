@@ -10,9 +10,7 @@ module FamilyLinkable
 
     before_save :stamp_family_fields
     before_save :sync_family_members
-    after_save :associate_family_member
     after_save :save_family
-    after_save :disassociate_family_member
   end
 
   def stamp_family_fields
@@ -58,7 +56,6 @@ module FamilyLinkable
 
       member.merge('case_id' => nil, 'case_id_display' => nil)
     end
-    @family_to_disassociate.save!
   end
 
   def update_associated_family(properties)
@@ -72,9 +69,13 @@ module FamilyLinkable
   end
 
   def save_family
-    return unless family.present? && family.has_changes_to_save?
-
-    family.save!
+    if family.present?
+      associate_family_member
+      family.save!
+    elsif @family_to_disassociate.present?
+      disassociate_family_member
+      @family_to_disassociate.save!
+    end
   end
 
   def update_family_fields(properties)

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { batch, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { useLocation } from "react-router-dom";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import { Add as AddIcon, List as ListIcon } from "@mui/icons-material";
 
 import LoadingIndicator from "../../../loading-indicator";

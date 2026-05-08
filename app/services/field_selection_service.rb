@@ -18,6 +18,6 @@ class FieldSelectionService
   end
 
   def self.preview?(params, model_class, user)
-    params[:id_search] && user.can_preview?(model_class)
+    params[:record_search] && user.can_preview?(model_class)
   end
 end

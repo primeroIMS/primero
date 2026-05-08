@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { batch, useDispatch } from "react-redux";
 import { fromJS } from "immutable";
-import Grid from "@mui/material/Grid";
 import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../../i18n";
@@ -41,6 +40,7 @@ import { agencyBodyRender, buildObjectWithIds, buildUsersQuery, getFilters, buil
 import AlertMaxUser from "./components/alert-max-user";
 import NewUserBtn from "./components/new-user-button";
 import DisableDialog from "./components/disable-dialog";
+import css from "./styles.css";
 
 function Container() {
   const i18n = useI18n();
@@ -155,21 +155,16 @@ function Container() {
         />
       </PageHeading>
       <PageContent>
-        <Grid container spacing={2}>
-          <Grid
-            size={{
-              xs: 12,
-              sm: 8
-            }}
-          >
+        <div className={css.container}>
+          <div>
             <AlertMaxUser
               limitUsersReached={limitUsersReached}
               maximumUsers={maximumUsersLimit}
               totalUsersEnabled={totalUsersEnabled}
             />
             <IndexTable title={i18n.t("users.label")} {...tableOptions} showCustomToolbar renderTitleMessage />
-          </Grid>
-          <Grid item xs={12} sm={4}>
+          </div>
+          <div>
             <DisableDialog
               selectedRecords={selectedRecords}
               recordType={recordType}
@@ -177,8 +172,8 @@ function Container() {
               setSelectedRecords={setSelectedRecords}
             />
             <FiltersForm {...filterProps} noMargin searchFieldLabel={i18n.t("users.filters.search")} showSearchField />
-          </Grid>
-        </Grid>
+          </div>
+        </div>
       </PageContent>
     </>
   );

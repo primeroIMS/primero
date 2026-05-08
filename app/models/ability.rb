@@ -24,6 +24,7 @@ class Ability
     baseline_permissions
     configure_record_attachments
     configure_flags
+    configure_associated_family
   end
   # rubocop:enable Metrics/MethodLength
 
@@ -283,6 +284,14 @@ class Ability
     [Child, TracingRequest, Incident, RegistryRecord, Family].each do |model|
       configure_flag(model)
       resolve_flag(model)
+    end
+  end
+
+  def configure_associated_family
+    return unless user.permission_by_permission_type?(Permission::FAMILY, Permission::SEARCH_AND_SELECT_FAMILY_RECORD)
+
+    can(:read, Family) do |instance|
+      user.permitted_to_access_record?(instance)
     end
   end
 end

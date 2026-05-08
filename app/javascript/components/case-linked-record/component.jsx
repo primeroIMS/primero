@@ -33,6 +33,7 @@ function Component({
   idField = "id",
   isPermitted,
   isRecordSelectable,
+  isRelationship = false,
   linkedRecordFormUniqueId,
   linkedRecords = [],
   linkedRecordType,
@@ -209,6 +210,7 @@ function Component({
 
       {showHeader && (
         <RecordHeader
+          recordType={recordType}
           fieldNames={headerFieldNames}
           linkedRecordType={linkedRecordType}
           handleOpenMatch={handleOpenMatch}
@@ -276,6 +278,7 @@ function Component({
           shouldSelect={shouldSelect}
           shouldFetchRecord={shouldFetchRecord}
           onResultClick={onResultClick}
+          isRelationship={isRelationship}
         />
       </SubformDrawer>
     </>
@@ -296,6 +299,7 @@ Component.propTypes = {
   idField: PropTypes.string,
   isPermitted: PropTypes.bool.isRequired,
   isRecordSelectable: PropTypes.func,
+  isRelationship: PropTypes.bool,
   linkedRecordFormUniqueId: PropTypes.string.isRequired,
   linkedRecords: PropTypes.array,
   linkedRecordType: PropTypes.string.isRequired,

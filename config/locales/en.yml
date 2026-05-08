@@ -4248,6 +4248,25 @@ en:
               in the system. No consent is needed for this action. Also allows the user to assign multiple
               Family Records from the list view.
             label: Assign
+          search_owned_by_others:
+            explanation: Allows a user to perform a search for records which they
+              would not usually have access to, either because they are not the record
+              owner for that family, or (for managers) because the record owner is not
+              in their user groups. Note that, while the user will see the family in
+              the search results view, they will not be able to click into the family
+              show page for that family, meaning they will not be able to see any detailed
+              information about the family.
+            label: Search for family records owned by other users
+          search_and_select_family_record:
+            explanation: 'Allows a user to search for and select a Family Record when performing
+              actions on other records, (example: linking a Family to their Case). This permission does not
+              give access to the Family list or view pages.'
+            label: Search for and select a Family Record
+          display_view_page:
+            explanation: Allows users to view preview information for a Family Record, even if that
+              user cannot access the full record. Administrators can control whether a field appears in this
+              preview by checking the 'Short Form' box for that field in the Form editor.
+            label: Preview
         label: Family
       report:
         actions:

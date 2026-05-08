@@ -149,7 +149,7 @@ function Component({
     if (hasForms) {
       handleFirstTab();
     }
-  }, [firstSelectedForm?.form_group_id, hasForms]);
+  }, [firstSelectedForm?.form_group_id, hasForms, recordType]);
 
   useEffect(() => {
     // If we are going back

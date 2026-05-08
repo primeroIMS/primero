@@ -6,12 +6,13 @@ import { useDispatch } from "react-redux";
 import { useI18n } from "../i18n";
 import { useApp } from "../application";
 import { useMemoizedSelector } from "../../libs";
-import { FAMILY_FROM_CASE, RECORD_PATH, RECORD_TYPES } from "../../config";
+import { FAMILY_FROM_CASE, RECORD_TYPES, RECORD_TYPES_PLURAL } from "../../config";
 import { LINK_FAMILY_RECORD_FROM_CASE, VIEW_FAMILY_RECORD_FROM_CASE, RESOURCES, usePermissions } from "../permissions";
 import CaseLinkedRecord from "../case-linked-record";
-import { fetchRecord, getLoadingRecordState, selectRecord } from "../records";
+import { fetchRelatedRecords, getRelatedRecord, getRelatedRecordIsLoading } from "../records";
 
-import { FAMILY_ID, FAMILY_ID_DISPLAY, FAMILY_NAME, FAMILY_NUMBER, FAMILY_OVERVIEW } from "./constants";
+import { FAMILY_ID, FAMILY_ID_DISPLAY, FAMILY_NAME, FAMILY_NUMBER, FAMILY_PREVIEW_FIELDS } from "./constants";
+import usePreviewForms from "./use-preview-form";
 
 function Component({ handleToggleNav, mobileDisplay, mode, primeroModule, recordType, setFieldValue, values }) {
   const i18n = useI18n();
@@ -22,18 +23,30 @@ function Component({ handleToggleNav, mobileDisplay, mode, primeroModule, record
     linkFamilyRecord: LINK_FAMILY_RECORD_FROM_CASE,
     viewFamilyRecord: VIEW_FAMILY_RECORD_FROM_CASE
   });
+  const recordTypePlural = RECORD_TYPES_PLURAL[recordType];
   const familyRecord = useMemoizedSelector(state =>
-    selectRecord(state, { isEditOrShow: true, recordType: RECORD_PATH.families, id: familyId })
+    getRelatedRecord(state, { recordType: recordTypePlural, fromRelationship: false, id: familyId })
   );
-  const isRecordLoading = useMemoizedSelector(state => getLoadingRecordState(state, RECORD_TYPES.families));
+  const isRecordLoading = useMemoizedSelector(state => getRelatedRecordIsLoading(state, recordTypePlural));
+  const previewForms = usePreviewForms({
+    defaultPreviewFieldNames: FAMILY_PREVIEW_FIELDS,
+    primeroModule,
+    recordType: RECORD_TYPES.families
+  });
 
   const searchTitle = i18n.t(`${recordType}.search_for`, { record_type: i18n.t("families.label") });
 
   useEffect(() => {
-    if (familyRecord.isEmpty() && familyId && online) {
-      dispatch(fetchRecord(RECORD_PATH.families, familyId));
+    if (mode.isShow && familyId && online) {
+      dispatch(
+        fetchRelatedRecords({
+          recordType: recordTypePlural,
+          relatedRecordType: RECORD_TYPES_PLURAL.family,
+          data: { ids: [familyId] }
+        })
+      );
     }
-  }, [familyId, online, familyRecord.isEmpty()]);
+  }, [familyId, online, mode.isShow]);
 
   const linkedRecords = familyRecord.isEmpty() ? fromJS([]) : fromJS([familyRecord]);
 
@@ -52,7 +65,7 @@ function Component({ handleToggleNav, mobileDisplay, mode, primeroModule, record
       drawerTitles={{ search: searchTitle }}
       linkFieldDisplay={FAMILY_ID_DISPLAY}
       caseFormUniqueId={FAMILY_FROM_CASE}
-      linkedRecordFormUniqueId={FAMILY_OVERVIEW}
+      recordViewForms={previewForms}
       headerFieldNames={[FAMILY_ID_DISPLAY, FAMILY_NUMBER, FAMILY_NAME]}
       searchFieldNames={[FAMILY_NUMBER, FAMILY_NAME]}
       validatedFieldNames={[FAMILY_NUMBER, FAMILY_NAME]}
@@ -62,6 +75,7 @@ function Component({ handleToggleNav, mobileDisplay, mode, primeroModule, record
       permissions={{ linkFamilyRecord, viewFamilyRecord }}
       isPermitted={linkFamilyRecord || viewFamilyRecord}
       phoneticFieldNames={[FAMILY_NAME]}
+      shouldFetchRecord={false}
     />
   );
 }
