@@ -270,7 +270,7 @@ describe Api::V2::UsersController, type: :request do
       it 'list the users of a specific agency' do
         login_for_test(permissions: @super_user_permissions)
 
-        get "/api/v2/users?agency=#{@agency_a.id}"
+        get "/api/v2/users?agency[]=#{@agency_a.id}"
 
         expect(response).to have_http_status(200)
         expect(json['data'].size).to eq(5)
