@@ -28,6 +28,9 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  width: 100%;
+  padding: 12px 0;
+  gap: var(--sp-1);
 }
 
 .titleHeader {
@@ -48,7 +51,6 @@
   font-stretch: normal;
   font-style: normal;
   letter-spacing: normal;
-  line-height: 2;
   color: var(--c-solid-black);
 }
 

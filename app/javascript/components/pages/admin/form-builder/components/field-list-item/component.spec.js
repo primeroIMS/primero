@@ -1,5 +1,5 @@
 import { fromJS } from "immutable";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 
 import { TEXT_FIELD, SELECT_FIELD } from "../../../../../form";
 import { mountedFormComponent, screen } from "../../../../../../test-utils";

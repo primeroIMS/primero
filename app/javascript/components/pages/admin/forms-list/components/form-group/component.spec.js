@@ -1,5 +1,5 @@
 import { mountedComponent, screen } from "test-utils";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import { Typography } from "@mui/material";
 
 import FormGroup from "./component";

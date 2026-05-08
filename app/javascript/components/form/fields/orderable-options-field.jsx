@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { cx } from "@emotion/css";
 import { useFieldArray, useWatch } from "react-hook-form";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import isNil from "lodash/isNil";
 
 import { useI18n } from "../../i18n";
