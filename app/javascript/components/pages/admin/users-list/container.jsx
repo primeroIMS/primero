@@ -25,6 +25,7 @@ import { DEFAULT_FILTERS, DATA } from "../constants";
 import { useDialog } from "../../../action-dialog";
 import Menu from "../../../menu";
 import { getRoles } from "../../../application/selectors";
+import useQueryParams from "../../../record-list/use-query-params";
 
 import { fetchUsers, setUsersFilters } from "./action-creators";
 import {
@@ -92,7 +93,8 @@ function Container() {
   }, []);
 
   useMetadata(recordType, metadata, fetchUsers, DATA, {
-    defaultFilterFields: { ...DEFAULT_FILTERS, locale: i18n.locale }
+    defaultFilterFields: { ...DEFAULT_FILTERS, locale: i18n.locale },
+    includeQueryParams: true
   });
 
   const onTableChange = filters => {

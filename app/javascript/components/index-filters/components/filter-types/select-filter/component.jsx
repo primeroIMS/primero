@@ -131,7 +131,9 @@ function Component({ filter, mode, moreSectionFilters = {}, multiple = true, res
     let foundOption = option;
 
     if (typeof option === "string") {
-      foundOption = filterOptions.find(lookupValue => [lookupValue?.code, lookupValue?.id].includes(option));
+      foundOption = filterOptions.find(lookupValue =>
+        [lookupValue?.code, lookupValue?.id, String(lookupValue?.id)].includes(option)
+      );
     }
 
     if (!foundOption) {
