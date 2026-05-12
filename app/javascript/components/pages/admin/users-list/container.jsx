@@ -25,7 +25,6 @@ import { DEFAULT_FILTERS, DATA } from "../constants";
 import { useDialog } from "../../../action-dialog";
 import Menu from "../../../menu";
 import { getRoles } from "../../../application/selectors";
-import useQueryParams from "../../../record-list/use-query-params";
 
 import { fetchUsers, setUsersFilters } from "./action-creators";
 import {
