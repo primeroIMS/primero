@@ -92,7 +92,8 @@ function Container() {
   }, []);
 
   useMetadata(recordType, metadata, fetchUsers, DATA, {
-    defaultFilterFields: { ...DEFAULT_FILTERS, locale: i18n.locale }
+    defaultFilterFields: { ...DEFAULT_FILTERS, locale: i18n.locale },
+    includeQueryParams: true
   });
 
   const onTableChange = filters => {
