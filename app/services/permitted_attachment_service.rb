@@ -2,7 +2,7 @@
 
 # A service to determine if an attachment is permitted for a user
 class PermittedAttachmentService
-  PREVIEW_TYPES = [Attachment::IMAGE, Attachment::AUDIO].freeze
+  PREVIEW_TYPES = [Attachment::IMAGE, Attachment::AUDIO, Attachment::SIGNATURE].freeze
 
   attr_accessor :user, :write, :attachment, :permitted_form_fields_service
 
