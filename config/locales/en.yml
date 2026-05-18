@@ -1315,6 +1315,7 @@ en:
     additional_settings: Additional Settings
     attachments:
       maximum_attached: Maximum attachments limit per record (%{maximumttachmentsPerRecord}) reached. This includes photos, audio, and documents. Please remove a file before adding another.
+      preview_not_available: This document is not ready to be previewed yet. Please come back later to try again.
     audio:
       current: Current Audio
     audio_upload_box: Audio Upload
