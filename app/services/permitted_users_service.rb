@@ -72,7 +72,6 @@ class PermittedUsersService
 
   def build_query_filters(filters)
     query_filters = filters.except(:query, :ids, *User::AUDIT_LAST_DATE.keys).compact
-    query_filters['disabled'] = query_filters['disabled'].values if query_filters['disabled'].present?
     user_group_ids = query_filters.delete('user_group_ids')
 
     return query_filters if user_group_ids.blank?
