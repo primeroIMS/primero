@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # A form is a collection of fields. Forms describe how a user may interact with a record.
-# rubocop:disable Metrics/ClassLength
 class FormSection < ApplicationRecord
   include LocalizableJsonProperty
   include ConfigurationRecord
@@ -81,7 +80,7 @@ class FormSection < ApplicationRecord
 
     def permitted_api_restricted_params
       [
-        { 'name' => {} }, { 'description' => {} }, 'mobile_form', 'visible', 'order', 'order_form_group',
+        'id', { 'name' => {} }, { 'description' => {} }, 'mobile_form', 'visible', 'order', 'order_form_group',
         'order_subform', 'form_group_id'
       ]
     end
