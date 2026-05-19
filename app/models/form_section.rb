@@ -239,7 +239,14 @@ class FormSection < ApplicationRecord
   def fields_from_params(fields_params)
     # TODO: We are allowing updating non-editable fields via the API
     fields_params.map.with_index do |field_params, index|
-      field = fields.find { |f| f.name == field_params['name'] } || Field.new
+      field = fields.find { |f| f.name == field_params['name'] }
+      field ||= if field_params['id'].present?
+                  existing_field = Field.find_by(id: field_params['id'])
+                  existing_field.present? ? existing_field.dup : Field.new
+                else
+                  Field.new
+                end
+
       field.update_properties(field_params)
       field.order = index unless field_params['order'].present?
       field
@@ -352,4 +359,3 @@ class FormSection < ApplicationRecord
     Role.where(id: roles_to_touch.pluck(:id).uniq).touch_all
   end
 end
-# rubocop:enable Metrics/ClassLength
