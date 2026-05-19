@@ -55,7 +55,8 @@ class ErrorService
       JWT::InvalidIssuerError, JWT::InvalidJtiError, JWT::ImmatureSignature, JWT::InvalidSubError
       code = 401
       errors = [ApplicationError.new(code:, message: error.message, resource: request.path)]
-    when Errors::BulkAssignRecordsSizeError, ActionController::InvalidAuthenticityToken
+    when Errors::BulkAssignRecordsSizeError, Errors::BulkFlagRecordsSizeError,
+      ActionController::InvalidAuthenticityToken
       code = 403
       errors = [ApplicationError.new(code:, message: error.message, resource: request.path)]
     when Errors::InvalidCaptcha
