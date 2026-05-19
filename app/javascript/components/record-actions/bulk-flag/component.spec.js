@@ -1,5 +1,4 @@
 import { fromJS } from "immutable";
-
 import { mountedComponent, screen } from "test-utils";
 
 import BulkFlag from "./component";
