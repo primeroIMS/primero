@@ -236,6 +236,7 @@ class FormSection < ApplicationRecord
     self.fields = fields
   end
 
+  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
   def fields_from_params(fields_params)
     # TODO: We are allowing updating non-editable fields via the API
     fields_params.map.with_index do |field_params, index|
@@ -252,6 +253,7 @@ class FormSection < ApplicationRecord
       field
     end
   end
+  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
   def subform_fields
     fields.select { |f| f.type == 'subform' }

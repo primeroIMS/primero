@@ -684,7 +684,8 @@ describe Api::V2::FormSectionsController, type: :request do
             },
             {
               id: existing_field.id,
-              name: existing_field.name
+              name: existing_field.name,
+              display_name: { en: 'First field in form section (Copied)' }
             }
           ]
         }
@@ -695,6 +696,7 @@ describe Api::V2::FormSectionsController, type: :request do
       @form6.reload
       expect(@form6.fields[1].name).to eq(existing_field.name)
       expect(@form6.fields[1].subform_summary).to eq(existing_field.subform_summary)
+      expect(@form6.fields[1].display_name_i18n['en']).to eq('First field in form section (Copied)')
     end
 
     it "returns 403 if user isn't authorized to update records" do
