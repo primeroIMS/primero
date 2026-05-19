@@ -134,6 +134,13 @@ const components = {
       }
     }
   },
+  MuiGrid: {
+    styleOverrides: {
+      root: {
+        width: "100%"
+      }
+    }
+  },
   MuiAccordionSummary: {
     styleOverrides: {
       content: {
