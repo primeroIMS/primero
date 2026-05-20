@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import PropTypes from "prop-types";
-import { InputLabel, useMediaQuery } from "@mui/material";
+import { useMediaQuery } from "@mui/material";
 import { useForm } from "react-hook-form";
 import isEmpty from "lodash/isEmpty";
 import { cx } from "@emotion/css";
