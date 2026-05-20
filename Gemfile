@@ -43,7 +43,7 @@ gem 'rack',                '~> 3.2'
 # ActionDispatch::Request.remote_ip functionality. The diff with latest stable v6.8.0 has been approved:
 # https://github.com/rack/rack-attack/compare/v6.8.0...e938879178075afbf0dda4e99f0e11d408720b41
 gem 'rack-attack', git: 'https://github.com/rack/rack-attack/', ref: 'e938879178075afbf0dda4e99f0e11d408720b41'
-gem 'rails',               '8.1.1'
+gem 'rails',               '~> 8.1', '>= 8.1.2'
 gem 'rake',                '~> 13.0'
 gem 'rbnacl',              '>= 7.1.1'  # Libsodium Ruby binding. Used for encrypting export file passwords.
 gem 'resolv',              '~> 0.6'    # DNS resolver. TODO: Used by what?
