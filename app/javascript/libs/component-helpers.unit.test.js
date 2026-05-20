@@ -143,8 +143,14 @@ describe("component-helpers", () => {
   });
 
   describe("toServerDateFormat", () => {
+    const { getTimezoneOffset } = Date.prototype;
+
     beforeEach(() => {
       const today = parseISO("2010-01-05T18:30:00Z");
+
+      // Use a -04:00 timezone
+      // eslint-disable-next-line no-extend-native
+      Date.prototype.getTimezoneOffset = () => 240;
 
       jest.useFakeTimers().setSystemTime(today);
     });
@@ -162,6 +168,9 @@ describe("component-helpers", () => {
     });
 
     afterEach(() => {
+      // Restore original method
+      // eslint-disable-next-line no-extend-native
+      Date.prototype.getTimezoneOffset = getTimezoneOffset;
       jest.resetAllMocks();
       jest.useRealTimers();
     });
