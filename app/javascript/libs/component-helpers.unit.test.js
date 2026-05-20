@@ -146,7 +146,10 @@ describe("component-helpers", () => {
     const { getTimezoneOffset } = Date.prototype;
 
     beforeEach(() => {
-      const today = parseISO("2010-01-05T18:30:00Z");
+      const today = parseISO("2010-01-05T14:30:00Z");
+
+      // eslint-disable-next-line no-extend-native
+      Date.prototype.getTimezoneOffset = () => 0;
 
       // Use a -04:00 timezone
       // eslint-disable-next-line no-extend-native
@@ -168,7 +171,6 @@ describe("component-helpers", () => {
     });
 
     afterEach(() => {
-      // Restore original method
       // eslint-disable-next-line no-extend-native
       Date.prototype.getTimezoneOffset = getTimezoneOffset;
       jest.resetAllMocks();
