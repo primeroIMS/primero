@@ -1,6 +1,6 @@
 # -------------------------------------------------------------------- BUILD STAGE
 ARG BUILD_REGISTRY
-ARG RUBY_VERSION=3.4.7
+ARG RUBY_VERSION=3.4.9
 ARG ALPINE_VERSION=alpine3.22
 FROM ${BUILD_REGISTRY}ruby:${RUBY_VERSION}-${ALPINE_VERSION} AS build-env
 

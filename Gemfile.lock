@@ -504,8 +504,9 @@ GEM
     zeitwerk (2.7.5)
 
 PLATFORMS
-  x86_64-linux
+  arm64-darwin-24
   arm64-darwin-25
+  x86_64-linux
   x86_64-linux-gnu
 
 DEPENDENCIES
@@ -585,7 +586,7 @@ DEPENDENCIES
   write_xlsx (~> 1.11)
 
 RUBY VERSION
-   ruby 3.4.7p58
+   ruby 3.4.9
 
 BUNDLED WITH
    2.7.2
