@@ -1,0 +1,6 @@
+.searchLabel {
+  font-size: var(--fs-14);
+  font-weight: 700;
+  margin: 5px 0;
+  line-height: var(--fs-20);
+}
