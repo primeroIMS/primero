@@ -16,12 +16,11 @@ function SignatureInput({ commonInputProps, metaInputProps, formMethods }) {
   const { control } = formMethods;
   const i18n = useI18n();
 
-  const signatureInfo = (values, signatureMetaField) => {
+  const signatureInfo = (values, signatureMetaField, labelOverride) => {
     const fieldValue = values?.[signatureMetaField];
 
     if (!fieldValue) return false;
-    const selectedLabelFromField = get(signatureProvidedByLabel, i18n.locale, null);
-    const signatureLabel = selectedLabelFromField || i18n.t(`fields.${signatureMetaField}`);
+    const signatureLabel = labelOverride || i18n.t(`fields.${signatureMetaField}`);
 
     return (
       <div>
@@ -48,7 +47,7 @@ function SignatureInput({ commonInputProps, metaInputProps, formMethods }) {
               <AssetJwt src={signature} className={css.signatureImage} />
               <div className={css.signatureDetails}>
                 {signatureInfo(value, "signature_provided_on")}
-                {signatureInfo(value, "signature_provided_by", "signatureProvidedByLabel")}
+                {signatureInfo(value, "signature_provided_by", get(signatureProvidedByLabel, i18n.locale, null))}
                 {signatureInfo(value, "signature_created_by_user")}
               </div>
             </>

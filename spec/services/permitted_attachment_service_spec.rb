@@ -297,6 +297,25 @@ describe PermittedAttachmentService, search: true do
 
         expect(permitted_attachment_service.permitted_to_preview?).to be(false)
       end
+
+      it 'returns true if the attachment is a signature' do
+        signature_attachment = Attachment.new(
+          record: record_without_access, field_name: 'consent_signature', attachment_type: Attachment::SIGNATURE,
+          file_name: 'sample.png', attachment: attachment_base64('sample.png'), date: Date.new(2020, 2, 1)
+        )
+        signature_attachment.attach!
+        role_with_read_form_permission.permissions = [
+          Permission.new(
+            resource: Permission::CASE, actions: [Permission::DISPLAY_VIEW_PAGE, Permission::SEARCH_OWNED_BY_OTHERS]
+          )
+        ]
+        role_with_read_form_permission.save!
+        user.role = role_with_read_form_permission
+        user.save!
+        permitted_attachment_service = PermittedAttachmentService.new(user, signature_attachment, nil)
+
+        expect(permitted_attachment_service.permitted_to_preview?).to be(true)
+      end
     end
   end
 
