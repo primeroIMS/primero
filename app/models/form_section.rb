@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # A form is a collection of fields. Forms describe how a user may interact with a record.
+# rubocop:disable Metrics/ClassLength
 class FormSection < ApplicationRecord
   include LocalizableJsonProperty
   include ConfigurationRecord
@@ -361,3 +362,4 @@ class FormSection < ApplicationRecord
     Role.where(id: roles_to_touch.pluck(:id).uniq).touch_all
   end
 end
+# rubocop:enable Metrics/ClassLength

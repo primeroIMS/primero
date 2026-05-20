@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # Model for Field
+# rubocop:disable Metrics/ClassLength
 class Field < ApplicationRecord
   include LocalizableJsonProperty
   include ConfigurationRecord
@@ -63,6 +64,7 @@ class Field < ApplicationRecord
   before_create :sanitize_name, :set_default_date_validation, :set_tally_field_defaults
   after_save :sync_modules
 
+  # rubocop:disable Metrics/MethodLength
   def self.permitted_api_params
     [
       'id', 'name', 'type', 'multi_select', 'form_section_id', 'visible', 'mobile_visible', 'phone_number',
