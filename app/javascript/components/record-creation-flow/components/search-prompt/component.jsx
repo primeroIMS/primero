@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import isEmpty from "lodash/isEmpty";
 import { cx } from "@emotion/css";
 
+import SearchLabel from "../../../search-box/search-label";
 import { useMemoizedSelector } from "../../../../libs";
 import { getIsEmptyRecords } from "../../../index-table";
 import SearchHelpText from "../../../index-filters/components/search-box/search-help-text";
@@ -120,9 +121,7 @@ function Component({
           <p className={searchBoxCss.searchTitle}>{i18n.t("navigation.search_by")}</p>
           <SearchFieldToggle handleChange={handleToggleChange} value={searchField} />
         </div>
-        <InputLabel shrink htmlFor={FIELD_NAME_QUERY} className={css.inputLabel} required>
-          {i18n.t("case.enter_id_number")}
-        </InputLabel>
+        <SearchLabel searchField={searchField} htmlFor={FIELD_NAME_QUERY} required />
         <div className={css.searchBox}>
           <div className={classes}>
             <SearchInput
