@@ -84,10 +84,10 @@ class Field < ApplicationRecord
 
   def self.permitted_api_restricted_params
     [
-      'id', 'name', 'type', 'form_section_id', 'visible', 'mobile_visible',
+      'id', 'name', 'form_section_id', 'visible', 'mobile_visible',
       { 'display_name' => {} }, { 'help_text' => {} },
       { 'guiding_questions' => {} }, { 'signature_provided_by_label' => {} },
-      'order', 'subform_section_id'
+      'order', 'subform_section_id', { 'option_strings_text' => [:id, :disabled, { display_text: {} }] }
     ]
   end
   # rubocop:enable Metrics/MethodLength
