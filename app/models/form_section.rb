@@ -247,8 +247,7 @@ class FormSection < ApplicationRecord
     return update_existing_field(existing, field_params, index) if existing
 
     if field_params['id'].present?
-      duplicate_field_from_params(field_params,
-                                  index)
+      duplicate_field_from_params(field_params, index)
     else
       new_field_from_params(field_params, index)
     end
