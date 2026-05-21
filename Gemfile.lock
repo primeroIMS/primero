@@ -280,7 +280,7 @@ GEM
     nokogiri (1.19.3-x86_64-linux-gnu)
       racc (~> 1.4)
     observer (0.1.2)
-    openssl (3.3.1)
+    openssl (4.0.2)
     orm_adapter (0.5.0)
     ostruct (0.6.3)
     parallel (1.27.0)
@@ -312,7 +312,7 @@ GEM
       date
       stringio
     public_suffix (7.0.5)
-    puma (7.0.4)
+    puma (8.0.1)
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.2.6)
@@ -495,9 +495,9 @@ GEM
     useragent (0.16.11)
     warden (1.2.9)
       rack (>= 2.0.9)
-    web-push (3.0.2)
+    web-push (3.1.0)
       jwt (~> 3.0)
-      openssl (~> 3.0)
+      openssl (>= 3.0)
     websocket-driver (0.8.0)
       base64
       websocket-extensions (>= 0.1.0)
@@ -557,7 +557,7 @@ DEPENDENCIES
   prawn-table (~> 0.2)
   pry
   pry-byebug
-  puma (~> 7.0)
+  puma (~> 8.0)
   rack (~> 3.2)
   rack-attack!
   rack-mini-profiler (>= 1.0.0)

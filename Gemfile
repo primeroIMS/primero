@@ -37,7 +37,7 @@ gem 'pdfjs_viewer',        '~> 0.1'    # PDF.js viewer for displaying PDFs in th
 gem 'pg',                  '~> 1.5'    # Ruby PostgreSQL binding
 gem 'prawn',               '~> 2.4'    # PDF generation
 gem 'prawn-table',         '~> 0.2'    # PDF generation
-gem 'puma',                '~> 7.0'    # Ruby Rack server
+gem 'puma',                '~> 8.0'    # Ruby Rack server
 gem 'rack',                '~> 3.2'
 # TODO: We are using the latest rack-attack commit on the 'main' branch in order to have access to the
 # ActionDispatch::Request.remote_ip functionality. The diff with latest stable v6.8.0 has been approved:
