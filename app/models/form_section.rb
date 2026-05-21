@@ -81,7 +81,7 @@ class FormSection < ApplicationRecord
 
     def permitted_api_restricted_params
       [
-        'id', { 'name' => {} }, { 'description' => {} }, 'mobile_form', 'visible', 'order', 'order_form_group',
+        { 'name' => {} }, { 'description' => {} }, 'mobile_form', 'visible', 'order', 'order_form_group',
         'order_subform', 'form_group_id'
       ]
     end
