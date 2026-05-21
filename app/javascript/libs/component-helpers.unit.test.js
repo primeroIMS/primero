@@ -151,6 +151,10 @@ describe("component-helpers", () => {
       // eslint-disable-next-line no-extend-native
       Date.prototype.getTimezoneOffset = () => 0;
 
+      // Use a -04:00 timezone
+      // eslint-disable-next-line no-extend-native
+      Date.prototype.getTimezoneOffset = () => 240;
+
       jest.useFakeTimers().setSystemTime(today);
     });
 
