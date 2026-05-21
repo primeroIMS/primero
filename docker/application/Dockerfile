@@ -121,6 +121,7 @@ ENV RAILS_ENV=production
 # Install our packages
 RUN set -euox pipefail \
         ; apk update \
+        ; apk upgrade --no-cache busybox \
         ; apk add --no-cache $BUILD_PACKAGES \
         ; apk add --no-cache $RUNTIME_PACKAGES \
         ; if [ "$IS_WORKER" = true ]; then \
