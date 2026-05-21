@@ -111,7 +111,7 @@ In the Primero top-level directory, there is a file `.ruby-version`, which conta
 
 ```bash
 cat .ruby-version
-# This will print something like: ruby-3.3.8
+# This will print something like: ruby-3.4.9
 # rbenv needs the version number, but not the ruby- prefix.
 rbenv install $(cat .ruby-version)
 ```
@@ -121,7 +121,7 @@ Once you have succeeded in installing ruby, it is worth checking that you are no
 
 ```bash
 ruby --version
-# This should print something like: ruby 3.3.8 (or whatever the current version in the .ruby-version is)
+# This should print something like: ruby 3.4.9 (or whatever the current version in the .ruby-version is)
 ```
 
 ## Installing node using `nvm`
