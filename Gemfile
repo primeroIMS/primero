@@ -15,7 +15,7 @@ gem 'daemons',             '~> 1.4'   # Gem to run the delayed jobs
 gem 'deep_merge',          '~> 1.2',   # Recursive merging of Hashes. Used for merging params to existing records.
     require: 'deep_merge/rails_compat'
 gem 'delayed_job_active_record', '~> 4.1.7'
-gem 'devise',              '~> 4.9'    # Authentication framework
+gem 'devise',              '~> 5.0'    # Authentication framework
 gem 'drb',                 '~> 2.2'    # Removed Ruby 3.4 dependency
 gem 'faraday',             '~> 2.0'    # Ruby HTTP client. Adapters are maintained in separate gems starting with 2.0
 gem 'faraday-net_http_persistent', '~> 2.0'
