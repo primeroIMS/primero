@@ -98,6 +98,16 @@ describe Api::V2::LocationsController, type: :request do
         [@locations_d02.location_code, @locations_d01.location_code, @locations_ct01.location_code]
       )
     end
+
+    it 'returns 403 if user is not authorized to access' do
+      login_for_test(permissions: [Permission.new(resource: Permission::METADATA,
+                                                  actions: [Permission::MANAGE_RESTRICTED])])
+      get '/api/v2/locations'
+
+      expect(response).to have_http_status(403)
+      expect(json['errors'].size).to eq(1)
+      expect(json['errors'][0]['resource']).to eq('/api/v2/locations')
+    end
   end
 
   describe 'POST /api/v2/locations' do
@@ -332,7 +342,6 @@ describe Api::V2::LocationsController, type: :request do
         login_for_test(permissions: [Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE])])
         params = { data: { file_name: @file_name, data_base64: @data_base64 } }
         post '/api/v2/locations/import', params:, as: :json
-
         expect(response).to have_http_status(422)
         expect(json['data']['status']).to eq('some_failure')
         expect(json['data']['total']).to eq(294)
