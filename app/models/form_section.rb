@@ -263,6 +263,7 @@ class FormSection < ApplicationRecord
     existing = Field.find_by(id: field_params['id'])
     field = existing ? existing.dup : Field.new
     field.update_properties(field_params)
+    field.disabled = false
     field.order = index unless field_params['order'].present?
     field
   end

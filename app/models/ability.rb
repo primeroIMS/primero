@@ -12,7 +12,7 @@ class Ability
     alias_user_actions
     @user = user
     @permitted_form_fields_service = PermittedFormFieldsService.instance
-    can_index
+    can_index(user)
     can_access_self(user)
     can_search(user)
     can_read_reports
@@ -205,11 +205,12 @@ class Ability
     alias_action destroy: :delete
   end
 
-  def can_index
+  def can_index(user)
     can [:index], SystemSettings
     can :index, FormSection
     can [:index], Lookup
-    can [:index], Location
+    can [:index], Location unless user.permission_by_permission_type?(Permission::METADATA,
+                                                                      Permission::MANAGE_RESTRICTED)
     can :index, Report
   end
 
