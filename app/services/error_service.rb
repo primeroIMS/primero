@@ -66,7 +66,7 @@ class ErrorService
                                      resource: request.path)]
     else
       code = 500
-      errors = [ApplicationError.new(code:,message: error.message,resource: request.path)]
+      errors = [ApplicationError.new(code:, message: error.message, resource: request.path)]
       Rails.logger.error error.backtrace.join("\n\t")
     end
     [code, errors]
