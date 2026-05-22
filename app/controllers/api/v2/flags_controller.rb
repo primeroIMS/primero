@@ -2,7 +2,9 @@
 
 # Endpoint for managing flags for a record
 class Api::V2::FlagsController < Api::V2::RecordResourceController
-  before_action { authorize! :flag, model_class }
+  before_action(except: [:create_bulk]) { authorize! :flag, model_class }
+  before_action :bulk_flag_params, only: [:create_bulk]
+  before_action :verify_bulk_records_size, only: [:create_bulk]
 
   def create
     authorize! :flag_record, @record
@@ -18,8 +20,8 @@ class Api::V2::FlagsController < Api::V2::RecordResourceController
   end
 
   def create_bulk
-    authorize_all!(:flag, @records)
-    model_class.batch_flag(@records, params['data']['message'], params['data']['date'].to_date, current_user.user_name)
+    authorize! :flag_multiple, model_class
+    BulkFlagRecordsJob.perform_later(model_class, current_user, bulk_flag_params)
   end
 
   def create_action_message
@@ -36,6 +38,25 @@ class Api::V2::FlagsController < Api::V2::RecordResourceController
 
   def status
     params[:data][:id].present? ? 204 : 200
+  end
+
+  private
+
+  def find_records
+    @records = []
+    @records_total = BulkFlagService.new(model_class, current_user, bulk_flag_params).search_records.total
+  end
+
+  def verify_bulk_records_size
+    return if @records_total <= Flag::MAX_BULK_FLAGS
+
+    raise(Errors::BulkFlagRecordsSizeError, 'case.messages.bulk_flag_limit')
+  end
+
+  def bulk_flag_params
+    @bulk_flag_params ||= params.require(:data)
+                                .permit(:message, :date, :query, filters: {})
+                                .tap { |data_param| data_param.require(:filters) }
   end
 
   def permitted_create_params

@@ -140,14 +140,14 @@ describe Api::V2::AssignsController, type: :request do
         stub_const('Assign::MAX_BULK_RECORDS', -1)
       end
 
-      it 'raises Errors::ForbiddenOperation' do
+      it 'raises Errors::BulkAssignRecordsSizeError' do
         sign_in(@user1)
         filters = { id: Array.new(3) { SecureRandom.uuid } }
         params = { data: { transitioned_to: 'user2', notes: 'Test Notes', filters: } }
 
         post('/api/v2/cases/assigns', params:)
 
-        expect(response).to have_http_status(403)
+        expect(response).to have_http_status(422)
       end
     end
 
