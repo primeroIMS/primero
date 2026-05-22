@@ -1,4 +1,6 @@
 import { isImmutable } from "immutable";
+import isEmpty from "lodash/isEmpty";
+import omitBy from "lodash/omitBy";
 
 import { FETCH_TIMEOUT, ROUTES } from "../../config";
 import { DEFAULT_FETCH_OPTIONS } from "../constants";
@@ -158,7 +160,7 @@ const fetchSinglePayload = async (action, store, options) => {
 
         handleRestCallback(store, successCallback, response, json, fromQueue);
 
-        if (attachments) {
+        if (!isEmpty(omitBy(attachments, isEmpty))) {
           processAttachments({
             attachments,
             id: id || json?.data?.id,
