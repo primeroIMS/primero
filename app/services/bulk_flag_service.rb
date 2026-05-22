@@ -9,12 +9,14 @@ class BulkFlagService
   end
 
   def flag_records!
-    search_records.records.unscope(:includes).in_batches(of: 10) do |records|
-      records.each do |record|
-        record.add_flag!(@args[:message], @args[:date]&.to_date, @flagged_by.user_name)
-      rescue StandardError => e
-        Rails.logger.error e.message
-        next
+    search_records.records.unscope(:includes).in_batches(of: 50) do |records|
+      ActiveRecord::Base.transaction do
+        records.each do |record|
+          record.add_flag!(@args[:message], @args[:date]&.to_date, @flagged_by.user_name)
+        rescue StandardError => e
+          Rails.logger.error e.message
+          next
+        end
       end
     end
   end

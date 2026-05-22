@@ -309,7 +309,7 @@ describe Api::V2::FlagsController, type: :request do
         expect(json['errors'][0]['resource']).to eq('/api/v2/cases/flags')
       end
 
-      it 'returns 403 when the number of matching records exceeds the bulk limit' do
+      it 'returns 422 when the number of matching records exceeds the bulk limit' do
         stub_const('Flag::MAX_BULK_FLAGS', -1)
         params = {
           data: {
@@ -320,7 +320,7 @@ describe Api::V2::FlagsController, type: :request do
         }
         post('/api/v2/cases/flags', params:)
 
-        expect(response).to have_http_status(403)
+        expect(response).to have_http_status(422)
       end
     end
 
