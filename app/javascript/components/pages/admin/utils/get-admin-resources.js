@@ -1,11 +1,10 @@
-import { ACTIONS, ADMIN_RESOURCES } from "../../../permissions/constants";
+import { ADMIN_RESOURCES, ADMIN_ACTIONS } from "../../../permissions/constants";
+import { checkPermissions } from "../../../permissions/utils";
 
 export default userPermissions => {
   return ADMIN_RESOURCES.filter(
     adminResource =>
       userPermissions.keySeq().includes(adminResource) &&
-      (userPermissions.get(adminResource).includes(ACTIONS.MANAGE) ||
-        userPermissions.get(adminResource).includes(ACTIONS.MANAGE_RESTRICTED)) &&
-      userPermissions.get(adminResource).size > 0
+      checkPermissions(userPermissions.get(adminResource), ADMIN_ACTIONS)
   );
 };
