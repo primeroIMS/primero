@@ -128,3 +128,15 @@ jobs:
           tags: |
             $(tag)-pg15
             $(latestpg15)
+
+      - task: CmdLine@2
+        displayName: 'Cleanup Docker images'
+        condition: always()
+        inputs:
+          script: |
+            # Remove tagged images created during this build
+            docker images --format "{{.Repository}}:{{.Tag}}" \
+              | grep -E ":$(tag)$|:$(latest)$|:$(latestpg14)$|:$(latestpg15)$" \
+              | xargs -r docker rmi 2>/dev/null || true
+            # Prune dangling intermediate layers from multi-stage builds (keeps tagged base images)
+            docker image prune -f
