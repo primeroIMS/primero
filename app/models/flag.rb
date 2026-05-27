@@ -4,6 +4,7 @@
 class Flag < ApplicationRecord
   EVENT_FLAG = 'flag'
   EVENT_UNFLAG = 'unflag'
+  MAX_BULK_FLAGS = 100
 
   belongs_to :record, polymorphic: true
 

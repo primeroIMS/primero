@@ -1,4 +1,5 @@
 import { METHODS } from "../../config";
+import { CLEAR_DIALOG } from "../action-dialog";
 import { ENQUEUE_SNACKBAR, generate } from "../notifier";
 
 import actions from "./actions";
@@ -49,6 +50,28 @@ export const addFlag = (body, message, path) => ({
         }
       }
     }
+  }
+});
+
+export const bulkAddFlag = (body, message, path) => ({
+  type: actions.BULK_FLAG,
+  api: {
+    path,
+    method: METHODS.POST,
+    body,
+    successCallback: [
+      { action: CLEAR_DIALOG },
+      {
+        action: ENQUEUE_SNACKBAR,
+        payload: {
+          message,
+          options: {
+            variant: "success",
+            key: generate.messageKey()
+          }
+        }
+      }
+    ]
   }
 });
 
