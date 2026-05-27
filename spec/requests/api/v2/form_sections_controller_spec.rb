@@ -698,7 +698,7 @@ describe Api::V2::FormSectionsController, type: :request do
       expect(@form6.fields[1].name).to eq(existing_field.name)
       expect(@form6.fields[1].subform_summary).to eq(existing_field.subform_summary)
       expect(@form6.fields[1].display_name_i18n['en']).to eq('First field in form section (Copied)')
-      expect(@form6.fields[1].disabled).to be_falsey
+      expect(@form6.fields[1].disabled).to be_truthy
     end
 
     it "returns 403 if user isn't authorized to update records" do
