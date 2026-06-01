@@ -36,7 +36,8 @@ import {
   ACTIVITY_FILTERS,
   USERS_DIALOG,
   ACTION_IDS,
-  USERS_ABILITIES
+  USERS_ABILITIES,
+  ROLE_ID
 } from "./constants";
 import { agencyBodyRender, buildObjectWithIds, getFilters, buildActionList, roleBodyRender } from "./utils";
 import AlertMaxUser from "./components/alert-max-user";
@@ -126,7 +127,7 @@ function Container() {
   };
 
   const filterProps = {
-    clearFields: [AGENCY, DISABLED, USER_GROUP, LAST_DATE],
+    clearFields: [AGENCY, DISABLED, USER_GROUP, LAST_DATE, ROLE_ID],
     filters: getFilters(i18n, enabledAgencies, filterUserGroups, filterPermission, roles),
     defaultFilters,
     initialFilters: DEFAULT_FILTERS,
