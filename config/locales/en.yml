@@ -1043,6 +1043,7 @@ en:
         terms_of_use_format: File should be png
         name_present: must not be blank
         must_sign_terms_of_use: Agency Terms of Use must be signed
+        no_signed_terms_of_use: This agency does not have a signed Terms of Use document uploaded.
       child:
         age: Age must be between 0 and 130
         date_of_birth: Please enter a valid date of birth for this case record

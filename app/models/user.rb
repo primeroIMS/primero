@@ -140,6 +140,7 @@ class User < ApplicationRecord
             presence: { message: 'errors.models.user.data_processing_consent_provided_on' },
             if: :data_processing_consent_required?
   validate :validate_latest_code_of_conduct
+  validate :validate_agency_terms_of_use, if: -> { Rails.configuration.enforce_terms_of_use }
   with_options if: :limit_maximum_users_enabled? do
     validate :validate_limit_user_reached, on: :create
     validate :validate_limit_user_reached_on_enabling, on: :update
@@ -855,6 +856,12 @@ class User < ApplicationRecord
     return if code_of_conduct == CodeOfConduct.current
 
     errors.add(:code_of_conduct_id, I18n.t('errors.models.user.code_of_conduct'))
+  end
+
+  def validate_agency_terms_of_use
+    return unless will_save_change_to_agency_id? && !agency.terms_of_use_enabled?
+
+    errors.add(:base, I18n.t('errors.models.agency.no_signed_terms_of_use'))
   end
 end
 # rubocop:enable Metrics/ClassLength

@@ -48,7 +48,7 @@ const sharedUserFields = (
   hideOnAccountPage,
   onClickChangePassword,
   useIdentity,
-  { agencyReadOnUsers, currentRoleGroupPermission, userGroups, webPushConfigEnabled }
+  { agencyReadOnUsers, currentRoleGroupPermission, userGroups, webPushConfigEnabled, enforceTermsOfUse }
 ) => [
   {
     display_name: i18n.t("user.full_name"),
@@ -179,6 +179,15 @@ const sharedUserFields = (
         ? OPTION_TYPES.AGENCY_CURRENT_USER
         : OPTION_TYPES.AGENCY,
     watchedInputs: [FIELD_NAMES.AGENCY_ID],
+    ...(enforceTermsOfUse && {
+      transformOptions: options => {
+        return options.map(option => ({
+          ...option,
+          disabled: !option.terms_of_use_enabled,
+          disabledMessage: i18n.t("errors.models.agency.no_signed_terms_of_use")
+        }));
+      }
+    }),
     visible: !hideOnAccountPage
   },
   {
@@ -277,14 +286,15 @@ export const form = (
   identityOptions,
   onClickChangePassword,
   hideOnAccountPage = false,
-  { agencyReadOnUsers, currentRoleGroupPermission, userGroups, webPushConfigEnabled } = {}
+  { agencyReadOnUsers, currentRoleGroupPermission, userGroups, webPushConfigEnabled, enforceTermsOfUse } = {}
 ) => {
   const useIdentity = useIdentityProviders && providers;
   const sharedFields = sharedUserFields(i18n, formMode, hideOnAccountPage, onClickChangePassword, useIdentity, {
     agencyReadOnUsers,
     currentRoleGroupPermission,
     userGroups,
-    webPushConfigEnabled
+    webPushConfigEnabled,
+    enforceTermsOfUse
   });
 
   const identityFields = identityUserFields(i18n, identityOptions);
