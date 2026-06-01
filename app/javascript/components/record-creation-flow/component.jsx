@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Drawer, FormHelperText } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -75,13 +75,19 @@ function Component({ open, onClose, recordType, primeroModule, preventCaseCreati
     }
   };
 
+  useEffect(() => {
+    if (queryParams?.query && open) {
+      goToNewCase();
+    }
+  }, [open]);
+
   const renderSkipAndCreate = !openConsentPrompt && (
     <div className={css.skipButtonContainer}>
       <ActionButton
         icon={<AddIcon />}
         text="case.skip_and_create"
         type={ACTION_BUTTON_TYPES.default}
-        disabled={!preventCaseCreationWithoutSearch || (preventCaseCreationWithoutSearch && isEmpty(queryParams.query))}
+        disabled={preventCaseCreationWithoutSearch && isEmpty(queryParams.query)}
         rest={{
           onClick: handleSkipAndCreate
         }}
