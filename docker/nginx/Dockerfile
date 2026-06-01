@@ -40,7 +40,7 @@ ENV GROUP_ID=${NGINX_GID}
 # If you are updating `version` or `ALPINE_VERSION`,
 # run: `docker scout cves primero/nginx:my-tag` to verify whether the versions of the security packages
 # listed in SECURITY_UPDATED_PACKAGES are still necessary.
-# ENV SECURITY_UPDATED_PACKAGES="libxml2=2.13.9-r0 libpng=1.6.57-r0 expat=2.7.5-r0 busybox=1.37.0-r14"
+ENV SECURITY_UPDATED_PACKAGES="libxml2=2.13.9-r1"
 
 COPY [ "nginx/root/", "/" ]
 
@@ -54,6 +54,7 @@ RUN set -ex \
     ; chown -R docker-nginx:docker-nginx /certs \
     ; apk update \
     ; apk add openssl \
+    ; apk add --no-cache $SECURITY_UPDATED_PACKAGES \
     ; mkdir -p /etc/letsencrypt \
     ; mkdir -p /etc/letsencrypt/accounts \
     ; mkdir -p /etc/letsencrypt/archive \
