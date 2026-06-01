@@ -22,7 +22,6 @@ function SearchPhoneInput({ formMethods, onInvalidNumber, ...rest }) {
       error={!!fieldError}
       onChange={onPhoneChange}
       useNationalFormatForDefaultCountryValue={false}
-      countryCallingCodeEditable={false}
       international
       addInternationalOption
       inputComponent={SearchTextInput}
