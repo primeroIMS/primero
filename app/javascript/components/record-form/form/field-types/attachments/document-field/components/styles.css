@@ -47,6 +47,8 @@
   align-items: center;
   padding: var(--sp-1);
   height: 100%;
+  flex-direction: column;
+  gap: var(--sp-2)
 }
 
 .zoomistContainer {

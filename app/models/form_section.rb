@@ -239,12 +239,40 @@ class FormSection < ApplicationRecord
 
   def fields_from_params(fields_params)
     # TODO: We are allowing updating non-editable fields via the API
-    fields_params.map.with_index do |field_params, index|
-      field = fields.find { |f| f.name == field_params['name'] } || Field.new
-      field.update_properties(field_params)
-      field.order = index unless field_params['order'].present?
-      field
+    fields_params.map.with_index { |field_params, index| resolve_field_from_params(field_params, index) }
+  end
+
+  def resolve_field_from_params(field_params, index)
+    existing = fields.find { |f| f.name == field_params['name'] }
+    return update_existing_field(existing, field_params, index) if existing
+
+    if field_params['id'].present?
+      duplicate_field_from_params(field_params, index)
+    else
+      new_field_from_params(field_params, index)
     end
+  end
+
+  def update_existing_field(field, field_params, index)
+    field.update_properties(field_params.except('name'))
+    field.order = index unless field_params['order'].present?
+    field
+  end
+
+  def duplicate_field_from_params(field_params, index)
+    existing = Field.find_by(id: field_params['id'])
+    field = existing ? existing.dup : Field.new
+    field.update_properties(field_params)
+    field.disabled = existing.disabled if existing.present?
+    field.order = index unless field_params['order'].present?
+    field
+  end
+
+  def new_field_from_params(field_params, index)
+    field = Field.new
+    field.update_properties(field_params)
+    field.order = index unless field_params['order'].present?
+    field
   end
 
   def subform_fields

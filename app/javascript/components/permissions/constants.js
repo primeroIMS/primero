@@ -76,6 +76,7 @@ export const ACTIONS = {
   EXPORT_UNHCR: "export_unhcr_csv",
   FIND_TRACING_MATCH: "find_tracing_match",
   FLAG: "flag",
+  BULK_FLAG: "flag_multiple",
   FLAG_RESOLVE_ANY: "resolve_any_flag",
   FLAG_UPDATE: "flag_update",
   GBV_STATISTICS: "gbv_statistics",

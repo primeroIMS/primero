@@ -25,7 +25,7 @@ import {
   VIEW_CASE_RELATIONSHIPS,
   MANAGE_RESTRICTED
 } from "./components/permissions/constants";
-import getAdminResources from "./components/pages/admin/utils/get-admin-resources";
+import { checkPermissions } from "./components/permissions/utils";
 
 const API_BASE_PATH = "/api/v2";
 
@@ -380,9 +380,13 @@ const ADMIN_NAV = [
 ];
 
 const APPLICATION_NAV = (permissions, userId) => {
-  const adminResources = getAdminResources(permissions);
-  const adminForm = adminResources[0] || ADMIN_RESOURCES.contact_information;
-  const adminSettingsOption = `/admin/${adminForm === RESOURCES.metadata ? RESOURCES.forms : adminForm}`;
+  const flatAdminNav = ADMIN_NAV.flatMap(nav => nav.items || [nav]);
+  const firstAccessibleNav = flatAdminNav.find(item =>
+    checkPermissions(permissions.get(item.recordType), item.permission)
+  );
+  const adminSettingsOption = firstAccessibleNav
+    ? `/admin${firstAccessibleNav.to}`
+    : `/admin/${RESOURCES.contact_information}`;
 
   return [
     {

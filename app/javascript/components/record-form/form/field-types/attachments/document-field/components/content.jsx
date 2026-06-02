@@ -2,10 +2,11 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 
 import ActionButton, { ACTION_BUTTON_TYPES } from "../../../../../../action-button";
-import { IMAGE_CONTENT_TYPES, PDF_CONTENT_TYPE } from "../constants";
+import { DOCX_CONTENT_TYPE, IMAGE_CONTENT_TYPES, PDF_CONTENT_TYPE } from "../constants";
 import { useMemoizedSelector } from "../../../../../../../libs";
 import { getUseIdentityProvider } from "../../../../../../login/selectors";
 import { getIDPToken } from "../../../../../../login/components/idp-selection/auth-provider";
+import { useI18n } from "../../../../../../i18n";
 
 import ImageViewer from "./image-viewer";
 import css from "./styles.css";
@@ -22,6 +23,7 @@ function Content({
   const [attachmentSrc, setAttachmentSrc] = useState(previewUrl || attachmentUrl);
   const [attachmentLoaded, setAttachmentLoaded] = useState(false);
   const isIDP = useMemoizedSelector(state => getUseIdentityProvider(state));
+  const i18n = useI18n();
 
   async function fetchAttachment() {
     const token = await getIDPToken();
@@ -47,6 +49,8 @@ function Content({
 
   const fallbackComponent = (
     <div className={css.downloadBtnContainer}>
+      {contentType === DOCX_CONTENT_TYPE && <div>{i18n.t("fields.attachments.preview_not_available")}</div>}
+
       <ActionButton
         text="buttons.download"
         type={ACTION_BUTTON_TYPES.default}

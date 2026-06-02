@@ -112,12 +112,6 @@
   background-color: var(--c-gold-yellow) !important;
 }
 
-.searchLabel {
-  font-size: var(--fs-14);
-  font-weight: 700;
-  margin: 5px 0;
-}
-
 .searchTitle {
   font-size: var(--fs-14);
   font-weight: 700;

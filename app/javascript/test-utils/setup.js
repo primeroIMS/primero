@@ -1,6 +1,7 @@
 import "./globals";
 import "@testing-library/jest-dom";
 import { MessageChannel } from "worker_threads";
+import { TextEncoder, TextDecoder } from "util";
 
 import { createMocks } from "react-idle-timer";
 import { cleanup } from "@testing-library/react";
@@ -8,6 +9,8 @@ import { cleanup } from "@testing-library/react";
 import db from "../db";
 
 global.IS_REACT_ACT_ENVIRONMENT = true;
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
 
 beforeAll(() => {
   // eslint-disable-next-line no-console

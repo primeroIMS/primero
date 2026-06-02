@@ -286,6 +286,7 @@ en:
       case_no_approval_request: There are no approval requests for this Case.
       bulk_assign_limit: You cannot assign more than 100 Cases at once.
       bulk_assign_limit_try_again: You cannot assign more than 100 Cases at once. Please select 100 Cases or fewer and then try again.
+      bulk_flag_limit: You cannot flag more than 100 Cases at once. Please select 100 Cases or fewer and then try again.
       referral_rejected: Referral has been rejected.
       transfer_request_made: Transfer Request has been made for this Case.
     save: Save Case
@@ -1315,6 +1316,7 @@ en:
     additional_settings: Additional Settings
     attachments:
       maximum_attached: Maximum attachments limit per record (%{maximumttachmentsPerRecord}) reached. This includes photos, audio, and documents. Please remove a file before adding another.
+      preview_not_available: This document is not ready to be previewed yet, but you can download it. Please come back later to try again.
     audio:
       current: Current Audio
     audio_upload_box: Audio Upload
@@ -1494,6 +1496,9 @@ en:
     update_flag: Update Flags
     flag_updated: Flag updated successfully
     title: Flags
+    bulk_flag_title: Flag Cases
+    bulk_selected: "%{count} Case(s) selected."
+    bulk_flag_success: "Primero is adding a flag to %{count} Case(s). It may take several minutes for all of these Cases to update."
   followup_reminders:
     system_generated_followup_flag: mandatory follow up visit
   form_section:
@@ -2904,6 +2909,7 @@ en:
       add_registry_record: Add registry record
       family: Family
       flag: Flag
+      flag_multiple: Flag multiple cases
       form: Forms
       group: Access all records or users in my group
       group_read: Group Read
@@ -3258,6 +3264,9 @@ en:
             explanation: Ability to add a flag to a case. Users with this permission
               can also remove the flags that they have added to a case.
             label: Flag
+          flag_multiple:
+            explanation: Allows a user to add a flag to multiple cases from the cases list.
+            label: Flag multiple cases
           resolve_any_flag:
             explanation: Allows the user to resolve any Flag on the record, regardless of who created the Flag.
             label: Resolve any Flag

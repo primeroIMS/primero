@@ -89,6 +89,7 @@ describe("record-actions/utils/build-action-list", () => {
       "approve",
       "export",
       "markForOffline",
+      "bulkFlag",
       "linkIncidentToCase",
       "attributeCase"
     ]);
