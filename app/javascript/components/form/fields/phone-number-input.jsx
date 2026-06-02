@@ -23,7 +23,6 @@ function PhoneNumberInput({ commonInputProps, formMethods }) {
         fieldError={fieldError}
         onChange={onPhoneChange}
         useNationalFormatForDefaultCountryValue={false}
-        countryCallingCodeEditable={false}
         international
         addInternationalOption
         disabled={disabled}
