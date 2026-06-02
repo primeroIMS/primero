@@ -50,7 +50,7 @@ function Container({ mode }) {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const { id } = useParams();
-  const { maximumUsersWarning } = useApp();
+  const { maximumUsersWarning, enforceTermsOfUse } = useApp();
   const { dialogOpen, dialogClose, pending, setDialogPending, setDialog } = useDialog([
     PASSWORD_MODAL,
     USER_CONFIRMATION_DIALOG
@@ -190,7 +190,8 @@ function Container({ mode }) {
       {
         agencyReadOnUsers,
         currentRoleGroupPermission,
-        webPushConfigEnabled: webPushConfig?.get("enabled", false)
+        webPushConfigEnabled: webPushConfig?.get("enabled", false),
+        enforceTermsOfUse
       }
     ).map(formSection => (
       <FormSection

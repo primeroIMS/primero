@@ -538,8 +538,14 @@ describe("Forms - Selectors", () => {
       });
 
       const expected = [
-        { id: "agency-1", display_text: "Agency 1", unique_id: "agency-1", disabled: false },
-        { id: "agency-2", display_text: "Agency 2", unique_id: "agency-2", disabled: true }
+        {
+          id: "agency-1",
+          display_text: "Agency 1",
+          unique_id: "agency-1",
+          disabled: false,
+          terms_of_use_enabled: false
+        },
+        { id: "agency-2", display_text: "Agency 2", unique_id: "agency-2", disabled: true, terms_of_use_enabled: false }
       ];
 
       expect(options).toEqual(expected);

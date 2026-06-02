@@ -66,6 +66,7 @@ export const FieldRecord = Record({
   option_strings_source: null,
   option_strings_text: null,
   optionFieldName: null,
+  transformOptions: null,
   order: null,
   password: false,
   phone_number: false,
