@@ -11,6 +11,7 @@ const ALLOWED_FILTER_KEYS = [
   "risk_level",
   "protection_risks",
   "self_harm_risk",
+  "self_harm_thoughts",
   "record_owner",
   "current_location",
   "protection_status",
@@ -20,7 +21,9 @@ const ALLOWED_FILTER_KEYS = [
   "my_cases",
   "type_of_risk",
   "loc:owned_by_location2",
-  "urgent_protection_concern"
+  "urgent_protection_concern",
+  "marginalized_community_self_identifying",
+  "displacement_status"
 ];
 const ALLOWED_LIST_HEADER_KEYS = [
   "priority",
