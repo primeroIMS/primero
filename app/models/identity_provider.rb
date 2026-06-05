@@ -14,7 +14,7 @@ class IdentityProvider < ApplicationRecord
 
   store_accessor :configuration,
                  :client_id, :authorization_url, :identity_scope,
-                 :verification_url, :issuer, :user_domain, :domain_hint, :force_standard_oidc,
+                 :verification_url, :issuer, :user_domain, :domain_hint, :force_standard_oidc, :username_claim,
                  :redirect_uri
 
   class << self

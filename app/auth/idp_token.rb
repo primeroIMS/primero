@@ -17,6 +17,9 @@ class IdpToken
       return idp_token unless content.present?
 
       idp_token.payload, idp_token.header = content
+      idp_token.identity_provider = IdentityProvider.identity_providers.find do |p|
+        p.issuer == idp_token.issuer
+      end
       idp_token
     end
 
@@ -49,9 +52,10 @@ class IdpToken
   end
 
   def user_name
-    email = payload && (payload['emails']&.first || payload['email'])
+    # TODO: We really shouldn't be using unstable username claims but instead use sub
+    email = payload && (payload[identity_provider.username_claim] || payload['emails']&.first || payload['email'])
     unless email.present?
-      Rails.logger.error('The claims ‘emails’ or ‘email’ are missing or malformed in the third party JWT')
+      Rails.logger.error("The claims 'emails' or 'email' are missing or malformed in the third party JWT")
     end
     email&.downcase
   end
