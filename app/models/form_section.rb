@@ -245,12 +245,9 @@ class FormSection < ApplicationRecord
   def resolve_field_from_params(field_params, index)
     existing = fields.find { |f| f.name == field_params['name'] }
     return update_existing_field(existing, field_params, index) if existing
+    return duplicate_field_from_params(field_params, index) if field_params['id'].present?
 
-    if field_params['id'].present?
-      duplicate_field_from_params(field_params, index)
-    else
-      new_field_from_params(field_params, index)
-    end
+    new_field_from_params(field_params, index)
   end
 
   def update_existing_field(field, field_params, index)
@@ -262,8 +259,7 @@ class FormSection < ApplicationRecord
   def duplicate_field_from_params(field_params, index)
     existing = Field.find_by(id: field_params['id'])
     field = existing ? existing.dup : Field.new
-    field.update_properties(field_params)
-    field.disabled = existing.disabled if existing.present?
+    field.update_properties(field_params.except('disabled'))
     field.order = index unless field_params['order'].present?
     field
   end
