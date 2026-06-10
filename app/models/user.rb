@@ -859,7 +859,7 @@ class User < ApplicationRecord
   end
 
   def validate_agency_terms_of_use
-    return unless will_save_change_to_agency_id? && !agency.terms_of_use_enabled?
+    return unless will_save_change_to_agency_id? && agency.terms_of_use_enabled? && !agency.terms_of_use.attached?
 
     errors.add(:base, I18n.t('errors.models.agency.no_signed_terms_of_use'))
   end

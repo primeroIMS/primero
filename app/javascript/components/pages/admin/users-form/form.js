@@ -183,7 +183,7 @@ const sharedUserFields = (
       transformOptions: options => {
         return options.map(option => ({
           ...option,
-          disabled: !option.terms_of_use_enabled,
+          disabled: option.terms_of_use_enabled && !option.terms_of_use_uploaded_at,
           disabledMessage: i18n.t("errors.models.agency.no_signed_terms_of_use")
         }));
       }

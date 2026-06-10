@@ -543,9 +543,17 @@ describe("Forms - Selectors", () => {
           display_text: "Agency 1",
           unique_id: "agency-1",
           disabled: false,
-          terms_of_use_enabled: false
+          terms_of_use_enabled: false,
+          terms_of_use_uploaded_at: false
         },
-        { id: "agency-2", display_text: "Agency 2", unique_id: "agency-2", disabled: true, terms_of_use_enabled: false }
+        {
+          id: "agency-2",
+          display_text: "Agency 2",
+          unique_id: "agency-2",
+          disabled: true,
+          terms_of_use_enabled: false,
+          terms_of_use_uploaded_at: false
+        }
       ];
 
       expect(options).toEqual(expected);
