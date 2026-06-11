@@ -106,6 +106,7 @@ FROM ${BUILD_REGISTRY}ruby:${RUBY_VERSION}-${ALPINE_VERSION}
 ENV BUILD_PACKAGES=bash
 ENV RUNTIME_PACKAGES="libpq gettext libintl vips libsodium-dev p7zip tini curl"
 ENV WORKER_PACKAGES="libreoffice font-noto font-noto-cjk font-noto-emoji font-noto-extra font-dejavu"
+ENV SECURITY_UPDATED_PACKAGES="openssl=3.5.7-r0"
 
 ARG APP_UID
 ARG APP_GID
@@ -122,6 +123,7 @@ ENV RAILS_ENV=production
 RUN set -euox pipefail \
         ; apk update \
         ; apk upgrade --no-cache busybox \
+        ; apk add --no-cache $SECURITY_UPDATED_PACKAGES \
         ; apk add --no-cache $BUILD_PACKAGES \
         ; apk add --no-cache $RUNTIME_PACKAGES \
         ; if [ "$IS_WORKER" = true ]; then \

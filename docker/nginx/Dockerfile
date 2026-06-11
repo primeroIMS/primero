@@ -1,7 +1,7 @@
 # ------------------------------------------------------------------ BUILD STAGE
 
 ARG BUILD_REGISTRY
-ARG version=1.30.1
+ARG version=1.31.1
 ARG ALPINE_VERSION=3.23
 
 FROM ${BUILD_REGISTRY}nginx:${version}-alpine${ALPINE_VERSION} AS builder
@@ -40,7 +40,7 @@ ENV GROUP_ID=${NGINX_GID}
 # If you are updating `version` or `ALPINE_VERSION`,
 # run: `docker scout cves primero/nginx:my-tag` to verify whether the versions of the security packages
 # listed in SECURITY_UPDATED_PACKAGES are still necessary.
-ENV SECURITY_UPDATED_PACKAGES="libxml2=2.13.9-r1"
+ENV SECURITY_UPDATED_PACKAGES="libxml2=2.13.9-r1 openssl=3.5.7-r0"
 
 COPY [ "nginx/root/", "/" ]
 
