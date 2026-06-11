@@ -16,7 +16,7 @@ import { FILE_FORMAT } from "../../../../config";
 
 import { TERMS_OF_USE, TERMS_OF_USE_ENABLED } from "./constants";
 
-export const validations = (i18n, formMode, enforceTermsOfUse) =>
+export const validations = i18n =>
   object().shape({
     agency_code: string().required(
       i18n.t("forms.required_field", {
