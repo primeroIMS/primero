@@ -1,5 +1,5 @@
 import { fromJS } from "immutable";
-import { object, string, boolean, array, lazy } from "yup";
+import { object, string, boolean, array } from "yup";
 
 import {
   FieldRecord,
@@ -16,19 +16,7 @@ import { FILE_FORMAT } from "../../../../config";
 
 import { TERMS_OF_USE, TERMS_OF_USE_ENABLED } from "./constants";
 
-const logoValidations = (i18n, formMode, enforceTermsOfUse) => ({
-  terms_of_use_base64: lazy(() =>
-    enforceTermsOfUse && formMode.get("isNew")
-      ? string().required(
-          i18n.t("forms.required_field", {
-            field: i18n.t("agency.terms_of_use")
-          })
-        )
-      : string().nullable()
-  )
-});
-
-export const validations = (i18n, formMode, enforceTermsOfUse) =>
+export const validations = i18n =>
   object().shape({
     agency_code: string().required(
       i18n.t("forms.required_field", {
@@ -46,8 +34,7 @@ export const validations = (i18n, formMode, enforceTermsOfUse) =>
       )
     }),
     services: array(),
-    telephone: string(),
-    ...logoValidations(i18n, formMode, enforceTermsOfUse)
+    telephone: string()
   });
 
 export const form = (i18n, formMode, enforceTermsOfUse) => {

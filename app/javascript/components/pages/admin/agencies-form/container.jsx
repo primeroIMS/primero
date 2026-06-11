@@ -41,7 +41,7 @@ function Container({ mode }) {
 
   const isEditOrShow = formMode.get("isEdit") || formMode.get("isShow");
 
-  const validationSchema = validations(i18n, formMode, enforceTermsOfUse);
+  const validationSchema = validations(i18n);
 
   const canEditAgencies = usePermissions(NAMESPACE, WRITE_RECORDS);
 
