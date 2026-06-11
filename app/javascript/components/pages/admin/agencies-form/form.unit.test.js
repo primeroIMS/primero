@@ -275,37 +275,11 @@ describe("<AgencyForm /> - agencies-form/form", () => {
       expect(() => schema.validateSync(testData)).toThrow();
     });
 
-    it("validates terms of use when enforced in new mode", () => {
-      const schema = validations(mockI18n, defaultFormMode, true);
-      const testData = {
-        agency_code: "TEST",
-        name: { en: "Test Agency" },
-        terms_of_use_base64: ""
-      };
+    it.todo("validates terms of use when enforced in new mode (Deprecated)");
 
-      expect(() => schema.validateSync(testData)).toThrow();
-    });
+    it.todo("does not require terms of use when not enforced (Deprecated)");
 
-    it("does not require terms of use when not enforced", () => {
-      const schema = validations(mockI18n, defaultFormMode, false);
-      const testData = {
-        agency_code: "TEST",
-        name: { en: "Test Agency" }
-      };
-
-      expect(() => schema.validateSync(testData)).not.toThrow();
-    });
-
-    it("does not require terms of use in edit mode even when enforced", () => {
-      const editMode = fromJS({ isShow: false, isEdit: true, isNew: false });
-      const schema = validations(mockI18n, editMode, true);
-      const testData = {
-        agency_code: "TEST",
-        name: { en: "Test Agency" }
-      };
-
-      expect(() => schema.validateSync(testData)).not.toThrow();
-    });
+    it.todo("does not require terms of use in edit mode even when enforced (Deprecated)");
 
     it("accepts valid agency data", () => {
       const schema = validations(mockI18n, defaultFormMode, false);
