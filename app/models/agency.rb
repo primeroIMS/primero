@@ -70,7 +70,6 @@ class Agency < ApplicationRecord
 
   validate :validate_logo_full_dimension, if: -> { logo_full.attached? }
   validate :validate_logo_icon_dimension, if: -> { logo_icon.attached? }
-  validate :terms_of_use_signed_if_enforced, if: -> { Rails.configuration.enforce_terms_of_use }
 
   before_create :generate_unique_id
   before_save :set_logo_enabled
@@ -233,12 +232,6 @@ class Agency < ApplicationRecord
     return if logo_full.attached? && logo_icon.attached?
 
     self.logo_enabled = false
-  end
-
-  def terms_of_use_signed_if_enforced
-    return if skip_terms_of_use || terms_of_use_signed || legacy_terms_of_use_exempt?
-
-    errors.add(:base, I18n.t('errors.models.agency.must_sign_terms_of_use'))
   end
 
   def legacy_terms_of_use_exempt?
