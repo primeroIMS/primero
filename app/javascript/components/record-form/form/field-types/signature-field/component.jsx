@@ -5,7 +5,7 @@ import {
   FormHelperText,
   InputLabel,
   useMediaQuery,
-  Drawer,
+  Dialog,
   DialogContent,
   DialogActions,
   DialogTitle,
@@ -184,7 +184,7 @@ function Component({ helperText, label, mode, name, field }) {
         <>
           <ActionButton icon={<HistoryEduIcon />} onClick={handleOpen} text={signatureDialogBtnText} />
 
-          <Drawer open={open} onClose={handleClose} maxWidth="sm" fullWidth>
+          <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
             <Formik
               initialValues={{ signature_provided_by: "", touched: false }}
               validateOnBlur={false}
@@ -278,7 +278,7 @@ function Component({ helperText, label, mode, name, field }) {
                 );
               }}
             </Formik>
-          </Drawer>
+          </Dialog>
         </>
       )}
       {(helperText || hasError) && (
