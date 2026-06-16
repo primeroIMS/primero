@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { SEPERATOR, TEXT_FIELD } from "../../constants";
 
 import getViolationFieldForGuidance from "./get-violation-field-for-guidance";

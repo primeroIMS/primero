@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { SEPARATOR } from "../../../../../../form";
 import { NEW_FIELD } from "../../../constants";
 

@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import PropTypes from "prop-types";
 import { Grid } from "@mui/material";
 
@@ -27,12 +25,26 @@ function ReferralsAndTransfers({ indicatorProps, userPermissions }) {
   return (
     <Grid container spacing={1} className={css.flexGrow}>
       {showReferralsDashboard && (
-        <Grid item xl={xlSizeTransition} md={mdSizeTransition} xs={12} className={css.flex}>
+        <Grid
+          className={css.flex}
+          size={{
+            xl: xlSizeTransition,
+            md: mdSizeTransition,
+            xs: 12
+          }}
+        >
           <Referrals loadingIndicator={indicatorProps} userPermissions={userPermissions} />
         </Grid>
       )}
       {showTransferDashboard && (
-        <Grid item xl={xlSizeTransition} md={mdSizeTransition} xs={12} className={css.flex}>
+        <Grid
+          className={css.flex}
+          size={{
+            xl: xlSizeTransition,
+            md: mdSizeTransition,
+            xs: 12
+          }}
+        >
           <Transfers loadingIndicator={indicatorProps} userPermissions={userPermissions} />
         </Grid>
       )}

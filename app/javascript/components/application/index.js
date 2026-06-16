@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 export {
   fetchRoles,
   fetchSystemSettings,
@@ -28,6 +26,8 @@ export {
   getWebpushConfig,
   getListHeaders,
   getExactSearchFields,
-  getPhoneticSearchFields
+  getPhoneticSearchFields,
+  getPhoneFormats,
+  getDefaultPhoneFormat
 } from "./selectors";
 export { PERMISSIONS, RESOURCES, RESOURCE_ACTIONS } from "./constants";

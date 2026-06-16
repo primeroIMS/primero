@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { memo, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
@@ -66,9 +64,6 @@ function Component({ index, mode, tab, formMethods, limitedProductionSite }) {
     dialogClose();
   }, []);
 
-  const getFormValues = useCallback(props => getValues(props), []);
-  const formReset = useCallback(props => reset(props), []);
-
   return (
     <TabPanel tab={tab} index={index}>
       <div className={css.tabContent} data-testid="settings-tab">
@@ -88,7 +83,7 @@ function Component({ index, mode, tab, formMethods, limitedProductionSite }) {
           />
         )}
       </div>
-      <FormTranslationsDialog mode={mode} getValues={getFormValues} onSuccess={onUpdateTranslation} reset={formReset} />
+      <FormTranslationsDialog mode={mode} getValues={getValues} onSuccess={onUpdateTranslation} reset={reset} />
     </TabPanel>
   );
 }

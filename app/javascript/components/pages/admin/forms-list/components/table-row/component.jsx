@@ -1,8 +1,6 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { Draggable } from "react-beautiful-dnd";
+import { Draggable } from "@hello-pangea/dnd";
 import { cx } from "@emotion/css";
 
 import { useI18n } from "../../../../../i18n";

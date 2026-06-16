@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { namespaceActions } from "../../../libs";
 
 import NAMESPACE from "./namespace";
@@ -17,5 +15,6 @@ const actions = namespaceActions(NAMESPACE, [
 export default {
   ...actions,
   BULK_ASSIGN_CASES: "cases/assigns",
-  BULK_ASSIGN_INCIDENTS: "incidents/assigns"
+  BULK_ASSIGN_INCIDENTS: "incidents/assigns",
+  BULK_ASSIGN_FAMILIES: "families/assigns"
 };

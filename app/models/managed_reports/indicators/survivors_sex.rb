@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # An indicator that returns the survivors by age
 class ManagedReports::Indicators::SurvivorsSex < ManagedReports::SqlReportIndicator
   class << self

@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { fromJS } from "immutable";
 import isEmpty from "lodash/isEmpty";
 import some from "lodash/some";
@@ -50,7 +48,14 @@ export const validationSchema = i18n =>
     visible: boolean()
   });
 
-export const settingsForm = ({ formMode, onManageTranslation, onEnglishTextChange, i18n, limitedProductionSite }) => {
+export const settingsForm = ({
+  canManage,
+  formMode,
+  onManageTranslation,
+  onEnglishTextChange,
+  i18n,
+  limitedProductionSite
+}) => {
   return fromJS([
     FormSectionRecord({
       unique_id: "settings",
@@ -94,7 +99,7 @@ export const settingsForm = ({ formMode, onManageTranslation, onEnglishTextChang
               required: true,
               clearDependentValues: [RECORD_TYPE_FIELD, [FORM_GROUP_FIELD, []]],
               clearDependentReason: [SELECT_CHANGE_REASON.clear],
-              disabled: limitedProductionSite
+              disabled: limitedProductionSite || !canManage
             }),
             FieldRecord({
               display_name: i18n.t("forms.record_type"),
@@ -166,7 +171,7 @@ export const settingsForm = ({ formMode, onManageTranslation, onEnglishTextChang
               display_name: i18n.t("forms.skip_logic.name"),
               name: "skip_logic",
               type: TICK_FIELD,
-              disabled: limitedProductionSite
+              disabled: limitedProductionSite || !canManage
             })
           ],
           equalColumns: false

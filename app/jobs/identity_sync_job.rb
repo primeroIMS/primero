@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Asynchronously handle updates to the User records with external
 # identity management services such as identity providers and MDM
 class IdentitySyncJob < ApplicationJob

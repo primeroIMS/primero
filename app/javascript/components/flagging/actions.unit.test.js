@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import constants from "./actions";
 
 describe("Flagging - Constants", () => {
@@ -18,7 +16,8 @@ describe("Flagging - Constants", () => {
       "SET_SELECTED_FLAG",
       "SET_SELECTED_FLAG_SUCCESS",
       "FETCH_FLAGS_STARTED",
-      "FETCH_FLAGS_FINISHED"
+      "FETCH_FLAGS_FINISHED",
+      "BULK_FLAG"
     ].forEach(property => {
       expect(clonedConstants).toHaveProperty(property);
       delete clonedConstants[property];

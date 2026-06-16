@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Represents actions to flag a record
 class Flag < ApplicationRecord
   EVENT_FLAG = 'flag'
   EVENT_UNFLAG = 'unflag'
+  MAX_BULK_FLAGS = 100
 
   belongs_to :record, polymorphic: true
 

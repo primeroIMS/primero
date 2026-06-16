@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
-
 # Describes ReasonsForClosure subreport in Primero.
 class ManagedReports::SubReports::ReasonsForClosure < ManagedReports::SubReport
   def id

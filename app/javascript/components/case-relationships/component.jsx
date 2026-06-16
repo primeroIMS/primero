@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -172,6 +170,7 @@ function Component({ handleToggleNav, mobileDisplay, mode, primeroModule, record
       onRecordDeselect={onRecordDeselect}
       isRecordSelectable={selectableOpts.isRecordSelectable}
       onResultClick={onResultClick}
+      isRelationship
     />
   );
 }

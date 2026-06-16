@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # This will return HTTP 429 once the rate limit is exceeded
 
 # 6 login attempts per user name per minute
@@ -33,5 +31,5 @@ end
 Rack::Attack.throttle('Self registration', limit: 6, period: 60) do |request|
   next unless request.path == '/api/v2/self-register' && request.post?
 
-  request.ip
+  request.remote_ip
 end

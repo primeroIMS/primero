@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import * as formConstants from "./constants";
 
 describe("Verifying config constant", () => {
@@ -24,7 +22,9 @@ describe("Verifying config constant", () => {
       "TEXT_FIELD_NAME",
       "TICK_FIELD_NAME",
       "VIOLATION_ASSOCIATIONS_SUBFORM",
-      "ASYNC_OPTIONS"
+      "ASYNC_OPTIONS",
+      "EMPTY_VALUE",
+      "SIGNATURE_FIELD_NAME"
     ].forEach(property => {
       expect(constants).toHaveProperty(property);
       delete constants[property];

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
-
 # An indicator that returns the percentage of cases by reason for closure
 class ManagedReports::Indicators::PercentageCasesReasonsForClosure < ManagedReports::SqlReportIndicator
   include ManagedReports::PercentageIndicator

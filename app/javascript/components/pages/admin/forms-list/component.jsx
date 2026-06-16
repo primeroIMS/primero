@@ -1,10 +1,8 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { useEffect, useState } from "react";
 import { batch, useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 import { useLocation } from "react-router-dom";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import { Add as AddIcon, List as ListIcon } from "@mui/icons-material";
 
 import LoadingIndicator from "../../../loading-indicator";
@@ -12,7 +10,7 @@ import { useI18n } from "../../../i18n";
 import { useApp } from "../../../application";
 import { PageHeading, PageContent } from "../../../page";
 import { MODULES, RECORD_TYPES } from "../../../../config";
-import Permission, { usePermissions, CREATE_RECORDS, RESOURCES, MANAGE } from "../../../permissions";
+import Permission, { usePermissions, CREATE_RECORDS, RESOURCES } from "../../../permissions";
 import { FormAction, OPTION_TYPES } from "../../../form";
 import { useMemoizedSelector } from "../../../../libs";
 import { useDialog } from "../../../action-dialog";
@@ -21,6 +19,7 @@ import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import useOptions from "../../../form/use-options";
 import Menu from "../../../menu";
 import { fetchUnusedFieldsReport, getUnusedFieldsReport } from "../../../unused-fields-report";
+import { MANAGE_RESTRICTED } from "../../../permissions/constants";
 
 import FormExporter from "./components/form-exporter";
 import { FORM_EXPORTER_DIALOG } from "./components/form-exporter/constants";
@@ -153,17 +152,19 @@ function Component() {
   }, [unusedFieldsReport]);
 
   return (
-    <Permission resources={RESOURCES.metadata} actions={MANAGE} redirect>
+    <Permission resources={RESOURCES.metadata} actions={MANAGE_RESTRICTED} redirect>
       <PageHeading title={i18n.t("forms.label")}>
         {canAddForms && (
-          <FormAction
-            actionHandler={handleNew}
-            text={i18n.t("buttons.new")}
-            startIcon={<AddIcon />}
-            options={{ hide: limitedProductionSite }}
-          />
+          <>
+            <FormAction
+              actionHandler={handleNew}
+              text={i18n.t("buttons.new")}
+              startIcon={<AddIcon />}
+              options={{ hide: limitedProductionSite }}
+            />
+            <Menu showMenu actions={actions} />
+          </>
         )}
-        <Menu showMenu actions={actions} />
       </PageHeading>
       <PageContent>
         <FormExporter
@@ -189,7 +190,7 @@ function Component() {
                 }}
               />
               <DragDropContext onDragEnd={handleDragEnd}>
-                <Droppable droppableId="droppable" type="formGroup">
+                <Droppable droppableId="droppable" type="formGroup" isDropDisabled={Boolean(!isReorderEnabled)}>
                   {(provided, snapshot) => (
                     <div
                       {...provided.droppableProps}

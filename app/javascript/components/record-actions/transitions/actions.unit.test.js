@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import clone from "lodash/clone";
 
 import actions from "./actions";
@@ -21,6 +19,7 @@ describe("<Transitions /> - Actions", () => {
       "CASES_TRANSFERS",
       "CLEAR_ERRORS",
       "INCIDENTS_ASSIGNS",
+      "FAMILIES_ASSIGNS",
       "REFERRAL_USER",
       "REFERRAL_USERS_FETCH",
       "REFERRAL_USERS_FETCH_FINISHED",

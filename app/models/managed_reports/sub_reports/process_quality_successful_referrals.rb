@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Describes a subreport for Process And Quality - Successful Referrals
 class ManagedReports::SubReports::ProcessQualitySuccessfulReferrals < ManagedReports::SubReport
   def id

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # A class that applies a scope in a SQL Query
 class Search::SearchScope < ValueObject
   attr_accessor :scope, :user_scope, :module_scope

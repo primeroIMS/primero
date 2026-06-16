@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # The model for Role
 # rubocop:disable Metrics/ClassLength
 class Role < ApplicationRecord
@@ -50,9 +48,7 @@ class Role < ApplicationRecord
 
   has_many :users
 
-  alias_attribute :modules, :primero_modules
-
-  serialize :permissions, Permission::PermissionSerializer
+  serialize :permissions, coder: Permission::PermissionSerializer
 
   validates :permissions, presence: { message: 'errors.models.role.permission_presence' }
   validates :name, presence: { message: 'errors.models.role.name_present' },
@@ -95,7 +91,8 @@ class Role < ApplicationRecord
       return list_referral_authorization if options[:referral_authorization]
 
       roles_list = options[:managed] ? list_managed(user) : all
-      roles_list = roles_list.where(disabled: options[:disabled].values) if options[:disabled]
+      roles_list = roles_list.where(disabled: options[:disabled]) if options[:disabled]
+      roles_list = roles_list.where(group_permission: options[:group_permission]) if options[:group_permission]
 
       OrderByPropertyService.apply_order(roles_list, options)
     end
@@ -304,7 +301,7 @@ class Role < ApplicationRecord
   end
 
   def module_unique_ids
-    modules.pluck(:unique_id)
+    primero_modules.pluck(:unique_id)
   end
 
   def update_properties(role_properties)
@@ -357,7 +354,7 @@ class Role < ApplicationRecord
   def update_modules(module_unique_ids)
     return if module_unique_ids.nil?
 
-    self.modules = PrimeroModule.where(unique_id: module_unique_ids)
+    self.primero_modules = PrimeroModule.where(unique_id: module_unique_ids)
   end
 
   def managed_resources?(resources)

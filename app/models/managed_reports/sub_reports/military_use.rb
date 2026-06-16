@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Describes Military use of school(s) and/or hospital(s) subreport in Primero.
 class ManagedReports::SubReports::MilitaryUse < ManagedReports::SubReport
   def id

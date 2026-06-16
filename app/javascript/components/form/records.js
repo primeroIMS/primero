@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { Record, fromJS } from "immutable";
 
 import { SELECT_CHANGE_REASON } from "./constants";
@@ -68,8 +66,10 @@ export const FieldRecord = Record({
   option_strings_source: null,
   option_strings_text: null,
   optionFieldName: null,
+  transformOptions: null,
   order: null,
   password: false,
+  phone_number: false,
   placeholder: "",
   rawOptions: false,
   renderChildren: true,
@@ -93,7 +93,8 @@ export const FieldRecord = Record({
   type: "",
   visible: null,
   watchedInputs: null,
-  wrapWithComponent: null
+  wrapWithComponent: null,
+  signature_provided_by_label: {}
 });
 
 export const FormSectionRecord = Record({

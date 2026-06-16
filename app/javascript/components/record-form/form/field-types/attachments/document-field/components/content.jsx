@@ -2,23 +2,33 @@ import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 
 import ActionButton, { ACTION_BUTTON_TYPES } from "../../../../../../action-button";
-import { IMAGE_CONTENT_TYPES, PDF_CONTENT_TYPE } from "../constants";
+import { DOCX_CONTENT_TYPE, IMAGE_CONTENT_TYPES, PDF_CONTENT_TYPE } from "../constants";
 import { useMemoizedSelector } from "../../../../../../../libs";
 import { getUseIdentityProvider } from "../../../../../../login/selectors";
 import { getIDPToken } from "../../../../../../login/components/idp-selection/auth-provider";
+import { useI18n } from "../../../../../../i18n";
 
 import ImageViewer from "./image-viewer";
 import css from "./styles.css";
 
-function Content({ attachmentUrl, contentType, fileName, mobileDisplay, handleAttachmentDownload }) {
-  const [attachmentSrc, setAttachmentSrc] = useState(attachmentUrl);
+function Content({
+  previewParams = "",
+  attachmentUrl,
+  previewUrl,
+  contentType,
+  fileName,
+  mobileDisplay,
+  handleAttachmentDownload
+}) {
+  const [attachmentSrc, setAttachmentSrc] = useState(previewUrl || attachmentUrl);
   const [attachmentLoaded, setAttachmentLoaded] = useState(false);
   const isIDP = useMemoizedSelector(state => getUseIdentityProvider(state));
+  const i18n = useI18n();
 
   async function fetchAttachment() {
     const token = await getIDPToken();
 
-    const response = await fetch(attachmentUrl, {
+    const response = await fetch(attachmentSrc, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -39,6 +49,8 @@ function Content({ attachmentUrl, contentType, fileName, mobileDisplay, handleAt
 
   const fallbackComponent = (
     <div className={css.downloadBtnContainer}>
+      {contentType === DOCX_CONTENT_TYPE && <div>{i18n.t("fields.attachments.preview_not_available")}</div>}
+
       <ActionButton
         text="buttons.download"
         type={ACTION_BUTTON_TYPES.default}
@@ -52,9 +64,14 @@ function Content({ attachmentUrl, contentType, fileName, mobileDisplay, handleAt
     </div>
   );
 
-  if (contentType === PDF_CONTENT_TYPE && attachmentLoaded) {
+  if ((contentType === PDF_CONTENT_TYPE || previewUrl) && attachmentLoaded) {
     return (
-      <object type="application/pdf" data={`/pdf-viewer?file=${attachmentSrc}`} width="100%" height="100%">
+      <object
+        type="application/pdf"
+        data={`/pdf-viewer?file=${encodeURIComponent(attachmentSrc)}&${previewUrl ? "" : previewParams}`}
+        width="100%"
+        height="100%"
+      >
         {fallbackComponent}
       </object>
     );
@@ -74,7 +91,9 @@ Content.propTypes = {
   contentType: PropTypes.string.isRequired,
   fileName: PropTypes.string.isRequired,
   handleAttachmentDownload: PropTypes.func.isRequired,
-  mobileDisplay: PropTypes.bool.isRequired
+  mobileDisplay: PropTypes.bool.isRequired,
+  previewParams: PropTypes.string,
+  previewUrl: PropTypes.string.isRequired
 };
 
 export default Content;

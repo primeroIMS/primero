@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { useMemo } from "react";
 
 import { RECORD_TYPES, INCIDENT_CASE_ID_DISPLAY_FIELD, INCIDENT_CASE_ID_FIELD } from "../../config";

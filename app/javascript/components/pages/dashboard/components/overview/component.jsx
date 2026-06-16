@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import Permission, { RESOURCES, ACTIONS, usePermissions } from "../../../../permissions";
 import { OptionsBox } from "../../../../dashboard";
 import { INDICATOR_NAMES, DASHBOARD_TYPES, DASHBOARD_GROUP } from "../../constants";

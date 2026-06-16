@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { memo, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
@@ -15,6 +13,7 @@ import { setFieldDataInFormContext } from "../utils";
 import css from "../../styles.css";
 import { useApp } from "../../../../../application";
 import { MODULES_FIELD, RECORD_TYPE_FIELD } from "../../constants";
+import { MANAGE, RESOURCES, usePermissions } from "../../../../../permissions";
 
 import { NAME } from "./constants";
 
@@ -31,6 +30,7 @@ function Component({ mode, index, tab, formMethods }) {
       fieldsRef: { current: fields }
     }
   } = formMethods;
+  const canManage = usePermissions(RESOURCES.metadata, MANAGE);
 
   const recordType = useWatch({ control: formMethods.control, name: RECORD_TYPE_FIELD });
   const primeroModule = useWatch({ control: formMethods.control, name: MODULES_FIELD });
@@ -57,10 +57,12 @@ function Component({ mode, index, tab, formMethods }) {
     <TabPanel tab={tab} index={index}>
       <div className={css.tabFields}>
         <h1 className={css.heading}>{i18n.t("forms.fields")}</h1>
-        <CustomFieldDialog />
-        {parentForm && moduleId && <ExistingFieldDialog parentForm={parentForm} primeroModule={moduleId} />}
+        <CustomFieldDialog canManage={canManage} />
+        {parentForm && moduleId && (
+          <ExistingFieldDialog parentForm={parentForm} primeroModule={moduleId} canManage={canManage} />
+        )}
       </div>
-      <FieldsList formMethods={formMethods} limitedProductionSite={limitedProductionSite} />
+      <FieldsList canManage={canManage} formMethods={formMethods} limitedProductionSite={limitedProductionSite} />
       <FieldDialog
         parentForm={parentForm}
         mode={mode}

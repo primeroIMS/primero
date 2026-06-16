@@ -1,11 +1,9 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 /* eslint-disable react/display-name, react/no-multi-comp */
 import { memo } from "react";
 import { useDispatch, batch } from "react-redux";
 import PropTypes from "prop-types";
 import { cx } from "@emotion/css";
-import { Draggable } from "react-beautiful-dnd";
+import { Draggable } from "@hello-pangea/dnd";
 
 import { SUBFORM_SECTION } from "../../../../../form";
 import {
@@ -31,7 +29,7 @@ import FieldListName from "../field-list-name";
 
 import { NAME, SUBFORM_GROUP_BY, SUBFORM_SORT_BY } from "./constants";
 
-function Component({ field, formMethods, index, subformField, subformSortBy, subformGroupBy }) {
+function Component({ canManage, field, formMethods, index, subformField, subformSortBy, subformGroupBy }) {
   const dispatch = useDispatch();
   const i18n = useI18n();
   const { limitedProductionSite } = useApp();
@@ -106,11 +104,17 @@ function Component({ field, formMethods, index, subformField, subformSortBy, sub
               <DragIndicator {...provided.dragHandleProps} isDragDisabled={limitedProductionSite} />
             </div>
             <div className={fieldNameClasses}>
-              <FieldListName field={field} handleClick={handleClick} isNotEditable={isNotEditable} />
+              <FieldListName
+                canManage={canManage}
+                field={field}
+                handleClick={handleClick}
+                isNotEditable={isNotEditable}
+              />
             </div>
             <div className={css.fieldColumn}>{i18n.t(`fields.${getLabelTypeField(field)}`)}</div>
             {isNested && (
               <FieldListColumn
+                disable={!canManage}
                 columnName={SUBFORM_SORT_BY}
                 fieldName={fieldName}
                 formMethods={formMethods}
@@ -121,6 +125,7 @@ function Component({ field, formMethods, index, subformField, subformSortBy, sub
             )}
             {isNested && (
               <FieldListColumn
+                disable={!canManage}
                 columnName={SUBFORM_GROUP_BY}
                 fieldName={fieldName}
                 formMethods={formMethods}
@@ -146,6 +151,7 @@ function Component({ field, formMethods, index, subformField, subformSortBy, sub
 Component.displayName = NAME;
 
 Component.propTypes = {
+  canManage: PropTypes.bool,
   field: PropTypes.object.isRequired,
   formMethods: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,

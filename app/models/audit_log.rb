@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # An audit log record is created for every invocation of a Primero endpoint.
 # rubocop:disable Metrics/ClassLength
 class AuditLog < ApplicationRecord

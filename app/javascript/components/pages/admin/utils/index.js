@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 export { default as filterOnTableChange } from "./filter-on-table-change";
 export { default as getAdminResources } from "./get-admin-resources";
 export { default as getFilters } from "./get-filters";

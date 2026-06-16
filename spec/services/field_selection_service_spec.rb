@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 require 'rails_helper'
 
 describe FieldSelectionService do
@@ -42,7 +40,7 @@ describe FieldSelectionService do
     end
 
     it 'selects preview fields when the id search parameter is included and the user is permitted to review' do
-      params = { fields: 'short', id_search: true }
+      params = { fields: 'short', record_search: true }
       field_names = FieldSelectionService.select_fields_to_show(
         params, Child, permitted_field_names + %w[field1 field2], @user
       )

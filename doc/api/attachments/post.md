@@ -1,5 +1,3 @@
-<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
-
 # Attach a file to a record
 
 Attach a file, encoded as base64, to a record

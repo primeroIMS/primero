@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 module.exports = api => {
   const validEnv = ["development", "test", "production"];
   const currentEnv = api.env();
@@ -50,22 +48,9 @@ module.exports = api => {
     plugins: [
       require("babel-plugin-macros"),
       [require("babel-plugin-module-resolver"), { root: ["./app/javascript/"] }],
-      require("@babel/plugin-proposal-optional-chaining"),
       require("@babel/plugin-syntax-dynamic-import").default,
       isTestEnv && require("babel-plugin-dynamic-import-node"),
       require("@babel/plugin-transform-destructuring").default,
-      [
-        require("@babel/plugin-proposal-class-properties").default,
-        {
-          loose: true
-        }
-      ],
-      [
-        require("@babel/plugin-proposal-object-rest-spread").default,
-        {
-          useBuiltIns: true
-        }
-      ],
       [
         require("@babel/plugin-transform-runtime").default,
         {
@@ -80,8 +65,6 @@ module.exports = api => {
           async: false
         }
       ],
-      [require("@babel/plugin-proposal-private-methods").default, { loose: true }],
-      [require("@babel/plugin-proposal-private-property-in-object").default, { loose: true }],
       isProductionEnv && [
         require("babel-plugin-transform-react-remove-prop-types").default,
         {

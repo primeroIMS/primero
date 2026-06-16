@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Sends out a welcome email to an onboard admin
 class OnboardMailer < ApplicationMailer
   def onboard(user_id)

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Model for MRM Violation
 class Violation < ApplicationRecord
   # TODO: There is some amount of duplication between this and the Incident container class. Refactor!

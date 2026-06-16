@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 require 'rails_helper'
 
 describe Api::V2::FormSectionsController, type: :request do
@@ -77,7 +75,7 @@ describe Api::V2::FormSectionsController, type: :request do
       Field.create!(
         name: 'subform_form_4',
         type: Field::SUBFORM,
-        subform_section: @form4,
+        subform: @form4,
         display_name: {
           en: 'Subform Field for Form 4'
         }
@@ -251,7 +249,7 @@ describe Api::V2::FormSectionsController, type: :request do
       @role = Role.create!(
         form_sections: [@form_section_a],
         name: 'Test Role', permissions: [@permission_form_manage],
-        modules: [@primero_module]
+        primero_modules: [@primero_module]
       )
     end
 
@@ -663,6 +661,46 @@ describe Api::V2::FormSectionsController, type: :request do
       )
     end
 
+    it 'adds existing fields when user role is set to restricted manage' do
+      login_for_test(permissions: [Permission.new(resource: Permission::METADATA,
+                                                  actions: [Permission::MANAGE_RESTRICTED])])
+      existing_field = Field.create!(
+        name: 'existing_field',
+        type: Field::TEXT_FIELD,
+        display_name_i18n: { en: 'First field in form section' },
+        editable: false,
+        disabled: true,
+        subform_summary: { subform_field_name: 'new_scores' }
+      )
+
+      params = {
+        data: {
+          fields: [
+            {
+              name: 'fs6_field_1',
+              type: Field::NUMERIC_FIELD,
+              display_name_i18n: { en: 'First field in form section' },
+              subform_summary: { subform_field_name: 'new_scores' },
+              editable: false
+            },
+            {
+              id: existing_field.id,
+              name: existing_field.name,
+              display_name: { en: 'First field in form section (Copied)' }
+            }
+          ]
+        }
+      }
+
+      patch "/api/v2/forms/#{@form6.id}", params:, as: :json
+      expect(response).to have_http_status(200)
+      @form6.reload
+      expect(@form6.fields[1].name).to eq(existing_field.name)
+      expect(@form6.fields[1].subform_summary).to eq(existing_field.subform_summary)
+      expect(@form6.fields[1].display_name_i18n['en']).to eq('First field in form section (Copied)')
+      expect(@form6.fields[1].disabled).to be_truthy
+    end
+
     it "returns 403 if user isn't authorized to update records" do
       login_for_test(
         form_sections: [@form1],
@@ -917,6 +955,61 @@ describe Api::V2::FormSectionsController, type: :request do
 
     after do
       clean_data(Role, PrimeroModule, PrimeroProgram, Lookup)
+    end
+  end
+
+  describe 'when user has managed_restricted metadata permission' do
+    let(:restricted_permissions) do
+      [Permission.new(resource: Permission::METADATA, actions: [Permission::MANAGE_RESTRICTED])]
+    end
+
+    it 'allows GET /api/v2/forms' do
+      login_for_test(permissions: restricted_permissions)
+      get '/api/v2/forms'
+      expect(response).to have_http_status(200)
+    end
+
+    it 'allows GET /api/v2/forms/:id' do
+      login_for_test(permissions: restricted_permissions)
+      get "/api/v2/forms/#{@form1.id}"
+      expect(response).to have_http_status(200)
+    end
+
+    it 'forbids POST /api/v2/forms' do
+      login_for_test(permissions: restricted_permissions)
+      params = { data: { unique_id: 'restricted_create', name: { en: 'Restricted Create' } } }
+      post '/api/v2/forms', params:, as: :json
+      expect(response).to have_http_status(403)
+    end
+
+    it 'allows PATCH /api/v2/forms/:id for allowed fields' do
+      login_for_test(permissions: restricted_permissions)
+      params = { data: { name: { en: 'Updated by restricted' }, visible: false } }
+      patch "/api/v2/forms/#{@form2.id}", params:, as: :json
+      expect(response).to have_http_status(200)
+    end
+
+    it 'forbids PATCH /api/v2/forms/:id for restricted fields' do
+      login_for_test(permissions: restricted_permissions)
+      unique_id = @form2.unique_id
+      is_first_tab = @form2.is_first_tab
+      module_ids = @form2.primero_modules.pluck(:unique_id)
+
+      params = { data: { unique_id: 'new_unique_id',
+                         module_ids: ['forbidden-model-change'],
+                         is_first_tab: true, name: { en: 'Updated name' } } }
+      patch "/api/v2/forms/#{@form2.id}", params:, as: :json
+      @form2.reload
+      expect(@form2.name_en).to eq('Updated name')
+      expect(@form2.unique_id).to eq(unique_id)
+      expect(@form2.is_first_tab).to eq(is_first_tab)
+      expect(@form2.primero_modules.pluck(:unique_id)).to eq(module_ids)
+    end
+
+    it 'forbids DELETE /api/v2/forms/:id' do
+      login_for_test(permissions: restricted_permissions)
+      delete "/api/v2/forms/#{@form2.id}"
+      expect(response).to have_http_status(403)
     end
   end
 

@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
@@ -24,11 +22,13 @@ function Component({
   handleReturn,
   handleSelection,
   id,
+  isRelationship = false,
   linkedRecordFormUniqueId,
   linkedRecordType,
   linkFieldDisplay,
   permissions,
   primeroModule,
+  recordType,
   onResultClick,
   redirectIfNotAllowed,
   shouldSelect = false,
@@ -41,7 +41,8 @@ function Component({
   }, []);
 
   const dispatch = useDispatch();
-  const pluralRecordType = RECORD_TYPES_PLURAL[linkedRecordType];
+  const linkedRecordTypePlural = RECORD_TYPES_PLURAL[linkedRecordType];
+  const recordTypePlural = RECORD_TYPES_PLURAL[recordType];
 
   const formSection = useMemoizedSelector(state =>
     getRecordFormsByUniqueId(state, {
@@ -54,23 +55,23 @@ function Component({
   );
 
   const selectedRecord = useMemoizedSelector(state =>
-    selectRecord(state, { isEditOrShow: true, recordType: pluralRecordType, id })
+    selectRecord(state, { isEditOrShow: true, recordType: linkedRecordTypePlural, id })
   );
 
   const relatedRecord = useMemoizedSelector(state =>
-    getRelatedRecord(state, { recordType: pluralRecordType, fromRelationship: !shouldSelect, id })
+    getRelatedRecord(state, { recordType: recordTypePlural, fromRelationship: !shouldSelect && isRelationship, id })
   );
 
   const record = shouldFetchRecord ? selectedRecord : relatedRecord;
 
-  const recordLoading = useMemoizedSelector(state => getLoadingRecordState(state, pluralRecordType));
+  const recordLoading = useMemoizedSelector(state => getLoadingRecordState(state, linkedRecordTypePlural));
 
   const forms = isEmpty(recordViewForms) ? [formSection] : recordViewForms;
 
   const formSections = record.get("record_in_scope", false)
     ? setupLinkField({
         formSections: forms,
-        recordType: pluralRecordType,
+        recordType: linkedRecordTypePlural,
         linkFieldDisplay,
         id
       })
@@ -85,10 +86,10 @@ function Component({
   }, [record]);
 
   useEffect(() => {
-    if (id && pluralRecordType) {
-      dispatch(fetchRecord(pluralRecordType, id));
+    if (id && linkedRecordTypePlural && shouldFetchRecord) {
+      dispatch(fetchRecord(linkedRecordTypePlural, id));
     }
-  }, [linkedRecordType, id, pluralRecordType]);
+  }, [linkedRecordType, id, linkedRecordTypePlural, shouldFetchRecord]);
 
   const selectButtonText = shouldSelect ? "case.select" : "case.deselect";
   const selectButtonIcon = shouldSelect ? <CheckIcon /> : <BlockIcon />;
@@ -132,12 +133,14 @@ Component.propTypes = {
   handleReturn: PropTypes.func,
   handleSelection: PropTypes.func,
   id: PropTypes.string.isRequired,
+  isRelationship: PropTypes.bool,
   linkedRecordFormUniqueId: PropTypes.string.isRequired,
   linkedRecordType: PropTypes.string.isRequired,
   linkFieldDisplay: PropTypes.string.isRequired,
   onResultClick: PropTypes.func,
   permissions: PropTypes.object.isRequired,
   primeroModule: PropTypes.string.isRequired,
+  recordType: PropTypes.string.isRequired,
   recordViewForms: PropTypes.array,
   redirectIfNotAllowed: PropTypes.func.isRequired,
   shouldFetchRecord: PropTypes.bool,

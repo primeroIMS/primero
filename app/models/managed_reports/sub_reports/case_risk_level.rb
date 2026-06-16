@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Describes Cases by Risk Level in Primero.
 class ManagedReports::SubReports::CaseRiskLevel < ManagedReports::SubReport
   def id

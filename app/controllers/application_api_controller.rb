@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Superclass for nearly all Primero CRUD API calls
 class ApplicationApiController < ActionController::API
   include CanCan::ControllerAdditions

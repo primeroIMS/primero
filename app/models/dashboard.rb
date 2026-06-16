@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # This represents the elements that are to be displayed on the Dashboard
 # rubocop:disable Metrics/ClassLength
 class Dashboard < ValueObject
@@ -20,6 +18,8 @@ class Dashboard < ValueObject
     dash_cases_to_assign
     dash_national_admin_summary
     dash_violations_category_region
+    dash_shared_with_others
+    dash_shared_from_my_team
   ].freeze
 
   DYMANIC_WITH_SELF = %w[
@@ -73,7 +73,7 @@ class Dashboard < ValueObject
     name: 'action_needed_new_referrals',
     type: 'indicator',
     indicators: [
-      Indicators::Case::SHARED_WITH_ME_NEW_REFERRALS
+      Indicators::Case::SHARED_WITH_ME_PENDING_REFERRALS
     ]
   ).freeze
 
@@ -85,22 +85,13 @@ class Dashboard < ValueObject
     ]
   ).freeze
 
-  DASH_SHARED_WITH_OTHERS = Dashboard.new(
-    name: 'dash_shared_with_others',
-    type: 'indicator',
-    indicators: [
-      Indicators::Case::SHARED_WITH_OTHERS_REFERRALS,
-      Indicators::Case::SHARED_WITH_OTHERS_PENDING_TRANSFERS,
-      Indicators::Case::SHARED_WITH_OTHERS_REJECTED_TRANSFERS
-    ]
-  ).freeze
-
   DASH_SHARED_WITH_ME = Dashboard.new(
     name: 'dash_shared_with_me',
     type: 'indicator',
     indicators: [
+      Indicators::Case::SHARED_WITH_ME_PENDING_REFERRALS,
+      Indicators::Case::SHARED_WITH_ME_ACCEPTED_REFERRALS,
       Indicators::Case::SHARED_WITH_ME_TOTAL_REFERRALS,
-      Indicators::Case::SHARED_WITH_ME_NEW_REFERRALS,
       Indicators::Case::SHARED_WITH_ME_TRANSFERS_AWAITING_ACCEPTANCE
     ]
   ).freeze
@@ -114,21 +105,12 @@ class Dashboard < ValueObject
     ]
   ).freeze
 
-  DASH_SHARED_FROM_MY_TEAM = Dashboard.new(
-    name: 'dash_shared_from_my_team',
-    type: 'indicator',
-    indicators: [
-      Indicators::Case::SHARED_FROM_MY_TEAM_REFERRALS,
-      Indicators::Case::SHARED_FROM_MY_TEAM_PENDING_TRANSFERS,
-      Indicators::Case::SHARED_FROM_MY_TEAM_REJECTED_TRANSFERS
-    ]
-  ).freeze
-
   DASH_SHARED_WITH_MY_TEAM = Dashboard.new(
     name: 'dash_shared_with_my_team',
     type: 'indicator',
     indicators: [
-      Indicators::Case::SHARED_WITH_MY_TEAM_REFERRALS,
+      Indicators::Case::SHARED_WITH_MY_TEAM_PENDING_REFERRALS,
+      Indicators::Case::SHARED_WITH_MY_TEAM_ACCEPTED_REFERRALS,
       Indicators::Case::SHARED_WITH_MY_TEAM_PENDING_TRANSFERS
     ]
   ).freeze
@@ -184,7 +166,7 @@ class Dashboard < ValueObject
 
     # rubocop:disable Metrics/MethodLength
     def approvals_assessment(role = nil)
-      role.modules.map do |primero_module|
+      role.primero_modules.map do |primero_module|
         Dashboard.new(
           name: "approvals_assessment.#{primero_module.unique_id}",
           type: 'indicator',
@@ -198,7 +180,7 @@ class Dashboard < ValueObject
     end
 
     def approvals_case_plan(role = nil)
-      role.modules.map do |primero_module|
+      role.primero_modules.map do |primero_module|
         Dashboard.new(
           name: "approvals_case_plan.#{primero_module.unique_id}",
           type: 'indicator',
@@ -212,7 +194,7 @@ class Dashboard < ValueObject
     end
 
     def approvals_closure(role = nil)
-      role.modules.map do |primero_module|
+      role.primero_modules.map do |primero_module|
         Dashboard.new(
           name: "approvals_closure.#{primero_module.unique_id}",
           type: 'indicator',
@@ -226,7 +208,7 @@ class Dashboard < ValueObject
     end
 
     def approvals_action_plan(role = nil)
-      role.modules.map do |primero_module|
+      role.primero_modules.map do |primero_module|
         Dashboard.new(
           name: "approvals_action_plan.#{primero_module.unique_id}",
           type: 'indicator',
@@ -240,7 +222,7 @@ class Dashboard < ValueObject
     end
 
     def approvals_gbv_closure(role = nil)
-      role.modules.map do |primero_module|
+      role.primero_modules.map do |primero_module|
         Dashboard.new(
           name: "approvals_gbv_closure.#{primero_module.unique_id}",
           type: 'indicator',
@@ -255,7 +237,7 @@ class Dashboard < ValueObject
     # rubocop:enable Metrics/MethodLength
 
     def approvals_assessment_pending(role = nil)
-      role.modules.map do |primero_module|
+      role.primero_modules.map do |primero_module|
         Dashboard.new(
           name: "approvals_assessment_pending.#{primero_module.unique_id}",
           type: 'indicator',
@@ -265,7 +247,7 @@ class Dashboard < ValueObject
     end
 
     def approvals_case_plan_pending(role = nil)
-      role.modules.map do |primero_module|
+      role.primero_modules.map do |primero_module|
         Dashboard.new(
           name: "approvals_case_plan_pending.#{primero_module.unique_id}",
           type: 'indicator',
@@ -275,7 +257,7 @@ class Dashboard < ValueObject
     end
 
     def approvals_closure_pending(role = nil)
-      role.modules.map do |primero_module|
+      role.primero_modules.map do |primero_module|
         Dashboard.new(
           name: "approvals_closure_pending.#{primero_module.unique_id}",
           type: 'indicator',
@@ -285,7 +267,7 @@ class Dashboard < ValueObject
     end
 
     def approvals_action_plan_pending(role = nil)
-      role.modules.map do |primero_module|
+      role.primero_modules.map do |primero_module|
         Dashboard.new(
           name: "approvals_action_plan_pending.#{primero_module.unique_id}",
           type: 'indicator',
@@ -295,7 +277,7 @@ class Dashboard < ValueObject
     end
 
     def approvals_gbv_closure_pending(role = nil)
-      role.modules.map do |primero_module|
+      role.primero_modules.map do |primero_module|
         Dashboard.new(
           name: "approvals_gbv_closure_pending.#{primero_module.unique_id}",
           type: 'indicator',
@@ -400,6 +382,41 @@ class Dashboard < ValueObject
         indicators: Indicators::Case.workflow_team(role)
       ).freeze
     end
+
+    # rubocop:disable Metrics/MethodLength
+    def dash_shared_with_others
+      Dashboard.new(
+        name: 'dash_shared_with_others',
+        type: 'indicator',
+        indicators: [
+          Indicators::Case::SHARED_WITH_OTHERS_REFERRALS,
+          Indicators::Case::SHARED_WITH_OTHERS_REFERRALS_PENDING,
+          Indicators::Case::SHARED_WITH_OTHERS_REFERRALS_ACCEPTED,
+          Indicators::Case.shared_with_others_referrals_rejected,
+          Indicators::Case.shared_with_others_referrals_done,
+          Indicators::Case::SHARED_WITH_OTHERS_PENDING_TRANSFERS,
+          Indicators::Case::SHARED_WITH_OTHERS_REJECTED_TRANSFERS
+        ]
+      ).freeze
+    end
+    # rubocop:enable Metrics/MethodLength
+
+    # rubocop:disable Metrics/MethodLength
+    def dash_shared_from_my_team
+      Dashboard.new(
+        name: 'dash_shared_from_my_team',
+        type: 'indicator',
+        indicators: [
+          Indicators::Case::SHARED_FROM_MY_TEAM_PENDING_REFERRALS,
+          Indicators::Case::SHARED_FROM_MY_TEAM_ACCEPTED_REFERRALS,
+          Indicators::Case.shared_from_my_team_rejected_referrals,
+          Indicators::Case.shared_from_my_team_done_referrals,
+          Indicators::Case::SHARED_FROM_MY_TEAM_PENDING_TRANSFERS,
+          Indicators::Case::SHARED_FROM_MY_TEAM_REJECTED_TRANSFERS
+        ]
+      ).freeze
+    end
+    # rubocop:enable Metrics/MethodLength
   end
 end
 # rubocop:enable Metrics/ClassLength

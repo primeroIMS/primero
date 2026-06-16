@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Filters an active record query by field
 # TODO: This class will be refactored to a service that will take the Field definitions in the Report and
 # converts them to the Search Filters (that already are responsible for generating queries)

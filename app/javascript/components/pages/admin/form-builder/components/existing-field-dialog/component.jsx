@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { memo, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Grid } from "@mui/material";
@@ -30,7 +28,7 @@ import { FieldsTable } from "./components";
 import { NAME } from "./constants";
 import css from "./styles.css";
 
-function Component({ parentForm, primeroModule }) {
+function Component({ parentForm, primeroModule, canManage }) {
   const dispatch = useDispatch();
   const i18n = useI18n();
   const { control, register } = useForm();
@@ -87,7 +85,7 @@ function Component({ parentForm, primeroModule }) {
   const dialogTitle = (
     <>
       <span className={css.existingFieldDialogTitle}>{i18n.t("fields.add_field")}</span>
-      <ActionButton outlined text="fields.add_new_field" rest={{ onClick: onCreateNewField }} />
+      {canManage && <ActionButton outlined text="fields.add_new_field" rest={{ onClick: onCreateNewField }} />}
     </>
   );
 
@@ -114,7 +112,7 @@ function Component({ parentForm, primeroModule }) {
     <ActionDialog {...modalProps}>
       <form className={baseCss.formBuilderDialog}>
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <div className={css.searchBox}>
               <SearchIcon />
               <input
@@ -127,7 +125,7 @@ function Component({ parentForm, primeroModule }) {
               />
             </div>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <FieldsTable
               fieldQuery={watchedFieldQuery}
               selectedFields={existingSelectedFields}
@@ -146,6 +144,7 @@ function Component({ parentForm, primeroModule }) {
 Component.displayName = NAME;
 
 Component.propTypes = {
+  canManage: PropTypes.bool,
   parentForm: PropTypes.string.isRequired,
   primeroModule: PropTypes.string.isRequired
 };

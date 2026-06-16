@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # SupervisorToCaseworkerRatio
 #
 # A simple ratio between the number of supervisors and the number of case

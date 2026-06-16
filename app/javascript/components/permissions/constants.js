@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 export const ACTIONS = {
   ACCESS_LOG: "access_log",
   ADD_NOTE: "add_note",
@@ -78,6 +76,7 @@ export const ACTIONS = {
   EXPORT_UNHCR: "export_unhcr_csv",
   FIND_TRACING_MATCH: "find_tracing_match",
   FLAG: "flag",
+  BULK_FLAG: "flag_multiple",
   FLAG_RESOLVE_ANY: "resolve_any_flag",
   FLAG_UPDATE: "flag_update",
   GBV_STATISTICS: "gbv_statistics",
@@ -100,6 +99,7 @@ export const ACTIONS = {
   KPI_SUPERVISOR_TO_CASEWORKER_RATIO: "kpi_supervisor_to_caseworker_ratio",
   KPI_TIME_FROM_CASE_OPEN_TO_CLOSE: "kpi_time_from_case_open_to_close",
   MANAGE: "manage",
+  MANAGE_RESTRICTED: "manage_restricted",
   MARK_FOR_OFFLINE: "sync_mobile",
   LINK_INCIDENT_TO_CASE: "link_incident_to_case",
   READ: "read",
@@ -121,6 +121,7 @@ export const ACTIONS = {
   SELF_APPROVE: "self_approve",
   SERVICES_SECTION_FROM_CASE: "services_section_from_case",
   SYNC_EXTERNAL: "sync_external",
+  SEARCH_AND_SELECT_FAMILY_RECORD: "search_and_select_family_record",
   TRANSFER: "transfer",
   VERIFY_MRM: "verify_mrm",
   VIEW_INCIDENT_FROM_CASE: "view_incident_from_case",
@@ -173,7 +174,7 @@ export const RESOURCES = {
 
 export const RECORD_RESOURCES = [RESOURCES.cases, RESOURCES.incidents, RESOURCES.tracing_requests];
 
-export const ADMIN_ACTIONS = [...MANAGE, ACTIONS.READ, ACTIONS.WRITE, ACTIONS.CREATE];
+export const ADMIN_ACTIONS = [...MANAGE, ACTIONS.READ, ACTIONS.WRITE, ACTIONS.CREATE, ACTIONS.MANAGE_RESTRICTED];
 
 export const ADMIN_RESOURCES = [
   RESOURCES.users,
@@ -199,6 +200,8 @@ export const CREATE_REPORTS = [...MANAGE, ACTIONS.CREATE];
 
 export const READ_REPORTS = [...MANAGE, ACTIONS.READ, ACTIONS.GROUP_READ, ACTIONS.AGENCY_READ];
 
+export const MANAGE_RESTRICTED = [...MANAGE, ACTIONS.MANAGE_RESTRICTED];
+
 export const READ_MANAGED_REPORTS = [
   ...MANAGE,
   ACTIONS.GBV_STATISTICS,
@@ -219,6 +222,8 @@ export const WRITE_RECORDS = [...MANAGE, ACTIONS.WRITE];
 export const COPY_ROLES = [...MANAGE, ACTIONS.COPY];
 
 export const READ_RECORDS = [...MANAGE, ACTIONS.READ];
+
+export const READ_FAMILY_RECORDS = [...READ_RECORDS, ACTIONS.SEARCH_AND_SELECT_FAMILY_RECORD];
 
 export const ENABLE_DISABLE_RECORD = [...MANAGE, ACTIONS.ENABLE_DISABLE_RECORD];
 

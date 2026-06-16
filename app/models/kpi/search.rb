@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 module Kpi
   SearchValue = Struct.new(:from, :to, :owned_by_groups, :owned_by_agency_id)
   VALID_KPIS = ['Kpi::AssessmentStatus',

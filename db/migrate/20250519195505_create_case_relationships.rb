@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 class CreateCaseRelationships < ActiveRecord::Migration[6.1]
   def change
     create_table :case_relationships, id: :uuid, default: 'gen_random_uuid()' do |t|

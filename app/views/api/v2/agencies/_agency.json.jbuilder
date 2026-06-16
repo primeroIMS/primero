@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 json.id agency.id
 json.unique_id agency.unique_id
 json.agency_code agency.agency_code
@@ -16,4 +14,9 @@ json.logo_full rails_blob_path(agency.logo_full, only_path: true) if agency.logo
 json.logo_icon rails_blob_path(agency.logo_icon, only_path: true) if agency.logo_icon.attached?
 json.terms_of_use rails_blob_path(agency.terms_of_use, only_path: true) if agency.terms_of_use.attached?
 json.terms_of_use_enabled agency.terms_of_use_enabled
+json.terms_of_use_uploaded_at agency.terms_of_use_uploaded_at
 json.disabled agency.disabled
+json.contact_email agency.contact_email
+json.contact_name agency.contact_name
+json.contact_phone agency.contact_phone
+json.notes agency.notes

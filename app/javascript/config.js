@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import {
   ACTIVITY_LOGS,
   MANAGE,
@@ -24,9 +22,10 @@ import {
   READ_FAMILY_RECORD,
   SHOW_USAGE_REPORTS,
   GROUP_PERMISSIONS,
-  VIEW_CASE_RELATIONSHIPS
+  VIEW_CASE_RELATIONSHIPS,
+  MANAGE_RESTRICTED
 } from "./components/permissions/constants";
-import getAdminResources from "./components/pages/admin/utils/get-admin-resources";
+import { checkPermissions } from "./components/permissions/utils";
 
 const API_BASE_PATH = "/api/v2";
 
@@ -194,6 +193,7 @@ const ROUTES = {
   configurations: "/admin/configurations",
   admin_configurations_new: "/admin/configurations/new",
   code_of_conduct: "/code_of_conduct",
+  terms_of_use: "/terms_of_use",
   admin_code_of_conduct: "/admin/code_of_conduct",
   contact_information: "/admin/contact_information",
   dashboard: "/dashboards",
@@ -247,8 +247,8 @@ const PERMITTED_URL = [
   ROUTES.tracing_requests,
   ROUTES.incidents,
   ROUTES.registry_records,
-  ROUTES.families,
   ROUTES.code_of_conduct,
+  ROUTES.terms_of_use,
   ROUTES.password_reset_request
 ];
 
@@ -333,17 +333,17 @@ const ADMIN_NAV = [
       {
         to: "/forms",
         label: "settings.navigation.forms",
-        permission: MANAGE,
+        permission: MANAGE_RESTRICTED,
         recordType: RESOURCES.metadata
       },
       {
         to: "/lookups",
         label: "settings.navigation.lookups",
-        permission: MANAGE,
+        permission: MANAGE_RESTRICTED,
         recordType: RESOURCES.metadata
       }
     ],
-    permission: MANAGE,
+    permission: MANAGE_RESTRICTED,
     recordType: RESOURCES.metadata
   },
   { to: "/locations", label: "settings.navigation.locations", permission: MANAGE, recordType: RESOURCES.metadata },
@@ -380,9 +380,13 @@ const ADMIN_NAV = [
 ];
 
 const APPLICATION_NAV = (permissions, userId) => {
-  const adminResources = getAdminResources(permissions);
-  const adminForm = adminResources[0] || ADMIN_RESOURCES.contact_information;
-  const adminSettingsOption = `/admin/${adminForm === RESOURCES.metadata ? RESOURCES.forms : adminForm}`;
+  const flatAdminNav = ADMIN_NAV.flatMap(nav => nav.items || [nav]);
+  const firstAccessibleNav = flatAdminNav.find(item =>
+    checkPermissions(permissions.get(item.recordType), item.permission)
+  );
+  const adminSettingsOption = firstAccessibleNav
+    ? `/admin${firstAccessibleNav.to}`
+    : `/admin/${RESOURCES.contact_information}`;
 
   return [
     {

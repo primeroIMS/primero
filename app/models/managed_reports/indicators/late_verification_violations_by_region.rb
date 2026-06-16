@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
-
 # An indicator that returns the violations late verified by region
 class ManagedReports::Indicators::LateVerificationViolationsByRegion < ManagedReports::SqlReportIndicator
   include ManagedReports::GhnIndicatorHelper

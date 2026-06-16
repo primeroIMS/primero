@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # This service retrieves the summary fields. The query is optionally cached.
 class SubformSummaryFieldsService
   attr_accessor :with_cache

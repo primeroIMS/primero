@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { Map, List, OrderedMap, fromJS } from "immutable";
 
 import { mapEntriesToRecord } from "../../libs";
@@ -573,6 +571,7 @@ describe("<RecordForm /> - Selectors", () => {
             option_strings_condition: null,
             order: null,
             parent_form: null,
+            phone_number: false,
             required: true,
             selected_value: null,
             showIf: null,
@@ -589,6 +588,7 @@ describe("<RecordForm /> - Selectors", () => {
             display_conditions_subform: undefined,
             autosum_total: true,
             tally: {},
+            signature_provided_by_label: {},
             collapse: null,
             calculation: {}
           }
@@ -660,6 +660,7 @@ describe("<RecordForm /> - Selectors", () => {
             option_strings_condition: null,
             order: null,
             parent_form: null,
+            phone_number: false,
             required: true,
             selected_value: null,
             showIf: null,
@@ -674,6 +675,7 @@ describe("<RecordForm /> - Selectors", () => {
             tick_box_label: {},
             display_conditions_record: undefined,
             display_conditions_subform: undefined,
+            signature_provided_by_label: {},
             autosum_total: true,
             tally: {},
             collapse: null,

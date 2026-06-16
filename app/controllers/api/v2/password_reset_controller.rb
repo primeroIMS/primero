@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Custom Devise controller that handles requests for email-based password resets,
 # and adapts it to the Primero API scheme
 class Api::V2::PasswordResetController < Devise::PasswordsController

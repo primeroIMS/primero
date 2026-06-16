@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # An indicator that returns the facility attack type of violation type attack on schools/hospitals
 class ManagedReports::Indicators::FacilityAttackType < ManagedReports::SqlReportIndicator
   class << self

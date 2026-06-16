@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 /* eslint-disable max-len */
 import { withStyles } from "tss-react/mui";
 import { Switch } from "@mui/material";

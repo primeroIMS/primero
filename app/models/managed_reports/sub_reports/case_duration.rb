@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Describes Cases by Duration in Primero.
 class ManagedReports::SubReports::CaseDuration < ManagedReports::SubReport
   def id

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # An indicator that returns % of clients with a safety plan
 class ManagedReports::Indicators::PercentageCasesSafetyPlan < ManagedReports::SqlReportIndicator
   include ManagedReports::PercentageIndicator

@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { useEffect } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import { Link } from "react-router-dom";
@@ -9,7 +7,7 @@ import { useI18n } from "../../../i18n";
 import { ROUTES } from "../../../../config";
 import { PageHeading, PageContent } from "../../../page";
 import IndexTable from "../../../index-table";
-import Permission, { MANAGE, RESOURCES } from "../../../permissions";
+import Permission, { MANAGE, RESOURCES, usePermissions } from "../../../permissions";
 import { useMemoizedSelector } from "../../../../libs";
 import { getMetadata } from "../../../record-list";
 import ActionButton from "../../../action-button";
@@ -17,6 +15,7 @@ import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { useMetadata } from "../../../records";
 import { useApp } from "../../../application";
 import { filterOnTableChange } from "../utils";
+import { MANAGE_RESTRICTED } from "../../../permissions/constants";
 
 import { NAME } from "./constants";
 import { fetchAdminLookups, setLookupsFilter } from "./action-creators";
@@ -30,6 +29,7 @@ function Component() {
   const recordType = ["admin", "lookups"];
 
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
+  const canManage = usePermissions(RESOURCES.metadata, MANAGE);
 
   const defaultFilters = metadata.set("locale", i18n.locale);
   const { limitedProductionSite } = useApp();
@@ -69,8 +69,8 @@ function Component() {
   }, []);
 
   return (
-    <Permission resources={RESOURCES.metadata} actions={MANAGE} redirect>
-      <PageHeading title={i18n.t("settings.navigation.lookups")}>{newUserGroupBtn}</PageHeading>
+    <Permission resources={RESOURCES.metadata} actions={MANAGE_RESTRICTED} redirect>
+      <PageHeading title={i18n.t("settings.navigation.lookups")}>{canManage && newUserGroupBtn}</PageHeading>
       <PageContent>
         <IndexTable title={i18n.t("settings.navigation.lookups")} {...tableOptions} />
       </PageContent>

@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import {
   Admin,
   AgenciesForm,
@@ -41,6 +39,7 @@ import InsightsSubReport from "./components/insights-sub-report";
 import Account from "./components/pages/account";
 import PasswordReset from "./components/password-reset";
 import CodeOfConduct from "./components/code-of-conduct";
+import TermsOfUse from "./components/terms-of-use";
 import ActivityLog from "./components/activity-log";
 import { AppLayout, LoginLayout, EmptyLayout } from "./components/layouts";
 import {
@@ -66,6 +65,7 @@ import { ROUTES, MODES, RECORD_PATH, RECORD_TYPES_PLURAL } from "./config";
 import UsageReports from "./components/pages/admin/usage-reports";
 import SelfRegistration from "./components/self-registration/component";
 import SelfRegistrationSuccess from "./components/self-registration-success/component";
+import { READ_FAMILY_RECORDS } from "./components/permissions/constants";
 
 const recordPaths = [
   RECORD_PATH.cases,
@@ -74,6 +74,12 @@ const recordPaths = [
   RECORD_PATH.registry_records,
   RECORD_PATH.families
 ];
+
+const recordPathActions = {
+  [RECORD_PATH.families]: {
+    ":id": READ_FAMILY_RECORDS
+  }
+};
 
 const recordRoutes = [
   [MODES.edit, WRITE_RECORDS, ":id/edit"],
@@ -87,7 +93,7 @@ const recordRoutes = [
       extraProps: {
         mode
       },
-      actions
+      actions: recordPathActions?.[recordPath]?.[path] || actions
     }));
   })
   .flat();
@@ -187,7 +193,8 @@ export default [
       {
         path: "/families",
         component: RecordList,
-        actions: READ_RECORDS
+        actions: READ_RECORDS,
+        resources: RESOURCES.families
       },
       {
         path: ROUTES.key_performance_indicators,
@@ -556,6 +563,10 @@ export default [
       {
         path: ROUTES.code_of_conduct,
         component: CodeOfConduct
+      },
+      {
+        path: ROUTES.terms_of_use,
+        component: TermsOfUse
       },
       {
         path: ROUTES.logout,

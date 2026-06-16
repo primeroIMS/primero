@@ -1,4 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 import { RECORD_PATH } from "../../../config";
 
 import buildActionList from "./build-action-list";
@@ -90,6 +89,7 @@ describe("record-actions/utils/build-action-list", () => {
       "approve",
       "export",
       "markForOffline",
+      "bulkFlag",
       "linkIncidentToCase",
       "attributeCase"
     ]);

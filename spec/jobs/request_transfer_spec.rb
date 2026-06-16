@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 require 'rails_helper'
 
 describe RequestTransferJob, type: :job do
@@ -16,7 +14,7 @@ describe RequestTransferJob, type: :job do
   end
 
   let(:role) do
-    create(:role, is_manager: true, modules: [primero_module], group_permission: Permission::ALL)
+    create(:role, is_manager: true, primero_modules: [primero_module], group_permission: Permission::ALL)
   end
 
   let(:user) do
@@ -44,14 +42,13 @@ describe RequestTransferJob, type: :job do
     end
 
     it 'sends a notification to manager' do
-      ActiveJob::Base.queue_adapter = :test
-
       request_transfer_jobs = ActiveJob::Base.queue_adapter.enqueued_jobs.select { |j| j[:job] == RequestTransferJob }
       expect(request_transfer_jobs.size).to eq(1)
     end
   end
 
   after(:each) do
-    clean_data(Alert, User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency, Child, Transition)
+    clean_data(Alert, User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency, Child,
+               Transition)
   end
 end

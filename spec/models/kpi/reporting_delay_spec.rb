@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 require 'rails_helper'
 
 describe Kpi::ReportingDelay, { search: true, skip_when_solr_disabled: true } do
@@ -50,7 +48,7 @@ describe Kpi::ReportingDelay, { search: true, skip_when_solr_disabled: true } do
     Sunspot.commit
   end
 
-  with 'No incidents owned by users group' do
+  describe 'No incidents owned by users group' do
     it 'should return no data for each of the 6 time periods' do
       json = Kpi::ReportingDelay.new(from, to, [group2]).to_json
       json[:data].each do |period|
@@ -59,7 +57,7 @@ describe Kpi::ReportingDelay, { search: true, skip_when_solr_disabled: true } do
     end
   end
 
-  with 'An incident owned by the users group with > 3 months reporting delay' do
+  describe 'An incident owned by the users group with > 3 months reporting delay' do
     it 'should produce a count of 1 for > 3 months' do
       json = Kpi::ReportingDelay.new(from, to, [group1]).to_json
       expect(json[:data].last[:total_incidents]).to eq(1)
@@ -67,7 +65,7 @@ describe Kpi::ReportingDelay, { search: true, skip_when_solr_disabled: true } do
     end
   end
 
-  with 'An incident owned by the users group with 15 - 30 days reporting delay' do
+  describe 'An incident owned by the users group with 15 - 30 days reporting delay' do
     it 'should produce a count of 1 for 15 - 30 days' do
       json = Kpi::ReportingDelay.new(from, to, [group3]).to_json
       expect(json[:data].last[:total_incidents]).to eq(0)
@@ -75,7 +73,7 @@ describe Kpi::ReportingDelay, { search: true, skip_when_solr_disabled: true } do
     end
   end
 
-  with 'A user in all groups with incidents' do
+  describe 'A user in all groups with incidents' do
     it 'should produce a count of 1 for 15 - 30 days and > 3months' do
       json = Kpi::ReportingDelay.new(from, to, [group1, group3]).to_json
       expect(json[:data].last[:total_incidents]).to eq(1)

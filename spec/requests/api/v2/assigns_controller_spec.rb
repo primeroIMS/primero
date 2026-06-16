@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 require 'rails_helper'
 
 describe Api::V2::AssignsController, type: :request do
@@ -14,7 +12,13 @@ describe Api::V2::AssignsController, type: :request do
       resource: Permission::CASE,
       actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::ASSIGN]
     )
-    @role = Role.new(permissions: [@permission_assign_case], modules: [@primero_module])
+    @permission_assign_family = Permission.new(
+      resource: Permission::FAMILY,
+      actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::ASSIGN]
+    )
+    @role = Role.new(
+      permissions: [@permission_assign_case, @permission_assign_family], primero_modules: [@primero_module]
+    )
     @role.save(validate: false)
     @group1 = UserGroup.create!(name: 'Group1')
     @user1 = User.new(user_name: 'user1', role: @role, user_groups: [@group1])
@@ -28,6 +32,12 @@ describe Api::V2::AssignsController, type: :request do
         module_id: @primero_module.unique_id
       }
     )
+  end
+
+  let!(:family1) do
+    family = Family.new_with_user(@user1, { family_number: '40bf9109' })
+    family.save!
+    family
   end
 
   let(:json) { JSON.parse(response.body) }
@@ -118,7 +128,7 @@ describe Api::V2::AssignsController, type: :request do
           resource: Permission::CASE,
           actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::ASSIGN_WITHIN_USER_GROUP]
         )
-        role = Role.new(permissions: [permission], modules: [@primero_module])
+        role = Role.new(permissions: [permission], primero_modules: [@primero_module])
         role.save(validate: false)
         @user1.role = role
         @user1.save(validate: false)
@@ -130,14 +140,14 @@ describe Api::V2::AssignsController, type: :request do
         stub_const('Assign::MAX_BULK_RECORDS', -1)
       end
 
-      it 'raises Errors::ForbiddenOperation' do
+      it 'raises Errors::BulkAssignRecordsSizeError' do
         sign_in(@user1)
         filters = { id: Array.new(3) { SecureRandom.uuid } }
         params = { data: { transitioned_to: 'user2', notes: 'Test Notes', filters: } }
 
         post('/api/v2/cases/assigns', params:)
 
-        expect(response).to have_http_status(403)
+        expect(response).to have_http_status(422)
       end
     end
 
@@ -163,8 +173,35 @@ describe Api::V2::AssignsController, type: :request do
     end
   end
 
+  describe 'POST /api/v2/families/:id/assigns' do
+    it 'assigns a the record to the target user' do
+      sign_in(@user1)
+      params = { data: { transitioned_to: 'user2', notes: 'Test Notes' } }
+      post("/api/v2/families/#{family1.id}/assigns", params:)
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['record_id']).to eq(family1.id.to_s)
+      expect(json['data']['transitioned_to']).to eq('user2')
+      expect(json['data']['transitioned_by']).to eq('user1')
+      expect(json['data']['notes']).to eq('Test Notes')
+
+      expect(audit_params['action']).to eq('assign')
+    end
+
+    it "get a forbidden message if the user doesn't have assign permission" do
+      login_for_test
+      params = { data: { transitioned_to: 'user2', notes: 'Test Notes' } }
+      post("/api/v2/families/#{family1.id}/assigns", params:)
+
+      expect(response).to have_http_status(403)
+      expect(json['errors'][0]['status']).to eq(403)
+      expect(json['errors'][0]['resource']).to eq("/api/v2/families/#{family1.id}/assigns")
+      expect(json['errors'][0]['message']).to eq('Forbidden')
+    end
+  end
+
   after do
     clear_enqueued_jobs
-    clean_data(User, Role, PrimeroModule, UserGroup, Child, Transition)
+    clean_data(User, Role, PrimeroModule, UserGroup, Family, Child, Transition)
   end
 end

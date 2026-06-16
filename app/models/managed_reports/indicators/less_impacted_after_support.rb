@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # An indicator that returns % of clients less impacted by protection risks after receiving support
 class ManagedReports::Indicators::LessImpactedAfterSupport < ManagedReports::SqlReportIndicator
   include ManagedReports::PercentageIndicator

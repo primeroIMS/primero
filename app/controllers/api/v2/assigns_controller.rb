@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # API endpoints that handle record reassignment
 class Api::V2::AssignsController < Api::V2::RecordResourceController
   before_action :bulk_assign_params, only: [:create_bulk]

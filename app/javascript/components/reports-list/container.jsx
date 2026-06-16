@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import AddIcon from "@mui/icons-material/Add";

@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { useEffect } from "react";
 import { endOfDay, parseISO, startOfDay } from "date-fns";
 import { DatePicker, DateTimePicker } from "@mui/x-date-pickers";

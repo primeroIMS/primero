@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { CircularProgress, FormControlLabel, Switch } from "@mui/material";
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";

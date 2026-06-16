@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 require 'rails_helper'
 
 describe Api::V2::TransfersController, type: :request do
@@ -25,22 +23,22 @@ describe Api::V2::TransfersController, type: :request do
         Permission::ACCEPT_OR_REJECT_TRANSFER, Permission::RECEIVE_TRANSFER
       ]
     )
-    @role = Role.new(permissions: [@permission_transfer_case], modules: [@primero_module])
+    @role = Role.new(permissions: [@permission_transfer_case], primero_modules: [@primero_module])
     @role.save(validate: false)
     @role_accept_or_reject = Role.new(
       permissions: [@permission_accept_or_reject_transfer],
-      modules: [@primero_module],
+      primero_modules: [@primero_module],
       group_permission: Permission::GROUP
     )
     @role_accept_or_reject.save(validate: false)
 
     @system_role = Role.new(
-      permissions: [@permission_transfer_case], modules: [@primero_module], user_category: Role::CATEGORY_SYSTEM
+      permissions: [@permission_transfer_case], primero_modules: [@primero_module], user_category: Role::CATEGORY_SYSTEM
     )
     @system_role.save(validate: false)
 
     @maintenance_role = Role.new(
-      permissions: [@permission_transfer_case], modules: [@primero_module], user_category: Role::CATEGORY_MAINTENANCE
+      permissions: [@permission_transfer_case], primero_modules: [@primero_module], user_category: Role::CATEGORY_MAINTENANCE
     )
     @maintenance_role.save(validate: false)
 
@@ -139,8 +137,6 @@ describe Api::V2::TransfersController, type: :request do
 
       expect(audit_params['action']).to eq('transfer')
     end
-
-    
 
     it "get a forbidden message if the user doesn't have transfer permission" do
       login_for_test

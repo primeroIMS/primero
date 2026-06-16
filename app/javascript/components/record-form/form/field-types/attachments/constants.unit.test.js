@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import * as constants from "./constants";
 
 describe("record-form/form/field-types/attachments/constants", () => {
@@ -30,7 +28,7 @@ describe("record-form/form/field-types/attachments/constants", () => {
     it("should have known ATTACHMENT_ACCEPTED_TYPES properties", () => {
       const clonedAcceptedTypes = { ...constants.ATTACHMENT_ACCEPTED_TYPES };
 
-      ["audio", "image", "document"].forEach(property => {
+      ["audio", "image", "document", "signature"].forEach(property => {
         expect(clonedAcceptedTypes).toHaveProperty(property);
         delete clonedAcceptedTypes[property];
       });

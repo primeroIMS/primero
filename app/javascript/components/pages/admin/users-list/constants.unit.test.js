@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import * as constants from "./constants";
 
 describe("<UsersList /> - constants", () => {
@@ -18,7 +16,8 @@ describe("<UsersList /> - constants", () => {
       "ACTION_NAMES",
       "DISABLE_DIALOG_NAME",
       "USERS_ABILITIES",
-      "USERS_DIALOG"
+      "USERS_DIALOG",
+      "ROLE_ID"
     ].forEach(property => {
       expect(clone).toHaveProperty(property);
       delete clone[property];

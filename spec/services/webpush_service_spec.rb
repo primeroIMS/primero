@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 require 'rails_helper'
 
 describe WebpushService do
@@ -12,6 +10,7 @@ describe WebpushService do
     )
     Rails.configuration.x.webpush.enabled = true
     Rails.configuration.x.webpush.pause_after = 1440
+    allow(ENV).to receive(:fetch).and_call_original
     allow(ENV).to receive(:fetch).with('PRIMERO_MESSAGE_SECRET').and_return('aVnNTxSI1EZmiG1dW6Z_I9fbQCbZB3Po')
   end
   describe '#send_notifications' do

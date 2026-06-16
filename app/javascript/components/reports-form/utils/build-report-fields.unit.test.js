@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { REPORT_FIELD_TYPES } from "../constants";
 
 import buildReportFields from "./build-report-fields";

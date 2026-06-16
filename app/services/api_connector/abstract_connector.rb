@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Abstract superclass for user identity connectors
 class ApiConnector::AbstractConnector
   RETRY_DELAY = 5 # Retry every 5 seconds

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Symmetrically encrypt and decrypt values via libsodium,
 # using a single key known to the entire application.
 # WARNING: THINK LONG AND HARD BEFORE RELYING ON THIS!!!!!

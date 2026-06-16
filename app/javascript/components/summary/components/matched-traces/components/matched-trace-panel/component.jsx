@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import PropTypes from "prop-types";
 import { Accordion, AccordionSummary } from "@mui/material";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";

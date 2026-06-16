@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { screen, mountedComponent, fireEvent } from "test-utils";
 
 import ActionsMenu from "./container";

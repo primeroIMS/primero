@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { useForm, FormProvider } from "react-hook-form";
 import PropTypes from "prop-types";
 

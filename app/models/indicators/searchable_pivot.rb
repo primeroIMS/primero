@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+# Class for Searchable Pivot Indicator
 class Indicators::SearchablePivot < Indicators::IndicatorPivot
   attr_accessor :searchable_column_name
 

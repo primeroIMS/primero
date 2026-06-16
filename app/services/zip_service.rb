@@ -1,12 +1,10 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Zip and encrypt a file with a system configured zipper
 class ZipService
   class << self
-    def zip(file, password)
-      zipper.zip(file, password)
+    def zip(file, password, target_file_name = nil)
+      zipper.zip(file, password, target_file_name)
     end
 
     def zipper

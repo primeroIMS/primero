@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { validationSchema } from "./utils";
 
 describe("record-actions/add-incident/utils", () => {

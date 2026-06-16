@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Override the ActiveRecord::SessionStore::Session.
 # This deactivates sessions by removing the Warden user key and marking them as "expired". Expired sessions persist
 # in the database. This allows the user to log out during the execution of a long-running request. If that request

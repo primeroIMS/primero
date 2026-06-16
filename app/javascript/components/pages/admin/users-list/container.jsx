@@ -1,9 +1,6 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { useEffect, useState } from "react";
 import { batch, useDispatch } from "react-redux";
 import { fromJS } from "immutable";
-import Grid from "@mui/material/Unstable_Grid2";
 import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../../i18n";
@@ -14,6 +11,7 @@ import { usePermissions, READ_RECORDS, RESOURCES } from "../../../permissions";
 import { FiltersForm } from "../../../form-filters/components";
 import { fetchAgencies } from "../agencies-list/action-creators";
 import {
+  fetchRoles,
   fetchUserGroups,
   getEnabledAgencies,
   getEnabledUserGroups,
@@ -26,6 +24,7 @@ import { useMemoizedSelector } from "../../../../libs";
 import { DEFAULT_FILTERS, DATA } from "../constants";
 import { useDialog } from "../../../action-dialog";
 import Menu from "../../../menu";
+import { getRoles } from "../../../application/selectors";
 
 import { fetchUsers, setUsersFilters } from "./action-creators";
 import {
@@ -37,12 +36,14 @@ import {
   ACTIVITY_FILTERS,
   USERS_DIALOG,
   ACTION_IDS,
-  USERS_ABILITIES
+  USERS_ABILITIES,
+  ROLE_ID
 } from "./constants";
-import { agencyBodyRender, buildObjectWithIds, buildUsersQuery, getFilters, buildActionList } from "./utils";
+import { agencyBodyRender, buildObjectWithIds, getFilters, buildActionList, roleBodyRender } from "./utils";
 import AlertMaxUser from "./components/alert-max-user";
 import NewUserBtn from "./components/new-user-button";
 import DisableDialog from "./components/disable-dialog";
+import css from "./styles.css";
 
 function Container() {
   const i18n = useI18n();
@@ -55,6 +56,7 @@ function Container() {
   const recordType = "users";
 
   const agencies = useMemoizedSelector(state => selectAgencies(state));
+  const roles = useMemoizedSelector(state => getRoles(state, recordType));
   const currentFilters = useMemoizedSelector(state => getAppliedFilters(state, recordType));
   const enabledAgencies = useMemoizedSelector(state => getEnabledAgencies(state));
   const filterUserGroups = useMemoizedSelector(state => getEnabledUserGroups(state));
@@ -65,10 +67,16 @@ function Container() {
   const maximumUsersLimit = maximumUsersWarningEnabled ? maximumUsersWarning : maximumUsers;
 
   const agenciesWithId = buildObjectWithIds(agencies);
-
   const columns = LIST_HEADERS.map(({ label, ...rest }) => ({
     label: i18n.t(label),
     ...rest,
+    ...(rest.name === "role_unique_id"
+      ? {
+          options: {
+            customBodyRender: value => roleBodyRender(roles, value)
+          }
+        }
+      : {}),
     ...(rest.name === "agency_id"
       ? { options: { customBodyRender: value => agencyBodyRender(i18n, agenciesWithId, value) } }
       : {})
@@ -80,11 +88,13 @@ function Container() {
     if (canListAgencies) {
       dispatch(fetchAgencies({ options: { per: 999 } }));
     }
+    dispatch(fetchRoles());
     dispatch(fetchUserGroups());
   }, []);
 
   useMetadata(recordType, metadata, fetchUsers, DATA, {
-    defaultFilterFields: { ...DEFAULT_FILTERS, locale: i18n.locale }
+    defaultFilterFields: { ...DEFAULT_FILTERS, locale: i18n.locale },
+    includeQueryParams: true
   });
 
   const onTableChange = filters => {
@@ -117,12 +127,12 @@ function Container() {
   };
 
   const filterProps = {
-    clearFields: [AGENCY, DISABLED, USER_GROUP, LAST_DATE],
-    filters: getFilters(i18n, enabledAgencies, filterUserGroups, filterPermission),
+    clearFields: [AGENCY, DISABLED, USER_GROUP, LAST_DATE, ROLE_ID],
+    filters: getFilters(i18n, enabledAgencies, filterUserGroups, filterPermission, roles),
     defaultFilters,
     initialFilters: DEFAULT_FILTERS,
     onSubmit: data => {
-      const filters = typeof data === "undefined" ? defaultFilters : buildUsersQuery(data);
+      const filters = typeof data === "undefined" ? defaultFilters : data;
       let mergedFilters = currentFilters.merge(fromJS(filters)).set("page", 1);
 
       if (ACTIVITY_FILTERS.some(key => mergedFilters.has(key))) {
@@ -157,16 +167,16 @@ function Container() {
         />
       </PageHeading>
       <PageContent>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={8}>
+        <div className={css.container}>
+          <div>
             <AlertMaxUser
               limitUsersReached={limitUsersReached}
               maximumUsers={maximumUsersLimit}
               totalUsersEnabled={totalUsersEnabled}
             />
             <IndexTable title={i18n.t("users.label")} {...tableOptions} showCustomToolbar renderTitleMessage />
-          </Grid>
-          <Grid item xs={12} sm={4}>
+          </div>
+          <div>
             <DisableDialog
               selectedRecords={selectedRecords}
               recordType={recordType}
@@ -174,8 +184,8 @@ function Container() {
               setSelectedRecords={setSelectedRecords}
             />
             <FiltersForm {...filterProps} noMargin searchFieldLabel={i18n.t("users.filters.search")} showSearchField />
-          </Grid>
-        </Grid>
+          </div>
+        </div>
       </PageContent>
     </>
   );

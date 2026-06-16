@@ -1,8 +1,10 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+import { ADMIN_RESOURCES, ADMIN_ACTIONS } from "../../../permissions/constants";
+import { checkPermissions } from "../../../permissions/utils";
 
-import { ADMIN_RESOURCES } from "../../../permissions/constants";
-
-export default userPermissions =>
-  ADMIN_RESOURCES.filter(
-    adminResource => userPermissions.keySeq().includes(adminResource) && userPermissions.get(adminResource).size > 0
+export default userPermissions => {
+  return ADMIN_RESOURCES.filter(
+    adminResource =>
+      userPermissions.keySeq().includes(adminResource) &&
+      checkPermissions(userPermissions.get(adminResource), ADMIN_ACTIONS)
   );
+};

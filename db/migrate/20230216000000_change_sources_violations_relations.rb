@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 class ChangeSourcesViolationsRelations < ActiveRecord::Migration[6.1]
   def change
     create_table :sources_violations do |t|

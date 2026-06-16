@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 require 'rails_helper'
 
 describe Api::V2::UserGroupsController, type: :request do
@@ -197,7 +195,7 @@ describe Api::V2::UserGroupsController, type: :request do
             Permission.new(resource: Permission::USER_GROUP, actions: [Permission::MANAGE])
           ],
           group_permission: Permission::SELF,
-          modules: [cp]
+          primero_modules: [cp]
         )
         @user = User.create!(
           full_name: 'Test User 1',

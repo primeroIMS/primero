@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import PropTypes from "prop-types";
 import { Box, IconButton } from "@mui/material";
 import FilterListIcon from "@mui/icons-material/FilterList";

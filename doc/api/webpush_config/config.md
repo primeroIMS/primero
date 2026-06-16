@@ -1,5 +1,3 @@
-<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
-
 # Query for webpush configuration
 
 Shows if webpush server is enabled or not, and its vapid_public.

@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { parseISO } from "date-fns";
 
 import { CUSTOM, LAST_WEEK, THIS_MONTH, THIS_WEEK } from "../insights/constants";

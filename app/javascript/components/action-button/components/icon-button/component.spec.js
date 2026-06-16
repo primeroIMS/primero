@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { mountedComponent, screen, fireEvent, waitFor } from "test-utils";
 
 import IconButton from "./component";

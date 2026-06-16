@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 def create_or_update_role(role_hash)
   role = Role.create_or_update!(role_hash)
   role.associate_all_forms unless role_hash[:form_sections].present?

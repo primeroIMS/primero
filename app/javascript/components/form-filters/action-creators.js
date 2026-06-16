@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { SET_FORM_FILTERS, CLEAR_FORM_FILTERS } from "./actions";
 
 export const setFormFilters = (formName, filters) => ({

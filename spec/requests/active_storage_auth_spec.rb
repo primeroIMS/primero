@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 require 'rails_helper'
 
 describe ActiveStorageAuth do
@@ -37,7 +35,7 @@ describe ActiveStorageAuth do
 
   describe 'ActiveStorage disk service update' do
     before(:each) do
-      ActiveStorage::Current.host = 'http://example.com'
+      ActiveStorage::Current.url_options = { host: 'http://www.example.com' }
     end
 
     let(:http_response) do
@@ -231,7 +229,6 @@ describe ActiveStorageAuth do
     it 'can only be read by authenticated users with access to the record of the attachment' do
       sign_in(user1)
       get case_with_photo.photo_url
-      follow_redirect!
 
       expect(response).to have_http_status(200)
       expect(response.content_type).to eq('image/jpeg')
@@ -240,7 +237,6 @@ describe ActiveStorageAuth do
     it 'can be read by authenticated users who can preview the record' do
       sign_in(user3)
       get case_with_photo.photo_url
-      follow_redirect!
 
       expect(response).to have_http_status(200)
       expect(response.content_type).to eq('image/jpeg')

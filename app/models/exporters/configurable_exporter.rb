@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Superclass for exporters that may have a configurable list of fields
 class Exporters::ConfigurableExporter < Exporters::BaseExporter
   class << self
@@ -56,7 +54,7 @@ class Exporters::ConfigurableExporter < Exporters::BaseExporter
   end
 
   def export(cases, *_args)
-    duplicate_export = CSVSafe.generate do |rows|
+    duplicate_export = CSVSafer.generate do |rows|
       write_header(rows)
       cases.each_with_index do |record, index|
         write_case(record, index, rows)

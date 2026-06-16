@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import buildGroupedSubItemColumns from "./build-grouped-sub-item-columns";
 
 describe("<InsightsSubReport />/utils/buildGroupedSubItemColumns", () => {

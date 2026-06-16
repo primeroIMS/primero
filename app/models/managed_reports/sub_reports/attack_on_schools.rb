@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Describes Attack on schools subreport in Primero.
 class ManagedReports::SubReports::AttackOnSchools < ManagedReports::SubReport
   def id

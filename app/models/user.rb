@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # This model represents the Primero end user and the associated application permissions.
 # Primero can be configured to perform its own password-based authentication, in which case the
 # User model is responsible for storing the encrypted password and associated whitelisted JWT
@@ -29,6 +27,7 @@ class User < ApplicationRecord
     'password_reset' => { 'type' => 'boolean' }, 'role_id' => { 'type' => 'string' },
     'agency_office' => { 'type' => %w[string null] }, 'code_of_conduct_id' => { 'type' => 'integer' },
     'send_mail' => { 'type' => 'boolean' }, 'receive_webpush' => { 'type' => 'boolean' },
+    'accept_terms_of_use' => { 'type' => 'boolean' },
     'settings' => {
       'type' => %w[object null], 'properties' => {
         'notifications' => {
@@ -53,7 +52,8 @@ class User < ApplicationRecord
 
   delegate :can?, :cannot?, to: :ability
 
-  devise :database_authenticatable, :timeoutable, :recoverable, :lockable
+  devise :database_authenticatable, :recoverable, :lockable
+  devise :timeoutable unless Rails.configuration.x.idp.use_identity_provider
 
   self.unique_id_attribute = 'user_name'
 
@@ -102,7 +102,7 @@ class User < ApplicationRecord
     .where(roles: { user_category: })
   end)
 
-  alias_attribute :organization, :agency
+  alias organization agency
   alias_attribute :name, :user_name
 
   before_validation :generate_random_password
@@ -140,6 +140,7 @@ class User < ApplicationRecord
             presence: { message: 'errors.models.user.data_processing_consent_provided_on' },
             if: :data_processing_consent_required?
   validate :validate_latest_code_of_conduct
+  validate :validate_agency_terms_of_use, if: -> { Rails.configuration.enforce_terms_of_use }
   with_options if: :limit_maximum_users_enabled? do
     validate :validate_limit_user_reached, on: :create
     validate :validate_limit_user_reached_on_enabling, on: :update
@@ -158,7 +159,8 @@ class User < ApplicationRecord
       [
         'full_name', 'code', 'password', 'password_confirmation', 'locale', { 'services' => [] }, 'email', 'position',
         'phone', 'location', 'send_mail', 'code_of_conduct_id', 'receive_webpush',
-        { 'settings' => { 'notifications' => { 'send_mail' => {}, 'receive_webpush' => {} } } }
+        { 'settings' => { 'notifications' => { 'send_mail' => {}, 'receive_webpush' => {} } } },
+        'accept_terms_of_use'
       ]
     end
 
@@ -397,7 +399,7 @@ class User < ApplicationRecord
   end
 
   def modules
-    @modules ||= role.modules
+    @modules ||= role.primero_modules
   end
 
   def module_unique_ids
@@ -443,6 +445,10 @@ class User < ApplicationRecord
     permission_by_permission_type?(record_type.parent_form, Permission::DISPLAY_VIEW_PAGE)
   end
 
+  def can_manage_restricted_metadata?
+    permission_by_permission_type?(Permission::METADATA, Permission::MANAGE_RESTRICTED)
+  end
+
   def managed_users
     if group_permission? Permission::ALL
       User.all
@@ -476,8 +482,8 @@ class User < ApplicationRecord
   # Returns list of UserGroups if can only query from those user groups that this user has access to
   # Returns the Agency if can only query from the agency this user has access to
   # Returns empty list if can query for all records in the system
-  def record_query_scope(record_model, id_search = false)
-    user_scope = case user_query_scope(record_model, id_search)
+  def record_query_scope(record_model, record_search = false)
+    user_scope = case user_query_scope(record_model, record_search)
                  when Permission::AGENCY then { 'agency' => agency.unique_id, 'agency_id' => agency_id }
                  when Permission::GROUP then { 'group' => user_groups.map(&:unique_id).compact }
                  when Permission::IDENTIFIED then { 'identified' => user_name }
@@ -487,8 +493,8 @@ class User < ApplicationRecord
     { user: user_scope }
   end
 
-  def user_query_scope(record_model = nil, id_search = false)
-    return Permission::ALL if can_search_for_all?(record_model, id_search)
+  def user_query_scope(record_model = nil, record_search = false)
+    return Permission::ALL if can_search_for_all?(record_model, record_search)
     return Permission::AGENCY if group_permission?(Permission::AGENCY)
     return Permission::GROUP if group_permission?(Permission::GROUP) && user_group_ids.present?
     return Permission::IDENTIFIED if group_permission?(Permission::IDENTIFIED)
@@ -508,8 +514,8 @@ class User < ApplicationRecord
     end
   end
 
-  def can_search_for_all?(record_model, id_search = false)
-    group_permission?(Permission::ALL) || (can?(:search_owned_by_others, record_model) && id_search && record_model)
+  def can_search_for_all?(record_model, record_search = false)
+    group_permission?(Permission::ALL) || (can?(:search_owned_by_others, record_model) && record_search && record_model)
   end
 
   def mobile_login_history
@@ -734,6 +740,12 @@ class User < ApplicationRecord
     incident_admin_level || ReportingLocation::DEFAULT_ADMIN_LEVEL
   end
 
+  def agency_terms_of_use_changed?
+    return false if terms_of_use_accepted_on.nil? || agency&.terms_of_use_uploaded_at.nil?
+
+    terms_of_use_accepted_on < agency.terms_of_use_uploaded_at
+  end
+
   def self.delete_unverified_older_than(retention_days = 30)
     cutoff_date = Time.zone.now - retention_days.days
 
@@ -785,6 +797,15 @@ class User < ApplicationRecord
     self.code_of_conduct_accepted_on ||= DateTime.now if code_of_conduct_id.present?
   end
 
+  def needs_terms_of_use_acceptance?
+    return false unless agency&.terms_of_use_enabled?
+
+    return true if terms_of_use_accepted_on.nil?
+
+    agency.terms_of_use_uploaded_at.present? &&
+      terms_of_use_accepted_on < agency.terms_of_use_uploaded_at
+  end
+
   def mark_user_groups_changed(_user_group)
     self.user_groups_changed = true
   end
@@ -799,7 +820,7 @@ class User < ApplicationRecord
       update_agencies: saved_change_to_attribute?('agency_id'),
       update_locations: saved_change_to_attribute?('location'),
       update_agency_offices: saved_change_to_attribute('agency_office')&.last&.present?,
-      models: [Child, Incident]
+      models: [Child, Incident, Family]
     )
   end
 
@@ -835,6 +856,12 @@ class User < ApplicationRecord
     return if code_of_conduct == CodeOfConduct.current
 
     errors.add(:code_of_conduct_id, I18n.t('errors.models.user.code_of_conduct'))
+  end
+
+  def validate_agency_terms_of_use
+    return unless will_save_change_to_agency_id? && agency.terms_of_use_enabled? && !agency.terms_of_use.attached?
+
+    errors.add(:base, I18n.t('errors.models.agency.no_signed_terms_of_use'))
   end
 end
 # rubocop:enable Metrics/ClassLength

@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 source ../venv/bin/activate
 
 if [ "$1" == "remote" ];

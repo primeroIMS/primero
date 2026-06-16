@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import configureStore from "redux-mock-store";
 
 import * as actionCreators from "./action-creators";
@@ -11,11 +9,13 @@ describe("<Flagging /> - Action Creators", () => {
     expect(creators).toHaveProperty("fetchFlags");
     expect(creators).toHaveProperty("unFlag");
     expect(creators).toHaveProperty("addFlag");
+    expect(creators).toHaveProperty("bulkAddFlag");
     expect(creators).toHaveProperty("setSelectedFlag");
     expect(creators).toHaveProperty("updateFlag");
     delete creators.fetchFlags;
     delete creators.unFlag;
     delete creators.addFlag;
+    delete creators.bulkAddFlag;
     delete creators.setSelectedFlag;
     delete creators.updateFlag;
 
@@ -69,6 +69,20 @@ describe("<Flagging /> - Action Creators", () => {
     expect(updateFlagAction.type).toEqual("flags/UPDATE_FLAG");
     expect(updateFlagAction.api.path).toEqual("cases/d6a6dbb4-e5e9-4720-a661-e181a12fd3a0/flags/1");
     expect(updateFlagAction.api.body).toEqual(body);
+  });
+
+  it("should check the 'bulkAddFlag' action creator to return the correct object", () => {
+    const recordType = "cases";
+    const path = `${recordType}/flags`;
+    const body = { data: { filters: { id: ["abc-123"] }, message: "Test flag", date: "2024-01-01" } };
+
+    const bulkAddFlagAction = actionCreators.bulkAddFlag(body, "message", path);
+
+    expect(bulkAddFlagAction.type).toEqual("flags/BULK_FLAG");
+    expect(bulkAddFlagAction.api.path).toEqual(path);
+    expect(bulkAddFlagAction.api.method).toEqual("POST");
+    expect(Array.isArray(bulkAddFlagAction.api.successCallback)).toBe(true);
+    expect(bulkAddFlagAction.api.successCallback[0].action).toEqual("CLEAR_DIALOG");
   });
 
   it("should check the 'setSelectedFlag' action creator to return the correct object", () => {

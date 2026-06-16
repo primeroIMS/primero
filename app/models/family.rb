@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Describes the family linkages
 class Family < ApplicationRecord
   include Record
   include Searchable
   include Historical
+  include Assignable
   include Ownable
   include Flaggable
   include Alertable
@@ -21,7 +20,10 @@ class Family < ApplicationRecord
     :data,
     :status, :family_id, :family_name, :family_number, :family_size, :family_notes,
     :family_registration_date, :family_id_display, :family_location_current,
-    :family_members
+    :family_members,
+    # NOTE: This property is part of the Transitionable concern, but Family is not transitionable.
+    # It is here to ensure that a family can be reassigned.
+    :reassigned_transferred_on
   )
 
   has_many :cases, class_name: 'Child', foreign_key: :family_id
@@ -43,6 +45,14 @@ class Family < ApplicationRecord
 
     def phonetic_field_names
       %w[family_name]
+    end
+
+    def phone_number_fields
+      %w[family_telephone_current]
+    end
+
+    def preview_field_names
+      %w[family_id_display family_name family_number family_registration_date] + super
     end
   end
 
@@ -79,5 +89,17 @@ class Family < ApplicationRecord
 
   def cases_grouped_by_id
     cases&.group_by(&:id) || {}
+  end
+
+  def can_be_assigned?
+    true
+  end
+
+  def recalculate_assigned_user_names
+    # NOTE: Family is not transitionable: assigned_user_names can only be users
+    # associated to the family through cases.
+    self.assigned_user_names = cases.map(&:owned_by).uniq
+
+    assigned_user_names
   end
 end

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 UNICEF. All rights reserved.
-
 # Class to export UsageReport
 # rubocop:disable Metrics/ClassLength
 class UsageReport < ValueObject

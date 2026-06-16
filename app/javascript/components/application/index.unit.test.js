@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import * as index from "./index";
 
 describe("<Application /> - index", () => {
@@ -25,6 +23,8 @@ describe("<Application /> - index", () => {
       "selectAgencies",
       "getAgency",
       "getUserGroups",
+      "getDefaultPhoneFormat",
+      "getPhoneFormats",
       "selectLocales",
       "selectModule",
       "selectModules",

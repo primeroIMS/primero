@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Concern of Insight Params
 module Exporters::Concerns::InsightParams
   extend ActiveSupport::Concern

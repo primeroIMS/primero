@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # A service to strip diacritic marks from various languages
 class LanguageService
   # rubocop:disable Layout/HashAlignment

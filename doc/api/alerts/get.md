@@ -1,5 +1,3 @@
-<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
-
 # Query for alerts
 
 It show the count of alerts from cases, incidents and tracing request of the logged user

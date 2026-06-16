@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Describes a request by a single individual to trace one or more children (cases)
 class TracingRequest < ApplicationRecord
   include Record
@@ -53,6 +51,10 @@ class TracingRequest < ApplicationRecord
 
     def phonetic_field_names
       %w[relation_name relation_nickname relation_other_family tracing_names tracing_nicknames]
+    end
+
+    def phone_number_fields
+      %w[relation_telephone telephone_last]
     end
 
     alias super_new_with_user new_with_user

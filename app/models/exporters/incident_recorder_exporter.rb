@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Exports Incident Recorder to an Excel File
 # rubocop:disable Metrics/ClassLength
 class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
@@ -95,6 +93,7 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
       @workbook = WriteXLSX.new(exporter.buffer)
       @data_worksheet = @workbook.add_worksheet('Incident Data')
       @menu_worksheet = @workbook.add_worksheet('Menu Data')
+      @forced_string_format = @workbook.add_format(num_format: '@')
     end
 
     def initialize_fields
@@ -113,8 +112,11 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
       return unless @data_headers.blank?
 
       @data_headers = true
-      @data_worksheet.write_row(
-        0, 0, @props.keys.map { |prop| I18n.t("exports.incident_recorder_xls.headers.#{prop}", **locale_hash) }
+      @data_worksheet.write(
+        0,
+        0,
+        @props.keys.map { |prop| I18n.t("exports.incident_recorder_xls.headers.#{prop}", **locale_hash) },
+        @forced_string_format
       )
       # TODO: revisit, there is a bug in the gem.
       # set_column_widths(@data_worksheet, props.keys)
@@ -125,8 +127,11 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
 
       @menu_headers = true
       header = %w[case_worker_code ethnicity location county district camp]
-      @menu_worksheet.write_row(
-        0, 0, header.map { |prop| I18n.t("exports.incident_recorder_xls.headers.#{prop}", **locale_hash) }
+      @menu_worksheet.write(
+        0,
+        0,
+        header.map { |prop| I18n.t("exports.incident_recorder_xls.headers.#{prop}", **locale_hash) },
+        @forced_string_format
       )
       # TODO: revisit, there is a bug in the gem.
       # set_column_widths(@menu_worksheet, header)
@@ -539,8 +544,20 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
         next unless prop.present?
 
         value = prop.is_a?(Proc) ? prop.call(model) : model.data[prop]
-        formatted_value = format_value(prop, value).to_s
-        @data_worksheet.write(@row_data, index, formatted_value) unless formatted_value.nil?
+        formatted_value = format_value(prop, value)
+        write_export_value(index, formatted_value) unless formatted_value.nil?
+      end
+    end
+
+    def write_export_value(column, value)
+      case value
+      when String
+        # Force string format for string values in order to prevent formula injections
+        @data_worksheet.write_string(@row_data, column, value)
+      when TrueClass, FalseClass
+        @data_worksheet.write_string(@row_data, column, value.to_s)
+      else
+        @data_worksheet.write(@row_data, column, value)
       end
     end
 
@@ -566,7 +583,7 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
         # Cell where the data should be push.
         j = menu[:cell_index]
         menu[:values].each do |value|
-          @menu_worksheet.write(i, j, value)
+          @menu_worksheet.write_string(i, j, value)
           i += 1
         end
       end

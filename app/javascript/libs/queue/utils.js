@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { queueIndexedDB } from "../../db";
 import EventManager from "../messenger";
 import { METHODS } from "../../config";

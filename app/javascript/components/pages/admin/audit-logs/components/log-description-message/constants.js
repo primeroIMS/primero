@@ -1,5 +1,3 @@
-// Copyright (c) 2014 UNICEF. All rights reserved.
-
 import { ROUTES } from "../../../../../../config";
 
 export const ACTIONS_WITH_RECORD_ID = Object.freeze([

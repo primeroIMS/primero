@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { setupHook } from "../../test-utils";
 import * as authProvider from "../login/components/idp-selection/auth-provider";
 

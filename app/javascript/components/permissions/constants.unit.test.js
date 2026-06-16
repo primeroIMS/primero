@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import * as PERMISSIONS from "./constants";
 
 describe("Verifying config constant", () => {
@@ -21,6 +19,7 @@ describe("Verifying config constant", () => {
       "ASSIGN_WITHIN_USER_GROUP",
       "ASSIGN",
       "ATTRIBUTE",
+      "BULK_FLAG",
       "CASE_FROM_FAMILY",
       "CASE_MANAGEMENT_KPIS_REPORT",
       "CHANGE_LOG",
@@ -111,6 +110,7 @@ describe("Verifying config constant", () => {
       "LINK_FAMILY_RECORD",
       "LINK_INCIDENT_TO_CASE",
       "MANAGE",
+      "MANAGE_RESTRICTED",
       "MARK_FOR_OFFLINE",
       "PROTECTION_OUTCOMES",
       "READ",
@@ -130,6 +130,7 @@ describe("Verifying config constant", () => {
       "REQUEST_APPROVAL_GBV_CLOSURE",
       "REQUEST_TRANSFER",
       "SEARCH_OWNED_BY_OTHERS",
+      "SEARCH_AND_SELECT_FAMILY_RECORD",
       "SELF_APPROVE",
       "SERVICES_SECTION_FROM_CASE",
       "SYNC_EXTERNAL",

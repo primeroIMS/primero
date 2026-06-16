@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # API for fetching the aggregate statistics backing the dashboards
 class Api::V2::DashboardsController < ApplicationApiController
   def index
@@ -22,6 +20,10 @@ class Api::V2::DashboardsController < ApplicationApiController
   end
 
   def selected_dashboard_names
-    @selected_dashboard_names ||= DestringifyService.destringify(params.permit(names: {}).to_h)[:names] || []
+    @selected_dashboard_names ||= DestringifyService.destringify(dashboard_params)[:names] || []
+  end
+
+  def dashboard_params
+    params.except(:format).permit(names: {}).to_h
   end
 end

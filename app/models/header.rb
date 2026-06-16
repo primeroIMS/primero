@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # This represents the columns that are to be displayed on the record list views
 # rubocop:disable Metrics/ClassLength
 class Header < ValueObject
@@ -47,7 +45,7 @@ class Header < ValueObject
   RECORD_OWNER = Header.new(name: 'record_owner', field_name: 'record_owner')
   AGENCY_NAME = Header.new(name: 'agency.name', field_name: 'name')
   FULL_NAME = Header.new(name: 'full_name', field_name: 'full_name')
-  POSITION = Header.new(name: 'position', field_name: 'position')
+  ROLE = Header.new(name: 'role', field_name: 'role_unique_id')
   AGENCY = Header.new(name: 'agency', field_name: 'agency')
   USER_GROUP_NAME = Header.new(name: 'user_group.name', field_name: 'name')
   STATUS = Header.new(name: 'status', field_name: 'status')
@@ -176,7 +174,7 @@ class Header < ValueObject
     end
 
     def user_headers
-      [FULL_NAME, USER_NAME, POSITION, AGENCY]
+      [FULL_NAME, USER_NAME, ROLE, AGENCY]
     end
 
     def user_group_headers

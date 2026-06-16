@@ -110,7 +110,8 @@ describe("<Dashboard />", () => {
                 type: "indicator",
                 indicators: {
                   shared_with_me_total_referrals: { count: 0, query: [] },
-                  shared_with_me_new_referrals: { count: 0, query: [] }
+                  shared_with_me_pending_referrals: { count: 0, query: [] },
+                  shared_with_me_accepted_referrals: { count: 0, query: [] }
                 }
               }
             ]

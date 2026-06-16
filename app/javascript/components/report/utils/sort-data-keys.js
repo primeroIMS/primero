@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { sortWithSortedArray } from "../../insights-sub-report/utils";
 import { AGE_RANGE_PATTERN, DATE_PATTERN } from "../constants";
 

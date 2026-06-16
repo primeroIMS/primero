@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Transform report filters to search filters
 class Reports::ReportFilterService
   attr_accessor :filters, :filters_map, :destringify_service

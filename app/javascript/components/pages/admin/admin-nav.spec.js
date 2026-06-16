@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { fromJS } from "immutable";
 
 import { mountedComponent, screen, within } from "../../../test-utils";
@@ -37,7 +35,8 @@ describe("<AdminNav />", () => {
     });
 
     it("should renders all AdminNavItem menus", () => {
-      expect(screen.getAllByRole("button")).toHaveLength(10);
+      expect(screen.getAllByRole("link")).toHaveLength(9);
+      expect(screen.getAllByRole("listitem")).toHaveLength(1);
     });
   });
 

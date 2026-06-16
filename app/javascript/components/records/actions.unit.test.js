@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import * as actions from "./actions";
 
 describe("records - Actions", () => {
@@ -109,6 +107,7 @@ describe("records - Actions", () => {
       "SET_CASE_ID_FOR_INCIDENT",
       "SET_CASE_ID_REDIRECT",
       "SET_CASE_POTENTIAL_MATCH",
+      "SET_IS_RECORD_CREATION_FLOW",
       "SET_MACHED_CASE_FOR_TRACE_FAILURE",
       "SET_MACHED_CASE_FOR_TRACE_FINISHED",
       "SET_MACHED_CASE_FOR_TRACE_STARTED",

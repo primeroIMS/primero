@@ -1,4 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 import addSubformEntries from "./add-subform-entries";
 
 describe("addSubformEntries", () => {

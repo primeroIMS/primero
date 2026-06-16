@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { RECORD_PATH } from "../../../../config";
 
 import * as actionsCreators from "./action-creators";
@@ -22,7 +20,8 @@ describe("<RolesList /> - Action Creators", () => {
       type: actions.ROLES,
       api: {
         params: { managed: true },
-        path: RECORD_PATH.roles
+        path: RECORD_PATH.roles,
+        arrayFormat: "brackets"
       }
     };
 

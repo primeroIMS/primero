@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { fromJS } from "immutable";
 import { object, string, array } from "yup";
 
@@ -15,7 +13,8 @@ export const selectFieldForm = ({
   lookups,
   onManageTranslations,
   limitedProductionSite,
-  parentForm
+  parentForm,
+  canManage
 }) => {
   const fieldName = field.get("name");
   let extraValidations = {};
@@ -45,9 +44,9 @@ export const selectFieldForm = ({
 
   return {
     forms: fromJS([
-      generalForm({ fieldName, i18n, formMode, onManageTranslations, limitedProductionSite }),
-      optionsForm({ fieldName, i18n, formMode, field, lookups, css, limitedProductionSite, parentForm }),
-      visibilityForm({ fieldName, i18n, isNested, limitedProductionSite })
+      generalForm({ fieldName, i18n, formMode, onManageTranslations, limitedProductionSite, canManage }),
+      optionsForm({ fieldName, i18n, formMode, field, lookups, css, limitedProductionSite, parentForm, canManage }),
+      visibilityForm({ fieldName, i18n, isNested, limitedProductionSite, canManage })
     ]),
     validationSchema: validationSchema({
       fieldName,

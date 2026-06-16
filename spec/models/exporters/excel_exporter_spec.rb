@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # TODO: There are some rubocop warnings related to double quotes around some of the Arabic text.  Leaving as-is for now
 
 require 'rails_helper'
@@ -190,9 +188,10 @@ module Exporters
 
       @primero_module = create(:primero_module, unique_id: 'primeromodule-cp', name: 'CP')
       @role = create(
-        :role, form_sections: [form_a, form_b, form_c, form_d, form_e, form_f, form_h], modules: [@primero_module]
+        :role, form_sections: [form_a, form_b, form_c, form_d, form_e, form_f,
+                               form_h], primero_modules: [@primero_module]
       )
-      @role_referral = create(:role, form_sections: [form_h, form_add], modules: [@primero_module])
+      @role_referral = create(:role, form_sections: [form_h, form_add], primero_modules: [@primero_module])
       @user_referral = create(:user, user_name: 'fakerefer', role: @role)
       @user = create(:user, user_name: 'fakeadmin', role: @role)
       @family = Family.create!(

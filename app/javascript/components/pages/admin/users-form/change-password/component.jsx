@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { yupResolver } from "@hookform/resolvers/yup";
 import PropTypes from "prop-types";
 import { useState } from "react";

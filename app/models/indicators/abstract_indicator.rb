@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # rubocop:disable Style/ClassAndModuleChildren
 module Indicators
   # Abstract Class for Indicator
@@ -20,7 +18,8 @@ module Indicators
     # rubocop:enable Style/ClassAndModuleChildren
     attr_accessor :name, :record_model, :scope, :scope_to_owner, :scope_to_referred,
                   :scope_to_transferred, :scope_to_not_last_update, :scope_to_owned_by_groups,
-                  :scope_to_transferred_groups, :scope_to_assigned
+                  :scope_to_transferred_groups, :scope_to_assigned, :scope_to_referred_users_accepted,
+                  :scope_to_referred_users_pending
 
     class << self
       def type
@@ -65,7 +64,9 @@ module Indicators
         with_scope_referred_to_users(user) +
         with_scope_transferred_to_users(user) +
         with_scope_transferred_to_user_groups(user) +
-        with_scope_to_assigned(user)
+        with_scope_to_assigned(user) +
+        with_scope_to_referred_users_pending(user) +
+        with_scope_to_referred_users_accepted(user)
     end
 
     def with_scope_to_owner(user)
@@ -112,6 +113,18 @@ module Indicators
       return [] unless scope_to_assigned
 
       [SearchFilters::TransitionValue.new(field_name: 'Assign', value: user.user_name)]
+    end
+
+    def with_scope_to_referred_users_pending(user)
+      return [] unless scope_to_referred_users_pending
+
+      [SearchFilters::TextValue.new(field_name: 'referred_users_pending', value: user.user_name)]
+    end
+
+    def with_scope_to_referred_users_accepted(user)
+      return [] unless scope_to_referred_users_accepted
+
+      [SearchFilters::TextValue.new(field_name: 'referred_users_accepted', value: user.user_name)]
     end
 
     def filters(user)

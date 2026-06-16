@@ -1,27 +1,30 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # API endpoints for adding and removing attachments on Primero resources (usually records)
 class Api::V2::AttachmentsController < Api::V2::RecordResourceController
   before_action :validate_update_params!, only: [:update]
+  before_action :initialize_attachment, only: [:create]
+  before_action :set_attachment, only: %i[show update destroy]
+
+  def show
+    authorize! :read, @attachment
+
+    send_file
+  end
 
   def create
-    @attachment = Attachment.new(attachment_params)
     authorize! :create, @attachment
     @attachment.attach!
     updates_for_record(@record)
   end
 
   def update
-    @attachment = Attachment.find(params[:id])
     @attachment.assign_attributes(attachment_update_params)
     @attachment.save!
     updates_for_record(@record)
   end
 
   def destroy
-    @attachment = Attachment.find(params[:id])
     authorize! :destroy, @attachment
     @attachment.detach!
     updates_for_record(@record)
@@ -37,12 +40,24 @@ class Api::V2::AttachmentsController < Api::V2::RecordResourceController
 
   private
 
+  def send_file
+    send_data(
+      file.download,
+      filename: file.filename.to_s,
+      type: file.content_type,
+      disposition: 'inline'
+    )
+  rescue ActiveStorage::FileNotFoundError
+    nil
+  end
+
   def attachment_params
     return @attachment_params if @attachment_params
 
     @attachment_params = params.require(:data).permit(
       :field_name, :date, :description, :is_current,
-      :comments, :attachment, :file_name, :attachment_type
+      :comments, :attachment, :file_name, :attachment_type,
+      :signature_provided_by
     ).to_h
     @attachment_params[:record] = @record
     @attachment_params
@@ -51,7 +66,8 @@ class Api::V2::AttachmentsController < Api::V2::RecordResourceController
   def attachment_update_params
     return @attachment_update_params if @attachment_update_params
 
-    @attachment_update_params = params.require(:data).permit(:description, :is_current, :date, :comments).to_h
+    @attachment_update_params = params.require(:data).permit(:description, :is_current, :date, :comments,
+                                                             :signature_provided_by).to_h
     @attachment_update_params[:record] = @record
     @attachment_update_params
   end
@@ -63,5 +79,23 @@ class Api::V2::AttachmentsController < Api::V2::RecordResourceController
     invalid_record_json = Errors::InvalidRecordJson.new('Invalid Attachment JSON')
     invalid_record_json.invalid_props = invalid_props
     raise invalid_record_json
+  end
+
+  def initialize_attachment
+    @attachment = if params.dig(:data, :attachment_type) == Field::SIGNATURE_FIELD
+                    Signature.new_with_user(current_user, attachment_params)
+                  else
+                    Attachment.new(attachment_params)
+                  end
+  end
+
+  def set_attachment
+    @attachment = Attachment.find(params[:id])
+  end
+
+  def file
+    return @attachment.preview_file if params[:preview_type] == 'pdf'
+
+    @attachment.file
   end
 end

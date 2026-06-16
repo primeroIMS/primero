@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+# Class for JSON Pivot
 class Indicators::JsonPivot < Indicators::IndicatorPivot
   def select
     return ActiveRecord::Base.sanitize_sql_array(['pivot?', number]) if multivalue?

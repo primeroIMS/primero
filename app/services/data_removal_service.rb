@@ -1,12 +1,10 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Service that allow users to remove data and handling referential integrity
 class DataRemovalService
   RECORD_MODELS = [Child, Incident, TracingRequest].freeze
   DATA_MODELS = [
-    Trace, Flag, Alert, Attachment, AuditLog, BulkExport, RecordHistory, SavedSearch, Transition, Violation,
+    Trace, Flag, Alert, Attachment, Signature, AuditLog, BulkExport, RecordHistory, SavedSearch, Transition, Violation,
     SearchableIdentifier
   ].freeze
   METADATA_MODELS = [

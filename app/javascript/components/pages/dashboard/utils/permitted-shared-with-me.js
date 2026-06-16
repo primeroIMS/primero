@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { fromJS } from "immutable";
 
 import { ACTIONS, RESOURCES } from "../../../permissions";
@@ -13,7 +11,8 @@ const userHasPermission = (userPermissions, resource, action) =>
 const isPermittedIndicator = (userPermissions, indicatorName) => {
   const indicators = {
     shared_with_me_total_referrals: [RESOURCES.cases, [ACTIONS.RECEIVE_REFERRAL, ACTIONS.MANAGE]],
-    shared_with_me_new_referrals: [RESOURCES.cases, [ACTIONS.RECEIVE_REFERRAL, ACTIONS.MANAGE]],
+    shared_with_me_pending_referrals: [RESOURCES.cases, [ACTIONS.RECEIVE_REFERRAL, ACTIONS.MANAGE]],
+    shared_with_me_accepted_referrals: [RESOURCES.cases, [ACTIONS.RECEIVE_REFERRAL, ACTIONS.MANAGE]],
     shared_with_me_transfers_awaiting_acceptance: [RESOURCES.cases, [ACTIONS.RECEIVE_TRANSFER, ACTIONS.MANAGE]]
   };
 

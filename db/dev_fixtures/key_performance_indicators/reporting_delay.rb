@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 require_relative 'setup'
 
 #  create 100 incidents with repotting delay (very) roughly distributed

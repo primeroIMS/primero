@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { isImmutable } from "immutable";
 
 import { RECORD_PATH } from "../../../../config";
@@ -13,7 +11,8 @@ export const fetchRoles = params => {
     type: actions.ROLES,
     api: {
       path: RECORD_PATH.roles,
-      params: isImmutable(data) ? data.set("managed", true) : { ...data, managed: true }
+      params: isImmutable(data) ? data.set("managed", true) : { ...data, managed: true },
+      arrayFormat: "brackets"
     }
   };
 };

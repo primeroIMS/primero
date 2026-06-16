@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Sends email notifications for Approval requests and responses,
 # Transition notification, and Transfer Requests.
 # TODO: Break up into separate mailers.

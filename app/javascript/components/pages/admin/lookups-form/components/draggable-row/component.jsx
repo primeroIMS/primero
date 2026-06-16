@@ -1,7 +1,5 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import PropTypes from "prop-types";
-import { Draggable } from "react-beautiful-dnd";
+import { Draggable } from "@hello-pangea/dnd";
 
 import css from "../styles.css";
 import { DragIndicator } from "../../../forms-list/components";

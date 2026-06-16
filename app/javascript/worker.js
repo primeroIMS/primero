@@ -1,16 +1,14 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 /* eslint-disable no-restricted-globals */
 
 import { precacheAndRoute, getCacheKeyForURL, cleanupOutdatedCaches } from "workbox-precaching";
 import { setCatchHandler, registerRoute } from "workbox-routing";
 import { NetworkOnly, CacheFirst, NetworkFirst } from "workbox-strategies";
-import { clientsClaim, skipWaiting, cacheNames } from "workbox-core";
+import { clientsClaim, cacheNames } from "workbox-core";
 import { ExpirationPlugin } from "workbox-expiration";
 import { CacheableResponsePlugin } from "workbox-cacheable-response";
 
 clientsClaim();
-skipWaiting();
+self.skipWaiting();
 cleanupOutdatedCaches();
 
 let abortControllers = [];

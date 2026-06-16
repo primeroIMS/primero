@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Model representing a registry
 class RegistryRecord < ApplicationRecord
   REGISTRY_TYPE_FARMER = 'farmer'
@@ -48,6 +46,10 @@ class RegistryRecord < ApplicationRecord
 
     def phonetic_field_names
       %w[name]
+    end
+
+    def phone_number_fields
+      %w[telephone_current]
     end
   end
 

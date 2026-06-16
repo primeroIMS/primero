@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { Menu, MenuItem, Button } from "@mui/material";
 import LanguageIcon from "@mui/icons-material/Language";
 import { useState } from "react";

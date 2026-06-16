@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import * as constants from "./constants";
 
 describe("<Form /> - Constants", () => {
@@ -40,7 +38,8 @@ describe("<Form /> - Constants", () => {
       "TEXT_AREA",
       "TEXT_FIELD",
       "TICK_FIELD",
-      "TOGGLE_FIELD"
+      "TOGGLE_FIELD",
+      "SIGNATURE_FIELD"
     ].forEach(property => {
       expect(clonedConstants).toHaveProperty(property);
       delete clonedConstants[property];

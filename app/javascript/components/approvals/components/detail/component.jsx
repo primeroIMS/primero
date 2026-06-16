@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import PropTypes from "prop-types";
 import { Grid } from "@mui/material";
 
@@ -27,7 +25,12 @@ function Component({ approvalSubform, isRequest, isResponse, primeroModule }) {
   const renderCasePlanType =
     approvalSubform.get("approval_response_for") === CASE_PLAN ||
     approvalSubform.get("approval_requested_for") === CASE_PLAN ? (
-      <Grid item md={6} xs={12}>
+      <Grid
+        size={{
+          md: 6,
+          xs: 12
+        }}
+      >
         <DisplayData label="approvals.case_plan_type_label" value={approvalSubform.get("approval_for_type")} />
       </Grid>
     ) : null;
@@ -35,7 +38,12 @@ function Component({ approvalSubform, isRequest, isResponse, primeroModule }) {
   const renderApprovedByLabel = approvalLabel(isRequest, approvalSubform);
 
   const renderManagerComments = isResponse ? (
-    <Grid item md={12} xs={12}>
+    <Grid
+      size={{
+        md: 12,
+        xs: 12
+      }}
+    >
       <DisplayData label="approvals.manager_comments_label" value={approvalSubform.get("approval_manager_comments")} />
     </Grid>
   ) : null;
@@ -43,10 +51,20 @@ function Component({ approvalSubform, isRequest, isResponse, primeroModule }) {
   return (
     <>
       <Grid container spacing={2} data-testid="approval-detail">
-        <Grid item md={6} xs={12}>
+        <Grid
+          size={{
+            md: 6,
+            xs: 12
+          }}
+        >
           <DisplayData label={renderApprovalLabel} value={renderApprovalValue} />
         </Grid>
-        <Grid item md={6} xs={12}>
+        <Grid
+          size={{
+            md: 6,
+            xs: 12
+          }}
+        >
           <DisplayData
             label={renderApprovedByLabel}
             value={approvalSubform.get("approved_by", false) || approvalSubform.get("requested_by")}

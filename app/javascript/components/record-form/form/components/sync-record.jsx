@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";

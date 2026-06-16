@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # TODO: Adding the frozen_string_literal breaks rspec tests
 
 require 'write_xlsx'
@@ -10,10 +8,11 @@ require 'write_xlsx'
 # rubocop:disable Metrics/ClassLength
 class Exporters::RolePermissionsExporter
   CASE = %w[
-    referral transfer read create write enable_disable_record flag resolve_any_flag flag_update manage add_note reopen
-    close change_log view_incident_from_case view_protection_concerns_filter list_case_names view_registry_record
-    add_registry_record view_family_record case_from_family link_family_record remove_alert service_own_entries_only
-    create_case_from_referral view_case_relationships update_case_relationships access_log attribute
+    referral transfer read create write enable_disable_record flag flag_multiple resolve_any_flag flag_update manage
+    add_note reopen close change_log view_incident_from_case view_protection_concerns_filter list_case_names
+    view_registry_record add_registry_record view_family_record case_from_family link_family_record remove_alert
+    service_own_entries_only create_case_from_referral view_case_relationships update_case_relationships
+    access_log attribute
   ].freeze
   CASE_EXPORTS = %w[
     export_list_view_csv export_csv export_xls export_photowall export_unhcr_csv export_pdf consent_override
@@ -65,7 +64,6 @@ class Exporters::RolePermissionsExporter
   def complete
     @workbook.close
     @io.close unless @io.closed?
-    puts "Exported to #{@export_file_name}"
     @io
   end
 
@@ -215,7 +213,7 @@ class Exporters::RolePermissionsExporter
   end
 
   def write_row(row_data, bold = false)
-    format = @workbook.add_format(bold: 1, text_wrap: 1) if bold
+    format = @workbook.add_format({ num_format: '@' }.merge(bold ? { bold: 1, text_wrap: 1 } : {}))
 
     @worksheet.write(@row, 0, row_data, format)
     @row += 1

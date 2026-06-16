@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Import form and lookup YAML translations
 class Importers::YmlConfigImporter < ValueObject
   attr_accessor :file_name, :class_to_import, :locale, :errors, :failures

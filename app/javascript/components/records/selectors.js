@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { Map, List, fromJS } from "immutable";
 
 import { RECORD_PATH } from "../../config";
@@ -162,6 +160,9 @@ export const getRecordRelationship = (state, query) => {
 export const getRecordRelationshipsLoading = (state, recordType = "cases") =>
   state.getIn(["records", recordType, "relationships", "loading"], false);
 
+export const getRelatedRecordIsLoading = (state, recordType = "cases") =>
+  state.getIn(["records", recordType, "related_records", "loading"], false);
+
 export const getRelatedRecord = (state, query = {}) => {
   const { recordType, id, fromRelationship } = query;
 
@@ -177,3 +178,6 @@ export const getRelatedRecord = (state, query = {}) => {
 
   return state.getIn(["records", recordType, "related_records", "data", index], Map({}));
 };
+
+export const getIsRecordCreationFlow = (state, recordType) =>
+  state.getIn(["records", recordType, "isRecordCreationFlow"], false);

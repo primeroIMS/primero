@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
-
 # API READ endpoint for Record Access
 class Api::V2::RecordAccessController < Api::V2::RecordResourceController
   include Api::V2::Concerns::Pagination

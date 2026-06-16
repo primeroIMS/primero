@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import {
   DATE_FIELD,
   RADIO_FIELD,
@@ -7,7 +5,8 @@ import {
   SEPARATOR,
   SUBFORM_SECTION,
   TALLY_FIELD,
-  TICK_FIELD
+  TICK_FIELD,
+  SIGNATURE_FIELD
 } from "../../../../../../form";
 import {
   dateFieldForm,
@@ -16,7 +15,8 @@ import {
   tickboxFieldForm,
   selectFieldForm,
   separatorFieldForm,
-  subformField
+  subformField,
+  signatureFieldForm
 } from "../forms";
 
 export default fieldOptions => {
@@ -40,6 +40,8 @@ export default fieldOptions => {
       return tickboxFieldForm(fieldOptions);
     case TALLY_FIELD:
       return tallyFieldForm(fieldOptions);
+    case SIGNATURE_FIELD:
+      return signatureFieldForm(fieldOptions);
     default:
       return textFieldForm(fieldOptions);
   }

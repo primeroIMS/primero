@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { fromJS } from "immutable";
 
 import actions from "./actions";
@@ -18,7 +16,7 @@ describe("<AgenciesForm /> - Reducers", () => {
   });
 
   it("should handle FETCH_AGENCY_FAILURE", () => {
-    const expected = fromJS({ errors: true, serverErrors: ["some error"] });
+    const expected = fromJS({ errors: true, serverErrors: ["some error"], saving: false });
     const action = {
       type: actions.FETCH_AGENCY_FAILURE,
       payload: { errors: ["some error"] }

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 require 'rails_helper'
 
 describe Api::V2::SavedSearchesController, type: :request do
@@ -29,7 +27,7 @@ describe Api::V2::SavedSearchesController, type: :request do
       permissions: [
         Permission.new(resource: Permission::CASE, actions: [Permission::MANAGE])
       ],
-      modules: [@cp]
+      primero_modules: [@cp]
     )
 
     @agency1 = Agency.create!(name: 'Agency 1', agency_code: 'agency1')

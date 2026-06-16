@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
-
 # Self Registration API for self registration of users
 class Api::V2::SelfRegisterController < Api::V2::RecordResourceController
   skip_before_action :authenticate_user!, only: [:create]

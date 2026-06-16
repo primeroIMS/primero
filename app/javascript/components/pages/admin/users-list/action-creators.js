@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { METHODS, RECORD_PATH } from "../../../../config";
 import { CLEAR_DIALOG } from "../../../action-dialog";
 import { ENQUEUE_SNACKBAR, generate } from "../../../notifier";
@@ -13,7 +11,8 @@ export const fetchUsers = (params, asCallback = false) => {
     [asCallback ? "action" : "type"]: actions.USERS,
     api: {
       path: RECORD_PATH.users,
-      params: data
+      params: data,
+      arrayFormat: "brackets"
     }
   };
 };

@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import PropTypes from "prop-types";
 import { Paper, Table, TableBody, TableHead } from "@mui/material";
 import isEmpty from "lodash/isEmpty";

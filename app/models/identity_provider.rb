@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 require 'net/http'
 
 # Encapsulates the configuration for an external identity provider that issues JWT tokens.
@@ -16,7 +14,7 @@ class IdentityProvider < ApplicationRecord
 
   store_accessor :configuration,
                  :client_id, :authorization_url, :identity_scope,
-                 :verification_url, :issuer, :user_domain, :domain_hint, :force_standard_oidc,
+                 :verification_url, :issuer, :user_domain, :domain_hint, :force_standard_oidc, :username_claim,
                  :redirect_uri
 
   class << self

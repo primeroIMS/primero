@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { Fragment } from "react";
 import PropTypes from "prop-types";
 import { Button, CircularProgress, Tooltip } from "@mui/material";

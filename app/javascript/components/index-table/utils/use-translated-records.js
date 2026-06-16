@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { useCallback, useMemo } from "react";
 import { fromJS, List } from "immutable";
 import isEmpty from "lodash/isEmpty";

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Superclass for all SearchFilter objects that transform API query parameters into sql queries
 class SearchFilters::SearchFilter < ValueObject
   OPERATORS = %w[= > < >= <=].freeze

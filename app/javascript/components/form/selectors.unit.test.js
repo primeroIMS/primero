@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { fromJS } from "immutable";
 
 import { CP_VIOLENCE_TYPE } from "../incidents-from-case/components/panel/constants";
@@ -540,8 +538,22 @@ describe("Forms - Selectors", () => {
       });
 
       const expected = [
-        { id: "agency-1", display_text: "Agency 1", unique_id: "agency-1", disabled: false },
-        { id: "agency-2", display_text: "Agency 2", unique_id: "agency-2", disabled: true }
+        {
+          id: "agency-1",
+          display_text: "Agency 1",
+          unique_id: "agency-1",
+          disabled: false,
+          terms_of_use_enabled: false,
+          terms_of_use_uploaded_at: false
+        },
+        {
+          id: "agency-2",
+          display_text: "Agency 2",
+          unique_id: "agency-2",
+          disabled: true,
+          terms_of_use_enabled: false,
+          terms_of_use_uploaded_at: false
+        }
       ];
 
       expect(options).toEqual(expected);

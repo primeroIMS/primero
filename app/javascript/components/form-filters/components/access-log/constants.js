@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
-
 export const NAME = "AccessLogFilters";
 
 export const FILTER_NAMES = Object.freeze({

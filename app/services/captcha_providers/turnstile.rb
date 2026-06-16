@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
-
 # Turnstile captcha provider
 class CaptchaProviders::Turnstile < CaptchaProviders::Base
   def verify(response, remoteip)

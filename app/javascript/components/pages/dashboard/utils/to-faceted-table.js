@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { reduceMapToObject } from "../../../../libs";
 import { sortWithSortedArray } from "../../../insights-sub-report/utils";
 

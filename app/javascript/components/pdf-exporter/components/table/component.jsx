@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { memo, Fragment } from "react";
 import PropTypes from "prop-types";
 import isEqual from "lodash/isEqual";
@@ -53,7 +51,9 @@ function Component({ fields, isSubform = false, record }) {
           type,
           date_include_time: dateIncludeTime,
           defaultValue,
-          hide_on_view_page: hideOnShow
+          hide_on_view_page: hideOnShow,
+          signature_provided_by_label: signatureProvidedByLabel,
+          helper_text: helperText
         } = field;
 
         if (subformSection) {
@@ -68,6 +68,8 @@ function Component({ fields, isSubform = false, record }) {
 
         return (
           <KeyValueCell
+            helperText={helperText}
+            signatureProvidedByLabel={signatureProvidedByLabel}
             defaultValue={defaultValue}
             displayName={i18n.getI18nStringFromObject(displayName)}
             value={record.get(name)}

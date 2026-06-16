@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2024 UNICEF. All rights reserved.
-
 # Example of usage:
 # rails r db/data_migration/v2.11/remove_solr_jobs.rb 2024-09-30
 created_at_date_limit = ARGV[0].to_date.end_of_day

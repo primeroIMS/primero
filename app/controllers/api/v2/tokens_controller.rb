@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # The endpoint used to authenticate a user.
 class Api::V2::TokensController < Devise::SessionsController
   include AuditLogActions
@@ -28,7 +26,7 @@ class Api::V2::TokensController < Devise::SessionsController
   end
 
   # Overriding method called by Devise session destroy.
-  def respond_to_on_destroy
+  def respond_to_on_destroy(**_opts)
     render json: {}
   end
 

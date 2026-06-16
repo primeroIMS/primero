@@ -1,11 +1,10 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { Map } from "immutable";
 import pickBy from "lodash/pickBy";
 import isEmpty from "lodash/isEmpty";
+import qs from "qs";
 
 import { DEFAULT_METADATA } from "../../config";
 
@@ -99,7 +98,7 @@ export const useMetadata = (
   metadata,
   fetch,
   fetchParam,
-  { defaultFilterFields, restActionParams, defaultMetadata } = {}
+  { defaultFilterFields, restActionParams, defaultMetadata, includeQueryParams } = {}
 ) => {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -108,7 +107,9 @@ export const useMetadata = (
   useEffect(() => {
     fetchDataIfNotBackButton(metadata?.toJS(), location, history, fetch, fetchParam, {
       dispatch,
-      defaultFilterFields: defaultFilterFields || {},
+      defaultFilterFields: includeQueryParams
+        ? { ...defaultFilterFields, ...qs.parse(location.search) }
+        : defaultFilterFields || {},
       restActionParams: restActionParams || {},
       defaultMetadata: defaultMetadata || {}
     });

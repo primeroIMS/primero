@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 /* eslint-disable react-hooks/exhaustive-deps, no-param-reassign */
 
 import MUIDataTable from "mui-datatables";

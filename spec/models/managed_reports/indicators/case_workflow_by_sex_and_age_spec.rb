@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 require 'rails_helper'
 
 describe ManagedReports::Indicators::CaseWorkflowBySexAndAge do
@@ -22,7 +20,7 @@ describe ManagedReports::Indicators::CaseWorkflowBySexAndAge do
       name: 'Self Role 1',
       unique_id: 'self-role-1',
       group_permission: Permission::SELF,
-      modules: [module1, module2],
+      primero_modules: [module1, module2],
       permissions: [
         Permission.new(
           resource: Permission::MANAGED_REPORT,
@@ -36,7 +34,7 @@ describe ManagedReports::Indicators::CaseWorkflowBySexAndAge do
       name: 'Group Role 1',
       unique_id: 'group-role-1',
       group_permission: Permission::GROUP,
-      modules: [module1, module2],
+      primero_modules: [module1, module2],
       permissions: [
         Permission.new(
           resource: Permission::MANAGED_REPORT,
@@ -50,7 +48,7 @@ describe ManagedReports::Indicators::CaseWorkflowBySexAndAge do
       name: 'Agency Role 1',
       unique_id: 'agency-role-1',
       group_permission: Permission::AGENCY,
-      modules: [module1, module2],
+      primero_modules: [module1, module2],
       permissions: [
         Permission.new(
           resource: Permission::MANAGED_REPORT,
@@ -64,7 +62,7 @@ describe ManagedReports::Indicators::CaseWorkflowBySexAndAge do
       name: 'All Role 1',
       unique_id: 'all-role-1',
       group_permission: Permission::ALL,
-      modules: [module1, module2],
+      primero_modules: [module1, module2],
       permissions: [
         Permission.new(
           resource: Permission::MANAGED_REPORT,

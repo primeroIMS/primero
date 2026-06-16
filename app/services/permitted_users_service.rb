@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Calculate the permitted users for a user if specified
 class PermittedUsersService
   attr_accessor :user, :include_activity_stats
@@ -74,7 +72,6 @@ class PermittedUsersService
 
   def build_query_filters(filters)
     query_filters = filters.except(:query, :ids, *User::AUDIT_LAST_DATE.keys).compact
-    query_filters['disabled'] = query_filters['disabled'].values if query_filters['disabled'].present?
     user_group_ids = query_filters.delete('user_group_ids')
 
     return query_filters if user_group_ids.blank?
@@ -86,7 +83,7 @@ class PermittedUsersService
     return users_query if query_filter.blank?
 
     users_query.where(
-      'user_name ILIKE :value OR full_name ILIKE :value',
+      'users.user_name ILIKE :value OR users.full_name ILIKE :value',
       value: "%#{ActiveRecord::Base.sanitize_sql_like(query_filter)}%"
     )
   end
@@ -108,7 +105,7 @@ class PermittedUsersService
   end
 
   def agency_only_users(users_query)
-    users_query.where(organization: user.organization)
+    users_query.where(agency: user.agency)
   end
 
   def group_permitted_users(users_query)

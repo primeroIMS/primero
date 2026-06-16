@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 require 'rails_helper'
 
 # Most of the tests after the HTTP status should be moved into unit tests.
@@ -75,7 +73,7 @@ describe Api::V2::KeyPerformanceIndicatorsController, { type: :request, skip_whe
   let(:json) { JSON.parse(response.body, symbolize_names: true) }
 
   describe 'GET /api/v2/kpis/number_of_cases', search: true do
-    with 'a valid active case' do
+    describe 'a valid active case' do
       it 'should show one case in the last month in London' do
         Child.new_with_user(@primero_kpi, {}).save!
         Sunspot.commit

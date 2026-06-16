@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 if ENV['COVERAGE'] == 'true'
   require 'simplecov'
@@ -47,17 +45,6 @@ RSpec.configure do |config|
   config.include ActiveSupport::Testing::TimeHelpers
 
   config.formatter = :progress
-
-  # Provide clean nested contexts e.g.
-  #
-  # describe "..." do
-  #   with "..." do
-  #     it "..." do
-  #       ...
-  #     end
-  #   end
-  # end
-  config.alias_example_group_to :with
 
   # Cleaner backtrace for failure messages
   config.backtrace_exclusion_patterns = [

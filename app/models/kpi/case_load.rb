@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # CaseLoad Search
 #
 # For cases created in a given range of months, looks at how many cases

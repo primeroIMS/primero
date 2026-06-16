@@ -1,5 +1,3 @@
-<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
-
 # List all assigns for this record
  
 **URL** : `/api/v2/cases/:recordId/assigns`

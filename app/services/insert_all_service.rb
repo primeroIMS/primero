@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # service to insert records in bulk
 class InsertAllService
   def self.insert_all(clazz, array_of_hashes, unique_key = nil)

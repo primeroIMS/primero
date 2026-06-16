@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Script to migrate Reports
 
 log_filename = "output-workflow-status-#{DateTime.now.strftime('%Y%m%d.%H%M')}.log"

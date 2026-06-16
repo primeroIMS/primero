@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import mergeTranslationKeys from "./merge-translation-keys";
 
 describe("mergeTranslationKeys", () => {

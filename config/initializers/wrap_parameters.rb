@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 ActiveSupport.parse_json_times = true
 
 # This file contains settings for ActionController::ParamsWrapper which

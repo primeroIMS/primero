@@ -174,8 +174,8 @@ describe("<RecordForm />", () => {
     await fireEvent.submit(document.getElementsByTagName("form")[0]);
 
     await waitFor(() => {
-      expect(screen.getByText("form_section.required_field")).toBeInTheDocument();
-      expect(screen.getByText("errors.models.child.age")).toBeInTheDocument();
+      expect(screen.getAllByText("form_section.required_field")).toHaveLength(2);
+      expect(screen.getAllByText("errors.models.child.age")).toHaveLength(2);
     });
   });
 

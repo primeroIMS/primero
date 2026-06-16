@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 require 'rails_helper'
 
 require 'roo'
@@ -127,7 +125,7 @@ module Exporters
         describe 'rows' do
           before do
             @admin_actions = []
-            @workbook.each_row_streaming { |row| @admin_actions << row[0]&.value if row[1]&.value == '✔' }
+            @workbook.each_row_streaming { |row| @admin_actions << row[1]&.value if row[2]&.value == '✔' }
             @permission_actions_translation <<= FormSection.first.name
             @permission_actions_translation <<= 'Access only my records or user'
           end

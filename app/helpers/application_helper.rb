@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Common controller helpers
 module ApplicationHelper
   def url_for_v2(model_object)
@@ -23,7 +21,7 @@ module ApplicationHelper
 
   def available_locations
     system_settings = SystemSettings.first
-    return '' unless system_settings.location_file.attached?
+    return '' unless system_settings&.location_file&.attached?
 
     rails_blob_path(system_settings.location_file, only_path: true)
   end

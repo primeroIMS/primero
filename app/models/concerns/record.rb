@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # A shared concern for all core Primero record types: Cases (child), Incidents, Tracing Requests
 module Record
   extend ActiveSupport::Concern
@@ -49,7 +47,7 @@ module Record
     end
 
     def preview_field_names
-      PermittedFieldService::ID_SEARCH_FIELDS + Field.joins(:form_section).where(
+      Field.joins(:form_section).where(
         form_sections: { parent_form: },
         show_on_minify_form: true
       ).pluck(:name)

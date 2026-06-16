@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
-
 # A module to handle access logs for a record
 module Api::V2::Concerns::SupplementData
   extend ActiveSupport::Concern

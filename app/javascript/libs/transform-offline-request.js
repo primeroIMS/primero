@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import cloneDeep from "lodash/cloneDeep";
 import omit from "lodash/omit";
 import isNil from "lodash/isNil";

@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 export const NAME = "ChangeLogFilters";
 
 export const FILTER_NAMES = Object.freeze({

@@ -1,7 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
-import { useMemo } from "react";
-
 import { useMemoizedSelector } from "../../../../../libs";
 import {
   getActionNeededIdentified,
@@ -32,51 +28,48 @@ function Component() {
     getActionNeededTransferAwaitingAcceptance(state)
   );
 
-  const columns = useMemo(
-    () => [
-      [
-        {
-          type: DASHBOARD_TYPES.TOTAL_BOX,
-          actions: ACTIONS.DASH_ACTION_NEEDED_NEW_UPDATED,
-          options: {
-            data: actionNeededNewUpdated,
-            title: label("dashboard.action_needed.cases")
-          }
+  const columns = [
+    [
+      {
+        type: DASHBOARD_TYPES.TOTAL_BOX,
+        actions: ACTIONS.DASH_ACTION_NEEDED_NEW_UPDATED,
+        options: {
+          data: actionNeededNewUpdated,
+          title: label("dashboard.action_needed.cases")
         }
-      ],
-      [
-        {
-          type: DASHBOARD_TYPES.TOTAL_BOX,
-          actions: ACTIONS.DASH_ACTION_NEEDED_IDENTIFIED,
-          options: {
-            data: actionNeededIdentified,
-            title: label("dashboard.action_needed.cases")
-          }
-        }
-      ],
-      [
-        {
-          type: DASHBOARD_TYPES.TOTAL_BOX,
-          actions: ACTIONS.DASH_ACTION_NEEDED_NEW_REFERRALS,
-          options: {
-            data: actionNeededNewReferrals,
-            title: i18n.t("dashboard.action_needed.referrals")
-          }
-        }
-      ],
-      [
-        {
-          type: DASHBOARD_TYPES.TOTAL_BOX,
-          actions: ACTIONS.DASH_ACTION_NEEDED_TRANSFER_AWAITING_ACCEPTANCE,
-          options: {
-            data: actionNeededTransferAwaitingAcceptance,
-            title: i18n.t("dashboard.action_needed.transfers")
-          }
-        }
-      ]
+      }
     ],
-    [hasData, i18n.locale]
-  );
+    [
+      {
+        type: DASHBOARD_TYPES.TOTAL_BOX,
+        actions: ACTIONS.DASH_ACTION_NEEDED_IDENTIFIED,
+        options: {
+          data: actionNeededIdentified,
+          title: label("dashboard.action_needed.cases")
+        }
+      }
+    ],
+    [
+      {
+        type: DASHBOARD_TYPES.TOTAL_BOX,
+        actions: ACTIONS.DASH_ACTION_NEEDED_NEW_REFERRALS,
+        options: {
+          data: actionNeededNewReferrals,
+          title: i18n.t("dashboard.action_needed.referrals")
+        }
+      }
+    ],
+    [
+      {
+        type: DASHBOARD_TYPES.TOTAL_BOX,
+        actions: ACTIONS.DASH_ACTION_NEEDED_TRANSFER_AWAITING_ACCEPTANCE,
+        options: {
+          data: actionNeededTransferAwaitingAcceptance,
+          title: i18n.t("dashboard.action_needed.transfers")
+        }
+      }
+    ]
+  ];
 
   return (
     <Permission resources={RESOURCES.dashboards} actions={ACTION_NEEDED_DASHBOARD}>

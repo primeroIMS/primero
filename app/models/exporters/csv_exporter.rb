@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 require 'csv'
 
 # Exports the top level fields of a record to a flat CSV
@@ -27,7 +25,7 @@ class Exporters::CsvExporter < Exporters::BaseExporter
 
   def export(records)
     super(records)
-    csv_export = CSVSafe.generate do |rows|
+    csv_export = CSVSafer.generate do |rows|
       if single_record_export
         export_single_record(records, rows)
       else

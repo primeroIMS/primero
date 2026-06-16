@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { Drawer } from "@mui/material";
 import PropTypes from "prop-types";
 
@@ -13,7 +11,12 @@ function FilterContainer({ children, mobileDisplay, noMargin, drawerName = FILTE
 
   if (mobileDisplay) {
     return (
-      <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer}>
+      <Drawer
+        anchor="right"
+        open={drawerOpen}
+        onClose={toggleDrawer}
+        classes={{ paperAnchorRight: css.paperAnchorRight }}
+      >
         {children}
       </Drawer>
     );

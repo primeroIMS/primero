@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { getIDPToken } from "../../components/login/components/idp-selection/auth-provider";
 import { DEFAULT_FETCH_OPTIONS } from "../constants";
 

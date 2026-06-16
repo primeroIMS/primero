@@ -1,13 +1,12 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 require 'rails_helper'
 
 describe BulkAssignService do
   before do
     clean_data(
-      User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency, Incident, Child, Transition
+      User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup,
+      Agency, Incident, Child, Family, Transition
     )
   end
 
@@ -16,7 +15,7 @@ describe BulkAssignService do
   end
 
   let(:role) do
-    create(:role, is_manager: true, modules: [primero_module], group_permission: Permission::ALL)
+    create(:role, is_manager: true, primero_modules: [primero_module], group_permission: Permission::ALL)
   end
 
   let(:user) do
@@ -153,11 +152,37 @@ describe BulkAssignService do
         expect(Assign.count).to eq(11)
       end
     end
+
+    context 'when model_class is Family' do
+      let!(:family1) do
+        f = Family.new_with_user(user, name: 'Family 1')
+        f.save! && f
+      end
+      let!(:family2) do
+        f = Family.new_with_user(user, name: 'Family 2')
+        f.save! && f
+      end
+      let!(:family3) do
+        f = Family.new_with_user(user, name: 'Family 3')
+        f.save! && f
+      end
+      let(:bulk_assign_params) do
+        {
+          filters: { 'id' => [family1.id, family2.id, family3.id] }
+        }.merge(bulk_assign_shared_params)
+      end
+
+      it 'reassigns families to a different user' do
+        BulkAssignService.new(Family, user, **bulk_assign_params).assign_records!
+        expect([family1, family2, family3].map(&:reload).map(&:owned_by).uniq).to eq([user2.user_name])
+      end
+    end
   end
 
   after :each do
     clean_data(
-      User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency, Incident, Child, Transition
+      User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup,
+      Agency, Incident, Child, Family, Transition
     )
   end
 end

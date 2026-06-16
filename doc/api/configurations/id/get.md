@@ -1,5 +1,3 @@
-<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
-
 # Fetch the individual configuration
 
 Show the JSON describing a saved Primero configuration state.

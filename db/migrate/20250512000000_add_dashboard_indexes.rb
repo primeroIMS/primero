@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 class AddDashboardIndexes < ActiveRecord::Migration[6.1]
   NEW_OR_UPDATED = {
     field_names: %i[srch_record_state srch_status srch_not_edited_by_owner],

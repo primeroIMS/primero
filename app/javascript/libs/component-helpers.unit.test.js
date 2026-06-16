@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { fromJS } from "immutable";
 import { parseISO } from "date-fns";
 
@@ -13,6 +11,14 @@ import {
 } from "./component-helpers";
 
 describe("component-helpers", () => {
+  beforeAll(() => {
+    jest.spyOn(Date.prototype, "getTimezoneOffset").mockReturnValue(0);
+  });
+
+  afterAll(() => {
+    jest.restoreAllMocks();
+  });
+
   describe("dataToJS", () => {
     it("should convert data to plain JS from Map", () => {
       const expected = { a: "test" };
@@ -145,6 +151,10 @@ describe("component-helpers", () => {
       // eslint-disable-next-line no-extend-native
       Date.prototype.getTimezoneOffset = () => 0;
 
+      // Use a -04:00 timezone
+      // eslint-disable-next-line no-extend-native
+      Date.prototype.getTimezoneOffset = () => 240;
+
       jest.useFakeTimers().setSystemTime(today);
     });
 
@@ -157,7 +167,7 @@ describe("component-helpers", () => {
     it("should return the API_DATE_TIME_FORMAT if the date does include time", () => {
       const date = parseISO("2010-01-05T14:30:00Z");
 
-      expect(toServerDateFormat(date, { includeTime: true })).toBe("2010-01-05T14:30:00Z");
+      expect(toServerDateFormat(date, { includeTime: true })).toBe("2010-01-05T18:30:00Z");
     });
 
     afterEach(() => {

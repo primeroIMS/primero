@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # AverageReferrals
 # A Kpi that counts the average number of referrals made for each case.
 class Kpi::AverageReferrals < Kpi::Search

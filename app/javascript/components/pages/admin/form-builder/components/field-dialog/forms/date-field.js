@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { fromJS } from "immutable";
 
 import { TEXT_FIELD, TOGGLE_FIELD, FieldRecord, TICK_FIELD } from "../../../../../../form";
@@ -46,16 +44,20 @@ export const dateFieldForm = ({
   formMode,
   isNested,
   onManageTranslations,
-  limitedProductionSite
+  limitedProductionSite,
+  canManage
 }) => {
   const fieldName = field.get("name");
-  const custom = customFields({ field, i18n, css, formMode, limitedProductionSite });
-  const fields = [...Object.values(generalFields({ fieldName, i18n, formMode, limitedProductionSite })), ...custom];
+  const custom = customFields({ field, i18n, css, formMode, limitedProductionSite, canManage });
+  const fields = [
+    ...Object.values(generalFields({ fieldName, i18n, formMode, limitedProductionSite, canManage })),
+    ...custom
+  ];
 
   return {
     forms: fromJS([
-      generalForm({ fieldName, i18n, formMode, fields, onManageTranslations, limitedProductionSite }),
-      visibilityForm({ fieldName, i18n, isNested, limitedProductionSite })
+      generalForm({ fieldName, i18n, formMode, fields, onManageTranslations, limitedProductionSite, canManage }),
+      visibilityForm({ fieldName, i18n, isNested, limitedProductionSite, canManage })
     ]),
 
     validationSchema: validationSchema({ fieldName, i18n })

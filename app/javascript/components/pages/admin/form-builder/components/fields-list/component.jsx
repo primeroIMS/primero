@@ -1,11 +1,9 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 /* eslint-disable react/no-multi-comp, react/display-name */
 import { useCallback, useEffect } from "react";
 import { hash } from "immutable";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 
 import { getObjectPath, useMemoizedSelector } from "../../../../../../libs";
 import { useI18n } from "../../../../../i18n";
@@ -19,7 +17,7 @@ import FieldListHeaders from "../field-list-headers";
 import css from "./styles.css";
 import { NAME } from "./constants";
 
-function Component({ formMethods, subformField, subformSortBy, subformGroupBy }) {
+function Component({ canManage, formMethods, subformField, subformSortBy, subformGroupBy }) {
   const dispatch = useDispatch();
   const isNested = Boolean(subformField?.size || subformField?.toSeq()?.size);
 
@@ -116,6 +114,7 @@ function Component({ formMethods, subformField, subformSortBy, subformGroupBy })
               </div>
               <Fields
                 fields={fields}
+                canManage={canManage}
                 formMethods={formMethods}
                 subformField={subformField}
                 subformGroupBy={subformGroupBy}
@@ -133,6 +132,7 @@ function Component({ formMethods, subformField, subformSortBy, subformGroupBy })
 Component.displayName = NAME;
 
 Component.propTypes = {
+  canManage: PropTypes.bool,
   formMethods: PropTypes.object.isRequired,
   subformField: PropTypes.object,
   subformGroupBy: PropTypes.string,

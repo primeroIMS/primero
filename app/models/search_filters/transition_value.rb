@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
-
 # This filter selects by the transitioned_to field on related transitions.
 class SearchFilters::TransitionValue < SearchFilters::Value
   # rubocop:disable Metrics/MethodLength this is pretty much just a long SQL template

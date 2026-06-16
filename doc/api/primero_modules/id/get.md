@@ -1,5 +1,3 @@
-<!-- Copyright (c) 2014 - 2023 UNICEF. All rights reserved. -->
-
 # Fetch the individual primero_module
 
 Show the JSON representation of a primero_module.

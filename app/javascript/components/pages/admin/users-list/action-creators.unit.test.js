@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { fromJS } from "immutable";
 
 import { METHODS, RECORD_PATH } from "../../../../config";
@@ -24,7 +22,8 @@ describe("<UsersList /> - Action Creators", () => {
       type: actions.USERS,
       api: {
         params: undefined,
-        path: RECORD_PATH.users
+        path: RECORD_PATH.users,
+        arrayFormat: "brackets"
       }
     };
 

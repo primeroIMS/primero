@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 /* eslint-disable camelcase */
 
 import { useState, useEffect, useCallback, memo } from "react";
@@ -151,7 +149,7 @@ function Component({
     if (hasForms) {
       handleFirstTab();
     }
-  }, [firstSelectedForm?.form_group_id, hasForms]);
+  }, [firstSelectedForm?.form_group_id, hasForms, recordType]);
 
   useEffect(() => {
     // If we are going back

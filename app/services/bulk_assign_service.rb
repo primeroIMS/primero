@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Service for the logic of bulk assign records
 class BulkAssignService
   def initialize(model_class, transitioned_by, args)

@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # API endpoint for generating exports, in bulk or for individual records
 class Api::V2::BulkExportsController < ApplicationApiController
   include Api::V2::Concerns::Pagination
+
+  before_action :set_export, only: %i[show destroy]
 
   def index
     authorize! :index, BulkExport
@@ -16,8 +16,21 @@ class Api::V2::BulkExportsController < ApplicationApiController
   end
 
   def show
-    @export = BulkExport.find(params[:id])
     authorize! :read, @export
+  end
+
+  def export_file
+    @export = BulkExport.find(params[:export_id])
+    authorize! :read, @export
+
+    raise Errors::AttachmentNotFound unless @export.export_file.attached?
+
+    send_data(
+      @export.export_file.download,
+      filename: @export.export_file.filename.to_s,
+      type: @export.export_file.content_type,
+      disposition: 'inline'
+    )
   end
 
   def create
@@ -30,7 +43,6 @@ class Api::V2::BulkExportsController < ApplicationApiController
   end
 
   def destroy
-    @export = BulkExport.find(params[:id])
     authorize! :destroy, @export
     @export.archive!
   end
@@ -44,6 +56,10 @@ class Api::V2::BulkExportsController < ApplicationApiController
   end
 
   private
+
+  def set_export
+    @export = BulkExport.find(params[:id])
+  end
 
   def authorize_export!
     export_format = export_params[:export_format] == 'xlsx' ? 'xls' : export_params[:export_format]
@@ -60,7 +76,12 @@ class Api::V2::BulkExportsController < ApplicationApiController
   end
 
   def export_filters
-    params.permit(:status, :record_type, :export_format)
-          .reverse_merge(status: [BulkExport::COMPLETE, BulkExport::PROCESSING, BulkExport::TERMINATED])
+    return @export_filters if @export_filters
+
+    @export_filters = params.permit(:status, :record_type, :export_format)
+                            .reverse_merge(status: [BulkExport::COMPLETE, BulkExport::PROCESSING,
+                                                    BulkExport::TERMINATED])
+    @export_filters[:format] = @export_filters.delete(:export_format) if @export_filters[:export_format].present?
+    @export_filters
   end
 end

@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import get from "lodash/get";
 import omit from "lodash/omit";
 import { fromJS } from "immutable";
@@ -7,7 +5,7 @@ import { fromJS } from "immutable";
 import { getObjectPath } from "../../../../../libs";
 import { LOCALE_KEYS } from "../../../../../config";
 
-import { MULTI_SELECT_FIELD, DATE_TIME_FIELD } from "./custom-field-selector-dialog/constants";
+import { MULTI_SELECT_FIELD, DATE_TIME_FIELD, PHONE_NUMBER_FIELD } from "./custom-field-selector-dialog/constants";
 
 export const getFieldsAttribute = isNested => (isNested ? "subform_section.fields" : "fields");
 
@@ -51,12 +49,16 @@ export const getFiedListItemTheme = currentTheme => ({
 export const getLabelTypeField = field => {
   const isMultiSelect = field.get("multi_select");
   const isDateTime = field.get("date_include_time");
+  const isPhoneNumber = field.get("phone_number");
 
   if (isMultiSelect) {
     return MULTI_SELECT_FIELD;
   }
   if (isDateTime) {
     return DATE_TIME_FIELD;
+  }
+  if (isPhoneNumber) {
+    return PHONE_NUMBER_FIELD;
   }
 
   return field.get("type") === "date_range" ? "date_range_field" : field.get("type");

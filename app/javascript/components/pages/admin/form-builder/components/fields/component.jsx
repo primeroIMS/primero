@@ -1,15 +1,14 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import PropTypes from "prop-types";
 
 import FieldListItem from "../field-list-item";
 
-function Component({ fields, formMethods, subformField, subformGroupBy, subformSortBy }) {
+function Component({ canManage, fields, formMethods, subformField, subformGroupBy, subformSortBy }) {
   return fields.map((field, index) => {
     const id = field.get("id") || field.get("subform_section_temp_id");
 
     return (
       <FieldListItem
+        canManage={canManage}
         formMethods={formMethods}
         subformField={subformField}
         field={field}
@@ -25,6 +24,7 @@ function Component({ fields, formMethods, subformField, subformGroupBy, subformS
 Component.displayName = "Fields";
 
 Component.propTypes = {
+  canManage: PropTypes.bool,
   fields: PropTypes.object,
   formMethods: PropTypes.object,
   subformField: PropTypes.object,

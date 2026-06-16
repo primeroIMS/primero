@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import PropTypes from "prop-types";
 import { Controller } from "react-hook-form";
 import { Radio } from "@mui/material";
@@ -9,7 +7,7 @@ import css from "../fields-list/styles.css";
 
 import { NAME } from "./constants";
 
-function Component({ checked, columnName, fieldName, formMethods, limitedProductionSite, parentFieldName }) {
+function Component({ disable, checked, columnName, fieldName, formMethods, limitedProductionSite, parentFieldName }) {
   const { control } = formMethods;
 
   return (
@@ -20,7 +18,7 @@ function Component({ checked, columnName, fieldName, formMethods, limitedProduct
         inputProps={{ value: fieldName }}
         checked={checked}
         name={`${parentFieldName}.${SUBFORM_SECTION_CONFIGURATION}.${columnName}`}
-        disabled={limitedProductionSite}
+        disabled={limitedProductionSite || disable}
       />
     </div>
   );
@@ -31,6 +29,7 @@ Component.displayName = NAME;
 Component.propTypes = {
   checked: PropTypes.bool,
   columnName: PropTypes.string,
+  disable: PropTypes.bool,
   fieldName: PropTypes.string,
   formMethods: PropTypes.object.isRequired,
   limitedProductionSite: PropTypes.bool,

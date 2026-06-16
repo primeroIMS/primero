@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # An indicator that returns children affected by multiple violations as part of a group
 class ManagedReports::Indicators::GroupMultipleViolations < ManagedReports::SqlReportIndicator
   include ManagedReports::GhnIndicatorHelper

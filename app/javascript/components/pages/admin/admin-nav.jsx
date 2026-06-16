@@ -1,16 +1,15 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { Fragment, useState } from "react";
 import { List, Collapse } from "@mui/material";
 import { isEqual } from "lodash";
 
 import { getPermissions } from "../../user/selectors";
 import { ADMIN_NAV, LOCATION_PATH } from "../../../config";
-import { usePermissions, checkPermissions, RESOURCES, MANAGE } from "../../permissions";
+import { usePermissions, checkPermissions, RESOURCES } from "../../permissions";
 import { useMemoizedSelector } from "../../../libs";
 import { getLocationsAvailable } from "../../application/selectors";
 import { useI18n } from "../../i18n";
 import { PageHeading } from "../../page";
+import { MANAGE_RESTRICTED } from "../../permissions/constants";
 
 import css from "./styles.css";
 import AdminNavItem from "./admin-nav-item";
@@ -22,7 +21,7 @@ function AdminNav() {
   const userPermissions = useMemoizedSelector(state => getPermissions(state), isEqual);
   const hasLocationsAvailable = useMemoizedSelector(state => getLocationsAvailable(state));
 
-  const canManageMetadata = usePermissions(RESOURCES.metadata, MANAGE);
+  const canManageMetadata = usePermissions(RESOURCES.metadata, MANAGE_RESTRICTED);
 
   const adminResources = getAdminResources(userPermissions);
 

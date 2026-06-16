@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Describes a Perpetrators subreport
 class ManagedReports::SubReports::Perpetrators < ManagedReports::SubReport
   def id

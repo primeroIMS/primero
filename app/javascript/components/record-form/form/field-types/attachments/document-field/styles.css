@@ -68,3 +68,7 @@
     color: var(--c-dark-grey);
   }
 }
+
+.downloadButton {
+  margin-bottom: var(--sp-2);
+}

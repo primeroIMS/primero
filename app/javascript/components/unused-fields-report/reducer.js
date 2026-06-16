@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
-
 import { Map, fromJS } from "immutable";
 
 import Actions from "./actions";

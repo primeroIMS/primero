@@ -111,9 +111,9 @@ In the Primero top-level directory, there is a file `.ruby-version`, which conta
 
 ```bash
 cat .ruby-version
-# This will print something like: ruby-3.3.8
+# This will print something like: ruby-3.4.9
 # rbenv needs the version number, but not the ruby- prefix.
-rbenv install 3.3.8 # replace 3.3.8 with whatever version is in .ruby-version
+rbenv install $(cat .ruby-version)
 ```
 
 It will take several minutes to build and install ruby, depending on the speed of your machine.
@@ -121,7 +121,7 @@ Once you have succeeded in installing ruby, it is worth checking that you are no
 
 ```bash
 ruby --version
-# This should print something like: ruby 3.3.8 (or whatever the current version in the .ruby-version is)
+# This should print something like: ruby 3.4.9 (or whatever the current version in the .ruby-version is)
 ```
 
 ## Installing node using `nvm`
@@ -208,7 +208,13 @@ cp config/sunspot.yml.development config/sunspot.yml
 You will also need to install some system-wide dependencies required to build and run Primero.
 
 ```bash
-sudo apt install libpq-dev imagemagick libsodium-dev p7zip
+sudo apt install libpq-dev libvips42 libsodium-dev p7zip
+```
+
+Note that versions of Primero previous to v2.15.0 used `imagemagick` instead of `libvips42` for image processing. If you wish to maintain older versions, you will need to install it.
+
+```bash
+sudo apt install imagemagick
 ```
 
 Execute the following to install Primero's ruby and node dependencies:

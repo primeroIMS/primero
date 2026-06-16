@@ -1,21 +1,39 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Calculate the permitted fields for a record based on the user's role.
 # TODO: Currently allows some permitted fields to be represented as a JSON schema,
 #       but this functionality should be extracted.
 # rubocop:disable Metrics/ClassLength
 class PermittedFieldService
-  attr_accessor :user, :model_class, :action_name, :id_search, :permitted_form_field_service
+  attr_accessor :user, :model_class, :action_name, :id_search, :permitted_form_field_service,
+                :permitted_field_values_service
 
   UUID_REGEX = '\A[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\z'
+
+  PERMITTED_STATUS_VALUES = [
+    Record::STATUS_OPEN,
+    Record::STATUS_CLOSED,
+    Record::STATUS_TRANSFERRED,
+    Record::STATUS_IDENTIFIED
+  ].freeze
+
+  PERMITTED_WORKFLOW_VALUES = [
+    Workflow::WORKFLOW_NEW,
+    Workflow::WORKFLOW_CLOSED,
+    Workflow::WORKFLOW_REOPENED,
+    Workflow::WORKFLOW_SERVICE_PROVISION,
+    Workflow::WORKFLOW_SERVICE_IMPLEMENTED,
+    Workflow::WORKFLOW_CASE_PLAN,
+    Workflow::WORKFLOW_ASSESSMENT
+  ].freeze
 
   # case_status_reopened, record_state, incident_case_id, owned_by, module_id,
   PERMITTED_CORE_FIELDS_SCHEMA = {
     'id' => { 'type' => 'string', 'format' => 'regex', 'pattern' => UUID_REGEX },
-    'status' => { 'type' => 'string' }, 'state' => { 'type' => 'boolean' },
-    'case_status_reopened' => { 'type' => %w[boolean null] }, 'record_state' => { 'type' => 'boolean' },
+    'status' => { 'type' => 'string', 'enum' => PERMITTED_STATUS_VALUES },
+    'state' => { 'type' => 'boolean' },
+    'case_status_reopened' => { 'type' => %w[boolean null] },
+    'record_state' => { 'type' => 'boolean' },
     'incident_case_id' => { 'type' => 'string', 'format' => 'regex', 'pattern' => UUID_REGEX },
     'registry_record_id' => { 'type' => '%w[string null]', 'format' => 'regex', 'pattern' => UUID_REGEX },
     'family_id' => { 'type' => '%w[string null]', 'format' => 'regex', 'pattern' => UUID_REGEX },
@@ -27,11 +45,10 @@ class PermittedFieldService
 
   # Calculated fields needed to perform searches
   PERMITTED_FILTER_FIELD_NAMES = %w[
-    or not cases_by_date record_in_scope associated_user_names not_edited_by_owner referred_users referred_users_present
-    transferred_to_users transferred_to_user_groups has_photo survivor_code survivor_code_no case_id_display
-    created_at has_incidents short_id record_state sex age registration_date date_closure
-    reassigned_transferred_on current_alert_types location_current reporting_location_hierarchy followup_dates
-    reunification_dates tracing_dates service_implemented_day_times
+    or not cases_by_date record_in_scope associated_user_names not_edited_by_owner has_photo survivor_code
+    survivor_code_no case_id_display created_at has_incidents short_id record_state sex age registration_date
+    date_closure reassigned_transferred_on current_alert_types location_current reporting_location_hierarchy
+    followup_dates reunification_dates tracing_dates service_implemented_day_times
   ].freeze
 
   PERMITTED_MRM_FILTER_FIELD_NAMES = %w[
@@ -50,14 +67,34 @@ class PermittedFieldService
 
   PERMITTED_DASHBOARD_FILTERS = {
     Permission::DASH_CASE_RISK => %w[risk_level],
-    Permission::DASH_SHARED_WITH_OTHERS => %w[transfer_status],
-    Permission::DASH_SHARED_FROM_MY_TEAM => %w[transfer_status]
+    Permission::DASH_SHARED_WITH_ME => %w[
+      referred_users referred_users_pending referred_users_accepted transferred_to_users
+    ],
+    Permission::DASH_SHARED_WITH_OTHERS => %w[
+      referred_users_present referred_users_pending_present referred_users_accepted_present last_referral_rejected_at
+      last_referral_done_at transfer_status
+    ],
+    Permission::DASH_SHARED_FROM_MY_TEAM => %w[
+      referred_users_pending_present referred_users_accepted_present last_referral_rejected_at last_referral_done_at
+      transfer_status
+    ],
+    Permission::DASH_SHARED_WITH_MY_TEAM => %w[
+      referred_users_pending referred_users_accepted referred_users_pending_present referred_users_accepted_present
+      transferred_to_users
+    ],
+    Permission::DASH_SHARED_WITH_MY_TEAM_OVERVIEW => %w[
+      transferred_to_user_groups transfer_status
+    ]
   }.freeze
 
   PERMITTED_FIELDS_FOR_ACTION_SCHEMA = {
-    Permission::CLOSE => { 'status' => { 'type' => 'string' }, 'date_closure' => { 'type' => 'date' } },
+    Permission::CLOSE => {
+      'status' => { 'type' => 'string', 'enum' => PERMITTED_STATUS_VALUES },
+      'date_closure' => { 'type' => 'date' }
+    },
     Permission::REOPEN => {
-      'status' => { 'type' => 'string' }, 'workflow' => { 'type' => 'string' },
+      'status' => { 'type' => 'string', 'enum' => PERMITTED_STATUS_VALUES },
+      'workflow' => { 'type' => 'string', 'enum' => PERMITTED_WORKFLOW_VALUES },
       'case_status_reopened' => { 'type' => 'boolean' }
     },
     Permission::ENABLE_DISABLE_RECORD => { 'record_state' => { 'type' => 'boolean' } },
@@ -87,12 +124,15 @@ class PermittedFieldService
 
   ID_SEARCH_FIELDS = %w[age date_of_birth estimated name sex].freeze
 
-  def initialize(user, model_class, permitted_form_field_service = nil, options = {})
+  def initialize(
+    user, model_class, permitted_form_field_service = nil, permitted_field_values_service = nil, options = {}
+  )
     self.user = user
     self.model_class = model_class
     self.action_name = options[:action_name]
     self.id_search = options[:id_search]
     self.permitted_form_field_service = permitted_form_field_service || PermittedFormFieldsService.instance
+    self.permitted_field_values_service = permitted_field_values_service || PermittedFieldValuesService.instance
   end
 
   # This is a long series of permission conditions. Sacrificing Rubocop for readability.
@@ -150,6 +190,14 @@ class PermittedFieldService
     @permitted_field_names += permitted_attachment_fields
     @permitted_field_names += permitted_identified_fields(writeable || update)
     @permitted_field_names
+  end
+
+  # TODO: The method is essentially duplicating some logic from permitted_field_names. DRY!
+  def permitted_fields_for_webhook(module_unique_id = nil)
+    @permitted_field_names = permitted_form_field_service.permitted_field_names(
+      [user.role], model_class.parent_form, module_unique_id, false
+    )
+    @permitted_field_names += permitted_core_fields(false)
   end
 
   def permitted_identified_fields(writeable = false)

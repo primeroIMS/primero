@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # A service to determine if an attachment is permitted for a user
 class PermittedAttachmentService
-  PREVIEW_TYPES = [Attachment::IMAGE, Attachment::AUDIO].freeze
+  PREVIEW_TYPES = [Attachment::IMAGE, Attachment::AUDIO, Attachment::SIGNATURE].freeze
 
   attr_accessor :user, :write, :attachment, :permitted_form_fields_service
 

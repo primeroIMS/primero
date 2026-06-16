@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
-
 # Exporter for ReferredAppropriateServiceSubreportExporter
 class Exporters::ReferredAppropriateServiceSubreportExporter < Exporters::CaseManagementKpiSubreportExporter
   def params_list

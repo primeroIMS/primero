@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Select permitted fields on the record, based on the role, given the query params
 class FieldSelectionService
   def self.select_fields_to_show(params, model_class, permitted_field_names, user)
@@ -20,6 +18,6 @@ class FieldSelectionService
   end
 
   def self.preview?(params, model_class, user)
-    params[:id_search] && user.can_preview?(model_class)
+    params[:record_search] && user.can_preview?(model_class)
   end
 end

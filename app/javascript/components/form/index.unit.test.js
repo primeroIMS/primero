@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import * as index from "./index";
 
 describe("<Form /> - index", () => {
@@ -49,7 +47,8 @@ describe("<Form /> - index", () => {
       "TOGGLE_FIELD",
       "whichFormMode",
       "SELECT_CHANGE_REASON",
-      "EMPTY_VALUE"
+      "EMPTY_VALUE",
+      "SIGNATURE_FIELD"
     ].forEach(property => {
       expect(indexValues).toHaveProperty(property);
       delete indexValues[property];

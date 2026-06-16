@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # rubocop:disable Metrics/ClassLength
 # The truth of it is, this is a long class.
 # Just the same, it shouldn't exceed 300 lines (250 lines of active code).
@@ -103,6 +101,13 @@ class Child < ApplicationRecord
     NAME_FIELDS
   end
 
+  def self.phone_number_fields
+    %w[
+      telephone_current telephone_child_future telephone_caregivers telephone_future_caregivers telephone_last
+      telephone_searchable_1 telephone_searchable_2 telephone_searchable_3
+    ]
+  end
+
   def self.summary_field_names
     common_summary_fields + %w[
       case_id_display name survivor_code_no age sex registration_date
@@ -131,6 +136,11 @@ class Child < ApplicationRecord
 
   def self.family_matching_field_names
     MatchingConfiguration.matchable_fields('case', true).pluck(:name) | MatchingConfiguration::DEFAULT_INQUIRER_FIELDS
+  end
+
+  def self.preview_field_names
+    # TODO: Move this constant to this model
+    PermittedFieldService::ID_SEARCH_FIELDS + super
   end
 
   def self.api_path

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # A module to handle referrable records
 module Api::V2::Concerns::Referrable
   extend ActiveSupport::Concern

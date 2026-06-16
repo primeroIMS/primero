@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 /* eslint-disable react/no-multi-comp, react/display-name */
 import { useEffect } from "react";
 import PropTypes from "prop-types";
@@ -39,6 +37,7 @@ function Component({ currentValues, field, isNested = false, mode, onClose, open
     guiding_questions: guidingQuestions,
     tick_box_label: tickBoxLabel,
     option_strings_text: optionStringsText,
+    signature_provided_by_label: signatureProvidedByLabel,
     tally
   } = reduceMapToObject(field);
 
@@ -53,6 +52,7 @@ function Component({ currentValues, field, isNested = false, mode, onClose, open
         guiding_questions: guidingQuestions,
         tick_box_label: tickBoxLabel,
         option_strings_text: optionStringsText,
+        signature_provided_by_label: signatureProvidedByLabel,
         tally
       }
     },
@@ -138,7 +138,8 @@ function Component({ currentValues, field, isNested = false, mode, onClose, open
         guiding_questions: fieldGuidingQuestions,
         tick_box_label: fieldTickBoxLabel,
         option_strings_text: fieldOptionStringsText,
-        tally: fieldOptionTally
+        tally: fieldOptionTally,
+        signature_provided_by_label: fieldSignatureProvidedByLabel
       } = currentValues[fieldName] || {};
 
       const subformSection =
@@ -162,7 +163,8 @@ function Component({ currentValues, field, isNested = false, mode, onClose, open
           guiding_questions: { ...guidingQuestions, ...fieldGuidingQuestions },
           tick_box_label: { ...tickBoxLabel, ...fieldTickBoxLabel },
           option_strings_text: { ...optionStringsText, ...fieldOptionStringsText },
-          tally: { ...tally, ...fieldOptionTally }
+          tally: { ...tally, ...fieldOptionTally },
+          signature_provided_by_label: { ...signatureProvidedByLabel, ...fieldSignatureProvidedByLabel }
         }
       });
     }

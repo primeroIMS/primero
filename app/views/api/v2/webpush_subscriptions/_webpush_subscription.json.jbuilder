@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 json.id webpush_subscription.id
 json.user_id webpush_subscription.user_id
 json.disabled webpush_subscription.disabled

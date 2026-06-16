@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import { namespaceActions } from "../../../libs";
 
 import NAMESPACE from "./namespace";
@@ -43,6 +41,7 @@ export default {
   USERS_TRANSFER_TO: "users/transfer-to",
   USERS_REFER_TO: "users/refer-to",
   CASES_ASSIGNS: "cases/assigns",
+  FAMILIES_ASSIGNS: "families/assigns",
   INCIDENTS_ASSIGNS: "incidents/assigns",
   CASES_TRANSFERS: "cases/transfers",
   CASES_REFERRALS: "cases/referrals"

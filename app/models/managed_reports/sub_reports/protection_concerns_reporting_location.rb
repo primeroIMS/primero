@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2025 UNICEF. All rights reserved.
-
 # Describes ProtectionConcernsReportingLocation subreport in Primero.
 class ManagedReports::SubReports::ProtectionConcernsReportingLocation < ManagedReports::SubReport
   def id

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 # Transform API query parameter or[field_name1]=value1&or[field_name2]=value2 into a sql query
 class SearchFilters::Or < SearchFilters::SearchFilter
   attr_accessor :filters
