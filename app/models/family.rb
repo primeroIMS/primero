@@ -91,6 +91,10 @@ class Family < ApplicationRecord
     cases&.group_by(&:id) || {}
   end
 
+  def can_be_assigned?
+    true
+  end
+
   def recalculate_assigned_user_names
     # NOTE: Family is not transitionable: assigned_user_names can only be users
     # associated to the family through cases.

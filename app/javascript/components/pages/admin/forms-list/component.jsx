@@ -155,14 +155,16 @@ function Component() {
     <Permission resources={RESOURCES.metadata} actions={MANAGE_RESTRICTED} redirect>
       <PageHeading title={i18n.t("forms.label")}>
         {canAddForms && (
-          <FormAction
-            actionHandler={handleNew}
-            text={i18n.t("buttons.new")}
-            startIcon={<AddIcon />}
-            options={{ hide: limitedProductionSite }}
-          />
+          <>
+            <FormAction
+              actionHandler={handleNew}
+              text={i18n.t("buttons.new")}
+              startIcon={<AddIcon />}
+              options={{ hide: limitedProductionSite }}
+            />
+            <Menu showMenu actions={actions} />
+          </>
         )}
-        <Menu showMenu actions={actions} />
       </PageHeading>
       <PageContent>
         <FormExporter

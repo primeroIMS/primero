@@ -145,6 +145,8 @@ const agenciesParser = (
         ...(includeUniqueID && { unique_id: current.get("unique_id") }),
         display_text: current.getIn(["name", locale], ""),
         disabled: current.get("disabled", false),
+        terms_of_use_enabled: current.get("terms_of_use_enabled", false),
+        terms_of_use_uploaded_at: current.get("terms_of_use_uploaded_at", false),
         ...(includeServices && { services: current.get("services", fromJS([])).toArray() })
       }
     ],

@@ -55,7 +55,7 @@ function Component({
   };
 
   const renderValue = fieldValue => {
-    if (Array.isArray(fieldValue) || List.isList(fieldValue)) {
+    if ((Array.isArray(fieldValue) || List.isList(fieldValue)) && !isSignatureField) {
       return fieldValue
         .map(val => renderValue(val))
         ?.flatten()
@@ -101,13 +101,15 @@ function Component({
     }
 
     if (isSignatureField) {
+      const signatureField = List.isList(fieldValue) ? fieldValue.first() : fieldValue;
+
       return (
         <div>
-          <AssetJwt src={fieldValue?.get("attachment_url")} alt="Signature" className={css.signatureImage} />
+          <AssetJwt src={signatureField?.get("attachment_url")} alt="Signature" className={css.signatureImage} />
           <div className={css.signatureDetails}>
-            {signatureInfo(fieldValue, "signature_provided_on")}
-            {signatureInfo(fieldValue, "signature_provided_by", signatureProvidedByLabel)}
-            {signatureInfo(fieldValue, "signature_created_by_user")}
+            {signatureInfo(signatureField, "signature_provided_on")}
+            {signatureInfo(signatureField, "signature_provided_by", signatureProvidedByLabel)}
+            {signatureInfo(signatureField, "signature_created_by_user")}
             {helperText?.[i18n.locale]}
           </div>
         </div>

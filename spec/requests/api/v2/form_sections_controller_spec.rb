@@ -661,6 +661,46 @@ describe Api::V2::FormSectionsController, type: :request do
       )
     end
 
+    it 'adds existing fields when user role is set to restricted manage' do
+      login_for_test(permissions: [Permission.new(resource: Permission::METADATA,
+                                                  actions: [Permission::MANAGE_RESTRICTED])])
+      existing_field = Field.create!(
+        name: 'existing_field',
+        type: Field::TEXT_FIELD,
+        display_name_i18n: { en: 'First field in form section' },
+        editable: false,
+        disabled: true,
+        subform_summary: { subform_field_name: 'new_scores' }
+      )
+
+      params = {
+        data: {
+          fields: [
+            {
+              name: 'fs6_field_1',
+              type: Field::NUMERIC_FIELD,
+              display_name_i18n: { en: 'First field in form section' },
+              subform_summary: { subform_field_name: 'new_scores' },
+              editable: false
+            },
+            {
+              id: existing_field.id,
+              name: existing_field.name,
+              display_name: { en: 'First field in form section (Copied)' }
+            }
+          ]
+        }
+      }
+
+      patch "/api/v2/forms/#{@form6.id}", params:, as: :json
+      expect(response).to have_http_status(200)
+      @form6.reload
+      expect(@form6.fields[1].name).to eq(existing_field.name)
+      expect(@form6.fields[1].subform_summary).to eq(existing_field.subform_summary)
+      expect(@form6.fields[1].display_name_i18n['en']).to eq('First field in form section (Copied)')
+      expect(@form6.fields[1].disabled).to be_truthy
+    end
+
     it "returns 403 if user isn't authorized to update records" do
       login_for_test(
         form_sections: [@form1],

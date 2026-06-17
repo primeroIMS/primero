@@ -1,7 +1,7 @@
 /* eslint-disable react/no-multi-comp */
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { TextField, Chip } from "@mui/material";
+import { TextField, Chip, Tooltip } from "@mui/material";
 import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 import { Controller } from "react-hook-form";
 import { useDispatch } from "react-redux";
@@ -41,7 +41,8 @@ function SelectInput({ commonInputProps, metaInputProps, options: allOptions = [
     clearDependentReason,
     setOtherFieldValues,
     maxSelectedOptions,
-    multipleLimitOne
+    multipleLimitOne,
+    transformOptions
   } = metaInputProps;
   const { name, disabled, id, ...commonProps } = commonInputProps;
   const defaultOption = { id: "", display_text: "" };
@@ -59,13 +60,15 @@ function SelectInput({ commonInputProps, metaInputProps, options: allOptions = [
     return getValueFromOtherField(state, setOtherFieldValues, watchedInputValues);
   });
 
-  const options = [...allOptions, ...additionalOptions].filter(
-    option =>
-      !option?.disabled ||
-      (option?.disabled && stickyOption && Array.isArray(stickyOption)
-        ? stickyOption.includes(option.id)
-        : option.id === stickyOption)
-  );
+  const options = transformOptions
+    ? transformOptions([...allOptions, ...additionalOptions])
+    : [...allOptions, ...additionalOptions].filter(
+        option =>
+          !option?.disabled ||
+          (option?.disabled && stickyOption && Array.isArray(stickyOption)
+            ? stickyOption.includes(option.id)
+            : option.id === stickyOption)
+      );
 
   const fetchAsyncOptions = () => {
     if (asyncOptions && asyncAction) {
@@ -300,11 +303,19 @@ function SelectInput({ commonInputProps, metaInputProps, options: allOptions = [
           renderInput={renderInput(fieldValue)}
           renderTags={handleRenderTags}
           value={handleMultiSelectValue(fieldValue)}
-          renderOption={(props, option) => (
-            <li {...props} key={option.id}>
-              {optionLabel(option)}
-            </li>
-          )}
+          renderOption={(props, option) =>
+            option.disabled && option.disabledMessage ? (
+              <Tooltip describeChild title={option.disabledMessage}>
+                <li {...props} key={option.id} style={disabled ? { pointerEvents: "none" } : {}}>
+                  {optionLabel(option)}
+                </li>
+              </Tooltip>
+            ) : (
+              <li {...props} key={option.id}>
+                {optionLabel(option)}
+              </li>
+            )
+          }
         />
       )}
     />

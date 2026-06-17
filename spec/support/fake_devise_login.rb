@@ -127,6 +127,12 @@ module FakeDeviseLogin
     ]
   end
 
+  def permission_bulk_flag_record
+    @permission_bulk_flag_record = [
+      Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::BULK_FLAG])
+    ]
+  end
+
   def common_permitted_field_names
     COMMON_PERMITTED_FIELDS.map(&:name)
   end

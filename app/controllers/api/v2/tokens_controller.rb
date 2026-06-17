@@ -26,7 +26,7 @@ class Api::V2::TokensController < Devise::SessionsController
   end
 
   # Overriding method called by Devise session destroy.
-  def respond_to_on_destroy
+  def respond_to_on_destroy(**_opts)
     render json: {}
   end
 

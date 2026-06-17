@@ -57,13 +57,15 @@ export const visibilityForm = ({
   fields = [],
   i18n,
   isNested = false,
-  limitedProductionSite
+  limitedProductionSite,
+  canManage
 }) => {
   const { showOn, visible, mobileVisible, hideOnViewPage, showOnMinifyForm, onCollapsedSubform, skipLogic } =
     visibilityFields({
       fieldName,
       i18n,
-      limitedProductionSite
+      limitedProductionSite,
+      canManage
     });
 
   const miniFormField = fieldType === DOCUMENT_RECORD_FIELD ? [] : [showOnMinifyForm];

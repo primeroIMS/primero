@@ -19,7 +19,7 @@ import { useMetadata } from "../../../records";
 import { getSystemPermissions, useApp } from "../../../application";
 import { useMemoizedSelector } from "../../../../libs";
 import { FiltersForm } from "../../../form-filters/components";
-import { DEFAULT_FILTERS, DATA, DISABLED } from "../constants";
+import { DEFAULT_FILTERS, DATA, DISABLED, GROUP_PERMISSION } from "../constants";
 import { filterOnTableChange, getFilters, onSubmitFilters } from "../utils";
 
 import { fetchRoles, setRolesFilter } from "./action-creators";
@@ -54,7 +54,10 @@ function Container() {
     />
   );
 
-  useMetadata(recordType, metadata, fetchRoles, DATA, { defaultFilterFields: DEFAULT_FILTERS });
+  useMetadata(recordType, metadata, fetchRoles, DATA, {
+    defaultFilterFields: DEFAULT_FILTERS,
+    includeQueryParams: true
+  });
 
   const permissions = systemPermissions.get("management", fromJS([])).reduce((acc, permission) => {
     acc.push({
@@ -71,12 +74,12 @@ function Container() {
   const onTableChange = filterOnTableChange(dispatch, fetchRoles, setRolesFilter);
 
   const filterProps = {
-    clearFields: [DISABLED],
+    clearFields: [DISABLED, GROUP_PERMISSION],
     filters: [
       ...getFilters(i18n),
       {
         name: "roles.filter_by.group_permission",
-        field_name: "group_permission",
+        field_name: GROUP_PERMISSION,
         options: permissions,
         type: FILTER_TYPES.MULTI_SELECT,
         multiple: true

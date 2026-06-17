@@ -4,11 +4,11 @@ import { useFormContext } from "react-hook-form";
 import { cx } from "@emotion/css";
 
 import { useI18n } from "../../../i18n";
+import SearchLabel from "../../../search-box/search-label";
 
 import SearchHelpText from "./search-help-text";
 import SearchFieldToggle from "./search-field-toggle";
 import SearchInput from "./search-input";
-import SearchTitle from "./search-title";
 import css from "./styles.css";
 import useSearchBox from "./use-search-box";
 import SearchActions from "./search-actions";
@@ -45,7 +45,7 @@ function SearchBox({
     <div className={cx({ [css.searchContainer]: !useFullWidth, [css.searchContainerFullWidth]: useFullWidth })}>
       {showFieldToggle && <p className={css.searchTitle}>{i18n.t("navigation.search_by")}</p>}
       {showFieldToggle && <SearchFieldToggle handleChange={handleToggleChange} value={searchField} />}
-      <SearchTitle label={searchFieldLabel} searchField={searchField} />
+      <SearchLabel label={searchFieldLabel} searchField={searchField} htmlFor={FIELD_NAME_QUERY} />
       <div className={css.searchBoxContainer}>
         <SearchInput
           formMethods={{ control, setValue }}
