@@ -36,6 +36,7 @@ class Child < ApplicationRecord
   include Alertable
   include Attachable
   include Noteable
+  include RegistryAssociable
   include EagerLoadable
   include Webhookable
   include Kpi::GBVChild

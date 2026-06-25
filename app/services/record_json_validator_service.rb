@@ -50,6 +50,10 @@ class RecordJsonValidatorService < JsonValidatorService
         properties[field.name] = { 'type' => %w[integer number string boolean null],
                                    'minimum' => -2_147_483_648,
                                    'maximum' => 2_147_483_647 }
+      when Field::REGISTRY
+        properties[field.name] = {
+          'type' => %w[string null], 'format' => 'regex', 'pattern' => PermittedFieldService::UUID_REGEX
+        }
       end
     end
   end
