@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_31_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_18_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
   enable_extension "pg_catalog.plpgsql"
@@ -707,6 +707,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_31_000000) do
     t.index ["record_type", "record_id"], name: "index_record_histories_on_record_type_and_record_id"
   end
 
+  create_table "registry_associations", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "field_name", null: false
+    t.uuid "registry_associable_id", null: false
+    t.string "registry_associable_type", null: false
+    t.uuid "registry_record_id", null: false
+    t.string "subform_unique_id"
+    t.datetime "updated_at", null: false
+    t.index ["registry_associable_type", "registry_associable_id"], name: "index_registry_associations_on_registry_associable"
+    t.index ["registry_record_id"], name: "index_registry_associations_on_registry_record_id"
+  end
+
   create_table "registry_records", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.jsonb "data", default: {}
     t.jsonb "phonetic_data"
@@ -834,6 +846,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_31_000000) do
     t.string "location_limit_for_api"
     t.string "primary_age_range"
     t.string "primero_version"
+    t.jsonb "registry_options"
+    t.string "registry_type_default"
     t.jsonb "reporting_location_config"
     t.jsonb "system_options"
     t.jsonb "terms_of_use_acknowledge"
