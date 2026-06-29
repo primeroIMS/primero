@@ -49,6 +49,7 @@ import {
   DELETE_ALERT_FROM_RECORD_SUCCESS,
   FETCH_RECORD_RELATIONSHIPS,
   FETCH_RELATED_RECORDS,
+  FETCH_RECORD_RELATED_RECORDS,
   ADD_RECORD_RELATIONSHIP,
   REMOVE_RECORD_RELATIONSHIP,
   CLEAR_RECORD_RELATIONSHIPS,
@@ -561,6 +562,14 @@ export const fetchRelatedRecords = ({ recordType, relatedRecordType, data }) => 
   type: `${recordType}/${FETCH_RELATED_RECORDS}`,
   api: {
     path: `/${relatedRecordType.toLowerCase()}`,
+    params: data
+  }
+});
+
+export const fetchRecordRelatedRecords = ({ recordType, relatedRecordType, data, id }) => ({
+  type: `${recordType}/${FETCH_RECORD_RELATED_RECORDS}`,
+  api: {
+    path: `/${recordType}/${id}/${relatedRecordType.toLowerCase()}`,
     params: data
   }
 });

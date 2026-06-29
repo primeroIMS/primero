@@ -56,7 +56,10 @@ function Component({
   shouldFetchRecord = true,
   showHeader,
   showSelectButton,
-  validatedFieldNames = []
+  showTitle = true,
+  validatedFieldNames = [],
+  resultActionCreator,
+  recordID
 }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -78,8 +81,8 @@ function Component({
     })
   );
 
-  const title = caseLinkedForm.getIn(["name", i18n.locale], null);
-  const formName = caseLinkedForm.i18nName ? i18n.t(title) : title;
+  const title = caseLinkedForm?.getIn(["name", i18n.locale], null);
+  const formName = caseLinkedForm?.i18nName ? i18n.t(title) : title;
 
   const fields = useMemoizedSelector(state =>
     getRecordFieldsByName(state, {
@@ -91,6 +94,8 @@ function Component({
       checkVisible: false
     })
   );
+
+  console.log("fields", fields);
 
   const handleCancel = () => {
     setDrawerOpen(false);
@@ -176,20 +181,24 @@ function Component({
   }, [detailsID]);
 
   const subformTitle = mode.isEdit ? i18n.t("fields.add_field_type", { file_type: formName }) : formName;
-  const searchTitle = caseLinkedForm.i18nName
-    ? drawerTitles.search || i18n.t(`${recordType}.search_for`, { record_type: i18n.t("case.label") })
-    : drawerTitles.searchNoForm;
-  const resultsTitle = drawerTitles.results || i18n.t(`${recordType}.results`);
-  const detailsTitle = drawerTitles.details || formName;
+  const searchTitle = caseLinkedForm?.i18nName
+    ? drawerTitles?.search || i18n.t(`${recordType}.search_for`, { record_type: i18n.t("case.label") })
+    : drawerTitles?.searchNoForm;
+  const resultsTitle = drawerTitles?.results || i18n.t(`${recordType}.results`);
+  const detailsTitle = drawerTitles?.details || formName;
   const disableAddNewTitle = addNewProps?.i18nKeys?.disableTooltip ? i18n.t(addNewProps.i18nKeys.disableTooltip) : "";
 
   return (
     <>
-      <RecordFormTitle mobileDisplay={mobileDisplay} handleToggleNav={handleToggleNav} displayText={formName} />
+      {showTitle && (
+        <RecordFormTitle mobileDisplay={mobileDisplay} handleToggleNav={handleToggleNav} displayText={formName} />
+      )}
       <div className={css.subformFieldArrayContainer}>
-        <div>
-          <h3 className={css.subformTitle}>{subformTitle}</h3>
-        </div>
+        {showTitle && (
+          <div>
+            <h3 className={css.subformTitle}>{subformTitle}</h3>
+          </div>
+        )}
         {addNewProps?.show && (
           <ConditionalWrapper
             condition={disableOffline?.addNew && !online}
@@ -254,6 +263,8 @@ function Component({
           setShouldSelect={setShouldSelect}
           isRecordSelectable={isRecordSelectable}
           onResultClick={onResultClick}
+          resultActionCreator={resultActionCreator}
+          recordID={recordID}
         />
       </SubformDrawer>
 
@@ -313,8 +324,10 @@ Component.propTypes = {
   permissions: PropTypes.object.isRequired,
   phoneticFieldNames: PropTypes.array.isRequired,
   primeroModule: PropTypes.string.isRequired,
+  recordID: PropTypes.string,
   recordType: PropTypes.string.isRequired,
   recordViewForms: PropTypes.array,
+  resultActionCreator: PropTypes.func,
   searchCaseType: PropTypes.string,
   searchFieldNames: PropTypes.array.isRequired,
   SearchFormComponent: PropTypes.object,
@@ -322,6 +335,7 @@ Component.propTypes = {
   shouldFetchRecord: PropTypes.bool.isRequired,
   showHeader: PropTypes.bool.isRequired,
   showSelectButton: PropTypes.bool.isRequired,
+  showTitle: PropTypes.bool,
   validatedFieldNames: PropTypes.array.isRequired
 };
 

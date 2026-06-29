@@ -33,7 +33,8 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         phonetic_search_fields: phoneticSearchFields,
         phone_number_search_fields: phoneNumberSearchFields,
         terms_of_use_agency_sign: termsOfUseAgencySign,
-        terms_of_use_acknowledge: termsOfUseAcknowledge
+        terms_of_use_acknowledge: termsOfUseAcknowledge,
+        registry_options: registryOptions
       } = payload.data;
 
       return state.merge(
@@ -57,7 +58,8 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
           phoneticSearchFields,
           phoneNumberSearchFields,
           termsOfUseAgencySign,
-          termsOfUseAcknowledge
+          termsOfUseAcknowledge,
+          registryOptions
         })
       );
     }

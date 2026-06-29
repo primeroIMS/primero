@@ -27,7 +27,9 @@ function Component({
   searchParams = {},
   setComponent,
   setDetailsID,
-  setShouldSelect
+  setShouldSelect,
+  recordID,
+  resultActionCreator = fetchRelatedRecords
 }) {
   const dispatch = useDispatch();
   const metadata = useMemoizedSelector(state => getMetadata(state, RECORD_TYPES_PLURAL[linkedRecordType]));
@@ -58,10 +60,11 @@ function Component({
     redirectIfNotAllowed(permissions.writeRegistryRecord);
     setShouldSelect(true);
     dispatch(
-      fetchRelatedRecords({
-        recordType: RECORD_TYPES_PLURAL[recordType],
+      resultActionCreator({
+        recordType: RECORD_TYPES_PLURAL[recordType] || recordType,
         relatedRecordType: RECORD_TYPES_PLURAL[linkedRecordType],
-        data: params
+        data: params,
+        id: recordID
       })
     );
   }, []);
@@ -77,10 +80,11 @@ function Component({
     title: "",
     defaultFilters: params,
     onTableChange: ({ data }) =>
-      fetchRelatedRecords({
-        recordType: RECORD_TYPES_PLURAL[recordType],
+      resultActionCreator({
+        recordType: RECORD_TYPES_PLURAL[recordType] || recordType,
         relatedRecordType: RECORD_TYPES_PLURAL[linkedRecordType],
-        data
+        data,
+        id: recordID
       }),
     recordType: [RECORD_TYPES_PLURAL[recordType], "related_records"],
     translateAsRecordType: RECORD_TYPES_PLURAL[linkedRecordType],
@@ -133,8 +137,10 @@ Component.propTypes = {
   onResultClick: PropTypes.func,
   permissions: PropTypes.object.isRequired,
   primeroModule: PropTypes.string.isRequired,
+  recordID: PropTypes.string,
   recordType: PropTypes.string.isRequired,
   redirectIfNotAllowed: PropTypes.func.isRequired,
+  resultActionCreator: PropTypes.func,
   searchParams: PropTypes.object,
   setComponent: PropTypes.func.isRequired,
   setDetailsID: PropTypes.func.isRequired,
