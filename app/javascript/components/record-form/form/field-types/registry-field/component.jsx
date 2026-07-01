@@ -1,84 +1,87 @@
 import { getIn, connect } from "formik";
 import PropTypes from "prop-types";
-import {
-  FormHelperText,
-  FormControl,
-  ListItemSecondaryAction,
-  ListItemText,
-  InputLabel,
-  List,
-  ListItem
-} from "@mui/material";
-import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
-import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
+import { FormHelperText, FormControl, InputLabel } from "@mui/material";
+import { fromJS } from "immutable";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 
-import ActionButton, { ACTION_BUTTON_TYPES } from "../../../../action-button";
-import SubformEmptyData from "../../subforms/subform-empty-data";
 import CaseLinkedRecord from "../../../../case-linked-record";
-import { RECORD_TYPES } from "../../../../../config";
-import { fetchRecordRelatedRecords } from "../../../../records";
-import css from "../../subforms/styles.css";
-import { useMemoizedSelector, useThemeHelper } from "../../../../../libs";
+import { RECORD_TYPES, RECORD_TYPES_PLURAL } from "../../../../../config";
+import { useMemoizedSelector } from "../../../../../libs";
 import { getRegistryOptionsByType } from "../../../../application/selectors";
+import { READ_REGISTRY_RECORD, RESOURCES, usePermissions, WRITE_REGISTRY_RECORD } from "../../../../permissions";
+import { REGISTRY_DETAILS } from "../../../../case-registry/constants";
+import { fetchRelatedRecords, getRelatedRecord } from "../../../../records";
+import { useApp } from "../../../../application";
 
 import Search from "./components/search";
 
-function Component({ name, field, primeroModule, helperText, label, formik, mode, recordType, recordID }) {
+function Component({ name, field, recordModuleID, helperText, label, formik, mode, recordType, recordID }) {
   const fieldError = getIn(formik.errors, name);
   const value = getIn(formik.values, name);
+  const dispatch = useDispatch();
+  const { online } = useApp();
 
-  const { isRTL } = useThemeHelper();
+  const { writeRegistryRecord, writeReadRegistryRecord } = usePermissions(RESOURCES.cases, {
+    writeRegistryRecord: WRITE_REGISTRY_RECORD,
+    writeReadRegistryRecord: [...WRITE_REGISTRY_RECORD, ...READ_REGISTRY_RECORD]
+  });
+
+  const relatedRecord = useMemoizedSelector(state =>
+    getRelatedRecord(state, { recordType, fromRelationship: false, id: value })
+  );
+
+  useEffect(() => {
+    if (mode.isShow && value && online) {
+      dispatch(
+        fetchRelatedRecords({
+          recordType,
+          relatedRecordType: RECORD_TYPES_PLURAL.registry_record,
+          data: { ids: [value] }
+        })
+      );
+    }
+  }, [value, online, mode.isShow]);
+
   const registryOptions = useMemoizedSelector(state => getRegistryOptionsByType(state, field.option_strings_source));
-
-  console.log("registryOptions", registryOptions);
+  const linkedRecords = relatedRecord.isEmpty() ? fromJS([]) : fromJS([relatedRecord]);
 
   return (
     <FormControl id={name} fullWidth error={!!fieldError}>
       <InputLabel shrink htmlFor={name} required={field.required}>
         {label}
       </InputLabel>
-      {!value ? (
-        <div>
-          <CaseLinkedRecord
-            recordID={recordID}
-            caseFormUniqueID="child_details"
-            mode={mode}
-            addNewProps={{
-              show: true,
-              disabled: false,
-              i18nKeys: {
-                label: "buttons.add"
-              }
-            }}
-            showTitle={false}
-            disableOffline={{ addNew: true }}
-            primeroModule={primeroModule}
-            recordType={recordType}
-            linkedRecordType={RECORD_TYPES.registry_records}
-            searchFieldNames={registryOptions.searchable_field_names}
-            SearchFormComponent={Search}
-            permissions={{ writeRegistryRecord: true, writeReadRegistryRecord: true }}
-          />
-          <SubformEmptyData subformName={label} single />
-        </div>
-      ) : (
-        <List classes={{ root: css.list }} disablePadding>
-          <ListItem component="a">
-            <ListItemText className={css.listText}>
-              <div className={css.listItemText}>{value}</div>
-            </ListItemText>
-            <ListItemSecondaryAction classes={{ root: css.listActions }}>
-              <ActionButton
-                icon={isRTL ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-                type={ACTION_BUTTON_TYPES.icon}
-                rest={{
-                  onClick: () => {}
-                }}
-              />
-            </ListItemSecondaryAction>
-          </ListItem>
-        </List>
-      )}
+      <CaseLinkedRecord
+        recordID={recordID}
+        mode={mode}
+        setFieldValue={formik.setFieldValue}
+        addNewProps={{
+          show: true,
+          disabled: false,
+          i18nKeys: {
+            label: "buttons.add"
+          }
+        }}
+        multiple={false}
+        showTitle={false}
+        showHeader
+        linkField={name}
+        previewFieldNames={registryOptions.preview_field_names}
+        headerFieldNames={registryOptions.collapsed_field_names}
+        linkedRecords={linkedRecords}
+        showSelectButton={writeRegistryRecord && !mode.isShow}
+        linkedRecordFormUniqueId={REGISTRY_DETAILS}
+        disableOffline={{ addNew: true }}
+        primeroModule={recordModuleID}
+        recordType={recordType}
+        linkedRecordType={RECORD_TYPES.registry_records}
+        searchFieldNames={registryOptions.searchable_field_names}
+        SearchFormComponent={Search}
+        permissions={{ writeRegistryRecord, writeReadRegistryRecord }}
+        isPermitted={writeRegistryRecord}
+        fieldTitle={label}
+        forceDrawerTitle
+      />
       <FormHelperText>{fieldError || helperText}</FormHelperText>
     </FormControl>
   );
@@ -89,13 +92,12 @@ Component.displayName = "RegistryField";
 Component.propTypes = {
   field: PropTypes.object,
   formik: PropTypes.object,
-  formSection: PropTypes.object,
   helperText: PropTypes.string,
   label: PropTypes.string,
   mode: PropTypes.object.isRequired,
   name: PropTypes.string,
-  primeroModule: PropTypes.string.isRequired,
   recordID: PropTypes.string,
+  recordModuleID: PropTypes.string.isRequired,
   recordType: PropTypes.string
 };
 

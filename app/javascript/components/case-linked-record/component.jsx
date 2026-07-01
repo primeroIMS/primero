@@ -35,7 +35,9 @@ function Component({
   isRecordSelectable,
   isRelationship = false,
   linkedRecordFormUniqueId,
+  previewFieldNames,
   linkedRecords = [],
+  multiple = true,
   linkedRecordType,
   linkField,
   linkFieldDisplay,
@@ -59,7 +61,9 @@ function Component({
   showTitle = true,
   validatedFieldNames = [],
   resultActionCreator,
-  recordID
+  recordID,
+  forceDrawerTitle = false,
+  fieldTitle
 }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -83,7 +87,6 @@ function Component({
 
   const title = caseLinkedForm?.getIn(["name", i18n.locale], null);
   const formName = caseLinkedForm?.i18nName ? i18n.t(title) : title;
-
   const fields = useMemoizedSelector(state =>
     getRecordFieldsByName(state, {
       name: searchFieldNames,
@@ -94,8 +97,6 @@ function Component({
       checkVisible: false
     })
   );
-
-  console.log("fields", fields);
 
   const handleCancel = () => {
     setDrawerOpen(false);
@@ -181,9 +182,10 @@ function Component({
   }, [detailsID]);
 
   const subformTitle = mode.isEdit ? i18n.t("fields.add_field_type", { file_type: formName }) : formName;
-  const searchTitle = caseLinkedForm?.i18nName
-    ? drawerTitles?.search || i18n.t(`${recordType}.search_for`, { record_type: i18n.t("case.label") })
-    : drawerTitles?.searchNoForm;
+  const searchTitle =
+    caseLinkedForm?.i18nName || forceDrawerTitle
+      ? drawerTitles?.search || i18n.t(`${recordType}.search_for`, { record_type: i18n.t("case.label") })
+      : drawerTitles?.searchNoForm;
   const resultsTitle = drawerTitles?.results || i18n.t(`${recordType}.results`);
   const detailsTitle = drawerTitles?.details || formName;
   const disableAddNewTitle = addNewProps?.i18nKeys?.disableTooltip ? i18n.t(addNewProps.i18nKeys.disableTooltip) : "";
@@ -199,7 +201,7 @@ function Component({
             <h3 className={css.subformTitle}>{subformTitle}</h3>
           </div>
         )}
-        {addNewProps?.show && (
+        {addNewProps?.show && (multiple || (!multiple && linkedRecords.isEmpty())) && (
           <ConditionalWrapper
             condition={disableOffline?.addNew && !online}
             wrapper={DisableOffline}
@@ -225,7 +227,7 @@ function Component({
           handleOpenMatch={handleOpenMatch}
           linkedRecords={linkedRecords}
           idField={idField}
-          formName={formName}
+          formName={formName || fieldTitle}
         />
       )}
 
@@ -235,6 +237,7 @@ function Component({
             fields={fields}
             formId={formId}
             locale={i18n.locale}
+            mode={mode}
             permissions={permissions}
             phoneticFieldNames={phoneticFieldNames}
             searchCaseType={searchCaseType}
@@ -271,7 +274,8 @@ function Component({
       <SubformDrawer open={drawerOpen && component === 2} cancelHandler={handleCancel} title={detailsTitle}>
         <ResultDetails
           id={detailsID}
-          formName={formName}
+          previewFieldNames={previewFieldNames}
+          formName={formName || fieldTitle}
           handleCancel={handleCancel}
           handleReturn={handleReturnToResults}
           handleSelection={handleSelection}
@@ -304,6 +308,8 @@ Component.propTypes = {
   columns: PropTypes.array,
   disableOffline: PropTypes.object,
   drawerTitles: PropTypes.object.isRequired,
+  fieldTitle: PropTypes.string,
+  forceDrawerTitle: PropTypes.bool,
   formId: PropTypes.string.isRequired,
   handleToggleNav: PropTypes.func.isRequired,
   headerFieldNames: PropTypes.array.isRequired,
@@ -318,11 +324,13 @@ Component.propTypes = {
   linkFieldDisplay: PropTypes.string.isRequired,
   mobileDisplay: PropTypes.bool.isRequired,
   mode: PropTypes.object.isRequired,
+  multiple: PropTypes.bool,
   onRecordDeselect: PropTypes.func,
   onRecordSelect: PropTypes.func,
   onResultClick: PropTypes.func,
   permissions: PropTypes.object.isRequired,
   phoneticFieldNames: PropTypes.array.isRequired,
+  previewFieldNames: PropTypes.array,
   primeroModule: PropTypes.string.isRequired,
   recordID: PropTypes.string,
   recordType: PropTypes.string.isRequired,

@@ -8,7 +8,7 @@ import ActionButton, { ACTION_BUTTON_TYPES } from "../../action-button";
 import IndexTable, { getRecords, getLoading } from "../../index-table";
 import LoadingIndicator from "../../loading-indicator";
 import { RECORD_TYPES_PLURAL } from "../../../config";
-import { getMetadata } from "../../record-list";
+import { getMetadata } from "../../record-list/selectors";
 import css from "../../record-form/form/subforms/styles.css";
 import { fetchRelatedRecords } from "../../records";
 
@@ -27,9 +27,7 @@ function Component({
   searchParams = {},
   setComponent,
   setDetailsID,
-  setShouldSelect,
-  recordID,
-  resultActionCreator = fetchRelatedRecords
+  setShouldSelect
 }) {
   const dispatch = useDispatch();
   const metadata = useMemoizedSelector(state => getMetadata(state, RECORD_TYPES_PLURAL[linkedRecordType]));
@@ -60,11 +58,10 @@ function Component({
     redirectIfNotAllowed(permissions.writeRegistryRecord);
     setShouldSelect(true);
     dispatch(
-      resultActionCreator({
+      fetchRelatedRecords({
         recordType: RECORD_TYPES_PLURAL[recordType] || recordType,
-        relatedRecordType: RECORD_TYPES_PLURAL[linkedRecordType],
-        data: params,
-        id: recordID
+        relatedRecordType: RECORD_TYPES_PLURAL[linkedRecordType] || linkedRecordType,
+        data: params
       })
     );
   }, []);
@@ -80,14 +77,13 @@ function Component({
     title: "",
     defaultFilters: params,
     onTableChange: ({ data }) =>
-      resultActionCreator({
+      fetchRelatedRecords({
         recordType: RECORD_TYPES_PLURAL[recordType] || recordType,
-        relatedRecordType: RECORD_TYPES_PLURAL[linkedRecordType],
-        data,
-        id: recordID
+        relatedRecordType: RECORD_TYPES_PLURAL[linkedRecordType] || linkedRecordType,
+        data
       }),
-    recordType: [RECORD_TYPES_PLURAL[recordType], "related_records"],
-    translateAsRecordType: RECORD_TYPES_PLURAL[linkedRecordType],
+    recordType: [RECORD_TYPES_PLURAL[recordType] || recordType, "related_records"],
+    translateAsRecordType: RECORD_TYPES_PLURAL[linkedRecordType] || linkedRecordType,
     bypassInitialFetch: true,
     onRowClick: handleRowClick,
     options: { selectableRows: "none", rowsPerPageOptions: [], elevation: 0 },
@@ -137,10 +133,8 @@ Component.propTypes = {
   onResultClick: PropTypes.func,
   permissions: PropTypes.object.isRequired,
   primeroModule: PropTypes.string.isRequired,
-  recordID: PropTypes.string,
   recordType: PropTypes.string.isRequired,
   redirectIfNotAllowed: PropTypes.func.isRequired,
-  resultActionCreator: PropTypes.func,
   searchParams: PropTypes.object,
   setComponent: PropTypes.func.isRequired,
   setDetailsID: PropTypes.func.isRequired,
