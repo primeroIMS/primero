@@ -84,6 +84,36 @@ describe("<IndexFitlers>", () => {
     expect(clearFiltersSpy).toHaveBeenCalled();
   });
 
+  it("applies id_search when searching an ID query without touching the search type toggle", async () => {
+    const searchProps = { ...props, setSelectedRecords: jest.fn(), metadata: {} };
+    const user = userEvent.setup();
+
+    const { store } = mountedComponent(<IndexFilters {...searchProps} />, state);
+
+    await user.type(screen.getByRole("textbox"), "aksjdferui84957r{enter}");
+
+    const setFiltersActions = store.getActions().filter(action => action.type === "incidents/SET_FILTERS");
+    const { payload } = setFiltersActions[setFiltersActions.length - 1];
+
+    expect(payload).toEqual(expect.objectContaining({ query: "aksjdferui84957r", id_search: true }));
+  });
+
+  it("does not apply id_search when searching by Name (phonetic)", async () => {
+    const searchProps = { ...props, setSelectedRecords: jest.fn(), metadata: {} };
+    const user = userEvent.setup();
+
+    const { store } = mountedComponent(<IndexFilters {...searchProps} />, state);
+
+    await user.click(screen.getByRole("button", { name: "navigation.search_options.phonetic" }));
+    await user.type(screen.getByRole("textbox"), "jane doe{enter}");
+
+    const setFiltersActions = store.getActions().filter(action => action.type === "incidents/SET_FILTERS");
+    const { payload } = setFiltersActions[setFiltersActions.length - 1];
+
+    expect(payload).toEqual(expect.objectContaining({ query: "jane doe", phonetic: true }));
+    expect(payload).not.toHaveProperty("id_search");
+  });
+
   it("clear filters button includes module_id when user has multiple modules", async () => {
     useApp.mockReturnValue({
       modules: fromJS([{ unique_id: "cases" }, { unique_id: "incidents" }]),
