@@ -3,8 +3,9 @@
 # Model representing a registry
 class RegistryRecord < ApplicationRecord
   REGISTRY_TYPE_FARMER = 'farmer'
+  REGISTRY_TYPE_COMMITTEE = 'committee'
   REGISTRY_TYPE_FOSTER_CARE = 'foster_care'
-  REGISTRY_TYPE_INDIVIDUAL = 'individual'
+  REGISTRY_TYPE_PROVIDER = 'provider'
 
   include Record
   include Searchable
@@ -28,11 +29,9 @@ class RegistryRecord < ApplicationRecord
   has_many :cases, class_name: 'Child', foreign_key: :registry_record_id
 
   before_save :save_searchable_fields
-
   class << self
     def registry_types
-      SystemSettings.current&.registry_types ||
-        [REGISTRY_TYPE_FARMER, REGISTRY_TYPE_FOSTER_CARE, REGISTRY_TYPE_INDIVIDUAL]
+      SystemSettings.current&.registry_types
     end
 
     def filterable_id_fields
@@ -57,6 +56,7 @@ class RegistryRecord < ApplicationRecord
   def defaults
     super_defaults
     self.registration_date ||= Date.today
+    self.registry_type ||= SystemSettings.current&.registry_type_default
   end
 
   def self.report_filters

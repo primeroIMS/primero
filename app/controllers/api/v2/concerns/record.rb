@@ -23,9 +23,9 @@ module Api::V2::Concerns::Record
   end
 
   def show
-    authorize! :read, model_class
+    authorize_read!(model_class)
     @record = find_record
-    authorize! :read, @record
+    authorize_read!(@record)
     permit_readable_fields
     select_fields_for_show
     render 'api/v2/records/show'
@@ -212,6 +212,10 @@ module Api::V2::Concerns::Record
 
   def authorize_index!
     authorize!(:index, model_class)
+  end
+
+  def authorize_read!(model)
+    authorize!(:read, model)
   end
 
   def permitted_index_params(params)

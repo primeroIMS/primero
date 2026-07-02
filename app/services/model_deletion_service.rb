@@ -5,7 +5,7 @@
 class ModelDeletionService < ValueObject
   UUID_REFERENCED_MODELS = [
     Alert, Attachment, Signature, Trace, Violation, SearchableIdentifier, SearchableValue,
-    SearchableDatetime, SearchableNumeric, SearchableBoolean
+    SearchableDatetime, SearchableNumeric, SearchableBoolean, RegistryAssociation
   ].freeze
 
   attr_accessor :model_class

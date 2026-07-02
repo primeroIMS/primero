@@ -23,6 +23,7 @@ class Field < ApplicationRecord
   CUSTOM = 'custom'
   CALCULATED = 'calculated'
   SIGNATURE_FIELD = 'signature'
+  REGISTRY = 'registry'
 
   DATE_VALIDATION_DEFAULT = 'default_date_validation'
   DATE_VALIDATION_NOT_FUTURE = 'not_future_date'
@@ -117,6 +118,10 @@ class Field < ApplicationRecord
 
     def all_location_field_names(parent_form = 'case')
       fields_for_record(parent_form).where(type: Field::SELECT_BOX, option_strings_source: 'Location').pluck(:name)
+    end
+
+    def all_registry_fields(parent_form = 'case')
+      fields_for_record(parent_form, [true, false]).includes(form_section: :subform_field).where(type: Field::REGISTRY)
     end
 
     def find_by_name(field_names)
