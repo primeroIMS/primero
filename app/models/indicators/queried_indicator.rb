@@ -17,7 +17,7 @@ module Indicators
     end
 
     def filters(user)
-      query_scope(user) + queries
+      query_scope(user) + queries + module_scope(user, queries)
     end
 
     def stat_query_strings(_, indicator_filters)

@@ -128,7 +128,18 @@ module Indicators
     end
 
     def filters(user)
-      query_scope(user) + scope
+      query_scope(user) + scope + module_scope(user, scope)
+    end
+
+    # Filters the indicator by the user's role modules, unless it already sets its own module_id.
+    def module_scope(user, own_filters)
+      return [] if own_filters.any? { |filter| filter.field_name == 'module_id' }
+
+      module_ids = user.modules_for_record_type(record_model.parent_form).map(&:unique_id)
+      return [] if module_ids.blank?
+      return [SearchFilters::TextValue.new(field_name: 'module_id', value: module_ids.first)] if module_ids.size == 1
+
+      [SearchFilters::TextList.new(field_name: 'module_id', values: module_ids)]
     end
 
     def scope_query_strings
