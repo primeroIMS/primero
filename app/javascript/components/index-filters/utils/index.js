@@ -1,3 +1,4 @@
+export { default as addIdSearch } from "./add-id-search";
 export { default as buildNameFilter } from "./build-name-filter";
 export { default as calculateFilters } from "./calculate-filters";
 export { default as compactFilters } from "./compact-filters";
