@@ -566,14 +566,6 @@ export const fetchRelatedRecords = ({ recordType, relatedRecordType, data }) => 
   }
 });
 
-export const fetchRecordRelatedRecords = ({ recordType, relatedRecordType, data, id }) => ({
-  type: `${recordType}/${FETCH_RECORD_RELATED_RECORDS}`,
-  api: {
-    path: `/${recordType}/${id}/${relatedRecordType.toLowerCase()}`,
-    params: data
-  }
-});
-
 export const addRecordRelationship = ({ recordType, linkedRecordType, linkedRecord, id, relationshipType }) => ({
   type: `${recordType}/${ADD_RECORD_RELATIONSHIP}`,
   payload: { id, recordType: linkedRecordType, relationshipType, linkedRecord }

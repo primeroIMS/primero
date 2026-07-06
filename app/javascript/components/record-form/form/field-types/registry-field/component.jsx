@@ -13,6 +13,7 @@ import { READ_REGISTRY_RECORD, RESOURCES, usePermissions, WRITE_REGISTRY_RECORD 
 import { REGISTRY_DETAILS } from "../../../../case-registry/constants";
 import { fetchRelatedRecords, getRelatedRecord } from "../../../../records";
 import { useApp } from "../../../../application";
+import { useI18n } from "../../../../i18n";
 
 import Search from "./components/search";
 
@@ -21,6 +22,7 @@ function Component({ name, field, recordModuleID, helperText, label, formik, mod
   const value = getIn(formik.values, name);
   const dispatch = useDispatch();
   const { online } = useApp();
+  const i18n = useI18n();
 
   const { writeRegistryRecord, writeReadRegistryRecord } = usePermissions(RESOURCES.cases, {
     writeRegistryRecord: WRITE_REGISTRY_RECORD,
@@ -51,37 +53,49 @@ function Component({ name, field, recordModuleID, helperText, label, formik, mod
       <InputLabel shrink htmlFor={name} required={field.required}>
         {label}
       </InputLabel>
-      <CaseLinkedRecord
-        recordID={recordID}
-        mode={mode}
-        setFieldValue={formik.setFieldValue}
-        addNewProps={{
-          show: true,
-          disabled: false,
-          i18nKeys: {
-            label: "buttons.add"
-          }
-        }}
-        multiple={false}
-        showTitle={false}
-        showHeader
-        linkField={name}
-        previewFieldNames={registryOptions.preview_field_names}
-        headerFieldNames={registryOptions.collapsed_field_names}
-        linkedRecords={linkedRecords}
-        showSelectButton={writeRegistryRecord && !mode.isShow}
-        linkedRecordFormUniqueId={REGISTRY_DETAILS}
-        disableOffline={{ addNew: true }}
-        primeroModule={recordModuleID}
-        recordType={recordType}
-        linkedRecordType={RECORD_TYPES.registry_records}
-        searchFieldNames={registryOptions.searchable_field_names}
-        SearchFormComponent={Search}
-        permissions={{ writeRegistryRecord, writeReadRegistryRecord }}
-        isPermitted={writeRegistryRecord}
-        fieldTitle={label}
-        forceDrawerTitle
-      />
+      {!value && mode.isShow ? (
+        "--"
+      ) : (
+        <CaseLinkedRecord
+          recordID={recordID}
+          mode={mode}
+          setFieldValue={formik.setFieldValue}
+          addNewProps={{
+            show: true,
+            disabled: false,
+            i18nKeys: {
+              label: "buttons.add"
+            }
+          }}
+          multiple={false}
+          showTitle={false}
+          showHeader
+          linkField={name}
+          previewFieldNames={registryOptions.preview_field_names}
+          headerFieldNames={registryOptions.collapsed_field_names}
+          linkedRecords={linkedRecords}
+          showSelectButton={writeRegistryRecord && !mode.isShow}
+          linkedRecordFormUniqueId={REGISTRY_DETAILS}
+          disableOffline={{ addNew: true }}
+          primeroModule={recordModuleID}
+          recordType={recordType}
+          linkedRecordType={RECORD_TYPES.registry_records}
+          searchFieldNames={registryOptions.searchable_field_names}
+          searchTableColumns={registryOptions.collapsed_field_names}
+          SearchFormComponent={Search}
+          includeIdColumn={false}
+          permissions={{ writeRegistryRecord, writeReadRegistryRecord }}
+          isPermitted={writeRegistryRecord}
+          fieldTitle={label}
+          forceDrawerTitle
+          emptyPlaceholderText={i18n.t(`${recordType}.registry_empty_placeholder`)}
+          drawerTitles={{
+            search: i18n.t(`${recordType}.registry_search_for`, { field: label }),
+            results: i18n.t(`${recordType}.registry_results`, { field: label })
+          }}
+        />
+      )}
+
       <FormHelperText>{fieldError || helperText}</FormHelperText>
     </FormControl>
   );

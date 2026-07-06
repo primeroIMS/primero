@@ -26,12 +26,14 @@ function Component({
   caseFormUniqueId,
   columns,
   disableOffline = {},
+  includeIdColumn,
   drawerTitles,
   formId,
   handleToggleNav,
   headerFieldNames,
   idField = "id",
   isPermitted,
+  emptyPlaceholderText,
   isRecordSelectable,
   isRelationship = false,
   linkedRecordFormUniqueId,
@@ -63,6 +65,7 @@ function Component({
   resultActionCreator,
   recordID,
   forceDrawerTitle = false,
+  searchTableColumns,
   fieldTitle
 }) {
   const i18n = useI18n();
@@ -90,6 +93,17 @@ function Component({
   const fields = useMemoizedSelector(state =>
     getRecordFieldsByName(state, {
       name: searchFieldNames,
+      recordType: linkedRecordType,
+      primeroModule,
+      omitDuplicates: true,
+      checkPermittedForms: false,
+      checkVisible: false
+    })
+  );
+
+  const tableFields = useMemoizedSelector(state =>
+    getRecordFieldsByName(state, {
+      name: searchTableColumns || searchFieldNames,
       recordType: linkedRecordType,
       primeroModule,
       omitDuplicates: true,
@@ -195,7 +209,7 @@ function Component({
       {showTitle && (
         <RecordFormTitle mobileDisplay={mobileDisplay} handleToggleNav={handleToggleNav} displayText={formName} />
       )}
-      <div className={css.subformFieldArrayContainer}>
+      <div className={css.caseLinkedRecordContainer}>
         {showTitle && (
           <div>
             <h3 className={css.subformTitle}>{subformTitle}</h3>
@@ -217,19 +231,19 @@ function Component({
             />
           </ConditionalWrapper>
         )}
+        {showHeader && (
+          <RecordHeader
+            recordType={recordType}
+            fieldNames={headerFieldNames}
+            linkedRecordType={linkedRecordType}
+            handleOpenMatch={handleOpenMatch}
+            linkedRecords={linkedRecords}
+            idField={idField}
+            formName={formName || fieldTitle}
+            emptyPlaceholderText={emptyPlaceholderText}
+          />
+        )}
       </div>
-
-      {showHeader && (
-        <RecordHeader
-          recordType={recordType}
-          fieldNames={headerFieldNames}
-          linkedRecordType={linkedRecordType}
-          handleOpenMatch={handleOpenMatch}
-          linkedRecords={linkedRecords}
-          idField={idField}
-          formName={formName || fieldTitle}
-        />
-      )}
 
       <SubformDrawer open={drawerOpen && component === 0} cancelHandler={handleCancel} title={searchTitle}>
         <SearchPanel handleCancel={handleCancel}>
@@ -251,7 +265,7 @@ function Component({
 
       <SubformDrawer open={drawerOpen && component === 1} cancelHandler={handleCancel} title={resultsTitle}>
         <Results
-          fields={fields}
+          fields={tableFields}
           handleCancel={handleCancel}
           linkedRecordType={linkedRecordType}
           locale={i18n.locale}
@@ -261,6 +275,7 @@ function Component({
           permissions={permissions}
           recordType={recordType}
           columns={columns}
+          includeIdColumn={includeIdColumn}
           redirectIfNotAllowed={redirectIfNotAllowed}
           setDetailsID={setDetailsID}
           setShouldSelect={setShouldSelect}
@@ -308,12 +323,14 @@ Component.propTypes = {
   columns: PropTypes.array,
   disableOffline: PropTypes.object,
   drawerTitles: PropTypes.object.isRequired,
+  emptyPlaceholderText: PropTypes.string,
   fieldTitle: PropTypes.string,
   forceDrawerTitle: PropTypes.bool,
   formId: PropTypes.string.isRequired,
   handleToggleNav: PropTypes.func.isRequired,
   headerFieldNames: PropTypes.array.isRequired,
   idField: PropTypes.string,
+  includeIdColumn: PropTypes.bool,
   isPermitted: PropTypes.bool.isRequired,
   isRecordSelectable: PropTypes.func,
   isRelationship: PropTypes.bool,
@@ -339,6 +356,7 @@ Component.propTypes = {
   searchCaseType: PropTypes.string,
   searchFieldNames: PropTypes.array.isRequired,
   SearchFormComponent: PropTypes.object,
+  searchTableColumns: PropTypes.array,
   setFieldValue: PropTypes.func.isRequired,
   shouldFetchRecord: PropTypes.bool.isRequired,
   showHeader: PropTypes.bool.isRequired,

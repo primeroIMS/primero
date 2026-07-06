@@ -17,6 +17,7 @@ function Component({
   fields,
   handleCancel,
   isRecordSelectable,
+  includeIdColumn = true,
   linkedRecordType,
   locale,
   online,
@@ -68,7 +69,7 @@ function Component({
 
   const tableOptions = {
     columns: columns || [
-      { name: "short_id", label: "id", id: true },
+      ...(includeIdColumn ? [{ name: "short_id", label: "id", id: true }] : []),
       ...fields.valueSeq().map(field => ({
         name: field.name,
         label: field.display_name[locale]
@@ -121,6 +122,7 @@ Component.propTypes = {
   fields: PropTypes.object.isRequired,
   formName: PropTypes.string,
   handleCancel: PropTypes.func.isRequired,
+  includeIdColumn: PropTypes.bool,
   isRecordSelectable: PropTypes.func,
   linkedRecordFormUniqueId: PropTypes.string,
   linkedRecordNamespace: PropTypes.string,
