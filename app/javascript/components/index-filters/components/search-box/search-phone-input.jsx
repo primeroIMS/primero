@@ -27,6 +27,7 @@ function SearchPhoneInput({ formMethods, onInvalidNumber, ...rest }) {
       inputComponent={SearchTextInput}
       defaultCountry={defaultCountry}
       formMethods={formMethods}
+      countrySelectProps={{ unicodeFlags: true }}
       {...(phoneFormats.size > 0 ? { countries: phoneFormats } : {})}
       {...rest}
     />

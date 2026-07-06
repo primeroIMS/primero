@@ -91,6 +91,7 @@ function PhoneField({ name, field, formik, mode, recordType, recordID, formSecti
               defaultCountry={defaultCountry}
               international
               addInternationalOption
+              countrySelectProps={{ unicodeFlags: true }}
               {...(phoneFormats.size > 0 ? { countries: phoneFormats } : {})}
               {...countryComponent}
             />

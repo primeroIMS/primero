@@ -28,6 +28,7 @@ function PhoneNumberInput({ commonInputProps, formMethods }) {
         disabled={disabled}
         inputComponent={PhoneTextInput}
         defaultCountry={defaultCountry}
+        countrySelectProps={{ unicodeFlags: true }}
         {...(phoneFormats.size > 0 ? { countries: phoneFormats } : {})}
       />
       {fieldError && <FormHelperText sx={warningStyle}>{fieldError}</FormHelperText>}
