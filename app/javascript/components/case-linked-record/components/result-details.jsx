@@ -17,6 +17,26 @@ import Form, { FORM_MODE_SHOW } from "../../form";
 import LoadingIndicator from "../../loading-indicator";
 import { setupLinkField } from "../utils";
 
+function getFormSection({ forms, record, linkedRecordTypePlural, linkFieldDisplay, id, previewFieldNames }) {
+  if (previewFieldNames) {
+    return forms.map(formSection =>
+      formSection.set(
+        "fields",
+        formSection.fields.filter(field => previewFieldNames.includes(field.name))
+      )
+    );
+  }
+
+  return record.get("record_in_scope", false)
+    ? setupLinkField({
+        formSections: forms,
+        recordType: linkedRecordTypePlural,
+        linkFieldDisplay,
+        id
+      })
+    : forms;
+}
+
 function Component({
   handleCancel,
   handleReturn,
@@ -26,6 +46,7 @@ function Component({
   linkedRecordFormUniqueId,
   linkedRecordType,
   linkFieldDisplay,
+  previewFieldNames,
   permissions,
   primeroModule,
   recordType,
@@ -42,7 +63,7 @@ function Component({
 
   const dispatch = useDispatch();
   const linkedRecordTypePlural = RECORD_TYPES_PLURAL[linkedRecordType];
-  const recordTypePlural = RECORD_TYPES_PLURAL[recordType];
+  const recordTypePlural = RECORD_TYPES_PLURAL[recordType] || recordType;
 
   const formSection = useMemoizedSelector(state =>
     getRecordFormsByUniqueId(state, {
@@ -68,14 +89,14 @@ function Component({
 
   const forms = isEmpty(recordViewForms) ? [formSection] : recordViewForms;
 
-  const formSections = record.get("record_in_scope", false)
-    ? setupLinkField({
-        formSections: forms,
-        recordType: linkedRecordTypePlural,
-        linkFieldDisplay,
-        id
-      })
-    : forms;
+  const formSections = getFormSection({
+    forms,
+    record,
+    linkedRecordTypePlural,
+    linkFieldDisplay,
+    id,
+    previewFieldNames
+  });
 
   const handleSelect = () => handleSelection(record);
 
@@ -139,6 +160,7 @@ Component.propTypes = {
   linkFieldDisplay: PropTypes.string.isRequired,
   onResultClick: PropTypes.func,
   permissions: PropTypes.object.isRequired,
+  previewFieldNames: PropTypes.array,
   primeroModule: PropTypes.string.isRequired,
   recordType: PropTypes.string.isRequired,
   recordViewForms: PropTypes.array,

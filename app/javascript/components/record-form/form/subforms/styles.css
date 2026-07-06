@@ -55,6 +55,17 @@
   margin: var(--sp-2) 0;
 }
 
+.caseLinkedRecordContainer {
+  display: flex;
+  align-items: center;
+  margin: var(--sp-2) 0 0;
+  gap: var(--sp-4);
+
+  & > div {
+    margin: 0;
+  }
+}
+
 .subformFieldArrayAccordion {
   margin: 0;
 }
@@ -129,6 +140,7 @@
   border: 1px solid var(--c-warm-grey-2);
   border-radius: 5px;
   background: var(--c-white);
+  width: 100%;
 }
 
 .listItem:hover {

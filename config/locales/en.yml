@@ -516,6 +516,9 @@ en:
       that you are rejecting this Referral; once you click ‘Reject’ you will no longer
       have access to this Case record.
     referral_rejected_success: Referral rejected.
+    registry_search_for: '%{field} Search'
+    registry_results: '%{field} Results'
+    registry_empty_placeholder: 'Nothing selected'
     register_new_case: New Case
     registration_date: Registration Date
     rejected_success_action_plan: '%{approval_label} - Not Approved'
@@ -1413,6 +1416,7 @@ en:
     phone_number: Phone Number
     predifined_lookups: Use pre-defined lookup
     radio_button: Radio Button
+    registry: Registry
     remove: Remove
     remove_attachment_confirmation: Are you sure you want to remove this attachment?
     required: Required

@@ -12,7 +12,16 @@ import SubformEmptyData from "../../record-form/form/subforms/subform-empty-data
 import { useApp } from "../../application";
 import { RECORD_TYPES_PLURAL } from "../../../config";
 
-function Component({ fieldNames, handleOpenMatch, idField, linkedRecordType, linkedRecords, formName, recordType }) {
+function Component({
+  fieldNames,
+  handleOpenMatch,
+  idField,
+  linkedRecordType,
+  linkedRecords,
+  formName,
+  recordType,
+  emptyPlaceholderText
+}) {
   const { online } = useApp();
   const { isRTL } = useThemeHelper();
 
@@ -31,7 +40,7 @@ function Component({ fieldNames, handleOpenMatch, idField, linkedRecordType, lin
   const hasData = !linkedRecords.isEmpty();
 
   if (!isRecordLoading && !isRecordRelationshipsLoading && !hasData) {
-    return <SubformEmptyData subformName={formName} single />;
+    return <SubformEmptyData subformName={formName} single textOverride={emptyPlaceholderText} />;
   }
 
   return (
@@ -82,6 +91,7 @@ function Component({ fieldNames, handleOpenMatch, idField, linkedRecordType, lin
 Component.displayName = "RecordHeader";
 
 Component.propTypes = {
+  emptyPlaceholderText: PropTypes.string,
   fieldNames: PropTypes.array.isRequired,
   formName: PropTypes.string.isRequired,
   handleOpenMatch: PropTypes.func.isRequired,
