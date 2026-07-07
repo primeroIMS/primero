@@ -1,3 +1,5 @@
+// TODO: When we optimized build, we can consider lazy loading the flags to reduce bundle size
+
 import { memo, useEffect } from "react";
 import PropTypes from "prop-types";
 import PhoneInputWithCountry from "react-phone-number-input/react-hook-form";
