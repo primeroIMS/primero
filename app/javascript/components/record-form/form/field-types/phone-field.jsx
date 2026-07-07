@@ -16,6 +16,7 @@ import isNil from "lodash/isNil";
 import first from "lodash/first";
 import InputLabel from "@mui/material/InputLabel";
 import FormHelperText from "@mui/material/FormHelperText";
+import flags from "react-phone-number-input/flags";
 
 import { useI18n } from "../../../i18n";
 import { shouldFieldUpdate } from "../utils";
@@ -76,6 +77,7 @@ function PhoneField({ name, field, formik, mode, recordType, recordID, formSecti
             </InputLabel>
             <PhoneInput
               id={name}
+              flags={flags}
               autoComplete={autoComplete}
               data-testid="phone-field"
               labels={countryLabels}
@@ -91,7 +93,6 @@ function PhoneField({ name, field, formik, mode, recordType, recordID, formSecti
               defaultCountry={defaultCountry}
               international
               addInternationalOption
-              countrySelectProps={{ unicodeFlags: true }}
               {...(phoneFormats.size > 0 ? { countries: phoneFormats } : {})}
               {...countryComponent}
             />
