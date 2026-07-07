@@ -1,6 +1,7 @@
 import { memo, useEffect } from "react";
 import PropTypes from "prop-types";
 import PhoneInputWithCountry from "react-phone-number-input/react-hook-form";
+import flags from "react-phone-number-input/flags";
 
 import usePhoneInput from "../../../form/use-phone-input";
 
@@ -27,7 +28,7 @@ function SearchPhoneInput({ formMethods, onInvalidNumber, ...rest }) {
       inputComponent={SearchTextInput}
       defaultCountry={defaultCountry}
       formMethods={formMethods}
-      countrySelectProps={{ unicodeFlags: true }}
+      flags={flags}
       {...(phoneFormats.size > 0 ? { countries: phoneFormats } : {})}
       {...rest}
     />

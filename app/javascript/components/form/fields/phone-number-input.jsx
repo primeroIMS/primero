@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import PhoneInputWithCountry from "react-phone-number-input/react-hook-form";
 import { FormHelperText } from "@mui/material";
 import InputLabel from "@mui/material/InputLabel";
+import flags from "react-phone-number-input/flags";
 
 import PhoneTextInput from "../../record-form/form/field-types/phone-text-input";
 import usePhoneInput from "../use-phone-input";
@@ -28,7 +29,7 @@ function PhoneNumberInput({ commonInputProps, formMethods }) {
         disabled={disabled}
         inputComponent={PhoneTextInput}
         defaultCountry={defaultCountry}
-        countrySelectProps={{ unicodeFlags: true }}
+        flags={flags}
         {...(phoneFormats.size > 0 ? { countries: phoneFormats } : {})}
       />
       {fieldError && <FormHelperText sx={warningStyle}>{fieldError}</FormHelperText>}
