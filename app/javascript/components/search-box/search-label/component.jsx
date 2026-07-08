@@ -18,7 +18,7 @@ function Component({ label, searchField = "id_search", htmlFor, required = false
   const title = isEmpty(label) ? i18n.t(titleI18nKey) : label;
 
   return (
-    <InputLabel htmlFor={htmlFor} className={css.searchLabel} required={required}>
+    <InputLabel shrink htmlFor={htmlFor} className={css.searchLabel} required={required}>
       {title}
     </InputLabel>
   );

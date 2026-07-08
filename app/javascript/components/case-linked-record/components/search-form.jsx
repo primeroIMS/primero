@@ -10,7 +10,7 @@ function Component({
   fields,
   formId,
   locale,
-  permissions,
+  permissions = {},
   phoneticFieldNames = [],
   redirectIfNotAllowed,
   setComponent,

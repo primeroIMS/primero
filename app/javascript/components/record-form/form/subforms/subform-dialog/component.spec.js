@@ -86,7 +86,7 @@ describe("<SubformDialog />", () => {
     mountedComponent(<SubformDialog {...props} />, {}, [], {}, formProps);
 
     await act(() => {
-      fireEvent.click(screen.getByText("buttons.add"));
+      fireEvent.click(screen.getByText("family.family_member.save_and_return"));
     });
 
     expect(screen.getByText("error_message.address_form_fields")).toBeInTheDocument();
