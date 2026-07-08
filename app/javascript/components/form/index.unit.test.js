@@ -48,7 +48,8 @@ describe("<Form /> - index", () => {
       "whichFormMode",
       "SELECT_CHANGE_REASON",
       "EMPTY_VALUE",
-      "SIGNATURE_FIELD"
+      "SIGNATURE_FIELD",
+      "REGISTRY_FIELD"
     ].forEach(property => {
       expect(indexValues).toHaveProperty(property);
       delete indexValues[property];

@@ -29,6 +29,7 @@ describe("<Form /> - Constants", () => {
       "PARENT_FORM",
       "PHOTO_FIELD",
       "PHOTO_RECORD_FIELD",
+      "REGISTRY_FIELD",
       "RADIO_FIELD",
       "SELECT_CHANGE_REASON",
       "SELECT_FIELD",

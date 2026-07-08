@@ -6,7 +6,8 @@ import {
   SUBFORM_SECTION,
   TALLY_FIELD,
   TICK_FIELD,
-  SIGNATURE_FIELD
+  SIGNATURE_FIELD,
+  REGISTRY_FIELD
 } from "../../../../../../form";
 import {
   dateFieldForm,
@@ -16,7 +17,8 @@ import {
   selectFieldForm,
   separatorFieldForm,
   subformField,
-  signatureFieldForm
+  signatureFieldForm,
+  registryFieldForm
 } from "../forms";
 
 export default fieldOptions => {
@@ -42,6 +44,8 @@ export default fieldOptions => {
       return tallyFieldForm(fieldOptions);
     case SIGNATURE_FIELD:
       return signatureFieldForm(fieldOptions);
+    case REGISTRY_FIELD:
+      return registryFieldForm(fieldOptions);
     default:
       return textFieldForm(fieldOptions);
   }

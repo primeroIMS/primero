@@ -7,3 +7,4 @@ export { dateFieldForm } from "./date-field";
 export { tickboxFieldForm } from "./tick-box-field";
 export { tallyFieldForm } from "./tally-field";
 export { signatureFieldForm } from "./signature-field";
+export { registryFieldForm } from "./registry-field";
