@@ -45,7 +45,6 @@ export const OPTION_TYPES = {
   USER_GROUP: "UserGroup",
   USER_GROUP_PERMITTED: "UserGroupPermitted",
   INSIGHTS_USER_GROUP_PERMITTED: "InsightsUserGroupPermitted",
-  REGISTRY_CATEGORY: "RegistryCategory",
   ROLE: "Role",
   ROLE_PERMITTED: "RolePermitted",
   ROLE_EXTERNAL_REFERRAL: "RoleExternalReferral",
