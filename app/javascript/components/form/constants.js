@@ -28,6 +28,7 @@ export const HIDDEN_FIELD = "hidden";
 export const LINK_FIELD = "link_field";
 export const TALLY_FIELD = "tally_field";
 export const SIGNATURE_FIELD = "signature";
+export const REGISTRY_FIELD = "registry";
 
 export const OPTION_TYPES = {
   AGENCY: "Agency",
@@ -44,6 +45,7 @@ export const OPTION_TYPES = {
   USER_GROUP: "UserGroup",
   USER_GROUP_PERMITTED: "UserGroupPermitted",
   INSIGHTS_USER_GROUP_PERMITTED: "InsightsUserGroupPermitted",
+  REGISTRY_CATEGORY: "RegistryCategory",
   ROLE: "Role",
   ROLE_PERMITTED: "RolePermitted",
   ROLE_EXTERNAL_REFERRAL: "RoleExternalReferral",
