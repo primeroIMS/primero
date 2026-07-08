@@ -2,7 +2,7 @@ import { Fragment, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { ListItemSecondaryAction, ListItemText, List, ListSubheader, Divider } from "@mui/material";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
-import ManageSearch from '@mui/icons-material/ManageSearch'
+import ManageSearch from "@mui/icons-material/ManageSearch";
 import { useDispatch, batch } from "react-redux";
 
 import ActionDialog, { useDialog } from "../../../../../action-dialog";
@@ -38,8 +38,7 @@ import {
   MultiSelectInput,
   DateAndTimeInput,
   SubformField,
-  SignatureInput,
-  RegistryInput
+  SignatureInput
 } from "../../../../../../images/primero-icons";
 
 import FieldItem from "./field-item";
