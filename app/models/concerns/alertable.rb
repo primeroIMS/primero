@@ -189,7 +189,8 @@ module ClassMethods
 
   def open_enabled_records
     joins(:alerts).where(
-      "#{table_name}.data %s '$[*] %s (@.record_state == true && @.status == %s)'", '@?', '?', Record::STATUS_OPEN.to_json
+      "#{table_name}.data %s '$[*] %s (@.record_state == true && @.status == %s)'", '@?', '?', 
+      Record::STATUS_OPEN.to_json
     )
   end
 end
