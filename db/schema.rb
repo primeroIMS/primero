@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_18_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_10_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
   enable_extension "pg_catalog.plpgsql"
@@ -906,6 +906,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_18_000000) do
     t.boolean "consent_individual_transfer", default: false, null: false
     t.boolean "consent_overridden", default: false, null: false
     t.datetime "created_at", precision: nil
+    t.jsonb "data"
     t.text "notes"
     t.string "record_id"
     t.string "record_owned_by"

@@ -25,7 +25,9 @@ export const FIELDS = Object.freeze({
   NOTES: "notes",
   FILENAME: CUSTOM_EXPORT_FILE_NAME_FIELD,
   SERVICE_RECORD_ID: "service_record_id",
-  ALLOW_CASE_CREATION: "allow_case_creation"
+  ALLOW_CASE_CREATION: "allow_case_creation",
+  SERVICE_IMPLEMENTING_AGENCY_EXTERNAL: "service_implementing_agency_external",
+  SERVICE_EXTERNAL_REFERRAL_REGISTRY: "service_external_referral_registry"
 });
 
 export const USER_FIELDS = Object.freeze({
@@ -49,7 +51,9 @@ export const SERVICE_SECTION_FIELDS_EXTERNAL = Object.freeze({
   [FIELDS.TRANSITIONED_TO_REMOTE]: "service_provider",
   [FIELDS.SERVICE]: "service_type",
   [FIELDS.SERVICE_RECORD_ID]: "unique_id",
-  [FIELDS.REMOTE]: SERVICE_EXTERNAL_REFERRAL
+  [FIELDS.REMOTE]: SERVICE_EXTERNAL_REFERRAL,
+  [FIELDS.SERVICE_IMPLEMENTING_AGENCY_EXTERNAL]: "service_implementing_agency_external",
+  [FIELDS.SERVICE_EXTERNAL_REFERRAL_REGISTRY]: "service_external_referral_registry"
 });
 
 export const OMITTED_SUBMISSION_FIELDS = [FIELDS.LOCATION, FIELDS.ROLE];

@@ -99,7 +99,14 @@ function Details({ transition, classes }) {
           xs: 12
         }}
       >
-        <DisplayData label="transition.agency_label" value={agencyName} />
+        <DisplayData
+          label={
+            transition.data?.service_external_referral_registry
+              ? "referral.service_implementing_agency_external"
+              : "transition.agency_label"
+          }
+          value={agencyName}
+        />
       </Grid>
       <Grid
         size={{
