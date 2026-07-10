@@ -30,4 +30,27 @@ describe("<ReferralSummary />", () => {
     expect(screen.getByText(/transition.type.referral/i)).toBeInTheDocument();
     expect(screen.getByTestId("date")).toBeInTheDocument();
   });
+
+  it("renders external registry heading", () => {
+    mountedComponent(
+      <ReferralSummary
+        {...{
+          classes: props.classes,
+          transition: {
+            ...props.transition,
+            remote: true,
+            data: { service_external_referral_registry: true }
+          }
+        }}
+      />
+    );
+    expect(screen.getByText(/transition.type.external_registry_referral/i)).toBeInTheDocument();
+  });
+
+  it("renders external heading", () => {
+    mountedComponent(
+      <ReferralSummary {...{ classes: props.classes, transition: { ...props.transition, remote: true } }} />
+    );
+    expect(screen.getByText(/transition.type.external_referral/i)).toBeInTheDocument();
+  });
 });
