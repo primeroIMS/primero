@@ -13,7 +13,7 @@ function Summary({ transition, classes, showMode, recordType }) {
   const summaryTitle = () => {
     if (!transition.remote) return "referral";
 
-    return transition.data?.service_external_referral_registry ? "external_registry_referral" : "external_referral";
+    return transition?.service_external_referral_registry ? "external_registry_referral" : "external_referral";
   };
 
   const transitionStatus = transition.status ? (

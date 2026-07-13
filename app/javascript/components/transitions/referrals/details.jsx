@@ -101,7 +101,7 @@ function Details({ transition, classes }) {
       >
         <DisplayData
           label={
-            transition.data?.service_external_referral_registry
+            transition.service_external_referral_registry
               ? "referral.service_implementing_agency_external"
               : "transition.agency_label"
           }

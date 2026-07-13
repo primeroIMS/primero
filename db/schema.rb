@@ -906,7 +906,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_10_000000) do
     t.boolean "consent_individual_transfer", default: false, null: false
     t.boolean "consent_overridden", default: false, null: false
     t.datetime "created_at", precision: nil
-    t.jsonb "data"
     t.text "notes"
     t.string "record_id"
     t.string "record_owned_by"
@@ -918,6 +917,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_10_000000) do
     t.boolean "remote", default: false, null: false
     t.datetime "responded_at", precision: nil
     t.string "service"
+    t.boolean "service_external_referral_registry"
     t.string "service_record_id"
     t.string "status"
     t.string "transitioned_by"

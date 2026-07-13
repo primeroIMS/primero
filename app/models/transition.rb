@@ -9,8 +9,6 @@ class Transition < ApplicationRecord
   STATUS_REVOKED = 'revoked'
   NOTIFICATION_ACTION = 'transition_notification'
 
-  store_accessor(:data, :service_external_referral_registry)
-
   belongs_to :record, polymorphic: true
   belongs_to :transitioned_to_user, class_name: 'User', foreign_key: 'transitioned_to',
                                     primary_key: 'user_name', optional: true
