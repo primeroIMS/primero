@@ -39,7 +39,7 @@ describe("<ReferralSummary />", () => {
           transition: {
             ...props.transition,
             remote: true,
-            data: { service_external_referral_registry: true }
+            service_external_referral_registry: true
           }
         }}
       />
