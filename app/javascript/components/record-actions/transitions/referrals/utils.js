@@ -17,7 +17,7 @@ export const mapServiceFields = (serviceToRefer, isExternalReferralFromService) 
   }, {});
 };
 
-export const customReferralFormProps = i18n => {
+export const customReferralFormProps = (i18n, formValues) => {
   return {
     condition: FIELDS.REMOTE,
     fields: [
@@ -36,12 +36,24 @@ export const customReferralFormProps = i18n => {
         option_strings_source: OPTION_TYPES.SERVICE_TYPE,
         visible: true
       },
-      {
-        name: FIELDS.AGENCY,
-        display_name: i18n.t("referral.agency_label"),
-        visible: true,
-        type: TEXT_FIELD
-      },
+      ...(formValues[FIELDS.SERVICE_EXTERNAL_REFERRAL_REGISTRY]
+        ? [
+            {
+              name: FIELDS.SERVICE_IMPLEMENTING_AGENCY_EXTERNAL,
+              display_name: i18n.t("referral.service_implementing_agency_external"),
+              type: TEXT_FIELD,
+              visible: true
+            }
+          ]
+        : [
+            {
+              name: FIELDS.AGENCY,
+              display_name: i18n.t("referral.agency_label"),
+              visible: true,
+              type: TEXT_FIELD
+            }
+          ]),
+
       {
         name: FIELDS.LOCATION,
         display_name: i18n.t("referral.location_label"),

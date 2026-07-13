@@ -4670,6 +4670,8 @@ en:
     user_mandatory_label: Recipient is required
     date: Date
     rejected_reason: Rejection Reason
+    service_external_referral_registry: Are you referring to a facility / agency / organization in an external service provider directory?
+    service_implementing_agency_external: Facility / agency / organization
     allow_case_creation: Allow case creation with this referral
     allow_case_creation_help_text: Checking this box will allow the recipient to create their own case record to provide case management services for the client.
   report:
@@ -5010,6 +5012,7 @@ en:
       external_referral: External Referral
       transfer: Transfer
       transferRequest: Transfer Request
+      external_registry_referral: External Registry Referral
   user:
     agency_office: Agency Office (GBV field)
     code: User Code

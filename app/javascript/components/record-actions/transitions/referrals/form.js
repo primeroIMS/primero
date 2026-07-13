@@ -152,7 +152,16 @@ const remoteReferralFields = ({ i18n, isExternalReferralFromService }) =>
     {
       display_name: i18n.t("transfer.agency_label"),
       name: FIELDS.AGENCY,
-      order: 9
+      order: 9,
+      showIf: values => !values[FIELDS.SERVICE_EXTERNAL_REFERRAL_REGISTRY],
+      watchedInputs: [FIELDS.SERVICE_EXTERNAL_REFERRAL_REGISTRY]
+    },
+    {
+      display_name: i18n.t("referral.service_implementing_agency_external"),
+      name: FIELDS.AGENCY,
+      order: 10,
+      showIf: values => values[FIELDS.SERVICE_EXTERNAL_REFERRAL_REGISTRY],
+      watchedInputs: [FIELDS.SERVICE_EXTERNAL_REFERRAL_REGISTRY]
     },
     {
       display_name: i18n.t("transfer.location_label"),
@@ -192,6 +201,14 @@ const commonReferralFields = ({
       disabled: isReferralFromService,
       showIf: () => !isReferralFromService || isExternalReferralFromService,
       order: 2
+    },
+    {
+      display_name: i18n.t("referral.service_external_referral_registry"),
+      name: FIELDS.SERVICE_EXTERNAL_REFERRAL_REGISTRY,
+      type: TICK_FIELD,
+      order: 3,
+      showIf: () => !isReferralFromService || isExternalReferralFromService,
+      visible: true
     },
     {
       display_name: i18n.t("referral.service_label"),
