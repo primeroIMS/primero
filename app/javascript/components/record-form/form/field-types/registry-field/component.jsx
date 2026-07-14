@@ -9,7 +9,7 @@ import CaseLinkedRecord from "../../../../case-linked-record";
 import { RECORD_TYPES, RECORD_TYPES_PLURAL } from "../../../../../config";
 import { useMemoizedSelector } from "../../../../../libs";
 import { getRegistryOptionsByType } from "../../../../application/selectors";
-import { READ_REGISTRY_RECORD, RESOURCES, usePermissions, WRITE_REGISTRY_RECORD } from "../../../../permissions";
+import { RESOURCES, usePermissions, READ_RECORDS } from "../../../../permissions";
 import { REGISTRY_DETAILS } from "../../../../case-registry/constants";
 import { fetchRelatedRecords, getRelatedRecord } from "../../../../records";
 import { useApp } from "../../../../application";
@@ -24,9 +24,9 @@ function Component({ name, field, recordModuleID, helperText, label, formik, mod
   const { online } = useApp();
   const i18n = useI18n();
 
-  const { writeRegistryRecord, writeReadRegistryRecord } = usePermissions(RESOURCES.cases, {
-    writeRegistryRecord: WRITE_REGISTRY_RECORD,
-    writeReadRegistryRecord: [...WRITE_REGISTRY_RECORD, ...READ_REGISTRY_RECORD]
+  const { writeRegistryRecord, writeReadRegistryRecord } = usePermissions(RESOURCES.registry_records, {
+    writeRegistryRecord: READ_RECORDS,
+    writeReadRegistryRecord: READ_RECORDS
   });
 
   const relatedRecord = useMemoizedSelector(state =>
