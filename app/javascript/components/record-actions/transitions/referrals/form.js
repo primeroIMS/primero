@@ -153,14 +153,14 @@ const remoteReferralFields = ({ i18n, isExternalReferralFromService }) =>
       display_name: i18n.t("transfer.agency_label"),
       name: FIELDS.AGENCY,
       order: 9,
-      showIf: values => !values[FIELDS.SERVICE_EXTERNAL_REFERRAL_REGISTRY],
+      showIf: values => !values[FIELDS.SERVICE_EXTERNAL_REFERRAL_REGISTRY] && values[FIELDS.REMOTE],
       watchedInputs: [FIELDS.SERVICE_EXTERNAL_REFERRAL_REGISTRY]
     },
     {
       display_name: i18n.t("referral.service_implementing_agency_external"),
       name: FIELDS.AGENCY,
       order: 10,
-      showIf: values => values[FIELDS.SERVICE_EXTERNAL_REFERRAL_REGISTRY],
+      showIf: values => values[FIELDS.SERVICE_EXTERNAL_REFERRAL_REGISTRY] && values[FIELDS.REMOTE],
       watchedInputs: [FIELDS.SERVICE_EXTERNAL_REFERRAL_REGISTRY]
     },
     {
@@ -178,12 +178,12 @@ const remoteReferralFields = ({ i18n, isExternalReferralFromService }) =>
       internalFormFieldID: "remote",
       type: TEXT_FIELD,
       disabled: isExternalReferralFromService,
-      watchedInputs: [FIELDS.REMOTE, FIELDS.CONSENT_INDIVIDUAL_TRANSFER],
       handleWatchedInputs: ({ [FIELDS.CONSENT_INDIVIDUAL_TRANSFER]: consent }) => ({
         ...(!isExternalReferralFromService && { disabled: !consent })
       }),
       showIf: values => values[FIELDS.REMOTE],
-      ...field
+      ...field,
+      watchedInputs: [FIELDS.REMOTE, FIELDS.CONSENT_INDIVIDUAL_TRANSFER, ...(field?.watchedInputs || [])]
     };
   });
 
