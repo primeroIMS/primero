@@ -6,11 +6,12 @@ import { getOption } from "../../record-form";
 import DisplayData from "../../display-data";
 import { useI18n } from "../../i18n";
 import { REFERRAL_DETAILS_NAME, TRANSITION_STATUS } from "../constants";
-import { LOOKUPS } from "../../../config";
+import { LOOKUPS, RECORD_TYPES_PLURAL } from "../../../config";
 import { OPTION_TYPES } from "../../form";
 import { useMemoizedSelector } from "../../../libs";
 import useOptions from "../../form/use-options";
 import DateTransitions from "../components/date-transitions";
+import RegistrySummary from "../../registry-summary";
 
 import renderIconValue from "./render-icon-value";
 import { referralAgencyName } from "./utils";
@@ -93,21 +94,37 @@ function Details({ transition, classes }) {
       >
         <DisplayData label="transition.service_label" value={service} />
       </Grid>
-      <Grid
-        size={{
-          md: 6,
-          xs: 12
-        }}
-      >
-        <DisplayData
-          label={
-            transition.service_external_referral_registry
-              ? "referral.service_implementing_agency_external"
-              : "transition.agency_label"
-          }
-          value={agencyName}
-        />
-      </Grid>
+      {transition.service_external_referral_registry || (
+        <Grid
+          size={{
+            md: 6,
+            xs: 12
+          }}
+        >
+          <DisplayData label="transition.agency_label" value={agencyName} />
+        </Grid>
+      )}
+      {transition.service_external_referral_registry && (
+        <Grid
+          size={{
+            md: 12,
+            xs: 12
+          }}
+        >
+          <DisplayData
+            label="referral.service_implementing_agency_external"
+            value={
+              <>
+                <RegistrySummary
+                  recordType={RECORD_TYPES_PLURAL[transition.record_type]}
+                  value={transition.data?.service_implementing_agency_registry_id}
+                  disabled
+                />
+              </>
+            }
+          />
+        </Grid>
+      )}
       <Grid
         size={{
           md: 6,

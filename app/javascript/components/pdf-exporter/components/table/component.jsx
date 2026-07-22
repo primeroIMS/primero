@@ -12,7 +12,7 @@ import {
 import { EXCLUDED_FIELD_TYPES } from "./constants";
 import css from "./styles.css";
 
-function Component({ fields, isSubform = false, record }) {
+function Component({ fields, isSubform = false, record, recordType }) {
   const i18n = useI18n();
 
   const classes = {
@@ -73,6 +73,7 @@ function Component({ fields, isSubform = false, record }) {
             defaultValue={defaultValue}
             displayName={i18n.getI18nStringFromObject(displayName)}
             value={record.get(name)}
+            recordType={recordType}
             optionsStringSource={optionStringsSource}
             options={optionsStringsText || options}
             key={`keyval-${name}`}
@@ -92,7 +93,8 @@ Component.displayName = "Table";
 Component.propTypes = {
   fields: PropTypes.array.isRequired,
   isSubform: PropTypes.bool,
-  record: PropTypes.object.isRequired
+  record: PropTypes.object.isRequired,
+  recordType: PropTypes.string
 };
 
 export default memo(Component, (prev, next) => {

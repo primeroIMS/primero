@@ -1,4 +1,4 @@
-import { SELECT_FIELD, OPTION_TYPES, TEXT_FIELD, DATE_FIELD } from "../../../form";
+import { SELECT_FIELD, OPTION_TYPES, TEXT_FIELD, DATE_FIELD, REGISTRY_FIELD } from "../../../form";
 
 import { FIELDS, SERVICE_SECTION_FIELDS_EXTERNAL, SERVICE_SECTION_FIELDS } from "./constants";
 
@@ -39,9 +39,9 @@ export const customReferralFormProps = (i18n, formValues) => {
       ...(formValues[FIELDS.SERVICE_EXTERNAL_REFERRAL_REGISTRY]
         ? [
             {
-              name: FIELDS.SERVICE_IMPLEMENTING_AGENCY_EXTERNAL,
+              name: FIELDS.SERVICE_IMPLEMENTING_AGENCY_REGISTRY_ID,
               display_name: i18n.t("referral.service_implementing_agency_external"),
-              type: TEXT_FIELD,
+              type: REGISTRY_FIELD,
               visible: true
             }
           ]

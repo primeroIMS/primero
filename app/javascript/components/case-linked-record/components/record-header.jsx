@@ -20,7 +20,9 @@ function Component({
   linkedRecords,
   formName,
   recordType,
-  emptyPlaceholderText
+  emptyPlaceholderText,
+  disabled,
+  noStyling = false
 }) {
   const { online } = useApp();
   const { isRTL } = useThemeHelper();
@@ -43,6 +45,20 @@ function Component({
     return <SubformEmptyData subformName={formName} single textOverride={emptyPlaceholderText} />;
   }
 
+  if (noStyling) {
+    return (
+      <div>
+        {linkedRecords.map(linkedRecord => (
+          <div className={css.noStylingContainer}>
+            {fieldNames.map(fieldName => (
+              <span>{Array.isArray(fieldName) ? linkedRecord?.getIn(fieldName) : linkedRecord?.get(fieldName)}</span>
+            ))}
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   return (
     <LoadingIndicator
       loading={isRecordLoading || isRecordRelationshipsLoading || isRelatedRecordLoading}
@@ -58,10 +74,12 @@ function Component({
           >
             <ListItem
               component="a"
-              onClick={() => handleOpenMatch(linkedRecord.get(idField))}
-              classes={{ root: css.listItem }}
+              onClick={() => !disabled && handleOpenMatch(linkedRecord.get(idField))}
+              classes={{ root: disabled ? css.listItemDisabled : css.listItem }}
             >
-              <ListItemText classes={{ primary: css.listText, secondary: css.listTextSecondary }}>
+              <ListItemText
+                classes={{ primary: disabled ? css.listTextDisabled : css.listText, secondary: css.listTextSecondary }}
+              >
                 <div className={css.listItemText}>
                   {fieldNames.map(fieldName => (
                     <span>
@@ -76,6 +94,7 @@ function Component({
                   type={ACTION_BUTTON_TYPES.icon}
                   rest={{
                     className: css.subformShow,
+                    disabled,
                     onClick: () => handleOpenMatch(linkedRecord?.get(idField))
                   }}
                 />
@@ -91,6 +110,7 @@ function Component({
 Component.displayName = "RecordHeader";
 
 Component.propTypes = {
+  disabled: PropTypes.bool,
   emptyPlaceholderText: PropTypes.string,
   fieldNames: PropTypes.array.isRequired,
   formName: PropTypes.string.isRequired,
@@ -98,6 +118,7 @@ Component.propTypes = {
   idField: PropTypes.string.isRequired,
   linkedRecords: PropTypes.object.isRequired,
   linkedRecordType: PropTypes.string.isRequired,
+  noStyling: PropTypes.bool,
   recordType: PropTypes.string
 };
 

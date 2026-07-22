@@ -22,6 +22,7 @@ import AttachmentInput from "./fields/attachment-input";
 import RecordAttachmentInput from "./fields/record-attachment-input";
 import PhoneNumberInput from "./fields/phone-number-input";
 import Label from "./fields/label";
+import RegistryField from "./fields/registry-input";
 import {
   CHECK_BOX_FIELD,
   ERROR_FIELD,
@@ -40,7 +41,8 @@ import {
   LINK_FIELD,
   PHOTO_RECORD_FIELD,
   AUDIO_RECORD_FIELD,
-  SIGNATURE_FIELD
+  SIGNATURE_FIELD,
+  REGISTRY_FIELD
 } from "./constants";
 import SignatureInput from "./fields/signature-input";
 
@@ -254,6 +256,8 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
         return HiddenInput;
       case LINK_FIELD:
         return LinkField;
+      case REGISTRY_FIELD:
+        return RegistryField;
       default: {
         if (isPhoneNumber) {
           return PhoneNumberInput;

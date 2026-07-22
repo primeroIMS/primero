@@ -7,6 +7,8 @@ class Referral < Transition
   REFERRAL_FORM_UNIQUE_ID = 'referral'
   REFERRAL_ALERT_TYPE = 'referral'
 
+  store_accessor(:data, :service_implementing_agency_registry_id)
+
   scope :active_for_user, lambda { |user_name, record_ids, record_type|
     where(
       record_id: record_ids,

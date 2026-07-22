@@ -7,10 +7,11 @@ import RadioButtonChecked from "@mui/icons-material/RadioButtonChecked";
 import RadioButtonUnchecked from "@mui/icons-material/RadioButtonUnchecked";
 import { cx } from "@emotion/css";
 
+import RegistrySummary from "../../../registry-summary";
 import { optionText } from "../../../form/utils";
 import { useI18n } from "../../../i18n";
 import { DATE_TIME_FORMAT, DATE_FORMAT } from "../../../../config";
-import { DATE_FIELD, TICK_FIELD, RADIO_FIELD, SIGNATURE_FIELD } from "../../../form";
+import { DATE_FIELD, TICK_FIELD, RADIO_FIELD, SIGNATURE_FIELD, REGISTRY_FIELD } from "../../../form";
 import useOptions from "../../../form/use-options";
 import { AssetJwt } from "../../../asset-jwt";
 
@@ -27,7 +28,8 @@ function Component({
   type,
   value = "",
   signatureProvidedByLabel,
-  helperText
+  helperText,
+  recordType
 }) {
   const i18n = useI18n();
 
@@ -35,6 +37,7 @@ function Component({
   const isBooleanField = type === TICK_FIELD;
   const isRadioField = type === RADIO_FIELD;
   const isSignatureField = type === SIGNATURE_FIELD;
+  const isRegistryField = type === REGISTRY_FIELD;
 
   const hasOptions = optionsStringSource || !isEmpty(options);
   const isAgency = optionsStringSource === "Agency";
@@ -116,6 +119,10 @@ function Component({
       );
     }
 
+    if (isRegistryField) {
+      return <RegistrySummary value={value} disabled recordType={recordType} noStyling />;
+    }
+
     return fieldValue;
   };
   const kevValueCellClasses = cx(classes.cell, {
@@ -141,6 +148,7 @@ Component.propTypes = {
   isSubform: PropTypes.bool,
   options: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   optionsStringSource: PropTypes.string,
+  recordType: PropTypes.string,
   signatureProvidedByLabel: PropTypes.object,
   type: PropTypes.string.isRequired,
   value: PropTypes.any

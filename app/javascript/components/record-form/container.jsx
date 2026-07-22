@@ -1,9 +1,12 @@
 import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { fromJS } from "immutable";
 
 import useMemoizedSelector from "../../libs/use-memoized-selector";
-import { getIncidentFromCase, selectRecord, getCaseIdForIncident } from "../records";
-import { RECORD_PATH, RECORD_TYPES } from "../../config";
+import { getIncidentFromCase, selectRecord, getCaseIdForIncident, fetchRelatedRecords } from "../records";
+import { RECORD_PATH, RECORD_TYPES, RECORD_TYPES_PLURAL } from "../../config";
 import { useApp } from "../application";
 import { whichFormMode } from "../form";
 
@@ -18,6 +21,7 @@ function Container({ mode }) {
   const recordType = RECORD_TYPES[params.recordType];
   const containerMode = whichFormMode(mode);
   const isEditOrShow = containerMode.isEdit || containerMode.isShow;
+  const dispatch = useDispatch();
 
   const incidentFromCase = useMemoizedSelector(state => getIncidentFromCase(state, recordType));
   const fetchFromCaseId = useMemoizedSelector(state => getCaseIdForIncident(state, recordType));
@@ -36,6 +40,22 @@ function Container({ mode }) {
 
   const isNotANewCase = !containerMode.isNew && params.recordType === RECORD_PATH.cases;
   const isCaseIdEqualParam = params?.id === record?.get("id");
+
+  useEffect(() => {
+    const registryRecordIds = record
+      ?.get("services_section", fromJS([]))
+      ?.map(service => service.get("service_implementing_agency_registry"));
+
+    if (registryRecordIds?.size) {
+      dispatch(
+        fetchRelatedRecords({
+          recordType: params.recordType,
+          relatedRecordType: RECORD_TYPES_PLURAL.registry_record,
+          data: { ids: registryRecordIds.toJS() }
+        })
+      );
+    }
+  }, [record, params]);
 
   return (
     <RecordForm
