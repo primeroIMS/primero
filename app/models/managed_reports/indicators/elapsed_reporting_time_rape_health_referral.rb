@@ -20,10 +20,10 @@ class ManagedReports::Indicators::ElapsedReportingTimeRapeHealthReferral < Manag
         WHERE srch_record_state = TRUE
         AND data @? '$[*] ? (
           @.consent_reporting  == "true" && @.elapsed_reporting_time != null && @.gbv_sexual_violence_type == "rape"
+          && (@.service_medical_referral == "referred" ||
+              @.service_medical_referral == "service_provided_by_your_agency")
         ) ? (
           !exists(@.gbv_reported_elsewhere) || @.gbv_reported_elsewhere != "gbvims-org"
-        ).health_medical_referral_subform_section ? (
-          @.service_medical_referral == "referred" || @.service_medical_referral == "service_provided_by_your_agency"
         )'
         #{date_range_query(date_param)&.prepend('AND ')}
         #{equal_value_query(params['module_id'])&.prepend('AND ')}
