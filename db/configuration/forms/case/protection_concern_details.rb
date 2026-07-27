@@ -45,7 +45,7 @@ protection_concern_detail_fields = [
   Field.new('name' => 'protection_concern_detail_subform_section',
             'type' => 'subform',
             'editable' => true,
-            'subform_section' => protection_concern_detail_subform_section,
+            'subform' => protection_concern_detail_subform_section,
             'display_name_en' => 'Protection Concern Details')
 ]
 
