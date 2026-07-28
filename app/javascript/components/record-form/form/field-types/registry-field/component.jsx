@@ -2,17 +2,14 @@ import { getIn, connect } from "formik";
 import PropTypes from "prop-types";
 import { FormHelperText, FormControl, InputLabel } from "@mui/material";
 import { fromJS } from "immutable";
-import { useDispatch } from "react-redux";
-import { useEffect } from "react";
 
 import CaseLinkedRecord from "../../../../case-linked-record";
-import { RECORD_TYPES, RECORD_TYPES_PLURAL } from "../../../../../config";
+import { RECORD_TYPES } from "../../../../../config";
 import { useMemoizedSelector } from "../../../../../libs";
 import { getRegistryOptionsByType } from "../../../../application/selectors";
 import { RESOURCES, usePermissions, READ_RECORDS } from "../../../../permissions";
 import { REGISTRY_DETAILS } from "../../../../case-registry/constants";
-import { fetchRelatedRecords, getRelatedRecord } from "../../../../records";
-import { useApp } from "../../../../application";
+import { getRelatedRecord } from "../../../../records";
 import { useI18n } from "../../../../i18n";
 
 import Search from "./components/search";
@@ -20,8 +17,7 @@ import Search from "./components/search";
 function Component({ name, field, recordModuleID, helperText, label, formik, mode, recordType, recordID }) {
   const fieldError = getIn(formik.errors, name);
   const value = getIn(formik.values, name);
-  const dispatch = useDispatch();
-  const { online } = useApp();
+
   const i18n = useI18n();
 
   const { writeRegistryRecord, writeReadRegistryRecord } = usePermissions(RESOURCES.registry_records, {
@@ -32,18 +28,6 @@ function Component({ name, field, recordModuleID, helperText, label, formik, mod
   const relatedRecord = useMemoizedSelector(state =>
     getRelatedRecord(state, { recordType, fromRelationship: false, id: value })
   );
-
-  useEffect(() => {
-    if (mode.isShow && value && online) {
-      dispatch(
-        fetchRelatedRecords({
-          recordType,
-          relatedRecordType: RECORD_TYPES_PLURAL.registry_record,
-          data: { ids: [value] }
-        })
-      );
-    }
-  }, [value, online, mode.isShow]);
 
   const registryOptions = useMemoizedSelector(state => getRegistryOptionsByType(state, field.option_strings_source));
   const linkedRecords = relatedRecord.isEmpty() ? fromJS([]) : fromJS([relatedRecord]);

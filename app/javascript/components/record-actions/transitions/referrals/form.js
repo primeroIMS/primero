@@ -9,7 +9,8 @@ import {
   SELECT_FIELD,
   TEXT_FIELD,
   OPTION_TYPES,
-  HIDDEN_FIELD
+  HIDDEN_FIELD,
+  REGISTRY_FIELD
 } from "../../../form";
 import { fetchReferralUsers } from "../action-creators";
 import { fetchManagedRoles } from "../../../application/action-creators";
@@ -157,8 +158,9 @@ const remoteReferralFields = ({ i18n, isExternalReferralFromService }) =>
       watchedInputs: [FIELDS.SERVICE_EXTERNAL_REFERRAL_REGISTRY]
     },
     {
+      type: REGISTRY_FIELD,
       display_name: i18n.t("referral.service_implementing_agency_external"),
-      name: FIELDS.AGENCY,
+      name: FIELDS.SERVICE_IMPLEMENTING_AGENCY_REGISTRY_ID,
       order: 10,
       showIf: values => values[FIELDS.SERVICE_EXTERNAL_REFERRAL_REGISTRY] && values[FIELDS.REMOTE],
       watchedInputs: [FIELDS.SERVICE_EXTERNAL_REFERRAL_REGISTRY]
