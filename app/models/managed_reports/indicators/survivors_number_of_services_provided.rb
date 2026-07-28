@@ -41,13 +41,7 @@ class ManagedReports::Indicators::SurvivorsNumberOfServicesProvided < ManagedRep
             #{grouped_by_date&.dup&.concat(' AS group_id,')}
             COUNT(*) AS total
           FROM filtered_incidents
-          CROSS JOIN LATERAL (
-            SELECT 1 FROM JSONB_ARRAY_ELEMENTS(data->'health_medical_referral_subform_section') AS subform_section
-            WHERE subform_section->>'service_medical_referral' = 'service_provided_by_your_agency'
-          ) AS health_medical_referral_subform_section
-          WHERE data @? '$.health_medical_referral_subform_section ? (
-            @.service_medical_referral == "service_provided_by_your_agency"
-          )'
+          WHERE data @? '$[*] ? (@.service_medical_referral == "service_provided_by_your_agency")'
           #{grouped_by_date&.dup&.prepend('GROUP BY ')}
           UNION
           SELECT
@@ -55,15 +49,7 @@ class ManagedReports::Indicators::SurvivorsNumberOfServicesProvided < ManagedRep
             #{grouped_by_date&.dup&.concat(' AS group_id,')}
             COUNT(*) AS total
           FROM filtered_incidents
-          CROSS JOIN LATERAL (
-            SELECT 1 FROM JSONB_ARRAY_ELEMENTS(
-              data->'psychosocial_counseling_services_subform_section'
-            ) AS subform_section
-            WHERE subform_section->>'service_psycho_referral' = 'service_provided_by_your_agency'
-          ) AS psychosocial_counseling_services_subform_section
-          WHERE data @? '$.psychosocial_counseling_services_subform_section ? (
-            @.service_psycho_referral == "service_provided_by_your_agency")
-          '
+          WHERE data @? '$[*] ? (@.service_psycho_referral == "service_provided_by_your_agency")'
           #{grouped_by_date&.dup&.prepend('GROUP BY ')}
           UNION
           SELECT
@@ -71,13 +57,7 @@ class ManagedReports::Indicators::SurvivorsNumberOfServicesProvided < ManagedRep
             #{grouped_by_date&.dup&.concat(' AS group_id,')}
             COUNT(*) AS total
           FROM filtered_incidents
-          CROSS JOIN LATERAL (
-            SELECT 1 FROM JSONB_ARRAY_ELEMENTS(data->'legal_assistance_services_subform_section') as subform_section
-            WHERE subform_section->>'service_legal_referral' = 'service_provided_by_your_agency'
-          ) AS legal_assistance_services_subform_section
-          WHERE data @? '$.legal_assistance_services_subform_section ? (
-            @.service_legal_referral == "service_provided_by_your_agency"
-          )'
+          WHERE data @? '$[*] ? (@.service_legal_referral == "service_provided_by_your_agency")'
           #{grouped_by_date&.dup&.prepend('GROUP BY ')}
           UNION
           SELECT
@@ -85,15 +65,7 @@ class ManagedReports::Indicators::SurvivorsNumberOfServicesProvided < ManagedRep
             #{grouped_by_date&.dup&.concat(' AS group_id,')}
             COUNT(*) AS total
           FROM filtered_incidents
-          CROSS JOIN LATERAL (
-            SELECT 1 FROM JSONB_ARRAY_ELEMENTS(
-              data->'police_or_other_type_of_security_services_subform_section'
-            ) AS subform_section
-            WHERE subform_section->>'service_police_referral' = 'service_provided_by_your_agency'
-          ) AS police_or_other_type_of_security_services_subform_section
-          WHERE data @? '$.police_or_other_type_of_security_services_subform_section ? (
-            @.service_police_referral == "service_provided_by_your_agency"
-          )'
+          WHERE data @? '$[*] ? (@.service_police_referral == "service_provided_by_your_agency")'
           #{grouped_by_date&.dup&.prepend('GROUP BY ')}
           UNION
           SELECT
@@ -101,13 +73,7 @@ class ManagedReports::Indicators::SurvivorsNumberOfServicesProvided < ManagedRep
             #{grouped_by_date&.dup&.concat(' AS group_id,')}
             COUNT(*) AS total
           FROM filtered_incidents
-          CROSS JOIN LATERAL (
-            SELECT 1 FROM JSONB_ARRAY_ELEMENTS(data->'livelihoods_services_subform_section') AS subform_section
-            WHERE subform_section->>'service_livelihoods_referral' = 'service_provided_by_your_agency'
-          ) AS livelihoods_services_subform_section
-          WHERE data @? '$.livelihoods_services_subform_section ? (
-            @.service_livelihoods_referral == "service_provided_by_your_agency"
-          )'
+          WHERE data @? '$[*] ? (@.service_livelihoods_referral == "service_provided_by_your_agency")'
           #{grouped_by_date&.dup&.prepend('GROUP BY ')}
           UNION
           SELECT
@@ -115,13 +81,7 @@ class ManagedReports::Indicators::SurvivorsNumberOfServicesProvided < ManagedRep
             #{grouped_by_date&.dup&.concat(' AS group_id,')}
             COUNT(*) AS total
           FROM filtered_incidents
-          CROSS JOIN LATERAL (
-            SELECT 1 FROM JSONB_ARRAY_ELEMENTS(data->'child_protection_services_subform_section') AS subform_section
-            WHERE subform_section->>'service_protection_referral' = 'service_provided_by_your_agency'
-          ) AS child_protection_services_subform_section
-          WHERE data @? '$.child_protection_services_subform_section ? (
-            @.service_protection_referral == "service_provided_by_your_agency"
-          )'
+          WHERE data @? '$[*] ? (@.service_protection_referral == "service_provided_by_your_agency")'
           #{grouped_by_date&.dup&.prepend('GROUP BY ')}
         ) AS services
         ORDER BY id

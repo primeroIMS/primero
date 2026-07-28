@@ -44,87 +44,61 @@ class ManagedReports::Indicators::SurvivorsNumberOfServicesProvidedOther < Manag
           SELECT
             #{group_column&.dup&.+(',')}
             'service_medical_referral' AS name,
-            COALESCE(service_referral, 'incomplete_data') AS key,
+            COALESCE(data->>'service_medical_referral', 'incomplete_data') AS key,
             COUNT(*) AS sum,
             SUM(COUNT(*)) OVER (#{group_column&.dup&.prepend('PARTITION BY ')})::INTEGER AS total
           FROM filtered_incidents
-          CROSS JOIN LATERAL (
-            SELECT
-              subform_section->>'service_medical_referral' AS service_referral
-            FROM JSONB_ARRAY_ELEMENTS(data->'health_medical_referral_subform_section') AS subform_section
-          ) AS health_medical_referral_subform_section
+          WHERE data @? '$[*] ? (@.service_medical_referral != null)'
           GROUP BY #{group_column&.dup&.+(',')} name, key
           UNION
           SELECT
             #{group_column&.dup&.+(',')}
             'service_psycho_referral' AS name,
-            COALESCE(service_referral, 'incomplete_data') AS key,
+            COALESCE(data->>'service_psycho_referral', 'incomplete_data') AS key,
             COUNT(*) AS sum,
             SUM(COUNT(*)) OVER (#{group_column&.dup&.prepend('PARTITION BY ')})::INTEGER AS total
           FROM filtered_incidents
-          CROSS JOIN LATERAL (
-            SELECT
-              subform_section->>'service_psycho_referral' AS service_referral
-            FROM JSONB_ARRAY_ELEMENTS(data->'psychosocial_counseling_services_subform_section') AS subform_section
-          ) AS psychosocial_counseling_services_subform_section
+          WHERE data @? '$[*] ? (@.service_psycho_referral != null)'
           GROUP BY #{group_column&.dup&.+(',')} name, key
           UNION
           SELECT
             #{group_column&.dup&.+(',')}
             'service_legal_referral' AS name,
-            COALESCE(service_referral, 'incomplete_data') AS key,
+            COALESCE(data->>'service_legal_referral', 'incomplete_data') AS key,
             COUNT(*) AS sum,
             SUM(COUNT(*)) OVER (#{group_column&.dup&.prepend('PARTITION BY ')})::INTEGER AS total
           FROM filtered_incidents
-          CROSS JOIN LATERAL (
-            SELECT
-              subform_section->>'service_legal_referral' AS service_referral
-            FROM JSONB_ARRAY_ELEMENTS(data->'legal_assistance_services_subform_section') as subform_section
-          ) AS legal_assistance_services_subform_section
+          WHERE data @? '$[*] ? (@.service_legal_referral != null)'
           GROUP BY #{group_column&.dup&.+(',')} name, key
           UNION
           SELECT
             #{group_column&.dup&.+(',')}
             'service_police_referral' as name,
-            COALESCE(service_referral, 'incomplete_data') AS key,
+            COALESCE(data->>'service_police_referral', 'incomplete_data') AS key,
             COUNT(*) AS sum,
             SUM(COUNT(*)) OVER (#{group_column&.dup&.prepend('PARTITION BY ')})::INTEGER AS total
           FROM filtered_incidents
-          CROSS JOIN LATERAL (
-            SELECT
-              subform_section->>'service_police_referral' AS service_referral
-            FROM JSONB_ARRAY_ELEMENTS(
-              data->'police_or_other_type_of_security_services_subform_section'
-            ) AS subform_section
-          ) AS police_or_other_type_of_security_services_subform_section
+          WHERE data @? '$[*] ? (@.service_police_referral != null)'
           GROUP BY #{group_column&.dup&.+(',')} name, key
           UNION
           SELECT
             #{group_column&.dup&.+(',')}
             'service_livelihoods_referral' AS name,
-            COALESCE(service_referral, 'incomplete_data') AS key,
+            COALESCE(data->>'service_livelihoods_referral', 'incomplete_data') AS key,
             COUNT(*) AS sum,
             SUM(COUNT(*)) OVER (#{group_column&.dup&.prepend('PARTITION BY ')})::INTEGER AS total
           FROM filtered_incidents
-          CROSS JOIN LATERAL (
-            SELECT
-              subform_section->>'service_livelihoods_referral' AS service_referral
-            FROM JSONB_ARRAY_ELEMENTS(data->'livelihoods_services_subform_section') AS subform_section
-          ) AS livelihoods_services_subform_section
+          WHERE data @? '$[*] ? (@.service_livelihoods_referral != null)'
           GROUP BY #{group_column&.dup&.+(',')} name, key
           UNION
           SELECT
             #{group_column&.dup&.+(',')}
             'service_protection_referral' AS name,
-            COALESCE(service_referral, 'incomplete_data') AS key,
+            COALESCE(data->>'service_protection_referral', 'incomplete_data') AS key,
             COUNT(*) AS sum,
             SUM(COUNT(*)) OVER (#{group_column&.dup&.prepend('PARTITION BY ')})::INTEGER AS total
           FROM filtered_incidents
-          CROSS JOIN LATERAL (
-            SELECT
-              subform_section->>'service_protection_referral' AS service_referral
-            FROM JSONB_ARRAY_ELEMENTS(data->'child_protection_services_subform_section') AS subform_section
-          ) AS child_protection_services_subform_section
+          WHERE data @? '$[*] ? (@.service_protection_referral != null)'
           GROUP BY #{group_column&.dup&.+(',')} name, key
         ) AS services
         ORDER BY name

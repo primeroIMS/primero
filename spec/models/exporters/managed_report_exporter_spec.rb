@@ -230,9 +230,7 @@ describe Exporters::ManagedReportExporter do
         goods_money_exchanged: true,
         age: 7,
         consent_reporting: 'true',
-        health_medical_referral_subform_section: [
-          { unique_id: '001', service_medical_referral: 'service_unavailable' }
-        ],
+        service_medical_referral: 'service_unavailable',
         alleged_perpetrator: [
           {
             primary_perpetrator: 'primary',
@@ -259,12 +257,8 @@ describe Exporters::ManagedReportExporter do
         incident_location_type: 'school',
         age: 2,
         consent_reporting: 'true',
-        health_medical_referral_subform_section: [
-          { unique_id: '001', service_medical_referral: 'referred' }
-        ],
-        psychosocial_counseling_services_subform_section: [
-          { unique_id: '002', service_psycho_referral: 'service_provided_by_your_agency' }
-        ],
+        service_medical_referral: 'referred',
+        service_psycho_referral: 'service_provided_by_your_agency',
         alleged_perpetrator: [
           {
             primary_perpetrator: 'primary',
