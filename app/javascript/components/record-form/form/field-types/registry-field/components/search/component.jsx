@@ -27,7 +27,13 @@ function Component({ fields, mode, recordType, setSearchParams, setComponent, ph
   const formSections = [
     FormSectionRecord({
       unique_id: FORM_ID,
-      fields
+      fields: fields.map(field => {
+        if (field.get("option_strings_source") === "Location") {
+          return field.set("name", `loc:${field.get("name")}`);
+        }
+
+        return field;
+      })
     })
   ];
 
