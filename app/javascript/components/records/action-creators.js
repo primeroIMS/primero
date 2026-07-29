@@ -561,7 +561,11 @@ export const fetchRelatedRecords = ({ recordType, relatedRecordType, data }) => 
   type: `${recordType}/${FETCH_RELATED_RECORDS}`,
   api: {
     path: `/${relatedRecordType.toLowerCase()}`,
-    params: data
+    params: data,
+    db: {
+      collection: DB_COLLECTIONS_NAMES.RECORDS,
+      recordType: relatedRecordType
+    }
   }
 });
 
