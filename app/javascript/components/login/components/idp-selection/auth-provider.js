@@ -54,8 +54,7 @@ const setupMsal = async (idp, historyObj) => {
   const idpObj = (isImmutable(idp) ? idp.toJS() : idp) || selectedIDPFromSessionStore();
 
   const identityScope = idpObj.identity_scope || [""];
-  const domainHint = idpObj.domain_hint;
-  const loginRequest = getLoginRequest(identityScope, domainHint);
+  const loginRequest = getLoginRequest(idpObj);
 
   tokenRequest = getTokenRequest(identityScope);
 
