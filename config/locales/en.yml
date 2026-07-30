@@ -1198,6 +1198,7 @@ en:
     go_to_exports: Go to Exports page to download
     incident_recorder_xls:
       all: Incident Recorder
+      old_format_label: Use old Incident Recorder format (services saved in subforms)?
       one: Incident Recorder
       selected: Selected to Incident Recorder
     json:

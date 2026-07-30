@@ -92,6 +92,8 @@ export const ALL_EXPORT_TYPES = Object.freeze([
 
 export const FIELD_ID = "field";
 export const FORMS_ID = "forms";
+export const INCIDENT_RECORDER_ID = "incident_recorder_xls";
+export const OLD_INCIDENT_RECORDER_FORMAT = "old_incident_recorder_format";
 export const EXPORT_TYPE_FIELD = "export_type";
 export const MODULE_FIELD = "module";
 export const CUSTOM_FORMAT_TYPE_FIELD = "custom_format_type";
