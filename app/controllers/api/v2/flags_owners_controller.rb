@@ -14,7 +14,7 @@ class Api::V2::FlagsOwnersController < ApplicationApiController
   private
 
   def query_scope
-    current_user.record_query_scope(model_class, params[:id_search])
+    current_user.record_query_scope(model_class)
   end
 
   def record_types
