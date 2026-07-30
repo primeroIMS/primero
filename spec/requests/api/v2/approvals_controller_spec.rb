@@ -35,7 +35,7 @@ describe Api::V2::ApprovalsController, type: :request do
     it 'should successfully be requested' do
       login_for_test(permissions:
         [
-          Permission.new(resource: Permission::CASE, actions: [approval_permission])
+          Permission.new(resource: Permission::CASE, actions: [approval_permission, Permission::READ])
         ])
 
       params = { data: { approval_status: Approval::APPROVAL_STATUS_REQUESTED, approval_type: } }
@@ -75,7 +75,7 @@ describe Api::V2::ApprovalsController, type: :request do
     it 'should successfully be approved' do
       login_for_test(permissions:
         [
-          Permission.new(resource: Permission::CASE, actions: [approval_permission])
+          Permission.new(resource: Permission::CASE, actions: [approval_permission, Permission::READ])
         ])
 
       params = { data: { approval_status: Approval::APPROVAL_STATUS_APPROVED, notes: 'some notes' } }
@@ -102,8 +102,10 @@ describe Api::V2::ApprovalsController, type: :request do
     it 'successfully approves own cases' do
       login_for_test(
         user_name: 'user1',
-        permissions:[
-          Permission.new(resource: Permission::CASE, actions: [approval_permission, Permission::SELF_APPROVE])
+        permissions: [
+          Permission.new(resource: Permission::CASE,
+                         actions: [approval_permission, Permission::SELF_APPROVE,
+                                   Permission::READ])
         ]
       )
 
@@ -133,7 +135,7 @@ describe Api::V2::ApprovalsController, type: :request do
       @case.save!
       login_for_test(permissions:
         [
-          Permission.new(resource: Permission::CASE, actions: [approval_permission])
+          Permission.new(resource: Permission::CASE, actions: [approval_permission, Permission::READ])
         ])
       params = { data: { approval_status: Approval::APPROVAL_STATUS_APPROVED, notes: 'some notes' } }
       patch("/api/v2/cases/#{@case.id}/approvals/#{approval_id}", params:)
@@ -166,7 +168,7 @@ describe Api::V2::ApprovalsController, type: :request do
       @case.save!
       login_for_test(permissions:
         [
-          Permission.new(resource: Permission::CASE, actions: [approval_permission])
+          Permission.new(resource: Permission::CASE, actions: [approval_permission, Permission::READ])
         ])
       params = { data: { approval_status: Approval::APPROVAL_STATUS_REJECTED, notes: 'some notes' } }
       patch("/api/v2/cases/#{@case.id}/approvals/#{approval_id}", params:)
@@ -184,7 +186,7 @@ describe Api::V2::ApprovalsController, type: :request do
     it 'should successfully be rejected' do
       login_for_test(permissions:
         [
-          Permission.new(resource: Permission::CASE, actions: [approval_permission])
+          Permission.new(resource: Permission::CASE, actions: [approval_permission, Permission::READ])
         ])
 
       params = { data: { approval_status: Approval::APPROVAL_STATUS_REJECTED, notes: 'some notes' } }
@@ -211,8 +213,10 @@ describe Api::V2::ApprovalsController, type: :request do
     it 'successfully rejects own cases' do
       login_for_test(
         user_name: 'user1',
-        permissions:[
-          Permission.new(resource: Permission::CASE, actions: [approval_permission, Permission::SELF_APPROVE])
+        permissions: [
+          Permission.new(resource: Permission::CASE,
+                         actions: [approval_permission, Permission::SELF_APPROVE,
+                                   Permission::READ])
         ]
       )
 
@@ -243,7 +247,8 @@ describe Api::V2::ApprovalsController, type: :request do
       login_for_test(permissions:
         [
           Permission.new(
-            resource: Permission::CASE, actions: ["Permission::APPROVE_#{approval_id.upcase}".constantize.to_sym]
+            resource: Permission::CASE, actions: ["Permission::APPROVE_#{approval_id.upcase}".constantize.to_sym,
+                                                  Permission::READ]
           )
         ])
 
@@ -264,7 +269,7 @@ describe Api::V2::ApprovalsController, type: :request do
         [
           Permission.new(
             resource: Permission::CASE,
-            actions: ["Permission::REQUEST_APPROVAL_#{approval_id.upcase}".constantize.to_sym]
+            actions: ["Permission::REQUEST_APPROVAL_#{approval_id.upcase}".constantize.to_sym, Permission::READ]
           )
         ])
 
@@ -280,7 +285,10 @@ describe Api::V2::ApprovalsController, type: :request do
 
     it 'returns forbidden if a user can not approve its own cases' do
       login_for_test(
-        user_name: 'user1', permissions:[Permission.new(resource: Permission::CASE, actions: [approval_permission])]
+        user_name: 'user1', permissions: [Permission.new(resource: Permission::CASE,
+                                                         actions: [
+                                                           approval_permission, Permission::READ
+                                                         ])]
       )
 
       params = { data: { approval_status: Approval::APPROVAL_STATUS_APPROVED, notes: 'some notes' } }
@@ -386,7 +394,7 @@ describe Api::V2::ApprovalsController, type: :request do
     it 'should return 404 not found if the record_id does not exist' do
       login_for_test(permissions:
         [
-          Permission.new(resource: Permission::CASE, actions: [Permission::APPROVE_ASSESSMENT])
+          Permission.new(resource: Permission::CASE, actions: [Permission::APPROVE_ASSESSMENT, Permission::READ])
         ])
 
       params = { data: { approval_status: Approval::APPROVAL_STATUS_REQUESTED } }
@@ -404,7 +412,7 @@ describe Api::V2::ApprovalsController, type: :request do
     it 'should return 404 not found if the approval_id does not exist' do
       login_for_test(permissions:
         [
-          Permission.new(resource: Permission::CASE, actions: [Permission::APPROVE_ASSESSMENT])
+          Permission.new(resource: Permission::CASE, actions: [Permission::APPROVE_ASSESSMENT, Permission::READ])
         ])
 
       params = { data: { approval_status: Approval::APPROVAL_STATUS_REQUESTED } }
@@ -420,7 +428,7 @@ describe Api::V2::ApprovalsController, type: :request do
     it 'should return 422 not found if the approval_status does not exist' do
       login_for_test(permissions:
         [
-          Permission.new(resource: Permission::CASE, actions: [Permission::APPROVE_ASSESSMENT])
+          Permission.new(resource: Permission::CASE, actions: [Permission::APPROVE_ASSESSMENT, Permission::READ])
         ])
 
       params = { data: { approval_status: 'open' } }

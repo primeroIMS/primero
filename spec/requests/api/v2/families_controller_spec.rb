@@ -221,7 +221,7 @@ describe Api::V2::FamiliesController, type: :request do
     it 'successfully deletes a record with a code of 200' do
       login_for_test(
         permissions: [
-          Permission.new(resource: Permission::FAMILY, actions: [Permission::ENABLE_DISABLE_RECORD])
+          Permission.new(resource: Permission::FAMILY, actions: [Permission::READ, Permission::ENABLE_DISABLE_RECORD])
         ]
       )
       delete "/api/v2/families/#{family1.id}"

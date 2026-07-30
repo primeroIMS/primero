@@ -452,7 +452,9 @@ describe Api::V2::IncidentsController, type: :request do
   describe 'DELETE /api/v2/incidents/:id' do
     it 'successfully deletes a record with a code of 200' do
       login_for_test(
-        permissions: [Permission.new(resource: Permission::INCIDENT, actions: [Permission::ENABLE_DISABLE_RECORD])]
+        permissions: [Permission.new(resource: Permission::INCIDENT,
+                                     actions: [Permission::READ,
+                                               Permission::ENABLE_DISABLE_RECORD])]
       )
       delete "/api/v2/incidents/#{@incident1.id}"
 

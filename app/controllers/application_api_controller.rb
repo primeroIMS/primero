@@ -7,8 +7,6 @@ class ApplicationApiController < ActionController::API
   include ErrorHandling
   include CsrfProtection
 
-  # check_authorization #TODO: Uncomment after upgrading to CanCanCan v3
-
   before_action :authenticate_user!
   before_action :check_config_update_lock!
   before_action :set_csrf_cookie, if: -> { use_csrf_protection? }
