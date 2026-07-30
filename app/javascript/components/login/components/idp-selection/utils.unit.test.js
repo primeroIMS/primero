@@ -42,7 +42,28 @@ describe("auth-utils", () => {
       prompt: "select_account"
     };
 
-    expect(getLoginRequest(["123"], "domain")).toEqual(expected);
+    expect(getLoginRequest({ identity_scope: ["123"], domain_hint: "domain" })).toEqual(expected);
+  });
+
+  it("does not return prompt when skip_oidc_prompt is true", () => {
+    const expected = {
+      scopes: ["123"],
+      extraQueryParameters: { domain_hint: "domain" }
+    };
+
+    expect(getLoginRequest({ identity_scope: ["123"], domain_hint: "domain", skip_oidc_prompt: true })).toEqual(
+      expected
+    );
+  });
+
+  it("does not return prompt when oidc_prompt is provided", () => {
+    const expected = {
+      scopes: ["123"],
+      extraQueryParameters: { domain_hint: "domain" },
+      prompt: "none"
+    };
+
+    expect(getLoginRequest({ identity_scope: ["123"], domain_hint: "domain", oidc_prompt: "none" })).toEqual(expected);
   });
 
   it("returns token request", () => {
