@@ -6,6 +6,11 @@ class Api::V2::FlagsController < Api::V2::RecordResourceController
   before_action :bulk_flag_params, only: [:create_bulk]
   before_action :verify_bulk_records_size, only: [:create_bulk]
 
+  def index
+    authorize! :flag_record, @record
+    @flags = @record.flags.order(:id)
+  end
+
   def create
     authorize! :flag_record, @record
     @flag = @record.add_flag!(permitted_create_params[:message], permitted_create_params[:date], current_user.user_name)
