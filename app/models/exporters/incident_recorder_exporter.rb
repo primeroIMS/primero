@@ -261,6 +261,24 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
       export_value(service, @fields['service_safehouse_referral']) if service.present?
     end
 
+    def services_from_subforms?
+      ActiveModel::Type::Boolean.new.cast(exporter.options&.dig(:old_incident_recorder_format))
+    end
+
+    def service_referral_value(model, subform_section, field_name)
+      return model.data[field_name] unless services_from_subforms?
+
+      model.data[subform_section].try(:first).try(:[], field_name)
+    end
+
+    def pursue_legal_action_values(model)
+      return Array(model.data['service_legal_pursue_legal_action']).compact unless services_from_subforms?
+
+      Array(model.data['legal_assistance_services_subform_section']).map do |entry|
+        entry['pursue_legal_action']
+      end.compact
+    end
+
     def primary_alleged_perpetrator(model)
       @alleged_perpetrators ||= model.data['alleged_perpetrator']
                                      &.select { |ap| ap['primary_perpetrator'] == 'primary' }
@@ -451,25 +469,25 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
 
     def service_medical_referral_props
       lambda do |model|
-        service_value = model.health_medical_referral_subform_section.try(:first).try(:[], 'service_medical_referral')
+        service_value = service_referral_value(model, 'health_medical_referral_subform_section',
+                                               'service_medical_referral')
         incident_recorder_service_referral(service_value) if service_value.present?
       end
     end
 
     def service_psycho_referral_props
       lambda do |model|
-        service_value = model.psychosocial_counseling_services_subform_section.try(:first)
-                             .try(:[], 'service_psycho_referral')
+        service_value = service_referral_value(model, 'psychosocial_counseling_services_subform_section',
+                                               'service_psycho_referral')
         incident_recorder_service_referral(service_value) if service_value.present?
       end
     end
 
     def service_legal_assistance_props
       lambda do |model|
-        legal_counseling = model.try(:legal_assistance_services_subform_section)
-        return if legal_counseling.blank?
+        actions = pursue_legal_action_values(model)
+        return if actions.blank?
 
-        actions = legal_counseling.map { |l| l.try(:[], 'pursue_legal_action') }
         if actions.include?('true') then I18n.t('exports.incident_recorder_xls.yes', **locale_hash)
         elsif actions.include?('false') then I18n.t('exports.incident_recorder_xls.no', **locale_hash)
         elsif actions.include?('undecided')
@@ -480,32 +498,32 @@ class Exporters::IncidentRecorderExporter < Exporters::BaseExporter
 
     def service_legal_referral_props
       lambda do |model|
-        service_value = model.legal_assistance_services_subform_section.try(:first)
-                             .try(:[], 'service_legal_referral')
+        service_value = service_referral_value(model, 'legal_assistance_services_subform_section',
+                                               'service_legal_referral')
         incident_recorder_service_referral(service_value) if service_value.present?
       end
     end
 
     def service_police_referral_props
       lambda do |model|
-        service_value = model.police_or_other_type_of_security_services_subform_section
-                             .try(:first).try(:[], 'service_police_referral')
+        service_value = service_referral_value(model, 'police_or_other_type_of_security_services_subform_section',
+                                               'service_police_referral')
         incident_recorder_service_referral(service_value) if service_value.present?
       end
     end
 
     def service_livelihoods_props
       lambda do |model|
-        service_value = model.livelihoods_services_subform_section
-                             .try(:first).try(:[], 'service_livelihoods_referral')
+        service_value = service_referral_value(model, 'livelihoods_services_subform_section',
+                                               'service_livelihoods_referral')
         incident_recorder_service_referral(service_value) if service_value.present?
       end
     end
 
     def service_protection_referral
       lambda do |model|
-        service_value = model.child_protection_services_subform_section
-                             .try(:first).try(:[], 'service_protection_referral')
+        service_value = service_referral_value(model, 'child_protection_services_subform_section',
+                                               'service_protection_referral')
         incident_recorder_service_referral(service_value) if service_value.present?
       end
     end

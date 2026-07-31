@@ -3,6 +3,7 @@ import { List } from "immutable";
 import { MANAGE } from "../../permissions";
 
 import exportsForm from "./form";
+import { OLD_INCIDENT_RECORDER_FORMAT } from "./constants";
 
 describe("<RecordActions /> - exports/form", () => {
   const i18n = { t: () => "" };
@@ -22,7 +23,7 @@ describe("<RecordActions /> - exports/form", () => {
     }
   ];
 
-  it("returns 14 fields", () => {
+  it("returns 15 fields", () => {
     const formFields = exportsForm(
       i18n,
       List([MANAGE]),
@@ -34,6 +35,24 @@ describe("<RecordActions /> - exports/form", () => {
       {}
     );
 
-    expect(formFields).toHaveLength(14);
+    expect(formFields).toHaveLength(15);
+  });
+
+  it("shows the old Incident Recorder format field only for the incident recorder export", () => {
+    const formFields = exportsForm(
+      i18n,
+      List([MANAGE]),
+      false,
+      [{ id: "primeromodule-cp", display_text: "CP" }],
+      fields,
+      {},
+      "",
+      {}
+    );
+    const oldFormatField = formFields.find(field => field.name === OLD_INCIDENT_RECORDER_FORMAT);
+
+    expect(oldFormatField).not.toBeUndefined();
+    expect(oldFormatField.showIf("incident_recorder_xls")).toBe(true);
+    expect(oldFormatField.showIf("pdf")).toBe(false);
   });
 });

@@ -182,13 +182,20 @@ module Exporters
           abduction_status_time_of_incident: 'forced_conscription',
           service_safehouse_appointment_date: '2020-06-23',
           service_safehouse_appointment_time: 'time',
+          service_medical_referral: 'service_provided_by_your_agency',
+          service_psycho_referral: 'service_not_applicable',
+          service_legal_pursue_legal_action: 'false',
+          service_legal_referral: 'service_not_applicable',
+          service_police_referral: 'referral_declined_by_survivor',
+          service_livelihoods_referral: 'service_not_applicable',
+          service_protection_referral: 'services_already_received_from_another_agency',
           livelihoods_services_subform_section:
             [
               {
                 unique_id: 'cfdbcb5f-02c7-4fd7-b56a-2e453647c5d7',
                 service_livelihoods_location: 'kmlfdjgr',
                 service_livelihoods_provider: 'i39',
-                service_livelihoods_referral: 'service_not_applicable',
+                service_livelihoods_referral: 'referred',
                 service_livelihoods_referral_notes: 'kjfig',
                 service_livelihoods_appointment_date: '2020-06-14T22:07:00.000Z',
                 service_livelihoods_appointment_time: 'sdrtyio'
@@ -200,7 +207,7 @@ module Exporters
                 unique_id: 'b569d95b-08f3-4433-8ffd-0cf136f3a6dd',
                 service_medical_location: 'sdfgt',
                 service_medical_provider: 'asdf',
-                service_medical_referral: 'service_provided_by_your_agency',
+                service_medical_referral: 'referred',
                 service_medical_referral_notes: 'd',
                 service_medical_appointment_date: '2020-06-23T22:06:39.023Z',
                 service_medical_appointment_time: 'asdf'
@@ -212,7 +219,7 @@ module Exporters
                 unique_id: '97e391c7-45cf-4d25-a7f6-e894bb2401e7',
                 service_protection_location: 'oifgut',
                 service_protection_provider: 'klwfjir',
-                service_protection_referral: 'services_already_received_from_another_agency',
+                service_protection_referral: 'referred',
                 service_protection_referral_notes: ',fmdkjjnd;fskj',
                 service_protection_appointment_date: '2020-06-22T22:07:00.000Z',
                 service_protection_appointment_time: 'dsfgtoi'
@@ -222,10 +229,10 @@ module Exporters
             [
               {
                 unique_id: '872fd2ca-57db-42f8-a86a-f994d2558552',
-                pursue_legal_action: 'false',
+                pursue_legal_action: 'true',
                 service_legal_location: 'kjcviu',
                 service_legal_provider: 'vkcjbh',
-                service_legal_referral: 'service_not_applicable',
+                service_legal_referral: 'referred',
                 service_legal_referral_notes: 'jri',
                 service_legal_appointment_date: '2020-06-20T22:07:09.304Z',
                 service_legal_appointment_time: 'asdfgh n'
@@ -236,7 +243,7 @@ module Exporters
               {
                 unique_id: 'bf14784d-42f6-497f-9955-79a555ccf592',
                 service_psycho_provider: 'rtiu',
-                service_psycho_referral: 'service_not_applicable',
+                service_psycho_referral: 'referred',
                 service_psycho_referral_notes: 'nfbgiu',
                 service_psycho_appointment_date: '2020-06-02T22:06:00.000Z',
                 service_psycho_appointment_time: 'asdf',
@@ -249,7 +256,7 @@ module Exporters
                 unique_id: 'e12082d3-b290-4832-be11-ac3e891c1dfe',
                 service_police_location: 'igro',
                 service_police_provider: 'vjkobi04',
-                service_police_referral: 'referral_declined_by_survivor',
+                service_police_referral: 'service_unavailable',
                 service_police_referral_notes: 'kjsdfgh oiew',
                 service_police_appointment_date: '2020-06-14T22:07:00.000Z',
                 service_police_appointment_time: 'errt5y'
@@ -379,6 +386,18 @@ module Exporters
             'referral_declined_by_survivor', 'service_not_applicable', 'services_already_received_from_another_agency',
             'true', Agency.last.agency_code
           ]
+        )
+      end
+
+      it 'reads the service columns from the subforms when the old Incident Recorder format is enabled' do
+        data = IncidentRecorderExporter.export(
+          @record_with_all_fields, nil, { user: @user }, { old_incident_recorder_format: true }
+        )
+        workbook = Roo::Spreadsheet.open(StringIO.new(data).set_encoding('ASCII-8BIT'), extension: :xlsx)
+
+        # Columns 33-39 are the service referral values, which now come from the legacy subforms.
+        expect(workbook.sheet(0).row(2)[33..39]).to eq(
+          %w[referred referred Yes referred service_unavailable referred referred]
         )
       end
 
