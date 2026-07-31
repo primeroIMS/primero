@@ -7,24 +7,29 @@ class Api::V2::AttachmentsController < Api::V2::RecordResourceController
   before_action :set_attachment, only: %i[show update destroy]
 
   def show
+    authorize_record_view!
     authorize! :read, @attachment
 
     send_file
   end
 
   def create
+    authorize! :write, @record
     authorize! :create, @attachment
     @attachment.attach!
     updates_for_record(@record)
   end
 
   def update
+    authorize! :write, @record
+    authorize! :write, @attachment
     @attachment.assign_attributes(attachment_update_params)
     @attachment.save!
     updates_for_record(@record)
   end
 
   def destroy
+    authorize! :write, @record
     authorize! :destroy, @attachment
     @attachment.detach!
     updates_for_record(@record)
@@ -39,6 +44,12 @@ class Api::V2::AttachmentsController < Api::V2::RecordResourceController
   end
 
   private
+
+  def authorize_record_view!
+    authorize! :read, @record
+  rescue CanCan::AccessDenied => e
+    raise e unless current_user.can_preview?(@record.class)
+  end
 
   def send_file
     send_data(

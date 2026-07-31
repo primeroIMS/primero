@@ -185,7 +185,7 @@ class Ability
       PermittedAttachmentService.permitted_to_read?(user, instance, @permitted_form_fields_service)
     end
 
-    can(%i[create destroy], Attachment) do |instance|
+    can(%i[create destroy write], Attachment) do |instance|
       PermittedAttachmentService.permitted_to_write?(user, instance, @permitted_form_fields_service)
     end
   end
