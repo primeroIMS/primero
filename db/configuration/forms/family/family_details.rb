@@ -188,7 +188,7 @@ family_members_fields = [
   Field.new(name: 'family_members',
             type: 'subform',
             editable: true,
-            subform_section: family_members_section,
+            subform: family_members_section,
             display_name_en: 'Family Member')
   # #Subform##
 ]
