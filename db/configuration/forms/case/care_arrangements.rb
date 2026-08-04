@@ -98,7 +98,7 @@ care_arrangements_fields = [
   Field.new('name' => 'care_arrangements_section',
             'type' => 'subform',
             'editable' => true,
-            'subform_section' => care_arrangements_section,
+            'subform' => care_arrangements_section,
             'display_name_en' => 'Care Arrangements')
 ]
 
