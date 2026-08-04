@@ -21,5 +21,21 @@ A guide to getting started with Primero development is available [here](doc/gett
 - If you are contributing via the DAO, make sure to read the relevant documents [here](doc/dao/README.md).
 
 ## Production
-
 Primero is deployed in production using Ansible. Detailed Ansible instructions exist in the file [ansible/README.md](ansible/README.md)
+
+## Acknowledgement
+
+We would like to thank all the maintainers, developers, designers, security researchers, and testers who contributed to this project over the years. 
+
+Some of the organizations that made this project possible:
+ * [UNICEF](https://unicef.org)
+ * [Salus CM](https://salus-cm.care)
+ * [Quoin](https://quoininc.com)
+ * [Jozian](https://jozian.com)
+ * [Trigyn Technologies](https://trigyn.com)
+ * [Microsoft](https://www.microsoft.com)
+ * [ThoughtWorks](https://www.thoughtworks.com)
+ * [International Rescue Committee](https://rescue.org)
+ * [Save the Children](https://www.savethechildren.org)
+ * [Terre des hommes](https://www.tdh.org)
+ * [GSoC](https://summerofcode.withgoogle.com)
