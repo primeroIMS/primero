@@ -133,11 +133,23 @@ class Report < ApplicationRecord
 
   def build_query
     query = model.try(:parent_record_type).present? ? join_nested_model : model
+    query = registry_join_query.apply(query)
     query = select_fields(query)
     query = apply_filters(query)
     query = query.group(group_by_fields)
     query = query.order(sort_fields)
     query.to_sql
+  end
+
+  def registry_join_query
+    @registry_join_query ||= Reports::RegistryJoinQuery.new(
+      json_column: registry_json_column,
+      registry_fields: pivot_fields.values.select { |field| field.type == Field::REGISTRY }.uniq(&:name)
+    )
+  end
+
+  def registry_json_column
+    model.try(:parent_record_type).present? ? nested_model_alias : 'data'
   end
 
   def join_nested_model
@@ -167,16 +179,28 @@ class Report < ApplicationRecord
   end
 
   def field_queries
-    @field_queries ||= pivots_map.entries.map do |(pivot, field)|
-      next(build_date_field_query(field)) if field.type == Field::DATE_FIELD
-      next(build_numeric_field_query(field)) if field.type == Field::NUMERIC_FIELD
+    @field_queries ||= pivots_map.entries.map { |(pivot, field)| build_query_for(field, pivot) }
+  end
 
-      if field.type == Field::SELECT_BOX && field.option_strings_source == 'Location'
-        next(build_location_field_query(field, pivot))
-      end
-
+  def build_query_for(field, pivot)
+    case field.type
+    when Field::DATE_FIELD then build_date_field_query(field)
+    when Field::NUMERIC_FIELD then build_numeric_field_query(field)
+    when Field::REGISTRY then build_registry_field_query(field)
+    when Field::SELECT_BOX then build_select_box_query(field, pivot)
+    else
       build_field_query(field)
     end
+  end
+
+  def build_select_box_query(field, pivot)
+    return build_location_field_query(field, pivot) if field.option_strings_source == 'Location'
+
+    build_field_query(field)
+  end
+
+  def build_registry_field_query(field)
+    Reports::FieldQueries::RegistryFieldQuery.new(field:, aliases: registry_join_query.registry_aliases[field.name])
   end
 
   def build_location_field_query(field, pivot)
