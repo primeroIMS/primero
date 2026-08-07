@@ -9,3 +9,7 @@ export const getDisableUsersLoading = state =>
 
 export const getDisableUsersErrors = state =>
   state.getIn(["records", "admin", "users", "disableUsers", "errors"], false);
+
+export const getSendEmailsLoading = state => state.getIn(["records", "users", "sendEmails", "loading"], false);
+
+export const getSendEmailsErrors = state => state.getIn(["records", "users", "sendEmails", "errors"], false);

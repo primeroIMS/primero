@@ -15,6 +15,19 @@ class UserMailer < ApplicationMailer
     )
   end
 
+  def bulk_email(recipient_id, sender_id, subject, message)
+    load_users!(recipient_id)
+    @sender_user_name = User.find(sender_id).user_name
+    @message = message
+    @subject = subject
+    @locale = @user.locale
+
+    mail(
+      to: email_address_with_name(@user.email, @user.full_name),
+      subject: @subject
+    )
+  end
+
   private
 
   def subject(user)

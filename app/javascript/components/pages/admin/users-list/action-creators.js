@@ -22,6 +22,28 @@ export const setUsersFilters = payload => ({
   payload
 });
 
+export const sendEmails = ({ filters, subject, message, snackbarMessage }) => ({
+  type: actions.SEND_EMAILS,
+  api: {
+    method: METHODS.POST,
+    path: `${RECORD_PATH.users}/send_emails`,
+    body: { data: { ...filters.toJS(), subject, message } },
+    successCallback: [
+      { action: CLEAR_DIALOG },
+      {
+        action: ENQUEUE_SNACKBAR,
+        payload: {
+          message: snackbarMessage,
+          options: {
+            variant: "success",
+            key: generate.messageKey(snackbarMessage)
+          }
+        }
+      }
+    ]
+  }
+});
+
 export const disableUsers = ({ filters, currentFilters, message }) => ({
   type: actions.DISABLE_USERS,
   api: {

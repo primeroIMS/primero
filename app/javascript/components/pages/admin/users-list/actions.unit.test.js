@@ -16,7 +16,12 @@ describe("<UsersList /> - Actions", () => {
       "DISABLE_USERS_STARTED",
       "DISABLE_USERS_SUCCESS",
       "DISABLE_USERS_FAILURE",
-      "DISABLE_USERS_FINISHED"
+      "DISABLE_USERS_FINISHED",
+      "SEND_EMAILS",
+      "SEND_EMAILS_STARTED",
+      "SEND_EMAILS_SUCCESS",
+      "SEND_EMAILS_FAILURE",
+      "SEND_EMAILS_FINISHED"
     ].forEach(property => {
       expect(clonedActions).toHaveProperty(property);
       delete clonedActions[property];

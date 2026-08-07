@@ -2025,6 +2025,7 @@ en:
         'true': Approving
       bulk_assign: Bulk assign
       bulk_create: Bulk create
+      bulk_email: Bulk email
       bulk_index: Bulk index
       by_user: by user
       case_plan_approved: "%{approval_label} approved"
@@ -2176,6 +2177,8 @@ en:
     permitted_field_list: Permitted field list
     quick_view: Viewing Quick View
     reassign: Assigning
+    descriptions:
+      bulk_email: Sent bulk email to
     resources:
       activity_log: Activity Log
       audit_log: Audit log
@@ -4528,6 +4531,10 @@ en:
               the ability to see and edit information about their own user account
               (e.g. password, email).
             label: View
+          send_email_multiple:
+            explanation: Allows you to select multiple users from the users list
+              and send them an email with a customized message.
+            label: Send an email to multiple users
           write:
             explanation: Ability to click the "Edit" button on the show user page,
               update information about the user, and then save. Please note that this
@@ -5077,6 +5084,9 @@ en:
     user_group_unique_ids: User Groups
     user_name: Username
     services: Services
+    bulk_email:
+      header: 'The user %{user_name} has sent you a message:'
+      footer: Please note that replying to this email will not send a response to the user's message.
     welcome_email:
       subject: 'Welcome to %{system}!'
       subject_instructions: '%{system} Login Instructions'
@@ -5144,6 +5154,11 @@ en:
     disable_title: Disable Users
     disable_selection_indicartor: '%{users_selected} user(s) selected'
     disable_success: Primero is disabling %{users_selected} user(s). It may take several minutes for all of these user(s) to update.
+    send_email_title: Send Email
+    send_email_selected: '%{users_selected} user(s) selected'
+    send_email_subject_label: Subject
+    send_email_text_label: Email text
+    send_email_success: Primero is sending an email to %{users_selected} user(s). This may take several minutes.
     selected_records: '%{select_records} user(s) selected'
     selected_all_records: Select all %{total_records} users that match this query.
   devise:

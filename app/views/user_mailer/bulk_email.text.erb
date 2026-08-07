@@ -1,0 +1,7 @@
+<%= I18n.t('user.bulk_email.header', user_name: @sender_user_name, locale: @locale) %>
+
+<% @message.to_s.each_line do |line| -%>
+> <%= line.chomp %>
+<% end -%>
+
+<%= I18n.t('user.bulk_email.footer', locale: @locale) %>

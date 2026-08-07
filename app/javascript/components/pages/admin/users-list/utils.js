@@ -2,7 +2,16 @@ import { fromJS } from "immutable";
 
 import { FILTER_TYPES } from "../../../index-filters";
 
-import { AGENCY, DISABLED, USER_GROUP, LAST_DATE, DISABLE_DIALOG_NAME, ACTION_NAMES, ACTION_IDS } from "./constants";
+import {
+  AGENCY,
+  DISABLED,
+  USER_GROUP,
+  LAST_DATE,
+  DISABLE_DIALOG_NAME,
+  SEND_EMAIL_DIALOG_NAME,
+  ACTION_NAMES,
+  ACTION_IDS
+} from "./constants";
 
 const searchableAgencies = (data, i18n) => {
   return data.reduce(
@@ -83,7 +92,7 @@ export const buildObjectWithIds = elems =>
     fromJS({})
   );
 
-export const buildActionList = ({ i18n, handleDialogClick, canDisableMultiple }) => {
+export const buildActionList = ({ i18n, handleDialogClick, canDisableMultiple, canSendEmailMultiple }) => {
   const actions = [
     {
       id: ACTION_IDS.disable,
@@ -91,6 +100,13 @@ export const buildActionList = ({ i18n, handleDialogClick, canDisableMultiple })
       disableOffline: true,
       condition: canDisableMultiple,
       action: () => handleDialogClick(DISABLE_DIALOG_NAME, ACTION_NAMES.disable)
+    },
+    {
+      id: ACTION_IDS.sendEmail,
+      name: i18n.t("users.send_email_title"),
+      disableOffline: true,
+      condition: canSendEmailMultiple,
+      action: () => handleDialogClick(SEND_EMAIL_DIALOG_NAME, ACTION_NAMES.sendEmail)
     }
   ];
 

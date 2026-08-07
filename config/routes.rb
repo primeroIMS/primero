@@ -130,6 +130,7 @@ Rails.application.routes.draw do
           post :'password-reset', to: 'password_reset#password_reset'
           post :'self-register', to: 'self_register#create'
           post :update_bulk, to: 'users#update_bulk'
+          post :send_emails, to: 'users#send_emails'
         end
       end
       resources :identity_providers, only: [:index]
