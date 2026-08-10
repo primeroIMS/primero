@@ -49,7 +49,7 @@ km:
     revoke: ហៅមកវិញ (revoke)
     save: រក្សាទុក
     services_from_case_creation_success: ​បង្កើត​កំណត់ត្រាការផ្តល់សេវាដោយ​ជោគជ័យ។
-    services_section_from_case: បញ្ចូល​ការ​ផ្ដល់​សេវាកម្ម
+    services_section_from_case: បញ្ចូល​ការ​ផ្ដល់​សេវា
     mark_for_offline: ប្រើសម្រាប់ពេលគ្មានសេវាអីនធឺណេត
   agencies:
     label: ស្ថាប័ន
@@ -75,12 +75,13 @@ km:
     name: ឈ្មោះ​ស្ថាប័ន
     pdf_logo_option: ធ្វើឱ្យមាននិមិត្តសញ្ញាសម្រាប់ការនាំចេញ PDF?
     pdf_logo_option_help: 'ចំណាំ៖ និមិត្តសញ្ញាស្ថាប័នររបស់អ្នកប្រើមានសម្រាប់ពួកគេតាមលំនាំដើម ដូច្នេះអ្នកគ្រាន់តែពិនិត្យមើលវាប្រសិនបើអ្នកចង់ឱ្យនិមិត្តសញ្ញានេះមានសម្រាប់អ្នកប្រើប្រាស់ទាំងអស់។'
-    services: សេវាកម្ម​ស្ថាប័ន
+    services: ស្ថាប័នផ្តល់សេវា
     terms_of_use: ល័ក្ខខ័ណ្ឌនៃការប្រើប្រាស់
     terms_of_use_help: អនុញ្ញាតតែឯកសារ PDF ប៉ុណ្ណោះ។
     terms_of_use_download_button: 'ទាញយកឯកសារ PDF '
     terms_of_use_enabled: បង្ហាញល័ក្ខខ័ណ្ឌនៃការប្រើប្រាស់
   approvals:
+    no_requests: គ្មានការស្នើសុំការ​អនុម័ត​សម្រាប់ករណីនេះទេ
     approved_by: ​អនុម័តដោយ
     case_plan_type_label: ប្រភេទ​ផែនការ​ករណី
     manager_comments_label: យោបល់អ្នកគ្រប់គ្រង
@@ -91,11 +92,11 @@ km:
     response_for_label: អនុម័តសម្រាប់
     response_for_title: ការអនុម័ត
     action_plan: ផែនការសកម្មភាព
-    gbv_closure: ការ​បិទ
+    gbv_closure: បិទករណី
     status:
-      approved: បាន​អនុម័ត
+      approved: ​អនុម័ត
       pending: កំពុង​រង់ចាំ
-      rejected: បានបដិសេធ
+      rejected: បដិសេធ
       requested: ស្នើសំុ
   audit_log:
     action: សកម្មភាព
@@ -195,6 +196,8 @@ km:
     view: មើល
     view_flags_history: មើល​ប្រវត្តិ
     return_to_case: ត្រឡប់ទៅករណីវិញ
+  resync_records:
+    id: លេខកូដ
   case:
     label: ករណី
     create_new_case: បង្កើតករណីថ្មី
@@ -222,7 +225,10 @@ km:
       introductory_sentence: សូមបញ្ជាក់ការយល់ព្រមពីអតិថិជនក្នុងការទទួលសេវាគ្រប់គ្រងករណី និងសម្រាប់រក្សាទុកទិន្នន័យរបស់ពួកគេនៅក្នុង Primero ។
       consent_agreements_required: សូមជ្រើសរើសយ៉ាងហោចណាស់ជម្រើសមួយពីការយល់ព្រមទាំងនេះ
       legitimate_basis_required: សូមជ្រើសរើសយ៉ាងហោចណាស់ជម្រើសមួយពីការចាត់ថ្នាក់មូលដ្ឋានស្របច្បាប់។
-      case_transfer_pending: ករណីមួយកំពុងរង់ចាំការផ្ទេរ
+      case_referral_pending: ករណីបញ្ជូនកំពុងរង់ចាំ
+      case_transfer_pending: ករណីបញ្ជូនកំពុងរង់ចាំ
+      case_no_approval_request: គ្មានការស្នើសុំការ​អនុម័ត​សម្រាប់ករណីនេះទេ
+      referral_rejected: ការបញ្ជូនត្រូវបានបដិសេធ
       transfer_request_made: ករណីនេះត្រូវបានស្នើរសំុការផ្ទេរ
     save: រក្សាទុកករណី
     save_text: មុននឹងបន្ត សូមរក្សាទុករាល់ការផ្លាស់ប្តូរសម្រាប់ករណី។
@@ -234,14 +240,14 @@ km:
     workflow:
       assessment: ការ​ប៉ាន់ប្រមាណ
       case_plan: ផែនការករណី
-      closed: បានបិទករណី
+      closed: បិទករណី
       created_on: បានបង្កើត​នៅ
       in_progress: កំពុងដំណើរការ
       new: ថ្មី
       on_label: 'នៅ'
       reopened: បានបើកឡើងវិញ
-      service_implemented: បាន​អនុវត្ត​សេវាកម្ម
-      services_implemented: បាន​អនុវត្ត​សេវាកម្ម
+      service_implemented: បាន​អនុវត្ត​សេវា
+      services_implemented: បាន​អនុវត្ត​សេវា
   linkedincidents:
     label: ដែលភ្ជាប់នឹងឧប្បត្តិហេតុ
   activity_log:
@@ -273,7 +279,7 @@ km:
     close_dialog: ​ចុច​យល់ព្រម(OK) នឹង​ធ្វើឱ្យករណីនេះទៅ​ជា​បិទ
     close_dialog_title: បិទករណី
     close_success: បិទករណីដោយជោគជ័យ
-    closure: ការ​បិទ
+    closure: បិទករណី
     complete: ប្រើសម្រាប់ពេលគ្មានសេវាអីនធឺណេត
     date_of_birth: ថ្ងៃខែឆ្នាំកំណើត
     disable_dialog: ចុច​យល់ព្រម(OK) នឹងធ្វើឱ្យករណីនេះផ្អាកដំណើរការ (disable)ក្នុងប្រព័ន្ធ ។
@@ -283,6 +289,8 @@ km:
     enable_dialog_title: បើកករណី (enable case)
     enable_success: បើកដំណើរការ (enable) ករណីដោយជោគជ័យ
     export: នាំចេញ
+    attribute:
+      name: ឈ្មោះ
     mark_for_offline:
       title: ប្រើសម្រាប់ពេលគ្មានសេវាអីនធឺណេត
       text: តើអ្នកពិតជាចង់កំណត់ករណីនេះសម្រាប់ប្រើពេលដែលគ្មានសេវាអីនធឺណេតមែនទេ?
@@ -294,18 +302,18 @@ km:
       age_12_17: 12 - 17
       age_18_more: 18+
       age_6_11: 6 - 11
-      age_range: 'ចន្លោះអាយុ '
+      age_range: 'ក្រុមអាយុ '
       agency: អង្គភាព
       approval_status: ស្ថានភាពអនុម័ត
       approvals:
-        approved: បាន​អនុម័ត
+        approved: ​អនុម័ត
         pending: កំពុង​រង់ចាំ
-        rejected: បានបដិសេធ
+        rejected: បដិសេធ
       bia: BIA
       by_date: នៅកាលបរិច្ឆេទ
       case_open_date: កាលបរិច្ឆេទ​បើក​ករណី
       case_plan: ផែនការករណី
-      closed: បានបិទករណី
+      closed: បិទករណី
       closure: បិទករណី
       current_location: ទីតាំងបច្ចុប្បន្ន
       date: កាលបរិច្ឆេទ
@@ -339,7 +347,7 @@ km:
       sex: ភេទ
       social_worker: ឈ្មោះអ្នកកាន់ករណី
       status: ស្ថានភាព
-      transferred: បាន​ផ្ទេរ
+      transferred: ផ្ទេរ
       type_of_risk: ប្រភេទហានិភ័យ
       urgent_protection_concern: បញ្ហាបន្ទាន់
       user_group: ក្រុម​អ្នកប្រើប្រាស់
@@ -397,7 +405,7 @@ km:
     request_approve_bia: អនុម័តការប៉ាន់ប្រមាណ?
     request_approve_case_plan: អនុម័ត​ផែនការ​ករណី?
     request_approve_closure: អនុម័ត​ការបិទករណី?
-    request_approve_gbv_closure: អនុម័ត​ការបិទករណី
+    request_approve_gbv_closure: អនុម័ត​ការបិទករណី?
     revoke_failure: មានបញ្ហាខណៈពេលលុបចោល%{transition_type} សូមទាក់ទងផ្នែកជំនួយ។
     revoke_message: ដោយចុច 'ដកហូត' អ្នកនឹងដកសិទ្ធិ%{transition_type}ចូលដំណើរការរបស់អ្នកទទួលទៅករណីនេះ។
     revoke_success_message: ករណី%{case_id}%{transition_type}ទៅ%{recipient_username}ត្រូវបានបោះបង់។
@@ -467,6 +475,7 @@ km:
       date_reunification: កាលបរិច្ឆេទនៃការបង្រួបបង្រួមគ្រួសារ
       tracing_date: កាលបរិច្ឆេទនៃការស្វែងរក
       service_implemented_day_time: កាលបរិច្ឆេទនៃការអនុវត្តសេវា
+      reassigned_transferred_on: កាលបរិច្ឆេទចាត់តាំង/ផ្ទេរ
   configurations:
     apply_label: តើ​អ្នក​ប្រាកដ​ឬ​អត់? ប្រសិនបើអ្នកអនុវត្ត ការកំណត់(setting)នៅក្នុងការកំណត់(configuration)នេះនឹងត្រូវបានអនុវត្តចំពោះប្រព័ន្ធ។ អ្នកនឹងបាត់បង់ការកំណត់បច្ចុប្បន្នរបស់អ្នកទាំងអស់ ហើយនឹងមិនអាចយកពួកវាមកវិញបានទេ លុះត្រាតែអ្នកបានរក្សាទុកពួកវានៅក្នុងការកំណត់មួយផ្សេងទៀតរួចហើយ។
     apply_label_bold: Primero នឹងមិនអាចប្រើបានក្នុងរយៈពេលពីរបីនាទី ខណៈពេលដែលការផ្លាស់ប្តូរកំពុងដំណើរការ។
@@ -493,7 +502,6 @@ km:
       updated: ធ្វើបច្ចុប្បន្នភាពការកំណត់​​ដោយ​ជោគជ័យ
       sent: បញ្ជូនការកំណត់រចនាសម្ព័ន្ធ(configuration)ទៅគេហទំព័រផលិតកម្ម(production site)។ សូមពិនិត្យមើលគេហទំព័រផលិតកម្ម ថាការកំណត់បានមកដល់ឬនៅ។
     not_allowed: មិន​អនុញ្ញាត
-    unavailable_server: សើវឺមិនដំណើរការបណ្តោះអាសន្ន
   contact:
     field:
       email: អ៊ីមែល
@@ -501,7 +509,7 @@ km:
       name: ឈ្មោះ
       organization: ស្ថាប័ន
       other_information: ព័ត៌មាន​ផ្សេងៗ
-      phone: ទូរស័ព្ទ
+      phone: លេខទូរស័ព្ទ
       position: មុខតំណែង
       primero_version: ជំនាន់ Primero
       support_forum: វេទិកា​ជំនួយ
@@ -523,7 +531,7 @@ km:
     all_services_implemented: បានអនុវត្តសេវា
     and: 'និង'
     action_needed:
-      awaiting_acceptance: កំពុងរងចាំការទទួល
+      awaiting_acceptance: កំពុងរងចាំការយល់ព្រម
       new: ការ​បញ្ជូន
       referrals: ការ​បញ្ជូន
       transfers: ​ផ្ទេរ
@@ -531,7 +539,7 @@ km:
     approval_action_plan_pending: កំពុង​រង់ចាំ
     approval_action_plan_pending_group: ផែនការសកម្មភាព
     approval_action_plan_rejected: បដិសេធ
-    approval_assessment_approved: បាន​អនុម័ត
+    approval_assessment_approved: ​អនុម័ត
     approval_assessment_pending: កំពុង​រង់ចាំ
     approval_assessment_pending_group: ការ​ប៉ាន់ប្រមាណ
     approval_assessment_rejected: បដិសេដ
@@ -541,21 +549,21 @@ km:
     approval_case_plan_rejected: បដិសេធ
     approval_closure_approved: អនុម័ត
     approval_closure_pending: កំពុង​រង់ចាំ
-    approval_closure_pending_group: ការ​បិទ
+    approval_closure_pending_group: បិទករណី
     approval_closure_rejected: បដិសេធ
     approval_gbv_closure_approved: អនុម័ត
     approval_gbv_closure_pending: កំពុង​រង់ចាំ
-    approval_gbv_closure_pending_group: ការ​បិទ
+    approval_gbv_closure_pending_group: បិទករណី
     approval_gbv_closure_rejected: បដិសេធ
     approvals: ការ​អនុម័ត
     approvals_action_plan: ផែនការសកម្មភាព
     approvals_assessment: ការ​ប៉ាន់ប្រមាណ
     approvals_case_plan: ផែនការករណី
-    approvals_closure: ការ​បិទ
+    approvals_closure: បិទករណី
     approvals_gbv_closure: ​បិទករណី
-    approved: បាន​អនុម័ត
+    approved: អនុម័ត
     assessment: ការ​ប៉ាន់ប្រមាណ
-    awaiting_acceptance: កំពុងរងចាំការទទួល
+    awaiting_acceptance: កំពុងរងចាំការយល់ព្រម
     cases_by_social_worker_total: សរុប
     cases_by_social_worker_new_or_updated: ថ្មី និង​បាន​ធ្វើបច្ចុប្បន្នភាព
     case_id: 'លេខកូដករណី'
@@ -573,9 +581,9 @@ km:
     cases_by_workflow: ករណី​តាម​លំហូរ​ការងារ
     cases_this_week: ករណី​ក្នុង​សប្ដាហ៍​នេះ
     cases_to_assign: ករណី​ត្រូវ​ចាត់ចែង
-    closed: បានបិទករណី
-    closed_last_week: បាន​បិទករណី (សប្ដាហ៍​មុន)
-    closed_this_week: បាន​បិទករណី (សប្ដាហ៍​នេះ)
+    closed: បិទករណី
+    closed_last_week: ​បិទករណី (សប្ដាហ៍​មុន)
+    closed_this_week: បិទករណី (សប្ដាហ៍​នេះ)
     comprehensive_need_intervention: ការឆ្លើយតប​ពេញលេញ
     count_new_bia_approvals:
       other: '%{stat} ការ​អនុម័តថ្មី %{stat_type}'
@@ -603,15 +611,18 @@ km:
       other: និង %{stat}ករណី​ហានីភ័យថ្មី%{stat_type}
     count_risk_level_total:
       other: អ្នកមាន%{stat}%{stat_type}ករណីហានិភ័យ
-    count_waiting_for_acceptance_transfers: អ្នក​មាន​ការ​ផ្ទេរ%{stat}កំពុង​រង់ចាំ​​
+    count_waiting_for_acceptance_transfers: អ្នក​មាន​ការ​ផ្ទេរ%{stat}កំពុង​រង់ចាំ​​ការយល់ព្រម
     current_owner: ម្ចាស់​បច្ចុប្បន្ន
     dash_case_incident_overview: ករណីរបស់ខ្ញុំ
     dash_group_overview: ករណីក្នុងក្រុមរបស់ខ្ញុំ
     dash_shared_from_my_team: ករណីបញ្ជូន/ផ្ទេរពីក្រុមខ្ញុំ
-    dash_shared_with_me: ករណីបញ្ជូន ឬផ្ទេរមកខ្ញុំ
+    dash_shared_with_me: មកខ្ញុំ
     dash_shared_with_my_team: ករណីបញ្ជូន/ផ្ទេរមកក្រុមខ្ញុំ
-    dash_shared_with_others: 'ករណីបញ្ជូន ឬផ្ទេរពីខ្ញុំ '
+    dash_shared_with_others: 'ពីខ្ញុំ '
     dash_national_admin_summary: សេចក្តីសង្ខេបរបស់ Admin
+    dash_violations_category_verification_status: ចំនួនឧប្បត្តិហេតុសរុប បែងចែកតាមស្ថានភាពផ្ទៀងផ្ទាត់
+    dash_violations_category_region: ចំនួនឧប្បត្តិហេតុបានផ្ទៀងផ្ទាត់សរុប បែងចែកតាមតំបន់
+    dash_perpetrator_armed_force_group_party_names: ចំនួនឧប្បត្តិហេតុសរុប បែងចែកតាមអ្នកប្រព្រឹត្ត
     date: កាលបរិច្ឆេទ
     date_of_incident: កាលបរិច្ឆេទហេតុការណ៍
     date_of_interview: កាលបរិច្ឆេទ​សម្ភាសន៍
@@ -621,7 +632,7 @@ km:
     flagged_by_me: ​សម្គាល់​ដោយ​ខ្ញុំ
     flagged_by_other: សម្គាល់​ដោយ​អ្នក​ផ្សេង
     flagged_cases: ​សម្គាល់ករណី​
-    follow_up: ការ​តាមដាន
+    follow_up: តាមដាន
     forms: ផ្ទាំង​ទម្រង់
     geographic_area: តំបន់​ភូមិសាស្ត្រ
     group_overview_closed: បិទករណី
@@ -638,7 +649,7 @@ km:
     low_level: ទាប
     low_risk: អាទិភាព​ទាប
     manager_count_closed_total:
-      other: និង​%{stat}ករណីបាន​បិទ
+      other: និង​%{stat}ករណី​បិទ
     manager_count_open_total:
       other: អ្នកមាន​ %{stat}ករណីបើក
     manager_transfers_totals:
@@ -656,6 +667,7 @@ km:
     new_incident_assigned_to_you: ហេតុការណ៍ដែល​បាន​ចាត់ចែង​ថ្មីៗ
     new_last_week: ថ្មី (សប្ដាហ៍​មុន)
     new_or_updated: ថ្មី និង​បាន​ធ្វើបច្ចុប្បន្នភាព
+    recently_assigned_to_me: ចាត់តាំង
     new_referred: ការ​បញ្ជូន​ថ្មី
     new_service_provision: ការ​ផ្ដល់​សេវាកម្ម​ថ្មីៗ
     new_this_week: ថ្មី (សប្តាហ៍នេះ)
@@ -695,31 +707,33 @@ km:
     recently_flagged_incident: ហេតុការណ៍​ដែល​បាន​សម្គាល់​ថ្មីៗ
     referrals_by_social_worker: ការ​បញ្ជូន​ដោយ​បុគ្គលិកសង្គម
     registration: ការចុះឈ្មោះ
-    rejected: បានបដិសេធ
-    rejected_transfers: ការ​ផ្ទេរ​ដែល​បាន​បដិសេធ
+    rejected: បដិសេធ
+    rejected_transfers: បដិសេធការ​ផ្ទេរ​​
     response: ការ​ឆ្លើយតប (កំពុង​ដំណើរការ)
     scheduled_activities: ករណី​ដែល​បាន​កំណត់កាលវិភាគ
     score_range: ចន្លោះពិន្ទុ
     screening_service: ពិនិត្យមើលសេវា
-    services: សេវាកម្ម
-    services_implemented: បាន​អនុវត្ត​សេវាកម្ម
+    services: សេវា
+    services_implemented: បាន​អនុវត្ត​សេវា
     shared_from_my_team_pending_transfers: កំពុង​រង់ចាំការ​ផ្ទេរ​
     shared_from_my_team_referrals: ការ​បញ្ជូន
     shared_from_my_team_rejected_transfers: បដិសេធការ​ផ្ទេរ​​
     shared_with_me_new_referrals: ការ​បញ្ជូន
-    shared_with_me_total_referrals: ការ​បញ្ជូន
-    shared_with_me_transfers_awaiting_acceptance: កំពុងរងចាំការទទួល
-    shared_with_my_team_pending_transfers_overview: កំពុងរងចាំការទទួល
+    shared_with_me_total_referrals: សរុប
+    shared_with_me_transfers_awaiting_acceptance: កំពុងរងចាំការយល់ព្រម
+    shared_with_my_team_pending_transfers_overview: កំពុងរងចាំការយល់ព្រម
     shared_with_my_team_pending_transfers: កំពុង​រង់ចាំការ​ផ្ទេរ​
     shared_with_my_team_referrals: ការ​បញ្ជូន
-    shared_with_others_referrals: ការ​បញ្ជូន
+    shared_with_others_pending_transfers: កំពុងរង់ចាំ
+    shared_with_others_referrals: សរុប
+    shared_with_others_rejected_transfers: បដិសេធ
     status_of_cases: ស្ថានភាព​ករណី
     system_user: ប្រព័ន្ធ
     total: សរុប
     total_cases: ករណី​សរុប
     total_referred: ការ​បញ្ជូន​សរុប
     tr_stats: សំណើ​ស្វែងរក
-    transers_awaiting_acceptance: ការផ្ទេរកំពុងរងចាំការទទួល
+    transers_awaiting_acceptance: ការផ្ទេរកំពុងរងចាំការយល់ព្រម
     transfers_by_social_worker: ការ​ផ្ទេរ​ដោយ​បុគ្គលិកសង្គម
     users: រូបតំណាង​ការ​កំណត់
     violence_type: ប្រភេទនៃការរំលោភបំពាន
@@ -732,6 +746,7 @@ km:
       other: '%{case_worker}អ្នក​មាន​%{stat}ករណីសរុប'
     workflow: លំហូរការងារ
     workflow_team: លំហូរការងារ - ករណីរបស់ក្រុម
+    workflow_team_module: លំហូរការងារ %{module_name}
     you_have: 'អ្នក​មាន'
   disabled:
     status:
@@ -748,6 +763,8 @@ km:
     transfer_request: 'អ្នក​ប្រើប្រាស់ Primero %{user} ពី %{agency} កំពុង​ស្នើសុំ​ឲ្យ​អ្នក​ផ្ទេរ​​ភាព​ជា​ម្ចាស់​របស់កំណត់ត្រា %{record_type} %{record_id} ដូច្នេះ​ពួកគេ​អាច​ផ្ដល់​សេវាកម្ម​គ្រប់គ្រង %{record_type} សម្រាប់​កំណត់ត្រា​នីមួយៗ​នៅ​ក្នុង​តំបន់​របស់​ពួកគេ។ ប្រសិនបើ​ការ​ផ្ទេរ​នេះ​អ្នក​អាច​ទទួលយក​​បាន សូម​ចុច​លើ​តំណ​លេខ​សម្គាល់ %{record_type} នៅ​ក្នុង​អ៊ីមែល ដើម្បី​បើក %{record_type} នៅ​ក្នុង Primero និង​ចាប់ផ្ដើម​ការ​ផ្ទេរ។'
     approval_request_html: 'អ្នក​ប្រើប្រាស់ <strong>%{user}</strong> កំពុង​ស្នើសុំ​ការ​អនុម័ត​សម្រាប់ <strong> %{approval_type}</strong> នៅ​លើ​ករណី <strong>%{case_id}</strong> ។'
   webpush_notification:
+    approval_request:
+      body: ករណីមួយក្នុងក្រុមអ្នកកំពុងរង់ចាំអនុម័តសម្រាប់%{type}
     transfer:
       title: ​ផ្ទេរថ្មី
       body: អ្នកទើបទទួលបានការផ្ទេរថ្មី
@@ -793,7 +810,6 @@ km:
       lookup:
         being_used: ការ​រកមើល​នេះ​កំពុង​ត្រូ​វបាន​ប្រើប្រាស់ ហើយ​មិន​អាច​លុប​បាន​ទេ
         name_present: ឈ្មោះ​មិន​ត្រូវ​ទទេ
-        values_ids_blank: ព័ត៌មាន id ដែលអ្នកស្វែងរកគឺ មិនមានទេ
       primero_module:
         associated_record_types: យ៉ាង​ហោចណាស់​​​ត្រូវ​​មានកំំណត់ត្រាមួយ​​ដែលមានទំនាក់ទំនងជាមួយ​​ម៉ូឌុល​នេះ
         form_section_ids: យ៉ាង​ហោច​ណាស់​ត្រូវ​ទម្រង់​មួយដែលទាក់ទង​ជា​មួយ​ម៉ូឌុល​នេះ
@@ -873,9 +889,9 @@ km:
       header:
         form_group: ក្រុម​ទម្រង់
         form_name: ឈ្មោះ​ទម្រង់
-        field_id: កន្លែង​បញ្ចូល ID
+        field_id: លេខកូដ
         field_type: ប្រភេទសំណួរ
-        field_name: ឈ្មោះសំណួរ
+        field_name: ឈ្មោះ
         required: ត្រូវបំពេញ
         on_mobile: លើទូរស័ព្ទ
         on_short_form: នៅ​លើ​ទម្រង់​ខ្លី
@@ -893,7 +909,7 @@ km:
         location: ទីតាំង
         agency: ស្ថាប័ន
         user: អ្នកប្រើប្រាស់
-        reportinglocation: ​ទីតាំង​រាយការណ៍
+        reportinglocation: ​ទីតាំង​
         subforms: 'ទម្រង់រង៖%{subform_name}'
         collapsed_fields: 'សំណួររួមបញ្ចូលគ្នា៖%{fields}'
         country: ប្រទេស
@@ -1063,12 +1079,12 @@ km:
       name: ឈ្មោះ​ឯកសារ
       is_current: តើ​នេះ​ជា​ឯកសារ​បច្ចុប្បន្ន​ឬ?
     document_upload_box: ផ្ទុកឯកសារ
-    edit_label: កែសម្រួលសំណួរ
+    edit_label: កែសម្រួល
     enabled: បើក?
     enabled_label: បើក​ (enabled)
     english_text: អក្សរភាសាអង់គ្លេស
-    field_name: ឈ្មោះសំណួរ
-    field_type: ប្រភេទសំណួរ
+    field_name: ឈ្មោះ
+    field_type: ប្រភេទ
     file_upload_box:
       add_document_label: បញ្ចូល​ឯកសារ
       add_new_document_button_text: បញ្ចូល​ឯកសារ​ផ្សេង​ទៀត
@@ -1213,9 +1229,9 @@ km:
       potential_match: ត្រូវនឹងការ​ផ្គូផ្គង
       record_information: ព័ត៌មាន​កំណត់​ត្រា
       referrals: ការ​បញ្ជូន
-      reportable_follow_up: ការតាមដាន
+      reportable_follow_up: តាមដាន
       reportable_protection_concern: បញ្ហាដែលជាកង្វល់​
-      reportable_service: សេវាកម្ម
+      reportable_service: សេវា
       tracing_request: សំណើ​ស្វែងរក
       transfers_assignments: ការផ្ទេរ/ចាត់តាំង
       violation: ការរំលោភបំពាន
@@ -1241,6 +1257,8 @@ km:
     type_label: ប្រភេទ​
     visibility: ភាព​មើល​ឃើញ
     web_app: Web app
+    conditions:
+      field_name: ឈ្មោះ
   home:
     ar: العربية
     ar-IQ: អៀររ៉ាក់ (Iraq)
@@ -1366,12 +1384,12 @@ km:
       helptext: "សិក្សាអំពីKPI"
     number_of_cases:
       title: "1. ចំនួនករណីដែលបានកត់ត្រា"
-      reporting_site: "ទីតាំងរាយការណ៍"
+      reporting_site: "ទីតាំង"
       helptext: |
         សូចនាករនេះវាស់វែងចំនួនករណីដែលបានបើកក្នុងមួយខែក្នុងទីតាំងរាយការណ៍មួយ។ ទីតាំងរាយការណ៍មួយមានន័យថាជាទីតាំងដែលស្ថាប័នអ្នកប្រើប្រាស់កំពុងផ្តល់សេវា និងជាកន្លែងឧប្បត្តិហេតុត្រូវបានរាយការណ៍ទៅអ្នកផ្តល់សេវា។
     number_of_incidents:
       title: "ចំនួនហេតុការណ៍ដែលបានកត់ត្រា"
-      reporting_site: "ទីតាំងរាយការណ៍"
+      reporting_site: "ទីតាំង"
       helptext: |
         សូចនាករនេះវាស់វែងចំនួនឧប្បត្តិហេតុថ្មីដែលបានបើកក្នុងខែនីមួយៗក្នុងទីតាំងរាយការណ៍មួយ។ ទីតាំងរាយការណ៍មួយមានន័យថាជាទីតាំងដែលស្ថាប័នអ្នកប្រើប្រាស់កំពុងផ្តល់សេវា និងជាកន្លែងឧប្បត្តិហេតុត្រូវបានរាយការណ៍ទៅអ្នកផ្តល់សេវា។
     reporting_delay:
@@ -1448,7 +1466,7 @@ km:
         3-6 ខែ; ច្រើនជាង 6 ខែ។
     case_closure_rate:
       title: "12. រាប់ចំនួនករណីបិទ"
-      reporting_site: "ទីតាំងរាយការណ៍"
+      reporting_site: "ទីតាំង"
       helptext: |
         សូចនាករនេះវាស់វែងចំនួនករណីដែលបានបិទក្នុងមួយខែក្នុងទីតាំងរាយការណ៍មួយ។ ទីតាំងរាយការណ៍មួយ
         មានន័យថាជាទីតាំងដែលស្ថាប័នអ្នកប្រើប្រាស់កំពុងផ្តល់សេវា និងជាកន្លែង
@@ -1526,51 +1544,50 @@ km:
     disable_text: តើអ្នកប្រាកដទេ? ប្រសិនបើអ្នកជ្រើសរើសទីតាំងទាំងនេះ វានឹងបង្ហាញក្នុងតារាងជ្រើសរើសទីតាំង
   logger:
     actions:
-      _approved: បានអនុម័ត
+      _approved: អនុម័ត
       _rejected: បដិសេធ
       _requested: បានស្នើសំុ
       add_note: បញ្ចូល​កំណត់សម្គាល់
+      action_plan_approved: "%{approval_label}អនុម័ត"
+      action_plan_rejected: "%{approval_label}បដិសេធ"
+      assessment_approved: "%{approval_label}អនុម័ត"
+      assessment_rejected: "%{approval_label}បដិសេធ"
       assign: ចាត់តាំង
-      assign_to: ចាត់តាំងឱ្យ
-      attach: ភ្ជាប់ឯកសារ
+      approve_form:
+        closure: ទម្រង់បិទករណី
+        gbv_closure: ទម្រង់បិទករណី
       bulk_assign: ចាត់តាំងចំនួនច្រើន
       bulk_create: បង្កើតចំនួនច្រើន
       bulk_index: សន្ទស្សន៍ច្រើន
-      case_plan_approved: ផែនការ​ករណីបានអនុម័ត
-      case_plan_rejected: ផែនការ​ករណីបានបដិសេធ
-      case_plan_requested: ផែនការ​ករណីបានដាក់ស្នើរ
+      case_plan_approved: "%{approval_label}អនុម័ត"
+      case_plan_requested: "%{approval_label}បដិសេធ"
       close: បិទករណី
+      closure_approved: "%{approval_label}អនុម័ត"
+      closure_rejected: "%{approval_label}បដិសេធ"
       create: បង្កើត
       create_bulk: បង្កើត​ច្រើន
       delete: លុប
       destroy: បំផ្លាញចោល
-      detach: ដកឯកសារភ្ជាប់ចេញ
-      enable_disable_record: បើក ផ្អាកដំណើរការ  (enable disable)
       export: នាំចេញ
       flag: សម្គាល់
+      gbv_closure_approved: "%{approval_label}អនុម័ត"
+      gbv_closure_rejected: "%{approval_label}បដិសេធ"
       import: នាំចូល
       incident_details_from_case: ព័ត៌មានលម្អិតពីករណី
-      index: សន្ទស្សន៍
       list: តារាង
       login: ចូលក្នុងប្រព័ន្ធ
       password_reset: កែសម្រួលលេខសម្ងាត់
       password_reset_request: ស្នើរសុំកែសម្រួលលេខសម្ងាត់
       refer: បញ្ជូន
-      refer_accepted: ករណីបញ្ជូនបានទទួល
-      refer_done: ការណីបានបញ្ជូនរួចរាល់
-      refer_rejected: ករណីបញ្ជូនបានបដិសេធ
-      refer_revoke: ហៅការបញ្ជូនករណីមកវិញ
-      refer_to: បញ្ជូនទៅ
+      refer_done: សម្គាល់ការបញ្ជូនរួចរាល់
+      relinquish_referral: បោះបង់ការ​បញ្ជូន
       reopen: បើក​ឡើងវិញ
-      services_section_from_case: ផ្នែកសេវាពីករណី
       show: បង្ហាញ
       show_alerts: បង្ហាញការជូនដំណឹង
-      traces: ស្វែងរក
       transfer: 'ផ្ទេរ '
-      transfer_accepted: ករណីផ្ទេរបានទទួល
-      transfer_rejected: បដិសេធការផ្ទេរ
-      transfer_request: សំណើ​ផ្ទេរ
-      transfer_to: ផ្ទេរចេញទៅ
+      transfer_status:
+        Accepted: យល់ព្រមទទួលយកការផ្ទេរ
+        Rejected: បដិសេធការ​ផ្ទេរ​​
       unflag: ដក​សម្គាល់
       update: ធ្វើបច្ចុប្បន្នភាព
       user_password_reset_request: ស្នើរសុំកែសម្រួលលេខសម្ងាត់អ្នកប្រើប្រាស់
@@ -1579,10 +1596,11 @@ km:
       action_plan: ទម្រង់ផែនការសកម្មភាព
       bia: ទម្រង់ BIA
       case_plan: ទម្រង់​ផែនការករណី
-      closure: ទម្រង់​បិទ
+      closure: ទម្រង់បិទករណី
       'false': បដិសេដ
-      gbv_closure: ទម្រង់​បិទ
+      gbv_closure: ទម្រង់បិទករណី
       'true': អនុម័ត
+    action_plan_approved: "%{approval_label}អនុម័តសម្រាប់"
     assessment_approved: "%{approval_label}អនុម័តសម្រាប់"
     assessment_requested: "%{approval_label}ស្នើសុំសម្រាប់"
     bulk_index: រាយបញ្ជីទាំងអស់
@@ -1591,6 +1609,7 @@ km:
     case_plan_requested: "%{approval_label}ស្នើសុំសម្រាប់"
     close: បិទករណី
     closure_approved: "%{approval_label}អនុម័តសម្រាប់"
+    closure_rejected: បដិសេដអនុម័តការបិទករណី
     closure_requested: "%{approval_label}ស្នើសុំសម្រាប់"
     consent_count: ចំនួន​ការ​យល់ព្រម
     copy: ចម្លង
@@ -1602,6 +1621,7 @@ km:
     export: នាំចេញ​ទិន្នន័យ​សម្រាប់
     flag: សម្គាល់
     flag_records: សម្គាល់
+    gbv_closure_approved: "%{approval_label}អនុម័តសម្រាប់"
     graph_data: មើល​ទិន្នន័យ​ក្រាហ្វ
     hide_name:
       protect: លាក់ឈ្មោះ
@@ -1642,8 +1662,10 @@ km:
       'false': បិទកំណត់ត្រាករណី (disable case)
       'true': បើក
     refer: បញ្ជូន
+    refer_accepted: យល់ព្រមទទួលយកការបញ្ជូន
     refer_to: ស្វែងរកអ្នកទទួលការបញ្ជូន
     referral: បញ្ជូន​
+    refer_done: សម្គាល់ការបញ្ជូនរួចរាល់
     relinquish_referral: បោះបង់ការ​បញ្ជូន
     reopen: បើក​ឡើងវិញ
     reopen_case: បើកឡើងវិញ
@@ -1663,8 +1685,8 @@ km:
     to_user: ចំពោះ​អ្នកប្រើប្រាស់
     transfer: ផ្ទេរ
     transfer_status:
-      Accepted: បាន​ទទួល​យក​ការ​ផ្ទេរ
-      Rejected: បានបដិសេធ​ការ​ផ្ទេរ
+      Accepted: យល់ព្រមទទួលយកការផ្ទេរ
+      Rejected: បដិសេធការ​ផ្ទេរ​​
     unflag: ដក​សម្គាល់
     update: ធ្វើបច្ចុប្បន្នភាព
   login:
@@ -1705,7 +1727,21 @@ km:
     filter_by:
       date: កាលបរិច្ឆេទ
       verification_status: ស្ថានភាពការ​ផ្ទៀងផ្ទាត់
+      status_closed: បិទករណី
+      workflow: 'លំហូរការងារ '
       referral_transfer_status: ស្ថានភាពបញ្ជូន/ផ្ទេរ
+      protection_concerns: បញ្ហាដែលជាកង្វល់
+      location: ​ទីតាំង​
+      followup_type: ប្រភេទនៃការតាមដាន
+      service_type: ប្រភេទសេវា
+      service_implemented: បានអនុវត្តសេវា
+    status_options:
+      closed: បិទករណី
+    referral_transfer_status_options:
+      in_progress: កំពុងរង់ចាំ
+      accepted: យល់ព្រម
+      rejected: បដិសេធ
+      done: រួចរាល់
     date_range:
       month: ខែ
       quarter: ត្រីមាស
@@ -1720,12 +1756,52 @@ km:
       custom: កំណត់តាមបំណង (custom)
     no_data: មិនមាន​ទិន្នន័យ​​ទេ
     no_data_table: មិនមាន​ទិន្នន័យ​​ទេ
+    incomplete_data: គ្មានទិន្នន័យ
+    services:
+      name: សេវា
+      description: ករណីបែងចែកតាមសេវា​ អាយុ​ និងភេទ
+    services_report:
+      name: សេវា
+      reports:
+        services: សេវា
+        description: ករណីបែងចែកតាមសេវា​ អាយុ​ និងភេទ
+      sub_reports:
+        services: សេវា
+      filter_options:
+        service_implemented_day_time: បានផ្តល់សេវា
+    followups:
+      name: តាមដាន
+      description: ករណី បែងចែកតាមការតាមដាន អាយុ និងភេទ
     followups_report:
+      name: តាមដាន
       filter_options:
         followup_date: កាលបរិច្ឆេទនៃការតាមដាន
+      reports:
+        followups: តាមដាន
+        description: ករណី បែងចែកតាមការតាមដាន អាយុ និងភេទ
+      sub_reports:
+        followups: តាមដាន
+    protection_concerns:
+      name: បញ្ហាដែលជាកង្វល់
+      description: ករណី បែងចែកតាមបញ្ហាជាកង្វល់ អាយុ និងភេទ
+    protection_concerns_report:
+      reports:
+        protection_concerns: បញ្ហាដែលជាកង្វល់
+        description: ករណី បែងចែកតាមបញ្ហាជាកង្វល់ អាយុ និងភេទ
+      sub_reports:
+        protection_concerns: បញ្ហាដែលជាកង្វល់
+    reporting_locations:
+      name: ​ទីតាំង​
+      description: 'ករណីបែងចែកតាមទីតាំង អាយុ និងភេទ'
+    reporting_locations_report:
+      name: ​ទីតាំង​
+      reports:
+        reporting_locations: ​ទីតាំង​
+      sub_reports:
+        reporting_location_by_sex_and_age: ​ទីតាំង​
     ghn_report:
       sub_reports:
-        total: ការ​បញ្ជូន
+        total: សរុប
     violations:
       name: ការបំពាន
       filter_options:
@@ -1758,13 +1834,79 @@ km:
       reports:
         perpetrators: ជនល្មើស
         referrals: ការ​បញ្ជូន
+    workflow_report:
+      name: 'លំហូរការងារ '
+      description: ករណីបែងចែកតាមស្ថានភាពករណី អាយុ និងភេទ
+      reports:
+        cases_workflow: 'លំហូរការងារ '
+        incidents_workflow: 'លំហូរការងារ '
+      sub_reports:
+        case_workflow_by_sex_and_age: ចំនួនករណីសរុប បែងចែកតាមភេទ និងអាយុ
+        incident_workflow_by_sex_and_age: ចំនួនករណីសរុប បែងចែកតាមភេទ និងអាយុ
+    cases_workflow_report:
+      name: 'លំហូរការងារ '
+      description: ករណីបែងចែកតាមស្ថានភាពករណី អាយុ និងភេទ
+      reports:
+        cases_workflow: លំហូរការងារ
+      sub_reports:
+        case_workflow_by_sex_and_age: ចំនួនករណីសរុប បែងចែកតាមភេទ និងអាយុ
     referrals_transfers_report:
-      name: ស្ថានភាពបញ្ជូន និងផ្ទេរ
+      name: បញ្ជូន និងផ្ទេរ
+      description: ការបញ្ជូន និងផ្ទេរ បែងចែកតាមភ្នាក់ងារ និងក្រុម
       reports:
         total_referrals: ការ​បញ្ជូន
         total_transfers: ផ្ទេរ
       sub_reports:
         total_transfers_by_user_groups: ​ផ្ទេរសរុប
+        total_referrals_by_user_groups: បញ្ជូនសរុប
+    violence_type_report:
+      sub_reports:
+        case_violence_type_by_sex_and_age: ចំនួនករណីសរុប បែងចែកតាមភេទ និងអាយុ
+        incident_violence_type_by_sex_and_age: ចំនួនករណីសរុប បែងចែកតាមភេទ និងអាយុ
+    protection_outcomes:
+      filter_options:
+        date_closure: កាលបរិច្ឆេទបិទករណី
+    process_quality_total_cases:
+      reports:
+        process_quality_total_cases: 'ចំនួនអតិថិជនសរុបដែលទទួលសេវាគ្រប់គ្រងករណីផ្នែកកិច្ចការពារ'
+      description: ចំនួនករណីសរុប បែងចែកតាមស្ថានភាពករណី ភេទ និងរយៈពេល
+      name: 'ដំណើរការ និងគុណភាព-​​ ចំនួនអតិថិជនសរុបដែលទទួលសេវាគ្រប់គ្រងករណីផ្នែកកិច្ចការពារ'
+      filter_options:
+        date_closure: កាលបរិច្ឆេទបិទករណី
+      sub_reports:
+        total_protection_management_cases: 'ចំនួនអតិថិជនសរុបដែលទទួលសេវាគ្រប់គ្រងករណីផ្នែកកិច្ចការពារ'
+    process_quality_average_cases:
+      filter_options:
+        date_closure: កាលបរិច្ឆេទបិទករណី
+    process_quality_implemented_referrals:
+      filter_options:
+        service_implemented_day_time: សេវាបានអនុវត្តនៅ
+    case_characteristics:
+      filter_options:
+        date_closure: កាលបរិច្ឆេទបិទករណី
+    case_management_kpis_report:
+      reports:
+        protection_concerns_reporting_location: បញ្ហាជាកង្វល់ បែកចែកតាមទីតាំង
+        reasons_for_closure: មូលហេតុនៃការបិទករណី
+      sub_reports:
+        case_protection_concerns_reporting_location: បញ្ហាជាកង្វល់ បែកចែកតាមទីតាំង
+        percentage_case_reasons_for_closure: មូលហេតុនៃការបិទករណី
+    case_management_kpis_service_referrals_report:
+      filter_options:
+        service_implemented_day_time: សេវាបានអនុវត្តនៅ
+  usage_report:
+    export:
+      agencies_total: ចំនួនភ្នាក់ងារសរុប
+      users_total: អ្នកប្រើប្រាស់សរុប
+      cases_total: ករណីសរុប
+      cases_closed: បិទករណី
+      cases_closed_this_quarter: បិទករណីនៅត្រីមាសនេះ
+      services_total: សេវាសរុប
+      followups_total: តាមដានសរុប
+      incidents_total: ឧប្បត្តិហេតុសរុប
+  unused_fields_report:
+    field_id: លេខកូដ
+    field_name: ឈ្មោះ
   messages:
     alert_items: អ្នកមាន%{items}កំណត់គសម្គាល់។
     alerts_for:
@@ -1791,6 +1933,7 @@ km:
       no_match: សុំទោស រកមិនឃើញព័ត៌មាននេះទេ
       rows_per_page: ចំនួនជួរដេកក្នុងមួយទំព័រ
       sort: តំរៀប
+      sort_disabled_name_fields: បិទមុខងារ នៅពេលស្វែងរកឈ្មោះ
   navigation:
     bulk_exports: ការនាំចេញ​
     cases: ករណី
@@ -1803,9 +1946,13 @@ km:
     search: ស្វែងរក
     phonetic_search:
       title: សូមបញ្ចូលលេខកូដករណី ដើម្បីស្វែងរកករណីក្នុងប្រព័ន្ធ។
-      label: ប្រើឈ្មោះសំនួរ
+      label: ប្រើឈ្មោះ
+      help_text: អាចស្វែងរកតាមសំឡេងអក្សរសម្រាប់ឈ្មោះ
+      tooltip_label: 'អាចស្វែងរកតាមសំឡេងអក្សរសម្រាប់ឈ្មោះ'
     id_search:
       title: សូមបញ្ចូលលេខកូដករណី ដើម្បីស្វែងរកករណីក្នុងប្រព័ន្ធ។
+      help_text: អាចស្វែងរកលេខកូដ (ID) បាន
+      tooltip_label: 'អាចស្វែងរកលេខកូដ (ID) បាន'
     settings: ការកំណត់
     support: ជំនួយ
     support_menu:
@@ -1813,6 +1960,7 @@ km:
       code_of_conduct: ក្រមសីលធម៌
       terms_of_use: ល័ក្ខខ័ណ្ឌនៃការប្រើប្រាស់
       system_information: ព័ត៌មានក្នុង​ប្រព័ន្ធ
+      resync: ការផ្លាស់ប្តូរនៅពេលគ្មានអ៊ីនធឺណិត ប៉ុន្តែមិនទាន់បានបញ្ជូន
     tasks: កិច្ចការ
     tracing_request: សំណើ​ស្វែងរក
     activity_log: កំណត់ហេតុសកម្មភាព
@@ -1874,9 +2022,9 @@ km:
       dash_reporting_location: មើល​ទីតាំង​រាយការណ៍
       dash_service_provisions: មើល​ការ​ផ្ដល់​សេវាកម្ម
       dash_shared_from_my_team: ករណីបញ្ជូន/ផ្ទេរពីក្រុមខ្ញុំ
-      dash_shared_with_me: ករណីបញ្ជូន ឬផ្ទេរមកខ្ញុំ
+      dash_shared_with_me: មកខ្ញុំ
       dash_shared_with_my_team: ករណីបញ្ជូន/ផ្ទេរមកក្រុមខ្ញុំ
-      dash_shared_with_others: 'ករណីបញ្ជូន ឬផ្ទេរពីខ្ញុំ '
+      dash_shared_with_others: 'ពីខ្ញុំ '
       dash_show_none_values: មើល​តម្លៃគ្មាន
       dash_tasks: មើលកិច្ចការ
       dash_transfers_by_socal_worker: មើល​កា​រផ្ទេរ​ដោយ​បុគ្គលិកសង្គម
@@ -2234,7 +2382,8 @@ km:
       dashboard:
         actions:
           action_needed_transfer_awaiting_acceptance:
-            label: 'ការផ្ទេរកំពុងរង់ចាំការទទួល'
+            explanation: បង្ហាញសូចនាករ "ការផ្ទេរករណីដែលកំពុងរង់ចាំការទទួលយក" នៅក្នុងផ្ទាំង "សកម្មភាពដែលត្រូវអនុវត្ត"។ នេះរួមបញ្ចូលករណីទាំងអស់ដែលត្រូវបានផ្ទេរមកអ្នកប្រើប្រាស់បច្ចុប្បន្ន ប៉ុន្តែអ្នកប្រើប្រាស់បច្ចុប្បន្នមិនទាន់បានយល់ព្រមទទួលយកការផ្ទេរនោះនៅឡើយ។
+            label: 'ការផ្ទេរកំពុងរង់ចាំការយល់ព្រម'
           approvals_action_plan:
             explanation: បង្ហាញចំនួនករណីរបស់អ្នកប្រើប្រាស់បច្ចុប្បន្នជាមួយនឹងសំណើការអនុម័តផែនការ ដែលកំពុងរងចាំ អនុម័ត ឬបដិសេធ។
             label: អ្នកកាន់ករណី%{approval_label}អនុម័ត
@@ -2317,7 +2466,7 @@ km:
             label: ករណីបញ្ជូន/ផ្ទេរពីក្រុមខ្ញុំ
           dash_shared_with_me:
             explanation: បង្ហាញចំនួនករណីដែលត្រូវបានបញ្ជូន ឬផ្ទេរទៅឱ្យអ្នក។
-            label: ករណីបញ្ជូន ឬផ្ទេរមកខ្ញុំ
+            label: មកខ្ញុំ
           dash_shared_with_my_team:
             explanation: បង្ហាញអ្នកគ្រប់គ្រងនូវចំនួនករណីបញ្ជូន និងផ្ទេររបស់អ្នកប្រើប្រាស់និមួយៗនៅក្នុងក្រុម។
             label: ករណីបញ្ជូន/ផ្ទេរមកក្រុមខ្ញុំ
@@ -2325,7 +2474,7 @@ km:
             label: ករណីបញ្ជូន/ផ្ទេរមកក្រុមខ្ញុំ
           dash_shared_with_others:
             explanation: បង្ហាញចំនួនករណីរបស់ខ្ញុំដែលមានការបញ្ជូនសកម្ម ការផ្ទេរកំពុងរងចាំ ឬការផ្ទេរដែលត្រូវបានបដិសេធ។ ជាធម្មតាមិនមែនសម្រាប់អ្នកគ្រប់គ្រងទេ លុះត្រាតែពួកគេគ្រប់គ្រងករណីដោយខ្លួនឯង។
-            label: 'ករណីបញ្ជូន ឬផ្ទេរពីខ្ញុំ '
+            label: 'ពីខ្ញុំ '
           dash_show_none_values:
             explanation: បន្ថែមប្រភេទ "គ្មានកម្រិតហានិភ័យ" បន្ថែមទៅលើផ្ទាំងគ្រប់គ្រងទាំងអស់ ដែលបំបែកករណីតាមកម្រិតហានិភ័យ។ នេះជាពិសេសសម្រាប់ការកំណត់ដែលមានជម្រើសទីបួន "គ្មានហានិភ័យ" សម្រាប់កម្រិតហានិភ័យ។
             label: មើល​ករណី​ដែល '​គ្មាន​ហានិភ័យ' នៅ​ក្នុង​ផ្ទាំង​ព័ត៌មាន​ការ​ប៉ាន់ប្រមាណ
@@ -2447,12 +2596,22 @@ km:
         label: អ្នក​គ្រប់គ្រង?
       managed_report:
         actions:
+          reporting_locations_report:
+            label: ​ទីតាំង​ (ករណី)
+          followups_report:
+            label: តាមដាន (ករណី)
+          protection_concerns_report:
+            label: បញ្ហាដែលជាកង្វល់ (ករណី)
           violations:
             label: ការបំពាន
           gbv_statistics:
             label: ស្ថិតិ GBV
+          workflow_report:
+            label: លំហូរការងារ (ករណី)
+          cases_workflow_report:
+            label: លំហូរការងារ (ករណី)
           referrals_transfers_report:
-            label: ស្ថានភាពបញ្ជូន និងផ្ទេរ (ករណី)
+            label: បញ្ជូន និងផ្ទេរ (ករណី)
       matching_configuration:
         actions:
           manage:
@@ -2751,7 +2910,7 @@ km:
     owned_by_text: ឈ្មោះអ្នកកាន់ករណី
     previously_owned_by: អ្នកកាន់ករណីចាស់
     previously_owned_by_agency: ស្ថាប័នចាស់
-    reassigned_tranferred_on: បានចាត់តាំងឡើងវិញ / ផ្ទេរនៅ
+    reassigned_tranferred_on: ចាត់តាំងឡើងវិញ / ផ្ទេរនៅ
     record_history_separator: ប្រវត្តិកំណត់ត្រា
     last_updated_at: ធ្វើ​បច្ចុប្បន្នភាព​ចុងក្រោយ
     last_updated_by: ធ្វើ​បច្ចុប្បន្នភាព​ចុងក្រោយដោយ
@@ -2769,7 +2928,7 @@ km:
     provided_consent_label: មិនមានការយល់ព្រមនៅក្នុងទម្រង់នេះទេ។
     recipient_label: អ្នកទទួល
     refer_anyway_label: បញ្ជូន?
-    service_label: សេវាកម្ម
+    service_label: សេវា
     success: 'បាន​បញ្ជូន​ %{record_type} %{id} ដោយ​ជោគជ័យ'
     user_mandatory_label: ត្រូវបញ្ចូល​អ្នកទទួល
     date: កាលបរិច្ឆេទ
@@ -2805,7 +2964,7 @@ km:
       before: 'មុន '
       after: 'បន្ទាប់​ពី '
       delete_filter_message: តើ​អ្នក​ប្រាកដ​ជា​ចង់​លុប​សំណួរនេះ​ឬ?
-    group_ages: ប្រើប្រាស់​ចន្លោះ​អាយុ
+    group_ages: 'ប្រើប្រាស់ក្រុមអាយុ '
     group_dates_by: ប្រើប្រាស់​ចន្លោះ​កាលបរិច្ឆេទ
     is_graph: បង្កើត​ក្រាហ្វមែនទេ?
     messages:
@@ -2821,6 +2980,7 @@ km:
     record_type: ប្រភេទ​កំណត់ត្រា
     total: សរុប
     value: តម្លៃ
+    incomplete_data: គ្មានទិន្នន័យ
   reports:
     delete_report: លុបរបាយការណ៍
     delete_report_message: តើ​អ្នក​ប្រាកដ​ជា​ចង់​លុប​របាយការណ៍​នេះ​មែនទេ? ការ​លុប​មិន​អាច​ត្រឡប់​វិញ​បាន​ទេ។ ចុច​យល់ព្រម ដើម្បី​លុប​របាយការណ៍។
@@ -2909,7 +3069,9 @@ km:
       assessment: ការ​ប៉ាន់ប្រមាណ
       case_plan: ផែនការករណី
       follow_up: ការតាមដាន - %{subtype}
-      service: សេវាកម្ម - %{subtype}
+      service: សេវា - %{subtype}
+  terms_of_use:
+    accepted: យល់ព្រមទទួលយកលក្ខខណ្ឌនៃការប្រើប្រាស់ដោយជោគជ័យ។
   tracing_request:
     label: សំណើ​ស្វែងរក
     has_match: ការ​ផ្គូផ្គង​រកឃើញ
@@ -2992,10 +3154,12 @@ km:
       text: តើអ្នកពិតជាចង់កំណត់បញ្ជីកំណត់ត្រានេះសម្រាប់ប្រើពេលដែលគ្មានសេវាអីនធឺណេតមែនទេ?
       success: បញ្ជីកំណត់ត្រាត្រូវបានកំណត់សម្រាប់ប្រើពេលគ្មានសេវាអីនធឺណេត ដោយជោគជ័យ
   families:
+    id: លេខកូដ
     mark_for_offline:
       title: ប្រើសម្រាប់ពេលគ្មានសេវាអីនធឺណេត
   family:
     family_member:
+      case_id: លេខកូដករណី
       save_and_return: បន្ថែម និងត្រឡប់
   transfer:
     label: 'ផ្ទេរ '
@@ -3031,7 +3195,7 @@ km:
     no_consent_share: 'ការ​យល់ព្រម មិនត្រូវបានពិចារណា '
     notes: កំណត់សម្គាល់
     recipient: អ្នកទទួល
-    rejected: បដិសេធហេតុផល
+    rejected: មូលហេតុ​បដិសេធ
     requested_by: ស្នើសំុដោយ
     service_label: សេវា
     responded_at: ឆ្លើយតបនៅ
@@ -3042,7 +3206,7 @@ km:
       inprogress: កំពុង​រង់ចាំ
       rejected: បដិសេធ
       revoked: ហៅមកវិញ (revoke)
-    transferred_by: បាន​ផ្ទេរដោយ
+    transferred_by: ​ផ្ទេរដោយ
     type:
       assign: ចាត់តាំង
       reassign: ចាត់តាំង
@@ -3078,7 +3242,7 @@ km:
     services_help_text: ប្រសិនបើអ្នកមិនបញ្ជាក់សេវាជាក់លាក់ទេ អ្នកប្រើប្រាស់នេះនឹងត្រូវបានផ្តល់សេវាមដូចគ្នាដែលស្ថាប័នរបស់វាមាន។
     password_setting:
       label: តើ Primero គួរកំណត់ពាក្យសម្ងាត់របស់អ្នកប្រើយ៉ាងដូចម្តេច?
-      self: ញុំនឹងកំណត់ពាក្យសម្ងាត់
+      self: ខ្ញុំនឹងកំណត់ពាក្យសម្ងាត់
       user: អ្នកប្រើប្រាស់នឹងកំណត់ពាក្យសម្ងាត់ដោយប្រើអ៊ីមែលស្វាគមន៍
       help_text: សូមចងចាំថា ប្រសិនបើអ្នក ជាអ្នកគ្រប់គ្រងកំណត់ពាក្យសម្ងាត់ដោយដៃ អ្នកនឹងត្រូវចែករំលែកវាជាមួយអ្នកប្រើប្រាស់ក្នុងលក្ខណៈសុវត្ថិភាព។
     password_reset_header: ផ្ញើអ៊ីមែលកំណត់ពាក្យសម្ងាត់ឡើងវិញ
@@ -3086,12 +3250,17 @@ km:
     password_reset_request: ផ្ញើអ៊ីមែលកំណត់ពាក្យសម្ងាត់ឡើងវិញ
     password: ពាក្យសម្ងាត់
     password_confirmation: បញ្ជាក់លេខកូដសម្ងាត់
-    phone: ទូរស័ព្ទ
+    phone: លេខទូរស័ព្ទ
     position: មុខតំណែង
     provider_username_help: 'ឧទាហរណ៍៖ my.username@%{domain}'
     role_id: តួនាទី
-    send_mail: តើ​ទទួល​បាន​ការ​ជូន​ដំណឹង​តាម​អ៊ីមែល​ដែ​រឬទេ?
+    send_mail: ទទួល​បាន​ការ​ជូន​ដំណឹង​តាម​អ៊ីមែល​?
+    receive_webpush:
+      label: ទទួលបានការជូនដំណឹង?
     notification_preferences:
+      approval_request: 'ស្នើសំុការអនុម័ត (អ្នកគ្រប់គ្រង)'
+      approval_response: 'ឆ្លើយតបការអនុម័ត (អ្នកកាន់ករណី)'
+      transition_notification: 'ចាត់តាំង ផ្ទេរ និងបញ្ជូន '
       transfer_request: 'សំណើ​ផ្ទេរ'
     user_group_unique_ids: ក្រុម​អ្នកប្រើប្រាស់
     user_name: អ្នកប្រើប្រាស់
