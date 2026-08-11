@@ -4,19 +4,33 @@
 # This logic is normally handled on the front end, but use this service
 # when generating server-side exports or sending emails.
 class FieldValueService < ValueObject
-  attr_accessor :lookups, :agencies, :location_service
+  attr_accessor :lookups, :agencies, :location_service, :registry_records, :registry_fields_by_type, :system_settings
 
   def self.value(field, value, opts = {})
     new(opts).value(field, value, opts)
   end
 
-  # TODO: Dates, DateTimes, DateRange, possibly arrays?
+  # TODO: DateRange? Censored values?
   def value(field, value, opts = {})
+    case value
+    when Time then I18n.l(value, format: :with_time)
+    when Date then I18n.l(value)
+    when Array then value.map { |item| self.value(field, item, opts) }
+    else
+      return value unless field.present?
+
+      value_for_field(field, value, opts)
+    end
+  end
+
+  def value_for_field(field, value, opts)
     case field.type
     when Field::TICK_BOX
       boolean_value(value, opts)
     when Field::RADIO_BUTTON, Field::SELECT_BOX
       selected_value(field, value, opts)
+    when Field::REGISTRY
+      registry_value(field, value, opts)
     else
       value
     end
@@ -46,6 +60,16 @@ class FieldValueService < ValueObject
     return value unless lookup
 
     value_for(lookup.lookup_values_i18n, value, opts)
+  end
+
+  def registry_value(field, value, opts = {})
+    registry_fields = registry_fields_for(field)
+    registry_record = registry_records&.dig(value) || RegistryRecord.find_by(id: value)
+    return unless registry_record.present? && registry_fields.present?
+
+    registry_fields.map do |registry_field|
+      self.value(registry_field, registry_record.data[registry_field.name], opts)
+    end.compact.join(' - ')
   end
 
   def record_name_value(class_name, value, opts = {})
@@ -81,5 +105,21 @@ class FieldValueService < ValueObject
     self.lookups ||= Lookup.all # TODO: enabled only?
 
     lookups.find { |lookup| lookup.unique_id == unique_id }
+  end
+
+  def registry_fields_for(field)
+    field_names = registry_field_names(field)
+    self.registry_fields_by_type ||= {}
+    return [] unless field_names.present?
+
+    self.registry_fields_by_type[field.option_strings_source] ||= Field.joins(:form_section).where(
+      name: field_names, form_section: { parent_form: RegistryRecord.parent_form }
+    ).index_by(&:name).values_at(*field_names).compact
+
+    registry_fields_by_type[field.option_strings_source]
+  end
+
+  def registry_field_names(field)
+    system_settings.registry_options&.dig(field.option_strings_source, 'collapsed_field_names')
   end
 end
