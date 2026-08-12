@@ -1,6 +1,15 @@
 # frozen_string_literal: true
 
-# Represents a query against a registry field
+# Generates the SQL expression needed to display a registry-type field in
+# report query results. Registry fields store references to RegistryRecord
+# rows inside a JSONB colum. The registry records are brought
+# into the query via the joins built by Reports::RegistryJoinQuery, and
+# this class extracts the values from those joined rows.
+#
+# Registry fields are configured with collapsed_field_names in the SystemSettings,
+# which causes multiple sub-fields to be part of the display value for a registry field.
+# This query is concatenating those values but a different approach
+# is needed for fields with configured lookups.
 class Reports::FieldQueries::RegistryFieldQuery < Reports::FieldQueries::FieldQuery
   attr_accessor :system_settings, :aliases
 

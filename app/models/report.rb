@@ -38,7 +38,7 @@ class Report < ApplicationRecord
   #      The report builds a value hash with an array of strings as keys. CouchDB/CouchRest converts this array to
   #      a string. Not clear what benefit could be gained by storing the data but converting keys to strings on the fly
   #      when rendering the graph and table. So for now we will rebuild the data.
-  attr_accessor :data
+  attr_accessor :data, :registry_records
   attr_accessor :add_default_filters, :aggregate_by_ordered, :disaggregate_by_ordered, :permission_filter
 
   self.unique_id_from_attribute = 'name_en'
@@ -85,7 +85,11 @@ class Report < ApplicationRecord
 
   def build_report
     results = ActiveRecord::Base.connection.execute(build_query).to_a
+    @registry_record_ids = []
     self.data = results.each_with_object({}) { |result, acc| write_result(result, acc) }
+    # Fetch the registry records associated with the report data. We don't expect a lot of registry records.
+    self.registry_records = RegistryRecord.where(id: @registry_record_ids) if @registry_record_ids.present?
+    data
   end
 
   def write_result(result, data_hash)
@@ -94,6 +98,7 @@ class Report < ApplicationRecord
       value = result[field_query.column_alias.delete('"')]
       break if value.blank?
 
+      @registry_record_ids << value if field_query.field.type == Field::REGISTRY && value != 'incomplete_data'
       write_field_data(acc, value, result)
     end
   end
@@ -133,23 +138,11 @@ class Report < ApplicationRecord
 
   def build_query
     query = model.try(:parent_record_type).present? ? join_nested_model : model
-    query = registry_join_query.apply(query)
     query = select_fields(query)
     query = apply_filters(query)
     query = query.group(group_by_fields)
     query = query.order(sort_fields)
     query.to_sql
-  end
-
-  def registry_join_query
-    @registry_join_query ||= Reports::RegistryJoinQuery.new(
-      json_column: registry_json_column,
-      registry_fields: pivot_fields.values.select { |field| field.type == Field::REGISTRY }.uniq(&:name)
-    )
-  end
-
-  def registry_json_column
-    model.try(:parent_record_type).present? ? nested_model_alias : 'data'
   end
 
   def join_nested_model
@@ -186,7 +179,6 @@ class Report < ApplicationRecord
     case field.type
     when Field::DATE_FIELD then build_date_field_query(field)
     when Field::NUMERIC_FIELD then build_numeric_field_query(field)
-    when Field::REGISTRY then build_registry_field_query(field)
     when Field::SELECT_BOX then build_select_box_query(field, pivot)
     else
       build_field_query(field)
@@ -197,10 +189,6 @@ class Report < ApplicationRecord
     return build_location_field_query(field, pivot) if field.option_strings_source == 'Location'
 
     build_field_query(field)
-  end
-
-  def build_registry_field_query(field)
-    Reports::FieldQueries::RegistryFieldQuery.new(field:, aliases: registry_join_query.registry_aliases[field.name])
   end
 
   def build_location_field_query(field, pivot)

@@ -938,7 +938,6 @@ describe Report do
   describe 'registry fields' do
     let(:system_settings) do
       SystemSettings.new(
-
         'registry_options' => {
           'provider' => { 'collapsed_field_names' => %w[registry_id_display name] },
           'foster_care' => { 'collapsed_field_names' => %w[registry_no name] }
@@ -976,7 +975,7 @@ describe Report do
         disaggregate_by: []
       )
 
-      expect(report.build_report).to eq('PROV-001 - Acme Services' => { '_total' => 1 })
+      expect(report.build_report).to eq(provider.id => { '_total' => 1 })
     end
 
     it 'generates nested service data using a registry field and sex field' do
@@ -1017,7 +1016,7 @@ describe Report do
       )
 
       expect(report.build_report).to eq(
-        'PROV-001 - Acme Services' => { '_total' => 1, 'female' => { '_total' => 1 }, 'male' => { '_total' => 0 } }
+        provider.id => { '_total' => 1, 'female' => { '_total' => 1 }, 'male' => { '_total' => 0 } }
       )
     end
 
@@ -1063,8 +1062,8 @@ describe Report do
 
       expect(report.build_report).to eq(
         {
-          'male' => { '_total' => 1, 'FC-001 - Foster Home' => { '_total' => 1 } },
-          'female' => { '_total' => 1, 'FC-001 - Foster Home' => { '_total' => 1 } }
+          'male' => { '_total' => 1, foster_care.id => { '_total' => 1 } },
+          'female' => { '_total' => 1, foster_care.id => { '_total' => 1 } }
         }
       )
     end
@@ -1106,7 +1105,7 @@ describe Report do
       )
 
       expect(report.build_report).to eq(
-        'PROV-001 - Acme Services' => { '_total' => 1, 'FC-001 - Foster Home' => { '_total' => 1 } }
+        provider.id => { '_total' => 1, foster_care.id => { '_total' => 1 } }
       )
     end
   end

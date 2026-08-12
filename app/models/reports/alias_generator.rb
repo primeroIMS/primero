@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-# Generates valid PostgreSQL aliases
+# Generates valid PostgreSQL column aliases. This is useful when we are dynamically fetching data
+# from JSONB properties and need to perform aggregations or sorting over those properties.
 class Reports::AliasGenerator
   PG_MAX_IDENTIFIER_LENGTH = 62
   AFFIX_MAX_LENGTH = 6
@@ -22,7 +23,7 @@ class Reports::AliasGenerator
     random_hash = SecureRandom.hex(2)
     short_prefix = truncate_affix(@prefix)
     short_suffix = truncate_affix(@suffix)
-    [short_suffix, short_prefix, random_hash].sum(&:length)
+    affixes_length = [short_suffix, short_prefix, random_hash].sum(&:length)
     max_field_name_length = PG_MAX_IDENTIFIER_LENGTH - affixes_length
     [short_prefix, @field_name.slice(0, max_field_name_length), random_hash, short_suffix].compact.join('_')
   end
