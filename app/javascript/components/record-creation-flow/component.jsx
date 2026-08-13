@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import addIdSearch  from "../index-filters/utils/add-id-search";
 import PropTypes from "prop-types";
 import { Drawer, FormHelperText } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -8,6 +7,7 @@ import isEmpty from "lodash/isEmpty";
 import { push } from "connected-react-router";
 import { useDispatch } from "react-redux";
 
+import addIdSearch from "../index-filters/utils/add-id-search";
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
 import { useI18n } from "../i18n";
@@ -48,6 +48,7 @@ function Component({ open, onClose, recordType, primeroModule, preventCaseCreati
 
   const onSearchCases = data => {
     const searchData = addIdSearch(data);
+
     dispatch(
       applyFilters({
         recordType,
