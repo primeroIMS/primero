@@ -1,0 +1,5 @@
+<p><%= I18n.t('user.bulk_email.header', user_name: @sender_user_name, locale: @locale) %></p>
+<blockquote style="border-left: 4px solid #DBDBDB; margin: 13px 0; padding: 4px 0 4px 16px; color: #4A4A4A;">
+  <%= simple_format(@message) %>
+</blockquote>
+<p><%= I18n.t('user.bulk_email.footer', locale: @locale) %></p>

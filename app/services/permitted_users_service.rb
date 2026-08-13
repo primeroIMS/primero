@@ -23,8 +23,11 @@ class PermittedUsersService
   end
 
   def bulk_disable_users(filters)
-    users = apply_filters(permitted_users, filters)
-    users.update_all(disabled: true, updated_at: Time.current)
+    users_for_filters(filters).update_all(disabled: true, updated_at: Time.current)
+  end
+
+  def users_for_filters(filters = nil)
+    apply_filters(permitted_users, filters)
   end
 
   private

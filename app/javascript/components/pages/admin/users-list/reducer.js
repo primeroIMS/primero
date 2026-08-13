@@ -26,6 +26,14 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
       return state.setIn(["disableUsers", "loading"], false).setIn(["disableUsers", "errors"], false);
     case actions.DISABLE_USERS_FINISHED:
       return state.setIn(["disableUsers", "loading"], false).setIn(["disableUsers", "errors"], false);
+    case actions.SEND_EMAILS_STARTED:
+      return state.setIn(["sendEmails", "loading"], true).setIn(["sendEmails", "errors"], false);
+    case actions.SEND_EMAILS_FAILURE:
+      return state.setIn(["sendEmails", "loading"], false).setIn(["sendEmails", "errors"], true);
+    case actions.SEND_EMAILS_SUCCESS:
+      return state.setIn(["sendEmails", "loading"], false).setIn(["sendEmails", "errors"], false);
+    case actions.SEND_EMAILS_FINISHED:
+      return state.setIn(["sendEmails", "loading"], false).setIn(["sendEmails", "errors"], false);
     default:
       return state;
   }

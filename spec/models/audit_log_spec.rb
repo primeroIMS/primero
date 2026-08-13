@@ -195,4 +195,24 @@ describe AuditLog do
       expect(audit_log.metadata['user_name']).to eq('random_user')
     end
   end
+
+  describe '#log_message' do
+    before do
+      allow(SystemSettings).to receive(:current).and_return(
+        instance_double(SystemSettings, approvals_labels: %w[assessment case_plan closure action_plan gbv_closure])
+      )
+    end
+
+    it 'uses the action key as the message prefix' do
+      audit_log = AuditLog.new(record_type: 'User', record_id: '1', action: 'show')
+
+      expect(audit_log.log_message[:prefix][:key]).to eq('logger.actions.show')
+    end
+
+    it 'uses the description key as the message prefix for bulk_email' do
+      audit_log = AuditLog.new(record_type: 'User', record_id: '1', action: AuditLog::BULK_EMAIL)
+
+      expect(audit_log.log_message[:prefix][:key]).to eq('logger.descriptions.bulk_email')
+    end
+  end
 end

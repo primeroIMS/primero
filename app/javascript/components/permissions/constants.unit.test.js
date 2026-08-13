@@ -132,6 +132,7 @@ describe("Verifying config constant", () => {
       "SEARCH_OWNED_BY_OTHERS",
       "SEARCH_AND_SELECT_FAMILY_RECORD",
       "SELF_APPROVE",
+      "SEND_EMAIL_MULTIPLE",
       "SERVICES_SECTION_FROM_CASE",
       "SYNC_EXTERNAL",
       "TRANSFER",

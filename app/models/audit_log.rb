@@ -7,6 +7,8 @@ class AuditLog < ApplicationRecord
 
   LOGIN = 'login'
   WEBHOOK = 'webhook'
+  BULK_EMAIL = 'bulk_email'
+  DESCRIPTION_KEY_ACTIONS = [BULK_EMAIL].freeze
   # Webhook statuses
   FAILED = 'failed'        # Failed the HTTP send request
   NOT_FOUND = 'not_found'  # The HTTP request is successful, but it does not find a record in the external system
@@ -21,7 +23,8 @@ class AuditLog < ApplicationRecord
                refer_done refer_accepted assessment_approved detach attach reopen close transfer_revoked
                transfer_rejected case_plan_approved case_plan_requested refer_revoke closure_approved create_family
                import closure_requested case_plan_rejected closure_rejected assessment_rejected add_note
-               user_password_reset_request transfer_request family incident_details_from_case failed_login].freeze
+               user_password_reset_request transfer_request family incident_details_from_case failed_login
+               bulk_email].freeze
   RECORD_TYPES = %w[agency alert audit_log bulk_export child code_of_conduct dashboard form_section incident location
                     lookup permission primero_configuration report role saved_search system_settings
                     task tracing_request user user_group].freeze
@@ -112,13 +115,19 @@ class AuditLog < ApplicationRecord
 
   def log_message
     log_message_hash = {}
-    log_message_hash[:prefix] = { key: "logger.actions.#{action}", approval_type: }
+    log_message_hash[:prefix] = { key: log_message_prefix_key, approval_type: }
     log_message_hash[:identifier] = display_id.present? ? "#{record_type} '#{display_id}'" : record_type
     log_message_hash[:suffix] = {
       key: 'logger.by_user',
       user: user_name
     }
     log_message_hash
+  end
+
+  def log_message_prefix_key
+    return "logger.descriptions.#{action}" if DESCRIPTION_KEY_ACTIONS.include?(action)
+
+    "logger.actions.#{action}"
   end
 
   def statistic_message

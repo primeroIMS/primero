@@ -2,7 +2,7 @@ import { fromJS } from "immutable";
 
 import NAMESPACE from "../namespace";
 
-import { selectListHeaders } from "./selectors";
+import { selectListHeaders, getSendEmailsLoading, getSendEmailsErrors } from "./selectors";
 
 const stateWithHeaders = fromJS({
   user: {
@@ -28,6 +28,30 @@ describe("<UsersList /> - Selectors", () => {
       const headers = selectListHeaders(stateWithoutHeaders, NAMESPACE);
 
       expect(headers).toEqual(fromJS([]));
+    });
+  });
+
+  describe("getSendEmailsLoading", () => {
+    it("should return the loading state", () => {
+      const state = fromJS({ records: { users: { sendEmails: { loading: true } } } });
+
+      expect(getSendEmailsLoading(state)).toBe(true);
+    });
+
+    it("should return false when state is empty", () => {
+      expect(getSendEmailsLoading(fromJS({}))).toBe(false);
+    });
+  });
+
+  describe("getSendEmailsErrors", () => {
+    it("should return the errors state", () => {
+      const state = fromJS({ records: { users: { sendEmails: { errors: true } } } });
+
+      expect(getSendEmailsErrors(state)).toBe(true);
+    });
+
+    it("should return false when state is empty", () => {
+      expect(getSendEmailsErrors(fromJS({}))).toBe(false);
     });
   });
 });
