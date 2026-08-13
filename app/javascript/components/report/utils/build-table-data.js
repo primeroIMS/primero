@@ -3,9 +3,9 @@ import getColumnsTableData from "./get-columns-table-data";
 import getRowsTableData from "./get-rows-table-data";
 import translateReportData from "./translate-report-data";
 
-export default (report, i18n, { agencies, ageRanges, locations }) => {
+export default (report, i18n, { agencies, ageRanges, locations, registryOptions }) => {
   const reportData = report.toJS();
-  const translatedReport = translateReportData(reportData, i18n, { agencies, locations });
+  const translatedReport = translateReportData(reportData, i18n, { agencies, locations, registryOptions });
   const translatedReportWithAllFields = {
     ...translatedReport,
     fields: reportData.fields

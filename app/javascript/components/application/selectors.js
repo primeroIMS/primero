@@ -219,6 +219,8 @@ export const getIsEnabledWebhookSyncFor = (state, primeroModule, recordType) => 
 
 export const getCodesOfConduct = state => state.getIn([NAMESPACE, "codesOfConduct"], fromJS({}));
 
+export const getRegistryOptions = state => state.getIn([NAMESPACE, "registryOptions"], fromJS({}));
+
 export const getRegistryOptionsByType = (state, type) =>
   state.getIn([NAMESPACE, "registryOptions", type], fromJS({})).toJS();
 
