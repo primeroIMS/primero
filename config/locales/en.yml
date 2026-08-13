@@ -1412,6 +1412,7 @@ en:
     photo_upload_box: Photo Upload
     phone_number: Phone Number
     predifined_lookups: Use pre-defined lookup
+    query_required: This field is required
     radio_button: Radio Button
     remove: Remove
     remove_attachment_confirmation: Are you sure you want to remove this attachment?

@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useMediaQuery } from "@mui/material";
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 import isEmpty from "lodash/isEmpty";
 import { cx } from "@emotion/css";
 
@@ -25,6 +27,21 @@ import { getIsRecordCreationFlow } from "../../../records";
 import { NAME, FORM_ID } from "./constants";
 import css from "./styles.css";
 
+const schema = yup.object({
+  [FIELD_NAME_QUERY]: yup.string().required(),
+  [PHONETIC_FIELD_NAME]: yup.boolean(),
+  [PHONE_NUMBER_FIELD_NAME]: yup.boolean()
+}).test(
+  'at-least-one',
+  'required',
+  (value) => {
+    return value != null &&
+      Object.values(value).some(
+        (v) => v !== undefined && v !== null && v !== ''
+      );
+  }
+);
+
 function Component({
   i18n,
   onCloseDrawer,
@@ -42,7 +59,8 @@ function Component({
       [FIELD_NAME_QUERY]: "",
       [PHONETIC_FIELD_NAME]: false,
       [PHONE_NUMBER_FIELD_NAME]: false
-    }
+    },
+    resolver: yupResolver(schema)
   });
   const { searchField, phoneError, handleInvalidNumber, isPhoneNumber, handleToggleChange } = useSearchBox({
     control: methods.control,
@@ -145,7 +163,7 @@ function Component({
           <p className={searchBoxCss.phoneNumberError}>{i18n.t("navigation.phone_number_search.warning_text")}</p>
         )}
         <div className={css.searchHelpText}>
-          <SearchHelpText searchField={searchField} recordType={recordType} />
+          <SearchHelpText searchField={searchField} recordType={recordType} errors={methods.formState.errors} />
         </div>
       </div>
     </form>

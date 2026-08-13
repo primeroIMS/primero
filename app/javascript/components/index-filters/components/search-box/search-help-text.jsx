@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import { memo } from "react";
+import FormHelperText from "@mui/material/FormHelperText";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { cx } from "@emotion/css";
 
@@ -18,7 +19,7 @@ const HELP_TEXT_I18N_KEY = {
   phone_number: "navigation.phone_number_search.help_text"
 };
 
-function Component({ recordType = "case", searchField }) {
+function Component({ recordType = "case", searchField, errors }) {
   const i18n = useI18n();
   const tooltipFields = useMemoizedSelector(state => getTooltipFields(state, recordType, searchField));
   const searchFieldTooltips = tooltipFields?.map(obj => displayNameHelper(obj, i18n.locale));
@@ -31,6 +32,7 @@ function Component({ recordType = "case", searchField }) {
       <p className={className}>
         <InfoOutlinedIcon />
         <span>{searchHelpText}</span>
+        {errors?.query?.message && <FormHelperText error>{i18n.t('fields.query_required')}</FormHelperText>}
       </p>
     </Tooltip>
   );
@@ -40,7 +42,8 @@ Component.displayName = "SearchHelpText";
 
 Component.propTypes = {
   recordType: PropTypes.string,
-  searchField: PropTypes.string
+  searchField: PropTypes.string,
+  errors: PropTypes.object
 };
 
 export default memo(Component);
