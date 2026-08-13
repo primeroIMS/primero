@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import addIdSearch  from "../index-filters/utils/add-id-search";
 import PropTypes from "prop-types";
 import { Drawer, FormHelperText } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
@@ -46,10 +47,11 @@ function Component({ open, onClose, recordType, primeroModule, preventCaseCreati
   };
 
   const onSearchCases = data => {
+    const searchData = addIdSearch(data);
     dispatch(
       applyFilters({
         recordType,
-        data: { ...SEARCH_OR_CREATE_FILTERS, ...(!isEmpty(data) && { ...data }) },
+        data: { ...SEARCH_OR_CREATE_FILTERS, ...(!isEmpty(searchData) && { ...searchData }) },
         isRecordCreationFlow: true
       })
     );
