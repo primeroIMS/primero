@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useMediaQuery } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
+import { object, string, boolean } from "yup";
 import isEmpty from "lodash/isEmpty";
 import { cx } from "@emotion/css";
 
@@ -27,20 +27,13 @@ import { getIsRecordCreationFlow } from "../../../records";
 import { NAME, FORM_ID } from "./constants";
 import css from "./styles.css";
 
-const schema = yup.object({
-  [FIELD_NAME_QUERY]: yup.string().required(),
-  [PHONETIC_FIELD_NAME]: yup.boolean(),
-  [PHONE_NUMBER_FIELD_NAME]: yup.boolean()
-}).test(
-  'at-least-one',
-  'required',
-  (value) => {
-    return value != null &&
-      Object.values(value).some(
-        (v) => v !== undefined && v !== null && v !== ''
-      );
-  }
-);
+const schema = object({
+  [FIELD_NAME_QUERY]: string().required(),
+  [PHONETIC_FIELD_NAME]: boolean(),
+  [PHONE_NUMBER_FIELD_NAME]: boolean()
+}).test("at-least-one", "required", value => {
+  return value != null && Object.values(value).some(_value => _value !== undefined && _value !== null && _value !== "");
+});
 
 function Component({
   i18n,

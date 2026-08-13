@@ -32,7 +32,7 @@ function Component({ recordType = "case", searchField, errors }) {
       <p className={className}>
         <InfoOutlinedIcon />
         <span>{searchHelpText}</span>
-        {errors?.query?.message && <FormHelperText error>{i18n.t('fields.query_required')}</FormHelperText>}
+        {errors?.query?.message && <FormHelperText error>{i18n.t("fields.query_required")}</FormHelperText>}
       </p>
     </Tooltip>
   );
@@ -41,9 +41,9 @@ function Component({ recordType = "case", searchField, errors }) {
 Component.displayName = "SearchHelpText";
 
 Component.propTypes = {
+  errors: PropTypes.object,
   recordType: PropTypes.string,
-  searchField: PropTypes.string,
-  errors: PropTypes.object
+  searchField: PropTypes.string
 };
 
 export default memo(Component);
