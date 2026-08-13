@@ -7,6 +7,7 @@ import isEmpty from "lodash/isEmpty";
 import { push } from "connected-react-router";
 import { useDispatch } from "react-redux";
 
+import addIdSearch from "../index-filters/utils/add-id-search";
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
 import { useI18n } from "../i18n";
@@ -46,10 +47,12 @@ function Component({ open, onClose, recordType, primeroModule, preventCaseCreati
   };
 
   const onSearchCases = data => {
+    const searchData = addIdSearch(data);
+
     dispatch(
       applyFilters({
         recordType,
-        data: { ...SEARCH_OR_CREATE_FILTERS, ...(!isEmpty(data) && { ...data }) },
+        data: { ...SEARCH_OR_CREATE_FILTERS, ...(!isEmpty(searchData) && { ...searchData }) },
         isRecordCreationFlow: true
       })
     );
