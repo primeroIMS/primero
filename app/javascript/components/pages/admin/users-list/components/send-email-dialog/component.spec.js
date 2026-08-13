@@ -1,5 +1,5 @@
 import { fromJS } from "immutable";
-import { mountedComponent, screen } from "test-utils";
+import { act, fireEvent, mountedComponent, screen } from "test-utils";
 
 import SendEmailDialog from "./component";
 
@@ -82,6 +82,45 @@ describe("<SendEmailDialog /> components/pages/admin/users-list/components", () 
 
     it("renders the send button", () => {
       expect(screen.getByText("buttons.send")).toBeInTheDocument();
+    });
+
+    it("does not render the confirmation modal yet", () => {
+      expect(screen.queryByText("users.send_email_confirm_text")).not.toBeInTheDocument();
+    });
+  });
+
+  describe("when the form is submitted", () => {
+    const initialState = fromJS({
+      records,
+      ui: {
+        dialogs: {
+          dialog: "SendEmailDialog",
+          open: true
+        }
+      }
+    });
+
+    beforeEach(async () => {
+      mountedComponent(<SendEmailDialog {...props} />, initialState);
+
+      fireEvent.change(screen.getByRole("textbox", { name: "users.send_email_subject_label" }), {
+        target: { value: "A subject" }
+      });
+      fireEvent.change(screen.getByRole("textbox", { name: "users.send_email_text_label" }), {
+        target: { value: "A message" }
+      });
+
+      await act(async () => {
+        fireEvent.click(screen.getByText("buttons.send"));
+      });
+    });
+
+    it("opens the confirmation modal", () => {
+      expect(screen.getByText("users.send_email_confirm_text")).toBeInTheDocument();
+    });
+
+    it("renders a Send and a Cancel button on the confirmation modal", () => {
+      expect(screen.getAllByText("buttons.send")).toHaveLength(2);
     });
   });
 });

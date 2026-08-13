@@ -5158,6 +5158,7 @@ en:
     send_email_selected: '%{users_selected} user(s) selected'
     send_email_subject_label: Subject
     send_email_text_label: Email text
+    send_email_confirm_text: 'Are you sure? This email will be sent to %{users_selected} user(s).'
     send_email_success: Primero is sending an email to %{users_selected} user(s). This may take several minutes.
     selected_records: '%{select_records} user(s) selected'
     selected_all_records: Select all %{total_records} users that match this query.

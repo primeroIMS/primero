@@ -1,3 +1,4 @@
+import { useState } from "react";
 import PropTypes from "prop-types";
 import { fromJS } from "immutable";
 import { useDispatch } from "react-redux";
@@ -23,21 +24,31 @@ function Component({ filters, selectedRecords, setSelectedRecords, recordType })
   const selectedRecordsLength = Object.values(selectedRecords || {}).flat()?.length;
 
   const { dialogOpen, dialogClose } = useDialog(NAME);
+  const [confirmationOpen, setConfirmationOpen] = useState(false);
+  const [emailData, setEmailData] = useState({ subject: "", message: "" });
 
   const handleClose = () => {
+    setConfirmationOpen(false);
     dialogClose();
     setSelectedRecords({});
   };
 
-  const handleSubmit = ({ subject, message }) => {
+  const handleFormSubmit = ({ subject, message }) => {
+    setEmailData({ subject, message });
+    setConfirmationOpen(true);
+  };
+
+  const handleCancelConfirmation = () => setConfirmationOpen(false);
+
+  const handleConfirmedSend = () => {
     const userIndex = Object.values(selectedRecords).flat();
     const userIds = userIndex.map(index => data.getIn(["data", index], fromJS({}))?.get("id"));
 
     dispatch(
       sendEmails({
         filters: selectedRecordsLength <= data.getIn(["data"]).size ? fromJS({ ids: userIds }) : filters,
-        subject,
-        message,
+        subject: emailData.subject,
+        message: emailData.message,
         snackbarMessage: i18n.t("users.send_email_success", { users_selected: selectedRecordsLength })
       })
     );
@@ -53,26 +64,35 @@ function Component({ filters, selectedRecords, setSelectedRecords, recordType })
   });
 
   return (
-    <ActionDialog
-      open={dialogOpen}
-      dialogTitle={i18n.t("users.send_email_title")}
-      dialogSubHeader={i18n.t("users.send_email_selected", { users_selected: selectedRecordsLength })}
-      confirmButtonLabel={i18n.t("buttons.send")}
-      confirmButtonProps={{ form: FORM_ID, type: "submit" }}
-      cancelHandler={handleClose}
-      pending={loading}
-      omitCloseAfterSuccess
-    >
-      <Form
-        mode={FORM_MODE_DIALOG}
-        formSections={form(i18n)}
-        onSubmit={handleSubmit}
-        initialValues={{ subject: "", message: "" }}
-        validations={schema}
-        formID={FORM_ID}
-        showTitle={false}
+    <>
+      <ActionDialog
+        open={dialogOpen}
+        dialogTitle={i18n.t("users.send_email_title")}
+        dialogSubHeader={i18n.t("users.send_email_selected", { users_selected: selectedRecordsLength })}
+        confirmButtonLabel={i18n.t("buttons.send")}
+        confirmButtonProps={{ form: FORM_ID, type: "submit" }}
+        cancelHandler={handleClose}
+      >
+        <Form
+          mode={FORM_MODE_DIALOG}
+          formSections={form(i18n)}
+          onSubmit={handleFormSubmit}
+          initialValues={{ subject: "", message: "" }}
+          validations={schema}
+          formID={FORM_ID}
+          showTitle={false}
+        />
+      </ActionDialog>
+      <ActionDialog
+        open={confirmationOpen}
+        dialogTitle={i18n.t("users.send_email_title")}
+        dialogText={i18n.t("users.send_email_confirm_text", { users_selected: selectedRecordsLength })}
+        confirmButtonLabel={i18n.t("buttons.send")}
+        successHandler={handleConfirmedSend}
+        cancelHandler={handleCancelConfirmation}
+        pending={loading}
       />
-    </ActionDialog>
+    </>
   );
 }
 
