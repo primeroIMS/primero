@@ -138,5 +138,44 @@ describe("<AuditLogs /> - Helpers", () => {
 
       expect(handleDialogClick).toHaveBeenCalledWith("DisableDialog", "disable");
     });
+
+    it("should return the send email action when canSendEmailMultiple is true", () => {
+      const i18n = { t: value => value };
+      const handleDialogClick = jest.fn();
+      const expected = [
+        {
+          id: ACTION_IDS.sendEmail,
+          name: "users.send_email_title",
+          disableOffline: true,
+          condition: true,
+          action: expect.any(Function)
+        }
+      ];
+
+      const result = helper.buildActionList({
+        i18n,
+        handleDialogClick,
+        canDisableMultiple: false,
+        canSendEmailMultiple: true
+      });
+
+      expect(result).toEqual(expected);
+    });
+
+    it("should call handleDialogClick with the send email dialog when the action is executed", () => {
+      const i18n = { t: value => value };
+      const handleDialogClick = jest.fn();
+
+      const result = helper.buildActionList({
+        i18n,
+        handleDialogClick,
+        canDisableMultiple: false,
+        canSendEmailMultiple: true
+      });
+
+      result[0].action();
+
+      expect(handleDialogClick).toHaveBeenCalledWith("SendEmailDialog", "send_email");
+    });
   });
 });

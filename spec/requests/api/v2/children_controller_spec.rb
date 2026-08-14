@@ -1088,11 +1088,11 @@ describe Api::V2::ChildrenController, type: :request do
       it 'updates the subforms if cannot update the record' do
         login_for_test(
           permitted_fields: [],
-          group_permission: Permission::SELF,
+          group_permission: Permission::ALL,
           permissions: [
             Permission.new(
               resource: Permission::CASE,
-              actions: [Permission::SERVICES_SECTION_FROM_CASE]
+              actions: [Permission::SERVICES_SECTION_FROM_CASE, Permission::READ]
             )
           ]
         )
@@ -1114,12 +1114,12 @@ describe Api::V2::ChildrenController, type: :request do
       it 'updates the subforms if cannot read/write cases' do
         login_for_test(
           permitted_fields: [],
-          group_permission: Permission::SELF,
+          group_permission: Permission::ALL,
           permissions: [
             Permission.new(
               resource: Permission::CASE,
               actions: [
-                Permission::SERVICES_SECTION_FROM_CASE
+                Permission::SERVICES_SECTION_FROM_CASE, Permission::READ
               ]
             )
           ]
@@ -1140,7 +1140,15 @@ describe Api::V2::ChildrenController, type: :request do
       end
 
       it 'returns 403 if the user is not authorized' do
-        login_for_test(group_permission: Permission::SELF)
+        login_for_test(
+          group_permission: Permission::ALL,
+          permissions: [
+            Permission.new(
+              resource: Permission::CASE,
+              actions: [Permission::READ]
+            )
+          ]
+        )
         params = {
           data: { services_section: [{ service_type: 'test-type' }] },
           record_action: Permission::SERVICES_SECTION_FROM_CASE
@@ -1156,11 +1164,11 @@ describe Api::V2::ChildrenController, type: :request do
     describe 'when a user closes a case that cannot be updated' do
       it 'close the case if he is authorized to close cases' do
         login_for_test(
-          group_permission: Permission::SELF,
+          group_permission: Permission::ALL,
           permissions: [
             Permission.new(
               resource: Permission::CASE,
-              actions: [Permission::CLOSE]
+              actions: [Permission::CLOSE, Permission::READ]
             )
           ]
         )
@@ -1174,7 +1182,15 @@ describe Api::V2::ChildrenController, type: :request do
       end
 
       it 'returns 403 if the user is not authorized' do
-        login_for_test(group_permission: Permission::SELF)
+        login_for_test(
+          group_permission: Permission::ALL,
+          permissions: [
+            Permission.new(
+              resource: Permission::CASE,
+              actions: [Permission::READ]
+            )
+          ]
+        )
 
         params = { data: { status: 'closed' }, record_action: Permission::CLOSE }
 
@@ -1195,11 +1211,11 @@ describe Api::V2::ChildrenController, type: :request do
 
       it 'reopens the case if he is authorized to reopen cases' do
         login_for_test(
-          group_permission: Permission::SELF,
+          group_permission: Permission::ALL,
           permissions: [
             Permission.new(
               resource: Permission::CASE,
-              actions: [Permission::REOPEN]
+              actions: [Permission::REOPEN, Permission::READ]
             )
           ]
         )
@@ -1213,7 +1229,15 @@ describe Api::V2::ChildrenController, type: :request do
       end
 
       it 'returns 403 if the user is not authorized' do
-        login_for_test(group_permission: Permission::SELF)
+        login_for_test(
+          group_permission: Permission::ALL,
+          permissions: [
+            Permission.new(
+              resource: Permission::CASE,
+              actions: [Permission::READ]
+            )
+          ]
+        )
 
         params = { data: { status: 'open', case_reopened: true }, record_action: Permission::REOPEN }
 
@@ -1228,11 +1252,11 @@ describe Api::V2::ChildrenController, type: :request do
     describe 'when a user disables a case that cannot update' do
       it 'disables the case if he is authorized to disable cases' do
         login_for_test(
-          group_permission: Permission::SELF,
+          group_permission: Permission::ALL,
           permissions: [
             Permission.new(
               resource: Permission::CASE,
-              actions: [Permission::ENABLE_DISABLE_RECORD]
+              actions: [Permission::ENABLE_DISABLE_RECORD, Permission::READ]
             )
           ]
         )
@@ -1246,7 +1270,15 @@ describe Api::V2::ChildrenController, type: :request do
       end
 
       it 'returns 403 if the user is not authorized' do
-        login_for_test(group_permission: Permission::SELF)
+        login_for_test(
+          group_permission: Permission::ALL,
+          permissions: [
+            Permission.new(
+              resource: Permission::CASE,
+              actions: [Permission::READ]
+            )
+          ]
+        )
 
         params = { data: { record_state: false }, record_action: Permission::ENABLE_DISABLE_RECORD }
 
@@ -1563,7 +1595,9 @@ describe Api::V2::ChildrenController, type: :request do
   describe 'DELETE /api/v2/cases/:id' do
     it 'successfully deletes a record with a code of 200' do
       login_for_test(
-        permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::ENABLE_DISABLE_RECORD])]
+        permissions: [Permission.new(resource: Permission::CASE,
+                                     actions: [Permission::ENABLE_DISABLE_RECORD,
+                                               Permission::READ])]
       )
       delete "/api/v2/cases/#{@case1.id}"
 
@@ -1575,7 +1609,12 @@ describe Api::V2::ChildrenController, type: :request do
     end
 
     it "returns 403 if user isn't authorized to disable records" do
-      login_for_test(permissions: [])
+      login_for_test(permissions: [
+                       Permission.new(
+                         resource: Permission::CASE,
+                         actions: [Permission::READ]
+                       )
+                     ])
       delete "/api/v2/cases/#{@case1.id}"
 
       expect(response).to have_http_status(403)
@@ -1639,7 +1678,12 @@ describe Api::V2::ChildrenController, type: :request do
 
   describe 'POST /api/v2/cases/:id/family' do
     it 'creates a new child linked to a family when there is no family record' do
-      login_for_test(permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::CASE_FROM_FAMILY])])
+      login_for_test(
+        group_permission: Permission::ALL,
+        permissions: [
+          Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::CASE_FROM_FAMILY])
+        ]
+      )
 
       params = { data: { family_detail_id: @member_unique_id3 } }
 
@@ -1663,7 +1707,12 @@ describe Api::V2::ChildrenController, type: :request do
     end
 
     it 'creates a new child linked to a family when there is a family record' do
-      login_for_test(permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::CASE_FROM_FAMILY])])
+      login_for_test(
+        group_permission: Permission::ALL,
+        permissions: [Permission.new(resource: Permission::CASE,
+                                     actions: [Permission::READ,
+                                               Permission::CASE_FROM_FAMILY])]
+      )
 
       params = { data: { family_detail_id: @member_unique_id5 } }
 
@@ -1688,10 +1737,11 @@ describe Api::V2::ChildrenController, type: :request do
 
     it 'creates a new child and returns the family data if a user has the view_family_record permission' do
       login_for_test(
+        group_permission: Permission::ALL,
         permissions: [
           Permission.new(
             resource: Permission::CASE,
-            actions: [Permission::CASE_FROM_FAMILY, Permission::VIEW_FAMILY_RECORD]
+            actions: [Permission::READ, Permission::CASE_FROM_FAMILY, Permission::VIEW_FAMILY_RECORD]
           )
         ]
       )

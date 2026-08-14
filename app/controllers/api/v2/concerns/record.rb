@@ -54,6 +54,7 @@ module Api::V2::Concerns::Record
   def destroy
     authorize! :enable_disable_record, model_class
     @record = find_record
+    authorize! :read, @record
     @record.update_properties(current_user, record_state: false)
     @record.save!
     render 'api/v2/records/destroy'
@@ -205,6 +206,7 @@ module Api::V2::Concerns::Record
   def authorize_update!
     if params[:record_action].present?
       authorize!(params[:record_action].to_sym, model_class)
+      authorize!(:read, @record)
     else
       authorize!(:update, @record)
     end

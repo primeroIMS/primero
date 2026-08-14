@@ -267,11 +267,15 @@ class User < ApplicationRecord
         scope = scope.with_audit_date_between(
           action: config[:action],
           record_type: config[:record_type],
-          from: Time.zone.parse(filters.dig(last_date, 'from')),
-          to: Time.zone.parse(filters.dig(last_date, 'to'))
+          from: parse_date_filter(filters.dig(last_date, 'from')),
+          to: parse_date_filter(filters.dig(last_date, 'to'))
         )
       end
       scope
+    end
+
+    def parse_date_filter(value)
+      value.is_a?(String) ? Time.zone.parse(value) : value
     end
 
     def build_self_registration_user(params, stream)

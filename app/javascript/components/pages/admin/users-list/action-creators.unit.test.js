@@ -9,7 +9,7 @@ describe("<UsersList /> - Action Creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionsCreators };
 
-    ["fetchUsers", "setUsersFilters", "disableUsers"].forEach(property => {
+    ["fetchUsers", "setUsersFilters", "disableUsers", "sendEmails"].forEach(property => {
       expect(creators).toHaveProperty(property);
       delete creators[property];
     });
@@ -55,5 +55,20 @@ describe("<UsersList /> - Action Creators", () => {
     expect(result.api.path).toEqual(`${RECORD_PATH.users}/update_bulk`);
     expect(result.api.body).toEqual({ data: filters.toJS() });
     expect(result.api.successCallback).toHaveLength(3);
+  });
+
+  it("should check that 'sendEmails' action creator returns the correct object", () => {
+    const filters = fromJS({ ids: ["1", "2"] });
+    const subject = "A subject";
+    const message = "A message";
+    const snackbarMessage = "Sending emails";
+
+    const result = actionsCreators.sendEmails({ filters, subject, message, snackbarMessage });
+
+    expect(result.type).toEqual(actions.SEND_EMAILS);
+    expect(result.api.method).toEqual(METHODS.POST);
+    expect(result.api.path).toEqual(`${RECORD_PATH.users}/send_emails`);
+    expect(result.api.body).toEqual({ data: { ids: ["1", "2"], subject, message } });
+    expect(result.api.successCallback).toHaveLength(2);
   });
 });

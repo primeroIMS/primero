@@ -37,7 +37,8 @@ function ReassignForm({
   mode,
   selectedRecordsLength,
   currentRecordsSize,
-  formDisabled = false
+  formDisabled = false,
+  hasRecordOutOfScope = false
 }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -148,23 +149,26 @@ function ReassignForm({
     innerRef: assignRef
   };
 
-  const internalAlert = formDisabled && (
-    <InternalAlert
-      items={fromJS([
-        {
-          message: i18n.t("reassign.incident_from_case_warning")
-        }
-      ])}
-      severity={SEVERITY.info}
-    />
-  );
+  const alert = hasRecordOutOfScope
+    ? i18n.t("reassign.out_of_scope_warning")
+    : i18n.t("reassign.incident_from_case_warning");
+  const showAlert = formDisabled || hasRecordOutOfScope;
 
   return (
     <Formik {...formProps}>
       {({ handleSubmit }) => {
         return (
           <Form onSubmit={handleSubmit}>
-            {internalAlert}
+            {showAlert && (
+              <InternalAlert
+                items={fromJS([
+                  {
+                    message: alert
+                  }
+                ])}
+                severity={SEVERITY.info}
+              />
+            )}
             <div className={css.field}>
               <Field name="transitioned_to">
                 {({ field, form, ...other }) => {
@@ -204,6 +208,7 @@ ReassignForm.propTypes = {
   currentRecordsSize: PropTypes.number,
   formDisabled: PropTypes.bool,
   formik: PropTypes.object,
+  hasRecordOutOfScope: PropTypes.bool,
   mode: PropTypes.object,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,

@@ -1,5 +1,9 @@
 import { FIELD_NAMES } from "../users-form/constants";
-import { CAN_DISABLE_MULTIPLE_USERS, CREATE_RECORDS } from "../../../permissions/constants";
+import {
+  CAN_DISABLE_MULTIPLE_USERS,
+  CAN_SEND_EMAIL_MULTIPLE_USERS,
+  CREATE_RECORDS
+} from "../../../permissions/constants";
 
 export const LIST_HEADERS = [
   { label: "users.headers.full_name", name: "full_name" },
@@ -21,13 +25,17 @@ export const ACTIVITY_FILTERS = Object.freeze([
 
 export const USERS_DIALOG = "UserDialog";
 export const ACTION_IDS = Object.freeze({
-  disable: 1
+  disable: 1,
+  sendEmail: 2
 });
 export const ACTION_NAMES = Object.freeze({
-  disable: "disable"
+  disable: "disable",
+  sendEmail: "send_email"
 });
 export const DISABLE_DIALOG_NAME = "DisableDialog";
+export const SEND_EMAIL_DIALOG_NAME = "SendEmailDialog";
 export const USERS_ABILITIES = Object.freeze({
   canAddUsers: CREATE_RECORDS,
-  canDisableMultiple: CAN_DISABLE_MULTIPLE_USERS
+  canDisableMultiple: CAN_DISABLE_MULTIPLE_USERS,
+  canSendEmailMultiple: CAN_SEND_EMAIL_MULTIPLE_USERS
 });

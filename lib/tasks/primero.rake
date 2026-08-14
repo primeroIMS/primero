@@ -217,17 +217,8 @@ namespace :primero do
     puts "Error Messages: #{importer.errors}" if importer.errors.present?
   end
 
-  # Imports Record data from a csv file
-  # USAGE: rails primero:import_records[file_name]
-  # Args:
-  #   file_name                - The CSV file to be imported
-  #   created_by_user          - The user that creates the record
-  #   owned_by_user (optional) - The owner.  If not provided, uses the created by user
-  #
-  # Examples:
-  #   rails primero:import_records[<path>/registry_records.csv,system_user]
-  #
-  #   rails primero:import_records[<path>/registry_records.csv,system_user,owned_by_user]
+  # Sets a password entered at a prompt for all users the user name of which starts with 'primero'
+  # USAGE: rails primero:default_password
   desc 'Set a default password for all generic users.'
   task default_password: :environment do
     require 'io/console'
@@ -322,32 +313,6 @@ namespace :primero do
     puts "#{action} user #{user.user_name} (id=#{user.id})"
   end
 
-  # TODO: Check if this is still useful
-  # desc "Recalculates admin_level on all locations"
-  # task :recalculate_admin_level => :environment do
-  #   locations = Location.all_top_level_ancestors
-  #   if locations.present?
-  #     locations.each do |lct|
-  #       lct.admin_level ||= 0
-  #       lct.save!
-  #       puts "Updating admin level for all descendants of #{lct.name}"
-  #       lct.update_descendants_admin_level
-  #     end
-  #   end
-  # end
-
-  desc 'Deletes out all configurable data. Do this only if you need to reseed from scratch or load a JSON config!'
-  task remove_config_data: :environment do
-    # Adding in Field model because it is not included in CONFIGURABLE_MODELS but, you cannot delete FormSections
-    # unless Fields are deleted first
-    config_data_models = [Field] + PrimeroConfiguration::CONFIGURABLE_MODELS
-
-    config_data_models.each do |m|
-      puts "Deleting the database for #{m.name}"
-      m.destroy_all
-    end
-  end
-
   # Exports Forms to a .xlsx spreadsheet
   # It creates 1 spreadsheet containing a tab for each form
   #
@@ -392,40 +357,6 @@ namespace :primero do
     roles_exporter = Exporters::RolePermissionsExporter.new(file_name, locale)
     roles_exporter.export
     puts 'Done!'
-  end
-
-  # Populate the case ID code and case ID Display
-  desc 'Populate case ID code and case ID Display on existing Cases'
-  task set_case_id_display: :environment do
-    puts 'Updating Case ID Display...'
-    system_settings = SystemSettings.current
-    Child.all.each do |record|
-      before = "BEFORE  short_id: #{record.short_id}  case_id_code: #{record.case_id_code}  " \
-               "case_id_display: #{record.case_id_display}"
-      puts before
-
-      record.case_id_code = record.create_case_id_code(system_settings) if record.case_id_code.blank?
-      record.case_id_display = record.create_case_id_display(system_settings) if record.case_id_display.blank?
-
-      after = "AFTER  short_id: #{record.short_id}  case_id_code: #{record.case_id_code}  " \
-              "case_id_display: #{record.case_id_display}"
-      puys after
-
-      if record.changed?
-        puts "SAVING #{record.id}..."
-        record.save(validate: false)
-      end
-      puts '=========================================='
-    end
-  end
-
-  # For each case having a date_of_birth, recalculate the age based on date_of_birth
-  # USAGE:   $bundle exec rake db:data:recalculate_case_ages
-  desc 'Recalculate ages on Cases'
-  task recalculate_case_ages: :environment do
-    puts 'Recalculating ages based on date of birth...'
-    # Passing in no params causes recalculate! to recalculate ALL cases
-    RecalculateAge.recalculate!
   end
 
   desc 'Export translations to JS file(s)'

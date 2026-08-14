@@ -15,6 +15,7 @@ describe("<UsersList /> - constants", () => {
       "ACTION_IDS",
       "ACTION_NAMES",
       "DISABLE_DIALOG_NAME",
+      "SEND_EMAIL_DIALOG_NAME",
       "USERS_ABILITIES",
       "USERS_DIALOG",
       "ROLE_ID"

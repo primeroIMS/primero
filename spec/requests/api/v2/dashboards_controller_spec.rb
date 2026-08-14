@@ -159,11 +159,11 @@ describe Api::V2::DashboardsController, type: :request do
       case_overview_dashboard = json['data'].find { |d| d['name'] == 'dashboard.case_overview' }
       expect(case_overview_dashboard['indicators']['total']['count']).to eq(2)
       expect(case_overview_dashboard['indicators']['total']['query']).to match_array(
-        %w[record_state=true status=open module_id=primeromodule-cp]
+        %w[record_state=true status=open]
       )
       expect(case_overview_dashboard['indicators']['new_or_updated']['count']).to eq(1)
       expect(case_overview_dashboard['indicators']['new_or_updated']['query']).to match_array(
-        %w[record_state=true status=open not_edited_by_owner=true module_id=primeromodule-cp]
+        %w[record_state=true status=open not_edited_by_owner=true]
       )
     end
 
@@ -484,16 +484,16 @@ describe Api::V2::DashboardsController, type: :request do
         expect(shared_with_me_dashboard['shared_with_me_accepted_referrals']['count']).to eq(1)
         expect(shared_with_me_dashboard['shared_with_me_transfers_awaiting_acceptance']['count']).to eq(1)
         expect(shared_with_me_dashboard['shared_with_me_total_referrals']['query']).to match_array(
-          %w[referred_users=user2 record_state=true status=open module_id=primeromodule-cp]
+          %w[referred_users=user2 record_state=true status=open]
         )
         expect(shared_with_me_dashboard['shared_with_me_pending_referrals']['query']).to match_array(
-          %w[referred_users_pending=user2 record_state=true status=open module_id=primeromodule-cp]
+          %w[referred_users_pending=user2 record_state=true status=open]
         )
         expect(shared_with_me_dashboard['shared_with_me_accepted_referrals']['query']).to match_array(
-          %w[referred_users_accepted=user2 record_state=true status=open module_id=primeromodule-cp]
+          %w[referred_users_accepted=user2 record_state=true status=open]
         )
         expect(shared_with_me_dashboard['shared_with_me_transfers_awaiting_acceptance']['query']).to match_array(
-          %w[transferred_to_users=user2 record_state=true status=open module_id=primeromodule-cp]
+          %w[transferred_to_users=user2 record_state=true status=open]
         )
       end
 
@@ -608,9 +608,12 @@ describe Api::V2::DashboardsController, type: :request do
             Permission::DASH_PERPETRATOR_ARMED_FORCE_GROUP_PARTY_NAMES
           ]
         )
+        @mrm_module = PrimeroModule.create!(
+          unique_id: PrimeroModule::MRM, name: 'MRM', associated_record_types: %w[incident]
+        )
         @role = Role.new(
           permissions: [@permission_violation_dashboards],
-          primero_modules: [@primero_module],
+          primero_modules: [@mrm_module],
           group_permission: Permission::GROUP
         )
         @role.save(validate: false)

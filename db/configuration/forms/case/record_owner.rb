@@ -137,7 +137,7 @@ record_owner_fields = [
               'type' => 'subform',
               'editable' => false,
               'disabled' => true,
-              'subform_section' => reopened_logs,
+              'subform' => reopened_logs,
               'display_name_en' => 'Case Reopened',
               'subform_sort_by' => 'reopened_date' })
 ]

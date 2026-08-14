@@ -20,7 +20,7 @@ import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { reduceMapToObject } from "../../libs/component-helpers";
 
 import { DEFAULT_SELECTED_RECORDS_VALUE, FILTER_CATEGORY, HIDDEN_FIELDS } from "./constants";
-import { compactFilters, removeSearchIdParams, transformFilters } from "./utils";
+import { addIdSearch, compactFilters, removeSearchIdParams, transformFilters } from "./utils";
 import SearchBox from "./components/search-box";
 import { applyFilters, setFilters } from "./action-creators";
 import css from "./components/styles.css";
@@ -106,7 +106,9 @@ function Component({ recordType, setSelectedRecords, metadata }) {
   }, [methods.reset, queryString]);
 
   const handleSubmit = useCallback(data => {
-    const payload = removeSearchIdParams(omit(transformFilters.combine(compactFilters(data)), "filter_category"));
+    const payload = removeSearchIdParams(
+      omit(transformFilters.combine(compactFilters(addIdSearch(data))), "filter_category")
+    );
 
     resetSelectedRecords();
     dispatch(

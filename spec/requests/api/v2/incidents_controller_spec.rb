@@ -143,6 +143,7 @@ describe Api::V2::IncidentsController, type: :request do
             type: 'killing',
             ctfmr_verified: 'verified',
             ctfmr_verified_date: Date.new(2023, 5, 12),
+            verified_ghn_reported: 'ghn_q1_2025',
             is_late_verification: true
           }
         ]
@@ -209,6 +210,15 @@ describe Api::V2::IncidentsController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data'].size).to eq(1)
       expect(json['data'].map { |data| data['id'] }).to match_array([@incident5.id])
+    end
+
+    it 'filters incidents by the GHN their violations were included in' do
+      sign_in(@mrm_user)
+      get '/api/v2/incidents?verified_ghn_reported[0]=ghn_q1_2025'
+
+      expect(response).to have_http_status(200)
+      expect(json['data'].size).to eq(1)
+      expect(json['data'].map { |data| data['id'] }).to match_array([@incident4.id])
     end
   end
 
@@ -442,7 +452,9 @@ describe Api::V2::IncidentsController, type: :request do
   describe 'DELETE /api/v2/incidents/:id' do
     it 'successfully deletes a record with a code of 200' do
       login_for_test(
-        permissions: [Permission.new(resource: Permission::INCIDENT, actions: [Permission::ENABLE_DISABLE_RECORD])]
+        permissions: [Permission.new(resource: Permission::INCIDENT,
+                                     actions: [Permission::READ,
+                                               Permission::ENABLE_DISABLE_RECORD])]
       )
       delete "/api/v2/incidents/#{@incident1.id}"
 

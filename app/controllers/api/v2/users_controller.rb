@@ -10,6 +10,7 @@ class Api::V2::UsersController < ApplicationApiController
   before_action :load_extended, only: %i[index show]
   after_action :welcome, only: %i[create]
   after_action :identity_sync, only: %i[create update]
+  skip_after_action :write_audit_log, only: %i[send_emails]
 
   def index
     authorize! :index, User
@@ -58,6 +59,12 @@ class Api::V2::UsersController < ApplicationApiController
     render :index
   end
 
+  def send_emails
+    authorize! :send_email_multiple, User
+    BulkUserEmailJob.perform_later(current_user.id, users_send_emails_params)
+    render :send_emails, status: 200
+  end
+
   protected
 
   def order_params
@@ -71,6 +78,16 @@ class Api::V2::UsersController < ApplicationApiController
   def users_bulk_params
     params.require(:data).permit(:disabled, :agency, :user_group_ids, :query,
                                  ids: [],
+                                 last_access: %i[from to],
+                                 last_case_viewed: %i[from to],
+                                 last_case_updated: %i[from to]).to_h
+  end
+
+  def users_send_emails_params
+    params.require(:data).require(:subject)
+    params.require(:data).require(:message)
+    params.require(:data).permit(:subject, :message, :agency, :query,
+                                 ids: [], user_group_ids: [], disabled: [], role_id: [], agency: [],
                                  last_access: %i[from to],
                                  last_case_viewed: %i[from to],
                                  last_case_updated: %i[from to]).to_h

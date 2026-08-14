@@ -148,4 +148,72 @@ describe("<UsersList /> - Reducers", () => {
 
     expect(newState).toEqual(expected);
   });
+
+  it("should handle SEND_EMAILS_STARTED", () => {
+    const expected = fromJS({
+      sendEmails: {
+        loading: true,
+        errors: false
+      }
+    });
+
+    const action = {
+      type: actions.SEND_EMAILS_STARTED
+    };
+
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).toEqual(expected);
+  });
+
+  it("should handle SEND_EMAILS_SUCCESS", () => {
+    const expected = fromJS({
+      sendEmails: {
+        loading: false,
+        errors: false
+      }
+    });
+
+    const action = {
+      type: actions.SEND_EMAILS_SUCCESS
+    };
+
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).toEqual(expected);
+  });
+
+  it("should handle SEND_EMAILS_FAILURE", () => {
+    const expected = fromJS({
+      sendEmails: {
+        loading: false,
+        errors: true
+      }
+    });
+
+    const action = {
+      type: actions.SEND_EMAILS_FAILURE
+    };
+
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).toEqual(expected);
+  });
+
+  it("should handle SEND_EMAILS_FINISHED", () => {
+    const expected = fromJS({
+      sendEmails: {
+        loading: false,
+        errors: false
+      }
+    });
+
+    const action = {
+      type: actions.SEND_EMAILS_FINISHED
+    };
+
+    const newState = reducer(fromJS({}), action);
+
+    expect(newState).toEqual(expected);
+  });
 });

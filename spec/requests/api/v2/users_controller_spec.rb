@@ -3,6 +3,8 @@
 require 'rails_helper'
 
 describe Api::V2::UsersController, type: :request do
+  include ActiveJob::TestHelper
+
   before :each do
     clean_data(
       FormSection, Alert, User, Role, PrimeroModule, Agency, PrimeroProgram,
@@ -976,6 +978,158 @@ describe Api::V2::UsersController, type: :request do
         expect(response).to have_http_status(403)
         expect(json['errors'].size).to eq(1)
         expect(json['errors'][0]['resource']).to eq('/api/v2/users/update_bulk')
+      end
+    end
+  end
+
+  describe 'POST /api/v2/users/send_emails' do
+    before do
+      clear_enqueued_jobs
+      @send_email_multiple_permission = Permission.new(
+        resource: Permission::USER,
+        actions: [Permission::SEND_EMAIL_MULTIPLE]
+      )
+    end
+
+    context 'when user has send_email_multiple permission' do
+      it 'enqueues a bulk email job for the selected ids' do
+        login_for_test(permissions: [@send_email_multiple_permission])
+
+        params = {
+          data: {
+            ids: [@user_a.id, @user_b.id],
+            subject: 'A subject',
+            message: 'A message'
+          }
+        }
+
+        post '/api/v2/users/send_emails', params:, as: :json
+
+        expect(response).to have_http_status(200)
+        expect(json['data']['subject']).to eq('A subject')
+        expect(json['data']['message']).to eq('A message')
+
+        bulk_email_job = enqueued_jobs.find { |job| job[:job] == BulkUserEmailJob }
+        expect(bulk_email_job).to be_present
+        expect(bulk_email_job[:args][1]).to include(
+          'ids' => [@user_a.id, @user_b.id], 'subject' => 'A subject', 'message' => 'A message'
+        )
+      end
+
+      it 'enqueues a bulk email job for a filter query' do
+        login_for_test(permissions: [@send_email_multiple_permission])
+
+        params = {
+          data: {
+            agency: @agency_a.id,
+            subject: 'A subject',
+            message: 'A message'
+          }
+        }
+
+        post '/api/v2/users/send_emails', params:, as: :json
+
+        expect(response).to have_http_status(200)
+        expect(enqueued_jobs.find { |job| job[:job] == BulkUserEmailJob }).to be_present
+      end
+
+      it 'passes the list filters through to the job' do
+        login_for_test(permissions: [@send_email_multiple_permission])
+
+        params = {
+          data: {
+            subject: 'A subject',
+            message: 'A message',
+            disabled: ['false'],
+            role_id: [@role.id],
+            user_group_ids: [@user_group_a.unique_id],
+            last_access: { from: '2010-01-01T00:00:00Z', to: '2010-01-31T00:00:00Z' }
+          }
+        }
+
+        post '/api/v2/users/send_emails', params:, as: :json
+
+        expect(response).to have_http_status(200)
+
+        expect(BulkUserEmailJob).to have_been_enqueued.with(
+          anything,
+          hash_including(
+            'disabled' => ['false'],
+            'role_id' => [@role.id],
+            'user_group_ids' => [@user_group_a.unique_id],
+            'last_access' => hash_including(
+              'from' => Time.zone.parse('2010-01-01T00:00:00Z'),
+              'to' => Time.zone.parse('2010-01-31T00:00:00Z')
+            )
+          )
+        )
+      end
+
+      it 'returns 422 if the message is missing' do
+        login_for_test(permissions: [@send_email_multiple_permission])
+
+        params = { data: { ids: [@user_a.id], subject: 'A subject' } }
+
+        post '/api/v2/users/send_emails', params:, as: :json
+
+        expect(response).to have_http_status(422)
+        expect(enqueued_jobs.find { |job| job[:job] == BulkUserEmailJob }).to be_nil
+      end
+
+      it 'returns 422 if the subject is missing' do
+        login_for_test(permissions: [@send_email_multiple_permission])
+
+        params = { data: { ids: [@user_a.id], message: 'A message' } }
+
+        post '/api/v2/users/send_emails', params:, as: :json
+
+        expect(response).to have_http_status(422)
+        expect(enqueued_jobs.find { |job| job[:job] == BulkUserEmailJob }).to be_nil
+      end
+    end
+
+    context 'when user has the manage permission on users' do
+      it 'enqueues a bulk email job' do
+        login_for_test(
+          permissions: [Permission.new(resource: Permission::USER, actions: [Permission::MANAGE])]
+        )
+
+        params = {
+          data: {
+            ids: [@user_a.id],
+            subject: 'A subject',
+            message: 'A message'
+          }
+        }
+
+        post '/api/v2/users/send_emails', params:, as: :json
+
+        expect(response).to have_http_status(200)
+        expect(enqueued_jobs.find { |job| job[:job] == BulkUserEmailJob }).to be_present
+      end
+    end
+
+    context 'when user does not have send_email_multiple permission' do
+      it 'returns 403 forbidden' do
+        login_for_test(
+          permissions: [
+            Permission.new(resource: Permission::USER, actions: [Permission::READ])
+          ]
+        )
+
+        params = {
+          data: {
+            ids: [@user_a.id, @user_b.id],
+            subject: 'A subject',
+            message: 'A message'
+          }
+        }
+
+        post '/api/v2/users/send_emails', params:, as: :json
+
+        expect(response).to have_http_status(403)
+        expect(json['errors'].size).to eq(1)
+        expect(json['errors'][0]['resource']).to eq('/api/v2/users/send_emails')
       end
     end
   end

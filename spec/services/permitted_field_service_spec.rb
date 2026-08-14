@@ -376,6 +376,16 @@ describe PermittedFieldService, search: true do
       permitted_field_names = PermittedFieldService.new(mrm_user, Incident).permitted_field_names(PrimeroModule::MRM)
       expect(permitted_field_names.include?('mrm_field')).to be true
     end
+
+    it 'permits filtering on MRM violation filter fields' do
+      allow(mrm_user).to receive(:module?).with(PrimeroModule::MRM).and_return(true)
+      permitted_field_names = PermittedFieldService.new(mrm_user, Incident).permitted_field_names(PrimeroModule::MRM)
+      expect(permitted_field_names).to include(
+        'verified_ghn_reported', 'child_role', 'weapon_type', 'facility_impact',
+        'facility_attack_type', 'abduction_purpose_single', 'military_use_type',
+        'types_of_aid_disrupted_denial'
+      )
+    end
   end
 
   describe 'Permitted Fields for Custom Modules' do
