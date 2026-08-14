@@ -1029,6 +1029,7 @@ en:
   errors:
     api:
       internal_server: Server Error
+      too_many_requests: Too many requests. Please try again later.
       user:
         disposable_email: "Looks like this is a temporary email provider. To keep accounts secure, please use your personal or work email."
         captcha_service_unavailable: "Verification service is currently unavailable. Please try submitting again: refreshing the page usually helps if the connection was interrupted."

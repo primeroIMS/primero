@@ -879,6 +879,7 @@ hu:
   errors:
     api:
       internal_server: Szerver hiba
+      too_many_requests: Túl sok kérés. Kérjük, próbálja újra később.
     attachments:
       maximum: Elérte a rekordhoz tartozó maximum mellékletek számát.
     error_loading: Hiba a rekord(ok) betöltésekor
