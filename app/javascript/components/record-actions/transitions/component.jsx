@@ -49,6 +49,9 @@ function Transitions({
   const selectedRecordsLength = Object.values(selectedRecords || {}).flat()?.length;
   const selectedIds = buildSelectedIds(selectedRecords, records, currentPage, "id");
   const { present: incidentFromCasePresent } = useIncidentFromCase({ recordType: RECORD_TYPES[recordType], record });
+  const hasRecordOutOfScope = records?.some(
+    _record => selectedIds.includes(_record.get("id")) && !_record.get("record_in_scope")
+  );
 
   const commonDialogProps = {
     omitCloseAfterSuccess: true,
@@ -99,6 +102,7 @@ function Transitions({
           assignRef={assignFormikRef}
           selectedRecordsLength={selectedRecordsLength}
           formDisabled={incidentFromCasePresent}
+          hasRecordOutOfScope={hasRecordOutOfScope}
         />
       );
     }
