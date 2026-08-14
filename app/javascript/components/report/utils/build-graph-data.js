@@ -5,7 +5,7 @@ import getColumns from "./get-columns";
 import getLabels from "./get-labels";
 import translateReportData from "./translate-report-data";
 
-export default (report, i18n, { agencies, ageRanges, locations }) => {
+export default (report, i18n, { agencies, ageRanges, locations, registryOptions }) => {
   const reportData = report.toJS();
 
   if (!reportData.report_data) {
@@ -15,7 +15,7 @@ export default (report, i18n, { agencies, ageRanges, locations }) => {
   const totalLabel = i18n.t("report.total");
 
   const { fields } = reportData;
-  const translatedReport = translateReportData(reportData, i18n);
+  const translatedReport = translateReportData(reportData, i18n, { registryOptions });
   const qtyColumns = fields.filter(field => field.position.type === REPORT_FIELD_TYPES.vertical).length;
   const qtyRows = fields.filter(field => field.position.type === REPORT_FIELD_TYPES.horizontal).length;
   const columns = getColumns(translatedReport.report_data, totalLabel, qtyColumns, qtyRows);

@@ -934,4 +934,179 @@ describe Report do
       )
     end
   end
+
+  describe 'registry fields' do
+    let(:system_settings) do
+      SystemSettings.new(
+        'registry_options' => {
+          'provider' => { 'collapsed_field_names' => %w[registry_id_display name] },
+          'foster_care' => { 'collapsed_field_names' => %w[registry_no name] }
+        }
+      )
+    end
+
+    before do
+      clean_data(Field, Child, RegistryRecord, Report, Lookup)
+      allow(SystemSettings).to receive(:current).and_return(system_settings)
+
+      Field.create!(
+        name: 'service_provider',
+        display_name: 'Service Provider',
+        type: Field::REGISTRY,
+        option_strings_source: RegistryRecord::REGISTRY_TYPE_PROVIDER
+      )
+    end
+
+    it 'generates data using the configured registry summary fields' do
+      provider = RegistryRecord.create!(
+        data: {
+          registry_type: RegistryRecord::REGISTRY_TYPE_PROVIDER,
+          registry_id_display: 'PROV-001',
+          name: 'Acme Services'
+        }
+      )
+      Child.create!(data: { module_id: module1.unique_id, service_provider: provider.id })
+
+      report = Report.new(
+        name: 'Services by provider',
+        record_type: 'case',
+        module_id: module1.unique_id,
+        aggregate_by: ['service_provider'],
+        disaggregate_by: []
+      )
+
+      expect(report.build_report).to eq(provider.id => { '_total' => 1 })
+    end
+
+    it 'generates nested service data using a registry field and sex field' do
+      Lookup.create!(
+        unique_id: 'lookup-sex',
+        name_en: 'sex',
+        lookup_values_en: [
+          { id: 'male', display_text: 'Male' },
+          { id: 'female', display_text: 'Female' }
+        ].map(&:with_indifferent_access)
+      )
+
+      Field.create!(
+        name: 'sex', display_name: 'Sex', type: Field::SELECT_BOX, option_strings_source: 'lookup lookup-sex'
+      )
+
+      provider = RegistryRecord.create!(
+        data: {
+          registry_type: RegistryRecord::REGISTRY_TYPE_PROVIDER,
+          registry_id_display: 'PROV-001',
+          name: 'Acme Services'
+        }
+      )
+      Child.create!(
+        data: {
+          module_id: module1.unique_id,
+          sex: 'female',
+          services_section: [{ unique_id: 'service-1', service_provider: provider.id }]
+        }
+      )
+
+      report = Report.new(
+        name: 'Services by provider and sex',
+        record_type: 'reportable_service',
+        module_id: module1.unique_id,
+        aggregate_by: ['service_provider'],
+        disaggregate_by: ['sex']
+      )
+
+      expect(report.build_report).to eq(
+        provider.id => { '_total' => 1, 'female' => { '_total' => 1 }, 'male' => { '_total' => 0 } }
+      )
+    end
+
+    it 'generates data using the configured registry summary fields as a disaggregate by for foster care' do
+      Lookup.create!(
+        unique_id: 'lookup-sex',
+        name_en: 'sex',
+        lookup_values_en: [
+          { id: 'male', display_text: 'Male' },
+          { id: 'female', display_text: 'Female' }
+        ].map(&:with_indifferent_access)
+      )
+
+      Field.create!(
+        name: 'sex', display_name: 'sex', type: Field::SELECT_BOX, option_strings_source: 'lookup lookup-sex'
+      )
+
+      Field.create!(
+        name: 'foster_care_provider',
+        display_name: 'Foster Care Provider',
+        type: Field::REGISTRY,
+        option_strings_source: RegistryRecord::REGISTRY_TYPE_FOSTER_CARE
+      )
+
+      foster_care = RegistryRecord.create!(
+        data: {
+          registry_type: RegistryRecord::REGISTRY_TYPE_FOSTER_CARE,
+          registry_no: 'FC-001',
+          name: 'Foster Home'
+        }
+      )
+
+      Child.create!(data: { sex: 'female', module_id: module1.unique_id, foster_care_provider: foster_care.id })
+      Child.create!(data: { sex: 'male', module_id: module1.unique_id, foster_care_provider: foster_care.id })
+
+      report = Report.new(
+        name: 'Cases by Sex and Foster Care',
+        record_type: 'case',
+        module_id: module1.unique_id,
+        aggregate_by: ['sex'],
+        disaggregate_by: ['foster_care_provider']
+      )
+
+      expect(report.build_report).to eq(
+        {
+          'male' => { '_total' => 1, foster_care.id => { '_total' => 1 } },
+          'female' => { '_total' => 1, foster_care.id => { '_total' => 1 } }
+        }
+      )
+    end
+
+    it 'aggregates by a provider registry field and disaggregates by a foster care registry field' do
+      Field.create!(
+        name: 'foster_care_provider',
+        display_name: 'Foster Care Provider',
+        type: Field::REGISTRY,
+        option_strings_source: RegistryRecord::REGISTRY_TYPE_FOSTER_CARE
+      )
+
+      provider = RegistryRecord.create!(
+        data: {
+          registry_type: RegistryRecord::REGISTRY_TYPE_PROVIDER,
+          registry_id_display: 'PROV-001',
+          name: 'Acme Services'
+        }
+      )
+
+      foster_care = RegistryRecord.create!(
+        data: {
+          registry_type: RegistryRecord::REGISTRY_TYPE_FOSTER_CARE,
+          registry_no: 'FC-001',
+          name: 'Foster Home'
+        }
+      )
+
+      Child.create!(
+        data: { module_id: module1.unique_id, service_provider: provider.id, foster_care_provider: foster_care.id }
+      )
+
+      report = Report.new(
+        name: 'Services by provider and foster care',
+        record_type: 'case',
+        module_id: module1.unique_id,
+        aggregate_by: ['service_provider'],
+        disaggregate_by: ['foster_care_provider']
+      )
+
+      expect(report.build_report).to eq(
+        provider.id => { '_total' => 1, foster_care.id => { '_total' => 1 } }
+      )
+    end
+  end
 end

@@ -7,7 +7,7 @@ import { useLocation, useParams } from "react-router-dom";
 import CreateIcon from "@mui/icons-material/Create";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-import { getAgeRanges } from "../application/selectors";
+import { getAgeRanges, getRegistryOptions } from "../application/selectors";
 import { BarChart as BarChartGraphic, TableValues } from "../charts";
 import { getLoading, getErrors } from "../index-table/selectors";
 import LoadingIndicator from "../loading-indicator";
@@ -53,7 +53,9 @@ function Report({ mode }) {
   const primeroAgeRanges = useMemoizedSelector(state => getAgeRanges(state));
   const agencies = useOptions({ source: STRING_SOURCES_TYPES.AGENCY, useUniqueId: true });
   const locations = useOptions({ source: STRING_SOURCES_TYPES.LOCATION });
+  const registryOptions = useMemoizedSelector(state => getRegistryOptions(state));
 
+  const plainRegistryOptions = reduceMapToObject(registryOptions);
   const name = displayNameHelper(report.get("name"), i18n.locale);
   const description = displayNameHelper(report.get("description"), i18n.locale);
   const ageRanges = formatAgeRange(reduceMapToObject(primeroAgeRanges) || []);
@@ -120,10 +122,20 @@ function Report({ mode }) {
           {reportDescription}
           {report.get("graph") && (
             <Paper>
-              <BarChartGraphic {...buildGraphData(report, i18n, { agencies, ageRanges, locations })} showDetails />
+              <BarChartGraphic
+                {...buildGraphData(report, i18n, {
+                  agencies,
+                  ageRanges,
+                  locations,
+                  registryOptions: plainRegistryOptions
+                })}
+                showDetails
+              />
             </Paper>
           )}
-          <TableValues {...buildTableData(report, i18n, { agencies, ageRanges, locations })} />
+          <TableValues
+            {...buildTableData(report, i18n, { agencies, ageRanges, locations, registryOptions: plainRegistryOptions })}
+          />
         </LoadingIndicator>
         <ActionDialog
           open={dialogOpen}

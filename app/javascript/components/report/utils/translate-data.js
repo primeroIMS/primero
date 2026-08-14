@@ -2,8 +2,10 @@ import isEmpty from "lodash/isEmpty";
 
 import getTranslatedKey from "./get-translated-key";
 import translateKeys from "./translate-keys";
+import translateRegistryRecord from "./translate-registry-record";
 
-const translateData = (data, fields, i18n, { agencies, locations } = {}) => {
+const translateData = (data, fields, i18n, { agencies, locations, registryOptions } = {}) => {
+  const incompleteDataLabel = i18n.t("report.incomplete_data");
   const currentTranslations = {};
   const keys = Object.keys(data);
   const totalTranslation = i18n.t("report.total");
@@ -16,6 +18,7 @@ const translateData = (data, fields, i18n, { agencies, locations } = {}) => {
     const field = fields.shift();
 
     const storedFields = [...fields];
+
     const translations = translateKeys(keys, field, locale);
 
     keys.forEach(key => {
@@ -25,18 +28,37 @@ const translateData = (data, fields, i18n, { agencies, locations } = {}) => {
         currentTranslations[translatedKey] = data[key];
         delete currentTranslations[key];
       } else {
-        // NOTE: We are not translating dates here!
-        const translation = translations.find(currTranslation => currTranslation.id === key);
+        let translatedKey = null;
 
-        const translatedKey = translation
-          ? translation.display_text
-          : getTranslatedKey(key, field, { agencies, i18n, locations });
+        if (field.registry_type) {
+          translatedKey = translateRegistryRecord({
+            registryRecordId: key,
+            field,
+            registryOptions,
+            locale,
+            incompleteDataLabel
+          });
 
-        if (translation) {
-          currentTranslations[translatedKey] = { ...data[key] };
           delete currentTranslations[key];
+        } else {
+          // NOTE: We are not translating dates here!
+          const translation = translations.find(currTranslation => currTranslation.id === key);
+
+          translatedKey = translation
+            ? translation.display_text
+            : getTranslatedKey(key, field, { agencies, i18n, locations });
+
+          if (translation) {
+            currentTranslations[translatedKey] = { ...data[key] };
+            delete currentTranslations[key];
+          }
         }
-        const translatedData = translateData(data[key], [...storedFields], i18n, { agencies, locations });
+
+        const translatedData = translateData(data[key], [...storedFields], i18n, {
+          agencies,
+          locations,
+          registryOptions
+        });
 
         currentTranslations[translatedKey] = translatedData;
       }
@@ -46,5 +68,5 @@ const translateData = (data, fields, i18n, { agencies, locations } = {}) => {
   return currentTranslations;
 };
 
-export default (data, fields, i18n, { agencies, locations } = {}) =>
-  translateData(data, fields, i18n, { agencies, locations });
+export default (data, fields, i18n, { agencies, locations, registryOptions } = {}) =>
+  translateData(data, fields, i18n, { agencies, locations, registryOptions });

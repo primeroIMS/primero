@@ -227,6 +227,139 @@ describe Api::V2::ReportsController, type: :request do
       expect(json['errors'].size).to eq(1)
       expect(json['errors'][0]['resource']).to eq('/api/v2/reports/thisdoesntexist')
     end
+
+    describe 'with registry fields' do
+      let(:registry_system_settings) do
+        SystemSettings.new(
+          primary_age_range: 'primero',
+          age_ranges: { 'primero' => [0..5, 6..11, 12..17, 18..AgeRange::MAX],
+                        'unhcr' => [0..4, 5..11, 12..17, 18..59, 60..AgeRange::MAX] },
+          'registry_options' => {
+            'provider' => { 'collapsed_field_names' => %w[registry_category name] },
+            'foster_care' => { 'collapsed_field_names' => %w[registry_no name] }
+          }
+        )
+      end
+
+      before do
+        SystemSettings.stub(:current).and_return(registry_system_settings)
+
+        FormSection.create_or_update!(
+          unique_id: 'registry_details',
+          parent_form: 'registry_record',
+          visible: false,
+          order_form_group: 10,
+          order: 10,
+          order_subform: 0,
+          form_group_id: 'registry_details',
+          fields: [
+            Field.new(name: 'registry_category', type: 'select_box', display_name_en: 'Registry Category',
+                      option_strings_source: 'lookup lookup-registry-category'),
+            Field.new(name: 'registry_no', type: 'text_field', display_name_en: 'Registry ID Number'),
+            Field.new(name: 'name', type: 'text_field', display_name_en: 'Registry Name')
+          ],
+          is_first_tab: true,
+          editable: true,
+          name_en: 'Registry Details',
+          description_en: 'Registry Details'
+        )
+
+        Lookup.create!(
+          unique_id: 'lookup-registry-category',
+          name_en: 'Registry Category',
+          lookup_values_en: [
+            { id: 'health', display_text: 'Health' },
+            { id: 'education', display_text: 'Education' }
+          ].map(&:with_indifferent_access)
+        )
+
+        Field.create!(
+          name: 'service_provider',
+          display_name: 'Service Provider',
+          type: Field::REGISTRY,
+          option_strings_source: RegistryRecord::REGISTRY_TYPE_PROVIDER
+        )
+
+        Field.create!(
+          name: 'foster_care_provider',
+          display_name: 'Foster Care Provider',
+          type: Field::REGISTRY,
+          option_strings_source: RegistryRecord::REGISTRY_TYPE_FOSTER_CARE
+        )
+
+        @provider = RegistryRecord.create!(data: { registry_category: 'health', name: 'Acme Services' })
+
+        @foster_care = RegistryRecord.create!(data: { registry_no: 'FC-001', name: 'Foster Home' })
+      end
+
+      it 'returns registry_option_labels for provider fields with lookup and non-lookup values' do
+        I18n.stub(:available_locales).and_return(%i[en es fr])
+        login_for_test(
+          permissions: [Permission.new(resource: Permission::REPORT, actions: [Permission::READ])], modules: [@cp]
+        )
+
+        provider_report = Report.create(
+          name_en: 'Services by provider',
+          module_id: @cp.unique_id,
+          record_type: 'case',
+          aggregate_by: ['service_provider'],
+          disaggregate_by: []
+        )
+
+        Child.create!(data: { module_id: @cp.unique_id, service_provider: @provider.id })
+
+        get "/api/v2/reports/#{provider_report.id}"
+
+        expect(response).to have_http_status(200)
+
+        fields = json['data']['fields']
+        service_provider_field = fields.find { |f| f['name'] == 'service_provider' }
+
+        expect(service_provider_field).to have_key('registry_type')
+        expect(service_provider_field).to have_key('registry_option_labels')
+        expect(service_provider_field['registry_type']).to eq(RegistryRecord::REGISTRY_TYPE_PROVIDER)
+        expect(service_provider_field['registry_option_labels']['registry_category']['option_labels']).to eq(
+          [{ 'id' => @provider.id, 'display_text' => { 'en' => 'Health', 'es' => '', 'fr' => '' } }]
+        )
+        expect(service_provider_field['registry_option_labels']['name']['option_labels']).to eq(
+          [{ 'id' => @provider.id, 'display_text' => { 'en' => 'Acme Services', 'es' => '', 'fr' => '' } }]
+        )
+      end
+
+      it 'returns registry_option_labels for foster care fields without lookup values' do
+        I18n.stub(:available_locales).and_return(%i[en es fr])
+        login_for_test(
+          permissions: [Permission.new(resource: Permission::REPORT, actions: [Permission::READ])], modules: [@cp]
+        )
+
+        foster_care_report = Report.create(
+          name_en: 'Cases by foster care',
+          module_id: @cp.unique_id,
+          record_type: 'case',
+          aggregate_by: ['foster_care_provider'],
+          disaggregate_by: []
+        )
+
+        Child.create!(data: { module_id: @cp.unique_id, foster_care_provider: @foster_care.id })
+
+        get "/api/v2/reports/#{foster_care_report.id}"
+
+        expect(response).to have_http_status(200)
+
+        fields = json['data']['fields']
+        foster_care_field = fields.find { |f| f['name'] == 'foster_care_provider' }
+
+        expect(foster_care_field).to have_key('registry_type')
+        expect(foster_care_field).to have_key('registry_option_labels')
+        expect(foster_care_field['registry_type']).to eq(RegistryRecord::REGISTRY_TYPE_FOSTER_CARE)
+        expect(foster_care_field['registry_option_labels']['registry_no']['option_labels']).to eq(
+          [{ 'id' => @foster_care.id, 'display_text' => { 'en' => 'FC-001', 'es' => '', 'fr' => '' } }]
+        )
+        expect(foster_care_field['registry_option_labels']['name']['option_labels']).to eq(
+          [{ 'id' => @foster_care.id, 'display_text' => { 'en' => 'Foster Home', 'es' => '', 'fr' => '' } }]
+        )
+      end
+    end
   end
 
   describe 'POST /api/v2/reports', search: true do
