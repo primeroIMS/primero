@@ -137,7 +137,8 @@ export const ACTIONS = {
   VIEW_CASE_RELATIONSHIPS: "view_case_relationships",
   CASE_MANAGEMENT_KPIS_REPORT: "case_management_kpis_report",
   DISTRIBUTION_USERS_ROLE_REPORT: "distribution_users_role_report",
-  DISABLE_MULTIPLE: "disable_multiple"
+  DISABLE_MULTIPLE: "disable_multiple",
+  SEND_EMAIL_MULTIPLE: "send_email_multiple"
 };
 
 export const MANAGE = [ACTIONS.MANAGE];
@@ -422,3 +423,5 @@ export const VIEW_CASE_RELATIONSHIPS = [...MANAGE, ACTIONS.VIEW_CASE_RELATIONSHI
 export const UPDATE_CASE_RELATIONSHIPS = [...MANAGE, ACTIONS.UPDATE_CASE_RELATIONSHIPS];
 
 export const CAN_DISABLE_MULTIPLE_USERS = [ACTIONS.DISABLE_MULTIPLE];
+
+export const CAN_SEND_EMAIL_MULTIPLE_USERS = [...MANAGE, ACTIONS.SEND_EMAIL_MULTIPLE];

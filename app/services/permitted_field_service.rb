@@ -56,6 +56,8 @@ class PermittedFieldService
     reasons_deprivation_liberty victim_facilty_victims_held torture_punishment_while_deprivated_liberty
     violation_with_verification_status armed_force_group_party_names has_late_verified_violations perpetrator_category
     date_of_first_report ctfmr_verified_date verification_status child_types
+    verified_ghn_reported weapon_type facility_impact facility_attack_type child_role
+    abduction_purpose_single military_use_type types_of_aid_disrupted_denial
   ].freeze
 
   PERMITTED_RECORD_INFORMATION_FIELDS = %w[

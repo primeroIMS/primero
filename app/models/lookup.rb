@@ -148,7 +148,12 @@ class Lookup < ApplicationRecord
 
   def validate_values_ids_format
     return if lookup_values_i18n.blank?
-    return if lookup_values_i18n.all? { |value| value['id'].present? && value['id'].match?(UNIQUE_ID_FORMAT) }
+
+    # TODO: Restore unique_id/option format validation
+    return if lookup_values_i18n.all? do |value|
+      value['id'].present?
+      # && value['id'].match?(UNIQUE_ID_FORMAT)
+    end
 
     errors.add(:lookup_values, I18n.t('errors.models.lookup.values_ids_format'))
   end

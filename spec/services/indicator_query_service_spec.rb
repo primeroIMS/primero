@@ -93,7 +93,7 @@ describe IndicatorQueryService, search: true do
     end
 
     it 'shows the string queries to get all open cases' do
-      expected_query = %w[record_state=true status=open module_id=primeromodule-cp]
+      expected_query = %w[record_state=true status=open]
       expect(stats['case']['total']['total']['query']).to match_array(expected_query)
     end
 
@@ -102,7 +102,7 @@ describe IndicatorQueryService, search: true do
     end
 
     it 'shows the string queries to get all updated cases' do
-      expected_query = %w[record_state=true status=open not_edited_by_owner=true module_id=primeromodule-cp]
+      expected_query = %w[record_state=true status=open not_edited_by_owner=true]
       expect(stats['case']['new_or_updated']['new_or_updated']['query']).to match_array(expected_query)
     end
 
@@ -124,7 +124,7 @@ describe IndicatorQueryService, search: true do
     end
 
     it 'shows the string queries to get all recently_assigned cases' do
-      expected_static = %w[status=open assign=foo record_state=true module_id=primeromodule-cp]
+      expected_static = %w[status=open assign=foo record_state=true]
       query_strings = stats['case']['recently_assigned_to_me']['recently_assigned_to_me']['query']
       dynamic_queries, static_queries = query_strings.partition { |q| q.start_with? 'reassigned_transferred_on' }
       dynamic_query, = dynamic_queries
@@ -198,7 +198,50 @@ describe IndicatorQueryService, search: true do
     end
   end
 
+  describe 'user module scope' do
+    before do
+      @cp = PrimeroModule.create!(unique_id: 'primeromodule-cp', name: 'CP', associated_record_types: %w[case])
+      @gbv = PrimeroModule.create!(unique_id: 'primeromodule-gbv', name: 'GBV', associated_record_types: %w[case])
+      permission_case = Permission.new(resource: Permission::CASE, actions: [Permission::READ])
+      single_role = Role.new(group_permission: Permission::SELF, permissions: [permission_case], primero_modules: [@cp])
+      single_role.save(validate: false)
+      multi_role = Role.new(
+        group_permission: Permission::SELF, permissions: [permission_case], primero_modules: [@cp, @gbv]
+      )
+      multi_role.save(validate: false)
+      @single_module_user = User.new(user_name: 'single_mod', role: single_role, user_groups: [@group1])
+      @single_module_user.save(validate: false)
+      @multi_module_user = User.new(user_name: 'multi_mod', role: multi_role, user_groups: [@group1])
+      @multi_module_user.save(validate: false)
+
+      Child.create!(data: { record_state: true, status: 'open', owned_by: 'single_mod', module_id: PrimeroModule::CP })
+      Child.create!(data: { record_state: true, status: 'open', owned_by: 'single_mod', module_id: PrimeroModule::GBV })
+      Child.create!(data: { record_state: true, status: 'open', owned_by: 'multi_mod', module_id: PrimeroModule::CP })
+      Child.create!(data: { record_state: true, status: 'open', owned_by: 'multi_mod', module_id: PrimeroModule::GBV })
+      Child.create!(data: { record_state: true, status: 'open', owned_by: 'multi_mod',
+                            module_id: 'primeromodule-other' })
+    end
+
+    it 'scopes open-case indicators to the module when the user has a single module' do
+      stats = IndicatorQueryService.query(Dashboard::CASE_OVERVIEW.indicators, @single_module_user)
+      expect(stats['case']['total']['total']['query']).to match_array(
+        %w[record_state=true status=open module_id=primeromodule-cp]
+      )
+      # Only the CP case is counted; the GBV case is excluded
+      expect(stats['case']['total']['total']['count']).to eq(1)
+    end
+
+    it 'scopes by all role modules (OR) when the user has multiple modules' do
+      stats = IndicatorQueryService.query(Dashboard::CASE_OVERVIEW.indicators, @multi_module_user)
+      expect(stats['case']['total']['total']['query']).to match_array(
+        ['record_state=true', 'status=open', 'module_id=primeromodule-cp,primeromodule-gbv']
+      )
+      # Both the CP and GBV cases are counted (module_id IN [cp, gbv]); the out-of-role module is excluded
+      expect(stats['case']['total']['total']['count']).to eq(2)
+    end
+  end
+
   after :each do
-    clean_data(User, UserGroup, Role, Child, SystemSettings)
+    clean_data(User, UserGroup, Role, Child, SystemSettings, PrimeroModule)
   end
 end

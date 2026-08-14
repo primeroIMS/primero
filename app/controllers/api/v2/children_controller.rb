@@ -33,6 +33,7 @@ class Api::V2::ChildrenController < ApplicationApiController
   def create_family
     authorize! :case_from_family, Child
     @current_record = Child.find(family_params[:case_id])
+    authorize! :read, @current_record
     @record = FamilyLinkageService.new_family_linked_child(
       current_user, @current_record, family_params[:family_detail_id]
     )

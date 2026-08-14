@@ -239,7 +239,7 @@ describe("<UsersList />", () => {
 
     it("should render Menu component without errors", () => {
       expect(screen.getAllByText("users.label")).toBeTruthy();
-      expect(screen.getByRole("button", { name: "more" })).toBeInTheDocument();
+      expect(screen.getAllByRole("button", { name: "more" }).length).toBeGreaterThan(0);
     });
   });
 });

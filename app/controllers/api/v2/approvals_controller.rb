@@ -5,6 +5,7 @@ class Api::V2::ApprovalsController < Api::V2::RecordResourceController
   before_action :approval_params, only: [:update]
 
   def update
+    authorize! :read, @record
     approval = Approval.get!(params[:id], @record, current_user, @approval_params)
     authorize! approval_permission, @model_class
     authorize! :self_approve, @model_class if self_approve?

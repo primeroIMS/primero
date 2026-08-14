@@ -136,7 +136,8 @@ describe Api::V2::TracingRequestsController, type: :request do
     it 'successfully deletes a record with a code of 200' do
       login_for_test(
         permissions: [
-          Permission.new(resource: Permission::TRACING_REQUEST, actions: [Permission::ENABLE_DISABLE_RECORD])
+          Permission.new(resource: Permission::TRACING_REQUEST,
+                         actions: [Permission::READ, Permission::ENABLE_DISABLE_RECORD])
         ]
       )
       delete "/api/v2/tracing_requests/#{@tracing_request1.id}"
