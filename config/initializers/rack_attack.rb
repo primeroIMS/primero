@@ -1,5 +1,57 @@
 # frozen_string_literal: true
 
+require 'digest'
+require 'json'
+
+positive_integer = lambda do |name, default|
+  value = ENV.fetch(name, default).to_i
+  value.positive? ? value : default
+end
+boolean_type = ActiveModel::Type::Boolean.new
+
+Rack::Attack.throttled_responder = lambda do |request|
+  match_data = request.env.fetch('rack.attack.match_data')
+  retry_after = match_data[:period] - (match_data[:epoch_time] % match_data[:period])
+
+  if match_data[:count] == match_data[:limit] + 1
+    Rails.logger.warn(
+      "Rate limit exceeded: throttle=#{request.env.fetch('rack.attack.matched')} " \
+      "method=#{request.request_method} path=#{request.path} " \
+      "limit=#{match_data[:limit]} period=#{match_data[:period]}"
+    )
+  end
+
+  body = JSON.generate(
+    errors: [
+      { status: 429, resource: request.path, message: 'errors.api.too_many_requests' }
+    ]
+  )
+
+  [
+    429,
+    {
+      'content-type' => 'application/json; charset=utf-8',
+      'retry-after' => retry_after.to_s
+    },
+    [body]
+  ]
+end
+
+Rack::Attack.throttle(
+  'API requests',
+  limit: ->(_request) { positive_integer.call('PRIMERO_API_RATE_LIMIT_REQUESTS', 300) },
+  period: ->(_request) { positive_integer.call('PRIMERO_API_RATE_LIMIT_PERIOD', 60) }
+) do |request|
+  enabled = boolean_type.cast(ENV.fetch('PRIMERO_API_RATE_LIMIT_ENABLED', false))
+  next unless enabled && request.path.match?(%r{\A/api/v2(?:/|\z)})
+
+  authorization = request.get_header('HTTP_AUTHORIZATION').presence
+  session = request.cookies['_app_session'].presence
+  identifier = authorization || session || request.remote_ip
+
+  Digest::SHA256.hexdigest(identifier)
+end
+
 # This will return HTTP 429 once the rate limit is exceeded
 
 # 6 login attempts per user name per minute
