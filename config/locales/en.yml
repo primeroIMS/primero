@@ -4625,6 +4625,7 @@ en:
     successfully: Successfully reassigned
     user_mandatory_label: Recipient is required
     users_label: Recipient
+    out_of_scope_warning: 'Warning: you have selected one or more records to which you do not have access. These records will not be included.'
     incident_from_case_warning: You cannot assign this Incident, because it is already linked to a Case. When you assign the Case, the Incident is assigned as well.
   record_information:
     assigned_user_names: Other Assigned Users
