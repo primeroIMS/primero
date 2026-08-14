@@ -379,6 +379,16 @@ describe RecordJsonValidatorService do
             option_strings_source: 'lookup lookup-gender'
           ),
           Field.new(
+            name: 'options_test',
+            display_name_en: 'Options Test with conflicting options',
+            type: Field::SELECT_BOX,
+            option_strings_source: 'lookup lookup-true-false',
+            option_strings_text_i18n: [
+              { 'id' => 'yes', 'display_text' => { 'en' => 'Yes' } },
+              { 'id' => 'no', 'display_text' => { 'en' => 'No' } }
+            ]
+          ),
+          Field.new(
             name: 'child_form', display_name_en: 'Child Form', type: Field::SUBFORM, subform: form_section_child
           )
         ]
@@ -386,7 +396,7 @@ describe RecordJsonValidatorService do
     end
 
     let(:validator_with_values) do
-      fields = Field.where(name: %w[sex child_form consent_given])
+      fields = Field.where(name: %w[sex child_form consent_given options_test])
       field_values = PermittedFieldValuesService.instance.permitted_field_values(fields)
       RecordJsonValidatorService.new(fields:, field_values:)
     end
@@ -405,6 +415,11 @@ describe RecordJsonValidatorService do
 
     it 'correctly validates nested fields with the same name' do
       expect(validator_with_values.valid?('sex' => 'female', 'child_form' => [{ 'sex' => 'other_female' }])).to eq(true)
+    end
+
+    it 'validates options_strings_source ahead of options_strings_text' do
+      expect(validator_with_values.valid?('options_test' => 'true')).to eq(true)
+      expect(validator_with_values.valid?('options_test' => 'yes')).to eq(false)
     end
   end
 end
