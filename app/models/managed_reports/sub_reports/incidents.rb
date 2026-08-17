@@ -86,7 +86,7 @@ class ManagedReports::SubReports::Incidents < ManagedReports::SubReport
 
   def indicators_subcolumns
     {
-      ManagedReports::Indicators::SurvivorsNumberOfServicesProvidedOther.id => 'lookup-service-referred'
+      ManagedReports::Indicators::SurvivorsNumberOfServicesProvidedOther.id => 'lookup-service-referred-gbv'
     }
   end
 
