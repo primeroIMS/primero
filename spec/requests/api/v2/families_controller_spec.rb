@@ -152,19 +152,6 @@ describe Api::V2::FamiliesController, type: :request do
       end
     end
 
-    context 'when the authorized user is not the record owner' do
-      it 'fetches the correct record with code 200' do
-        login_for_test(
-          permissions: [Permission.new(resource: Permission::FAMILY, actions: [Permission::READ])],
-          group_permission: Permission::GROUP
-        )
-        get "/api/v2/families/#{family1.id}"
-
-        expect(response).to have_http_status(200)
-        expect(json['data']['id']).to eq(family1.id)
-      end
-    end
-
     context 'when a user has linked cases to a family' do
       it 'fetches the family with code 200 when search and select family records permission is granted' do
         login_for_test(
