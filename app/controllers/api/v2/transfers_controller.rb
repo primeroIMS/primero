@@ -25,6 +25,7 @@ class Api::V2::TransfersController < Api::V2::RecordResourceController
   def update
     authorize! :read, @record
     @transition = Transfer.find(params[:id])
+    authorize! :update, @transition
     accept_or_reject!(params[:data][:status], @transition)
     updates_for_record(@transition.record)
     render 'api/v2/transitions/update'
