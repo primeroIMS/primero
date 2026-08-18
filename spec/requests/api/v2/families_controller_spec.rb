@@ -236,7 +236,7 @@ describe Api::V2::FamiliesController, type: :request do
 
   describe 'POST /api/v2/families/:id/case' do
     context 'when user is unauthorized' do
-      it 'refuses unauthorized access' do
+      it 'fails if the user does not have the CASE_FROM_FAMILY permission' do
         login_for_test(
           permissions: [
             Permission.new(resource: Permission::FAMILY, actions: [Permission::READ, Permission::WRITE])
@@ -249,6 +249,27 @@ describe Api::V2::FamiliesController, type: :request do
         expect(response).to have_http_status(403)
         expect(json['errors'].size).to eq(1)
         expect(json['errors'][0]['resource']).to eq("/api/v2/families/#{family1.id}/case")
+      end
+
+      it 'fails when the user does not have access to the underlying family record' do
+        login_for_test(
+          user_name: 'hacker',
+          group_permission: Permission::SELF,
+          permissions: [
+            Permission.new(resource: Permission::CASE, actions: [Permission::READ]),
+            Permission.new(
+              resource: Permission::FAMILY,
+              actions: [
+                Permission::READ, Permission::WRITE, Permission::CASE_FROM_FAMILY
+              ]
+            )
+          ]
+        )
+
+        params = { data: { family_member_id: '001' } }
+        post "/api/v2/families/#{family1.id}/case", params:, as: :json
+
+        expect(response).to have_http_status(403)
       end
     end
 
