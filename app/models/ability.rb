@@ -22,6 +22,7 @@ class Ability
     initialize_permissions(user)
     configure_exports
     baseline_permissions
+    configure_record_transitions
     configure_record_attachments
     configure_flags
     configure_associated_family
@@ -187,6 +188,15 @@ class Ability
 
     can(%i[create destroy write], Attachment) do |instance|
       PermittedAttachmentService.permitted_to_write?(user, instance, @permitted_form_fields_service)
+    end
+  end
+
+  def configure_record_transitions
+    # This is only relevant for updates to ongoing transitions
+    [Assign, Referral, Transfer, TransferRequest].each do |transition_class|
+      can(:update, transition_class) do |instance|
+        can?(:read, instance.record)
+      end
     end
   end
 
