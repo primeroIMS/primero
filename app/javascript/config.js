@@ -202,6 +202,8 @@ const ROUTES = {
   forms: "/admin/forms",
   forms_new: "/admin/forms/new",
   incidents: "/incidents",
+  intake_new: "/intake/:id/new",
+  intake: "/intake",
   login: "/login",
   login_idp_redirect: "/login/:id",
   logout: "/logout",
@@ -249,8 +251,11 @@ const PERMITTED_URL = [
   ROUTES.registry_records,
   ROUTES.code_of_conduct,
   ROUTES.terms_of_use,
-  ROUTES.password_reset_request
+  ROUTES.password_reset_request,
+  ROUTES.intake_new
 ];
+
+const SKIP_LOGIN_REDIRECTION_ROUTES = [ROUTES.intake];
 
 const DATE_FORMAT = "dd-MMM-yyyy";
 
@@ -975,5 +980,6 @@ export {
   CASE_MANAGEMENT_KPIS_SUBREPORTS,
   CASE_MANAGEMENT_KPIS_SERVICE_REFERRALS_SUBREPORTS,
   DISTRIBUTION_USERS_ROLE_SUBREPORTS,
-  ACCESS_LOGS
+  ACCESS_LOGS,
+  SKIP_LOGIN_REDIRECTION_ROUTES
 };

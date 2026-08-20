@@ -66,6 +66,7 @@ import UsageReports from "./components/pages/admin/usage-reports";
 import SelfRegistration from "./components/self-registration/component";
 import SelfRegistrationSuccess from "./components/self-registration-success/component";
 import { READ_FAMILY_RECORDS } from "./components/permissions/constants";
+import Intake from "./components/intake";
 
 const recordPaths = [
   RECORD_PATH.cases,
@@ -142,6 +143,11 @@ export default [
         actions: ACTIVITY_LOGS
       },
       ...recordRoutes,
+      {
+        path: `${ROUTES.intake}/:id/new`,
+        component: Intake,
+        actions: true
+      },
       {
         path: "/my_case",
         component: MyCase,

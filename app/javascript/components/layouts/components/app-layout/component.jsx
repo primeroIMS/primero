@@ -24,15 +24,15 @@ function Component({ children }) {
   const classes = cx({ [css.root]: true, [css.demo]: demo });
   const contentClasses = cx({ [css.content]: true, [css.demo]: demo });
 
-  const hasPermissions = useMemoizedSelector(state => hasUserPermissions(state));
+  // const hasPermissions = useMemoizedSelector(state => hasUserPermissions(state));
 
-  if (!hasPermissions) {
-    return (
-      <div className={css.loadingIndicator}>
-        <CircularProgress size={80} />
-      </div>
-    );
-  }
+  // if (!hasPermissions) {
+  //   return (
+  //     <div className={css.loadingIndicator}>
+  //       <CircularProgress size={80} />
+  //     </div>
+  //   );
+  // }
 
   return (
     <>

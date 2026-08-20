@@ -5,6 +5,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { push } from "connected-react-router";
 import { isEqual } from "lodash";
 import { cx } from "@emotion/css";
+import { useRouteMatch } from "react-router-dom";
 
 import { ROUTES, PERMITTED_URL, APPLICATION_NAV } from "../../config";
 import AgencyLogo from "../agency-logo";
@@ -35,6 +36,7 @@ function Nav() {
   const dispatch = useDispatch();
   const i18n = useI18n();
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const intakeRoute = useRouteMatch(ROUTES.intake_new);
 
   const { dialogOpen, dialogClose } = useDialog(LOGOUT_DIALOG);
 
@@ -129,7 +131,9 @@ function Nav() {
       <div className={css.navNetworkIndicator}>
         <NetworkIndicator />
       </div>
-      <List className={navListClasses}>{permittedMenuEntries(APPLICATION_NAV(permissions, userId))}</List>
+      {Boolean(intakeRoute?.path) || (
+        <List className={navListClasses}>{permittedMenuEntries(APPLICATION_NAV(permissions, userId))}</List>
+      )}
       <div className={css.navAgencies}>
         <AgencyLogo />
       </div>
