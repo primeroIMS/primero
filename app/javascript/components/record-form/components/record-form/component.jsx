@@ -51,6 +51,10 @@ function Component({
   recordAttachments,
   recordType,
   redirectTo,
+  primeroModule,
+  showFormToolbar = false,
+  forcePermitFormReadWrite,
+  title,
   shouldFetchRecord,
   summaryForm,
   userPermittedFormsIds
@@ -64,7 +68,7 @@ function Component({
   const dispatch = useDispatch();
   const i18n = useI18n();
 
-  const selectedModule = record?.get("module_id") || params.module;
+  const selectedModule = record?.get("module_id") || params.module || primeroModule;
 
   const {
     handleCreateIncident,
@@ -190,7 +194,8 @@ function Component({
     primeroModule: selectedModule,
     record,
     editRedirect,
-    hideCancelButton
+    hideCancelButton,
+    title
   };
 
   useEffect(() => {
@@ -286,7 +291,7 @@ function Component({
   const canSeeForm = !loadingForm && forms.size === 0 ? canViewCases : forms.size > 0 && !formNav.isEmpty() && firstTab;
   const hasData = Boolean(canSeeForm && (containerMode.isNew || record) && (containerMode.isNew || isCaseIdEqualParam));
   const loading = Boolean(loadingForm || loadingRecord);
-  const renderRecordFormToolbar = selectedModule && <RecordFormToolbar {...toolbarProps} />;
+  const renderRecordFormToolbar = (selectedModule || showFormToolbar) && <RecordFormToolbar {...toolbarProps} />;
 
   const containerClasses = cx(css.recordContainer, {
     [css.formNavOpen]: toggleNav && mobileDisplay
@@ -323,7 +328,7 @@ function Component({
               handleToggleNav={handleToggleNav}
               isNew={containerMode.isNew}
               mobileDisplay={mobileDisplay}
-              recordType={params.recordType}
+              recordType={params.recordType || RECORD_TYPES_PLURAL[recordType]}
               selectedForm={selectedForm}
               selectedRecord={navSelectedRecords}
               toggleNav={toggleNav}
@@ -338,6 +343,7 @@ function Component({
           <div className={`${css.recordForms} ${demoClasses} record-form-container`}>
             <RecordForm
               {...formProps}
+              forcePermitFormReadWrite={forcePermitFormReadWrite}
               externalForms={recordFormExternalForms}
               externalComponents={externalComponents}
               selectedForm={selectedForm}
@@ -370,6 +376,7 @@ Component.propTypes = {
   editRedirect: PropTypes.string,
   fetchFromCaseId: PropTypes.bool,
   firstTab: PropTypes.object,
+  forcePermitFormReadWrite: PropTypes.bool,
   formNav: PropTypes.object,
   forms: PropTypes.object,
   hideCancelButton: PropTypes.bool,
@@ -378,12 +385,15 @@ Component.propTypes = {
   isNotANewCase: PropTypes.bool,
   mode: PropTypes.string,
   params: PropTypes.object,
+  primeroModule: PropTypes.string,
   record: PropTypes.object,
   recordAttachments: PropTypes.object,
   recordType: PropTypes.string,
   redirectTo: PropTypes.string,
   shouldFetchRecord: PropTypes.bool,
+  showFormToolbar: PropTypes.bool,
   summaryForm: PropTypes.object,
+  title: PropTypes.string,
   userPermittedFormsIds: PropTypes.object
 };
 

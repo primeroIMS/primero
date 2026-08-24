@@ -41,7 +41,9 @@ function Nav() {
   const { dialogOpen, dialogClose } = useDialog(LOGOUT_DIALOG);
 
   useEffect(() => {
-    dispatch(fetchAlerts());
+    if (!intakeRoute) {
+      dispatch(fetchAlerts());
+    }
   }, []);
 
   const { demo, useContainedNavStyle } = useApp();

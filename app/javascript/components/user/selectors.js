@@ -2,6 +2,7 @@ import { List, fromJS } from "immutable";
 
 import { SAVING } from "../../config";
 import { GROUP_PERMISSIONS, MANAGED_REPORT_SCOPE } from "../permissions/constants";
+import { getRegistrationStream } from "../application/selectors";
 
 import NAMESPACE from "./namespace";
 import { PERMISSIONS, PERMITTED_FORMS } from "./constants";
@@ -18,7 +19,13 @@ export const hasUserPermissions = state => {
 
 export const getIsAuthenticated = state => state.getIn([NAMESPACE, "isAuthenticated"], false);
 
-export const getPermittedFormsIds = state => state.getIn([NAMESPACE, PERMITTED_FORMS], fromJS({}));
+export const getPermittedFormsIds = (state, query) => {
+  if (query?.fromStream) {
+    return getRegistrationStream(state, query.fromStream)?.get("permitted_forms", fromJS({}));
+  }
+
+  return state.getIn([NAMESPACE, PERMITTED_FORMS], fromJS({}));
+};
 
 export const getPermittedRoleUniqueIds = state => state.getIn([NAMESPACE, "permittedRoleUniqueIds"], fromJS({}));
 

@@ -39,7 +39,8 @@ function RecordForm({
   userPermittedFormsIds,
   externalComponents,
   primeroModule,
-  setFormikValuesForNav
+  setFormikValuesForNav,
+  forcePermitFormReadWrite
 }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -258,7 +259,8 @@ function RecordForm({
                   attachmentForms,
                   mode,
                   record,
-                  primeroModule
+                  primeroModule,
+                  forcePermitFormReadWrite
                 )}
                 forms={forms}
                 mode={mode}
@@ -289,6 +291,7 @@ RecordForm.propTypes = {
   externalComponents: PropTypes.func,
   externalForms: PropTypes.func,
   fetchFromCaseId: PropTypes.bool,
+  forcePermitFormReadWrite: PropTypes.bool,
   forms: PropTypes.object.isRequired,
   handleToggleNav: PropTypes.func.isRequired,
   incidentFromCase: PropTypes.object,

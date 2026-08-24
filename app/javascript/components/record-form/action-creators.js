@@ -23,11 +23,11 @@ const fetchLocations = () => ({
   }
 });
 
-export const fetchLookups = () => {
+export const fetchLookups = (path = URL_LOOKUPS) => {
   return {
     type: Actions.SET_OPTIONS,
     api: {
-      path: URL_LOOKUPS,
+      path,
       params: { per: 999, page: 1 },
       db: {
         collection: DB_COLLECTIONS_NAMES.OPTIONS
@@ -46,10 +46,10 @@ export const setServiceToRefer = payload => ({
   payload
 });
 
-export const fetchForms = () => ({
+export const fetchForms = (path = "forms") => ({
   type: Actions.RECORD_FORMS,
   api: {
-    path: "forms",
+    path,
     normalizeFunc: "normalizeFormData",
     db: {
       collection: DB_COLLECTIONS_NAMES.FORMS
@@ -57,9 +57,9 @@ export const fetchForms = () => ({
   }
 });
 
-export const fetchOptions = () => async dispatch => {
+export const fetchOptions = path => async dispatch => {
   batch(() => {
-    dispatch(fetchLookups());
+    dispatch(fetchLookups(path));
 
     if (!isEmpty(window.locationManifest)) {
       dispatch(fetchLocations());
