@@ -184,7 +184,7 @@ describe 'Rack::Attack API rate limit' do
   let(:client) { Rack::MockRequest.new(Rack::Attack.new(app)) }
   let(:environment_variables) do
     %w[
-      PRIMERO_RATE_LIMIT_ENABLED
+      PRIMERO_API_RATE_LIMIT_ENABLED
       PRIMERO_API_RATE_LIMIT_REQUESTS
       PRIMERO_API_RATE_LIMIT_PERIOD
     ]
@@ -272,7 +272,7 @@ describe 'Rack::Attack API rate limit' do
   end
 
   def enable_rate_limit(requests:)
-    ENV['PRIMERO_RATE_LIMIT_ENABLED'] = 'true'
+    ENV['PRIMERO_API_RATE_LIMIT_ENABLED'] = 'true'
     ENV['PRIMERO_API_RATE_LIMIT_REQUESTS'] = requests.to_s
     ENV['PRIMERO_API_RATE_LIMIT_PERIOD'] = '60'
   end
