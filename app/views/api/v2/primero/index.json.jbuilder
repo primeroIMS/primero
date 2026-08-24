@@ -29,6 +29,8 @@ json.data do
   end || [])
   json.registration_streams_link_labels @system_options&.[]('registration_streams_link_labels_i18n') || {}
   json.registration_streams_consent_text @system_options&.[]('registration_streams_consent_text_i18n') || {}
+  json.registration_streams_title @system_options&.[]('registration_streams_title_i18n') || {}
+  json.registration_streams_thankyou_message @system_options&.[]('registration_streams_thankyou_message_i18n') || {}
 
   if Rails.configuration.x.captcha_provider.present?
     json.captcha do

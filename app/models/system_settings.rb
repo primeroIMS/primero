@@ -23,11 +23,14 @@ class SystemSettings < ApplicationRecord
                  :maximum_attachments_space_warning, :registration_streams,
                  :registration_streams_link_labels_i18n, :registration_streams_consent_text_i18n,
                  :reporting_location_i18n, :days_since_referral_status_changed,
-                 :phone_formats, :default_phone_format)
+                 :phone_formats, :default_phone_format, :registration_streams_thankyou_message_i18n,
+                 :registration_streams_title_i18n)
 
   localize_properties %i[welcome_email_text approvals_labels field_labels registration_streams_link_labels
                          registration_streams_consent_text]
-  localize_jsonb_properties %i[field_labels registration_streams_link_labels registration_streams_consent_text]
+  localize_jsonb_properties %i[field_labels registration_streams_link_labels
+                               registration_streams_title registration_streams_thankyou_message
+                               registration_streams_consent_text registration_streams_title]
 
   has_one_attached :location_file
 
@@ -257,6 +260,12 @@ class SystemSettings < ApplicationRecord
 
     def total_attachment_file_size
       current.total_attachment_file_size.to_i
+    end
+
+    def registration_stream_forms(id)
+      # TODO: Figure out something better than this.
+      stream = current&.registration_streams&.select { |stream| stream['unique_id'] == id }&.first
+      Role.find_by(unique_id: stream['role'])&.permitted_forms('case', true, true)
     end
   end
 end

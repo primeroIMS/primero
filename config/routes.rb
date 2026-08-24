@@ -191,6 +191,11 @@ Rails.application.routes.draw do
         end
       end
 
+      scope 'intakes/:id' do
+        resources :intake_form_sections, only: %i[index], path: :forms
+        resources :intake_lookups, only: %i[index], path: :lookups
+      end
+
       scope '/webpush' do
         get 'config', action: :config, controller: 'webpush_config'
         patch 'subscriptions/current', action: :current, controller: 'webpush_subscriptions'
