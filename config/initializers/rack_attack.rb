@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'digest'
 require 'json'
 
 positive_integer = lambda do |name, default|
@@ -45,11 +44,7 @@ Rack::Attack.throttle(
   enabled = boolean_type.cast(ENV.fetch('PRIMERO_API_RATE_LIMIT_ENABLED', false))
   next unless enabled && request.path.match?(%r{\A/api/v2(?:/|\z)})
 
-  authorization = request.get_header('HTTP_AUTHORIZATION').presence
-  session = request.cookies['_app_session'].presence
-  identifier = authorization || session || request.remote_ip
-
-  Digest::SHA256.hexdigest(identifier)
+  request.remote_ip
 end
 
 # This will return HTTP 429 once the rate limit is exceeded
