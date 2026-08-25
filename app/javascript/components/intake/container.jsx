@@ -43,8 +43,13 @@ function Container() {
     }
   }, [intakeConfig]);
 
+  const submitActionOverride = obj => {
+    console.log("submitActionOverride called with:", obj);
+  };
+
   return (
     <RecordForm
+      submitActionOverride={submitActionOverride}
       showFormToolbar
       hideCancelButton
       params={params}

@@ -57,7 +57,8 @@ function Component({
   title,
   shouldFetchRecord,
   summaryForm,
-  userPermittedFormsIds
+  userPermittedFormsIds,
+  submitActionOverride
 }) {
   let submitForm = null;
   const mobileDisplay = useMediaQuery(theme => theme.breakpoints.down("sm"));
@@ -136,15 +137,17 @@ function Component({
             : i18n.t(`${recordType}.messages.creation_success`, recordType);
         };
 
-        batch(() => {
-          if (saveBeforeIncidentRedirect) {
-            setCaseIncidentData(formValues, incidentPath, true);
-          }
+        if (saveBeforeIncidentRedirect) {
+          setCaseIncidentData(formValues, incidentPath, true);
+        }
 
-          if (containerMode.isNew) {
-            dispatch(clearDataProtectionInitialValues());
-          }
+        if (containerMode.isNew) {
+          dispatch(clearDataProtectionInitialValues());
+        }
 
+        if (submitActionOverride) {
+          dispatch(submitActionOverride({ recordType, body }));
+        } else {
           dispatch(
             saveRecord(
               params.recordType,
@@ -163,7 +166,7 @@ function Component({
               relationshipsToSave
             )
           );
-        });
+        }
         // TODO: Set this if there are any errors on validations
         // setSubmitting(false);
       },
@@ -392,6 +395,7 @@ Component.propTypes = {
   redirectTo: PropTypes.string,
   shouldFetchRecord: PropTypes.bool,
   showFormToolbar: PropTypes.bool,
+  submitActionOverride: PropTypes.func,
   summaryForm: PropTypes.object,
   title: PropTypes.string,
   userPermittedFormsIds: PropTypes.object

@@ -102,7 +102,7 @@ function RecordForm({
             0
           );
 
-          if (totalAttachments <= maximumttachmentsPerRecord) return true;
+          if (totalAttachments <= (maximumttachmentsPerRecord || 100)) return true;
 
           const errors = attachmentsKeys.map(key => {
             return new ValidationError(
