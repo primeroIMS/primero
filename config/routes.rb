@@ -191,10 +191,8 @@ Rails.application.routes.draw do
         end
       end
 
-      scope 'intakes/:id' do
-        resources :intake_form_sections, only: %i[index], path: :forms
-        resources :intake_lookups, only: %i[index], path: :lookups
-      end
+      get 'intakes/:id/forms',   to: 'intake_form_sections#index'
+      get 'intakes/:id/lookups', to: 'intake_lookups#index'
 
       scope '/webpush' do
         get 'config', action: :config, controller: 'webpush_config'

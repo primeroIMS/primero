@@ -221,6 +221,10 @@ class SystemSettings < ApplicationRecord
     (total_attachment_file_size / user_count).to_i
   end
 
+  def all_registration_streams
+    registration_streams&.map { |rs| RegistrationStream.new(rs) }
+  end
+
   class << self
     def current(rebuild = false)
       return @current unless @current.nil? || rebuild
@@ -260,12 +264,6 @@ class SystemSettings < ApplicationRecord
 
     def total_attachment_file_size
       current.total_attachment_file_size.to_i
-    end
-
-    def registration_stream_forms(id)
-      # TODO: Figure out something better than this.
-      stream = current&.registration_streams&.select { |stream| stream['unique_id'] == id }&.first
-      Role.find_by(unique_id: stream['role'])&.permitted_forms('case', true, true)
     end
   end
 end
