@@ -176,6 +176,26 @@ describe Api::V2::TransferRequestsController, type: :request do
       @case.reload
       expect(@case.assigned_user_names.present?).to be_falsey
     end
+
+    it 'cant accept a transfer request for a record a user cannot access' do
+      case_owned_by_hacker = Child.create(
+        data: {
+          name: 'Test', owned_by: 'user3',
+          disclosure_other_orgs: true, consent_for_services: true,
+          module_id: @primero_module.unique_id
+        }
+      )
+
+      sign_in(@user3)
+      params = {
+        data: {
+          status: 'accepted'
+        }
+      }
+      patch("/api/v2/cases/#{case_owned_by_hacker.id}/transfer_requests/#{@transfer1.id}", params:)
+
+      expect(response).to have_http_status(403)
+    end
   end
 
   after :each do
