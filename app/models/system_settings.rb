@@ -221,8 +221,8 @@ class SystemSettings < ApplicationRecord
     (total_attachment_file_size / user_count).to_i
   end
 
-  def all_registration_streams
-    registration_streams&.map { |rs| RegistrationStream.new(rs) }
+  def registration_streams
+    system_options['registration_streams']&.map { |rs| RegistrationStream.new(rs) }
   end
 
   class << self
@@ -234,6 +234,11 @@ class SystemSettings < ApplicationRecord
 
     def reset
       @current = nil
+    end
+
+    def registration_stream_forms(id)
+      sys = SystemSettings.current
+      sys&.registration_streams&.select { |rs| rs.unique_id == id }&.first&.permitted_forms
     end
 
     def locked_for_configuration_update?
