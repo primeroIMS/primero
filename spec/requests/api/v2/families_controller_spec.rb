@@ -152,19 +152,6 @@ describe Api::V2::FamiliesController, type: :request do
       end
     end
 
-    context 'when the authorized user is not the record owner' do
-      it 'fetches the correct record with code 200' do
-        login_for_test(
-          permissions: [Permission.new(resource: Permission::FAMILY, actions: [Permission::READ])],
-          group_permission: Permission::GROUP
-        )
-        get "/api/v2/families/#{family1.id}"
-
-        expect(response).to have_http_status(200)
-        expect(json['data']['id']).to eq(family1.id)
-      end
-    end
-
     context 'when a user has linked cases to a family' do
       it 'fetches the family with code 200 when search and select family records permission is granted' do
         login_for_test(
@@ -236,7 +223,7 @@ describe Api::V2::FamiliesController, type: :request do
 
   describe 'POST /api/v2/families/:id/case' do
     context 'when user is unauthorized' do
-      it 'refuses unauthorized access' do
+      it 'fails if the user does not have the CASE_FROM_FAMILY permission' do
         login_for_test(
           permissions: [
             Permission.new(resource: Permission::FAMILY, actions: [Permission::READ, Permission::WRITE])
@@ -249,6 +236,27 @@ describe Api::V2::FamiliesController, type: :request do
         expect(response).to have_http_status(403)
         expect(json['errors'].size).to eq(1)
         expect(json['errors'][0]['resource']).to eq("/api/v2/families/#{family1.id}/case")
+      end
+
+      it 'fails when the user does not have access to the underlying family record' do
+        login_for_test(
+          user_name: 'hacker',
+          group_permission: Permission::SELF,
+          permissions: [
+            Permission.new(resource: Permission::CASE, actions: [Permission::READ]),
+            Permission.new(
+              resource: Permission::FAMILY,
+              actions: [
+                Permission::READ, Permission::WRITE, Permission::CASE_FROM_FAMILY
+              ]
+            )
+          ]
+        )
+
+        params = { data: { family_member_id: '001' } }
+        post "/api/v2/families/#{family1.id}/case", params:, as: :json
+
+        expect(response).to have_http_status(403)
       end
     end
 

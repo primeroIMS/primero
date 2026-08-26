@@ -254,6 +254,29 @@ describe Api::V2::TransfersController, type: :request do
       expect(@case.owned_by).to eq('user1')
       expect(@case.assigned_user_names).not_to include('user2')
     end
+
+    it 'cant accept a transfer for a record a user cannot access' do
+      group = UserGroup.create!(name: 'GroupHacker')
+      hacker = User.new(user_name: 'hacker', role: @role_accept_or_reject, user_groups: [group])
+      hacker.save(validate: false)
+      case_owned_by_hacker = Child.create(
+        data: {
+          name: 'Test', owned_by: 'hacker',
+          disclosure_other_orgs: true, consent_for_services: true,
+          module_id: @primero_module.unique_id
+        }
+      )
+
+      sign_in(hacker)
+      params = {
+        data: {
+          status: 'accepted'
+        }
+      }
+      patch("/api/v2/cases/#{case_owned_by_hacker.id}/transfers/#{@transfer1.id}", params:)
+
+      expect(response).to have_http_status(403)
+    end
   end
 
   after do
