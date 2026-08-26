@@ -222,7 +222,7 @@ class SystemSettings < ApplicationRecord
   end
 
   def registration_streams
-    system_options['registration_streams']&.map { |rs| RegistrationStream.new(rs) }
+    system_options['registration_streams']&.map { |rs| RegistrationStream.new(rs) } || []
   end
 
   class << self
@@ -238,7 +238,7 @@ class SystemSettings < ApplicationRecord
 
     def registration_stream_forms(id)
       sys = SystemSettings.current
-      sys&.registration_streams&.select { |rs| rs.unique_id == id }&.first&.permitted_forms
+      sys&.registration_streams&.find { |rs| rs.unique_id == id }&.permitted_forms
     end
 
     def locked_for_configuration_update?
