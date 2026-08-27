@@ -12,7 +12,7 @@ class RegistrationStream
     Role.find_by(unique_id: role)&.permitted_forms('case', true, true)
   end
 
-  def record_owner
+  def default_record_owner
     User.find_by(user_name: user)
   end
 end
