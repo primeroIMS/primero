@@ -25,7 +25,7 @@ json.data do
   end
 
   json.registration_streams(@system_options&.[]('registration_streams')&.map do |stream|
-    { id: stream['unique_id'] }
+    { id: stream['unique_id'], record_type: stream['record_type'], module_id: stream['module_id'] }
   end || [])
   json.registration_streams_link_labels @system_options&.[]('registration_streams_link_labels_i18n') || {}
   json.registration_streams_consent_text @system_options&.[]('registration_streams_consent_text_i18n') || {}

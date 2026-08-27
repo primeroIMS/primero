@@ -5,12 +5,14 @@ import { useDispatch } from "react-redux";
 import { fetchForms, fetchOptions } from "../record-form";
 import { useApp } from "../application";
 import { RecordForm } from "../record-form/components/record-form";
-import { RECORD_TYPES, RECORD_TYPES_PLURAL } from "../../config";
+import { RECORD_TYPES_PLURAL } from "../../config";
 import useRecordForms from "../record-form/form/use-record-forms";
 import { useMemoizedSelector } from "../../libs";
 import { getRegistrationStream, getRegistrationStreamsTitle } from "../application/selectors";
 import { useI18n } from "../i18n";
 import { whichFormMode } from "../form";
+
+import { saveIntakeRecord } from "./action-creators";
 
 function Container() {
   const params = useParams();
@@ -18,10 +20,13 @@ function Container() {
   const dispatch = useDispatch();
   const i18n = useI18n();
 
+  const intakeConfig = useMemoizedSelector(state => getRegistrationStream(state, params.id));
+  const intakeStreamTitle = useMemoizedSelector(state => getRegistrationStreamsTitle(state));
+
   const mode = "new";
-  // TODO: Should recordType and primeroModule be hard-coded?
-  const recordType = RECORD_TYPES.cases;
-  const primeroModule = "primeromodule-cp";
+  const recordType = intakeConfig?.get("record_type");
+  const primeroModule = intakeConfig?.get("module_id");
+  const id = intakeConfig?.get("id");
 
   const { forms, formNav, recordAttachments, permittedFormsIds, firstTab, attachmentForms } = useRecordForms({
     isEditOrShow: false,
@@ -31,25 +36,20 @@ function Container() {
     checkWritable: false
   });
 
-  const intakeConfig = useMemoizedSelector(state => getRegistrationStream(state, params.id));
-  const intakeStreamTitle = useMemoizedSelector(state => getRegistrationStreamsTitle(state));
-
   useEffect(() => {
     if (intakeConfig && intakeConfig.get("id")) {
-      const id = intakeConfig.get("id");
-
       dispatch(fetchForms(`intakes/${id}/forms`));
       dispatch(fetchOptions(`intakes/${id}/lookups`));
     }
   }, [intakeConfig]);
 
-  const submitActionOverride = obj => {
-    console.log("submitActionOverride called with:", obj);
+  const handleSave = data => {
+    dispatch(saveIntakeRecord(params.id, data));
   };
 
   return (
     <RecordForm
-      submitActionOverride={submitActionOverride}
+      submitActionOverride={handleSave}
       showFormToolbar
       hideCancelButton
       params={params}

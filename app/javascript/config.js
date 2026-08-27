@@ -203,6 +203,7 @@ const ROUTES = {
   forms_new: "/admin/forms/new",
   incidents: "/incidents",
   intake_new: "/intake/:id/new",
+  intake_thankyou: "/intake/:id/thankyou",
   intake: "/intake",
   login: "/login",
   login_idp_redirect: "/login/:id",
@@ -252,7 +253,8 @@ const PERMITTED_URL = [
   ROUTES.code_of_conduct,
   ROUTES.terms_of_use,
   ROUTES.password_reset_request,
-  ROUTES.intake_new
+  ROUTES.intake_new,
+  ROUTES.intake_thankyou
 ];
 
 const SKIP_LOGIN_REDIRECTION_ROUTES = [ROUTES.intake];

@@ -12,8 +12,8 @@ import { getRecordAttachments } from "../../records";
 
 import useRecordFormsQuery from "./use-record-form-query";
 
-function useRecordForms({ primeroModule, isEditOrShow, recordType, record, fromStream }) {
-  const query = useRecordFormsQuery({ primeroModule, isEditOrShow, recordType, record, fromStream });
+function useRecordForms({ primeroModule, isEditOrShow, recordType, record }) {
+  const query = useRecordFormsQuery({ primeroModule, isEditOrShow, recordType, record });
   const permittedFormsIds = useMemoizedSelector(state => getPermittedForms(state, query));
   const formNav = useMemoizedSelector(state => getFormNav(state, query));
   const forms = useMemoizedSelector(state => getRecordForms(state, query));

@@ -146,7 +146,7 @@ function Component({
         }
 
         if (submitActionOverride) {
-          dispatch(submitActionOverride({ recordType, body }));
+          submitActionOverride(body);
         } else {
           dispatch(
             saveRecord(
@@ -321,7 +321,12 @@ function Component({
 
   return (
     <PageContainer twoCol>
-      <LoadingIndicator hasData={hasData} type={params.recordType} loading={loading} errors={errors}>
+      <LoadingIndicator
+        hasData={hasData}
+        type={params.recordType || RECORD_TYPES_PLURAL[recordType]}
+        loading={loading}
+        errors={errors}
+      >
         {renderRecordFormToolbar}
         <div className={containerClasses}>
           <div className={navContainerClasses}>

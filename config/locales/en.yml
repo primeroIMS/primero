@@ -226,6 +226,7 @@ en:
     sort_by_tr: Tracing Requests
     sync: Sync
     submit: Submit
+    start_over: Start Over
     transfer: Transfer
     unflag_model: Unflag %{model}
     unflag_model_history: Flag History %{model}

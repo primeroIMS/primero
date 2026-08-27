@@ -7,15 +7,7 @@ import {
 } from "../../permissions/constants";
 import { RECORD_TYPES } from "../../../config";
 
-function useRecordFormsQuery({
-  primeroModule,
-  isEditOrShow,
-  recordType,
-  record,
-  fromStream,
-  checkPermittedForms,
-  checkWritable
-}) {
+function useRecordFormsQuery({ primeroModule, isEditOrShow, recordType, record, checkPermittedForms, checkWritable }) {
   const canViewSummaryForm = usePermissions(RESOURCES.potential_matches, SHOW_FIND_MATCH);
   const canViewRegistryRecord = usePermissions(RESOURCES.cases, READ_REGISTRY_RECORD);
   const canViewFamilyRecord = usePermissions(RESOURCES.cases, READ_FAMILY_RECORD);
@@ -37,8 +29,7 @@ function useRecordFormsQuery({
     renderCustomForms,
     checkWritable,
     recordId: record?.get("id"),
-    isEditOrShow,
-    fromStream
+    isEditOrShow
   };
 }
 

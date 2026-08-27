@@ -130,7 +130,7 @@ export const getPermittedForms = createCachedSelector(
       id: query.recordId,
       isEditOrShow: query.isEditOrShow
     })?.get("permitted_forms"),
-  (state, query) => getPermittedFormsIds(state, query),
+  state => getPermittedFormsIds(state),
   (_state, query) => query,
   (recordForms, userForms, query) => {
     const permittedForms = recordForms && !recordForms.isEmpty() ? recordForms : userForms;
@@ -149,7 +149,7 @@ export const getPermittedForms = createCachedSelector(
 
 export const allPermittedForms = createCachedSelector(
   allFormSections,
-  (state, query) => getPermittedFormsIds(state, query),
+  state => getPermittedFormsIds(state),
   getLocale,
   (_state, query) => query,
   (formSections, permittedFormIDs, appLocale, query) =>

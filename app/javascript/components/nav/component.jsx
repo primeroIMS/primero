@@ -37,14 +37,15 @@ function Nav() {
   const i18n = useI18n();
   const [drawerOpen, setDrawerOpen] = useState(false);
   const intakeRoute = useRouteMatch(ROUTES.intake_new);
+  const intakeThankYouRoute = useRouteMatch(ROUTES.intake_thankyou);
 
   const { dialogOpen, dialogClose } = useDialog(LOGOUT_DIALOG);
 
   useEffect(() => {
-    if (!intakeRoute) {
+    if (!intakeRoute && !intakeThankYouRoute) {
       dispatch(fetchAlerts());
     }
-  }, []);
+  }, [intakeRoute, intakeThankYouRoute]);
 
   const { demo, useContainedNavStyle } = useApp();
   const username = useMemoizedSelector(state => selectUsername(state), isEqual);
@@ -133,7 +134,7 @@ function Nav() {
       <div className={css.navNetworkIndicator}>
         <NetworkIndicator />
       </div>
-      {Boolean(intakeRoute?.path) || (
+      {Boolean(intakeRoute?.path) || Boolean(intakeThankYouRoute?.path) || (
         <List className={navListClasses}>{permittedMenuEntries(APPLICATION_NAV(permissions, userId))}</List>
       )}
       <div className={css.navAgencies}>
