@@ -18,6 +18,7 @@ class Api::V2::ReferralsController < Api::V2::RecordResourceController
   def update
     authorize_update!(@record)
     @transition = Referral.find(params[:id])
+    authorize!(:update, @transition)
     @transition.process!(current_user, update_params)
     updates_for_record(@transition.record)
     render 'api/v2/transitions/update'
@@ -79,8 +80,8 @@ class Api::V2::ReferralsController < Api::V2::RecordResourceController
 
   def authorize_update!(record)
     authorize! :update, record
-  rescue CanCan::AccessDenied
-    authorize! :receive_referral, record
+  rescue CanCan::AccessDenied => e
+    raise e unless current_user.can?(:receive_referral, record) || current_user.can?(:remove_assigned_users, record)
   end
 
   def update_params

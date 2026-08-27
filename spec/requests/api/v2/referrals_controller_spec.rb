@@ -390,6 +390,27 @@ describe Api::V2::ReferralsController, type: :request do
       expect(@case_a.assigned_user_names).to_not include('user2')
     end
 
+    it 'cant accept a referral for a record a user cannot access' do
+      hacker = User.new(user_name: 'hacker', role: @role_receive, user_groups: [@group2])
+      hacker.save(validate: false)
+      case_owned_by_hacker = Child.create(
+        data: {
+          name: 'Test', owned_by: 'hacker',
+          disclosure_other_orgs: true, consent_for_services: true,
+          module_id: @primero_module.unique_id
+        }
+      )
+      referral_for_a_different_case = Referral.create!(transitioned_by: 'user3', transitioned_to: 'user2',
+                                                       record: @case_c)
+
+      sign_in(hacker)
+      params = { data: { status: Transition::STATUS_ACCEPTED } }
+
+      patch("/api/v2/cases/#{case_owned_by_hacker.id}/referrals/#{referral_for_a_different_case.id}", params:)
+
+      expect(response).to have_http_status(403)
+    end
+
     after :each do
       clean_data(Referral)
     end
