@@ -29,6 +29,7 @@ class Api::V2::IntakesController < ApplicationApiController
 
   def create_params
     record_params.merge(
+      status: Record::STATUS_IDENTIFIED,
       record_type: @registration_stream&.record_type,
       module_id: @registration_stream&.module_id
     )
