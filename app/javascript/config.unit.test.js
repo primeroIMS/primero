@@ -108,6 +108,7 @@ describe("Verifying config constant", () => {
       "SAVE_METHODS",
       "SAVING",
       "SERVICES_SUBFORM_FIELD",
+      "SKIP_LOGIN_REDIRECTION_ROUTES",
       "STRING_SOURCES_TYPES",
       "SUBFORM_READONLY_FIELD_NAMES",
       "SUMMARY",
