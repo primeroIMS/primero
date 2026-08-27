@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { fetchForms, fetchOptions } from "../record-form";
 import { useApp } from "../application";
 import { RecordForm } from "../record-form/components/record-form";
-import { RECORD_TYPES_PLURAL } from "../../config";
+import { MODES, RECORD_TYPES_PLURAL } from "../../config";
 import useRecordForms from "../record-form/form/use-record-forms";
 import { useMemoizedSelector } from "../../libs";
 import { getRegistrationStream, getRegistrationStreamsTitle } from "../application/selectors";
@@ -23,7 +23,7 @@ function Container() {
   const intakeConfig = useMemoizedSelector(state => getRegistrationStream(state, params.id));
   const intakeStreamTitle = useMemoizedSelector(state => getRegistrationStreamsTitle(state));
 
-  const mode = "new";
+  const mode = MODES.new;
   const recordType = intakeConfig?.get("record_type");
   const primeroModule = intakeConfig?.get("module_id");
   const id = intakeConfig?.get("id");

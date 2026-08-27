@@ -160,7 +160,8 @@ describe("Verifying config constant", () => {
       "CASE_CHARACTERISTICS_SUBREPORTS",
       "CASE_MANAGEMENT_KPIS_SUBREPORTS",
       "CASE_MANAGEMENT_KPIS_SERVICE_REFERRALS_SUBREPORTS",
-      "DISTRIBUTION_USERS_ROLE_SUBREPORTS"
+      "DISTRIBUTION_USERS_ROLE_SUBREPORTS",
+      "MAXIMUM_ATTACHMENTS_PER_RECORD"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(configConstants).toHaveProperty(property);

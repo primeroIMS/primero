@@ -10,7 +10,7 @@ import { clearCaseFromIncident } from "../../records/action-creators";
 import { useI18n } from "../../i18n";
 import { constructInitialValues, sortSubformValues } from "../utils";
 import { useMemoizedSelector } from "../../../libs";
-import { INCIDENT_FROM_CASE, RECORD_TYPES } from "../../../config";
+import { INCIDENT_FROM_CASE, MAXIMUM_ATTACHMENTS_PER_RECORD, RECORD_TYPES } from "../../../config";
 import { getDataProtectionInitialValues, getInitalValuesFromStore } from "../selectors";
 import { AUDIO_FIELD, DOCUMENT_FIELD, PHOTO_FIELD } from "../constants";
 import { LEGITIMATE_BASIS } from "../../record-creation-flow/components/consent-prompt/constants";
@@ -102,7 +102,7 @@ function RecordForm({
             0
           );
 
-          if (totalAttachments <= (maximumttachmentsPerRecord || 100)) return true;
+          if (totalAttachments <= (maximumttachmentsPerRecord || MAXIMUM_ATTACHMENTS_PER_RECORD)) return true;
 
           const errors = attachmentsKeys.map(key => {
             return new ValidationError(
