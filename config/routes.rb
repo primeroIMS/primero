@@ -191,6 +191,7 @@ Rails.application.routes.draw do
         end
       end
 
+      post 'intakes/:id', to: 'intakes#create'
       get 'intakes/:id/forms',   to: 'intake_form_sections#index'
       get 'intakes/:id/lookups', to: 'intake_lookups#index'
 

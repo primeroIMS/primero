@@ -236,6 +236,10 @@ class SystemSettings < ApplicationRecord
       @current = nil
     end
 
+    def find_registration_stream_by_id(id)
+      current&.registration_streams&.find { |rs| rs.unique_id == id }
+    end
+
     def registration_stream_forms(id)
       sys = SystemSettings.current
       sys&.registration_streams&.find { |rs| rs.unique_id == id }&.permitted_forms
