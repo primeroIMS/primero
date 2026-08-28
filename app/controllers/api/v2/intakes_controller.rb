@@ -12,7 +12,7 @@ class Api::V2::IntakesController < ApplicationApiController
   def create
     raise ActiveRecord::RecordNotFound unless @registration_stream.present?
 
-    @record = model_class.new_with_user(record_owner, create_params)
+    @record = model_class.new_with_user(authorized_user, create_params)
     @record.save!
     permit_readable_fields
     select_updated_fields
@@ -52,7 +52,7 @@ class Api::V2::IntakesController < ApplicationApiController
     @registration_stream&.module_id
   end
 
-  def record_owner
+  def authorized_user
     @registration_stream&.default_record_owner
   end
 end
