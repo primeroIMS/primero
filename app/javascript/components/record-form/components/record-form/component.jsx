@@ -58,7 +58,8 @@ function Component({
   shouldFetchRecord,
   summaryForm,
   userPermittedFormsIds,
-  submitActionOverride
+  submitActionOverride,
+  captcha
 }) {
   let submitForm = null;
   const mobileDisplay = useMediaQuery(theme => theme.breakpoints.down("sm"));
@@ -351,6 +352,7 @@ function Component({
           <div className={`${css.recordForms} ${demoClasses} record-form-container`}>
             <RecordForm
               {...formProps}
+              captcha={captcha}
               forcePermitFormReadWrite={forcePermitFormReadWrite}
               externalForms={recordFormExternalForms}
               externalComponents={externalComponents}
@@ -379,6 +381,7 @@ Component.displayName = "RecordForm";
 Component.propTypes = {
   approvalSubforms: PropTypes.object,
   attachmentForms: PropTypes.object,
+  captcha: PropTypes.bool,
   containerMode: PropTypes.object,
   demo: PropTypes.bool,
   editRedirect: PropTypes.string,

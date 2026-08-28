@@ -23,7 +23,7 @@ class Api::V2::IntakesController < ApplicationApiController
 
   def verify_captcha
     CaptchaService.verify(provider: Primero::Application.config.x.captcha_provider,
-                          token: params[:captcha_token],
+                          token: params[:data][:captcha_token],
                           remote_ip: request.remote_ip)
   end
 

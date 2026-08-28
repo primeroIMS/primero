@@ -54,6 +54,7 @@ function Container() {
       hideCancelButton
       params={params}
       forms={forms}
+      captcha
       forcePermitFormReadWrite
       title={intakeStreamTitle.getIn([i18n.locale, params.id], "")}
       shouldFetchRecord={false}

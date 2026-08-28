@@ -1,10 +1,11 @@
 import { Form } from "formik";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import NavigationPrompt from "react-router-navigation-prompt";
 import PropTypes from "prop-types";
 
 import ActionDialog from "../../action-dialog";
 import { useI18n } from "../../i18n";
+import useCaptcha from "../../form/utils/captcha";
 
 import { ValidationErrors } from "./components";
 import css from "./styles.css";
@@ -29,9 +30,17 @@ function FormikForm({
   renderFormSections,
   handleConfirm,
   externalComponents,
-  submitCount
+  submitCount,
+  captcha = false
 }) {
   const i18n = useI18n();
+  const captchaContainer = useRef(null);
+
+  useCaptcha({
+    formInstance: { setValue: setFieldValue },
+    enabled: captcha,
+    ref: captchaContainer
+  });
 
   useEffect(() => {
     bindSetValues(setValues);
@@ -60,6 +69,7 @@ function FormikForm({
       {renderFormSections(forms, setFieldValue, handleSubmit, values, dirty)}
       {externalComponents({ dirty, setFieldValue, values })}
       <div className={css.spacer} />
+      <div ref={captchaContainer} />
     </Form>
   );
 }
@@ -69,6 +79,7 @@ FormikForm.displayName = "Form";
 FormikForm.propTypes = {
   bindResetForm: PropTypes.func,
   bindSetValues: PropTypes.func,
+  captcha: PropTypes.bool,
   dirty: PropTypes.bool,
   errors: PropTypes.object,
   externalComponents: PropTypes.func,
