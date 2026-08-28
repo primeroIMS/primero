@@ -17,11 +17,11 @@ function waitForRef(ref) {
 
 const configuration = {
   turnstile: {
-    render: ({ el, captcha, setValue }) => {
+    render: ({ el, captcha, setValue, isRHF }) => {
       window.turnstile.render(el, {
         sitekey: captcha.get("site_key"),
         callback: token => {
-          setValue("captcha_token", token, { shouldValidate: false });
+          setValue("captcha_token", token, isRHF ? { shouldValidate: false } : false);
         },
         "error-callback": () => setValue("captcha_token", ""),
         "expired-callback": () => setValue("captcha_token", "")
@@ -33,7 +33,7 @@ const configuration = {
   }
 };
 
-function useCaptcha({ formInstance, enabled = false, ref }) {
+function useCaptcha({ formInstance, enabled = false, ref, isRHF = false }) {
   const { captcha } = useApp();
   const { setValue, register } = formInstance;
 
@@ -43,9 +43,11 @@ function useCaptcha({ formInstance, enabled = false, ref }) {
 
       const el = await waitForRef(ref);
 
-      register("captcha_token", { required: true });
+      if (register) {
+        register("captcha_token", { required: true });
+      }
 
-      const widgetId = configuration?.[captcha?.get("provider")]?.render({ el, captcha, setValue });
+      const widgetId = configuration?.[captcha?.get("provider")]?.render({ el, captcha, setValue, isRHF });
 
       return () => {
         configuration?.[captcha?.get("provider")]?.cleanup(widgetId);

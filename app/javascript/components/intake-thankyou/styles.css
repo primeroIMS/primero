@@ -1,4 +1,5 @@
 .container {
+  text-align: center;
   border: 1px solid var(--c-light-grey-2);
   border-radius: var(--sp-1);
   padding: var(--sp-2);

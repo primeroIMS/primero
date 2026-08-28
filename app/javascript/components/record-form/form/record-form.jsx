@@ -23,6 +23,7 @@ import { fieldValidations } from "./validations";
 import FormikForm from "./formik-form";
 
 function RecordForm({
+  captcha,
   attachmentForms,
   bindSubmitForm,
   forms,
@@ -248,6 +249,7 @@ function RecordForm({
               <FormikForm
                 {...props}
                 handleConfirm={handleConfirm}
+                captcha={captcha}
                 renderFormSections={renderFormSections(
                   externalForms,
                   selectedForm,
@@ -288,6 +290,7 @@ RecordForm.whyDidYouRender = true;
 RecordForm.propTypes = {
   attachmentForms: PropTypes.object,
   bindSubmitForm: PropTypes.func,
+  captcha: PropTypes.bool,
   externalComponents: PropTypes.func,
   externalForms: PropTypes.func,
   fetchFromCaseId: PropTypes.bool,
