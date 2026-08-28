@@ -198,8 +198,18 @@ export const getLimitedConfigUI = state => getConfigUI(state) === LIMITED;
 
 export const getRegistrationStreams = state => state.getIn([NAMESPACE, "primero", "registration_streams"], fromJS([]));
 
+export const getRegistrationStreamsTitle = state =>
+  state.getIn([NAMESPACE, "primero", "registration_streams_title"], fromJS([]));
+
+export const getRegistrationStream = (state, id) => {
+  return getRegistrationStreams(state).find(stream => stream.get("id") === id, null, fromJS({}));
+};
+
 export const getRegistrationStreamsLinkLabels = state =>
   state.getIn([NAMESPACE, "primero", "registration_streams_link_labels"], fromJS({}));
+
+export const getRegistrationStreamsThankyouMessage = state =>
+  state.getIn([NAMESPACE, "primero", "registration_streams_thankyou_message"], fromJS({}));
 
 export const getRegistrationStreamsConsentText = state =>
   state.getIn([NAMESPACE, "primero", "registration_streams_consent_text"], fromJS([]));

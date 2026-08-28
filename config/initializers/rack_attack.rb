@@ -34,9 +34,16 @@ Rack::Attack.throttle('Self registration', limit: 6, period: 60) do |request|
   request.remote_ip
 end
 
-# 1 intake form/lookup get request allowed per ip, per 10 seconds
-Rack::Attack.throttle('Intake form/lookups', limit: 1, period: 10) do |request|
-  next unless request.get? && request.path =~ %r{^/api/v2/intakes/[^/]+/(forms|lookups)$}
+# 1 intake form get request allowed per ip, per 10 seconds
+Rack::Attack.throttle('Intake form', limit: 1, period: 10) do |request|
+  next unless request.get? && request.path =~ %r{^/api/v2/intakes/[^/]+/forms$}
+
+  request.remote_ip
+end
+
+# 1 intake lookup get request allowed per ip, per 10 seconds
+Rack::Attack.throttle('Intake lookups', limit: 1, period: 10) do |request|
+  next unless request.get? && request.path =~ %r{^/api/v2/intakes/[^/]+/lookups$}
 
   request.remote_ip
 end

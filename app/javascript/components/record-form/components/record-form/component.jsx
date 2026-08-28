@@ -51,9 +51,14 @@ function Component({
   recordAttachments,
   recordType,
   redirectTo,
+  primeroModule,
+  showFormToolbar = false,
+  forcePermitFormReadWrite,
+  title,
   shouldFetchRecord,
   summaryForm,
-  userPermittedFormsIds
+  userPermittedFormsIds,
+  submitActionOverride
 }) {
   let submitForm = null;
   const mobileDisplay = useMediaQuery(theme => theme.breakpoints.down("sm"));
@@ -64,7 +69,7 @@ function Component({
   const dispatch = useDispatch();
   const i18n = useI18n();
 
-  const selectedModule = record?.get("module_id") || params.module;
+  const selectedModule = record?.get("module_id") || params.module || primeroModule;
 
   const {
     handleCreateIncident,
@@ -132,15 +137,17 @@ function Component({
             : i18n.t(`${recordType}.messages.creation_success`, recordType);
         };
 
-        batch(() => {
-          if (saveBeforeIncidentRedirect) {
-            setCaseIncidentData(formValues, incidentPath, true);
-          }
+        if (saveBeforeIncidentRedirect) {
+          setCaseIncidentData(formValues, incidentPath, true);
+        }
 
-          if (containerMode.isNew) {
-            dispatch(clearDataProtectionInitialValues());
-          }
+        if (containerMode.isNew) {
+          dispatch(clearDataProtectionInitialValues());
+        }
 
+        if (submitActionOverride) {
+          submitActionOverride(body);
+        } else {
           dispatch(
             saveRecord(
               params.recordType,
@@ -159,7 +166,7 @@ function Component({
               relationshipsToSave
             )
           );
-        });
+        }
         // TODO: Set this if there are any errors on validations
         // setSubmitting(false);
       },
@@ -190,7 +197,8 @@ function Component({
     primeroModule: selectedModule,
     record,
     editRedirect,
-    hideCancelButton
+    hideCancelButton,
+    title
   };
 
   useEffect(() => {
@@ -286,7 +294,7 @@ function Component({
   const canSeeForm = !loadingForm && forms.size === 0 ? canViewCases : forms.size > 0 && !formNav.isEmpty() && firstTab;
   const hasData = Boolean(canSeeForm && (containerMode.isNew || record) && (containerMode.isNew || isCaseIdEqualParam));
   const loading = Boolean(loadingForm || loadingRecord);
-  const renderRecordFormToolbar = selectedModule && <RecordFormToolbar {...toolbarProps} />;
+  const renderRecordFormToolbar = (selectedModule || showFormToolbar) && <RecordFormToolbar {...toolbarProps} />;
 
   const containerClasses = cx(css.recordContainer, {
     [css.formNavOpen]: toggleNav && mobileDisplay
@@ -313,7 +321,12 @@ function Component({
 
   return (
     <PageContainer twoCol>
-      <LoadingIndicator hasData={hasData} type={params.recordType} loading={loading} errors={errors}>
+      <LoadingIndicator
+        hasData={hasData}
+        type={params.recordType || RECORD_TYPES_PLURAL[recordType]}
+        loading={loading}
+        errors={errors}
+      >
         {renderRecordFormToolbar}
         <div className={containerClasses}>
           <div className={navContainerClasses}>
@@ -323,7 +336,7 @@ function Component({
               handleToggleNav={handleToggleNav}
               isNew={containerMode.isNew}
               mobileDisplay={mobileDisplay}
-              recordType={params.recordType}
+              recordType={params.recordType || RECORD_TYPES_PLURAL[recordType]}
               selectedForm={selectedForm}
               selectedRecord={navSelectedRecords}
               toggleNav={toggleNav}
@@ -338,6 +351,7 @@ function Component({
           <div className={`${css.recordForms} ${demoClasses} record-form-container`}>
             <RecordForm
               {...formProps}
+              forcePermitFormReadWrite={forcePermitFormReadWrite}
               externalForms={recordFormExternalForms}
               externalComponents={externalComponents}
               selectedForm={selectedForm}
@@ -370,6 +384,7 @@ Component.propTypes = {
   editRedirect: PropTypes.string,
   fetchFromCaseId: PropTypes.bool,
   firstTab: PropTypes.object,
+  forcePermitFormReadWrite: PropTypes.bool,
   formNav: PropTypes.object,
   forms: PropTypes.object,
   hideCancelButton: PropTypes.bool,
@@ -378,12 +393,16 @@ Component.propTypes = {
   isNotANewCase: PropTypes.bool,
   mode: PropTypes.string,
   params: PropTypes.object,
+  primeroModule: PropTypes.string,
   record: PropTypes.object,
   recordAttachments: PropTypes.object,
   recordType: PropTypes.string,
   redirectTo: PropTypes.string,
   shouldFetchRecord: PropTypes.bool,
+  showFormToolbar: PropTypes.bool,
+  submitActionOverride: PropTypes.func,
   summaryForm: PropTypes.object,
+  title: PropTypes.string,
   userPermittedFormsIds: PropTypes.object
 };
 

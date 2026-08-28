@@ -5,7 +5,7 @@ class RegistrationStream
   include ActiveModel::API
 
   attr_accessor :unique_id, :role, :user_groups, :agency, :record_type,
-                :primero_module, :user, :module_id, :user_category
+                :user, :module_id, :user_category
 
   def permitted_forms
     # NOTE: For now we are assuming that registration streams will only create cases

@@ -1,0 +1,11 @@
+.container {
+  border: 1px solid var(--c-light-grey-2);
+  border-radius: var(--sp-1);
+  padding: var(--sp-2);
+  margin: var(--sp-4);
+  font-weight: bold;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  align-items: center;
+}

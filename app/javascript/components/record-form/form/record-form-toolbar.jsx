@@ -49,7 +49,8 @@ function RecordFormToolbar({
   primeroModule,
   record,
   recordType,
-  shortId
+  shortId,
+  title
 }) {
   const { isRTL } = useThemeHelper();
   const dispatch = useDispatch();
@@ -126,7 +127,7 @@ function RecordFormToolbar({
     );
   }
 
-  const title = (
+  const titleComponent = (
     <RecordPageHeading
       caseIdDisplay={caseIdDisplay}
       i18n={i18n}
@@ -145,7 +146,7 @@ function RecordFormToolbar({
   );
 
   return (
-    <PageHeading title={title} prefixComponent={renderRecordStatusIndicator}>
+    <PageHeading title={title || titleComponent} prefixComponent={renderRecordStatusIndicator}>
       <>
         {mode.isShow && params && recordType === RECORD_TYPES.incidents && incidentFromCase?.size ? (
           <ActionButton
@@ -217,7 +218,8 @@ RecordFormToolbar.propTypes = {
   primeroModule: PropTypes.string.isRequired,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
-  shortId: PropTypes.string
+  shortId: PropTypes.string,
+  title: PropTypes.string
 };
 
 export default withRouter(RecordFormToolbar);
