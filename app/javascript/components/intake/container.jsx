@@ -68,6 +68,7 @@ function Container() {
       mode={mode}
       recordType={recordType}
       primeroModule={primeroModule}
+      showRecordInformation={false}
     />
   );
 }
