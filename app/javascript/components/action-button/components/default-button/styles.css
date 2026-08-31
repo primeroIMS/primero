@@ -16,7 +16,6 @@
 @media (max-width:900px) {
   .defaultActionButton {
     min-width: 3em;
-    padding: 0 15px;
 
     & span {
       margin: 0;
