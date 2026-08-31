@@ -24,7 +24,7 @@ class SystemSettings < ApplicationRecord
                  :registration_streams_link_labels_i18n, :registration_streams_consent_text_i18n,
                  :reporting_location_i18n, :days_since_referral_status_changed,
                  :phone_formats, :default_phone_format, :registration_streams_thankyou_message_i18n,
-                 :registration_streams_title_i18n)
+                 :registration_streams_title_i18n, :public_locations_file)
 
   localize_properties %i[welcome_email_text approvals_labels field_labels registration_streams_link_labels
                          registration_streams_consent_text]
