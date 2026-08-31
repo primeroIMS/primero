@@ -59,7 +59,8 @@ function Component({
   summaryForm,
   userPermittedFormsIds,
   submitActionOverride,
-  captcha
+  captcha,
+  showRecordInformation
 }) {
   let submitForm = null;
   const mobileDisplay = useMediaQuery(theme => theme.breakpoints.down("sm"));
@@ -346,7 +347,7 @@ function Component({
               recordId={params.id}
               formikValuesForNav={formikValuesForNav}
               hideCancelButton={hideCancelButton}
-              showRecordInformation={!isIdentifiedUser}
+              showRecordInformation={showRecordInformation ?? !isIdentifiedUser}
             />
           </div>
           <div className={`${css.recordForms} ${demoClasses} record-form-container`}>
@@ -403,6 +404,7 @@ Component.propTypes = {
   redirectTo: PropTypes.string,
   shouldFetchRecord: PropTypes.bool,
   showFormToolbar: PropTypes.bool,
+  showRecordInformation: PropTypes.bool,
   submitActionOverride: PropTypes.func,
   summaryForm: PropTypes.object,
   title: PropTypes.string,
