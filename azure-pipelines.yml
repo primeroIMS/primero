@@ -27,7 +27,7 @@ jobs:
       - task: CmdLine@2
         displayName: 'Build Primero Docker images'
         inputs:
-          script: './build.sh all -t $(tag) -r $(containerRegistry) $(dash_el)'
+          script: './build.sh all -t $(tag) -r $(containerRegistry) -b $(baseImageRegistry) $(dash_el)'
           workingDirectory: 'docker/'
 
       - task: Docker@2
