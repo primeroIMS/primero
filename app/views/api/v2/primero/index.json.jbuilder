@@ -31,6 +31,8 @@ json.data do
   json.registration_streams_consent_text @system_options&.[]('registration_streams_consent_text_i18n') || {}
   json.registration_streams_title @system_options&.[]('registration_streams_title_i18n') || {}
   json.registration_streams_thankyou_message @system_options&.[]('registration_streams_thankyou_message_i18n') || {}
+  json.default_phone_format @system_options&.[]('default_phone_format') || {}
+  json.phone_formats @system_options&.[]('phone_formats') || {}
 
   if Rails.configuration.x.captcha_provider.present?
     json.captcha do
