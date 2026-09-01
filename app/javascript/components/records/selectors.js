@@ -45,7 +45,8 @@ export const selectRecordAttribute = (state, recordType, id, attribute) => {
 export const selectRecordsByIndexes = (state, recordType, indexes) =>
   (indexes || []).map(index => state.getIn(["records", recordType, "data"], List([])).get(index));
 
-export const getSavingRecord = (state, recordType) => state.getIn(["records", recordType, "saving"], false);
+export const getSavingRecord = (state, recordType) =>
+  state.getIn(["records", recordType, "saving"], state.getIn(["records", "intake", "saving"], false));
 
 export const getLoadingRecordState = (state, recordType) => state.getIn(["records", recordType, "loading"], false);
 

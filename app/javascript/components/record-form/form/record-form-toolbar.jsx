@@ -55,15 +55,19 @@ function RecordFormToolbar({
   const { isRTL } = useThemeHelper();
   const dispatch = useDispatch();
   const i18n = useI18n();
+  const selectedRecordType = params.recordType || recordType;
 
-  const savingRecord = useMemoizedSelector(state => getSavingRecord(state, params.recordType));
-  const loadingRecord = useMemoizedSelector(state => getLoadingRecordState(state, params.recordType));
-  const incidentFromCase = useMemoizedSelector(state => getIncidentFromCase(state, recordType));
+  const savingRecord = useMemoizedSelector(state => getSavingRecord(state, selectedRecordType));
+  const loadingRecord = useMemoizedSelector(state => getLoadingRecordState(state, selectedRecordType));
+  const incidentFromCase = useMemoizedSelector(state => getIncidentFromCase(state, selectedRecordType));
   const isEnabledWebhookSyncFor = useMemoizedSelector(state =>
-    getIsEnabledWebhookSyncFor(state, primeroModule, recordType)
+    getIsEnabledWebhookSyncFor(state, primeroModule, selectedRecordType)
   );
   const redirectedToCreateNewRecord = useMemoizedSelector(state => getRedirectedToCreateNewRecord(state));
-  const { incidentFromCaseIdDisplay, incidentFromCaseId } = useIncidentFromCase({ recordType, record });
+  const { incidentFromCaseIdDisplay, incidentFromCaseId } = useIncidentFromCase({
+    recordType: selectedRecordType,
+    record
+  });
 
   const rtlClass = isRTL ? css.flipImage : "";
 
