@@ -65,6 +65,7 @@ import { reducer as termsOfUseReducer } from "./components/terms-of-use";
 import { reducer as drawerReducer } from "./components/drawer";
 import { reducer as formFiltersReducer } from "./components/form-filters";
 import { reducer as insightsReducer } from "./components/insights";
+import { reducer as intakeReducer } from "./components/intake";
 import { reducer as unusedFieldsReportReducer } from "./components/unused-fields-report";
 import { RECORD_TYPES } from "./config";
 
@@ -123,6 +124,7 @@ const rootReducer = {
         usage_reports: reduceReducers(initialState, UsageReportsReducer)
       }),
       activity_logs: activityLogReducer,
+      ...intakeReducer,
       ...kpiReducer
     }),
     transferApprovalReducer,
