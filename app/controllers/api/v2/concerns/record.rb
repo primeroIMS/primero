@@ -89,7 +89,7 @@ module Api::V2::Concerns::Record
   end
 
   def authorized_roles
-    @authorized_roles ||= [current_user.role]
+    @authorized_roles ||= [authorized_user.role]
   end
 
   def permit_readable_fields
@@ -140,11 +140,15 @@ module Api::V2::Concerns::Record
     @permitted_form_fields_service = PermittedFormFieldsService.instance
     @permitted_field_values_service = PermittedFieldValuesService.instance
     @permitted_field_service = PermittedFieldService.new(
-      current_user,
+      authorized_user,
       model_class,
       @permitted_form_fields_service,
       { action_name: params[:record_action], id_search: params[:id_search] }
     )
+  end
+
+  def authorized_user
+    current_user
   end
 
   def query_scope

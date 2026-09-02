@@ -198,8 +198,18 @@ export const getLimitedConfigUI = state => getConfigUI(state) === LIMITED;
 
 export const getRegistrationStreams = state => state.getIn([NAMESPACE, "primero", "registration_streams"], fromJS([]));
 
+export const getRegistrationStreamsTitle = state =>
+  state.getIn([NAMESPACE, "primero", "registration_streams_title"], fromJS([]));
+
+export const getRegistrationStream = (state, id) => {
+  return getRegistrationStreams(state).find(stream => stream.get("id") === id, null, fromJS({}));
+};
+
 export const getRegistrationStreamsLinkLabels = state =>
   state.getIn([NAMESPACE, "primero", "registration_streams_link_labels"], fromJS({}));
+
+export const getRegistrationStreamsThankyouMessage = state =>
+  state.getIn([NAMESPACE, "primero", "registration_streams_thankyou_message"], fromJS({}));
 
 export const getRegistrationStreamsConsentText = state =>
   state.getIn([NAMESPACE, "primero", "registration_streams_consent_text"], fromJS([]));
@@ -270,10 +280,18 @@ export const getThemeLogos = state => state.getIn([NAMESPACE, "theme", "images",
 export const getFieldLabels = state => state.getIn([NAMESPACE, "fieldLabels"], fromJS({}));
 
 export const getPhoneFormats = state =>
-  state.getIn([NAMESPACE, "systemOptions", "phone_formats"], fromJS([])).map(format => format.toUpperCase());
+  state.getIn(
+    [NAMESPACE, "systemOptions", "phone_formats"],
+    state.getIn([NAMESPACE, "primero", "phone_formats"], fromJS([])).map(format => format.toUpperCase())
+  );
 
 export const getDefaultPhoneFormat = state =>
-  state.getIn([NAMESPACE, "systemOptions", "default_phone_format"], null)?.toUpperCase();
+  state
+    .getIn(
+      [NAMESPACE, "systemOptions", "default_phone_format"],
+      state.getIn([NAMESPACE, "primero", "default_phone_format"], null)
+    )
+    ?.toUpperCase();
 
 export const getAppData = memoize(state => {
   const modules = selectModules(state);

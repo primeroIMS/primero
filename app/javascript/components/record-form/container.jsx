@@ -29,7 +29,9 @@ function Container({ mode }) {
       isEditOrShow,
       primeroModule: record ? record.get("module_id") : params.module,
       recordType: params.recordType,
-      record
+      record,
+      checkPermittedForms: true,
+      checkWritable: true
     });
 
   const shouldFetchRecord = useMemoizedSelector(state => getShouldFetchRecord(state, params));
