@@ -6,6 +6,23 @@ class Referral < Transition
 
   REFERRAL_FORM_UNIQUE_ID = 'referral'
   REFERRAL_ALERT_TYPE = 'referral'
+  REFERRAL_FIELDS_SCHEMA = {
+    'status' => {
+      'type' => 'string',
+      # TODO: Do we use all these statuses in referrals?
+      'enum' => [
+        Transition::STATUS_INPROGRESS, Transition::STATUS_REJECTED, Transition::STATUS_ACCEPTED,
+        Transition::STATUS_DONE, Transition::STATUS_REVOKED
+      ]
+    },
+    'rejected_reason' => { 'type' => 'string' },
+    'rejection_note' => { 'type' => 'string' },
+    'successful' => { 'type' => 'string', 'enum' => %w[successful not_successful] },
+    # TODO: This needs to be hidrated with the values of the
+    'reason_not_successful' => { 'type' => 'string' },
+    # TODO: This needs to be hidrated with the values of the lookup
+    'service_implemented' => { 'type' => 'string' }
+  }.freeze
 
   store_accessor(:data, :service_implementing_agency_registry_id)
 
