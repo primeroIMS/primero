@@ -5,8 +5,7 @@
 class Assign < Transition
   MAX_BULK_RECORDS = 100
 
-  attr_accessor :from_bulk_export
-  attr_accessor :notify_assigned_user
+  attr_accessor :from_bulk_export, :notify_assigned_user
 
   def perform
     return if transitioned_to_user.nil?

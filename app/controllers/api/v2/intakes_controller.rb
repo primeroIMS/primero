@@ -23,8 +23,9 @@ class Api::V2::IntakesController < ApplicationApiController
   private
 
   def assign(record)
-    Assign.create!(record:, transitioned_to: @registration_stream&.assigned_user_name, 
-      transitioned_by: @registration_stream.user, notify_assigned_user: @registration_stream&.notify_assigned_user)
+    Assign.create!(record:, transitioned_to: @registration_stream&.assigned_user_name,
+                   transitioned_by: @registration_stream.user,
+                   notify_assigned_user: @registration_stream&.notify_assigned_user)
   end
 
   def verify_captcha
