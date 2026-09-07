@@ -20,6 +20,7 @@ export const TransitionRecord = Record({
   transitioned_to_remote: null,
   transitioned_to: null,
   service: null,
+  service_record_id: null,
   remote: true,
   transitioned_to_agency: null,
   rejection_note: null,

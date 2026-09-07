@@ -26,6 +26,7 @@ function Component({ transition, showMode, recordType, classes }) {
   const i18n = useI18n();
   const {
     id,
+    service_record_id: serviceRecordId,
     record_id: recordId,
     status,
     transitioned_to: transitionedTo,
@@ -222,6 +223,7 @@ function Component({ transition, showMode, recordType, classes }) {
           openReferralDialog={dialogOpen[referralModalName]}
           close={dialogClose}
           recordId={recordId}
+          serviceRecordId={serviceRecordId}
           pending={pending}
           setPending={setDialogPending}
           transistionId={id}

@@ -30,7 +30,8 @@ function Component({
   recordType,
   transistionId,
   referralType,
-  caseCreationModule
+  caseCreationModule,
+  serviceRecordId
 }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -43,7 +44,7 @@ function Component({
 
   const initialValues = { note_on_referral_from_provider: "", rejected_reason: "" };
 
-  const validationSchema = createValidationSchema(referralType, {
+  const validationSchema = createValidationSchema(referralType, serviceRecordId, {
     rejected_reason: i18n.t("form_section.required_field", { field: i18n.t("referral.rejected_reason") }),
     success_status: i18n.t("form_section.required_field", {
       field: i18n.t("referral.success_status")
@@ -162,7 +163,12 @@ function Component({
     <div onClick={stopProp}>
       <p>{i18n.t(`${recordType}.referral_${referralType}`)}</p>
       {referralType === DONE && (
-        <ReferralDoneForm formMode={formMode} formMethods={methods} serviceImplementedField={serviceImplementedField} />
+        <ReferralDoneForm
+          formMode={formMode}
+          formMethods={methods}
+          serviceOptionStringsSource={serviceImplementedField?.option_strings_source}
+          serviceRecordId={serviceRecordId}
+        />
       )}
       {referralType === REJECTED && <RejectedReferralForm formMode={formMode} formMethods={methods} />}
     </div>
@@ -198,6 +204,7 @@ Component.propTypes = {
   recordId: PropTypes.string,
   recordType: PropTypes.string,
   referralType: PropTypes.string,
+  serviceRecordId: PropTypes.string,
   setPending: PropTypes.func,
   transistionId: PropTypes.string
 };

@@ -34,7 +34,7 @@ export const referralHeader = (i18n, recordType, referralType, moduleID) => {
   return "";
 };
 
-export const createValidationSchema = (referralType, requiredMessages) => {
+export const createValidationSchema = (referralType, serviceRecordId, requiredMessages) => {
   if (referralType === REJECTED) {
     return object().shape({ rejected_reason: string().nullable().required(requiredMessages.rejected_reason) });
   }
@@ -45,7 +45,9 @@ export const createValidationSchema = (referralType, requiredMessages) => {
         is: "not_successful",
         then: string().nullable().required(requiredMessages.reason_not_successful)
       }),
-      service_implemented: string().nullable().required(requiredMessages.service_implemented),
+      service_implemented: serviceRecordId
+        ? string().nullable().required(requiredMessages.service_implemented)
+        : string().nullable(),
       success_status: string().nullable().required(requiredMessages.success_status)
     });
   }
