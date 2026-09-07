@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { getOption } from "../../record-form";
 import DisplayData from "../../display-data";
 import { useI18n } from "../../i18n";
-import { REFERRAL_DETAILS_NAME, TRANSITION_STATUS } from "../constants";
+import { REFERRAL_DETAILS_NAME, REFERRAL_SUCCESS_STATUS, TRANSITION_STATUS } from "../constants";
 import { LOOKUPS, RECORD_TYPES_PLURAL } from "../../../config";
 import { OPTION_TYPES } from "../../form";
 import { useMemoizedSelector } from "../../../libs";
@@ -28,6 +28,22 @@ function Details({ transition, classes }) {
     return value[0]?.display_text;
   });
   const agencies = useOptions({ source: OPTION_TYPES.AGENCY, useUniqueId: true });
+
+  const reasonNotSucessful = useMemoizedSelector(state => {
+    const value = getOption(state, LOOKUPS.reasons_referral_failure, i18n.locale).filter(
+      option => option.id === transition.data?.reason_not_successful
+    );
+
+    // eslint-disable-next-line camelcase
+    return value[0]?.display_text;
+  });
+
+  const successStatus = transition.data?.success_status
+    ? i18n.t(`referral.success_status_options.${transition.data.success_status}`)
+    : null;
+  
+  const successfulReferal = transition.status === TRANSITION_STATUS.done &&
+                            transition.data.sucess_status == REFERRAL_SUCCESS_STATUS.successful;
 
   const agencyName = referralAgencyName(transition, agencies);
 
@@ -133,6 +149,16 @@ function Details({ transition, classes }) {
       >
         <DateTransitions name="responded_at" label="transition.responded_at" value={transition.responded_at} />
       </Grid>
+      {transition.status === TRANSITION_STATUS.done && (
+        <>
+          <Grid size={{ md: successfulReferal ? 12 : 6, xs: 12 }}>
+            <DisplayData label="referral.success_status" value={successStatus} />
+          </Grid>
+          {!successfulReferal && (<Grid size={{ md: 6, xs: 12 }}>
+            <DisplayData label="referral.reason_not_successful" value={reasonNotSucessful} />
+          </Grid>)}
+        </>
+      )}
       {renderRejected}
       <Grid
         size={{

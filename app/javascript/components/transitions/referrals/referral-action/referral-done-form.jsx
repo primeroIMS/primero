@@ -5,6 +5,7 @@ import { FormSectionRecord, FieldRecord, TEXT_FIELD, SELECT_FIELD } from "../../
 import FormSection from "../../../form/components/form-section";
 import { useI18n } from "../../../i18n";
 import useOptions from "../../../form/use-options";
+import { LOOKUPS } from "../../../../config";
 
 import { FORM_REFERRAL_DONE } from "./constants";
 
@@ -21,7 +22,7 @@ function ReferralDoneForm({ formMode, formMethods, serviceOptionStringsSource, s
       display_text: { en: "Unable to contact referred-to organization" }
     }
   ];
-  const reasonNotSucessfulOptions = useOptions({ source: "lookup lookup-reasons-referral-failure" });
+  const reasonNotSucessfulOptions = useOptions({ source: LOOKUPS.reasons_referral_failure });
 
   return (
     <form id={FORM_REFERRAL_DONE}>
