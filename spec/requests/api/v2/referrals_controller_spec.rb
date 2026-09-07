@@ -374,7 +374,9 @@ describe Api::V2::ReferralsController, type: :request do
       @referral1.save!
 
       rejection_note = 'Sample notes from provider'
-      params = { data: { status: Transition::STATUS_DONE, rejection_note: } }
+      params = {
+        data: { status: Transition::STATUS_DONE, rejection_note:, success_status: Referral::REFERRAL_SUCCESSFUL }
+      }
       patch("/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params:)
 
       expect(response).to have_http_status(200)
@@ -409,6 +411,185 @@ describe Api::V2::ReferralsController, type: :request do
       patch("/api/v2/cases/#{case_owned_by_hacker.id}/referrals/#{referral_for_a_different_case.id}", params:)
 
       expect(response).to have_http_status(403)
+    end
+
+    describe 'validate params to transition a referral to done' do
+      before :each do
+        @referral1.status = Transition::STATUS_ACCEPTED
+        @referral1.save!
+      end
+
+      it 'returns 422 if status is invalid' do
+        sign_in(@user2)
+        params = { data: { status: 'invalid_status' } }
+
+        patch("/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params:)
+
+        expect(response).to have_http_status(422)
+        expect(json['errors'][0]['status']).to eq(422)
+        expect(json['errors'][0]['detail']).to include('/status')
+      end
+
+      it 'returns 422 if success_status is not in the allowed enum' do
+        sign_in(@user2)
+        params = { data: { status: Transition::STATUS_DONE, success_status: 'maybe' } }
+
+        patch("/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params:)
+
+        expect(response).to have_http_status(422)
+        expect(json['errors'][0]['status']).to eq(422)
+        expect(json['errors'][0]['detail']).to include('/success_status')
+      end
+
+      it 'returns 422 if reason_not_successful is not in the allowed enum' do
+        sign_in(@user2)
+        params = {
+          data: {
+            status: Transition::STATUS_DONE,
+            success_status: Referral::REFERRAL_NOT_SUCCESSFUL,
+            reason_not_successful: 'unknown_reason'
+          }
+        }
+
+        patch("/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params:)
+
+        expect(response).to have_http_status(422)
+        expect(json['errors'][0]['status']).to eq(422)
+        expect(json['errors'][0]['detail']).to include('/reason_not_successful')
+      end
+
+      it 'returns 422 if service_implemented is not in the allowed enum' do
+        sign_in(@user2)
+        params = {
+          data: {
+            status: Transition::STATUS_DONE,
+            success_status: Referral::REFERRAL_SUCCESSFUL,
+            service_implemented: 'unknown_value'
+          }
+        }
+
+        patch("/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params:)
+
+        expect(response).to have_http_status(422)
+        expect(json['errors'][0]['status']).to eq(422)
+        expect(json['errors'][0]['detail']).to include('/service_implemented')
+      end
+
+      it 'returns 422 if an unknown field is provided' do
+        sign_in(@user2)
+        params = { data: { status: Transition::STATUS_DONE, unknown_field: 'value' } }
+
+        patch("/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params:)
+
+        expect(response).to have_http_status(422)
+        expect(json['errors'][0]['status']).to eq(422)
+      end
+    end
+
+    describe 'validates a done referral' do
+      before :each do
+        @referral1.status = Transition::STATUS_ACCEPTED
+        @referral1.save!
+      end
+
+      it 'returns 422 if success_status is blank' do
+        sign_in(@user2)
+        params = { data: { status: Transition::STATUS_DONE } }
+
+        patch("/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params:)
+
+        expect(response).to have_http_status(422)
+        expect(json['errors'][0]['status']).to eq(422)
+        expect(json['errors'][0]['detail']).to eq('base')
+      end
+
+      it 'returns 422 if reason_not_successful is blank when success_status is not_successful' do
+        sign_in(@user2)
+        params = {
+          data: {
+            status: Transition::STATUS_DONE,
+            success_status: Referral::REFERRAL_NOT_SUCCESSFUL
+          }
+        }
+
+        patch("/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params:)
+
+        expect(response).to have_http_status(422)
+        expect(json['errors'][0]['status']).to eq(422)
+        expect(json['errors'][0]['message'][0]).to eq('errors.models.referral.reason_not_successful_present')
+      end
+
+      it 'returns 422 if service_implemented is blank when there is a service record' do
+        @referral_service = Referral.create!(
+          transitioned_by: 'user1', transitioned_to: 'user2', record: @case_b,
+          service_record_id: @case_b.data['services_section'][0]['unique_id']
+        )
+        @referral_service.status = Transition::STATUS_ACCEPTED
+        @referral_service.save!
+
+        sign_in(@user2)
+        params = {
+          data: {
+            status: Transition::STATUS_DONE,
+            success_status: Referral::REFERRAL_SUCCESSFUL
+          }
+        }
+
+        patch("/api/v2/cases/#{@case_b.id}/referrals/#{@referral_service.id}", params:)
+
+        expect(response).to have_http_status(422)
+        expect(json['errors'][0]['status']).to eq(422)
+        expect(json['errors'][0]['message'][0]).to eq('errors.models.referral.service_implemented_present')
+      end
+
+      it 'successfully marks done with success_status successful and no service record' do
+        sign_in(@user2)
+        params = { data: { status: Transition::STATUS_DONE, success_status: Referral::REFERRAL_SUCCESSFUL } }
+
+        patch("/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params:)
+
+        expect(response).to have_http_status(200)
+        expect(json['data']['status']).to eq(Transition::STATUS_DONE)
+      end
+
+      it 'successfully marks done with success_status not_successful and reason_not_successful' do
+        sign_in(@user2)
+        params = {
+          data: {
+            status: Transition::STATUS_DONE,
+            success_status: Referral::REFERRAL_NOT_SUCCESSFUL,
+            reason_not_successful: 'client_refused_services'
+          }
+        }
+
+        patch("/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params:)
+
+        expect(response).to have_http_status(200)
+        expect(json['data']['status']).to eq(Transition::STATUS_DONE)
+      end
+
+      it 'successfully marks done with service_implemented when service record exists' do
+        @referral_service = Referral.create!(
+          transitioned_by: 'user1', transitioned_to: 'user2', record: @case_b,
+          service_record_id: @case_b.data['services_section'][0]['unique_id']
+        )
+        @referral_service.status = Transition::STATUS_ACCEPTED
+        @referral_service.save!
+
+        sign_in(@user2)
+        params = {
+          data: {
+            status: Transition::STATUS_DONE,
+            success_status: Referral::REFERRAL_SUCCESSFUL,
+            service_implemented: Serviceable::SERVICE_IMPLEMENTED
+          }
+        }
+
+        patch("/api/v2/cases/#{@case_b.id}/referrals/#{@referral_service.id}", params:)
+
+        expect(response).to have_http_status(200)
+        expect(json['data']['status']).to eq(Transition::STATUS_DONE)
+      end
     end
 
     after :each do
