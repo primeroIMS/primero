@@ -376,6 +376,7 @@ describe Transfer do
 
       it 'removes the transitioned_to from assigned_user_names if the referral is done' do
         @referral.status = Transition::STATUS_DONE
+        @referral.success_status = Referral::REFERRAL_SUCCESSFUL
         @referral.save!
 
         @rejected_transfer.reject!(@user1)

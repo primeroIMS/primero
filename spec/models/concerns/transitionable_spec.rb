@@ -128,7 +128,7 @@ describe Transitionable do
       @referral2.accept!
       @referral3.reject!(@user4)
       @referral4.accept!
-      @referral4.done!(@user4)
+      @referral4.done!(@user4, { success_status: Referral::REFERRAL_SUCCESSFUL })
       [@referral1, @referral2, @referral3, @referral4].each(&:save!)
     end
 
@@ -308,7 +308,7 @@ describe Transitionable do
       referral1
       referral2.accept!
       referral3.accept!
-      referral3.done!(@user5)
+      referral3.done!(@user5, { success_status: Referral::REFERRAL_SUCCESSFUL })
       referral4.revoke!(@user5)
       referral5.reject!(@user5)
     end
