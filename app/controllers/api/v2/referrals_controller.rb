@@ -18,7 +18,8 @@ class Api::V2::ReferralsController < Api::V2::RecordResourceController
   end
 
   def update
-    authorize_update!(@record) && validate_json!(Referral.schema_for_update, update_params)
+    authorize_update!(@record)
+    validate_json!(Referral.schema_for_update, update_params)
     @transition = Referral.find(params[:id])
     authorize!(:update, @transition)
     @transition.process!(current_user, update_params)

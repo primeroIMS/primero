@@ -18,6 +18,7 @@ class Referral < Transition
     client_refused_services lack_of_capacity other services_no_longer_needed
     unable_to_contact_client unable_to_contact_referred_to_organization
   ].freeze
+  SERVICE_IMPLEMENTED_DEFAULT_VALUES = [Serviceable::SERVICE_IMPLEMENTED, Serviceable::SERVICE_NOT_IMPLEMENTED].freeze
 
   store_accessor(
     :data, :service_implementing_agency_registry_id, :success_status, :reason_not_successful, :service_implemented
@@ -60,13 +61,14 @@ class Referral < Transition
     private
 
     def schema_with_permitted_values(permitted_values)
-      reason_values = permitted_values['reason_not_succesful'] || REASON_NOT_SUCCESSFUL_DEFAULT_VALUES
+      reason_values = permitted_values['reason_not_succesful'].presence || REASON_NOT_SUCCESSFUL_DEFAULT_VALUES
+      implemented_values = permitted_values['service_implemented'].presence || SERVICE_IMPLEMENTED_DEFAULT_VALUES
       {
         'reason_not_successful' => {
           'anyOf' => [{ 'type' => 'string', 'enum' => reason_values }, { 'type' => 'null' }]
         },
         'service_implemented' => {
-          'anyOf' => [{ 'type' => 'string', 'enum' => permitted_values['service_implemented'] }, { 'type' => 'null' }]
+          'anyOf' => [{ 'type' => 'string', 'enum' => implemented_values }, { 'type' => 'null' }]
         }
       }
     end
