@@ -61,7 +61,7 @@ class Referral < Transition
     private
 
     def schema_with_permitted_values(permitted_values)
-      reason_values = permitted_values['reason_not_succesful'].presence || REASON_NOT_SUCCESSFUL_DEFAULT_VALUES
+      reason_values = permitted_values['reason_not_successful'].presence || REASON_NOT_SUCCESSFUL_DEFAULT_VALUES
       implemented_values = permitted_values['service_implemented'].presence || SERVICE_IMPLEMENTED_DEFAULT_VALUES
       {
         'reason_not_successful' => {

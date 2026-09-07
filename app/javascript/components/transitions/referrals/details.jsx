@@ -29,7 +29,7 @@ function Details({ transition, classes }) {
   });
   const agencies = useOptions({ source: OPTION_TYPES.AGENCY, useUniqueId: true });
 
-  const reasonNotSucessful = useMemoizedSelector(state => {
+  const reasonNotSuccessful = useMemoizedSelector(state => {
     const value = getOption(state, LOOKUPS.reasons_referral_failure, i18n.locale).filter(
       option => option.id === transition.data?.reason_not_successful
     );
@@ -41,9 +41,10 @@ function Details({ transition, classes }) {
   const successStatus = transition.data?.success_status
     ? i18n.t(`referral.success_status_options.${transition.data.success_status}`)
     : null;
-  
-  const successfulReferal = transition.status === TRANSITION_STATUS.done &&
-                            transition.data.sucess_status == REFERRAL_SUCCESS_STATUS.successful;
+
+  const successfulReferral =
+    transition.status === TRANSITION_STATUS.done &&
+    transition.data?.success_status === REFERRAL_SUCCESS_STATUS.successful;
 
   const agencyName = referralAgencyName(transition, agencies);
 
@@ -151,12 +152,14 @@ function Details({ transition, classes }) {
       </Grid>
       {transition.status === TRANSITION_STATUS.done && (
         <>
-          <Grid size={{ md: successfulReferal ? 12 : 6, xs: 12 }}>
+          <Grid size={{ md: successfulReferral ? 12 : 6, xs: 12 }}>
             <DisplayData label="referral.success_status" value={successStatus} />
           </Grid>
-          {!successfulReferal && (<Grid size={{ md: 6, xs: 12 }}>
-            <DisplayData label="referral.reason_not_successful" value={reasonNotSucessful} />
-          </Grid>)}
+          {!successfulReferral && (
+            <Grid size={{ md: 6, xs: 12 }}>
+              <DisplayData label="referral.reason_not_successful" value={reasonNotSuccessful} />
+            </Grid>
+          )}
         </>
       )}
       {renderRejected}

@@ -11,7 +11,7 @@ import { FORM_REFERRAL_DONE } from "./constants";
 
 function ReferralDoneForm({ formMode, formMethods, serviceOptionStringsSource, serviceRecordId }) {
   const i18n = useI18n();
-  const reasonNotSucessfulDefaultOptions = [
+  const reasonNotSuccessfulDefaultOptions = [
     { id: "client_refused_services", display_text: { en: "Client refused services" } },
     { id: "lack_of_capacity", display_text: { en: "Lack of capacity" } },
     { id: "other", display_text: { en: "Other" } },
@@ -22,7 +22,7 @@ function ReferralDoneForm({ formMode, formMethods, serviceOptionStringsSource, s
       display_text: { en: "Unable to contact referred-to organization" }
     }
   ];
-  const reasonNotSucessfulOptions = useOptions({ source: LOOKUPS.reasons_referral_failure });
+  const reasonNotSuccessfulOptions = useOptions({ source: LOOKUPS.reasons_referral_failure });
 
   return (
     <form id={FORM_REFERRAL_DONE}>
@@ -56,9 +56,9 @@ function ReferralDoneForm({ formMode, formMethods, serviceOptionStringsSource, s
               name: "reason_not_successful",
               type: SELECT_FIELD,
               required: true,
-              option_strings_text: isEmpty(reasonNotSucessfulOptions)
-                ? reasonNotSucessfulDefaultOptions
-                : reasonNotSucessfulOptions,
+              option_strings_text: isEmpty(reasonNotSuccessfulOptions)
+                ? reasonNotSuccessfulDefaultOptions
+                : reasonNotSuccessfulOptions,
               watchedInputs: "success_status",
               showIf: successStatus => successStatus === "not_successful"
             }),

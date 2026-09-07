@@ -5,11 +5,13 @@ describe("components/transitions/referrals/utils.js", () => {
     it("should have known methods", () => {
       const clone = { ...utils };
 
-      ["referralAgencyName"].forEach(property => {
-        expect(clone).toHaveProperty(property);
-        expect(clone[property]).toBeInstanceOf(Function);
-        delete clone[property];
-      });
+      ["createValidationSchema", "mapRecordForCaseCreation", "referralAgencyName", "referralHeader"].forEach(
+        property => {
+          expect(clone).toHaveProperty(property);
+          expect(clone[property]).toBeInstanceOf(Function);
+          delete clone[property];
+        }
+      );
       expect(Object.keys(clone)).toHaveLength(0);
     });
   });

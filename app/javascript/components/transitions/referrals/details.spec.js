@@ -40,9 +40,9 @@ describe("<ReferralDetail />", () => {
     }
   };
 
-  it("renders 2 <DisplayData />", () => {
+  it("renders DisplayData components", () => {
     mountedComponent(<ReferralDetail {...props} />, initialState);
-    expect(screen.getAllByTestId("display-data")).toHaveLength(6);
+    expect(screen.getAllByTestId("display-data")).toHaveLength(8);
   });
 
   it("renders a <Divider />", () => {
@@ -61,9 +61,9 @@ describe("<ReferralDetail />", () => {
       });
     });
     describe("when is pending, done, in_progress, accepted", () => {
-      it("should render rejected reason", () => {
+      it("should not render rejected reason", () => {
         mountedComponent(<ReferralDetail {...props} />, initialState);
-        expect(screen.getAllByTestId("display-data")).toHaveLength(6);
+        expect(screen.getAllByTestId("display-data")).toHaveLength(8);
       });
     });
   });
@@ -100,7 +100,78 @@ describe("<ReferralDetail />", () => {
 
     it("should render DateTransitions component", () => {
       mountedComponent(<ReferralDetail {...props} />, initialState);
-      expect(screen.getAllByTestId("display-data")).toHaveLength(6);
+      expect(screen.getAllByTestId("display-data")).toHaveLength(8);
+    });
+  });
+
+  describe("with success_status", () => {
+    const successState = fromJS({
+      forms: {
+        options: {
+          lookups: [
+            {
+              id: 1,
+              unique_id: "lookup-service-type",
+              values: [{ id: "health", display_text: { en: "Health", es: "Salud" } }]
+            },
+            {
+              id: 2,
+              unique_id: "lookup-reasons-referral-failure",
+              values: [
+                { id: "reason_1", display_text: { en: "Reason One", es: "Razón Uno" } },
+                { id: "reason_2", display_text: { en: "Reason Two", es: "Razón Dos" } }
+              ]
+            }
+          ]
+        }
+      }
+    });
+
+    describe("when successful", () => {
+      const successfulProps = {
+        ...props,
+        ...{
+          transition: {
+            ...props.transition,
+            status: "done",
+            data: { success_status: "successful" }
+          }
+        }
+      };
+
+      it("should render the success_status field", () => {
+        mountedComponent(<ReferralDetail {...successfulProps} />, successState);
+        expect(screen.getByText(/referral.success_status_options.successful/i)).toBeInTheDocument();
+      });
+
+      it("should not render the reason_not_successful field", () => {
+        mountedComponent(<ReferralDetail {...successfulProps} />, successState);
+        expect(screen.queryByText(/referral.reason_not_successful/i)).not.toBeInTheDocument();
+      });
+    });
+
+    describe("when not successful", () => {
+      const notSuccessfulProps = {
+        ...props,
+        ...{
+          transition: {
+            ...props.transition,
+            status: "done",
+            data: { success_status: "not_successful", reason_not_successful: "reason_1" }
+          }
+        }
+      };
+
+      it("should render the success_status field", () => {
+        mountedComponent(<ReferralDetail {...notSuccessfulProps} />, successState);
+        expect(screen.getByText(/referral.success_status_options.not_successful/i)).toBeInTheDocument();
+      });
+
+      it("should render the reason_not_successful field", () => {
+        mountedComponent(<ReferralDetail {...notSuccessfulProps} />, successState);
+        expect(screen.getByText(/^referral.reason_not_successful$/i)).toBeInTheDocument();
+        expect(screen.getByText(/Reason One/i)).toBeInTheDocument();
+      });
     });
   });
 });
