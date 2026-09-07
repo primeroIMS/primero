@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/ClassLength
 # Model describing a referral of a record from one user to another.
 class Referral < Transition
   include TransitionAlertable
@@ -231,3 +232,4 @@ class Referral < Transition
     errors.add(:base, 'errors.models.referral.service_implemented_present')
   end
 end
+# rubocop:enable Metrics/ClassLength
