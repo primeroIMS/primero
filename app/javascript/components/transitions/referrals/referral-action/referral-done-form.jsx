@@ -9,19 +9,20 @@ import { LOOKUPS } from "../../../../config";
 
 import { FORM_REFERRAL_DONE } from "./constants";
 
+const reasonNotSuccessfulDefaultOptions = Object.freeze([
+  { id: "client_refused_services", display_text: { en: "Client refused services" } },
+  { id: "lack_of_capacity", display_text: { en: "Lack of capacity" } },
+  { id: "other", display_text: { en: "Other" } },
+  { id: "services_no_longer_needed", display_text: { en: "Services no longer needed" } },
+  { id: "unable_to_contact_client", display_text: { en: "Unable to contact client" } },
+  {
+    id: "unable_to_contact_referred_to_organization",
+    display_text: { en: "Unable to contact referred-to organization" }
+  }
+]);
+
 function ReferralDoneForm({ formMode, formMethods, serviceOptionStringsSource, serviceRecordId }) {
   const i18n = useI18n();
-  const reasonNotSuccessfulDefaultOptions = [
-    { id: "client_refused_services", display_text: { en: "Client refused services" } },
-    { id: "lack_of_capacity", display_text: { en: "Lack of capacity" } },
-    { id: "other", display_text: { en: "Other" } },
-    { id: "services_no_longer_needed", display_text: { en: "Services no longer needed" } },
-    { id: "unable_to_contact_client", display_text: { en: "Unable to contact client" } },
-    {
-      id: "unable_to_contact_referred_to_organization",
-      display_text: { en: "Unable to contact referred-to organization" }
-    }
-  ];
   const reasonNotSuccessfulOptions = useOptions({ source: LOOKUPS.reasons_referral_failure });
 
   return (
