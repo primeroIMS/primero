@@ -2,6 +2,8 @@
 
 # API for creating referrals for record types
 class Api::V2::ReferralsController < Api::V2::RecordResourceController
+  include Api::V2::Concerns::JsonValidateParams
+
   def index
     authorize! :read, @record
     @transitions = @record.referrals_for_user(current_user)
@@ -17,6 +19,7 @@ class Api::V2::ReferralsController < Api::V2::RecordResourceController
 
   def update
     authorize_update!(@record)
+    validate_json!(Referral.schema_for_update, update_params)
     @transition = Referral.find(params[:id])
     authorize!(:update, @transition)
     @transition.process!(current_user, update_params)
@@ -85,6 +88,10 @@ class Api::V2::ReferralsController < Api::V2::RecordResourceController
   end
 
   def update_params
-    @update_params ||= params.require(:data).permit(:status, :rejected_reason, :rejection_note)
+    return @update_params if @update_params
+
+    @update_params ||= params.require(:data).permit(
+      :status, :rejected_reason, :rejection_note, :success_status, :reason_not_successful, :service_implemented
+    )
   end
 end

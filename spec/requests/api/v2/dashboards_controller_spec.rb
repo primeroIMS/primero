@@ -461,7 +461,7 @@ describe Api::V2::DashboardsController, type: :request do
 
         referral3 = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case_a)
         referral3.accept!
-        referral3.done!(@user2)
+        referral3.done!(@user2, { success_status: Referral::REFERRAL_SUCCESSFUL })
 
         Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case_a)
         transfer2 = Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case_b)

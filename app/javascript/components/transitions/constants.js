@@ -17,3 +17,7 @@ export const TRANSITIONS_TYPES = Object.freeze({
   referral: "referral",
   reassign: "reassign"
 });
+export const REFERRAL_SUCCESS_STATUS = Object.freeze({
+  successful: "successful",
+  not_successful: "not_successful"
+});

@@ -501,9 +501,7 @@ en:
         if the child wishes.'
     reassign:
       multiple_successfully: Primero is reassigning %{select_records} Case(s). It may take several minutes for all of these Cases to update.
-    referral_done: Clicking 'Done' signifies that you have completed the referral
-      work associated with this case. Once you click 'Done' you will no longer have
-      access to this record.
+    referral_done: Once you click ‘Done’ you will no longer have access to this record.
     referral_create_case_header: Create %{module_id} Case
     referral_create_case: Are you sure? You will be responsible for managing the Case you create.
     referral_done_success: Referral done.
@@ -1106,6 +1104,10 @@ en:
       system_setting:
         allocated_space_integer: Field must be Integer
         allocated_space_warning_greater_than_hard_limit: Maximum allocated space warning greatr than Maximum allocated space
+      referral:
+        success_status_present: Success status must not be blank
+        reason_not_successful_present: Reason not successful must not be blank
+        service_implemented_present: Service implemented must not be blank
     not_found: No Record(s) Found
     try_again: Try again
   exports:
@@ -4676,6 +4678,12 @@ en:
     provided_consent_label: Consent is not provided in the Forms.
     recipient_label: Recipient
     refer_anyway_label: Refer anyway?
+    success_status: Was the Referral successful?
+    success_status_options:
+      successful: Successful
+      not_successful: Not Successful
+    reason_not_successful: If Not Successful, why not?
+    service_implemented: Was the service implemented?
     service_label: Service
     success: '%{record_type} %{id} successfully referred'
     user_mandatory_label: Recipient is required
