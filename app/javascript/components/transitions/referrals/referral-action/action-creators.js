@@ -9,10 +9,10 @@ import { setTempInitialValues } from "../../../record-form/action-creators";
 
 import actions from "./actions";
 
-const referralAction = (type, { data, message, failureMessage, recordId, recordType, transistionId }) => ({
+const referralAction = (type, { data, message, failureMessage, recordId, recordType, transitionId }) => ({
   type,
   api: {
-    path: `${recordType}/${recordId}/referrals/${transistionId}`,
+    path: `${recordType}/${recordId}/referrals/${transitionId}`,
     method: "PATCH",
     body: { data },
     successCallback: [
