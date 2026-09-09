@@ -71,17 +71,15 @@ describe Api::V2::IntakesController, type: :request do
           record_type: 'case',
           module_id: @primero_module.unique_id,
           user: @owner.user_name,
-          assigned_user_name: @assignee.user_name,
-          notify_assigned_user: true
+          assigned_user_name: @assignee.user_name
         }
       ]
     )
+    SystemSettings.current(true)
     allow(CaptchaService).to receive(:verify).and_return(true)
   end
 
   after do
-    clean_data(Alert, Incident, Child, Transition, User, Role, PrimeroModule, Field, FormSection, Agency,
-               SystemSettings)
     clear_enqueued_jobs
     clear_performed_jobs
     ActionMailer::Base.deliveries.clear
@@ -119,7 +117,7 @@ describe Api::V2::IntakesController, type: :request do
     end
 
     it 'does not send an assignment notification when the registration stream disables it' do
-      @system_settings.update!(
+      SystemSettings.current.update!(
         registration_streams: [
           {
             unique_id: 'intake-stream',
@@ -128,11 +126,11 @@ describe Api::V2::IntakesController, type: :request do
             module_id: @primero_module.unique_id,
             user: @owner.user_name,
             assigned_user_name: @assignee.user_name,
-            notify_assigned_user: false
+            notify_assigned_user: true
           }
         ]
       )
-
+      SystemSettings.current(true)
       post '/api/v2/intakes/intake-stream', params:, as: :json
 
       expect(response).to have_http_status(:ok)

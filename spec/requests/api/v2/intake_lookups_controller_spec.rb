@@ -18,10 +18,6 @@ describe Api::V2::IntakeLookupsController, type: :request do
     )
   end
 
-  after do
-    clean_data(Lookup)
-  end
-
   let(:json) { JSON.parse(response.body) }
 
   describe 'GET /api/v2/intakes/:id/lookups' do

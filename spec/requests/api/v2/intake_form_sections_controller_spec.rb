@@ -34,10 +34,7 @@ describe Api::V2::IntakeFormSectionsController, type: :request do
     @role.save!
     @primero_module.update!(form_sections: [@intake_form, @excluded_form], roles: [@role])
     SystemSettings.create!(registration_streams: [{ unique_id: 'intake-stream', role: @role.unique_id }])
-  end
-
-  after do
-    clean_data(Field, FormSection, PrimeroModule, User, Role, SystemSettings)
+    SystemSettings.current(true)
   end
 
   let(:json) { JSON.parse(response.body) }

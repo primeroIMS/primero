@@ -162,7 +162,8 @@ describe Assign do
       context 'when should_notify? is false' do
         before do
           clear_enqueued_jobs
-          Assign.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case, from_bulk_export: true)
+          Assign.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case,
+                         skip_user_notification: true)
         end
 
         it 'should enqueue a TransitionNotifyJob' do
