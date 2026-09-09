@@ -63,7 +63,7 @@ describe BulkAssignService do
         transitioned_to: user2.user_name,
         transitioned_by: user.user_name,
         notes: 'this is a note',
-        skip_user_notification: true
+        notify_user: false
       }
     end
 

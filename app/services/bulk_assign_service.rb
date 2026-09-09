@@ -42,7 +42,7 @@ class BulkAssignService
       transitioned_to: @args[:transitioned_to],
       transitioned_by: @transitioned_by.user_name,
       notes: @args[:notes],
-      skip_user_notification: true
+      notify_user: false
     )
   end
 

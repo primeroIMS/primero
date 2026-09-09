@@ -71,7 +71,8 @@ describe Api::V2::IntakesController, type: :request do
           record_type: 'case',
           module_id: @primero_module.unique_id,
           user: @owner.user_name,
-          assigned_user_name: @assignee.user_name
+          assigned_user_name: @assignee.user_name,
+          notify_assigned_user: true
         }
       ]
     )
@@ -126,7 +127,7 @@ describe Api::V2::IntakesController, type: :request do
             module_id: @primero_module.unique_id,
             user: @owner.user_name,
             assigned_user_name: @assignee.user_name,
-            notify_assigned_user: true
+            notify_assigned_user: false
           }
         ]
       )

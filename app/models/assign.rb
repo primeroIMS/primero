@@ -5,7 +5,7 @@
 class Assign < Transition
   MAX_BULK_RECORDS = 100
 
-  attr_accessor :skip_user_notification
+  attr_accessor :notify_user
 
   def perform
     return if transitioned_to_user.nil?
@@ -27,6 +27,6 @@ class Assign < Transition
   end
 
   def should_notify?
-    !skip_user_notification && super
+    notify_user && super
   end
 end
