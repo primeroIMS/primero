@@ -14,12 +14,19 @@ class Api::V2::IntakesController < ApplicationApiController
 
     @record = model_class.new_with_user(authorized_user, create_params)
     @record.save!
+    assign(@record)
     permit_readable_fields
     select_updated_fields
     render 'api/v2/records/create', status: 200
   end
 
   private
+
+  def assign(record)
+    Assign.create!(record:, transitioned_to: @registration_stream&.assigned_user_name,
+                   transitioned_by: @registration_stream.user,
+                   notify_user: @registration_stream&.notify_assigned_user)
+  end
 
   def verify_captcha
     CaptchaService.verify(provider: Primero::Application.config.x.captcha_provider,
