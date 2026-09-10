@@ -101,7 +101,7 @@ class Api::V2::AttachmentsController < Api::V2::RecordResourceController
   end
 
   def set_attachment
-    @attachment = Attachment.find(params[:id])
+    @attachment = @record.attachments.find(params[:id])
   end
 
   def file
