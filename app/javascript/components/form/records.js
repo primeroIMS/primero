@@ -81,6 +81,7 @@ export const FieldRecord = Record({
   showDefaultAction: true,
   showDeleteAction: true,
   showDisableOption: true,
+  showFileUrl: false,
   showIf: null,
   subform_section_configuration: null,
   subform_section_id: null,
@@ -92,6 +93,7 @@ export const FieldRecord = Record({
   tooltip: "",
   type: "",
   visible: null,
+  warning: "",
   watchedInputs: null,
   wrapWithComponent: null,
   signature_provided_by_label: {}
