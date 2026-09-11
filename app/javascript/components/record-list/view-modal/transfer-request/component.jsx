@@ -43,7 +43,8 @@ function TransferRequest({ open, setOpen, currentRecord, caseId }) {
           {
             data: values
           },
-          i18n.t("request_transfer.success")
+          i18n.t("request_transfer.success"),
+          i18n.t("cases.request_approval_failure")
         )
       );
       setSubmitting(false);
