@@ -134,6 +134,8 @@ class Referral < Transition
   end
 
   def revoke!(user, params)
+    return if revoked?
+
     self.status = Transition::STATUS_REVOKED
     mark_resolved(user, params)
     save!

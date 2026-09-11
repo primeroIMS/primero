@@ -54,6 +54,10 @@ class Transition < ApplicationRecord
     status == Transition::STATUS_ACCEPTED
   end
 
+  def revoked?
+    status == Transition::STATUS_REVOKED
+  end
+
   def consent_given_or_overridden
     return if consent_given? || consent_overridden
 
