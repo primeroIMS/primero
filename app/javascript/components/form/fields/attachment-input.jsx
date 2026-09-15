@@ -40,8 +40,8 @@ function AttachmentInput({ commonInputProps, metaInputProps, formMode, formMetho
   });
   const isShow = formMode.get("isShow");
 
-  const { type, fileFormat, renderDownloadButton, downloadButtonLabel } = metaInputProps;
-  const { name, label, disabled, helperText, error } = commonInputProps;
+  const { type, fileFormat, renderDownloadButton, downloadButtonLabel, showFileUrl } = metaInputProps;
+  const { name, label, disabled, helperText, error, warning } = commonInputProps;
   const isTermOfUse = name === TERMS_OF_USE;
 
   const attachment = type === DOCUMENT_FIELD ? ATTACHMENT_TYPES.document : type;
@@ -168,7 +168,9 @@ function AttachmentInput({ commonInputProps, metaInputProps, formMode, formMetho
       <label htmlFor={name}>
         <InputLabel>{label}</InputLabel>
         <FormHelperText error={error}>{helperText}</FormHelperText>
+        {showFileUrl && !isShow && <span className={css.fileUrl}>{fileUrl?.split("/")?.pop()}</span>}
         {renderButton()}
+        {warning && <div className={css.warning}>{warning}</div>}
       </label>
       <div className={css.inputField}>
         <input
