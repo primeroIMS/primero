@@ -1,7 +1,6 @@
 import { fromJS } from "immutable";
 
 import { mountedComponent, screen } from "../../test-utils";
-import runtimeI18n from "../../../../public/javascripts/i18n";
 
 import ErrorBoundary from "./component";
 
@@ -10,19 +9,19 @@ function Boom() {
 }
 
 describe("<ErrorBoundary />", () => {
-  const testI18n = window.I18n;
+  const translations = { "errors.error_loading": "Error Loading Record(s)", "errors.try_again": "Try again" };
 
   beforeEach(() => {
     jest.spyOn(console, "error").mockImplementation(() => {});
-    runtimeI18n.locale = "en";
-    runtimeI18n.translations = {
-      en: { errors: { error_loading: "Error Loading Record(s)", try_again: "Try again" } }
-    };
-    window.I18n = runtimeI18n;
+    jest.spyOn(window.I18n, "t").mockImplementation((key, options) => {
+      const scope = [key, ...(options?.defaults || []).map(item => item.scope)].find(item => translations[item]);
+
+      return scope ? translations[scope] : `[missing "en.${key}" translation]`;
+    });
   });
 
   afterEach(() => {
-    window.I18n = testI18n;
+    jest.restoreAllMocks();
   });
 
   it("falls back to the generic message when the record type has no error_loading translation", () => {
