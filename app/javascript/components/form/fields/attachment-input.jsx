@@ -50,6 +50,7 @@ function AttachmentInput({ commonInputProps, metaInputProps, formMode, formMetho
 
   const fileBase64 = watch(`${name}_base64`);
   const fileUrl = watch(`${name}_url`);
+  const newFileName = watch(`${name}_file_name`);
 
   const loadingFile = (loading, data) => {
     setFile({
@@ -168,7 +169,7 @@ function AttachmentInput({ commonInputProps, metaInputProps, formMode, formMetho
       <label htmlFor={name}>
         <InputLabel>{label}</InputLabel>
         <FormHelperText error={error}>{helperText}</FormHelperText>
-        {showFileUrl && !isShow && <span className={css.fileUrl}>{fileUrl?.split("/")?.pop()}</span>}
+        {showFileUrl && !isShow && <span className={css.fileUrl}>{newFileName || fileUrl?.split("/")?.pop()}</span>}
         {renderButton()}
         {warning && <div className={css.warning}>{warning}</div>}
       </label>
