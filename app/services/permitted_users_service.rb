@@ -61,20 +61,22 @@ class PermittedUsersService
 
   def apply_filters(users_query, filters)
     return users_query unless filters.present?
-
     users_query = users_query.apply_date_filters(users_query, filters) if include_activity_stats
 
     users_query = users_query.where(id: filters[:ids]) if filters[:ids].present?
 
     query_filters = build_query_filters(filters)
     users_query = users_query.joins(:user_groups) if query_filters[:user_groups].present?
-
+    if filters[:location].present?
+      location_filter = SearchFilters::LocationList.new(column_name: 'location', values: filters[:location])
+      users_query = users_query.where(location_filter.json_path_query)
+    end
     users_query = build_search_query(users_query, filters[:query])
     users_query.where(query_filters)
   end
 
   def build_query_filters(filters)
-    query_filters = filters.except(:query, :ids, *User::AUDIT_LAST_DATE.keys).compact
+    query_filters = filters.except(:query, :ids, :location, *User::AUDIT_LAST_DATE.keys).compact
     user_group_ids = query_filters.delete('user_group_ids')
 
     return query_filters if user_group_ids.blank?
