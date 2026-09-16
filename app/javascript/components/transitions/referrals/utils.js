@@ -4,6 +4,26 @@ import { ACCEPTED, REJECTED } from "../../../config";
 
 import { CREATE_CASE, DONE } from "./constants";
 
+const REFERRAL_HEADERS = Object.freeze({
+  [ACCEPTED]: "referral_accepted_header",
+  [CREATE_CASE]: "referral_create_case_header"
+});
+
+const EXTERNAL_REFERRAL_HEADERS = Object.freeze({
+  [ACCEPTED]: "external_referral_accepted_header",
+  [REJECTED]: "external_referral_rejected_header"
+});
+
+const EXTERNAL_REFERRAL_MESSAGES = Object.freeze({
+  [ACCEPTED]: "external_referral_accepted",
+  [REJECTED]: "external_referral_rejected"
+});
+
+const EXTERNAL_REFERRAL_BUTTON = Object.freeze({
+  [ACCEPTED]: "mark_accepted",
+  [REJECTED]: "mark_rejected"
+});
+
 export const referralAgencyName = (transition, agencies) => {
   if (!transition.remote && transition.transitioned_to_agency) {
     return agencies.find(agency => agency.id === transition.transitioned_to_agency).display_text;
@@ -21,17 +41,26 @@ export const mapRecordForCaseCreation = (record, creationMap) => {
   }, {});
 };
 
-export const referralHeader = (i18n, recordType, referralType, moduleID) => {
-  const headers = {
-    [ACCEPTED]: "referral_accepted_header",
-    [CREATE_CASE]: "referral_create_case_header"
-  };
+export const referralHeaderKey = ({ recordType, remote, status }) => {
+  const header = remote ? EXTERNAL_REFERRAL_HEADERS[status] : REFERRAL_HEADERS[status];
 
-  if (headers[referralType]) {
-    return i18n.t(`${recordType}.${headers[referralType]}`, moduleID ? { module_id: moduleID } : {});
+  return header ? `${recordType}.${header}` : null;
+};
+
+export const referralMessageKey = ({ recordType, remote, status }) => {
+  const externalMessage = EXTERNAL_REFERRAL_MESSAGES[status];
+
+  return remote && externalMessage ? `${recordType}.${externalMessage}` : `${recordType}.referral_${status}`;
+};
+
+export const referralConfirmButtonKey = ({ remote, status }) => {
+  const externalButton = EXTERNAL_REFERRAL_BUTTON[status];
+
+  if (remote && externalButton) {
+    return `buttons.${externalButton}`;
   }
 
-  return "";
+  return status === DONE ? "buttons.done" : "buttons.ok";
 };
 
 export const createValidationSchema = (referralType, serviceRecordId, requiredMessages) => {

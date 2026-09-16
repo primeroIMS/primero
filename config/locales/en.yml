@@ -239,6 +239,8 @@ en:
     return_to_case: Return to Case
     enable_webpush: Device notifications
     dialog_yes: "Yes"
+    mark_accepted: Mark as accepted
+    mark_rejected: Mark as rejected
   resync_records:
     id: ID
     record_type: Record Type
@@ -514,6 +516,12 @@ en:
       that you are rejecting this Referral; once you click ‘Reject’ you will no longer
       have access to this Case record.
     referral_rejected_success: Referral rejected.
+    external_referral_accepted_header: Mark as accepted
+    external_referral_accepted: Are you sure you want to mark this Referral as accepted? This indicates that the recipient has accepted
+      responsibility for completing work associated with this referral.
+    external_referral_rejected_header: Mark as rejected
+    external_referral_rejected: By marking this Referral as ‘Rejected,’ you are indicating that the referral recipient was not ready to accept
+      responsibility for this referral. Please enter the reason for the recipient’s rejection below.
     registry_search_for: '%{field} Search'
     registry_results: '%{field} Results'
     registry_empty_placeholder: 'Nothing selected'
@@ -3370,6 +3378,10 @@ en:
               disabled, but automatically filled with the information for those fields
               in the Services subform on which the user clicked the Refer button.
             label: Refer Case from Service subform
+          accept_or_reject_referral:
+            explanation: Allows users to indicate whether an external referral
+              has been marked as accepted or rejected by its recipient.
+            label: Mark external referrals as accepted / rejected
           remove_assigned_users:
             explanation: Allows the user to remove other users from the "Other Assigned
               Users" field. A user is listed here if they have received a referral

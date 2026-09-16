@@ -172,6 +172,13 @@ class Referral < Transition
     super.select { |alert| alert.user.user_name == transitioned_to_user.user_name }
   end
 
+  def user_can_accept_or_reject?(user)
+    return false unless in_progress?
+    return user.can?(:accept_or_reject_referral, record) if remote?
+
+    user.user_name == transitioned_to_user.user_name
+  end
+
   private
 
   def mark_rejection(rejection_note, service_object = nil)

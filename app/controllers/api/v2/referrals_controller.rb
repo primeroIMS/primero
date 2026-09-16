@@ -84,7 +84,8 @@ class Api::V2::ReferralsController < Api::V2::RecordResourceController
   def authorize_update!(record)
     authorize! :update, record
   rescue CanCan::AccessDenied => e
-    raise e unless current_user.can?(:receive_referral, record) || current_user.can?(:remove_assigned_users, record)
+    raise e unless current_user.can?(:receive_referral, record) || current_user.can?(:remove_assigned_users, record) ||
+                   current_user.can?(:accept_or_reject_referral, record)
   end
 
   def update_params

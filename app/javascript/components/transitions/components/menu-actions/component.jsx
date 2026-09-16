@@ -32,7 +32,8 @@ function Component({ transition, showMode, recordType, classes }) {
     transitioned_to: transitionedTo,
     type,
     user_can_accept_or_reject: userCanAcceptOrReject,
-    allow_case_creation: allowCaseCreation
+    allow_case_creation: allowCaseCreation,
+    remote
   } = transition;
 
   const transitionType = type.toLowerCase();
@@ -102,6 +103,11 @@ function Component({ transition, showMode, recordType, classes }) {
     setTransitionStatus(CREATE_CASE);
   };
 
+  const acceptButtonKey =
+    remote && transitionType === TRANSITIONS_TYPES.referral ? "buttons.mark_accepted" : "buttons.accept";
+  const rejectButtonKey =
+    remote && transitionType === TRANSITIONS_TYPES.referral ? "buttons.mark_rejected" : "buttons.reject";
+
   const options = [
     {
       name: i18n.t("actions.revoke"),
@@ -109,14 +115,14 @@ function Component({ transition, showMode, recordType, classes }) {
       action: () => setRevokeDialog(true)
     },
     {
-      name: i18n.t("buttons.accept"),
+      name: i18n.t(acceptButtonKey),
       condition:
         (transitionType === TRANSITIONS_TYPES.referral && canReceiveReferral && showTransitionAction) ||
         (showTransitionAction && transitionType !== TRANSITIONS_TYPES.referral),
       action: event => handleAcceptOpen(event)
     },
     {
-      name: i18n.t("buttons.reject"),
+      name: i18n.t(rejectButtonKey),
       condition:
         (transitionType === TRANSITIONS_TYPES.referral && canReceiveReferral && showTransitionAction) ||
         (showTransitionAction && transitionType !== TRANSITIONS_TYPES.referral),
@@ -231,6 +237,7 @@ function Component({ transition, showMode, recordType, classes }) {
           dialogName={referralModalName}
           referralType={transitionStatus}
           caseCreationModule={caseCreationModule}
+          remote={remote}
         />
       )}
     </div>

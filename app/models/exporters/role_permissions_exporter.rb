@@ -31,7 +31,7 @@ class Exporters::RolePermissionsExporter
   CASE_ASSIGNMENT_REFERRALS_TRANSFERS = %w[
     assign assign_within_agency assign_within_user_group remove_assigned_users
     receive_transfer receive_referral receive_referral_different_module request_transfer referral_from_service
-    find_tracing_match
+    accept_or_reject_referral find_tracing_match
   ].freeze
 
   class << self
