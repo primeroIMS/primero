@@ -5164,6 +5164,7 @@ en:
       date_last_login: Date of Last Log In
       date_last_case_view: Date of Last Case View
       date_last_case_updated: Date of Last Case Modification
+      filter_by_agency: Filter by selected agencies
     disable_text: Are you sure you want to disable these users? They will no longer be able to login to the system.
     disable_title: Disable Users
     disable_selection_indicartor: '%{users_selected} user(s) selected'

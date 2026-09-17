@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 import { TextField, Checkbox, FormControl, FormGroup, FormControlLabel } from "@mui/material";
 import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 import { sortBy } from "lodash";
@@ -33,8 +33,18 @@ function Component({ filter, mode, moreSectionFilters = {}, multiple = true, res
     option_strings_source: optionStringsSource,
     option_strings_source_id_key: optionStringsSourceIdKey,
     sort_options: sortOptions,
-    toggle_include_disabled: toggleIncludeDisabled
+    toggle_include_disabled: toggleIncludeDisabled,
+    watchedInputs,
+    filterFn,
+    toggleLabel,
+    toggleName
   } = filter;
+
+  const watchedValues = useWatch({
+    name: watchedInputs,
+    control: formMethods.control,
+    defaultValue: []
+  });
 
   const lookups = useOptions({
     source: optionStringsSource,
@@ -45,6 +55,7 @@ function Component({ filter, mode, moreSectionFilters = {}, multiple = true, res
 
   const [inputValue, setInputValue] = useState([]);
   const [includeDisabledValue, setincludeDisabledValue] = useState(false);
+  const [toggleValue, setToggleValue] = useState(false);
 
   const filterOptions = whichOptions({
     optionStringsSource,
@@ -53,6 +64,10 @@ function Component({ filter, mode, moreSectionFilters = {}, multiple = true, res
     i18n,
     transform: opts => {
       let transformedOptions = opts;
+
+      if (filterFn) {
+        transformedOptions = filterFn(transformedOptions, { ...watchedValues, [toggleName]: toggleValue });
+      }
 
       if (sortOptions) {
         transformedOptions = sortBy(opts, "display_name");
@@ -91,6 +106,7 @@ function Component({ filter, mode, moreSectionFilters = {}, multiple = true, res
 
     return () => {
       unregister(fieldName);
+
       if (setReset) {
         setReset(false);
       }
@@ -163,8 +179,23 @@ function Component({ filter, mode, moreSectionFilters = {}, multiple = true, res
     limit: 50
   });
 
+  const handleToggle = event => {
+    setToggleValue(event.target.checked);
+  };
+
   return (
     <Panel filter={filter} getValues={getValues} handleReset={handleReset}>
+      {toggleName && (
+        <FormControl className={css.toggleFormControl}>
+          <FormGroup>
+            <FormControlLabel
+              labelPlacement="end"
+              control={<Checkbox onChange={handleToggle} onBlur={handleToggle} />}
+              label={toggleLabel}
+            />
+          </FormGroup>
+        </FormControl>
+      )}
       <Autocomplete
         classes={{ paper: css.paper, root: css.select, ...listboxClasses }}
         ListboxComponent={virtualize(filterOptions.length)}
