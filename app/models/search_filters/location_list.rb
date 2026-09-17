@@ -26,12 +26,14 @@ class SearchFilters::LocationList < SearchFilters::ValueList
             )
           )
         ),
-        { field_name: column_name || record_field_name, values: values.map { |value| value.to_s.upcase }, admin_level: admin_level }
+        { field_name: column_name || record_field_name, values: values.map do |value|
+          value.to_s.upcase
+        end, admin_level: admin_level }
       ]
     )
   end
   # rubocop:enable Metrics/MethodLength
-   
+
   def location_present_predicate
     return "#{safe_location_column} IS NOT NULL" if column_name.present?
 
@@ -51,7 +53,6 @@ class SearchFilters::LocationList < SearchFilters::ValueList
     quoted_table = ActiveRecord::Base.connection.quote_table_name(table_name)
     "#{quoted_table}.#{quoted_column}"
   end
-
 
   # rubocop:disable Metrics/MethodLength
   def searchable_query(record_class)

@@ -86,6 +86,13 @@ describe("<AuditLogs /> - Helpers", () => {
             ]
           },
           type: "dates"
+        },
+        {
+          field_name: "location",
+          multiple: true,
+          name: "cases.filter_by.location",
+          option_strings_source: "Location",
+          type: "multi_select"
         }
       ];
 
