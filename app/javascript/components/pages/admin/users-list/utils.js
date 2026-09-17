@@ -10,7 +10,8 @@ import {
   DISABLE_DIALOG_NAME,
   SEND_EMAIL_DIALOG_NAME,
   ACTION_NAMES,
-  ACTION_IDS
+  ACTION_IDS,
+  FILTER_BY_AGENCY
 } from "./constants";
 
 const searchableAgencies = (data, i18n) => {
@@ -24,9 +25,24 @@ const searchableRoles = data => {
   return data?.reduce((acc, role) => [...acc, { id: role.get("id"), display_name: role.get("name") }], []);
 };
 
-const userGroupOptions = data => {
+const userGroupOptions = (data, agencies) => {
   return data
-    ? data.reduce((acc, group) => [...acc, { id: group.get("unique_id"), display_name: group.get("name") }], [])
+    ? data.reduce(
+        (acc, group) => [
+          ...acc,
+          {
+            id: group.get("unique_id"),
+            display_name: group.get("name"),
+            agency_unique_ids: group
+              .get("agency_unique_ids")
+              .reduce(
+                (prev, uniqueID) => [...prev, agencies.find(agency => agency.get("unique_id") === uniqueID)?.get("id")],
+                []
+              )
+          }
+        ],
+        []
+      )
     : [];
 };
 
@@ -61,8 +77,20 @@ export const getFilters = (i18n, filterAgencies, filterUserGroups, filterPermiss
   {
     name: "cases.filter_by.user_group",
     field_name: USER_GROUP,
-    options: userGroupOptions(filterUserGroups),
+    options: userGroupOptions(filterUserGroups, filterAgencies),
+    watchedInputs: [AGENCY, FILTER_BY_AGENCY],
+    filterFn: (options, watchedValues) => {
+      if (watchedValues?.[AGENCY]?.length && watchedValues?.[FILTER_BY_AGENCY]) {
+        return options.filter(option => {
+          return option.agency_unique_ids.some(id => watchedValues[AGENCY].includes(id));
+        });
+      }
+
+      return options;
+    },
     type: FILTER_TYPES.MULTI_SELECT,
+    toggleName: FILTER_BY_AGENCY,
+    toggleLabel: i18n.t("users.filters.filter_by_agency"),
     multiple: true
   },
   {
