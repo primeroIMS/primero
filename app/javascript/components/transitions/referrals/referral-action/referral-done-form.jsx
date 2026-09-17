@@ -5,7 +5,9 @@ import { FormSectionRecord, FieldRecord, TEXT_FIELD, SELECT_FIELD } from "../../
 import FormSection from "../../../form/components/form-section";
 import { useI18n } from "../../../i18n";
 import useOptions from "../../../form/use-options";
-import { LOOKUPS } from "../../../../config";
+import { LOOKUPS, RECORD_TYPES } from "../../../../config";
+import { useMemoizedSelector } from "../../../../libs";
+import { getFieldByName } from "../../../record-form/selectors";
 
 import { FORM_REFERRAL_DONE } from "./constants";
 
@@ -21,8 +23,11 @@ const reasonNotSuccessfulDefaultOptions = Object.freeze([
   }
 ]);
 
-function ReferralDoneForm({ formMode, formMethods, serviceOptionStringsSource, serviceRecordId }) {
+function ReferralDoneForm({ formMode, formMethods, recordType, recordModule, serviceRecordId }) {
   const i18n = useI18n();
+  const serviceImplementedField = useMemoizedSelector(state =>
+    getFieldByName(state, "service_implemented", recordModule.unique_id, RECORD_TYPES[recordType])
+  );
   const reasonNotSuccessfulOptions = useOptions({ source: LOOKUPS.reasons_referral_failure });
 
   return (
@@ -68,7 +73,7 @@ function ReferralDoneForm({ formMode, formMethods, serviceOptionStringsSource, s
               name: "service_implemented",
               type: SELECT_FIELD,
               required: true,
-              option_strings_source: serviceOptionStringsSource,
+              option_strings_source: serviceImplementedField?.option_strings_source,
               showIf: () => !!serviceRecordId
             })
           ]
@@ -84,7 +89,8 @@ ReferralDoneForm.displayName = "ReferralDoneForm";
 ReferralDoneForm.propTypes = {
   formMethods: PropTypes.object.isRequired,
   formMode: PropTypes.string.isRequired,
-  serviceOptionStringsSource: PropTypes.string,
+  recordModule: PropTypes.string,
+  recordType: PropTypes.string,
   serviceRecordId: PropTypes.string
 };
 

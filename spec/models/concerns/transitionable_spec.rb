@@ -309,7 +309,7 @@ describe Transitionable do
       referral2.accept!
       referral3.accept!
       referral3.done!(@user5, { success_status: Referral::REFERRAL_SUCCESSFUL })
-      referral4.revoke!(@user5)
+      referral4.revoke!(@user5, { success_status: Referral::REFERRAL_SUCCESSFUL })
       referral5.reject!(@user5)
     end
 

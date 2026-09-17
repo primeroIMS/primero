@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_20_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_10_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
   enable_extension "pg_catalog.plpgsql"
@@ -916,6 +916,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_20_000000) do
     t.string "rejected_reason"
     t.text "rejection_note"
     t.boolean "remote", default: false, null: false
+    t.datetime "resolved_at"
     t.datetime "responded_at", precision: nil
     t.string "service"
     t.boolean "service_external_referral_registry"

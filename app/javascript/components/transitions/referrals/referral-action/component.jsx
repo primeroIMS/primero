@@ -1,10 +1,7 @@
 import { useDispatch } from "react-redux";
-import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
-import { yupResolver } from "@hookform/resolvers/yup";
 
-import { ACCEPTED, REJECTED, MODES, RECORD_TYPES_PLURAL, RECORD_TYPES } from "../../../../config";
-import { whichFormMode } from "../../../form";
+import { ACCEPTED, REJECTED, MODES, RECORD_TYPES_PLURAL } from "../../../../config";
 import { submitHandler } from "../../../form/utils/form-submission";
 import { useI18n } from "../../../i18n";
 import ActionDialog from "../../../action-dialog";
@@ -12,8 +9,8 @@ import { CREATE_CASE, DONE } from "../constants";
 import { useMemoizedSelector } from "../../../../libs";
 import { getSelectedRecordData } from "../../../records";
 import { selectModule } from "../../../application";
-import { getFieldByName } from "../../../record-form/selectors";
-import { createValidationSchema, mapRecordForCaseCreation, referralHeader } from "../utils";
+import { mapRecordForCaseCreation, referralHeader } from "../utils";
+import useReferralForm from "../use-referral-form";
 
 import { NAME, FORM_ID } from "./constants";
 import { referralAccepted, referralCaseCreation, referralDone, referralRejected } from "./action-creators";
@@ -28,7 +25,7 @@ function Component({
   setPending,
   recordId,
   recordType,
-  transistionId,
+  transitionId,
   referralType,
   caseCreationModule,
   serviceRecordId
@@ -38,29 +35,14 @@ function Component({
   const record = useMemoizedSelector(state => getSelectedRecordData(state, RECORD_TYPES_PLURAL.case));
   const recordModule = useMemoizedSelector(state => selectModule(state, record.get("module_id"), false));
 
-  const serviceImplementedField = useMemoizedSelector(state =>
-    getFieldByName(state, "service_implemented", recordModule.unique_id, RECORD_TYPES[recordType])
-  );
-
   const initialValues = { note_on_referral_from_provider: "", rejected_reason: "" };
 
-  const validationSchema = createValidationSchema(referralType, serviceRecordId, {
-    rejected_reason: i18n.t("form_section.required_field", { field: i18n.t("referral.rejected_reason") }),
-    success_status: i18n.t("form_section.required_field", {
-      field: i18n.t("referral.success_status")
-    }),
-    reason_not_successful: i18n.t("form_section.required_field", { field: i18n.t("referral.reason_not_successful") }),
-    service_implemented: i18n.t("form_section.required_field", {
-      field: i18n.t("referral.service_implemented")
-    })
-  });
-
-  const methods = useForm({
+  const { methods, formMode } = useReferralForm({
     defaultValues: initialValues,
-    ...(validationSchema ? { resolver: yupResolver(validationSchema) } : {})
+    mode: MODES.edit,
+    status: referralType,
+    serviceRecordId
   });
-
-  const formMode = whichFormMode(MODES.edit);
 
   const {
     formState: { dirtyFields }
@@ -91,7 +73,7 @@ function Component({
             failureMessage: i18n.t(`${recordType}.request_approval_failure`),
             recordId,
             recordType,
-            transistionId
+            transitionId
           })
         );
         break;
@@ -102,7 +84,7 @@ function Component({
             failureMessage: i18n.t(`${recordType}.request_approval_failure`),
             recordId,
             recordType,
-            transistionId
+            transitionId
           })
         );
         break;
@@ -114,7 +96,7 @@ function Component({
             failureMessage: i18n.t(`${recordType}.request_approval_failure`),
             recordId,
             recordType,
-            transistionId
+            transitionId
           })
         );
         break;
@@ -166,7 +148,8 @@ function Component({
         <ReferralDoneForm
           formMode={formMode}
           formMethods={methods}
-          serviceOptionStringsSource={serviceImplementedField?.option_strings_source}
+          recordType={recordType}
+          recordModule={recordModule}
           serviceRecordId={serviceRecordId}
         />
       )}
@@ -206,7 +189,7 @@ Component.propTypes = {
   referralType: PropTypes.string,
   serviceRecordId: PropTypes.string,
   setPending: PropTypes.func,
-  transistionId: PropTypes.string
+  transitionId: PropTypes.string
 };
 
 export default Component;
