@@ -12,9 +12,10 @@ import { usePermissions, RESOURCES, CONSENT_OVERRIDE } from "../../permissions";
 import { useIncidentFromCase } from "../../incidents-from-case";
 import { RECORD_TYPES } from "../../../config";
 import { getAllowCaseCreationFromReferral } from "../../application/selectors";
+import { currentUser } from "../../user/selectors";
 
 import { NAME, REFERRAL_FORM_ID, TRANSFER_FORM_ID, MAX_BULK_RECORDS } from "./constants";
-import { hasProvidedConsent } from "./components/utils";
+import { hasProvidedConsent, hasPendingTransfer } from "./components/utils";
 import { ReassignForm, TransitionDialog, Transfers } from "./components";
 import Referrals from "./referrals/component";
 
@@ -36,6 +37,8 @@ function Transitions({
   const [disabledReferButton, setDisabledReferButton] = useState(false);
   const [disabledTransferButton, setDisabledTransferButton] = useState(false);
   const allowCaseCreationFromReferral = useMemoizedSelector(state => getAllowCaseCreationFromReferral(state));
+  const currentUserName = useMemoizedSelector(state => currentUser(state));
+  const pendingTransferReceived = hasPendingTransfer(record, currentUserName);
 
   const transitionDialogOpen = dialog => currentDialog === dialog && open;
 
@@ -78,6 +81,7 @@ function Transitions({
         <Transfers
           {...commonTransitionProps}
           isBulkTransfer={false}
+          hasPendingTransfer={pendingTransferReceived}
           disabled={disabledTransferButton}
           setDisabled={setDisabledTransferButton}
         />
@@ -142,7 +146,7 @@ function Transitions({
         confirmButtonLabel: i18n.t("buttons.transfer"),
         open: isTransferDialogOpen,
         transitionType: TRANSITIONS_TYPES.transfer,
-        enabledSuccessButton: disabledTransferButton || providedConsent,
+        enabledSuccessButton: (disabledTransferButton || providedConsent) && !pendingTransferReceived,
         confirmButtonProps: { type: "submit", form: TRANSFER_FORM_ID }
       };
     }

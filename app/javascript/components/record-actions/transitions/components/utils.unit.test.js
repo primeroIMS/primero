@@ -1,4 +1,4 @@
-import { Map } from "immutable";
+import { fromJS, Map } from "immutable";
 
 import actions from "../actions";
 
@@ -12,6 +12,7 @@ describe("<Transition /> - utils", () => {
       "generatePath",
       "getInternalFields",
       "getUserFilters",
+      "hasPendingTransfer",
       "hasProvidedConsent",
       "internalFieldsDirty",
       "buildDataAssign",
@@ -78,6 +79,32 @@ describe("<Transition /> - utils", () => {
       it("should return false", () => {
         expect(utils.hasProvidedConsent(record)).toBe(false);
       });
+    });
+  });
+
+  describe("with hasPendingTransfer", () => {
+    const currentUser = "user_1";
+
+    it("returns true when the current user has a pending transfer for the record", () => {
+      const record = fromJS({ id: "123", transferred_to_users: ["user_2", "user_1"] });
+
+      expect(utils.hasPendingTransfer(record, currentUser)).toBe(true);
+    });
+
+    it("returns false when the current user does not have a pending transfer for the record", () => {
+      const record = fromJS({ id: "123", transferred_to_users: ["user_2"] });
+
+      expect(utils.hasPendingTransfer(record, currentUser)).toBe(false);
+    });
+
+    it("returns false when the record has no transferred_to_users", () => {
+      const record = fromJS({ id: "123" });
+
+      expect(utils.hasPendingTransfer(record, currentUser)).toBe(false);
+    });
+
+    it("returns false when there is no record", () => {
+      expect(utils.hasPendingTransfer(undefined, currentUser)).toBe(false);
     });
   });
 

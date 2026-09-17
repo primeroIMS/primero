@@ -8,6 +8,7 @@ export const AGENCY_FIELD = "agency";
 export const LOCATION_FIELD = "location";
 export const TRANSITIONED_TO_FIELD = "transitioned_to";
 export const NOTES_FIELD = "notes";
+export const TRANSFERRED_TO_USERS_FIELD = "transferred_to_users";
 
 export const BULK_TRANSFER_NAME = `${transitionName}BulkTransfer`;
 export const PROVIDED_CONSENT_NAME = `${transitionName}ProvidedConsent`;

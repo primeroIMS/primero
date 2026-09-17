@@ -312,6 +312,42 @@ describe PermittedFieldService, search: true do
     expect(permitted_field_names).to include('transfer_status')
   end
 
+  describe 'transferred_to_users' do
+    let(:transfer_role) do
+      Role.new_with_properties(
+        name: 'Transfer Role',
+        unique_id: 'transfer-role',
+        group_permission: Permission::SELF,
+        permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::TRANSFER])]
+      )
+    end
+
+    let(:user_with_transfer) do
+      User.create!(
+        full_name: 'User With Transfer',
+        user_name: 'user_with_transfer',
+        password: 'a12345632',
+        password_confirmation: 'a12345632',
+        email: 'user_with_transfer@localhost.com',
+        agency_id: agency.id,
+        role: transfer_role,
+        services: ['Test type']
+      )
+    end
+
+    it 'is permitted for a role with the transfer permission' do
+      permitted_field_names = PermittedFieldService.new(user_with_transfer, Child).permitted_field_names
+
+      expect(permitted_field_names).to include('transferred_to_users')
+    end
+
+    it 'is not permitted for a role without the transfer permission' do
+      permitted_field_names = PermittedFieldService.new(user, Child).permitted_field_names
+
+      expect(permitted_field_names).not_to include('transferred_to_users')
+    end
+  end
+
   describe 'MRM - Vioaltions forms and fields' do
     let(:mrm_form) do
       FormSection.create!(unique_id: 'A', name: 'A', parent_form: 'incident', form_group_id: 'm', fields: [mrm_field])
@@ -670,6 +706,21 @@ describe PermittedFieldService, search: true do
           module_id workflow identified_at identified_by identified_by_full_name
         ]
       )
+    end
+
+    it 'returns transferred_to_users when the identified role has the transfer permission' do
+      identified_transfer_role = Role.new_with_properties(
+        name: 'Identified Transfer Role',
+        unique_id: 'identified-transfer-role',
+        group_permission: Permission::IDENTIFIED,
+        permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::TRANSFER])],
+        form_section_read_write: { record_information_form.unique_id => 'rw' }
+      )
+      identified_user.update!(role: identified_transfer_role)
+
+      permitted_field_names = PermittedFieldService.new(identified_user, Child).permitted_field_names
+
+      expect(permitted_field_names).to include('transferred_to_users')
     end
 
     it 'does not return identification fields for writes' do

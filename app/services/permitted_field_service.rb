@@ -158,6 +158,7 @@ class PermittedFieldService
     @permitted_field_names << 'tracing_names' if model_class == TracingRequest
     @permitted_field_names << 'hidden_name' if user.can?(:update, model_class)
     @permitted_field_names += %w[flag_count flagged] if user.can?(:flag, model_class)
+    @permitted_field_names << 'transferred_to_users' if user.can?(:transfer, model_class)
     @permitted_field_names += SYNC_FIELDS_SCHEMA.keys if external_sync?
     @permitted_field_names += permitted_incident_field_names
     @permitted_field_names << 'incident_details' if user.can?(:view_incident_from_case, model_class)
@@ -186,6 +187,7 @@ class PermittedFieldService
     @permitted_field_names += %w[workflow status case_status_reopened] if model_class == Child
     @permitted_field_names << 'hidden_name' if user.can?(:update, model_class)
     @permitted_field_names += %w[flag_count flagged] if user.can?(:flag, model_class)
+    @permitted_field_names << 'transferred_to_users' if user.can?(:transfer, model_class)
     approval_fields = permitted_approval_schema.keys
     @permitted_field_names += permitted_approval_schema.keys if approval_fields.present?
     @permitted_field_names << 'approval_subforms' if approval_fields.present?
