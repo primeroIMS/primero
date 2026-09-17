@@ -23,7 +23,8 @@ describe Api::V2::TransferRequestsController, type: :request do
     @system_role.save(validate: false)
 
     @maintenance_role = Role.new(
-      permissions: [@permission_transfer_case], primero_modules: [@primero_module], user_category: Role::CATEGORY_MAINTENANCE
+      permissions: [@permission_transfer_case], primero_modules: [@primero_module],
+      user_category: Role::CATEGORY_MAINTENANCE
     )
     @maintenance_role.save(validate: false)
     @group1 = UserGroup.create!(name: 'Group1')
@@ -36,9 +37,35 @@ describe Api::V2::TransferRequestsController, type: :request do
     @user3.save(validate: false)
     @user4 = User.new(user_name: 'user4', role: @system_role, user_groups: [@group1])
     @user4.save(validate: false)
+    @permission_request_transfer_case = Permission.new(
+      resource: Permission::CASE,
+      actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::REQUEST_TRANSFER]
+    )
+    @request_only_role = Role.new(
+      permissions: [@permission_request_transfer_case], primero_modules: [@primero_module]
+    )
+    @request_only_role.save(validate: false)
+    @user5 = User.new(user_name: 'user5', role: @request_only_role, user_groups: [@group1])
+    @user5.save(validate: false)
+    @user6 = User.new(user_name: 'user6', role: @request_only_role, user_groups: [@group1])
+    @user6.save(validate: false)
     @case = Child.create(
       data: {
         name: 'Test', owned_by: 'user1',
+        disclosure_other_orgs: true, consent_for_services: true,
+        module_id: @primero_module.unique_id
+      }
+    )
+    @case4 = Child.create(
+      data: {
+        name: 'Test4', owned_by: 'user4',
+        disclosure_other_orgs: true, consent_for_services: true,
+        module_id: @primero_module.unique_id
+      }
+    )
+    @case6 = Child.create(
+      data: {
+        name: 'Test6', owned_by: 'user6',
         disclosure_other_orgs: true, consent_for_services: true,
         module_id: @primero_module.unique_id
       }
@@ -94,9 +121,21 @@ describe Api::V2::TransferRequestsController, type: :request do
       expect(audit_params['action']).to eq('transfer_request')
     end
 
-    it 'returns a 422 invalid if the target user has the maintenance category' do
+    it 'makes a transfer request when neither user can receive transfers' do
+      sign_in(@user5)
+      params = { data: { notes: 'Test Notes' } }
+      post("/api/v2/cases/#{@case6.id}/transfer_requests", params:)
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['record_id']).to eq(@case6.id.to_s)
+      expect(json['data']['status']).to eq(Transition::STATUS_INPROGRESS)
+      expect(json['data']['transitioned_to']).to eq('user6')
+      expect(json['data']['transitioned_by']).to eq('user5')
+    end
+
+    it 'returns a 422 invalid if the requester owns the record' do
       sign_in(@user1)
-      params = { data: { transitioned_to: 'user3', notes: 'Test Notes' } }
+      params = { data: { notes: 'Test Notes' } }
       post("/api/v2/cases/#{@case.id}/transfer_requests", params:)
 
       expect(response).to have_http_status(422)
@@ -106,14 +145,14 @@ describe Api::V2::TransferRequestsController, type: :request do
       expect(json['errors'][0]['message'][0]).to eq('transition.errors.to_user_can_receive')
     end
 
-    it 'returns a 422 invalid if the target user has the system category' do
-      sign_in(@user1)
-      params = { data: { transitioned_to: 'user4', notes: 'Test Notes' } }
-      post("/api/v2/cases/#{@case.id}/transfer_requests", params:)
+    it 'returns a 422 invalid if the record owner has the system category' do
+      sign_in(@user2)
+      params = { data: { notes: 'Test Notes' } }
+      post("/api/v2/cases/#{@case4.id}/transfer_requests", params:)
 
       expect(response).to have_http_status(422)
       expect(json['errors'][0]['status']).to eq(422)
-      expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case.id}/transfer_requests")
+      expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{@case4.id}/transfer_requests")
       expect(json['errors'][0]['detail']).to eq('transitioned_to')
       expect(json['errors'][0]['message'][0]).to eq('transition.errors.to_user_can_receive')
     end
@@ -154,6 +193,19 @@ describe Api::V2::TransferRequestsController, type: :request do
 
       @case.reload
       expect(@case.assigned_user_names).to include('user2')
+    end
+
+    it 'does not accept the request when the requester cannot receive transfers' do
+      transfer_request = TransferRequest.create!(transitioned_by: 'user5', transitioned_to: 'user1', record: @case)
+      sign_in(@user1)
+      params = { data: { status: 'accepted' } }
+      patch("/api/v2/cases/#{@case.id}/transfer_requests/#{transfer_request.id}", params:)
+
+      expect(response).to have_http_status(422)
+      expect(json['errors'][0]['detail']).to eq('transitioned_to')
+      expect(json['errors'][0]['message'][0]).to eq('transition.errors.to_user_can_receive')
+      expect(transfer_request.reload.status).to eq(Transition::STATUS_INPROGRESS)
+      expect(@case.reload.transfers).to be_empty
     end
 
     it 'rejects this transfer' do
