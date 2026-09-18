@@ -7,11 +7,19 @@ import { CLEAR_DIALOG, SET_DIALOG_PENDING } from "../../../action-dialog";
 
 import actions from "./actions";
 
-export const revokeTransition = ({ message, recordType, recordId, transitionType, transitionId, failureMessage }) => {
+export const revokeTransition = ({
+  data,
+  message,
+  recordType,
+  recordId,
+  transitionType,
+  transitionId,
+  failureMessage
+}) => {
   const isReferral = transitionType === TRANSITIONS_TYPES.referral;
   const path = `${recordType}/${recordId}/${isReferral ? "referrals" : "transfers"}/${transitionId}`;
   const method = isReferral ? "DELETE" : "PATCH";
-  const body = isReferral ? {} : { data: { status: REVOKED } };
+  const body = isReferral ? { data } : { data: { status: REVOKED } };
 
   return {
     type: actions.REVOKE_TRANSITION,

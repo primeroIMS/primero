@@ -7,14 +7,18 @@ import ActionDialog from "../../../action-dialog";
 import { useI18n } from "../../../i18n";
 import { selectTransitionByTypeAndStatus } from "../../selectors";
 import { TRANSITIONS_TYPES, TRANSITION_STATUS } from "../../constants";
-import { RECORD_PATH } from "../../../../config";
-import { useApp } from "../../../application";
+import { MODES, RECORD_PATH, REVOKED } from "../../../../config";
+import { selectModule, useApp } from "../../../application";
 import { useMemoizedSelector } from "../../../../libs";
+import { getSelectedRecordData } from "../../../records";
+import { submitHandler } from "../../../form";
+import ReferralDoneForm from "../../referrals/referral-action/referral-done-form";
+import useReferralForm from "../../referrals/use-referral-form";
 
 import { revokeTransition } from "./action-creators";
 import { NAME } from "./constants";
 
-function Component({ name, close, open, pending, recordType, setPending, transition }) {
+function Component({ name, close, open, pending, recordType, setPending, transition, serviceRecordId }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const transitionType = transition.type.toLowerCase();
@@ -27,6 +31,18 @@ function Component({ name, close, open, pending, recordType, setPending, transit
       TRANSITION_STATUS.inProgress
     )
   );
+  const record = useMemoizedSelector(state => getSelectedRecordData(state, recordType));
+  const recordModule = useMemoizedSelector(state => selectModule(state, record.get("module_id"), false));
+  const { methods, formMode } = useReferralForm({
+    defaultValues: {},
+    mode: MODES.edit,
+    status: REVOKED,
+    serviceRecordId
+  });
+
+  const {
+    formState: { dirtyFields }
+  } = methods;
 
   const handleCancel = event => {
     if (event) {
@@ -36,7 +52,7 @@ function Component({ name, close, open, pending, recordType, setPending, transit
     close();
   };
 
-  const handleOk = () => {
+  const handleOk = data => {
     const message = i18n.t("cases.revoke_success_message", {
       case_id: transition.record_id,
       transition_type: i18n.t(`transition.type.${transitionType}`),
@@ -47,6 +63,7 @@ function Component({ name, close, open, pending, recordType, setPending, transit
 
     dispatch(
       revokeTransition({
+        data,
         message,
         recordType,
         recordId: transition.record_id,
@@ -64,6 +81,19 @@ function Component({ name, close, open, pending, recordType, setPending, transit
     }
   };
 
+  const handleSubmit = data => {
+    submitHandler({
+      data,
+      dispatch,
+      dirtyFields,
+      formMode,
+      i18n,
+      initialValues: {},
+      onSubmit: handleOk,
+      submitAlways: true
+    });
+  };
+
   return (
     <ActionDialog
       cancelHandler={handleCancel}
@@ -73,11 +103,18 @@ function Component({ name, close, open, pending, recordType, setPending, transit
       omitCloseAfterSuccess
       open={open}
       pending={pending}
-      successHandler={handleOk}
+      successHandler={methods.handleSubmit(handleSubmit)}
     >
-      {i18n.t("cases.revoke_message", {
-        transition_type: localizedTransitionType
-      })}
+      <p>{i18n.t("cases.revoke_message", { transition_type: localizedTransitionType })}</p>
+      {transitionType === TRANSITIONS_TYPES.referral && (
+        <ReferralDoneForm
+          formMode={formMode}
+          formMethods={methods}
+          recordType={recordType}
+          recordModule={recordModule}
+          serviceRecordId={serviceRecordId}
+        />
+      )}
     </ActionDialog>
   );
 }
@@ -90,6 +127,7 @@ Component.propTypes = {
   open: PropTypes.bool,
   pending: PropTypes.bool,
   recordType: PropTypes.string,
+  serviceRecordId: PropTypes.string,
   setPending: PropTypes.func,
   transition: PropTypes.object.isRequired
 };

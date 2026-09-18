@@ -36,8 +36,9 @@ class Api::V2::ReferralsController < Api::V2::RecordResourceController
 
   def destroy
     authorize_update!(@record)
+    validate_json!(Referral.schema_for_delete, delete_params)
     @transition = Referral.find(params[:id])
-    @transition.revoke!(current_user)
+    @transition.revoke!(current_user, delete_params)
     updates_for_record(@transition.record)
     render 'api/v2/transitions/destroy'
   end
@@ -88,10 +89,14 @@ class Api::V2::ReferralsController < Api::V2::RecordResourceController
   end
 
   def update_params
-    return @update_params if @update_params
-
     @update_params ||= params.require(:data).permit(
       :status, :rejected_reason, :rejection_note, :success_status, :reason_not_successful, :service_implemented
+    )
+  end
+
+  def delete_params
+    @delete_params ||= params.require(:data).permit(
+      :rejection_note, :success_status, :reason_not_successful, :service_implemented
     )
   end
 end

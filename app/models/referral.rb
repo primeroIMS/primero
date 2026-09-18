@@ -58,6 +58,15 @@ class Referral < Transition
       }.merge(schema_with_permitted_values(permitted_values_for_update))
     end
 
+    def schema_for_delete
+      {
+        'rejection_note' => { 'type' => %w[string null] },
+        'success_status' => {
+          'anyOf' => [{ 'type' => 'string', 'enum' => REFERRAL_SUCCESS_STATUSES }, { 'type' => 'null' }]
+        }
+      }.merge(schema_with_permitted_values(permitted_values_for_update))
+    end
+
     private
 
     def schema_with_permitted_values(permitted_values)
@@ -120,19 +129,15 @@ class Referral < Transition
     return unless accepted?
 
     self.status = Transition::STATUS_DONE
-    self.data = data.merge(params.slice(:service_implemented, :success_status, :reason_not_successful))
-    current_service_record = service_record
-    mark_service_implemented(current_service_record)
-    mark_rejection(params[:rejection_note], current_service_record)
-    remove_assigned_user
-    record.update_last_updated_by(user)
+    mark_resolved(user, params)
     save!
   end
 
-  def revoke!(user)
+  def revoke!(user, params)
+    return if revoked?
+
     self.status = Transition::STATUS_REVOKED
-    remove_assigned_user
-    record.update_last_updated_by(user)
+    mark_resolved(user, params)
     save!
   end
 
@@ -174,11 +179,23 @@ class Referral < Transition
 
   private
 
+  def mark_resolved(user, params)
+    self.data = data.merge(params.slice(:service_implemented, :success_status, :reason_not_successful))
+    self.resolved_at = DateTime.now
+    current_service_record = service_record
+    mark_service_implemented(current_service_record)
+    mark_rejection(params[:rejection_note], current_service_record)
+    remove_assigned_user
+    record.update_last_updated_by(user)
+  end
+
   def mark_rejection(rejection_note, service_object = nil)
     return unless rejection_note.present?
 
     self.rejection_note = rejection_note
-    service_object['note_on_referral_from_provider'] = rejection_note if service_object.present?
+    return unless service_object.present? && update_provider_notes?
+
+    service_object['note_on_referral_from_provider'] = rejection_note
   end
 
   def mark_service_referred(service_object)
@@ -214,21 +231,27 @@ class Referral < Transition
     end
   end
 
+  def update_provider_notes?
+    status == Transition::STATUS_DONE || (
+      status == Transition::STATUS_REVOKED && service_implemented == Serviceable::SERVICE_IMPLEMENTED
+    )
+  end
+
   def validate_success_status
-    return unless status == Transition::STATUS_DONE && success_status.blank?
+    return unless [Transition::STATUS_DONE, Transition::STATUS_REVOKED].include?(status) && success_status.blank?
 
     errors.add(:base, 'errors.models.referral.success_status_present')
   end
 
   def validate_reason_not_successful
-    return unless status == Transition::STATUS_DONE && success_status == REFERRAL_NOT_SUCCESSFUL &&
-                  reason_not_successful.blank?
+    return unless [Transition::STATUS_DONE, Transition::STATUS_REVOKED].include?(status) &&
+                  success_status == REFERRAL_NOT_SUCCESSFUL && reason_not_successful.blank?
 
     errors.add(:base, 'errors.models.referral.reason_not_successful_present')
   end
 
   def validate_service_implemented
-    return unless status == Transition::STATUS_DONE
+    return unless [Transition::STATUS_DONE, Transition::STATUS_REVOKED].include?(status)
     return unless service_record.present? && service_implemented.blank?
 
     errors.add(:base, 'errors.models.referral.service_implemented_present')

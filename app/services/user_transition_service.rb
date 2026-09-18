@@ -9,9 +9,7 @@ class UserTransitionService
       receive: Permission::RECEIVE_REFERRAL,
       receive_different_module: Permission::RECEIVE_REFERRAL_DIFFERENT_MODULE
     },
-    TransferRequest.name => {
-      receive: Permission::RECEIVE_TRANSFER
-    },
+    TransferRequest.name => {},
     Transfer.name => {
       receive: Permission::RECEIVE_TRANSFER
     },
@@ -92,15 +90,17 @@ class UserTransitionService
   end
 
   def with_receive_permission(users)
-    receive_permission = RECEIVE_PERMISSIONS[transition][:receive]
+    receive_permission = RECEIVE_PERMISSIONS.dig(transition, :receive)
 
-    users = users.where(
-      'roles.permissions -> :resource ? :permission',
-      resource: model&.parent_form,
-      permission: receive_permission
-    ).where(roles: { primero_modules: { unique_id: module_unique_id } })
+    if receive_permission.present?
+      users = users.where(
+        'roles.permissions -> :resource ? :permission',
+        resource: model&.parent_form,
+        permission: receive_permission
+      )
+    end
 
-    with_different_module_users(users)
+    with_different_module_users(users.where(roles: { primero_modules: { unique_id: module_unique_id } }))
   end
 
   def with_view_record_permission(users)

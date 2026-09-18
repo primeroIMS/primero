@@ -306,6 +306,11 @@ describe UserTransitionService do
       users = UserTransitionService.transfer(@user1, Child, @cp.unique_id).transition_users
       expect(users.map(&:user_name)).to match_array(%w[user2 user3])
     end
+
+    it 'does not require the receive transfer permission for a transfer request' do
+      users = UserTransitionService.new(TransferRequest.name, @user1, Child, @cp.unique_id).transition_users
+      expect(users.map(&:user_name)).to match_array(%w[user2 user3 user4])
+    end
   end
 
   after do
