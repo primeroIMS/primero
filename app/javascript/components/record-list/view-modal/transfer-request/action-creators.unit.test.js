@@ -21,7 +21,7 @@ describe("<TransferRequest /> - Action Creators", () => {
     const store = configureStore()({});
     const dispatch = jest.spyOn(store, "dispatch");
 
-    dispatch(actionCreators.saveTransferRequest("123abc", body, "Success Message"));
+    dispatch(actionCreators.saveTransferRequest("123abc", body, "Success Message", "Failure Message"));
 
     const firstCallReturnValue = dispatch.mock.calls[0][0];
 
@@ -31,5 +31,15 @@ describe("<TransferRequest /> - Action Creators", () => {
     expect(firstCallReturnValue.api.body).toBe(body);
     expect(firstCallReturnValue.api.successCallback.action).toBe("notifications/ENQUEUE_SNACKBAR");
     expect(firstCallReturnValue.api.successCallback.payload.message).toBe("Success Message");
+    expect(firstCallReturnValue.api.failureCallback).toEqual([
+      {
+        action: "notifications/ENQUEUE_SNACKBAR",
+        payload: {
+          message: "Failure Message",
+          options: { variant: "error", key: expect.any(String) }
+        }
+      },
+      { action: "SET_DIALOG_PENDING", payload: { pending: false } }
+    ]);
   });
 });

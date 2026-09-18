@@ -69,7 +69,7 @@ en:
     previous: Previous
     reopen: Reopen
     request_approval: Request Approval
-    revoke: Revoke
+    revoke: Revoke / Mark as Done
     save: Save
     services_from_case_creation_success: Service Provision record successfully created.
     services_section_from_case: Add Service Provision
@@ -3371,17 +3371,11 @@ en:
               in the Services subform on which the user clicked the Refer button.
             label: Refer Case from Service subform
           remove_assigned_users:
-            explanation: Allows the user to remove other users from the "Other Assigned
-              Users" field. A user is listed here if they have received a referral
-              for the case or have received a transfer for the case, but have not
-              yet accepted or rejected it. When you remove a user from the "Other
-              Assigned Users" field, you remove their access to the case. So, users
-              with this permission can remove case access from users who have previously
-              received referrals or still-pending transfers for the case. Note that
-              this permission only works if the current user also has the ability
-              to edit the case.
-            label: Remove other assigned users (taking back case access from referred-to
-              users)
+            explanation: “Allows a user to end a Referral or a pending transfer,
+              removing recipient access. For Referrals, this also lets you mark a Referral as done,
+              indicating whether the Referral was successful, whether services were implemented,
+              and leaving notes about the referral. This action also works for External Referrals.
+            label: Revoke Referral or pending Transfer/ Mark Referral as done
           reopen:
             explanation: Allows a user to open a case which is currently closed.
             label: Reopen
@@ -5022,7 +5016,7 @@ en:
       in_progress: Pending
       inprogress: Pending
       rejected: Rejected
-      revoked: Revoked
+      revoked: Revoked / Done
     transferred_by: Transferred by
     type:
       assign: Assign
@@ -5170,6 +5164,7 @@ en:
       date_last_login: Date of Last Log In
       date_last_case_view: Date of Last Case View
       date_last_case_updated: Date of Last Case Modification
+      filter_by_agency: Filter by selected agencies
     disable_text: Are you sure you want to disable these users? They will no longer be able to login to the system.
     disable_title: Disable Users
     disable_selection_indicartor: '%{users_selected} user(s) selected'

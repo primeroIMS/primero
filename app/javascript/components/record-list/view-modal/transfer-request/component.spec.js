@@ -1,5 +1,5 @@
 import { fromJS } from "immutable";
-import { mountedComponent, screen } from "test-utils";
+import { mountedComponent, screen, userEvent, waitFor } from "test-utils";
 
 import TransferRequest from "./component";
 
@@ -23,6 +23,34 @@ describe("<TransferRequest />", () => {
 
   it("should render ActionDialog", () => {
     mountedComponent(<TransferRequest {...props} />);
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+  });
+
+  it("keeps the dialog open when the server rejects the request", async () => {
+    const user = userEvent.setup();
+
+    global.fetch.mockResolvedValueOnce({
+      url: `/api/v2/cases/${currentRecord.get("id")}/transfer_requests`,
+      ok: false,
+      status: 422,
+      json: jest.fn().mockResolvedValueOnce({
+        errors: [
+          {
+            status: 422,
+            detail: "transitioned_to",
+            message: ["transition.errors.to_user_can_receive"]
+          }
+        ]
+      })
+    });
+
+    mountedComponent(<TransferRequest {...props} />, fromJS({}), {}, [], {}, "", true);
+
+    await user.type(screen.getByLabelText(/request_transfer.notes_label/i), "please transfer");
+    await user.click(screen.getByText("request_transfer.submit_label"));
+
+    await waitFor(() => expect(global.fetch).toHaveBeenCalled());
+
     expect(screen.getByRole("dialog")).toBeInTheDocument();
   });
 });

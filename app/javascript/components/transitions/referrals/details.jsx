@@ -43,7 +43,7 @@ function Details({ transition, classes }) {
     : null;
 
   const successfulReferral =
-    transition.status === TRANSITION_STATUS.done &&
+    [TRANSITION_STATUS.done, TRANSITION_STATUS.revoked].includes(transition.status) &&
     transition.data?.success_status === REFERRAL_SUCCESS_STATUS.successful;
 
   const agencyName = referralAgencyName(transition, agencies);
@@ -150,7 +150,7 @@ function Details({ transition, classes }) {
       >
         <DateTransitions name="responded_at" label="transition.responded_at" value={transition.responded_at} />
       </Grid>
-      {transition.status === TRANSITION_STATUS.done && (
+      {[TRANSITION_STATUS.done, TRANSITION_STATUS.revoked].includes(transition.status) && (
         <>
           <Grid size={{ md: successfulReferral ? 12 : 6, xs: 12 }}>
             <DisplayData label="referral.success_status" value={successStatus} />
