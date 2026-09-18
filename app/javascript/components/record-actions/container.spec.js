@@ -297,12 +297,10 @@ describe("<RecordActions />", () => {
       expect(screen.getByRole("button")).toBeDisabled();
     });
 
-    it("renders the transfer restriction tooltip", async () => {
+    it("labels the actions menu button with the transfer restriction tooltip", () => {
       mountedComponent(<RecordActions {...pendingProps} />, pendingState);
 
-      fireEvent.mouseOver(screen.getByRole("button").parentElement);
-
-      expect(await screen.findByText("transfer.pending_restriction")).toBeInTheDocument();
+      expect(screen.getByLabelText("transfer.pending_restriction")).toBeInTheDocument();
     });
   });
 

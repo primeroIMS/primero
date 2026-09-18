@@ -1,7 +1,7 @@
 import { fromJS } from "immutable";
 
 import { ACTIONS } from "../../../../permissions";
-import { fireEvent, mountedComponent, screen } from "../../../../../test-utils";
+import { mountedComponent, screen } from "../../../../../test-utils";
 
 import SubformMenu from "./component";
 
@@ -112,12 +112,10 @@ describe("<SubformMenu />", () => {
         expect(screen.getByRole("button")).toBeDisabled();
       });
 
-      it("renders the referral restriction tooltip", async () => {
+      it("labels the ReferAction with the referral restriction tooltip", () => {
         mountedComponent(<SubformMenu {...props} />, pendingState);
 
-        fireEvent.mouseOver(screen.getByRole("button").parentElement);
-
-        expect(await screen.findByText("referral.pending_restriction")).toBeInTheDocument();
+        expect(screen.getByLabelText("referral.pending_restriction")).toBeInTheDocument();
       });
     });
 

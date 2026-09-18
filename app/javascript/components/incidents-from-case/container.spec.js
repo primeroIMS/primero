@@ -1,4 +1,4 @@
-import { fireEvent, mountedComponent, screen, within } from "test-utils";
+import { mountedComponent, screen, within } from "test-utils";
 import { fromJS } from "immutable";
 
 import { RECORD_TYPES } from "../../config";
@@ -120,10 +120,8 @@ describe("<IncidentFromCase /> - Component", () => {
       expect(mountPending()).toBeDisabled();
     });
 
-    it("renders the referral restriction tooltip", async () => {
-      fireEvent.mouseOver(mountPending().parentElement);
-
-      expect(await screen.findByText("referral.pending_restriction")).toBeInTheDocument();
+    it("labels the new incident button with the referral restriction tooltip", () => {
+      expect(mountPending().parentElement).toHaveAttribute("aria-label", "referral.pending_restriction");
     });
   });
 

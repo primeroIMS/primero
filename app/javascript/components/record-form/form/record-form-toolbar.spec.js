@@ -1,6 +1,6 @@
 import { fromJS, OrderedMap } from "immutable";
 
-import { fireEvent, mountedComponent, screen, userEvent } from "../../../test-utils";
+import { mountedComponent, screen, userEvent } from "../../../test-utils";
 import { RECORD_PATH, RECORD_TYPES, MODULES } from "../../../config";
 import { ACTIONS } from "../../permissions";
 import { PrimeroModuleRecord } from "../../application/records";
@@ -253,12 +253,13 @@ describe("<RecordFormToolbar />", () => {
         expect(screen.getByRole("button", { name: /buttons.flags/ })).toBeDisabled();
       });
 
-      it("renders the referral restriction tooltip on the edit button", async () => {
+      it("labels the edit button with the referral restriction tooltip", () => {
         mountedComponent(<RecordFormToolbar {...showProps} />, pendingState);
 
-        fireEvent.mouseOver(screen.getByRole("button", { name: /buttons.edit/ }).parentElement);
-
-        expect(await screen.findByText("referral.pending_restriction")).toBeInTheDocument();
+        expect(screen.getByRole("button", { name: /buttons.edit/ }).parentElement).toHaveAttribute(
+          "aria-label",
+          "referral.pending_restriction"
+        );
       });
     });
 

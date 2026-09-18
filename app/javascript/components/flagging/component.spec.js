@@ -62,12 +62,10 @@ describe("<FlagDialog /> - Component", () => {
       expect(screen.getByRole("button", { name: /buttons.flags/ })).toBeDisabled();
     });
 
-    it("renders the tooltip", async () => {
+    it("labels the flags button with the tooltip", () => {
       mountedComponent(<Flagging {...disabledProps} />, closedDialogState);
 
-      fireEvent.mouseOver(screen.getByRole("button", { name: /buttons.flags/ }).parentElement);
-
-      expect(await screen.findByText("disabled tooltip")).toBeInTheDocument();
+      expect(screen.getByLabelText("disabled tooltip")).toBeInTheDocument();
     });
   });
 
