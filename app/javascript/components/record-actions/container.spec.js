@@ -287,6 +287,33 @@ describe("<RecordActions />", () => {
     });
   });
 
+  describe("when the current user has a pending transfer", () => {
+    const pendingState = defaultState.setIn(["user", "username"], "user_1");
+    const pendingProps = { ...props, record: fromJS({ status: "open", transferred_to_users: ["user_1"] }) };
+
+    it("disables the actions menu button", () => {
+      mountedComponent(<RecordActions {...pendingProps} />, pendingState);
+
+      expect(screen.getByRole("button")).toBeDisabled();
+    });
+
+    it("renders the transfer restriction tooltip", async () => {
+      mountedComponent(<RecordActions {...pendingProps} />, pendingState);
+
+      fireEvent.mouseOver(screen.getByRole("button").parentElement);
+
+      expect(await screen.findByText("transfer.pending_restriction")).toBeInTheDocument();
+    });
+  });
+
+  describe("when the current user has no pending transition", () => {
+    it("enables the actions menu button", () => {
+      mountedComponent(<RecordActions {...props} />, defaultState.setIn(["user", "username"], "user_1"));
+
+      expect(screen.getByRole("button")).not.toBeDisabled();
+    });
+  });
+
   describe("Component ToggleOpen", () => {
     it("renders ToggleOpen", () => {
       mountedComponent(<RecordActions {...props} />, defaultStateWithDialog(OPEN_CLOSE_DIALOG));

@@ -9,6 +9,7 @@ import { usePermissions, CREATE_INCIDENT, RESOURCES } from "../permissions";
 import { ID_FIELD, UNIQUE_ID_FIELD, INCIDENT_CASE_ID_DISPLAY_FIELD, RECORD_TYPES_PLURAL } from "../../config";
 import { getIncidentFromCaseForm } from "../record-form/selectors";
 import RecordFormAlerts from "../record-form-alerts";
+import { usePendingTransition } from "../records";
 
 import css from "./styles.css";
 import { NAME } from "./constants";
@@ -34,6 +35,7 @@ function Container({
   );
 
   const canAddIncidents = usePermissions(RESOURCES.cases, CREATE_INCIDENT);
+  const { hasPendingTransition, tooltip: pendingTransitionTooltip } = usePendingTransition(record);
 
   const renderIncidents =
     incidents &&
@@ -58,6 +60,8 @@ function Container({
       icon={<AddIcon />}
       text="buttons.new"
       type="default_button"
+      disabled={hasPendingTransition}
+      tooltip={pendingTransitionTooltip}
       rest={{
         onClick: event => handleCreateIncident(event, dirty)
       }}

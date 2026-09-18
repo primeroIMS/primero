@@ -1,11 +1,10 @@
-import { fromJS } from "immutable";
 import isEmpty from "lodash/isEmpty";
 import every from "lodash/every";
 
 import { CONSENT_GIVEN_FIELD_BY_MODULE, MODULE_TYPE_FIELD } from "../../../../config";
 import buildAppliedFilters from "../../utils/build-applied-filters";
 
-import { TRANSFERRED_TO_USERS_FIELD } from "./transfers/constants";
+export { hasPendingReferral, hasPendingTransfer } from "../../../records/utils";
 
 export const getInternalFields = (values, fields) => {
   return Object.entries(values).reduce((obj, item) => {
@@ -28,9 +27,6 @@ export const internalFieldsDirty = (values, fields) => {
 
 export const hasProvidedConsent = record =>
   every(CONSENT_GIVEN_FIELD_BY_MODULE[record.get(MODULE_TYPE_FIELD)], field => record.get(field));
-
-export const hasPendingTransfer = (record, currentUser) =>
-  Boolean(record?.get(TRANSFERRED_TO_USERS_FIELD, fromJS([]))?.includes(currentUser));
 
 export const generatePath = (constant, recordId, recordsIds) => {
   const [recordType, transitionType] = constant.split("/");
