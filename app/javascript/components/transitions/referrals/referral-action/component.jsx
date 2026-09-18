@@ -9,12 +9,7 @@ import { CREATE_CASE, DONE } from "../constants";
 import { useMemoizedSelector } from "../../../../libs";
 import { getSelectedRecordData } from "../../../records";
 import { selectModule } from "../../../application";
-import {
-  mapRecordForCaseCreation,
-  referralConfirmButtonKey,
-  referralHeaderKey,
-  referralMessageKey
-} from "../utils";
+import { mapRecordForCaseCreation, referralConfirmButtonKey, referralHeaderKey, referralMessageKey } from "../utils";
 import useReferralForm from "../use-referral-form";
 
 import { NAME, FORM_ID } from "./constants";
