@@ -3371,11 +3371,11 @@ en:
               in the Services subform on which the user clicked the Refer button.
             label: Refer Case from Service subform
           remove_assigned_users:
-            explanation: “Allows a user to end a Referral or a pending transfer,
-              removing recipient access. For Referrals, this also lets you mark a Referral as done,
-              indicating whether the Referral was successful, whether services were implemented,
+            explanation: Allows a user to end a Referral, removing recipient access.
+              For Referrals, this also lets you mark a Referral as done,
+              indicating whether the Referral was successful, whether services were implemented, 
               and leaving notes about the referral. This action also works for External Referrals.
-            label: Revoke Referral or pending Transfer/ Mark Referral as done
+            label: Revoke / mark Referral as done
           reopen:
             explanation: Allows a user to open a case which is currently closed.
             label: Reopen
