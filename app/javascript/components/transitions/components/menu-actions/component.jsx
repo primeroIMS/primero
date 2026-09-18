@@ -206,6 +206,7 @@ function Component({ transition, showMode, recordType, classes }) {
         name={revokeModalName}
         open={dialogOpen[revokeModalName]}
         transition={transition}
+        serviceRecordId={serviceRecordId}
         close={dialogClose}
         recordType={recordType}
         pending={pending}
@@ -232,7 +233,7 @@ function Component({ transition, showMode, recordType, classes }) {
           serviceRecordId={serviceRecordId}
           pending={pending}
           setPending={setDialogPending}
-          transistionId={id}
+          transitionId={id}
           recordType={recordType}
           dialogName={referralModalName}
           referralType={transitionStatus}

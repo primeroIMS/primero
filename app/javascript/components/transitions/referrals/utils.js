@@ -1,6 +1,6 @@
 import { object, string } from "yup";
 
-import { ACCEPTED, REJECTED } from "../../../config";
+import { ACCEPTED, REJECTED, REVOKED } from "../../../config";
 
 import { CREATE_CASE, DONE } from "./constants";
 
@@ -63,17 +63,18 @@ export const referralConfirmButtonKey = ({ remote, status }) => {
   return status === DONE ? "buttons.done" : "buttons.ok";
 };
 
-export const createValidationSchema = (referralType, serviceRecordId, requiredMessages) => {
-  if (referralType === REJECTED) {
+export const createValidationSchema = (status, serviceRecordId, requiredMessages) => {
+  if (status === REJECTED) {
     return object().shape({ rejected_reason: string().nullable().required(requiredMessages.rejected_reason) });
   }
 
-  if (referralType === DONE) {
+  if ([DONE, REVOKED].includes(status)) {
     return object().shape({
       reason_not_successful: string().when("success_status", {
         is: "not_successful",
         then: string().nullable().required(requiredMessages.reason_not_successful)
       }),
+      rejection_note: string().nullable(),
       service_implemented: serviceRecordId
         ? string().nullable().required(requiredMessages.service_implemented)
         : string().nullable(),

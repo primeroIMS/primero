@@ -33,7 +33,7 @@ describe("<ReferralAction /> - Action Creators", () => {
       recordId: "10",
       recordType: "cases",
       dialogName: "dialog name",
-      transistionId: "20"
+      transitionId: "20"
     };
 
     const expectedAction = {
@@ -116,7 +116,7 @@ describe("<ReferralAction /> - Action Creators", () => {
         recordId: "10",
         recordType: "cases",
         dialogName: "dialog name",
-        transistionId: "20",
+        transitionId: "20",
         data: { rejected_reason: "reason 1" }
       };
 
@@ -181,7 +181,7 @@ describe("<ReferralAction /> - Action Creators", () => {
         recordId: "10",
         recordType: "cases",
         dialogName: "dialog name",
-        transistionId: "20"
+        transitionId: "20"
       };
 
       const expectedAction = {

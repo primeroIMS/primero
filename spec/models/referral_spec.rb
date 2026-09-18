@@ -110,15 +110,95 @@ describe Referral do
       )
     end
 
-    it 'revokes the referral and does not mark any service as implemented' do
-      @revoke_referral.revoke!(@user1)
+    it 'revokes the referral and marks the service as not implemented' do
+      @revoke_referral.revoke!(
+        @user1,
+        { success_status: Referral::REFERRAL_SUCCESSFUL, service_implemented: Serviceable::SERVICE_NOT_IMPLEMENTED }
+      )
       service_object = @case.services_section.find { |current| current['unique_id'] == @service1['unique_id'] }
 
       expect(@revoke_referral.status).to eq(Referral::STATUS_REVOKED)
       expect(@case.assigned_user_names).not_to include(@revoke_referral.transitioned_to)
-      expect(service_object['service_implemented']).to be_nil
+      expect(service_object['service_implemented']).to eq(Serviceable::SERVICE_NOT_IMPLEMENTED)
       expect(@case.referred_users).not_to include(@revoke_referral.transitioned_to)
       expect(@case.referred_users_present).to eq(false)
+    end
+
+    it 'sets resolved_at when revoking the referral' do
+      @revoke_referral.revoke!(
+        @user1,
+        { success_status: Referral::REFERRAL_SUCCESSFUL, service_implemented: Serviceable::SERVICE_NOT_IMPLEMENTED }
+      )
+      @revoke_referral.reload
+
+      expect(@revoke_referral.resolved_at).to be_present
+    end
+
+    it 'sets reason_not_successful when revoking with not_successful status' do
+      @revoke_referral.revoke!(
+        @user1,
+        {
+          success_status: Referral::REFERRAL_NOT_SUCCESSFUL,
+          reason_not_successful: 'client_refused_services',
+          service_implemented: Serviceable::SERVICE_NOT_IMPLEMENTED
+        }
+      )
+
+      expect(@revoke_referral.reason_not_successful).to eq('client_refused_services')
+      expect(@revoke_referral.success_status).to eq(Referral::REFERRAL_NOT_SUCCESSFUL)
+    end
+
+    it 'sets the rejection_note on the referral when revoking' do
+      rejection_note = 'Revocation reason'
+
+      @revoke_referral.revoke!(
+        @user1,
+        {
+          success_status: Referral::REFERRAL_SUCCESSFUL,
+          rejection_note: rejection_note,
+          service_implemented: Serviceable::SERVICE_IMPLEMENTED
+        }
+      )
+
+      expect(@revoke_referral.rejection_note).to eq(rejection_note)
+    end
+
+    context 'when revoking with service_implemented set to SERVICE_IMPLEMENTED' do
+      it 'updates note_on_referral_from_provider and sets SERVICE_IMPLEMENTED on the service object' do
+        rejection_note = 'Notes from provider'
+
+        @revoke_referral.revoke!(
+          @user1,
+          {
+            success_status: Referral::REFERRAL_SUCCESSFUL,
+            rejection_note: rejection_note,
+            service_implemented: Serviceable::SERVICE_IMPLEMENTED
+          }
+        )
+
+        service_object = @case.services_section.find { |current| current['unique_id'] == @service1['unique_id'] }
+        expect(service_object['note_on_referral_from_provider']).to eq(rejection_note)
+        expect(service_object['service_implemented']).to eq(Serviceable::SERVICE_IMPLEMENTED)
+      end
+    end
+
+    context 'when revoking with service_implemented set to SERVICE_NOT_IMPLEMENTED' do
+      it 'does not update the provider notes and sets SERVICE_NOT_IMPLEMETNED on the service object' do
+        rejection_note = 'Notes from provider'
+
+        @revoke_referral.revoke!(
+          @user1,
+          {
+            success_status: Referral::REFERRAL_SUCCESSFUL,
+            rejection_note: rejection_note,
+            service_implemented: Serviceable::SERVICE_NOT_IMPLEMENTED
+          }
+        )
+
+        service_object = @case.services_section.find { |current| current['unique_id'] == @service1['unique_id'] }
+        expect(service_object['note_on_referral_from_provider']).to be_nil
+        expect(service_object['service_implemented']).to eq(Serviceable::SERVICE_NOT_IMPLEMENTED)
+      end
     end
 
     it 'it save a record history when referral is rejected' do
@@ -132,7 +212,10 @@ describe Referral do
         @user2.disabled = true
         @user2.save(validate: false)
 
-        @revoke_referral.revoke!(@user1)
+        @revoke_referral.revoke!(
+          @user1,
+          { success_status: Referral::REFERRAL_SUCCESSFUL,  service_implemented: Serviceable::SERVICE_IMPLEMENTED  }
+        )
         expect(@revoke_referral.valid?).to be_truthy
         expect(@revoke_referral.errors[:transitioned_to]).to be_empty
       end
@@ -157,6 +240,30 @@ describe Referral do
       expect(@case.assigned_user_names).not_to include('user2')
       expect(@case.referred_users).not_to include(@done_referral.transitioned_to)
       expect(@case.referred_users_present).to eq(false)
+    end
+
+    it 'sets resolved_at when marking done' do
+      now = DateTime.parse('2021-06-15T10:30:00Z')
+      DateTime.stub(:now).and_return(now)
+
+      @done_referral.done!(@user1, { success_status: Referral::REFERRAL_SUCCESSFUL })
+      @done_referral.reload
+
+      expect(@done_referral.resolved_at).to eq(now)
+    end
+
+    it 'merges reason_not_successful into data when marking done with not_successful status' do
+      @done_referral.done!(
+        @user1,
+        {
+          success_status: Referral::REFERRAL_NOT_SUCCESSFUL,
+          reason_not_successful: 'client_refused_services'
+        }
+      )
+      @done_referral.reload
+
+      expect(@done_referral.reason_not_successful).to eq('client_refused_services')
+      expect(@done_referral.success_status).to eq(Referral::REFERRAL_NOT_SUCCESSFUL)
     end
 
     it 'mark the service object as implemented' do
@@ -621,7 +728,7 @@ describe Referral do
 
     it 'removes a referral alert if revoked' do
       referral = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @record)
-      referral.revoke!(@user2)
+      referral.revoke!(@user2, { success_status: Referral::REFERRAL_SUCCESSFUL })
       @record.reload
 
       expect(@record.alerts).to be_empty

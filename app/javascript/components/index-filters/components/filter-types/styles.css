@@ -5,6 +5,10 @@
   width: 100%;
 }
 
+.toggleFormControl {
+  margin: 0;
+}
+
 .panelContent {
   margin-top: var(--sp-2)
 }

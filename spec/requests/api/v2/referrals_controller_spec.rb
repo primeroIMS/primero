@@ -301,7 +301,8 @@ describe Api::V2::ReferralsController, type: :request do
 
     it 'completes this referral' do
       sign_in(@user2)
-      delete "/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}"
+      params = { data: { success_status: Referral::REFERRAL_SUCCESSFUL } }
+      delete("/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params:)
 
       expect(response).to have_http_status(200)
       expect(json['data']['status']).to eq(Transition::STATUS_REVOKED)
@@ -313,6 +314,142 @@ describe Api::V2::ReferralsController, type: :request do
 
       @case_a.reload
       expect(@case_a.assigned_user_names).to_not include('user2')
+    end
+
+    it 'completes the referral with not_successful status and reason_not_successful' do
+      sign_in(@user2)
+      params = {
+        data: {
+          success_status: Referral::REFERRAL_NOT_SUCCESSFUL,
+          reason_not_successful: 'client_refused_services'
+        }
+      }
+      delete("/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params:)
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['status']).to eq(Transition::STATUS_REVOKED)
+      expect(json['data']['data']['success_status']).to eq(Referral::REFERRAL_NOT_SUCCESSFUL)
+      expect(json['data']['data']['reason_not_successful']).to eq('client_refused_services')
+    end
+
+    it 'completes the referral with service_implemented when a service record exists' do
+      referral_service = Referral.create!(
+        transitioned_by: 'user1',
+        transitioned_to: 'user2',
+        record: @case_b,
+        service_record_id: @case_b.services_section[0]['unique_id']
+      )
+      sign_in(@user2)
+      params = {
+        data: {
+          success_status: Referral::REFERRAL_SUCCESSFUL,
+          service_implemented: Serviceable::SERVICE_IMPLEMENTED
+        }
+      }
+      delete("/api/v2/cases/#{@case_b.id}/referrals/#{referral_service.id}", params:)
+
+      @case_b.reload
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['status']).to eq(Transition::STATUS_REVOKED)
+      expect(json['data']['data']['success_status']).to eq(Referral::REFERRAL_SUCCESSFUL)
+      expect(@case_b.services_section[0]['service_implemented']).to eq(Serviceable::SERVICE_IMPLEMENTED)
+    end
+
+    it 'sets the rejection_note when revoking' do
+      sign_in(@user2)
+      rejection_note = 'Revocation note from provider'
+      params = {
+        data: {
+          success_status: Referral::REFERRAL_SUCCESSFUL,
+          rejection_note: rejection_note
+        }
+      }
+      delete("/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params:)
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['rejection_note']).to eq(rejection_note)
+    end
+
+    it 'revoking an already revoked referral is a noop' do
+      @referral1.revoke!(@user2, success_status: Referral::REFERRAL_SUCCESSFUL)
+      @referral1.reload
+      original_resolved_at = @referral1.resolved_at
+
+      login_for_test
+      params = {
+        data: { success_status: Referral::REFERRAL_NOT_SUCCESSFUL, reason_not_successful: "client_refused_services" }
+      }
+      delete("/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params:)
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['status']).to eq(Transition::STATUS_REVOKED)
+      expect(json['data']['data']['success_status']).to eq(Referral::REFERRAL_SUCCESSFUL)
+      expect(json['data']['data']).not_to have_key('reason_not_successful')
+
+      @referral1.reload
+      expect(@referral1.resolved_at.to_i).to eq(original_resolved_at.to_i)
+    end
+
+    describe 'validates params for revoke' do
+      it 'returns 422 if success_status is blank' do
+        sign_in(@user2)
+        params = { data: { rejection_note: 'test' } }
+        delete("/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params:)
+
+        expect(response).to have_http_status(422)
+        expect(json['errors'][0]['status']).to eq(422)
+        expect(json['errors'][0]['message']).to include('errors.models.referral.success_status_present')
+      end
+
+      it 'returns 422 if success_status is invalid' do
+        sign_in(@user2)
+        params = { data: { success_status: 'maybe' } }
+        delete("/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params:)
+
+        expect(response).to have_http_status(422)
+        expect(json['errors'][0]['status']).to eq(422)
+        expect(json['errors'][0]['detail']).to include('/success_status')
+      end
+
+      it 'returns 422 if reason_not_successful is invalid' do
+        sign_in(@user2)
+        params = {
+          data: {
+            success_status: Referral::REFERRAL_NOT_SUCCESSFUL,
+            reason_not_successful: 'unknown_reason'
+          }
+        }
+        delete("/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params:)
+
+        expect(response).to have_http_status(422)
+        expect(json['errors'][0]['status']).to eq(422)
+        expect(json['errors'][0]['detail']).to include('/reason_not_successful')
+      end
+
+      it 'returns 422 if service_implemented is not in the allowed enum' do
+        sign_in(@user2)
+        params = {
+          data: {
+            success_status: Referral::REFERRAL_SUCCESSFUL,
+            service_implemented: 'unknown_value'
+          }
+        }
+        delete("/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params:)
+
+        expect(response).to have_http_status(422)
+        expect(json['errors'][0]['status']).to eq(422)
+        expect(json['errors'][0]['detail']).to include('/service_implemented')
+      end
+
+      it 'returns 422 if an unknown field is provided' do
+        sign_in(@user2)
+        params = { data: { rejection_note: 'test', unknown_field: 'value' } }
+        delete("/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params:)
+
+        expect(response).to have_http_status(422)
+        expect(json['errors'][0]['status']).to eq(422)
+      end
     end
   end
 

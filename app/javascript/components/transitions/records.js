@@ -9,6 +9,7 @@ export const TransitionRecord = Record({
   created_at: null,
   service_external_referral_registry: false,
   data: fromJS({}),
+  resolved_at: null,
   responded_at: null,
   notes: "",
   rejected_reason: "",
