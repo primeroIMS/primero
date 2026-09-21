@@ -288,6 +288,7 @@ const LOOKUPS = {
   protection_concerns: "lookup-protection-concerns",
   followup_type: "lookup-followup-type",
   reporting_locations: "ReportingLocation",
+  locations: "Location",
   gbv_violence_type: "lookup-gbv-sexual-violence-type",
   cp_violence_type: "lookup-cp-violence-type",
   gender: "lookup-gender",
