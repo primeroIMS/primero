@@ -8,7 +8,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 
-import { getIncidentFromCase } from "../../records";
+import { getIncidentFromCase, usePendingTransition } from "../../records";
 import { SaveReturnIcon } from "../../../images/primero-icons";
 import { useI18n } from "../../i18n";
 import Flagging from "../../flagging";
@@ -63,6 +63,7 @@ function RecordFormToolbar({
   );
   const redirectedToCreateNewRecord = useMemoizedSelector(state => getRedirectedToCreateNewRecord(state));
   const { incidentFromCaseIdDisplay, incidentFromCaseId } = useIncidentFromCase({ recordType, record });
+  const { hasPendingTransition, tooltip: pendingTransitionTooltip } = usePendingTransition(record);
 
   const rtlClass = isRTL ? css.flipImage : "";
 
@@ -105,6 +106,8 @@ function RecordFormToolbar({
       type={ACTION_BUTTON_TYPES.default}
       pending={savingRecord}
       noTranslate
+      disabled={hasPendingTransition}
+      tooltip={pendingTransitionTooltip}
       rest={{
         onClick: handleFormSubmit
       }}
@@ -165,7 +168,12 @@ function RecordFormToolbar({
                 badgeContent={record.get("flag_count")}
                 className={css.badgeIndicator}
               >
-                <Flagging record={params.id} recordType={params.recordType} />
+                <Flagging
+                  record={params.id}
+                  recordType={params.recordType}
+                  disabled={hasPendingTransition}
+                  tooltip={pendingTransitionTooltip}
+                />
               </Badge>
             </DisableOffline>
           </Permission>
@@ -190,6 +198,8 @@ function RecordFormToolbar({
               icon={<CreateIcon />}
               text="buttons.edit"
               type={ACTION_BUTTON_TYPES.default}
+              disabled={hasPendingTransition}
+              tooltip={pendingTransitionTooltip}
               rest={{
                 to: editRedirect || `/${params.recordType}/${params.id}/edit`,
                 component: Link,

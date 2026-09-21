@@ -506,6 +506,17 @@ describe Api::V2::ReferralsController, type: :request do
       expect(@case_a.assigned_user_names).to include('user2')
     end
 
+    it 'returns the updated pending referral users of the record when accepting' do
+      sign_in(@user2)
+      params = { data: { status: Transition::STATUS_ACCEPTED } }
+
+      patch("/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params:)
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['record']['referred_users_pending']).to eq([])
+      expect(json['data']['record']['referred_users_accepted']).to eq(['user2'])
+    end
+
     it 'rejects this referral' do
       sign_in(@user2)
       params = { data: { status: Transition::STATUS_REJECTED } }

@@ -1001,4 +1001,48 @@ describe("<RecordList /> - Reducers", () => {
       expect(newState).toEqual(expected);
     });
   });
+
+  describe("when a referral is accepted", () => {
+    const casesReducer = reducer("cases");
+    const action = {
+      type: "transitions/REFERRAL_ACCEPTED_SUCCESS",
+      payload: {
+        data: {
+          id: "referral_1",
+          record_id: "case_1",
+          record_type: "case",
+          status: "accepted",
+          record: { id: "case_1", referred_users_pending: [], referred_users_accepted: ["user_1"] }
+        }
+      }
+    };
+
+    it("merges the returned record into the matching record", () => {
+      const state = fromJS({
+        data: [
+          { id: "case_1", name: "Case 1", referred_users_pending: ["user_1"] },
+          { id: "case_2", name: "Case 2" }
+        ]
+      });
+
+      const newState = casesReducer(state, action);
+
+      expect(newState.get("data").toJS()).toEqual([
+        { id: "case_1", name: "Case 1", referred_users_pending: [], referred_users_accepted: ["user_1"] },
+        { id: "case_2", name: "Case 2" }
+      ]);
+    });
+
+    it("does not change the state when the record type does not match", () => {
+      const state = fromJS({ data: [{ id: "case_1", referred_users_pending: ["user_1"] }] });
+
+      expect(reducer("incidents")(state, action)).toEqual(state);
+    });
+
+    it("does not change the state when the record is not loaded", () => {
+      const state = fromJS({ data: [{ id: "case_2" }] });
+
+      expect(casesReducer(state, action)).toEqual(state);
+    });
+  });
 });
