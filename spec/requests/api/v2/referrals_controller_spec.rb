@@ -292,6 +292,30 @@ describe Api::V2::ReferralsController, type: :request do
       expect(json['data'][1]['transitioned_to']).to eq('user2')
       expect(json['data'][1]['transitioned_by']).to eq('user1')
     end
+
+    it 'excludes the records where the user has a pending referral' do
+      role_refer_receive = Role.new(
+        permissions: [
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::READ, Permission::REFERRAL, Permission::RECEIVE_REFERRAL]
+          )
+        ],
+        primero_modules: [@primero_module], group_permission: Permission::GROUP
+      )
+      role_refer_receive.save(validate: false)
+      user6 = User.new(user_name: 'user6', role: role_refer_receive, user_groups: [@group1])
+      user6.save(validate: false)
+      Referral.create!(transitioned_by: 'user1', transitioned_to: 'user6', record: @case_a)
+
+      sign_in(user6)
+      params = { data: { ids: [@case_a.id, @case_a2.id], transitioned_to: 'user2', notes: 'Test Notes' } }
+      post('/api/v2/cases/referrals', params:)
+
+      expect(response).to have_http_status(200)
+      expect(json['data'].map { |transition| transition['record_id'] }).to eq([@case_a2.id.to_s])
+      expect(@case_a.referrals.where(transitioned_to: 'user2')).to be_empty
+    end
   end
 
   describe 'DELETE /api/v2/cases/:id/referrals/:referral_id' do

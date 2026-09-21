@@ -5,7 +5,8 @@ require 'rails_helper'
 describe BulkFlagService do
   before do
     clean_data(
-      User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency, Incident, Child, Flag
+      Alert, Transition, User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency, Incident,
+      Child, Flag
     )
   end
 
@@ -90,6 +91,29 @@ describe BulkFlagService do
         expect(child2.reload.flag_count).to eq(0)
       end
     end
+
+    context 'when the user has a pending referral or transfer on some of the records' do
+      let(:user2) do
+        create(:user, user_name: 'user2', role:, full_name: 'Test User 2', email: 'user2@primero.dev')
+      end
+
+      let(:args) do
+        { filters: { 'id' => [child.id, child2.id, child3.id] }, message: 'Test flag', date: Date.today.to_s }
+      end
+
+      before do
+        Referral.create!(transitioned_by: user2.user_name, transitioned_to: user.user_name, record: child)
+        Transfer.create!(transitioned_by: user2.user_name, transitioned_to: user.user_name, record: child3)
+      end
+
+      it 'excludes the records with a pending transition for the user' do
+        BulkFlagService.new(Child, user, args).flag_records!
+
+        expect(child.reload.flag_count).to eq(0)
+        expect(child2.reload.flag_count).to eq(1)
+        expect(child3.reload.flag_count).to eq(0)
+      end
+    end
   end
 
   describe '#search_records' do
@@ -106,7 +130,8 @@ describe BulkFlagService do
 
   after :each do
     clean_data(
-      User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency, Incident, Child, Flag
+      Alert, Transition, User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, Agency, Incident,
+      Child, Flag
     )
   end
 end

@@ -179,6 +179,25 @@ describe Api::V2::TransfersController, type: :request do
 
       expect(audit_params['action']).to eq('bulk_transfer')
     end
+
+    it 'excludes the records where the user has a pending transfer' do
+      role_group = Role.new(
+        permissions: [@permission_transfer_case], primero_modules: [@primero_module],
+        group_permission: Permission::GROUP
+      )
+      role_group.save(validate: false)
+      user6 = User.new(user_name: 'user6', role: role_group, user_groups: [@group1])
+      user6.save(validate: false)
+      Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user6', record: @case)
+
+      sign_in(user6)
+      params = { data: { ids: [@case.id, @case2.id], transitioned_to: 'user2', notes: 'Test Notes' } }
+      post('/api/v2/cases/transfers', params:)
+
+      expect(response).to have_http_status(200)
+      expect(json['data'].map { |transition| transition['record_id'] }).to eq([@case2.id.to_s])
+      expect(@case.transfers.where(transitioned_to: 'user2')).to be_empty
+    end
   end
 
   describe 'PATCH /api/v2/cases/:id/transfers/:transfer_id' do

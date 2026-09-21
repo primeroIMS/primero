@@ -9,7 +9,16 @@ import ActionForm from "../action-form";
 
 import { NAME, SERVICES_SUBFORM_NAME } from "./constants";
 
-function Component({ open, close, pending, recordType, selectedRowsIndex, setPending, primeroModule }) {
+function Component({
+  open,
+  close,
+  pending,
+  recordType,
+  selectedRowsIndex,
+  setPending,
+  primeroModule,
+  pendingTransitionIds
+}) {
   const servicesFormId = useMemoizedSelector(state => getServicesForm(state, primeroModule));
 
   const props = {
@@ -25,6 +34,7 @@ function Component({ open, close, pending, recordType, selectedRowsIndex, setPen
     recordType,
     selectedRowsIndex,
     setPending,
+    pendingTransitionIds,
     skipRecordAlerts: false
   };
 
@@ -35,6 +45,7 @@ Component.propTypes = {
   close: PropTypes.func,
   open: PropTypes.bool,
   pending: PropTypes.bool,
+  pendingTransitionIds: PropTypes.array,
   primeroModule: PropTypes.string,
   records: PropTypes.array,
   recordType: PropTypes.string,

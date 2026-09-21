@@ -5,8 +5,8 @@ require 'rails_helper'
 describe BulkAssignService do
   before do
     clean_data(
-      User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup,
-      Agency, Incident, Child, Family, Transition
+      Alert, Transition, User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup,
+      Agency, Incident, Child, Family
     )
   end
 
@@ -115,6 +115,24 @@ describe BulkAssignService do
           expect(assigns.pluck(:record_id)).to match_array([child.id, child3.id])
         end
       end
+
+      context 'when the user has a pending referral or transfer on some of the records' do
+        let(:bulk_assign_params) do
+          {
+            filters: { 'id' => [child.id, child2.id, child3.id] }
+          }.merge(bulk_assign_shared_params)
+        end
+
+        before do
+          Referral.create!(transitioned_by: user2.user_name, transitioned_to: user.user_name, record: child2)
+          Transfer.create!(transitioned_by: user2.user_name, transitioned_to: user.user_name, record: child3)
+        end
+
+        it 'excludes the records with a pending transition for the user' do
+          BulkAssignService.new(Child, user, **bulk_assign_params).assign_records!
+          expect(Assign.pluck(:record_id)).to eq([child.id])
+        end
+      end
     end
 
     context 'when model_class is Incident' do
@@ -181,8 +199,8 @@ describe BulkAssignService do
 
   after :each do
     clean_data(
-      User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup,
-      Agency, Incident, Child, Family, Transition
+      Alert, Transition, User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup,
+      Agency, Incident, Child, Family
     )
   end
 end

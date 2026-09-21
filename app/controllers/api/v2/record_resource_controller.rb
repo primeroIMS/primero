@@ -23,11 +23,9 @@ class Api::V2::RecordResourceController < ApplicationApiController
   end
 
   def find_records
-    @records = if params['data']['ids'].present?
-                 model_class.find(params['data']['ids'])
-               else
-                 []
-               end
+    return @records = [] if params['data']['ids'].blank?
+
+    @records = model_class.find(params['data']['ids']).reject { |record| record.pending_transition_for?(current_user) }
   end
 
   def updates_for_record(record)

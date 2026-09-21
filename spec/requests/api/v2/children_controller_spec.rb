@@ -388,6 +388,40 @@ describe Api::V2::ChildrenController, type: :request do
       expect(json['data'].find { |r| r['name'] == @case1.name }['flag_count']).to eq(1)
     end
 
+    it 'returns the pending transition fields for the short form when the user can receive them' do
+      @case1.update_column(
+        :data, @case1.data.merge('referred_users_pending' => %w[faketest], 'transferred_to_users' => %w[faketest])
+      )
+
+      login_for_test(
+        permissions: [
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::READ, Permission::RECEIVE_REFERRAL, Permission::RECEIVE_TRANSFER]
+          )
+        ]
+      )
+      get '/api/v2/cases?fields=short'
+
+      expect(response).to have_http_status(200)
+      case1_data = json['data'].find { |r| r['id'] == @case1.id }
+      expect(case1_data['referred_users_pending']).to eq(%w[faketest])
+      expect(case1_data['transferred_to_users']).to eq(%w[faketest])
+    end
+
+    it 'does not return the pending transition fields for the short form when the user cannot receive them' do
+      @case1.update_column(
+        :data, @case1.data.merge('referred_users_pending' => %w[faketest], 'transferred_to_users' => %w[faketest])
+      )
+
+      login_for_test
+      get '/api/v2/cases?fields=short'
+
+      expect(response).to have_http_status(200)
+      case1_data = json['data'].find { |r| r['id'] == @case1.id }
+      expect(case1_data.keys).not_to include('referred_users_pending', 'transferred_to_users')
+    end
+
     it 'returns alert_count for the short form ' do
       @case1.add_alert(alert_for: 'transfer_request', date: Date.today, form_sidebar_id: 'transfer_request')
 

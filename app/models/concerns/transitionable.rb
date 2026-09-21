@@ -154,5 +154,9 @@ module Transitionable
   def can_be_assigned?
     true
   end
+
+  def pending_transition_for?(user)
+    ((referred_users_pending || []) + (transferred_to_users || [])).include?(user.user_name)
+  end
 end
 # rubocop:enable Metrics/ModuleLength

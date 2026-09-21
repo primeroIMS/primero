@@ -155,4 +155,27 @@ describe("<AddService />", () => {
     mountedComponent(<AddService {...props} />, initialState);
     expect(screen.queryAllByRole("textbox")).toHaveLength(1);
   });
+
+  it("enables the save button when the selected record has no pending transition", () => {
+    mountedComponent(<AddService {...props} />, initialState);
+
+    expect(screen.queryByText("case.messages.pending_transition_excluded")).not.toBeInTheDocument();
+    expect(screen.getByText("buttons.save").closest("button")).not.toBeDisabled();
+  });
+
+  describe("when the selected record has a pending transition", () => {
+    const pendingProps = { ...props, pendingTransitionIds: ["d9df44fb-95d0-4407-91fd-ed18c19be1ad"] };
+
+    it("shows the pending transition message", () => {
+      mountedComponent(<AddService {...pendingProps} />, initialState);
+
+      expect(screen.getByText("case.messages.pending_transition_excluded")).toBeInTheDocument();
+    });
+
+    it("disables the save button", () => {
+      mountedComponent(<AddService {...pendingProps} />, initialState);
+
+      expect(screen.getByText("buttons.save").closest("button")).toBeDisabled();
+    });
+  });
 });

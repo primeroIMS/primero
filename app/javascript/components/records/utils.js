@@ -133,3 +133,9 @@ export const hasPendingTransfer = (record, currentUser) =>
 
 export const hasPendingReferral = (record, currentUser) =>
   userInRecordList(record, REFERRED_USERS_PENDING_FIELD, currentUser);
+
+export const hasPendingTransition = (record, currentUser) =>
+  hasPendingReferral(record, currentUser) || hasPendingTransfer(record, currentUser);
+
+export const getPendingTransitionIds = (records, currentUser) =>
+  (records || []).filter(record => hasPendingTransition(record, currentUser)).map(record => record.get("id"));

@@ -78,6 +78,10 @@ module Record
     []
   end
 
+  def pending_transition_for?(_user)
+    false
+  end
+
   def display_id
     short_id
   end
