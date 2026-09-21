@@ -101,5 +101,31 @@ describe("<Transitions />", () => {
       mountedComponent(<Transitions {...transferProps} />, initialState);
       expect(screen.getByText((content, element) => element.tagName.toLowerCase() === "form")).toBeInTheDocument();
     });
+
+    it("enables the transfer button when the current user has no pending transfer", () => {
+      const state = initialState.set("user", fromJS({ username: "user_1" }));
+
+      mountedComponent(<Transitions {...transferProps} />, state);
+
+      expect(screen.getByRole("button", { name: /buttons.transfer/ })).not.toBeDisabled();
+      expect(screen.queryByText("transfer.pending_transfer_received")).toBeNull();
+    });
+
+    describe("when the current user has a pending transfer for the record", () => {
+      const state = initialState.set("user", fromJS({ username: "user_1" }));
+      const props = { ...transferProps, record: record.set("transferred_to_users", fromJS(["user_1"])) };
+
+      it("disables the transfer button", () => {
+        mountedComponent(<Transitions {...props} />, state);
+
+        expect(screen.getByRole("button", { name: /buttons.transfer/ })).toBeDisabled();
+      });
+
+      it("renders the pending transfer message", () => {
+        mountedComponent(<Transitions {...props} />, state);
+
+        expect(screen.getByText("transfer.pending_transfer_received")).toBeInTheDocument();
+      });
+    });
   });
 });

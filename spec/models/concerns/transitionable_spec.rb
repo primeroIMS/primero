@@ -137,6 +137,22 @@ describe Transitionable do
     end
   end
 
+  describe 'referred_users_pending' do
+    before :each do
+      Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
+      Referral.create!(transitioned_by: 'user1', record: @case, remote: true)
+      @case.reload
+    end
+
+    it 'returns the users with pending referrals' do
+      expect(@case.referred_users_pending).to eq(%w[user2])
+    end
+
+    it 'does not include external referrals' do
+      expect(@case.referred_users_pending).not_to include(nil)
+    end
+  end
+
   describe 'referrals_for_user' do
     before :each do
       clean_data(User, Role, Referral, Agency)

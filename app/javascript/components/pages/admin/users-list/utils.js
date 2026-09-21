@@ -1,6 +1,7 @@
 import { fromJS } from "immutable";
 
 import { FILTER_TYPES } from "../../../index-filters";
+import { LOOKUPS } from "../../../../config";
 
 import {
   AGENCY,
@@ -104,6 +105,13 @@ export const getFilters = (i18n, filterAgencies, filterUserGroups, filterPermiss
         { id: "last_case_updated", display_name: i18n.t("users.filters.date_last_case_updated") }
       ]
     }
+  },
+  {
+    name: "cases.filter_by.location",
+    field_name: "location",
+    option_strings_source: LOOKUPS.locations,
+    type: FILTER_TYPES.MULTI_SELECT,
+    multiple: true
   }
 ];
 

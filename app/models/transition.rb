@@ -128,7 +128,7 @@ class Transition < ApplicationRecord
   end
 
   def remove_assigned_user
-    return if progress_or_accepted_transition?
+    return if remote? || progress_or_accepted_transition?
 
     record.assigned_user_names.delete(transitioned_to) if record.assigned_user_names.present?
   end

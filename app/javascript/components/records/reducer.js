@@ -2,6 +2,7 @@ import { fromJS, Map, List } from "immutable";
 
 import { mergeRecord } from "../../libs";
 import { DEFAULT_METADATA, INCIDENT_CASE_ID_FIELD, INCIDENT_CASE_ID_DISPLAY_FIELD, RECORD_TYPES } from "../../config";
+import referralActions from "../transitions/referrals/referral-action/actions";
 
 import {
   RECORDS_STARTED,
@@ -494,6 +495,16 @@ export default namespace =>
       }
       case `${namespace}/${SET_IS_RECORD_CREATION_FLOW}`: {
         return state.set("isRecordCreationFlow", payload);
+      }
+      case referralActions.REFERRAL_ACCEPTED_SUCCESS: {
+        const { record, record_type: recordType } = payload.data;
+        const index = state.get("data", List([])).findIndex(current => current.get("id") === record?.id);
+
+        if (RECORD_TYPES[namespace] !== recordType || index === -1) {
+          return state;
+        }
+
+        return state.updateIn(["data", index], current => mergeRecord(current, fromJS(record)));
       }
       default:
         return state;

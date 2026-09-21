@@ -239,6 +239,8 @@ en:
     return_to_case: Return to Case
     enable_webpush: Device notifications
     dialog_yes: "Yes"
+    mark_accepted: Mark as accepted
+    mark_rejected: Mark as rejected
   resync_records:
     id: ID
     record_type: Record Type
@@ -514,6 +516,12 @@ en:
       that you are rejecting this Referral; once you click ‘Reject’ you will no longer
       have access to this Case record.
     referral_rejected_success: Referral rejected.
+    external_referral_accepted_header: Mark as accepted
+    external_referral_accepted: Are you sure you want to mark this Referral as accepted? This indicates that the recipient has accepted
+      responsibility for completing work associated with this referral.
+    external_referral_rejected_header: Mark as rejected
+    external_referral_rejected: By marking this Referral as ‘Rejected,’ you are indicating that the referral recipient was not ready to accept
+      responsibility for this referral. Please enter the reason for the recipient’s rejection below.
     registry_search_for: '%{field} Search'
     registry_results: '%{field} Results'
     registry_empty_placeholder: 'Nothing selected'
@@ -3370,12 +3378,16 @@ en:
               disabled, but automatically filled with the information for those fields
               in the Services subform on which the user clicked the Refer button.
             label: Refer Case from Service subform
+          accept_or_reject_referral:
+            explanation: Allows users to indicate whether an external referral
+              has been marked as accepted or rejected by its recipient.
+            label: Mark external referrals as accepted / rejected
           remove_assigned_users:
-            explanation: “Allows a user to end a Referral or a pending transfer,
-              removing recipient access. For Referrals, this also lets you mark a Referral as done,
-              indicating whether the Referral was successful, whether services were implemented,
+            explanation: Allows a user to end a Referral, removing recipient access.
+              For Referrals, this also lets you mark a Referral as done,
+              indicating whether the Referral was successful, whether services were implemented, 
               and leaving notes about the referral. This action also works for External Referrals.
-            label: Revoke Referral or pending Transfer/ Mark Referral as done
+            label: Revoke / mark Referral as done
           reopen:
             explanation: Allows a user to open a case which is currently closed.
             label: Reopen
@@ -4669,6 +4681,8 @@ en:
     notes_label: Notes
     notes_on_referral: Notes on referral
     note_on_referral_from_provider: Notes on referral from provider
+    pending_restriction: You have a pending referral. Please accept or reject this
+      referral before making any changes.
     provided_consent_label: Consent is not provided in the Forms.
     recipient_label: Recipient
     refer_anyway_label: Refer anyway?
@@ -4980,6 +4994,11 @@ en:
     is_remote_label: Are you transferring to a remote system?
     location_label: Location
     notes_label: Notes
+    pending_transfer_received: You have received a transfer for this Case but have not
+      accepted it. Please accept the transfer before transferring this Case to another
+      user.
+    pending_restriction: You have a pending transfer. Please accept or reject this
+      transfer before making any changes.
     provided_consent_label: Consent is not provided in the Forms.
     recipient_label: Recipient
     select_label: Select...

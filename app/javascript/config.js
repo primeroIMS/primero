@@ -111,6 +111,8 @@ const INCIDENT_CASE_ID_FIELD = "incident_case_id";
 const INCIDENT_CASE_ID_DISPLAY_FIELD = "case_id_display";
 const INCIDENT_SHORT_ID_FIELD = "short_id";
 const SERVICES_SUBFORM_FIELD = "services_section";
+const REFERRED_USERS_PENDING_FIELD = "referred_users_pending";
+const TRANSFERRED_TO_USERS_FIELD = "transferred_to_users";
 
 const CONSENT_GIVEN_FIELD_BY_MODULE = Object.freeze({
   [MODULES.CP]: ["consent_for_services", "disclosure_other_orgs"],
@@ -288,6 +290,7 @@ const LOOKUPS = {
   protection_concerns: "lookup-protection-concerns",
   followup_type: "lookup-followup-type",
   reporting_locations: "ReportingLocation",
+  locations: "Location",
   gbv_violence_type: "lookup-gbv-sexual-violence-type",
   cp_violence_type: "lookup-cp-violence-type",
   gender: "lookup-gender",
@@ -869,6 +872,8 @@ export {
   CODE_FIELD,
   INCIDENT_CASE_ID_FIELD,
   INCIDENT_CASE_ID_DISPLAY_FIELD,
+  REFERRED_USERS_PENDING_FIELD,
+  TRANSFERRED_TO_USERS_FIELD,
   INCIDENT_SHORT_ID_FIELD,
   CONSENT_GIVEN_FIELD_BY_MODULE,
   RECORD_PATH,

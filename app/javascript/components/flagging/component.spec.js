@@ -52,6 +52,23 @@ describe("<FlagDialog /> - Component", () => {
     expect(screen.getByText("flags.add_flag_tab")).toBeInTheDocument();
   });
 
+  describe("when disabled", () => {
+    const disabledProps = { ...props, disabled: true, tooltip: "disabled tooltip" };
+    const closedDialogState = defaultState.deleteIn(["ui", "dialogs"]);
+
+    it("disables the flags button", () => {
+      mountedComponent(<Flagging {...disabledProps} />, closedDialogState);
+
+      expect(screen.getByRole("button", { name: /buttons.flags/ })).toBeDisabled();
+    });
+
+    it("labels the flags button with the tooltip", () => {
+      mountedComponent(<Flagging {...disabledProps} />, closedDialogState);
+
+      expect(screen.getByLabelText("disabled tooltip")).toBeInTheDocument();
+    });
+  });
+
   it("resets the form when switching tabs", async () => {
     mountedComponent(<Flagging {...props} />, defaultState);
 

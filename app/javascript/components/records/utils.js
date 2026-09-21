@@ -1,16 +1,18 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
-import { Map } from "immutable";
+import { fromJS, Map } from "immutable";
 import pickBy from "lodash/pickBy";
 import isEmpty from "lodash/isEmpty";
 import qs from "qs";
 
-import { DEFAULT_METADATA } from "../../config";
+import { DEFAULT_METADATA, REFERRED_USERS_PENDING_FIELD, TRANSFERRED_TO_USERS_FIELD } from "../../config";
 
 import { clearMetadata } from "./action-creators";
 
 const getRouteValue = (index, data) => data.split("/").filter(value => value)[index];
+
+const userInRecordList = (record, field, currentUser) => Boolean(record?.get(field, fromJS([]))?.includes(currentUser));
 
 const fetchDataIfNotBackButton = (
   metadata,
@@ -125,3 +127,9 @@ export const useMetadata = (
 };
 
 export const getShortIdFromUniqueId = uniqueId => uniqueId?.slice(-7);
+
+export const hasPendingTransfer = (record, currentUser) =>
+  userInRecordList(record, TRANSFERRED_TO_USERS_FIELD, currentUser);
+
+export const hasPendingReferral = (record, currentUser) =>
+  userInRecordList(record, REFERRED_USERS_PENDING_FIELD, currentUser);

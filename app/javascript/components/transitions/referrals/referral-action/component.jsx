@@ -9,7 +9,7 @@ import { CREATE_CASE, DONE } from "../constants";
 import { useMemoizedSelector } from "../../../../libs";
 import { getSelectedRecordData } from "../../../records";
 import { selectModule } from "../../../application";
-import { mapRecordForCaseCreation, referralHeader } from "../utils";
+import { mapRecordForCaseCreation, referralConfirmButtonKey, referralHeaderKey, referralMessageKey } from "../utils";
 import useReferralForm from "../use-referral-form";
 
 import { NAME, FORM_ID } from "./constants";
@@ -28,12 +28,14 @@ function Component({
   transitionId,
   referralType,
   caseCreationModule,
-  serviceRecordId
+  serviceRecordId,
+  remote = false
 }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
+  const moduleID = caseCreationModule?.[1];
   const record = useMemoizedSelector(state => getSelectedRecordData(state, RECORD_TYPES_PLURAL.case));
-  const recordModule = useMemoizedSelector(state => selectModule(state, record.get("module_id"), false));
+  const recordModule = useMemoizedSelector(state => selectModule(state, moduleID, false));
 
   const initialValues = { note_on_referral_from_provider: "", rejected_reason: "" };
 
@@ -140,10 +142,11 @@ function Component({
     });
   };
 
+  const messageKey = referralMessageKey({ recordType, remote, status: referralType });
   const dialogContent = (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
     <div onClick={stopProp}>
-      <p>{i18n.t(`${recordType}.referral_${referralType}`)}</p>
+      <p>{i18n.t(messageKey)}</p>
       {referralType === DONE && (
         <ReferralDoneForm
           formMode={formMode}
@@ -157,17 +160,19 @@ function Component({
     </div>
   );
 
-  const confirmButtonLabel = referralType === DONE ? "buttons.done" : "buttons.ok";
+  const confirmButtonKey = referralConfirmButtonKey({ remote, status: referralType });
+  const headerKey = referralHeaderKey({ recordType, remote, status: referralType });
+  const dialogTitle = headerKey ? i18n.t(headerKey, moduleID ? { module_id: moduleID } : {}) : "";
 
   return (
     <ActionDialog
       open={openReferralDialog}
       cancelHandler={handleCancel}
       successHandler={methods.handleSubmit(handleSubmit)}
-      dialogTitle={referralHeader(i18n, recordType, referralType, caseCreationModule?.[1])}
+      dialogTitle={dialogTitle}
       pending={pending}
       omitCloseAfterSuccess
-      confirmButtonLabel={i18n.t(confirmButtonLabel)}
+      confirmButtonLabel={i18n.t(confirmButtonKey)}
       confirmButtonProps={successButtonProps}
       onClose={close}
     >
@@ -187,6 +192,7 @@ Component.propTypes = {
   recordId: PropTypes.string,
   recordType: PropTypes.string,
   referralType: PropTypes.string,
+  remote: PropTypes.bool,
   serviceRecordId: PropTypes.string,
   setPending: PropTypes.func,
   transitionId: PropTypes.string

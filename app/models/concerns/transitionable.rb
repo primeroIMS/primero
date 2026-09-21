@@ -85,7 +85,8 @@ module Transitionable
   end
 
   def calculate_referred_users_pending
-    self.referred_users_pending = referrals.where(status: [Transition::STATUS_INPROGRESS]).pluck(:transitioned_to).uniq
+    self.referred_users_pending = referrals.where(status: [Transition::STATUS_INPROGRESS])
+                                           .pluck(:transitioned_to).compact.uniq
     referred_users_pending
   end
 

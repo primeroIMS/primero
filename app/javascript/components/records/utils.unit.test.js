@@ -12,11 +12,13 @@ describe("<Records /> - utils", () => {
       expect(Object.keys(clone)).toHaveLength(0);
     });
 
-    ["cleanUpFilters", "useMetadata", "getShortIdFromUniqueId"].forEach(property => {
-      it(`exports '${property}'`, () => {
-        expect(utils).toHaveProperty(property);
-        delete clone[property];
-      });
-    });
+    ["cleanUpFilters", "useMetadata", "getShortIdFromUniqueId", "hasPendingReferral", "hasPendingTransfer"].forEach(
+      property => {
+        it(`exports '${property}'`, () => {
+          expect(utils).toHaveProperty(property);
+          delete clone[property];
+        });
+      }
+    );
   });
 });

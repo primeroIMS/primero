@@ -9,6 +9,7 @@ import { TRANSITIONS_TYPES } from "../../../../transitions/constants";
 import { useMemoizedSelector } from "../../../../../libs";
 import Form from "../../../../form";
 import { TRANSFER_FORM_ID } from "../../constants";
+import ConsentProvided from "../../referrals/components/consent-provided";
 
 import {
   TRANSFER_FIELD,
@@ -25,6 +26,7 @@ function TransferForm({
   providedConsent,
   isBulkTransfer,
   canConsentOverride,
+  hasPendingTransfer = false,
   record,
   recordType,
   setPending,
@@ -67,6 +69,7 @@ function TransferForm({
     i18n,
     canConsentOverride,
     providedConsent,
+    hasPendingTransfer,
     recordType,
     recordModuleID: record?.get("module_id"),
     isBulkTransfer,
@@ -74,21 +77,25 @@ function TransferForm({
   });
 
   return (
-    <Form
-      formID={TRANSFER_FORM_ID}
-      submitAllFields
-      submitAlways
-      formSections={forms}
-      onSubmit={handleSubmit}
-      validations={validationSchema}
-      formErrors={formErrors}
-      initialValues={initialValues}
-    />
+    <>
+      {hasPendingTransfer && <ConsentProvided title={i18n.t("transfer.pending_transfer_received")} />}
+      <Form
+        formID={TRANSFER_FORM_ID}
+        submitAllFields
+        submitAlways
+        formSections={forms}
+        onSubmit={handleSubmit}
+        validations={validationSchema}
+        formErrors={formErrors}
+        initialValues={initialValues}
+      />
+    </>
   );
 }
 
 TransferForm.propTypes = {
   canConsentOverride: PropTypes.bool,
+  hasPendingTransfer: PropTypes.bool,
   isBulkTransfer: PropTypes.bool.isRequired,
   providedConsent: PropTypes.bool,
   record: PropTypes.object,
