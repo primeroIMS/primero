@@ -3382,6 +3382,10 @@ en:
             explanation: Allows users to indicate whether an external referral
               has been marked as accepted or rejected by its recipient.
             label: Mark external referrals as accepted / rejected
+          receive_referral_within_user_group:
+            explanation: Restricts a user to only be able to receive a referral
+              from a user who is in one of their user groups.
+            label: Receive referral from within my group
           remove_assigned_users:
             explanation: Allows a user to end a Referral, removing recipient access.
               For Referrals, this also lets you mark a Referral as done,
