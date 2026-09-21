@@ -166,6 +166,7 @@ describe("Verifying config constant", () => {
       "configurations",
       "contact_information",
       "dashboards",
+      "exports",
       "families",
       "forms",
       "incidents",

@@ -39,6 +39,7 @@ class Permission < ValueObject
   CASE = 'case'
   INCIDENT = 'incident'
   TRACING_REQUEST = 'tracing_request'
+  EXPORT = 'export'
   POTENTIAL_MATCH = 'potential_match'
   REGISTRY_RECORD = 'registry_record'
   SEARCH_AND_SELECT_FAMILY_RECORD = 'search_and_select_family_record'
@@ -46,6 +47,7 @@ class Permission < ValueObject
   DUPLICATE = 'duplicate'
   USER = 'user'
   USER_GROUP = 'user_group'
+  DELETE_EXPORT = 'delete_export'
   ROLE = 'role'
   AGENCY = 'agency'
   WEBHOOK = 'webhook'
@@ -290,7 +292,8 @@ class Permission < ValueObject
       KPI_SUPERVISOR_TO_CASEWORKER_RATIO, KPI_TIME_FROM_CASE_OPEN_TO_CLOSE
     ],
     CODE_OF_CONDUCT => [MANAGE],
-    ACTIVITY_LOG => [MANAGE, TRANSFER]
+    ACTIVITY_LOG => [MANAGE, TRANSFER],
+    EXPORT => [DELETE]
   }.freeze
 
   RESOURCE_FORM_ACTIONS = {

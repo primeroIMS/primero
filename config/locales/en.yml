@@ -143,6 +143,9 @@ en:
     retry: This export is invalid. Please try recreating your export.
     started_on: Started
     status: Status
+    delete:
+      header: Delete Export
+      confirmation: Are you sure? Once you delete these export(s), you will not be able to get them back.
   form_export:
     label: Export Form Configuration
     include_hidden: Include hidden forms and fields?
@@ -2907,6 +2910,7 @@ en:
       display_view_page: Display View Page
       duplicate: Duplicate Search
       enable_disable_record: Disable
+      export: Export
       export_case_pdf: Export case pdf
       export_csv: Export csv
       export_custom: Export custom
@@ -2989,6 +2993,11 @@ en:
       remove_alert: Remove Alert
       create_case_from_referral: Create a case from a referral
     resource:
+      export:
+        actions:
+          delete:
+            explanation: Delete exports from the Exports List page.
+            label: Delete exports
       kpi:
         actions:
           read:

@@ -21,6 +21,7 @@ export const RESOURCES = [
   "registry_record",
   "family",
   "potential_match",
+  "export",
   "role",
   "user",
   "user_group",
