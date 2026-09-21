@@ -126,6 +126,43 @@ describe("<RecordActions />/transitions/components/<Transfers />", () => {
     });
   });
 
+  describe("when the current user has a pending transfer", () => {
+    const props = {
+      ...initialProps,
+      providedConsent: true,
+      canConsentOverride: true,
+      hasPendingTransfer: true
+    };
+
+    it("renders the pending transfer alert", () => {
+      mountedComponent(<Transfers {...props} />, initialState);
+
+      expect(screen.getByRole("alert")).toBeInTheDocument();
+      expect(screen.getByText("transfer.pending_transfer_received")).toBeInTheDocument();
+    });
+
+    it("disables all the fields", () => {
+      mountedComponent(<Transfers {...props} />, initialState);
+
+      const fields = document.querySelectorAll(
+        'input[type="text"], input[type="checkbox"], textarea:not([aria-hidden="true"])'
+      );
+
+      expect(fields.length).toBeGreaterThan(0);
+      fields.forEach(field => {
+        expect(field).toBeDisabled();
+      });
+    });
+
+    it("disables the consent override checkbox when consent was not provided", () => {
+      mountedComponent(<Transfers {...props} providedConsent={false} />, initialState);
+
+      document.querySelectorAll('input[type="checkbox"]').forEach(field => {
+        expect(field).toBeDisabled();
+      });
+    });
+  });
+
   describe("when consent is provided", () => {
     it("should set the consent_overridden to false", () => {
       const props = {

@@ -4980,6 +4980,9 @@ en:
     is_remote_label: Are you transferring to a remote system?
     location_label: Location
     notes_label: Notes
+    pending_transfer_received: You have received a transfer for this Case but have not
+      accepted it. Please accept the transfer before transferring this Case to another
+      user.
     provided_consent_label: Consent is not provided in the Forms.
     recipient_label: Recipient
     select_label: Select...
