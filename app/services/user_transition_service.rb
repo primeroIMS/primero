@@ -114,7 +114,7 @@ class UserTransitionService
       receive_different_module_query,
       resource: model&.parent_form, module_unique_id: module_unique_id,
       permission_different_module: Permission::RECEIVE_REFERRAL_DIFFERENT_MODULE,
-      permissions: [Permission::RECEIVE_REFERRAL, Permission::RECEIVE_REFERRAL_WITHIN_GROUP]
+      permissions: [Permission::RECEIVE_REFERRAL, Permission::RECEIVE_REFERRAL_WITHIN_USER_GROUP]
     )
   end
 
@@ -124,7 +124,7 @@ class UserTransitionService
       resource: model&.parent_form,
       permission_different_module: Permission::RECEIVE_REFERRAL_DIFFERENT_MODULE,
       permission_referral: Permission::RECEIVE_REFERRAL,
-      permission_group: Permission::RECEIVE_REFERRAL_WITHIN_GROUP,
+      permission_group: Permission::RECEIVE_REFERRAL_WITHIN_USER_GROUP,
       user_group_ids: user_group_ids
     )
   end
