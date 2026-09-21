@@ -51,6 +51,20 @@ describe Api::V2::ReferralsController, type: :request do
     @user4.save(validate: false)
     @user5 = User.new(user_name: 'user5', role: @maintenance_role, user_groups: [@group2])
     @user5.save(validate: false)
+    @role_accept_or_reject_referral = Role.new(
+      permissions: [
+        Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::ACCEPT_OR_REJECT_REFERRAL])
+      ],
+      primero_modules: [@primero_module],
+      group_permission: Permission::ALL
+    )
+    @role_accept_or_reject_referral.save(validate: false)
+    @user_accept_or_reject_referral = User.new(
+      user_name: 'user_accept_or_reject_referral',
+      role: @role_accept_or_reject_referral,
+      user_groups: [@group1]
+    )
+    @user_accept_or_reject_referral.save(validate: false)
     @case_a = Child.create(
       data: {
         name: 'Test', owned_by: 'user1',
@@ -444,6 +458,33 @@ describe Api::V2::ReferralsController, type: :request do
       @now = DateTime.parse('2020-10-05T04:05:06')
       DateTime.stub(:now).and_return(@now)
       @referral1 = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case_a)
+      @remote_referral = Referral.create!(transitioned_by: 'user1', record: @case_a, remote: true)
+    end
+
+    context 'when the user has accept_or_reject_referral permission' do
+      it 'accepts a remote referral' do
+        sign_in(@user_accept_or_reject_referral)
+        params = { data: { status: Transition::STATUS_ACCEPTED } }
+
+        patch("/api/v2/cases/#{@case_a.id}/referrals/#{@remote_referral.id}", params:)
+
+        expect(response).to have_http_status(200)
+        expect(json['data']['status']).to eq(Transition::STATUS_ACCEPTED)
+        expect(@remote_referral.reload.status).to eq(Transition::STATUS_ACCEPTED)
+        expect(audit_params['action']).to eq('refer_accepted')
+      end
+
+      it 'rejects a remote referral' do
+        sign_in(@user_accept_or_reject_referral)
+        params = { data: { status: Transition::STATUS_REJECTED } }
+
+        patch("/api/v2/cases/#{@case_a.id}/referrals/#{@remote_referral.id}", params:)
+
+        expect(response).to have_http_status(200)
+        expect(json['data']['status']).to eq(Transition::STATUS_REJECTED)
+        expect(@remote_referral.reload.status).to eq(Transition::STATUS_REJECTED)
+        expect(audit_params['action']).to eq('refer_rejected')
+      end
     end
 
     it 'accepts this referral' do

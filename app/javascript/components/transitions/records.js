@@ -22,7 +22,7 @@ export const TransitionRecord = Record({
   transitioned_to: null,
   service: null,
   service_record_id: null,
-  remote: true,
+  remote: false,
   transitioned_to_agency: null,
   rejection_note: null,
   user_can_accept_or_reject: null,
