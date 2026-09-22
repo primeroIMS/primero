@@ -153,6 +153,7 @@ export const RESOURCES = {
   configurations: "primero_configurations",
   contact_information: "contact_information",
   dashboards: "dashboards",
+  exports: "exports",
   families: "families",
   forms: "forms",
   incidents: "incidents",

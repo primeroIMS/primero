@@ -144,6 +144,10 @@ en:
     retry: This export is invalid. Please try recreating your export.
     started_on: Started
     status: Status
+    delete:
+      delete_success: Export was successfully deleted.
+      header: Delete Export
+      confirmation: Are you sure? Once you delete these export(s), you will not be able to get them back.
   form_export:
     label: Export Form Configuration
     include_hidden: Include hidden forms and fields?
