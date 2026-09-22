@@ -26,7 +26,7 @@ export const deleteExport = id => {
       successCallback: {
         action: ENQUEUE_SNACKBAR,
         payload: {
-          message: "error_page.not_authorized.title",
+          message: "bulk_export.delete.success",
           options: {
             variant: "success",
             key: generate.messageKey()

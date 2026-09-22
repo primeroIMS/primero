@@ -16,7 +16,7 @@ const reducer = (state = DEFAULT_STATE, { type, payload }) => {
         .set("metadata", fromJS(payload.metadata));
     }
     case actions.DELETE_EXPORT_SUCCESS: {
-      const recordIndex = state.get("data").findIndex(record => record.get("id") === payload.id);
+      const recordIndex = state.get("data").findIndex(record => record.get("id") === payload.data.id);
 
       return state.removeIn(["data", recordIndex]);
     }

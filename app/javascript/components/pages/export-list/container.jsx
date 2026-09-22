@@ -7,7 +7,6 @@ import CircularProgress from "@mui/material/CircularProgress";
 import startCase from "lodash/startCase";
 import Delete from "@mui/icons-material/Delete";
 
-import { RESOURCES, usePermissions } from "../../permissions";
 import ActionButton, { ACTION_BUTTON_TYPES } from "../../action-button";
 import DisableOffline from "../../disable-offline";
 import PageContainer, { PageHeading, PageContent } from "../../page";
@@ -19,7 +18,6 @@ import { useMetadata } from "../../records";
 import { useMemoizedSelector } from "../../../libs";
 import downloadUrl from "../../../libs/download-url";
 import ActionDialog from "../../action-dialog";
-import { ACTIONS } from "../../permissions/constants";
 
 import { deleteExport as deleteExportAction, fetchExports } from "./action-creators";
 import css from "./styles.css";
@@ -30,8 +28,6 @@ function ExportList() {
   const recordType = "bulk_exports";
   const i18n = useI18n();
   const dispatch = useDispatch();
-
-  const canDelete = usePermissions(RESOURCES.exports, ACTIONS.DELETE);
 
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
@@ -146,11 +142,7 @@ function ExportList() {
       };
     });
 
-    if (canDelete) {
-      return [...headers, deleteRow];
-    }
-
-    return headers;
+    return [...headers, deleteRow];
   };
 
   const options = {
