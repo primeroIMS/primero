@@ -171,3 +171,13 @@
 .signatureImage {
   width: 280px;
 }
+
+.fileUrl {
+  font-size: var(--fs-13);
+  color: var(--c-blue);
+}
+
+.warning {
+  color: var(--c-red);
+  font-size: var(--fs-13);
+}

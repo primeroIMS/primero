@@ -20,7 +20,9 @@ Rails.application.config.after_initialize do
         "
       ).first
 
-      GenerateLocationFilesService.generate if !system_settings['has_locations_attachment'] && count_locations.positive?
+      if !system_settings&.[]('has_locations_attachment') && count_locations.positive?
+        GenerateLocationFilesService.generate
+      end
     end
   rescue StandardError => e
     Rails.logger.error 'Locations options not generated'

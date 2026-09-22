@@ -35,7 +35,7 @@ describe Assign do
     before do
       @case = Child.create(data: { 'name' => 'Test', 'owned_by' => 'user1',
                                    module_id: @primero_module.unique_id })
-      Assign.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
+      Assign.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case, notify_user: true)
     end
 
     it 'changes owned_by' do
@@ -162,7 +162,8 @@ describe Assign do
       context 'when should_notify? is false' do
         before do
           clear_enqueued_jobs
-          Assign.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case, from_bulk_export: true)
+          Assign.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case,
+                         notify_user: false)
         end
 
         it 'should enqueue a TransitionNotifyJob' do

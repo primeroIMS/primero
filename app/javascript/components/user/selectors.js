@@ -18,7 +18,9 @@ export const hasUserPermissions = state => {
 
 export const getIsAuthenticated = state => state.getIn([NAMESPACE, "isAuthenticated"], false);
 
-export const getPermittedFormsIds = state => state.getIn([NAMESPACE, PERMITTED_FORMS], fromJS({}));
+export const getPermittedFormsIds = state => {
+  return state.getIn([NAMESPACE, PERMITTED_FORMS], fromJS({}));
+};
 
 export const getPermittedRoleUniqueIds = state => state.getIn([NAMESPACE, "permittedRoleUniqueIds"], fromJS({}));
 

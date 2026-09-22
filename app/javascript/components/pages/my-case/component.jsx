@@ -28,7 +28,9 @@ function Component({ mode }) {
       isEditOrShow,
       primeroModule,
       recordType,
-      record
+      record,
+      checkPermittedForms: true,
+      checkWritable: true
     });
   const isNotANewCase = !containerMode.isNew;
   const isCaseIdEqualParam = !containerMode.isNew;

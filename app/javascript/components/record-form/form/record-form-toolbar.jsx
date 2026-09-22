@@ -49,20 +49,25 @@ function RecordFormToolbar({
   primeroModule,
   record,
   recordType,
-  shortId
+  shortId,
+  title
 }) {
   const { isRTL } = useThemeHelper();
   const dispatch = useDispatch();
   const i18n = useI18n();
+  const selectedRecordType = params.recordType || recordType;
 
-  const savingRecord = useMemoizedSelector(state => getSavingRecord(state, params.recordType));
-  const loadingRecord = useMemoizedSelector(state => getLoadingRecordState(state, params.recordType));
-  const incidentFromCase = useMemoizedSelector(state => getIncidentFromCase(state, recordType));
+  const savingRecord = useMemoizedSelector(state => getSavingRecord(state, selectedRecordType));
+  const loadingRecord = useMemoizedSelector(state => getLoadingRecordState(state, selectedRecordType));
+  const incidentFromCase = useMemoizedSelector(state => getIncidentFromCase(state, selectedRecordType));
   const isEnabledWebhookSyncFor = useMemoizedSelector(state =>
-    getIsEnabledWebhookSyncFor(state, primeroModule, recordType)
+    getIsEnabledWebhookSyncFor(state, primeroModule, selectedRecordType)
   );
   const redirectedToCreateNewRecord = useMemoizedSelector(state => getRedirectedToCreateNewRecord(state));
-  const { incidentFromCaseIdDisplay, incidentFromCaseId } = useIncidentFromCase({ recordType, record });
+  const { incidentFromCaseIdDisplay, incidentFromCaseId } = useIncidentFromCase({
+    recordType: selectedRecordType,
+    record
+  });
   const { hasPendingTransition, tooltip: pendingTransitionTooltip } = usePendingTransition(record);
 
   const rtlClass = isRTL ? css.flipImage : "";
@@ -129,7 +134,7 @@ function RecordFormToolbar({
     );
   }
 
-  const title = (
+  const titleComponent = (
     <RecordPageHeading
       caseIdDisplay={caseIdDisplay}
       i18n={i18n}
@@ -148,7 +153,7 @@ function RecordFormToolbar({
   );
 
   return (
-    <PageHeading title={title} prefixComponent={renderRecordStatusIndicator}>
+    <PageHeading title={title || titleComponent} prefixComponent={renderRecordStatusIndicator}>
       <>
         {mode.isShow && params && recordType === RECORD_TYPES.incidents && incidentFromCase?.size ? (
           <ActionButton
@@ -227,7 +232,8 @@ RecordFormToolbar.propTypes = {
   primeroModule: PropTypes.string.isRequired,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
-  shortId: PropTypes.string
+  shortId: PropTypes.string,
+  title: PropTypes.string
 };
 
 export default withRouter(RecordFormToolbar);
