@@ -109,6 +109,7 @@ en:
     contact_email: Primary Contact Email
     contact_phone: Primary Contact Phone Number
     notes: Notes
+    terms_of_use_warning: "Warning: Until you upload a signed Terms of Use document, you will not be able to assign Users to this Agency, and any existing Users with this Agency will not be able to sign in."
     terms_of_use_title: Terms of Use Acknowledgement
     terms_of_use_view_button: View Terms of Use
     terms_of_use_acknowledgement: By uploading the Terms of Use document for this Agency you are acknowledging on the Agency's behalf that the Agency has reviewed, agreed to, and endorsed the Terms of Use, and you assume the responsibility for managing access for this Agency’s users. Do you accept this?
@@ -226,6 +227,7 @@ en:
     sort_by_tr: Tracing Requests
     sync: Sync
     submit: Submit
+    start_over: Start Over
     transfer: Transfer
     unflag_model: Unflag %{model}
     unflag_model_history: Flag History %{model}
@@ -5093,6 +5095,7 @@ en:
     password: Password
     password_confirmation: Password Confirmation
     phone: Phone
+    terms_of_use_warning: Users cannot be assigned to Agencies without a signed Terms of Use document uploaded.
     position: Position
     provider_username_help: 'Example: my.username@%{domain}'
     role_id: Role

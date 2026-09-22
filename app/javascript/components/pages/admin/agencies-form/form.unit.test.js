@@ -96,7 +96,7 @@ describe("<AgencyForm /> - agencies-form/form", () => {
       expect(termsField.fileFormat).toBe(FILE_FORMAT.pdf);
       expect(termsField.renderDownloadButton).toBe(true);
       expect(termsField.downloadButtonLabel).toBe("agency.terms_of_use_download_button");
-      expect(termsField.watchedInputs).toEqual([TERMS_OF_USE_ENABLED]);
+      expect(termsField.watchedInputs).toEqual([TERMS_OF_USE_ENABLED, TERMS_OF_USE]);
     });
 
     it("configures logo separator correctly", () => {

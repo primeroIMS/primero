@@ -112,7 +112,9 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
     maxOptionsAllowed,
     optionFieldName,
     additionalOptions,
-    signature_provided_by_label: signatureProvidedByLabel
+    showFileUrl,
+    signature_provided_by_label: signatureProvidedByLabel,
+    warning
   } = field;
 
   const i18n = useI18n();
@@ -174,6 +176,7 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
     name,
     placeholder,
     required,
+    warning,
     ...(disableUnderline && !multiSelect && { InputProps: { disableUnderline } })
   };
 
@@ -213,6 +216,7 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
     maxlength,
     showDefaultAction,
     showDeleteAction,
+    showFileUrl,
     showDisableOption,
     maxOptionsAllowed,
     optionFieldName,

@@ -281,8 +281,8 @@ class User < ApplicationRecord
     def build_self_registration_user(params, stream)
       new(
         params.except(:data_processing_consent_provided).merge(
-          role_unique_id: stream['role'],
-          user_group_unique_ids: stream['user_groups'],
+          role_unique_id: stream.role,
+          user_group_unique_ids: stream.user_groups,
           unverified: true,
           user_name: params[:email]
         )
@@ -295,14 +295,14 @@ class User < ApplicationRecord
 
       user = build_self_registration_user(params, stream)
       user.data_processing_consent_provided_on = DateTime.now if params[:data_processing_consent_provided]
-      user.agency = Agency.find_by(unique_id: stream['agency'])
+      user.agency = Agency.find_by(unique_id: stream.agency)
       user.self_registered = true
       user
     end
 
     def registration_stream(unique_id)
       SystemSettings.current&.registration_streams&.find do |stream|
-        stream['unique_id'] == unique_id
+        stream.unique_id == unique_id
       end
     end
 

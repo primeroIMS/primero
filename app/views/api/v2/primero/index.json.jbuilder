@@ -25,10 +25,14 @@ json.data do
   end
 
   json.registration_streams(@system_options&.[]('registration_streams')&.map do |stream|
-    { id: stream['unique_id'] }
+    { id: stream['unique_id'], record_type: stream['record_type'], module_id: stream['module_id'] }
   end || [])
   json.registration_streams_link_labels @system_options&.[]('registration_streams_link_labels_i18n') || {}
   json.registration_streams_consent_text @system_options&.[]('registration_streams_consent_text_i18n') || {}
+  json.registration_streams_title @system_options&.[]('registration_streams_title_i18n') || {}
+  json.registration_streams_thankyou_message @system_options&.[]('registration_streams_thankyou_message_i18n') || {}
+  json.default_phone_format @system_options&.[]('default_phone_format')
+  json.phone_formats @system_options&.[]('phone_formats') || {}
 
   if Rails.configuration.x.captcha_provider.present?
     json.captcha do
