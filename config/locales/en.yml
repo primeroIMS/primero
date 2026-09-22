@@ -144,7 +144,7 @@ en:
     started_on: Started
     status: Status
     delete:
-      delete_success: Report was successfully deleted.
+      delete_success: Export was successfully deleted.
       header: Delete Export
       confirmation: Are you sure? Once you delete these export(s), you will not be able to get them back.
   form_export:
