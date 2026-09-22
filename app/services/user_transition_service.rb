@@ -28,9 +28,8 @@ class UserTransitionService
   def transition_users(filters = {})
     return User.none unless model.present?
     return with_assign_scope(with_view_record_permission(users_for_transition)) if transition == Assign.name
-    return apply_filters(users_for_transition, filters) if transition == TransferRequest.name
 
-    apply_filters(with_receive_permission, filters)
+    apply_filters(users_for_transition, filters)
   end
 
   def can_receive?(transitioned_to_user)
@@ -40,17 +39,12 @@ class UserTransitionService
   def users_for_transition
     users = User.includes(:agency, :role)
     # NOTE: The app cannot transition a case to an unverified user
-    users.where(unverified: false, disabled: false).where(role_categories_subquery).where.not(
-      id: transitioned_by_user.id
-    )
-  end
-
-  def with_receive_permission
+    users = users.where(unverified: false, disabled: false).where.not(id: transitioned_by_user.id)
     case transition
-    when Transfer.name then users_for_transition.where(role_receive_transfer_subquery)
-    when Referral.name then users_for_transition.where(role_receive_referral_subquery)
+    when Transfer.name then users.where(role_receive_transfer_exists)
+    when Referral.name then users.where(role_receive_referral_exists)
     else
-      users_for_transition
+      users.where(role_categories_exists)
     end
   end
 
@@ -83,35 +77,38 @@ class UserTransitionService
     end
   end
 
-  def role_categories_subquery
-    Role.joins(:primero_modules).where('roles.id = users.role_id').where(
-      'user_category IS NUll OR user_category NOT IN (:categories)',
-      categories: [Role::CATEGORY_MAINTENANCE, Role::CATEGORY_SYSTEM]
-    ).select('1').arel.exists
+  def role_categories_exists
+    role_categories_subquery.select('1').arel.exists
   end
 
-  def role_receive_transfer_subquery
-    Role.joins(:primero_modules).where('roles.id = users.role_id').where(
+  def role_receive_transfer_exists
+    role_categories_subquery.where(
       'permissions -> :resource ? :permission',
       resource: model&.parent_form,
       permission: Permission::RECEIVE_TRANSFER
     ).select('1').arel.exists
   end
 
-  def role_receive_referral_subquery
-    roles = Role.joins(:primero_modules).where('roles.id = users.role_id')
-    roles = with_different_modules(roles)
+  def role_receive_referral_exists
+    roles = with_different_modules(role_categories_subquery)
     roles = with_user_groups(roles, transitioned_by_user.user_groups.pluck(:id))
     roles.select('1').arel.exists
   end
 
+  def role_categories_subquery
+    Role.joins(:primero_modules).where('roles.id = users.role_id').where(
+      'user_category IS NUll OR user_category NOT IN (:categories)',
+      categories: [Role::CATEGORY_MAINTENANCE, Role::CATEGORY_SYSTEM]
+    )
+  end
+
   def with_different_modules(roles)
-    receive_different_module_query = <<~SQL.squish
+    receive_different_module_sql = <<~SQL.squish
       permissions -> :resource ? :permission_different_module
       OR (permissions -> :resource ?| ARRAY[:permissions] AND primero_modules.unique_id = :module_unique_id)
     SQL
     roles.where(
-      receive_different_module_query,
+      receive_different_module_sql,
       resource: model&.parent_form, module_unique_id: module_unique_id,
       permission_different_module: Permission::RECEIVE_REFERRAL_DIFFERENT_MODULE,
       permissions: [Permission::RECEIVE_REFERRAL, Permission::RECEIVE_REFERRAL_WITHIN_USER_GROUP]
@@ -120,7 +117,7 @@ class UserTransitionService
 
   def with_user_groups(roles, user_group_ids = [])
     roles.where(
-      user_groups_subquery,
+      user_groups_subquery_sql,
       resource: model&.parent_form,
       permission_different_module: Permission::RECEIVE_REFERRAL_DIFFERENT_MODULE,
       permission_referral: Permission::RECEIVE_REFERRAL,
@@ -129,13 +126,13 @@ class UserTransitionService
     )
   end
 
-  def user_groups_subquery
+  def user_groups_subquery_sql
     <<~SQL.squish
       permissions -> :resource ? :permission_referral OR (
-        permissions -> :resource ? :permission_different_module AND permissions -> :resource ? :permission_group = FALSE
+        permissions -> :resource ? :permission_different_module AND NOT permissions -> :resource ? :permission_group
       ) OR (permissions -> :resource ? :permission_group AND EXISTS (
-          SELECT 1 FROM user_groups INNER JOIN user_groups_users ON user_groups_users.user_group_id = user_groups.id
-          WHERE user_groups.id IN (:user_group_ids) AND user_groups_users.user_id = users.id
+          SELECT 1 FROM user_groups_users
+          WHERE user_groups_users.user_group_id IN (:user_group_ids) AND user_groups_users.user_id = users.id
         )
       )
     SQL
