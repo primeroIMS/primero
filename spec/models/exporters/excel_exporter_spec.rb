@@ -9,7 +9,7 @@ module Exporters
   describe ExcelExporter do
     before do
       clean_data(
-        Alert, Child, Family, User, Agency, Role, UserGroup, Field, FormSection, PrimeroModule, PrimeroProgram, Referral
+        Alert, Child, Family, UserGroup, User, Agency, Role, UserGroup, Field, FormSection, PrimeroModule, PrimeroProgram, Referral
       )
       #### Build Form Section with subforms fields only ######
       subform = FormSection.new(name: 'cases_test_subform_2', parent_form: 'case', visible: false, is_nested: true,
@@ -192,8 +192,9 @@ module Exporters
                                form_h], primero_modules: [@primero_module]
       )
       @role_referral = create(:role, form_sections: [form_h, form_add], primero_modules: [@primero_module])
-      @user_referral = create(:user, user_name: 'fakerefer', role: @role)
-      @user = create(:user, user_name: 'fakeadmin', role: @role)
+      @user_group = UserGroup.create(unique_id: 'shared-group')
+      @user_referral = create(:user, user_name: 'fakerefer', role: @role, user_groups: [@user_group])
+      @user = create(:user, user_name: 'fakeadmin', role: @role, user_groups: [@user_group])
       @family = Family.create!(
         data: {
           family_number: 'FA-001',

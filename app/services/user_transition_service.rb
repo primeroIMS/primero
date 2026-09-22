@@ -91,7 +91,12 @@ class UserTransitionService
 
   def role_receive_referral_exists
     roles = with_different_modules(role_categories_subquery)
-    roles = with_user_groups(roles, transitioned_by_user.user_groups.pluck(:id))
+    user_group_ids = transitioned_by_user.user_groups.pluck(:id)
+    roles = if transitioned_by_user.permission?(Permission::REFERRAL_WITHIN_USER_GROUP)
+              with_user_group_scope(roles, user_group_ids)
+            else
+              with_user_groups(roles, user_group_ids)
+            end
     roles.select('1').arel.exists
   end
 
@@ -103,37 +108,65 @@ class UserTransitionService
   end
 
   def with_different_modules(roles)
-    receive_different_module_sql = <<~SQL.squish
-      permissions -> :resource ? :permission_different_module
-      OR (permissions -> :resource ?| ARRAY[:permissions] AND primero_modules.unique_id = :module_unique_id)
-    SQL
     roles.where(
-      receive_different_module_sql,
+      receive_referral_different_module_sql,
       resource: model&.parent_form, module_unique_id: module_unique_id,
       permission_different_module: Permission::RECEIVE_REFERRAL_DIFFERENT_MODULE,
-      permissions: [Permission::RECEIVE_REFERRAL, Permission::RECEIVE_REFERRAL_WITHIN_USER_GROUP]
+      permissions: [
+        Permission::RECEIVE_REFERRAL,
+        Permission::REFERRAL_WITHIN_USER_GROUP,
+        Permission::RECEIVE_REFERRAL_WITHIN_USER_GROUP
+      ]
     )
   end
 
   def with_user_groups(roles, user_group_ids = [])
     roles.where(
-      user_groups_subquery_sql,
+      receive_referral_user_groups_subquery_sql,
       resource: model&.parent_form,
       permission_different_module: Permission::RECEIVE_REFERRAL_DIFFERENT_MODULE,
       permission_referral: Permission::RECEIVE_REFERRAL,
-      permission_group: Permission::RECEIVE_REFERRAL_WITHIN_USER_GROUP,
+      permission_groups: [Permission::REFERRAL_WITHIN_USER_GROUP, Permission::RECEIVE_REFERRAL_WITHIN_USER_GROUP],
       user_group_ids: user_group_ids
     )
   end
 
-  def user_groups_subquery_sql
+  def with_user_group_scope(roles, user_group_ids = [])
+    roles.where(
+      "permissions -> :resource ?| array[:permissions] AND #{user_groups_subquery_sql}",
+      user_group_ids: user_group_ids,
+      resource: model&.parent_form,
+      permissions: [
+        Permission::REFERRAL_WITHIN_USER_GROUP, Permission::RECEIVE_REFERRAL,
+        Permission::RECEIVE_REFERRAL_DIFFERENT_MODULE, Permission::RECEIVE_REFERRAL_WITHIN_USER_GROUP
+      ]
+    )
+  end
+
+  def receive_referral_different_module_sql
+    <<~SQL.squish
+      permissions -> :resource ? :permission_different_module
+      OR (permissions -> :resource ?| ARRAY[:permissions] AND primero_modules.unique_id = :module_unique_id)
+    SQL
+  end
+
+  def receive_referral_user_groups_subquery_sql
+    # TODO: Permission::REFERRAL_WITHIN_USER_GROUP must not act as Permission::RECEIVE_REFERRAL_WITHIN_USER_GROUP in
+    # the receiver case.
     <<~SQL.squish
       permissions -> :resource ? :permission_referral OR (
-        permissions -> :resource ? :permission_different_module AND NOT permissions -> :resource ? :permission_group
-      ) OR (permissions -> :resource ? :permission_group AND EXISTS (
-          SELECT 1 FROM user_groups_users
-          WHERE user_groups_users.user_group_id IN (:user_group_ids) AND user_groups_users.user_id = users.id
-        )
+        permissions -> :resource ? :permission_different_module
+        AND NOT permissions -> :resource ?| array[:permission_groups]
+      ) OR (permissions -> :resource ?| array[:permission_groups] AND #{user_groups_subquery_sql})
+    SQL
+  end
+
+  def user_groups_subquery_sql
+    <<~SQL.squish
+      EXISTS (
+        SELECT 1 FROM user_groups_users
+        WHERE user_groups_users.user_group_id IN (:user_group_ids)
+        AND user_groups_users.user_id = users.id
       )
     SQL
   end

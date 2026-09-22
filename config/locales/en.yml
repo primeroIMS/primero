@@ -3371,6 +3371,11 @@ en:
               and they will lose access to the case. You can only refer a case to
               a user whose role has the ability to receive referrals.
             label: Referral
+          referral_within_user_group:
+            explanation: Restricts a user to only be able to send a referral to a user 
+              who is in one of their user groups. Roles with this permission should 
+              also have the ‘Referral’ and/or ‘Refer Case from Service subform’ permission.
+            label: Refer to users within my group
           referral_from_service:
             explanation: Allows the user to see the "Refer" button on the Services
               subform. When the user clicks this button, the referral modal will appear

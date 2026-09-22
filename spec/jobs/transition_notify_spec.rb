@@ -10,8 +10,13 @@ describe TransitionNotifyJob, type: :job do
     @primero_module = create(:primero_module, name: 'CP')
     role = create(:role, is_manager: true, primero_modules: [@primero_module])
     @owner = create :user, user_name: 'jnelson', full_name: 'Jordy Nelson', email: 'owner@primero.dev'
-    @manager1 = create :user, role:, email: 'manager1@primero.dev', send_mail: false, user_name: 'manager1'
-    @manager2 = create :user, role:, email: 'manager2@primero.dev', send_mail: true, user_name: 'manager2'
+    @user_group = UserGroup.create!(unique_id: 'shared_group')
+    @manager1 = create :user, {
+      role:, email: 'manager1@primero.dev', send_mail: false, user_name: 'manager1', user_groups: [@user_group]
+    }
+    @manager2 = create :user, {
+      role:, email: 'manager2@primero.dev', send_mail: true, user_name: 'manager2', user_groups: [@user_group]
+    }
     @child = child_with_created_by(
       @owner.user_name,
       name: 'child1',
