@@ -144,9 +144,9 @@ en:
     started_on: Started
     status: Status
     delete:
-      delete_success: Export was successfully deleted.
+      success: Export was successfully deleted.
       header: Delete Export
-      confirmation: Are you sure? Once you delete these export(s), you will not be able to get them back.
+      confirmation: Are you sure? Once you delete this export, you will not be able to get it back.
   form_export:
     label: Export Form Configuration
     include_hidden: Include hidden forms and fields?
