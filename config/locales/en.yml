@@ -4974,6 +4974,8 @@ en:
       by_date: By Date
       status: Status
       current_location: Family Location
+      my_families: My Families
+      family_linked_to_my_cases: Family Linked to My Cases
     reassign:
       multiple_successfully: Primero is reassigning %{select_records} family record(s).
         It may take several minutes for all of these family records to update.
