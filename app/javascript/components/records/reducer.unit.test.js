@@ -1045,4 +1045,28 @@ describe("<RecordList /> - Reducers", () => {
       expect(casesReducer(state, action)).toEqual(state);
     });
   });
+
+  describe("when a referral is rejected", () => {
+    const casesReducer = reducer("cases");
+    const action = {
+      type: "transitions/REFERRAL_REJECTED_SUCCESS",
+      payload: {
+        data: {
+          id: "referral_1",
+          record_id: "case_1",
+          record_type: "case",
+          status: "rejected",
+          record: { id: "case_1", referred_users_pending: [] }
+        }
+      }
+    };
+
+    it("merges the returned record into the matching record", () => {
+      const state = fromJS({ data: [{ id: "case_1", name: "Case 1", referred_users_pending: ["user_1"] }] });
+
+      const newState = casesReducer(state, action);
+
+      expect(newState.getIn(["data", 0, "referred_users_pending"]).toJS()).toEqual([]);
+    });
+  });
 });

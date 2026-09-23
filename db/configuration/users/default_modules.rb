@@ -158,7 +158,8 @@ PrimeroModule.create_or_update!(
     use_workflow_service_implemented: true,
     use_workflow_case_plan: true,
     use_workflow_assessment: false,
-    reporting_location_filter: true
+    reporting_location_filter: true,
+    pending_transition_to_form: { referral: 'basic_identity' }
   },
   primero_program: PrimeroProgram.find_by(unique_id: 'primeroprogram-primero')
 )
