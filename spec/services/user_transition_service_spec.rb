@@ -253,37 +253,39 @@ describe UserTransitionService do
       expect(users.map(&:user_name)).to match_array(%w[user5 user6])
     end
 
-    context 'when receive has RECEIVE_REFERRAL and RECEIVE_REFERRAL_WITHIN_USER_GROUP' do
+    context 'when receiver has RECEIVE_REFERRAL and RECEIVE_REFERRAL_WITHIN_USER_GROUP' do
       before do
         role = Role.new(
           permissions: [
             Permission.new(
               resource: Permission::CASE,
-              actions: [
-                Permission::RECEIVE_REFERRAL,
-                Permission::RECEIVE_REFERRAL_WITHIN_USER_GROUP
-              ]
+              actions: [Permission::RECEIVE_REFERRAL, Permission::RECEIVE_REFERRAL_WITHIN_USER_GROUP]
             )
           ],
           primero_modules: [@cp]
         )
         role.save(validate: false)
+
         @shared_group_user = User.new(user_name: 'shared-group-user', role:, user_groups: [@shared_group])
         @shared_group_user.save(validate: false)
-        @other_group_user = User.new(
-          user_name: 'other-group-user', role: @role_receive, user_groups: [@other_group]
+
+        @within_group_user = User.new(
+          user_name: 'within-group-user', role: @role_receive, user_groups: [@shared_group]
         )
+        @within_group_user.save(validate: false)
+
+        @other_group_user = User.new(user_name: 'other-group-user', role:, user_groups: [@other_group])
         @other_group_user.save(validate: false)
       end
 
-      it 'returns users even if they are in different groups' do
-        users = UserTransitionService.referral(@other_group_user, Child, @cp.unique_id).transition_users
+      it 'returns users if they are in the same groups' do
+        users = UserTransitionService.referral(@within_group_user, Child, @cp.unique_id).transition_users
 
         expect(users.map(&:user_name)).to match_array(%w[user1 user2 user3 user6 user7 user8 shared-group-user])
       end
 
       it 'does not return users if they are in different modules' do
-        users = UserTransitionService.referral(@other_group_user, Child, @other.unique_id).transition_users
+        users = UserTransitionService.referral(@within_group_user, Child, @other.unique_id).transition_users
 
         expect(users.map(&:user_name)).to match_array(%w[user5 user6])
       end
@@ -295,20 +297,17 @@ describe UserTransitionService do
           permissions: [
             Permission.new(
               resource: Permission::CASE,
-              actions: [
-                Permission::RECEIVE_REFERRAL_WITHIN_USER_GROUP,
-                Permission::RECEIVE_REFERRAL_DIFFERENT_MODULE
-              ]
+              actions: [Permission::RECEIVE_REFERRAL_WITHIN_USER_GROUP, Permission::RECEIVE_REFERRAL_DIFFERENT_MODULE]
             )
           ],
           primero_modules: [@other]
         )
         role.save(validate: false)
+
         @shared_group_user = User.new(user_name: 'shared-group-user', role:, user_groups: [@shared_group])
         @shared_group_user.save(validate: false)
-        @other_group_user = User.new(
-          user_name: 'other-group-user', role: @role_receive, user_groups: [@other_group]
-        )
+
+        @other_group_user = User.new(user_name: 'other-group-user', role: @role_receive, user_groups: [@other_group])
         @other_group_user.save(validate: false)
       end
 
@@ -327,36 +326,120 @@ describe UserTransitionService do
       end
     end
 
-    context 'with RECEIVE_REFERRAL_WITHIN_USER_GROUP' do
+    context 'when receiver has RECEIVE_REFERRAL_WITHIN_USER_GROUP' do
       before do
         role = Role.new(
           permissions: [
-            Permission.new(
-              resource: Permission::CASE,
-              actions: [Permission::RECEIVE_REFERRAL_WITHIN_USER_GROUP]
-            )
+            Permission.new(resource: Permission::CASE, actions: [Permission::RECEIVE_REFERRAL_WITHIN_USER_GROUP])
           ],
           primero_modules: [@cp]
         )
         role.save(validate: false)
-        @shared_group_user = User.new(user_name: 'shared-group-user', role:, user_groups: [@shared_group])
-        @shared_group_user.save(validate: false)
-        @other_group_user = User.new(user_name: 'other-group-user', role:, user_groups: [@other_group])
-        @other_group_user.save(validate: false)
+        @without_receive_user = User.new(user_name: 'without-receive-user', role:, user_groups: [@shared_group])
+        @without_receive_user.save(validate: false)
       end
 
-      it 'returns users in a shared user group' do
+      it 'does not returns users if receiver does not have the receive_referral permission' do
         users = UserTransitionService.referral(@user1, Child, @cp.unique_id).transition_users
+
+        expect(users.map(&:user_name)).to match_array(%w[user2 user3 user6 user7 user8])
+      end
+    end
+
+    context 'when sender has REFERRAL and REFERRAL_WITHIN_USER_GROUP permissions' do
+      before do
+        sender_role = Role.new(
+          permissions: [
+            Permission.new(
+              resource: Permission::CASE, actions: [Permission::REFERRAL, Permission::REFERRAL_WITHIN_USER_GROUP]
+            )
+          ],
+          primero_modules: [@cp]
+        )
+        sender_role.save(validate: false)
+
+        recipient_role = Role.new(
+          permissions: [
+            Permission.new(
+              resource: Permission::CASE,
+              actions: [Permission::RECEIVE_REFERRAL, Permission::RECEIVE_REFERRAL_WITHIN_USER_GROUP]
+            )
+          ],
+          primero_modules: [@cp]
+        )
+        recipient_role.save(validate: false)
+
+        @sender = User.new(user_name: 'sender-within-group', role: sender_role, user_groups: [@shared_group])
+        @sender.save(validate: false)
+
+        recipient_within_group = User.new(
+          user_name: 'recipient-within-group', role: recipient_role, user_groups: [@shared_group]
+        )
+        recipient_within_group.save(validate: false)
+
+        recipient_within_group_other_group = User.new(
+          user_name: 'recipient-within-group-other-group', role: recipient_role, user_groups: [@other_group]
+        )
+        recipient_within_group_other_group.save(validate: false)
+
+        @recipient_in_shared_group = User.new(
+          user_name: 'recipient-shared-group', role: @role_receive, user_groups: [@shared_group]
+        )
+        @recipient_in_shared_group.save(validate: false)
+
+        @recipient_in_other_group = User.new(
+          user_name: 'recipient-other-group', role: @role_receive, user_groups: [@other_group]
+        )
+        @recipient_in_other_group.save(validate: false)
+      end
+
+      it 'returns users within its own user group' do
+        users = UserTransitionService.referral(@sender, Child, @cp.unique_id).transition_users
+
+        expect(users.map(&:user_name)).to match_array(%w[user1 recipient-shared-group recipient-within-group])
+      end
+
+      it 'does not returns cross-module users even if they are in the same group' do
+        role = Role.new(
+          permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::RECEIVE_REFERRAL])],
+          primero_modules: [@other]
+        )
+        role.save(validate: false)
+
+        diff_module_shared_group_user = User.new(
+          user_name: 'diff-module-shared-group-user', role:, user_groups: [@shared_group]
+        )
+        diff_module_shared_group_user.save(validate: false)
+
+        users = UserTransitionService.referral(@sender, Child, @cp.unique_id).transition_users
+
+        expect(users.map(&:user_name)).to match_array(%w[user1 recipient-shared-group recipient-within-group])
+      end
+
+      it 'returns cross-module users only if they have RECEIVE_REFERRAL_DIFFERENT_MODULE and are in the same group' do
+        different_module_role = Role.new(
+          permissions: [
+            Permission.new(resource: Permission::CASE, actions: [Permission::RECEIVE_REFERRAL_DIFFERENT_MODULE])
+          ],
+          primero_modules: [@other]
+        )
+        different_module_role.save(validate: false)
+
+        diff_module_shared_group_user = User.new(
+          user_name: 'diff-module-shared-group-user', role: different_module_role, user_groups: [@shared_group]
+        )
+        diff_module_shared_group_user.save(validate: false)
+
+        diff_module_other_group_user = User.new(
+          user_name: 'diff-module-other-group-user', role: different_module_role, user_groups: [@other_group]
+        )
+        diff_module_other_group_user.save(validate: false)
+
+        users = UserTransitionService.referral(@sender, Child, @cp.unique_id).transition_users
 
         expect(users.map(&:user_name)).to match_array(
-          %w[user2 user3 user6 user7 user8 shared-group-user]
+          %w[user1 recipient-shared-group diff-module-shared-group-user recipient-within-group]
         )
-      end
-
-      it 'does not return users in other user groups' do
-        users = UserTransitionService.referral(@user1, Child, @cp.unique_id).transition_users
-
-        expect(users.map(&:user_name)).not_to include('other-group-user')
       end
     end
 
