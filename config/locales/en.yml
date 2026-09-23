@@ -286,6 +286,7 @@ en:
       case_referral_pending: A Case referral is pending.
       case_transfer_pending: A Case transfer is pending.
       case_referral_pending_alert: A Case referral is pending. %{link} before proceeding.
+      case_transfer_pending_alert: A Case transfer is pending. %{link} before proceeding.
       pending_transition_link: Accept it here
       case_no_approval_request: There are no approval requests for this Case.
       bulk_assign_limit: You cannot assign more than 100 Cases at once.

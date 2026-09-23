@@ -1,2 +1,2 @@
 export const NAME = "PendingTransitionMessage";
-export const LINK_PLACEHOLDER = "%{link}";
+export const LINK_NAME = "link";

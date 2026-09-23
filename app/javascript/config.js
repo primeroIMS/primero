@@ -581,6 +581,12 @@ const PENDING_TRANSITION_ALERTS = Object.freeze({
     transitionFormUniqueId: REFERRAL,
     messageKey: "case.messages.case_referral_pending_alert",
     linkKey: "case.messages.pending_transition_link"
+  },
+  transfer: {
+    pendingUsersField: TRANSFERRED_TO_USERS_FIELD,
+    transitionFormUniqueId: TRANSFERS_ASSIGNMENTS,
+    messageKey: "case.messages.case_transfer_pending_alert",
+    linkKey: "case.messages.pending_transition_link"
   }
 });
 
