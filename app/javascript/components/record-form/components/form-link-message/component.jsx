@@ -1,9 +1,8 @@
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 
-import { PENDING_TRANSITION_ALERTS } from "../../../../config";
 import { useI18n } from "../../../i18n";
-import { setSelectedForm } from "../../../record-form/action-creators";
+import { setSelectedForm } from "../../action-creators";
 
 import { NAME, LINK_NAME } from "./constants";
 import css from "./styles.css";
@@ -16,34 +15,27 @@ const splitAroundLink = message => {
   return parts.length > 1 ? parts : [`${parts[0]} `, ""];
 };
 
-function Component({ transitionType }) {
+function Component({ messageKey, linkKey, formUniqueId }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
-  const { messageKey, linkKey, transitionFormUniqueId } = PENDING_TRANSITION_ALERTS[transitionType];
   const [messageStart, messageEnd] = splitAroundLink(i18n.t(messageKey, { [LINK_NAME]: LINK_TOKEN }));
 
-  const navigateToTransitionForm = event => {
+  const navigateToForm = event => {
     event.stopPropagation();
-    dispatch(setSelectedForm(transitionFormUniqueId));
+    dispatch(setSelectedForm(formUniqueId));
   };
 
   const handleKeyDown = event => {
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
-      navigateToTransitionForm(event);
+      navigateToForm(event);
     }
   };
 
   return (
     <>
       {messageStart}
-      <span
-        className={css.link}
-        role="button"
-        tabIndex={0}
-        onClick={navigateToTransitionForm}
-        onKeyDown={handleKeyDown}
-      >
+      <span className={css.link} role="button" tabIndex={0} onClick={navigateToForm} onKeyDown={handleKeyDown}>
         {i18n.t(linkKey)}
       </span>
       {messageEnd}
@@ -54,7 +46,9 @@ function Component({ transitionType }) {
 Component.displayName = NAME;
 
 Component.propTypes = {
-  transitionType: PropTypes.string.isRequired
+  formUniqueId: PropTypes.string.isRequired,
+  linkKey: PropTypes.string.isRequired,
+  messageKey: PropTypes.string.isRequired
 };
 
 export default Component;

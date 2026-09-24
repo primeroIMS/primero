@@ -2,17 +2,17 @@ import PropTypes from "prop-types";
 import { fromJS, List, Map } from "immutable";
 import { useDispatch } from "react-redux";
 
-import { ALERTS_FOR } from "../../config";
+import { ALERTS_FOR, PENDING_TRANSITION_ALERTS } from "../../config";
 import { useI18n } from "../i18n";
 import InternalAlert from "../internal-alert";
 import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { getRecordFormAlerts, getSelectedRecord, deleteAlertFromRecord, usePendingTransitionAlerts } from "../records";
 import { getSubformsDisplayName, getValidationErrors, getDuplicatedFields } from "../record-form/selectors";
 import { usePermissions, REMOVE_ALERT } from "../permissions";
+import FormLinkMessage from "../record-form/components/form-link-message";
 
 import { getMessageData } from "./utils";
 import { NAME } from "./constants";
-import { PendingTransitionMessage } from "./components";
 
 function Component({ form, recordType, attachmentForms = fromJS([]), formMode, record, primeroModule }) {
   const i18n = useI18n();
@@ -51,7 +51,14 @@ function Component({ form, recordType, attachmentForms = fromJS([]), formMode, r
 
   const pendingTransitionItems = pendingTransitionAlerts
     .filter(alert => alert.get("form_unique_id") === form.unique_id)
-    .map(alert => Map({ message: <PendingTransitionMessage transitionType={alert.get("type")} />, onDismiss: null }));
+    .map(alert => {
+      const { messageKey, linkKey, transitionFormUniqueId } = PENDING_TRANSITION_ALERTS[alert.get("type")];
+
+      return Map({
+        message: <FormLinkMessage messageKey={messageKey} linkKey={linkKey} formUniqueId={transitionFormUniqueId} />,
+        onDismiss: null
+      });
+    });
 
   const alertItems = recordAlerts.map(alert => {
     const messageData = getMessageData({ alert, form, duplicatedFields, i18n });

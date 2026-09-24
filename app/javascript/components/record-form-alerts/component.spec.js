@@ -104,4 +104,37 @@ describe("<RecordFormAlerts />", () => {
       expect(screen.queryByText(/case.messages.case_referral_pending/)).not.toBeInTheDocument();
     });
   });
+
+  describe("when the current user has a pending transfer", () => {
+    const stateWithPendingTransfer = fromJS({
+      user: { username: "user_1" },
+      application: {
+        modules: [{ unique_id: MODULES.CP, options: { pending_transition_to_form: { transfer: "basic_identity" } } }]
+      },
+      records: { cases: { recordAlerts: [] } }
+    });
+    const props = {
+      recordType: "cases",
+      form: FormSectionRecord({ unique_id: "basic_identity", name: { en: "Basic Identity" } }),
+      formMode: { isShow: true },
+      record: fromJS({ id: "case_1", module_id: MODULES.CP, transferred_to_users: ["user_1"] }),
+      primeroModule: MODULES.CP
+    };
+
+    it("renders the pending transfer alert on the configured form", () => {
+      mountedComponent(<RecordFormAlerts {...props} />, stateWithPendingTransfer);
+
+      expect(screen.getByText(/case.messages.case_transfer_pending/)).toBeInTheDocument();
+    });
+
+    it("navigates to the transfers form when the link is clicked", () => {
+      const { store } = mountedComponent(<RecordFormAlerts {...props} />, stateWithPendingTransfer);
+
+      fireEvent.click(screen.getByText("case.messages.pending_transition_link"));
+
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([{ type: "forms/SET_SELECTED_FORM", payload: "transfers_assignments" }])
+      );
+    });
+  });
 });

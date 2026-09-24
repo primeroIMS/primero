@@ -1,8 +1,6 @@
 .link {
   pointer-events: auto;
   cursor: pointer;
-  display: inline;
-  width: auto;
   color: var(--c-blue);
 
   &:hover {
