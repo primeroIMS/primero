@@ -4711,6 +4711,8 @@ en:
     service_implementing_agency_external: Facility / agency / organization
     allow_case_creation: Allow case creation with this referral
     allow_case_creation_help_text: Checking this box will allow the recipient to create their own case record to provide case management services for the client.
+    services_form_message: To manage referrals to service providers, use the %{link}.
+    services_form_link: Referrals form
   report:
     aggregate_by: Group by row
     attribute: Attribute
