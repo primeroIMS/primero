@@ -26,7 +26,7 @@ export const deleteExport = id => {
       successCallback: {
         action: ENQUEUE_SNACKBAR,
         payload: {
-          message: "bulk_export.delete.success",
+          messageKey: "bulk_export.delete.success",
           options: {
             variant: "success",
             key: generate.messageKey()
