@@ -42,6 +42,7 @@ describe("<AuditLogs /> - Helpers", () => {
         {
           name: "cases.filter_by.agency",
           field_name: AGENCY,
+          clearDependentValues: [USER_GROUP, FILTER_BY_AGENCY],
           options: [
             {
               id: 1,

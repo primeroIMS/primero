@@ -114,6 +114,51 @@ describe ReportFieldService do
     expect(vertical_fields.first).to eq(vertical_field)
   end
 
+  it 'returns the horizontal fields when a report contains a non-existent field' do
+    report = Report.create!(
+      name_en: 'Report with non-existent field',
+      description_en: '',
+      module_id: PrimeroModule::CP,
+      record_type: 'case',
+      aggregate_by: ['non_existent_field'],
+      filters: [],
+      editable: false
+    )
+
+    horizontal_field = {
+      name: 'non_existent_field',
+      display_name: nil,
+      position: { type: 'horizontal', order: 0 }
+    }
+
+    horizontal_fields = ReportFieldService.horizontal_fields(report)
+
+    expect(horizontal_fields.first).to eq(horizontal_field)
+  end
+
+  it 'returns vertical fields when a report contains a non-existent field' do
+    report = Report.create!(
+      name_en: 'Report with non-existent field',
+      description_en: '',
+      module_id: PrimeroModule::CP,
+      record_type: 'case',
+      aggregate_by: ['non_existent_field'],
+      disaggregate_by: ['non_existent_field'],
+      filters: [],
+      editable: false
+    )
+
+    vertical_field = {
+      name: 'non_existent_field',
+      display_name: nil,
+      position: { type: 'vertical', order: 0 }
+    }
+
+    vertical_fields = ReportFieldService.vertical_fields(report)
+
+    expect(vertical_fields.first).to eq(vertical_field)
+  end
+
   it 'returns a field withs options from lookup' do
     report_risk_field = {
       name: 'risk_level',

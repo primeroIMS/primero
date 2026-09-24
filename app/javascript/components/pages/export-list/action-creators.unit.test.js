@@ -6,7 +6,7 @@ describe("<ExportList /> - pages/export-list/action-creators", () => {
   it("should have known action creators", () => {
     const creators = { ...actionCreators };
 
-    ["fetchExports"].forEach(property => {
+    ["fetchExports", "deleteExport"].forEach(property => {
       expect(creators).toHaveProperty(property);
       delete creators[property];
     });

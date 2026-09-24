@@ -25,7 +25,7 @@ class ReportFieldService
 
   def self.report_field(field, pivot_name, type, order, record_type)
     report_field_hash = {
-      name: field&.name,
+      name: field&.name || pivot_name,
       display_name: field&.display_name_i18n,
       position: { type:, order: }
     }
@@ -39,7 +39,7 @@ class ReportFieldService
   end
 
   def self.registry_field_options(field, registry_records = [])
-    return {} unless field.type == Field::REGISTRY
+    return {} unless field&.type == Field::REGISTRY
 
     collapsed_field_names = registry_collapsed_field_names(field)
     fields_options_from_source = registry_fields_options_from_source(collapsed_field_names)

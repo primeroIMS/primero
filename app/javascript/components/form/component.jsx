@@ -88,7 +88,7 @@ function Component({
     }
   }, [resetAfterSubmit, isSubmitted]);
 
-  useCaptcha({ formInstance: formMethods, enabled: captcha, ref: captchaContainer });
+  useCaptcha({ formInstance: formMethods, enabled: captcha, ref: captchaContainer, isRHF: true });
 
   const renderFormSections = () =>
     formSections.map(formSection => (

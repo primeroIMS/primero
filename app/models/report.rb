@@ -309,15 +309,12 @@ class Report < ApplicationRecord
     field_names.to_h do |field_name|
       field = fields[field_name] || fields[Field.remove_location_parts(field_name)]
       [field_name, field]
-    end
+    end.compact
   end
 
   def select_fields(query)
-    query.select(
-      Arel.sql(
-        "#{ActiveRecord::Base.sanitize_sql(field_queries.map(&:to_sql).join(",\n"))}, count(*) as total"
-      )
-    )
+    select_queries = field_queries.map(&:to_sql) + ['COUNT(*) AS total']
+    query.select(Arel.sql(ActiveRecord::Base.sanitize_sql(select_queries.join(",\n"))))
   end
 end
 # rubocop:enable Metrics/ClassLength
