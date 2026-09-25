@@ -178,10 +178,7 @@ class Referral < Transition
   end
 
   def user_can_accept_or_reject?(user)
-    return false unless in_progress?
-    return user.can?(:accept_or_reject_referral, record) if remote?
-
-    user.user_name == transitioned_to_user.user_name
+    in_progress? && user.can?(:update, self)
   end
 
   private

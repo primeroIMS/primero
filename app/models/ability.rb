@@ -193,9 +193,28 @@ class Ability
 
   def configure_record_transitions
     # This is only relevant for updates to ongoing transitions
-    [Assign, Referral, Transfer, TransferRequest].each do |transition_class|
+    [Assign, Transfer, TransferRequest].each do |transition_class|
       can(:update, transition_class) do |instance|
         can?(:read, instance.record)
+      end
+    end
+
+    configure_referral_update
+    configure_referral_destroy
+  end
+
+  def configure_referral_destroy
+    can(:destroy, Referral) do |instance|
+      can?(:remove_assigned_users, instance.record) && !instance.recipient?(user)
+    end
+  end
+
+  def configure_referral_update
+    can(:update, Referral) do |instance|
+      if instance.remote?
+        instance.in_progress? && can?(:accept_or_reject_referral, instance.record)
+      else
+        instance.recipient?(user) && can?(:receive_referral, instance.record)
       end
     end
   end

@@ -64,6 +64,10 @@ class Transition < ApplicationRecord
     errors.add(:consent, 'transition.errors.consent')
   end
 
+  def recipient?(user)
+    transitioned_to_user.user_name == user.user_name
+  end
+
   def consent_given?
     false
   end

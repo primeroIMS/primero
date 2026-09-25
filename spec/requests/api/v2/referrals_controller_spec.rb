@@ -17,6 +17,10 @@ describe Api::V2::ReferralsController, type: :request do
       resource: Permission::CASE,
       actions: [Permission::READ, Permission::RECEIVE_REFERRAL]
     )
+    @permission_revoke_referral = Permission.new(
+      resource: Permission::CASE,
+      actions: [Permission::READ, Permission::REMOVE_ASSIGNED_USERS]
+    )
     @permission_referral_from_service = Permission.new(
       resource: Permission::CASE, actions: [Permission::REFERRAL_FROM_SERVICE]
     )
@@ -24,6 +28,8 @@ describe Api::V2::ReferralsController, type: :request do
     @role.save(validate: false)
     @role_receive = Role.new(permissions: [@permission_receive_referral], primero_modules: [@primero_module])
     @role_receive.save(validate: false)
+    @role_revoke = Role.new(permissions: [@permission_revoke_referral], primero_modules: [@primero_module])
+    @role_revoke.save(validate: false)
     @role_service = Role.new(
       permissions: [@permission_referral_from_service],
       primero_modules: [@primero_module],
@@ -51,6 +57,8 @@ describe Api::V2::ReferralsController, type: :request do
     @user4.save(validate: false)
     @user5 = User.new(user_name: 'user5', role: @maintenance_role, user_groups: [@group2])
     @user5.save(validate: false)
+    @user6 = User.new(user_name: 'user6', role: @role_revoke, user_groups: [@group1])
+    @user6.save(validate: false)
     @role_accept_or_reject_referral = Role.new(
       permissions: [
         Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::ACCEPT_OR_REJECT_REFERRAL])
@@ -90,6 +98,18 @@ describe Api::V2::ReferralsController, type: :request do
         module_id: @primero_module.unique_id, services_section: [
           {
             service_type: 'Test type', service_implementing_agency_individual: @user1.user_name, service_provider: true
+          }
+        ]
+      }
+    )
+    @case_d = Child.create(
+      data: {
+        name: 'Test', owned_by: 'user6', disclosure_other_orgs: true, consent_for_services: true,
+        module_id: @primero_module.unique_id, services_section: [
+          {
+            service_type: 'Test service',
+            service_implementing_agency_individual: @user1.user_name,
+            service_provider: true
           }
         ]
       }
@@ -296,35 +316,35 @@ describe Api::V2::ReferralsController, type: :request do
 
   describe 'DELETE /api/v2/cases/:id/referrals/:referral_id' do
     before :each do
-      @referral1 = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case_a)
+      @referral1 = Referral.create!(transitioned_by: 'user6', transitioned_to: 'user2', record: @case_d)
     end
 
     it 'completes this referral' do
-      sign_in(@user2)
+      sign_in(@user6)
       params = { data: { success_status: Referral::REFERRAL_SUCCESSFUL } }
-      delete("/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params:)
+      delete("/api/v2/cases/#{@case_d.id}/referrals/#{@referral1.id}", params:)
 
       expect(response).to have_http_status(200)
       expect(json['data']['status']).to eq(Transition::STATUS_REVOKED)
-      expect(json['data']['record_id']).to eq(@case_a.id.to_s)
+      expect(json['data']['record_id']).to eq(@case_d.id.to_s)
       expect(json['data']['transitioned_to']).to eq('user2')
-      expect(json['data']['transitioned_by']).to eq('user1')
+      expect(json['data']['transitioned_by']).to eq('user6')
 
       expect(audit_params['action']).to eq('refer_revoke')
 
-      @case_a.reload
-      expect(@case_a.assigned_user_names).to_not include('user2')
+      @case_d.reload
+      expect(@case_d.assigned_user_names).to_not include('user2')
     end
 
     it 'completes the referral with not_successful status and reason_not_successful' do
-      sign_in(@user2)
+      sign_in(@user6)
       params = {
         data: {
           success_status: Referral::REFERRAL_NOT_SUCCESSFUL,
           reason_not_successful: 'client_refused_services'
         }
       }
-      delete("/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params:)
+      delete("/api/v2/cases/#{@case_d.id}/referrals/#{@referral1.id}", params:)
 
       expect(response).to have_http_status(200)
       expect(json['data']['status']).to eq(Transition::STATUS_REVOKED)
@@ -334,30 +354,30 @@ describe Api::V2::ReferralsController, type: :request do
 
     it 'completes the referral with service_implemented when a service record exists' do
       referral_service = Referral.create!(
-        transitioned_by: 'user1',
+        transitioned_by: 'user6',
         transitioned_to: 'user2',
-        record: @case_b,
-        service_record_id: @case_b.services_section[0]['unique_id']
+        record: @case_d,
+        service_record_id: @case_d.services_section[0]['unique_id']
       )
-      sign_in(@user2)
+      sign_in(@user6)
       params = {
         data: {
           success_status: Referral::REFERRAL_SUCCESSFUL,
           service_implemented: Serviceable::SERVICE_IMPLEMENTED
         }
       }
-      delete("/api/v2/cases/#{@case_b.id}/referrals/#{referral_service.id}", params:)
+      delete("/api/v2/cases/#{@case_d.id}/referrals/#{referral_service.id}", params:)
 
-      @case_b.reload
+      @case_d.reload
 
       expect(response).to have_http_status(200)
       expect(json['data']['status']).to eq(Transition::STATUS_REVOKED)
       expect(json['data']['data']['success_status']).to eq(Referral::REFERRAL_SUCCESSFUL)
-      expect(@case_b.services_section[0]['service_implemented']).to eq(Serviceable::SERVICE_IMPLEMENTED)
+      expect(@case_d.services_section[0]['service_implemented']).to eq(Serviceable::SERVICE_IMPLEMENTED)
     end
 
     it 'sets the rejection_note when revoking' do
-      sign_in(@user2)
+      sign_in(@user6)
       rejection_note = 'Revocation note from provider'
       params = {
         data: {
@@ -365,22 +385,22 @@ describe Api::V2::ReferralsController, type: :request do
           rejection_note: rejection_note
         }
       }
-      delete("/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params:)
+      delete("/api/v2/cases/#{@case_d.id}/referrals/#{@referral1.id}", params:)
 
       expect(response).to have_http_status(200)
       expect(json['data']['rejection_note']).to eq(rejection_note)
     end
 
     it 'revoking an already revoked referral is a noop' do
-      @referral1.revoke!(@user2, success_status: Referral::REFERRAL_SUCCESSFUL)
+      @referral1.revoke!(@user6, success_status: Referral::REFERRAL_SUCCESSFUL)
       @referral1.reload
       original_resolved_at = @referral1.resolved_at
 
-      login_for_test
+      sign_in(@user6)
       params = {
-        data: { success_status: Referral::REFERRAL_NOT_SUCCESSFUL, reason_not_successful: "client_refused_services" }
+        data: { success_status: Referral::REFERRAL_NOT_SUCCESSFUL, reason_not_successful: 'client_refused_services' }
       }
-      delete("/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params:)
+      delete("/api/v2/cases/#{@case_d.id}/referrals/#{@referral1.id}", params:)
 
       expect(response).to have_http_status(200)
       expect(json['data']['status']).to eq(Transition::STATUS_REVOKED)
@@ -393,9 +413,9 @@ describe Api::V2::ReferralsController, type: :request do
 
     describe 'validates params for revoke' do
       it 'returns 422 if success_status is blank' do
-        sign_in(@user2)
+        sign_in(@user6)
         params = { data: { rejection_note: 'test' } }
-        delete("/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params:)
+        delete("/api/v2/cases/#{@case_d.id}/referrals/#{@referral1.id}", params:)
 
         expect(response).to have_http_status(422)
         expect(json['errors'][0]['status']).to eq(422)
@@ -403,9 +423,9 @@ describe Api::V2::ReferralsController, type: :request do
       end
 
       it 'returns 422 if success_status is invalid' do
-        sign_in(@user2)
+        sign_in(@user6)
         params = { data: { success_status: 'maybe' } }
-        delete("/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params:)
+        delete("/api/v2/cases/#{@case_d.id}/referrals/#{@referral1.id}", params:)
 
         expect(response).to have_http_status(422)
         expect(json['errors'][0]['status']).to eq(422)
@@ -413,14 +433,14 @@ describe Api::V2::ReferralsController, type: :request do
       end
 
       it 'returns 422 if reason_not_successful is invalid' do
-        sign_in(@user2)
+        sign_in(@user6)
         params = {
           data: {
             success_status: Referral::REFERRAL_NOT_SUCCESSFUL,
             reason_not_successful: 'unknown_reason'
           }
         }
-        delete("/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params:)
+        delete("/api/v2/cases/#{@case_d.id}/referrals/#{@referral1.id}", params:)
 
         expect(response).to have_http_status(422)
         expect(json['errors'][0]['status']).to eq(422)
@@ -428,14 +448,14 @@ describe Api::V2::ReferralsController, type: :request do
       end
 
       it 'returns 422 if service_implemented is not in the allowed enum' do
-        sign_in(@user2)
+        sign_in(@user6)
         params = {
           data: {
             success_status: Referral::REFERRAL_SUCCESSFUL,
             service_implemented: 'unknown_value'
           }
         }
-        delete("/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params:)
+        delete("/api/v2/cases/#{@case_d.id}/referrals/#{@referral1.id}", params:)
 
         expect(response).to have_http_status(422)
         expect(json['errors'][0]['status']).to eq(422)
@@ -443,9 +463,9 @@ describe Api::V2::ReferralsController, type: :request do
       end
 
       it 'returns 422 if an unknown field is provided' do
-        sign_in(@user2)
+        sign_in(@user6)
         params = { data: { rejection_note: 'test', unknown_field: 'value' } }
-        delete("/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params:)
+        delete("/api/v2/cases/#{@case_d.id}/referrals/#{@referral1.id}", params:)
 
         expect(response).to have_http_status(422)
         expect(json['errors'][0]['status']).to eq(422)
@@ -584,20 +604,14 @@ describe Api::V2::ReferralsController, type: :request do
     it 'cant accept a referral for a record a user cannot access' do
       hacker = User.new(user_name: 'hacker', role: @role_receive, user_groups: [@group2])
       hacker.save(validate: false)
-      case_owned_by_hacker = Child.create(
-        data: {
-          name: 'Test', owned_by: 'hacker',
-          disclosure_other_orgs: true, consent_for_services: true,
-          module_id: @primero_module.unique_id
-        }
+      referral_for_a_different_case = Referral.create!(
+        transitioned_by: 'user3', transitioned_to: 'user2', record: @case_c
       )
-      referral_for_a_different_case = Referral.create!(transitioned_by: 'user3', transitioned_to: 'user2',
-                                                       record: @case_c)
 
       sign_in(hacker)
       params = { data: { status: Transition::STATUS_ACCEPTED } }
 
-      patch("/api/v2/cases/#{case_owned_by_hacker.id}/referrals/#{referral_for_a_different_case.id}", params:)
+      patch("/api/v2/cases/#{@case_c.id}/referrals/#{referral_for_a_different_case.id}", params:)
 
       expect(response).to have_http_status(403)
     end
