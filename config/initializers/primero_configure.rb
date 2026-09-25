@@ -37,6 +37,9 @@ Rails.application.configure do
 
   config.enforce_terms_of_use = ActiveRecord::Type::Boolean.new.cast(ENV.fetch('PRIMERO_ENFORCE_TERMS_OF_USE', false))
 
+  config.exclude_user_groups_from_configuration =
+    ActiveRecord::Type::Boolean.new.cast(ENV.fetch('PRIMERO_EXCLUDE_USER_GROUPS_FROM_CONFIGURATION', false))
+
   config.silence_logging = [
     'GET /health', 'GET /health/database', 'GET /health/solr', 'GET /health/server'
   ]

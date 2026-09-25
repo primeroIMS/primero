@@ -45,8 +45,14 @@ class PrimeroConfiguration < ApplicationRecord
       end
     end
 
+    def configurable_models
+      return CONFIGURABLE_MODELS - [UserGroup] if Rails.configuration.exclude_user_groups_from_configuration
+
+      CONFIGURABLE_MODELS
+    end
+
     def current_configuration_data
-      CONFIGURABLE_MODELS.each_with_object({}) do |model, data|
+      configurable_models.each_with_object({}) do |model, data|
         data[model.name] = model.all.map(&:configuration_hash)
       end
     end
@@ -93,7 +99,7 @@ class PrimeroConfiguration < ApplicationRecord
   private
 
   def configure!
-    CONFIGURABLE_MODELS.each do |model|
+    PrimeroConfiguration.configurable_models.each do |model|
       next unless data.key?(model.name)
 
       model.sort_configuration_hash(data[model.name]).each do |configuration|
@@ -115,7 +121,7 @@ class PrimeroConfiguration < ApplicationRecord
   end
 
   def validate_configuration_data
-    data_is_valid = CONFIGURABLE_MODELS.reduce(true) do |valid, model|
+    data_is_valid = PrimeroConfiguration.configurable_models.reduce(true) do |valid, model|
       valid && ([Report, Location].include?(model) || data[model.name]&.size&.positive?)
     end
     return if data_is_valid
