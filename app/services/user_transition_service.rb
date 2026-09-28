@@ -4,20 +4,6 @@
 class UserTransitionService
   attr_accessor :transition, :transitioned_by_user, :model, :module_unique_id
 
-  RECEIVE_PERMISSIONS = {
-    Referral.name => {
-      receive: Permission::RECEIVE_REFERRAL,
-      receive_different_module: Permission::RECEIVE_REFERRAL_DIFFERENT_MODULE
-    },
-    TransferRequest.name => {},
-    Transfer.name => {
-      receive: Permission::RECEIVE_TRANSFER
-    },
-    Assign.name => {
-      receive: [Permission::READ, Permission::MANAGE]
-    }
-  }.freeze
-
   class << self
     def assign(transitioned_by_user, model, module_unique_id)
       UserTransitionService.new(Assign.name, transitioned_by_user, model, module_unique_id)
@@ -41,10 +27,9 @@ class UserTransitionService
 
   def transition_users(filters = {})
     return User.none unless model.present?
-
     return with_assign_scope(with_view_record_permission(users_for_transition)) if transition == Assign.name
 
-    apply_filters(with_receive_permission(users_for_transition), filters)
+    apply_filters(users_for_transition, filters)
   end
 
   def can_receive?(transitioned_to_user)
@@ -52,12 +37,15 @@ class UserTransitionService
   end
 
   def users_for_transition
-    users = User.includes(:agency, :role).joins(role: :primero_modules)
+    users = User.includes(:agency, :role)
     # NOTE: The app cannot transition a case to an unverified user
     users = users.where(unverified: false, disabled: false).where.not(id: transitioned_by_user.id)
-    users.where(roles: { user_category: nil }).or(
-      users.where.not(roles: { user_category: [Role::CATEGORY_MAINTENANCE, Role::CATEGORY_SYSTEM] })
-    )
+    case transition
+    when Transfer.name then users.where(role_receive_transfer_exists)
+    when Referral.name then users.where(role_receive_referral_exists)
+    else
+      users.where(role_permitted_categories_exists)
+    end
   end
 
   private
@@ -89,35 +77,68 @@ class UserTransitionService
     end
   end
 
-  def with_receive_permission(users)
-    receive_permission = RECEIVE_PERMISSIONS.dig(transition, :receive)
+  def role_permitted_categories_exists
+    role_permitted_categories_subquery.select('1').arel.exists
+  end
 
-    if receive_permission.present?
-      users = users.where(
-        'roles.permissions -> :resource ? :permission',
-        resource: model&.parent_form,
-        permission: receive_permission
+  def role_receive_transfer_exists
+    role_permitted_categories_subquery.where(
+      'permissions -> :resource ? :permission', resource: model&.parent_form, permission: Permission::RECEIVE_TRANSFER
+    ).select('1').arel.exists
+  end
+
+  def role_receive_referral_exists
+    roles = with_receiver_module(role_permitted_categories_subquery)
+    user_group_ids = transitioned_by_user.user_groups.pluck(:id)
+    roles = if transitioned_by_user.permission?(Permission::REFERRAL_WITHIN_USER_GROUP)
+              with_sender_user_groups(roles, user_group_ids)
+            else
+              with_receiver_user_groups(roles, user_group_ids)
+            end
+    roles.select('1').arel.exists
+  end
+
+  def role_permitted_categories_subquery
+    roles = Role.joins(:primero_modules)
+    roles.where('roles.id = users.role_id').where(user_category: nil).or(
+      roles.where.not(user_category: [Role::CATEGORY_MAINTENANCE, Role::CATEGORY_SYSTEM])
+    )
+  end
+
+  def with_receiver_module(roles)
+    roles.where(
+      'permissions -> :resource ? :permission_different_module ' \
+      'OR (permissions -> :resource ? :permission_referral AND primero_modules.unique_id = :module_unique_id)',
+      resource: model&.parent_form, module_unique_id: module_unique_id,
+      permission_different_module: Permission::RECEIVE_REFERRAL_DIFFERENT_MODULE,
+      permission_referral: Permission::RECEIVE_REFERRAL
+    )
+  end
+
+  def with_receiver_user_groups(roles, user_group_ids = [])
+    roles.where(
+      'NOT permissions -> :resource ? :permission_group ' \
+      "OR (permissions -> :resource ? :permission_group AND #{user_groups_subquery_sql})",
+      resource: model&.parent_form, user_group_ids: user_group_ids,
+      permission_group: Permission::RECEIVE_REFERRAL_WITHIN_USER_GROUP
+    )
+  end
+
+  def with_sender_user_groups(roles, user_group_ids = [])
+    roles.where(user_groups_subquery_sql, user_group_ids: user_group_ids)
+  end
+
+  def user_groups_subquery_sql
+    <<~SQL.squish
+      EXISTS (
+        SELECT 1 FROM user_groups_users
+        WHERE user_groups_users.user_group_id IN (:user_group_ids)
+        AND user_groups_users.user_id = users.id
       )
-    end
-
-    with_different_module_users(users.where(roles: { primero_modules: { unique_id: module_unique_id } }))
+    SQL
   end
 
   def with_view_record_permission(users)
-    assing_permission = RECEIVE_PERMISSIONS[transition][:receive]
-
-    users.by_resource_and_permission(model&.parent_form, assing_permission)
-  end
-
-  def with_different_module_users(users)
-    return users unless RECEIVE_PERMISSIONS[transition][:receive_different_module].present?
-
-    users.or(
-      User.joins(role: :primero_modules).where(
-        'roles.permissions -> :resource ? :permission',
-        resource: model&.parent_form,
-        permission: RECEIVE_PERMISSIONS[transition][:receive_different_module]
-      ).where(disabled: false)
-    )
+    users.by_resource_and_permission(model&.parent_form, [Permission::READ, Permission::MANAGE])
   end
 end

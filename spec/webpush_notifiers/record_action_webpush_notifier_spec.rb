@@ -6,7 +6,7 @@ describe RecordActionWebpushNotifier do
   before(:each) do
     clean_data(
       Alert, FormSection, PrimeroModule, PrimeroProgram, UserGroup,
-      WebpushSubscription, User, Agency, Role, Child, Transition
+      WebpushSubscription, UserGroup, User, Agency, Role, Child, Transition
     )
     Rails.configuration.x.webpush.enabled = true
     allow(ENV).to receive(:fetch).and_call_original
@@ -61,8 +61,14 @@ describe RecordActionWebpushNotifier do
                   email: 'user2@primero.dev', receive_webpush: true, settings: notification_settings)
   end
 
+  let(:user_group) do
+    UserGroup.create!(unique_id: 'shared-group')
+  end
+
   let(:manager1) do
-    create(:user, role:, email: 'manager1@primero.dev', send_mail: false, user_name: 'manager1')
+    create(
+      :user, role:, email: 'manager1@primero.dev', send_mail: false, user_name: 'manager1', user_groups: [user_group]
+    )
   end
 
   let(:manager2) do
@@ -74,7 +80,8 @@ describe RecordActionWebpushNotifier do
       user_name: 'manager2',
       receive_webpush: true,
       locale: 'en',
-      settings: notification_settings
+      settings: notification_settings,
+      user_groups: [user_group]
     )
   end
 

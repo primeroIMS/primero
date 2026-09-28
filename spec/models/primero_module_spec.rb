@@ -126,6 +126,19 @@ describe PrimeroModule do
     end
   end
 
+  describe 'pending_transition_to_form' do
+    it 'stores the form to alert for each transition type as a module option' do
+      primero_module = PrimeroModule.create!(
+        unique_id: PrimeroModule::CP, name: 'Test Module 3', associated_record_types: ['case'],
+        pending_transition_to_form: { referral: 'basic_identity' }
+      )
+
+      expect(primero_module.reload.module_options['pending_transition_to_form']).to eq(
+        'referral' => 'basic_identity'
+      )
+    end
+  end
+
   after do
     clean_data(Field, FormSection, PrimeroModule, PrimeroProgram)
   end

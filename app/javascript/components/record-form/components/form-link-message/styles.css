@@ -1,0 +1,9 @@
+.link {
+  pointer-events: auto;
+  cursor: pointer;
+  color: var(--c-blue);
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

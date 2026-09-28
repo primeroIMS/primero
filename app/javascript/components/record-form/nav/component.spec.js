@@ -407,4 +407,53 @@ describe("<Nav />", () => {
       expect(screen.queryByText("forms.record_types.record_information")).not.toBeInTheDocument();
     });
   });
+  describe("when the current user has a pending referral", () => {
+    const stateWithPendingReferral = initialState
+      .mergeDeep(
+        fromJS({
+          user: { username: "user_1" },
+          records: { cases: { selectedRecord: record.get("id") } },
+          application: {
+            modules: [
+              {
+                unique_id: "primeromodule-cp",
+                options: { pending_transition_to_form: { referral: "basic_identity" } }
+              }
+            ]
+          }
+        })
+      )
+      .setIn(["records", "cases", "data"], fromJS([record.set("referred_users_pending", ["user_1"])]));
+
+    const pendingReferralProps = { ...props, recordId: record.get("id") };
+
+    it("shows the jewel on the configured form", () => {
+      mountedComponent(<Nav {...pendingReferralProps} />, stateWithPendingReferral);
+
+      expect(screen.getByTestId("error")).toBeInTheDocument();
+    });
+
+    it("does not show the jewel of a previously selected record", () => {
+      const otherRecord = record.set("id", "other-record-id").set("referred_users_pending", ["user_1"]);
+      const stateWithStaleSelection = stateWithPendingReferral
+        .setIn(["records", "cases", "selectedRecord"], otherRecord.get("id"))
+        .setIn(["records", "cases", "data"], fromJS([otherRecord, record.set("referred_users_pending", fromJS([]))]));
+
+      mountedComponent(<Nav {...pendingReferralProps} />, stateWithStaleSelection);
+
+      expect(screen.queryByTestId("error")).not.toBeInTheDocument();
+    });
+
+    it("does not show the jewel when the user is not the pending recipient", () => {
+      mountedComponent(
+        <Nav {...pendingReferralProps} />,
+        stateWithPendingReferral.setIn(
+          ["records", "cases", "data"],
+          fromJS([record.set("referred_users_pending", ["user_2"])])
+        )
+      );
+
+      expect(screen.queryByTestId("error")).not.toBeInTheDocument();
+    });
+  });
 });

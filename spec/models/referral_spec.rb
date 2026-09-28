@@ -97,6 +97,40 @@ describe Referral do
         expect(referral.valid?).to be_falsey
         expect(referral.errors[:transitioned_to]).to include('transition.errors.to_user_can_receive')
       end
+
+      it 'does not allow an unverified user with RECEIVE_REFERRAL_DIFFERENT_MODULE to receive a referral' do
+        permission_case = Permission.new(
+          resource: Permission::CASE,
+          actions: [Permission::RECEIVE_REFERRAL_DIFFERENT_MODULE]
+        )
+        role = Role.new(permissions: [permission_case], primero_modules: [@module_cp])
+        role.save(validate: false)
+        @user2.role = role
+        @user2.unverified = true
+        @user2.save(validate: false)
+
+        referral = Referral.create(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
+
+        expect(referral.valid?).to be_falsey
+        expect(referral.errors[:transitioned_to]).to include('transition.errors.to_user_can_receive')
+      end
+
+      it 'does not allow an unverified user with RECEIVE_REFERRAL_WITHIN_USER_GROUP to receive a referral' do
+        permission_case = Permission.new(
+          resource: Permission::CASE,
+          actions: [Permission::RECEIVE_REFERRAL_WITHIN_USER_GROUP]
+        )
+        role = Role.new(permissions: [permission_case], primero_modules: [@module_cp])
+        role.save(validate: false)
+        @user2.role = role
+        @user2.unverified = true
+        @user2.save(validate: false)
+
+        referral = Referral.create(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
+
+        expect(referral.valid?).to be_falsey
+        expect(referral.errors[:transitioned_to]).to include('transition.errors.to_user_can_receive')
+      end
     end
   end
 

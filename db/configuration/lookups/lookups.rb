@@ -1058,9 +1058,9 @@ Lookup.create_or_update!(
   lookup_values_en: [
     { id: 'client_refused_services', display_text: 'Client refused services' },
     { id: 'lack_of_capacity', display_text: 'Lack of capacity' },
-    { id: 'other', display_text: 'Other' },
     { id: 'services_no_longer_needed', display_text: 'Services no longer needed' },
     { id: 'unable_to_contact_client', display_text: 'Unable to contact client' },
-    { id: 'unable_to_contact_referred_to_organization', display_text: 'Unable to contact referred-to organization' }
+    { id: 'unable_to_contact_referred_to_organization', display_text: 'Unable to contact referred-to organization' },
+    { id: 'other', display_text: 'Other' }
   ].map(&:with_indifferent_access)
 )
