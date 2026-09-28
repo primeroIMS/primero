@@ -296,6 +296,7 @@ uk:
     case_opening_date: Дата відкриття кейса
     case_plan: Кейс-план
     case_worker_code: Код кейс-працівника
+    client_code: Код клієнта
     clear_filter: Очистити
     close_dialog: Натиснувши ОК, ви зміните статус цього кейса на "Закрито"
     close_dialog_title: Закрити кейс
@@ -336,6 +337,7 @@ uk:
       closure: Закриття
       current_location: Поточна локація
       date: Дата
+      disability_status: Статус інвалідності
       displacement_status: Статус переміщення
       district: Район
       duplicate: Дублікат
@@ -344,6 +346,7 @@ uk:
       flag: Відмічено
       flag_label: Відмічено?
       gbv_closure: Закриття ГЗН
+      gender: Стать
       high: Високий
       low: Низький
       male: Чоловіча
@@ -376,10 +379,12 @@ uk:
     flag_summary: Позначити підсумок
     full_name: ПІБ
     gbv_closure: Закриття ГЗН
+    gender: Стать
     hide_name: Приховати ім'я
     hide_name_error: Під час збереження змін сталася помилка. Будь ласка спробуйте ще раз.
     id: Ідентифікатор#
     label: Кейси
+    location_current: Географічна локація
     my_filters: Мої фільтри
     name: Iм'я
     notes_dialog_title: Додати нотатки
@@ -794,13 +799,11 @@ uk:
     services: Послуги
     services_implemented: Впроваджені послуги
     shared_from_my_team_pending_transfers: Очікують переведення
-    shared_from_my_team_referrals: Перенаправлення
     shared_from_my_team_rejected_transfers: Відхилені переведення справ
     shared_with_me_new_referrals: Нові
     shared_with_me_transfers_awaiting_acceptance: Очікує прийняття
     shared_with_my_team_pending_transfers_overview: Очікує прийняття
     shared_with_my_team_pending_transfers: Очікують переведення
-    shared_with_my_team_referrals: Перенаправлення
     shared_with_others_pending_transfers: Очікує
     status_of_cases: Статус кейсів
     system_user: Система
@@ -2130,7 +2133,6 @@ uk:
     insights: Інсайти
     search: Пошук
     phonetic_search:
-      label: Шукати по ПІБ?
       help_text: Пошук по ПІБ тепер доступний
     id_search:
       title: Введіть ID кейса, щоб знайти існуючий запис.
@@ -2408,6 +2410,8 @@ uk:
           change_log:
             explanation: Користувач може побачити історію всіх змін, внесених у запис з моменту його створення. Це включає значення, записані для всіх полів.
             label: Журнал змін
+          access_log:
+            label: Журнал доступу
           close:
             explanation: Дозволяє користувачеві встановити статус відкритої справи на закриту.
             label: Закрити
@@ -2798,7 +2802,6 @@ uk:
       metadata:
         actions:
           manage:
-            explanation: Можливість створювати, редагувати, перекладати та видаляти форми, поля форми та пошукові запити. Зауважте, що користувач із цим дозволом зможе керувати лише формами, до яких у нього є доступ. Наприклад, якщо національний адміністратор має можливість переглядати форму власника запису лише для кейсів, тоді він зможе оновити конфігурацію лише для цієї форми.
             label: Керувати (всі дозволи для цього типу ресурсу)
         explanation: Керує можливістю налаштування форм і полів Primero, а також параметрів пошуку, що використовуються в них.
         label: Форми, пошукові запити
@@ -3466,7 +3469,6 @@ uk:
     headers:
       full_name: ПІБ
       user_name: Ім'я користувача
-      position: Посада
       agency: Агенція
   devise:
     failure:

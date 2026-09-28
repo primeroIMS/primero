@@ -302,12 +302,9 @@ es:
       date: "Fecha"
       ready_to_start_cfm: "¿Está preparado para empezar el Módulo de Funcionamiento Infantil?"
       age: "Edad"
-      vision_wear_glass: "Cristales para gafas"
       difficulty_seeing_with_glasses: "Dificultad para ver con lentes"
-      continue_hearing_section: "Continuar con la sección de audición"
       child_wears_hearing_aid: "El niño/niña utiliza dispositivo para la audición"
       difficulty_hearing_with_hearing_aid: "Dificultad para escuchar con dispositivo para la audición"
-      continue_mobility_section: "Continuar con la sección de movilidad"
       child_uses_equipment_or_receive_assistance_for_walking: "El niño/niña utiliza equipo o recibe ayuda para caminar"
       difficulty_walking_without_equipment: "Dificultad para caminar sin equipo o asistencia"
       mobility_difficulty_without_equipment_100m: "Dificultad de movilidad sin equipo 100m"
@@ -315,33 +312,8 @@ es:
       difficulty_walking_with_equipment: "Dificultad para caminar con equipo o asistencia"
       mobility_difficulty_with_equipment_100m: "Dificultad de movilidad con equipo 100m"
       mobility_difficulty_with_equipment_500m: "Dificultad de movilidad con equipo 500m"
-      continue_dexterity_display_section: "Continuar con la sección de visualización sobre destreza"
       difficulty_picking_up_small_objects_with_hand: "Dificultad para tomar objetos pequeños con la mano"
-      self_care_display: "Visualización sobre autocuidado"
       self_care_difficulty: "Dificultad para el autocuidado"
-      communication_display_section: "Sección de visualización sobre comunicación"
-      child_have_difficulty_to_understand: "El niño/niña tiene dificultad para comprender"
-      child_have_difficulty_to_understanding_child_household: "El niño/niña tiene dificultad para comprender el hogar"
-      difficulty_to_understanding_child_others: "Dificultad para comprender a otros niños/niñas"
-      difficulty_to_understand_the_child: "Dificultad para comprender al niño/niña"
-      learning_display_section: "Sección de visualización sobre aprendizaje"
-      child_have_difficulty_for_learning: "El niño/niña tiene dificultad para el aprendizaje"
-      playing_display_section: "Sección de visualización sobre juego"
-      child_have_difficulty_for_playing: "El niño/niña tiene dificultad para jugar"
-      remembering_display: "Visualización sobre recordar"
-      remembering_difficulty: "Dificultad para recordar"
-      concentrating_display: "Visualización sobre concentración"
-      concentrating_difficulty: "Dificultad para concentrarse"
-      accepting_change_display: "Visualización sobre aceptación al cambio"
-      accepting_change_difficulty: "Dificultad para aceptar el cambio"
-      controlling_behavior_display_section: "Sección de visualización sobre control del comportamiento"
-      difficulty_for_controlling_behaviour: "Dificultad para controlar el comportamiento, como patear, morder o golpear a otros"
-      making_friends_display_section: "Sección de visualización sobre hacer amistades"
-      making_friends_difficulty: "Dificultad para hacer amistades"
-      anxiety_display_section: "Sección de visualización sobre ansiedad"
-      anxiety_how_often: "Frecuencia de ansiedad"
-      depression_display_section: "Sección de visualización sobre depresión"
-      depression_how_often: "Frecuencia de depresión"
       cfm_yes: "Sí"
       cfm_no: "No"
       n_a: "N/A"
@@ -835,14 +807,12 @@ es:
     services: Servicios
     services_implemented: Servicios Implementados
     shared_from_my_team_pending_transfers: Transferencias Pendientes
-    shared_from_my_team_referrals: Referencias
     shared_from_my_team_rejected_transfers: Transferencias Rechazadas
     shared_with_me_new_referrals: Nuevo
     shared_with_me_total_referrals: Total
     shared_with_me_transfers_awaiting_acceptance: Esperando Aprobación
     shared_with_my_team_pending_transfers_overview: Esperando Aprobación
     shared_with_my_team_pending_transfers: Transferencias Pendientes
-    shared_with_my_team_referrals: Referencias
     shared_with_others_pending_transfers: Pendiente
     shared_with_others_referrals: Total
     shared_with_others_rejected_transfers: Rechazado
@@ -965,7 +935,6 @@ es:
       lookup:
         being_used: Esta búsqueda específica está siendo utilizada y no puede eliminarse
         name_present: El nombre no puede estar vacío
-        values_ids_blank: Un valor_de_búsqueda_específica está vacío
       primero_module:
         associated_record_types: Al menos un tipo de registro debe estar asociado a este módulo
         form_section_ids: Al menos un formulario debe estar asociado a este módulo
@@ -2437,7 +2406,6 @@ es:
     search: Buscar
     phonetic_search:
       title: Escriba un nombre para buscar un registro existente
-      label: Use Campos de Nombre
       help_text: La búsqueda fonética está disponible para campos de Nombre
     id_search:
       title: Ingrese el número de ID para buscar un registro existente.
@@ -2899,9 +2867,6 @@ es:
           action_needed_new_updated:
             explanation: Muestra el indicador de "Nuevo y Actualizado" en el tablero de "Acción Requerida". Esto incluye Casos que han sido recientemente asignados al usuario actual, o aquellos que otro usuario ha actualizado desde la última vez que el usuario actual los haya actualizado.
             label: 'Accion Requerida: Nuevo o Actualizado'
-          action_needed_new_referrals:
-            explanation: Muestra el indicador de "Nuevas Referencias" en el tablero de "Acción Requerida". Esto incluye cualquier Caso con una Referencia nueva enviada al usuario actual, donde el usuario actual no es la última persona en actualizar dicho Caso.
-            label: 'Acción Requerida: Nuevas Referencias'
           action_needed_transfer_awaiting_acceptance:
             explanation: 'Muestra el indicador de "Transferencias Esperando Aceptación" en el tablero de "Acción Requerida". Esto incluye cualquier Caso con una Transferencia al usuario actual, el cual el usuario actual no ha aceptado. '
             label: 'Acción Requerida: Transferencias Esperando Aceptación'
@@ -3227,7 +3192,6 @@ es:
       metadata:
         actions:
           manage:
-            explanation: Habilitado(a) para crear, editar, traducir, y eliminar formularios, campos en formularios, y búsquedas específicas. Por favor tome nota de que un(a) usuario(a) con este permiso sólo podrá manejar los formularios a los que tiene acceso. Por ejemplo, si un(a) administrador(a) está habilitado(a) sólo para ver el formulario de Propietario(a) de Registro sobre casos, sólo podrá actualizar la configuración de este formulario.
             label: Administrar (todos los permisos para este tipo de recurso)
         explanation: Controla la habilidad para configurar los Formularios y Campos de Primero, así como las opciones de Búsqueda utilizadas en ellos.
         label: Formularios, búsquedas específicas
@@ -4045,7 +4009,6 @@ es:
     headers:
       full_name: Nombre Completo
       user_name: Nombre de usuario
-      position: Puesto
       agency: Agencia
     alerts:
       total_users_created: Usted ha creado %{total_enabled}de los %{maximum_users}usuarios habilitados permitidos como máximo.

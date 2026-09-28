@@ -500,7 +500,6 @@ sw-TZ:
       updated: Toleo jipya liliingizwa kwenye mpangilio kwa mafanikio
       sent: Kuupeleka mpangilio kwenye uzalishaji. Tafadhali angalia tovuti ya uzalishaji kuona kwamba mpangilio wako umefika.
     not_allowed: Hairuhusiwi
-    unavailable_server: Seva haipatikani kwa muda
   contact:
     field:
       email: Baruapepe
@@ -725,10 +724,8 @@ sw-TZ:
     services: 'Huduma '
     services_implemented: Huduma Zinazotekelezwa
     shared_from_my_team_pending_transfers: Uhamisho Unaosubiri
-    shared_from_my_team_referrals: Rufaa
     shared_from_my_team_rejected_transfers: Uhamisho Uliokataliwa
     shared_with_my_team_pending_transfers: Uhamisho Unaosubiri
-    shared_with_my_team_referrals: Rufaa
     status_of_cases: 'Hali ya Kesi '
     system_user: Mfumo
     total: 'Jumla '
@@ -834,7 +831,6 @@ sw-TZ:
       lookup:
         being_used: Sehemu hii inatumika kwa sasa na haiwezi kufutwa
         name_present: Jina lazima liandikwe
-        values_ids_blank: Utambulisho wa taarifa haujajazwa
       primero_module:
         associated_record_types: Angalau aina moja ya taarifa lazima ihusishwe na moduli hii
         form_section_ids: Angalau fomu moja ihusishwe na moduli hii
@@ -1667,46 +1663,27 @@ sw-TZ:
       _requested: ' Iliyoombwa'
       add_note: Ongeza maelezo
       assign: Kabidhi kazi
-      assign_to: 'Kabidhi kazi kwa '
-      attach: Ambatisha
       bulk_assign: Kazi kwa pamoja
       bulk_create: 'Tengeneza kwa wingi '
       bulk_index: Vielezo vingi
-      case_plan_approved: Mpango wa shauri umethibitishwa
-      case_plan_rejected: Mpango wa shauri umekataliwa
-      case_plan_requested: Mpango wa shauri uliombwa
       close: 'Funga '
       create: 'Tengeneza '
       create_bulk: Tengeneza kwa wingi
       delete: Futa
       destroy: Haribu
-      detach: Tenganisha
-      enable_disable_record: Wezesha kumbukumbu iliozuiliwa
       export: Kutoa
       flag: Kibendera
       import: Kuingiza
       incident_details_from_case: Maelezo ya tukio kutoka kwenye shauri
-      index: Kielezo
       list: Orodha
       login: 'Ingia '
       password_reset: Kutengeneza upya neno la siri
       password_reset_request: Ombi la kutengeneza upya neno la siri
       refer: Rufaa
-      refer_accepted: Rufaa imekubalika
-      refer_done: Rufaa imefanyika
-      refer_rejected: Rufaa imekataliwa
-      refer_revoke: Rufaa imebatilishwa
-      refer_to: Rufaa kwa
       reopen: Fungua upya
-      services_section_from_case: Sehemu ya huduma kutoka kwenye shauri
       show: Onesha
       show_alerts: 'Onesha tahadhari  '
-      traces: Kutafuta
       transfer: Uhamisho
-      transfer_accepted: Uhamisho umekubaliwa
-      transfer_rejected: Uhamisho umekataliwa
-      transfer_request: Ombi la uhamisho
-      transfer_to: Uhamisho kwenda
       unflag: Ondoa kibendera
       update: Boresha
       user_password_reset_request: Ombi la kutengeneza upya neno la siri la mtumiaji
@@ -1940,7 +1917,6 @@ sw-TZ:
         attack_on_schools: Mashambulizi kwenye skuli ()
         military_use: Mashambulizi ya kijeshi skuli () na hopitali ()
         denial_humanitarian_access: Kunyimwa ufikiaji wa misaada ya kibinaadamu kwa watoto
-        detention: Kuwekwa kizuizini
       sub_reports:
         children: Watoto
         combined: Ukiukwaji
@@ -1986,13 +1962,6 @@ sw-TZ:
         survivors: Manusura
         referrals: Rufaa
       sub_reports:
-        service_safehouse_referral: Nyumba salama/Rufaa kwa nyumba salama
-        service_medical_referral: 'Afya/ Rufaa ya Matibabu '
-        service_psycho_referral: Huduma ya saikologia ya kijamii/huduma ya unasihi
-        service_legal_referral: Huduma za msaada wa kisheria
-        service_police_referral: Polisi au aina nyengine za huduma za kiusalama
-        service_livelihoods_referral: Huduma za kujikimu
-        service_protection_referral: Huduma za hifadhi ya mtoto
         survivors_disability_type: Wenye hali ulemavu
     workflow_report:
       name: Mtiririko wa kazi
@@ -2761,7 +2730,6 @@ sw-TZ:
       metadata:
         actions:
           manage:
-            explanation: Uwezo wa kutengeneza, kurekebisha, kutafsiri, na kufuta fomu, maeneo katika fomu, na utafutaji. Tafadhali zinanatia kwamba mtumiaji mwenye ruhusa hii ataweza kuzisimamia fomu ambazo anaweza kuzifikia tu. Kwa mfano, ikiwa msimamizi wa mfumo ana uwezo wa kuziona fomu za Mmiliki wa Kumbukumbu kuhusu mashauri, Pia watakuwa na uwezo wa kufanya maboresho ya usanidi katika fomu hii
             label: Kusimamia (ruhusa zote kwa aina hii ya taarifa)
         explanation: Inadhibiti uwezo wa kusanidi wa Fomu za Primero na maeneo yake, pamoja na chaguo za utafutaji zilizotumika.
         label: Fomu, Utafutaji
@@ -3474,7 +3442,6 @@ sw-TZ:
     headers:
       full_name: Jina Kamili
       user_name: Jina la mtumiaji
-      position: Nafasi
       agency: Wakala
   devise:
     failure:

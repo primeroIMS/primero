@@ -301,12 +301,9 @@ hy:
       date: "Ամսաթիվ"
       ready_to_start_cfm: "Դուք պատրա՞ստ եք սկսել Երեխայի Ֆունկցիոնալության մոդուլը։ "
       age: "Տարիք"
-      vision_wear_glass: "Տեսողության շտկման ակնոց"
       difficulty_seeing_with_glasses: "Ակնոցներով տեսնելու դժվարություն"
-      continue_hearing_section: "Շարունակել լսողության բաժինը"
       child_wears_hearing_aid: "Երեխան կրում է լսողական սարք"
       difficulty_hearing_with_hearing_aid: "Լսողական սարքով լսելու դժվարություն"
-      continue_mobility_section: "Շարունակել տեղաշարժման բաժինը"
       child_uses_equipment_or_receive_assistance_for_walking: "Երեխան օգտագործում է սարքավորում կամ նրան օգնում են քայլել"
       difficulty_walking_without_equipment: "Առանց սարքավորման / օգնության քայլելու դժվարություն"
       mobility_difficulty_without_equipment_100m: "100 մ տեղաշարժվելու դժվարություն՝ առանց սարքավորման"
@@ -314,33 +311,8 @@ hy:
       difficulty_walking_with_equipment: "Առանց սարքավորման / օգնության քայլելու դժվարություն"
       mobility_difficulty_with_equipment_100m: "100 մ տեղաշարժվելու դժվարություն՝ սարքավորման օգնությամբ"
       mobility_difficulty_with_equipment_500m: "500 մ տեղաշարժվելու դժվարություն՝ սարքավորման օգնությամբ"
-      continue_dexterity_display_section: "Շարունակել ճկունության/ճարպկության ցուցադրման բաժին"
       difficulty_picking_up_small_objects_with_hand: "Ձեռքով փոքր իրեր բարձրացնելու դժվարություն"
-      self_care_display: "Ինքնախնամքի կարողություն"
       self_care_difficulty: "Ինքնախնամքի դժվարություն"
-      communication_display_section: "Հաղորդակցության կարողությունների բաժին"
-      child_have_difficulty_to_understand: "Երեխան դժվարությամբ է հասկանում"
-      child_have_difficulty_to_understanding_child_household: "Երեխան դժվարանում է ընկալել երեխայի ընտանիքին"
-      difficulty_to_understanding_child_others: "Դժվարանում է հասկանալ այլ երեխաների"
-      difficulty_to_understand_the_child: "Երեխային հասկանալու դժվարություն"
-      learning_display_section: "Սովորելու կարողությունների բաժին"
-      child_have_difficulty_for_learning: "Երեխան դժվարանում է սովորել"
-      playing_display_section: "Խաղալու կարողությունների բաժին"
-      child_have_difficulty_for_playing: "Երեխան դժվարանում է խաղալ"
-      remembering_display: "Հիշողության կարողություններ"
-      remembering_difficulty: "Հիշողության խնդիրներ"
-      concentrating_display: "Կենտրոնանալու կարողություններ"
-      concentrating_difficulty: "Կենտրոնանալու դժվարություն"
-      accepting_change_display: "Փոփոխությունն ընդունելու կարողություններ"
-      accepting_change_difficulty: "Փոփոխություններն ընդունելու դժվարություն"
-      controlling_behavior_display_section: "Վարքագծի վերահսկողության կարողությունների բաժին"
-      difficulty_for_controlling_behaviour: "Վարքագիծը վերահսկելու դժվարություն, ինչպես օրինակ՝ հարվածելը, կծելը կամ ուրիշներին խփելը"
-      making_friends_display_section: "Ընկերանալու կարողությունների բաժին"
-      making_friends_difficulty: "Ընկերանալու դժվարություն"
-      anxiety_display_section: "Լարվածության դրսևորման բաժին"
-      anxiety_how_often: "Որքան հաճախ է լարվածությունը դրսևորվում։ "
-      depression_display_section: "Ընկճախտի բաժին"
-      depression_how_often: "Որքան հաճախ է ընկճախտը դրսևորվում։ "
       cfm_yes: "Այո"
       cfm_no: "Ոչ"
       n_a: "Կիրառելի չէ"
@@ -585,7 +557,6 @@ hy:
       updated: 'Կոնֆիգուրացիան թարմացվել է։ '
       sent: 'Կոնֆիգուրացիան ուղարկվում է գործարկման։ Խնդրեմ ստուգեք գործարկման կայքը՝ տեսնելու, թե արդյոք կոնֆիգուրացիան ստացվել է։ '
     not_allowed: արգելված
-    unavailable_server: Սերվերը ժամանակավորապես հասանելի չէ։
   contact:
     field:
       email: Էլ․ հասցե
@@ -819,14 +790,12 @@ hy:
     services: Ծառայություններ
     services_implemented: Ծառայությունները տրամադրված են
     shared_from_my_team_pending_transfers: Սպասման մեջ գտնվող փոխանցումներ
-    shared_from_my_team_referrals: Ուղղորդումներ
     shared_from_my_team_rejected_transfers: Մերժված փոխանցումներ
     shared_with_me_new_referrals: Նոր
     shared_with_me_total_referrals: Ընդամենը
     shared_with_me_transfers_awaiting_acceptance: Ընդունումն ընթացքի մեջ է
     shared_with_my_team_pending_transfers_overview: Ընդունումն ընթացքի մեջ է
     shared_with_my_team_pending_transfers: Սպասման մեջ գտնվող փոխանցումներ
-    shared_with_my_team_referrals: Ուղղորդումներ
     shared_with_others_pending_transfers: Սպասման մեջ
     shared_with_others_referrals: Ընդամենը
     shared_with_others_rejected_transfers: Մերժված
@@ -944,7 +913,6 @@ hy:
       lookup:
         being_used: Այս ՛որոնում՛ ֆունկցիան արդեն օգտագործվում է և չի կարող ջնջվել։
         name_present: Անվան դաշտը չպետք է լինի դատարկ
-        values_ids_blank: Որոնում արժեքի կոդը դատարկ է
       primero_module:
         associated_record_types: Առնվազն մեկ գրառման տեսակ պետք է ասոցացվի այս մոդուլի հետ
         form_section_ids: Առնվազն մեկ ձևաթուղթ պետք է ասոցացվի այս մոդուլի հետ
@@ -1790,46 +1758,27 @@ hy:
       _requested: Տրված է հայտ
       add_note: Ավելացնել նշում
       assign: Հանձնարարել
-      assign_to: Հանձնարարել
-      attach: Կցել
       bulk_assign: Դեպքերի մեծ ծավալի հանձնարարում
       bulk_create: Դեպքերի մեծ ծավալի բացում
       bulk_index: Դեպքերի ծավալի ինդեքս
-      case_plan_approved: Դեպքի պլանը հաստատված է
-      case_plan_rejected: Դեպքի պլանը մերժված է
-      case_plan_requested: Դեպքի պլանը պահանջվել է
       close: Փակել
       create: Բացել
       create_bulk: Բացել դեպքերի մեծ ծավալ
       delete: Ջնջել
       destroy: Ոչնչացնել
-      detach: Անջատել
-      enable_disable_record: Ակտիվացնել, ապակտիվացնել գրառումը
       export: Արտածել
       flag: Դրոշակել
       import: Ներածել
       incident_details_from_case: Դեպքից ստացված տվյալներ պատահարի մասին
-      index: Ինդեքս
       list: Ցուցակագրել
       login: Մուտք գործել
       password_reset: Փոխել գաղտնաբառը
       password_reset_request: Գաղտնաբառի փոփոխման հայտ
       refer: Ուղղորդել
-      refer_accepted: 'Ուղղորդումն ընդունված է։ '
-      refer_done: Ուղղորդումը կատարված է։
-      refer_rejected: Հղումը մերժված է
-      refer_revoke: Ուղղորդման հետ կանչ
-      refer_to: Ուղղորդել դեպի
       reopen: Վերաբացել
-      services_section_from_case: Դեպքի մասով ծառայությունների բաժին
       show: Ցույց տալ
       show_alerts: Ցույց տալ ահազանգերը
-      traces: հետագծեր
       transfer: Փոխանցել
-      transfer_accepted: Փոխանցումն ընդունված է
-      transfer_rejected: Փոխանցումը մերժված է
-      transfer_request: Փոխանցման հայտ
-      transfer_to: Փոխանցել
       unflag: Հեռացնել դրոշակը
       update: Թարմացնել
       user_password_reset_request: Օգտատիրոջ գաղտնաբառի փոփոխության հայտ
@@ -2111,7 +2060,6 @@ hy:
         attack_on_schools: Հարձակում դպրոց(ներ)ի վրա
         military_use: Դպրոց(ներ)ի և/կամ հիվանդանոց(ներ)ի օգտագործում ռազմական նպատակներով
         denial_humanitarian_access: Երեխաներին մարդասիրական օգնության մերժում
-        detention: Ձերբակալություն
       sub_reports:
         children: Երեխաներ
         combined: Խախտումներ
@@ -2160,37 +2108,6 @@ hy:
       sub_reports:
         incidents: Պատահարներ
         combined: Ընդհանուր վիճակագրություն
-        total: 1․ Հաղորդված նոր ԳՀԲ պատահարներ
-        gbv_sexual_violence: Բռնություն վերապրած անձանց վիճակագրություն․ 9․ հաղորդված սեռական բռնության պատահարների թիվ
-        gbv_previous_incidents: 2․ Հաղորդված սեռական բռնության նոր պատահարների թիվ
-        gbv_sexual_violence_type: Պատահարների վիճակագրություն․ 10․ ԳՀԲ դեպքերի տեսակ
-        incident_timeofday: Պատահարների վիճակագրություն․ 11․ Պատահարի ժամը
-        elapsed_reporting_time: Պատահարների վիճակագրություն․ 13․ պատահարի և հաղորդման ամսաթվի միջև ընկած ժամանակ
-        elapsed_reporting_time_rape: Պատահարների վիճակագրություն․ 14․ բռնաբարության  պատահար, պատահարի և հաղորդման ամսաթվի միջև անցած ժամանակ
-        elapsed_reporting_time_rape_health_referral: Պատահարների վիճակագրություն․ 15․ բռնաբարության  պատահարներ, անցած ժամանակ (առողջապահական ծառայություն կամ ուղղորդում)
-        incident_location_type: Պատահարների վիճակագրություն․ 16․ Պատահարի տեղադրություն
-        number_of_perpetrators: Բռնարարների վիճակագրություն․ 17․ գլխավոր բռնարարների թիվը
-        perpetrator_relationship: Բռնարարների վիճակագրություն․ 18․ ենթադրյալ բռնարարի և բռնություն վերապրածի միջև կապ
-        perpetrator_age_group: Բռնարարների վիճակագրություն․ 19․ ենթադրյալ գլխավոր բռնարարների տարիքային խումբ
-        perpetrator_occupation: 'Բռնարարների վիճակագրություն․ 20․ ենթադրյալ գլխավոր բռնարարի մասնագիտություն '
-        age: Բռնություն վերապրած անձանց վիճակագրություն․ 4․ վերապրածների տարիք
-        sex: Բռնություն վերապրած անձանց վիճակագրություն․ 3․ վերապրածների սեռ
-        marital_status: Բռնություն վերապրած անձանց վիճակագրություն․ 5․ վերապրածների ամուսնական կարգավիճակ
-        displacement_status: Բռնություն վերապրած անձանց վիճակագրություն․ 6․ հաղորդման պահին տեղահանման կարգավիճակ
-        displacement_incident: Բռնություն վերապրած անձանց վիճակագրություն․ 7․ պատահարի պահին տեղահանման կարգավիճակ
-        gbv_case_context: Պատահարների վիճակագրություն․ 12․ դեպքի համատեքստ
-        incidents_first_point_of_contact: 'Ուղղորդումների վիճակագրություն․ 21․ այն պատահարների թիվը, որոնց դեպքում առաջինը դիմել են ձեր կազմակերպությանը '
-        incidents_from_other_service_provider: Ուղղորդումների վիճակագրություն 22․ այլ ծառայություն մատուցողների կողմից ուղղորդված պատահարներ
-        number_of_services_provided: Ուղղորդումների վիճակագրություն 23․ պատահարների դեպքում մատուցված ծառայությունների թիվ
-        number_of_services_provided_other: Ուղղորդումների վիճակագրություն 24․ այլ ծառայություն մատուցողներին նոր պատահարների ուղղորդումներ
-        service_safehouse_referral: Ուղղորդում դեպի անվտանգ տուն/անվտանգ կացարան
-        service_medical_referral: Առողջապահական/բժշկական ուղղորդում
-        service_psycho_referral: Հոգեսոցիալական/խորհրդատվական ծառայություններ
-        service_legal_referral: Իրավաբանական աջակցության ծառայություններ
-        service_police_referral: Ոստիկանության կամ այլ տեսակի անվտանգության ապահովման ծառայություններ
-        service_livelihoods_referral: Կենսապահովման ծառայություններ
-        service_protection_referral: Երեխայի պաշտպանության ծառայություններ
-        vulnerable_populations: Բռնություն վերապրած անձանց վիճակագրություն․ 8․ խոցելի բնակչություն
         survivors_disability_type: հաշմանդամություն ունեցող
     workflow_report:
       name: Աշխատանքային հոսք
@@ -2393,7 +2310,6 @@ hy:
     search: Որոնում
     phonetic_search:
       title: Մուտքագրեք անուն՝ գոյություն ունեցող գրառում փնտրելու համար
-      label: Օգտագործել անվան դաշտերը
       help_text: Անվան դաշտերի համար առկա է ձայնային որոնում
     id_search:
       title: Մուտքագրեք անձը հաստատող փաստաթղթի համար՝ գոյություն ունեցող գրառում փնտրելու համար
@@ -2855,9 +2771,6 @@ hy:
           action_needed_new_updated:
             explanation: 'Ցույց է տալիս "Նոր և թարմացված" ցուցիչը "Անհրաժեշտ է կատարել գործողություն" վահանակում։ Սա ներառում է այն դեպքերը, որոնք նոր են հանձնարարվել ներկա օգտագործողին, կամ որոնք մեկ այլ օգտագործող թարմացրել է՝ ներկա օգտագործողի վերջին թարմացումից հետո։ '
             label: 'Անհրաժեշտ է կատարել գործողություն․ նոր կամ թարմացված'
-          action_needed_new_referrals:
-            explanation: 'Ցույց է տալիս "Նոր ուղղորդումներ" ցուցիչը "Անհրաժեշտ է կատարել գործողություն" վահանակում։ Սա ներառում է այն դեպքերը, որոնք նոր են ուղղորդվել ներկա օգտագործողին, և որոնց վերջին թարմացումը չի կատարել ներկա օգտագործողը;  '
-            label: 'Անհրաժեշտ է կատարել գործողություն․ նոր ուղղորդումներ'
           action_needed_transfer_awaiting_acceptance:
             explanation: 'Ցույց է տալիս "Ընդունման սպասող դեպքի փոխանցումներ" ցուցիչը "Անհրաժեշտ է կատարել գործողություն" վահանակում։ Սա ներառում է այն դեպքերը, որոնք փոխանցվել են ներկա օգտագործողին, և որոնք նա չի ընդունել։   '
             label: 'Անհրաժեշտ է կատարել գործողություն․ Ընդունման սպասող փոխանցումներ'
@@ -3183,7 +3096,6 @@ hy:
       metadata:
         actions:
           manage:
-            explanation: 'Հնարավորություն՝ բացելու, խմբագրելու, թարգմանելու և ջնջելու ձևաթղթեր, ձևաթղթեևի դաշտեր և որոնման շարքեր։ Խնդրեմ հիշեք, որ այս թույլտվությամբ օգտատերը միայն կկարողանա կառավարել այն ձևաթղթերը, որոնց ունի հասանելիություն։ Օրինակ՝ եթե տվյալ երկրի ադմինիստրատորը միայն դեպքի մեջ տեսնում է գրառման հեղինակի ձևաթուղթը, ապա հետագայում նա միայն կկարողանա թարմացնել այս ձևաթղթի կոնֆիգուրացիան։  '
             label: Կառավարել (այս տեսակի ռեսուրսի համար բոլոր թույլտվությունները)
         explanation: Վերահսկում է Primero հարթակում Ձևաթղթերը և Դաշտերը, ինչպես նաև դրանցում որոնման տարբերակները կոնֆիգուրացնելու հնարավորությունը։
         label: Ձևաթղթեր, "որոնում" շարքեր
@@ -3558,7 +3470,6 @@ hy:
   referral:
     type_of_recipient: Ստացողի տեսակ
     type_of_referral_required: Ուղղորդման տեսակ նշելը պարտադիր է
-    referral_authorization_label: 'Կցանկանա՞ք նշել Ուղղորդման տեսակը։ '
     referral_authorization_help_text: 'Սա սահմանափակում է ստացողի համար որոշ ձևաթղթերին հասանելիությունը։ '
     agency_label: Գործակալություն
     is_remote_label: Դուք ուղղորդումը կատարում եք հեռավար համակարգի՞։
@@ -4001,7 +3912,6 @@ hy:
     headers:
       full_name: Ամբողջական անուն
       user_name: Օգտանուն
-      position: Պաշտոն
       agency: Գործակալություն
     alerts:
       total_users_created: Դուք բացել եք ձեզ %{total_enabled} թույլատրվող ակտիվ օգտահաշիվների %{maximum_users}։

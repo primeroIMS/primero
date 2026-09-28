@@ -346,7 +346,6 @@ fa-AF:
       deleted: پیکربندی موفقانه حذف شد.
       updated: پیکربندی موفقانه بروز رسانی شد.
     not_allowed: اجازه-نیست
-    unavailable_server: بخش مسئول موقتاً در دسترس نیست.
   contact:
     field:
       email: ایمیل
@@ -503,10 +502,8 @@ fa-AF:
     services: خدمات
     services_implemented: خدمات بکار برده شده
     shared_from_my_team_pending_transfers: انتقال در حال انتضار
-    shared_from_my_team_referrals: رجعت دهی
     shared_from_my_team_rejected_transfers: انتقالات مسترد شده
     shared_with_my_team_pending_transfers: انتقال در حال انتضار
-    shared_with_my_team_referrals: رجعت دهی
     status_of_cases: وضعیت قضیه
     system_user: سیستم
     total: همه
@@ -570,7 +567,6 @@ fa-AF:
       lookup:
         being_used: از این جستجو استفاده صورت گرفته است و نمیتوانید حذف کنید
         name_present: جای نام نباید خالی باشد
-        values_ids_blank: آی دی جستجو شده خالی است
       primero_module:
         associated_record_types: حد اقل یک نوع ثبت قضیه باید با این مدول یکجا باشد
         form_section_ids: حد اقل یک فورم باید با این مدول یکجا باشد
@@ -1607,7 +1603,6 @@ fa-AF:
       metadata:
         actions:
           manage:
-            explanation: 'توانایی ایجاد، ویرایش، ترجمه و حذف فورم ها، بخش های فورم و جستجوها. لطفا به داد داشته باشید که کاربر ذارنده این دستور فقط می تواند فورم هایی را مدیریت کند که به آنها دسترسی دارد. بطور مثال، اگر یک مدیر ملی فقط توانایی این را دارد که فورم مالک سوابق را روی پرونده ها ببیند، پس فقط قادر خواهند بود پیکربندی های این فورم را بروز کند. '
             label: مدیریت (تمام اجازه ها برای این نوع منبع)
         label: فورم ها. جستجوها
       module:
@@ -2062,5 +2057,4 @@ fa-AF:
     headers:
       full_name: نام مکمل
       user_name: نام کاربری
-      position: موقعیت
       agency: نمایندگی
