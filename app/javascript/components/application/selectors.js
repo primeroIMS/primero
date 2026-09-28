@@ -394,3 +394,6 @@ export const getExactSearchFields = state => state.getIn([NAMESPACE, "exactSearc
 export const getPhoneticSearchFields = state => state.getIn([NAMESPACE, "phoneticSearchFields"], fromJS({}));
 
 export const getPhoneNumberSearchFields = state => state.getIn([NAMESPACE, "phoneNumberSearchFields"], fromJS({}));
+
+export const getPendingTransitionToForm = (state, primeroModule) =>
+  fromJS(getAppModuleByUniqueId(state, primeroModule).getIn(["options", "pending_transition_to_form"], {}));

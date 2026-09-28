@@ -582,6 +582,21 @@ const ALERTS_FOR = {
   referral: "referral"
 };
 
+const PENDING_TRANSITION_ALERTS = Object.freeze({
+  referral: {
+    pendingUsersField: REFERRED_USERS_PENDING_FIELD,
+    transitionFormUniqueId: REFERRAL,
+    messageKey: "case.messages.case_referral_pending_alert",
+    linkKey: "case.messages.pending_transition_link"
+  },
+  transfer: {
+    pendingUsersField: TRANSFERRED_TO_USERS_FIELD,
+    transitionFormUniqueId: TRANSFERS_ASSIGNMENTS,
+    messageKey: "case.messages.case_transfer_pending_alert",
+    linkKey: "case.messages.pending_transition_link"
+  }
+});
+
 const MAX_OFFLINE_ROWS_PER_PAGE = 50;
 
 const ROWS_PER_PAGE_OPTIONS = [20, 50, 75, 100];
@@ -931,6 +946,7 @@ export {
   INPROGRESS,
   APPROVALS_TYPES,
   ALERTS_FOR,
+  PENDING_TRANSITION_ALERTS,
   MAX_OFFLINE_ROWS_PER_PAGE,
   ROWS_PER_PAGE_OPTIONS,
   OFFLINE_ROWS_PER_PAGE_OPTIONS,

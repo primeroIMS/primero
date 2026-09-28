@@ -496,6 +496,7 @@ export default namespace =>
       case `${namespace}/${SET_IS_RECORD_CREATION_FLOW}`: {
         return state.set("isRecordCreationFlow", payload);
       }
+      case referralActions.REFERRAL_REJECTED_SUCCESS:
       case referralActions.REFERRAL_ACCEPTED_SUCCESS: {
         const { record, record_type: recordType } = payload.data;
         const index = state.get("data", List([])).findIndex(current => current.get("id") === record?.id);

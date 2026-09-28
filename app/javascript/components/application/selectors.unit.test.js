@@ -759,4 +759,46 @@ describe("Application - Selectors", () => {
       expect(result).toBe(true);
     });
   });
+  describe("getPendingTransitionToForm", () => {
+    const state = fromJS({
+      application: {
+        modules: [
+          {
+            unique_id: MODULES.CP,
+            options: { pending_transition_to_form: { referral: "basic_identity" } }
+          },
+          { unique_id: MODULES.GBV, options: {} }
+        ]
+      }
+    });
+
+    it("returns the configured forms for the module", () => {
+      expect(selectors.getPendingTransitionToForm(state, MODULES.CP)).toEqual(fromJS({ referral: "basic_identity" }));
+    });
+
+    it("returns an immutable map when the module options are stored as plain objects", () => {
+      const stateWithModuleRecords = fromJS({
+        application: {
+          modules: [
+            PrimeroModuleRecord({
+              unique_id: MODULES.CP,
+              options: { pending_transition_to_form: { referral: "basic_identity" } }
+            })
+          ]
+        }
+      });
+
+      expect(selectors.getPendingTransitionToForm(stateWithModuleRecords, MODULES.CP)).toEqual(
+        fromJS({ referral: "basic_identity" })
+      );
+    });
+
+    it("returns an empty map when the module has no configuration", () => {
+      expect(selectors.getPendingTransitionToForm(state, MODULES.GBV)).toEqual(fromJS({}));
+    });
+
+    it("returns an empty map when the module does not exist", () => {
+      expect(selectors.getPendingTransitionToForm(state, "primeromodule-unknown")).toEqual(fromJS({}));
+    });
+  });
 });

@@ -79,7 +79,13 @@ function Container({
         <div>{newIncidentBtn}</div>
       </div>
       <div className={css.alerts}>
-        <RecordFormAlerts recordType={RECORD_TYPES_PLURAL[recordType]} form={incidentFromCaseForm} formMode={mode} />
+        <RecordFormAlerts
+          recordType={RECORD_TYPES_PLURAL[recordType]}
+          form={incidentFromCaseForm}
+          formMode={mode}
+          record={record}
+          primeroModule={primeroModule}
+        />
       </div>
       {renderIncidents}
     </div>
