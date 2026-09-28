@@ -173,6 +173,7 @@ fr:
     link: Lien
     mark_for_mobile: Marquer pour mobile
     new: Nouveau
+    next: Suivant
     ok: OK
     print: 'Imprimer '
     reassign: Assigner
@@ -200,6 +201,9 @@ fr:
     unflag_model_history: Historique des alertes %{model}
     unmark_for_mobile: Supprimer le marquage pour mobile
     update: Mettre à jour
+    update_signature: Mettre à jour la signature
+    add_signature: Ajouter signature
+    remove_signature: Supprimer la signature
     view: Voir
     view_flags_history: 'Voir l''historique '
     return_to_case: 'Retourner au cas '
@@ -304,12 +308,9 @@ fr:
       date: "Date"
       ready_to_start_cfm: "Êtes-vous prêt à démarrer le Child Functioning Module ?"
       age: "Age"
-      vision_wear_glass: "Lunettes de vue"
       difficulty_seeing_with_glasses: "Difficulté à voir avec des lunettes"
-      continue_hearing_section: "Aller à la section Écoute "
       child_wears_hearing_aid: "L'enfant porte un appareil auditif."
       difficulty_hearing_with_hearing_aid: "Difficulté à entendre avec un appareil auditif"
-      continue_mobility_section: "Aller à la section Mobilité"
       child_uses_equipment_or_receive_assistance_for_walking: "L'enfant utilise un équipement ou reçoit de l'aide pour se déplacer."
       difficulty_walking_without_equipment: "Difficulté à se déplacer sans équipement/assistance"
       mobility_difficulty_without_equipment_100m: "Difficulté à se déplacer sans équipement sur 100 m "
@@ -317,33 +318,8 @@ fr:
       difficulty_walking_with_equipment: "Difficulté à se déplacer avec équipement/assistance"
       mobility_difficulty_with_equipment_100m: "Difficulté à se déplacer avec équipement sur 100 m"
       mobility_difficulty_with_equipment_500m: "Difficulté à se déplacer avec équipement sur 500 m"
-      continue_dexterity_display_section: "Afficher la section Motricité "
       difficulty_picking_up_small_objects_with_hand: "Difficulté à ramasser de petits objets avec la main"
-      self_care_display: "Prise en charge personnelle"
       self_care_difficulty: "Difficulté à prendre soin de soi"
-      communication_display_section: "Afficher la section Communication "
-      child_have_difficulty_to_understand: "L'enfant a des difficultés à comprendre."
-      child_have_difficulty_to_understanding_child_household: "L’enfant a des difficultés à comprendre son environnement familial"
-      difficulty_to_understanding_child_others: "Difficultés à comprendre les autres enfants "
-      difficulty_to_understand_the_child: "Difficulté à comprendre l'enfant"
-      learning_display_section: "Afficher la section apprentissage "
-      child_have_difficulty_for_learning: "L'enfant a des difficultés pour apprendre "
-      playing_display_section: "Afficher la section jeu"
-      child_have_difficulty_for_playing: "L'enfant a des difficultés pour jouer "
-      remembering_display: "Afficher la Section souvenir"
-      remembering_difficulty: "Difficultés à se souvenir"
-      concentrating_display: "Afficher la section Concentration"
-      concentrating_difficulty: "Difficultés à se concentré "
-      accepting_change_display: "Afficher la section Acceptation du changement "
-      accepting_change_difficulty: "Difficultés à accepter le changement "
-      controlling_behavior_display_section: "Afficher la section contrôle comportemental "
-      difficulty_for_controlling_behaviour: "Difficulté à contrôler des comportements tels que donner des coups de pied, mordre ou frapper les autres"
-      making_friends_display_section: "Afficher la section Se faire des amis  "
-      making_friends_difficulty: "Difficultés à se faire des amis"
-      anxiety_display_section: "Afficher la section Anxiété"
-      anxiety_how_often: "Anxiété : à quelle fréquence ?"
-      depression_display_section: "Afficher la section Dépression "
-      depression_how_often: "Dépression : à quelle fréquence ? "
       cfm_yes: "Oui"
       cfm_no: "Non"
       n_a: "N/A"
@@ -848,14 +824,12 @@ fr:
     services: Services ou actions
     services_implemented: 'Service mis en oeuvre '
     shared_from_my_team_pending_transfers: Transfert en attente
-    shared_from_my_team_referrals: Références
     shared_from_my_team_rejected_transfers: Transferts rejetés
     shared_with_me_new_referrals: Nouveau
     shared_with_me_total_referrals: Total
     shared_with_me_transfers_awaiting_acceptance: En attente d'acceptation
     shared_with_my_team_pending_transfers_overview: En attente d'acceptation
     shared_with_my_team_pending_transfers: Transfert en attente
-    shared_with_my_team_referrals: Références
     shared_with_others_pending_transfers: En attente
     shared_with_others_referrals: Total
     shared_with_others_rejected_transfers: Rejeté
@@ -983,7 +957,6 @@ fr:
       lookup:
         being_used: Cette référence est en cours d'utilisation et ne peut être supprimée
         name_present: 'Le nom ne doit pas être laissé vide '
-        values_ids_blank: La valeur de la référence est vide
       primero_module:
         associated_record_types: Au moins un type de dossier doit être associé à ce module
         form_section_ids: Au moins un formulaire doit être associé à ce module
@@ -2603,7 +2576,6 @@ fr:
     search: Rechercher
     phonetic_search:
       title: Entrez un nom pour rechercher un dossier existant.
-      label: Utiliser les noms
       help_text: La recherche phonétique est disponible pour les noms.
       tooltip_label: 'La recherche phonétique est disponible pour les champs suivants :'
     id_search:
@@ -3083,9 +3055,6 @@ fr:
           action_needed_new_updated:
             explanation: Affiche 'Nouveau et mis à jour' dans la partie 'Action requise' du tableau de bord . Cela inclut les cas qui ont été récemment assignés au gestionnaire actuel ou qu'un autre gestionnaire a mis à jour depuis la dernière fois que le gestionnaire actuel l'a fait.
             label: 'Action requise : Nouvelle action ou mise à jour'
-          action_needed_new_referrals:
-            explanation: Affiche 'Nouvelles références' dans la partie 'Action requise' du tableau de bord . Cela inclut tous les cas avec une nouvelle référence envoyée au gestionnaire actuel, lorsque celui-ci n'est pas la dernière personne à avoir mis à jour le cas.
-            label: 'Action requise : nouvelles références'
           action_needed_transfer_awaiting_acceptance:
             explanation: Affiche 'Transferts en attente d'acceptation' dans la partie 'Action requise' du tableau de bord. Cela inclut tous les cas avec un transfert vers gestionnaire actuel que celui-ci n'a pas encore accepté.
             label: 'Action requise : transferts en attente d''acceptation'
@@ -3430,7 +3399,6 @@ fr:
       metadata:
         actions:
           manage:
-            explanation: Capacité à créer, modifier, traduire et supprimer des formulaires, des champs de formulaires et des consultations. Veuillez noter qu'un utilisateur ayant cette autorisation ne pourra gérer que les formulaires auxquels il a accès. Par exemple, si un administrateur national n'a pas la possibilité de voir le formulaire "Informations sur le gestionnaire de cas", il ne pourra que mettre à jour la configuration de ce formulaire.
             label: Gérer (toutes les autorisations pour ce type de ressources)
         explanation: Contrôle la capacité de configurer les formulaires et les champs de Primero, ainsi que les options de recherche utilisées dans ces derniers.
         label: Formulaires, références
@@ -4270,7 +4238,6 @@ fr:
     headers:
       full_name: 'Nom complet '
       user_name: Nom d'utilisateur
-      position: Poste
       agency: 'Organisation '
     alerts:
       total_users_created: 'Vous avez créé %{total_enabled} utilisateurs en dehors de la limite de votre système qui autorise %{maximum_users} utilisateurs autorisés. '
