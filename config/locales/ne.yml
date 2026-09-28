@@ -500,7 +500,6 @@ ne:
       updated: कन्फिगरेसन सफलतापूर्वक अद्यावधिक गरियो ।
       sent: प्रोडक्सनलागि कन्फिगरेसन पठाउँदैछ । तपाईको कन्फिगरेसन आएको छ कि छैन भनेर हेर्नका लागि कृपया प्रोडक्सन साइट जाँच गर्नुहोस् ।
     not_allowed: अनुमति छैन
-    unavailable_server: सर्भर अस्थायी रूपमा उपलब्ध छैन
   contact:
     field:
       email: इमेल
@@ -725,10 +724,8 @@ ne:
     services: सेवाहरू
     services_implemented: लागु गरिएका सेवाहरू
     shared_from_my_team_pending_transfers: विचाराधीन स्थानान्तरणहरू
-    shared_from_my_team_referrals: रिफरलहरू
     shared_from_my_team_rejected_transfers: अस्वीकृत स्थानान्तरणहरू
     shared_with_my_team_pending_transfers: विचाराधीन स्थानान्तरणहरू
-    shared_with_my_team_referrals: रेफेरलहरू
     status_of_cases: घटनाहरूको स्थिति
     system_user: प्रणाली
     total: जम्मा
@@ -805,7 +802,6 @@ ne:
       lookup:
         being_used: यो खोजी भइरहेको छ र मेट्न सकिँदैन ।
         name_present: नाम खाली हुनु हुँदैन
-        values_ids_blank: ' एउटा lookup_value आईडी खाली छ'
       primero_module:
         associated_record_types: कम्‍तीमा एउटा अभिलेख प्रकार यो मोड्युलसँग सम्बन्धित हुनुपर्दछ
         form_section_ids: ‌कम्तीमा एउटा फारम यो मोड्युलसँग सम्बन्धित हुनुपर्दछ
@@ -1613,46 +1609,27 @@ ne:
       _requested: अनुरोध गरियो
       add_note: नोटहरू थप्‍नुहोस्
       assign: तोक्नुहोस्
-      assign_to: लाई तोक्नुहोस्
-      attach: सङ्लग्न गर्नुहोस् ।
       bulk_assign: बल्कमा तोकनुहोस्
       bulk_create: बल्कमा सिर्जना गर्नुहोस् ।
       bulk_index: बल्क सूचकाङ्क
-      case_plan_approved: केस योजना स्वीकृत गरियो
-      case_plan_rejected: केस योजना अस्वीकृत गरियो
-      case_plan_requested: केस योजना अनुरोध गरियो
       close: बन्द गर्नुहोस्
       create: सिर्जना गर्नुहोस्
       create_bulk: बल्कमा सिर्जना गर्नुहोस् ।
       delete: मेटाउनुहोस्
       destroy: नष्ट गर्नुहोस् ।
-      detach: अलग गर्नुहोस् ।
-      enable_disable_record: अभिलेखलाई निष्क्रिय सक्रिय पार्नुहोस् ।
       export: एक्सपोर्ट
       flag: फ्ल्याग
       import: ईमपोर्ट
       incident_details_from_case: 'केसबाट घटना विवरण '
-      index: ईन्डेक्स
       list: सूची
       login: लग-इन
       password_reset: पासवर्ड रिसेट गर्नुहोस् ।
       password_reset_request: पासवर्ड रिसेट गर्न अनुरोध गर्नुहोस् ।
       refer: रिफर
-      refer_accepted: रिफर स्वीकृत गरिएको
-      refer_done: रिफर सम्पन्न
-      refer_rejected: रिफर अस्वीकृत गरिएको
-      refer_revoke: रिफर रद्द गर्नुहोस् ।
-      refer_to: लाई रिफर गर्नुहोस् ।
       reopen: पुनः खोल्नुहोस् ।
-      services_section_from_case: केसबाट सेवा खण्डहरू
       show: देखाउनु
       show_alerts: अलर्ट देखाउनुहोस् ।
-      traces: ट्रेसहरु
       transfer: स्थानान्तरण गर्नुहोस् ।
-      transfer_accepted: स्थानान्तरण स्वीकार गरियो ।
-      transfer_rejected: स्थानान्तरण अस्वीकृत गरियो ।
-      transfer_request: 'स्थानान्तरणको लागि अनुरोध '
-      transfer_to: मा स्थानान्तरण गर्नुहोस् ।
       unflag: अनफ्ल्याग गर्नुहोस् ।
       update: अद्यावधिक गर्नुहोस् ।
       user_password_reset_request: प्रयोगकर्ता पासवर्ड रिसेटको लागि अनुरोध
@@ -1861,7 +1838,6 @@ ne:
         attack_on_schools: विद्यालय(हरु)मा आक्रमण
         military_use: विद्यालय(हरू) र/वा अस्पताल(हरू) को सैन्य प्रयोग
         denial_humanitarian_access: बालबालिकाको लागि मानवीय पहुँच अस्वीकार गरिएको
-        detention: हिरासत
       sub_reports:
         children: बालबालिका
         combined: उल्लङ्घनहरू
@@ -1907,13 +1883,6 @@ ne:
         survivors: पीडितहरु
         referrals: रिफरलहरु
       sub_reports:
-        service_safehouse_referral: सुरक्षित घर/सुरक्षित आश्रयस्थललाई रिफरल
-        service_medical_referral: स्वास्थ्य/चिकित्सा सेवाको रिफरल
-        service_psycho_referral: मनोसामाजिक/परामर्श सेवाहरू
-        service_legal_referral: कानुनी सहायता सेवाहरु
-        service_police_referral: प्रहरी वा अन्य प्रकारका सुरक्षा सेवाहरू
-        service_livelihoods_referral: जीविकोपार्जन सेवाहरु
-        service_protection_referral: बाल संरक्षण सेवाहरु
         survivors_disability_type: अपाङ्गता भएकाहरु
     success_message: एक्सपोर्ट फाईल सफलतापूर्वक उत्पन्न भयो
   messages:
@@ -2620,7 +2589,6 @@ ne:
       metadata:
         actions:
           manage:
-            explanation: सिर्जना, सम्पादन, अनुवाद गर्न सक्ने  र फारम, फारम क्षेत्रहरू र खोजीहरू मेटाउने क्षमता। कृपया ध्यान दिनुहोस् कि यो अनुमति भएको प्रयोगकर्ता सँग उनीहरूको पहुँच भएको फारमहरू मात्र व्यवस्थापन गर्न सक्षम हुनेछ। उदाहरणको लागि, यदि  एउटा राष्ट्रिय प्रशासकलाई केसहरूमा अभिलेख मालिक मात्र हेर्ने क्षमता छ भने त्यो फारमको लागि मात्र कन्फिगरेसन अद्यावधिक गर्न सक्षम हुनेछन्।
             label: प्रबन्ध गर्नुहोस् (यो स्रोत प्रकारको लागि सबै अनुमतिहरू ) ।
         explanation: प्रीमेरो फारम र फिल्डहरू, साथै त्यहाँ भित्र प्रयोग गरिएका लुकअपको विकल्पहरू कन्फिगर गर्ने क्षमता नियन्त्रण गर्दछ।
         label: फारमहरू, खोजी
@@ -3290,7 +3258,6 @@ ne:
     headers:
       full_name: 'पुरा नाम '
       user_name: युजरनेम
-      position: पद
       agency: निकाय
   devise:
     failure:

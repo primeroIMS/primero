@@ -302,12 +302,9 @@ tr:
       date: "Tarih"
       ready_to_start_cfm: "Çocuk İşlevselliği Modülüne başlamaya hazır mısınız?"
       age: "Yaş"
-      vision_wear_glass: "Gözlük ile görebiliyor"
       difficulty_seeing_with_glasses: "Gözlük ile görmekte güçlük çekiyor"
-      continue_hearing_section: "İşitme bölümüyle devam et"
       child_wears_hearing_aid: "Çocuk, işitme cihazı kullanıyor"
       difficulty_hearing_with_hearing_aid: "İşitme cihazı ile duymakta güçlük çekiyor"
-      continue_mobility_section: "Hareketlilik bölümüyle devam et"
       child_uses_equipment_or_receive_assistance_for_walking: "Çocuk, yürümesine yardımcı ekipman kullanıyor ya da destek alıyor"
       difficulty_walking_without_equipment: "Ekipmansız/desteksiz yürümekte güçlük çekiyor"
       mobility_difficulty_without_equipment_100m: "Ekipmansız hareket güçlüğü 100m"
@@ -315,33 +312,8 @@ tr:
       difficulty_walking_with_equipment: "Ekipmanlı/destekli yürümekte güçlük çekiyor"
       mobility_difficulty_with_equipment_100m: "Ekipmanlı hareket güçlüğü 100m"
       mobility_difficulty_with_equipment_500m: "Ekipmanlı hareket güçlüğü 500m"
-      continue_dexterity_display_section: "Beceri sergileme bölümüyle devam et"
       difficulty_picking_up_small_objects_with_hand: "Küçük nesneleri eliyle almakta güçlük çekiyor"
-      self_care_display: "Öz bakım davranışları sergiliyor"
       self_care_difficulty: "Öz bakım davranışlarında güçlük çekiyor"
-      communication_display_section: "İletişim kurma bölümü"
-      child_have_difficulty_to_understand: "Çocuk anlama güçlüğü çekiyor"
-      child_have_difficulty_to_understanding_child_household: "Çocuk ev halkını anlamakta güçlük çekiyor"
-      difficulty_to_understanding_child_others: "Çocuk diğer kişileri anlamakta güçlük çekiyor"
-      difficulty_to_understand_the_child: "Çocuğu anlamak güç"
-      learning_display_section: "Öğrenim becerilerinin sergilenmesi bölümü"
-      child_have_difficulty_for_learning: "Çocuk öğrenmekte güçlük çekiyor"
-      playing_display_section: "Oyun oynama becerilerinin sergilenmesi bölümü"
-      child_have_difficulty_for_playing: "Çocuk oyun oynamakta güçlük çekiyor"
-      remembering_display: "Hatırlama becerilerinin sergilenmesi"
-      remembering_difficulty: "Hatırlama güçlüğü çekiyor"
-      concentrating_display: "Konsantre olma becerilerinin sergilenmesi"
-      concentrating_difficulty: "Konsantre olma güçlüğü çekiyor"
-      accepting_change_display: "Değişiklikleri kabul etme davranışı"
-      accepting_change_difficulty: "Değişiklikleri kabul etmede güçlük çekiyor"
-      controlling_behavior_display_section: "Davranışlarını kontrol etme davranışı"
-      difficulty_for_controlling_behaviour: "Tekmeleme, ısırma veya vurma gibi davranışlarını kontrol etmekte güçlük çekiyor"
-      making_friends_display_section: "Arkadaş edinme davranışı"
-      making_friends_difficulty: "Arkadaş edinmekte güçlük çekiyor"
-      anxiety_display_section: "Anksiyete sergileme davranışı"
-      anxiety_how_often: "Ne sıklıkla anksiyete yaşadığı"
-      depression_display_section: "Depresyon sergileme davranışı"
-      depression_how_often: "Ne sıklıkla depresyon yaşadığı"
       cfm_yes: "Evet"
       cfm_no: "Hayır"
       n_a: "Uygulanamaz"
@@ -586,7 +558,6 @@ tr:
       updated: Konfigürasyon başarıyla güncellendi.
       sent: Konfigürasyon, üretim birimine gönderiliyor. Lütfen konfigürasyonunuzun ulaşıp ulaşmadığını kontrol etmek için üretim sitesini kontrol edin.
     not_allowed: İzin verilmedi
-    unavailable_server: Sunucu geçici olarak hizmet dışı.
   contact:
     field:
       email: E-Posta
@@ -820,14 +791,12 @@ tr:
     services: Hizmetler
     services_implemented: Uygulanan Hizmetler
     shared_from_my_team_pending_transfers: Bekleyen Transferler
-    shared_from_my_team_referrals: Yönlendirmeler
     shared_from_my_team_rejected_transfers: Reddedilen Transferler
     shared_with_me_new_referrals: Yeni
     shared_with_me_total_referrals: Toplam
     shared_with_me_transfers_awaiting_acceptance: Kabul Bekleniyor
     shared_with_my_team_pending_transfers_overview: Kabul Bekleniyor
     shared_with_my_team_pending_transfers: Bekleyen Transferler
-    shared_with_my_team_referrals: Yönlendirmeler
     shared_with_others_pending_transfers: Beklemede
     shared_with_others_referrals: Toplam
     shared_with_others_rejected_transfers: Reddedildi
@@ -948,7 +917,6 @@ tr:
       lookup:
         being_used: Bu arama kullanılıyor ve silinemez
         name_present: İsim kısmı boş bırakılamaz
-        values_ids_blank: lookup_value kimliği kısmı boş bırakılamaz
       primero_module:
         associated_record_types: En az bir kayıt türü bu modül ile ilişkilendirilmelidir
         form_section_ids: En az bir kayıt formu bu modül ile ilişkilendirilmelidir
@@ -1821,58 +1789,32 @@ tr:
       _rejected: Reddedildi
       _requested: Talepte Bulunuldu
       add_note: Not Ekle
-      assessment_approved: Değerlendirme Onaylandı
-      assessment_rejected: Değerlendirme Reddedildi
-      assessment_requested: Değerlendirme Talep Edildi
       assign: Atama Yap
-      assign_to: Şuna ata
-      attach: Ekleme yap
       bulk_assign: Toplu atama
       bulk_create: Toplu oluşturma
       bulk_index: Toplu endeks
-      case_plan_approved: Vaka planı onaylandı
-      case_plan_rejected: Vaka planı reddedildi
-      case_plan_requested: Vaka planı talep edildi
       close: Kapat
-      closure_approved: Kapanış Onaylandı
-      closure_rejected: Kapanış Reddedildi
-      closure_requested: Kapanış Talep Edildi
       create: Oluştur
       create_bulk: Toplu oluştur
       create_family: Aile Oluştur
       current: Mevcut Durum
       delete: Sil
       destroy: Bitir
-      detach: Ayır
-      enable_disable_record: Engellilik durumu kaydını etkinleştir
       export: Dışa Aktar
       family: Aileyi Listele
       flag: İşaretle
       import: İçe Aktar
       incident_details_from_case: Vakadaki olay detayları
-      index: Endeks
       list: Listele
       login: Giriş Yap
       logout: Çıkış Yap
       password_reset: Şifreyi sıfırla
       password_reset_request: Şifre sıfırlama talebi
       refer: Yönlendir
-      refer_accepted: Yönlendirme kabul edildi
-      refer_done: Yönlendirme tamamlandı
-      refer_rejected: Yönlendirme reddedildi
-      refer_revoke: Yönlendirme İptal Edildi
-      refer_to: Yönlendirme Yeri
       reopen: Yeniden Aç
-      services_section_from_case: Vakadaki hizmetler bölümü
       show: Göster
       show_alerts: Uyarıları göster
-      traces: İzler
       transfer: Transfer et
-      transfer_accepted: Transfer kabul edildi
-      transfer_rejected: Transfer reddedildi
-      transfer_request: Transfer talebi
-      transfer_revoked: Transfer İptal Edildi
-      transfer_to: Transfer yeri
       unflag: İşareti kaldır
       update: 'Güncelle '
       update_bulk: Toplu Güncelle
@@ -2189,7 +2131,6 @@ tr:
         attack_on_schools: Okullara saldırılar
         military_use: Okulların ve/veya hastanelerin askerî amaçlı kullanımı
         denial_humanitarian_access: Çocuklar için insani yardım erişiminin engellenmesi
-        detention: Alıkoyma
       sub_reports:
         children: Çocuklar
         combined: İhlaller
@@ -2238,37 +2179,6 @@ tr:
       sub_reports:
         incidents: Olaylar
         combined: Genel İstatistikler
-        total: 1. Yeni Rapor Edilen TCDŞ Olayları
-        gbv_sexual_violence: Maruz Kalan İstatistikleri - 9. Rapor Edilen Cinsel Şiddet Olaylarının Sayısı
-        gbv_previous_incidents: 2. Yeni Rapor Edilen Cinsel Şiddet Olayları
-        gbv_sexual_violence_type: Olay İstatistikleri - 10. TCDŞ Türü
-        incident_timeofday: Olay İstatistikleri - 11. Olayın Günün Hangi Saatinde Gerçekleştiği
-        elapsed_reporting_time: Olay İstatistikleri - 13. Olayın Gerçekleştiği ve Raporlandığı Tarih Arasındaki Süre
-        elapsed_reporting_time_rape: Olay İstatistikleri - 14. Tecavüz Olaylarında Olayın Gerçekleştiği ve Raporlandığı Tarih Arasında Geçen Süre
-        elapsed_reporting_time_rape_health_referral: Olay İstatistikleri - 15. Tecavüz Olayları, Geçen Süre (Sağlık Hizmeti veya Yönlendirme)
-        incident_location_type: Olay İstatistikleri - 16. Olayın Konumu
-        number_of_perpetrators: Fail İstatistikleri - 17. Asıl Faillerin Sayısı
-        perpetrator_relationship: Fail İstatistikleri - 18. Zanlı-Maruz Kalan İlişkisi
-        perpetrator_age_group: Fail İstatistikleri - 19. Asıl Fail Olduğu İddia Edilen Zanlıların Yaş Grubu
-        perpetrator_occupation: Fail İstatistikleri - 20. Asıl Fail Olduğu İddia Edilen Zanlının Mesleği
-        age: Maruz Kalan İstatistikleri - 4. Maruz Kalanın Yaşı
-        sex: ' Maruz Kalan İstatistikleri - 3. Maruz Kalanın Cinsiyeti'
-        marital_status: Maruz Kalan İstatistikleri - 5. Maruz Kalanların Medeni Durumu
-        displacement_status: Maruz Kalan İstatistikleri - 6. Raporlama Zamanındaki Yerinden Edilme Statüsü
-        displacement_incident: Maruz Kalan İstatistikleri - 7. Olay Zamanındaki Yerinden Edilme Durumu
-        gbv_case_context: Olay İstatistikleri - 12. Vaka Bağlamı
-        incidents_first_point_of_contact: Yönlendirme İstatistikleri - 21. Kuruluşunuzun ilk temas noktası olduğu vaka sayısı
-        incidents_from_other_service_provider: Yönlendirme İstatistikleri - 22. Diğer Hizmet Sağlayıcılardan Yönlendirilen Olaylar
-        number_of_services_provided: Yönlendirme İstatistikleri - 23. Olaylar için Sağlanan Hizmetlerin sayısı
-        number_of_services_provided_other: Yönlendirme İstatistikleri - 24. Diğer Hizmet Sağlayıcılarına yapılan Yeni Olay Yönlendirmeleri
-        service_safehouse_referral: Güvenli Eve/Barınağa Yönlendirme
-        service_medical_referral: Sağlık/Tıbbi Amaçlı Yönlendirme
-        service_psycho_referral: Psikososyal Hizmetler/Danışmanlık Hizmetleri
-        service_legal_referral: Hukuki Yardım Hizmetleri
-        service_police_referral: Polis veya Diğer Güvenlik Hizmetleri
-        service_livelihoods_referral: Geçim Kaynakları Hizmetleri
-        service_protection_referral: Çocuk Koruma Hizmetleri
-        vulnerable_populations: Maruz Kalan İstatistikleri - 8. Kırılgan Nüfuslar
         survivors_disability_type: Engellilik Durumu Olanlar
     workflow_report:
       name: İş Akışı
@@ -2471,7 +2381,6 @@ tr:
     search: Ara
     phonetic_search:
       title: Mevcut kaydı aramak için bir isim girin.
-      label: İsim Alanlarını Kullan
       help_text: İsim alanları için fonetik arama mevcuttur
     id_search:
       title: Mevcut kaydı aramak için kimlik numarasını gir.
@@ -2933,9 +2842,6 @@ tr:
           action_needed_new_updated:
             explanation: '"Eylem Gerekli" panosunda "Yeni ve Güncellenmiş" göstergesini görüntüler. Bu, mevcut kullanıcıya yeni atanan veya mevcut kullanıcının son güncellemesinden bu yana başka bir kullanıcının güncellediği Vakaları içerir.'
             label: 'Eylem Gerekli: Yeni veya Güncellenmiş'
-          action_needed_new_referrals:
-            explanation: '"Eylem Gerekli" panosunda "Yeni Yönlendirmeler" göstergesini görüntüler. Bu, mevcut kullanıcıya yeni bir Yönlendirme gönderilen ve mevcut kullanıcının Vakayı güncelleyen son kişi olmadığı Vakaları içerir.'
-            label: 'Eylem Gerekli: Yeni Yönlendirmeler'
           action_needed_transfer_awaiting_acceptance:
             explanation: '"Eylem Gerekli" panosunda "Kabul Edilmeyi Bekleyen Transferler" göstergesini görüntüler. Bu, mevcut kullanıcının kabul etmediği, mevcut kullanıcıya Transfer edilen tüm Vakaları içerir.'
             label: 'Eylem Gerekli: Transferler Kabul Bekliyor'
@@ -3261,7 +3167,6 @@ tr:
       metadata:
         actions:
           manage:
-            explanation: Formları, form alanlarını ve aramaları oluşturabilme, düzenleyebilme, çevirebilme ve silebilme. Lütfen bu izne sahip bir kullanıcının yalnızca erişimi olan formları yönetebileceğini unutmayın. Örneğin, bir ulusal yönetici vakalarda yalnızca Kayıt Sahibi formunu görebiliyorsa o zaman yalnızca bu formun yapılandırmasını güncelleyebilecektir.
             label: Yönet (bu kaynak türündeki bütün izinleri kapsar)
         explanation: Primero Formlarını ve Alanlarını ve bunların içinde kullanılan Arama seçeneklerini yapılandırabilme seçeneğini kontrol eder.
         label: Formlar, Aramalar
@@ -3637,7 +3542,6 @@ tr:
     allow_all: Tüm mevcut formların erişimine izin ver
     type_of_recipient: Alıcı Türü
     type_of_referral_required: Yönlendirme türü gerekli
-    referral_authorization_label: Yönlendirme Türünü belirlemek ister misiniz?
     referral_authorization_help_text: Bu, alıcının hangi formlara erişebileceğini sınırlayacaktır.
     agency_label: Kurum
     is_remote_label: Bir uzaktan erişim sisteminden mi bahsediyorsunuz?
@@ -4080,7 +3984,6 @@ tr:
     headers:
       full_name: Tam İsim
       user_name: Kullanıcı Adı
-      position: Mevki
       agency: Kurum
     alerts:
       total_users_created: Uygulamanızın izin verilen %{maximum_users} etkinleştirilmiş Kullanıcıdan %{total_enabled} tanesini oluşturdunuz.

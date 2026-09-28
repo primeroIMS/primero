@@ -4,11 +4,11 @@ es-ES:
       export_incident_recorder_xls: "Exportar registrador de incidentes xls"
   exports:
     incident_recorder_xls:
-      all:  Registrador(a) del Incidente
-      one:  Registrador(a) del Incidente
-      selected:  Seleccionado(a) para Registrador(a) de Incidente
-      "yes": "Sí"
-      "no": "No"
+      all: Registrador(a) del Incidente
+      one: Registrador(a) del Incidente
+      selected: Seleccionado(a) para Registrador(a) de Incidente
+      'yes': "Sí"
+      'no': "No"
       gender:
         male: "M"
         female: "F"

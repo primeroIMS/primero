@@ -4,11 +4,11 @@ am-ET:
       export_incident_recorder_xls: "የተከሰተ አደጋ መመመዝገቢያ ወደ ሌላ ድርጅት ማስተላለፍ"
   exports:
     incident_recorder_xls:
-      all:  የአጋጣሚ መመዝገቢያ
-      one:  የአጋጣሚ መመዝገቢያ
-      selected:  ለአጋጣሚ መመዝገቢያ የተመረጠ
-      "yes": "አዎ"
-      "no": "አይደለም"
+      all: የአጋጣሚ መመዝገቢያ
+      one: የአጋጣሚ መመዝገቢያ
+      selected: ለአጋጣሚ መመዝገቢያ የተመረጠ
+      'yes': "አዎ"
+      'no': "አይደለም"
       gender:
         male: "ወንድ"
         female: "ሴት"

@@ -504,7 +504,6 @@ ku-IQ:
       updated: رێکخستن  ب سەرکەفتیانە هاتە نویکرن
       sent: فرێکرنا رێکخسترنا بۆ بەرهەمەمئیناني. هیڤیدارین سە‌حکە ساتیێ بەرهەمائیناني دا بینی کا رێکخستی گەهشتیە
     not_allowed: دەستویری نینە
-    unavailable_server: سێرڤەر نوکە ل بەر دەست نینە
   contact:
     field:
       email: ئیمێل
@@ -729,10 +728,8 @@ ku-IQ:
     services: خزمەتگوزاری
     services_implemented: خزمەتگوزاریێن هاتینە جێبەجێکرن
     shared_from_my_team_pending_transfers: ڤەگوهاستنێن هەلاویستی
-    shared_from_my_team_referrals: رەوانەکرن
     shared_from_my_team_rejected_transfers: ڤەگوهاستنێن رەتکری
     shared_with_my_team_pending_transfers: ڤەگوهاستنێن هەلاویستی
-    shared_with_my_team_referrals: رەوانەکرن
     status_of_cases: بارودوخێ کەیسی
     system_user: سیستەم
     total: سەرجەم
@@ -809,7 +806,6 @@ ku-IQ:
       lookup:
         being_used: ئەڤ لێگەریانە یا دهێتە بکارئینان و د شیان دا نینە بهێتە ژێبرن
         name_present: ناڤ نابیت ڤالا بیت
-        values_ids_blank: بهایێ لیگەریانێ یێ ڤالایە
       primero_module:
         associated_record_types: دڤێت ب کێمی ئێك جورێ تومارێ گرێدای ڤی نمونێ بیت
         form_section_ids: ب کێمی پێدڤیە فورمەک گرێدای ڤێ نمونێ بیت
@@ -1633,46 +1629,27 @@ ku-IQ:
       _requested: هاتیە داخازکرن
       add_note: زێدەکرنا تێبینیا
       assign: دەستنیشانکرن
-      assign_to: دەستنیشانکرن بو
-      attach: هەڤپێچ
       bulk_assign: دەستنیشانکرن ب کوم
       bulk_create: دروستکرنا ب کوم
       bulk_index: پێشاندەرێ ب کوم
-      case_plan_approved: پلانا کەیسێن پەسەندکری
-      case_plan_rejected: پلانا کەیسێن رەتکری
-      case_plan_requested: پلانا کەیسێن داخازکری
       close: گرتن
       create: دروستکرن
       create_bulk: دروستکرن ب کوم
       delete: ژێبرن
       destroy: ژناڤبرن
-      detach: ژێکجوداکرن
-      enable_disable_record: ب کارخستن و  ژ کارخستنا تومارێ
       export: دەرخستن
       flag: 'دەستنيشانکرن '
       import: هنارتن
       incident_details_from_case: هووردەکاریێن رویدانێ ژ کەیسی
-      index: پێشاندەر
       list: لیست
       login: چوونا ژور
       password_reset: نیکرنا پاسووردی
       password_reset_request: داخازا نیکرنا پاسووردی
       refer: رەوانەکرن
-      refer_accepted: رەوانەکرن هاتە پەسەندکرن
-      refer_done: رەوانەکرن هاتە ئەنجامدان
-      refer_rejected: رەوانەکرن هاتیە رەتکرن
-      refer_revoke: هەلوەشاندنا رەوانەکرنێ
-      refer_to: رەوانەکرن بو
       reopen: دوبارە ڤەکرن
-      services_section_from_case: بەشێن خزمەتگوزاریێ ژ کەیسی
       show: نیشاندان
       show_alerts: هووشداریا نیشان بدە
-      traces: دیفچوون
       transfer: ڤەگوهاستن
-      transfer_accepted: 'ڤەگوهاستن هاتیە پەسەندکرن '
-      transfer_rejected: ڤەگوهاستن هاتیە رەتکرن
-      transfer_request: داخازیا ڤەگوهاستنێ
-      transfer_to: ڤەگوهاستن بو
       unflag: نەهاتیە دەستنیشانکرن
       update: نویکرن
       user_password_reset_request: داخازا نیکرنا پاسووردێ بکارهێنەری
@@ -1881,7 +1858,6 @@ ku-IQ:
         attack_on_schools: هێرشێن لسەر قوتابخانە(یان)
         military_use: بکارئینانا لەشکەری یێن قوتابخاناو نەخوشخانا
         denial_humanitarian_access: بێ به هرکرن ژ گەهاندنا خوێرخوازیا بو زاروکان
-        detention: دەستەسەركرن
       sub_reports:
         children: زاروك
         combined: سەرپێچی
@@ -1927,13 +1903,6 @@ ku-IQ:
         survivors:  رزگاربووی
         referrals: رەوانەکرن
       sub_reports:
-        service_safehouse_referral: خانیێ ئارام یان پەناگەها ئارام بو هاتیە رەوانەكرن
-        service_medical_referral: رەوانەكرنێت ساخلەمی یان پزیشکی
-        service_psycho_referral: خزمەتگوزارییت دەرونی/ راوێشكاری
-        service_legal_referral: خزمەتگوزاریێن هاریکاریا یاسایی
-        service_police_referral: 'خزمەتگوزاریێت پولیسی یان هەر جورەكێ خزمەتگوزاریێت دی یت ئێمناهیێ '
-        service_livelihoods_referral: خزمەتگوزاریێن ژیارێ
-        service_protection_referral: 'خزمەتگوزاریێت پاراستنا زاورکا '
         survivors_disability_type: كێم ئەندام
     success_message: فایلێ دەرخستنێ ب سەرکەفتیانە هاتە دروستکرن
   messages:
@@ -2644,7 +2613,6 @@ ku-IQ:
       metadata:
         actions:
           manage:
-            explanation: شیانا دروستکرن، راستڤەکرن، و ژێبرنا فورما، فورمێن مەیدانی و د لێگەریانا دا. هیڤیدارین بزانی کو بکارهێنەرێ خودان ڤێ دەستیویریێ بتنێ دشێت برێڤەبرنا فورما یێن کو دەستویریا تێدا هەی بکەت. بو نمونە، گەر سەرپەرشتێ لوکال بتنێ دەستویریا دیتنا فۆرما خودانێ تۆمارێ ل سەر کەیسا هەبیت، ل وی دەمی ئەو بتنێ دێ شێن چارچووڤێ وێ فۆرمێ نویکەن.
             label: رێڤەبەرن (هەمی دەستویریا بۆ ڤی جورێ ژێدەری)
         explanation: ' کونترۆلا شیانا رێكخئێستنا فۆرم و بوارێن پریمێرۆ دکەت، دگەل هەلبژارتنێن هاتینە بکارئینان بو لدویف گەرانێ.'
         label: پێکئینان، لێگەریان
@@ -3316,7 +3284,6 @@ ku-IQ:
     headers:
       full_name: ناڤێ تمام
       user_name: ناڤێ بکارهێنەری
-      position: پۆستێ کاری
       agency: ئاژانس
   devise:
     failure:
