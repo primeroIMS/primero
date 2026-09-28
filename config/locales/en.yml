@@ -3378,6 +3378,11 @@ en:
               and they will lose access to the case. You can only refer a case to
               a user whose role has the ability to receive referrals.
             label: Referral
+          referral_within_user_group:
+            explanation: Restricts a user to only be able to send a referral to a user 
+              who is in one of their user groups. Roles with this permission should 
+              also have the ‘Referral’ and/or ‘Refer Case from Service subform’ permission.
+            label: Refer to users within my group
           referral_from_service:
             explanation: Allows the user to see the "Refer" button on the Services
               subform. When the user clicks this button, the referral modal will appear
@@ -3389,6 +3394,10 @@ en:
             explanation: Allows users to indicate whether an external referral
               has been marked as accepted or rejected by its recipient.
             label: Mark external referrals as accepted / rejected
+          receive_referral_within_user_group:
+            explanation: Restricts a user to only be able to receive a referral
+              from a user who is in one of their user groups.
+            label: Receive referral from within my group
           remove_assigned_users:
             explanation: Allows a user to end a Referral, removing recipient access.
               For Referrals, this also lets you mark a Referral as done,

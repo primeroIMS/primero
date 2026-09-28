@@ -219,7 +219,8 @@ describe Exporters::SelectedFieldsExcelExporter do
     # @user = User.new(:user_name => 'fakeadmin', module_ids: ['primeromodule-cp'])
     @role = create(:role, primero_modules: [@primero_module],
                           form_sections: [form1, form2, form3, form_gbv, form4, form5])
-    @user_en = create(:user, user_name: 'fakeadmin_en', role: @role, locale: :en)
+    @user_group = UserGroup.create!(unique_id: 'shared-group')
+    @user_en = create(:user, user_name: 'fakeadmin_en', role: @role, locale: :en, user_groups: [@user_group])
     @user_es = create(:user, user_name: 'fakeadmin_es', role: @role, locale: :es)
     @role_subform = create(:role, primero_modules: [@primero_module], form_sections: [subform2, form1, form2, form3])
     @user_subform = create(:user, user_name: 'fakeadmin_subform', role: @role_subform)
@@ -227,7 +228,7 @@ describe Exporters::SelectedFieldsExcelExporter do
       :role, primero_modules: [@primero_module], form_sections: [form1, form2, form3, form_gbv, form4, form5, form6]
     )
     @role_referral = create(:role, form_sections: [form6], primero_modules: [@primero_module])
-    @user_referral = create(:user, user_name: 'fakerefer', role: @role_user_referral)
+    @user_referral = create(:user, user_name: 'fakerefer', role: @role_user_referral, user_groups: [@user_group])
 
     Referral.create!(
       transitioned_by: @user_en.user_name, transitioned_to: @user_referral.user_name, record: @records[1],
