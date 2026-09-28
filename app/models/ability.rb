@@ -205,14 +205,20 @@ class Ability
 
   def configure_referral_destroy
     can(:destroy, Referral) do |instance|
-      can?(:remove_assigned_users, instance.record) && !instance.recipient?(user)
+      if can?(:remove_assigned_users, instance.record)
+        (instance.sender?(user) || instance.record.owner?(user)) &&
+          (instance.remote? || !instance.recipient?(user))
+      else
+        false
+      end
     end
   end
 
   def configure_referral_update
     can(:update, Referral) do |instance|
       if instance.remote?
-        instance.in_progress? && can?(:accept_or_reject_referral, instance.record)
+        instance.in_progress? && can?(:accept_or_reject_referral, instance.record) &&
+          (instance.sender?(user) || instance.record.owner?(user))
       else
         instance.recipient?(user) && can?(:receive_referral, instance.record)
       end

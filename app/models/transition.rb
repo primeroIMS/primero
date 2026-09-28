@@ -68,6 +68,10 @@ class Transition < ApplicationRecord
     transitioned_to_user.user_name == user.user_name
   end
 
+  def sender?(user)
+    transitioned_by_user.user_name == user.user_name
+  end
+
   def consent_given?
     false
   end
