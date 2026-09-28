@@ -61,6 +61,12 @@ class Api::V2::ReferralsController < Api::V2::RecordResourceController
 
   private
 
+  def find_records
+    super
+
+    @records = @records.reject { |record| record.pending_transition_for?(current_user) }
+  end
+
   def refer(record)
     permitted = params.require(:data).permit(
       :transitioned_to, :transitioned_to_remote, :transitioned_to_agency, :service, :service_record_id,

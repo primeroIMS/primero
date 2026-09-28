@@ -18,12 +18,16 @@ describe BulkAssignService do
     create(:role, is_manager: true, primero_modules: [primero_module], group_permission: Permission::ALL)
   end
 
+  let(:user_group) { create(:user_group, name: 'Group1') }
+
   let(:user) do
-    create(:user, user_name: 'user', role:, full_name: 'Test User 1', email: 'owner@primero.dev')
+    create(:user, user_name: 'user', role:, full_name: 'Test User 1', email: 'owner@primero.dev',
+                  user_group_ids: [user_group.id])
   end
 
   let(:user2) do
-    create(:user, user_name: 'user2', role:, full_name: 'Test User 2', email: 'user2@primero.dev')
+    create(:user, user_name: 'user2', role:, full_name: 'Test User 2', email: 'user2@primero.dev',
+                  user_group_ids: [user_group.id])
   end
 
   let!(:child) do

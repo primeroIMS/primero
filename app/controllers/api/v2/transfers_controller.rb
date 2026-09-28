@@ -49,6 +49,12 @@ class Api::V2::TransfersController < Api::V2::RecordResourceController
 
   private
 
+  def find_records
+    super
+
+    @records = @records.reject { |record| record.pending_transition_for?(current_user) }
+  end
+
   def transfer(record)
     permitted = params.require(:data).permit(
       :transitioned_to, :transitioned_to_remote, :transitioned_to_agency,

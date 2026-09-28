@@ -110,11 +110,10 @@ class Child < ApplicationRecord
   end
 
   def self.summary_field_names
-    common_summary_fields + %w[
+    common_summary_fields + transition_summary_field_names + %w[
       case_id_display name survivor_code_no age sex registration_date
       hidden_name workflow case_status_reopened module_id registry_record_id
       client_code gender reporting_location_hierarchy location_current
-      referred_users_pending transferred_to_users
     ]
   end
 

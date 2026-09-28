@@ -5,7 +5,7 @@ require 'rails_helper'
 describe Api::V2::AssignsController, type: :request do
   include ActiveJob::TestHelper
   before do
-    clean_data(User, Role, PrimeroModule, UserGroup, Child, Transition)
+    clean_data(Alert, User, Role, PrimeroModule, UserGroup, Child, Transition)
     @primero_module = PrimeroModule.new(name: 'CP')
     @primero_module.save(validate: false)
     @permission_assign_case = Permission.new(
@@ -119,6 +119,20 @@ describe Api::V2::AssignsController, type: :request do
         expect(json['data']['transitioned_to']).to eq('user2')
 
         expect(audit_params['action']).to eq('bulk_assign')
+      end
+    end
+
+    context 'when the user has a pending transition on one of the records' do
+      it 'does not assign that record' do
+        @case.update_column(:data, @case.data.merge('referred_users_pending' => %w[user1]))
+
+        sign_in(@user1)
+        filters = { id: [@case.id, @case2.id] }
+        post('/api/v2/cases/assigns', params: { data: { transitioned_to: 'user2', filters: } })
+        perform_enqueued_jobs
+
+        expect(response).to have_http_status(200)
+        expect(Assign.pluck(:record_id)).to eq([@case2.id])
       end
     end
 

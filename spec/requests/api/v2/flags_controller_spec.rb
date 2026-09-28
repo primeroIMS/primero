@@ -6,7 +6,7 @@ describe Api::V2::FlagsController, type: :request do
   include ActiveJob::TestHelper
 
   before :each do
-    clean_data(Flag, Child, TracingRequest, Incident)
+    clean_data(Alert, Flag, Transition, User, Role, UserGroup, Child, TracingRequest, Incident)
 
     @case1 = Child.create!(data: { name: 'Test1', age: 5, sex: 'male' })
     @case2 = Child.create!(data: { name: 'Test2', age: 7, sex: 'female' })
@@ -324,6 +324,29 @@ describe Api::V2::FlagsController, type: :request do
       end
     end
 
+    context 'when the user has a pending transition on one of the records' do
+      it 'does not flag that record' do
+        role = Role.new(
+          permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::BULK_FLAG])],
+          group_permission: Permission::ALL
+        )
+        role.save(validate: false)
+        user = User.new(user_name: 'bulk_flagger', role:)
+        user.save(validate: false)
+        @case1.update_column(:data, @case1.data.merge('transferred_to_users' => [user.user_name]))
+
+        sign_in(user)
+        params = { data: { filters: { id: [@case1.id, @case2.id] }, date: Date.today.to_s, message: 'Bulk flag' } }
+
+        post('/api/v2/cases/flags', params:)
+        perform_enqueued_jobs
+
+        expect(response).to have_http_status(200)
+        expect(@case1.reload.flags.where(message: 'Bulk flag')).to be_empty
+        expect(@case2.reload.flags.where(message: 'Bulk flag')).to be_present
+      end
+    end
+
     it "returns 403 if the user has flag but not flag_multiple permission" do
       login_for_test(permissions: permission_flag_record)
       params = {
@@ -387,6 +410,6 @@ describe Api::V2::FlagsController, type: :request do
 
   after do
     clear_enqueued_jobs
-    clean_data(Flag, Child, TracingRequest, Incident)
+    clean_data(Alert, Flag, Transition, User, Role, UserGroup, Child, TracingRequest, Incident)
   end
 end
