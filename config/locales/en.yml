@@ -109,6 +109,7 @@ en:
     contact_email: Primary Contact Email
     contact_phone: Primary Contact Phone Number
     notes: Notes
+    terms_of_use_warning: "Warning: Until you upload a signed Terms of Use document, you will not be able to assign Users to this Agency, and any existing Users with this Agency will not be able to sign in."
     terms_of_use_title: Terms of Use Acknowledgement
     terms_of_use_view_button: View Terms of Use
     terms_of_use_acknowledgement: By uploading the Terms of Use document for this Agency you are acknowledging on the Agency's behalf that the Agency has reviewed, agreed to, and endorsed the Terms of Use, and you assume the responsibility for managing access for this Agency’s users. Do you accept this?
@@ -143,6 +144,10 @@ en:
     retry: This export is invalid. Please try recreating your export.
     started_on: Started
     status: Status
+    delete:
+      success: Export was successfully deleted.
+      header: Delete Export
+      confirmation: Are you sure? Once you delete this export, you will not be able to get it back.
   form_export:
     label: Export Form Configuration
     include_hidden: Include hidden forms and fields?
@@ -226,6 +231,7 @@ en:
     sort_by_tr: Tracing Requests
     sync: Sync
     submit: Submit
+    start_over: Start Over
     transfer: Transfer
     unflag_model: Unflag %{model}
     unflag_model_history: Flag History %{model}
@@ -285,6 +291,9 @@ en:
       confirm_create_case: Do you want to create a Case for this individual?
       case_referral_pending: A Case referral is pending.
       case_transfer_pending: A Case transfer is pending.
+      case_referral_pending_alert: A Case referral is pending. %{link} before proceeding.
+      case_transfer_pending_alert: A Case transfer is pending. %{link} before proceeding.
+      pending_transition_link: Accept it here
       case_no_approval_request: There are no approval requests for this Case.
       bulk_assign_limit: You cannot assign more than 100 Cases at once.
       bulk_assign_limit_try_again: You cannot assign more than 100 Cases at once. Please select 100 Cases or fewer and then try again.
@@ -443,6 +452,7 @@ en:
       gbv_closure: GBV Closure
       gender: Gender
       high: High
+      location: Location
       low: Low
       male: Male
       medium: Medium
@@ -3374,6 +3384,11 @@ en:
               and they will lose access to the case. You can only refer a case to
               a user whose role has the ability to receive referrals.
             label: Referral
+          referral_within_user_group:
+            explanation: Restricts a user to only be able to send a referral to a user 
+              who is in one of their user groups. Roles with this permission should 
+              also have the ‘Referral’ and/or ‘Refer Case from Service subform’ permission.
+            label: Refer to users within my group
           referral_from_service:
             explanation: Allows the user to see the "Refer" button on the Services
               subform. When the user clicks this button, the referral modal will appear
@@ -3385,6 +3400,10 @@ en:
             explanation: Allows users to indicate whether an external referral
               has been marked as accepted or rejected by its recipient.
             label: Mark external referrals as accepted / rejected
+          receive_referral_within_user_group:
+            explanation: Restricts a user to only be able to receive a referral
+              from a user who is in one of their user groups.
+            label: Receive referral from within my group
           remove_assigned_users:
             explanation: Allows a user to end a Referral, removing recipient access.
               For Referrals, this also lets you mark a Referral as done,
@@ -4704,6 +4723,8 @@ en:
     service_implementing_agency_external: Facility / agency / organization
     allow_case_creation: Allow case creation with this referral
     allow_case_creation_help_text: Checking this box will allow the recipient to create their own case record to provide case management services for the client.
+    services_form_message: To manage referrals to service providers, use the %{link}.
+    services_form_link: Referrals form
   report:
     aggregate_by: Group by row
     attribute: Attribute
@@ -4971,6 +4992,8 @@ en:
       by_date: By Date
       status: Status
       current_location: Family Location
+      my_families: My Families
+      family_linked_to_my_cases: Family Linked to My Cases
     reassign:
       multiple_successfully: Primero is reassigning %{select_records} family record(s).
         It may take several minutes for all of these family records to update.
@@ -5096,6 +5119,7 @@ en:
     password: Password
     password_confirmation: Password Confirmation
     phone: Phone
+    terms_of_use_warning: Users cannot be assigned to Agencies without a signed Terms of Use document uploaded.
     position: Position
     provider_username_help: 'Example: my.username@%{domain}'
     role_id: Role

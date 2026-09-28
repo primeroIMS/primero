@@ -68,13 +68,6 @@ export const form = (i18n, formMode, enforceTermsOfUse) => {
           option_strings_source: "lookup-service-type"
         }),
         FieldRecord({
-          display_name: i18n.t("agency.terms_of_use_enabled"),
-          name: TERMS_OF_USE_ENABLED,
-          type: TICK_FIELD,
-          selected_value: enforceTermsOfUse,
-          disabled: enforceTermsOfUse
-        }),
-        FieldRecord({
           display_name: i18n.t("agency.contact_name"),
           name: "contact_name",
           type: TEXT_FIELD
@@ -96,19 +89,28 @@ export const form = (i18n, formMode, enforceTermsOfUse) => {
           type: TEXT_AREA
         }),
         FieldRecord({
+          display_name: i18n.t("agency.terms_of_use_enabled"),
+          name: TERMS_OF_USE_ENABLED,
+          type: TICK_FIELD,
+          selected_value: enforceTermsOfUse,
+          disabled: enforceTermsOfUse
+        }),
+        FieldRecord({
           display_name: i18n.t("agency.terms_of_use"),
           name: TERMS_OF_USE,
           type: DOCUMENT_FIELD,
           help_text: i18n.t("agency.terms_of_use_help"),
           fileFormat: FILE_FORMAT.pdf,
           renderDownloadButton: true,
+          showFileUrl: true,
           downloadButtonLabel: i18n.t("agency.terms_of_use_download_button"),
-          watchedInputs: [TERMS_OF_USE_ENABLED],
+          watchedInputs: [TERMS_OF_USE_ENABLED, TERMS_OF_USE],
           required: enforceTermsOfUse,
           handleWatchedInputs: value => {
-            const { terms_of_use_enabled: termsOfUseEnabled } = value;
+            const { terms_of_use_enabled: termsOfUseEnabled, terms_of_use: termsOfUse } = value;
 
             return {
+              warning: termsOfUseEnabled && !termsOfUse ? i18n.t("agency.terms_of_use_warning") : "",
               visible: termsOfUseEnabled
             };
           }

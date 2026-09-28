@@ -204,6 +204,9 @@ const ROUTES = {
   forms: "/admin/forms",
   forms_new: "/admin/forms/new",
   incidents: "/incidents",
+  intake_new: "/intake/:id/new",
+  intake_thankyou: "/intake/:id/thankyou",
+  intake: "/intake",
   login: "/login",
   login_idp_redirect: "/login/:id",
   logout: "/logout",
@@ -251,8 +254,12 @@ const PERMITTED_URL = [
   ROUTES.registry_records,
   ROUTES.code_of_conduct,
   ROUTES.terms_of_use,
-  ROUTES.password_reset_request
+  ROUTES.password_reset_request,
+  ROUTES.intake_new,
+  ROUTES.intake_thankyou
 ];
+
+const SKIP_LOGIN_REDIRECTION_ROUTES = [ROUTES.intake];
 
 const DATE_FORMAT = "dd-MMM-yyyy";
 
@@ -575,6 +582,21 @@ const ALERTS_FOR = {
   referral: "referral"
 };
 
+const PENDING_TRANSITION_ALERTS = Object.freeze({
+  referral: {
+    pendingUsersField: REFERRED_USERS_PENDING_FIELD,
+    transitionFormUniqueId: REFERRAL,
+    messageKey: "case.messages.case_referral_pending_alert",
+    linkKey: "case.messages.pending_transition_link"
+  },
+  transfer: {
+    pendingUsersField: TRANSFERRED_TO_USERS_FIELD,
+    transitionFormUniqueId: TRANSFERS_ASSIGNMENTS,
+    messageKey: "case.messages.case_transfer_pending_alert",
+    linkKey: "case.messages.pending_transition_link"
+  }
+});
+
 const MAX_OFFLINE_ROWS_PER_PAGE = 50;
 
 const ROWS_PER_PAGE_OPTIONS = [20, 50, 75, 100];
@@ -837,7 +859,10 @@ const POST_MESSAGES = {
   ATTEMPTS_SUBSCRIPTION_FAILED: "attempts_subscription_failed"
 };
 
+const MAXIMUM_ATTACHMENTS_PER_RECORD = 100;
+
 export {
+  MAXIMUM_ATTACHMENTS_PER_RECORD,
   API_BASE_PATH,
   PASSWORD_MIN_LENGTH,
   MAX_IMAGE_SIZE,
@@ -921,6 +946,7 @@ export {
   INPROGRESS,
   APPROVALS_TYPES,
   ALERTS_FOR,
+  PENDING_TRANSITION_ALERTS,
   MAX_OFFLINE_ROWS_PER_PAGE,
   ROWS_PER_PAGE_OPTIONS,
   OFFLINE_ROWS_PER_PAGE_OPTIONS,
@@ -982,5 +1008,6 @@ export {
   CASE_MANAGEMENT_KPIS_SUBREPORTS,
   CASE_MANAGEMENT_KPIS_SERVICE_REFERRALS_SUBREPORTS,
   DISTRIBUTION_USERS_ROLE_SUBREPORTS,
-  ACCESS_LOGS
+  ACCESS_LOGS,
+  SKIP_LOGIN_REDIRECTION_ROUTES
 };

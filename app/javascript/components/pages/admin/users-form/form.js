@@ -180,6 +180,7 @@ const sharedUserFields = (
         : OPTION_TYPES.AGENCY,
     watchedInputs: [FIELD_NAMES.AGENCY_ID],
     ...(enforceTermsOfUse && {
+      help_text: i18n.t("user.terms_of_use_warning"),
       transformOptions: options => {
         return options.map(option => ({
           ...option,

@@ -1,4 +1,4 @@
-import { ROUTES } from "../../config";
+import { ROUTES, SKIP_LOGIN_REDIRECTION_ROUTES } from "../../config";
 
 import isAuthenticated from "./is-authenticated";
 import redirectTo from "./redirect-to";
@@ -17,6 +17,9 @@ const handleReturnUrl = (store, location) => {
     if (![ROUTES.login, "/"].includes(location)) {
       localStorage.setItem("returnUrl", location);
     }
+
+    if (SKIP_LOGIN_REDIRECTION_ROUTES.some(route => location.startsWith(route))) return;
+
     redirectTo(store, ROUTES.login);
   }
 };

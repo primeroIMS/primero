@@ -37,7 +37,8 @@ function Component({ filter, mode, moreSectionFilters = {}, multiple = true, res
     watchedInputs,
     filterFn,
     toggleLabel,
-    toggleName
+    toggleName,
+    clearDependentValues
   } = filter;
 
   const watchedValues = useWatch({
@@ -124,6 +125,12 @@ function Component({ filter, mode, moreSectionFilters = {}, multiple = true, res
   }, [filterOptions.length, fieldName, reset]);
 
   const handleChange = (event, value) => {
+    if (clearDependentValues) {
+      clearDependentValues.forEach(dependentField => {
+        setValue(dependentField, undefined);
+      });
+    }
+
     handleFilterChange({
       type: "basic",
       event,

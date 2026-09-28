@@ -64,6 +64,7 @@ export const getFilters = (i18n, filterAgencies, filterUserGroups, filterPermiss
     name: "cases.filter_by.agency",
     field_name: AGENCY,
     options: searchableAgencies(filterAgencies, i18n),
+    clearDependentValues: [USER_GROUP, FILTER_BY_AGENCY],
     type: FILTER_TYPES.MULTI_SELECT,
     multiple: true,
     permitted_filter: filterPermission?.agency
@@ -83,7 +84,9 @@ export const getFilters = (i18n, filterAgencies, filterUserGroups, filterPermiss
     filterFn: (options, watchedValues) => {
       if (watchedValues?.[AGENCY]?.length && watchedValues?.[FILTER_BY_AGENCY]) {
         return options.filter(option => {
-          return option.agency_unique_ids.some(id => watchedValues[AGENCY].includes(id));
+          return option.agency_unique_ids.some(
+            id => watchedValues[AGENCY].includes(id) || watchedValues[AGENCY].includes(String(id))
+          );
         });
       }
 

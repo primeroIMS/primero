@@ -1144,9 +1144,11 @@ describe Ability do
   end
 
   describe 'Attachments' do
-    let(:attachment_user) { create :user }
+    let(:user_group) { UserGroup.create!(unique_id: 'shared-group') }
 
-    let(:referred_user) { create :user }
+    let(:attachment_user) { create :user, user_groups: [user_group] }
+
+    let(:referred_user) { create :user, user_groups: [user_group] }
 
     let(:preview_user) { create :user }
 

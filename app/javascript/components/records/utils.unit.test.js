@@ -21,7 +21,8 @@ describe("<Records /> - utils", () => {
       "hasPendingReferral",
       "hasPendingTransfer",
       "hasPendingTransition",
-      "getPendingTransitionIds"
+      "getPendingTransitionIds",
+      "userInRecordList"
     ].forEach(property => {
       it(`exports '${property}'`, () => {
         expect(utils).toHaveProperty(property);

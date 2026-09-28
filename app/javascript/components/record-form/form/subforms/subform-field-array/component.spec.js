@@ -3,6 +3,7 @@ import { Map, fromJS } from "immutable";
 import { mountedComponent, screen } from "../../../../../test-utils";
 import { FieldRecord, FormSectionRecord } from "../../../records";
 import { TRACING_REQUEST_STATUS_FIELD_NAME, TRACES_SUBFORM_UNIQUE_ID } from "../../../../../config";
+import { ACTIONS } from "../../../../permissions";
 import SubformField from "../component";
 import SubformFieldSubform from "../subform-field-subform";
 import SubformItem from "../subform-item/component";
@@ -384,6 +385,44 @@ describe("<SubformFieldArray />", () => {
         {}
       );
       expect(screen.getAllByTestId("fields-add")).toHaveLength(1);
+    });
+  });
+
+  describe("when is the services subform", () => {
+    const servicesProps = {
+      ...props,
+      field: FieldRecord({
+        name: "services_section",
+        display_name: { en: "Services" },
+        subform_section_id: FormSectionRecord({ unique_id: "services_section", fields: [] }),
+        disabled: false
+      }),
+      formik: { ...props.formik, values: { services_section: [] } }
+    };
+    const stateWithReferralAccess = fromJS({ user: { permissions: { cases: [ACTIONS.REFERRAL] } } });
+
+    it("renders the link to the referrals form", () => {
+      mountedComponent(<SubformFieldArray {...servicesProps} />, stateWithReferralAccess, [], {}, formProps);
+
+      expect(screen.getByTestId("services-referral-link")).toBeInTheDocument();
+    });
+
+    it("does not render the link to the referrals form when rendered as an accordion", () => {
+      mountedComponent(
+        <SubformFieldArray {...servicesProps} renderAsAccordion />,
+        stateWithReferralAccess,
+        [],
+        {},
+        formProps
+      );
+
+      expect(screen.queryByTestId("services-referral-link")).not.toBeInTheDocument();
+    });
+
+    it("does not render the link to the referrals form for other subforms", () => {
+      mountedComponent(<SubformFieldArray {...props} />, stateWithReferralAccess, [], {}, formProps);
+
+      expect(screen.queryByTestId("services-referral-link")).not.toBeInTheDocument();
     });
   });
 });

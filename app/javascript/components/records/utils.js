@@ -128,6 +128,8 @@ export const useMetadata = (
 
 export const getShortIdFromUniqueId = uniqueId => uniqueId?.slice(-7);
 
+export { userInRecordList };
+
 export const hasPendingTransfer = (record, currentUser) =>
   userInRecordList(record, TRANSFERRED_TO_USERS_FIELD, currentUser);
 

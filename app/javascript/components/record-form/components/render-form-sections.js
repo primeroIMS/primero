@@ -77,7 +77,8 @@ const renderFormSections =
     attachmentForms,
     mode,
     record,
-    primeroModule
+    primeroModule,
+    forcePermitFormReadWrite
   ) =>
   (fs, setFieldValue, handleSubmit, values, dirty) => {
     const externalRecordForms = externalForms
@@ -90,7 +91,8 @@ const renderFormSections =
 
     return fs.map(form => {
       if (selectedForm === form.unique_id) {
-        const isReadWriteForm = userPermittedFormsIds?.get(selectedForm) === RECORD_FORM_PERMISSION.readWrite;
+        const isReadWriteForm =
+          forcePermitFormReadWrite || userPermittedFormsIds?.get(selectedForm) === RECORD_FORM_PERMISSION.readWrite;
 
         const isViolation = isViolationSubform(recordType, selectedForm);
         const fieldForGuidance = isViolation ? getViolationFieldForGuidance(form.fields) : {};
@@ -113,7 +115,14 @@ const renderFormSections =
               {...titleProps}
             />
 
-            <RecordFormAlerts recordType={recordType} form={form} attachmentForms={attachmentForms} formMode={mode} />
+            <RecordFormAlerts
+              recordType={recordType}
+              form={form}
+              attachmentForms={attachmentForms}
+              formMode={mode}
+              record={record}
+              primeroModule={primeroModule}
+            />
             {renderFormFields(
               fs,
               form,

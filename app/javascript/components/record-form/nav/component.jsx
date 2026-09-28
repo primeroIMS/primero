@@ -16,7 +16,13 @@ import {
   getShouldFetchRecord,
   getValidationErrors
 } from "../selectors";
-import { getIncidentFromCase, getRecordAlerts, getSelectedRecord } from "../../records";
+import {
+  getIncidentFromCase,
+  getRecordAlerts,
+  getSelectedRecord,
+  selectRecord,
+  usePendingTransitionAlerts
+} from "../../records";
 import { setSelectedForm } from "../action-creators";
 import { ConditionalWrapper, useMemoizedSelector } from "../../../libs";
 import { buildFormGroupUniqueId } from "../../pages/admin/form-builder/utils";
@@ -57,7 +63,11 @@ function Component({
   const incidentFromCase = useMemoizedSelector(state => getIncidentFromCase(state, recordType));
   const validationErrors = useMemoizedSelector(state => getValidationErrors(state));
   const currentSelectedRecord = useMemoizedSelector(state => getSelectedRecord(state, recordType));
-  const recordAlerts = useMemoizedSelector(state => getRecordAlerts(state, recordType));
+  const currentRecord = useMemoizedSelector(state =>
+    selectRecord(state, { id: recordId, recordType, isEditOrShow: true })
+  );
+  const pendingTransitionAlerts = usePendingTransitionAlerts(currentRecord, primeroModule);
+  const recordAlerts = useMemoizedSelector(state => getRecordAlerts(state, recordType)).concat(pendingTransitionAlerts);
   const selectedRecordForm = useMemoizedSelector(state =>
     getRecordFormsByUniqueId(state, {
       recordType: RECORD_TYPES[recordType],

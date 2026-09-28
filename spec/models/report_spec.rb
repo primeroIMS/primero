@@ -1109,4 +1109,42 @@ describe Report do
       )
     end
   end
+
+  describe 'report with non-existent fields' do
+    let(:report_with_non_existent_fields) do
+      Report.new(
+        name: 'Report with non-existent fields',
+        record_type: 'case',
+        module_id: module1.unique_id,
+        aggregate_by: ['non_existent_field'],
+        disaggregate_by: ['another_non_existent_field']
+      )
+    end
+
+    let(:report_with_mixed_fields) do
+      Report.new(
+        name: 'Report with mixed fields',
+        record_type: 'case',
+        module_id: module1.unique_id,
+        aggregate_by: ['status'],
+        disaggregate_by: ['non_existent_field']
+      )
+    end
+
+    before do
+      clean_data(User, UserGroup, Field, Lookup, Location, Child, Report)
+      Field.create!(
+        name: 'status', display_name: 'status', type: Field::TEXT_FIELD
+      )
+      Child.create!(data: { status: 'open', module_id: module1.unique_id })
+    end
+
+    it 'returns empty report data when all fields are non-existent' do
+      expect(report_with_non_existent_fields.build_report).to eq({})
+    end
+
+    it 'generates report data ignoring non-existent fields' do
+      expect(report_with_mixed_fields.build_report).to eq({ 'open' => { '_total' => 1 } })
+    end
+  end
 end

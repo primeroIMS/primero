@@ -5,3 +5,4 @@ export * from "./selectors";
 export * from "./utils";
 export * from "./actions";
 export { default as usePendingTransition } from "./use-pending-transition";
+export { default as usePendingTransitionAlerts } from "./use-pending-transition-alerts";

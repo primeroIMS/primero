@@ -41,7 +41,7 @@ class Api::V2::AssignsController < Api::V2::RecordResourceController
     transitioned_to = params[:data][:transitioned_to]
     notes = params[:data][:notes]
     transitioned_by = current_user.user_name
-    Assign.create!(record:, transitioned_to:, transitioned_by:, notes:)
+    Assign.create!(record:, transitioned_to:, transitioned_by:, notes:, notify_user: true)
   end
 
   def create_action_message
