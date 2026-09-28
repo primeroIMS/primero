@@ -351,7 +351,6 @@ ps-AF:
       deleted: سازونه په بریالیتوب سره ړنګه شوه
       updated: سازونه په بریالیتوب سره تازه شوه
     not_allowed: اجازه نشته
-    unavailable_server: سرور لنډمهاله شتون نلري
   contact:
     field:
       email: بریښنا لیک
@@ -508,10 +507,8 @@ ps-AF:
     services: خدمتونه
     services_implemented: خدمات پلي شوي
     shared_from_my_team_pending_transfers: زیرمه شوې لیږدونې
-    shared_from_my_team_referrals: رجعتونه
     shared_from_my_team_rejected_transfers: رد شوې لیږدونې
     shared_with_my_team_pending_transfers: زیرمه شوې لیږدونې
-    shared_with_my_team_referrals: رجعتونه
     status_of_cases: د قضایاو څرنګوالې
     system_user: سیستم
     total: مجموعي
@@ -575,7 +572,6 @@ ps-AF:
       lookup:
         being_used: دا لید کارول شوی او حذف کیدی نشي
         name_present: نوم باید خالي نه وي
-        values_ids_blank: تش دی ID  د کتنې_ ارزونې
       primero_module:
         associated_record_types: لږترلږه یو ریکارډ ډول باید د دې ماډل سره تړاو ولري
         form_section_ids: لږترلږه یوه فورمه باید د دې ماډل سره تړاو ولري
@@ -1626,7 +1622,6 @@ ps-AF:
       metadata:
         actions:
           manage:
-            explanation: فارمونو جوړولو ، ایډیټ کولو ، ژباړلو ، او حذف کولو وړتیا  رامنځته کول، مهربانی وکړی به یاد ولری چی دی سره یواځی هغه فورمونه تنظیمولی شی چی کومو ته چی لاسرسی لری . د مثال په توګه ، که چیرې یو ملي اداره یوازې د قضیو په اړه د دریکارد د څښتن قضیې وګوری ، نو دوی به یوازې وکولی شی چی ددی فورم تنظیمات نوی کړی.
             label: (اداره کول(ټول اختیارات د دغه ډول منبعی لپاره
         label: فورمی،لټون
       module:
@@ -2081,5 +2076,4 @@ ps-AF:
     headers:
       full_name: مکمل نوم
       user_name: کارن نوم
-      position: مقام
       agency: اداره

@@ -528,7 +528,6 @@ aeb:
       updated: تمّ تحديث الإعدادات بنجاح.
       sent: إرسال الإعدادات إلى الإنتاج. يرجى التحقق من موقع الإنتاج لمعرفة ما إذا كان الإعدادات الخاص بك قد وصل.
     not_allowed: غير مسموح
-    unavailable_server: السرفر غير متاح مؤقتًا.
   contact:
     field:
       email: البريد الإلكتروني
@@ -826,14 +825,12 @@ aeb:
     services: الخدمات
     services_implemented: تم تقديم الخدمة
     shared_from_my_team_pending_transfers: عمليات النقل التي يتوجب استقبالها
-    shared_from_my_team_referrals: الإحالات
     shared_from_my_team_rejected_transfers: عمليات النقل المرفوضة
     shared_with_me_new_referrals: الإحالات الجديدة
     shared_with_me_total_referrals: المجموع
     shared_with_me_transfers_awaiting_acceptance: في انتظار القبول
     shared_with_my_team_pending_transfers_overview: في انتظار القبول
     shared_with_my_team_pending_transfers: عمليات النقل التي يتوجب استقبالها
-    shared_with_my_team_referrals: الإحالات
     shared_with_others_pending_transfers: عمليات النقل التي يتوجب استقبالها
     shared_with_others_referrals: المجموع
     shared_with_others_rejected_transfers: رفض القبول
@@ -954,7 +951,6 @@ aeb:
       lookup:
         being_used: هذا البحث مستخدم  ولا يمكن حذفه
         name_present: لا يجب أن يكون الاسم فارغاً
-        values_ids_blank: هناك معرّف فارغ لقيمة البحث
       primero_module:
         associated_record_types: يجب أن يرتبط نوع واحد من السجلات على الأقل بهذه الوحدة النمطية
         form_section_ids: يجب أن يرتبط استمارة واحدة على الأقل بهذه الوحدة النمطية
@@ -1824,46 +1820,27 @@ aeb:
       _requested: مطلوب
       add_note: اضف ملاحظة
       assign: نقل ملف الطفل لمكتب آخر
-      assign_to: ملف تم نقله لك
-      attach: يربط
       bulk_assign: نقل مجموعة ملفات لمكتب آخر
       bulk_create: إنشاء مجمّع
       bulk_index: فهرس بالجملة
-      case_plan_approved: تمت الموافقة على تدابير الحماية لفائدة الطفل
-      case_plan_rejected: تم رفض تدابير الحماية لفائدة الطفل
-      case_plan_requested: مطلوب تدابير الحماية لفائدة الطفل
       close: حفظ الملف
       create: إنشاء
       create_bulk: إنشاء الجزء الأكبر
       delete: حذف
       destroy: هدم
-      detach: فصل
-      enable_disable_record: عرض الملفات الملغات
       export: تنزيل الملف
       flag: علامة
       import: 'إضافة محتوى أو ملف '
       incident_details_from_case: تفاصيل الحادث من القضية
-      index: فهرس
       list: قائمة
       login: تسجيل الدخول
       password_reset: إعادة تعيين كلمة المرور
       password_reset_request: طلب إعادة تعيين كلمة المرور
       refer: إحالة
-      refer_accepted: تم قبول الإحالة
-      refer_done: تمت الإحالة
-      refer_rejected: إحالة مرفوضة
-      refer_revoke: إبطال الإحالة
-      refer_to: إحالة إلى
       reopen: أعد فتح
-      services_section_from_case: قسم الخدمات من القضية
       show: عرض
       show_alerts: عرض التنبيهات
-      traces: آثار
       transfer: نقل ملف
-      transfer_accepted: تم قبول نقل الملف
-      transfer_rejected: تم رفض عملية نقل الملف
-      transfer_request: طلب نقل الملف
-      transfer_to: نقل ملف الى
       unflag: إزالة العلامة
       update: تحديث
       user_password_reset_request: طلب إعادة تعيين كلمة مرور المستخدم
@@ -2146,7 +2123,6 @@ aeb:
         attack_on_schools: الاعتدءات على مستوى المدرسة(المدارس)
         military_use: الاستخدام العسكري للمدرسة(المدارس) و/او المستشفى(المستشفيات)
         denial_humanitarian_access: منع وصول الخدمات الإنسانية للأطفال
-        detention: احتجاز
       sub_reports:
         children: الأطفال
         combined: الانتهاكات
@@ -2195,37 +2171,6 @@ aeb:
       sub_reports:
         incidents: حوادث
         combined: 'الاحصائيات العامة '
-        total: 'عدد حوادث العنف القائم على النوع الاجتماعي الجديدة المبلغ عنها '
-        gbv_sexual_violence: 'احصائيات متعلقة بالناجين 9. عدد حوادث العنف الجنسي المبلغ عنها '
-        gbv_previous_incidents: '2 حوادث العنف الجنسي الجديدة المبلغ عنها '
-        gbv_sexual_violence_type: 'احصائيات الحوادث 10. نوع العنف القائم على النوع الاجتماعي '
-        incident_timeofday: 'احصائيات الحوادث 11. وقت وقوع الحادث من النهار  '
-        elapsed_reporting_time: احصائيات الحوادث 13. الوقت المنقضي بين وقوع الحادثة وتاريخ التبليغ
-        elapsed_reporting_time_rape: احصائيات الحوادث 14. حوادث الاغتصاب والوقت المنقضي بين وقوع الحادثة وتاريخ التبليغ
-        elapsed_reporting_time_rape_health_referral: احصائيات الحوادث 15. حوادث الاغتصاب والوقت المنقضي للحصول على خدمة (خدمة صحية أو إحالة)
-        incident_location_type: احصائيات الحوادث 16. موقع وقوع الحادث
-        number_of_perpetrators: احصائيات المعتدين 17. عدد المعتدين الرئيسيين
-        perpetrator_relationship: احصائيات المعتدين 18. طبيعة العلاقة بين المعتدي والمعتدى عليه
-        perpetrator_age_group: 'احصائيات المعتدين 19. الفئة العمرية للمعتدين الرئيسيين المزعومين '
-        perpetrator_occupation: 'احصائيات المعتدين 20. مهنة المعتدين الرئيسيين المزعومين '
-        age: 'احصائيات الضحايا 4. سن الضحايا '
-        sex: 'احصائيات الضحايا 3. جنس الضحايا '
-        marital_status: 'احصائيات الضحايا 5. الوضعية الاجتماعية للضحايا '
-        displacement_status: 'احصائيات الضحايا 6. وضعية التهجير عند التبليغ '
-        displacement_incident: 'احصائيات الضحايا 7. مرحلة التهجير عند حدوث الحادثة '
-        gbv_case_context: احصائيات الحوادث 12. سياق الحالة
-        incidents_first_point_of_contact: 'احصائيات الإحالة 21. عدد الحوادث التي كانت فيها منظمتك أول نقطة اتصال '
-        incidents_from_other_service_provider: احصائيات الإحالة 22. الحوادث التي تم إحالتها من قبل مقدمي الخدمات الآخرين
-        number_of_services_provided: 'احصائيات الإحالة 23. عدد الخدمات التي تم تقديمها استجابة لهذه الحوادث '
-        number_of_services_provided_other: احصائيات الإحالة 24. إحالة الحوادث الجديدة لمقدمي خدمات آخرين
-        service_safehouse_referral: الإحالة إلى بيت آمن / مأوى آمن
-        service_medical_referral: إحالة صحية / طبية
-        service_psycho_referral: خدمات الاستشارة النفسية / الاجتماعية
-        service_legal_referral: خدمات المساعدة القانونية
-        service_police_referral: الشرطة أو أي نوع آخر من خدمات الأمن
-        service_livelihoods_referral: خدمات الاعاشة
-        service_protection_referral: خدمات حماية الطفل
-        vulnerable_populations: 'احصائيات الضحايا 8. جنس الضحايا '
         survivors_disability_type: مع اعاقات
     workflow_report:
       name: مراحل التدخل
@@ -2340,7 +2285,6 @@ aeb:
     search: بحث
     phonetic_search:
       title: إدخال الإسم واللقب للبحث عن ملف الطفل
-      label: استعمل مجالات الاسم
       help_text: البحث الصوتي متاح لمجالات الاسم
     id_search:
       title: إدخال الإسم واللقب للبحث عن ملف الطفل
@@ -2794,9 +2738,6 @@ aeb:
           action_needed_new_updated:
             explanation: يعرض مؤشر ”الجديد والمحدث“ في لوحة معلومات ”الإجراء المطلوب“. يتضمن ذلك الحالات التي تم تعيينها حديثًا للمستخدم الحالي، أو التي قام مستخدم آخر بتحديثها منذ آخر مرة قام فيها المستخدم الحالي بتحديثها.
             label: 'الإجراء المطلوب اتخاذه: جديد أو محدث'
-          action_needed_new_referrals:
-            explanation: يعرض مؤشر ”الإحالات الجديدة“ في لوحة معلومات ”الإجراء المطلوب“. يتضمن ذلك أي حالات تم إرسال إحالة جديدة إلى المستخدم الحالي، حيث لا يكون المستخدم الحالي هو آخر شخص قام بتحديث الحالة.
-            label: 'الإجراء المطلوب اتخاذه: الإحالات الجديدة'
           action_needed_transfer_awaiting_acceptance:
             explanation: 'يعرض مؤشر ”حالات النقل في انتظار القبول“ في لوحة معلومات ”الإجراء المطلوب“. يتضمن ذلك أي حالات مع تحويل إلى المستخدم الحالي، والتي لم يقبلها المستخدم الحالي. '
             label: 'الإجراء المطلوب: التحويلات في انتظار القبول'
@@ -3102,7 +3043,6 @@ aeb:
       metadata:
         actions:
           manage:
-            explanation: القدرة على إنشاء وتعديل وترجمة وحذف الاستمارات وخانات الاستمارات وعمليات البحث. يرجى ملاحظة أن المستخدم الذي لديه هذا الإذن سيكون قادرًا فقط على إدارة الاستمارات التي يمكنه الوصول إليها. على سبيل المثال، إذا كان للمسؤول الوطني القدرة فقط على رؤية استمارة مالك السجل في الحالات، لن يتمكن إلا من تحديث إعداد هذه الاستمارة.
             label: إدارة (كافة الأذونات لهذا النوع من الموارد)
         explanation: يتحكم في القدرة على تهيئة استمارات وخانات Primero ، بالإضافة إلى خيارات البحث المستخدمة داخلها.
         label: الاستمارات، البحث
@@ -3472,7 +3412,6 @@ aeb:
   referral:
     type_of_recipient: نوع المستلِم
     type_of_referral_required: مطلوب إدخال نوع الإحالة
-    referral_authorization_label: هل ترغب في تحديد نوع الإحالة؟
     referral_authorization_help_text: سيؤدي هذا إلى تحديد النماذج التي يمكن للمستلم الوصول إليها.
     agency_label: الهيئة
     is_remote_label: هل ترغب في احالة الحالة لمؤسسة من خارج النظام؟
@@ -3897,7 +3836,6 @@ aeb:
     headers:
       full_name: الإسم واللقب
       user_name: اسم المستخدم
-      position: الوظيفة
       agency: المؤسسة
     alerts:
       total_users_created: 'لقد قمت بإنشاء% {إجمالي _ تمكين} من التطبيق % {الحد الأقصى _ المستخدمين} '

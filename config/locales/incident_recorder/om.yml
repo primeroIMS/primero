@@ -4,11 +4,11 @@ om:
       export_incident_recorder_xls: "Galmeessaa taatee gara biraatti /alatti ergame."
   exports:
     incident_recorder_xls:
-      all:  "Galmeessaa /waraabaa Taatee. "
-      one:  Waraabaa Taatee.
-      selected:  Taatee waraabaman/ galmaa'an filachuu.
-      "yes": "Eeyyen."
-      "no": "Miti."
+      all: 'Galmeessaa /waraabaa Taatee. '
+      one: Waraabaa Taatee.
+      selected: Taatee waraabaman/ galmaa'an filachuu.
+      'yes': "Eeyyen."
+      'no': "Miti."
       gender:
         male: "Dhiira."
         female: "Dubartii."

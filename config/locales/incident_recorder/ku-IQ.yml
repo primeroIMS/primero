@@ -4,11 +4,11 @@ ku-IQ:
       export_incident_recorder_xls: "xls هنارتنا تۆمارا بوویەرێ "
   exports:
     incident_recorder_xls:
-      all:  تومارا بوویەرێ
-      one:  تومارا بوویەرێ
-      selected:  ده ست نیشانکری بۆ تۆمارا بوویەرێ
-      "yes": "بەلێ"
-      "no": "نەخێر"
+      all: تومارا بوویەرێ
+      one: تومارا بوویەرێ
+      selected: ده ست نیشانکری بۆ تۆمارا بوویەرێ
+      'yes': "بەلێ"
+      'no': "نەخێر"
       gender:
         male: "نێر"
         female: "مێ"

@@ -107,6 +107,7 @@ cmn:
     record_owner: 记录所有人
     timestamp: 时间
     user_name: 执行人
+    type: 记录类型
   bulk_export:
     file_name: 文件
     record_type: 类型
@@ -142,6 +143,7 @@ cmn:
     close: 关闭
     continue: 继续
     create_case: 创建个案
+    referral_create_case: 创建 %{module_id} 个案
     create_incident: 创建事件
     create_new_record: 创建新%{model}
     delete: 删除
@@ -296,6 +298,26 @@ cmn:
     case_opening_date: 个案开案日期
     case_plan: 个案计划
     case_worker_code: 个案社工代码
+    child_functioning:
+      date: "日期"
+      ready_to_start_cfm: "准备好开始使用儿童功能模块了么？"
+      age: "年龄"
+      difficulty_seeing_with_glasses: "佩戴眼镜仍难以看清"
+      child_wears_hearing_aid: "该儿童佩戴听力辅助设备"
+      difficulty_hearing_with_hearing_aid: "佩戴听力辅助设备后仍难以听清"
+      child_uses_equipment_or_receive_assistance_for_walking: "该儿童走路时需要使用设备或需要协助"
+      difficulty_walking_without_equipment: "在没有设备或协助的情况下走路有困难"
+      mobility_difficulty_without_equipment_100m: "在没有辅助设备的情况下，行走100米有困难"
+      mobility_difficulty_without_equipment_500m: "在没有辅助设备的情况下，行走500米有困难"
+      difficulty_walking_with_equipment: "在有设备或协助的情况下走路有困难"
+      mobility_difficulty_with_equipment_100m: "使用辅助设备行走100米有困难"
+      mobility_difficulty_with_equipment_500m: "使用辅助设备行走500米有困难"
+      difficulty_picking_up_small_objects_with_hand: "用手拾取小物件有困难"
+      self_care_difficulty: "生活自理困难"
+      cfm_yes: "是"
+      cfm_no: "否"
+      n_a: "不适用"
+    client_code: 服务对象代码
     clear_filter: 清除
     close_dialog: 单击 "确定 "将把此个案的状态更改为 "已结案"。
     close_dialog_title: 结案
@@ -336,6 +358,7 @@ cmn:
       closure: 结案
       current_location: 当前位置
       date: 日期
+      disability_status: 残障状态
       displacement_status: 流离失所情况
       district: 地区
       duplicate: 复制
@@ -344,6 +367,7 @@ cmn:
       flag: 已标记
       flag_label: 已标记？
       gbv_closure: GBV结案
+      gender: 性别
       high: 高
       low: 低
       male: 男性
@@ -359,26 +383,33 @@ cmn:
       photo_label: 是否有照片？
       protection_concerns: 保护方面的担忧
       protection_status: 保护状态
+      protection_risks: 儿童保护风险
       record_state: 记录状态
       referred_cases: 转介给我的个案
       registration_date: 登记日期
       risk_level: 风险等级
       sex: 性别
       social_worker: 现场/个案/社工
+      marginalized_community_self_identifying: 服务对象是否认同自己属于性少数群体（SOGIESC）？
       status: 状态
       transferred: 已移交
       type_of_risk: 风险类别
       urgent_protection_concern: 保护方面的紧急关切
       user_group: 用户组
       workflow: 按工作流程分类的个案
+      module_id: 模块
       include_disabled: 包括已禁用
+      safety_plan_needed: 是否需要为该个案制定安全计划？
+      self_harm_thoughts: 过去一个月，你是否有过严重的自杀想法或计划？
     flag_summary: 标记摘要
     full_name: 全名
     gbv_closure: GBV结案
+    gender: 性别
     hide_name: 隐藏姓名
     hide_name_error: 保存更改时出现错误。请重试。
     id: 个案编号
     label: 个案
+    location_current: 地点
     my_filters: 我的筛选器
     name: 名称
     notes_dialog_title: 添加备注
@@ -398,6 +429,8 @@ cmn:
     reassign:
       multiple_successfully: Primero 正在重新分配 %{select_records} 个案。这些个案可能需要几分钟才能完成更新。
     referral_done: 单击 "完成 "表示您已完成与此个案相关的转介工作。点击 "完成 "后，您将无法再访问此记录。
+    referral_create_case_header: 新建 %{module_id} 个案
+    referral_create_case: 你确定吗？你将负责管理你创建的个案。
     referral_done_success: 转介已完成。
     referral_accepted_header: 接受转介
     referral_accepted: 您确定吗？现在您将负责完成与此转介相关的工作。
@@ -525,7 +558,6 @@ cmn:
       updated: 成功更新配置。
       sent: 将配置发送至生产环境。请检查生产环境，查看配置是否已设定。
     not_allowed: 不允许
-    unavailable_server: 服务器暂时不可用。
   contact:
     field:
       email: 邮箱
@@ -561,6 +593,7 @@ cmn:
       new_this_week: 本周新增
       referrals: 转介
       transfers: 移交
+      cases: 个案
     approval_action_plan_approved: 已批准
     approval_action_plan_pending: 待定
     approval_action_plan_pending_group: 行动计划
@@ -644,6 +677,7 @@ cmn:
     dash_shared_from_my_team: 来自我的团队的共享
     dash_shared_with_me: 与我共享
     dash_shared_with_my_team: 与我的团队共享
+    dash_shared_with_my_team_overview: 与我的团队分享
     dash_shared_with_others: 与他人共享
     dash_national_admin_summary: 管理员摘要
     dash_violations_category_verification_status: 每种核查状态下的事件总数
@@ -741,10 +775,15 @@ cmn:
     services: 服务
     services_implemented: 服务已实施
     shared_from_my_team_pending_transfers: 待处理的移交
-    shared_from_my_team_referrals: 转介
     shared_from_my_team_rejected_transfers: 已退回的移交
+    shared_with_me_new_referrals: 新增
+    shared_with_me_total_referrals: 总计
+    shared_with_me_transfers_awaiting_acceptance: 等待接收
+    shared_with_my_team_pending_transfers_overview: 等待接收
     shared_with_my_team_pending_transfers: 待处理的移交
-    shared_with_my_team_referrals: 转介
+    shared_with_others_pending_transfers: 待定
+    shared_with_others_referrals: 总计
+    shared_with_others_rejected_transfers: 已拒绝
     status_of_cases: 个案状况
     system_user: 系统
     total: 总计
@@ -764,6 +803,7 @@ cmn:
       other: '%{case_worker}共有%{stat}个个案'
     workflow: 工作流程
     workflow_team: 工作流程 - 团队个案
+    workflow_team_module: 工作流程 - 团队个案 - %{module_name}
     you_have: '您有'
   disabled:
     status:
@@ -772,13 +812,22 @@ cmn:
   email_notification:
     assign: '%{user}已将%{record_type}分配给您： %{record_id}'
     assign_subject: '%{record_type}: %{id} - 分配给您'
+    approval_request: '%{user} 正在发起个案(%{case_id})的%{approval_type} 审批请求。请登陆账户查看。'
     approval_request_subject: '个案：%{id} - 审批请求'
+    approval_response: '%{user} 已更新了个案（%{case_id}）的 %{approval_type} 审批请求，改为： %{status}。请登陆账户查看。'
     approval_response_subject: '个案：%{id} - 审批回复'
     referral: '来自%{agency}的%{user}已将%{record_type}转给您：为个案%{record_id}寻求%{service_type}服务。'
     transfer: '%{user}已将个案%{record_id}的%{record_type}转交给您。'
     transfer_request_subject: 为您的一个个案申请移交
+    transfer_subject: '%{record_type}: %{id} - 移交'
+    referral_subject: '%{record_type}: %{id} - 转介请求'
     transfer_request: 'Primero 用户%{user}来自%{agency}要求您移交该%{record_type}记录%{record_id}的所有权，以便他们在其区域内为该个人提供%{record_type}个案管理服务。如果您可以接受这种移交，请单击此电子邮件中的 %{record_type}ID 链接，打开 Primero 中的%{record_type}并启动移交。'
     approval_request_html: '该用户<strong>%{user}</strong>正在申请批准<strong>%{approval_type}</strong>个案<strong>%{case_id}</strong>。'
+    approval_response_html: '<strong>%{user}</strong> 已更新个案（<strong>%{case_id}</strong>）的 <strong>%{approval_type}</strong> 审批请求，改为 ： <strong>%{status}</strong>。请登录查看。'
+    referral_html: '你收到来自 %{agency}用户%{user}个案 %{record_type}(%{record_id}) 转介 %{service_type} 的请求。请登录至 %{login_url} 查看。'
+    transfer_html: '你收到了来自%{agency}用户%{user}移交%{record_type}个案 (%{record_id}) 的请求。请登录至 %{login_url} 查看。'
+    assign_html: '%{user}已分配 %{record_type} (%{record_id}) 给你。请登录至 %{login_url} 查看。'
+    transfer_request_html: '你已经收到来自%{agency}用户%{user}移交 %{record_type} 个案%{record_id} 的请求。请求中包含备注： %{request_transfer_notes}。如果你同意这次移交，请登录Primero系统操作。'
     alert: '%{record_type}%{id} - %{form_name}已更新。请登录 Primero 查看更改。'
     alert_subject: '%{record_type}: %{id} - %{form_name}已更新 '
   webpush_notification:
@@ -850,7 +899,6 @@ cmn:
       lookup:
         being_used: 该查询正在使用，无法删除
         name_present: 姓名不得为空
-        values_ids_blank: 查找值 ID 为空
       primero_module:
         associated_record_types: 必须至少有一种记录类型与该模块相关联
         form_section_ids: 必须至少有一种表格与该模块相关联
@@ -1349,6 +1397,8 @@ cmn:
     ar-JO: 阿拉伯语（约旦语）
     ar-LB: 阿拉伯语（黎巴嫩语）
     ar-SD: 阿拉伯语（苏丹语）
+    aeb: العربية (التونسية)
+    ar-SY: العربية (السورية)
     bn: 孟加拉语
     cmn: 中文
     current_time_zone: 当前时区
@@ -1359,7 +1409,9 @@ cmn:
     es-ES: 西班牙语（西班牙）
     fr: 法语
     hu: 英语
+    hy: Armenian
     id: 印尼语
+    it: Italiano
     km: 高棉语
     ku: 库尔德语
     ku-IQ: （巴迪尼）库尔德语
@@ -1370,10 +1422,12 @@ cmn:
     ne: 尼泊尔
     om: 奥罗莫语
     am-ET: 阿姆哈拉语（埃塞俄比亚）
+    ti: Tigrinya
     tr: 土耳其语
     label: 主页
     language: 语言
     manage_system_users: 管理服务器同步用户
+    mn: Mongolian
     my: 缅甸语
     pl: 波兰语
     pt: 葡萄牙语
@@ -1719,50 +1773,37 @@ cmn:
       _requested: 已请求
       add_note: 添加备注
       assign: 分配
-      assign_to: 分配给
-      attach: 附加
       bulk_assign: 批量分配
       bulk_create: 批量创建
       bulk_index: 批量索引
-      case_plan_approved: 个案计划已获批准
-      case_plan_rejected: 个案计划已被退回
-      case_plan_requested: 要求制定个案计划
       close: 关闭
       create: 创建
       create_bulk: 批量创建
+      create_family: 创建家庭记录
+      current: 当前
       delete: 删除
       destroy: 销毁
-      detach: 脱离
-      enable_disable_record: 启用 禁止记录
       export: 导出
+      family: 列出家庭
       flag: 标记
       import: 导入
       incident_details_from_case: 个案中的事件细节
-      index: 指数
       list: 列表
       login: 登录
+      logout: 登出
       password_reset: 密码重置
       password_reset_request: 密码重置请求
       refer: 转介
-      refer_accepted: 转介已接受
-      refer_done: 转介已完成
-      refer_rejected: 转介已拒绝
-      refer_revoke: 撤回转介
-      refer_to: 转介给
       reopen: 重新开案
-      services_section_from_case: 个案中的服务部分
       show: 显示
       show_alerts: 显示警告
-      traces: 追踪
       transfer: 移交
-      transfer_accepted: 转移已接受
-      transfer_rejected: 转移已拒绝
-      transfer_request: 移交请求
-      transfer_to: 移交到
       unflag: 取消标记
       update: 更新
+      update_bulk: 批量更新
       user_password_reset_request: 用户密码重置请求
       webhook: 网络钩子
+    add_note: 添加备注
     approve_form:
       action_plan: 行动计划表格
       bia: 最佳利益评估表格
@@ -1771,29 +1812,45 @@ cmn:
       'false': 拒绝
       gbv_closure: GBV结案表格
       'true': 批准中
+    action_plan_approved: "%{approval_label} - 批准用于"
+    action_plan_requested: "%{approval_label}请求"
+    action_plan_rejected: "行动计划已拒绝，原因："
     assessment_approved: "%{approval_label} - 批准用于"
+    assessment_rejected: 已拒绝评估审批请求
     assessment_requested: "%{approval_label}请求"
+    assign_to: 列出用于记录分配的用户
+    assign: 分配
+    attach: 添加附件
     bulk_index: 全部列出
     by_user: 按用户
     case_plan_approved: "%{approval_label} - 批准用于"
     case_plan_requested: "%{approval_label}请求"
+    case_plan_rejected: 已拒绝个案计划审批请求
     close: 关闭
     closure_approved: "%{approval_label} - 批准用于"
+    closure_rejected: 已拒绝结案审批请求
     closure_requested: "%{approval_label}请求"
     consent_count: 同意计数
     copy: 复制
     create: 创建
     create_subform: 创建子表单
     destroy: 删除
+    detach: 移除附件
     edit: 编辑
     enable_disable_record: 启用/禁用
     export: 导出数据
+    family: 家庭档案
     flag: 标记
     flag_records: 标记
+    gbv_closure_approved: "%{approval_label} - 批准"
+    gbv_closure_requested: "%{approval_label}请求"
+    gbv_closure_rejected: "GBV结案请求已退回，原因："
     graph_data: 查看图表数据
     hide_name:
       protect: 隐藏名称
       view: 查看名称
+    import: 导入
+    incident_details_from_case: 从列表视图向个案添加事件
     index: 列出记录
     list: 列表
     login: 登录
@@ -1803,14 +1860,17 @@ cmn:
       'false': 去除移动设备标记
       'true': 移动设备标记
     match_record: 匹配记录
+    password_reset: 密码重置
     permitted_field_list: 允许的字段列表
     quick_view: 查看快速浏览
     reassign: 分配
     resources:
       audit_log: 审核日志
       user: 用户
+      flag: 标记
       agency: 机构
       user_group: 用户组
+      child: 个案
       alert: 警报
       form_section: 表格
       lookup: 查询
@@ -1826,12 +1886,19 @@ cmn:
       primero_configuration: Primero配置
       code_of_conduct: 行为准则
       task: 任务
+      tracing_request: 追踪请求
+      managed_report: 见解
     record_state:
       'false': 禁用
       'true': 启用
     refer: 转介
+    refer_accepted: 转介已接受
     refer_to: 搜索转介接收人
     referral: 转介
+    refer_revoke: 撤销转介
+    refer_rejected: 拒绝转介
+    refer_accpeted: 接受转介
+    refer_done: 将转介标记为已完成。
     relinquish_referral: 放弃转介已完成
     reopen: 重新开案
     reopen_case: 正在重新开案
@@ -1847,12 +1914,19 @@ cmn:
     search: API 搜索
     show: 查看
     show_alerts: 查看警报
+    timestamp: 时间戳
     to: 到
     to_user: 给用户
+    traces: 查看追踪
     transfer: 移交中
+    transfer_to: 列出用于记录移交的用户
     transfer_status:
       Accepted: 已接受移交
       Rejected: 已拒绝移交
+    transfer_accepted: 接受移交
+    transfer_rejected: 拒绝移交
+    transfer_request: 发起移交
+    transfer_revoked: 撤销移交
     unflag: 取消标记
     update: 更新中
   login:
@@ -1894,6 +1968,7 @@ cmn:
     total: 总计
     violations_total: 违规
     filter_by:
+      module_id: 模块
       date: 日期
       verification_status: 验证状态
       violation_type: 违规类型
@@ -2039,7 +2114,6 @@ cmn:
         attack_on_schools: 袭击学校
         military_use: 学校和/或医院用于军事目的
         denial_humanitarian_access: 拒绝让儿童获得人道主义援助
-        detention: 拘留
       sub_reports:
         children: 儿童
         combined: 违规
@@ -2088,37 +2162,6 @@ cmn:
       sub_reports:
         incidents: 事件
         combined: 通用统计数据
-        total: 1.新增报告的GBV事件
-        gbv_sexual_violence: 幸存者统计数据-9.已报告的性暴力事件数
-        gbv_previous_incidents: 2.新增的已报告性暴力事件
-        gbv_sexual_violence_type: 事件统计数据-10.GBV类型
-        incident_timeofday: 事件统计数据-11.当日事件发生时间
-        elapsed_reporting_time: 事件统计数据- 13. 发生事件与报告事件之间的间隔时间
-        elapsed_reporting_time_rape: 事件统计数据- 14.强奸事件，发生与报告之间的间隔时间
-        elapsed_reporting_time_rape_health_referral: 事件统计数据- 15.强奸事件，事件与报告日期之间经过的时间（卫生服务或服务转介）
-        incident_location_type: 事件统计数据- 16.事件地点
-        number_of_perpetrators: 肇事者统计数据- 17.主要肇事者人数
-        perpetrator_relationship: 肇事者统计数据- 18.被指控的主要肇事者与幸存者的关系
-        perpetrator_age_group: 肇事者统计数据- 19.被指控的主要肇事者年龄组
-        perpetrator_occupation: 肇事者统计数据- 20.被指控的主要肇事者职业
-        age: 幸存者统计数据- 4.幸存者年龄
-        sex: 幸存者统计数据- 3.幸存者性别
-        marital_status: 幸存者统计数据- 5.幸存者婚姻状况
-        displacement_status: 幸存者统计数据- 6.幸存者流离失所状况
-        displacement_incident: 幸存者统计数据- 7.事件发生时的所处流离失所阶段
-        gbv_case_context: 事件统计数据- 12.个案背景
-        incidents_first_point_of_contact: 转介统计数据- 21.您的组织作为第一联系人的事件数
-        incidents_from_other_service_provider: 转介统计数据- 22.从其他服务提供方转介的事件
-        number_of_services_provided: 转介统计数据- 23.为事件提供的服务数量
-        number_of_services_provided_other: 转介统计数据- 24.给其他服务提供商转介的新事件
-        service_safehouse_referral: 安全屋/安全庇护所转介
-        service_medical_referral: 健康/医疗转介
-        service_psycho_referral: 社会心理/咨询服务
-        service_legal_referral: 法律援助服务
-        service_police_referral: 警察或其他类型的安全服务
-        service_livelihoods_referral: 生计服务
-        service_protection_referral: 儿童保护服务
-        vulnerable_populations: 幸存者统计数据- 8.脆弱群体
         survivors_disability_type: 残障人士
     workflow_report:
       name: 工作流程
@@ -2162,6 +2205,126 @@ cmn:
         case_violence_type_by_sex_and_age: 按性别和年龄分列的个案总数
         incident_violence_type_by_sex_and_age: 按性别和年龄分列的事件总数
     success_message: 成功生成导出文件
+    protection_outcomes:
+      reports:
+        improved_psychosocial_wellbeing: '展现出心理社会福祉改善的百分比'
+        impacted_protection_risks: '受保护风险影响降低比例'
+      description: '主要成果包括：通过个案管理，服务对象的心理社会福祉状况得到改善，受风险影响降低。'
+      name: 保护成果
+      filter_options:
+        registration_date: 登记日期
+        date_closure: '结案日期 '
+      sub_reports:
+        improved_wellbeing_after_support: '心理社会福祉得到改善的服务对象的百分比'
+        less_impacted_after_support: '受保护风险影响降低比例'
+      improved_wellbeing_after_support:
+        improve_by_at_least_3_points: '提升幅度不低于3分'
+        not_improve_by_at_least_3_points: '提升幅度低于3分'
+      less_impacted_after_support:
+        clients_report_less_impacted: '据反映，所受影响有所减轻'
+        clients_report_equally_or_more_severely_impacted: '据反映，所受影响程度相同或更严重'
+    process_quality_total_cases:
+      reports:
+        process_quality_total_cases: '未保个案管理服务对象总数'
+      description: 个案总数（按个案状态、性别、时间段分类统计）
+      name: '流程与质量 - 未保个案管理服务对象总数'
+      filter_options:
+        registration_date: 登记日期
+        date_closure: '结案日期 '
+      sub_reports:
+        total_protection_management_cases: '未保个案管理服务对象总数'
+    process_quality_average_cases:
+      reports:
+        process_quality_average_cases: '每名个案工作者负责的个案量'
+      description: 人均个案数（按性别、时间段分类统计）
+      name: '流程与质量 - 人均个案数'
+      filter_options:
+        registration_date: 登记日期
+        date_closure: '结案日期 '
+      sub_reports:
+        average_cases_per_case_worker: '人均个案数'
+      average_cases_per_case_worker: '人均个案数'
+    process_quality_successful_referrals:
+      reports:
+        process_quality_successful_referrals: 成功对接的转介
+      description: 服务转介成功与不成功的比例（按性别、时间段分组统计）
+      name: '流程与质量 - 转介成功率'
+      filter_options:
+        referral_created_at: 服务转介日期
+        service_response_day_time: 服务创建日期
+        case_status: 个案状态
+      sub_reports:
+        percentage_successful_referrals: '转介成功率'
+      implemented: '成功'
+      not_implemented: '不成功'
+    process_quality_implemented_referrals:
+      reports:
+        process_quality_implemented_referrals: '按实施日期统计的成功转介案例'
+      description: 成功服务转介（按实施日期、性别、时间段分类统计）
+      name: 流程与质量 - 按实施日期统计的成功转介案例
+      filter_options:
+        case_status: 个案状态
+        service_implemented_day_time: 服务实施日期
+      sub_reports:
+        implemented_successful_referrals: 按实施日期统计的成功转介案例
+      implemented: 成功对接的转介
+    case_characteristics:
+      reports:
+        case_protection_risk: 按保护风险分列个案
+        case_risk_level: 按风险等级分类个案
+        case_duration: 按个案时长分类统计
+        clients_disability: 有身心障碍的服务对象
+        case_safety_plan: 已制定安全计划的个案
+        clients_gender: 按性别分类统计的个案
+      description: '主要个案特征，包括：风险级别分布比例、主要未保风险类型、个案管理时长分布、残障状况比例、安全计划完成率以及性别比例。'
+      name: 个案特征
+      filter_options:
+        registration_date: 登记日期
+        date_closure: '结案日期 '
+      sub_reports:
+        percentage_cases_protection_risk: '按儿童保护风险分类的个案比例'
+        percentage_cases_risk_level: '按风险等级分类的个案比例'
+        percentage_cases_duration: '按个案时长分类的比例'
+        percentage_clients_with_disability: '服务对象中残障人士所占比例'
+        percentage_cases_safety_plan: '安全计划已定稿的个案比例'
+        percentage_clients_gender: '按性别分类的服务对象比例'
+      percentage_cases_duration:
+        1_month: 少于1个月
+        1_3_months: 1-3个月
+        3_6_months: 3-6个月
+        over_6_months: 超过6个月
+      percentage_cases_safety_plan:
+        safety_plan_completed: '安全计划已完成'
+        safety_plan_not_completed: '安全计划未完成'
+  usage_report:
+    label: 导出使用情况报告
+    file_name: 创建您自己的文件名称（可选）
+    instructions: '如需生成季度报告，请点击“导出”按钮。'
+    invalid_date_format: '%{field} 应当是一个有效日期'
+    invalid_date_range: '%{to} 应当大于 %{from}'
+    export:
+      users: 用户
+      hostname: 主机名
+      start_date: 开始日期
+      end_date: 结束日期
+      quarter: 季度
+      agencies_total: '机构总数 '
+      module_yes: '是'
+      module_no: '否'
+      agency_list: 机构列表
+      users_total: 用户总数
+      users_active: 活跃用户
+      users_disabled: 已禁用用户
+      users_new: 本季度新用户
+      cases_total: 个案总数
+      cases_open: 在开案个案
+      cases_closed: 已结案个案
+      cases_open_this_quarter: 本季度开案个案
+      cases_closed_this_quarter: 本季度已结案个案
+      services_total: 服务总次数
+      followups_total: 跟进工作总计
+      incidents_total: 事件总数
+      incidents_open_this_quarter: 本季度事件总数
   messages:
     alert_items: 你有%{items} 个备注
     alerts_for:
@@ -2188,6 +2351,7 @@ cmn:
       no_match: 抱歉，找不到匹配记录
       rows_per_page: 每页行数
       sort: 种类
+      sort_disabled_name_fields: 使用名称字段搜索时，排序功能不可用
   navigation:
     bulk_exports: 导出
     cases: 个案
@@ -2200,7 +2364,6 @@ cmn:
     search: 搜索
     phonetic_search:
       title: 输入名字搜索已有记录
-      label: 用户名称字段
       help_text: 可以通过音节搜索名字
     id_search:
       title: 输入ID搜索已有记录
@@ -2351,6 +2514,7 @@ cmn:
       transfer: 可用于移交
       user: 用户
       user_group: 用户组
+      usage_report: 使用报告
       verify_mrm: 验证MRM
       view_approvals: 查看批准
       view_assessment: 查看评估
@@ -2363,6 +2527,7 @@ cmn:
       write: 写
       activity_log: 活动日志
       remove_alert: 移除提醒
+      create_case_from_referral: 根据转介创建个案
     resource:
       kpi:
         actions:
@@ -2479,6 +2644,9 @@ cmn:
           assign_within_user_group:
             explanation: 允许用户将个案从其原始记录所有者发送给当前用户的用户组中的任何其他用户。此行动不需要孩子同意。与移交不同，接收者没有机会接受或拒绝分配。
             label: 分配给本用户组中的用户
+          create_case_from_referral:
+            label: 根据转介创建个案
+            explanation: 用户可以根据转介创建个案
           change_log:
             explanation: 用户可以看到自创建以来本记录的所有更改的历史记录。这包括记录所有字段的值。
             label: 更改日志
@@ -2605,6 +2773,9 @@ cmn:
           services_section_from_case:
             explanation: 能够在您在搜索结果中找到但无法访问的个案下添加服务子表格条目。用户在搜索结果页面选择一个或多个个案，然后从“操作”菜单中选择“添加服务”。然后，用户看到一个模态，其中包含服务子表格上的所有字段，他们可以在其中输入并提交有关服务的信息。由于此操作只能从搜索结果页面执行，因此用户只有获得了“还搜索其他用户拥有的个案记录”许可时，才能获得此权限。
             label: 将服务提供添加到另一个用户的个案
+          service_own_entries_only:
+            explanation: 当拥有此权限的用户查看转介给自己的个案时，在“服务”子表单（Services subform）里，他们将只能看到那些指定由他们作为服务提供方的服务记录。此权限设置通常适用于“服务提供方” (Service Provider) 这一类的用户角色
+            label: 仅可访问本人相关的“服务”子表单记录
           sync_external:
             explanation: 能够将记录与外部信息管理系统同步
             label: 与外部信息管理系统同步
@@ -2654,9 +2825,6 @@ cmn:
           action_needed_new_updated:
             explanation: 在“待处理事项”仪表盘中显示“新增和更新”指示器。这包括分配给当前用户的新个案，或自当前用户上次更新后由其他用户更新的个案。
             label: '待处理事项：新增或已更新'
-          action_needed_new_referrals:
-            explanation: 在“待处理事项”仪表盘中显示“新转介”指示器。这包括任何有新转介发送给当前用户的个案，其中当前用户不是最后更新该个案的人。
-            label: '待处理事项：新转介'
           action_needed_transfer_awaiting_acceptance:
             explanation: 在“待处理事项”仪表盘中显示“待接受的移交”指示器。这包括任何移交给当前用户但尚未被当前用户接受的个案。
             label: '待处理事项：待接收的移交'
@@ -2828,6 +2996,8 @@ cmn:
           self:
             explanation: 该角色可以访问自己的记录（个案、追踪请求或事件），并可以编辑自己的用户帐户。
             label: 仅访问我的记录或用户
+          webhook:
+            label: Webhook
         explanation: 控制角色可以访问哪些记录（个案、追踪请求或事件）。如果角色有权访问用户和用户组，这也会控制他们可以访问哪些用户和用户组。有权访问“无记录”的角色只能访问系统配置，例如表单、用户和报告。
         label: 此角色会影响哪些记录？
       incident:
@@ -2952,6 +3122,24 @@ cmn:
           referrals_transfers_report:
             label: 转介和移交（个案）
             explanation: 用户可以看到从每个用户组转介和移交到每个用户组的个案数。
+          protection_outcomes:
+            label: 保护成果
+            explanation: “未保成效”指标最初是为“未保个案管理”（PCM）模块设计的，其中包括：心理社会福祉状况改善的服务对象比例，以及据报告受未保风险影响降低的服务对象比例。
+          process_quality_total_cases:
+            label: '流程与质量 - 未保个案管理服务对象总数'
+            explanation: 仅适用于“未保个案管理”（PCM）模块。此项显示正在接受未保个案管理服务的个案总数
+          process_quality_average_cases:
+            label: '流程与质量 - 人均个案数'
+            explanation: 仅适用于“未保个案管理”（PCM）模块。此项显示每名个案工作者人均负责的未保个案数量
+          process_quality_successful_referrals:
+            label: '流程与质量 - 转介成功率'
+            explanation: 仅适用于“未保个案管理”（PCM）模块。此项显示服务转介成功率
+          process_quality_implemented_referrals:
+            label: 流程与质量 - 按实施日期统计的成功转介案例
+            explanation: 仅适用于“未保个案管理”（PCM）模块。此项按月显示成功实施（或对接成功）的服务转介数量
+          case_characteristics:
+            label: '个案特征'
+            explanation: '仅适用于“未保个案管理”（PCM）模块。此项按一系列主要特征对个案进行分类统计，包括：未保风险、风险等级、个案时长、残障状况、安全计划完成情况以及性别。'
       matching_configuration:
         actions:
           manage:
@@ -2962,7 +3150,6 @@ cmn:
       metadata:
         actions:
           manage:
-            explanation: 能够创建、编辑、翻译和删除表单、表单字段和查找。请注意，具有此权限的用户将只能管理他们有权访问的表单。例如，如果国家管理员只能查看个案的“记录所有者”表单，则他们只能更新此表单的配置。
             label: 管理（此资源类型的所有权限）
         explanation: 控制配置 Primero 表单和字段以及其中使用的查找选项的功能。
         label: 表单、查找
@@ -3285,6 +3472,11 @@ cmn:
             label: 管理（此资源类型的所有权限）
             explanation: 能访问全部
         label: 活动日志
+      usage_report:
+        actions:
+          read:
+            explanation: 访问“使用情况报告”页面的权限
+            label: 访问“使用情况报告”页面
   potential_match:
     case_id: 个案编号
     child_age: 年龄
@@ -3330,9 +3522,9 @@ cmn:
   record_panel:
     record_information: 记录信息
   referral:
+    allow_all: 授权访问所有可用表单
     type_of_recipient: 接收人类型
     type_of_referral_required: 转介类型为必填项
-    referral_authorization_label: 需要明确具体的转介类型么？
     referral_authorization_help_text: 将限制接收方能访问的表格。
     agency_label: 机构
     is_remote_label: 你指的是远程系统吗？
@@ -3348,6 +3540,8 @@ cmn:
     user_mandatory_label: 接收人为必填项
     date: 日期
     rejected_reason: 拒绝原因
+    allow_case_creation: 允许根据此转介信息创建个案
+    allow_case_creation_help_text: 勾选此项后，接收方即可自行创建个案记录，从而能够为该服务对象提供个案管理服务。
   report:
     aggregate_by: 按行分组
     attribute: 分配
@@ -3459,6 +3653,7 @@ cmn:
       locations: 地点
       lookups: 查找
       user_groups: 用户组
+      usage_reports: 使用报告
       users: 用户
       roles: 角色
       code_of_conduct: 行为准则
@@ -3723,22 +3918,38 @@ cmn:
     services: 服务
     welcome_email:
       subject: '欢迎来到 %{system}!'
+      subject_instructions: '%{system} 登陆说明'
       greeting: '欢迎来到 %{system}!'
+      body_native: "%{greeting} 我们正在为您创建 %{role_name} 账户。稍后您将收到一封单独的邮件，请根据邮件提示设置您的密码。成功登录后，请访问您的用户资料页面查找用户名。您可以在 Primero 系统的左侧导航栏中找到您的用户资料。"
+      body_native2: "如需更多指导，您可以观看此教学视频 %{instructional_video} "
+      instructional_video: 教学视频
+      additional_support: '如需更多支持（或帮助），请联系您的系统管理员 %{admin_email} '
       sso:
         body: '您已被添加为 %{role_name}.'
+        step1: '欢迎使用 %{system}! 请访问 %{system} 系统登录页面，选择您所属的组织/机构 %{identity_provider} ，然后通过“单点登录”(Single Sign-On) 方式登录。登录时，请使用您 %{identity_provider} 账户的常用密码（即您平时使用的密码）。'
+        step2: '请注意：您无法直接在  %{product_name} 系统中重置密码。您需要通过您的  %{identity_provider} 账户来进行密码重置操作。'
       otp:
         body: '您已被添加为 %{role_name}.'
+        step1: '成功登录后，请访问您的“用户资料”页面以查找您的用户名。您可以在 %{site_title}网站/系统的左侧导航栏中找到“用户资料”选项。'
+        step2: '请使用以下方式/链接重置您的密码 <b>%{otp}</b>'
       url_label: Primero
       enabled_label: 发送欢迎电子邮件？
       text_label: 欢迎电子邮件文本
     password_reset:
       subject: '重置密码说明'
+      email_body1: "我们收到了为您更改%{system_name} 账户密码的请求。请点击（或复制并粘贴）以下链接来重置您的密码： %{password_reset_link}"
+      email_body2: "请注意，本链接将在  %{hours} 小时后失效，且仅可使用一次。请勿与他人分享您的用户凭据或密码。"
+      email_body3: "若上方链接已失效，请点击此链接 %{reset_request_href} 重新提交密码重置申请。"
       email_body_link: 这
       request_submitted: "密码重置请求已提交"
       success: "密码已成功更改"
       errors:
         reset_password_token: "密码重置令牌无效"
         password_confirmation: "密码必须匹配"
+    onboard_email:
+      subject: "%{system}系统管理员入门指南 "
+      body1: "欢迎使用  %{system}系统！我们已将您指定（或设置为）本系统的管理员。"
+      body2: "您将负责 %{product_name}系统的本次部署实施工作，其职责包括用户管理和系统配置。在本次系统部署（或推广）过程中，您需要遵循《实施计划》（Implementation Plan）的要求，该计划涵盖了用户入门（或配置）流程、安全规程、用户管理策略和信息共享协议等内容。"
   user_group:
     associated_agencies: 与此用户组关联的机构
     description: 描述
@@ -3756,7 +3967,6 @@ cmn:
     headers:
       full_name: 全名
       user_name: 用户名
-      position: 职位
       agency: 机构
     alerts:
       total_users_created: 您已创建了%{total_enabled}个启用用户，达到您的实施允许的%{maximum_users}个用户上限。
@@ -3781,3 +3991,16 @@ cmn:
       ios: "iOS：转到“设置”应用。点击通知。向下滚动到应用程序列表并找到 Primero。将 Primero 的切换开关切换到打开位置。"
     body:
       other: '是否允许 Primero 向您发送通知？请记住，注销后，您将继续在此设备上收到通知 %{count} 不建议对共享设备执行此操作。 '
+  email:
+    greeting: "尊敬的 %{full_name}"
+    admin_closing: "如需报告问题或进行故障排查，请联系您的系统管理员  %{sys_admin}"
+    login: 登录
+    system_admin: '系统管理员'
+    unsubscribe: '退订'
+    site_description: Primero 是一个开源软件平台，旨在帮助社会服务、人道主义及发展领域的工作人员管理儿童保护相关数据。该平台提供的工具能够为个案管理、事件监测、家庭追踪与团聚等工作提供支持与便利。
+    email_disclaimer_pre: 请勿回复此邮件。
+    email_welcome_greeting: '欢迎加入 Primero 团队！ '
+    email_welcome_closing: 欢迎加入 Primero 社区！
+    email_closing: 竭诚为您服务。
+    email_signature: Primero团队
+    email_admin_name: 系统管理员

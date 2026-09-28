@@ -4,11 +4,11 @@ ar-JO:
       export_incident_recorder_xls: "تصدير سجل الحادثة بامتداد XLS"
   exports:
     incident_recorder_xls:
-      all:  مدخل الحادثة
-      one:  مدخل الحادثة
-      selected:  تم تحديد مدخل الحادثة
-      "yes": "نعم"
-      "no": "لا"
+      all: مدخل الحادثة
+      one: مدخل الحادثة
+      selected: تم تحديد مدخل الحادثة
+      'yes': "نعم"
+      'no': "لا"
       gender:
         male: "ذكر"
         female: "أنثى"
