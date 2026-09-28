@@ -24,6 +24,7 @@ function Component({ filter, mode, moreSectionFilters = {}, setMoreSectionFilter
   const isOnlyOneDateFieldOption = Object.keys?.(options?.[i18n.locale])?.length === 1;
   const valueSelectedField = getValueSelectedField(options, i18n.locale, initialFilters, getValues);
   const [selectedField, setSelectedField] = useState(valueSelectedField || "");
+  const [isResetting, setIsResetting] = useState(false);
   const location = useLocation();
   const queryString = location.search.replace("?", "");
   const queryParams = useMemo(() => qs.parse(queryString), [queryString]);
@@ -47,8 +48,9 @@ function Component({ filter, mode, moreSectionFilters = {}, setMoreSectionFilter
     }
   };
 
-  const handleReset = () => {
+  const handleReset = async () => {
     if (selectedField) {
+      await setIsResetting(true);
       setSelectedField("");
       setValue(selectedField, getDatesValue(undefined, dateIncludeTime));
 
@@ -69,7 +71,7 @@ function Component({ filter, mode, moreSectionFilters = {}, setMoreSectionFilter
       }
 
       setMoreFilterOnPrimarySection(moreSectionFilters, selectedField, setSecondaryValues);
-    } else if (queryParamsKeys.length && !Object.keys(moreSectionFilters).length) {
+    } else if (queryParamsKeys.length && !Object.keys(moreSectionFilters).length && !isResetting) {
       const data = filter?.options?.[i18n.locale].find(option => queryParamsKeys.includes(option.id));
       const selectValue = data?.id;
       const datesValue = queryParams?.[selectValue];
@@ -77,6 +79,8 @@ function Component({ filter, mode, moreSectionFilters = {}, setMoreSectionFilter
       setSelectedField(selectValue);
       setInputValue(getDatesValue(datesValue, dateIncludeTime));
     }
+
+    setIsResetting(false);
 
     return () => {
       if (selectedField) {
