@@ -766,7 +766,6 @@ am-ET:
     not_allowed: 'አልተፈቀደም
 
        '
-    unavailable_server: "የመረጃ ቋቱ ለጊዜው አይሰራም \n "
   contact:
     field:
       email: 'ኢ-ሜይል
@@ -987,10 +986,8 @@ am-ET:
     services: አገልግሎቶች
     services_implemented: የተተገበሩ አገልግሎቶች
     shared_from_my_team_pending_transfers: በእንጥልጥል ላይ ያሉ የሚተላለፉ
-    shared_from_my_team_referrals: ቅብብሎሾች
     shared_from_my_team_rejected_transfers: ተቀባይነት ያላገኘ ማስተላለፍ
     shared_with_my_team_pending_transfers: በእንጥልጥል ላይ ያሉ የሚተላለፉ
-    shared_with_my_team_referrals: ቅብብሎሾች
     status_of_cases: የጉዳዮች ሁኔታ
     system_user: ስርዓት
     total: አጠቃላይ
@@ -1066,7 +1063,6 @@ am-ET:
       lookup:
         being_used: ይህ lookup  አገልግሎት ላይ ስለሆነ መጥፋት አይችልም ።
         name_present: ስም ባዶ መሆን የለበትም
-        values_ids_blank: የlooks- ዋጋIids  ባዶ ነው።
       primero_module:
         associated_record_types: ቢያንስ አንድ የመዝገብ አይነት ከዚህ ሞጁል ጋር መመሳሰል  አለበት።
         form_section_ids: ቢያንስ አንድ ቅጽ  ከዚህ ሞጁል ጋር መመሳሰል  አለበት።
@@ -1907,21 +1903,14 @@ am-ET:
       _requested: ተጠይቋል
       add_note: ማስታዎሻ አክል
       assign: መመደብ
-      assign_to: ተመድባል
-      attach: አያይዝ
       bulk_assign: አያይዝ
       bulk_create: ፍጠር
       bulk_index: ጠቆሚ
-      case_plan_approved: የድጋፍ እቅድ ተጠናቃል
-      case_plan_rejected: የድጋፍ እቅድ ውድቅ ተደርጋል
-      case_plan_requested: የድጋፍ እቅድ ተጠይቃል
       close: ተዘግታል
       create: ፍጠር
       create_bulk: ፍጠር
       delete: አጥፋ
       destroy: አስወግድ
-      detach: ለያይ
-      enable_disable_record: የጠፉ መረጃዎችን መልስ/አሳይ
       export: 'ማሻገር
 
          '
@@ -1930,7 +1919,6 @@ am-ET:
 
          '
       incident_details_from_case: የኬዝ/ሁናቴ ዝርዝር ቅጽ
-      index: መረጃ ጠቋሚ
       list: ዝርዝር
       login: ግባ
       password_reset: የሚስጥር ቁጥር ቀይር
@@ -1940,28 +1928,12 @@ am-ET:
          
 
          '
-      refer_accepted: ሪፈር ተቀባይነት አግኝታል
-      refer_done: 'ሪፈር ተደርጓል
-
-         '
-      refer_rejected: 'ሪፈራል ውድቅ ተደርጓል
-
-
-         '
-      refer_revoke: ተጨማሪ ዝርዝር ተጠይቃል
-      refer_to: ለ ቅብብል ተደርጋል
       reopen: ዳግም መክፈት
-      services_section_from_case: የአገልግሎት ክፍል ከኬዞች
       show: አሳይ
       show_alerts: ጠቆሚ አሳይ
-      traces: መፈላለግ
       transfer: 'ማስተላለፍ
 
          '
-      transfer_accepted: ማስተላለፍ ተቀባይነት አግኝታል
-      transfer_rejected: ማስተላለፍ ውድቅ ተደርጋል
-      transfer_request: የማስተላለፍ ጥያቄ
-      transfer_to: ለ የሚተላለፍ
       unflag: ጥቆማውን አጥፋ
       update: ማዘመን
       user_password_reset_request: የተገልጋዮች የይለፍ ቃል ማስተከከል ጥያቄ
@@ -2208,7 +2180,6 @@ am-ET:
         attack_on_schools: በትምህርት ቤቶት/ቤ/ቶች / ላይ የሚደርስ ጥቃት)
         military_use: ትምህርት ቤቶችን/ሆስፒታሎችን ለወታደራዊ ዓላማ መጠቀም
         denial_humanitarian_access: ለህጻናት ሰብዓዊ ድጋፎችን መከልከል
-        detention: ማሰር
       sub_reports:
         children: ህፃናት
         combined: ጥሰቶች
@@ -2953,7 +2924,6 @@ am-ET:
       metadata:
         actions:
           manage:
-            explanation: መፍጠር፣ መቀየር፣ መተርጎምና ፎርሞችን ማጥፋት፣ የቅጽ ቦታና ለማየት ማስተካከል፡፡ ደንበኛው የሚፈቀድለትንና የሚሰራዎችን ስራዎች ብቻ እንዲያይ ይፈቀድለታል፡፡ ለምሳሌ በሀገር ደረጃ ያላው የመረጃ ተቆጣጣሪ መረጃዎችን የማየትና መቆጣጠር ድርሻና ሀላፊነት አለበት
             label: አስተካከል(ሁሉንም የተፈቀዱትን )
         explanation: 'የፕሪሜሮ ቅጾችን ማስተካከልና አማራጮችን ማየት '
         label: ቅጾች፣ ማየት
@@ -3670,7 +3640,6 @@ am-ET:
     headers:
       full_name: ሙሉ ስም
       user_name: የተጠቃሚው ስም
-      position: የስራ መደብ
       agency: ድርጅት
   devise:
     failure:

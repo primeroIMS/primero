@@ -4,11 +4,11 @@ aeb:
       export_incident_recorder_xls: "نزّل سجل الحوادث xls"
   exports:
     incident_recorder_xls:
-      all:  سجل الحوادث
-      one:  سجل الحوادث
-      selected:  "تم اختياره لسجل الحوادث "
-      "yes": "نعم"
-      "no": "لا"
+      all: سجل الحوادث
+      one: سجل الحوادث
+      selected: 'تم اختياره لسجل الحوادث '
+      'yes': "نعم"
+      'no': "لا"
       gender:
         male: "ذكر"
         female: "أنثى"

@@ -4,11 +4,11 @@ ne:
       export_incident_recorder_xls: "घटना अभिलेखकर्ता xls मा export गर्नुहोस् ।"
   exports:
     incident_recorder_xls:
-      all:  घटना अभिलेखकर्ता
-      one:  घटना अभिलेखकर्ता
-      selected:  "घटना अभिलेखकर्ताको लागि छनौट गरिएको "
-      "yes": "हो"
-      "no": "होइन "
+      all: घटना अभिलेखकर्ता
+      one: घटना अभिलेखकर्ता
+      selected: 'घटना अभिलेखकर्ताको लागि छनौट गरिएको '
+      'yes': "हो"
+      'no': "होइन "
       gender:
         male: "पुरुष"
         female: "महिला"
