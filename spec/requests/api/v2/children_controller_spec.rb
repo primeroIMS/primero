@@ -1572,6 +1572,23 @@ describe Api::V2::ChildrenController, type: :request do
         end
       end
 
+      context 'when the recipient resolves the referral' do
+        it 'can accept it and update the record afterwards' do
+          sign_in(@user_referral)
+
+          patch(
+            "/api/v2/cases/#{@case11.id}/referrals/#{@referral1.id}",
+            params: { data: { status: Transition::STATUS_ACCEPTED } }
+          )
+          expect(response).to have_http_status(200)
+
+          patch "/api/v2/cases/#{@case11.id}", params: { data: { field_a: 'new value for field_a' } }, as: :json
+
+          expect(response).to have_http_status(200)
+          expect(@case11.reload.data['field_a']).to eq('new value for field_a')
+        end
+      end
+
       context 'when the referral is still pending' do
         it 'returns 403 and does not update the record' do
           sign_in(@user_referral)

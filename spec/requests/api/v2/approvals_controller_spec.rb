@@ -60,6 +60,22 @@ describe Api::V2::ApprovalsController, type: :request do
     end
   end
 
+  describe 'PATCH /api/v2/cases/:id/approvals/:id with a pending transition' do
+    it 'returns 403 and does not change the approval' do
+      @case.update_column(:data, @case.data.merge('referred_users_pending' => %w[faketest]))
+
+      login_for_test(
+        permissions: [
+          Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::REQUEST_APPROVAL_CASE_PLAN])
+        ]
+      )
+      patch("/api/v2/cases/#{@case.id}/approvals/case_plan", params: { data: { approval_status: 'requested' } })
+
+      expect(response).to have_http_status(403)
+      expect(@case.reload.data['approval_status_case_plan']).to be_nil
+    end
+  end
+
   shared_examples 'approve for the record' do
     before do
       @case.case_plan_approval_type = approval_type

@@ -169,6 +169,18 @@ describe Api::V2::TransferRequestsController, type: :request do
     end
   end
 
+  describe 'POST /api/v2/case/:id/transfer_requests with a pending transition' do
+    it 'returns 403 and does not create the transfer request' do
+      @case.update_column(:data, @case.data.merge('referred_users_pending' => %w[user2]))
+
+      sign_in(@user2)
+      post("/api/v2/cases/#{@case.id}/transfer_requests", params: { data: { notes: 'Test Notes' } })
+
+      expect(response).to have_http_status(403)
+      expect(@case.transitions.where(type: 'TransferRequest')).to be_empty
+    end
+  end
+
   describe 'PATCH /api/v2/cases/:id/transfer_requests/:transfer_request_id' do
     before :each do
       @transfer1 = TransferRequest.create!(transitioned_by: 'user2', transitioned_to: 'user1', record: @case)
