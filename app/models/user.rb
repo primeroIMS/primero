@@ -738,11 +738,11 @@ class User < ApplicationRecord
 
   def group_permits_referral?(referral)
     referral.record.owned_by_any_groups?(user_group_unique_ids) ||
-      User.by_user_groups(user_group_ids).exists?(user_name: user_name)
+      User.by_user_group(user_group_ids).exists?(user_name: referral.transitioned_to)
   end
 
   def agency_permits_referral?(referral)
-    agency_id == referral.record.owner.agency_id || transitioned_to_agency == agency.unique_id
+    agency_id == referral.record.owner.agency_id || referral.transitioned_to_agency == agency.unique_id
   end
 
   def agency_permits_access?(record)

@@ -5,7 +5,7 @@ require 'rails_helper'
 describe Api::V2::ReferralsController, type: :request do
   include ActiveJob::TestHelper
   before do
-    clean_data(Alert, User, Role, PrimeroModule, UserGroup, Child, Referral)
+    clean_data(Alert, User, Role, PrimeroModule, UserGroup, Child, Referral, Agency)
 
     @primero_module = PrimeroModule.new(name: 'CP')
     @primero_module.save(validate: false)
@@ -42,14 +42,18 @@ describe Api::V2::ReferralsController, type: :request do
     @system_role.save(validate: false)
 
     @maintenance_role = Role.new(
-      permissions: [@permission_refer_case], primero_modules: [@primero_module], user_category: Role::CATEGORY_MAINTENANCE
+      permissions: [@permission_refer_case],
+      primero_modules: [@primero_module], user_category: Role::CATEGORY_MAINTENANCE
     )
     @maintenance_role.save(validate: false)
     @group1 = UserGroup.create!(name: 'Group1')
-    @user1 = User.new(user_name: 'user1', role: @role, user_groups: [@group1])
+    @group_other = UserGroup.create!(name: 'GroupOther')
+    @agency1 = Agency.create!(name: 'Agency 1', agency_code: 'agency1')
+    @agency2 = Agency.create!(name: 'Agency 2', agency_code: 'agency2')
+    @user1 = User.new(user_name: 'user1', role: @role, user_groups: [@group1], agency: @agency1)
     @user1.save(validate: false)
     @group2 = UserGroup.create!(name: 'Group2')
-    @user2 = User.new(user_name: 'user2', role: @role_receive, user_groups: [@group2])
+    @user2 = User.new(user_name: 'user2', role: @role_receive, user_groups: [@group2], agency: @agency1)
     @user2.save(validate: false)
     @user3 = User.new(user_name: 'user3', role: @role_service, user_groups: [@group1])
     @user3.save(validate: false)
@@ -57,7 +61,7 @@ describe Api::V2::ReferralsController, type: :request do
     @user4.save(validate: false)
     @user5 = User.new(user_name: 'user5', role: @maintenance_role, user_groups: [@group2])
     @user5.save(validate: false)
-    @user6 = User.new(user_name: 'user6', role: @role_revoke, user_groups: [@group1])
+    @user6 = User.new(user_name: 'user6', role: @role_revoke, user_groups: [@group1], agency: @agency1)
     @user6.save(validate: false)
     @role_accept_or_reject_referral = Role.new(
       permissions: [
@@ -320,6 +324,77 @@ describe Api::V2::ReferralsController, type: :request do
   end
 
   describe 'DELETE /api/v2/cases/:id/referrals/:referral_id' do
+    let(:role_revoke_self) do
+      role_revoke_self = Role.new(
+        permissions: [@permission_revoke_referral],
+        primero_modules: [@primero_module],
+        group_permission: Permission::SELF
+      )
+      role_revoke_self.save(validate: false)
+      role_revoke_self
+    end
+
+    let(:user_revoke_self) do
+      user_revoke_self = User.new(user_name: 'user_revoke_self', role: role_revoke_self, user_groups: [@group1])
+      user_revoke_self.save(validate: false)
+      user_revoke_self
+    end
+
+    let(:role_receive_revoke) do
+      role_receive_revoke = Role.new(
+        permissions: [
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::READ, Permission::RECEIVE_REFERRAL, Permission::REMOVE_ASSIGNED_USERS]
+          )
+        ],
+        primero_modules: [@primero_module],
+        group_permission: Permission::ALL
+      )
+      role_receive_revoke.save(validate: false)
+      role_receive_revoke
+    end
+
+    let(:user_receive_revoke) do
+      user_receive_revoke = User.new(
+        user_name: 'user_receive_revoke', role: role_receive_revoke, user_groups: [@group1]
+      )
+      user_receive_revoke.save(validate: false)
+      user_receive_revoke
+    end
+
+    let(:role_revoke_agency) do
+      role_revoke_agency = Role.new(
+        permissions: [@permission_revoke_referral],
+        primero_modules: [@primero_module],
+        group_permission: Permission::AGENCY
+      )
+      role_revoke_agency.save(validate: false)
+      role_revoke_agency
+    end
+
+    let(:user_revoke_agency) do
+      user_revoke_agency = User.new(user_name: 'user_revoke_agency', role: role_revoke_agency, agency: @agency2)
+      user_revoke_agency.save(validate: false)
+      user_revoke_agency
+    end
+
+    let(:role_revoke_group) do
+      role_revoke_group = Role.new(
+        permissions: [@permission_revoke_referral],
+        primero_modules: [@primero_module],
+        group_permission: Permission::GROUP
+      )
+      role_revoke_group.save(validate: false)
+      role_revoke_group
+    end
+
+    let(:user_revoke_group) do
+      user_revoke_group = User.new(user_name: 'user_revoke_group', role: role_revoke_group, user_groups: [@group_other])
+      user_revoke_group.save(validate: false)
+      user_revoke_group
+    end
+
     before :each do
       @referral1 = Referral.create!(transitioned_by: 'user6', transitioned_to: 'user2', record: @case_d)
     end
@@ -416,6 +491,116 @@ describe Api::V2::ReferralsController, type: :request do
       expect(@referral1.resolved_at.to_i).to eq(original_resolved_at.to_i)
     end
 
+    context 'when the record is in the user scope' do
+      it 'returns 403 if the referral is not in the user scope' do
+        @case_d.assigned_user_names = [user_revoke_self.user_name]
+        @case_d.save!
+
+        sign_in(user_revoke_self)
+        params = { data: { success_status: Referral::REFERRAL_SUCCESSFUL } }
+        delete("/api/v2/cases/#{@case_d.id}/referrals/#{@referral1.id}", params:)
+
+        expect(user_revoke_self.can?(:read, @case_d)).to be(true)
+        expect(response).to have_http_status(403)
+      end
+
+      it 'returns 403 if the user is the recipient even if the referral is in scope' do
+        referral = Referral.create!(
+          transitioned_by: 'user6',
+          transitioned_to: user_receive_revoke.user_name,
+          record: @case_d
+        )
+
+        sign_in(user_receive_revoke)
+        params = { data: { success_status: Referral::REFERRAL_SUCCESSFUL } }
+        delete("/api/v2/cases/#{@case_d.id}/referrals/#{referral.id}", params:)
+
+        expect(user_receive_revoke.can?(:read, @case_d)).to be(true)
+        expect(user_receive_revoke.permitted_to_access_referral?(referral)).to be(true)
+        expect(referral.recipient?(user_receive_revoke)).to be(true)
+        expect(response).to have_http_status(403)
+      end
+
+      it 'returns 403 if the referral is not in the agency scope' do
+        @case_d.update!(
+          associated_user_agencies: [@agency2.unique_id], assigned_user_names: [user_revoke_agency.user_name]
+        )
+
+        sign_in(user_revoke_agency)
+        params = { data: { success_status: Referral::REFERRAL_SUCCESSFUL } }
+        delete("/api/v2/cases/#{@case_d.id}/referrals/#{@referral1.id}", params:)
+
+        expect(user_revoke_agency.can?(:read, @case_d)).to be(true)
+        expect(response).to have_http_status(403)
+      end
+
+      it 'returns 403 if the referral is not in the group scope' do
+        @case_d.update!(
+          associated_user_groups: [@group_other.unique_id], assigned_user_names: [user_revoke_group.user_name]
+        )
+
+        sign_in(user_revoke_group)
+        params = { data: { success_status: Referral::REFERRAL_SUCCESSFUL } }
+        delete("/api/v2/cases/#{@case_d.id}/referrals/#{@referral1.id}", params:)
+
+        expect(user_revoke_group.can?(:read, @case_d)).to be(true)
+        expect(response).to have_http_status(403)
+      end
+    end
+
+    context 'when is a remote referral and the record is in the user scope' do
+      let(:remote_referral) { Referral.create!(transitioned_by: 'user1', record: @case_d, remote: true) }
+
+      it 'returns 200 if the referral is in scope and can read the record' do
+        sign_in(user_receive_revoke)
+        params = { data: { success_status: Referral::REFERRAL_SUCCESSFUL } }
+        delete("/api/v2/cases/#{@case_d.id}/referrals/#{remote_referral.id}", params:)
+
+        expect(user_receive_revoke.can?(:read, @case_d)).to be(true)
+        expect(user_receive_revoke.permitted_to_access_referral?(remote_referral)).to be(true)
+        expect(response).to have_http_status(200)
+      end
+
+      it 'returns 403 if the referral is not in the user scope' do
+        @case_d.assigned_user_names = [user_revoke_self.user_name]
+        @case_d.save!
+
+        sign_in(user_revoke_self)
+        params = { data: { success_status: Referral::REFERRAL_SUCCESSFUL } }
+        delete("/api/v2/cases/#{@case_d.id}/referrals/#{remote_referral.id}", params:)
+
+        expect(user_revoke_self.can?(:read, @case_d)).to be(true)
+        expect(response).to have_http_status(403)
+      end
+
+      it 'returns 403 if the referral is not in the agency scope' do
+        @case_d.update!(
+          associated_user_agencies: [@agency2.unique_id], assigned_user_names: [user_revoke_agency.user_name]
+        )
+
+        sign_in(user_revoke_agency)
+        params = { data: { success_status: Referral::REFERRAL_SUCCESSFUL } }
+        delete("/api/v2/cases/#{@case_d.id}/referrals/#{remote_referral.id}", params:)
+
+        expect(user_revoke_agency.can?(:read, @case_d)).to be(true)
+        expect(response).to have_http_status(403)
+      end
+
+      it 'returns 403 if the referral is not in the group scope' do
+        @case_d.update!(
+          associated_user_groups: [@group_other.unique_id],
+          assigned_user_names: [user_revoke_group.user_name]
+        )
+
+        sign_in(user_revoke_group)
+        params = { data: { success_status: Referral::REFERRAL_SUCCESSFUL } }
+        delete("/api/v2/cases/#{@case_d.id}/referrals/#{remote_referral.id}", params:)
+
+        expect(user_revoke_group.can?(:read, @case_d)).to be(true)
+        expect(response).to have_http_status(403)
+      end
+    end
+
     describe 'validates params for revoke' do
       it 'returns 422 if success_status is blank' do
         sign_in(@user6)
@@ -486,7 +671,7 @@ describe Api::V2::ReferralsController, type: :request do
       @remote_referral = Referral.create!(transitioned_by: 'user1', record: @case_a, remote: true)
     end
 
-    context 'when the user has accept_or_reject_referral permission' do
+    context 'when the user has accept_or_reject_referral permission and is a remote referral' do
       it 'accepts a remote referral' do
         sign_in(@user_accept_or_reject_referral)
         params = { data: { status: Transition::STATUS_ACCEPTED } }
@@ -509,6 +694,115 @@ describe Api::V2::ReferralsController, type: :request do
         expect(json['data']['status']).to eq(Transition::STATUS_REJECTED)
         expect(@remote_referral.reload.status).to eq(Transition::STATUS_REJECTED)
         expect(audit_params['action']).to eq('refer_rejected')
+      end
+
+      it 'returns 403 if tries to complete an accepted remote referral' do
+        @remote_referral.accept!
+
+        sign_in(@user_accept_or_reject_referral)
+        params = { data: { status: Transition::STATUS_DONE } }
+
+        patch("/api/v2/cases/#{@case_a.id}/referrals/#{@remote_referral.id}", params:)
+
+        expect(response).to have_http_status(403)
+      end
+
+      context 'when the record is in the user scope' do
+        it 'returns 403 if a referral is not in the user scope' do
+          role = Role.new(
+            permissions: [
+              Permission.new(
+                resource: Permission::CASE,
+                actions: [
+                  Permission::READ, Permission::REFERRAL, Permission::ACCEPT_OR_REJECT_REFERRAL
+                ]
+              )
+            ],
+            primero_modules: [@primero_module],
+            group_permission: Permission::SELF
+          )
+          role.save(validate: false)
+          user_accept_or_reject_self = User.new(
+            user_name: 'user_accept_or_reject_self',
+            role: role,
+            user_groups: [@group1]
+          )
+          user_accept_or_reject_self.save(validate: false)
+
+          @case_a.assigned_user_names = [user_accept_or_reject_self.user_name]
+          @case_a.save!
+
+          sign_in(user_accept_or_reject_self)
+          params = { data: { status: Transition::STATUS_ACCEPTED } }
+
+          patch("/api/v2/cases/#{@case_a.id}/referrals/#{@remote_referral.id}", params:)
+
+          expect(user_accept_or_reject_self.can?(:read, @case_a)).to be(true)
+          expect(response).to have_http_status(403)
+        end
+
+        it 'returns 403 if the referral is not in the agency scope' do
+          role_agency = Role.new(
+            permissions: [
+              Permission.new(
+                resource: Permission::CASE,
+                actions: [Permission::READ, Permission::REFERRAL, Permission::ACCEPT_OR_REJECT_REFERRAL]
+              )
+            ],
+            primero_modules: [@primero_module],
+            group_permission: Permission::AGENCY
+          )
+          role_agency.save(validate: false)
+
+          user_agency = User.new(
+            user_name: 'user_accept_or_reject_agency',
+            role: role_agency,
+            agency: @agency2
+          )
+          user_agency.save(validate: false)
+
+          @case_a.update!(
+            associated_user_agencies: [@agency2.unique_id],
+            assigned_user_names: [user_agency.user_name]
+          )
+
+          sign_in(user_agency)
+          params = { data: { status: Transition::STATUS_ACCEPTED } }
+
+          patch("/api/v2/cases/#{@case_a.id}/referrals/#{@remote_referral.id}", params:)
+
+          expect(user_agency.can?(:read, @case_a)).to be(true)
+          expect(response).to have_http_status(403)
+        end
+
+        it 'returns 403 if the referral is not in the group scope' do
+          role_group = Role.new(
+            permissions: [
+              Permission.new(
+                resource: Permission::CASE,
+                actions: [Permission::READ, Permission::REFERRAL, Permission::ACCEPT_OR_REJECT_REFERRAL]
+              )
+            ],
+            primero_modules: [@primero_module],
+            group_permission: Permission::GROUP
+          )
+          role_group.save(validate: false)
+
+          user_group = User.new(user_name: 'user_accept_or_reject_group', role: role_group, user_groups: [@group_other])
+          user_group.save(validate: false)
+
+          @case_a.update!(
+            associated_user_groups: [@group_other.unique_id], assigned_user_names: [user_group.user_name]
+          )
+
+          sign_in(user_group)
+          params = { data: { status: Transition::STATUS_ACCEPTED } }
+
+          patch("/api/v2/cases/#{@case_a.id}/referrals/#{@remote_referral.id}", params:)
+
+          expect(user_group.can?(:read, @case_a)).to be(true)
+          expect(response).to have_http_status(403)
+        end
       end
     end
 
@@ -619,6 +913,86 @@ describe Api::V2::ReferralsController, type: :request do
       patch("/api/v2/cases/#{@case_c.id}/referrals/#{referral_for_a_different_case.id}", params:)
 
       expect(response).to have_http_status(403)
+    end
+
+    context 'when the record is in the user scope' do
+      it 'returns 403 if not in the user scope' do
+        role = Role.new(
+          permissions: [
+            Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::REFERRAL])
+          ],
+          primero_modules: [@primero_module],
+          group_permission: Permission::SELF
+        )
+        role.save(validate: false)
+        user_referral = User.new(user_name: 'user_referral_self', role: role, user_groups: [@group1])
+        user_referral.save(validate: false)
+
+        @case_a.assigned_user_names = [user_referral.user_name]
+        @case_a.save!
+
+        sign_in(user_referral)
+        params = { data: { status: Transition::STATUS_ACCEPTED } }
+
+        patch("/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params:)
+
+        expect(user_referral.can?(:read, @case_a)).to be(true)
+        expect(response).to have_http_status(403)
+      end
+
+      it 'returns 403 if not in the agency scope' do
+        role_agency = Role.new(
+          permissions: [
+            Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::REFERRAL])
+          ],
+          primero_modules: [@primero_module],
+          group_permission: Permission::AGENCY
+        )
+        role_agency.save(validate: false)
+
+        user_agency = User.new(user_name: 'user_agency', role: role_agency, agency: @agency2)
+        user_agency.save(validate: false)
+
+        @case_a.update!(associated_user_agencies: [@agency2.unique_id], assigned_user_names: [user_agency.user_name])
+
+        sign_in(user_agency)
+        params = { data: { status: Transition::STATUS_ACCEPTED } }
+
+        patch("/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params:)
+
+        expect(user_agency.can?(:read, @case_a)).to be(true)
+        expect(response).to have_http_status(403)
+      end
+
+      it 'returns 403 if not in the group scope' do
+        group_other2 = UserGroup.create!(name: 'GroupOther2')
+
+        role_group = Role.new(
+          permissions: [
+            Permission.new(
+              resource: Permission::CASE, actions: [Permission::READ, Permission::REFERRAL]
+            )
+          ],
+          primero_modules: [@primero_module],
+          group_permission: Permission::GROUP
+        )
+        role_group.save(validate: false)
+
+        user_referral_group = User.new(user_name: 'user_referral_group', role: role_group, user_groups: [group_other2])
+        user_referral_group.save(validate: false)
+
+        @case_a.update!(
+          associated_user_groups: [group_other2.unique_id], assigned_user_names: [user_referral_group.user_name]
+        )
+
+        sign_in(user_referral_group)
+        params = { data: { status: Transition::STATUS_ACCEPTED } }
+
+        patch("/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params:)
+
+        expect(user_referral_group.can?(:read, @case_a)).to be(true)
+        expect(response).to have_http_status(403)
+      end
     end
 
     describe 'validate params to transition a referral to done' do
@@ -807,6 +1181,6 @@ describe Api::V2::ReferralsController, type: :request do
 
   after do
     clear_enqueued_jobs
-    clean_data(Alert, User, Role, PrimeroModule, UserGroup, Child, Referral)
+    clean_data(Alert, User, Role, PrimeroModule, UserGroup, Child, Referral, Agency)
   end
 end

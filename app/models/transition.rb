@@ -65,6 +65,8 @@ class Transition < ApplicationRecord
   end
 
   def recipient?(user)
+    return false if remote?
+
     transitioned_to_user.user_name == user.user_name
   end
 
