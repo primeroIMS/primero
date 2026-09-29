@@ -308,7 +308,6 @@ pt-MZ:
       date: "Data"
       ready_to_start_cfm: "Você está pronto para iniciar o Módulo de Funcionamento da criança"
       age: "Idade"
-      vision_wear_glass: "Óculos graduados"
       difficulty_seeing_with_glasses: "Dificuldade para ver com óculo"
       child_wears_hearing_aid: "A criança usa aparelho auditivo"
       difficulty_hearing_with_hearing_aid: "Dificuldade em ouvir com aparelho auditivo"
@@ -321,19 +320,6 @@ pt-MZ:
       mobility_difficulty_with_equipment_500m: "Dificuldade de mobilidade com equipamento 500m"
       difficulty_picking_up_small_objects_with_hand: "Dificuldade de pegar objetos pequenos com a mão"
       self_care_difficulty: "Dificuldade em auto-cuidado"
-      child_have_difficulty_to_understand: "A criança tem dificuldade de percepção "
-      child_have_difficulty_to_understanding_child_household: "A criança tem dificuldade de perceber as crianças do agregado familiar"
-      difficulty_to_understanding_child_others: "Dificuldade em entender outras crianças"
-      difficulty_to_understand_the_child: "Dificuldade em entender a criança"
-      child_have_difficulty_for_learning: "A criança tem dificuldade em aprender"
-      child_have_difficulty_for_playing: "A criança tem dificuldades de brincar"
-      remembering_difficulty: "Dificuldade em lembrar"
-      concentrating_difficulty: "Dificuldade de concentração"
-      accepting_change_difficulty: "Aceitar alteração das dificuldades"
-      difficulty_for_controlling_behaviour: "Dificuldade em controlar comportamentos como pontapear, morder ou bater noutras pessoas"
-      making_friends_difficulty: "Dificuldade em fazer amigos"
-      anxiety_how_often: "Frequência de Ansiedade"
-      depression_how_often: "Frequência de Depressão"
       cfm_yes: "Sim"
       cfm_no: "Não"
       n_a: "N/A"
@@ -774,14 +760,12 @@ pt-MZ:
     services: Serviços
     services_implemented: 'Serviços Implementados '
     shared_from_my_team_pending_transfers: Transferências Pendentes
-    shared_from_my_team_referrals: Encaminhamentos
     shared_from_my_team_rejected_transfers: Transferências Rejeitadas
     shared_with_me_new_referrals: Novo
     shared_with_me_total_referrals: Total
     shared_with_me_transfers_awaiting_acceptance: Aguardando Aceitação
     shared_with_my_team_pending_transfers_overview: Aguardando Aceitação
     shared_with_my_team_pending_transfers: Transferências Pendentes
-    shared_with_my_team_referrals: Encaminhamentos
     shared_with_others_pending_transfers: Pendente
     shared_with_others_referrals: Total
     shared_with_others_rejected_transfers: Rejeitado
@@ -2514,7 +2498,6 @@ pt-MZ:
     search: Pesquisa
     phonetic_search:
       title: Insira um nome para pesquisar um registro existente.
-      label: Usar campos de nome
       help_text: A pesquisa fonética está disponível para os campos Nome
       tooltip_label: 'A pesquisa fonética está disponível para os seguintes campos de nome:'
     id_search:
@@ -2994,9 +2977,6 @@ pt-MZ:
           action_needed_new_updated:
             explanation: Apresenta o indicador "Novo e Atualizado" no painel "Ação Necessária". Isto inclui casos que foram recentemente atribuídos ao utilizador atual ou que outro utilizador atualizou desde a última vez que o utilizador atual o atualizou.
             label: 'Ação necessária: nova ou atualizada'
-          action_needed_new_referrals:
-            explanation: Apresenta o indicador "Novas Indicações" no painel "Ação Necessária". Isto inclui todos os Casos com uma nova Indicação referenciados ao utilizador atual, em que este não é a última pessoa a atualizar o Caso.
-            label: 'Ação necessária: Novas Referencias'
           action_needed_transfer_awaiting_acceptance:
             explanation: Apresenta o indicador "Transferências Aguardam Aceitação" no painel "Ação Necessária". Isto inclui quaisquer Casos com Transferência para o utilizador atual, que o utilizador atual não tenha aceite.
             label: 'Ação necessária: transferências a aguardar aceitação'
@@ -3328,7 +3308,6 @@ pt-MZ:
       metadata:
         actions:
           manage:
-            explanation: Habilita a criar, editar, traduzir e eliminar formulários, campos de formulários e inquéritos. Note que um utilizador com esta permissão só poderá gerir os formulários aos quais tem acesso. Por exemplo, se um administrador nacional só tiver a capacidade de visualizar o formulário do Proprietário do Registo em casos, só poderá atualizar a configuração desse formulário.
             label: Gerir (todas as permissões para este tipo de recurso)
         explanation: Controla a capacidade de configurar formulários e campos do Primero, bem como as opções de pesquisa utilizadas nos mesmos.
         label: Formulários, Pesquisas
@@ -4165,7 +4144,6 @@ pt-MZ:
     headers:
       full_name: Nome completo
       user_name: Nome de usuário
-      position: Posição
       agency: Agência
     alerts:
       total_users_created: Você criou a partir dos usuários habilitados permitidos da sua implementação.%{total_enabled}%{maximum_users}

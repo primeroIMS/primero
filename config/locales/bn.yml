@@ -481,7 +481,6 @@ bn:
       updated: কনফিগারেশন সফলভাবে হালনাগাদ করা হয়েছে।
       sent: উৎপাদনে কনফিগারেশন পাঠানো হচ্ছে। আপনার কনফিগারেশন এসেছে কিনা তা দেখতে অনুগ্রহ করে উৎপাদন সাইটটি পরীক্ষা করুন
     not_allowed: অনুমোদিত নয়
-    unavailable_server: সার্ভার সাময়িকভাবে পাওয়া যাচ্ছে না
   contact:
     field:
       email: ইমেইল
@@ -703,10 +702,8 @@ bn:
     services: সেবাসমূহ
     services_implemented: সেবা বাস্তবায়িত
     shared_from_my_team_pending_transfers: মুলতুবি স্থানান্তরসমূহ
-    shared_from_my_team_referrals: রেফারেল
     shared_from_my_team_rejected_transfers: প্রত্যাখ্যাত স্থানান্তরসমূহ
     shared_with_my_team_pending_transfers: মুলতুবি স্থানান্তরসমূহ
-    shared_with_my_team_referrals: রেফারেল সমূহ
     status_of_cases: কেসের অবস্থা
     system_user: পদ্ধতি
     total: 'মোট '
@@ -783,7 +780,6 @@ bn:
       lookup:
         being_used: এই লুকআপ ব্যবহার করা হচ্ছে এবং মুছে ফেলা যাবে না
         name_present: 'নাম ফাঁকা রাখা যাবে না '
-        values_ids_blank: একটি lookup_value আইডি ফাঁকা আছে
       primero_module:
         associated_record_types: অন্তত একটি রেকর্ড টাইপ এই মডিউল সঙ্গে যুক্ত করা আবশ্যক
         form_section_ids: কমপক্ষে একটি ফর্ম এই মডিউলের সাথে যুক্ত হওয়া আবশ্যক
@@ -1487,46 +1483,27 @@ bn:
       _requested: অনুরোধকৃত
       add_note: নোট যোগ করুন
       assign: বরাদ্দ
-      assign_to: বরাদ্দ করা হয়েছে
-      attach: সংযুক্ত করুন
       bulk_assign: বাল্ক বরাদ্দ
       bulk_create: বাল্ক তৈরি করুন
       bulk_index: বাল্ক ইনডেক্স
-      case_plan_approved: কেস পরিকল্পনা অনুমোদিত
-      case_plan_rejected: কেস পরিকল্পনা প্রত্যাখ্যাত হয়েছে
-      case_plan_requested: কেস পরিকল্পনার অনুরোধ করা হয়েছে
       close: বন্ধ
       create: তৈরি
       create_bulk: বাল্ক তৈরি করুন
       delete: মুছুন 
       destroy: ধ্বংস
-      detach: বিচ্ছিন্ন করুন
-      enable_disable_record: অক্ষম কৃত রেকর্ড সক্ষম করুন
       export: রপ্তানি
       flag: পতাকা
       import: আমদানি
       incident_details_from_case: কেস থেকে ঘটনার বিবরণ
-      index: বিষয়সূচি
       list: তালিকা
       login: লগইন
       password_reset: পাসওয়ার্ড রিসেট
       password_reset_request: পাসওয়ার্ড রিসেটের অনুরোধ
       refer: রেফার
-      refer_accepted: রেফার গৃহীত হয়েছে
-      refer_done: রেফার করা হয়ে গিয়েছে
-      refer_rejected: রেফার প্রত্যাখ্যাত করা হয়েছে
-      refer_revoke: রেফার প্রত্যাহার করা হয়েছে
-      refer_to: রেফার করা হয়েছে
       reopen: পুনরায় খুলুন
-      services_section_from_case: কেস থেকে সেবা বিভাগ
       show: দেখানো
       show_alerts: সতর্কতাগুলি দেখান
-      traces: ট্রেসগুলো
       transfer: স্থানান্তর
-      transfer_accepted: স্থানান্তর গৃহীত হয়েছে
-      transfer_rejected: স্থানান্তর প্রত্যাখ্যাত হয়েছে
-      transfer_request: স্থানান্তরের অনুরোধ
-      transfer_to: স্থানান্তর করুন
       unflag: 'পতাকামুক্ত '
       update: হালনাগাদ
       user_password_reset_request: ব্যবহারকারীর পাসওয়ার্ড পুনঃবিন্যাসের অনুরোধ
@@ -2581,7 +2558,6 @@ bn:
     headers:
       full_name: 'সম্পুর্ণ নাম '
       user_name: ব্যবহারকারীর নাম
-      position: অবস্থান
       agency: সংস্থা
   devise:
     failure:

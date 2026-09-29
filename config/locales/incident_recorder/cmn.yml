@@ -74,3 +74,5 @@ cmn:
           protection_referral: "儿童保护服务/教育服务"
         consent: "给予同意"
         agency_code: "报告机构代码"
+      number_primary_perpetrators:
+        more_than_three: "超过3个"

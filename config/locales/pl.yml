@@ -481,7 +481,6 @@ pl:
       updated: Konfiguracja została zaktualizowana
       sent: 'Konfiguracja została wysłana do środowiska produkcyjnego. Sprawdź w środowisku produkcyjnym czy nowa konfiguracja tam dotarła. '
     not_allowed: Nie dozwolone
-    unavailable_server: Serwer chwilowo niedostępny
   contact:
     field:
       email: Email
@@ -734,10 +733,8 @@ pl:
     services: Świadczenia
     services_implemented: Wdrożone Świadczenia
     shared_from_my_team_pending_transfers: Oczekujące Przeniesienia
-    shared_from_my_team_referrals: Skierowania
     shared_from_my_team_rejected_transfers: Odrzucone Przeniesienia
     shared_with_my_team_pending_transfers: Oczekujące Przeniesienia
-    shared_with_my_team_referrals: Skierowania
     status_of_cases: Status Spraw
     system_user: System
     total: Razem
@@ -818,7 +815,6 @@ pl:
       lookup:
         being_used: To wyszukiwanie jest używane i nie może zostać usunięte
         name_present: nie może być puste
-        values_ids_blank: 'Wartość lookup_value jest pusta. '
       primero_module:
         associated_record_types: Co najmniej jeden rodzaj rekordu musi być powiązany z tym modułem
         form_section_ids: Co najmniej jeden formularz musi być powiązany z tym modułem
@@ -1561,44 +1557,26 @@ pl:
       _requested: Wniosek Złożony
       add_note: Dodaj notatki
       assign: Przypisz
-      assign_to: 'Przypisz do '
-      attach: Załącz
       bulk_assign: Przypisywanie zbiorcze
       bulk_create: Tworzenie zbiorcze
       bulk_index: Indeks zbiorczy
-      case_plan_approved: Plan sprawy zatwierdzony
-      case_plan_rejected: Plan sprawy odrzucony
-      case_plan_requested: Poproszono o plan sprawy
       close: Zamknij
       create: Utwórz
       create_bulk: Utwórz zbiorczo
       delete: Usuń
       destroy: Zniszcz
-      detach: Rozłącz
-      enable_disable_record: Włącz wyłącz rekord
       export: Eksportuj
       flag: Oznaczenie
       import: Import
       incident_details_from_case: Szczegóły zdarzenia ze sprawy
-      index: Indeks
       list: Lista
       password_reset: Reset hasła
       password_reset_request: Prośba o reset hasła
       refer: Skieruj
-      refer_accepted: Zaakceptowano skieruj
-      refer_done: Wykonano skieruj
-      refer_rejected: Odrzucono skieruj
-      refer_revoke: Unieważniono skieruj
-      refer_to: Skieruj do
       reopen: Otwórz ponownie
-      services_section_from_case: Sekcja Świadczenia ze sprawy
       show: Pokaż
       show_alerts: Pokaż alerty
       transfer: Przenieś
-      transfer_accepted: Przeniesienie zaakceptowane
-      transfer_rejected: Przeniesienie odrzucone
-      transfer_request: Prośba o przeniesienie
-      transfer_to: Przeniesienie do
       unflag: Odznacz
       update: Zaktualizuj
       user_password_reset_request: Prośba o reset hasła użytkownika
@@ -2430,7 +2408,6 @@ pl:
       metadata:
         actions:
           manage:
-            explanation: 'Możliwość tworzenia, edycji, tłumaczenia i usuwania formularzy, pól formularzy i wyszukań. Użytkownik z tym zezwoleniem, będzie mógł zarządzać tylko formularzami, do których ma dostęp. Na przykład: jeśli administrator krajowy ma możliwość podglądu tylko formularza Właściciel Rekordu w sprawach, to będzie mógł zaktualizować konfigurację tylko tego formularza. '
             label: Zarządzaj (wszystkie zezwolenia dla tego rodzaju zasobu)
         explanation: 'Kontroluje możliwość konfiguracji Formularzy i Pól Primero, oraz używane dla nich opcje Wyszukiwania. '
         label: Formularze, Wyszukiwania
@@ -3041,7 +3018,6 @@ pl:
     headers:
       full_name: Pełne Imię
       user_name: Nazwa Użytkownika
-      position: Stanowisko
       agency: Agencja
   devise:
     failure:
