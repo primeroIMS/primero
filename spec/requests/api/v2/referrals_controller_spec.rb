@@ -61,7 +61,12 @@ describe Api::V2::ReferralsController, type: :request do
     @user6.save(validate: false)
     @role_accept_or_reject_referral = Role.new(
       permissions: [
-        Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::ACCEPT_OR_REJECT_REFERRAL])
+        Permission.new(
+          resource: Permission::CASE,
+          actions: [
+            Permission::READ, Permission::REFERRAL, Permission::ACCEPT_OR_REJECT_REFERRAL
+          ]
+        )
       ],
       primero_modules: [@primero_module],
       group_permission: Permission::ALL

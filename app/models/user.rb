@@ -716,6 +716,35 @@ class User < ApplicationRecord
     record&.associated_user_names&.include?(user_name)
   end
 
+  def permitted_to_access_referral?(referral)
+    return true if referral.record.owner?(self)
+    return referral.sender?(self) || scope_permits_referral?(referral) if can_view_referrals?
+
+    !referral.remote? && referral.recipient?(self) && [
+      Transition::STATUS_INPROGRESS, Transition::STATUS_ACCEPTED
+    ].include?(referral.status)
+  end
+
+  def scope_permits_referral?(referral)
+    case role.group_permission
+    when Permission::SELF then referral.recipient?(self)
+    when Permission::AGENCY then agency_permits_referral?(referral)
+    when Permission::GROUP then group_permits_referral?(referral)
+    when Permission::ALL then true
+    else
+      false
+    end
+  end
+
+  def group_permits_referral?(referral)
+    referral.record.owned_by_any_groups?(user_group_unique_ids) ||
+      User.by_user_groups(user_group_ids).exists?(user_name: user_name)
+  end
+
+  def agency_permits_referral?(referral)
+    agency_id == referral.record.owner.agency_id || transitioned_to_agency == agency.unique_id
+  end
+
   def agency_permits_access?(record)
     record.associated_user_agencies.include?(agency.unique_id)
   end
