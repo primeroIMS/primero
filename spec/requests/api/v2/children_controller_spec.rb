@@ -982,6 +982,20 @@ describe Api::V2::ChildrenController, type: :request do
       expect(case1.data['sex']).to eq('female')
     end
 
+    context 'when the user has a pending referral or transfer for the record' do
+      before do
+        @case1.update_column(:data, @case1.data.merge('referred_users_pending' => %w[faketest]))
+      end
+
+      it 'returns 403 and does not update the record' do
+        login_for_test
+        patch "/api/v2/cases/#{@case1.id}", params: { data: { age: 99 } }, as: :json
+
+        expect(response).to have_http_status(403)
+        expect(@case1.reload.data['age']).not_to eq(99)
+      end
+    end
+
     it 'does not update the id of the record and returns 200' do
       login_for_test
       params = { data: { id: '47e3e51c-7049-4aff-bd3e-ded1b1c5477f' } }
@@ -1541,8 +1555,10 @@ describe Api::V2::ChildrenController, type: :request do
     end
 
     describe 'referral authorizations' do
-      context 'when a record was referred' do
+      context 'when the referral was accepted' do
         it 'updates permitted fields based on the authorized roles' do
+          @referral1.accept!
+          @case11.reload
           sign_in(@user_referral)
 
           params = { data: { field_a: 'new value for field_a' } }
@@ -1553,6 +1569,17 @@ describe Api::V2::ChildrenController, type: :request do
           expect(json['data']['id']).to eq(@case11.id)
           expect(json['data']['field_a']).to eq('new value for field_a')
           expect(json['data']['permitted_forms']).to eq({ 'form_a' => 'rw' })
+        end
+      end
+
+      context 'when the referral is still pending' do
+        it 'returns 403 and does not update the record' do
+          sign_in(@user_referral)
+
+          patch "/api/v2/cases/#{@case11.id}", params: { data: { field_a: 'new value' } }, as: :json
+
+          expect(response).to have_http_status(403)
+          expect(@case11.reload.data['field_a']).to eq('value for field_a')
         end
       end
     end

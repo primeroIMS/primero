@@ -150,6 +150,18 @@ describe Api::V2::TransfersController, type: :request do
     end
   end
 
+  describe 'POST /api/v2/case/:id/transfers with a pending transition' do
+    it 'returns 403 and does not transfer the record' do
+      @case.update_column(:data, @case.data.merge('referred_users_pending' => %w[user1]))
+
+      sign_in(@user1)
+      post("/api/v2/cases/#{@case.id}/transfers", params: { data: { transitioned_to: 'user2' } })
+
+      expect(response).to have_http_status(403)
+      expect(@case.transitions.where(type: 'Transfer')).to be_empty
+    end
+  end
+
   describe 'POST /api/v2/case/transfers' do
     before :each do
       @case2 = Child.create(

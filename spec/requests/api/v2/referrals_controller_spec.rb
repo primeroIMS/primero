@@ -267,6 +267,18 @@ describe Api::V2::ReferralsController, type: :request do
     end
   end
 
+  describe 'POST /api/v2/case/:id/referrals with a pending transition' do
+    it 'returns 403 and does not refer the record' do
+      @case_a.update_column(:data, @case_a.data.merge('transferred_to_users' => %w[user1]))
+
+      sign_in(@user1)
+      post("/api/v2/cases/#{@case_a.id}/referrals", params: { data: { transitioned_to: 'user2' } })
+
+      expect(response).to have_http_status(403)
+      expect(@case_a.transitions.where(type: 'Referral')).to be_empty
+    end
+  end
+
   describe 'POST /api/v2/case/referrals' do
     before :each do
       @case_a2 = Child.create(

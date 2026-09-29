@@ -155,6 +155,18 @@ describe Api::V2::FlagsController, type: :request do
     end
   end
 
+  describe 'POST /api/v2/:recordType/:recordId/flags with a pending transition' do
+    it 'returns 403 and does not flag the record' do
+      @case1.update_column(:data, @case1.data.merge('transferred_to_users' => %w[faketest]))
+
+      login_for_test(permissions: permission_flag_record)
+      post("/api/v2/cases/#{@case1.id}/flags", params: { data: { message: 'x', date: Date.today.to_s } })
+
+      expect(response).to have_http_status(403)
+      expect(@case1.reload.flags.where(message: 'x')).to be_empty
+    end
+  end
+
   describe 'PATCH /api/v2/:recordType/:recordId/flags/:id' do
     it 'unflags a case and sets the flagged property to false' do
       login_for_test(permissions: permission_flag_record)

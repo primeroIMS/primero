@@ -2,6 +2,8 @@
 
 # API for managing transfers
 class Api::V2::TransfersController < Api::V2::RecordResourceController
+  include Api::V2::Concerns::PendingTransitionRestriction
+
   def index
     authorize! :read, @record
     @transitions = @record.transfers
@@ -10,6 +12,7 @@ class Api::V2::TransfersController < Api::V2::RecordResourceController
 
   def create
     authorize! :transfer, @record
+    authorize_pending_transition!(@record)
     @transition = transfer(@record)
     updates_for_record(@record)
     render 'api/v2/transitions/create'

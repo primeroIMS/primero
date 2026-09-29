@@ -2,6 +2,8 @@
 
 # API for creating referrals for record types
 class Api::V2::ReferralsController < Api::V2::RecordResourceController
+  include Api::V2::Concerns::PendingTransitionRestriction
+
   include Api::V2::Concerns::JsonValidateParams
 
   def index
@@ -12,6 +14,7 @@ class Api::V2::ReferralsController < Api::V2::RecordResourceController
 
   def create
     authorize_create!(@record)
+    authorize_pending_transition!(@record)
     @transition = refer(@record)
     updates_for_record(@record)
     render 'api/v2/transitions/create'
