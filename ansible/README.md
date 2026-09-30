@@ -261,14 +261,6 @@ and the production site
     LC_ALL=C < /dev/urandom tr -dc '_A-Z-a-z-0-9' | head -c"${1:-32}"
     ```
 
-### Excluding user groups from configurations
-
-```shell
-  PRIMERO_EXCLUDE_USER_GROUPS_FROM_CONFIGURATION: 'true'
-```
-
-User groups are not saved into configurations, and applying a configuration does not create or modify them. Set it on both demo and production.
-
 ## Deploy external certs
 
 To use an external cert on a primero deploy you need to add on the `secret.yml` file the follow entries:

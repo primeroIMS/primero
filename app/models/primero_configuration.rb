@@ -46,7 +46,7 @@ class PrimeroConfiguration < ApplicationRecord
     end
 
     def configurable_models
-      return CONFIGURABLE_MODELS - [UserGroup] if Rails.configuration.exclude_user_groups_from_configuration
+      return CONFIGURABLE_MODELS - [UserGroup] if SystemSettings.current&.exclude_user_groups_from_configuration
 
       CONFIGURABLE_MODELS
     end

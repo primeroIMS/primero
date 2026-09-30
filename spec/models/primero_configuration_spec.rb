@@ -30,6 +30,11 @@ describe PrimeroConfiguration do
                                                                           '2' => ['district'] } })
   end
 
+  def enable_user_groups_exclusion
+    SystemSettings.first.update!(exclude_user_groups_from_configuration: true)
+    SystemSettings.current(true)
+  end
+
   describe '.current_configuration_data' do
     let(:current_configuration_data) { PrimeroConfiguration.current_configuration_data }
 
@@ -44,7 +49,7 @@ describe PrimeroConfiguration do
     end
 
     context 'when user groups are excluded from configuration' do
-      before { allow(Rails.configuration).to receive(:exclude_user_groups_from_configuration).and_return(true) }
+      before { enable_user_groups_exclusion }
 
       it 'does not include user groups' do
         expect(current_configuration_data.keys).to match_array(
@@ -64,7 +69,7 @@ describe PrimeroConfiguration do
     end
 
     context 'when user groups are excluded from configuration' do
-      before { allow(Rails.configuration).to receive(:exclude_user_groups_from_configuration).and_return(true) }
+      before { enable_user_groups_exclusion }
 
       it 'is valid without user groups' do
         expect(configuration_without_user_groups.valid?).to be true
@@ -202,7 +207,7 @@ describe PrimeroConfiguration do
 
       before do
         configuration_with_user_groups
-        allow(Rails.configuration).to receive(:exclude_user_groups_from_configuration).and_return(true)
+        enable_user_groups_exclusion
       end
 
       it 'does not create the user groups contained in the configuration' do
