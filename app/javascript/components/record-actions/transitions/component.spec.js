@@ -77,6 +77,34 @@ describe("<Transitions />", () => {
       mountedComponent(<Transitions {...reassignProps} />, initialState);
       expect(screen.getByText((content, element) => element.tagName.toLowerCase() === "form")).toBeInTheDocument();
     });
+
+    describe("when assigning from the record list", () => {
+      const listState = initialState.setIn(
+        ["records", "cases"],
+        fromJS({ data: [{ id: "abc123" }, { id: "def456" }], metadata: { total: 10 } })
+      );
+      const listProps = { ...reassignProps, record: undefined, currentPage: 0, selectedRecords: { 0: [0, 1] } };
+
+      it("does not show the pending transition message when no selected record is pending", () => {
+        mountedComponent(<Transitions {...listProps} />, listState);
+
+        expect(screen.queryByText("case.messages.pending_transition_excluded")).not.toBeInTheDocument();
+        expect(screen.getByText("buttons.save").closest("button")).not.toBeDisabled();
+      });
+
+      it("shows the pending transition message when some selected records are pending", () => {
+        mountedComponent(<Transitions {...listProps} pendingTransitionIds={["abc123"]} />, listState);
+
+        expect(screen.getByText("case.messages.pending_transition_excluded")).toBeInTheDocument();
+        expect(screen.getByText("buttons.save").closest("button")).not.toBeDisabled();
+      });
+
+      it("disables the save button when all the selected records are pending", () => {
+        mountedComponent(<Transitions {...listProps} pendingTransitionIds={["abc123", "def456"]} />, listState);
+
+        expect(screen.getByText("buttons.save").closest("button")).toBeDisabled();
+      });
+    });
   });
 
   describe("when transitionType is 'transfer'", () => {

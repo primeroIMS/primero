@@ -298,6 +298,9 @@ en:
       bulk_assign_limit: You cannot assign more than 100 Cases at once.
       bulk_assign_limit_try_again: You cannot assign more than 100 Cases at once. Please select 100 Cases or fewer and then try again.
       bulk_flag_limit: You cannot flag more than 100 Cases at once. Please select 100 Cases or fewer and then try again.
+      pending_transition_excluded: One or more of the selected Case(s) has a pending Referral
+        or Transfer and will not be included. Please accept or reject this Referral or Transfer
+        to resolve this issue.
       referral_rejected: Referral has been rejected.
       transfer_request_made: Transfer Request has been made for this Case.
     save: Save Case

@@ -25,6 +25,13 @@ module Transitionable
     before_save :calculate_last_referral_done_at
   end
 
+  # Class methods for transitionable records
+  module ClassMethods
+    def transition_summary_field_names
+      %w[referred_users_pending transferred_to_users]
+    end
+  end
+
   def assigns
     transitions.where(type: Assign.name)
   end
@@ -153,6 +160,10 @@ module Transitionable
 
   def can_be_assigned?
     true
+  end
+
+  def pending_transition_for?(user)
+    ((referred_users_pending || []) + (transferred_to_users || [])).include?(user.user_name)
   end
 end
 # rubocop:enable Metrics/ModuleLength

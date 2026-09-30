@@ -5,8 +5,8 @@ require 'rails_helper'
 describe BulkAssignService do
   before do
     clean_data(
-      User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup,
-      Agency, Incident, Child, Family, Transition
+      Alert, Transition, User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup,
+      Agency, Incident, Child, Family
     )
   end
 
@@ -18,12 +18,16 @@ describe BulkAssignService do
     create(:role, is_manager: true, primero_modules: [primero_module], group_permission: Permission::ALL)
   end
 
+  let(:user_group) { create(:user_group, name: 'Group1') }
+
   let(:user) do
-    create(:user, user_name: 'user', role:, full_name: 'Test User 1', email: 'owner@primero.dev')
+    create(:user, user_name: 'user', role:, full_name: 'Test User 1', email: 'owner@primero.dev',
+                  user_group_ids: [user_group.id])
   end
 
   let(:user2) do
-    create(:user, user_name: 'user2', role:, full_name: 'Test User 2', email: 'user2@primero.dev')
+    create(:user, user_name: 'user2', role:, full_name: 'Test User 2', email: 'user2@primero.dev',
+                  user_group_ids: [user_group.id])
   end
 
   let!(:child) do
@@ -115,6 +119,24 @@ describe BulkAssignService do
           expect(assigns.pluck(:record_id)).to match_array([child.id, child3.id])
         end
       end
+
+      context 'when the user has a pending referral or transfer on some of the records' do
+        let(:bulk_assign_params) do
+          {
+            filters: { 'id' => [child.id, child2.id, child3.id] }
+          }.merge(bulk_assign_shared_params)
+        end
+
+        before do
+          Referral.create!(transitioned_by: user2.user_name, transitioned_to: user.user_name, record: child2)
+          Transfer.create!(transitioned_by: user2.user_name, transitioned_to: user.user_name, record: child3)
+        end
+
+        it 'excludes the records with a pending transition for the user' do
+          BulkAssignService.new(Child, user, **bulk_assign_params).assign_records!
+          expect(Assign.pluck(:record_id)).to eq([child.id])
+        end
+      end
     end
 
     context 'when model_class is Incident' do
@@ -181,8 +203,8 @@ describe BulkAssignService do
 
   after :each do
     clean_data(
-      User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup,
-      Agency, Incident, Child, Family, Transition
+      Alert, Transition, User, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup,
+      Agency, Incident, Child, Family
     )
   end
 end
