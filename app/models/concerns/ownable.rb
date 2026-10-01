@@ -139,5 +139,9 @@ module Ownable
   def owner?(user)
     owned_by == user&.user_name
   end
+
+  def owned_by_any_groups?(group_unique_ids)
+    (owned_by_groups & group_unique_ids).present?
+  end
 end
 # rubocop:enable Metrics/ModuleLength
