@@ -345,11 +345,11 @@ describe Api::V2::ReferralsController, type: :request do
         primero_modules: [@primero_module], group_permission: Permission::GROUP
       )
       role_refer_receive.save(validate: false)
-      user6 = User.new(user_name: 'user6', role: role_refer_receive, user_groups: [@group1])
-      user6.save(validate: false)
-      Referral.create!(transitioned_by: 'user1', transitioned_to: 'user6', record: @case_a)
+      user7 = User.new(user_name: 'user7', role: role_refer_receive, user_groups: [@group1])
+      user7.save(validate: false)
+      Referral.create!(transitioned_by: 'user1', transitioned_to: 'user7', record: @case_a)
 
-      sign_in(user6)
+      sign_in(user7)
       params = { data: { ids: [@case_a.id, @case_a2.id], transitioned_to: 'user2', notes: 'Test Notes' } }
       post('/api/v2/cases/referrals', params:)
 
