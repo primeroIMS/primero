@@ -153,6 +153,32 @@ describe Transitionable do
     end
   end
 
+  describe 'pending_transition_for?' do
+    before :each do
+      Referral.create!(transitioned_by: 'user1', transitioned_to: 'user2', record: @case)
+      Transfer.create!(transitioned_by: 'user1', transitioned_to: 'user3', record: @case)
+      accepted = Referral.create!(transitioned_by: 'user1', transitioned_to: 'user4', record: @case)
+      accepted.accept!
+      @case.reload
+    end
+
+    it 'is true for the recipient of a pending referral' do
+      expect(@case.pending_transition_for?(@user2)).to be true
+    end
+
+    it 'is true for the recipient of a pending transfer' do
+      expect(@case.pending_transition_for?(@user3)).to be true
+    end
+
+    it 'is false for the recipient of an accepted referral' do
+      expect(@case.pending_transition_for?(@user4)).to be false
+    end
+
+    it 'is false for a user without transitions' do
+      expect(@case.pending_transition_for?(@user5)).to be false
+    end
+  end
+
   describe 'referrals_for_user' do
     before :each do
       clean_data(User, Role, Referral, Agency)

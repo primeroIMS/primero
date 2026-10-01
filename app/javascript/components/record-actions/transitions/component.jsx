@@ -29,7 +29,8 @@ function Transitions({
   setPending,
   currentPage,
   selectedRecords,
-  mode
+  mode,
+  pendingTransitionIds = []
 }) {
   const i18n = useI18n();
   const providedConsent = (record && hasProvidedConsent(record)) || false;
@@ -50,7 +51,7 @@ function Transitions({
   const records = useMemoizedSelector(state => getRecordsData(state, recordType));
 
   const selectedRecordsLength = Object.values(selectedRecords || {}).flat()?.length;
-  const selectedIds = buildSelectedIds(selectedRecords, records, currentPage, "id");
+  const selectedIds = buildSelectedIds(selectedRecords, records, currentPage, "id", pendingTransitionIds);
   const { present: incidentFromCasePresent } = useIncidentFromCase({ recordType: RECORD_TYPES[recordType], record });
   const hasRecordOutOfScope = records?.some(
     _record => selectedIds.includes(_record.get("id")) && !_record.get("record_in_scope")
@@ -107,6 +108,7 @@ function Transitions({
           selectedRecordsLength={selectedRecordsLength}
           formDisabled={incidentFromCasePresent}
           hasRecordOutOfScope={hasRecordOutOfScope}
+          pendingTransitionIds={pendingTransitionIds}
         />
       );
     }
@@ -159,7 +161,10 @@ function Transitions({
         confirmButtonLabel: i18n.t("buttons.save"),
         open: isAssignDialogOpen,
         successHandler,
-        enabledSuccessButton: selectedRecordsLength <= MAX_BULK_RECORDS && !incidentFromCasePresent,
+        enabledSuccessButton:
+          selectedRecordsLength <= MAX_BULK_RECORDS &&
+          !incidentFromCasePresent &&
+          (selectedRecordsLength === 0 || selectedIds.length > 0),
         transitionType: TRANSITIONS_TYPES.reassign
       };
     }
@@ -189,6 +194,7 @@ Transitions.propTypes = {
   mode: PropTypes.object,
   open: PropTypes.bool,
   pending: PropTypes.bool,
+  pendingTransitionIds: PropTypes.array,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
   selectedRecords: PropTypes.object,
