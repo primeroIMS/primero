@@ -84,6 +84,7 @@ function DateFieldPicker({
         slotProps={textFieldProps}
         label={label}
         dayOfWeekFormatter={dayOfWeekFormatter(i18n)}
+        views={["year", "month", "day"]}
       />
     </DateProvider>
   );
