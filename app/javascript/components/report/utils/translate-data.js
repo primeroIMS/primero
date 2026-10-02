@@ -4,7 +4,7 @@ import getTranslatedKey from "./get-translated-key";
 import translateKeys from "./translate-keys";
 import translateRegistryRecord from "./translate-registry-record";
 
-const translateData = (data, fields, i18n, { agencies, locations, registryOptions } = {}) => {
+const translateData = (data, fields, i18n, { agencies, locations, registryOptions, groupDatesBy } = {}) => {
   const incompleteDataLabel = i18n.t("report.incomplete_data");
   const currentTranslations = {};
   const keys = Object.keys(data);
@@ -49,7 +49,7 @@ const translateData = (data, fields, i18n, { agencies, locations, registryOption
 
           translatedKey = translation
             ? translation.display_text
-            : getTranslatedKey(key, field, { agencies, i18n, locations });
+            : getTranslatedKey(key, field, { agencies, i18n, locations, groupDatesBy });
 
           if (translation) {
             currentTranslations[translatedKey] = { ...data[key] };
@@ -71,5 +71,5 @@ const translateData = (data, fields, i18n, { agencies, locations, registryOption
   return currentTranslations;
 };
 
-export default (data, fields, i18n, { agencies, locations, registryOptions } = {}) =>
-  translateData(data, fields, i18n, { agencies, locations, registryOptions });
+export default (data, fields, i18n, { agencies, locations, registryOptions, groupDatesBy } = {}) =>
+  translateData(data, fields, i18n, { agencies, locations, registryOptions, groupDatesBy });

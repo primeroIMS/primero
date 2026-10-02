@@ -9,5 +9,5 @@ export default (data, totalLabel, qtyColumns, qtyRows) => {
     Object.values(data)
       .map(current => Object.keys(isNested ? getFirstKeyValue(current, totalLabel) : current))
       .flat()
-  ).filter(key => key !== totalLabel);
+  ).filter(key => key !== totalLabel && key !== "query");
 };

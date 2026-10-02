@@ -94,47 +94,49 @@ class Report < ApplicationRecord
 
   def write_result(result, data_hash)
     field_queries.reduce(data_hash) do |acc, field_query|
-      fill_lookup_rows(acc, field_query.field) unless exclude_empty_rows?
+      fill_lookup_rows(acc, field_query) unless exclude_empty_rows?
       value = result[field_query.column_alias.delete('"')]
       break if value.blank?
 
       @registry_record_ids << value if field_query.field.type == Field::REGISTRY && value != 'incomplete_data'
-      write_field_data(acc, value, result, field_query.field.name)
+      write_field_data(acc, value, result, field_query)
     end
   end
 
-  def write_field_data(field_hash, value, result, field_name)
+  def write_field_data(field_hash, value, result, field_query)
     if field_hash[value].present?
       field_hash[value]['_total'] += result['total']
     else
       field_hash[value] = { '_total' => result['total'] }
     end
 
-    write_query_filters(field_hash, value, field_name)
+    write_query_filters(field_hash, value, field_query)
     field_hash[value]
   end
 
-  def fill_lookup_rows(field_acc, field)
-    lookup_values = field.options_list(locale: I18n.locale, lookups:)
+  def fill_lookup_rows(field_acc, field_query)
+    lookup_values = field_query.field.options_list(locale: I18n.locale, lookups:)
     return unless lookup_values.is_a?(Array)
 
     lookup_values&.each do |lookup_value|
       next unless field_acc[lookup_value['id']].blank?
 
       field_acc[lookup_value['id']] = { '_total' => 0 }
-      write_query_filters(field_acc, lookup_value['id'], field.name)
+      write_query_filters(field_acc, lookup_value['id'], field_query)
     end
   end
 
-  def write_query_filters(field_hash, value, field_name)
+  def write_query_filters(field_hash, value, field_query)
     return if nested_model?
 
     parent_query = field_hash['query']
+    query = ["#{field_query.field.name}=#{value}"]
+    query = ["loc:#{field_query.field.name}#{field_query.admin_level}=#{value}"] if field_query.respond_to?(:admin_level)
     if parent_query.present?
       field_hash[value]['query'] ||= []
-      field_hash[value]['query'] |= (parent_query + ["#{field_name}=#{value}"])
+      field_hash[value]['query'] |= (parent_query + query)
     else
-      field_hash[value]['query'] = query_filters + ["#{field_name}=#{value}"]
+      field_hash[value]['query'] = query_filters + query
     end
   end
 
