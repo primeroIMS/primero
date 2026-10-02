@@ -50,7 +50,13 @@ function DateInput({ commonInputProps, metaInputProps = {}, formMethods }) {
       actionBar: {
         actions: ["clear", "accept"]
       },
-      textField: { InputLabelProps: { shrink: true }, fullWidth, required, helperText, clearable: true }
+      textField: {
+        fullWidth,
+        required,
+        helperText,
+        clearable: true,
+        slotProps: { inputLabel: { shrink: true } }
+      }
     }
   };
 
