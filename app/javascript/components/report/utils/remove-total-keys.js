@@ -8,7 +8,7 @@ import getObjectArrayPath from "./get-object-array-path";
 export default (totalLabel, object) =>
   reject(
     getObjectArrayPath(totalLabel, object).map(
-      keys => keys.filter(key => key !== TOTAL_KEY && key !== totalLabel && key !== QUERY_KEY)
+      keys => keys.filter(key => ![TOTAL_KEY, totalLabel, QUERY_KEY].includes(key))
     ),
     isEmpty
   );

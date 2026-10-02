@@ -44,7 +44,6 @@ const translateData = (data, fields, i18n, { agencies, locations, registryOption
 
           delete currentTranslations[key];
         } else {
-          // NOTE: We are not translating dates here!
           const translation = translations.find(currTranslation => currTranslation.id === key);
 
           translatedKey = translation
@@ -60,7 +59,8 @@ const translateData = (data, fields, i18n, { agencies, locations, registryOption
         const translatedData = translateData(data[key], [...storedFields], i18n, {
           agencies,
           locations,
-          registryOptions
+          registryOptions,
+          groupDatesBy
         });
 
         currentTranslations[translatedKey] = translatedData;

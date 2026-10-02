@@ -4,7 +4,6 @@ import isNil from "lodash/isNil";
 import first from "lodash/first";
 import last from "lodash/last";
 
-import formattedDate from "./formatted-date";
 import buildColumnPaths from "./build-column-paths";
 import sortTableData from "./sort-table-data";
 
@@ -53,28 +52,26 @@ export default (data, columns, ageRanges, i18n) => {
       });
 
       const result = sortedTable
-        .filter(val => !["_total", i18n.t("report.total")].includes(val))
+        .filter(val => !["_total", i18n.t("report.total"), "query"].includes(val))
         .map(rowDisplayName => {
           const values = columnPaths.map(path => {
             const queryPath = getQueryPath(path);
-            const query = get(value, queryPath, []);
+            const query = get(value[rowDisplayName], queryPath, []);
             return { count: get(value[rowDisplayName], path, 0), query }
           });
           const rowTotal = isNil(value[rowDisplayName]._total)
             ? value[rowDisplayName][i18n.t("report.total")]
             : value[rowDisplayName]._total;
 
-          return [rowDisplayName, false, ...values, { count: rowTotal, query: value.query }];
+          return [rowDisplayName, false, ...values, { count: rowTotal, query: value[rowDisplayName].query }];
         });
 
       // Set rest of keys
       const innerRows = result.map(innerRow => {
         const [enDate, ...enValues] = innerRow;
-        const dateOrExistingKey = formattedDate(enDate, i18n);
 
-        return [dateOrExistingKey, ...enValues];
+        return [enDate, ...enValues];
       });
-
       accum.push(...innerRows);
     } else {
       const values = columnPaths.map(
@@ -85,9 +82,7 @@ export default (data, columns, ageRanges, i18n) => {
         }
       );
 
-      const dateOrKey = formattedDate(key, i18n);
-
-      accum.push([dateOrKey, false, ...values, { count: total, query: value.query }]);
+      accum.push([key, false, ...values, { count: total, query: value.query }]);
     }
   });
 
