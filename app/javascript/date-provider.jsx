@@ -2,6 +2,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFnsV2";
 import PropTypes from "prop-types";
 import { useMemo } from "react";
+import ar from "date-fns/locale/ar";
 
 import localize from "./libs/date-picker-localization";
 import { useI18n } from "./components/i18n";
@@ -16,6 +17,7 @@ const buildLocaleText = i18n => ({
 
 function DateProvider({ children, excludeAdpaterLocale = false }) {
   const i18n = useI18n();
+  const isArabic = i18n.locale.startsWith("ar") || i18n.locale.startsWith("aeb");
   // Memoized on locale: a new adapterLocale/localeText object on every render makes MUI rebuild its date
   // adapter each keystroke, which it treats as a locale change and resets in-progress field sections.
   const adapterLocale = useMemo(
@@ -25,7 +27,11 @@ function DateProvider({ children, excludeAdpaterLocale = false }) {
   const localeText = useMemo(() => buildLocaleText(i18n), [i18n.locale]);
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns} localeText={localeText} adapterLocale={adapterLocale}>
+    <LocalizationProvider
+      dateAdapter={AdapterDateFns}
+      localeText={localeText}
+      adapterLocale={isArabic ? ar : adapterLocale}
+    >
       {children}
     </LocalizationProvider>
   );
