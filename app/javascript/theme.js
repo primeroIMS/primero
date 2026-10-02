@@ -275,7 +275,7 @@ const components = {
   MuiPickersOutlinedInput: {
     styleOverrides: {
       root: {
-        "&.Mui-disabled *": {
+        "&.Mui-disabled": {
           color: "inherit !important"
         },
         "&.Mui-focused:not(.Mui-error)": {

@@ -388,6 +388,40 @@ describe Api::V2::ChildrenController, type: :request do
       expect(json['data'].find { |r| r['name'] == @case1.name }['flag_count']).to eq(1)
     end
 
+    it 'returns the pending transition fields for the short form when the user can receive them' do
+      @case1.update_column(
+        :data, @case1.data.merge('referred_users_pending' => %w[faketest], 'transferred_to_users' => %w[faketest])
+      )
+
+      login_for_test(
+        permissions: [
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::READ, Permission::RECEIVE_REFERRAL, Permission::RECEIVE_TRANSFER]
+          )
+        ]
+      )
+      get '/api/v2/cases?fields=short'
+
+      expect(response).to have_http_status(200)
+      case1_data = json['data'].find { |r| r['id'] == @case1.id }
+      expect(case1_data['referred_users_pending']).to eq(%w[faketest])
+      expect(case1_data['transferred_to_users']).to eq(%w[faketest])
+    end
+
+    it 'does not return the pending transition fields for the short form when the user cannot receive them' do
+      @case1.update_column(
+        :data, @case1.data.merge('referred_users_pending' => %w[faketest], 'transferred_to_users' => %w[faketest])
+      )
+
+      login_for_test
+      get '/api/v2/cases?fields=short'
+
+      expect(response).to have_http_status(200)
+      case1_data = json['data'].find { |r| r['id'] == @case1.id }
+      expect(case1_data.keys).not_to include('referred_users_pending', 'transferred_to_users')
+    end
+
     it 'returns alert_count for the short form ' do
       @case1.add_alert(alert_for: 'transfer_request', date: Date.today, form_sidebar_id: 'transfer_request')
 
@@ -946,6 +980,20 @@ describe Api::V2::ChildrenController, type: :request do
       case1 = Child.find_by(id: @case1.id)
       expect(case1.data['age']).to eq(10)
       expect(case1.data['sex']).to eq('female')
+    end
+
+    context 'when the user has a pending referral or transfer for the record' do
+      before do
+        @case1.update_column(:data, @case1.data.merge('referred_users_pending' => %w[faketest]))
+      end
+
+      it 'returns 403 and does not update the record' do
+        login_for_test
+        patch "/api/v2/cases/#{@case1.id}", params: { data: { age: 99 } }, as: :json
+
+        expect(response).to have_http_status(403)
+        expect(@case1.reload.data['age']).not_to eq(99)
+      end
     end
 
     it 'does not update the id of the record and returns 200' do
@@ -1507,8 +1555,10 @@ describe Api::V2::ChildrenController, type: :request do
     end
 
     describe 'referral authorizations' do
-      context 'when a record was referred' do
+      context 'when the referral was accepted' do
         it 'updates permitted fields based on the authorized roles' do
+          @referral1.accept!
+          @case11.reload
           sign_in(@user_referral)
 
           params = { data: { field_a: 'new value for field_a' } }
@@ -1519,6 +1569,34 @@ describe Api::V2::ChildrenController, type: :request do
           expect(json['data']['id']).to eq(@case11.id)
           expect(json['data']['field_a']).to eq('new value for field_a')
           expect(json['data']['permitted_forms']).to eq({ 'form_a' => 'rw' })
+        end
+      end
+
+      context 'when the recipient resolves the referral' do
+        it 'can accept it and update the record afterwards' do
+          sign_in(@user_referral)
+
+          patch(
+            "/api/v2/cases/#{@case11.id}/referrals/#{@referral1.id}",
+            params: { data: { status: Transition::STATUS_ACCEPTED } }
+          )
+          expect(response).to have_http_status(200)
+
+          patch "/api/v2/cases/#{@case11.id}", params: { data: { field_a: 'new value for field_a' } }, as: :json
+
+          expect(response).to have_http_status(200)
+          expect(@case11.reload.data['field_a']).to eq('new value for field_a')
+        end
+      end
+
+      context 'when the referral is still pending' do
+        it 'returns 403 and does not update the record' do
+          sign_in(@user_referral)
+
+          patch "/api/v2/cases/#{@case11.id}", params: { data: { field_a: 'new value' } }, as: :json
+
+          expect(response).to have_http_status(403)
+          expect(@case11.reload.data['field_a']).to eq('value for field_a')
         end
       end
     end

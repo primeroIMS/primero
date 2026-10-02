@@ -14,10 +14,19 @@ import buildAppliedFilters from "../utils/build-applied-filters";
 import { getFiltersValuesByRecordType } from "../../index-filters/selectors";
 import { getMetadata } from "../../record-list/selectors";
 import { getRecordsData } from "../../index-table";
+import PendingTransitionAlert from "../pending-transition-alert";
 
 import { NAME, FORM_ID } from "./constants";
 
-function Component({ close, open, currentPage, selectedRecords, recordType, clearSelectedRecords }) {
+function Component({
+  close,
+  open,
+  currentPage,
+  selectedRecords,
+  recordType,
+  clearSelectedRecords,
+  pendingTransitionIds = []
+}) {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -27,7 +36,7 @@ function Component({ close, open, currentPage, selectedRecords, recordType, clea
   const appliedFilters = useMemoizedSelector(state => getFiltersValuesByRecordType(state, recordType));
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
 
-  const selectedIds = buildSelectedIds(selectedRecords, records, currentPage, "id");
+  const selectedIds = buildSelectedIds(selectedRecords, records, currentPage, "id", pendingTransitionIds);
   const selectedRecordsLength = Object.values(selectedRecords || {}).flat()?.length;
   const count = selectedRecordsLength || selectedIds.length;
   const totalRecords = metadata?.get("total", 0);
@@ -72,8 +81,10 @@ function Component({ close, open, currentPage, selectedRecords, recordType, clea
       dialogSubHeader={i18n.t("flags.bulk_selected", { count })}
       confirmButtonLabel={i18n.t("buttons.flag_records")}
       confirmButtonProps={{ form: FORM_ID, type: "submit" }}
+      enabledSuccessButton={selectedIds.length > 0}
       cancelHandler={close}
     >
+      <PendingTransitionAlert pendingTransitionIds={pendingTransitionIds} />
       <Form
         mode={FORM_MODE_DIALOG}
         formSections={form(i18n)}
@@ -94,6 +105,7 @@ Component.propTypes = {
   close: PropTypes.func,
   currentPage: PropTypes.number,
   open: PropTypes.bool,
+  pendingTransitionIds: PropTypes.array,
   recordType: PropTypes.string,
   selectedRecords: PropTypes.object
 };

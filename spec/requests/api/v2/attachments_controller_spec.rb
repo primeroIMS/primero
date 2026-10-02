@@ -224,6 +224,25 @@ describe Api::V2::AttachmentsController, type: :request do
     end
   end
 
+  describe 'POST /api/v2/:record/:id/attachments with a pending transition' do
+    it 'returns 403 and does not attach the file' do
+      @case.update_column(:data, @case.data.merge('referred_users_pending' => %w[faketest]))
+
+      login_for_test({ permitted_field_names: [Attachable::PHOTOS_FIELD_NAME] })
+      params = {
+        data: {
+          field_name: Attachable::PHOTOS_FIELD_NAME, attachment_type: Attachment::IMAGE,
+          file_name: 'unicef.png', attachment: attachment_base64('unicef.png')
+        }
+      }
+
+      post("/api/v2/cases/#{@case.id}/attachments", params:)
+
+      expect(response).to have_http_status(403)
+      expect(@case.reload.attachments).to be_empty
+    end
+  end
+
   describe 'PATCH /api/v2/:record/:id/attachments', search: true do
     let(:attachment) do
       Attachment.new(

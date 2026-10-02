@@ -92,7 +92,7 @@ function Component({
         actionBar: {
           actions: ["clear", "accept"]
         },
-        textField: { InputLabelProps: { shrink: true }, fullWidth: true, clearable: true }
+        textField: { slotProps: { inputLabel: { shrink: true } }, fullWidth: true, clearable: true }
       }
     };
 

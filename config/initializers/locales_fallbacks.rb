@@ -49,6 +49,7 @@ I18n.fallbacks = {
   so: EN_FALLBACK,
   'sw-KE': EN_FALLBACK,
   'sw-TZ': EN_FALLBACK,
+  tg: EN_FALLBACK,
   th: EN_FALLBACK,
   uk: EN_FALLBACK,
   ti: EN_FALLBACK,

@@ -2,6 +2,8 @@
 
 # API endpoints that handle record reassignment
 class Api::V2::AssignsController < Api::V2::RecordResourceController
+  include Api::V2::Concerns::PendingTransitionRestriction
+
   before_action :bulk_assign_params, only: [:create_bulk]
   before_action :verify_bulk_records_size, only: [:create_bulk]
 
@@ -13,6 +15,7 @@ class Api::V2::AssignsController < Api::V2::RecordResourceController
 
   def create
     authorize_assign!(@record)
+    authorize_pending_transition!(@record)
     @transition = assign(@record)
     updates_for_record(@record)
     render 'api/v2/transitions/create'

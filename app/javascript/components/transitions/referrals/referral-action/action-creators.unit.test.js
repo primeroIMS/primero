@@ -174,7 +174,7 @@ describe("<ReferralAction /> - Action Creators", () => {
       jest.resetAllMocks();
     });
 
-    it("should return the correct object", () => {
+    it("should refetch the record after accepting", () => {
       const args = {
         message: "Updated successfully",
         failureMessage: "Updated unsuccessfully",
@@ -203,6 +203,13 @@ describe("<ReferralAction /> - Action Creators", () => {
             },
             {
               action: CLEAR_DIALOG
+            },
+            {
+              action: "cases/RECORD",
+              api: {
+                path: "cases/10",
+                db: { collection: "records", recordType: "cases", id: "10" }
+              }
             },
             redirectCallback
           ],

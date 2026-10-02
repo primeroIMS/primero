@@ -25,6 +25,13 @@ module Transitionable
     before_save :calculate_last_referral_done_at
   end
 
+  # Class methods for transitionable records
+  module ClassMethods
+    def transition_summary_field_names
+      %w[referred_users_pending transferred_to_users]
+    end
+  end
+
   def assigns
     transitions.where(type: Assign.name)
   end
@@ -122,26 +129,25 @@ module Transitionable
 
   def referrals_self_scope(user)
     return referrals if owner?(user)
+    return referrals.where(transitioned_to: user.user_name) unless user.can_view_referrals?
 
-    referrals.where(transitioned_to: user.user_name)
+    referrals.where(transitioned_to: user.user_name).or(referrals_by_user(user))
   end
 
   def referrals_group_scope(user)
-    if owner?(user) || ((owned_by_groups & user.user_group_unique_ids).present? && user.can_view_referrals?)
-      return referrals
-    end
-
+    return referrals if owner?(user) || (owned_by_any_groups?(user.user_group_unique_ids) && user.can_view_referrals?)
     return referrals_to_user(user) unless user.can_view_referrals?
 
-    referrals.where(transitioned_to: User.by_user_group(user.user_groups.ids).pluck(:user_name))
+    referrals.where(transitioned_to: User.by_user_group(user.user_groups.ids).pluck(:user_name)).or(
+      referrals_by_user(user)
+    )
   end
 
   def referrals_agency_scope(user)
     return referrals if owner?(user) || (user.agency_id == owner.agency_id && user.can_view_referrals?)
-
     return referrals_to_user(user) unless user.can_view_referrals?
 
-    referrals.where(transitioned_to_agency: user.agency.unique_id)
+    referrals.where(transitioned_to_agency: user.agency.unique_id).or(referrals_by_user(user))
   end
 
   # Returns the referrals for a user in the record
@@ -151,8 +157,16 @@ module Transitionable
     )
   end
 
+  def referrals_by_user(user)
+    referrals.where(transitioned_by: user.user_name)
+  end
+
   def can_be_assigned?
     true
+  end
+
+  def pending_transition_for?(user)
+    ((referred_users_pending || []) + (transferred_to_users || [])).include?(user.user_name)
   end
 end
 # rubocop:enable Metrics/ModuleLength

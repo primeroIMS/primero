@@ -1066,6 +1066,12 @@ describe Child do
     end
   end
 
+  describe '.summary_field_names' do
+    it 'includes the pending transition fields' do
+      expect(Child.summary_field_names).to include('referred_users_pending', 'transferred_to_users')
+    end
+  end
+
   describe 'calculate_has_case_plan' do
     before do
       clean_data(SearchableIdentifier, Child)
