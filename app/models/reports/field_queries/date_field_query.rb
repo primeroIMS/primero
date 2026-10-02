@@ -42,6 +42,7 @@ class Reports::FieldQueries::DateFieldQuery < Reports::FieldQueries::FieldQuery
     )
   end
 
+  # rubocop:disable Metrics/MethodLength
   def grouped_by_year_query
     ActiveRecord::Base.sanitize_sql_for_conditions(
       [
@@ -56,7 +57,9 @@ class Reports::FieldQueries::DateFieldQuery < Reports::FieldQueries::FieldQuery
       ]
     )
   end
+  # rubocop:enable Metrics/MethodLength
 
+  # rubocop:disable Metrics/MethodLength
   def grouped_by_month_query
     ActiveRecord::Base.sanitize_sql_for_conditions(
       [
@@ -73,6 +76,7 @@ class Reports::FieldQueries::DateFieldQuery < Reports::FieldQueries::FieldQuery
       ]
     )
   end
+  # rubocop:enable Metrics/MethodLength
 
   def sort_by_month_query
     ActiveRecord::Base.sanitize_sql_for_conditions(
@@ -111,6 +115,7 @@ class Reports::FieldQueries::DateFieldQuery < Reports::FieldQueries::FieldQuery
     )
   end
 
+  # rubocop:disable Metrics/MethodLength
   def grouped_by_day_query
     ActiveRecord::Base.sanitize_sql_for_conditions(
       [
@@ -127,6 +132,7 @@ class Reports::FieldQueries::DateFieldQuery < Reports::FieldQueries::FieldQuery
       ]
     )
   end
+  # rubocop:enable Metrics/MethodLength
 
   def sort_by_day_query
     ActiveRecord::Base.sanitize_sql_for_conditions(

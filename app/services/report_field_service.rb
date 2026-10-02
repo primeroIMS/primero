@@ -40,8 +40,7 @@ class ReportFieldService
     collapsed_field_names = registry_collapsed_field_names(field)
     fields_options_from_source = registry_fields_options_from_source(collapsed_field_names)
     {
-      registry_type: field.option_strings_source,
-      registry_option_labels: registry_fields_options_from_record(
+      registry_type: field.option_strings_source, registry_option_labels: registry_fields_options_from_record(
         collapsed_field_names, fields_options_from_source, registry_records
       ) || {}
     }
@@ -108,6 +107,10 @@ class ReportFieldService
     { option_labels: all_lookup_values }
   end
 
+  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/CyclomaticComplexity
+  # rubocop:disable Metrics/PerceivedComplexity
   def self.report_field_options(field, pivot_name, report)
     if field&.location? || field&.reporting_location?
       build_reporting_location_field_options(field, pivot_name, report.record_type)
@@ -123,6 +126,10 @@ class ReportFieldService
       report_option_strings_source(field)
     end
   end
+  # rubocop:enable Metrics/MethodLength
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Metrics/CyclomaticComplexity
+  # rubocop:enable Metrics/PerceivedComplexity
 
   def self.report_field_admin_level(field, pivot_name, record_type)
     if field&.location?

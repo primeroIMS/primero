@@ -130,14 +130,18 @@ class Report < ApplicationRecord
     return if nested_model?
 
     parent_query = field_hash['query']
-    query = ["#{field_query.field.name}=#{value}"]
-    query = ["loc:#{field_query.field.name}#{field_query.admin_level}=#{value}"] if field_query.respond_to?(:admin_level)
     if parent_query.present?
       field_hash[value]['query'] ||= []
-      field_hash[value]['query'] |= (parent_query + query)
+      field_hash[value]['query'] |= (parent_query + build_query_filter(field_query, value))
     else
-      field_hash[value]['query'] = query_filters + query
+      field_hash[value]['query'] = query_filters + build_query_filter(field_query, value)
     end
+  end
+
+  def build_query_filter(field_query, value)
+    return ["#{field_query.field.name}=#{value}"] unless field_query.respond_to?(:admin_level)
+
+    ["loc:#{field_query.field.name}#{field_query.admin_level}=#{value}"]
   end
 
   def lookups
