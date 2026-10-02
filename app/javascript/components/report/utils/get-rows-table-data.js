@@ -9,8 +9,10 @@ import sortTableData from "./sort-table-data";
 
 const getQueryPath = path => {
   const queryPath = [...path];
+
   queryPath.pop();
   queryPath.push("query");
+
   return queryPath;
 };
 
@@ -57,7 +59,8 @@ export default (data, columns, ageRanges, i18n) => {
           const values = columnPaths.map(path => {
             const queryPath = getQueryPath(path);
             const query = get(value[rowDisplayName], queryPath, []);
-            return { count: get(value[rowDisplayName], path, 0), query }
+
+            return { count: get(value[rowDisplayName], path, 0), query };
           });
           const rowTotal = isNil(value[rowDisplayName]._total)
             ? value[rowDisplayName][i18n.t("report.total")]
@@ -72,15 +75,15 @@ export default (data, columns, ageRanges, i18n) => {
 
         return [enDate, ...enValues];
       });
+
       accum.push(...innerRows);
     } else {
-      const values = columnPaths.map(
-        column => { 
-          const queryPath = getQueryPath(column);
-          const query = get(value, queryPath, []);
-          return { count: get(value, column, 0), query }
-        }
-      );
+      const values = columnPaths.map(column => {
+        const queryPath = getQueryPath(column);
+        const query = get(value, queryPath, []);
+
+        return { count: get(value, column, 0), query };
+      });
 
       accum.push([key, false, ...values, { count: total, query: value.query }]);
     }

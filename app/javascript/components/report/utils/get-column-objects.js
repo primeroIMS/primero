@@ -28,7 +28,7 @@ export default (object, qtyRows) => {
     level += 1;
 
     for (let i = 0; i < keys.length; i += 1) {
-      const columnObj = getColumnsObj(obj[keys[i]], level)
+      const columnObj = getColumnsObj(obj[keys[i]], level);
 
       columnObjects = columnObj ? merge(columnObjects, columnObj) : columnObjects;
     }

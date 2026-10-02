@@ -24,17 +24,21 @@ export default (key, field, { agencies, i18n, locations, groupDatesBy } = {}) =>
     return i18n.t(key);
   }
 
-  if(key.includes("..")) {
+  if (key.includes("..")) {
     const [start, end] = key.split("..");
+
     if (hasApiDateFormat(start)) {
       if (groupDatesBy === "year") {
         return i18n.localizeDate(start, "yyyy");
-      } else if (groupDatesBy === "month") {
-        return `${i18n.localizeDate(start, "MMM")} - ${i18n.localizeDate(start, "yyyy")}`
-      } else if (groupDatesBy === "week") {
-        return `${i18n.localizeDate(start)} - ${i18n.localizeDate(end)}`
-      } else if (groupDatesBy === "date") {
-         return i18n.localizeDate(start);
+      }
+      if (groupDatesBy === "month") {
+        return `${i18n.localizeDate(start, "MMM")} - ${i18n.localizeDate(start, "yyyy")}`;
+      }
+      if (groupDatesBy === "week") {
+        return `${i18n.localizeDate(start)} - ${i18n.localizeDate(end)}`;
+      }
+      if (groupDatesBy === "date") {
+        return i18n.localizeDate(start);
       }
     } else {
       return key;

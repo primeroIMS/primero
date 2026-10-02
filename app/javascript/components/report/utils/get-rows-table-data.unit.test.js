@@ -215,14 +215,7 @@ describe("report/utils/get-rows-table-data", () => {
 
     expect(getRowsTableData(data, columns, [], i18n)).toEqual([
       ["high", false, { count: 1, query: [] }, { count: 0, query: [] }, { count: 0, query: [] }, { count: 1 }],
-      [
-        "medium",
-        false,
-        { count: 0, query: [] },
-        { count: 0, query: [] },
-        { count: 1, query: [] },
-        { count: 1 }
-      ],
+      ["medium", false, { count: 0, query: [] }, { count: 0, query: [] }, { count: 1, query: [] }, { count: 1 }],
       ["low", false, { count: 0, query: [] }, { count: 1, query: [] }, { count: 0, query: [] }, { count: 1 }]
     ]);
   });

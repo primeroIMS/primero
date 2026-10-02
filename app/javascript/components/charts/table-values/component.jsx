@@ -52,6 +52,7 @@ TableValues.propTypes = {
   columns: PropTypes.array,
   emptyMessage: PropTypes.string,
   name: PropTypes.string,
+  recordType: PropTypes.string,
   showPlaceholder: PropTypes.bool,
   subColumnItemsSize: PropTypes.number,
   valueRender: PropTypes.func,

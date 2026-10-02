@@ -28,7 +28,7 @@ const translateData = (data, fields, i18n, { agencies, locations, registryOption
 
         currentTranslations[translatedKey] = data[key];
         delete currentTranslations[key];
-      } else if (key === "query"){
+      } else if (key === "query") {
         currentTranslations[key] = data[key];
       } else {
         let translatedKey = null;

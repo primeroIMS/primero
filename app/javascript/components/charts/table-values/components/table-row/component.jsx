@@ -63,6 +63,7 @@ function Component({ subColumnItemsSize, value, valueRender, withTotals, recordT
 Component.displayName = "ChartTableRow";
 
 Component.propTypes = {
+  recordType: PropTypes.string,
   subColumnItemsSize: PropTypes.number,
   value: PropTypes.object,
   valueRender: PropTypes.func,
