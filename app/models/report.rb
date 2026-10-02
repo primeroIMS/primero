@@ -94,34 +94,54 @@ class Report < ApplicationRecord
 
   def write_result(result, data_hash)
     field_queries.reduce(data_hash) do |acc, field_query|
-      fill_lookup_rows(acc, field_query.field) unless exclude_empty_rows?
+      fill_lookup_rows(acc, field_query) unless exclude_empty_rows?
       value = result[field_query.column_alias.delete('"')]
       break if value.blank?
 
       @registry_record_ids << value if field_query.field.type == Field::REGISTRY && value != 'incomplete_data'
-      write_field_data(acc, value, result)
+      write_field_data(acc, value, result, field_query)
     end
   end
 
-  def write_field_data(field_hash, value, result)
+  def write_field_data(field_hash, value, result, field_query)
     if field_hash[value].present?
       field_hash[value]['_total'] += result['total']
     else
       field_hash[value] = { '_total' => result['total'] }
     end
 
+    write_query_filters(field_hash, value, field_query)
     field_hash[value]
   end
 
-  def fill_lookup_rows(field_acc, field)
-    lookup_values = field.options_list(locale: I18n.locale, lookups:)
+  def fill_lookup_rows(field_acc, field_query)
+    lookup_values = field_query.field.options_list(locale: I18n.locale, lookups:)
     return unless lookup_values.is_a?(Array)
 
     lookup_values&.each do |lookup_value|
       next unless field_acc[lookup_value['id']].blank?
 
       field_acc[lookup_value['id']] = { '_total' => 0 }
+      write_query_filters(field_acc, lookup_value['id'], field_query)
     end
+  end
+
+  def write_query_filters(field_hash, value, field_query)
+    return if nested_model?
+
+    parent_query = field_hash['query']
+    if parent_query.present?
+      field_hash[value]['query'] ||= []
+      field_hash[value]['query'] |= (parent_query + build_query_filter(field_query, value))
+    else
+      field_hash[value]['query'] = query_filters + build_query_filter(field_query, value)
+    end
+  end
+
+  def build_query_filter(field_query, value)
+    return ["#{field_query.field.name}=#{value}"] unless field_query.respond_to?(:admin_level)
+
+    ["loc:#{field_query.field.name}#{field_query.admin_level}=#{value}"]
   end
 
   def lookups
@@ -137,12 +157,16 @@ class Report < ApplicationRecord
   end
 
   def build_query
-    query = model.try(:parent_record_type).present? ? join_nested_model : model
+    query = nested_model? ? join_nested_model : model
     query = select_fields(query)
     query = apply_filters(query)
     query = query.group(group_by_fields)
     query = query.order(sort_fields)
     query.to_sql
+  end
+
+  def nested_model?
+    model.try(:parent_record_type).present?
   end
 
   def join_nested_model
@@ -204,12 +228,9 @@ class Report < ApplicationRecord
   end
 
   def build_numeric_field_query(field)
-    args = { field:, record_field_name: record_field_name(field) }
-    range = AgeRangeService.primary_age_ranges(module_id)
-
-    args = args.merge(range:, abrreviate_range: true) if age_field?(field) && group_ages?
-
-    Reports::FieldQueries::NumericFieldQuery.new(args)
+    Reports::FieldQueries::NumericFieldQuery.new(
+      { field:, record_field_name: record_field_name(field), range: AgeRangeService.primary_age_ranges(module_id) }
+    )
   end
 
   def build_field_query(field)
@@ -228,7 +249,6 @@ class Report < ApplicationRecord
     if model.try(:parent_record_type).present?
       filter_query = apply_filters_for_nested_model(filter_query)
     else
-      search_filters = Reports::ReportFilterService.build_filters(filters, filters_map)
       search_filters.each { |filter| filter_query = filter_query.where(filter.query) }
     end
 
@@ -255,10 +275,6 @@ class Report < ApplicationRecord
     query.where(srch_module_id: module_id)
   end
 
-  def age_field?(field)
-    field.type == Field::NUMERIC_FIELD && field.name.starts_with?(AGE)
-  end
-
   def validate_modules_present
     if module_id.present? && module_id.length >= 1
       if module_id.split('-').first != 'primeromodule'
@@ -275,6 +291,24 @@ class Report < ApplicationRecord
     self.filters ||= []
     default_filters = model.report_filters
     self.filters = (self.filters + default_filters).uniq
+  end
+
+  def search_filters
+    @search_filters ||= Reports::ReportFilterService.build_filters(filters, filters_map)
+  end
+
+  def query_filters
+    return @query_filters unless @query_filters.nil?
+
+    permission_filters = ["module_id=#{module_id}", permission_search_filter.to_s].compact_blank
+    @query_filters = nested_model? ? [] : search_filters.map(&:to_s) + permission_filters
+    @query_filters
+  end
+
+  def permission_search_filter
+    return unless permission_filter.present?
+
+    SearchFilters::TextList.new(field_name: permission_filter['attribute'], values: permission_filter['value'])
   end
 
   def pivots_map

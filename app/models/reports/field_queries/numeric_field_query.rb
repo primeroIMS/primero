@@ -2,7 +2,7 @@
 
 # Represents a query against a numeric field
 class Reports::FieldQueries::NumericFieldQuery < Reports::FieldQueries::FieldQuery
-  attr_accessor :range, :abrreviate_range
+  attr_accessor :range
 
   def to_sql
     return range_query if range.present?
@@ -11,10 +11,9 @@ class Reports::FieldQueries::NumericFieldQuery < Reports::FieldQueries::FieldQue
   end
 
   def range_query
-    last_range = range.last
     %(
       #{sort_query},
-      case #{range.map { |range| build_range(field, range, last_range == range) }.join}
+      case #{range.map { |range| build_range(field, range) }.join}
       end as #{column_alias}
     )
   end
@@ -43,12 +42,12 @@ class Reports::FieldQueries::NumericFieldQuery < Reports::FieldQueries::FieldQue
     )
   end
 
-  def build_range(field, range, is_last_range)
+  def build_range(field, range)
     ActiveRecord::Base.sanitize_sql_for_conditions(
       [
         %{
           when int4range(:start, :end, '[]') @> cast(#{data_column_name}->> :field_name as integer)
-          then #{is_last_range && abrreviate_range ? "':start+'" : "':start - :end'"}
+          then ':start..:end'
         },
         { field_name: field.name, start: range.first, end: range.last }
       ]

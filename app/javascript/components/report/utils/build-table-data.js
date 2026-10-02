@@ -5,7 +5,12 @@ import translateReportData from "./translate-report-data";
 
 export default (report, i18n, { agencies, ageRanges, locations, registryOptions }) => {
   const reportData = report.toJS();
-  const translatedReport = translateReportData(reportData, i18n, { agencies, locations, registryOptions });
+  const translatedReport = translateReportData(reportData, i18n, {
+    agencies,
+    locations,
+    registryOptions,
+    groupDatesBy: reportData.group_dates_by
+  });
   const translatedReportWithAllFields = {
     ...translatedReport,
     fields: reportData.fields

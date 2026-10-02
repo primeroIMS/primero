@@ -174,7 +174,7 @@ describe ReportFieldService do
         'fr' => []
       }
     }
-    report_field = ReportFieldService.report_field(@risk_level_field, 'risk_level', 'horizontal', 0, Child.parent_form)
+    report_field = ReportFieldService.report_field(@risk_level_field, 'risk_level', 'horizontal', 0, @report1)
     expect(report_field).to eq(report_risk_field)
   end
 
@@ -186,7 +186,7 @@ describe ReportFieldService do
       option_strings_source: 'Location'
     }
     report_field = ReportFieldService.report_field(
-      @owned_by_location_field, 'owned_by_location', 'horizontal', 0, Child.parent_form
+      @owned_by_location_field, 'owned_by_location', 'horizontal', 0, @report1
     )
     expect(report_field).to eq(report_owned_by_location_field)
   end
@@ -200,7 +200,7 @@ describe ReportFieldService do
       admin_level: 2
     }
     report_field = ReportFieldService.report_field(
-      @owned_by_location_field, 'owned_by_location2', 'horizontal', 0, Child.parent_form
+      @owned_by_location_field, 'owned_by_location2', 'horizontal', 0, @report1
     )
     expect(report_field).to eq(report_owned_by_location_field)
   end
@@ -213,7 +213,7 @@ describe ReportFieldService do
       option_strings_source: 'Agency'
     }
     report_field = ReportFieldService.report_field(
-      @owned_by_agency_field, 'owned_by_agency', 'horizontal', 0, Child.parent_form
+      @owned_by_agency_field, 'owned_by_agency', 'horizontal', 0, @report1
     )
     expect(report_field).to eq(report_owned_by_agency_field)
   end
@@ -232,7 +232,7 @@ describe ReportFieldService do
         'fr' => []
       }
     }
-    report_field = ReportFieldService.report_field(@sex_field, 'sex_field', 'horizontal', 0, Child.parent_form)
+    report_field = ReportFieldService.report_field(@sex_field, 'sex_field', 'horizontal', 0, @report1)
     expect(report_field).to eq(report_sex_field)
   end
 

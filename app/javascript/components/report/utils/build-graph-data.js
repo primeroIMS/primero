@@ -15,7 +15,10 @@ export default (report, i18n, { agencies, ageRanges, locations, registryOptions 
   const totalLabel = i18n.t("report.total");
 
   const { fields } = reportData;
-  const translatedReport = translateReportData(reportData, i18n, { registryOptions });
+  const translatedReport = translateReportData(reportData, i18n, {
+    registryOptions,
+    groupDatesBy: reportData.group_dates_by
+  });
   const qtyColumns = fields.filter(field => field.position.type === REPORT_FIELD_TYPES.vertical).length;
   const qtyRows = fields.filter(field => field.position.type === REPORT_FIELD_TYPES.horizontal).length;
   const columns = getColumns(translatedReport.report_data, totalLabel, qtyColumns, qtyRows);

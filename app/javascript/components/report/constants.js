@@ -4,3 +4,4 @@ export const DATE_PATTERN = "(\\w{2}-)?\\w{3}-\\d{4}";
 export const AGE_RANGE_PATTERN = "\\d+ - \\d+";
 export const TOTAL = "Total";
 export const TOTAL_KEY = "_total";
+export const QUERY_KEY = "query";

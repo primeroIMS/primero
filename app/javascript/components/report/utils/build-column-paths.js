@@ -4,7 +4,7 @@ export default (columns, i18n) => {
 
   if (hasObject) {
     const [columns1, columns2] = columns.map(column =>
-      column.items.filter(elem => !["_total", labelTotal].includes(elem))
+      column.items.filter(elem => !["_total", labelTotal, "query"].includes(elem))
     );
 
     return columns1.flatMap(column1 => [
@@ -14,6 +14,6 @@ export default (columns, i18n) => {
   }
 
   return columns
-    .filter(column => !["_total", labelTotal].includes(column))
+    .filter(column => !["_total", labelTotal, "query"].includes(column))
     .map(column => [`${column}`, `${labelTotal}`]);
 };

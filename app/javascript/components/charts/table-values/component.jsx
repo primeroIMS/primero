@@ -14,6 +14,7 @@ function TableValues({
   showPlaceholder = false,
   name = "",
   emptyMessage = "",
+  recordType,
   subColumnItemsSize,
   valueRender = null,
   withTotals = false
@@ -35,6 +36,7 @@ function TableValues({
                 subColumnItemsSize={subColumnItemsSize}
                 valueRender={valueRender}
                 withTotals={withTotals}
+                recordType={recordType}
               />
             ))}
           </TableBody>
@@ -50,6 +52,7 @@ TableValues.propTypes = {
   columns: PropTypes.array,
   emptyMessage: PropTypes.string,
   name: PropTypes.string,
+  recordType: PropTypes.string,
   showPlaceholder: PropTypes.bool,
   subColumnItemsSize: PropTypes.number,
   valueRender: PropTypes.func,
