@@ -47,19 +47,24 @@ describe("<TableValues />", () => {
       ],
       report_data: {
         "May-2019": {
-          _total: 0
+          _total: 0,
+          query: ["module_id=primeromodule-cp"]
         },
         "Jun-2019": {
-          _total: 0
+          _total: 0,
+          query: ["module_id=primeromodule-cp"]
         },
         "Jul-2019": {
-          _total: 0
+          _total: 0,
+          query: ["module_id=primeromodule-cp"]
         },
         "Aug-2019": {
-          _total: 1
+          _total: 1,
+          query: ["module_id=primeromodule-cp"]
         },
         "Sep-2019": {
-          _total: 1
+          _total: 1,
+          query: ["module_id=primeromodule-cp"]
         }
       }
     });

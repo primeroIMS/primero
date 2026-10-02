@@ -13,7 +13,7 @@ describe("report/utils/get-rows-table-data", () => {
         }
       };
 
-      expect(getRowsTableData(data, ["Gesamt"], [], i18n)).toEqual([["Weiblich", false, 5]]);
+      expect(getRowsTableData(data, ["Gesamt"], [], i18n)).toEqual([["Weiblich", false, { count: 5 }]]);
     });
 
     it("returns the rows for multiple attributes", () => {
@@ -122,10 +122,30 @@ describe("report/utils/get-rows-table-data", () => {
       ];
 
       expect(getRowsTableData(data, columns, [], i18n)).toEqual([
-        ["high", true, 0],
-        ["abandonment", false, 0, 0, 0, 0, 0, 0, 0],
-        ["low", true, 2],
-        ["gbv_survivor", false, 1, 1, 2, 0, 0, 0, 2]
+        ["high", true, { count: 0 }],
+        [
+          "abandonment",
+          false,
+          { count: 0, query: [] },
+          { count: 0, query: [] },
+          { count: 0, query: [] },
+          { count: 0, query: [] },
+          { count: 0, query: [] },
+          { count: 0, query: [] },
+          { count: 0 }
+        ],
+        ["low", true, { count: 2 }],
+        [
+          "gbv_survivor",
+          false,
+          { count: 1, query: [] },
+          { count: 1, query: [] },
+          { count: 2, query: [] },
+          { count: 0, query: [] },
+          { count: 0, query: [] },
+          { count: 0, query: [] },
+          { count: 2 }
+        ]
       ]);
     });
   });
@@ -194,9 +214,16 @@ describe("report/utils/get-rows-table-data", () => {
     const columns = ["female", "male", "other", "_total"];
 
     expect(getRowsTableData(data, columns, [], i18n)).toEqual([
-      ["high", false, 1, 0, 0, 1],
-      ["medium", false, 0, 0, 1, 1],
-      ["low", false, 0, 1, 0, 1]
+      ["high", false, { count: 1, query: [] }, { count: 0, query: [] }, { count: 0, query: [] }, { count: 1 }],
+      [
+        "medium",
+        false,
+        { count: 0, query: [] },
+        { count: 0, query: [] },
+        { count: 1, query: [] },
+        { count: 1 }
+      ],
+      ["low", false, { count: 0, query: [] }, { count: 1, query: [] }, { count: 0, query: [] }, { count: 1 }]
     ]);
   });
 
@@ -374,13 +401,53 @@ describe("report/utils/get-rows-table-data", () => {
     ];
 
     expect(getRowsTableData(data, columns, [], i18n)).toEqual([
-      ["high", true, 0],
-      ["abandonment", false, 0, 0, 0, 0, 0, 0, 0],
-      ["medium", true, 3],
-      ["abandonment", false, 1, 0, 0, 0, 0, 0, 1],
-      ["neglect", false, 0, 1, 1, 1, 0, 1, 2],
-      ["low", true, 2],
-      ["gbv_survivor", false, 1, 1, 2, 0, 0, 0, 2]
+      ["high", true, { count: 0 }],
+      [
+        "abandonment",
+        false,
+        { count: 0, query: [] },
+        { count: 0, query: [] },
+        { count: 0, query: [] },
+        { count: 0, query: [] },
+        { count: 0, query: [] },
+        { count: 0, query: [] },
+        { count: 0 }
+      ],
+      ["medium", true, { count: 3 }],
+      [
+        "abandonment",
+        false,
+        { count: 1, query: [] },
+        { count: 0, query: [] },
+        { count: 0, query: [] },
+        { count: 0, query: [] },
+        { count: 0, query: [] },
+        { count: 0, query: [] },
+        { count: 1 }
+      ],
+      [
+        "neglect",
+        false,
+        { count: 0, query: [] },
+        { count: 1, query: [] },
+        { count: 1, query: [] },
+        { count: 1, query: [] },
+        { count: 0, query: [] },
+        { count: 1, query: [] },
+        { count: 2 }
+      ],
+      ["low", true, { count: 2 }],
+      [
+        "gbv_survivor",
+        false,
+        { count: 1, query: [] },
+        { count: 1, query: [] },
+        { count: 2, query: [] },
+        { count: 0, query: [] },
+        { count: 0, query: [] },
+        { count: 0, query: [] },
+        { count: 2 }
+      ]
     ]);
   });
 
@@ -437,6 +504,8 @@ describe("report/utils/get-rows-table-data", () => {
     };
     const columns = ["abandoment", "neglect", "security.e.g_safe_shelter", "_total"];
 
-    expect(getRowsTableData(data, columns, [], i18n)).toEqual([["high", false, 1, 1, 2, 4]]);
+    expect(getRowsTableData(data, columns, [], i18n)).toEqual([
+      ["high", false, { count: 1, query: [] }, { count: 1, query: [] }, { count: 2, query: [] }, { count: 4 }]
+    ]);
   });
 });

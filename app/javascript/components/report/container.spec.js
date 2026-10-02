@@ -35,7 +35,8 @@ describe("<Report />", () => {
           ],
           report_data: {
             "Feb-2020": {
-              _total: 3
+              _total: 3,
+              query: ["module_id=primeromodule-cp"]
             }
           }
         }
@@ -50,7 +51,7 @@ describe("<Report />", () => {
 
   it("renders TableValues", () => {
     mountedComponent(<Report />, initialState);
-    expect(screen.getByText("a-2020")).toBeInTheDocument();
+    expect(screen.getByText("Feb-2020")).toBeInTheDocument();
   });
 
   it("renders Exporter", () => {

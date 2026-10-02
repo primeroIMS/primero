@@ -164,12 +164,20 @@ describe Api::V2::ReportsController, type: :request do
 
       get "/api/v2/reports/#{@report1.id}"
 
+      location_query = [
+        "status=#{Record::STATUS_OPEN}", 'record_state=true', "module_id=#{PrimeroModule::CP}",
+        "loc:owned_by_location0=#{@location0.location_code}"
+      ]
+
       report_data = {
         'CN' => {
-          'migrant' => { '_total' => 2 },
-          'sexually_exploited' => { '_total' => 2 },
-          'trafficked_smuggled' => { '_total' => 2 },
-          '_total' => 6
+          'migrant' => { '_total' => 2, 'query' => location_query + ['protection_concerns=migrant'] },
+          'sexually_exploited' => { '_total' => 2,
+                                    'query' => location_query + ['protection_concerns=sexually_exploited'] },
+          'trafficked_smuggled' => { '_total' => 2,
+                                     'query' => location_query + ['protection_concerns=trafficked_smuggled'] },
+          '_total' => 6,
+          'query' => location_query
         }
       }
 
@@ -183,12 +191,20 @@ describe Api::V2::ReportsController, type: :request do
 
       get "/api/v2/reports/#{@report1.id}"
 
+      location_query = [
+        "status=#{Record::STATUS_OPEN}", 'record_state=true', "module_id=#{PrimeroModule::CP}",
+        "associated_user_agencies=#{@agency2.unique_id}", "loc:owned_by_location0=#{@location0.location_code}"
+      ]
+
       report_data = {
         'CN' => {
-          'migrant' => { '_total' => 1 },
-          'sexually_exploited' => { '_total' => 1 },
-          'trafficked_smuggled' => { '_total' => 1 },
-          '_total' => 3
+          'migrant' => { '_total' => 1, 'query' => location_query + ['protection_concerns=migrant'] },
+          'sexually_exploited' => { '_total' => 1,
+                                    'query' => location_query + ['protection_concerns=sexually_exploited'] },
+          'trafficked_smuggled' => { '_total' => 1,
+                                     'query' => location_query + ['protection_concerns=trafficked_smuggled'] },
+          '_total' => 3,
+          'query' => location_query
         }
       }
 
