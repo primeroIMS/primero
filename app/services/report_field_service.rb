@@ -8,28 +8,24 @@ class ReportFieldService
   def self.horizontal_fields(report)
     report.aggregate_by.each_with_index.map do |pivot_name, i|
       field = report.pivots_map[pivot_name]
-      report_field(field, pivot_name, HORIZONTAL, i, report.record_type).merge(
-        registry_field_options(field, report.registry_records)
-      )
+      report_field(field, pivot_name, HORIZONTAL, i, report)
     end
   end
 
   def self.vertical_fields(report)
     report.disaggregate_by.each_with_index.map do |pivot_name, i|
       field = report.pivots_map[pivot_name]
-      report_field(field, pivot_name, VERTICAL, i, report.record_type).merge(
-        registry_field_options(field, report.registry_records)
-      )
+      report_field(field, pivot_name, VERTICAL, i, report)
     end
   end
 
-  def self.report_field(field, pivot_name, type, order, record_type)
+  def self.report_field(field, pivot_name, type, order, report)
     report_field_hash = {
       name: field&.name || pivot_name,
       display_name: field&.display_name_i18n,
       position: { type:, order: }
     }
-    report_field_hash.merge(report_field_options(field, pivot_name, record_type) || {})
+    report_field_hash.merge(report_field_options(field, pivot_name, report) || {})
   end
 
   def self.user_groups_options
@@ -112,11 +108,15 @@ class ReportFieldService
     { option_labels: all_lookup_values }
   end
 
-  def self.report_field_options(field, pivot_name, record_type)
+  def self.report_field_options(field, pivot_name, report)
     if field&.location? || field&.reporting_location?
-      build_reporting_location_field_options(field, pivot_name, record_type)
+      build_reporting_location_field_options(field, pivot_name, report.record_type)
     elsif field&.agency?
       { option_strings_source: 'Agency' }
+    elsif field&.type == Field::REGISTRY
+      registry_field_options(field, report.registry_records)
+    elsif age_field?(field)
+      { option_labels: FieldI18nService.fill_options(build_age_field_options(report.module_id)) }
     elsif field&.option_strings_text_i18n.present?
       { option_labels: FieldI18nService.fill_options(field.option_strings_text_i18n) }
     elsif field&.option_strings_source.present?
@@ -150,5 +150,15 @@ class ReportFieldService
     return options unless pivot_name.last.is_number?
 
     options.merge(admin_level: report_field_admin_level(field, pivot_name, record_type))
+  end
+
+  def self.build_age_field_options(module_id)
+    AgeRangeService.primary_age_ranges(module_id).map do |age_range|
+      { id: "#{age_range.min}..#{age_range.max}", display_text: { 'en' => age_range.to_s } }
+    end
+  end
+
+  def self.age_field?(field)
+    field&.type == Field::NUMERIC_FIELD && field&.name&.starts_with?(Report::AGE)
   end
 end

@@ -1,7 +1,7 @@
 import omit from "lodash/omit";
 import merge from "deepmerge";
 
-import { TOTAL_KEY } from "../constants";
+import { QUERY_KEY, TOTAL_KEY } from "../constants";
 
 export default (object, qtyRows) => {
   let columnObjects = {};
@@ -17,7 +17,7 @@ export default (object, qtyRows) => {
     level += 1;
 
     for (let i = 0; i < keys.length; i += 1) {
-      const columnObj = getColumnsObj(obj[keys[i]], level);
+      const columnObj = omit(getColumnsObj(obj[keys[i]], level), QUERY_KEY);
 
       columnObjects = columnObj ? merge(columnObjects, columnObj) : columnObjects;
     }
@@ -25,6 +25,6 @@ export default (object, qtyRows) => {
     return columnObjects;
   };
 
-  // Removing "_total" from columns object
-  return omit(getColumnsObj(object), TOTAL_KEY);
+  // Removing "_total" and "query" from columns object
+  return omit(getColumnsObj(object), [TOTAL_KEY, QUERY_KEY]);
 };

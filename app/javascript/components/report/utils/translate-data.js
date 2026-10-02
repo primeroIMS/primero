@@ -11,10 +11,11 @@ const translateData = (data, fields, i18n, { agencies, locations, registryOption
   const totalTranslation = i18n.t("report.total");
   const locale = { current: i18n.locale, default: i18n.defaultLocale };
 
-  if (keys.length === 1 && keys.includes("_total")) {
+  if (keys.length === 2 && keys.includes("_total") && keys.includes("query")) {
     currentTranslations[totalTranslation] = data._total;
+    currentTranslations.query = data.query;
     delete currentTranslations._total;
-  } else if (!isEmpty(keys)) {
+  } else if (!isEmpty(keys.filter(key => key !== "query"))) {
     const field = fields.shift();
 
     const storedFields = [...fields];
@@ -27,6 +28,8 @@ const translateData = (data, fields, i18n, { agencies, locations, registryOption
 
         currentTranslations[translatedKey] = data[key];
         delete currentTranslations[key];
+      } else if (key === "query"){
+        currentTranslations[key] = data[key];
       } else {
         let translatedKey = null;
 

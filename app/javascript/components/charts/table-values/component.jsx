@@ -14,6 +14,7 @@ function TableValues({
   showPlaceholder = false,
   name = "",
   emptyMessage = "",
+  recordType,
   subColumnItemsSize,
   valueRender = null,
   withTotals = false
@@ -35,6 +36,7 @@ function TableValues({
                 subColumnItemsSize={subColumnItemsSize}
                 valueRender={valueRender}
                 withTotals={withTotals}
+                recordType={recordType}
               />
             ))}
           </TableBody>

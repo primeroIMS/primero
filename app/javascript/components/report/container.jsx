@@ -135,6 +135,7 @@ function Report({ mode }) {
           )}
           <TableValues
             {...buildTableData(report, i18n, { agencies, ageRanges, locations, registryOptions: plainRegistryOptions })}
+            recordType={report.get("record_type")}
           />
         </LoadingIndicator>
         <ActionDialog
