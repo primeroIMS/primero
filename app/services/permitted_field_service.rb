@@ -154,7 +154,7 @@ class PermittedFieldService
       roles.presence || [user.role], model_class.parent_form, module_unique_id, writeable
     )
     # TODO: Consider moving model specific permitted fields to the model class.
-    @permitted_field_names += %w[workflow status case_status_reopened] if model_class == Child
+    @permitted_field_names += %w[workflow status case_status_reopened registry_record_ids] if model_class == Child
     @permitted_field_names << 'tracing_names' if model_class == TracingRequest
     @permitted_field_names << 'hidden_name' if user.can?(:update, model_class)
     @permitted_field_names += %w[flag_count flagged] if user.can?(:flag, model_class)

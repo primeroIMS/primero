@@ -36,12 +36,12 @@ function Component({
     selectedRecords,
     records,
     currentPage,
-    "registry_record_id",
+    "registry_record_ids",
     pendingTransitionIds
   );
 
   const handleOk = () => {
-    dispatch(markForOffline({ recordType, ids: selectedIds, selectedRegistryIds }));
+    dispatch(markForOffline({ recordType, ids: selectedIds, selectedRegistryIds: selectedRegistryIds?.flat() }));
     clearSelectedRecords();
   };
 
