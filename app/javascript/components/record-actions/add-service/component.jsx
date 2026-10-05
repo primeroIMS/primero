@@ -35,7 +35,8 @@ function Component({
     selectedRowsIndex,
     setPending,
     pendingTransitionIds,
-    skipRecordAlerts: false
+    skipRecordAlerts: false,
+    includeRecordModuleID: true
   };
 
   return <ActionForm Fields={Fields} {...props} />;
