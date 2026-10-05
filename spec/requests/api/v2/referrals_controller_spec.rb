@@ -872,6 +872,28 @@ describe Api::V2::ReferralsController, type: :request do
       expect(json['data']['record']['referred_users_accepted']).to eq(['user2'])
     end
 
+    it 'returns 403 if a user who is not the recipient attempts to accept a referral' do
+      role_refer_receive = Role.new(
+        permissions: [
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::READ, Permission::REFERRAL, Permission::RECEIVE_REFERRAL]
+          )
+        ],
+        primero_modules: [@primero_module], group_permission: Permission::GROUP
+      )
+      role_refer_receive.save(validate: false)
+      user8 = User.new(user_name: 'user8', role: role_refer_receive, user_groups: [@group1])
+      user8.save(validate: false)
+
+      sign_in(user8)
+      params = { data: { status: Transition::STATUS_ACCEPTED } }
+
+      patch("/api/v2/cases/#{@case_a.id}/referrals/#{@referral1.id}", params:)
+
+      expect(response).to have_http_status(403)
+    end
+
     it 'rejects this referral' do
       sign_in(@user2)
       params = { data: { status: Transition::STATUS_REJECTED } }
