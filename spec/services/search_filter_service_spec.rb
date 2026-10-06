@@ -164,6 +164,30 @@ describe SearchFilterService do
       expect(filter.field_name).to eq('age')
       expect(filter.values).to eq([{ 'from' => 10, 'to' => 16 }])
     end
+
+    it 'builds a not_null filter from a not_null string value' do
+      filter = service.build_filters({ 'age' => 'not_null' }).first
+      expect(filter).to be_instance_of(SearchFilters::NotNull)
+      expect(filter.field_name).to eq('age')
+    end
+
+    it 'builds a not_null filter from an array containing not_null' do
+      filter = service.build_filters({ 'age' => ['not_null'] }).first
+      expect(filter).to be_instance_of(SearchFilters::NotNull)
+      expect(filter.field_name).to eq('age')
+    end
+
+    it 'builds an is_null filter from an is_null string value' do
+      filter = service.build_filters({ 'age' => 'is_null' }).first
+      expect(filter).to be_instance_of(SearchFilters::IsNull)
+      expect(filter.field_name).to eq('age')
+    end
+
+    it 'builds an is_null filter from an array containing is_null' do
+      filter = service.build_filters({ 'age' => ['is_null'] }).first
+      expect(filter).to be_instance_of(SearchFilters::IsNull)
+      expect(filter.field_name).to eq('age')
+    end
   end
 
   describe 'Service' do

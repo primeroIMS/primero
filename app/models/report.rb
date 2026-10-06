@@ -31,6 +31,7 @@ class Report < ApplicationRecord
   DATE_RANGES = [DAY, WEEK, MONTH, YEAR].freeze
   DATE_FORMAT = 'YYYY-MM-DD'
   DATE_TIME_FORMAT = 'YYYY-MM-DD"T"HH24:MI:SS'
+  INCOMPLETE_DATA = 'incomplete_data'
 
   localize_properties :name, :description
 
@@ -98,7 +99,7 @@ class Report < ApplicationRecord
       value = result[field_query.column_alias.delete('"')]
       break if value.blank?
 
-      @registry_record_ids << value if field_query.field.type == Field::REGISTRY && value != 'incomplete_data'
+      @registry_record_ids << value if field_query.field.type == Field::REGISTRY && value != INCOMPLETE_DATA
       write_field_data(acc, value, result, field_query)
     end
   end
@@ -139,6 +140,7 @@ class Report < ApplicationRecord
   end
 
   def build_query_filter(field_query, value)
+    return ["#{field_query.field.name}=is_null"] if value == INCOMPLETE_DATA
     return ["#{field_query.field.name}=#{value}"] unless field_query.respond_to?(:admin_level)
 
     ["loc:#{field_query.field.name}#{field_query.admin_level}=#{value}"]
