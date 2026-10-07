@@ -8,6 +8,7 @@ import isString from "lodash/isString";
 import localize, { selectedDateFormat } from "../../libs/date-picker-localization";
 import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { useChangeTheme } from "../../theme-provider";
+import { DATE_FORMAT } from "../../config";
 
 import { setLocale } from "./action-creators";
 import Context from "./context";
@@ -49,11 +50,11 @@ function I18nProvider({ children }) {
   const translateLocales = () =>
     locales?.reduce((prev, value) => [...prev, { id: value, display_text: window.I18n.t(`home.${value}`) }], []);
 
-  const localizeDate = value => {
+  const localizeDate = (value, dateFormat = DATE_FORMAT) => {
     const date = isDate(value) ? value : parseISO(value);
 
     try {
-      return format(date, selectedDateFormat(false, locale), { locale: localize(window.I18n) });
+      return format(date, dateFormat, { locale: localize(window.I18n) });
     } catch {
       return null;
     }
