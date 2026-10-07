@@ -2,7 +2,7 @@ import get from "lodash/get";
 import { useMemo } from "react";
 
 import { useI18n } from "../i18n";
-import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../config";
+import { selectedDateFormat } from "../../libs/date-picker-localization";
 
 import { notVisible } from "./utils";
 import ErrorField from "./fields/error-field";
@@ -140,7 +140,7 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
     filterOptions: filterOptionSource && (optionsFromState => filterOptionSource(watchedInputsValues, optionsFromState))
   });
 
-  const dateFormat = dateIncludeTime ? DATE_TIME_FORMAT : DATE_FORMAT;
+  const dateFormat = selectedDateFormat(dateIncludeTime, i18n.locale);
 
   const renderError = () =>
     checkErrors?.size && errors

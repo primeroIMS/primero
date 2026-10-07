@@ -3,9 +3,9 @@ import { format } from "date-fns";
 import isEmpty from "lodash/isEmpty";
 
 import { FILTERS_FIELD, NOT_NULL } from "../../constants";
-import { DATE_FORMAT } from "../../../../config";
 import { displayNameHelper } from "../../../../libs";
 import { NUMERIC_FIELD, RADIO_FIELD, DATE_FIELD, TICK_FIELD, SELECT_FIELD } from "../../../form";
+import { selectedDateFormat } from "../../../../libs/date-picker-localization";
 
 export const registerValues = (index, data, currentValues, methods) => {
   Object.entries(data).forEach(entry => {
@@ -33,7 +33,7 @@ export const registerValues = (index, data, currentValues, methods) => {
 
 export const formatValue = (value, i18n, { field, lookups }) => {
   if (value instanceof Date) {
-    return format(value, DATE_FORMAT);
+    return format(value, selectedDateFormat(false, i18n.locale));
   }
 
   if (field && field.type === TICK_FIELD) {
