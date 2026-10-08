@@ -571,6 +571,7 @@ en:
       access to the case.
     revoke_success_message: Case %{case_id} %{transition_type} to %{recipient_username}
       revoked.
+    revoke_external_success_message: Case %{case_id} %{transition_type} revoked.
     save_filter: Save
     selected_all_records: Select all %{total_records} cases that match this query.
     selected_records: '%{select_records} case(s) selected'
