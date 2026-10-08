@@ -32,6 +32,15 @@ function Component({
   );
 
   const selectedIds = buildSelectedIds(selectedRecords, records, currentPage, "id", pendingTransitionIds);
+
+  const selectedRegistryId = buildSelectedIds(
+    selectedRecords,
+    records,
+    currentPage,
+    "registry_record_id",
+    pendingTransitionIds
+  );
+
   const selectedRegistryIds = buildSelectedIds(
     selectedRecords,
     records,
@@ -41,7 +50,13 @@ function Component({
   );
 
   const handleOk = () => {
-    dispatch(markForOffline({ recordType, ids: selectedIds, selectedRegistryIds: selectedRegistryIds?.flat() }));
+    dispatch(
+      markForOffline({
+        recordType,
+        ids: selectedIds,
+        selectedRegistryIds: [...selectedRegistryIds, ...selectedRegistryId]?.flat()
+      })
+    );
     clearSelectedRecords();
   };
 
