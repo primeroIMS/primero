@@ -45,7 +45,7 @@ class PermittedFieldService
 
   # Calculated fields needed to perform searches
   PERMITTED_FILTER_FIELD_NAMES = %w[
-    or not cases_by_date record_in_scope associated_user_names not_edited_by_owner has_photo survivor_code
+    or and not cases_by_date record_in_scope associated_user_names not_edited_by_owner has_photo survivor_code
     survivor_code_no case_id_display created_at has_incidents short_id record_state sex age registration_date
     date_closure reassigned_transferred_on current_alert_types location_current reporting_location_hierarchy
     followup_dates reunification_dates tracing_dates service_implemented_day_times

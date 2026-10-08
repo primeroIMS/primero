@@ -40,6 +40,8 @@ class SearchFilterService
       build_id_filter(key, value)
     elsif key == 'or'
       build_or_filter(value)
+    elsif key == 'and'
+      build_and_filter(value)
     elsif key == 'not'
       SearchFilters::Not.new(filter: build_filter(value.keys.first, value.values.first))
     elsif key == 'assign'
@@ -97,6 +99,14 @@ class SearchFilterService
     return SearchFilters::IdListFilter.new(field_name:, values: value) if value.is_a?(Array)
 
     SearchFilters::IdFilter.new(field_name:, value:)
+  end
+
+  def build_and_filter(value)
+    if value.is_a?(Array)
+      SearchFilters::And.new(filters: value.map { |v| build_filters(v).first })
+    elsif value.is_a?(Hash)
+      SearchFilters::And.new(filters: build_filters(value))
+    end
   end
 
   def build_or_filter(value)

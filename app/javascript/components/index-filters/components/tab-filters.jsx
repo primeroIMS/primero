@@ -66,6 +66,7 @@ function TabFilters({
         recordType={recordType}
         setMore={setMore}
         setMoreSectionFilters={setMoreSectionFilters}
+        queryParams={queryParams}
       />
     </div>
   );

@@ -635,9 +635,9 @@ describe Report do
       report.filters = [{ 'attribute' => 'owned_by_groups', 'value' => [group_3.unique_id] }]
       report.build_report
       query = [
-        "owned_by_groups=#{group_3.unique_id}",
+        "and[0][owned_by_groups]=#{group_3.unique_id}",
         "module_id=#{module1.unique_id}",
-        "owned_by_groups=#{group_1.unique_id},#{group_3.unique_id}"
+        "and[1][owned_by_groups]=#{group_1.unique_id},#{group_3.unique_id}"
       ]
 
       expect(report.data).to eq(
@@ -880,7 +880,12 @@ describe Report do
             'query' => query + ['sex=female'],
             '2022-10-10 00:00:00+00..2022-10-10 23:59:59+00' => {
               '_total' => 1,
-              'query' => query + ['sex=female', 'created_at=2022-10-10 00:00:00+00..2022-10-10 23:59:59+00']
+              'query' => [
+                'and[0][created_at]=2022-10-10',
+                "module_id=#{module1.unique_id}",
+                'sex=female',
+                'and[1][created_at]=2022-10-10 00:00:00+00..2022-10-10 23:59:59+00'
+              ]
             }
           },
           'male' => { '_total' => 0, 'query' => query + ['sex=male'] }

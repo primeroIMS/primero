@@ -29,7 +29,8 @@ describe("<MoreSection>", () => {
     primaryFilters: fromJS([]),
     recordType: "cases",
     setMore: () => {},
-    setMoreSectionFilters: () => {}
+    setMoreSectionFilters: () => {},
+    queryParams: {}
   };
 
   it("renders MoreSection filters", () => {

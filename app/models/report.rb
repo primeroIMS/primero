@@ -130,13 +130,9 @@ class Report < ApplicationRecord
   def write_query_filters(field_hash, value, field_query)
     return if nested_model?
 
-    parent_query = field_hash['query']
-    if parent_query.present?
-      field_hash[value]['query'] ||= []
-      field_hash[value]['query'] |= (parent_query + build_query_filter(field_query, value))
-    else
-      field_hash[value]['query'] = query_filters + build_query_filter(field_query, value)
-    end
+    parent_query = field_hash['query'] || query_filters
+    field_hash[value]['query'] ||= []
+    field_hash[value]['query'] |= nest_repeated_filters(parent_query + build_query_filter(field_query, value))
   end
 
   def build_query_filter(field_query, value)
@@ -144,6 +140,19 @@ class Report < ApplicationRecord
     return ["#{field_query.field.name}=#{value}"] unless field_query.respond_to?(:admin_level)
 
     ["loc:#{field_query.field.name}#{field_query.admin_level}=#{value}"]
+  end
+
+  def nest_repeated_filters(filters)
+    counts = filters.map { |filter| filter.split('=', 2).first }.tally
+    index = filters.count { |filter| filter.match?(/and\[\d+\]/) }
+    filters.map do |pair|
+      key, value = pair.split('=', 2)
+      next pair unless counts[key] > 1
+
+      filter = "and[#{index}][#{key}]=#{value}"
+      index += 1
+      filter
+    end
   end
 
   def lookups

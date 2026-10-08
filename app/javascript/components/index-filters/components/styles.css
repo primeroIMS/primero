@@ -41,6 +41,11 @@
   &:before {
     display: none;
   }
+
+  & .helpText {
+    font-size: var(--fs-12);
+    font-weight: normal;
+  }
 }
 
 .tabContent {

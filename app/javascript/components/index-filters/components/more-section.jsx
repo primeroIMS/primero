@@ -1,10 +1,11 @@
 import PropTypes from "prop-types";
 
 import { RECORD_PATH } from "../../../config";
-import { filterType } from "../utils";
+import { filterType, inArrayAndFilter } from "../utils";
 import { MY_CASES_FILTER_NAME, OR_FILTER_NAME } from "../constants";
 import ActionButton from "../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../action-button/constants";
+import { useI18n } from "../../i18n";
 
 import css from "./styles.css";
 import { NAME } from "./constants";
@@ -15,10 +16,13 @@ function MoreSection({
   more,
   moreSectionFilters,
   primaryFilters,
+  queryParams,
   recordType,
   setMore,
   setMoreSectionFilters
 }) {
+  const i18n = useI18n();
+  const multipleConditionsLabel = i18n.t("filters.multiple_conditions_applied");
   const moreSectionKeys = Object.keys(moreSectionFilters);
   const mode = {
     secondary: true,
@@ -45,6 +49,8 @@ function MoreSection({
 
       if (!Filter) return null;
 
+      const nested = inArrayAndFilter(filter, queryParams);
+
       return (
         <Filter
           filter={filter}
@@ -52,6 +58,8 @@ function MoreSection({
           mode={mode}
           moreSectionFilters={moreSectionFilters}
           setMoreSectionFilters={setMoreSectionFilters}
+          disabled={nested}
+          helpText={nested && multipleConditionsLabel}
         />
       );
     });
@@ -86,6 +94,7 @@ MoreSection.propTypes = {
   more: PropTypes.bool,
   moreSectionFilters: PropTypes.object,
   primaryFilters: PropTypes.object,
+  queryParams: PropTypes.object,
   recordType: PropTypes.string,
   setMore: PropTypes.func,
   setMoreSectionFilters: PropTypes.func

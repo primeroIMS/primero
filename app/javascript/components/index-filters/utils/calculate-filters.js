@@ -2,6 +2,7 @@ import { fromJS } from "immutable";
 
 import showMyCasesFilter from "./show-my-cases-filter";
 import isDateFieldFromValue from "./is-date-field-from-value";
+import inArrayAndFilter from "./in-array-and-filter";
 
 export default ({
   defaultFilters,
@@ -11,7 +12,7 @@ export default ({
   locale,
   more,
   moreSectionKeys,
-  queryParamsKeys
+  queryParams
 }) => {
   const selectedFromMoreSection = filters.filter(
     filter =>
@@ -23,9 +24,10 @@ export default ({
   const queryParamsFilter = filters.filter(
     filter =>
       !more &&
-      (queryParamsKeys.includes(filter.field_name) ||
-        showMyCasesFilter(filter, queryParamsKeys) ||
-        isDateFieldFromValue(filter, queryParamsKeys, locale)) &&
+      (queryParams[filter.field_name] ||
+        showMyCasesFilter(filter, queryParams) ||
+        isDateFieldFromValue(filter, queryParams, locale) ||
+        inArrayAndFilter(filter, queryParams)) &&
       !(
         defaultFilterNames.includes(filter.field_name) ||
         primaryFilters.map(t => t.field_name).includes(filter.field_name)
@@ -37,7 +39,7 @@ export default ({
   return fromJS([
     ...selectedPrimaryFilters,
     ...defaultFilters,
-    ...queryParamsFilter,
-    ...(!more ? selectedFromMoreSection : [])
+    ...(!more ? selectedFromMoreSection : []),
+    ...queryParamsFilter
   ]);
 };

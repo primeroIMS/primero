@@ -14,7 +14,16 @@ import DatePickers from "./date-pickers";
 import { getDatesValue, getValueSelectedField } from "./utils";
 import { NAME } from "./constants";
 
-function Component({ filter, mode, moreSectionFilters = {}, setMoreSectionFilters, reset, setReset }) {
+function Component({
+  filter,
+  mode,
+  moreSectionFilters = {},
+  setMoreSectionFilters,
+  reset,
+  setReset,
+  disabled,
+  helpText
+}) {
   const i18n = useI18n();
 
   const { register, setValue, getValues, initialFilters } = useFormContext();
@@ -98,6 +107,8 @@ function Component({ filter, mode, moreSectionFilters = {}, setMoreSectionFilter
       selectedDefaultValueField={selectedField}
       handleReset={handleReset}
       moreSectionFilters={moreSectionFilters}
+      disabled={disabled}
+      helpText={helpText}
       fnSelectValueOpen={isOnlyOneDateFieldOption ? setSelectedField : null}
       fnSelectValueOpenValue={isOnlyOneDateFieldOption ? options?.[i18n.locale]?.[0]?.id : null}
     >
@@ -128,7 +139,9 @@ function Component({ filter, mode, moreSectionFilters = {}, setMoreSectionFilter
 }
 
 Component.propTypes = {
+  disabled: PropTypes.bool,
   filter: PropTypes.object.isRequired,
+  helpText: PropTypes.string,
   mode: PropTypes.shape({
     defaultFilter: PropTypes.bool,
     secondary: PropTypes.bool

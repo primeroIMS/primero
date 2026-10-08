@@ -20,7 +20,16 @@ import { useMemoizedSelector } from "../../../../../libs";
 
 import { NAME } from "./constants";
 
-function Component({ filter, mode, moreSectionFilters = {}, reset, setMoreSectionFilters, setReset }) {
+function Component({
+  filter,
+  mode,
+  moreSectionFilters = {},
+  reset,
+  setMoreSectionFilters,
+  setReset,
+  disabled,
+  helpText
+}) {
   const i18n = useI18n();
 
   const { register, unregister, setValue, getValues } = useFormContext();
@@ -106,7 +115,7 @@ function Component({ filter, mode, moreSectionFilters = {}, reset, setMoreSectio
     });
 
   return (
-    <Panel filter={filter} getValues={getValues} handleReset={handleReset}>
+    <Panel filter={filter} getValues={getValues} handleReset={handleReset} disabled={disabled} helpText={helpText}>
       <ToggleButtonGroup
         color="primary"
         value={inputValue}
@@ -124,7 +133,9 @@ function Component({ filter, mode, moreSectionFilters = {}, reset, setMoreSectio
 Component.displayName = NAME;
 
 Component.propTypes = {
+  disabled: PropTypes.bool,
   filter: PropTypes.object.isRequired,
+  helpText: PropTypes.string,
   mode: PropTypes.shape({
     defaultFilter: PropTypes.bool,
     secondary: PropTypes.bool
