@@ -5,7 +5,7 @@ import every from "lodash/every";
 import { format, isDate, parseISO } from "date-fns";
 import isString from "lodash/isString";
 
-import localize, { selectedDateFormat } from "../../libs/date-picker-localization";
+import localize from "../../libs/date-picker-localization";
 import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { useChangeTheme } from "../../theme-provider";
 import { DATE_FORMAT } from "../../config";
