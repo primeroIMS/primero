@@ -386,6 +386,27 @@ describe Report do
         )
       end
     end
+
+    it 'generates an is_null filter for incomplete_data' do
+      Child.create!(data: { status: 'closed', worklow: 'closed', module_id: module1.unique_id })
+
+      report = Report.new(
+        name: 'Test',
+        unique_id: 'report-test',
+        record_type: 'case',
+        module_id: module1.unique_id,
+        graph: true,
+        exclude_empty_rows: true,
+        aggregate_by: ['sex'],
+        disaggregate_by: []
+      )
+
+      report.build_report
+
+      expect(report.data['incomplete_data']['query']).to match_array(
+        ["module_id=#{module1.unique_id}", 'sex=is_null']
+      )
+    end
   end
 
   describe 'agency report scope', search: true do

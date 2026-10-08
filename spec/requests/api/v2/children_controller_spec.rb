@@ -480,6 +480,29 @@ describe Api::V2::ChildrenController, type: :request do
       expect(response).to have_http_status(200)
     end
 
+    it 'Filter by location_current not_null' do
+      login_for_test(permitted_field_names: ['location_current'])
+      get '/api/v2/cases?location_current=not_null'
+
+      expect(response).to have_http_status(200)
+      expect(json['data'].count).to eq(3)
+      expect(json['data'].map { |elem| elem['id'] }).to match_array([@case1.id, @case2.id, @case3.id])
+    end
+
+    it 'Filter by location_current is_null' do
+      login_for_test(permitted_field_names: ['location_current'])
+      get '/api/v2/cases?location_current=is_null'
+
+      expect(response).to have_http_status(200)
+      expect(json['data'].count).to eq(9)
+      expect(json['data'].map { |elem| elem['id'] }).to match_array(
+        [
+          @case4.id, @case5.id, @case6.id, @case7.id, @case8.id,
+          @case9.id, @case10.id, @case11.id, @identified_case.id
+        ]
+      )
+    end
+
     it 'returns an empty response for an invalid filter and logs the error' do
       allow(Rails.logger).to receive(:error).and_return(nil)
       login_for_test
