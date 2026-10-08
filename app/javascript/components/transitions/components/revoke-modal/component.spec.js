@@ -4,6 +4,7 @@ import { mountedComponent, screen, waitFor, userEvent } from "../../../../test-u
 import { TRANSITION_STATUS } from "../../constants";
 
 import RevokeModal from "./component";
+import actions from "./actions";
 
 describe("<RevokeModal /> - Component", () => {
   const baseProps = {
@@ -56,8 +57,10 @@ describe("<RevokeModal /> - Component", () => {
       transition: transfer
     };
 
+    let store;
+
     beforeEach(() => {
-      mountedComponent(<RevokeModal {...props} />, baseState);
+      ({ store } = mountedComponent(<RevokeModal {...props} />, baseState));
     });
 
     it("renders ActionDialog component", () => {
@@ -75,6 +78,20 @@ describe("<RevokeModal /> - Component", () => {
 
     it("has the correct confirm button label", () => {
       expect(screen.getByRole("button", { name: /actions.revoke/i })).toBeInTheDocument();
+    });
+
+    it("revokes the transfer when the confirm button is clicked", async () => {
+      await userEvent.click(screen.getByRole("button", { name: "actions.revoke" }));
+
+      await waitFor(() => {
+        const revokeAction = store.getActions().find(action => action.type === actions.REVOKE_TRANSITION);
+
+        expect(revokeAction.api).toMatchObject({
+          path: `cases/${transfer.record_id}/transfers/${transfer.id}`,
+          method: "PATCH",
+          body: { data: { status: "revoked" } }
+        });
+      });
     });
   });
 

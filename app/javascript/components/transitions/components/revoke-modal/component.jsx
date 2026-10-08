@@ -22,6 +22,7 @@ function Component({ name, close, open, pending, recordType, setPending, transit
   const i18n = useI18n();
   const dispatch = useDispatch();
   const transitionType = transition.type.toLowerCase();
+  const isReferral = transitionType === TRANSITIONS_TYPES.referral;
   const localizedTransitionType = i18n.t(`transition.type.${transitionType}`);
   const { currentUserName } = useApp();
   const inProgressTransitions = useMemoizedSelector(state =>
@@ -36,7 +37,7 @@ function Component({ name, close, open, pending, recordType, setPending, transit
   const { methods, formMode } = useReferralForm({
     defaultValues: {},
     mode: MODES.edit,
-    status: REVOKED,
+    status: isReferral ? REVOKED : null,
     serviceRecordId
   });
 
@@ -106,7 +107,7 @@ function Component({ name, close, open, pending, recordType, setPending, transit
       successHandler={methods.handleSubmit(handleSubmit)}
     >
       <p>{i18n.t("cases.revoke_message", { transition_type: localizedTransitionType })}</p>
-      {transitionType === TRANSITIONS_TYPES.referral && (
+      {isReferral && (
         <ReferralDoneForm
           formMode={formMode}
           formMethods={methods}
