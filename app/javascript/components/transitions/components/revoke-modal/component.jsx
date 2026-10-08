@@ -98,7 +98,7 @@ function Component({ name, close, open, pending, recordType, setPending, transit
   return (
     <ActionDialog
       cancelHandler={handleCancel}
-      confirmButtonLabel={i18n.t("actions.revoke")}
+      confirmButtonLabel={i18n.t(isReferral ? "actions.revoke_mark_as_done" : "actions.revoke")}
       dialogTitle=""
       maxSize="xs"
       omitCloseAfterSuccess

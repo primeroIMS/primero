@@ -69,7 +69,8 @@ en:
     previous: Previous
     reopen: Reopen
     request_approval: Request Approval
-    revoke: Revoke / Mark as Done
+    revoke: Revoke
+    revoke_mark_as_done: Revoke / Mark as Done
     save: Save
     services_from_case_creation_success: Service Provision record successfully created.
     services_section_from_case: Add Service Provision

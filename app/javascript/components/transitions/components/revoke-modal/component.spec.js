@@ -77,7 +77,7 @@ describe("<RevokeModal /> - Component", () => {
     });
 
     it("has the correct confirm button label", () => {
-      expect(screen.getByRole("button", { name: /actions.revoke/i })).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "actions.revoke" })).toBeInTheDocument();
     });
 
     it("revokes the transfer when the confirm button is clicked", async () => {
@@ -107,6 +107,10 @@ describe("<RevokeModal /> - Component", () => {
 
     it("renders ActionDialog component", () => {
       expect(screen.getByRole("dialog")).toBeInTheDocument();
+    });
+
+    it("has the revoke / mark as done confirm button label", () => {
+      expect(screen.getByRole("button", { name: "actions.revoke_mark_as_done" })).toBeInTheDocument();
     });
 
     it("renders the revoke message for referral", () => {
