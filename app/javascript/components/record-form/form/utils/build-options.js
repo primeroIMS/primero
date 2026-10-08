@@ -15,7 +15,6 @@ export default (name, option, value, options = [], stickyOption, filterState) =>
   }
 
   if (
-    hasOptions &&
     option === CUSTOM_STRINGS_SOURCE.user &&
     !filterState?.filtersChanged &&
     name.endsWith(SERVICE_SECTION_FIELDS.implementingAgencyIndividual)
