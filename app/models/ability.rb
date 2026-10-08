@@ -219,7 +219,8 @@ class Ability
         instance.in_progress? && can?(:accept_or_reject_referral, instance.record) &&
           user.permitted_to_access_referral?(instance)
       else
-        user.permitted_to_access_referral?(instance) && can?(:receive_referral, instance.record)
+        instance.recipient?(user) && user.permitted_to_access_referral?(instance) &&
+          can?(:receive_referral, instance.record)
       end
     end
   end
