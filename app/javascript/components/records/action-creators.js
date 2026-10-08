@@ -1,5 +1,4 @@
 import startsWith from "lodash/startsWith";
-import compact from "lodash/compact";
 import isEmpty from "lodash/isEmpty";
 import { fromJS } from "immutable";
 
@@ -456,7 +455,7 @@ export const externalSync = (recordType, record) => ({
 export const markForOffline =
   ({ recordType, ids = [], selectedRegistryIds = [] }) =>
   dispatch => {
-    const selectedRegistryIdsCompacted = compact(selectedRegistryIds);
+    const selectedRegistryIdsCompacted = selectedRegistryIds?.filter(id => id);
 
     if (selectedRegistryIdsCompacted.length > 0 && recordType === RECORD_TYPES_PLURAL.case) {
       dispatch(markForOfflineAction(RECORD_TYPES_PLURAL.registry_record, selectedRegistryIdsCompacted, false));

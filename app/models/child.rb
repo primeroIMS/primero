@@ -84,6 +84,8 @@ class Child < ApplicationRecord
 
   scope :by_date_of_birth, -> { where.not('data @> ?', { date_of_birth: nil }.to_json) }
 
+  eager_load_associations :registry_records
+
   def self.filterable_id_fields
     # The fields family_count_no and dss_id are hacked in only because of Bangladesh
     # The fields camp_id, tent_number and nfi_distribution_id are hacked in only because of Iraq
@@ -113,7 +115,7 @@ class Child < ApplicationRecord
     common_summary_fields + transition_summary_field_names + %w[
       case_id_display name survivor_code_no age sex registration_date
       hidden_name workflow case_status_reopened module_id registry_record_id
-      client_code gender reporting_location_hierarchy location_current
+      client_code gender reporting_location_hierarchy location_current registry_record_ids
     ]
   end
 
@@ -453,6 +455,10 @@ class Child < ApplicationRecord
     return unless identified_by.present? && Child.exists?(srch_identified_by: identified_by)
 
     errors.add(:identified_by, 'errors.models.child.identified_by_unique')
+  end
+
+  def registry_record_ids
+    registry_records.map(&:id).uniq
   end
 end
 # rubocop:enable Metrics/ClassLength

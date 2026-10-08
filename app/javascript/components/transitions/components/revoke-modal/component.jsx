@@ -52,8 +52,11 @@ function Component({ name, close, open, pending, recordType, setPending, transit
     close();
   };
 
+  const successRevokeMessageKey =
+    transition.remote === true ? "cases.revoke_external_success_message" : "cases.revoke_success_message";
+
   const handleOk = data => {
-    const message = i18n.t("cases.revoke_success_message", {
+    const message = i18n.t(successRevokeMessageKey, {
       case_id: transition.record_id,
       transition_type: i18n.t(`transition.type.${transitionType}`),
       recipient_username: transition.transitioned_to

@@ -1,7 +1,7 @@
 import { fromJS, Map, OrderedMap } from "immutable";
 
 import { PrimeroModuleRecord } from "../../application/records";
-import { mountedComponent, screen } from "../../../test-utils";
+import { mountedComponent, screen, userEvent } from "../../../test-utils";
 import { FieldRecord, FormSectionRecord } from "../../record-form/records";
 import { RECORD_PATH } from "../../../config";
 
@@ -176,6 +176,33 @@ describe("<AddService />", () => {
       mountedComponent(<AddService {...pendingProps} />, initialState);
 
       expect(screen.getByText("buttons.save").closest("button")).toBeDisabled();
+    });
+  });
+
+  describe("when the implementing agency individual field is opened", () => {
+    const stateWithUserField = initialState.setIn(["forms", "formSections", "1", "fields"], [2, 3]).setIn(
+      ["forms", "fields", "3"],
+      FieldRecord({
+        name: "service_implementing_agency_individual",
+        type: "select_box",
+        editable: true,
+        disabled: false,
+        visible: true,
+        display_name: { en: "Implementing Agency Individual" },
+        option_strings_source: "User",
+        multi_select: false
+      })
+    );
+
+    it("fetches the referral users with the module of the selected record", async () => {
+      const user = userEvent.setup();
+      const { store } = mountedComponent(<AddService {...props} />, stateWithUserField);
+
+      await user.click(screen.getByRole("combobox"));
+
+      const referralUsersFetch = store.getActions().find(action => action.type === "transitions/REFERRAL_USERS_FETCH");
+
+      expect(referralUsersFetch.api.params).toEqual({ record_type: "case", record_module_id: "app-module" });
     });
   });
 });
