@@ -4,13 +4,13 @@ import { DatePicker, DateTimePicker } from "@mui/x-date-pickers";
 import { isString } from "formik";
 import isNil from "lodash/isNil";
 
-import { DATE_FORMAT, DATE_TIME_FORMAT, LOCALE_KEYS } from "../../../../../config";
+import { LOCALE_KEYS } from "../../../../../config";
 import { useI18n } from "../../../../i18n";
 import { toServerDateFormat } from "../../../../../libs";
 import NepaliCalendar from "../../../../nepali-calendar-input";
 import css from "../styles.css";
 import DateProvider from "../../../../../date-provider";
-import { dayOfWeekFormatter } from "../../../../../libs/date-picker-localization";
+import { dayOfWeekFormatter, selectedDateFormat } from "../../../../../libs/date-picker-localization";
 
 import { getDatesValue, getDateValue, defaultDates } from "./utils";
 
@@ -27,7 +27,7 @@ function Component({
   selectedFieldDefaultValue = {}
 }) {
   const i18n = useI18n();
-  const pickerFormat = dateIncludeTime ? DATE_TIME_FORMAT : DATE_FORMAT;
+  const pickerFormat = selectedDateFormat(dateIncludeTime, i18n.locale);
 
   useEffect(() => {
     if (selectedField) {

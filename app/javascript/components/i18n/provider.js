@@ -6,9 +6,9 @@ import { format, isDate, parseISO } from "date-fns";
 import isString from "lodash/isString";
 
 import localize from "../../libs/date-picker-localization";
-import { DATE_FORMAT } from "../../config";
 import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { useChangeTheme } from "../../theme-provider";
+import { DATE_FORMAT } from "../../config";
 
 import { setLocale } from "./action-creators";
 import Context from "./context";

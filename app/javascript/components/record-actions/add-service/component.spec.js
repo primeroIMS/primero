@@ -22,7 +22,10 @@ describe("<AddService />", () => {
       ]
     }),
     user: fromJS({
-      modules: ["app-module"]
+      modules: ["app-module"],
+      permissions: {
+        cases: ["referral_from_service"]
+      }
     }),
     records: fromJS({
       cases: {

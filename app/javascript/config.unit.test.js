@@ -39,6 +39,8 @@ describe("Verifying config constant", () => {
       "DATE_SORTABLE_FIELDS",
       "DATABASE_NAME",
       "DATE_FORMAT",
+      "DATE_FORMAT_FALLBACK",
+      "DATE_TIME_FORMAT_FALLBACK",
       "DATE_FORMAT_NE",
       "DATE_TIME_FORMAT",
       "DEFAULT_DATE_VALUES",

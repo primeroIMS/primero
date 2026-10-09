@@ -10,10 +10,10 @@ import { cx } from "@emotion/css";
 import RegistrySummary from "../../../registry-summary";
 import { optionText } from "../../../form/utils";
 import { useI18n } from "../../../i18n";
-import { DATE_TIME_FORMAT, DATE_FORMAT } from "../../../../config";
 import { DATE_FIELD, TICK_FIELD, RADIO_FIELD, SIGNATURE_FIELD, REGISTRY_FIELD } from "../../../form";
 import useOptions from "../../../form/use-options";
 import { AssetJwt } from "../../../asset-jwt";
+import { selectedDateFormat } from "../../../../libs/date-picker-localization";
 
 import css from "./styles.css";
 
@@ -76,7 +76,7 @@ function Component({
     }
 
     if (isDateField && fieldValue) {
-      return i18n.localizeDate(fieldValue, isDateWithTime ? DATE_TIME_FORMAT : DATE_FORMAT);
+      return i18n.localizeDate(fieldValue, selectedDateFormat(isDateWithTime, i18n.locale));
     }
 
     if (isRadioField) {
