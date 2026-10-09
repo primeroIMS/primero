@@ -107,10 +107,12 @@ function Component({ transition, showMode, recordType, classes }) {
     remote && transitionType === TRANSITIONS_TYPES.referral ? "buttons.mark_accepted" : "buttons.accept";
   const rejectButtonKey =
     remote && transitionType === TRANSITIONS_TYPES.referral ? "buttons.mark_rejected" : "buttons.reject";
+  const revokeButtonKey =
+    transitionType === TRANSITIONS_TYPES.referral ? "actions.revoke_mark_as_done" : "actions.revoke";
 
   const options = [
     {
-      name: i18n.t("actions.revoke"),
+      name: i18n.t(revokeButtonKey),
       condition: showRevokeAction,
       action: () => setRevokeDialog(true)
     },
