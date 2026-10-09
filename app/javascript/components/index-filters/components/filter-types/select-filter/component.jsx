@@ -23,7 +23,17 @@ import { OPTION_TYPES } from "../../../../form/constants";
 import { NAME } from "./constants";
 import { getOptionName } from "./utils";
 
-function Component({ filter, mode, moreSectionFilters = {}, multiple = true, reset, setMoreSectionFilters, setReset }) {
+function Component({
+  filter,
+  mode,
+  moreSectionFilters = {},
+  multiple = true,
+  reset,
+  setMoreSectionFilters,
+  setReset,
+  disabled,
+  helpText
+}) {
   const i18n = useI18n();
   const formMethods = useFormContext();
   const valueRef = useRef();
@@ -191,7 +201,7 @@ function Component({ filter, mode, moreSectionFilters = {}, multiple = true, res
   };
 
   return (
-    <Panel filter={filter} getValues={getValues} handleReset={handleReset}>
+    <Panel filter={filter} getValues={getValues} handleReset={handleReset} disabled={disabled} helpText={helpText}>
       {toggleName && (
         <FormControl className={css.toggleFormControl}>
           <FormGroup>
@@ -237,7 +247,9 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   addFilterToList: PropTypes.func,
+  disabled: PropTypes.bool,
   filter: PropTypes.object.isRequired,
+  helpText: PropTypes.string,
   mode: PropTypes.shape({
     defaultFilter: PropTypes.bool,
     secondary: PropTypes.bool

@@ -21,7 +21,9 @@ function Panel({
   moreSectionFilters = {},
   fnSelectValueOpen = null,
   fnSelectValueOpenValue = null,
-  children
+  children,
+  disabled = false,
+  helpText
 }) {
   const { isRTL } = useThemeHelper();
   const { name, field_name: fieldName } = filter;
@@ -43,15 +45,19 @@ function Panel({
     setOpen(hasValue);
   }, [hasValue]);
 
-  const expanded = open || Object.keys(moreSectionFilters).includes(selectedDefaultValueField || fieldName);
+  const expanded =
+    !disabled && (open || Object.keys(moreSectionFilters).includes(selectedDefaultValueField || fieldName));
 
   const filterLabel = buildNameFilter(name, fieldName, label, approvalsLabels);
 
   return (
-    <Accordion className={css.panel} elevation={0} expanded={expanded} onChange={handleChange}>
+    <Accordion className={css.panel} elevation={0} expanded={expanded} onChange={handleChange} disabled={disabled}>
       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
         <div className={css.heading}>
-          <div className={css.panelTitle}>{filterLabel}</div>
+          <div className={css.panelTitle}>
+            {filterLabel}
+            {helpText && <div className={css.helpText}>{helpText}</div>}
+          </div>
           {handleReset && (
             <IconButton
               aria-label={i18n.t("buttons.delete")}
@@ -73,11 +79,13 @@ Panel.displayName = "Panel";
 
 Panel.propTypes = {
   children: PropTypes.node.isRequired,
+  disabled: PropTypes.bool,
   filter: PropTypes.object.isRequired,
   fnSelectValueOpen: PropTypes.func,
   fnSelectValueOpenValue: PropTypes.string,
   getValues: PropTypes.func.isRequired,
   handleReset: PropTypes.func,
+  helpText: PropTypes.string,
   moreSectionFilters: PropTypes.object,
   selectedDefaultValueField: PropTypes.string
 };

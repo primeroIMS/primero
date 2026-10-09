@@ -1507,6 +1507,7 @@ en:
     less: Less...
     more: More...
     save_filters: Save
+    multiple_conditions_applied: This filter has multiple conditions applied.
     categories:
       violations: Violations
       incidents: Incidents

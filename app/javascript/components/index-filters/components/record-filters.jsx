@@ -1,7 +1,7 @@
 import { RECORD_PATH } from "../../../config";
 import { useI18n } from "../../i18n";
 import { MY_CASES_FILTER_NAME, OR_FILTER_NAME } from "../constants";
-import { calculateFilters, filterType, isDateFieldFromValue } from "../utils";
+import { calculateFilters, filterType, isDateFieldFromValue, inArrayAndFilter } from "../utils";
 
 const RecordFilters = ({
   defaultFilters,
@@ -16,7 +16,7 @@ const RecordFilters = ({
   setReset
 }) => {
   const i18n = useI18n();
-  const queryParamsKeys = Object.keys(queryParams);
+  const multipleConditionsLabel = i18n.t("filters.multiple_conditions_applied");
   const moreSectionKeys = Object.keys(moreSectionFilters);
   const defaultFilterNames = defaultFilters.map(t => t.field_name);
 
@@ -30,7 +30,7 @@ const RecordFilters = ({
           locale: i18n.locale,
           more,
           moreSectionKeys,
-          queryParamsKeys
+          queryParams
         })
       : filters;
 
@@ -46,6 +46,8 @@ const RecordFilters = ({
       defaultFilter: defaultFilterNames.includes(filter.field_name)
     };
 
+    const nested = inArrayAndFilter(filter, queryParams);
+
     if (!Filter) return null;
 
     return (
@@ -57,6 +59,8 @@ const RecordFilters = ({
         reset={reset}
         setReset={setReset}
         mode={mode}
+        disabled={nested}
+        helpText={nested && multipleConditionsLabel}
       />
     );
   });
