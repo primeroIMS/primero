@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_10_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_12_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
   enable_extension "pg_catalog.plpgsql"
@@ -559,7 +559,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_10_000000) do
     t.string "srch_associated_user_agencies", default: [], array: true
     t.string "srch_associated_user_groups", default: [], array: true
     t.string "srch_associated_user_names", default: [], array: true
-    t.string "srch_cp_sexual_violence_type"
+    t.string "srch_cp_incident_violence_type"
     t.datetime "srch_created_at", precision: nil
     t.boolean "srch_flagged", default: false
     t.string "srch_gbv_sexual_violence_type"
