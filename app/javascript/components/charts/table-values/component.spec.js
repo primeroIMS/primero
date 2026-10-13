@@ -83,6 +83,38 @@ describe("<TableValues />", () => {
     mountedComponent(<TableValues {...props} />);
     expect(screen.getAllByRole("table")).toHaveLength(1);
     expect(screen.getAllByRole("columnheader")).toHaveLength(2);
+    expect(screen.getAllByRole("button")).toHaveLength(5);
+  });
+
+  it("renders the values of a nested record type report without click-throughs", () => {
+    const data = fromJS({
+      id: 2,
+      name: { en: "Services" },
+      graph: false,
+      record_type: "reportable_service",
+      fields: [
+        {
+          name: "service_response_type",
+          display_name: { en: "Type of Response" },
+          position: { type: "horizontal", order: 0 },
+          option_labels: { en: [{ id: "service_provision", display_text: "Service provision" }] }
+        },
+        {
+          name: "service_type",
+          display_name: { en: "Type of Service" },
+          position: { type: "vertical", order: 0 },
+          option_labels: { en: [{ id: "health", display_text: "Health" }] }
+        }
+      ],
+      report_data: { service_provision: { _total: 2, health: { _total: 2 } } }
+    });
+
+    mountedComponent(<TableValues {...buildTableData(data, window.I18n, {})} recordType="reportable_service" />);
+
+    expect(screen.getAllByRole("table")).toHaveLength(1);
+    expect(screen.getByText("Service provision")).toBeInTheDocument();
+    expect(screen.getByText("Health")).toBeInTheDocument();
+    expect(screen.queryAllByRole("button")).toHaveLength(0);
   });
 
   afterEach(() => {
