@@ -63,6 +63,10 @@ function Component() {
 
   const handlePreviewClose = () => {
     setPreviewOpen(false);
+  };
+
+  const handlePreviewAccept = () => {
+    setPreviewOpen(false);
     setHasViewedTerms(true);
   };
 
@@ -98,6 +102,7 @@ function Component() {
 
       <Preview
         open={previewOpen}
+        onAccept={handlePreviewAccept}
         onClose={handlePreviewClose}
         termsOfUseUrl={termsOfUseUrl}
         mobileDisplay={mobileDisplay}

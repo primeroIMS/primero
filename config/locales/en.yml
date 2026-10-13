@@ -1038,6 +1038,8 @@ en:
     error_401:  You have been logged out. Please log in again.
     error_something_went_wrong: Something went wrong.
   error_page:
+    no_terms_of_use:
+      title: Your agency does not have a signed Terms of Use document uploaded. Please contact your administrator.
     not_authorized:
       code: 403
       server_error: You are not authorized to access this page.

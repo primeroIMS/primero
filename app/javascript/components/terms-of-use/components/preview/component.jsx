@@ -1,14 +1,26 @@
 import { Dialog } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import PropTypes from "prop-types";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 
 import ActionButton, { ACTION_BUTTON_TYPES } from "../../../action-button";
 import Content from "../../../record-form/form/field-types/attachments/document-field/components/content";
 import viewerCss from "../../../record-form/form/field-types/attachments/document-field/styles.css";
+import { enqueueSnackbar } from "../../../notifier";
 
 import { PDF_CONTENT_TYPE } from "./constants";
 
-function Component({ open, onClose, termsOfUseUrl, mobileDisplay }) {
+function Component({ open, onClose, onAccept, termsOfUseUrl, mobileDisplay }) {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!termsOfUseUrl && open) {
+      dispatch(enqueueSnackbar("", { messageKey: "error_page.no_terms_of_use.title", type: "error" }));
+      onClose();
+    }
+  }, [termsOfUseUrl, open]);
+
   if (!termsOfUseUrl) {
     return null;
   }
@@ -20,7 +32,7 @@ function Component({ open, onClose, termsOfUseUrl, mobileDisplay }) {
   };
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="xl" fullWidth>
+    <Dialog open={open} onClose={onAccept} maxWidth="xl" fullWidth>
       <div className={viewerCss.container}>
         <div className={viewerCss.title}>
           <h6 className={viewerCss.titleText}>{termsOfUseFileName}</h6>
@@ -29,7 +41,7 @@ function Component({ open, onClose, termsOfUseUrl, mobileDisplay }) {
             type={ACTION_BUTTON_TYPES.icon}
             icon={<CloseIcon />}
             isTransparent
-            onClick={onClose}
+            onClick={onAccept}
           />
         </div>
         <div className={viewerCss.viewerContainer}>
@@ -53,6 +65,7 @@ Component.displayName = "TermsOfUsePreview";
 
 Component.propTypes = {
   mobileDisplay: PropTypes.bool.isRequired,
+  onAccept: PropTypes.func,
   onClose: PropTypes.func,
   open: PropTypes.bool.isRequired,
   termsOfUseUrl: PropTypes.string
