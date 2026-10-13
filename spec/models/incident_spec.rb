@@ -868,6 +868,23 @@ describe Incident do
     end
   end
 
+  describe 'searchable cp_incident_violence_type' do
+    before do
+      clean_data(Incident)
+    end
+
+    it 'is a searchable field' do
+      expect(Incident.searchable_field_name?('cp_incident_violence_type')).to be true
+      expect(Incident.searchable_field_name?('cp_sexual_violence_type')).to be false
+    end
+
+    it 'sets the srch_cp_incident_violence_type column' do
+      incident = Incident.create!(data: { cp_incident_violence_type: 'physical_violence' })
+
+      expect(incident.reload.srch_cp_incident_violence_type).to eq('physical_violence')
+    end
+  end
+
   private
 
   def create_incident_with_created_by(created_by, options = {})
