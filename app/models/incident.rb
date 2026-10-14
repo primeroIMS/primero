@@ -165,7 +165,7 @@ class Incident < ApplicationRecord
     return unless incident_type_change
     return unless incident_case_id.present? && self.case.present?
 
-    self.case.add_incident_types(incident_type)
+    self.case.add_incident_types([incident_type])
     self.case.save!
   end
 
