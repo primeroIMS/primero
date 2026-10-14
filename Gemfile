@@ -48,8 +48,7 @@ gem 'rake',                '~> 13.0'
 gem 'rbnacl',              '>= 7.1.1'  # Libsodium Ruby binding. Used for encrypting export file passwords.
 gem 'resolv',              '~> 0.6'    # DNS resolver. TODO: Used by what?
 gem 'ruby-mailchecker',    '~> 6.0'    # Suggests correct email domains for mistyped email addresses
-# TODO: Upgrade to rubyzip >= 3.0.0 after write_xlsx supports it
-gem 'rubyzip',             '~> 2.4'    # Zip and encrypt exported files.
+gem 'rubyzip',             '~> 3.4'    # Zip and encrypt exported files.
 gem 'spreadsheet',         '~> 1.3'    # Read XLS spreadsheets for imports (not XLSX!). TODO: Different gem? Reconsider?
 # Note: if upgrading Sunspot, update the corresponding version of Solr on the Docker image
 # Current Solr version is 5.3.1
@@ -61,7 +60,7 @@ gem 'text',                '~> 1.3'    # Phonetic Search Algorithms
 gem 'tzinfo-data',         '~> 1.2025' # Timezone Data for TZInfo
 gem 'web-push',            '~> 3.0'
 gem 'will_paginate',       '~> 4.0'    # Paginates ActiveRecord models  TODO: This can be refactored away.
-gem 'write_xlsx',          '~> 1.11'   # Exports XLSX
+gem 'write_xlsx',          '~> 1.12.3' # Exports XLSX
 
 group :development, :test do
   gem 'brakeman', require: false
@@ -83,13 +82,13 @@ group :development, :test do
   # TODO: This is needed to read .xlsx files for validation in the exporter tests.
   # TODO: The app currently uses Spreadsheet to read excel files, but it only supports reading .xls
   # TODO: Changing the application to support reading .xlsx will be handled by a later ticket
-  gem 'roo',                        '~> 2.10'
+  gem 'roo',                        '~> 3.0'
   gem 'rspec',                      '~> 3.12'
   gem 'rspec-activemodel-mocks',    '~> 1.1'
   gem 'rspec-collection_matchers',  '~> 1.2'
   gem 'rspec-instafail',            '~> 1.0'
   gem 'rspec-rails',                '~> 6.0'
-  gem 'rubocop',                    '~> 1.75'
+  gem 'rubocop',                    '~> 1.91'
   gem 'rubocop-performance',        '~> 1.25'
   gem 'ruby-lsp',                   '~> 0.17'
   gem 'simplecov',                  '~> 0.18'

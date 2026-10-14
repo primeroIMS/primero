@@ -27,7 +27,7 @@ class UserGroup < ApplicationRecord
     end
 
     def permitted_api_params
-      %w[id unique_id name description disabled] + [agency_ids: [], agency_unique_ids: []]
+      %w[id unique_id name description disabled] + [{ agency_ids: [], agency_unique_ids: [] }]
     end
 
     def list(user, opts = {})

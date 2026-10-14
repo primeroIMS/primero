@@ -52,7 +52,8 @@ class FieldValueService < ValueObject
     when 'lookup' then lookup_value(source_options.last, value, opts)
     when 'Location', 'ReportingLocation', 'Agency'
       record_name_value(source_options.first, value, opts)
-    else value end
+    else value
+    end
   end
 
   def lookup_value(lookup_unique_id, value, opts = {})
@@ -112,7 +113,7 @@ class FieldValueService < ValueObject
     self.registry_fields_by_type ||= {}
     return [] unless field_names.present?
 
-    self.registry_fields_by_type[field.option_strings_source] ||= Field.joins(:form_section).where(
+    registry_fields_by_type[field.option_strings_source] ||= Field.joins(:form_section).where(
       name: field_names, form_section: { parent_form: RegistryRecord.parent_form }
     ).index_by(&:name).values_at(*field_names).compact
 

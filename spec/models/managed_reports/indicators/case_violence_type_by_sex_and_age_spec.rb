@@ -124,7 +124,7 @@ describe ManagedReports::Indicators::CaseViolenceTypeBySexAndAge do
     @case3.incidents = [incident3]
     @case3.save!
     @case4 = Child.new_with_user(
-      @all_user, {  registration_date: Date.new(2023, 4, 25), sex: 'female', age: 2, status: 'open' }
+      @all_user, { registration_date: Date.new(2023, 4, 25), sex: 'female', age: 2, status: 'open' }
     )
     @case4.incidents = [incident4, incident5, incident6]
     @case4.save!
@@ -180,7 +180,7 @@ describe ManagedReports::Indicators::CaseViolenceTypeBySexAndAge do
         [
           { id: 'female', '0 - 5': 1, total: 1 },
           { id: 'male', '18+': 1, total: 1 },
-          { id: 'total', '0 - 5': 1,  '18+': 1, total: 2 }
+          { id: 'total', '0 - 5': 1, '18+': 1, total: 2 }
         ]
       )
     end

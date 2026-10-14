@@ -26,9 +26,9 @@ Rails.application.routes.draw do
   end
 
   resources :health, only: %i[index show]
-  # rubocop:disable Style/FormatStringToken(RuboCop)
+  # rubocop:disable Style/FormatStringToken
   get 'login/:id', to: redirect(path: '/v2/login/%{id}')
-  # rubocop:enable Style/FormatStringToken(RuboCop)
+  # rubocop:enable Style/FormatStringToken
 
   get 'manifest', to: 'themes#manifest', defaults: { format: :json }
   get :theme, to: 'themes#index', defaults: { format: :js }

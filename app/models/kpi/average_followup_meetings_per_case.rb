@@ -42,7 +42,7 @@ class Kpi::AverageFollowupMeetingsPerCase < Kpi::Search
   def to_json(*_args)
     {
       data: {
-        average_meetings: search.to_a&.first&.fetch('average_followup_meetings_per_case', 0.0)
+        average_meetings: search.to_a.first&.fetch('average_followup_meetings_per_case', 0.0)
       }
     }
   end

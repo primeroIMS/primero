@@ -101,8 +101,8 @@ class Referral < Transition
         name: 'service_implemented',
         type: Field::SELECT_BOX,
         option_strings_source: Field.joins(:form_section)
-          .where(name: 'service_implemented', form_section: { is_nested: true })
-          .pick(:option_strings_source)
+                                    .where(name: 'service_implemented', form_section: { is_nested: true })
+                                    .pick(:option_strings_source)
       )
     end
   end

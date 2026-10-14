@@ -37,9 +37,11 @@ describe ManagedReports::Indicators::UnverifiedViolationsByPerpetrator do
           }
         ],
         maiming: [
-          unique_id: '76d2adba-8752-11f0-accf-7c10c98b54af',
-          ctfmr_verified: 'report_pending_verification',
-          violation_tally: { boys: 2, girls: 3, unknown: 2, total: 7 }
+          {
+            unique_id: '76d2adba-8752-11f0-accf-7c10c98b54af',
+            ctfmr_verified: 'report_pending_verification',
+            violation_tally: { boys: 2, girls: 3, unknown: 2, total: 7 }
+          }
         ],
         killing: [
           {

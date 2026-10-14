@@ -87,9 +87,11 @@ describe MonitoringReportingMechanism, search: true do
           }
         ],
         'maiming' => [
-          'unique_id' => '5255e66c-5e57-4291-af2a-0acd50c1de72',
-          'type' => 'maiming',
-          'violation_tally' => { 'unknown' => 1, 'girls' => 2 }
+          {
+            'unique_id' => '5255e66c-5e57-4291-af2a-0acd50c1de72',
+            'type' => 'maiming',
+            'violation_tally' => { 'unknown' => 1, 'girls' => 2 }
+          }
         ],
         'perpetrators' => [
           {
@@ -613,11 +615,13 @@ describe MonitoringReportingMechanism, search: true do
             }
           ],
           'maiming' => [
-            'unique_id' => 'cf2a474a-d133-11f0-bc35-7c10c98b54af',
-            'type' => 'maiming',
-            'ctfmr_verified' => 'verified',
-            'ctfmr_verified_date' => Date.today + 1.days,
-            'violation_tally' => { 'boys' => 1, 'unknown' => 1, 'girls' => 2, 'total' => 4 }
+            {
+              'unique_id' => 'cf2a474a-d133-11f0-bc35-7c10c98b54af',
+              'type' => 'maiming',
+              'ctfmr_verified' => 'verified',
+              'ctfmr_verified_date' => Date.today + 1.days,
+              'violation_tally' => { 'boys' => 1, 'unknown' => 1, 'girls' => 2, 'total' => 4 }
+            }
           ]
         }
       )
