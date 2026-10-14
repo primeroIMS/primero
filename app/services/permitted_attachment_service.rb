@@ -43,11 +43,14 @@ class PermittedAttachmentService
   def permitted_to_preview?
     # TODO: To preview an attachment a user needs to have Permission::DISPLAY_VIEW_PAGE
     # the fields displayed in the preview are those where show_on_minify_form: true.
-    # Should we check the if the attachment field is permitted and if the field is show_on_minify_form: true?
-
-    previewable_type? && user.can?(:search_owned_by_others, attachment.record.class) && (
+    previewable_type? && attachment_field_on_preview_form? &&
+      user.can?(:search_owned_by_others, attachment.record.class) && (
       user.can_preview?(attachment.record.class) || permitted_to_view_record_list_photo?
     )
+  end
+
+  def attachment_field_on_preview_form?
+    attachment.record.class.preview_field_names.include?(attachment.field_name)
   end
 
   def permitted_to_view_record_list_photo?

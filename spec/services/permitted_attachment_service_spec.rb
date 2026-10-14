@@ -17,7 +17,10 @@ describe PermittedAttachmentService, search: true do
     [
       FormSection.create!(
         unique_id: 'form1', name: 'Form 1', parent_form: 'case', form_group_id: 'form1', fields: [
-          Field.new(name: Attachable::PHOTOS_FIELD_NAME, display_name: 'Photos', type: Field::PHOTO_UPLOAD_BOX)
+          Field.new(
+            name: Attachable::PHOTOS_FIELD_NAME, display_name: 'Photos', type: Field::PHOTO_UPLOAD_BOX,
+            show_on_minify_form: true
+          )
         ]
       )
     ]
@@ -101,7 +104,7 @@ describe PermittedAttachmentService, search: true do
   end
 
   before do
-    clean_data(PrimeroModule, User, Agency, Role, FormSection, Field, Child)
+    clean_data(PrimeroModule, PrimeroProgram, User, UserGroup, Agency, Role, FormSection, Field, Child)
     primero_module
   end
 
@@ -286,6 +289,21 @@ describe PermittedAttachmentService, search: true do
         expect(permitted_attachment_service.permitted_to_preview?).to be(true)
       end
 
+      it 'returns false if the attachment field is not shown on the short form' do
+        Field.find_by!(name: Attachable::PHOTOS_FIELD_NAME).update!(show_on_minify_form: false)
+        role_with_read_form_permission.permissions = [
+          Permission.new(
+            resource: Permission::CASE, actions: [Permission::DISPLAY_VIEW_PAGE, Permission::SEARCH_OWNED_BY_OTHERS]
+          )
+        ]
+        role_with_read_form_permission.save!
+        user.role = role_with_read_form_permission
+        user.save!
+        permitted_attachment_service = PermittedAttachmentService.new(user, attachment_without_access, nil)
+
+        expect(permitted_attachment_service.permitted_to_preview?).to be(false)
+      end
+
       it 'returns false if the attachment is not an audio/image' do
         role_with_read_form_permission.permissions = [
           Permission.new(resource: Permission::CASE, actions: [Permission::DISPLAY_VIEW_PAGE])
@@ -304,6 +322,10 @@ describe PermittedAttachmentService, search: true do
           file_name: 'sample.png', attachment: attachment_base64('sample.png'), date: Date.new(2020, 2, 1)
         )
         signature_attachment.attach!
+        Field.create!(
+          name: 'consent_signature', display_name: 'Consent Signature', type: Field::SIGNATURE_FIELD,
+          show_on_minify_form: true, form_section: form_sections.first
+        )
         role_with_read_form_permission.permissions = [
           Permission.new(
             resource: Permission::CASE, actions: [Permission::DISPLAY_VIEW_PAGE, Permission::SEARCH_OWNED_BY_OTHERS]
@@ -346,6 +368,6 @@ describe PermittedAttachmentService, search: true do
   end
 
   after do
-    clean_data(PrimeroModule, User, Agency, Role, FormSection, Field, Child)
+    clean_data(PrimeroModule, PrimeroProgram, User, UserGroup, Agency, Role, FormSection, Field, Child)
   end
 end

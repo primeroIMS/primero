@@ -1208,9 +1208,14 @@ describe Ability do
       [
         FormSection.create!(
           unique_id: 'form1', name: 'Form 1', parent_form: 'case', form_group_id: 'form1', fields: [
-            Field.new(name: Attachable::PHOTOS_FIELD_NAME, display_name: 'Photos', type: Field::PHOTO_UPLOAD_BOX),
-            Field.new(name: Attachable::AUDIOS_FIELD_NAME, display_name: 'Recorded Audio',
-                      type: Field::AUDIO_UPLOAD_BOX),
+            Field.new(
+              name: Attachable::PHOTOS_FIELD_NAME, display_name: 'Photos', type: Field::PHOTO_UPLOAD_BOX,
+              show_on_minify_form: true
+            ),
+            Field.new(
+              name: Attachable::AUDIOS_FIELD_NAME, display_name: 'Recorded Audio',
+              type: Field::AUDIO_UPLOAD_BOX, show_on_minify_form: true
+            ),
             Field.new(name: Attachable::DOCUMENTS_FIELD_NAME, display_name: 'Other Documents',
                       type: Field::DOCUMENT_UPLOAD_BOX)
           ]
