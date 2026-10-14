@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Example of usage:
-# rails r ./db/data_migration/v2.16.0/calculate_searchable_cp_incident_violence_type.rb true
+# rails r ./db/data_migration/v2.16/calculate_searchable_cp_incident_violence_type.rb true
 
 def print_log(message)
   message = "[#{DateTime.now.strftime('%m/%d/%Y %H:%M:%S')}]: #{message}"

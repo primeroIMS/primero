@@ -72,7 +72,7 @@ class Child < ApplicationRecord
     :duplicate, :cp_case_plan_subform_case_plan_interventions, :has_case_plan,
     :family_member_id, :family_id_display, :family_number, :has_incidents, :assessment_due_dates,
     :case_plan_due_dates, :followup_due_dates, :reunification_details_section, :reunification_dates,
-    :tracing_actions_section, :tracing_dates, :case_type
+    :tracing_actions_section, :tracing_dates, :case_type, :incident_types
   )
   # rubocop:enable Naming/VariableNumber
 
@@ -180,6 +180,7 @@ class Child < ApplicationRecord
   before_save :calculate_reunification_dates
   before_save :save_searchable_fields
   before_save :stamp_case_type
+  before_save :calculate_incident_types
   before_update :update_identified
   before_create :hide_name
   after_save :save_incidents
@@ -424,6 +425,16 @@ class Child < ApplicationRecord
 
   def stamp_case_type
     self.case_type = PrimeroModule.find_by(unique_id: module_id)&.case_type || PrimeroModule::DEFAULT_CASE_TYPE
+  end
+
+  def calculate_incident_types
+    return unless @incidents_to_save.present?
+
+    add_incident_types(@incidents_to_save.map(&:incident_type))
+  end
+
+  def add_incident_types(types)
+    self.incident_types = ((incident_types || []) | types).compact.uniq
   end
 
   def mark_identified(user)
