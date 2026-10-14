@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import isEmpty from "lodash/isEmpty";
 import { cx } from "@emotion/css";
 import { TableCell, TableRow } from "@mui/material";
 import { useDispatch } from "react-redux";
@@ -48,7 +49,7 @@ function Component({ subColumnItemsSize, value, valueRender, withTotals, recordT
 
         return (
           <TableCell colSpan={index === 0 ? colspan : 1} key={generateKey(rowData)} className={cellClass}>
-            {rowData.query ? (
+            {!isEmpty(rowData.query) ? (
               <ActionButton className={linkClasses} type="link" text={displayValue} onClick={handleClick} noTranslate />
             ) : (
               <span>{displayValue}</span>
