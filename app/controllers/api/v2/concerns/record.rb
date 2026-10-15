@@ -213,7 +213,7 @@ module Api::V2::Concerns::Record
 
       unless [Permission::INCIDENT_DETAILS_FROM_CASE,
               Permission::SERVICES_SECTION_FROM_CASE].include?(params[:record_action]) &&
-             current_user.can?(:search_owned_by_others, @record.class)
+             current_user.can?(:search_owned_by_others, model_class)
         authorize!(:read, @record)
       end
     else
