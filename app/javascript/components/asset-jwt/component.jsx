@@ -5,9 +5,9 @@ import { BrokenImage } from "@mui/icons-material";
 import { getIDPToken } from "../login/components/idp-selection/auth-provider";
 import { getUseIdentityProvider } from "../login/selectors";
 import { useMemoizedSelector } from "../../libs";
+import { useI18n } from "../i18n";
 
 import css from "./styles.css";
-import { useI18n } from "../i18n";
 
 function Component({ asDiv = false, src, alt, className, style, type = "image", id }) {
   const [srcString, setSrcString] = useState("");
