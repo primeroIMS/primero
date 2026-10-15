@@ -210,17 +210,15 @@ module Api::V2::Concerns::Record
   def authorize_update!
     if params[:record_action].present?
       authorize!(params[:record_action].to_sym, model_class)
-      authorize!(:read, @record) unless can_update_incident_details_from_case?
+
+      unless [Permission::INCIDENT_DETAILS_FROM_CASE,
+              Permission::SERVICES_SECTION_FROM_CASE].include?(params[:record_action]) &&
+             current_user.can?(:search_owned_by_others, @record.class)
+        authorize!(:read, @record)
+      end
     else
       authorize!(:update, @record)
     end
-  end
-
-  def can_update_incident_details_from_case?
-    model_class == Child &&
-      [Permission::INCIDENT_DETAILS_FROM_CASE,
-       Permission::SERVICES_SECTION_FROM_CASE].include?(params[:record_action]) &&
-      current_user.can?(:search_owned_by_others, model_class)
   end
 
   def authorize_index!
