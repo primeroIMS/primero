@@ -301,7 +301,7 @@ class Report < ApplicationRecord
 
     self.filters ||= []
     default_filters = model.report_filters
-    self.filters = (self.filters + default_filters).uniq
+    self.filters = (filters + default_filters).uniq
   end
 
   def search_filters

@@ -211,7 +211,7 @@ def create_worklow(registration_date, workflow, owner, service_users)
     create_service_provision(registration_date, service_users)
   when 'closed'
     create_closed(registration_date, owner.user_name)
-  else {} end
+  end || {}
 end
 
 def create_family_details_section

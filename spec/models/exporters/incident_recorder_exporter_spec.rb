@@ -35,7 +35,7 @@ module Exporters
         name: 'array_field', type: Field::SELECT_BOX, display_name: 'array_field', multi_select: true,
         option_strings_text: [{ id: 'option1', display_text: 'Option1' }, { id: 'option2', display_text: 'Option2' },
                               { id: 'option5', display_text: 'Option5' }, { id: 'option4', display_text: 'Option4' }]
-                              .map(&:with_indifferent_access)
+                             .map(&:with_indifferent_access)
       )
       form2.save!
       subform = FormSection.new(

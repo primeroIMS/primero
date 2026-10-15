@@ -51,7 +51,7 @@ module Workflow
 
     return WORKFLOW_ASSESSMENT if workflow_assessment?
 
-    self.workflow
+    workflow
   end
 
   def workflow_case_reopened?

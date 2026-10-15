@@ -58,7 +58,7 @@ class Location < ApplicationRecord
     end
 
     def permitted_api_params
-      %i[id code admin_level type parent_code disabled] + [placename: {}]
+      %i[id code admin_level type parent_code disabled] + [{ placename: {} }]
     end
 
     def inheritance_column

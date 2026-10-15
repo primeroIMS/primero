@@ -46,21 +46,21 @@ json.data do
       end
     end
   end
-  json.exact_search_fields ([
+  json.exact_search_fields [
     Child,
     Incident,
     TracingRequest,
     RegistryRecord,
     Family
-  ].map { |record_type| { record_type.parent_form.pluralize => record_type.filterable_id_fields } }).inject(&:merge)
-  json.phonetic_search_fields ([
+  ].map { |record_type| { record_type.parent_form.pluralize => record_type.filterable_id_fields } }.inject(&:merge)
+  json.phonetic_search_fields [
     Child,
     Incident,
     TracingRequest,
     RegistryRecord,
     Family
-  ].map { |record_type| { record_type.parent_form.pluralize => record_type.const_get('PHONETIC_FIELD_NAMES') } })
-    .inject(&:merge)
+  ].map { |record_type| { record_type.parent_form.pluralize => record_type.const_get('PHONETIC_FIELD_NAMES') } }
+   .inject(&:merge)
   json.phone_number_search_fields ([Child, Incident, TracingRequest, RegistryRecord, Family].map do |record_type|
                                      { record_type.parent_form.pluralize => record_type.phone_number_fields }
                                    end).inject(&:merge)

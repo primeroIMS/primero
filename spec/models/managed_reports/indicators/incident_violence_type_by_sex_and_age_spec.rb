@@ -124,7 +124,7 @@ describe ManagedReports::Indicators::IncidentViolenceTypeBySexAndAge do
     @case3.incidents = [incident3]
     @case3.save!
     @case4 = Child.new_with_user(
-      @all_user, {  registration_date: Date.new(2023, 4, 25), sex: 'female', age: 2, status: 'open' }
+      @all_user, { registration_date: Date.new(2023, 4, 25), sex: 'female', age: 2, status: 'open' }
     )
     @case4.incidents = [incident4, incident5, incident6]
     @case4.save!

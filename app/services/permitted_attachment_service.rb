@@ -45,8 +45,8 @@ class PermittedAttachmentService
     # the fields displayed in the preview are those where show_on_minify_form: true.
     previewable_type? && attachment_field_on_preview_form? &&
       user.can?(:search_owned_by_others, attachment.record.class) && (
-      user.can_preview?(attachment.record.class) || permitted_to_view_record_list_photo?
-    )
+        user.can_preview?(attachment.record.class) || permitted_to_view_record_list_photo?
+      )
   end
 
   def attachment_field_on_preview_form?
