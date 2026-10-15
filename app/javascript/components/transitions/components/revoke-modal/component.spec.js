@@ -18,6 +18,15 @@ describe("<RevokeModal /> - Component", () => {
 
   const baseState = fromJS({});
 
+  const stateWithSelectedRecord = fromJS({
+    records: {
+      cases: {
+        selectedRecord: "5a291f55-c92a-4786-be2a-13b98fd143e1",
+        data: [{ id: "5a291f55-c92a-4786-be2a-13b98fd143e1", short_id: "8fd143e" }]
+      }
+    }
+  });
+
   const transfer = {
     id: "1",
     record_id: "5a291f55-c92a-4786-be2a-13b98fd143e1",
@@ -91,6 +100,45 @@ describe("<RevokeModal /> - Component", () => {
           method: "PATCH",
           body: { data: { status: "revoked" } }
         });
+      });
+    });
+  });
+
+  describe("success message", () => {
+    afterEach(() => {
+      jest.restoreAllMocks();
+    });
+
+    it("uses the record short_id instead of the full record id", async () => {
+      const i18nSpy = jest.spyOn(window.I18n, "t");
+
+      mountedComponent(<RevokeModal {...baseProps} transition={transfer} />, stateWithSelectedRecord);
+
+      await userEvent.click(screen.getByRole("button", { name: "actions.revoke" }));
+
+      await waitFor(() => {
+        expect(i18nSpy).toHaveBeenCalledWith(
+          "cases.revoke_success_message",
+          expect.objectContaining({ case_id: "8fd143e" })
+        );
+      });
+    });
+
+    it("uses the record short_id for external transitions", async () => {
+      const i18nSpy = jest.spyOn(window.I18n, "t");
+
+      mountedComponent(
+        <RevokeModal {...baseProps} transition={{ ...transfer, remote: true }} />,
+        stateWithSelectedRecord
+      );
+
+      await userEvent.click(screen.getByRole("button", { name: "actions.revoke" }));
+
+      await waitFor(() => {
+        expect(i18nSpy).toHaveBeenCalledWith(
+          "cases.revoke_external_success_message",
+          expect.objectContaining({ case_id: "8fd143e" })
+        );
       });
     });
   });

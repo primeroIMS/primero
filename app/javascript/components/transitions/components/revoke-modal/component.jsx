@@ -58,7 +58,7 @@ function Component({ name, close, open, pending, recordType, setPending, transit
 
   const handleOk = data => {
     const message = i18n.t(successRevokeMessageKey, {
-      case_id: transition.record_id,
+      case_id: record.get("short_id"),
       transition_type: i18n.t(`transition.type.${transitionType}`),
       recipient_username: transition.transitioned_to
     });
