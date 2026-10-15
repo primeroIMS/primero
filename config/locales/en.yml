@@ -1135,6 +1135,7 @@ en:
         service_implemented_present: Service implemented must not be blank
     not_found: No Record(s) Found
     try_again: Try again
+    image_not_permitted: Access to this photo not permitted
   exports:
     case_pdf:
       all: PDF
