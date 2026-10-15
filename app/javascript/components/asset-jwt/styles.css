@@ -1,0 +1,15 @@
+.brokenImage {
+  font-size: 130px;
+}
+
+.brokenImageContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-1);
+  font-size: var(--fs-16);
+  font-weight: bold;
+  background: var(--c-white);
+  padding: var(--sp-3);
+  border-radius: var(--sp-2);
+}
