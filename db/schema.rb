@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_12_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_13_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
   enable_extension "pg_catalog.plpgsql"
@@ -191,6 +191,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_12_000000) do
     t.datetime "srch_identified_at", precision: nil
     t.string "srch_identified_by"
     t.string "srch_identified_by_full_name"
+    t.string "srch_incident_types", default: [], array: true
     t.datetime "srch_last_referral_done_at"
     t.datetime "srch_last_referral_rejected_at"
     t.string "srch_last_updated_by"
