@@ -1,13 +1,19 @@
 import { useMemo } from "react";
 
-import { RECORD_TYPES, INCIDENT_CASE_ID_DISPLAY_FIELD, INCIDENT_CASE_ID_FIELD } from "../../config";
+import {
+  RECORD_TYPES,
+  INCIDENT_CASE_ID_DISPLAY_FIELD,
+  INCIDENT_CASE_ID_FIELD,
+  RECORD_TYPES_PLURAL
+} from "../../config";
 import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { getIncidentFromCase } from "../records";
 
 function useIncidentFromCase({ recordType, record }) {
   const incidentFromCase = useMemoizedSelector(state => getIncidentFromCase(state, recordType));
+
   const getFieldFromIncidentCase = field => {
-    if (recordType === RECORD_TYPES.incidents) {
+    if (recordType === RECORD_TYPES.incidents || recordType === RECORD_TYPES_PLURAL.incident) {
       return incidentFromCase?.size ? incidentFromCase.get(field) : record?.get(field);
     }
 
