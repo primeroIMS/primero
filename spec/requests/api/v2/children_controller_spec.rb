@@ -1232,6 +1232,111 @@ describe Api::V2::ChildrenController, type: :request do
       end
     end
 
+    describe 'when a user adds incident details on a record owned by someone else' do
+      let(:incident_details_field) do
+        Field.new(
+          name: 'incident_details',
+          type: Field::SUBFORM,
+          subform: FormSection.new(
+            fields: [Field.new(name: 'description', type: Field::TEXT_AREA)]
+          )
+        )
+      end
+
+      let(:incident_details_permissions) do
+        [
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::INCIDENT_DETAILS_FROM_CASE, Permission::SEARCH_OWNED_BY_OTHERS]
+          )
+        ]
+      end
+
+      before do
+        @case1.update!(owned_by: @user.user_name)
+        login_for_test(
+          group_permission: Permission::SELF,
+          permissions: incident_details_permissions,
+          permitted_fields: [incident_details_field]
+        )
+      end
+
+      it 'updates incident details without granting general record update access' do
+        params = {
+          data: { incident_details: [{ unique_id: @incident1.id, description: 'Updated incident' }] },
+          record_action: Permission::INCIDENT_DETAILS_FROM_CASE
+        }
+
+        patch "/api/v2/cases/#{@case1.id}", params:, as: :json
+
+        expect(response).to have_http_status(200)
+        expect(@incident1.reload.description).to eq('Updated incident')
+      end
+
+      it 'does not allow updating other case fields' do
+        patch "/api/v2/cases/#{@case1.id}", params: { data: { name: 'Updated case' } }, as: :json
+
+        expect(response).to have_http_status(403)
+        expect(@case1.reload.name).to eq('Test1')
+      end
+    end
+
+    describe 'when a user adds services to a record owned by someone else' do
+      let(:services_permissions) do
+        [
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::SERVICES_SECTION_FROM_CASE, Permission::SEARCH_OWNED_BY_OTHERS]
+          )
+        ]
+      end
+
+      before do
+        @case1.update!(owned_by: @user.user_name)
+        login_for_test(group_permission: Permission::SELF, permissions: services_permissions)
+      end
+
+      it 'updates the services section without granting general record update access' do
+        params = {
+          data: { services_section: [{ service_type: 'test-type' }] },
+          record_action: Permission::SERVICES_SECTION_FROM_CASE
+        }
+
+        patch "/api/v2/cases/#{@case1.id}", params:, as: :json
+
+        expect(response).to have_http_status(200)
+        expect(@case1.reload.data['services_section'].first['service_type']).to eq('test-type')
+      end
+
+      it 'does not allow updating other case fields' do
+        patch "/api/v2/cases/#{@case1.id}", params: { data: { name: 'Updated case' } }, as: :json
+
+        expect(response).to have_http_status(403)
+        expect(@case1.reload.name).to eq('Test1')
+      end
+
+      it 'does not allow updating if missing SERVICES_SECTION_FROM_CASE permissions' do
+        login_for_test(group_permission: Permission::SELF,
+                       permissions: [Permission.new(resource: Permission::CASE,
+                                                    actions: [Permission::SEARCH_OWNED_BY_OTHERS])])
+        patch "/api/v2/cases/#{@case1.id}", params: { data: { services_section: [{ service_type: 'test-type' }] },
+                                                      record_action: Permission::SERVICES_SECTION_FROM_CASE },
+                                            as: :json
+
+        expect(response).to have_http_status(403)
+      end
+
+      it 'does not allow updating if missing SEARCH_OWNED_BY_OTHERS permissions' do
+        login_for_test(group_permission: Permission::SELF,
+                       permissions: [Permission.new(resource: Permission::CASE,
+                                                    actions: [Permission::SERVICES_SECTION_FROM_CASE])])
+        patch "/api/v2/cases/#{@case1.id}", params: { data: { services_section: [{ service_type: 'test-type' }] } },
+                                            as: :json
+
+        expect(response).to have_http_status(403)
+      end
+    end
+
     describe 'when a user closes a case that cannot be updated' do
       it 'close the case if he is authorized to close cases' do
         login_for_test(
