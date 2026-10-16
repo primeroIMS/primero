@@ -9,6 +9,7 @@ import { getIncidentFromCase, selectRecord, getCaseIdForIncident, fetchRelatedRe
 import { RECORD_PATH, RECORD_TYPES, RECORD_TYPES_PLURAL } from "../../config";
 import { useApp } from "../application";
 import { whichFormMode } from "../form";
+import { READ_RECORDS, usePermissions } from "../permissions";
 
 import { getShouldFetchRecord } from "./selectors";
 import { NAME } from "./constants";
@@ -39,6 +40,7 @@ function Container({ mode }) {
     });
 
   const shouldFetchRecord = useMemoizedSelector(state => getShouldFetchRecord(state, params));
+  const canViewRegistryRecords = usePermissions(RECORD_TYPES_PLURAL.registry_record, READ_RECORDS);
 
   const isNotANewCase = !containerMode.isNew && params.recordType === RECORD_PATH.cases;
   const isCaseIdEqualParam = params?.id === record?.get("id");
@@ -48,7 +50,7 @@ function Container({ mode }) {
       ?.get("services_section", fromJS([]))
       ?.map(service => service.get("service_implementing_agency_registry"));
 
-    if (registryRecordIds?.size) {
+    if (registryRecordIds?.size && canViewRegistryRecords) {
       dispatch(
         fetchRelatedRecords({
           recordType: params.recordType,
@@ -57,7 +59,7 @@ function Container({ mode }) {
         })
       );
     }
-  }, [record, params]);
+  }, [record, params, canViewRegistryRecords]);
 
   return (
     <RecordForm
