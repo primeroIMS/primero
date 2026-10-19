@@ -161,11 +161,11 @@ class Incident < ApplicationRecord
   def stamp_case_with_incident_type
     incident_type_change =
       saved_change_to_attribute?(:incident_case_id) ||
-      (changes_to_save_for_record.keys & %w[cp_incident_violence_type gbv_sexual_violence_type]).present?
+      (saved_changes_to_record.keys & %w[cp_incident_violence_type gbv_sexual_violence_type]).present?
     return unless incident_type_change
     return unless incident_case_id.present? && self.case.present?
 
-    self.case.add_incident_types([incident_type])
+    self.case.mark_recalculate_incident_types
     self.case.save!
   end
 
