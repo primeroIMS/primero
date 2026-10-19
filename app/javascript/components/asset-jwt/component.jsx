@@ -1,13 +1,19 @@
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
+import { BrokenImage } from "@mui/icons-material";
 
 import { getIDPToken } from "../login/components/idp-selection/auth-provider";
 import { getUseIdentityProvider } from "../login/selectors";
 import { useMemoizedSelector } from "../../libs";
+import { useI18n } from "../i18n";
+
+import css from "./styles.css";
 
 function Component({ asDiv = false, src, alt, className, style, type = "image", id }) {
   const [srcString, setSrcString] = useState("");
+  const [hasError, setHasError] = useState(false);
   const isIDP = useMemoizedSelector(state => getUseIdentityProvider(state));
+  const i18n = useI18n();
 
   const srcDefined = src?.startsWith("undefined") === false;
   const isBase64 = src?.startsWith("data:");
@@ -72,12 +78,22 @@ function Component({ asDiv = false, src, alt, className, style, type = "image", 
     );
   }
 
+  if (hasError) {
+    return (
+      <div className={css.brokenImageContainer}>
+        <BrokenImage className={css.brokenImage} />
+        {i18n.t("errors.image_not_permitted")}
+      </div>
+    );
+  }
+
   return (
     <img
       style={style}
       src={isIDP && !isBase64 ? srcString : src}
       alt={alt}
       className={className}
+      onError={() => setHasError(true)}
       data-testid="attachment"
     />
   );

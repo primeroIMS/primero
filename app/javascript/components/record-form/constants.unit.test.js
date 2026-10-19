@@ -23,7 +23,8 @@ describe("Verifying config constant", () => {
       "TEXT_FIELD",
       "TICK_FIELD",
       "URL_LOOKUPS",
-      "SIGNATURE_FIELD"
+      "SIGNATURE_FIELD",
+      "REGISTRY_FIELD"
     ].forEach(property => {
       expect(constants).toHaveProperty(property);
       delete constants[property];

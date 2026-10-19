@@ -3,6 +3,7 @@ import { fromJS } from "immutable";
 import { fireEvent, mountedComponent, screen, setSelectValue } from "../../../../test-utils";
 import { OPTION_TYPES, whichFormMode } from "../../../form";
 import { SERVICE_SECTION_FIELDS } from "../../../record-actions/transitions/components/referrals";
+import transitionActions from "../../../record-actions/transitions/actions";
 
 import SelectField from "./select-field";
 
@@ -216,6 +217,71 @@ describe("<SelectField />", () => {
       const input = await setSelectValue(screen.getByRole("combobox"));
 
       expect(input.value).toBe("");
+    });
+  });
+
+  describe("when is service_implementing_agency_individual", () => {
+    const props = {
+      name: SERVICE_SECTION_FIELDS.implementingAgencyIndividual,
+      field: {
+        option_strings_source: "User"
+      },
+      label: "Service provider name",
+      mode: whichFormMode("edit"),
+      open: true,
+      filters: { values: {}, filterState: { filtersChanged: false, userIsSelected: false } },
+      recordType: "cases",
+      recordModuleID: "primeromodule-cp",
+      optionsSelector: () => ({ source: OPTION_TYPES.REFER_TO_USERS })
+    };
+
+    const formProps = {
+      initialValues: {
+        [SERVICE_SECTION_FIELDS.implementingAgencyIndividual]: "hpierce"
+      }
+    };
+
+    const stateWithPermissions = permissions => fromJS({ user: { permissions: { cases: permissions } } });
+
+    const referralUsersFetched = store =>
+      store.getActions().filter(action => action.type === transitionActions.REFERRAL_USERS_FETCH);
+
+    describe("when the user does not have referral permissions", () => {
+      const initialState = stateWithPermissions(["read", "write"]);
+
+      it("should display the selected service provider", () => {
+        mountedComponent(<SelectField {...props} />, initialState, [], {}, formProps);
+
+        expect(screen.getByRole("combobox")).toHaveValue("hpierce");
+      });
+
+      it("should not fetch the referral users when the select is opened", () => {
+        const { store } = mountedComponent(<SelectField {...props} />, initialState, [], {}, formProps);
+
+        fireEvent.keyDown(screen.getByRole("combobox"), { key: "ArrowDown" });
+
+        expect(referralUsersFetched(store)).toHaveLength(0);
+      });
+
+      it("should keep displaying the selected service provider when the select is opened", () => {
+        mountedComponent(<SelectField {...props} />, initialState, [], {}, formProps);
+
+        fireEvent.keyDown(screen.getByRole("combobox"), { key: "ArrowDown" });
+
+        expect(screen.getByRole("combobox")).toHaveValue("hpierce");
+      });
+    });
+
+    describe("when the user has referral permissions", () => {
+      const initialState = stateWithPermissions(["read", "write", "referral"]);
+
+      it("should fetch the referral users when the select is opened", () => {
+        const { store } = mountedComponent(<SelectField {...props} />, initialState, [], {}, formProps);
+
+        fireEvent.keyDown(screen.getByRole("combobox"), { key: "ArrowDown" });
+
+        expect(referralUsersFetched(store)).toHaveLength(1);
+      });
     });
   });
 

@@ -18,10 +18,12 @@ describe("<Report /> - utils", () => {
         group_ages: false,
         report_data: {
           agency1: {
-            _total: 1
+            _total: 1,
+            query: ["status=open", "module_id=primeromodule-cp"]
           },
           agency2: {
-            _total: 43
+            _total: 43,
+            query: ["status=open", "module_id=primeromodule-cp"]
           }
         },
         fields: [
@@ -184,39 +186,51 @@ describe("<Report /> - utils", () => {
       report_data: {
         abandonment: {
           low: {
-            _total: 2
+            _total: 2,
+            query: ["module_id=primeromodule-cp"]
           },
-          _total: 2
+          _total: 2,
+          query: ["module_id=primeromodule-cp"]
         },
         neglect: {
           low: {
-            _total: 1
+            _total: 1,
+            query: ["module_id=primeromodule-cp"]
           },
-          _total: 1
+          _total: 1,
+          query: ["module_id=primeromodule-cp"]
         },
         orphan: {
           low: {
-            _total: 1
+            _total: 1,
+            query: ["module_id=primeromodule-cp"]
           },
-          _total: 1
+          _total: 1,
+          query: ["module_id=primeromodule-cp"]
         },
         rape: {
           high: {
-            _total: 1
+            _total: 1,
+            query: ["module_id=primeromodule-cp"]
           },
-          _total: 1
+          _total: 1,
+          query: ["module_id=primeromodule-cp"]
         },
         separated: {
           low: {
-            _total: 1
+            _total: 1,
+            query: ["module_id=primeromodule-cp"]
           },
-          _total: 1
+          _total: 1,
+          query: ["module_id=primeromodule-cp"]
         },
         unaccompanied: {
           low: {
-            _total: 1
+            _total: 1,
+            query: ["module_id=primeromodule-cp"]
           },
-          _total: 1
+          _total: 1,
+          query: ["module_id=primeromodule-cp"]
         }
       }
     });

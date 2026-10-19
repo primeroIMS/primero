@@ -7,12 +7,12 @@ import { useI18n } from "../../../../../i18n";
 
 import css from "./styles.css";
 
-function Component({ children }) {
+function Component({ children, title }) {
   const i18n = useI18n();
 
   return (
     <Alert icon={<CasesIcon className={css.icon} />} classes={{ root: css.alert, message: css.message }}>
-      <AlertTitle>{i18n.t("referral.provided_consent_label")}</AlertTitle>
+      <AlertTitle>{title || i18n.t("referral.provided_consent_label")}</AlertTitle>
       {children}
     </Alert>
   );
@@ -21,7 +21,8 @@ function Component({ children }) {
 Component.displayName = "ConsentProvided";
 
 Component.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
+  title: PropTypes.string
 };
 
 export default Component;

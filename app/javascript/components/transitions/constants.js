@@ -7,7 +7,8 @@ export const TRANSITION_STATUS = Object.freeze({
   accepted: "accepted",
   rejected: "rejected",
   done: "done",
-  inProgress: "in_progress"
+  inProgress: "in_progress",
+  revoked: "revoked"
 });
 export const TRANSITION_STATUS_NAME = "TransitionStatus";
 export const TRANSITION_USER_NAME = "TransitionUser";
@@ -16,4 +17,8 @@ export const TRANSITIONS_TYPES = Object.freeze({
   transfer: "transfer",
   referral: "referral",
   reassign: "reassign"
+});
+export const REFERRAL_SUCCESS_STATUS = Object.freeze({
+  successful: "successful",
+  not_successful: "not_successful"
 });

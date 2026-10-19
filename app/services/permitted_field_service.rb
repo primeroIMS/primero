@@ -45,7 +45,7 @@ class PermittedFieldService
 
   # Calculated fields needed to perform searches
   PERMITTED_FILTER_FIELD_NAMES = %w[
-    or not cases_by_date record_in_scope associated_user_names not_edited_by_owner has_photo survivor_code
+    or and not cases_by_date record_in_scope associated_user_names not_edited_by_owner has_photo survivor_code
     survivor_code_no case_id_display created_at has_incidents short_id record_state sex age registration_date
     date_closure reassigned_transferred_on current_alert_types location_current reporting_location_hierarchy
     followup_dates reunification_dates tracing_dates service_implemented_day_times
@@ -154,10 +154,11 @@ class PermittedFieldService
       roles.presence || [user.role], model_class.parent_form, module_unique_id, writeable
     )
     # TODO: Consider moving model specific permitted fields to the model class.
-    @permitted_field_names += %w[workflow status case_status_reopened] if model_class == Child
+    @permitted_field_names += %w[workflow status case_status_reopened registry_record_ids] if model_class == Child
     @permitted_field_names << 'tracing_names' if model_class == TracingRequest
     @permitted_field_names << 'hidden_name' if user.can?(:update, model_class)
     @permitted_field_names += %w[flag_count flagged] if user.can?(:flag, model_class)
+    @permitted_field_names += permitted_pending_transition_field_names
     @permitted_field_names += SYNC_FIELDS_SCHEMA.keys if external_sync?
     @permitted_field_names += permitted_incident_field_names
     @permitted_field_names << 'incident_details' if user.can?(:view_incident_from_case, model_class)
@@ -186,6 +187,7 @@ class PermittedFieldService
     @permitted_field_names += %w[workflow status case_status_reopened] if model_class == Child
     @permitted_field_names << 'hidden_name' if user.can?(:update, model_class)
     @permitted_field_names += %w[flag_count flagged] if user.can?(:flag, model_class)
+    @permitted_field_names += permitted_pending_transition_field_names
     approval_fields = permitted_approval_schema.keys
     @permitted_field_names += permitted_approval_schema.keys if approval_fields.present?
     @permitted_field_names << 'approval_subforms' if approval_fields.present?
@@ -345,6 +347,15 @@ class PermittedFieldService
     attachment_field_names << 'photo' if user.can?(:view_photo, model_class)
 
     attachment_field_names
+  end
+
+  def permitted_pending_transition_field_names
+    field_names = []
+    if user.can?(:transfer, model_class) || user.can?(:receive_transfer, model_class)
+      field_names << 'transferred_to_users'
+    end
+    field_names << 'referred_users_pending' if user.can?(:receive_referral, model_class)
+    field_names
   end
 
   def permitted_dashboard_filter_field_names

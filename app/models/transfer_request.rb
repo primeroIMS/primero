@@ -22,13 +22,15 @@ class TransferRequest < Transition
   end
 
   def accept!
-    self.status = Transition::STATUS_ACCEPTED
-    save!
-    Transfer.create!(
-      transitioned_to: transitioned_by, transitioned_by: transitioned_to,
-      notes:, transitioned_to_agency:,
-      record:, consent_overridden: consent_individual_transfer
-    )
+    transaction do
+      Transfer.create!(
+        transitioned_to: transitioned_by, transitioned_by: transitioned_to,
+        notes:, transitioned_to_agency:,
+        record:, consent_overridden: consent_individual_transfer
+      )
+      self.status = Transition::STATUS_ACCEPTED
+      save!
+    end
   end
 
   def reject!

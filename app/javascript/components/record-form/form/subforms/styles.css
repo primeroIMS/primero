@@ -55,6 +55,17 @@
   margin: var(--sp-2) 0;
 }
 
+.caseLinkedRecordContainer {
+  display: flex;
+  align-items: center;
+  margin: var(--sp-2) 0 0;
+  gap: var(--sp-4);
+
+  & > div {
+    margin: 0;
+  }
+}
+
 .subformFieldArrayAccordion {
   margin: 0;
 }
@@ -129,11 +140,16 @@
   border: 1px solid var(--c-warm-grey-2);
   border-radius: 5px;
   background: var(--c-white);
+  width: 100%;
 }
 
 .listItem:hover {
   background: var(--c-light-grey);
   cursor: pointer;
+}
+
+.listItemDisabled {
+  cursor: not-allowed;
 }
 
 .listDivider {
@@ -167,6 +183,33 @@
   color: var(--c-blue);
   text-transform: none;
   display: inline-block;
+}
+
+.listTextDisabled {
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.27;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+}
+
+.noStylingContainer {
+  width: 100%;
+  display: flex;
+  gap: var(--sp-2);
+  
+  & span:after {
+    top:50%;
+    transform:translateY(-50%);
+    content:"•";
+    margin: 0.4em;
+  }
+
+  & span:last-of-type:after {
+    content: ""
+  }
 }
 
 .listItemText {

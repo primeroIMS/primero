@@ -70,6 +70,7 @@ en:
     reopen: Reopen
     request_approval: Request Approval
     revoke: Revoke
+    revoke_mark_as_done: Revoke / Mark as Done
     save: Save
     services_from_case_creation_success: Service Provision record successfully created.
     services_section_from_case: Add Service Provision
@@ -144,6 +145,10 @@ en:
     retry: This export is invalid. Please try recreating your export.
     started_on: Started
     status: Status
+    delete:
+      success: Export was successfully deleted.
+      header: Delete Export
+      confirmation: Are you sure? Once you delete this export, you will not be able to get it back.
   form_export:
     label: Export Form Configuration
     include_hidden: Include hidden forms and fields?
@@ -241,6 +246,8 @@ en:
     return_to_case: Return to Case
     enable_webpush: Device notifications
     dialog_yes: "Yes"
+    mark_accepted: Mark as accepted
+    mark_rejected: Mark as rejected
   resync_records:
     id: ID
     record_type: Record Type
@@ -285,10 +292,16 @@ en:
       confirm_create_case: Do you want to create a Case for this individual?
       case_referral_pending: A Case referral is pending.
       case_transfer_pending: A Case transfer is pending.
+      case_referral_pending_alert: A Case referral is pending. %{link} before proceeding.
+      case_transfer_pending_alert: A Case transfer is pending. %{link} before proceeding.
+      pending_transition_link: Accept it here
       case_no_approval_request: There are no approval requests for this Case.
       bulk_assign_limit: You cannot assign more than 100 Cases at once.
       bulk_assign_limit_try_again: You cannot assign more than 100 Cases at once. Please select 100 Cases or fewer and then try again.
       bulk_flag_limit: You cannot flag more than 100 Cases at once. Please select 100 Cases or fewer and then try again.
+      pending_transition_excluded: One or more of the selected Case(s) has a pending Referral
+        or Transfer and will not be included. Please accept or reject this Referral or Transfer
+        to resolve this issue.
       referral_rejected: Referral has been rejected.
       transfer_request_made: Transfer Request has been made for this Case.
     save: Save Case
@@ -440,6 +453,7 @@ en:
       gbv_closure: GBV Closure
       gender: Gender
       high: High
+      location: Location
       low: Low
       male: Male
       medium: Medium
@@ -503,9 +517,7 @@ en:
         if the child wishes.'
     reassign:
       multiple_successfully: Primero is reassigning %{select_records} Case(s). It may take several minutes for all of these Cases to update.
-    referral_done: Clicking 'Done' signifies that you have completed the referral
-      work associated with this case. Once you click 'Done' you will no longer have
-      access to this record.
+    referral_done: Once you click ‘Done’ you will no longer have access to this record.
     referral_create_case_header: Create %{module_id} Case
     referral_create_case: Are you sure? You will be responsible for managing the Case you create.
     referral_done_success: Referral done.
@@ -518,6 +530,15 @@ en:
       that you are rejecting this Referral; once you click ‘Reject’ you will no longer
       have access to this Case record.
     referral_rejected_success: Referral rejected.
+    external_referral_accepted_header: Mark as accepted
+    external_referral_accepted: Are you sure you want to mark this Referral as accepted? This indicates that the recipient has accepted
+      responsibility for completing work associated with this referral.
+    external_referral_rejected_header: Mark as rejected
+    external_referral_rejected: By marking this Referral as ‘Rejected,’ you are indicating that the referral recipient was not ready to accept
+      responsibility for this referral. Please enter the reason for the recipient’s rejection below.
+    registry_search_for: '%{field} Search'
+    registry_results: '%{field} Results'
+    registry_empty_placeholder: 'Nothing selected'
     register_new_case: New Case
     registration_date: Registration Date
     rejected_success_action_plan: '%{approval_label} - Not Approved'
@@ -551,6 +572,7 @@ en:
       access to the case.
     revoke_success_message: Case %{case_id} %{transition_type} to %{recipient_username}
       revoked.
+    revoke_external_success_message: Case %{case_id} %{transition_type} revoked.
     save_filter: Save
     selected_all_records: Select all %{total_records} cases that match this query.
     selected_records: '%{select_records} case(s) selected'
@@ -800,6 +822,7 @@ en:
       for your acceptance
     current_owner: Current Owner
     dash_case_incident_overview: My Cases
+    dash_cases_by_incident_type: Cases by Incident Type
     dash_group_overview: My Group's Cases
     dash_shared_from_my_team: Shared From My Team
     dash_shared_with_me: Shared With Me
@@ -1017,6 +1040,8 @@ en:
     error_401:  You have been logged out. Please log in again.
     error_something_went_wrong: Something went wrong.
   error_page:
+    no_terms_of_use:
+      title: Your agency does not have a signed Terms of Use document uploaded. Please contact your administrator.
     not_authorized:
       code: 403
       server_error: You are not authorized to access this page.
@@ -1028,6 +1053,7 @@ en:
   errors:
     api:
       internal_server: Server Error
+      too_many_requests: Too many requests. Please try again later.
       user:
         disposable_email: "Looks like this is a temporary email provider. To keep accounts secure, please use your personal or work email."
         captcha_service_unavailable: "Verification service is currently unavailable. Please try submitting again: refreshing the page usually helps if the connection was interrupted."
@@ -1104,8 +1130,13 @@ en:
       system_setting:
         allocated_space_integer: Field must be Integer
         allocated_space_warning_greater_than_hard_limit: Maximum allocated space warning greatr than Maximum allocated space
+      referral:
+        success_status_present: Success status must not be blank
+        reason_not_successful_present: Reason not successful must not be blank
+        service_implemented_present: Service implemented must not be blank
     not_found: No Record(s) Found
     try_again: Try again
+    image_not_permitted: Access to this photo not permitted
   exports:
     case_pdf:
       all: PDF
@@ -1197,6 +1228,7 @@ en:
     go_to_exports: Go to Exports page to download
     incident_recorder_xls:
       all: Incident Recorder
+      old_format_label: Use old Incident Recorder format (services saved in subforms)?
       one: Incident Recorder
       selected: Selected to Incident Recorder
     json:
@@ -1416,6 +1448,8 @@ en:
     predifined_lookups: Use pre-defined lookup
     query_required: This field is required
     radio_button: Radio Button
+    registry: Registry
+    registry_type: Registry Type
     remove: Remove
     remove_attachment_confirmation: Are you sure you want to remove this attachment?
     required: Required
@@ -1477,6 +1511,7 @@ en:
     less: Less...
     more: More...
     save_filters: Save
+    multiple_conditions_applied: This filter has multiple conditions applied.
     categories:
       violations: Violations
       incidents: Incidents
@@ -3357,6 +3392,11 @@ en:
               and they will lose access to the case. You can only refer a case to
               a user whose role has the ability to receive referrals.
             label: Referral
+          referral_within_user_group:
+            explanation: Restricts a user to only be able to send a referral to a user 
+              who is in one of their user groups. Roles with this permission should 
+              also have the ‘Referral’ and/or ‘Refer Case from Service subform’ permission.
+            label: Refer to users within my group
           referral_from_service:
             explanation: Allows the user to see the "Refer" button on the Services
               subform. When the user clicks this button, the referral modal will appear
@@ -3364,18 +3404,20 @@ en:
               disabled, but automatically filled with the information for those fields
               in the Services subform on which the user clicked the Refer button.
             label: Refer Case from Service subform
+          accept_or_reject_referral:
+            explanation: Allows users to indicate whether an external referral
+              has been marked as accepted or rejected by its recipient.
+            label: Mark external referrals as accepted / rejected
+          receive_referral_within_user_group:
+            explanation: Restricts a user to only be able to receive a referral
+              from a user who is in one of their user groups.
+            label: Receive referral from within my group
           remove_assigned_users:
-            explanation: Allows the user to remove other users from the "Other Assigned
-              Users" field. A user is listed here if they have received a referral
-              for the case or have received a transfer for the case, but have not
-              yet accepted or rejected it. When you remove a user from the "Other
-              Assigned Users" field, you remove their access to the case. So, users
-              with this permission can remove case access from users who have previously
-              received referrals or still-pending transfers for the case. Note that
-              this permission only works if the current user also has the ability
-              to edit the case.
-            label: Remove other assigned users (taking back case access from referred-to
-              users)
+            explanation: Allows a user to end a Referral or pending Transfer, removing recipient access.
+              For Referrals, this also lets you mark a Referral as done,
+              indicating whether the Referral was successful, whether services were implemented,
+              and leaving notes about the referral. This action also works for External Referrals.
+            label: Revoke Referral or Transfer / Mark Referral as done
           reopen:
             explanation: Allows a user to open a case which is currently closed.
             label: Reopen
@@ -3606,6 +3648,9 @@ en:
             explanation: Shows a manager the number of cases managed by each user in their team,
               which are being referred or transferred to other users.
             label: Overview - My Cases / Incidents
+          dash_cases_by_incident_type:
+            explanation: Shows a user the number of Cases with each type of Incident.
+            label: Cases by Incident Type
           dash_cases_by_social_worker:
             explanation: Table which shows how the total number of open cases and
               the number of new cases managed by each user in the current user's user
@@ -4669,16 +4714,28 @@ en:
     notes_label: Notes
     notes_on_referral: Notes on referral
     note_on_referral_from_provider: Notes on referral from provider
+    pending_restriction: You have a pending referral. Please accept or reject this
+      referral before making any changes.
     provided_consent_label: Consent is not provided in the Forms.
     recipient_label: Recipient
     refer_anyway_label: Refer anyway?
+    success_status: Was the Referral successful?
+    success_status_options:
+      successful: Successful
+      not_successful: Not Successful
+    reason_not_successful: If Not Successful, why not?
+    service_implemented: Was the service implemented?
     service_label: Service
     success: '%{record_type} %{id} successfully referred'
     user_mandatory_label: Recipient is required
     date: Date
     rejected_reason: Rejection Reason
+    service_external_referral_registry: Are you referring to a facility / agency / organization in an external service provider directory?
+    service_implementing_agency_external: Facility / agency / organization
     allow_case_creation: Allow case creation with this referral
     allow_case_creation_help_text: Checking this box will allow the recipient to create their own case record to provide case management services for the client.
+    services_form_message: To manage referrals to service providers, use the %{link}.
+    services_form_link: Referrals form
   report:
     aggregate_by: Group by row
     attribute: Attribute
@@ -4946,6 +5003,8 @@ en:
       by_date: By Date
       status: Status
       current_location: Family Location
+      my_families: My Families
+      family_linked_to_my_cases: Family Linked to My Cases
     reassign:
       multiple_successfully: Primero is reassigning %{select_records} family record(s).
         It may take several minutes for all of these family records to update.
@@ -4972,6 +5031,11 @@ en:
     is_remote_label: Are you transferring to a remote system?
     location_label: Location
     notes_label: Notes
+    pending_transfer_received: You have received a transfer for this Case but have not
+      accepted it. Please accept the transfer before transferring this Case to another
+      user.
+    pending_restriction: You have a pending transfer. Please accept or reject this
+      transfer before making any changes.
     provided_consent_label: Consent is not provided in the Forms.
     recipient_label: Recipient
     select_label: Select...
@@ -5008,7 +5072,7 @@ en:
       in_progress: Pending
       inprogress: Pending
       rejected: Rejected
-      revoked: Revoked
+      revoked: Revoked / Done
     transferred_by: Transferred by
     type:
       assign: Assign
@@ -5017,6 +5081,7 @@ en:
       external_referral: External Referral
       transfer: Transfer
       transferRequest: Transfer Request
+      external_registry_referral: External Registry Referral
   user:
     agency_office: Agency Office (GBV field)
     code: User Code
@@ -5156,6 +5221,7 @@ en:
       date_last_login: Date of Last Log In
       date_last_case_view: Date of Last Case View
       date_last_case_updated: Date of Last Case Modification
+      filter_by_agency: Filter by selected agencies
     disable_text: Are you sure you want to disable these users? They will no longer be able to login to the system.
     disable_title: Disable Users
     disable_selection_indicartor: '%{users_selected} user(s) selected'

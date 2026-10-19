@@ -14,12 +14,25 @@ class SystemSettings < ApplicationRecord
   TIMEFRAME_HOURS_TO_ASSIGN = 3
   TIMEFRAME_HOURS_TO_ASSIGN_HIGH = 1
   DAYS_SINCE_REFERRAL_STATUS_CHANGED = 14
+  DEFAULT_REGISTRY_FIELD_NAMES = %w[registry_id_display name].freeze
+  DEFAULT_REGISTRY_FIELD_OPTIONS = {
+    collapsed_field_names: DEFAULT_REGISTRY_FIELD_NAMES,
+    preview_field_names: DEFAULT_REGISTRY_FIELD_NAMES,
+    searchable_field_names: DEFAULT_REGISTRY_FIELD_NAMES
+  }.with_indifferent_access.freeze
+  DEFAULT_REGISTRY_OPTIONS = {
+    RegistryRecord::REGISTRY_TYPE_FARMER => DEFAULT_REGISTRY_FIELD_OPTIONS,
+    RegistryRecord::REGISTRY_TYPE_COMMITTEE => DEFAULT_REGISTRY_FIELD_OPTIONS,
+    RegistryRecord::REGISTRY_TYPE_FOSTER_CARE => DEFAULT_REGISTRY_FIELD_OPTIONS,
+    RegistryRecord::REGISTRY_TYPE_PROVIDER => DEFAULT_REGISTRY_FIELD_OPTIONS
+  }.with_indifferent_access.freeze
 
   store_accessor(:system_options, :due_date_from_appointment_date,
                  :show_alerts, :code_of_conduct_enabled, :timeframe_hours_to_assign,
                  :timeframe_hours_to_assign_high, :duplicate_field_to_form,
                  :maximum_users, :maximum_users_warning, :maximum_attachments_per_record,
-                 :primero_promote_config, :field_labels_i18n, :maximum_attachments_space,
+                 :primero_promote_config, :exclude_user_groups_from_configuration,
+                 :field_labels_i18n, :maximum_attachments_space,
                  :maximum_attachments_space_warning, :registration_streams,
                  :registration_streams_link_labels_i18n, :registration_streams_consent_text_i18n,
                  :reporting_location_i18n, :days_since_referral_status_changed,
@@ -33,20 +46,19 @@ class SystemSettings < ApplicationRecord
                                registration_streams_consent_text registration_streams_title]
 
   has_one_attached :location_file
-
   has_one_attached :unused_fields_report_file
 
   validate :validate_reporting_location,
            if: ->(system_setting) { system_setting.reporting_location_config.present? }
-
-  after_initialize :set_version
-  before_save :set_version
   validate :validate_maximum_users
   validate :validate_maximum_users_warning
   validate :validate_maximum_users_values, if: :maximum_users_fields_present?
   validate :validate_maximum_attachments_space
   validate :validate_maximum_attachments_space_warning
   validate :validate_maximum_attachments_space_values, if: :maximum_attachments_space_fields_present?
+
+  after_initialize :set_version
+  before_save :set_version
 
   def name
     I18n.t('system_settings.label')
@@ -58,8 +70,16 @@ class SystemSettings < ApplicationRecord
     system_name || Rails.application.routes.default_url_options[:host]
   end
 
+  def registry_options
+    super.presence || DEFAULT_REGISTRY_OPTIONS
+  end
+
   def registry_types
-    system_options&.[]('registry_types')
+    registry_options.keys
+  end
+
+  def registry_type_default
+    super.presence || RegistryRecord::REGISTRY_TYPE_PROVIDER
   end
 
   def set_version

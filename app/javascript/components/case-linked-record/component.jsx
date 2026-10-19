@@ -26,16 +26,20 @@ function Component({
   caseFormUniqueId,
   columns,
   disableOffline = {},
+  includeIdColumn,
   drawerTitles,
   formId,
   handleToggleNav,
   headerFieldNames,
   idField = "id",
   isPermitted,
+  emptyPlaceholderText,
   isRecordSelectable,
   isRelationship = false,
   linkedRecordFormUniqueId,
+  previewFieldNames,
   linkedRecords = [],
+  multiple = true,
   linkedRecordType,
   linkField,
   linkFieldDisplay,
@@ -56,7 +60,13 @@ function Component({
   shouldFetchRecord = true,
   showHeader,
   showSelectButton,
-  validatedFieldNames = []
+  showTitle = true,
+  validatedFieldNames = [],
+  resultActionCreator,
+  recordID,
+  forceDrawerTitle = false,
+  searchTableColumns,
+  fieldTitle
 }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -78,12 +88,22 @@ function Component({
     })
   );
 
-  const title = caseLinkedForm.getIn(["name", i18n.locale], null);
-  const formName = caseLinkedForm.i18nName ? i18n.t(title) : title;
-
+  const title = caseLinkedForm?.getIn(["name", i18n.locale], null);
+  const formName = caseLinkedForm?.i18nName ? i18n.t(title) : title;
   const fields = useMemoizedSelector(state =>
     getRecordFieldsByName(state, {
       name: searchFieldNames,
+      recordType: linkedRecordType,
+      primeroModule,
+      omitDuplicates: true,
+      checkPermittedForms: false,
+      checkVisible: false
+    })
+  );
+
+  const tableFields = useMemoizedSelector(state =>
+    getRecordFieldsByName(state, {
+      name: searchTableColumns || searchFieldNames,
       recordType: linkedRecordType,
       primeroModule,
       omitDuplicates: true,
@@ -176,21 +196,26 @@ function Component({
   }, [detailsID]);
 
   const subformTitle = mode.isEdit ? i18n.t("fields.add_field_type", { file_type: formName }) : formName;
-  const searchTitle = caseLinkedForm.i18nName
-    ? drawerTitles.search || i18n.t(`${recordType}.search_for`, { record_type: i18n.t("case.label") })
-    : drawerTitles.searchNoForm;
-  const resultsTitle = drawerTitles.results || i18n.t(`${recordType}.results`);
-  const detailsTitle = drawerTitles.details || formName;
+  const searchTitle =
+    caseLinkedForm?.i18nName || forceDrawerTitle
+      ? drawerTitles?.search || i18n.t(`${recordType}.search_for`, { record_type: i18n.t("case.label") })
+      : drawerTitles?.searchNoForm;
+  const resultsTitle = drawerTitles?.results || i18n.t(`${recordType}.results`);
+  const detailsTitle = drawerTitles?.details || formName;
   const disableAddNewTitle = addNewProps?.i18nKeys?.disableTooltip ? i18n.t(addNewProps.i18nKeys.disableTooltip) : "";
 
   return (
     <>
-      <RecordFormTitle mobileDisplay={mobileDisplay} handleToggleNav={handleToggleNav} displayText={formName} />
-      <div className={css.subformFieldArrayContainer}>
-        <div>
-          <h3 className={css.subformTitle}>{subformTitle}</h3>
-        </div>
-        {addNewProps?.show && (
+      {showTitle && (
+        <RecordFormTitle mobileDisplay={mobileDisplay} handleToggleNav={handleToggleNav} displayText={formName} />
+      )}
+      <div className={css.caseLinkedRecordContainer}>
+        {showTitle && (
+          <div>
+            <h3 className={css.subformTitle}>{subformTitle}</h3>
+          </div>
+        )}
+        {addNewProps?.show && (multiple || (!multiple && linkedRecords.isEmpty())) && (
           <ConditionalWrapper
             condition={disableOffline?.addNew && !online}
             wrapper={DisableOffline}
@@ -206,19 +231,19 @@ function Component({
             />
           </ConditionalWrapper>
         )}
+        {showHeader && (
+          <RecordHeader
+            recordType={recordType}
+            fieldNames={headerFieldNames}
+            linkedRecordType={linkedRecordType}
+            handleOpenMatch={handleOpenMatch}
+            linkedRecords={linkedRecords}
+            idField={idField}
+            formName={formName || fieldTitle}
+            emptyPlaceholderText={emptyPlaceholderText}
+          />
+        )}
       </div>
-
-      {showHeader && (
-        <RecordHeader
-          recordType={recordType}
-          fieldNames={headerFieldNames}
-          linkedRecordType={linkedRecordType}
-          handleOpenMatch={handleOpenMatch}
-          linkedRecords={linkedRecords}
-          idField={idField}
-          formName={formName}
-        />
-      )}
 
       <SubformDrawer open={drawerOpen && component === 0} cancelHandler={handleCancel} title={searchTitle}>
         <SearchPanel handleCancel={handleCancel}>
@@ -226,6 +251,7 @@ function Component({
             fields={fields}
             formId={formId}
             locale={i18n.locale}
+            mode={mode}
             permissions={permissions}
             phoneticFieldNames={phoneticFieldNames}
             searchCaseType={searchCaseType}
@@ -239,7 +265,7 @@ function Component({
 
       <SubformDrawer open={drawerOpen && component === 1} cancelHandler={handleCancel} title={resultsTitle}>
         <Results
-          fields={fields}
+          fields={tableFields}
           handleCancel={handleCancel}
           linkedRecordType={linkedRecordType}
           locale={i18n.locale}
@@ -249,18 +275,22 @@ function Component({
           permissions={permissions}
           recordType={recordType}
           columns={columns}
+          includeIdColumn={includeIdColumn}
           redirectIfNotAllowed={redirectIfNotAllowed}
           setDetailsID={setDetailsID}
           setShouldSelect={setShouldSelect}
           isRecordSelectable={isRecordSelectable}
           onResultClick={onResultClick}
+          resultActionCreator={resultActionCreator}
+          recordID={recordID}
         />
       </SubformDrawer>
 
       <SubformDrawer open={drawerOpen && component === 2} cancelHandler={handleCancel} title={detailsTitle}>
         <ResultDetails
           id={detailsID}
-          formName={formName}
+          previewFieldNames={previewFieldNames}
+          formName={formName || fieldTitle}
           handleCancel={handleCancel}
           handleReturn={handleReturnToResults}
           handleSelection={handleSelection}
@@ -293,10 +323,14 @@ Component.propTypes = {
   columns: PropTypes.array,
   disableOffline: PropTypes.object,
   drawerTitles: PropTypes.object.isRequired,
+  emptyPlaceholderText: PropTypes.string,
+  fieldTitle: PropTypes.string,
+  forceDrawerTitle: PropTypes.bool,
   formId: PropTypes.string.isRequired,
   handleToggleNav: PropTypes.func.isRequired,
   headerFieldNames: PropTypes.array.isRequired,
   idField: PropTypes.string,
+  includeIdColumn: PropTypes.bool,
   isPermitted: PropTypes.bool.isRequired,
   isRecordSelectable: PropTypes.func,
   isRelationship: PropTypes.bool,
@@ -307,21 +341,27 @@ Component.propTypes = {
   linkFieldDisplay: PropTypes.string.isRequired,
   mobileDisplay: PropTypes.bool.isRequired,
   mode: PropTypes.object.isRequired,
+  multiple: PropTypes.bool,
   onRecordDeselect: PropTypes.func,
   onRecordSelect: PropTypes.func,
   onResultClick: PropTypes.func,
   permissions: PropTypes.object.isRequired,
   phoneticFieldNames: PropTypes.array.isRequired,
+  previewFieldNames: PropTypes.array,
   primeroModule: PropTypes.string.isRequired,
+  recordID: PropTypes.string,
   recordType: PropTypes.string.isRequired,
   recordViewForms: PropTypes.array,
+  resultActionCreator: PropTypes.func,
   searchCaseType: PropTypes.string,
   searchFieldNames: PropTypes.array.isRequired,
   SearchFormComponent: PropTypes.object,
+  searchTableColumns: PropTypes.array,
   setFieldValue: PropTypes.func.isRequired,
   shouldFetchRecord: PropTypes.bool.isRequired,
   showHeader: PropTypes.bool.isRequired,
   showSelectButton: PropTypes.bool.isRequired,
+  showTitle: PropTypes.bool,
   validatedFieldNames: PropTypes.array.isRequired
 };
 

@@ -9,6 +9,13 @@ import DateTransitionsSummary from "../components/date-transitions-summary";
 
 function Summary({ transition, classes, showMode, recordType }) {
   const i18n = useI18n();
+
+  const summaryTitle = () => {
+    if (!transition.remote) return "referral";
+
+    return transition?.service_external_referral_registry ? "external_registry_referral" : "external_referral";
+  };
+
   const transitionStatus = transition.status ? (
     <Grid
       className={classes.status}
@@ -32,9 +39,7 @@ function Summary({ transition, classes, showMode, recordType }) {
       >
         <div className={classes.wrapper}>
           <DateTransitionsSummary value={transition.created_at} />
-          <div className={classes.titleHeader}>
-            {i18n.t(`transition.type.${transition.remote ? "external_referral" : "referral"}`)}
-          </div>
+          <div className={classes.titleHeader}>{i18n.t(`transition.type.${summaryTitle()}`)}</div>
         </div>
       </Grid>
       {transitionStatus}

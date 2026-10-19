@@ -30,6 +30,11 @@ describe PrimeroConfiguration do
                                                                           '2' => ['district'] } })
   end
 
+  def enable_user_groups_exclusion
+    SystemSettings.first.update!(exclude_user_groups_from_configuration: true)
+    SystemSettings.current(true)
+  end
+
   describe '.current_configuration_data' do
     let(:current_configuration_data) { PrimeroConfiguration.current_configuration_data }
 
@@ -40,6 +45,34 @@ describe PrimeroConfiguration do
       current_configuration_data.each_value do |config_records|
         expect(config_records).to be_a_kind_of(Array)
         expect(config_records.size.positive?).to be_truthy
+      end
+    end
+
+    context 'when user groups are excluded from configuration' do
+      before { enable_user_groups_exclusion }
+
+      it 'does not include user groups' do
+        expect(current_configuration_data.keys).to match_array(
+          %w[FormSection Lookup Agency Role Report ContactInformation]
+        )
+      end
+    end
+  end
+
+  describe '#valid?' do
+    let(:configuration_without_user_groups) do
+      PrimeroConfiguration.new(data: PrimeroConfiguration.current_configuration_data.except('UserGroup'))
+    end
+
+    it 'is not valid without user groups' do
+      expect(configuration_without_user_groups.valid?).to be false
+    end
+
+    context 'when user groups are excluded from configuration' do
+      before { enable_user_groups_exclusion }
+
+      it 'is valid without user groups' do
+        expect(configuration_without_user_groups.valid?).to be true
       end
     end
   end
@@ -154,6 +187,42 @@ describe PrimeroConfiguration do
 
       expect(FormSection.all.pluck(:unique_id)).to match_array(%w[A X])
       expect(@role1.form_permissions.count).to eq(2)
+    end
+
+    it 'restores the user groups' do
+      current_configuration = PrimeroConfiguration.current
+      current_configuration.save!
+      @user_group1.update!(name: 'Local Group')
+      current_configuration.apply!
+
+      expect(@user_group1.reload.name).to eq('Test Group')
+    end
+
+    context 'when user groups are excluded from configuration' do
+      let(:configuration_with_user_groups) do
+        current_configuration = PrimeroConfiguration.current
+        current_configuration.save!
+        current_configuration
+      end
+
+      before do
+        configuration_with_user_groups
+        enable_user_groups_exclusion
+      end
+
+      it 'does not create the user groups contained in the configuration' do
+        @user_group1.destroy!
+        configuration_with_user_groups.apply!
+
+        expect(UserGroup.count).to eq(0)
+      end
+
+      it 'does not modify the existing user groups' do
+        @user_group1.update!(name: 'Local Group')
+        configuration_with_user_groups.apply!
+
+        expect(@user_group1.reload.name).to eq('Local Group')
+      end
     end
   end
 

@@ -1,19 +1,20 @@
 import PropTypes from "prop-types";
-import { fromJS, List } from "immutable";
+import { fromJS, List, Map } from "immutable";
 import { useDispatch } from "react-redux";
 
-import { ALERTS_FOR } from "../../config";
+import { ALERTS_FOR, PENDING_TRANSITION_ALERTS } from "../../config";
 import { useI18n } from "../i18n";
 import InternalAlert from "../internal-alert";
 import useMemoizedSelector from "../../libs/use-memoized-selector";
-import { getRecordFormAlerts, getSelectedRecord, deleteAlertFromRecord } from "../records";
+import { getRecordFormAlerts, getSelectedRecord, deleteAlertFromRecord, usePendingTransitionAlerts } from "../records";
 import { getSubformsDisplayName, getValidationErrors, getDuplicatedFields } from "../record-form/selectors";
 import { usePermissions, REMOVE_ALERT } from "../permissions";
+import FormLinkMessage from "../record-form/components/form-link-message";
 
 import { getMessageData } from "./utils";
 import { NAME } from "./constants";
 
-function Component({ form, recordType, attachmentForms = fromJS([]), formMode }) {
+function Component({ form, recordType, attachmentForms = fromJS([]), formMode, record, primeroModule }) {
   const i18n = useI18n();
 
   const dispatch = useDispatch();
@@ -24,6 +25,7 @@ function Component({ form, recordType, attachmentForms = fromJS([]), formMode })
   const duplicatedFields = useMemoizedSelector(state => getDuplicatedFields(state, recordType, form.unique_id));
   const selectedRecord = useMemoizedSelector(state => getSelectedRecord(state, recordType));
   const hasDismissPermission = usePermissions(recordType, REMOVE_ALERT);
+  const pendingTransitionAlerts = usePendingTransitionAlerts(record, primeroModule);
 
   const showDismissButton = () => {
     return hasDismissPermission && formMode.isShow;
@@ -47,7 +49,18 @@ function Component({ form, recordType, attachmentForms = fromJS([]), formMode })
         return fromJS({ message: value });
       });
 
-  const items = recordAlerts.map(alert => {
+  const pendingTransitionItems = pendingTransitionAlerts
+    .filter(alert => alert.get("form_unique_id") === form.unique_id)
+    .map(alert => {
+      const { messageKey, linkKey, transitionFormUniqueId } = PENDING_TRANSITION_ALERTS[alert.get("type")];
+
+      return Map({
+        message: <FormLinkMessage messageKey={messageKey} linkKey={linkKey} formUniqueId={transitionFormUniqueId} />,
+        onDismiss: null
+      });
+    });
+
+  const alertItems = recordAlerts.map(alert => {
     const messageData = getMessageData({ alert, form, duplicatedFields, i18n });
 
     return fromJS({
@@ -61,6 +74,8 @@ function Component({ form, recordType, attachmentForms = fromJS([]), formMode })
         : null
     });
   });
+
+  const items = alertItems.concat(pendingTransitionItems);
 
   return (
     <>
@@ -84,6 +99,8 @@ Component.propTypes = {
   attachmentForms: PropTypes.object,
   form: PropTypes.object.isRequired,
   formMode: PropTypes.object,
+  primeroModule: PropTypes.string,
+  record: PropTypes.object,
   recordType: PropTypes.string.isRequired
 };
 

@@ -47,6 +47,7 @@ module FakeDeviseLogin
         ]
       )
     ),
+    Field.new(name: 'farm_cooperative', type: Field::REGISTRY, display_name_en: 'Farm Cooperative'),
     Field.new(name: 'registry_type', type: Field::TEXT_FIELD, display_name_en: 'Registry Type'),
     Field.new(name: 'family_number', type: Field::TEXT_FIELD, display_name_en: 'Family Number'),
     Field.new(name: 'family_notes', type: Field::TEXT_FIELD, display_name_en: 'Family Notes'),
@@ -70,6 +71,7 @@ module FakeDeviseLogin
         unique_id: 'services_section', parent_form: 'case', name_en: 'services_section', is_nested: true,
         fields: [
           Field.new(name: 'service_type', type: Field::TEXT_FIELD, display_name_en: 'A'),
+          Field.new(name: 'service_provider', type: Field::REGISTRY, display_name_en: 'A'),
           Field.new(name: 'separator3', type: Field::SEPARATOR, display_name_en: 'A')
         ]
       )
@@ -129,7 +131,9 @@ module FakeDeviseLogin
 
   def permission_bulk_flag_record
     @permission_bulk_flag_record = [
-      Permission.new(resource: Permission::CASE, actions: [Permission::READ, Permission::WRITE, Permission::CREATE, Permission::BULK_FLAG])
+      Permission.new(resource: Permission::CASE,
+                     actions: [Permission::READ, Permission::WRITE, Permission::CREATE,
+                               Permission::BULK_FLAG])
     ]
   end
 

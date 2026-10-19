@@ -23,9 +23,9 @@ module Api::V2::Concerns::Record
   end
 
   def show
-    authorize! :read, model_class
+    authorize_read!(model_class)
     @record = find_record
-    authorize! :read, @record
+    authorize_read!(@record)
     permit_readable_fields
     select_fields_for_show
     render 'api/v2/records/show'
@@ -210,7 +210,12 @@ module Api::V2::Concerns::Record
   def authorize_update!
     if params[:record_action].present?
       authorize!(params[:record_action].to_sym, model_class)
-      authorize!(:read, @record)
+
+      unless [Permission::INCIDENT_DETAILS_FROM_CASE,
+              Permission::SERVICES_SECTION_FROM_CASE].include?(params[:record_action]) &&
+             current_user.can?(:search_owned_by_others, model_class)
+        authorize!(:read, @record)
+      end
     else
       authorize!(:update, @record)
     end
@@ -218,6 +223,10 @@ module Api::V2::Concerns::Record
 
   def authorize_index!
     authorize!(:index, model_class)
+  end
+
+  def authorize_read!(model)
+    authorize!(:read, model)
   end
 
   def permitted_index_params(params)

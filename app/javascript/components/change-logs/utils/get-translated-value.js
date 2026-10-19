@@ -1,11 +1,11 @@
 import isNil from "lodash/isNil";
 import isEmpty from "lodash/isEmpty";
 
-import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../../config";
 import { EMPTY_VALUE } from "../constants";
+import { selectedDateFormat } from "../../../libs/date-picker-localization";
 
 const translateDate = (value, dateIncludeTime, i18n) => {
-  const format = dateIncludeTime ? DATE_TIME_FORMAT : DATE_FORMAT;
+  const format = selectedDateFormat(dateIncludeTime, i18n.locale);
   const date = i18n.localizeDate(value, format);
 
   return isNil(date) ? value : date;

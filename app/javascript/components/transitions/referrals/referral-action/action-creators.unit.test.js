@@ -33,7 +33,7 @@ describe("<ReferralAction /> - Action Creators", () => {
       recordId: "10",
       recordType: "cases",
       dialogName: "dialog name",
-      transistionId: "20"
+      transitionId: "20"
     };
 
     const expectedAction = {
@@ -116,7 +116,7 @@ describe("<ReferralAction /> - Action Creators", () => {
         recordId: "10",
         recordType: "cases",
         dialogName: "dialog name",
-        transistionId: "20",
+        transitionId: "20",
         data: { rejected_reason: "reason 1" }
       };
 
@@ -174,14 +174,14 @@ describe("<ReferralAction /> - Action Creators", () => {
       jest.resetAllMocks();
     });
 
-    it("should return the correct object", () => {
+    it("should refetch the record after accepting", () => {
       const args = {
         message: "Updated successfully",
         failureMessage: "Updated unsuccessfully",
         recordId: "10",
         recordType: "cases",
         dialogName: "dialog name",
-        transistionId: "20"
+        transitionId: "20"
       };
 
       const expectedAction = {
@@ -203,6 +203,13 @@ describe("<ReferralAction /> - Action Creators", () => {
             },
             {
               action: CLEAR_DIALOG
+            },
+            {
+              action: "cases/RECORD",
+              api: {
+                path: "cases/10",
+                db: { collection: "records", recordType: "cases", id: "10" }
+              }
             },
             redirectCallback
           ],

@@ -1,7 +1,7 @@
 import { fromJS, Map, OrderedMap } from "immutable";
 
 import { PrimeroModuleRecord } from "../../application/records";
-import { mountedComponent, screen } from "../../../test-utils";
+import { mountedComponent, screen, userEvent } from "../../../test-utils";
 import { FieldRecord, FormSectionRecord } from "../../record-form/records";
 import { RECORD_PATH } from "../../../config";
 
@@ -22,7 +22,10 @@ describe("<AddService />", () => {
       ]
     }),
     user: fromJS({
-      modules: ["app-module"]
+      modules: ["app-module"],
+      permissions: {
+        cases: ["referral_from_service"]
+      }
     }),
     records: fromJS({
       cases: {
@@ -154,5 +157,55 @@ describe("<AddService />", () => {
   it("renders Fields", () => {
     mountedComponent(<AddService {...props} />, initialState);
     expect(screen.queryAllByRole("textbox")).toHaveLength(1);
+  });
+
+  it("enables the save button when the selected record has no pending transition", () => {
+    mountedComponent(<AddService {...props} />, initialState);
+
+    expect(screen.queryByText("case.messages.pending_transition_excluded")).not.toBeInTheDocument();
+    expect(screen.getByText("buttons.save").closest("button")).not.toBeDisabled();
+  });
+
+  describe("when the selected record has a pending transition", () => {
+    const pendingProps = { ...props, pendingTransitionIds: ["d9df44fb-95d0-4407-91fd-ed18c19be1ad"] };
+
+    it("shows the pending transition message", () => {
+      mountedComponent(<AddService {...pendingProps} />, initialState);
+
+      expect(screen.getByText("case.messages.pending_transition_excluded")).toBeInTheDocument();
+    });
+
+    it("disables the save button", () => {
+      mountedComponent(<AddService {...pendingProps} />, initialState);
+
+      expect(screen.getByText("buttons.save").closest("button")).toBeDisabled();
+    });
+  });
+
+  describe("when the implementing agency individual field is opened", () => {
+    const stateWithUserField = initialState.setIn(["forms", "formSections", "1", "fields"], [2, 3]).setIn(
+      ["forms", "fields", "3"],
+      FieldRecord({
+        name: "service_implementing_agency_individual",
+        type: "select_box",
+        editable: true,
+        disabled: false,
+        visible: true,
+        display_name: { en: "Implementing Agency Individual" },
+        option_strings_source: "User",
+        multi_select: false
+      })
+    );
+
+    it("fetches the referral users with the module of the selected record", async () => {
+      const user = userEvent.setup();
+      const { store } = mountedComponent(<AddService {...props} />, stateWithUserField);
+
+      await user.click(screen.getByRole("combobox"));
+
+      const referralUsersFetch = store.getActions().find(action => action.type === "transitions/REFERRAL_USERS_FETCH");
+
+      expect(referralUsersFetch.api.params).toEqual({ record_type: "case", record_module_id: "app-module" });
+    });
   });
 });

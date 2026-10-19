@@ -1,17 +1,18 @@
 import PropTypes from "prop-types";
 
 import { ConditionalWrapper } from "../../../../libs";
-import { DATE_FORMAT, DATE_TIME_FORMAT, LOCALE_KEYS } from "../../../../config";
+import { LOCALE_KEYS } from "../../../../config";
 import { useI18n } from "../../../i18n";
 import NepaliCalendar from "../../../nepali-calendar-input";
+import { selectedDateFormat } from "../../../../libs/date-picker-localization";
 
 import css from "./styles.css";
 
 function Component({ rowAvailable, wrapper, value, valueWithTime }) {
   const i18n = useI18n();
   const parsedValue = valueWithTime
-    ? i18n.localizeDate(value, DATE_TIME_FORMAT)
-    : i18n.localizeDate(value, DATE_FORMAT);
+    ? i18n.localizeDate(value, selectedDateFormat(true, i18n.locale))
+    : i18n.localizeDate(value, selectedDateFormat(false, i18n.locale));
 
   const children =
     i18n.locale === LOCALE_KEYS.ne ? (

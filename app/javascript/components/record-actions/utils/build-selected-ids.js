@@ -1,7 +1,7 @@
-export default (selectedRecords, records, currentPage, sendKey = "id") =>
+export default (selectedRecords, records, currentPage, sendKey = "id", excludeIds = []) =>
   selectedRecords && records
     ? records
         .toJS()
-        .filter((_record, index) => selectedRecords[currentPage]?.includes(index))
+        .filter((record, index) => selectedRecords[currentPage]?.includes(index) && !excludeIds.includes(record.id))
         .map(record => record[sendKey])
     : [];

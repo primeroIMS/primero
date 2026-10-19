@@ -2,6 +2,10 @@
 
 # API for creating referrals for record types
 class Api::V2::ReferralsController < Api::V2::RecordResourceController
+  include Api::V2::Concerns::PendingTransitionRestriction
+
+  include Api::V2::Concerns::JsonValidateParams
+
   def index
     authorize! :read, @record
     @transitions = @record.referrals_for_user(current_user)
@@ -10,15 +14,17 @@ class Api::V2::ReferralsController < Api::V2::RecordResourceController
 
   def create
     authorize_create!(@record)
+    authorize_pending_transition!(@record)
     @transition = refer(@record)
     updates_for_record(@record)
     render 'api/v2/transitions/create'
   end
 
   def update
-    authorize_update!(@record)
-    @transition = Referral.find(params[:id])
+    authorize! :read, @record
+    @transition = @record.referrals.find(params[:id])
     authorize!(:update, @transition)
+    validate_json!(Referral.schema_for_update, update_params)
     @transition.process!(current_user, update_params)
     updates_for_record(@transition.record)
     render 'api/v2/transitions/update'
@@ -32,9 +38,11 @@ class Api::V2::ReferralsController < Api::V2::RecordResourceController
   end
 
   def destroy
-    authorize_update!(@record)
-    @transition = Referral.find(params[:id])
-    @transition.revoke!(current_user)
+    authorize! :read, @record
+    @transition = @record.referrals.find(params[:id])
+    authorize!(:destroy, @transition)
+    validate_json!(Referral.schema_for_delete, delete_params)
+    @transition.revoke!(current_user, delete_params)
     updates_for_record(@transition.record)
     render 'api/v2/transitions/destroy'
   end
@@ -57,11 +65,17 @@ class Api::V2::ReferralsController < Api::V2::RecordResourceController
 
   private
 
+  def find_records
+    super
+
+    @records = @records.reject { |record| record.pending_transition_for?(current_user) }
+  end
+
   def refer(record)
     permitted = params.require(:data).permit(
       :transitioned_to, :transitioned_to_remote, :transitioned_to_agency, :service, :service_record_id,
       :remote, :type_of_export, :notes, :consent_overridden, :authorized_role_unique_id,
-      :allow_case_creation
+      :allow_case_creation, :service_external_referral_registry, :service_implementing_agency_registry_id
     )
     referral = Referral.new(permitted)
     referral.transitioned_by = current_user.user_name
@@ -78,13 +92,15 @@ class Api::V2::ReferralsController < Api::V2::RecordResourceController
     authorize! :referral_from_service, record
   end
 
-  def authorize_update!(record)
-    authorize! :update, record
-  rescue CanCan::AccessDenied => e
-    raise e unless current_user.can?(:receive_referral, record) || current_user.can?(:remove_assigned_users, record)
+  def update_params
+    @update_params ||= params.require(:data).permit(
+      :status, :rejected_reason, :rejection_note, :success_status, :reason_not_successful, :service_implemented
+    )
   end
 
-  def update_params
-    @update_params ||= params.require(:data).permit(:status, :rejected_reason, :rejection_note)
+  def delete_params
+    @delete_params ||= params.require(:data).permit(
+      :rejection_note, :success_status, :reason_not_successful, :service_implemented
+    )
   end
 end

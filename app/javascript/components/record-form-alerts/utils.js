@@ -1,7 +1,8 @@
 /* eslint-disable import/prefer-default-export */
 import { format, parseISO } from "date-fns";
 
-import { ALERTS_FOR, DATE_FORMAT } from "../../config";
+import { ALERTS_FOR } from "../../config";
+import { selectedDateFormat } from "../../libs/date-picker-localization";
 
 export const getMessageData = ({ alert, form, duplicatedFields, i18n }) => {
   const alertFor = alert.get("alert_for");
@@ -10,7 +11,7 @@ export const getMessageData = ({ alert, form, duplicatedFields, i18n }) => {
     case ALERTS_FOR.field_change:
       return {
         form_section_name: form.getIn(["name", i18n.locale]),
-        alert_time: alert.get("date") && format(parseISO(alert.get("date")), DATE_FORMAT)
+        alert_time: alert.get("date") && format(parseISO(alert.get("date")), selectedDateFormat(false, i18n.locale))
       };
     case ALERTS_FOR.approval:
       return { form_section_name: form.getIn(["name", i18n.locale]) };

@@ -1,12 +1,7 @@
 import { useDispatch } from "react-redux";
-import { useForm } from "react-hook-form";
 import PropTypes from "prop-types";
-import { object, string } from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
 
 import { ACCEPTED, REJECTED, MODES, RECORD_TYPES_PLURAL } from "../../../../config";
-import { FieldRecord, FormSectionRecord, whichFormMode, TEXT_FIELD } from "../../../form";
-import FormSection from "../../../form/components/form-section";
 import { submitHandler } from "../../../form/utils/form-submission";
 import { useI18n } from "../../../i18n";
 import ActionDialog from "../../../action-dialog";
@@ -14,30 +9,14 @@ import { CREATE_CASE, DONE } from "../constants";
 import { useMemoizedSelector } from "../../../../libs";
 import { getSelectedRecordData } from "../../../records";
 import { selectModule } from "../../../application";
+import { mapRecordForCaseCreation, referralConfirmButtonKey, referralHeaderKey, referralMessageKey } from "../utils";
+import useReferralForm from "../use-referral-form";
 
-import { NAME, FORM_ID, FORM_NOTE_FIELD_ID } from "./constants";
+import { NAME, FORM_ID } from "./constants";
 import { referralAccepted, referralCaseCreation, referralDone, referralRejected } from "./action-creators";
+import ReferralDoneForm from "./referral-done-form";
+import RejectedReferralForm from "./referral-rejected-form";
 
-function mapRecordForCaseCreation(record, creationMap) {
-  if (!creationMap) return {};
-
-  return creationMap.fields.reduce((prev, current) => {
-    return { ...prev, [current.target]: record.get(current.source, null) };
-  }, {});
-}
-
-function referralHeader(i18n, recordType, referralType, moduleID) {
-  const headers = {
-    [ACCEPTED]: "referral_accepted_header",
-    [CREATE_CASE]: "referral_create_case_header"
-  };
-
-  if (headers[referralType]) {
-    return i18n.t(`${recordType}.${headers[referralType]}`, moduleID ? { module_id: moduleID } : {});
-  }
-
-  return "";
-}
 function Component({
   openReferralDialog = false,
   close,
@@ -46,24 +25,26 @@ function Component({
   setPending,
   recordId,
   recordType,
-  transistionId,
+  transitionId,
   referralType,
-  caseCreationModule
+  caseCreationModule,
+  serviceRecordId,
+  remote = false
 }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
+  const moduleID = caseCreationModule?.[1];
   const record = useMemoizedSelector(state => getSelectedRecordData(state, RECORD_TYPES_PLURAL.case));
-  const recordModule = useMemoizedSelector(state => selectModule(state, record.get("module_id"), false));
-  const requiredMessage = i18n.t("form_section.required_field", { field: i18n.t("referral.rejected_reason") });
+  const recordModule = useMemoizedSelector(state => selectModule(state, moduleID, false));
 
   const initialValues = { note_on_referral_from_provider: "", rejected_reason: "" };
-  const methods = useForm({
+
+  const { methods, formMode } = useReferralForm({
     defaultValues: initialValues,
-    ...(referralType === REJECTED
-      ? { resolver: yupResolver(object().shape({ rejected_reason: string().nullable().required(requiredMessage) })) }
-      : {})
+    mode: MODES.edit,
+    status: referralType,
+    serviceRecordId
   });
-  const formMode = whichFormMode(MODES.edit);
 
   const {
     formState: { dirtyFields }
@@ -94,7 +75,7 @@ function Component({
             failureMessage: i18n.t(`${recordType}.request_approval_failure`),
             recordId,
             recordType,
-            transistionId
+            transitionId
           })
         );
         break;
@@ -105,7 +86,7 @@ function Component({
             failureMessage: i18n.t(`${recordType}.request_approval_failure`),
             recordId,
             recordType,
-            transistionId
+            transitionId
           })
         );
         break;
@@ -117,7 +98,7 @@ function Component({
             failureMessage: i18n.t(`${recordType}.request_approval_failure`),
             recordId,
             recordType,
-            transistionId
+            transitionId
           })
         );
         break;
@@ -161,68 +142,37 @@ function Component({
     });
   };
 
-  const renderNoteField = referralType === DONE && (
-    <form id={FORM_NOTE_FIELD_ID}>
-      <FormSection
-        formMode={formMode}
-        formMethods={methods}
-        formSection={FormSectionRecord({
-          unique_id: "referral_done",
-          fields: [
-            FieldRecord({
-              display_name: i18n.t("referral.notes_on_referral"),
-              name: "rejection_note",
-              type: TEXT_FIELD,
-              autoFocus: true
-            })
-          ]
-        })}
-        showTitle={false}
-      />
-    </form>
-  );
-
-  const renderRejectedReason = referralType === REJECTED && (
-    <form id={FORM_ID}>
-      <FormSection
-        formSection={FormSectionRecord({
-          unique_id: "rejected_form",
-          fields: [
-            FieldRecord({
-              display_name: i18n.t("referral.rejected_reason"),
-              name: "rejected_reason",
-              type: TEXT_FIELD,
-              autoFocus: true
-            })
-          ]
-        })}
-        showTitle={false}
-        formMethods={methods}
-        formMode={formMode}
-      />
-    </form>
-  );
-
+  const messageKey = referralMessageKey({ recordType, remote, status: referralType });
   const dialogContent = (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events
     <div onClick={stopProp}>
-      <p>{i18n.t(`${recordType}.referral_${referralType}`)}</p>
-      {renderNoteField}
-      {renderRejectedReason}
+      <p>{i18n.t(messageKey)}</p>
+      {referralType === DONE && (
+        <ReferralDoneForm
+          formMode={formMode}
+          formMethods={methods}
+          recordType={recordType}
+          recordModule={recordModule}
+          serviceRecordId={serviceRecordId}
+        />
+      )}
+      {referralType === REJECTED && <RejectedReferralForm formMode={formMode} formMethods={methods} />}
     </div>
   );
 
-  const confirmButtonLabel = referralType === DONE ? "buttons.done" : "buttons.ok";
+  const confirmButtonKey = referralConfirmButtonKey({ remote, status: referralType });
+  const headerKey = referralHeaderKey({ recordType, remote, status: referralType });
+  const dialogTitle = headerKey ? i18n.t(headerKey, moduleID ? { module_id: moduleID } : {}) : "";
 
   return (
     <ActionDialog
       open={openReferralDialog}
       cancelHandler={handleCancel}
       successHandler={methods.handleSubmit(handleSubmit)}
-      dialogTitle={referralHeader(i18n, recordType, referralType, caseCreationModule?.[1])}
+      dialogTitle={dialogTitle}
       pending={pending}
       omitCloseAfterSuccess
-      confirmButtonLabel={i18n.t(confirmButtonLabel)}
+      confirmButtonLabel={i18n.t(confirmButtonKey)}
       confirmButtonProps={successButtonProps}
       onClose={close}
     >
@@ -242,8 +192,10 @@ Component.propTypes = {
   recordId: PropTypes.string,
   recordType: PropTypes.string,
   referralType: PropTypes.string,
+  remote: PropTypes.bool,
+  serviceRecordId: PropTypes.string,
   setPending: PropTypes.func,
-  transistionId: PropTypes.string
+  transitionId: PropTypes.string
 };
 
 export default Component;

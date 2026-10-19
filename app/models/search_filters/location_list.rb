@@ -10,13 +10,13 @@ class SearchFilters::LocationList < SearchFilters::ValueList
       [
         %(
           (
-            data->>:field_name IS NOT NULL AND EXISTS
+            #{location_present_predicate} AND EXISTS
             (
               SELECT
                 1
               FROM locations AS descendants
               WHERE descendants.admin_level >= :admin_level
-              AND data->:field_name ? descendants.location_code
+              AND #{location_matches_descendant_predicate}
               AND EXISTS (
                 SELECT 1 FROM locations
                 WHERE locations.admin_level >= :admin_level
@@ -26,11 +26,33 @@ class SearchFilters::LocationList < SearchFilters::ValueList
             )
           )
         ),
-        { field_name: record_field_name, values: values.map { |value| value.to_s.upcase }, admin_level: }
+        { field_name: column_name || record_field_name, values: values.map do |value|
+          value.to_s.upcase
+        end, admin_level: admin_level }
       ]
     )
   end
   # rubocop:enable Metrics/MethodLength
+
+  def location_present_predicate
+    return "#{safe_location_column} IS NOT NULL" if column_name.present?
+
+    "#{safe_json_column}->>:field_name IS NOT NULL"
+  end
+
+  def location_matches_descendant_predicate
+    return "#{safe_location_column} = descendants.location_code" if column_name.present?
+
+    "#{safe_json_column}->:field_name ? descendants.location_code"
+  end
+
+  def safe_location_column
+    quoted_column = ActiveRecord::Base.connection.quote_column_name(column_name)
+    return quoted_column unless table_name.present?
+
+    quoted_table = ActiveRecord::Base.connection.quote_table_name(table_name)
+    "#{quoted_table}.#{quoted_column}"
+  end
 
   # rubocop:disable Metrics/MethodLength
   def searchable_query(record_class)

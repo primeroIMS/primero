@@ -359,7 +359,7 @@ describe FormSection do
                       option_strings_text_en: [{ id: 'option_1', display_text: 'Test Option 1' },
                                                { id: 'option_2', display_text: 'Test Option 2' },
                                                { id: 'option_3', display_text: 'Test Option 3' }]
-                                                .map(&:with_indifferent_access))
+                                              .map(&:with_indifferent_access))
           ]
         end
         context 'and input has all of the options' do
@@ -549,11 +549,11 @@ describe FormSection do
                       option_strings_text_en: [{ id: 'option_1', display_text: 'Test Option 1' },
                                                { id: 'option_2', display_text: 'Test Option 2' },
                                                { id: 'option_3', display_text: 'Test Option 3' }]
-                                                .map(&:with_indifferent_access),
+                                              .map(&:with_indifferent_access),
                       option_strings_text_es: [{ id: 'option_1', display_text: 'Test Spanish Option 1' },
                                                { id: 'option_2', display_text: 'Test Spanish Option 2' },
                                                { id: 'option_3', display_text: 'Test Spanish Option 3' }]
-                                                .map(&:with_indifferent_access))
+                                              .map(&:with_indifferent_access))
           ]
         end
         context 'and input has all of the options' do

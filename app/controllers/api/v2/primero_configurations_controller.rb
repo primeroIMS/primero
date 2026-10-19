@@ -52,7 +52,7 @@ class Api::V2::PrimeroConfigurationsController < ApplicationApiController
   def configuration_params
     @configuration_params ||= params.require(:data)
                                     .permit(
-                                      %i[id name description version apply_now promote primero_version] + [data: {}]
+                                      %i[id name description version apply_now promote primero_version] + [{ data: {} }]
                                     )
   end
 

@@ -8,7 +8,7 @@ import { NAME, INCIDENT_SUBFORM, INCIDENTS_SUBFORM_NAME } from "./constants";
 import Fields from "./fields";
 import { validationSchema } from "./utils";
 
-function Component({ open, close, pending, recordType, selectedRowsIndex, setPending }) {
+function Component({ open, close, pending, recordType, selectedRowsIndex, setPending, pendingTransitionIds }) {
   const props = {
     dialogTitle: "actions.incident_details_from_case",
     dialogName: INCIDENT_DIALOG,
@@ -22,6 +22,7 @@ function Component({ open, close, pending, recordType, selectedRowsIndex, setPen
     recordType,
     selectedRowsIndex,
     setPending,
+    pendingTransitionIds,
     validationSchema,
     skipRecordAlerts: true,
     checkVisible: false
@@ -34,6 +35,7 @@ Component.propTypes = {
   close: PropTypes.func,
   open: PropTypes.bool,
   pending: PropTypes.bool,
+  pendingTransitionIds: PropTypes.array,
   records: PropTypes.array,
   recordType: PropTypes.string,
   selectedRowsIndex: PropTypes.array,

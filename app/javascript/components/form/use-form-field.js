@@ -2,7 +2,7 @@ import get from "lodash/get";
 import { useMemo } from "react";
 
 import { useI18n } from "../i18n";
-import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../config";
+import { selectedDateFormat } from "../../libs/date-picker-localization";
 
 import { notVisible } from "./utils";
 import ErrorField from "./fields/error-field";
@@ -22,6 +22,7 @@ import AttachmentInput from "./fields/attachment-input";
 import RecordAttachmentInput from "./fields/record-attachment-input";
 import PhoneNumberInput from "./fields/phone-number-input";
 import Label from "./fields/label";
+import RegistryField from "./fields/registry-input";
 import {
   CHECK_BOX_FIELD,
   ERROR_FIELD,
@@ -40,7 +41,8 @@ import {
   LINK_FIELD,
   PHOTO_RECORD_FIELD,
   AUDIO_RECORD_FIELD,
-  SIGNATURE_FIELD
+  SIGNATURE_FIELD,
+  REGISTRY_FIELD
 } from "./constants";
 import SignatureInput from "./fields/signature-input";
 
@@ -138,7 +140,7 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
     filterOptions: filterOptionSource && (optionsFromState => filterOptionSource(watchedInputsValues, optionsFromState))
   });
 
-  const dateFormat = dateIncludeTime ? DATE_TIME_FORMAT : DATE_FORMAT;
+  const dateFormat = selectedDateFormat(dateIncludeTime, i18n.locale);
 
   const renderError = () =>
     checkErrors?.size && errors
@@ -258,6 +260,8 @@ export default (field, { checkErrors, errors, formMode, disableUnderline }) => {
         return HiddenInput;
       case LINK_FIELD:
         return LinkField;
+      case REGISTRY_FIELD:
+        return RegistryField;
       default: {
         if (isPhoneNumber) {
           return PhoneNumberInput;

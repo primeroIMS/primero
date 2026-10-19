@@ -9,11 +9,12 @@ import SubformFields from "../subform-fields";
 import SubformEmptyData from "../subform-empty-data";
 import SubformAddEntry from "../subform-add-entry";
 import { SUBFORM_FIELD_ARRAY } from "../constants";
-import { VIOLATIONS_ASSOCIATIONS_FORM } from "../../../../../config";
+import { SERVICES_SUBFORM_FIELD, VIOLATIONS_ASSOCIATIONS_FORM } from "../../../../../config";
 import css from "../styles.css";
 import { isFamilyDetailSubform, isFamilyMemberSubform, isViolationSubform } from "../../utils";
 import { GuidingQuestions } from "../../components";
 import ChildFunctioningSummary from "../../../../child-functioning-summary";
+import ServicesReferralLink from "../services-referral-link";
 
 import { isEmptyOrAllDestroyed, isTracesSubform } from "./utils";
 
@@ -144,6 +145,9 @@ function Component({
           arrayHelpers={arrayHelpers}
         />
       </div>
+      {!renderAsAccordion && name === SERVICES_SUBFORM_FIELD && (
+        <ServicesReferralLink recordType={recordType} primeroModule={recordModuleID} />
+      )}
       {renderGuidingQuestions}
       {renderEmptyData}
       <components.SubformItem

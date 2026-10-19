@@ -26,7 +26,16 @@ import useSystemStrings, { FILTER } from "../../../../application/use-system-str
 
 import { NAME } from "./constants";
 
-function Component({ filter, moreSectionFilters = {}, setMoreSectionFilters, mode, reset, setReset }) {
+function Component({
+  filter,
+  moreSectionFilters = {},
+  setMoreSectionFilters,
+  mode,
+  reset,
+  setReset,
+  disabled,
+  helpText
+}) {
   const i18n = useI18n();
   const { register, unregister, setValue, user, getValues } = useFormContext();
   const valueRef = useRef();
@@ -140,6 +149,8 @@ function Component({ filter, moreSectionFilters = {}, setMoreSectionFilters, mod
       getValues={getValues}
       handleReset={handleReset}
       selectedDefaultValueField={isObject ? "or" : null}
+      helpText={helpText}
+      disabled={disabled}
     >
       <FormControl component="fieldset" sx={{ mt: 0, width: "100%" }}>
         <FormLabel component="legend">{i18n.t("cases.status")}</FormLabel>
@@ -155,7 +166,9 @@ function Component({ filter, moreSectionFilters = {}, setMoreSectionFilters, mod
 Component.displayName = NAME;
 
 Component.propTypes = {
+  disabled: PropTypes.string,
   filter: PropTypes.object.isRequired,
+  helpText: PropTypes.string,
   mode: PropTypes.shape({
     defaultFilter: PropTypes.bool,
     secondary: PropTypes.bool

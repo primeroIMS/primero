@@ -64,8 +64,9 @@ function DateFieldPicker({
       "data-testid": dateIncludeTime ? "date-time-picker" : "date-picker",
       helperText: helpText,
       label,
-      InputProps: {
-        readOnly: textInputProps?.readOnly
+      slotProps: {
+        input: { readOnly: textInputProps?.readOnly },
+        inputLabel: { shrink: true }
       },
       placeholder: placeholder || "",
       error
@@ -84,6 +85,7 @@ function DateFieldPicker({
         slotProps={textFieldProps}
         label={label}
         dayOfWeekFormatter={dayOfWeekFormatter(i18n)}
+        views={["year", "month", "day"]}
       />
     </DateProvider>
   );

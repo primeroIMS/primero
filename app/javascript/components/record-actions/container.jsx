@@ -13,7 +13,7 @@ import { useDialog } from "../action-dialog";
 import useMemoizedSelector from "../../libs/use-memoized-selector";
 import useIncidentFromCase from "../records/use-incident-form-case";
 import { getRecordFormsByUniqueIdWithFallback, getServicesRecordForm } from "../record-form/selectors";
-import { selectRecordsByIndexes } from "../records";
+import { getPendingTransitionIds, selectRecordsByIndexes, usePendingTransition } from "../records";
 import { currentUser } from "../user";
 
 import { INCIDENT_SUBFORM, INCIDENTS_SUBFORM_NAME } from "./add-incident/constants";
@@ -94,6 +94,8 @@ function Container({
     })
   );
   const user = useMemoizedSelector(state => currentUser(state));
+  const { hasPendingTransition, tooltip: pendingTransitionTooltip } = usePendingTransition(record);
+  const pendingTransitionIds = getPendingTransitionIds(selectedRecordsFromList, user);
 
   const handleDialogClick = dialog => {
     setDialog({ dialog, open: true });
@@ -201,7 +203,13 @@ function Container({
 
   return (
     <>
-      <Menu showMenu={showMenu} actions={actions} disabledCondition={disabledCondition} />
+      <Menu
+        showMenu={showMenu}
+        actions={actions}
+        disabledCondition={disabledCondition}
+        disabled={hasPendingTransition}
+        tooltip={pendingTransitionTooltip}
+      />
       {ability &&
         createElement(component, {
           ...props,
@@ -215,6 +223,7 @@ function Container({
           selectedRecords,
           clearSelectedRecords,
           selectedRowsIndex,
+          pendingTransitionIds,
           setPending: setDialogPending,
           userPermissions: permittedAbilities,
           mode,

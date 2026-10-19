@@ -2,6 +2,7 @@ import { Fragment, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { ListItemSecondaryAction, ListItemText, List, ListSubheader, Divider } from "@mui/material";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
+import ManageSearch from "@mui/icons-material/ManageSearch";
 import { useDispatch, batch } from "react-redux";
 
 import ActionDialog, { useDialog } from "../../../../../action-dialog";
@@ -16,7 +17,8 @@ import {
   SELECT_FIELD,
   SUBFORM_SECTION,
   TALLY_FIELD,
-  SIGNATURE_FIELD
+  SIGNATURE_FIELD,
+  REGISTRY_FIELD
 } from "../../../../../form/constants";
 import { ADMIN_FIELDS_DIALOG } from "../field-dialog/constants";
 import { useI18n } from "../../../../../i18n";
@@ -63,6 +65,7 @@ const fields = [
   [SIGNATURE_FIELD, SignatureInput],
   [PHONE_NUMBER_FIELD, LocalPhoneIcon],
   // [DATE_FIELD, DateRangeInput],
+  [REGISTRY_FIELD, ManageSearch],
   [SEPARATOR, Seperator],
   [SUBFORM_SECTION, SubformField]
 ];

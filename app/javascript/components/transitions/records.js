@@ -1,12 +1,15 @@
 /* eslint-disable import/prefer-default-export */
 
-import { Record } from "immutable";
+import { fromJS, Record } from "immutable";
 
 export const TransitionRecord = Record({
   id: null,
   record_id: null,
   record_type: null,
   created_at: null,
+  service_external_referral_registry: false,
+  data: fromJS({}),
+  resolved_at: null,
   responded_at: null,
   notes: "",
   rejected_reason: "",
@@ -18,7 +21,8 @@ export const TransitionRecord = Record({
   transitioned_to_remote: null,
   transitioned_to: null,
   service: null,
-  remote: true,
+  service_record_id: null,
+  remote: false,
   transitioned_to_agency: null,
   rejection_note: null,
   user_can_accept_or_reject: null,

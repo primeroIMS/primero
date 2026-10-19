@@ -6,8 +6,8 @@ describe Api::V2::RegistryRecordsController, type: :request do
   before do
     clean_data(RegistryRecord)
     @registry1 = RegistryRecord.create!(registry_type: RegistryRecord::REGISTRY_TYPE_FARMER)
-    @registry2 = RegistryRecord.create!(registry_type: RegistryRecord::REGISTRY_TYPE_INDIVIDUAL)
-    @registry3 = RegistryRecord.create!(registry_type: RegistryRecord::REGISTRY_TYPE_INDIVIDUAL)
+    @registry2 = RegistryRecord.create!(registry_type: RegistryRecord::REGISTRY_TYPE_PROVIDER)
+    @registry3 = RegistryRecord.create!(registry_type: RegistryRecord::REGISTRY_TYPE_PROVIDER)
     @registry4 = RegistryRecord.create!(registry_type: RegistryRecord::REGISTRY_TYPE_FOSTER_CARE)
   end
 
@@ -15,8 +15,8 @@ describe Api::V2::RegistryRecordsController, type: :request do
 
   describe 'GET /api/v2/registry_records', search: true do
     it 'lists registries and accompanying metadata' do
-      expected_registry_types = [RegistryRecord::REGISTRY_TYPE_FARMER, RegistryRecord::REGISTRY_TYPE_INDIVIDUAL,
-                                 RegistryRecord::REGISTRY_TYPE_INDIVIDUAL, RegistryRecord::REGISTRY_TYPE_FOSTER_CARE]
+      expected_registry_types = [RegistryRecord::REGISTRY_TYPE_FARMER, RegistryRecord::REGISTRY_TYPE_PROVIDER,
+                                 RegistryRecord::REGISTRY_TYPE_PROVIDER, RegistryRecord::REGISTRY_TYPE_FOSTER_CARE]
       login_for_test
       get '/api/v2/registry_records'
 
@@ -34,9 +34,9 @@ describe Api::V2::RegistryRecordsController, type: :request do
 
     context 'when a registry_type is passed in' do
       it 'lists registries only for that registry_type' do
-        expected_registry_types = [RegistryRecord::REGISTRY_TYPE_INDIVIDUAL, RegistryRecord::REGISTRY_TYPE_INDIVIDUAL]
+        expected_registry_types = [RegistryRecord::REGISTRY_TYPE_PROVIDER, RegistryRecord::REGISTRY_TYPE_PROVIDER]
         login_for_test
-        get '/api/v2/registry_records?registry_type=individual'
+        get '/api/v2/registry_records?registry_type=provider'
 
         expect(response).to have_http_status(200)
         expect(json['data'].size).to eq(2)
@@ -73,6 +73,22 @@ describe Api::V2::RegistryRecordsController, type: :request do
         expect(json['errors'][0]['resource']).to eq('/api/v2/registry_records')
       end
     end
+
+    context 'when user has write permission on Child' do
+      it 'can list all registry records' do
+        login_for_test(
+          permissions: [Permission.new(resource: Permission::CASE, actions: [Permission::CREATE, Permission::WRITE])],
+          group_permission: Permission::GROUP
+        )
+        get '/api/v2/registry_records'
+
+        expect(response).to have_http_status(200)
+        expect(json['data'].size).to eq(4)
+        expect(json['metadata']['total']).to eq(4)
+        expect(json['metadata']['per']).to eq(20)
+        expect(json['metadata']['page']).to eq(1)
+      end
+    end
   end
 
   describe 'GET /api/v2/registry_records/:id' do
@@ -105,7 +121,7 @@ describe Api::V2::RegistryRecordsController, type: :request do
       it 'fetches the correct record with code 200' do
         login_for_test(
           permissions: [Permission.new(resource: Permission::REGISTRY_RECORD, actions: [Permission::READ])],
-          group_permission: Permission::GROUP
+          group_permission: Permission::SELF
         )
         get "/api/v2/registry_records/#{@registry1.id}"
 

@@ -9,7 +9,8 @@ import {
   SELECT_FIELD,
   TEXT_FIELD,
   OPTION_TYPES,
-  HIDDEN_FIELD
+  HIDDEN_FIELD,
+  REGISTRY_FIELD
 } from "../../../form";
 import { fetchReferralUsers } from "../action-creators";
 import { fetchManagedRoles } from "../../../application/action-creators";
@@ -152,7 +153,17 @@ const remoteReferralFields = ({ i18n, isExternalReferralFromService }) =>
     {
       display_name: i18n.t("transfer.agency_label"),
       name: FIELDS.AGENCY,
-      order: 9
+      order: 9,
+      showIf: values => !values[FIELDS.SERVICE_EXTERNAL_REFERRAL_REGISTRY] && values[FIELDS.REMOTE],
+      watchedInputs: [FIELDS.SERVICE_EXTERNAL_REFERRAL_REGISTRY]
+    },
+    {
+      type: REGISTRY_FIELD,
+      display_name: i18n.t("referral.service_implementing_agency_external"),
+      name: FIELDS.SERVICE_IMPLEMENTING_AGENCY_REGISTRY_ID,
+      order: 10,
+      showIf: values => values[FIELDS.SERVICE_EXTERNAL_REFERRAL_REGISTRY] && values[FIELDS.REMOTE],
+      watchedInputs: [FIELDS.SERVICE_EXTERNAL_REFERRAL_REGISTRY]
     },
     {
       display_name: i18n.t("transfer.location_label"),
@@ -169,12 +180,12 @@ const remoteReferralFields = ({ i18n, isExternalReferralFromService }) =>
       internalFormFieldID: "remote",
       type: TEXT_FIELD,
       disabled: isExternalReferralFromService,
-      watchedInputs: [FIELDS.REMOTE, FIELDS.CONSENT_INDIVIDUAL_TRANSFER],
       handleWatchedInputs: ({ [FIELDS.CONSENT_INDIVIDUAL_TRANSFER]: consent }) => ({
         ...(!isExternalReferralFromService && { disabled: !consent })
       }),
       showIf: values => values[FIELDS.REMOTE],
-      ...field
+      ...field,
+      watchedInputs: [FIELDS.REMOTE, FIELDS.CONSENT_INDIVIDUAL_TRANSFER, ...(field?.watchedInputs || [])]
     };
   });
 
@@ -192,6 +203,14 @@ const commonReferralFields = ({
       disabled: isReferralFromService,
       showIf: () => !isReferralFromService || isExternalReferralFromService,
       order: 2
+    },
+    {
+      display_name: i18n.t("referral.service_external_referral_registry"),
+      name: FIELDS.SERVICE_EXTERNAL_REFERRAL_REGISTRY,
+      type: TICK_FIELD,
+      order: 3,
+      showIf: () => !isReferralFromService || isExternalReferralFromService,
+      visible: true
     },
     {
       display_name: i18n.t("referral.service_label"),

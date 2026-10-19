@@ -21,6 +21,7 @@ import { useMemoizedSelector } from "../../../../libs";
 import { getFiltersValuesByRecordType } from "../../../index-filters/selectors";
 import { getMetadata } from "../../../record-list/selectors";
 import InternalAlert, { SEVERITY } from "../../../internal-alert";
+import PendingTransitionAlert from "../../pending-transition-alert";
 
 import { REASSIGN_FORM_NAME } from "./constants";
 import { searchableValue, buildDataAssign } from "./utils";
@@ -38,7 +39,8 @@ function ReassignForm({
   selectedRecordsLength,
   currentRecordsSize,
   formDisabled = false,
-  hasRecordOutOfScope = false
+  hasRecordOutOfScope = false,
+  pendingTransitionIds = []
 }) {
   const i18n = useI18n();
   const dispatch = useDispatch();
@@ -159,6 +161,7 @@ function ReassignForm({
       {({ handleSubmit }) => {
         return (
           <Form onSubmit={handleSubmit}>
+            <PendingTransitionAlert pendingTransitionIds={pendingTransitionIds} />
             {showAlert && (
               <InternalAlert
                 items={fromJS([
@@ -210,6 +213,7 @@ ReassignForm.propTypes = {
   formik: PropTypes.object,
   hasRecordOutOfScope: PropTypes.bool,
   mode: PropTypes.object,
+  pendingTransitionIds: PropTypes.array,
   record: PropTypes.object,
   recordType: PropTypes.string.isRequired,
   selectedIds: PropTypes.array,

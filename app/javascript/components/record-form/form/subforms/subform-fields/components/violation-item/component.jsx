@@ -15,7 +15,7 @@ import { RECORD_ACTION_ABILITIES } from "../../../../../../record-actions/consta
 import { useI18n } from "../../../../../../i18n";
 import { toServerDateFormat } from "../../../../../../../libs";
 import DateProvider from "../../../../../../../date-provider";
-import { dayOfWeekFormatter } from "../../../../../../../libs/date-picker-localization";
+import { dayOfWeekFormatter, selectedDateFormat } from "../../../../../../../libs/date-picker-localization";
 
 import VerifySelect from "./select";
 import { getViolationTallyLabel } from "./utils";
@@ -25,7 +25,6 @@ function Component({ fields, values, locale, displayName, index, collapsedFieldV
   const currentValues = values[index];
   const verifyParams = useParams();
   const i18n = useI18n();
-  const DATE_FORMAT = "dd-MMM-yyyy";
 
   // State variables
   const dispatch = useDispatch();
@@ -123,7 +122,7 @@ function Component({ fields, values, locale, displayName, index, collapsedFieldV
           onChange={handleDropdownDate}
           id="date-picker-inline"
           disableFuture
-          format={DATE_FORMAT}
+          format={selectedDateFormat(false, i18n.locale)}
         />
       </div>
     </DateProvider>

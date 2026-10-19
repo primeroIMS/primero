@@ -16,7 +16,7 @@ describe RegistryRecord do
   describe 'registry_types' do
     before do
       @default_registry_types = [RegistryRecord::REGISTRY_TYPE_FARMER, RegistryRecord::REGISTRY_TYPE_FOSTER_CARE,
-                                 RegistryRecord::REGISTRY_TYPE_INDIVIDUAL]
+                                 RegistryRecord::REGISTRY_TYPE_PROVIDER, RegistryRecord::REGISTRY_TYPE_COMMITTEE]
     end
     context 'when there are no system_options in SystemSettings' do
       before do
@@ -47,10 +47,10 @@ describe RegistryRecord do
       context 'and registry_types is present' do
         before do
           @ss_registry_types = %w[teacher girl boy dog]
+          registry_options = @ss_registry_types.to_h { |rt| [rt, SystemSettings::DEFAULT_REGISTRY_FIELD_OPTIONS] }
           SystemSettings.stub(:current).and_return(
             SystemSettings.new(primary_age_range: 'primero',
-                               system_options: { show_alerts: true,
-                                                 registry_types: @ss_registry_types })
+                               registry_options:)
           )
         end
 

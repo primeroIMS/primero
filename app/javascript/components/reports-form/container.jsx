@@ -119,7 +119,7 @@ function Container({ mode }) {
         ...(fields.length && { fields }),
         filters: indexes.map(({ data: filter }) => ({
           ...filter,
-          value: checkValue(filter)
+          value: checkValue(filter, i18n)
         }))
       }
     };

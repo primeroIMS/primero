@@ -1,8 +1,8 @@
 import isEmpty from "lodash/isEmpty";
 
-import { DATE_FORMAT, DATE_TIME_FORMAT } from "../../../../config";
 import { NAME_FIELD, DATE_FIELD, SELECT_FIELD, TICK_FIELD, RADIO_FIELD } from "../../constants";
 import SubformLookupHeader from "../subforms/subform-header-lookup";
+import { selectedDateFormat } from "../../../../libs/date-picker-localization";
 
 export default ({ collapsedFieldNames, values, fields, i18n }) => {
   if (isEmpty(collapsedFieldNames) || isEmpty(fields)) {
@@ -24,7 +24,7 @@ export default ({ collapsedFieldNames, values, fields, i18n }) => {
 
       switch (type) {
         case DATE_FIELD: {
-          const dateFormat = includeTime ? DATE_TIME_FORMAT : DATE_FORMAT;
+          const dateFormat = selectedDateFormat(includeTime, i18n.locale);
           const dateValue = i18n.localizeDate(value, dateFormat);
 
           return dateValue;

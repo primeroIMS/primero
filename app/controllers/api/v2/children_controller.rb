@@ -5,6 +5,7 @@ class Api::V2::ChildrenController < ApplicationApiController
   include Api::V2::Concerns::Pagination
   include Api::V2::Concerns::Record
   include Api::V2::Concerns::Referrable
+  include Api::V2::Concerns::PendingTransitionRestriction
 
   def traces
     authorize! :read, Child
@@ -54,5 +55,9 @@ class Api::V2::ChildrenController < ApplicationApiController
     return @record_id ||= request.path.split('/')[4] if action_name == 'traces'
 
     super
+  end
+
+  def authorize_update!
+    super && authorize_pending_transition!(@record)
   end
 end

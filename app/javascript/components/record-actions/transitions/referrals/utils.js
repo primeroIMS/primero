@@ -1,4 +1,4 @@
-import { SELECT_FIELD, OPTION_TYPES, TEXT_FIELD, DATE_FIELD } from "../../../form";
+import { SELECT_FIELD, OPTION_TYPES, TEXT_FIELD, DATE_FIELD, REGISTRY_FIELD } from "../../../form";
 
 import { FIELDS, SERVICE_SECTION_FIELDS_EXTERNAL, SERVICE_SECTION_FIELDS } from "./constants";
 
@@ -17,7 +17,7 @@ export const mapServiceFields = (serviceToRefer, isExternalReferralFromService) 
   }, {});
 };
 
-export const customReferralFormProps = i18n => {
+export const customReferralFormProps = (i18n, formValues) => {
   return {
     condition: FIELDS.REMOTE,
     fields: [
@@ -36,12 +36,24 @@ export const customReferralFormProps = i18n => {
         option_strings_source: OPTION_TYPES.SERVICE_TYPE,
         visible: true
       },
-      {
-        name: FIELDS.AGENCY,
-        display_name: i18n.t("referral.agency_label"),
-        visible: true,
-        type: TEXT_FIELD
-      },
+      ...(formValues[FIELDS.SERVICE_EXTERNAL_REFERRAL_REGISTRY]
+        ? [
+            {
+              name: FIELDS.SERVICE_IMPLEMENTING_AGENCY_REGISTRY_ID,
+              display_name: i18n.t("referral.service_implementing_agency_external"),
+              type: REGISTRY_FIELD,
+              visible: true
+            }
+          ]
+        : [
+            {
+              name: FIELDS.AGENCY,
+              display_name: i18n.t("referral.agency_label"),
+              visible: true,
+              type: TEXT_FIELD
+            }
+          ]),
+
       {
         name: FIELDS.LOCATION,
         display_name: i18n.t("referral.location_label"),

@@ -26,12 +26,14 @@ function Component({ transition, showMode, recordType, classes }) {
   const i18n = useI18n();
   const {
     id,
+    service_record_id: serviceRecordId,
     record_id: recordId,
     status,
     transitioned_to: transitionedTo,
     type,
     user_can_accept_or_reject: userCanAcceptOrReject,
-    allow_case_creation: allowCaseCreation
+    allow_case_creation: allowCaseCreation,
+    remote
   } = transition;
 
   const transitionType = type.toLowerCase();
@@ -101,21 +103,28 @@ function Component({ transition, showMode, recordType, classes }) {
     setTransitionStatus(CREATE_CASE);
   };
 
+  const acceptButtonKey =
+    remote && transitionType === TRANSITIONS_TYPES.referral ? "buttons.mark_accepted" : "buttons.accept";
+  const rejectButtonKey =
+    remote && transitionType === TRANSITIONS_TYPES.referral ? "buttons.mark_rejected" : "buttons.reject";
+  const revokeButtonKey =
+    transitionType === TRANSITIONS_TYPES.referral ? "actions.revoke_mark_as_done" : "actions.revoke";
+
   const options = [
     {
-      name: i18n.t("actions.revoke"),
+      name: i18n.t(revokeButtonKey),
       condition: showRevokeAction,
       action: () => setRevokeDialog(true)
     },
     {
-      name: i18n.t("buttons.accept"),
+      name: i18n.t(acceptButtonKey),
       condition:
         (transitionType === TRANSITIONS_TYPES.referral && canReceiveReferral && showTransitionAction) ||
         (showTransitionAction && transitionType !== TRANSITIONS_TYPES.referral),
       action: event => handleAcceptOpen(event)
     },
     {
-      name: i18n.t("buttons.reject"),
+      name: i18n.t(rejectButtonKey),
       condition:
         (transitionType === TRANSITIONS_TYPES.referral && canReceiveReferral && showTransitionAction) ||
         (showTransitionAction && transitionType !== TRANSITIONS_TYPES.referral),
@@ -199,6 +208,7 @@ function Component({ transition, showMode, recordType, classes }) {
         name={revokeModalName}
         open={dialogOpen[revokeModalName]}
         transition={transition}
+        serviceRecordId={serviceRecordId}
         close={dialogClose}
         recordType={recordType}
         pending={pending}
@@ -222,13 +232,15 @@ function Component({ transition, showMode, recordType, classes }) {
           openReferralDialog={dialogOpen[referralModalName]}
           close={dialogClose}
           recordId={recordId}
+          serviceRecordId={serviceRecordId}
           pending={pending}
           setPending={setDialogPending}
-          transistionId={id}
+          transitionId={id}
           recordType={recordType}
           dialogName={referralModalName}
           referralType={transitionStatus}
           caseCreationModule={caseCreationModule}
+          remote={remote}
         />
       )}
     </div>

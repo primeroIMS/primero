@@ -56,6 +56,8 @@ class PrimeroModule < ApplicationRecord
   # user_group_filter: TODO document
   # use_webhooks_for: String array of record types that can register webhooks.
   # use_webhook_sync_for: String array of record types that allow reverse syncs from downstream systems.
+  # pending_transition_to_form: Hash of transition type (referral) to the form unique id where the recipient
+  #                              of a pending transition sees the alert linking to the transition form.
   store_accessor(
     :module_options,
     :allow_searchable_ids, :selectable_approval_types,
@@ -66,7 +68,7 @@ class PrimeroModule < ApplicationRecord
     :approvals_labels_i18n, :changes_field_to_form, :search_and_create_workflow,
     :violation_type_field, :creation_field_map, :data_protection_case_create_field_names,
     :age_ranges, :workflow_lookup, :response_type_lookup, :case_type, :field_labels_i18n,
-    :prevent_case_creation_without_search
+    :prevent_case_creation_without_search, :pending_transition_to_form
   )
 
   localize_jsonb_properties %i[approvals_labels field_labels]

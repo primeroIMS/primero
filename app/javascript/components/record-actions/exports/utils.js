@@ -5,7 +5,7 @@ import { ACTIONS } from "../../permissions";
 import { displayNameHelper } from "../../../libs";
 import { AUDIO_FIELD, DOCUMENT_FIELD, PHOTO_FIELD, SEPERATOR, SUBFORM_SECTION } from "../../record-form/constants";
 
-import { ALL_EXPORT_TYPES, EXPORT_FORMAT, FILTERS_TO_SKIP } from "./constants";
+import { ALL_EXPORT_TYPES, EXPORT_FORMAT, FILTERS_TO_SKIP, INCIDENT_RECORDER_ID } from "./constants";
 
 const isSubform = field => field.type === SUBFORM_SECTION;
 
@@ -107,6 +107,8 @@ export const buildFields = (data, locale) => {
 export const isCustomExport = type => type === EXPORT_FORMAT.CUSTOM;
 
 export const isPdfExport = type => type === EXPORT_FORMAT.PDF;
+
+export const isIncidentRecorderExport = type => type === INCIDENT_RECORDER_ID;
 
 export const formatFields = fields => uniq(fields.map(field => field.split(":")[1]));
 

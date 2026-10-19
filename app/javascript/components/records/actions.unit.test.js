@@ -122,7 +122,12 @@ describe("records - Actions", () => {
       "UNMATCH_CASE_FOR_TRACE_STARTED",
       "UNMATCH_CASE_FOR_TRACE_SUCCESS",
       "UNMATCH_CASE_FOR_TRACE",
-      "UPDATE_ATTACHMENTS"
+      "UPDATE_ATTACHMENTS",
+      "FETCH_RECORD_RELATED_RECORDS",
+      "FETCH_RECORD_RELATED_RECORDS_FAILURE",
+      "FETCH_RECORD_RELATED_RECORDS_FINISHED",
+      "FETCH_RECORD_RELATED_RECORDS_STARTED",
+      "FETCH_RECORD_RELATED_RECORDS_SUCCESS"
     ].forEach(property => {
       expect(cloneActions).toHaveProperty(property);
       expect(typeof cloneActions[property]).toBe("string");

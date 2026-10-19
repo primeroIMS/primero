@@ -130,7 +130,6 @@ export const SignatureInput = props => (
   </SvgIcon>
 )
 
-
 export const UserArrowIcon = props => (
   <SvgIcon {...props}>
     <path

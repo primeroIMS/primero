@@ -1,6 +1,34 @@
 import buildLocalizeFn from "date-fns/locale/_lib/buildLocalizeFn";
 import enLocale from "date-fns/locale/en-US";
 import compact from "lodash/compact";
+import {
+  ar,
+  arTN,
+  bn,
+  enUS,
+  es,
+  fr,
+  hi,
+  hu,
+  hy,
+  id,
+  it,
+  km,
+  faIR,
+  tr,
+  mn,
+  pl,
+  pt,
+  ptBR,
+  ro,
+  ru,
+  sk,
+  th,
+  uk,
+  zhCN
+} from "date-fns/locale";
+
+import { DATE_FORMAT, DATE_FORMAT_FALLBACK, DATE_TIME_FORMAT, DATE_TIME_FORMAT_FALLBACK } from "../config";
 
 const monthValues = i18n => ({
   narrow: ["e", "f", "m", "a", "m", "j", "j", "a", "s", "o", "n", "d"],
@@ -36,6 +64,56 @@ function dayOfWeekFormatter(i18n) {
   };
 }
 
+const dateFnsLocales = {
+  ar,
+  "ar-IQ": ar,
+  "ar-JO": ar,
+  "ar-LB": ar,
+  "ar-SD": ar,
+  aeb: arTN,
+  "ar-SY": ar,
+  bn,
+  cmn: zhCN,
+  en: enUS,
+  es,
+  "es-GT": es,
+  "es-ES": es,
+  fr,
+  "hi-IN": hi,
+  hu,
+  hy,
+  id,
+  it,
+  km,
+  "fa-AF": faIR,
+  "ps-AF": faIR,
+  tr,
+  mn,
+  pl,
+  pt,
+  "pt-AO": pt,
+  "pt-BR": ptBR,
+  "pt-MZ": pt,
+  ro,
+  ru,
+  sk,
+  th,
+  uk,
+  zh: zhCN
+};
+
+const resolvedDateFnsLocales = Object.freeze(Object.keys(dateFnsLocales));
+
+function selectedDateFormat(includeTime, locale) {
+  const localeResolved = resolvedDateFnsLocales.includes(locale);
+
+  if (includeTime) {
+    return localeResolved ? DATE_TIME_FORMAT : DATE_TIME_FORMAT_FALLBACK;
+  }
+
+  return localeResolved ? DATE_FORMAT : DATE_FORMAT_FALLBACK;
+}
+
 export default localize;
 
-export { dayOfWeekFormatter };
+export { dayOfWeekFormatter, dateFnsLocales, resolvedDateFnsLocales, selectedDateFormat };

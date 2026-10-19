@@ -54,10 +54,24 @@ class Transition < ApplicationRecord
     status == Transition::STATUS_ACCEPTED
   end
 
+  def revoked?
+    status == Transition::STATUS_REVOKED
+  end
+
   def consent_given_or_overridden
     return if consent_given? || consent_overridden
 
     errors.add(:consent, 'transition.errors.consent')
+  end
+
+  def recipient?(user)
+    return false if remote?
+
+    transitioned_to_user.user_name == user.user_name
+  end
+
+  def sender?(user)
+    transitioned_by_user.user_name == user.user_name
   end
 
   def consent_given?
@@ -113,18 +127,15 @@ class Transition < ApplicationRecord
   end
 
   def progress_or_accepted_transition?
-    Transition.where(transitioned_to:, type: [Referral.name],
-                     status: [STATUS_INPROGRESS, STATUS_ACCEPTED],
-                     record_id: record.id)
-              .or(
-                Transition.where(transitioned_to:, type: [Transfer.name],
-                                 status: [STATUS_INPROGRESS],
-                                 record_id: record.id)
-              ).where.not(id:).exists?
+    Transition.where(
+      transitioned_to:, type: [Referral.name], status: [STATUS_INPROGRESS, STATUS_ACCEPTED], record_id: record.id
+    ).or(
+      Transition.where(transitioned_to:, type: [Transfer.name], status: [STATUS_INPROGRESS], record_id: record.id)
+    ).where.not(id:).exists?
   end
 
   def remove_assigned_user
-    return if progress_or_accepted_transition?
+    return if remote? || progress_or_accepted_transition?
 
     record.assigned_user_names.delete(transitioned_to) if record.assigned_user_names.present?
   end

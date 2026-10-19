@@ -111,6 +111,8 @@ const INCIDENT_CASE_ID_FIELD = "incident_case_id";
 const INCIDENT_CASE_ID_DISPLAY_FIELD = "case_id_display";
 const INCIDENT_SHORT_ID_FIELD = "short_id";
 const SERVICES_SUBFORM_FIELD = "services_section";
+const REFERRED_USERS_PENDING_FIELD = "referred_users_pending";
+const TRANSFERRED_TO_USERS_FIELD = "transferred_to_users";
 
 const CONSENT_GIVEN_FIELD_BY_MODULE = Object.freeze({
   [MODULES.CP]: ["consent_for_services", "disclosure_other_orgs"],
@@ -261,6 +263,8 @@ const SKIP_LOGIN_REDIRECTION_ROUTES = [ROUTES.intake];
 
 const DATE_FORMAT = "dd-MMM-yyyy";
 
+const DATE_FORMAT_FALLBACK = "dd-MM-yyyy";
+
 const DATE_FORMAT_NE = "DD-MM-YYYY";
 
 const MONTH_AND_YEAR_FORMAT = "MMM-yyyy";
@@ -272,6 +276,8 @@ const API_DATE_TIME_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 const TRANSITIONS_DATE_FORMAT = "MMM dd,yyyy";
 
 const DATE_TIME_FORMAT = "dd-MMM-yyyy HH:mm";
+
+const DATE_TIME_FORMAT_FALLBACK = "dd-MM-yyyy HH:mm";
 
 const ISO_DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -295,6 +301,7 @@ const LOOKUPS = {
   protection_concerns: "lookup-protection-concerns",
   followup_type: "lookup-followup-type",
   reporting_locations: "ReportingLocation",
+  locations: "Location",
   gbv_violence_type: "lookup-gbv-sexual-violence-type",
   cp_violence_type: "lookup-cp-violence-type",
   gender: "lookup-gender",
@@ -305,7 +312,9 @@ const LOOKUPS = {
   verification_status: "lookup-verification-status",
   violation_type: "lookup-violation-type",
   armed_force_group_or_other_party: "lookup-armed-force-group-or-other-party",
-  yes_no: "lookup-yes-no"
+  yes_no: "lookup-yes-no",
+  registry_type: "lookup-registry-type",
+  reasons_referral_failure: "lookup-reasons-referral-failure"
 };
 
 const ADMIN_NAV = [
@@ -576,6 +585,21 @@ const ALERTS_FOR = {
   transfer: "transfer",
   referral: "referral"
 };
+
+const PENDING_TRANSITION_ALERTS = Object.freeze({
+  referral: {
+    pendingUsersField: REFERRED_USERS_PENDING_FIELD,
+    transitionFormUniqueId: REFERRAL,
+    messageKey: "case.messages.case_referral_pending_alert",
+    linkKey: "case.messages.pending_transition_link"
+  },
+  transfer: {
+    pendingUsersField: TRANSFERRED_TO_USERS_FIELD,
+    transitionFormUniqueId: TRANSFERS_ASSIGNMENTS,
+    messageKey: "case.messages.case_transfer_pending_alert",
+    linkKey: "case.messages.pending_transition_link"
+  }
+});
 
 const MAX_OFFLINE_ROWS_PER_PAGE = 50;
 
@@ -877,6 +901,8 @@ export {
   CODE_FIELD,
   INCIDENT_CASE_ID_FIELD,
   INCIDENT_CASE_ID_DISPLAY_FIELD,
+  REFERRED_USERS_PENDING_FIELD,
+  TRANSFERRED_TO_USERS_FIELD,
   INCIDENT_SHORT_ID_FIELD,
   CONSENT_GIVEN_FIELD_BY_MODULE,
   RECORD_PATH,
@@ -899,11 +925,13 @@ export {
   PERMITTED_URL,
   DATE_FORMAT,
   DATE_FORMAT_NE,
+  DATE_FORMAT_FALLBACK,
   MONTH_AND_YEAR_FORMAT,
   API_DATE_FORMAT,
   API_DATE_TIME_FORMAT,
   TRANSITIONS_DATE_FORMAT,
   DATE_TIME_FORMAT,
+  DATE_TIME_FORMAT_FALLBACK,
   ISO_DATE_REGEX,
   ISO_DATE_TIME_REGEX,
   CODE_OF_CONDUCT_DATE_FORMAT,
@@ -924,6 +952,7 @@ export {
   INPROGRESS,
   APPROVALS_TYPES,
   ALERTS_FOR,
+  PENDING_TRANSITION_ALERTS,
   MAX_OFFLINE_ROWS_PER_PAGE,
   ROWS_PER_PAGE_OPTIONS,
   OFFLINE_ROWS_PER_PAGE_OPTIONS,

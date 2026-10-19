@@ -2,7 +2,7 @@
 
 # This filter selects by the transitioned_to field on related transitions.
 class SearchFilters::TransitionValue < SearchFilters::Value
-  # rubocop:disable Metrics/MethodLength this is pretty much just a long SQL template
+  # rubocop:disable Metrics/MethodLength -- this is pretty much just a long SQL template
   def query(record_class)
     ActiveRecord::Base.sanitize_sql_for_conditions(
       [

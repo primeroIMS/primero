@@ -21,6 +21,7 @@ json.data do
                                                   @system_setting.create_case_from_referral?,
                                               'enforce_terms_of_use' => Rails.configuration.enforce_terms_of_use
                                             })
+  json.registry_options @system_setting.registry_options
   json.field_labels FieldI18nService.to_localized_values(@system_setting.field_labels_i18n)
   json.audit_log do
     json.actions AuditLog::ACTIONS
@@ -45,21 +46,21 @@ json.data do
       end
     end
   end
-  json.exact_search_fields ([
+  json.exact_search_fields [
     Child,
     Incident,
     TracingRequest,
     RegistryRecord,
     Family
-  ].map { |record_type| { record_type.parent_form.pluralize => record_type.filterable_id_fields } }).inject(&:merge)
-  json.phonetic_search_fields ([
+  ].map { |record_type| { record_type.parent_form.pluralize => record_type.filterable_id_fields } }.inject(&:merge)
+  json.phonetic_search_fields [
     Child,
     Incident,
     TracingRequest,
     RegistryRecord,
     Family
-  ].map { |record_type| { record_type.parent_form.pluralize => record_type.const_get('PHONETIC_FIELD_NAMES') } })
-    .inject(&:merge)
+  ].map { |record_type| { record_type.parent_form.pluralize => record_type.const_get('PHONETIC_FIELD_NAMES') } }
+   .inject(&:merge)
   json.phone_number_search_fields ([Child, Incident, TracingRequest, RegistryRecord, Family].map do |record_type|
                                      { record_type.parent_form.pluralize => record_type.phone_number_fields }
                                    end).inject(&:merge)

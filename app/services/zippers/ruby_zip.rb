@@ -6,7 +6,7 @@ class Zippers::RubyZip
     return unless file && File.size?(file) && password
 
     encrypt = Zip::TraditionalEncrypter.new(password)
-    Zip::OutputStream.open(zipped_file_name(file), encrypt) do |out|
+    Zip::OutputStream.open(zipped_file_name(file), encrypter: encrypt) do |out|
       out.put_next_entry(target_file_name || File.basename(file))
       out.write File.read(file)
     end

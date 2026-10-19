@@ -77,7 +77,7 @@ describe Child do
     end
   end
 
-  describe 'incidents from case' do
+  describe 'incidents' do
     describe 'update_properties' do
       let(:case1) { Child.create!(age: 12, sex: 'male') }
       let(:incident1) { Incident.create!(case: case1, description: 'incident1') }
@@ -120,6 +120,30 @@ describe Child do
         incident2.reload
         expect(incident2).to be
         expect(incident2.incident_case_id).to eq(case1.id)
+      end
+    end
+
+    describe 'incident_types' do
+      let!(:case1) { Child.create!(age: 12, sex: 'male') }
+      let!(:incident1) { Incident.create!(case: case1, cp_incident_violence_type: 'type1') }
+
+      it "stamps the incident's violence type on the case from the incident" do
+        expect(case1.incident_types).to eq(['type1'])
+      end
+
+      it "stamps the incident's violence type on the case when a new incident is created on the case" do
+        data = case1.data.clone
+        data['incident_details'] = [
+          { 'unique_id' => SecureRandom.uuid, 'cp_incident_violence_type' => 'type2' }
+        ]
+        case1.update_properties(fake_user, data)
+        case1.save!
+
+        expect(case1.incident_types).to match_array(%w[type1 type2])
+      end
+
+      after :all do
+        clean_data(Incident, Child)
       end
     end
   end
@@ -1063,6 +1087,12 @@ describe Child do
         expect(search_result).to have(2).child
         expect(search_result.map(&:id)).to match_array([record1.id, record2.id])
       end
+    end
+  end
+
+  describe '.summary_field_names' do
+    it 'includes the pending transition fields' do
+      expect(Child.summary_field_names).to include('referred_users_pending', 'transferred_to_users')
     end
   end
 

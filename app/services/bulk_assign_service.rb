@@ -28,6 +28,7 @@ class BulkAssignService
   def assign_records_batch(records)
     records.each do |record|
       next unless record.can_be_assigned? && @transitioned_by.can_assign?(record)
+      next if record.pending_transition_for?(@transitioned_by)
 
       create_assignment(record)
     rescue StandardError => e

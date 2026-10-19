@@ -2,6 +2,8 @@
 
 # API endpoints for adding and removing attachments on Primero resources (usually records)
 class Api::V2::AttachmentsController < Api::V2::RecordResourceController
+  include Api::V2::Concerns::PendingTransitionRestriction
+
   before_action :validate_update_params!, only: [:update]
   before_action :initialize_attachment, only: [:create]
   before_action :set_attachment, only: %i[show update destroy]
@@ -15,6 +17,7 @@ class Api::V2::AttachmentsController < Api::V2::RecordResourceController
 
   def create
     authorize! :write, @record
+    authorize_pending_transition!(@record)
     authorize! :create, @attachment
     @attachment.attach!
     updates_for_record(@record)

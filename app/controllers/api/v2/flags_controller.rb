@@ -2,6 +2,8 @@
 
 # Endpoint for managing flags for a record
 class Api::V2::FlagsController < Api::V2::RecordResourceController
+  include Api::V2::Concerns::PendingTransitionRestriction
+
   before_action(except: [:create_bulk]) { authorize! :flag, model_class }
   before_action :bulk_flag_params, only: [:create_bulk]
   before_action :verify_bulk_records_size, only: [:create_bulk]
@@ -13,6 +15,7 @@ class Api::V2::FlagsController < Api::V2::RecordResourceController
 
   def create
     authorize! :flag_record, @record
+    authorize_pending_transition!(@record)
     @flag = @record.add_flag!(permitted_create_params[:message], permitted_create_params[:date], current_user.user_name)
     updates_for_record(@record)
     render :create, status:

@@ -112,7 +112,10 @@ describe ActiveStorageAuth do
         parent_form: 'case',
         visible: true,
         fields: [
-          Field.new(name: 'photos', type: Field::PHOTO_UPLOAD_BOX, display_name_i18n: { en: 'Photos' }, visible: true)
+          Field.new(
+            name: 'photos', type: Field::PHOTO_UPLOAD_BOX, display_name_i18n: { en: 'Photos' }, visible: true,
+            show_on_minify_form: true
+          )
         ]
       )
       photo_form.save && photo_form

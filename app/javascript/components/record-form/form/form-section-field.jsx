@@ -6,6 +6,7 @@ import { cx } from "@emotion/css";
 import { useI18n } from "../../i18n";
 import {
   DATE_FIELD,
+  REGISTRY_FIELD,
   SELECT_FIELD,
   TICK_FIELD,
   RADIO_FIELD,
@@ -35,6 +36,7 @@ import AttachmentField from "./field-types/attachments";
 import LinkToForm from "./field-types/link-to-form";
 import TallyField from "./field-types/tally-field";
 import SignatureField from "./field-types/signature-field";
+import RegistryField from "./field-types/registry-field";
 import css from "./styles.css";
 import { asyncFieldOffline } from "./utils";
 import PhoneField from "./field-types/phone-field";
@@ -153,6 +155,8 @@ function FormSectionField({
         return TallyField;
       case SIGNATURE_FIELD:
         return SignatureField;
+      case REGISTRY_FIELD:
+        return RegistryField;
       default:
         if (isPhoneNumber) {
           return PhoneField;

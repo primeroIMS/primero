@@ -1,32 +1,35 @@
 import PropTypes from "prop-types";
-import { Button } from "@mui/material";
 
 import { useI18n } from "../../../../../i18n";
+import ActionButton from "../../../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../../../action-button/constants";
 
-function ReferAction({ index, handleReferral, values }) {
+function ReferAction({ index, handleReferral, values, disabled = false, tooltip }) {
   const i18n = useI18n();
   const id = `refer-option-${index}`;
 
   return (
-    <Button
+    <ActionButton
       id={id}
       key={id}
-      onClick={() => handleReferral()}
-      color="primary"
-      variant="contained"
+      text={values[index].service_status_referred ? i18n.t("buttons.referral_again") : i18n.t("buttons.referral")}
+      type={ACTION_BUTTON_TYPES.default}
+      noTranslate
+      disabled={disabled}
+      tooltip={tooltip}
       size="small"
-      disableElevation
-    >
-      {values[index].service_status_referred ? i18n.t("buttons.referral_again") : i18n.t("buttons.referral")}
-    </Button>
+      rest={{ onClick: () => handleReferral() }}
+    />
   );
 }
 
 ReferAction.displayName = "ReferAction";
 
 ReferAction.propTypes = {
+  disabled: PropTypes.bool,
   handleReferral: PropTypes.func,
   index: PropTypes.number,
+  tooltip: PropTypes.string,
   values: PropTypes.object
 };
 

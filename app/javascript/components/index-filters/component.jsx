@@ -120,6 +120,12 @@ function Component({ recordType, setSelectedRecords, metadata }) {
     setOpen(true);
   }, []);
 
+  useEffect(() => {
+    return () => {
+      dispatch(setFilters({ recordType, data: defaultFiltersForClear }));
+    };
+  }, [recordType]);
+
   const handleClear = useCallback(() => {
     resetSelectedRecords();
     methods.reset({

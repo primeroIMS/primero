@@ -1,17 +1,28 @@
-import omit from "lodash/omit";
+import isPlainObject from "lodash/isPlainObject";
 import merge from "deepmerge";
 
-import { TOTAL_KEY } from "../constants";
+import { QUERY_KEY, TOTAL_KEY } from "../constants";
+
+const META_KEYS = [TOTAL_KEY, QUERY_KEY];
+
+const omitRecursively = value =>
+  !isPlainObject(value)
+    ? value
+    : Object.keys(value)
+        .filter(key => !META_KEYS.includes(key))
+        .reduce((acc, key) => ({ ...acc, [key]: omitRecursively(value[key]) }), {});
 
 export default (object, qtyRows) => {
   let columnObjects = {};
   // eslint-disable-next-line consistent-return
   const getColumnsObj = (obj, level = 0) => {
     if (level >= qtyRows) {
-      return obj;
+      // Remove "_total" and "query" keys
+      return omitRecursively(obj, META_KEYS);
     }
 
-    const keys = Object.keys(obj);
+    // Do not search for columns in "_total" and "query" keys
+    const keys = Object.keys(obj).filter(key => !META_KEYS.includes(key));
 
     // eslint-disable-next-line no-param-reassign
     level += 1;
@@ -25,6 +36,5 @@ export default (object, qtyRows) => {
     return columnObjects;
   };
 
-  // Removing "_total" from columns object
-  return omit(getColumnsObj(object), TOTAL_KEY);
+  return getColumnsObj(object);
 };

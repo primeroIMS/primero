@@ -5,7 +5,14 @@ describe("components/transitions/referrals/utils.js", () => {
     it("should have known methods", () => {
       const clone = { ...utils };
 
-      ["referralAgencyName"].forEach(property => {
+      [
+        "createValidationSchema",
+        "mapRecordForCaseCreation",
+        "referralAgencyName",
+        "referralHeaderKey",
+        "referralMessageKey",
+        "referralConfirmButtonKey"
+      ].forEach(property => {
         expect(clone).toHaveProperty(property);
         expect(clone[property]).toBeInstanceOf(Function);
         delete clone[property];

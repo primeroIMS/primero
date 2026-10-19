@@ -6,6 +6,7 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import CheckIcon from "@mui/icons-material/Check";
 import BlockIcon from "@mui/icons-material/Block";
 
+import { useApp } from "../../application";
 import { getRecordFormsByUniqueId } from "../../record-form/selectors";
 import DisabledRecordIndicator from "../../record-form/form/components/disabled-record-indicator";
 import { useMemoizedSelector } from "../../../libs";
@@ -16,6 +17,27 @@ import { fetchRecord, getLoadingRecordState, getRelatedRecord, selectRecord } fr
 import Form, { FORM_MODE_SHOW } from "../../form";
 import LoadingIndicator from "../../loading-indicator";
 import { setupLinkField } from "../utils";
+import { useI18n } from "../../i18n";
+
+function getFormSection({ forms, record, linkedRecordTypePlural, linkFieldDisplay, id, previewFieldNames }) {
+  if (previewFieldNames) {
+    return forms.map(formSection =>
+      formSection.set(
+        "fields",
+        formSection.fields.filter(field => previewFieldNames.includes(field.name))
+      )
+    );
+  }
+
+  return record.get("record_in_scope", false)
+    ? setupLinkField({
+        formSections: forms,
+        recordType: linkedRecordTypePlural,
+        linkFieldDisplay,
+        id
+      })
+    : forms;
+}
 
 function Component({
   handleCancel,
@@ -26,6 +48,7 @@ function Component({
   linkedRecordFormUniqueId,
   linkedRecordType,
   linkFieldDisplay,
+  previewFieldNames,
   permissions,
   primeroModule,
   recordType,
@@ -41,8 +64,11 @@ function Component({
   }, []);
 
   const dispatch = useDispatch();
+  const { online } = useApp();
+  const i18n = useI18n();
+
   const linkedRecordTypePlural = RECORD_TYPES_PLURAL[linkedRecordType];
-  const recordTypePlural = RECORD_TYPES_PLURAL[recordType];
+  const recordTypePlural = RECORD_TYPES_PLURAL[recordType] || recordType;
 
   const formSection = useMemoizedSelector(state =>
     getRecordFormsByUniqueId(state, {
@@ -68,14 +94,14 @@ function Component({
 
   const forms = isEmpty(recordViewForms) ? [formSection] : recordViewForms;
 
-  const formSections = record.get("record_in_scope", false)
-    ? setupLinkField({
-        formSections: forms,
-        recordType: linkedRecordTypePlural,
-        linkFieldDisplay,
-        id
-      })
-    : forms;
+  const formSections = getFormSection({
+    forms,
+    record,
+    linkedRecordTypePlural,
+    linkFieldDisplay,
+    id,
+    previewFieldNames
+  });
 
   const handleSelect = () => handleSelection(record);
 
@@ -112,6 +138,8 @@ function Component({
             text={selectButtonText}
             onClick={handleSelect}
             icon={selectButtonIcon}
+            disabled={!online}
+            tooltip={!online ? i18n.t("unavailable_offline") : undefined}
           />
         )}
       </div>
@@ -139,6 +167,7 @@ Component.propTypes = {
   linkFieldDisplay: PropTypes.string.isRequired,
   onResultClick: PropTypes.func,
   permissions: PropTypes.object.isRequired,
+  previewFieldNames: PropTypes.array,
   primeroModule: PropTypes.string.isRequired,
   recordType: PropTypes.string.isRequired,
   recordViewForms: PropTypes.array,

@@ -6,22 +6,21 @@ describe("<Report /> - utils", () => {
       const reportData = {
         row_1: {
           column_1: {
-            _total: 5
+            _total: 5,
+            query: ["module_id=primeromodule-test-module-1000001", "column_1=one"]
           },
           column_2: {
-            _total: 5
+            _total: 5,
+            query: ["module_id=primeromodule-test-module-1000001", "column_1=two"]
           },
-          _total: 10
+          _total: 10,
+          query: ["module_id=primeromodule-test-module-1000001"]
         }
       };
 
       expect(getColumnObjects(reportData, 1)).toEqual({
-        column_1: {
-          _total: 5
-        },
-        column_2: {
-          _total: 5
-        }
+        column_1: {},
+        column_2: {}
       });
     });
 
@@ -42,12 +41,8 @@ describe("<Report /> - utils", () => {
       };
 
       expect(getColumnObjects(reportData, 1)).toEqual({
-        column_1: {
-          _total: 5
-        },
-        column_2: {
-          _total: 5
-        }
+        column_1: {},
+        column_2: {}
       });
     });
 
@@ -80,15 +75,9 @@ describe("<Report /> - utils", () => {
       };
 
       expect(getColumnObjects(reportData, 2)).toEqual({
-        column_1: {
-          _total: 5
-        },
-        column_2: {
-          _total: 5
-        },
-        column_3: {
-          _total: 5
-        }
+        column_1: {},
+        column_2: {},
+        column_3: {}
       });
     });
 
@@ -131,13 +120,8 @@ describe("<Report /> - utils", () => {
 
       expect(getColumnObjects(reportData, 2)).toEqual({
         "Location - 1": {
-          _total: 2,
-          Yes: {
-            _total: 1
-          },
-          No: {
-            _total: 1
-          }
+          Yes: {},
+          No: {}
         }
       });
     });

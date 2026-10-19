@@ -33,6 +33,13 @@ describe("<Transitions /> - Constants", () => {
     );
     delete constants.TRANSITIONS_TYPES;
 
+    expect(constants).toHaveProperty("REFERRAL_SUCCESS_STATUS");
+    expect(typeof constants.REFERRAL_SUCCESS_STATUS).toEqual("object");
+    expect(Object.keys(constants.REFERRAL_SUCCESS_STATUS)).toEqual(
+      expect.arrayContaining(["successful", "not_successful"])
+    );
+    delete constants.REFERRAL_SUCCESS_STATUS;
+
     expect(Object.keys(constants)).toHaveLength(0);
   });
 });

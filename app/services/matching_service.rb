@@ -40,8 +40,6 @@ class MatchingService
     end
   end
 
-  # Disable cop, rubocop detect thresholded_search_result as hash but it is an array
-  # rubocop:disable Style/HashTransformValues
   def normalize_search_results(results)
     return {} unless results.present?
 
@@ -51,7 +49,6 @@ class MatchingService
       [id, { score:, likelihood: likelihood(score, average_score(results), thresholded_search_result.size) }]
     end
   end
-  # rubocop:enable Style/HashTransformValues
 
   def average_score(results)
     scores = results.values

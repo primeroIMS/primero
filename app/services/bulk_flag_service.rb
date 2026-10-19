@@ -10,14 +10,7 @@ class BulkFlagService
 
   def flag_records!
     search_records.records.unscope(:includes).in_batches(of: 50) do |records|
-      ActiveRecord::Base.transaction do
-        records.each do |record|
-          record.add_flag!(@args[:message], @args[:date]&.to_date, @flagged_by.user_name)
-        rescue StandardError => e
-          Rails.logger.error e.message
-          next
-        end
-      end
+      ActiveRecord::Base.transaction { flag_records_batch(records) }
     end
   end
 
@@ -30,6 +23,17 @@ class BulkFlagService
   end
 
   private
+
+  def flag_records_batch(records)
+    records.each do |record|
+      next if record.pending_transition_for?(@flagged_by)
+
+      record.add_flag!(@args[:message], @args[:date]&.to_date, @flagged_by.user_name)
+    rescue StandardError => e
+      Rails.logger.error e.message
+      next
+    end
+  end
 
   def query_scope
     @flagged_by.record_query_scope(@model_class, @args[:id_search])

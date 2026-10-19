@@ -9,6 +9,7 @@ export const SEPERATOR = "separator";
 export const RADIO_FIELD = "radio_button";
 export const PHOTO_FIELD = "photo_upload_box";
 export const DOCUMENT_FIELD = "document_upload_box";
+export const REGISTRY_FIELD = "registry";
 export const AUDIO_FIELD = "audio_upload_box";
 export const TALLY_FIELD = "tally_field";
 export const NAME_FIELD = "name";

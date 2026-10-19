@@ -69,9 +69,9 @@ describe("<MenuActions /> - Component", () => {
           expect(screen.getAllByTestId("menu-item")).toHaveLength(1);
         });
 
-        it("should only render the revoke option", () => {
+        it("should only render the revoke / mark as done option", () => {
           mountedComponent(<TransitionActions {...props} />, state);
-          expect(screen.getByText(/actions.revoke/i)).toBeInTheDocument();
+          expect(screen.getByText("actions.revoke_mark_as_done")).toBeInTheDocument();
         });
 
         describe("when is offline", () => {
@@ -193,7 +193,7 @@ describe("<MenuActions /> - Component", () => {
 
         it("renders MenuItem with revoke option", () => {
           mountedComponent(<TransitionActions {...props} />, state);
-          expect(screen.getByText(/actions.revoke/i)).toBeInTheDocument();
+          expect(screen.getByText("actions.revoke")).toBeInTheDocument();
         });
       });
 

@@ -105,7 +105,7 @@ module Historical
   def add_creation_history
     RecordHistory.create(
       record: self, record_type: self.class.name,
-      user_name: created_by, datetime: self.created_at,
+      user_name: created_by, datetime: created_at,
       action: EVENT_CREATE, record_changes: saved_changes_to_record
     )
   end

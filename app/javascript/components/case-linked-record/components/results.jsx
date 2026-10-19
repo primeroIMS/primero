@@ -8,7 +8,7 @@ import ActionButton, { ACTION_BUTTON_TYPES } from "../../action-button";
 import IndexTable, { getRecords, getLoading } from "../../index-table";
 import LoadingIndicator from "../../loading-indicator";
 import { RECORD_TYPES_PLURAL } from "../../../config";
-import { getMetadata } from "../../record-list";
+import { getMetadata } from "../../record-list/selectors";
 import css from "../../record-form/form/subforms/styles.css";
 import { fetchRelatedRecords } from "../../records";
 
@@ -17,6 +17,7 @@ function Component({
   fields,
   handleCancel,
   isRecordSelectable,
+  includeIdColumn = true,
   linkedRecordType,
   locale,
   online,
@@ -59,8 +60,8 @@ function Component({
     setShouldSelect(true);
     dispatch(
       fetchRelatedRecords({
-        recordType: RECORD_TYPES_PLURAL[recordType],
-        relatedRecordType: RECORD_TYPES_PLURAL[linkedRecordType],
+        recordType: RECORD_TYPES_PLURAL[recordType] || recordType,
+        relatedRecordType: RECORD_TYPES_PLURAL[linkedRecordType] || linkedRecordType,
         data: params
       })
     );
@@ -68,7 +69,7 @@ function Component({
 
   const tableOptions = {
     columns: columns || [
-      { name: "short_id", label: "id", id: true },
+      ...(includeIdColumn ? [{ name: "short_id", label: "id", id: true }] : []),
       ...fields.valueSeq().map(field => ({
         name: field.name,
         label: field.display_name[locale]
@@ -78,12 +79,12 @@ function Component({
     defaultFilters: params,
     onTableChange: ({ data }) =>
       fetchRelatedRecords({
-        recordType: RECORD_TYPES_PLURAL[recordType],
-        relatedRecordType: RECORD_TYPES_PLURAL[linkedRecordType],
+        recordType: RECORD_TYPES_PLURAL[recordType] || recordType,
+        relatedRecordType: RECORD_TYPES_PLURAL[linkedRecordType] || linkedRecordType,
         data
       }),
-    recordType: [RECORD_TYPES_PLURAL[recordType], "related_records"],
-    translateAsRecordType: RECORD_TYPES_PLURAL[linkedRecordType],
+    recordType: [RECORD_TYPES_PLURAL[recordType] || recordType, "related_records"],
+    translateAsRecordType: RECORD_TYPES_PLURAL[linkedRecordType] || linkedRecordType,
     bypassInitialFetch: true,
     onRowClick: handleRowClick,
     options: { selectableRows: "none", rowsPerPageOptions: [], elevation: 0 },
@@ -121,6 +122,7 @@ Component.propTypes = {
   fields: PropTypes.object.isRequired,
   formName: PropTypes.string,
   handleCancel: PropTypes.func.isRequired,
+  includeIdColumn: PropTypes.bool,
   isRecordSelectable: PropTypes.func,
   linkedRecordFormUniqueId: PropTypes.string,
   linkedRecordNamespace: PropTypes.string,

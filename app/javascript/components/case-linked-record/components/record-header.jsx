@@ -12,7 +12,18 @@ import SubformEmptyData from "../../record-form/form/subforms/subform-empty-data
 import { useApp } from "../../application";
 import { RECORD_TYPES_PLURAL } from "../../../config";
 
-function Component({ fieldNames, handleOpenMatch, idField, linkedRecordType, linkedRecords, formName, recordType }) {
+function Component({
+  fieldNames,
+  handleOpenMatch,
+  idField,
+  linkedRecordType,
+  linkedRecords,
+  formName,
+  recordType,
+  emptyPlaceholderText,
+  disabled,
+  noStyling = false
+}) {
   const { online } = useApp();
   const { isRTL } = useThemeHelper();
 
@@ -31,7 +42,21 @@ function Component({ fieldNames, handleOpenMatch, idField, linkedRecordType, lin
   const hasData = !linkedRecords.isEmpty();
 
   if (!isRecordLoading && !isRecordRelationshipsLoading && !hasData) {
-    return <SubformEmptyData subformName={formName} single />;
+    return <SubformEmptyData subformName={formName} single textOverride={emptyPlaceholderText} />;
+  }
+
+  if (noStyling) {
+    return (
+      <div>
+        {linkedRecords.map(linkedRecord => (
+          <div className={css.noStylingContainer}>
+            {fieldNames.map(fieldName => (
+              <span>{Array.isArray(fieldName) ? linkedRecord?.getIn(fieldName) : linkedRecord?.get(fieldName)}</span>
+            ))}
+          </div>
+        ))}
+      </div>
+    );
   }
 
   return (
@@ -49,10 +74,12 @@ function Component({ fieldNames, handleOpenMatch, idField, linkedRecordType, lin
           >
             <ListItem
               component="a"
-              onClick={() => handleOpenMatch(linkedRecord.get(idField))}
-              classes={{ root: css.listItem }}
+              onClick={() => !disabled && handleOpenMatch(linkedRecord.get(idField))}
+              classes={{ root: disabled ? css.listItemDisabled : css.listItem }}
             >
-              <ListItemText classes={{ primary: css.listText, secondary: css.listTextSecondary }}>
+              <ListItemText
+                classes={{ primary: disabled ? css.listTextDisabled : css.listText, secondary: css.listTextSecondary }}
+              >
                 <div className={css.listItemText}>
                   {fieldNames.map(fieldName => (
                     <span>
@@ -67,6 +94,7 @@ function Component({ fieldNames, handleOpenMatch, idField, linkedRecordType, lin
                   type={ACTION_BUTTON_TYPES.icon}
                   rest={{
                     className: css.subformShow,
+                    disabled,
                     onClick: () => handleOpenMatch(linkedRecord?.get(idField))
                   }}
                 />
@@ -82,12 +110,15 @@ function Component({ fieldNames, handleOpenMatch, idField, linkedRecordType, lin
 Component.displayName = "RecordHeader";
 
 Component.propTypes = {
+  disabled: PropTypes.bool,
+  emptyPlaceholderText: PropTypes.string,
   fieldNames: PropTypes.array.isRequired,
   formName: PropTypes.string.isRequired,
   handleOpenMatch: PropTypes.func.isRequired,
   idField: PropTypes.string.isRequired,
   linkedRecords: PropTypes.object.isRequired,
   linkedRecordType: PropTypes.string.isRequired,
+  noStyling: PropTypes.bool,
   recordType: PropTypes.string
 };
 

@@ -1598,10 +1598,11 @@ describe User do
 
   describe '#referred_record_ids' do
     before :each do
-      clean_data(User, Role, Agency, Child, Referral)
+      clean_data(UserGroup, User, Role, Agency, Child, Referral)
 
       @agency = Agency.create!(name: 'Test Agency', agency_code: 'test_agency', unique_id: 'agency_test_1')
       role = create(:role)
+      @user_group = UserGroup.create!(unique_id: 'shared-group')
 
       @user1 = User.create!(
         user_name: 'user1',
@@ -1610,7 +1611,8 @@ describe User do
         password_confirmation: 'password123',
         email: 'user1@example.com',
         agency_id: @agency.id,
-        role_id: role.id
+        role_id: role.id,
+        user_groups: [@user_group]
       )
 
       @user2 = User.create!(
@@ -1620,7 +1622,8 @@ describe User do
         password_confirmation: 'password123',
         email: 'user2@example.com',
         agency_id: @agency.id,
-        role_id: role.id
+        role_id: role.id,
+        user_groups: [@user_group]
       )
 
       @child1 = Child.create!(data: { name: 'Child 1', age: 10, sex: 'male',

@@ -14,7 +14,7 @@ import { getSelectedFlag } from "./selectors";
 import { UNFLAG_DIALOG } from "./components/unflag/constants";
 import { UPDATE_FLAG_DIALOG } from "./components/update-flag/constants";
 
-function Component({ control, record, recordType }) {
+function Component({ control, record, recordType, disabled = false, tooltip }) {
   const [tab, setTab] = useState(0);
   const { dialogOpen, setDialog } = useDialog([FLAG_DIALOG, UNFLAG_DIALOG, UPDATE_FLAG_DIALOG]);
 
@@ -58,6 +58,8 @@ function Component({ control, record, recordType }) {
           icon={<FlagIcon />}
           text="buttons.flags"
           type={ACTION_BUTTON_TYPES.default}
+          disabled={disabled}
+          tooltip={tooltip}
           rest={{
             onClick: handleOpen
           }}
@@ -77,9 +79,11 @@ Component.displayName = NAME;
 
 Component.propTypes = {
   control: PropTypes.node,
+  disabled: PropTypes.bool,
   record: PropTypes.string,
   recordType: PropTypes.string.isRequired,
-  showActionButtonCss: PropTypes.string
+  showActionButtonCss: PropTypes.string,
+  tooltip: PropTypes.string
 };
 
 export default Component;

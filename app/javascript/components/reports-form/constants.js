@@ -1,4 +1,4 @@
-import { DATE_FIELD, NUMERIC_FIELD, RADIO_FIELD, SELECT_FIELD, TICK_FIELD } from "../form/constants";
+import { DATE_FIELD, NUMERIC_FIELD, RADIO_FIELD, REGISTRY_FIELD, SELECT_FIELD, TICK_FIELD } from "../form/constants";
 
 export const FORM_ID = "reports-form";
 export const NAME = "ReportsForm";
@@ -44,7 +44,14 @@ export const CONSTRAINTS = Object.freeze({
   date: DATE_CONSTRAINTS
 });
 
-export const ALLOWED_FIELD_TYPES = Object.freeze([DATE_FIELD, NUMERIC_FIELD, RADIO_FIELD, SELECT_FIELD, TICK_FIELD]);
+export const ALLOWED_FIELD_TYPES = Object.freeze([
+  DATE_FIELD,
+  NUMERIC_FIELD,
+  RADIO_FIELD,
+  SELECT_FIELD,
+  TICK_FIELD,
+  REGISTRY_FIELD
+]);
 
 export const ALLOWED_FIELD_NAMES = ["created_by", "created_by_groups", "owned_by", "owned_by_groups"];
 

@@ -38,9 +38,8 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
   def export_records(records)
     constraint_subforms
     build_worksheets_with_headers
-    preload_agency_names(records)
-    field_value_service.agencies = @agency_names_cache
     preload_referrals(records)
+    prepare_field_value_service(records)
     records.each do |record|
       establish_record_constraints(record)
       write_record(record)
@@ -52,6 +51,13 @@ class Exporters::ExcelExporter < Exporters::BaseExporter
     constraint_subforms
     build_worksheets_with_headers
     write_record(records.first)
+  end
+
+  def prepare_field_value_service(records)
+    preload_agency_names(records)
+    preload_registry_records(records)
+    field_value_service.agencies = @agency_names_cache
+    field_value_service.registry_records = @registry_records_cache
   end
 
   def worksheet_id(form, subform_field = nil)

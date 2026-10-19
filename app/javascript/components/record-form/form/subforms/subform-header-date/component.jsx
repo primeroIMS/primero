@@ -3,8 +3,9 @@ import isEmpty from "lodash/isEmpty";
 
 import { useI18n } from "../../../../i18n";
 import { SUBFORM_HEADER_DATE } from "../constants";
-import { DATE_FORMAT, DATE_TIME_FORMAT, LOCALE_KEYS } from "../../../../../config";
+import { LOCALE_KEYS } from "../../../../../config";
 import NepaliCalendar from "../../../../nepali-calendar-input";
+import { selectedDateFormat } from "../../../../../libs/date-picker-localization";
 
 import css from "./styles.css";
 
@@ -13,7 +14,7 @@ function Component({ value, includeTime }) {
 
   if (isEmpty(value)) return value || "";
 
-  const dateFormat = includeTime ? DATE_TIME_FORMAT : DATE_FORMAT;
+  const dateFormat = selectedDateFormat(includeTime, i18n.locale);
   const dateValue = i18n.localizeDate(value, dateFormat);
 
   if (i18n.locale === LOCALE_KEYS.ne) {

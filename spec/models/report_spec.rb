@@ -219,7 +219,9 @@ describe Report do
 
         @report.build_report
 
-        expect(@report.data).to eq('female' => { '_total' => 3 })
+        expect(@report.data).to eq(
+          'female' => { '_total' => 3, 'query' => ["module_id=#{module1.unique_id}", 'sex=female'] }
+        )
       end
     end
 
@@ -242,7 +244,10 @@ describe Report do
 
         @report.build_report
 
-        expect(@report.data).to eq('female' => { '_total' => 3 }, 'male' => { '_total' => 0 })
+        expect(@report.data).to eq(
+          'female' => { '_total' => 3, 'query' => ["module_id=#{module1.unique_id}", 'sex=female'] },
+          'male' => { '_total' => 0, 'query' => ["module_id=#{module1.unique_id}", 'sex=male'] }
+        )
       end
     end
   end
@@ -287,6 +292,8 @@ describe Report do
         name: 'status', display_name: 'status', type: Field::SELECT_BOX, option_strings_source: 'lookup lookup-status'
       )
 
+      Field.create!(name: 'record_state', display_name: 'Record state', type: Field::TICK_BOX)
+
       Child.create!(data: { status: 'closed', worklow: 'closed', sex: 'female', module_id: module1.unique_id })
       Child.create!(data: { status: 'closed', worklow: 'closed', sex: 'female', module_id: module1.unique_id })
       Child.create!(data: { status: 'open', worklow: 'open', sex: 'female', module_id: module1.unique_id })
@@ -317,7 +324,16 @@ describe Report do
 
       it 'should return 2 female and 1 male' do
         @report.build_report
-        expect(@report.data).to eq('female' => { '_total' => 2 }, 'male' => { '_total' => 1 })
+        expect(@report.data).to eq(
+          'female' => {
+            '_total' => 2,
+            'query' => ['status=closed', "module_id=#{module1.unique_id}", 'sex=female']
+          },
+          'male' => {
+            '_total' => 1,
+            'query' => ['status=closed', "module_id=#{module1.unique_id}", 'sex=male']
+          }
+        )
       end
     end
 
@@ -334,8 +350,8 @@ describe Report do
           disaggregate_by: [],
           filters: [
             {
-              attribute: 'status',
-              value: %w[open closed]
+              attribute: 'record_state',
+              value: %w[true false]
             }
           ]
         )
@@ -345,11 +361,51 @@ describe Report do
         @report.build_report
         expect(@report.data).to eq(
           {
-            'female' => { '_total' => 3, 'closed' => { '_total' => 2 }, 'open' => { '_total' => 1 } },
-            'male' => { '_total' => 1, 'closed' => { '_total' => 1 } }
+            'female' => {
+              '_total' => 3,
+              'query' => ['record_state=true,false', "module_id=#{module1.unique_id}", 'sex=female'],
+              'closed' => {
+                '_total' => 2,
+                'query' =>
+                  ['record_state=true,false', "module_id=#{module1.unique_id}", 'sex=female', 'status=closed']
+              },
+              'open' => {
+                '_total' => 1,
+                'query' => ['record_state=true,false', "module_id=#{module1.unique_id}", 'sex=female', 'status=open']
+              }
+            },
+            'male' => {
+              '_total' => 1,
+              'query' => ['record_state=true,false', "module_id=#{module1.unique_id}", 'sex=male'],
+              'closed' => {
+                '_total' => 1,
+                'query' => ['record_state=true,false', "module_id=#{module1.unique_id}", 'sex=male', 'status=closed']
+              }
+            }
           }
         )
       end
+    end
+
+    it 'generates an is_null filter for incomplete_data' do
+      Child.create!(data: { status: 'closed', worklow: 'closed', module_id: module1.unique_id })
+
+      report = Report.new(
+        name: 'Test',
+        unique_id: 'report-test',
+        record_type: 'case',
+        module_id: module1.unique_id,
+        graph: true,
+        exclude_empty_rows: true,
+        aggregate_by: ['sex'],
+        disaggregate_by: []
+      )
+
+      report.build_report
+
+      expect(report.data['incomplete_data']['query']).to match_array(
+        ["module_id=#{module1.unique_id}", 'sex=is_null']
+      )
     end
   end
 
@@ -427,7 +483,12 @@ describe Report do
 
     it 'can be seen by the agency scope even if the agency has blank spaces in it unique_id' do
       report.build_report
-      expect(report.data).to eq({ 'alternative_care' => { '_total' => 1, 'implemented' => { '_total' => 1 } } })
+      expect(report.data).to eq(
+        'alternative_care' => {
+          '_total' => 1,
+          'implemented' => { '_total' => 1 }
+        }
+      )
     end
   end
 
@@ -532,10 +593,22 @@ describe Report do
 
     it 'can be seen by the group scope' do
       report.build_report
+      query = ["module_id=#{module1.unique_id}", "owned_by_groups=#{group_1.unique_id},#{group_3.unique_id}"]
+
       expect(report.data).to eq(
         {
-          'open' => { '_total' => 2, 'male' => { '_total' => 1 }, 'female' => { '_total' => 1 } },
-          'closed' => { '_total' => 1, 'male' => { '_total' => 0 }, 'female' => { '_total' => 1 } }
+          'open' => {
+            '_total' => 2,
+            'query' => query + ['status=open'],
+            'male' => { '_total' => 1, 'query' => query + ['status=open', 'sex=male'] },
+            'female' => { '_total' => 1, 'query' => query + ['status=open', 'sex=female'] }
+          },
+          'closed' => {
+            '_total' => 1,
+            'query' => query + ['status=closed'],
+            'male' => { '_total' => 0, 'query' => query + ['status=closed', 'sex=male'] },
+            'female' => { '_total' => 1, 'query' => query + ['status=closed', 'sex=female'] }
+          }
         }
       )
     end
@@ -543,10 +616,17 @@ describe Report do
     it 'can be seen by the group scope when the permission filter only has a single group' do
       report.permission_filter = { 'attribute' => 'owned_by_groups', 'value' => [group_3.unique_id] }
       report.build_report
+      query = ["module_id=#{module1.unique_id}", "owned_by_groups=#{group_3.unique_id}"]
+
       expect(report.data).to eq(
         {
-          'closed' => { '_total' => 1, 'male' => { '_total' => 0 }, 'female' => { '_total' => 1 } },
-          'open' => { '_total' => 0 }
+          'closed' => {
+            '_total' => 1,
+            'query' => query + ['status=closed'],
+            'male' => { '_total' => 0, 'query' => query + ['status=closed', 'sex=male'] },
+            'female' => { '_total' => 1, 'query' => query + ['status=closed', 'sex=female'] }
+          },
+          'open' => { '_total' => 0, 'query' => query + ['status=open'] }
         }
       )
     end
@@ -554,10 +634,20 @@ describe Report do
     it 'can be seen by group if they also meet the filter' do
       report.filters = [{ 'attribute' => 'owned_by_groups', 'value' => [group_3.unique_id] }]
       report.build_report
+      query = [
+        "and[0][owned_by_groups]=#{group_3.unique_id}",
+        "module_id=#{module1.unique_id}",
+        "and[1][owned_by_groups]=#{group_1.unique_id},#{group_3.unique_id}"
+      ]
+
       expect(report.data).to eq(
         {
-          'open' => { '_total' => 0 },
-          'closed' => { '_total' => 1, 'male' => { '_total' => 0 }, 'female' => { '_total' => 1 } }
+          'open' => { '_total' => 0, 'query' => query + ['status=open'] },
+          'closed' => {
+            '_total' => 1, 'query' => query + ['status=closed'],
+            'male' => { '_total' => 0, 'query' => query + ['status=closed', 'sex=male'] },
+            'female' => { '_total' => 1, 'query' => query + ['status=closed', 'sex=female'] }
+          }
         }
       )
     end
@@ -752,64 +842,172 @@ describe Report do
     end
 
     it 'returns a data dissaggregate by created_at' do
+      query = ["module_id=#{module1.unique_id}"]
+
       expect(report.build_report).to eq(
         {
-          'male' => { '_total' => 1, '2021-09-12' => { '_total' => 1 } },
-          'female' => { '_total' => 2, '2022-10-05' => { '_total' => 1 }, '2022-10-10' => { '_total' => 1 } }
+          'male' => {
+            '_total' => 1,
+            'query' => query + ['sex=male'],
+            '2021-09-12 00:00:00+00..2021-09-12 23:59:59+00' => {
+              '_total' => 1,
+              'query' => query + ['sex=male', 'created_at=2021-09-12 00:00:00+00..2021-09-12 23:59:59+00']
+            }
+          },
+          'female' => {
+            '_total' => 2,
+            'query' => query + ['sex=female'],
+            '2022-10-05 00:00:00+00..2022-10-05 23:59:59+00' => {
+              '_total' => 1,
+              'query' => query + ['sex=female', 'created_at=2022-10-05 00:00:00+00..2022-10-05 23:59:59+00']
+            },
+            '2022-10-10 00:00:00+00..2022-10-10 23:59:59+00' => {
+              '_total' => 1,
+              'query' => query + ['sex=female', 'created_at=2022-10-10 00:00:00+00..2022-10-10 23:59:59+00']
+            }
+          }
         }
       )
     end
 
     it 'returns data only for records after 2022-10-10' do
+      query = ['created_at=2022-10-10', "module_id=#{module1.unique_id}"]
+
       expect(report_with_date_filter.build_report).to eq(
         {
-          'female' => { '_total' => 1, '2022-10-10' => { '_total' => 1 } },
-          'male' => { '_total' => 0 }
+          'female' => {
+            '_total' => 1,
+            'query' => query + ['sex=female'],
+            '2022-10-10 00:00:00+00..2022-10-10 23:59:59+00' => {
+              '_total' => 1,
+              'query' => [
+                'and[0][created_at]=2022-10-10',
+                "module_id=#{module1.unique_id}",
+                'sex=female',
+                'and[1][created_at]=2022-10-10 00:00:00+00..2022-10-10 23:59:59+00'
+              ]
+            }
+          },
+          'male' => { '_total' => 0, 'query' => query + ['sex=male'] }
         }
       )
     end
 
     it 'groups data by week' do
       report.group_dates_by = Report::WEEK
+      query = ["module_id=#{module1.unique_id}"]
 
       expect(report.build_report).to eq(
-        'male' => { '_total' => 1, '06-Sep-2021 - 12-Sep-2021' => { '_total' => 1 } },
-        'female' => { '_total' => 2, '03-Oct-2022 - 09-Oct-2022' => { '_total' => 1 },
-                      '10-Oct-2022 - 16-Oct-2022' => { '_total' => 1 } }
+        'male' => {
+          '_total' => 1,
+          'query' => query + ['sex=male'],
+          '2021-09-06 00:00:00+00..2021-09-12 23:59:59+00' => {
+            '_total' => 1,
+            'query' => query + ['sex=male', 'created_at=2021-09-06 00:00:00+00..2021-09-12 23:59:59+00']
+          }
+        },
+        'female' => {
+          '_total' => 2,
+          'query' => query + ['sex=female'],
+          '2022-10-03 00:00:00+00..2022-10-09 23:59:59+00' => {
+            '_total' => 1,
+            'query' => query + ['sex=female', 'created_at=2022-10-03 00:00:00+00..2022-10-09 23:59:59+00']
+          },
+          '2022-10-10 00:00:00+00..2022-10-16 23:59:59+00' => {
+            '_total' => 1,
+            'query' => query + ['sex=female', 'created_at=2022-10-10 00:00:00+00..2022-10-16 23:59:59+00']
+          }
+        }
       )
     end
 
     it 'groups data by month' do
       report.group_dates_by = Report::MONTH
+      query = ["module_id=#{module1.unique_id}"]
 
       expect(report.build_report).to eq(
-        'male' => { '_total' => 1, '2021-Sep' => { '_total' => 1 } },
-        'female' => { '_total' => 2, '2022-Oct' => { '_total' => 2 } }
+        'male' => {
+          '_total' => 1,
+          'query' => query + ['sex=male'],
+          '2021-09-01 00:00:00+00..2021-09-30 23:59:59+00' => {
+            '_total' => 1,
+            'query' => query + ['sex=male', 'created_at=2021-09-01 00:00:00+00..2021-09-30 23:59:59+00']
+          }
+        },
+        'female' => {
+          '_total' => 2,
+          'query' => query + ['sex=female'],
+          '2022-10-01 00:00:00+00..2022-10-31 23:59:59+00' => {
+            '_total' => 2,
+            'query' => query + ['sex=female', 'created_at=2022-10-01 00:00:00+00..2022-10-31 23:59:59+00']
+          }
+        }
       )
     end
 
     it 'groups data by year' do
       report.group_dates_by = Report::YEAR
+      query = ["module_id=#{module1.unique_id}"]
 
       expect(report.build_report).to eq(
-        'male' => { '_total' => 1, 2021 => { '_total' => 1 } },
-        'female' => { '_total' => 2, 2022 => { '_total' => 2 } }
+        'male' => {
+          '_total' => 1,
+          'query' => query + ['sex=male'],
+          '2021-01-01 00:00:00+00..2021-12-31 23:59:59+00' => {
+            '_total' => 1,
+            'query' => query + ['sex=male', 'created_at=2021-01-01 00:00:00+00..2021-12-31 23:59:59+00']
+          }
+        },
+        'female' => {
+          '_total' => 2,
+          'query' => query + ['sex=female'],
+          '2022-01-01 00:00:00+00..2022-12-31 23:59:59+00' => {
+            '_total' => 2,
+            'query' => query + ['sex=female', 'created_at=2022-01-01 00:00:00+00..2022-12-31 23:59:59+00']
+          }
+        }
       )
     end
 
     it 'returns data for the custom field' do
+      query = ["module_id=#{module1.unique_id}"]
+
       expect(report_with_custom_field.build_report).to eq(
         {
-          'blue' => { '_total' => 1, 'male' => { '_total' => 0 }, 'female' => { '_total' => 1 } },
-          'green' => { '_total' => 1, 'male' => { '_total' => 1 }, 'female' => { '_total' => 0 } },
-          'red' => { '_total' => 1, 'male' => { '_total' => 0 }, 'female' => { '_total' => 1 } }
+          'blue' => {
+            '_total' => 1,
+            'query' => query + ['custom_ec4b5a0=blue'],
+            'male' => { '_total' => 0, 'query' => query + ['custom_ec4b5a0=blue', 'sex=male'] },
+            'female' => { '_total' => 1, 'query' => query + ['custom_ec4b5a0=blue', 'sex=female'] }
+          },
+          'green' => {
+            '_total' => 1,
+            'query' => query + ['custom_ec4b5a0=green'],
+            'male' => { '_total' => 1, 'query' => query + ['custom_ec4b5a0=green', 'sex=male'] },
+            'female' => { '_total' => 0, 'query' => query + ['custom_ec4b5a0=green', 'sex=female'] }
+          },
+          'red' => {
+            '_total' => 1,
+            'query' => query + ['custom_ec4b5a0=red'],
+            'male' => { '_total' => 0, 'query' => query + ['custom_ec4b5a0=red', 'sex=male'] },
+            'female' => { '_total' => 1, 'query' => query + ['custom_ec4b5a0=red', 'sex=female'] }
+          }
         }
       )
     end
 
     it 'returns data for the custom location field' do
+      query = ["module_id=#{module1.unique_id}", 'loc:custom_abc4x5a11=PR01']
+
       expect(report_with_custom_location_field.build_report).to eq(
-        { 'PR01' => { '_total' => 1, 'female' => { '_total' => 1 }, 'male' => { '_total' => 0 } } }
+        {
+          'PR01' => {
+            '_total' => 1,
+            'query' => query,
+            'female' => { '_total' => 1, 'query' => query + ['sex=female'] },
+            'male' => { '_total' => 0, 'query' => query + ['sex=male'] }
+          }
+        }
       )
     end
   end
@@ -873,7 +1071,16 @@ describe Report do
     end
 
     it 'returns the total for records that match the module' do
-      expect(registration_report.build_report).to eq({ '2021-Oct' => { '_total' => 1 } })
+      query = [
+        "status=#{Record::STATUS_OPEN}", 'record_state=true', "module_id=#{module2.unique_id}"
+      ]
+
+      expect(registration_report.build_report).to eq(
+        '2021-10-01 00:00:00+00..2021-10-31 23:59:59+00' => {
+          '_total' => 1,
+          'query' => query + ['registration_date=2021-10-01 00:00:00+00..2021-10-31 23:59:59+00']
+        }
+      )
     end
   end
 
@@ -926,11 +1133,255 @@ describe Report do
     it 'returns the total of records' do
       expect(age_report.build_report).to eq(
         {
-          '5 - 11' => {
+          '5..11' => {
             '_total' => 1,
             'type1' => { '_total' => 1 }
           }
         }
+      )
+    end
+  end
+
+  describe 'registry fields' do
+    let(:system_settings) do
+      SystemSettings.new(
+        'registry_options' => {
+          'provider' => { 'collapsed_field_names' => %w[registry_id_display name] },
+          'foster_care' => { 'collapsed_field_names' => %w[registry_no name] }
+        }
+      )
+    end
+
+    before do
+      clean_data(Field, Child, RegistryRecord, Report, Lookup)
+      allow(SystemSettings).to receive(:current).and_return(system_settings)
+
+      Field.create!(
+        name: 'service_provider',
+        display_name: 'Service Provider',
+        type: Field::REGISTRY,
+        option_strings_source: RegistryRecord::REGISTRY_TYPE_PROVIDER
+      )
+    end
+
+    it 'generates data using the configured registry summary fields' do
+      provider = RegistryRecord.create!(
+        data: {
+          registry_type: RegistryRecord::REGISTRY_TYPE_PROVIDER,
+          registry_id_display: 'PROV-001',
+          name: 'Acme Services'
+        }
+      )
+      Child.create!(data: { module_id: module1.unique_id, service_provider: provider.id })
+
+      report = Report.new(
+        name: 'Services by provider',
+        record_type: 'case',
+        module_id: module1.unique_id,
+        aggregate_by: ['service_provider'],
+        disaggregate_by: []
+      )
+
+      expect(report.build_report).to eq(
+        provider.id => {
+          '_total' => 1,
+          'query' => ["module_id=#{module1.unique_id}", "service_provider=#{provider.id}"]
+        }
+      )
+    end
+
+    it 'generates nested service data using a registry field and sex field' do
+      Lookup.create!(
+        unique_id: 'lookup-sex',
+        name_en: 'sex',
+        lookup_values_en: [
+          { id: 'male', display_text: 'Male' },
+          { id: 'female', display_text: 'Female' }
+        ].map(&:with_indifferent_access)
+      )
+
+      Field.create!(
+        name: 'sex', display_name: 'Sex', type: Field::SELECT_BOX, option_strings_source: 'lookup lookup-sex'
+      )
+
+      provider = RegistryRecord.create!(
+        data: {
+          registry_type: RegistryRecord::REGISTRY_TYPE_PROVIDER,
+          registry_id_display: 'PROV-001',
+          name: 'Acme Services'
+        }
+      )
+      Child.create!(
+        data: {
+          module_id: module1.unique_id,
+          sex: 'female',
+          services_section: [{ unique_id: 'service-1', service_provider: provider.id }]
+        }
+      )
+
+      report = Report.new(
+        name: 'Services by provider and sex',
+        record_type: 'reportable_service',
+        module_id: module1.unique_id,
+        aggregate_by: ['service_provider'],
+        disaggregate_by: ['sex']
+      )
+
+      expect(report.build_report).to eq(
+        provider.id => { '_total' => 1, 'female' => { '_total' => 1 }, 'male' => { '_total' => 0 } }
+      )
+    end
+
+    it 'generates data using the configured registry summary fields as a disaggregate by for foster care' do
+      Lookup.create!(
+        unique_id: 'lookup-sex',
+        name_en: 'sex',
+        lookup_values_en: [
+          { id: 'male', display_text: 'Male' },
+          { id: 'female', display_text: 'Female' }
+        ].map(&:with_indifferent_access)
+      )
+
+      Field.create!(
+        name: 'sex', display_name: 'sex', type: Field::SELECT_BOX, option_strings_source: 'lookup lookup-sex'
+      )
+
+      Field.create!(
+        name: 'foster_care_provider',
+        display_name: 'Foster Care Provider',
+        type: Field::REGISTRY,
+        option_strings_source: RegistryRecord::REGISTRY_TYPE_FOSTER_CARE
+      )
+
+      foster_care = RegistryRecord.create!(
+        data: {
+          registry_type: RegistryRecord::REGISTRY_TYPE_FOSTER_CARE,
+          registry_no: 'FC-001',
+          name: 'Foster Home'
+        }
+      )
+
+      Child.create!(data: { sex: 'female', module_id: module1.unique_id, foster_care_provider: foster_care.id })
+      Child.create!(data: { sex: 'male', module_id: module1.unique_id, foster_care_provider: foster_care.id })
+
+      report = Report.new(
+        name: 'Cases by Sex and Foster Care',
+        record_type: 'case',
+        module_id: module1.unique_id,
+        aggregate_by: ['sex'],
+        disaggregate_by: ['foster_care_provider']
+      )
+
+      expect(report.build_report).to eq(
+        {
+          'male' => {
+            '_total' => 1,
+            'query' => ["module_id=#{module1.unique_id}", 'sex=male'],
+            foster_care.id => {
+              '_total' => 1,
+              'query' => ["module_id=#{module1.unique_id}", 'sex=male', "foster_care_provider=#{foster_care.id}"]
+            }
+          },
+          'female' => {
+            '_total' => 1,
+            'query' => ["module_id=#{module1.unique_id}", 'sex=female'],
+            foster_care.id => {
+              '_total' => 1,
+              'query' => ["module_id=#{module1.unique_id}", 'sex=female', "foster_care_provider=#{foster_care.id}"]
+            }
+          }
+        }
+      )
+    end
+
+    it 'aggregates by a provider registry field and disaggregates by a foster care registry field' do
+      Field.create!(
+        name: 'foster_care_provider',
+        display_name: 'Foster Care Provider',
+        type: Field::REGISTRY,
+        option_strings_source: RegistryRecord::REGISTRY_TYPE_FOSTER_CARE
+      )
+
+      provider = RegistryRecord.create!(
+        data: {
+          registry_type: RegistryRecord::REGISTRY_TYPE_PROVIDER,
+          registry_id_display: 'PROV-001',
+          name: 'Acme Services'
+        }
+      )
+
+      foster_care = RegistryRecord.create!(
+        data: {
+          registry_type: RegistryRecord::REGISTRY_TYPE_FOSTER_CARE,
+          registry_no: 'FC-001',
+          name: 'Foster Home'
+        }
+      )
+
+      Child.create!(
+        data: { module_id: module1.unique_id, service_provider: provider.id, foster_care_provider: foster_care.id }
+      )
+
+      report = Report.new(
+        name: 'Services by provider and foster care',
+        record_type: 'case',
+        module_id: module1.unique_id,
+        aggregate_by: ['service_provider'],
+        disaggregate_by: ['foster_care_provider']
+      )
+
+      expect(report.build_report).to eq(
+        provider.id => {
+          '_total' => 1,
+          'query' => ["module_id=#{module1.unique_id}", "service_provider=#{provider.id}"],
+          foster_care.id => {
+            '_total' => 1,
+            'query' => [
+              "module_id=#{module1.unique_id}", "service_provider=#{provider.id}",
+              "foster_care_provider=#{foster_care.id}"
+            ]
+          }
+        }
+      )
+    end
+  end
+
+  describe 'report with non-existent fields' do
+    let(:report_with_non_existent_fields) do
+      Report.new(
+        name: 'Report with non-existent fields',
+        record_type: 'case',
+        module_id: module1.unique_id,
+        aggregate_by: ['non_existent_field'],
+        disaggregate_by: ['another_non_existent_field']
+      )
+    end
+
+    let(:report_with_mixed_fields) do
+      Report.new(
+        name: 'Report with mixed fields',
+        record_type: 'case',
+        module_id: module1.unique_id,
+        aggregate_by: ['status'],
+        disaggregate_by: ['non_existent_field']
+      )
+    end
+
+    before do
+      clean_data(User, UserGroup, Field, Lookup, Location, Child, Report)
+      Field.create!(
+        name: 'status', display_name: 'status', type: Field::TEXT_FIELD
+      )
+      Child.create!(data: { status: 'open', module_id: module1.unique_id })
+    end
+
+    it 'returns empty report data when all fields are non-existent' do
+      expect(report_with_non_existent_fields.build_report).to eq({})
+    end
+
+    it 'generates report data ignoring non-existent fields' do
+      expect(report_with_mixed_fields.build_report).to eq(
+        'open' => { '_total' => 1, 'query' => ["module_id=#{module1.unique_id}", 'status=open'] }
       )
     end
   end

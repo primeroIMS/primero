@@ -14,7 +14,7 @@ describe("<TransferApproval /> - Action Creators", () => {
     expect(creators).toEqual({});
   });
 
-  it("should check that 'approvalTransfer' action creator returns the correct object", () => {
+  it("should refetch the record when the transfer is accepted", () => {
     jest.spyOn(generate, "messageKey").mockReturnValue(4);
 
     const args = {
@@ -49,6 +49,13 @@ describe("<TransferApproval /> - Action Creators", () => {
             action: CLEAR_DIALOG
           },
           {
+            action: "cases/RECORD",
+            api: {
+              path: "cases/10",
+              db: { collection: "records", recordType: "cases", id: "10" }
+            }
+          },
+          {
             action: "cases/REDIRECT",
             redirectProperty: "record_id",
             redirectWithIdFromResponse: true,
@@ -80,5 +87,22 @@ describe("<TransferApproval /> - Action Creators", () => {
     expect(actionCreators.approvalTransfer(args)).toEqual(expectedAction);
 
     jest.resetAllMocks();
+  });
+
+  it("should not refetch the record when the transfer is rejected", () => {
+    const action = actionCreators.approvalTransfer({
+      recordId: "10",
+      recordType: "cases",
+      body: { data: { status: "rejected", rejected_reason: "reason" } },
+      message: "Updated successfully",
+      failureMessage: "Updated unsuccessfully",
+      transferId: "20"
+    });
+
+    expect(action.api.successCallback.map(callback => callback.action)).toEqual([
+      ENQUEUE_SNACKBAR,
+      CLEAR_DIALOG,
+      "cases/REDIRECT"
+    ]);
   });
 });

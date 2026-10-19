@@ -61,6 +61,7 @@ export const OR_FIELDS = ["owned_by", "assigned_user_names", "assign"];
 export const MY_CASES_FILTER_NAME = "my_cases";
 
 export const OR_FILTER_NAME = "or";
+export const AND_FILTER_NAME = "and";
 export const DEFAULT_SELECTED_RECORDS_VALUE = {};
 
 export const FILTER_CATEGORY = Object.freeze({

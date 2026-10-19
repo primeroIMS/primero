@@ -7,7 +7,7 @@ import ActionButton, { ACTION_BUTTON_TYPES } from "../action-button";
 
 import { MenuItems } from "./components";
 
-function Component({ actions = [], disabledCondition = () => {}, showMenu = false }) {
+function Component({ actions = [], disabledCondition = () => {}, showMenu = false, disabled = false, tooltip }) {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = event => {
@@ -25,6 +25,8 @@ function Component({ actions = [], disabledCondition = () => {}, showMenu = fals
           id="more-actions"
           icon={<MoreVertIcon />}
           type={ACTION_BUTTON_TYPES.icon}
+          disabled={disabled}
+          tooltip={tooltip}
           rest={{
             "aria-label": "more",
             "aria-controls": "long-menu",
@@ -53,8 +55,10 @@ Component.displayName = "Menu";
 
 Component.propTypes = {
   actions: PropTypes.array,
+  disabled: PropTypes.bool,
   disabledCondition: PropTypes.func,
-  showMenu: PropTypes.bool
+  showMenu: PropTypes.bool,
+  tooltip: PropTypes.string
 };
 
 export default Component;

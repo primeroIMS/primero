@@ -36,6 +36,7 @@ class Child < ApplicationRecord
   include Alertable
   include Attachable
   include Noteable
+  include RegistryAssociable
   include EagerLoadable
   include Webhookable
   include Kpi::GBVChild
@@ -71,7 +72,7 @@ class Child < ApplicationRecord
     :duplicate, :cp_case_plan_subform_case_plan_interventions, :has_case_plan,
     :family_member_id, :family_id_display, :family_number, :has_incidents, :assessment_due_dates,
     :case_plan_due_dates, :followup_due_dates, :reunification_details_section, :reunification_dates,
-    :tracing_actions_section, :tracing_dates, :case_type
+    :tracing_actions_section, :tracing_dates, :case_type, :incident_types
   )
   # rubocop:enable Naming/VariableNumber
 
@@ -82,6 +83,8 @@ class Child < ApplicationRecord
   belongs_to :registry_record, foreign_key: :registry_record_id, optional: true
 
   scope :by_date_of_birth, -> { where.not('data @> ?', { date_of_birth: nil }.to_json) }
+
+  eager_load_associations :incidents, :registry_records
 
   def self.filterable_id_fields
     # The fields family_count_no and dss_id are hacked in only because of Bangladesh
@@ -109,10 +112,10 @@ class Child < ApplicationRecord
   end
 
   def self.summary_field_names
-    common_summary_fields + %w[
+    common_summary_fields + transition_summary_field_names + %w[
       case_id_display name survivor_code_no age sex registration_date
       hidden_name workflow case_status_reopened module_id registry_record_id
-      client_code gender reporting_location_hierarchy location_current
+      client_code gender reporting_location_hierarchy location_current registry_record_ids
     ]
   end
 
@@ -177,6 +180,7 @@ class Child < ApplicationRecord
   before_save :calculate_reunification_dates
   before_save :save_searchable_fields
   before_save :stamp_case_type
+  before_save :calculate_incident_types
   before_update :update_identified
   before_create :hide_name
   after_save :save_incidents
@@ -423,6 +427,19 @@ class Child < ApplicationRecord
     self.case_type = PrimeroModule.find_by(unique_id: module_id)&.case_type || PrimeroModule::DEFAULT_CASE_TYPE
   end
 
+  def mark_recalculate_incident_types
+    @recalculate_incident_types = true
+  end
+
+  def calculate_incident_types
+    return unless @incidents_to_save.present? || @recalculate_incident_types
+
+    incident_types_to_save = @incidents_to_save&.map(&:incident_type) || []
+    existing_incident_types = incidents.map(&:incident_type)
+
+    self.incident_types = (incident_types_to_save + existing_incident_types).compact.uniq
+  end
+
   def mark_identified(user)
     self.status = STATUS_IDENTIFIED
     self.identified_by = user.user_name
@@ -452,6 +469,10 @@ class Child < ApplicationRecord
     return unless identified_by.present? && Child.exists?(srch_identified_by: identified_by)
 
     errors.add(:identified_by, 'errors.models.child.identified_by_unique')
+  end
+
+  def registry_record_ids
+    registry_records.map(&:id).uniq
   end
 end
 # rubocop:enable Metrics/ClassLength

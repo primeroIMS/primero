@@ -5,12 +5,13 @@ import PropTypes from "prop-types";
 import { getOption } from "../../record-form";
 import DisplayData from "../../display-data";
 import { useI18n } from "../../i18n";
-import { REFERRAL_DETAILS_NAME, TRANSITION_STATUS } from "../constants";
-import { LOOKUPS } from "../../../config";
+import { REFERRAL_DETAILS_NAME, REFERRAL_SUCCESS_STATUS, TRANSITION_STATUS } from "../constants";
+import { LOOKUPS, RECORD_TYPES_PLURAL } from "../../../config";
 import { OPTION_TYPES } from "../../form";
 import { useMemoizedSelector } from "../../../libs";
 import useOptions from "../../form/use-options";
 import DateTransitions from "../components/date-transitions";
+import RegistrySummary from "../../registry-summary";
 
 import renderIconValue from "./render-icon-value";
 import { referralAgencyName } from "./utils";
@@ -27,6 +28,23 @@ function Details({ transition, classes }) {
     return value[0]?.display_text;
   });
   const agencies = useOptions({ source: OPTION_TYPES.AGENCY, useUniqueId: true });
+
+  const reasonNotSuccessful = useMemoizedSelector(state => {
+    const value = getOption(state, LOOKUPS.reasons_referral_failure, i18n.locale).filter(
+      option => option.id === transition.data?.reason_not_successful
+    );
+
+    // eslint-disable-next-line camelcase
+    return value[0]?.display_text;
+  });
+
+  const successStatus = transition.data?.success_status
+    ? i18n.t(`referral.success_status_options.${transition.data.success_status}`)
+    : null;
+
+  const successfulReferral =
+    [TRANSITION_STATUS.done, TRANSITION_STATUS.revoked].includes(transition.status) &&
+    transition.data?.success_status === REFERRAL_SUCCESS_STATUS.successful;
 
   const agencyName = referralAgencyName(transition, agencies);
 
@@ -93,14 +111,37 @@ function Details({ transition, classes }) {
       >
         <DisplayData label="transition.service_label" value={service} />
       </Grid>
-      <Grid
-        size={{
-          md: 6,
-          xs: 12
-        }}
-      >
-        <DisplayData label="transition.agency_label" value={agencyName} />
-      </Grid>
+      {transition.service_external_referral_registry || (
+        <Grid
+          size={{
+            md: 6,
+            xs: 12
+          }}
+        >
+          <DisplayData label="transition.agency_label" value={agencyName} />
+        </Grid>
+      )}
+      {transition.service_external_referral_registry && (
+        <Grid
+          size={{
+            md: 12,
+            xs: 12
+          }}
+        >
+          <DisplayData
+            label="referral.service_implementing_agency_external"
+            value={
+              <>
+                <RegistrySummary
+                  recordType={RECORD_TYPES_PLURAL[transition.record_type]}
+                  value={transition.data?.service_implementing_agency_registry_id}
+                  disabled
+                />
+              </>
+            }
+          />
+        </Grid>
+      )}
       <Grid
         size={{
           md: 6,
@@ -109,6 +150,18 @@ function Details({ transition, classes }) {
       >
         <DateTransitions name="responded_at" label="transition.responded_at" value={transition.responded_at} />
       </Grid>
+      {[TRANSITION_STATUS.done, TRANSITION_STATUS.revoked].includes(transition.status) && (
+        <>
+          <Grid size={{ md: successfulReferral ? 12 : 6, xs: 12 }}>
+            <DisplayData label="referral.success_status" value={successStatus} />
+          </Grid>
+          {!successfulReferral && (
+            <Grid size={{ md: 6, xs: 12 }}>
+              <DisplayData label="referral.reason_not_successful" value={reasonNotSuccessful} />
+            </Grid>
+          )}
+        </>
+      )}
       {renderRejected}
       <Grid
         size={{

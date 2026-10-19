@@ -66,7 +66,7 @@ module Record
 
   def create_identification
     self.unique_identifier ||= SecureRandom.uuid
-    self.short_id ||= self.unique_identifier.to_s.last(7)
+    self.short_id ||= unique_identifier.to_s.last(7)
     set_instance_id
   end
 
@@ -76,6 +76,10 @@ module Record
 
   def associations_as_data_keys
     []
+  end
+
+  def pending_transition_for?(_user)
+    false
   end
 
   def display_id

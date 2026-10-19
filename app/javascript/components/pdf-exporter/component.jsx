@@ -165,11 +165,17 @@ const Component = forwardRef(
         </div>
         <div ref={html} className={css.container}>
           {customFormProps && isRemote && (
-            <RenderTable title={title} fields={customFormFields} data={fromJS(watchedValues)} />
+            <RenderTable
+              recordType={params.recordType}
+              title={title}
+              fields={customFormFields}
+              data={fromJS(watchedValues)}
+            />
           )}
           {selectedForms?.map(form => (
             <RenderTable
               key={`selected-${form.unique_id}`}
+              recordType={params.recordType}
               title={i18n.getI18nStringFromObject(form.name)}
               fields={form.fields}
               data={data}

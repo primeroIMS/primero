@@ -229,6 +229,11 @@ export const getIsEnabledWebhookSyncFor = (state, primeroModule, recordType) => 
 
 export const getCodesOfConduct = state => state.getIn([NAMESPACE, "codesOfConduct"], fromJS({}));
 
+export const getRegistryOptions = state => state.getIn([NAMESPACE, "registryOptions"], fromJS({}));
+
+export const getRegistryOptionsByType = (state, type) =>
+  state.getIn([NAMESPACE, "registryOptions", type], fromJS({})).toJS();
+
 export const getOptionFromAppModule = (state, primeroModule, option) =>
   getAppModuleByUniqueId(state, primeroModule).getIn(
     ["options", option],
@@ -389,3 +394,6 @@ export const getExactSearchFields = state => state.getIn([NAMESPACE, "exactSearc
 export const getPhoneticSearchFields = state => state.getIn([NAMESPACE, "phoneticSearchFields"], fromJS({}));
 
 export const getPhoneNumberSearchFields = state => state.getIn([NAMESPACE, "phoneNumberSearchFields"], fromJS({}));
+
+export const getPendingTransitionToForm = (state, primeroModule) =>
+  fromJS(getAppModuleByUniqueId(state, primeroModule).getIn(["options", "pending_transition_to_form"], {}));

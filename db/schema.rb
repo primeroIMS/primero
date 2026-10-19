@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_31_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_13_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "ltree"
   enable_extension "pg_catalog.plpgsql"
@@ -191,6 +191,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_31_000000) do
     t.datetime "srch_identified_at", precision: nil
     t.string "srch_identified_by"
     t.string "srch_identified_by_full_name"
+    t.string "srch_incident_types", default: [], array: true
     t.datetime "srch_last_referral_done_at"
     t.datetime "srch_last_referral_rejected_at"
     t.string "srch_last_updated_by"
@@ -559,7 +560,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_31_000000) do
     t.string "srch_associated_user_agencies", default: [], array: true
     t.string "srch_associated_user_groups", default: [], array: true
     t.string "srch_associated_user_names", default: [], array: true
-    t.string "srch_cp_sexual_violence_type"
+    t.string "srch_cp_incident_violence_type"
     t.datetime "srch_created_at", precision: nil
     t.boolean "srch_flagged", default: false
     t.string "srch_gbv_sexual_violence_type"
@@ -707,6 +708,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_31_000000) do
     t.index ["record_type", "record_id"], name: "index_record_histories_on_record_type_and_record_id"
   end
 
+  create_table "registry_associations", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "field_name", null: false
+    t.uuid "registry_associable_id", null: false
+    t.string "registry_associable_type", null: false
+    t.uuid "registry_record_id", null: false
+    t.string "subform_unique_id"
+    t.datetime "updated_at", null: false
+    t.index ["registry_associable_type", "registry_associable_id"], name: "index_registry_associations_on_registry_associable"
+    t.index ["registry_record_id"], name: "index_registry_associations_on_registry_record_id"
+  end
+
   create_table "registry_records", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.jsonb "data", default: {}
     t.jsonb "phonetic_data"
@@ -834,6 +847,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_31_000000) do
     t.string "location_limit_for_api"
     t.string "primary_age_range"
     t.string "primero_version"
+    t.jsonb "registry_options"
+    t.string "registry_type_default"
     t.jsonb "reporting_location_config"
     t.jsonb "system_options"
     t.jsonb "terms_of_use_acknowledge"
@@ -892,6 +907,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_31_000000) do
     t.boolean "consent_individual_transfer", default: false, null: false
     t.boolean "consent_overridden", default: false, null: false
     t.datetime "created_at", precision: nil
+    t.jsonb "data", default: {}, null: false
     t.text "notes"
     t.string "record_id"
     t.string "record_owned_by"
@@ -901,8 +917,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_31_000000) do
     t.string "rejected_reason"
     t.text "rejection_note"
     t.boolean "remote", default: false, null: false
+    t.datetime "resolved_at"
     t.datetime "responded_at", precision: nil
     t.string "service"
+    t.boolean "service_external_referral_registry"
     t.string "service_record_id"
     t.string "status"
     t.string "transitioned_by"

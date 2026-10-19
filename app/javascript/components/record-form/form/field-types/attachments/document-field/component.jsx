@@ -3,17 +3,7 @@ import { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import { TextField } from "formik-mui";
-import {
-  Box,
-  Dialog,
-  Button,
-  DialogContent,
-  DialogActions,
-  DialogTitle,
-  IconButton,
-  Drawer,
-  useMediaQuery
-} from "@mui/material";
+import { Box, Dialog, Button, Drawer, useMediaQuery } from "@mui/material";
 import { Formik, FastField, Form } from "formik";
 import CloseIcon from "@mui/icons-material/Close";
 import some from "lodash/some";
@@ -32,6 +22,8 @@ import { buildDocumentSchema } from "../../../validations";
 import AttachmentInput from "../attachment-input";
 import { ATTACHMENT_FIELDS, ATTACHMENT_FIELDS_INITIAL_VALUES } from "../constants";
 import downloadUrl from "../../../../../../libs/download-url";
+import SubformDrawer from "../../../subforms/subform-drawer";
+import SubformDrawerActions from "../../../subforms/subform-drawer-actions";
 
 import DocumentRow from "./components/document-row";
 import DocumentDelete from "./components/document-delete";
@@ -134,11 +126,19 @@ function DocumentField({
   };
 
   const dialogActionText = `buttons.${mode.isShow ? "close" : "save"}`;
+  const Component = mode.isShow ? Dialog : SubformDrawer;
 
   return (
     <>
       <DocumentRow handleOpen={handleOpen} document={value} handleDelete={openDeleteConfirmation} mode={mode} />
-      <Dialog open={open || dialog} onClose={handleClose} maxWidth="xl" fullWidth>
+      <Component
+        open={open || dialog}
+        onClose={handleClose}
+        cancelHandler={handleClose}
+        maxWidth="xl"
+        fullWidth
+        title={title}
+      >
         {attachmentUrl && mode.isShow ? (
           <div className={viewerCss.container}>
             <div className={viewerCss.title}>
@@ -216,15 +216,22 @@ function DocumentField({
           >
             {({ handleSubmit, values }) => (
               <Form data-testid="document-dialog-form" autoComplete="off" onSubmit={handleSubmit}>
-                <DialogTitle className={css.title}>
-                  <div className={css.titleText}>{title}</div>
-                  <div>
-                    <IconButton size="large" onClick={handleClose}>
-                      <CloseIcon />
-                    </IconButton>
-                  </div>
-                </DialogTitle>
-                <DialogContent>
+                <SubformDrawerActions
+                  isShow={mode.isShow}
+                  editActions={
+                    <Button
+                      id={dialogActionText}
+                      onClick={handleSubmit}
+                      type="button"
+                      color="primary"
+                      variant="contained"
+                      disableElevation
+                    >
+                      {i18n.t(dialogActionText)}
+                    </Button>
+                  }
+                />
+                <Box my={4}>
                   <div className={css.attachmentUploadField}>
                     <AttachmentInput
                       fields={ATTACHMENT_FIELDS}
@@ -274,24 +281,12 @@ function DocumentField({
                       name={ATTACHMENT_FIELDS.comments}
                     />
                   </Box>
-                </DialogContent>
-                <DialogActions>
-                  <Button
-                    id={dialogActionText}
-                    onClick={handleSubmit}
-                    type="button"
-                    color="primary"
-                    variant="contained"
-                    disableElevation
-                  >
-                    {i18n.t(dialogActionText)}
-                  </Button>
-                </DialogActions>
+                </Box>
               </Form>
             )}
           </Formik>
         )}
-      </Dialog>
+      </Component>
       <ActionDialog
         open={deleteConfirmation}
         successHandler={handleRemove}

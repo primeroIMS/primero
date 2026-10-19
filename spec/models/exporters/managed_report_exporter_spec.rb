@@ -155,12 +155,13 @@ describe Exporters::ManagedReportExporter do
     )
 
     Lookup.create_or_update!(
-      unique_id: 'lookup-service-referred',
+      unique_id: 'lookup-service-referred-gbv',
       name_en: 'Service Referred',
       lookup_values_en: [
         { id: 'referred', display_text: 'Referred' }.with_indifferent_access,
-        { id: 'service_provided_by_your_agency', display_text: 'Service provided by your agency' }.with_indifferent_access,
-        { id: 'service_unavailable', display_text: 'Service unavailable' }.with_indifferent_access
+        { id: 'service_provided_by_your_agency',
+          display_text: 'No referral, Service provided by your agency' }.with_indifferent_access,
+        { id: 'service_unavailable', display_text: 'No referral, Service unavailable' }.with_indifferent_access
       ]
     )
 
@@ -230,9 +231,7 @@ describe Exporters::ManagedReportExporter do
         goods_money_exchanged: true,
         age: 7,
         consent_reporting: 'true',
-        health_medical_referral_subform_section: [
-          { unique_id: '001', service_medical_referral: 'service_unavailable' }
-        ],
+        service_medical_referral: 'service_unavailable',
         alleged_perpetrator: [
           {
             primary_perpetrator: 'primary',
@@ -259,12 +258,8 @@ describe Exporters::ManagedReportExporter do
         incident_location_type: 'school',
         age: 2,
         consent_reporting: 'true',
-        health_medical_referral_subform_section: [
-          { unique_id: '001', service_medical_referral: 'referred' }
-        ],
-        psychosocial_counseling_services_subform_section: [
-          { unique_id: '002', service_psycho_referral: 'service_provided_by_your_agency' }
-        ],
+        service_medical_referral: 'referred',
+        service_psycho_referral: 'service_provided_by_your_agency',
         alleged_perpetrator: [
           {
             primary_perpetrator: 'primary',
@@ -522,7 +517,10 @@ describe Exporters::ManagedReportExporter do
             ['Referral Statistics - New Incident Referrals to Other Service Providers', nil, nil, nil, nil]
           )
           expect(workbook.sheet(0).row(648)).to eq(
-            [nil, 'Referred', 'Service provided by your agency', 'Service unavailable', 'Total']
+            [
+              nil, 'Referred', 'No referral, Service provided by your agency',
+              'No referral, Service unavailable', 'Total'
+            ]
           )
           expect(workbook.sheet(0).row(649)).to eq(['Safe House/Safe Shelter Referral', 0, 0, 0, 0])
           expect(workbook.sheet(0).row(650)).to eq(['Health/Medical Referral', 1, 0, 1, 2])
@@ -567,7 +565,9 @@ describe Exporters::ManagedReportExporter do
           [nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil]
         end
 
-        let(:subcolumns) { ['Referred', 'Service provided by your agency', 'Service unavailable', 'Total'] }
+        let(:subcolumns) do
+          ['Referred', 'No referral, Service provided by your agency', 'No referral, Service unavailable', 'Total']
+        end
 
         def year_range(title = nil)
           [
@@ -949,7 +949,9 @@ describe Exporters::ManagedReportExporter do
 
         let(:empty_columns_for_title) { [nil, nil, nil, nil, nil, nil, nil, nil] }
 
-        let(:subcolumns) { ['Referred', 'Service provided by your agency', 'Service unavailable', 'Total'] }
+        let(:subcolumns) do
+          ['Referred', 'No referral, Service provided by your agency', 'No referral, Service unavailable', 'Total']
+        end
 
         def year_range(title = nil)
           [title, Date.today.last_year.year, Date.today.year] + empty_columns_for_rows
@@ -1493,7 +1495,10 @@ describe Exporters::ManagedReportExporter do
             )
             expect(workbook_grouped.sheet(0).row(478)).to match_array(quarter_range)
             expect(workbook_grouped.sheet(0).row(479)).to match_array(
-              [nil, 'Referred', 'Service provided by your agency', 'Service unavailable', 'Total']
+              [
+                nil, 'Referred', 'No referral, Service provided by your agency',
+                'No referral, Service unavailable', 'Total'
+              ]
             )
             expect(workbook_grouped.sheet(0).row(480)).to match_array(['Safe House/Safe Shelter Referral', 0, 0 ,0, 0])
             expect(workbook_grouped.sheet(0).row(481)).to match_array(['Health/Medical Referral', 1, 0, 1, 2])

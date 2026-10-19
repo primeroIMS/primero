@@ -5,6 +5,7 @@ describe("<IndexFilters /> - Constants", () => {
     const clone = { ...constants };
 
     [
+      "AND_FILTER_NAME",
       "FILTER_TYPES",
       "HIDDEN_FIELDS",
       "PRIMARY_FILTERS",

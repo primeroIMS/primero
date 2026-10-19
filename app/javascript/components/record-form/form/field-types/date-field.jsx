@@ -8,15 +8,18 @@ import isEmpty from "lodash/isEmpty";
 import { useCallback, useEffect, useRef } from "react";
 
 import { toServerDateFormat } from "../../../../libs";
-import { DATE_FORMAT, DATE_TIME_FORMAT, DEFAULT_DATE_VALUES } from "../../../../config";
+import { DEFAULT_DATE_VALUES } from "../../../../config";
 import { DATE_FIELD_NAME } from "../constants";
 import { NOT_FUTURE_DATE } from "../../constants";
+import { selectedDateFormat } from "../../../../libs/date-picker-localization";
+import { useI18n } from "../../../i18n";
 
 import DateFieldPicker from "./date-field-picker";
 
 function DateField({ displayName, name, helperText, mode = {}, formik, InputProps, formSection, ...rest }) {
   const fieldValue = useRef(null);
   const formInstance = useRef();
+  const i18n = useI18n();
 
   const allowedDefaultValues = Object.values(DEFAULT_DATE_VALUES);
 
@@ -82,7 +85,7 @@ function DateField({ displayName, name, helperText, mode = {}, formik, InputProp
   }, [formInstance.current]);
 
   return (
-    <FastField {...fieldProps}>
+    <FastField key={i18n.locale} {...fieldProps}>
       {({ field, form }) => {
         const onChange = date => {
           updateAgeField(form, date);
@@ -100,7 +103,7 @@ function DateField({ displayName, name, helperText, mode = {}, formik, InputProp
               key
             )
           ),
-          format: dateIncludeTime ? DATE_TIME_FORMAT : DATE_FORMAT,
+          format: selectedDateFormat(dateIncludeTime, i18n.locale),
           dateIncludeTime,
           clearable: true,
           InputProps: {
