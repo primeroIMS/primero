@@ -84,7 +84,7 @@ class Child < ApplicationRecord
 
   scope :by_date_of_birth, -> { where.not('data @> ?', { date_of_birth: nil }.to_json) }
 
-  eager_load_associations :registry_records
+  eager_load_associations :incidents, :registry_records
 
   def self.filterable_id_fields
     # The fields family_count_no and dss_id are hacked in only because of Bangladesh
@@ -427,14 +427,17 @@ class Child < ApplicationRecord
     self.case_type = PrimeroModule.find_by(unique_id: module_id)&.case_type || PrimeroModule::DEFAULT_CASE_TYPE
   end
 
-  def calculate_incident_types
-    return unless @incidents_to_save.present?
-
-    add_incident_types(@incidents_to_save.map(&:incident_type))
+  def mark_recalculate_incident_types
+    @recalculate_incident_types = true
   end
 
-  def add_incident_types(types)
-    self.incident_types = ((incident_types || []) | types).compact.uniq
+  def calculate_incident_types
+    return unless @incidents_to_save.present? || @recalculate_incident_types
+
+    incident_types_to_save = @incidents_to_save&.map(&:incident_type) || []
+    existing_incident_types = incidents.map(&:incident_type)
+
+    self.incident_types = (incident_types_to_save + existing_incident_types).compact.uniq
   end
 
   def mark_identified(user)
