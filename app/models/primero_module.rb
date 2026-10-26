@@ -68,7 +68,7 @@ class PrimeroModule < ApplicationRecord
     :approvals_labels_i18n, :changes_field_to_form, :search_and_create_workflow,
     :violation_type_field, :creation_field_map, :data_protection_case_create_field_names,
     :age_ranges, :workflow_lookup, :response_type_lookup, :case_type, :field_labels_i18n,
-    :prevent_case_creation_without_search, :pending_transition_to_form
+    :prevent_case_creation_without_search, :pending_transition_to_form, :custom_list_filters
   )
 
   localize_jsonb_properties %i[approvals_labels field_labels]
@@ -146,8 +146,14 @@ class PrimeroModule < ApplicationRecord
   def record_list_filters
     filters = {}
     filters_from_module = list_filters&.[](Child.parent_form.pluralize)
-    filters[Child.parent_form.pluralize.to_sym] = filters_from_module || DEFAULT_CASE_LIST_FILTERS[unique_id]
+    filters[Child.parent_form.pluralize.to_sym] = with_custom_case_list_filters(
+      filters_from_module || DEFAULT_CASE_LIST_FILTERS[unique_id]
+    )
     filters
+  end
+
+  def custom_case_list_filters
+    custom_list_filters&.[](Child.parent_form.pluralize) || []
   end
 
   def record_list_headers
@@ -158,6 +164,13 @@ class PrimeroModule < ApplicationRecord
   end
 
   private
+
+  def with_custom_case_list_filters(filters)
+    custom_filter_ids = custom_case_list_filters.map { |filter| filter['field_name'] }
+    return filters if custom_filter_ids.blank?
+
+    (filters || []) + custom_filter_ids
+  end
 
   def defaults
     self.consent_form ||= DEFAULT_CONSENT_FORM

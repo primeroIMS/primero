@@ -459,6 +459,7 @@ class Filter < ValueObject
       }
     end
 
+    # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/MethodLength
     def case_filters(user)
       filters = []
@@ -471,7 +472,14 @@ class Filter < ValueObject
       filters << DATE_CASE unless user.gbv_only? || user.mrm_only?
       filters << ENABLED
       filters += photo_filters(user)
+      filters += custom_case_filters(user)
       filters
+    end
+
+    def custom_case_filters(user)
+      user.modules.flat_map(&:custom_case_list_filters).uniq { |filter| filter['field_name'] }.map do |filter|
+        Filter.new(filter.symbolize_keys)
+      end
     end
 
     def user_based_filters(user)
@@ -491,6 +499,7 @@ class Filter < ValueObject
       filters += reporting_location_filters(user)
       filters
     end
+    # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/MethodLength
 
     def approvals_filters(user)

@@ -1,3 +1,4 @@
+import { fromJS } from "immutable";
 import isEmpty from "lodash/isEmpty";
 
 import { useMemoizedSelector } from "../../libs";
@@ -68,10 +69,18 @@ const PAGE = "page";
 const ACTION_BUTTON = "actionButton";
 const FORMS = "form";
 
-function selectAllowedFeatureKeys(feature) {
+function selectCustomFilterKeys(userModules) {
+  return userModules
+    .valueSeq()
+    .flatMap(userModule => fromJS(userModule.getIn(["options", "custom_list_filters", "cases"], [])))
+    .map(filter => filter.get("field_name"))
+    .toArray();
+}
+
+function selectAllowedFeatureKeys(feature, customFilterKeys = []) {
   switch (feature) {
     case FILTER:
-      return ALLOWED_FILTER_KEYS;
+      return [...ALLOWED_FILTER_KEYS, ...customFilterKeys];
     case LIST_HEADER:
       return ALLOWED_LIST_HEADER_KEYS;
     case DASHBOARD:
@@ -107,7 +116,7 @@ function useSystemStrings(feature) {
           [key, i18n.locale],
           options.noTranslateFallback ? fallbackI18nKey : i18n.t(fallbackI18nKey || key, options)
         );
-        const allowedKeys = selectAllowedFeatureKeys(feature);
+        const allowedKeys = selectAllowedFeatureKeys(feature, selectCustomFilterKeys(userModules));
 
         if (allowedKeys.includes(key)) {
           if (userModules.size === 1) {
