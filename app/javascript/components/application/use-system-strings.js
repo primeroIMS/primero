@@ -1,4 +1,3 @@
-import { fromJS } from "immutable";
 import isEmpty from "lodash/isEmpty";
 
 import { useMemoizedSelector } from "../../libs";
@@ -72,8 +71,8 @@ const FORMS = "form";
 function selectCustomFilterKeys(userModules) {
   return userModules
     .valueSeq()
-    .flatMap(userModule => fromJS(userModule.getIn(["options", "custom_list_filters", "cases"], [])))
-    .map(filter => filter.get("field_name"))
+    .flatMap(userModule => userModule.getIn(["options", "custom_list_filters", "cases"], []))
+    .map(filter => filter.field_name)
     .toArray();
 }
 
