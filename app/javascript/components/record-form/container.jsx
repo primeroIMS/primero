@@ -46,16 +46,19 @@ function Container({ mode }) {
   const isCaseIdEqualParam = params?.id === record?.get("id");
 
   useEffect(() => {
-    const registryRecordIds = record
-      ?.get("services_section", fromJS([]))
-      ?.map(service => service.get("service_implementing_agency_registry"));
+    const registryRecordIds = record?.get("registry_record_ids", fromJS([])).merge(
+      record
+        ?.get("services_section", fromJS([]))
+        ?.map(service => service.get("service_implementing_agency_registry"))
+        .filter(Boolean)
+    );
 
     if (registryRecordIds?.size && canViewRegistryRecords) {
       dispatch(
         fetchRelatedRecords({
           recordType: params.recordType,
           relatedRecordType: RECORD_TYPES_PLURAL.registry_record,
-          data: { ids: registryRecordIds.toJS() }
+          data: { id: registryRecordIds.toJS() }
         })
       );
     }
