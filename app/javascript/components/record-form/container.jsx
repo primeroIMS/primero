@@ -58,7 +58,7 @@ function Container({ mode }) {
         fetchRelatedRecords({
           recordType: params.recordType,
           relatedRecordType: RECORD_TYPES_PLURAL.registry_record,
-          data: { id: registryRecordIds.toJS() }
+          data: { id: registryRecordIds.toJS(), per: registryRecordIds.size }
         })
       );
     }
