@@ -16,6 +16,7 @@ function OverviewBox({
   errors,
   highlights = [],
   displayOrder = [],
+  labels = {},
   titleHasModule = false
 }) {
   const indicators = items.get("indicators", fromJS({}));
@@ -30,6 +31,7 @@ function OverviewBox({
         withTotal={withTotal}
         highlights={highlights}
         displayOrder={displayOrder}
+        labels={labels}
       />
     </>
   );
@@ -73,6 +75,7 @@ OverviewBox.propTypes = {
   errors: PropTypes.bool,
   highlights: PropTypes.array,
   items: PropTypes.object.isRequired,
+  labels: PropTypes.object,
   loading: PropTypes.bool,
   sumTitle: PropTypes.string,
   titleHasModule: PropTypes.bool,

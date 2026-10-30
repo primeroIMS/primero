@@ -12,3 +12,4 @@ export { default as toCasesToAssignTable } from "./to-cases-to-assign-table";
 export { default as filterIndicatorsByKey } from "./filter-indicators-by-key";
 export { default as updateApprovals } from "./update-approvals";
 export { default as permittedDashboardNames } from "./permitted-dashboard-names";
+export { default as toOptionsOverviewBox } from "./to-options-overview-box";

@@ -12,18 +12,31 @@ import dashboardsCss from "../styles.css";
 
 import css from "./styles.css";
 
-function IndicatorItem({ titleHasModule, item, query, count, countClasses, labelClasses, highlight = false }) {
+function IndicatorItem({
+  titleHasModule,
+  item,
+  customLabel,
+  query,
+  count,
+  countClasses,
+  labelClasses,
+  highlight = false
+}) {
   const { label } = useSystemStrings(DASHBOARD);
   const { approvalsLabels } = useApp();
   const dispatch = useDispatch();
 
   const handleClick = () => {
+    if (!query?.size) {
+      return;
+    }
+
     dispatch(push({ pathname: ROUTES.cases, search: buildFilter(query) }));
   };
 
   const defaultLabel = label(["dashboard", titleHasModule ? item.split(".")?.[0] : item].join("."));
 
-  const itemLabel = buildItemLabel(item, approvalsLabels, defaultLabel, titleHasModule);
+  const itemLabel = customLabel || buildItemLabel(item, approvalsLabels, defaultLabel, titleHasModule);
 
   const numberClasses =
     countClasses || cx({ [dashboardsCss.zero]: !count, [css.itemButtonNumber]: true, [css.highlight]: highlight });
@@ -57,6 +70,7 @@ IndicatorItem.displayName = "IndicatorItem";
 IndicatorItem.propTypes = {
   count: PropTypes.number,
   countClasses: PropTypes.object,
+  customLabel: PropTypes.string,
   highlight: PropTypes.bool,
   item: PropTypes.object,
   labelClasses: PropTypes.object,

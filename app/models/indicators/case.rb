@@ -284,6 +284,13 @@ module Indicators
       scope: OPEN_ENABLED
     ).freeze
 
+    CASES_BY_INCIDENT_TYPE = GroupedIndicator.new(
+      name: 'cases_by_incident_type',
+      pivots: [{ field_name: 'incident_types', multivalue: true }],
+      record_model: Child,
+      scope: OPEN_ENABLED
+    ).freeze
+
     def self.protection_concerns_new_this_week
       GroupedIndicator.new(
         name: 'protection_concerns_new_this_week',

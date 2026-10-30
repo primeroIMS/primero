@@ -86,7 +86,8 @@ class PermittedFieldService
     ],
     Permission::DASH_SHARED_WITH_MY_TEAM_OVERVIEW => %w[
       transferred_to_user_groups transfer_status
-    ]
+    ],
+    Permission::DASH_CASES_BY_INCIDENT_TYPE => %w[incident_types]
   }.freeze
 
   PERMITTED_FIELDS_FOR_ACTION_SCHEMA = {

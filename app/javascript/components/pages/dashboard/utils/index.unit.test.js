@@ -18,6 +18,7 @@ describe("index - pages/dashboard/utils/", () => {
       "toCasesToAssignTable",
       "toData1D",
       "toListTable",
+      "toOptionsOverviewBox",
       "toProtectionConcernTable",
       "toReportingLocationTable",
       "toTasksOverdueTable",

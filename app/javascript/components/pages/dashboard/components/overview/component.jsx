@@ -9,16 +9,20 @@ import {
   getCaseIncidentOverview,
   getNationalAdminSummary,
   getIsDashboardGroupLoading,
-  getDashboardGroupHasData
+  getDashboardGroupHasData,
+  getCasesByIncidentType
 } from "../../selectors";
 import { getOption } from "../../../../record-form";
+import { getFieldByName } from "../../../../record-form/selectors";
+import useOptions from "../../../../form/use-options";
 import { LOOKUPS } from "../../../../../config";
 import { useMemoizedSelector } from "../../../../../libs";
 import DashboardColumns from "../../../../dashboard/dashboard-columns";
 import { OVERVIEW_DASHBOARD } from "../../../../permissions/constants";
 import useSystemStrings, { DASHBOARD } from "../../../../application/use-system-strings";
+import { toOptionsOverviewBox } from "../../utils";
 
-import { NAME } from "./constants";
+import { NAME, INCIDENT_TYPES_FIELD } from "./constants";
 
 function Component() {
   const i18n = useI18n();
@@ -33,6 +37,12 @@ function Component() {
   const caseIncidentOverview = useMemoizedSelector(state => getCaseIncidentOverview(state));
   const nationalAdminSummary = useMemoizedSelector(state => getNationalAdminSummary(state));
   const canSeeIncidentOverview = usePermissions(RESOURCES.dashboards, [ACTIONS.DASH_CASE_INCIDENT_OVERVIEW]);
+  const casesByIncidentType = useMemoizedSelector(state => getCasesByIncidentType(state));
+  const incidentTypesField = useMemoizedSelector(state => getFieldByName(state, INCIDENT_TYPES_FIELD));
+  const incidentTypeOptions = useOptions({
+    source: incidentTypesField?.option_strings_source,
+    options: incidentTypesField?.option_strings_text
+  });
 
   const incidentOverviewDashboard = {
     type: DASHBOARD_TYPES.OVERVIEW_BOX,
@@ -85,6 +95,17 @@ function Component() {
         options: {
           items: nationalAdminSummary,
           sumTitle: i18n.t("dashboard.dash_national_admin_summary"),
+          withTotal: false
+        }
+      }
+    ],
+    [
+      {
+        type: DASHBOARD_TYPES.OVERVIEW_BOX,
+        actions: ACTIONS.DASH_CASES_BY_INCIDENT_TYPE,
+        options: {
+          ...toOptionsOverviewBox(casesByIncidentType, INDICATOR_NAMES.CASES_BY_INCIDENT_TYPE, incidentTypeOptions),
+          sumTitle: label("dashboard.dash_cases_by_incident_type"),
           withTotal: false
         }
       }

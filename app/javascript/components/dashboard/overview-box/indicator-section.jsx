@@ -19,7 +19,8 @@ function IndicatorSection({
   sumTitle,
   withTotal,
   highlights = [],
-  displayOrder = []
+  displayOrder = [],
+  labels = {}
 }) {
   const loadingIndicatorProps = {
     overlay: true,
@@ -57,6 +58,7 @@ function IndicatorSection({
                 titleHasModule={titleHasModule}
                 item={key}
                 key={key}
+                customLabel={labels[key]}
                 count={value.get("count")}
                 query={value.get("query")}
                 highlight={highlights.includes(key)}
@@ -77,6 +79,7 @@ IndicatorSection.propTypes = {
   highlights: PropTypes.array,
   indicators: PropTypes.object,
   items: PropTypes.object.isRequired,
+  labels: PropTypes.object,
   loading: PropTypes.bool,
   subItems: PropTypes.object,
   sumTitle: PropTypes.string,
