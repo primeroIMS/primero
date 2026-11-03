@@ -9,8 +9,9 @@ class Api::V2::IncidentsController < ApplicationApiController
 
   def authorize_create!
     can_create = current_user.can?(:create, Incident) || current_user.can?(:incident_from_case, Child)
-    authorize_incident_from_case! if record_params.key?('incident_case_id')
     raise Errors::ForbiddenOperation unless can_create
+
+    authorize_incident_from_case! if record_params.key?('incident_case_id')
   end
 
   def authorize_update!
