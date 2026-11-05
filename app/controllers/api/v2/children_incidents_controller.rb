@@ -21,6 +21,7 @@ class Api::V2::ChildrenIncidentsController < Api::V2::RecordResourceController
   end
 
   def update_bulk
+    authorize! :read, @record
     authorize_all!(:link_incident_to_case, @incidents)
     link_incidents if @incidents.present?
     updates_for_record(@record)
