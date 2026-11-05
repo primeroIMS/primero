@@ -21,8 +21,7 @@ class Api::V2::ChildrenIncidentsController < Api::V2::RecordResourceController
   end
 
   def update_bulk
-    authorize! :read, @record
-    authorize_all!(:link_incident_to_case, @incidents)
+    authorize_update_bulk!
     link_incidents if @incidents.present?
     updates_for_record(@record)
   end
@@ -46,6 +45,13 @@ class Api::V2::ChildrenIncidentsController < Api::V2::RecordResourceController
       current_user.can?(:read, @record) ||
       current_user.can?(:incident_from_case, Child)
     raise Errors::ForbiddenOperation unless case_incident
+  end
+
+  def authorize_update_bulk!
+    can_access_record = current_user.can?(:read, @record) || current_user.can?(:search_owned_by_others, Child)
+    raise Errors::ForbiddenOperation unless can_access_record
+
+    authorize_all!(:link_incident_to_case, @incidents)
   end
 
   def find_incidents
