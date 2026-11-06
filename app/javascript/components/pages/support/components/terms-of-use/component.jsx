@@ -29,8 +29,8 @@ function Component() {
     ? format(parseISO(agency?.get("terms_of_use_uploaded_at")), CODE_OF_CONDUCT_DATE_FORMAT)
     : "";
 
-  const handleViewTerms = async () => {
-    await setPreviewOpen(!previewOpen);
+  const handleViewTerms = () => {
+    setPreviewOpen(!previewOpen);
   };
 
   if (!termsOfUseUrl) {
