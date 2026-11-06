@@ -76,7 +76,7 @@ class Field < ApplicationRecord
       'option_strings_source', 'order', 'hidden_text_field', 'subform_section_id',
       'collapsed_field_for_subform_section_id', 'autosum_total', 'autosum_group', 'selected_value', 'link_to_path',
       'link_to_path_external', 'field_tags', 'searchable_select', 'expose_unique_id', 'subform_sort_by',
-      'subform_group_by', 'required', 'date_validation', 'date_include_time', 'matchable',
+      'subform_group_by', 'required', 'date_validation', 'date_include_time', 'date_input', 'matchable',
       { 'subform_section_configuration' => {} }, { 'tally' => [:id, { display_text: {} }] }, { 'calculation' => {} },
       'display_conditions_record', { 'display_conditions_record' => {} }, 'display_conditions_subform',
       { 'display_conditions_subform' => {} }, 'subform_sort_by_direction'

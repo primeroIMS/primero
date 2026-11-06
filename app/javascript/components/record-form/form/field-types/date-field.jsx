@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { differenceInYears, parseISO, isDate } from "date-fns";
+import { differenceInYears, parseISO, isDate, startOfMonth, lastDayOfYear } from "date-fns";
 import { InputAdornment } from "@mui/material";
 import { FastField, connect, getIn } from "formik";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
@@ -23,7 +23,7 @@ function DateField({ displayName, name, helperText, mode = {}, formik, InputProp
 
   const allowedDefaultValues = Object.values(DEFAULT_DATE_VALUES);
 
-  const { date_include_time: dateIncludeTime, selected_value: selectedValue } = rest.field;
+  const { date_include_time: dateIncludeTime, selected_value: selectedValue, date_input: dateInput } = rest.field;
 
   const dateOfBirthMatches = name.match(/(.*)date_of_birth$/);
   const ageFieldName = isEmpty(dateOfBirthMatches) ? null : `${dateOfBirthMatches[1]}age`;
@@ -88,9 +88,22 @@ function DateField({ displayName, name, helperText, mode = {}, formik, InputProp
     <FastField key={i18n.locale} {...fieldProps}>
       {({ field, form }) => {
         const onChange = date => {
-          updateAgeField(form, date);
+          const convertedDate = (() => {
+            if (dateIncludeTime && !['year', 'year-month'].includes(dateInput)) return date;
 
-          const formattedDate = date ? toServerDateFormat(date, { includeTime: dateIncludeTime }) : null;
+            if (dateInput === 'year') {
+              return lastDayOfYear(date);
+            }
+
+            if (dateInput === 'year-month') {
+              return startOfMonth(date);
+            }
+          })()
+        
+
+          updateAgeField(form, convertedDate);
+
+          const formattedDate = convertedDate ? toServerDateFormat(convertedDate, { includeTime: dateIncludeTime }) : null;
 
           return form.setFieldValue(name, formattedDate, false);
         };
@@ -131,6 +144,7 @@ function DateField({ displayName, name, helperText, mode = {}, formik, InputProp
             displayName={displayName}
             handleClearable={handleClearable}
             isShow={mode.isShow}
+            dateInput={dateInput}
           />
         );
       }}
