@@ -886,7 +886,7 @@ class Filter < ValueObject
 
   def incident_date_derived_options(locale)
     {
-      id: 'incident_date_derived',
+      id: 'incident_date',
       display_name: I18n.t('incidents.selectable_date_options.incident_date_derived', locale:)
     }
   end
