@@ -166,7 +166,9 @@ describe("application/use-system-string.js", () => {
       "incidents.enable_dialog_title": { en: "Enable Monitoring Report" },
       "incidents.enable_dialog": { en: "Clicking OK will change the status of this monitoring report to Enabled." },
       "incidents.enable_success": { en: "Successfully enabled monitoring reports." },
-      "reassign.incident_from_case_warning": { en: "You cannot assign this Monitoring Report." }
+      "reassign.incident_from_case_warning": { en: "You cannot assign this Monitoring Report." },
+      date_of_incident: { en: "Date of Monitoring Report" },
+      "loc:incident_location": { en: "Monitoring Report Location" }
     };
     const incidentState = {
       ...state,
@@ -230,7 +232,9 @@ describe("application/use-system-string.js", () => {
         "Clicking OK will change the status of this monitoring report to Enabled."
       ],
       ["page", "incidents.enable_success", {}, "Successfully enabled monitoring reports."],
-      ["page", "reassign.incident_from_case_warning", {}, "You cannot assign this Monitoring Report."]
+      ["page", "reassign.incident_from_case_warning", {}, "You cannot assign this Monitoring Report."],
+      ["listHeader", "date_of_incident", {}, "Date of Monitoring Report"],
+      ["filter", "loc:incident_location", {}, "Monitoring Report Location"]
     ])("returns the %s override for %s", (feature, key, options, expected) => {
       const { act, result } = setupHook(() => useSystemStrings(feature), incidentState);
 
