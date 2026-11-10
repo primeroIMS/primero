@@ -18,7 +18,7 @@ const getQueryPath = path => {
   return queryPath;
 };
 
-function buildQueryParams(query, filters) {
+function buildQueryParams(query, filters = []) {
   return query?.map(queryItem => {
     const [queryKey, queryValue] = queryItem.split("=");
     const currentFilter = filters.find(filter => filter.attribute === queryKey);
