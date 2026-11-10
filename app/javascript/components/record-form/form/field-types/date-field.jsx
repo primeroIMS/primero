@@ -89,21 +89,22 @@ function DateField({ displayName, name, helperText, mode = {}, formik, InputProp
       {({ field, form }) => {
         const onChange = date => {
           const convertedDate = (() => {
-            if (dateIncludeTime && !['year', 'year-month'].includes(dateInput)) return date;
+            if (dateIncludeTime && !["year", "year-month"].includes(dateInput)) return date;
 
-            if (dateInput === 'year') {
+            if (dateInput === "year") {
               return lastDayOfYear(date);
             }
 
-            if (dateInput === 'year-month') {
+            if (dateInput === "year-month") {
               return startOfMonth(date);
             }
-          })()
-        
+          })();
 
           updateAgeField(form, convertedDate);
 
-          const formattedDate = convertedDate ? toServerDateFormat(convertedDate, { includeTime: dateIncludeTime }) : null;
+          const formattedDate = convertedDate
+            ? toServerDateFormat(convertedDate, { includeTime: dateIncludeTime })
+            : null;
 
           return form.setFieldValue(name, formattedDate, false);
         };
