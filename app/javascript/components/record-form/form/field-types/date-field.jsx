@@ -98,6 +98,8 @@ function DateField({ displayName, name, helperText, mode = {}, formik, InputProp
             if (dateInput === "year-month") {
               return startOfMonth(date);
             }
+
+            return date;
           })();
 
           updateAgeField(form, convertedDate);
