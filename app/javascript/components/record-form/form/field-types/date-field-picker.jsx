@@ -16,7 +16,8 @@ function DateFieldPicker({
   displayName,
   fieldTouched = false,
   fieldError,
-  helperText
+  helperText,
+  dateInput
 }) {
   const i18n = useI18n();
   const helpText =
@@ -75,6 +76,12 @@ function DateFieldPicker({
 
   const DateComponent = dateIncludeTime ? DateTimePicker : DatePicker;
 
+  const views = {
+    year: ["year"],
+    "year-month": ["year", "month"],
+    "year-month-day": ["year", "month", "day"]
+  }[dateInput && !dateIncludeTime ? dateInput : "year-month-day"];
+
   return (
     <DateProvider>
       <DateComponent
@@ -85,7 +92,7 @@ function DateFieldPicker({
         slotProps={textFieldProps}
         label={label}
         dayOfWeekFormatter={dayOfWeekFormatter(i18n)}
-        views={["year", "month", "day"]}
+        views={views}
       />
     </DateProvider>
   );
@@ -95,6 +102,7 @@ DateFieldPicker.displayName = "DateFieldPicker";
 
 DateFieldPicker.propTypes = {
   dateIncludeTime: PropTypes.bool,
+  dateInput: PropTypes.oneOf(["year", "year-month", "year-month-day", null]),
   dateProps: PropTypes.object,
   displayName: PropTypes.object,
   fieldError: PropTypes.string,

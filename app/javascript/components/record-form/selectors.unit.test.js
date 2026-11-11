@@ -545,6 +545,7 @@ describe("<RecordForm /> - Selectors", () => {
           {
             date_include_time: false,
             date_validation: "default_date_validation",
+            date_input: null,
             disabled: null,
             display_name: {
               ar: "",
@@ -634,6 +635,7 @@ describe("<RecordForm /> - Selectors", () => {
           {
             date_include_time: false,
             date_validation: "default_date_validation",
+            date_input: null,
             disabled: null,
             display_name: {
               ar: "",
