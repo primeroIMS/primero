@@ -6,7 +6,7 @@ describe Api::V2::ChildrenIncidentsController, type: :request do
   before :each do
     clean_data(Incident, Child)
     @case1 = Child.create!(
-      data: { name: 'Test1', age: 5, sex: 'male', urgent_protection_concern: false }
+      data: { name: 'Test1', age: 5, sex: 'male', urgent_protection_concern: false, owned_by: 'user1' }
     )
     @case2 = Child.create!(
       data: { name: 'Test2', age: 10, sex: 'female', urgent_protection_concern: true }
@@ -66,8 +66,10 @@ describe Api::V2::ChildrenIncidentsController, type: :request do
   describe 'POST /api/v2/cases/:id/incidents' do
     it 'links a case to a incident' do
       login_for_test(
+        user_name: 'user1',
         permissions: [
-          Permission.new(resource: Permission::INCIDENT, actions: [Permission::LINK_INCIDENT_TO_CASE])
+          Permission.new(resource: Permission::INCIDENT, actions: [Permission::LINK_INCIDENT_TO_CASE]),
+          Permission.new(resource: Permission::CASE, actions: [Permission::READ])
         ]
       )
       params = { data: { incident_ids: [@incident1.id] } }
