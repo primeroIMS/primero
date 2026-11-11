@@ -23,7 +23,8 @@ const ALLOWED_FILTER_KEYS = [
   "loc:owned_by_location2",
   "urgent_protection_concern",
   "marginalized_community_self_identifying",
-  "displacement_status"
+  "displacement_status",
+  "loc:incident_location"
 ];
 const ALLOWED_LIST_HEADER_KEYS = [
   "priority",
@@ -33,7 +34,8 @@ const ALLOWED_LIST_HEADER_KEYS = [
   "client_code",
   "current_location",
   "violence_type",
-  "label"
+  "label",
+  "date_of_incident"
 ];
 const ALLOWED_DASHBOARD_KEYS = [
   "dashboard.protection_concerns",
