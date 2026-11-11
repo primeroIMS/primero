@@ -6,7 +6,7 @@
   "repository": "https://github.com/primeroIMS/primero",
   "engineStrict": true,
   "engines": {
-    "node": ">=22.15.0"
+    "node": ">=22.22.2"
   },
   "scripts": {
     "build": "NODE_ENV=production webpack --config webpack/index.js",
@@ -32,9 +32,10 @@
     "immutable": "$immutable",
     "xml2js": "0.5.0",
     "@emotion/cache": "11.11.0",
-    "serialize-javascript": "7.0.5",
+    "serialize-javascript": "7.1.3",
     "js-yaml": "4.3.2",
-    "brace-expansion": "5.0.12"
+    "brace-expansion": "5.0.12",
+    "deepmerge": "$deepmerge"
   },
   "resolutions": {
     "tss-react": "4.9.10",
@@ -70,7 +71,7 @@
     "babel-loader": "^10.0.0",
     "babel-plugin-dynamic-import-node": "^2.3.3",
     "babel-plugin-macros": "^3.1.0",
-    "babel-plugin-module-resolver": "^5.0.2",
+    "babel-plugin-module-resolver": "^5.0.0",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
     "babel-preset-react": "^6.24.1",
     "before-build-webpack": "^0.2.15",
@@ -102,6 +103,7 @@
     "file-loader": "^6.2.0",
     "formik": "^2.4.6",
     "fuzzysort": "^3.1.0",
+    "globals": "^17.14.0",
     "history": "^4.9.0",
     "html2pdf-dom-to-image-more": "^0.9.8",
     "i18n-js": "^4.5.1",
@@ -109,10 +111,10 @@
     "identity-obj-proxy": "^3.0.0",
     "image-blob-reduce": "^4.1.0",
     "immutable": "^4.3.8",
-    "jest": "^30.1.3",
-    "jest-environment-jsdom": "^30.1.2",
+    "jest": "^30.5.2",
+    "jest-environment-jsdom": "^30.5.2",
     "jscpd": "^4.0.5",
-    "jsdom": "^27.0.0",
+    "jsdom": "^30.1.3",
     "jsdom-global": "^3.0.2",
     "keyevent": "^2.0.0",
     "lodash": "^4.17.21",
