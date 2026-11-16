@@ -487,6 +487,44 @@ describe Filter do
     end
   end
 
+  describe 'custom list filters' do
+    before do
+      @cp.update!(
+        custom_list_filters: {
+          cases: [
+            {
+              field_name: 'closure_child_feedback_form', option_strings_source: 'lookup-yes-no', type: 'multi_toggle'
+            }
+          ]
+        }
+      )
+    end
+
+    it 'includes the custom filters of the user modules in case_filters' do
+      filters = Filter.filters(@user_a, 'case')
+
+      expect(filters).to include(
+        have_attributes(
+          field_name: 'closure_child_feedback_form', unique_id: 'closure_child_feedback_form',
+          option_strings_source: 'lookup-yes-no', type: 'multi_toggle'
+        )
+      )
+    end
+
+    it 'does not include the custom filters of modules the user does not have' do
+      filters = Filter.filters(@user_d, 'case')
+
+      expect(filters.map(&:field_name)).not_to include('closure_child_feedback_form')
+    end
+
+    it 'does not duplicate a custom filter defined on more than one user module' do
+      @gbv.update!(custom_list_filters: @cp.custom_list_filters)
+      filters = Filter.filters(@user_b, 'case')
+
+      expect(filters.count { |filter| filter.field_name == 'closure_child_feedback_form' }).to eq(1)
+    end
+  end
+
   after do
     clean_data(User, Agency, Role, PrimeroModule, PrimeroProgram, Field, FormSection, UserGroup, SystemSettings)
     @system_settings.save!

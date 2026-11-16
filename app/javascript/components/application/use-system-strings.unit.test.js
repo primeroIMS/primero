@@ -251,4 +251,37 @@ describe("application/use-system-string.js", () => {
       expect(result.current.label("unpermitted_field", "fields.unpermitted_field")).toEqual("fields.unpermitted_field");
     });
   });
+
+  describe("when the user module has custom list filters", () => {
+    const stateWithCustomFilters = {
+      ...state,
+      application: {
+        ...state.application,
+        modules: [
+          PrimeroModuleRecord({
+            unique_id: "primeromodule-cp",
+            name: "CP",
+            associated_record_types: ["case"],
+            options: { custom_list_filters: { cases: [{ field_name: "closure_child_feedback_form" }] } }
+          })
+        ]
+      }
+    };
+
+    beforeEach(() => {
+      useApp.mockReturnValue({
+        fieldLabels: fromJS({
+          closure_child_feedback_form: { en: "Child feedback (from SYS Settings)" }
+        })
+      });
+    });
+
+    it("returns the custom filter label from system settings", () => {
+      const { act, result } = setupHook(() => useSystemStrings("filter"), stateWithCustomFilters);
+
+      act(() => {
+        expect(result.current.label("closure_child_feedback_form")).toEqual("Child feedback (from SYS Settings)");
+      });
+    });
+  });
 });

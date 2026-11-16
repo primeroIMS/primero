@@ -124,6 +124,27 @@ describe PrimeroModule do
 
       expect(@primero_module.record_list_filters[:cases]).to match_array(%w[id flagged owned_by])
     end
+
+    it 'should append the custom filters to the default module filters' do
+      @primero_module = PrimeroModule.create!(
+        unique_id: PrimeroModule::CP, name: 'Test Module 3', associated_record_types: ['case'],
+        custom_list_filters: { cases: [{ field_name: 'closure_child_feedback_form' }] }
+      )
+
+      expect(@primero_module.record_list_filters[:cases]).to match_array(
+        PrimeroModule::DEFAULT_CASE_LIST_FILTERS[PrimeroModule::CP] + %w[closure_child_feedback_form]
+      )
+    end
+
+    it 'should append the custom filters to the saved module filters' do
+      @primero_module = PrimeroModule.create!(
+        unique_id: 'primeromodule-custom', name: 'Test Module 4', associated_record_types: ['case'],
+        list_filters: { cases: %w[flagged] },
+        custom_list_filters: { cases: [{ field_name: 'closure_child_feedback_form' }] }
+      )
+
+      expect(@primero_module.record_list_filters[:cases]).to match_array(%w[flagged closure_child_feedback_form])
+    end
   end
 
   describe 'pending_transition_to_form' do
