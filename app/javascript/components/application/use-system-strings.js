@@ -44,6 +44,7 @@ const ALLOWED_DASHBOARD_KEYS = [
   "dashboard.action_needed.cases",
   "dashboard.case_overview",
   "dashboard.dash_group_overview",
+  "dashboard.dash_cases_by_incident_type",
   "dashboard.workflow_team",
   "dashboard.cases_by_social_worker",
   "dashboard.reporting_locations",

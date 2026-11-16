@@ -732,6 +732,44 @@ describe Api::V2::DashboardsController, type: :request do
         expect(indicators['shared_with_me_pending_referrals']['count']).to eq(1)
       end
     end
+
+    describe 'cases by incident type dashboard' do
+      before do
+        clean_data(Alert, User, UserGroup, Role, Incident, Child)
+
+        @role = Role.new(
+          permissions: [
+            @permission_case,
+            Permission.new(resource: Permission::DASHBOARD, actions: [Permission::DASH_CASES_BY_INCIDENT_TYPE])
+          ],
+          primero_modules: [@primero_module],
+          group_permission: Permission::SELF
+        )
+        @role.save(validate: false)
+        @user_incident_types = User.new(user_name: 'user_incident_types', role: @role)
+        @user_incident_types.save(validate: false)
+
+        [
+          { record_state: true, status: 'open', owned_by: 'user_incident_types', incident_types: %w[physical sexual] },
+          { record_state: true, status: 'open', owned_by: 'user_incident_types', incident_types: %w[physical] },
+          { record_state: true, status: 'closed', owned_by: 'user_incident_types', incident_types: %w[physical] },
+          { record_state: false, status: 'open', owned_by: 'user_incident_types', incident_types: %w[physical] },
+          { record_state: true, status: 'open', owned_by: 'other_user', incident_types: %w[physical] }
+        ].each { |data| Child.create!(data: data.merge(module_id: @primero_module.unique_id)) }
+      end
+
+      it 'counts the open cases owned by the user for each incident type' do
+        sign_in(@user_incident_types)
+        get '/api/v2/dashboards'
+
+        expect(response).to have_http_status(200)
+        dashboard = json['data'].find { |d| d['name'] == 'dashboard.dash_cases_by_incident_type' }
+        indicator = dashboard['indicators']['cases_by_incident_type']
+        expect(indicator['physical']['count']).to eq(2)
+        expect(indicator['sexual']['count']).to eq(1)
+        expect(indicator['physical']['query']).to include('incident_types=physical')
+      end
+    end
   end
 
   it 'returns an empty dashboard set if no explicit dashboard authorization' do

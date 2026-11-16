@@ -26,6 +26,7 @@ export const DASHBOARD_NAMES = Object.freeze({
   CASES_BY_TASK_OVERDUE_SERVICES: "dashboard.cases_by_task_overdue_services",
   GROUP_OVERVIEW: "dashboard.dash_group_overview",
   NATIONAL_ADMIN_SUMMARY: "dashboard.dash_national_admin_summary",
+  CASES_BY_INCIDENT_TYPE: "dashboard.dash_cases_by_incident_type",
   PERPETRATOR_ARMED_FORCE_GROUP_PARTY_NAMES: "dashboard.dash_perpetrator_armed_force_group_party_names",
   PROTECTION_CONCERNS: "dashboard.dash_protection_concerns",
   REPORTING_LOCATION: "dashboard.reporting_location",
@@ -41,6 +42,7 @@ export const DASHBOARD_NAMES = Object.freeze({
 });
 
 export const INDICATOR_NAMES = Object.freeze({
+  CASES_BY_INCIDENT_TYPE: "cases_by_incident_type",
   RISK_LEVEL: "risk_level",
   WORKFLOW_TEAM: "workflow_team",
   WORKFLOW: "workflow",
@@ -129,7 +131,8 @@ export const DASHBOARD_GROUPS_WITHOUT_MODULES = Object.freeze({
     "case_risk",
     "dash_group_overview",
     "dash_case_incident_overview",
-    "dash_national_admin_summary"
+    "dash_national_admin_summary",
+    "dash_cases_by_incident_type"
   ],
   [DASHBOARD_GROUP.action_needed]: [
     "action_needed_new_updated",
