@@ -23,6 +23,9 @@ gem 'file_validators',     '~> 3.0'    # ActiveRecord extension for validating a
 gem 'i18n-js',             '~> 3.9'    # Shares Rails i18n strings with the front end
 gem 'image_processing',    '~> 1.12'   # Ruby bindings for ImageMagick, resize attachments. Depenency of ActiveStorage
 gem 'jbuilder',            '~> 2.11'   # JSON templating for the API
+# TODO: V3 introduces changes that rejects and throws an
+# exception to duplicate keys. Will need some work to make codebase compatible
+gem 'json',                '>= 2.0.0', '!=2.7.0', '< 3'
 # TODO: Upgrade to json_schemer >=2.4.0, but need to rework app/overrides/json_schemer.rb monkeypatch
 gem 'json_schemer',        '~> 1.0'    # Validation for submited JSON.
 gem 'jwt',                 '~> 3.1'    # Ruby JWT library used to authenticate 3rd party identity provider tokens
@@ -30,7 +33,7 @@ gem 'matrix',              '~> 0.4'    # No longer part of Ruby 3.2 core. Must b
 gem 'minipack',            '~> 0.3'    # An alternative to Webpacker.
 gem 'mutex_m',             '~> 0.3'    # Removed Ruby 3.4 dependency.
 gem 'net-http-persistent', '~> 4.0'    # Thread safe persistent HTTP connections, optional Faraday dependency
-gem 'nokogiri',            '~> 1.18'   # Security assertion on implicit dependency.
+gem 'nokogiri',            '~> 1.19'   # Security assertion on implicit dependency.
 gem 'observer',            '~> 0.1'    # Removed Ruby 3.4 dependency.
 gem 'ostruct',             '~> 0.6'    # Removed Ruby 3.5 dependency
 gem 'pdfjs_viewer',        '~> 0.1'    # PDF.js viewer for displaying PDFs in the browser

@@ -142,6 +142,18 @@ describe Child do
         expect(case1.incident_types).to match_array(%w[type1 type2])
       end
 
+      it 'stores the incident types in the searchable column' do
+        expect(case1.reload.srch_incident_types).to eq(['type1'])
+      end
+
+      it "stamps the GBV incident's sexual violence type on the case" do
+        gbv_case = Child.create!(age: 15, sex: 'female', module_id: PrimeroModule::GBV)
+        Incident.create!(case: gbv_case, module_id: PrimeroModule::GBV, gbv_sexual_violence_type: 'rape')
+
+        expect(gbv_case.reload.incident_types).to eq(['rape'])
+        expect(gbv_case.srch_incident_types).to eq(['rape'])
+      end
+
       after :all do
         clean_data(Incident, Child)
       end

@@ -10,6 +10,19 @@ class Api::V2::IncidentsController < ApplicationApiController
   def authorize_create!
     can_create = current_user.can?(:create, Incident) || current_user.can?(:incident_from_case, Child)
     raise Errors::ForbiddenOperation unless can_create
+
+    authorize_incident_from_case! if record_params.key?('incident_case_id')
+  end
+
+  def authorize_update!
+    super
+    authorize_incident_from_case! if record_params.key?('incident_case_id')
+  end
+
+  def authorize_incident_from_case!
+    authorize! :read, Child.find(record_params['incident_case_id'])
+  rescue CanCan::AccessDenied
+    authorize! :search_owned_by_others, Child
   end
 
   alias select_updated_fields_super select_updated_fields

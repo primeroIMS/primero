@@ -209,6 +209,7 @@ const commonReferralFields = ({
       name: FIELDS.SERVICE_EXTERNAL_REFERRAL_REGISTRY,
       type: TICK_FIELD,
       order: 3,
+      disabled: isReferralFromService,
       showIf: () => !isReferralFromService || isExternalReferralFromService,
       visible: true
     },

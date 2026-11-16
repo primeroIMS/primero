@@ -1,12 +1,10 @@
 # Security Policy
 
-Primero takes the security and privacy of its users seriously. Primero is a Digital Public Good used by organizations supporting vulnerable populations, including children and survivors of violence. We welcome responsible security research that helps us identify and address security vulnerabilities.
+The Primero team takes the security and privacy of its users seriously. Primero is a Digital Public Good used by organizations supporting vulnerable populations, including children and survivors of violence. We welcome responsible security research that helps us identify and address security vulnerabilities.
 
 ## Reporting
 
-Security vulnerabilities must be reported privately to:
-
-**childprotectioninnovation@gmail.com**
+Security vulnerabilities must be reported privately using Github Security Advisories.
 
 Please do not disclose suspected vulnerabilities through public GitHub issues, pull requests, discussions, social media, or other public channels before the Primero maintainers have had a reasonable opportunity to investigate and address the issue.
 

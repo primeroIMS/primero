@@ -4,6 +4,7 @@ export const FieldRecord = Record({
   autosum_total: true,
   collapse: null,
   date_include_time: false,
+  date_input: null,
   date_validation: null,
   disabled: null,
   display_conditions_record: undefined,

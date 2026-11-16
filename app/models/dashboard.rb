@@ -153,6 +153,12 @@ class Dashboard < ValueObject
     indicators: [Indicators::Incident::PERPETRATOR_ARMED_FORCE_GROUP_PARTY_NAMES]
   ).freeze
 
+  DASH_CASES_BY_INCIDENT_TYPE = Dashboard.new(
+    name: 'dash_cases_by_incident_type',
+    type: 'indicator',
+    indicators: [Indicators::Case::CASES_BY_INCIDENT_TYPE]
+  ).freeze
+
   class << self
     def list_by_permission(permission, role)
       if Dashboard::DYMANIC_WITH_SELF.include?(permission)

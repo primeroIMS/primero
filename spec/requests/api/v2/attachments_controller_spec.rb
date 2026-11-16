@@ -35,8 +35,15 @@ describe Api::V2::AttachmentsController, type: :request do
       attachment.attach!
       attachment
     end
-
     let(:file_content) { File.read(Rails.root.join('spec/resources/jorge.jpg')) }
+    let(:attachment_without_file) do
+      attachment = Attachment.new(
+        record: @case, field_name: 'photos', attachment_type: Attachment::IMAGE,
+        file_name: 'jorge2.jpg'
+      )
+      attachment.save!
+      attachment
+    end
 
     context 'when user is authenticated' do
       before :each do
@@ -57,10 +64,7 @@ describe Api::V2::AttachmentsController, type: :request do
       end
 
       it 'return nil when the attached file blob is missing' do
-        allow(attachment.file).to receive(:download).and_raise(ActiveStorage::FileNotFoundError)
-        allow(Attachment).to receive(:find).with(attachment.id.to_s).and_return(attachment)
-
-        get "/api/v2/cases/#{@case.id}/attachments/#{attachment.id}"
+        get "/api/v2/cases/#{@case.id}/attachments/#{attachment_without_file.id}"
 
         expect(response).to have_http_status(:success)
         expect(response.body).to eq('')

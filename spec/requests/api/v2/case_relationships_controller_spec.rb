@@ -6,7 +6,7 @@ describe Api::V2::CaseRelationshipsController, type: :request do
   include ActiveJob::TestHelper
 
   before :each do
-    clean_data(CaseRelationship, Child, User, Role, PrimeroModule, UserGroup)
+    clean_data(CaseRelationship, Child, User, Role, PrimeroModule, UserGroup, Agency)
 
     @primero_module = PrimeroModule.new(name: 'CP')
     @primero_module.save(validate: false)
@@ -55,6 +55,43 @@ describe Api::V2::CaseRelationshipsController, type: :request do
 
     [@case_relationship1, @case_relationship2, @case_relationship3, @case_relationship4,
      @case_relationship5].each(&:save!)
+  end
+
+  let!(:agency_a) { Agency.create!(name: 'Agency A', agency_code: 'agency_a') }
+  let!(:agency_b) { Agency.create!(name: 'Agency B', agency_code: 'agency_b') }
+  let!(:agency_role) do
+    role = Role.new(
+      permissions: [@permission_case_relationships],
+      primero_modules: [@primero_module],
+      group_permission: Permission::AGENCY
+    )
+    role.save(validate: false)
+    role
+  end
+  let!(:agency_a_worker) do
+    user = User.new(user_name: 'agency_a_worker', role: agency_role, agency_id: agency_a.id)
+    user.save(validate: false)
+    user
+  end
+  let!(:agency_b_worker) do
+    user = User.new(user_name: 'agency_b_worker', role: agency_role, agency_id: agency_b.id)
+    user.save(validate: false)
+    user
+  end
+  let!(:agency_a_case) do
+    Child.create!(data: { name: 'Agency A case', age: 6, sex: 'female',
+                          owned_by: agency_a_worker.user_name,
+                          module_id: @primero_module.unique_id })
+  end
+  let!(:agency_b_case) do
+    Child.create!(data: { name: 'Agency B victim', age: 8, sex: 'female',
+                          survivor_code_no: 'SURV-B-0001', owned_by: agency_b_worker.user_name,
+                          module_id: @primero_module.unique_id })
+  end
+  let!(:agency_b_other_case) do
+    Child.create!(data: { name: 'Agency B other case', age: 9, sex: 'male',
+                          owned_by: agency_b_worker.user_name,
+                          module_id: @primero_module.unique_id })
   end
 
   let(:json) { JSON.parse(response.body) }
@@ -132,6 +169,18 @@ describe Api::V2::CaseRelationshipsController, type: :request do
               metadata: { user_name: @user.user_name, remote_ip: '127.0.0.1', agency_id: nil, role_id: @role.id,
                           http_method: 'POST', record_ids: [] })
     end
+
+    it 'returns 403 when a user cannot access a case' do
+      sign_in(agency_a_worker)
+
+      post "/api/v2/cases/#{agency_a_case.id}/case_relationships",
+           params: { data: { case_id: agency_b_case.id, relationship_type: 'farmer_on' } }
+
+      expect(response).to have_http_status(403)
+      expect(json['errors'][0]['status']).to eq(403)
+      expect(json['errors'][0]['resource']).to eq("/api/v2/cases/#{agency_a_case.id}/case_relationships")
+      expect(json['errors'][0]['message']).to eq('Forbidden')
+    end
   end
 
   describe 'PATCH /api/v2/:recordType/:recordId/case_relationships' do
@@ -143,6 +192,42 @@ describe Api::V2::CaseRelationshipsController, type: :request do
       expect(response).to have_http_status(200)
       expect(json['data']['case_id']).to eq(@farmer2.id.to_s)
       expect(json['data']['primary']).to eq(true)
+    end
+
+    it 'returns 404 when is not a relationship of the case' do
+      sign_in(agency_a_worker)
+
+      relationship = CaseRelationship.create!(
+        from_case: agency_b_case, to_case: agency_b_other_case, relationship_type: 'farmer_on'
+      )
+
+      patch "/api/v2/cases/#{agency_a_case.id}/case_relationships/#{relationship.id}",
+            params: { data: { primary: true } }
+
+      expect(response).to have_http_status(404)
+      expect(json['errors'][0]['status']).to eq(404)
+      expect(json['errors'][0]['resource']).to eq(
+        "/api/v2/cases/#{agency_a_case.id}/case_relationships/#{relationship.id}"
+      )
+      expect(json['errors'][0]['message']).to eq('Not Found')
+    end
+
+    it 'returns 403 when a user cannot access a case' do
+      sign_in(agency_a_worker)
+
+      relationship = CaseRelationship.create!(
+        from_case: agency_a_case, to_case: agency_b_case, relationship_type: 'farmer_on'
+      )
+
+      patch "/api/v2/cases/#{agency_a_case.id}/case_relationships/#{relationship.id}",
+            params: { data: { primary: true } }
+
+      expect(response).to have_http_status(403)
+      expect(json['errors'][0]['status']).to eq(403)
+      expect(json['errors'][0]['resource']).to eq(
+        "/api/v2/cases/#{agency_a_case.id}/case_relationships/#{relationship.id}"
+      )
+      expect(json['errors'][0]['message']).to eq('Forbidden')
     end
   end
 
@@ -156,6 +241,40 @@ describe Api::V2::CaseRelationshipsController, type: :request do
       expect(json['data']['relationship_type']).to eq('farmer_on')
       expect(json['data']['disabled']).to eq(true)
     end
+
+    it 'returns a 404 when is not a relationship of the case' do
+      sign_in(agency_a_worker)
+
+      relationship = CaseRelationship.create!(
+        from_case: agency_b_case, to_case: agency_b_other_case, relationship_type: 'farmer_on'
+      )
+
+      delete "/api/v2/cases/#{agency_a_case.id}/case_relationships/#{relationship.id}"
+
+      expect(response).to have_http_status(404)
+      expect(json['errors'][0]['status']).to eq(404)
+      expect(json['errors'][0]['resource']).to eq(
+        "/api/v2/cases/#{agency_a_case.id}/case_relationships/#{relationship.id}"
+      )
+      expect(json['errors'][0]['message']).to eq('Not Found')
+    end
+
+    it 'returns 403 when a user cannot access a case' do
+      sign_in(agency_a_worker)
+
+      relationship = CaseRelationship.create!(
+        from_case: agency_a_case, to_case: agency_b_case, relationship_type: 'farmer_on'
+      )
+
+      delete "/api/v2/cases/#{agency_a_case.id}/case_relationships/#{relationship.id}"
+
+      expect(response).to have_http_status(403)
+      expect(json['errors'][0]['status']).to eq(403)
+      expect(json['errors'][0]['resource']).to eq(
+        "/api/v2/cases/#{agency_a_case.id}/case_relationships/#{relationship.id}"
+      )
+      expect(json['errors'][0]['message']).to eq('Forbidden')
+    end
   end
 
   after :each do
@@ -165,6 +284,6 @@ describe Api::V2::CaseRelationshipsController, type: :request do
 
   after do
     clear_enqueued_jobs
-    clean_data(CaseRelationship, Child)
+    clean_data(CaseRelationship, Child, User, Role, PrimeroModule, UserGroup, Agency)
   end
 end

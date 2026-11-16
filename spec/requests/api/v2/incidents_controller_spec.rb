@@ -383,6 +383,43 @@ describe Api::V2::IncidentsController, type: :request do
         @case2.reload
         expect(@case2.has_incidents).to eq(true)
       end
+
+      it 'returns 403 when the user does not have access to the case' do
+        @case1.update!(owned_by: 'another_user')
+        login_for_test(
+          group_permission: Permission::SELF,
+          permissions: [
+            Permission.new(resource: Permission::INCIDENT, actions: [Permission::CREATE]),
+            Permission.new(resource: Permission::CASE, actions: [Permission::INCIDENT_FROM_CASE])
+          ]
+        )
+        params = { data: { incident_date: '2024-01-10', incident_case_id: @case1.id } }
+
+        post '/api/v2/incidents', params:, as: :json
+
+        expect(response).to have_http_status(403)
+      end
+
+      it 'creates the incident when the user can search cases owned by others' do
+        @case1.update!(owned_by: 'another_user')
+        login_for_test(
+          group_permission: Permission::SELF,
+          permissions: [
+            Permission.new(resource: Permission::INCIDENT, actions: [Permission::CREATE]),
+            Permission.new(
+              resource: Permission::CASE,
+              actions: [Permission::INCIDENT_FROM_CASE, Permission::SEARCH_OWNED_BY_OTHERS]
+            )
+          ]
+        )
+        params = { data: { incident_date: '2024-01-10', incident_case_id: @case1.id } }
+
+        post '/api/v2/incidents', params:, as: :json
+
+        expect(response).to have_http_status(200)
+        expect(json['data']['id']).not_to be_empty
+        expect(Incident.find(json['data']['id']).incident_case_id).to eq(@case1.id)
+      end
     end
   end
 
@@ -409,6 +446,44 @@ describe Api::V2::IncidentsController, type: :request do
       %w[data].each do |fp|
         expect(Rails.logger).to have_received(:debug).with(/\["#{fp}", "\[FILTERED\]"\]/).at_least(:once)
       end
+    end
+
+    it 'returns 403 when the user does not have access to the case' do
+      @incident1.update!(owned_by: fake_user_name)
+      @case1.update!(owned_by: 'another_user')
+      login_for_test(
+        group_permission: Permission::SELF,
+        permissions: [
+          Permission.new(resource: Permission::INCIDENT, actions: [Permission::READ, Permission::WRITE]),
+          Permission.new(resource: Permission::CASE, actions: [Permission::INCIDENT_FROM_CASE])
+        ]
+      )
+      params = { data: { incident_case_id: @case1.id } }
+
+      patch "/api/v2/incidents/#{@incident1.id}", params:, as: :json
+
+      expect(response).to have_http_status(403)
+    end
+
+    it 'updates the incident when the user can search cases owned by others' do
+      @incident1.update!(owned_by: fake_user_name)
+      @case1.update!(owned_by: 'another_user')
+      login_for_test(
+        group_permission: Permission::SELF,
+        permissions: [
+          Permission.new(resource: Permission::INCIDENT, actions: [Permission::READ, Permission::WRITE]),
+          Permission.new(
+            resource: Permission::CASE,
+            actions: [Permission::INCIDENT_FROM_CASE, Permission::SEARCH_OWNED_BY_OTHERS]
+          )
+        ]
+      )
+      params = { data: { incident_case_id: @case1.id } }
+
+      patch "/api/v2/incidents/#{@incident1.id}", params:, as: :json
+
+      expect(response).to have_http_status(200)
+      expect(json['data']['incident_case_id']).to eq(@case1.id)
     end
 
     context 'When is a Violation incident' do

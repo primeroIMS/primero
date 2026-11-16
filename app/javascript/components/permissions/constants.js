@@ -46,6 +46,7 @@ export const ACTIONS = {
   DASH_FLAGS: "dash_flags",
   DASH_GROUP_OVERVIEW: "dash_group_overview",
   DASH_NATIONAL_ADMIN_SUMMARY: "dash_national_admin_summary",
+  DASH_CASES_BY_INCIDENT_TYPE: "dash_cases_by_incident_type",
   DASH_PROTECTION_CONCERNS: "dash_protection_concerns",
   DASH_REPORTING_LOCATION: "dash_reporting_location",
   DASH_SHARED_FROM_MY_TEAM: "dash_shared_from_my_team",
@@ -341,7 +342,8 @@ export const OVERVIEW_DASHBOARD = Object.freeze([
   ACTIONS.DASH_CASE_RISK,
   ACTIONS.DASH_GROUP_OVERVIEW,
   ACTIONS.DASH_CASE_INCIDENT_OVERVIEW,
-  ACTIONS.DASH_NATIONAL_ADMIN_SUMMARY
+  ACTIONS.DASH_NATIONAL_ADMIN_SUMMARY,
+  ACTIONS.DASH_CASES_BY_INCIDENT_TYPE
 ]);
 
 export const ACTION_NEEDED_DASHBOARD = Object.freeze([

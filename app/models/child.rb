@@ -178,9 +178,9 @@ class Child < ApplicationRecord
   before_save :calculate_followup_due_dates
   before_save :calculate_tracing_dates
   before_save :calculate_reunification_dates
+  before_save :calculate_incident_types
   before_save :save_searchable_fields
   before_save :stamp_case_type
-  before_save :calculate_incident_types
   before_update :update_identified
   before_create :hide_name
   after_save :save_incidents
@@ -473,6 +473,10 @@ class Child < ApplicationRecord
 
   def registry_record_ids
     registry_records.map(&:id).uniq
+  end
+
+  def case_relationships
+    CaseRelationship.where(from_case_id: id).or(CaseRelationship.where(to_case_id: id))
   end
 end
 # rubocop:enable Metrics/ClassLength

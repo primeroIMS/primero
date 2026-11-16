@@ -11,7 +11,6 @@ class Api::V2::AttachmentsController < Api::V2::RecordResourceController
   def show
     authorize_record_view!
     authorize! :read, @attachment
-
     send_file
   end
 
@@ -55,8 +54,11 @@ class Api::V2::AttachmentsController < Api::V2::RecordResourceController
   end
 
   def send_file
+    file_content = file.download
+    return unless file_content
+
     send_data(
-      file.download,
+      file_content,
       filename: file.filename.to_s,
       type: file.content_type,
       disposition: 'inline'
@@ -104,7 +106,7 @@ class Api::V2::AttachmentsController < Api::V2::RecordResourceController
   end
 
   def set_attachment
-    @attachment = Attachment.find(params[:id])
+    @attachment = @record.attachments.find(params[:id])
   end
 
   def file
