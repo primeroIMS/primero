@@ -46,12 +46,7 @@ function Container({ mode }) {
   const isCaseIdEqualParam = params?.id === record?.get("id");
 
   useEffect(() => {
-    const registryRecordIds = record?.get("registry_record_ids", fromJS([])).merge(
-      record
-        ?.get("services_section", fromJS([]))
-        ?.map(service => service.get("service_implementing_agency_registry"))
-        .filter(Boolean)
-    );
+    const registryRecordIds = record?.get("registry_record_ids", fromJS([]));
 
     if (registryRecordIds?.size && canViewRegistryRecords) {
       dispatch(
