@@ -30,20 +30,21 @@ setup_database() {
 }
 
 setup_dependencies() {
-  # Install Rails pre-requisites
+  # Install Primero binary pre-requisites
   apt-get update
   apt install -y --no-install-recommends libpq-dev libsodium-dev
-
-  if [ $PIPELINE == $BITBUCKET ]; then
-    bundle install --without production
-  fi
 }
 
-if [ $PIPELINE == $GITHUB_ACTIONS ]; then
-  DEPS=`declare -f setup_dependencies`
-  sudo -E bash -c "$DEPS; setup_dependencies"
+# Github Actions require passwordless sudo for installing packages
+if [ "${PIPELINE}" == "${GITHUB_ACTIONS}" ]; then
+  sudo bash -c "$(declare -f setup_dependencies); setup_dependencies"
 else
   setup_dependencies
+fi
+
+# Github Actions automatically run bundler install when activating ruby. BB does not.
+if [ "${PIPELINE}" == "${BITBUCKET}" ]; then
+  bundle install --without production
 fi
 
 # TODO: Enable this once all bad interpolations are fixed on transifex
@@ -59,5 +60,3 @@ setup_database
 
 # Run tests
 bundle exec rspec spec
-
-
