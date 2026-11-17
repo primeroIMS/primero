@@ -32,5 +32,14 @@ describe("<Dashboard /> - Helpers", () => {
         expect(buildFilter(queryValues, true)).toEqual(expected);
       });
     });
+
+    describe("when a filter is incident_date", () => {
+      it("should convert data to string with incident_date_derived", () => {
+        const expected = "incident_date_derived%5B0%5D=2023-01-01&status%5B0%5D=open";
+        const queryValues = fromJS(["incident_date=2023-01-01", "status=open"]);
+
+        expect(buildFilter(queryValues, true)).toEqual(expected);
+      });
+    });
   });
 });
