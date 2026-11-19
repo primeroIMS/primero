@@ -152,6 +152,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
         record_changes: [
           { 'status' => { 'from' => nil, 'to' => 'open' } },
           { 'flagged' => { 'from' => nil, 'to' => false } },
+          { 'has_case' => { 'from' => nil, 'to' => false } },
           { 'owned_by' => { 'from' => nil, 'to' => 'faketest' } },
           { 'short_id' => { 'from' => nil, 'to' => Incident.first.short_id } },
           { 'has_photo' => { 'from' => nil, 'to' => false } },
@@ -240,7 +241,7 @@ describe Api::V2::RecordHistoriesController, type: :request do
           { 'owned_by' => { 'from' => nil, 'to' => 'faketest' } },
           { 'short_id' => { 'from' => nil, 'to' => Child.first.short_id } },
           { 'workflow' => { 'from' => nil, 'to' => 'new' } },
-          { 'case_type' => { 'from' =>nil, 'to' => 'person' } },
+          { 'case_type' => { 'from' => nil, 'to' => 'person' } },
           { 'has_photo' => { 'from' => nil, 'to' => false } },
           { 'posted_at' => { 'from' => nil, 'to' => Child.first.posted_at.strftime('%Y-%m-%dT%H:%M:%S.%LZ') } },
           { 'created_at' => { 'from' => nil, 'to' => Child.first.created_at.strftime('%Y-%m-%dT%H:%M:%S.%LZ') } },
