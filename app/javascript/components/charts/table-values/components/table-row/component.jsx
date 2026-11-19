@@ -49,7 +49,7 @@ function Component({ subColumnItemsSize, value, valueRender, withTotals, recordT
 
         return (
           <TableCell colSpan={index === 0 ? colspan : 1} key={generateKey(rowData)} className={cellClass}>
-            {!isEmpty(rowData.query) && colspan < 4 ? (
+            {!isEmpty(rowData.query) ? (
               <ActionButton className={linkClasses} type="link" text={displayValue} onClick={handleClick} noTranslate />
             ) : (
               <span>{displayValue}</span>
