@@ -220,6 +220,91 @@ describe("report/utils/get-rows-table-data", () => {
     ]);
   });
 
+  it("returns query params with correct date constraints", () => {
+    const i18n = {
+      t: value => (value === "report.total" ? "_total" : value),
+      locale: "en"
+    };
+    const data = {
+      fields: [
+        {
+          name: "risk_level",
+          display_name: {
+            en: "Risk Level"
+          },
+          position: {
+            type: "horizontal",
+            order: 0
+          },
+          option_labels: {
+            en: [
+              { id: "high", display_text: "high" },
+              { id: "medium", display_text: "medium" },
+              { id: "low", display_text: "low" }
+            ]
+          }
+        },
+        {
+          name: "sex",
+          display_name: { en: "Sex" },
+          position: {
+            type: "vertical",
+            order: 0
+          },
+          option_labels: {
+            en: [
+              { id: "female", display_text: "female" },
+              { id: "male", display_text: "male" },
+              { id: "other", display_text: "other" }
+            ]
+          }
+        }
+      ],
+      report_data: {
+        high: {
+          female: {
+            _total: 1,
+            query: ["date_of_birth=2024-01-01", "status=open"]
+          },
+          _total: 1
+        },
+        low: {
+          male: {
+            _total: 1
+          },
+          _total: 1
+        },
+        medium: {
+          other: {
+            _total: 1
+          },
+          _total: 1
+        }
+      },
+      filters: [
+        {
+          attribute: "date_of_birth",
+          constraint: "<"
+        }
+      ]
+    };
+    const columns = ["female", "male", "other", "_total"];
+    const expectedQuery = ["date_of_birth=1900-01-31..2024-01-01", "status=open"];
+
+    expect(getRowsTableData(data, columns, [], i18n)).toEqual([
+      [
+        "high",
+        false,
+        { count: 1, query: expectedQuery },
+        { count: 0, query: [] },
+        { count: 0, query: [] },
+        { count: 1 }
+      ],
+      ["medium", false, { count: 0, query: [] }, { count: 0, query: [] }, { count: 1, query: [] }, { count: 1 }],
+      ["low", false, { count: 0, query: [] }, { count: 1, query: [] }, { count: 0, query: [] }, { count: 1 }]
+    ]);
+  });
+
   it("returns the rows in order for multiple attributes", () => {
     const i18n = {
       t: value => (value === "report.total" ? "_total" : value),

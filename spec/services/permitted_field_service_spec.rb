@@ -312,6 +312,44 @@ describe PermittedFieldService, search: true do
     expect(permitted_field_names).to include('transfer_status')
   end
 
+  describe 'incident_types' do
+    let(:cases_by_incident_type_role) do
+      Role.new_with_properties(
+        name: 'Cases By Incident Type Role',
+        unique_id: 'cases-by-incident-type-role',
+        group_permission: Permission::SELF,
+        permissions: [
+          Permission.new(resource: Permission::DASHBOARD, actions: [Permission::DASH_CASES_BY_INCIDENT_TYPE])
+        ]
+      )
+    end
+
+    let(:user_with_cases_by_incident_type) do
+      User.create!(
+        full_name: 'User With Cases By Incident Type',
+        user_name: 'user_with_cases_by_incident_type',
+        password: 'a12345632',
+        password_confirmation: 'a12345632',
+        email: 'test_user_incident_types@localhost.com',
+        agency_id: agency.id,
+        role: cases_by_incident_type_role,
+        services: ['Test type']
+      )
+    end
+
+    it 'returns the incident_types field permitted for a role with a cases_by_incident_type permission' do
+      permitted_field_names = PermittedFieldService.new(user_with_cases_by_incident_type, Child).permitted_field_names
+
+      expect(permitted_field_names).to include('incident_types')
+    end
+
+    it 'does not return the incident_types field for a role without a cases_by_incident_type permission' do
+      permitted_field_names = PermittedFieldService.new(user_with_risk_level, Child).permitted_field_names
+
+      expect(permitted_field_names).not_to include('incident_types')
+    end
+  end
+
   describe 'transferred_to_users' do
     let(:transfer_role) do
       Role.new_with_properties(

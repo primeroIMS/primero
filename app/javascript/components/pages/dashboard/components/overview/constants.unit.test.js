@@ -5,7 +5,7 @@ describe("<Overview> - pages/dashboard/components/overview/constants", () => {
 
   it("should have known properties", () => {
     expect(typeof clone).toEqual("object");
-    ["NAME"].forEach(property => {
+    ["NAME", "INCIDENT_TYPES_FIELD"].forEach(property => {
       expect(clone).toHaveProperty(property);
       delete clone[property];
     });

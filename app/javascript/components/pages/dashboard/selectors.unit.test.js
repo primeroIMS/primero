@@ -309,6 +309,23 @@ const myCasesIncidents = {
   }
 };
 
+const casesByIncidentType = {
+  name: "dashboard.dash_cases_by_incident_type",
+  type: "indicator",
+  indicators: {
+    cases_by_incident_type: {
+      physical: {
+        count: 2,
+        query: ["record_state=true", "status=open", "incident_types=physical"]
+      },
+      sexual: {
+        count: 1,
+        query: ["record_state=true", "status=open", "incident_types=sexual"]
+      }
+    }
+  }
+};
+
 const application = fromJS({
   modules: [
     PrimeroModuleRecord({
@@ -342,7 +359,7 @@ const initialState = fromJS({
       overview: {
         loading: false,
         errors: false,
-        data: [caseOverview, caseRisk, groupOverview, nationalAdminSummary, myCasesIncidents]
+        data: [caseOverview, caseRisk, groupOverview, nationalAdminSummary, myCasesIncidents, casesByIncidentType]
       },
       reporting_location: {
         loading: false,
@@ -539,6 +556,20 @@ describe("<Dashboard /> - Selectors", () => {
       const values = selectors.getCaseIncidentOverview(initialState);
 
       expect(values).toEqual(fromJS(myCasesIncidents));
+    });
+  });
+
+  describe("getCasesByIncidentType", () => {
+    it("should return the Overview - Cases by Incident Type dashboard", () => {
+      const values = selectors.getCasesByIncidentType(initialState);
+
+      expect(values).toEqual(fromJS(casesByIncidentType));
+    });
+
+    it("should return an empty map when there is no data", () => {
+      const values = selectors.getCasesByIncidentType(stateWithoutRecords);
+
+      expect(values).toEqual(fromJS({}));
     });
   });
 

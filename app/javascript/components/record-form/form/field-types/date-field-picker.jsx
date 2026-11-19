@@ -92,7 +92,7 @@ function DateFieldPicker({
         slotProps={textFieldProps}
         label={label}
         dayOfWeekFormatter={dayOfWeekFormatter(i18n)}
-        views={views}
+        views={dateIncludeTime ? [...views, "hours", "minutes"] : views}
       />
     </DateProvider>
   );

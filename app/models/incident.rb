@@ -32,7 +32,7 @@ class Incident < ApplicationRecord
     :legal_assistance_services_subform_section, :police_or_other_type_of_security_services_subform_section,
     :livelihoods_services_subform_section, :child_protection_services_subform_section, :violation_category,
     :incident_date_end, :is_incident_date_range, :incident_date_derived,
-    :cp_incident_violence_type, :gbv_incident_violence_type, :has_case
+    :gbv_incident_violence_type, :has_case, :cp_incident_violence_type, :gbv_sexual_violence_type
   )
 
   DEFAULT_ALERT_FORM_UNIQUE_ID = 'incident_from_case'
@@ -128,7 +128,7 @@ class Incident < ApplicationRecord
 
   def incident_type
     return if module_id == PrimeroModule::MRM
-    return gbv_incident_violence_type if module_id == PrimeroModule::GBV
+    return gbv_sexual_violence_type if module_id == PrimeroModule::GBV
 
     cp_incident_violence_type
   end

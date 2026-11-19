@@ -29,7 +29,9 @@ function Component() {
     ? format(parseISO(agency?.get("terms_of_use_uploaded_at")), CODE_OF_CONDUCT_DATE_FORMAT)
     : "";
 
-  const handleViewTerms = () => setPreviewOpen(!previewOpen);
+  const handleViewTerms = () => {
+    setPreviewOpen(!previewOpen);
+  };
 
   if (!termsOfUseUrl) {
     return (
@@ -58,6 +60,7 @@ function Component() {
       <Preview
         open={previewOpen}
         onClose={handleViewTerms}
+        onAccept={handleViewTerms}
         termsOfUseUrl={termsOfUseUrl}
         mobileDisplay={mobileDisplay}
       />

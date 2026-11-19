@@ -17,7 +17,7 @@ function DateInput({ commonInputProps, metaInputProps = {}, formMethods }) {
   const { setValue, control } = formMethods;
   const { name, label, helperText, error, disabled, placeholder, fullWidth, required } = commonInputProps;
 
-  const currentValue = useWatch({ name, control });
+  const currentValue = useWatch({ name, control, disabled: i18n.locale !== LOCALE_KEYS.ne });
 
   const dialogLabels = {
     clearLabel: i18n.t("buttons.clear"),
@@ -43,9 +43,8 @@ function DateInput({ commonInputProps, metaInputProps = {}, formMethods }) {
     value: currentValue
   };
 
-  const fieldValue = isEmpty(currentValue) ? null : parseISO(currentValue);
-
   const inputProps = {
+    views: ["year", "month", "day"],
     slotProps: {
       actionBar: {
         actions: ["clear", "accept"]
@@ -60,31 +59,6 @@ function DateInput({ commonInputProps, metaInputProps = {}, formMethods }) {
     }
   };
 
-  const renderPicker = () => {
-    if (dateIncludeTime) {
-      return (
-        <DateTimePicker
-          {...dialogLabels}
-          {...commonInputProps}
-          {...inputProps}
-          onChange={handleChange}
-          value={fieldValue}
-        />
-      );
-    }
-
-    return (
-      <DatePicker
-        {...dialogLabels}
-        {...commonInputProps}
-        {...inputProps}
-        onChange={handleChange}
-        value={fieldValue}
-        dayOfWeekFormatter={dayOfWeekFormatter(i18n)}
-      />
-    );
-  };
-
   if (i18n.locale === LOCALE_KEYS.ne) {
     return <NepaliCalendar helpText={helperText} label={label} dateProps={neDateProps} />;
   }
@@ -93,7 +67,36 @@ function DateInput({ commonInputProps, metaInputProps = {}, formMethods }) {
     <DateProvider>
       <Controller
         control={control}
-        as={renderPicker}
+        render={({ value: dateFieldValue, onChange: fieldOnChange }) => {
+          const _fieldValue = isEmpty(dateFieldValue) ? null : parseISO(dateFieldValue);
+
+          const onFieldChange = date => {
+            fieldOnChange(date ? toServerDateFormat(date, { includeTime: dateIncludeTime }) : "");
+          };
+
+          if (dateIncludeTime) {
+            return (
+              <DateTimePicker
+                {...dialogLabels}
+                {...commonInputProps}
+                {...inputProps}
+                onChange={onFieldChange}
+                value={_fieldValue}
+              />
+            );
+          }
+
+          return (
+            <DatePicker
+              {...dialogLabels}
+              {...commonInputProps}
+              {...inputProps}
+              onChange={onFieldChange}
+              value={_fieldValue}
+              dayOfWeekFormatter={dayOfWeekFormatter(i18n)}
+            />
+          );
+        }}
         {...commonInputProps}
         defaultValue=""
         slotProps={{
