@@ -307,6 +307,22 @@ describe Incident do
     end
   end
 
+  describe '.calculate_has_case' do
+    it 'should set has_case to true if case is present' do
+      incident = Incident.new
+      incident.case = Child.new
+      incident.save
+      expect(incident.has_case).to be_truthy
+    end
+
+    it 'should set has_case to false if case is not present' do
+      incident = Incident.new
+      incident.case = nil
+      incident.save
+      expect(incident.has_case).to be_falsey
+    end
+  end
+
   describe '.copy_from_case' do
     before(:each) do
       clean_data(SearchableIdentifier, Incident, Child, PrimeroModule, User) && module_cp
