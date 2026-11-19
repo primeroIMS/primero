@@ -53,8 +53,8 @@ class SearchFilters::Value < SearchFilters::SearchFilter
   end
 
   def to_s
-    return "#{field_name}=..#{value}" if @safe_operator == '<'
-    return "#{field_name}=#{value.to_i - 1}.." if @safe_operator == '>'
+    return "#{field_name}=..#{value}" if @safe_operator == '<' && !value.is_a?(Date)
+    return "#{field_name}=#{value.to_i - 1}.." if @safe_operator == '>' && !value.is_a?(Date)
 
     "#{field_name}=#{value}"
   end
