@@ -19,9 +19,10 @@ class SearchFilterService
     end
 
     def range_class(value)
-      if value['from'].is_a?(Numeric)
+      bound = value['from'] || value['to']
+      if bound.is_a?(Numeric)
         SearchFilters::NumericRange
-      elsif value['from'].respond_to?(:strftime)
+      elsif bound.respond_to?(:strftime)
         SearchFilters::DateRange
       end
     end
