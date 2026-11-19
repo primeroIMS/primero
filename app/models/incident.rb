@@ -145,7 +145,7 @@ class Incident < ApplicationRecord
   end
 
   def calculate_has_case
-    self.has_case = self.case.present?
+    self.has_case = !self.case.nil?
 
     has_case
   end
