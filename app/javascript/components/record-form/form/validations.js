@@ -137,7 +137,7 @@ export const fieldValidations = (field, { i18n, online = false }) => {
 
     switch (true) {
       case type === TICK_FIELD:
-        validations[name] = bool().oneOf([true], requiredMessage);
+        validations[name] = bool();
         break;
       case type === SELECT_FIELD && multiSelect:
         validations[name] = array();
@@ -185,6 +185,10 @@ export const fieldValidations = (field, { i18n, online = false }) => {
             });
           }
 
+          if (type === TICK_FIELD) {
+            return $schema.oneOf([true], requiredMessage);
+          }
+
           return $schema.required(requiredMessage);
         },
         otherwise: $schema => {
@@ -226,6 +230,10 @@ export const fieldValidations = (field, { i18n, online = false }) => {
 
           return !!value.attachment_url || !!value.attachment;
         });
+      }
+
+      if (type === TICK_FIELD) {
+        validations[name] = schema.oneOf([true], requiredMessage);
       }
     }
   }
