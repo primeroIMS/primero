@@ -72,7 +72,8 @@ class Child < ApplicationRecord
     :duplicate, :cp_case_plan_subform_case_plan_interventions, :has_case_plan,
     :family_member_id, :family_id_display, :family_number, :has_incidents, :assessment_due_dates,
     :case_plan_due_dates, :followup_due_dates, :reunification_details_section, :reunification_dates,
-    :tracing_actions_section, :tracing_dates, :case_type, :incident_types
+    :tracing_actions_section, :tracing_dates, :case_type, :incident_types,
+    :age_at_registration
   )
   # rubocop:enable Naming/VariableNumber
 
@@ -183,6 +184,7 @@ class Child < ApplicationRecord
   before_save :stamp_case_type
   before_update :update_identified
   before_create :hide_name
+  before_create :set_age_at_registration
   after_save :save_incidents
 
   class << self
@@ -288,6 +290,10 @@ class Child < ApplicationRecord
 
   def hide_name
     self.hidden_name = true if module_id == PrimeroModule::GBV
+  end
+
+  def set_age_at_registration
+    self.age_at_registration ||= age
   end
 
   def set_instance_id

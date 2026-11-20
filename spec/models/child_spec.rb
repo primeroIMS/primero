@@ -268,6 +268,31 @@ describe Child do
       child = Child.new(data: { foo: 'bar' })
       expect(child.save).to be_truthy
     end
+
+    it 'should save age_at_registration' do
+      child = child_with_created_by('jdoe', 'last_known_location' => 'London', 'age' => 6)
+      child.save!
+      expect(child.age_at_registration).to eq(6)
+    end
+
+    it 'should allow age_at_registration to be set manually on create' do
+      child = child_with_created_by(
+        'jdoe',
+        'last_known_location' => 'London', 'age' => 6, 'age_at_registration' => 5
+      )
+      child.save!
+      expect(child.age_at_registration).to eq(5)
+    end
+
+    it 'should allow age_at_registration to be set manually on update' do
+      child = child_with_created_by(
+        'jdoe',
+        'last_known_location' => 'London', 'age' => 6
+      )
+      child.save!
+      child.update_properties(fake_user, { 'age_at_registration' => 5 })
+      expect(child.age_at_registration).to eq(5)
+    end
   end
 
   describe 'new_with_user_name' do
