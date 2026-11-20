@@ -1,6 +1,6 @@
 import { object } from "yup";
 
-import { SELECT_FIELD, SUBFORM_SECTION, TEXT_FIELD, TALLY_FIELD } from "../constants";
+import { SELECT_FIELD, SUBFORM_SECTION, TEXT_FIELD, TALLY_FIELD, TICK_FIELD } from "../constants";
 
 import * as validations from "./validations";
 
@@ -278,6 +278,70 @@ describe("<RecordForm>/form/validations", () => {
           const formData = { first_name: null };
 
           expect(schema.isValidSync(formData)).toBe(true);
+        });
+      });
+
+      describe("and the field is a tick field", () => {
+        it("should be invalid if the field is not checked", () => {
+          const tickField = {
+            name: "tick_field",
+            display_name: { en: "Tick Field" },
+            type: TICK_FIELD,
+            required: true
+          };
+
+          const schema = object().shape(validations.fieldValidations(tickField, { i18n }));
+          const formData = { tick_field: false };
+
+          expect(schema.isValidSync(formData)).toBe(false);
+        });
+
+        it("should be valid if the field is checked", () => {
+          const tickField = {
+            name: "tick_field",
+            display_name: { en: "Tick Field" },
+            type: TICK_FIELD,
+            required: true
+          };
+
+          const schema = object().shape(validations.fieldValidations(tickField, { i18n }));
+          const formData = { tick_field: true };
+
+          expect(schema.isValidSync(formData)).toBe(true);
+        });
+
+        it("should bypass validation if display conditions are not met", () => {
+          const tickField = {
+            name: "tick_field",
+            display_name: { en: "Tick Field" },
+            type: TICK_FIELD,
+            required: true,
+            display_conditions_record: {
+              eq: { testField: 1 }
+            }
+          };
+
+          const schema = object().shape(validations.fieldValidations(tickField, { i18n }));
+          const formData = { testField: 2, tick_field: false };
+
+          expect(schema.isValidSync(formData)).toBe(true);
+        });
+
+        it("should not bypass validation if display conditions are met", () => {
+          const tickField = {
+            name: "tick_field",
+            display_name: { en: "Tick Field" },
+            type: TICK_FIELD,
+            required: true,
+            display_conditions_record: {
+              eq: { testField: 1 }
+            }
+          };
+
+          const schema = object().shape(validations.fieldValidations(tickField, { i18n }));
+          const formData = { testField: 1, tick_field: false };
+
+          expect(schema.isValidSync(formData)).toBe(false);
         });
       });
     });
