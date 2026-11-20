@@ -32,7 +32,7 @@ class Incident < ApplicationRecord
     :legal_assistance_services_subform_section, :police_or_other_type_of_security_services_subform_section,
     :livelihoods_services_subform_section, :child_protection_services_subform_section, :violation_category,
     :incident_date_end, :is_incident_date_range, :incident_date_derived,
-    :cp_incident_violence_type, :gbv_sexual_violence_type
+    :gbv_incident_violence_type, :has_case, :cp_incident_violence_type, :gbv_sexual_violence_type
   )
 
   DEFAULT_ALERT_FORM_UNIQUE_ID = 'incident_from_case'
@@ -81,6 +81,7 @@ class Incident < ApplicationRecord
   before_save :copy_from_case
   before_save :calculate_incident_date_derived
   before_save :save_searchable_fields
+  before_save :calculate_has_case
   # TODO: Reconsider whether this is necessary.
   # We will only be creating an incident from a case using a special business logic that
   # will certainly trigger a reindex on the case
@@ -141,6 +142,10 @@ class Incident < ApplicationRecord
     self.case.add_alert(alert_for: FIELD_CHANGE, date: Date.today, type: form_name, form_sidebar_id: form_name)
 
     self.case.save!
+  end
+
+  def calculate_has_case
+    self.has_case = incident_case_id.present?
   end
 
   def add_case_history
