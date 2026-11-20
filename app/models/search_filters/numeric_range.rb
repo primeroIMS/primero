@@ -11,6 +11,7 @@ class SearchFilters::NumericRange < SearchFilters::SearchFilter
   end
 
   def json_path_predicate
+    return ActiveRecord::Base.sanitize_sql_for_conditions(['@ <= %s', to]) if from.blank?
     return ActiveRecord::Base.sanitize_sql_for_conditions(['@ >= %s && @ <= %s', from, to]) if to.present?
 
     ActiveRecord::Base.sanitize_sql_for_conditions(['@ >= %s', from])
@@ -19,9 +20,11 @@ class SearchFilters::NumericRange < SearchFilters::SearchFilter
   def searchable_query(record_class)
     return searchable_array_query if array_field?(record_class)
 
-    ActiveRecord::Base.sanitize_sql_for_conditions(
-      ["#{safe_search_column} IS NOT NULL AND #{safe_search_column} >= ? AND #{safe_search_column} <= ?", from, to]
-    )
+    conditions = ["#{safe_search_column} IS NOT NULL"]
+    conditions << ActiveRecord::Base.sanitize_sql_for_conditions(["#{safe_search_column} >= ?", from]) if from.present?
+    conditions << ActiveRecord::Base.sanitize_sql_for_conditions(["#{safe_search_column} <= ?", to]) if to.present?
+
+    conditions.join(' AND ')
   end
 
   # We are not using this at the moment, but it could be useful when doing aggregates for age groupings

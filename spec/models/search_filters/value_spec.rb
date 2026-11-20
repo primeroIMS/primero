@@ -3,6 +3,26 @@
 require 'rails_helper'
 
 describe SearchFilters::Value do
+  describe 'to_s' do
+    it 'generates a query param for equality' do
+      filter = SearchFilters::Value.new(field_name: 'age', value: 18)
+
+      expect(filter.to_s).to eq('age=18')
+    end
+
+    it 'generates an upper-bounded range for a less-than constraint' do
+      filter = SearchFilters::Value.new(field_name: 'age', value: 18, operator: '<')
+
+      expect(filter.to_s).to eq('age=..18')
+    end
+
+    it 'generates a lower-bounded range for a greater-than constraint' do
+      filter = SearchFilters::Value.new(field_name: 'age', value: 19, operator: '>')
+
+      expect(filter.to_s).to eq('age=18..')
+    end
+  end
+
   describe 'filter', search: true do
     let!(:correct_match) { Child.create!(data: { name: 'Correct Match', sex: 'female', age: 12, record_state: true }) }
     let!(:incorrect_match) { Child.create!(data: { name: 'Incorrect Match', sex: 'male', age: 8, record_state: false }) }
