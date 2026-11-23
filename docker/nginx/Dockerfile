@@ -1,7 +1,7 @@
 # ------------------------------------------------------------------ BUILD STAGE
 
 ARG BUILD_REGISTRY
-ARG version=1.31.7
+ARG version=1.31.9
 ARG ALPINE_VERSION=3.24
 
 FROM ${BUILD_REGISTRY}nginx:${version}-alpine${ALPINE_VERSION} AS builder

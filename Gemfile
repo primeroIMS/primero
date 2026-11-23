@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
-ruby '3.4.11'
+ruby '3.4.13'
 
 gem 'activerecord-nulldb-adapter' # Running Rake tasks at build time before DB is set up. TODO: Still needed?
 gem 'activerecord-session_store', '~> 2.0'
