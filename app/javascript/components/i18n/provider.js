@@ -9,7 +9,6 @@ import localize from "../../libs/date-picker-localization";
 import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { useChangeTheme } from "../../theme-provider";
 import { DATE_FORMAT } from "../../config";
-import { normalizeTimezone } from "../../libs";
 
 import { setLocale } from "./action-creators";
 import Context from "./context";
@@ -55,7 +54,7 @@ function I18nProvider({ children }) {
     const date = isDate(value) ? value : parseISO(value);
 
     try {
-      return format(normalizeTimezone(date), dateFormat, { locale: localize(window.I18n) });
+      return format(date, dateFormat, { locale: localize(window.I18n) });
     } catch {
       return null;
     }
