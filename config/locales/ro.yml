@@ -379,7 +379,6 @@ ro:
     photos: Fotografie
     quick_view:
       tracing_message: 'Notă: Există o potrivire în sistem - un solicitant care caută acest copil. Contactați utilizatorul asociat acestei înregistrări pentru pașii următori, dacă copilul dorește.'
-    referral_done: Selectând „Finalizat” ai încheiat partea de referire asociată acestui caz. După ce selectezi opțiunea „Finalizat” nu vei mai avea acces la această înregistrare.
     referral_done_success: Referire făcută
     referral_accepted_header: Acceptare referire
     referral_accepted: Esti sigur? Acum vei fi responsabil pentru finalizarea activităților asociate cu această referire.
@@ -530,6 +529,12 @@ ro:
     all_cases: Toate înregistrările
     all_services_implemented: Toate serviciile implementate
     and: 'și'
+    action_needed:
+      awaiting_acceptance: În așteptarea aprobării
+      header: Acțiune necesară
+      referrals: Referiri
+      transfers: Transferuri
+      cases: Înregistrări
     approval_action_plan_approved: Aprobat
     approval_action_plan_pending: În așteptare
     approval_action_plan_pending_group: Plan intervenții
@@ -624,6 +629,7 @@ ro:
     name: Nume
     name_or_survivor_code: Nume sau cod supraviețuitor
     near_deadline: Aproape de deadline
+    identified: Identificate
     new: Nou și Actualizat
     new_child_assigned_to_you: Noi Înregistrări asignate către Tine
     new_incident: Incidente noi
@@ -678,8 +684,24 @@ ro:
     services: Servicii
     services_implemented: Servicii implementate
     shared_from_my_team_pending_transfers: Transferuri în așteptare
+    shared_from_my_team_pending_referrals: Referiri în așteptare
+    shared_from_my_team_accepted_referrals: Referiri acceptate
+    shared_from_my_team_rejected_referrals: Referiri respinse
+    shared_from_my_team_done_referrals: Referiri finalizate
     shared_from_my_team_rejected_transfers: Transferuri respinse
+    shared_with_me_pending_referrals: În așteptare
+    shared_with_me_accepted_referrals: Acceptat
+    shared_with_me_transfers_awaiting_acceptance: În așteptarea aprobării
+    shared_with_my_team_pending_transfers_overview: În așteptarea aprobării
     shared_with_my_team_pending_transfers: Transferuri în așteptare
+    shared_with_my_team_pending_referrals: Referiri în așteptare
+    shared_with_my_team_accepted_referrals: Referiri acceptate
+    shared_with_others_pending_transfers: În așteptare
+    shared_with_others_referrals_pending: În așteptare
+    shared_with_others_referrals_accepted: Acceptat
+    shared_with_others_referrals_rejected: Respins
+    shared_with_others_referrals_done: Finalizat
+    shared_with_others_rejected_transfers: Respins
     status_of_cases: Status Înregistrări
     system_user: Sistem
     total: Total
@@ -1605,6 +1627,9 @@ ro:
       show: Arată
       show_alerts: Arată alerte
       transfer: Transfer
+      transfer_status:
+        Accepted: Transfer acceptat
+        Rejected: Transferuri respinse
       unflag: Demarcaj
       update: Actualizat
       user_password_reset_request: Solicitare resetare parola utilizatorului
@@ -1743,6 +1768,11 @@ ro:
       date: Data
       verification_status: Status verificare
       violation_type: Tip Încălcare
+    referral_transfer_status_options:
+      in_progress: În așteptare
+      accepted: Acceptat
+      rejected: Respins
+      done: Finalizat
     date_range:
       month: Lună
       quarter: Trimestru
@@ -1859,6 +1889,13 @@ ro:
         referrals: Referiri
       sub_reports:
         survivors_disability_type: Cu Dizabilități
+    referrals_transfers_report:
+      reports:
+        total_referrals: Referiri
+        total_transfers: Transferuri
+      sub_reports:
+        total_transfers_by_user_groups: Total transferuri
+        total_referrals_by_user_groups: Total Referiri
     success_message: Fișier export generat cu succes
   messages:
     alert_items: Ai o notificare %{items} la notițe.
@@ -2249,9 +2286,6 @@ ro:
           referral_from_service:
             explanation: Permite utilizatorului să vadă butonul „Referire” din subformularul Servicii. Când utilizatorul dă clic pe acest buton, modalul de referiri va apărea cu câmpurile Tip de serviciu, Organizație/ instituție, Furnizor servicii și Locație dezactivate, dar completate automat cu informații pentru acele câmpuri din subformularul Servicii pentru care utilizatorul a dat click pe butonul Referire.
             label: Referire Caz din Subformular Servicii
-          remove_assigned_users:
-            explanation: Permite utilizatorului să elimine alți utilizatori din câmpul „Alți utilizatori asignați”. Un utilizator este listat aici dacă a primit o referire pentru caz sau a primit un transfer pentru caz, dar încă nu le-a acceptat sau respins. Când elimini un utilizator din câmpul „Alți utilizatori asignați”, îi elimini accesul la caz. Deci, utilizatorii cu această permisiune pot elimina accesul la caz de la utilizatorii care au primit anterior referiri sau transferuri încă în așteptare pentru caz. Reține că această permisiune funcționează numai dacă utilizatorul actual are și permisiunea de a edita cazul.
-            label: Eliminați alți utilizatori asignați (recuperând accesul la caz de la utilizatorii referiți)
           reopen:
             explanation: Permite unui utilizator să deschidă un caz care este momentan închis.
             label: Redeschide
@@ -2322,6 +2356,14 @@ ro:
         label: Caz
       dashboard:
         actions:
+          action_needed_new_updated:
+            label: 'Acțiune necesară: Noi sau actualizate'
+          action_needed_identified:
+            label: 'Acțiune necesară: Înregistrări identificate'
+          action_needed_new_referrals:
+            label: 'Acțiune necesară: Referiri în așteptare'
+          action_needed_transfer_awaiting_acceptance:
+            label: 'Acțiune necesară: Transferuri în așteptarea acceptării'
           approvals_action_plan:
             explanation: Afișează numărul de cazuri ale utilizatorului curent cu solicitări de aprobare pentru Plan intervenții care sunt În așteptare, Aprobate sau Respinse.
             label: Aprobările %{approval_label} responsabilului de caz
@@ -3146,7 +3188,6 @@ ro:
       in_progress: În așteptare
       inprogress: În așteptare
       rejected: Respins
-      revoked: Revocat
     type:
       assign: Asignează
       reassign: Asignează

@@ -391,7 +391,6 @@ tet:
     photos: Fotografia
     quick_view:
       tracing_message: 'Nota: Iha korespondensia ida iha sistema ho inkiridor buka labarik ida ne''e. Kontaktu servisu nain sosial husi rejistu ida ne''e ba asaun tuir mai bainhira labarik ne''e hakarak.'
-    referral_done: Hanehan 'Remata' signifika katak ita kompleta ona servisu referál ne'ebé asosiadu ho kazu nee. Bainhira ita klike 'Remata' ita sei la iha ona asesu ba rejistu nee.
     referral_done_success: Referál Remata.
     referral_accepted_header: Simu Referál
     referral_accepted: Ita iha serteza? Agora ita sei sai nu'udar responsavel atu kompleta serbisu ne'ebé asosiadu ho Referál ne'e.
@@ -2373,9 +2372,6 @@ tet:
           referral_from_service:
             explanation: Permiti utilizador ne'e atu haree butaun "Refere" iha subformulariu Servisu sira. Wainhira utilizador ne'e hanehan iha butaun ne'e, modal referal sei mosu ho Tipu Servisu, Ajensia, Fornesedor Servisu, no Fatin dezativadu kampu sira, maibe automatikamente prense informasaun ba kampu sira ne'e iha subformulariu Servisu sira iha ne'ebe utilizador ne'e hanehan ona butaun Refere.
             label: Refere Kazu husi subformuláriu Servisu
-          remove_assigned_users:
-            explanation: Permiti utilizador ne'e atu hasai utilizador sira seluk husi kampu "Utilizador Atribuidu Sira seluk". Utilizador ida alista iha ne'e se sira simu ona referal ida ba kazu ne'e ka simu ona transferensia ba kazu ne'e, maibe seidauk aseita ka rejeita. Wainhira ita hasai utilizador ida husi kampu "Utilizador Atribuidu Sira seluk", ita hasai sira nia asesu ba kazu ne'e. Nune'e, utilizador sira ne'ebe ho permisaun ne'e bele hasai asesu kazu husi utilizador sira ne'ebe simu ona referal anteriormente ka transferensia ne'ebe pendente hela ba kazu ne'e. Nota katak permisaun ida ne'e bele servisu ho di'ak se utilizador atual ne'e mos iha abilidade atu hadi'a kazu ne'e.
-            label: Hasai utilizador atribuidu sira seluk (foti filafali asesu kazu husi refere ba utilizador sira)
           reopen:
             explanation: Permiti utilizador ida atu loke kazu ida ne'ebe mak atualmente taka hela.
             label: Loke filafali
@@ -3353,7 +3349,6 @@ tet:
       in_progress: Pendente hela
       inprogress: Pendente hela
       rejected: Rejeita ona
-      revoked: Revoga ona
     type:
       assign: Atribui
       reassign: Atribui

@@ -435,7 +435,6 @@ fr:
       tracing_message: 'Remarque: Il y a une correspondance dans le système avec un demandeur à la recherche de cet enfant. Contactez le travailleur social de ce dossier pour d''autres actions si l''enfant le souhaite.'
     reassign:
       multiple_successfully: Primero est en train de réattribuer %{select_records} dossier(s). La mise à jour de tous ces dossiers peut prendre plusieurs minutes.
-    referral_done: En cliquant sur "Terminé", vous indiquez que vous avez terminé les tâches liées à la référence sur le cas. Une fois que vous aurez cliqué sur "Terminé", vous n'aurez plus accès au cas.
     referral_create_case_header: Créer un cas %{module_id}
     referral_create_case: Êtes-vous sûr ? Vous serez responsable de la gestion du cas que vous créez.
     referral_done_success: Référence faite
@@ -770,6 +769,7 @@ fr:
     name: Nom
     name_or_survivor_code: Nom ou Code du survivant
     near_deadline: Près de la date limite
+    identified: Identifiés
     new: Nouveau et mis à jour
     new_child_assigned_to_you: Nouveaux cas qui vous ont été attribués
     new_incident: Nouveau incident
@@ -824,14 +824,26 @@ fr:
     services: Services ou actions
     services_implemented: 'Service mis en oeuvre '
     shared_from_my_team_pending_transfers: Transfert en attente
+    shared_from_my_team_pending_referrals: Références en attente
+    shared_from_my_team_accepted_referrals: Références acceptées
+    shared_from_my_team_rejected_referrals: Références rejetées
+    shared_from_my_team_done_referrals: Références terminées
     shared_from_my_team_rejected_transfers: Transferts rejetés
     shared_with_me_new_referrals: Nouveau
+    shared_with_me_pending_referrals: En attente
+    shared_with_me_accepted_referrals: 'Accepté '
     shared_with_me_total_referrals: Total
     shared_with_me_transfers_awaiting_acceptance: En attente d'acceptation
     shared_with_my_team_pending_transfers_overview: En attente d'acceptation
     shared_with_my_team_pending_transfers: Transfert en attente
+    shared_with_my_team_pending_referrals: Références en attente
+    shared_with_my_team_accepted_referrals: Références acceptées
     shared_with_others_pending_transfers: En attente
     shared_with_others_referrals: Total
+    shared_with_others_referrals_pending: En attente
+    shared_with_others_referrals_accepted: 'Accepté '
+    shared_with_others_referrals_rejected: Rejeté
+    shared_with_others_referrals_done: Terminé
     shared_with_others_rejected_transfers: Rejeté
     status_of_cases: Statut des cas
     system_user: Système
@@ -2961,9 +2973,6 @@ fr:
           referral_from_service:
             explanation: Permet à l'utilisateur de voir le bouton "Référer" sur le sous-formulaire Services. Lorsque l'utilisateur clique sur ce bouton, le mode de référence apparaît avec les champs Type de service, Agence, Prestataire de services et Lieu désactivés, mais automatiquement remplis avec les informations relatives aux champs du sous-formulaire Services sur lesquels l'utilisateur a cliqué sur le bouton "Référer".
             label: Référé un cas à partir du sous formulaire de service
-          remove_assigned_users:
-            explanation: Permet à l'utilisateur de supprimer les autres utilisateurs du champ "Autres utilisateurs assignés". Un utilisateur est répertorié ici s'il a reçu une référence pour le cas ou s'il a reçu un transfert pour le cas, mais ne l'a pas encore accepté ou rejeté. Lorsque vous supprimez un utilisateur du champ "Autres utilisateurs", vous supprimez son accès au cas. Ainsi, les utilisateurs ayant cette autorisation peuvent supprimer l'accès au cas des utilisateurs qui ont déjà reçu des références ou des transferts en attente pour le cas. Notez que cette autorisation ne fonctionne que si l'utilisateur actuel a également la possibilité de modifier le cas.
-            label: Supprimer les autres utilisateurs assignés (reprendre l'accès aux dossiers des utilisateurs ayant reçu une référence)
           reopen:
             explanation: Permet à un utilisateur d'ouvrir un cas qui est actuellement clos.
             label: Réouvrir
@@ -3055,6 +3064,10 @@ fr:
           action_needed_new_updated:
             explanation: Affiche 'Nouveau et mis à jour' dans la partie 'Action requise' du tableau de bord . Cela inclut les cas qui ont été récemment assignés au gestionnaire actuel ou qu'un autre gestionnaire a mis à jour depuis la dernière fois que le gestionnaire actuel l'a fait.
             label: 'Action requise : Nouvelle action ou mise à jour'
+          action_needed_identified:
+            label: 'Action requise : Cas identifiés'
+          action_needed_new_referrals:
+            label: 'Action requise : Références en attente'
           action_needed_transfer_awaiting_acceptance:
             explanation: Affiche 'Transferts en attente d'acceptation' dans la partie 'Action requise' du tableau de bord. Cela inclut tous les cas avec un transfert vers gestionnaire actuel que celui-ci n'a pas encore accepté.
             label: 'Action requise : transferts en attente d''acceptation'
@@ -4114,7 +4127,6 @@ fr:
       in_progress: 'En attente '
       inprogress: 'En attente '
       rejected: 'Rejeté '
-      revoked: Révoqué
     transferred_by: Transféré par
     type:
       assign: 'Assigner '

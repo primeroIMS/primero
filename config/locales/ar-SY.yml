@@ -397,7 +397,6 @@ ar-SY:
       tracing_message: 'ملاحظة: توجد نتائج مطابقة في النظام لما يبحث عنه المستعلم من أجل هذا الطفل. اتصل باخصائي الحالة المعني بهذا السجل لاتخاذ خطوات إضافية إذا رغب الطفل.'
     reassign:
       multiple_successfully: Primero يقوم بإعادة تحديث % {select _ records} الحالة (s). قد يستغرق تحديث كل هذه الحالات عدة دقائق.
-    referral_done: يشير النقر على "اكمل" إلى استكمال الإحالة المرتبطة بهذه الحالة. ما إن تنقر على "اكمل" لن تتمكّن من الاطلاع مجدّدًا على هذا السجل.
     referral_done_success: تمّت الإحالة
     referral_accepted_header: قبول الإحالة
     referral_accepted: هل أنت متأكّد؟ ستكون الآن مسؤولاً عن إكمال العمل المرتبط بهذه الإحالة.
@@ -549,6 +548,12 @@ ar-SY:
     all_cases: جميع الحالات
     all_services_implemented: تم تقديم جميع الخدمات
     and: 'و'
+    action_needed:
+      awaiting_acceptance: بانتظار القبول
+      header: بحاجة إلى إجراء
+      referrals: الإحالات
+      transfers: عمليات النقل
+      cases: حالات
     approval_action_plan_approved: تم الموافقة عليه
     approval_action_plan_pending: معلّقة
     approval_action_plan_pending_group: خطة العمل
@@ -755,6 +760,7 @@ ar-SY:
     name: الاسم
     name_or_survivor_code: اسم الناجي أو كوده
     near_deadline: 'قاربت على تاريخ الانتهاء '
+    identified: المحددة
     new: جديد ومحدث
     new_child_assigned_to_you: حالات جديدة تم تعيينها لك
     new_incident: حالات جديدة
@@ -809,8 +815,26 @@ ar-SY:
     services: الخدمات
     services_implemented: تم تقديم الخدمة
     shared_from_my_team_pending_transfers: عمليات النقل المُعلّقة
+    shared_from_my_team_pending_referrals: االإحالات المعلّقة
+    shared_from_my_team_accepted_referrals: الإحالات المقبولة
+    shared_from_my_team_rejected_referrals: الإحالات المرفوضة
+    shared_from_my_team_done_referrals: الإحالات المنجزة
     shared_from_my_team_rejected_transfers: عمليات النقل المرفوضة
+    shared_with_me_pending_referrals: معلّقة
+    shared_with_me_accepted_referrals: تمّت الموافقة
+    shared_with_me_total_referrals: الإجمالي
+    shared_with_me_transfers_awaiting_acceptance: بانتظار القبول
+    shared_with_my_team_pending_transfers_overview: بانتظار القبول
     shared_with_my_team_pending_transfers: عمليات النقل المُعلّقة
+    shared_with_my_team_pending_referrals: الإحالات المعلّقة
+    shared_with_my_team_accepted_referrals: الإحالات المقبولة
+    shared_with_others_pending_transfers: معلّقة
+    shared_with_others_referrals: الإجمالي
+    shared_with_others_referrals_pending: معلّقة
+    shared_with_others_referrals_accepted: تمّت الموافقة
+    shared_with_others_referrals_rejected: رُفض
+    shared_with_others_referrals_done: استكمال
+    shared_with_others_rejected_transfers: رُفض
     status_of_cases: وضع الحالات
     system_user: النظام
     total: المجموع
@@ -1817,6 +1841,9 @@ ar-SY:
       show: عرض
       show_alerts: عرض التنبيهات
       transfer: تحويل
+      transfer_status:
+        Accepted: التحويل مقبول
+        Rejected: التحويل مرفوض
       unflag: إزالة العلامة
       update: تحديث
       user_password_reset_request: طلب إعادة تعيين كلمة مرور المستخدم
@@ -2593,9 +2620,6 @@ ar-SY:
           referral_from_service:
             explanation: يسمح للمستخدم برؤية زر "الإحالة" في نموذج الخدمات الفرعي. عندما ينقر المستخدم على هذا الزر، سيظهر قسم الإحالة مع تعطيل حقول نوع الخدمة والهيئة ومقدّم الخدمة والموقع، ولكن يتمّ ملؤها تلقائيًا بالمعلومات الخاصة بهذه الحقول في نموذج الخدمات الفرعي الذي نقر المستخدم على زر الإحالة المرتبط به.
             label: إحالة حالة من نموذج الخدمة الفرعي
-          remove_assigned_users:
-            explanation: يسمح للمستخدم بإزالة المستخدمين الآخرين من حقل "المستخدمون الآخرون المعيّنون". يتمّ إدراج المستخدم هنا إذا تلقى إحالة أو تحويل للحالة ولكنّه لم يقبلها أو يرفضها بعد. عندما تقوم بإزالة مستخدم من حقل "المستخدمون الآخرون المعيّنون"، فإنك تزيل إمكانية وصولهم إلى الحالة. وبالتالي، يمكن للمستخدمين الذين لديهم هذا الإذن إزالة إمكانية الوصول إلى الحالة من المستخدمين الذين سبق لهم وتلقوا إحالات أو عمليات نحويل معلّقة للحالة. لاحظ أنّ هذا الإذن لا يعمل إلا إذا كان المستخدم الحالي لديه أيضًا القدرة على تعديل الحالة.
-            label: إزالة المستخدمين المعيّنين الآخرين (استعادة الوصول إلى الحالة من المستخدمين المُحال إليهم)
           reopen:
             explanation: يسمح للمستخدم بفتح حالة مغلقة حاليًّا
             label: إعادة فتح
@@ -2675,6 +2699,14 @@ ar-SY:
         label: حالة
       dashboard:
         actions:
+          action_needed_new_updated:
+            label: 'بحاجة إلى إجراء: جديدة أو محدّثة'
+          action_needed_identified:
+            label: 'بحاجة إلى إجراء: الحالات المحددة'
+          action_needed_new_referrals:
+            label: 'بحاجة إلى إجراء: الإحالات المعلّقة'
+          action_needed_transfer_awaiting_acceptance:
+            label: 'بحاجة إلى إجراء: عمليات النقل بانتظار القبول'
           approvals_action_plan:
             explanation: يعرض عدد حالات المستخدم الحالي مع طلبات الموافقة على خطة العمل المعلّقة أو الموافق عليها أو المرفوضة.
             label: موافقات اخصائي الحالة %{approval_label}
@@ -3664,7 +3696,6 @@ ar-SY:
       in_progress: معلّقة
       inprogress: معلّقة
       rejected: رُفض
-      revoked: تم الغاء او ملغي
     transferred_by: منقول بواسطة
     type:
       assign: تعيين

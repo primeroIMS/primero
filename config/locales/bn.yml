@@ -359,7 +359,6 @@ bn:
     photos: ছবি
     quick_view:
       tracing_message: 'দ্রষ্টব্য: এই শিশুকে খুঁজছে এমন একজন অনুসন্ধানকারীর সাথে সিস্টেমে একটি মিল আছে।শিশুটি চািইলে অধিক কার্যক্রমের জন্য এই রেকর্ডের সমাজকর্মীর সাথে যোগাযোগ করুন।'
-    referral_done: '''সম্পন্ন'' ক্লিক করলে বোঝা যায় যে আপনি কেসের এই  সাথে যুক্ত রেফারেলের কাজটি সম্পন্ন করেছেন। একবার আপনি ''সম্পন্ন'' ক্লিক করলে আপনার আর এই রেকর্ডে প্রবেশ করতে পারবেন না'
     referral_done_success: রেফারেল সম্পন্ন করা হয়েছে।
     referral_accepted_header: রেফারেল গ্রহণ করুন
     referral_accepted: আপনি কি নিশ্চিত? আপনি এখন এই রেফারেলের সাথে সম্পর্কিত কাজ শেষ করার জন্য দায়বদ্ধ থাকবেন।
@@ -509,6 +508,12 @@ bn:
     all_cases: সকল কেসসমূহ
     all_services_implemented: 'সকল সেবা বাস্তবায়ন করা হয়েছে '
     and: 'এবং'
+    action_needed:
+      awaiting_acceptance: গ্রহণযোগ্যতার অপেক্ষায়
+      header: প্রয়োজনীয় পদক্ষেপ
+      referrals: রেফারেল
+      transfers: হস্তান্তর
+      cases: কেসগুলো
     approval_action_plan_approved: স্বীকৃত
     approval_action_plan_pending: মুলতুবি
     approval_action_plan_pending_group: কর্ম পরিকল্পনা
@@ -648,6 +653,7 @@ bn:
     name: 'নাম '
     name_or_survivor_code: নাম অথবা সারভিভোর কোড
     near_deadline: 'সময়সীমা কাছাকাছি '
+    identified: শনাক্তকৃত
     new: নতুন এবং আপডেট করা হয়েছে
     new_child_assigned_to_you: 'আপনার প্রতি অর্পিত নতুন কেস '
     new_incident: 'নতুন ঘটনা '
@@ -702,8 +708,26 @@ bn:
     services: সেবাসমূহ
     services_implemented: সেবা বাস্তবায়িত
     shared_from_my_team_pending_transfers: মুলতুবি স্থানান্তরসমূহ
+    shared_from_my_team_pending_referrals: অপেক্ষমাণ রেফারেল
+    shared_from_my_team_accepted_referrals: গৃহীত রেফারেল
+    shared_from_my_team_rejected_referrals: প্রত্যাখ্যাত রেফারেল
+    shared_from_my_team_done_referrals: সম্পন্ন রেফারেল
     shared_from_my_team_rejected_transfers: প্রত্যাখ্যাত স্থানান্তরসমূহ
+    shared_with_me_pending_referrals: মুলতুবি
+    shared_with_me_accepted_referrals: গৃহীত
+    shared_with_me_total_referrals: মোট
+    shared_with_me_transfers_awaiting_acceptance: গ্রহণযোগ্যতার অপেক্ষায়
+    shared_with_my_team_pending_transfers_overview: গ্রহণযোগ্যতার অপেক্ষায়
     shared_with_my_team_pending_transfers: মুলতুবি স্থানান্তরসমূহ
+    shared_with_my_team_pending_referrals: অপেক্ষমাণ রেফারেল
+    shared_with_my_team_accepted_referrals: গৃহীত রেফারেল
+    shared_with_others_pending_transfers: মুলতুবি
+    shared_with_others_referrals: মোট
+    shared_with_others_referrals_pending: মুলতুবি
+    shared_with_others_referrals_accepted: গৃহীত
+    shared_with_others_referrals_rejected: প্রত্যাখ্যাত
+    shared_with_others_referrals_done: সম্পন্ন হয়েছে
+    shared_with_others_rejected_transfers: প্রত্যাখ্যাত
     status_of_cases: কেসের অবস্থা
     system_user: পদ্ধতি
     total: 'মোট '
@@ -1504,6 +1528,9 @@ bn:
       show: দেখানো
       show_alerts: সতর্কতাগুলি দেখান
       transfer: স্থানান্তর
+      transfer_status:
+        Accepted: গৃহীত স্থানান্তর
+        Rejected: প্রত্যাখ্যাত স্থানান্তর
       unflag: 'পতাকামুক্ত '
       update: হালনাগাদ
       user_password_reset_request: ব্যবহারকারীর পাসওয়ার্ড পুনঃবিন্যাসের অনুরোধ
@@ -1638,6 +1665,11 @@ bn:
     filter_by:
       date: তারিখ
       verification_status: যাচাইকরণের স্থিতি
+    referral_transfer_status_options:
+      in_progress: মুলতুবি
+      accepted: গৃহীত
+      rejected: প্রত্যাখ্যাত
+      done: সম্পন্ন হয়েছে
     date_range:
       month: মাস
       quarter: ত্রৈমাসিক
@@ -1652,6 +1684,9 @@ bn:
       custom: পছন্দসই
     no_data: এই অন্তর্দৃষ্টির জন্য কোনও তথ্য বিদ্যমান নেই
     no_data_table: এই অন্তর্দৃষ্টির জন্য কোনও সারণি তথ্য বিদ্যমান নেই
+    ghn_report:
+      sub_reports:
+        total: মোট
     violations:
       name: লঙ্ঘন
       filter_options:
@@ -1683,6 +1718,13 @@ bn:
         incident_date: ঘটনার তারিখ
       reports:
         perpetrators: অপরাধীরা
+    referrals_transfers_report:
+      reports:
+        total_referrals: রেফারেল
+        total_transfers: হস্তান্তর
+      sub_reports:
+        total_transfers_by_user_groups: মোট স্থানান্তর
+        total_referrals_by_user_groups: মোট রেফারেল
   messages:
     alert_items: আপনার আছে %{items}জিনিসপত্রের চিহ্ন।
     alerts_for:
@@ -2028,8 +2070,6 @@ bn:
             label: স্থানান্তর গ্রহণ করুন
           referral:
             label: রেফারেল
-          remove_assigned_users:
-            label: অন্যান্য ব্যবহারকারীদের সরান (রেফার করা ব্যবহারকারীদের কাছ থেকে কেস অ্যাক্সেস ফিরিয়ে নেওয়া)
           reopen:
             explanation: একজন ব্যবহারকারীকে একটি বন্ধ কেস পুনরায় খোলার অনুমতি দেয়।
             label: পুনরায় খোলা
@@ -2092,6 +2132,14 @@ bn:
         label: কেস
       dashboard:
         actions:
+          action_needed_new_updated:
+            label: 'প্রয়োজনীয় পদক্ষেপ: নতুন বা হালনাগাদকৃত'
+          action_needed_identified:
+            label: 'প্রয়োজনীয় পদক্ষেপ: শনাক্তকৃত কেস'
+          action_needed_new_referrals:
+            label: 'প্রয়োজনীয় পদক্ষেপ: অপেক্ষমাণ রেফারেল'
+          action_needed_transfer_awaiting_acceptance:
+            label: 'প্রয়োজনীয় পদক্ষেপ: গ্রহণের অপেক্ষায় থাকা স্থানান্তর'
           approvals_action_plan:
             explanation: কর্ম পরিকল্পনা অনুমোদনের অনুরোধগুলির সাথে বর্তমান ব্যবহারকারীর কেসগুলির সংখ্যা দেখায় যা মুলতুবি, অনুমোদিত বা প্রত্যাখ্যাত।
             label: কেস ওয়ার্কার এর %{approval_label} অনুমোদন
@@ -2514,7 +2562,6 @@ bn:
       in_progress: মুলতুবি
       inprogress: মুলতুবি
       rejected: প্রত্যাখ্যাত
-      revoked: বাতিল
     type:
       assign: বরাদ্দ করুন
       reassign: বরাদ্দ করুন

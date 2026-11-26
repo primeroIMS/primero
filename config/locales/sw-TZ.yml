@@ -106,6 +106,7 @@ sw-TZ:
     record_owner: Mmiliki wa kumbukumbu
     timestamp: Muda
     user_name: 'Iliyotekelezwa na '
+    type: Aina ya kumbukumbu
   bulk_export:
     file_name: Faili
     record_type: Aina
@@ -377,7 +378,6 @@ sw-TZ:
     photos: Picha
     quick_view:
       tracing_message: 'Kumbuka: kwenye mfumo kuna muulizaji anayemtafuta mtoto huyu. Wasiliana na mhudumu wa jamii anayehusika na taarifa hizi kwa hatua zaidi ikiwa mtoto ataridhia'
-    referral_done: 'Kubonyeza ''imekamilika'' inamaanisha umekamilisha kazi ya rufaa inayohusu shauri hili na hutoweza tena kuifanyia kazi taarifa hii '
     referral_done_success: Rufaa imekamilika
     referral_accepted_header: Kubali rufaa
     referral_accepted: Je, una hakika? Kuanzia sasa hivi wewe ndiye utakaye wajibika kukamilisha kazi inayohusu rufaa hii
@@ -2389,9 +2389,6 @@ sw-TZ:
           referral_from_service:
             explanation: Inamruhusu mtumiaji kuona kitufe cha "Rufaa" katika fomu ndogo ya Huduma. Mtumiaji atakapobonyeza kitufe hicho, mfumo wa rufaa utaonekana ukiwa na maandishi yafuatayo, Aina ya Huduma, Taasisi, Mtoa Huduma, na sehemu za Eneo zimezimwa, lakini taarifa zinajijaza wenyewe katika fomu ndogo ya Huduma ambayo mtumiaji alibonyeza kitufe cha Rufaa.
             label: Angalia shauri kutoka fomu ndogo ya Huduma
-          remove_assigned_users:
-            explanation: Inamruhusu mtumiaji kuwaondoa watumiaji wengine kutoka kwenye sehemu ya "Watumiaji Wengine Waliopewa Ruhusa". Mtumiaji huorodheshwa hapa ikiwa atakuwa amepokea rufaa ya shauri au amepokea uhamisho wa mashauri, lakini bado hajaikubaliwa au kuikataa. Utakapomtoa mtumiaji kutoka kwenye sehemu ya "Watumiaji Wengine Waliopewa Ruhusa", unawaondolea uwezo wao wa kuifikia shauri. Kwa hivyo watumiaji waliopewa ruhusa hii wanaweza kuondoa uwezo wa kufikia shauri kwa watumiaji wengine ambao waliwahi kupokea rufaa au wanaosubiri kupokea hamisho la shauri, Zingatia kwamba, ruhusa hii inafanya kazi pale tu ambapo mtumiaji wa sasa anao uwezo wa kurekebisha shauri.
-            label: Ondoa watumiaji wengine waliopewa ruhusa (Rudisha mashauri kutoka kwa aliyepewa rufaa kwenda kwa mtumiaji)
           reopen:
             explanation: Inamruhusu mtumiaji kufungua shauri ambayo kwa sasa imefungwa
             label: Fungua tena
@@ -3355,7 +3352,6 @@ sw-TZ:
       in_progress: Inasubiri
       inprogress: Inasubiri
       rejected: Imekataliwa
-      revoked: Kubatilishwa
     type:
       assign: Kabidhi
       reassign: Kabidhi

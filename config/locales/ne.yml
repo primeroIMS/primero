@@ -377,7 +377,6 @@ ne:
     photos: तस्बिर
     quick_view:
       tracing_message: 'नोट: प्रणालीमा यस बच्चाको बारे पहिलैनै खोजी भएको छ । यदि बच्चाले चाहान्छ भने थप कारबाहीका लागि यो अभिलेखको सामाजिक कार्यकर्तालाई सम्पर्क गर्नुहोस् ।'
-    referral_done: '"सम्पन्न" क्लिक गर्दा तपाईले यस घटनासँग सम्बन्धित रिफरल कार्य पूरा गर्नुभएको सङ्केत गर्दछ । "सम्पन्न" क्लिक गरेपछि अब तपाइले यो अभिलेखमा पहुँच पाउनु हुने छैन।'
     referral_done_success: रिफरल गरियो
     referral_accepted_header: रिफरल स्वीकार गर्नुहोस्
     referral_accepted: यस रेफरलसँग सम्बन्धित कार्य पूरा गर्नका लागि अब तपाई जिम्मेवार हुनुहुनेछ । के तपाई यो कार्यको लागि निश्चित हुनुहुन्छ ?
@@ -528,6 +527,12 @@ ne:
     all_cases: सबै घटनाहरू
     all_services_implemented: सबै सेवाहरू कार्यान्वयन गरियो
     and: 'र'
+    action_needed:
+      awaiting_acceptance: स्वीकृति पर्खिरहेको छ
+      header: आवश्यक कार्य
+      referrals: रिफरलहरु
+      transfers: स्थानान्तरणहरू
+      cases: घटनाहरू
     approval_action_plan_approved: स्वीकृत
     approval_action_plan_pending: 'विचाराधीन '
     approval_action_plan_pending_group: कार्य योजना
@@ -670,6 +675,7 @@ ne:
     name: नाम
     name_or_survivor_code: नाम वा सर्भाइभर कोड
     near_deadline: समयसीमा नजिक
+    identified: पहिचान भएको
     new: नयाँ र अद्यावधिक
     new_child_assigned_to_you: तपाईँलाई तोकिएका नयाँ घटनाहरू
     new_incident: नयाँ घटनाहरू
@@ -724,8 +730,26 @@ ne:
     services: सेवाहरू
     services_implemented: लागु गरिएका सेवाहरू
     shared_from_my_team_pending_transfers: विचाराधीन स्थानान्तरणहरू
+    shared_from_my_team_pending_referrals: विचाराधीन रिफरलहरु
+    shared_from_my_team_accepted_referrals: स्वीकृत रेफरल
+    shared_from_my_team_rejected_referrals: अस्वीकृत रिफरलहरु
+    shared_from_my_team_done_referrals: सम्पन्न रेफरल
     shared_from_my_team_rejected_transfers: अस्वीकृत स्थानान्तरणहरू
+    shared_with_me_pending_referrals: विचाराधीन
+    shared_with_me_accepted_referrals: स्वीकार गरिएको
+    shared_with_me_total_referrals: 'जम्मा '
+    shared_with_me_transfers_awaiting_acceptance: स्वीकृति पर्खिरहेको छ
+    shared_with_my_team_pending_transfers_overview: स्वीकृति पर्खिरहेको छ
     shared_with_my_team_pending_transfers: विचाराधीन स्थानान्तरणहरू
+    shared_with_my_team_pending_referrals: विचाराधीन रिफरलहरु
+    shared_with_my_team_accepted_referrals: स्वीकृत रेफरल
+    shared_with_others_pending_transfers: विचाराधीन
+    shared_with_others_referrals: 'जम्मा '
+    shared_with_others_referrals_pending: विचाराधीन
+    shared_with_others_referrals_accepted: स्वीकार गरिएको
+    shared_with_others_referrals_rejected: अस्वीकृत
+    shared_with_others_referrals_done: सम्पन्न
+    shared_with_others_rejected_transfers: अस्वीकृत
     status_of_cases: घटनाहरूको स्थिति
     system_user: प्रणाली
     total: जम्मा
@@ -1608,17 +1632,22 @@ ne:
       _rejected: अस्वीकृत
       _requested: अनुरोध गरियो
       add_note: नोटहरू थप्‍नुहोस्
+      action_plan_rejected: "%{approval_label}अस्वीकृत"
+      assessment_rejected: "%{approval_label}अस्वीकृत"
       assign: तोक्नुहोस्
       bulk_assign: बल्कमा तोकनुहोस्
       bulk_create: बल्कमा सिर्जना गर्नुहोस् ।
       bulk_index: बल्क सूचकाङ्क
+      case_plan_requested: "%{approval_label}अस्वीकृत"
       close: बन्द गर्नुहोस्
+      closure_rejected: "%{approval_label}अस्वीकृत"
       create: सिर्जना गर्नुहोस्
       create_bulk: बल्कमा सिर्जना गर्नुहोस् ।
       delete: मेटाउनुहोस्
       destroy: नष्ट गर्नुहोस् ।
       export: एक्सपोर्ट
       flag: फ्ल्याग
+      gbv_closure_rejected: "%{approval_label}अस्वीकृत"
       import: ईमपोर्ट
       incident_details_from_case: 'केसबाट घटना विवरण '
       list: सूची
@@ -1630,6 +1659,9 @@ ne:
       show: देखाउनु
       show_alerts: अलर्ट देखाउनुहोस् ।
       transfer: स्थानान्तरण गर्नुहोस् ।
+      transfer_status:
+        Accepted: स्वीकृत स्थानान्तरण
+        Rejected: अस्वीकृत स्थानान्तरण
       unflag: अनफ्ल्याग गर्नुहोस् ।
       update: अद्यावधिक गर्नुहोस् ।
       user_password_reset_request: प्रयोगकर्ता पासवर्ड रिसेटको लागि अनुरोध
@@ -1701,6 +1733,7 @@ ne:
       'false': निष्क्रिय पारिएको
       'true': सक्रिय पारिदै
     refer: रिफर
+    refer_accepted: रिफर स्वीकृत गरिएको
     refer_to: रिफरल प्राप्त गर्नेको खोजी गर्नुहोस् ।
     referral: रिफर गर्दै
     relinquish_referral: रिफरल त्याग गरियो ।
@@ -1768,6 +1801,11 @@ ne:
       date: मिति
       verification_status: प्रमाणीकरण स्थिति
       violation_type: उल्लङ्घनको प्रकार
+    referral_transfer_status_options:
+      in_progress: विचाराधीन
+      accepted: स्वीकार गरिएको
+      rejected: अस्वीकृत
+      done: सम्पन्न
     date_range:
       month: महिना
       quarter: त्रैमासिक
@@ -1884,6 +1922,10 @@ ne:
         referrals: रिफरलहरु
       sub_reports:
         survivors_disability_type: अपाङ्गता भएकाहरु
+    referrals_transfers_report:
+      reports:
+        total_referrals: रिफरलहरु
+        total_transfers: स्थानान्तरणहरू
     success_message: एक्सपोर्ट फाईल सफलतापूर्वक उत्पन्न भयो
   messages:
     alert_items: तपाईंसँग नोट गर्नु पर्ने %{items} आइटमहरू छन् ।
@@ -2274,9 +2316,6 @@ ne:
           referral_from_service:
             explanation: प्रयोगकर्तालाई सेवाहरू सहायक फारममा भएको  "रेफेर " बटन हेर्न अनुमति दिन्छ।  प्रयोगकर्ताले  यो बटन क्लिक गर्दा  सेवा प्रकार, निकाय, सेवा प्रदायक र स्थान फिल्डहरु सहितको रेफरल मोडल देखा पर्नेछ र  प्रयोगकर्ताले रिफर बटन क्लिक गर्दा सेवा सहायक फारमको फिल्डमा सूचनाहरु स्वचालित रुपमा भरिएको हुन्छ ।
             label: सेवा सहायक फारामबाट केस रेफेर गर्नुहोस् ।
-          remove_assigned_users:
-            explanation: प्रयोगकर्तालाई "अन्य तोकिएका प्रयोगकर्ताहरू" फिल्डबाट अन्य प्रयोगकर्ताहरूलाई हटाउन अनुमति दिन्छ। केसको लागी  रेफरल वा स्थानान्तरण प्राप्त भएको तर उनीहरूले अझै स्वीकार वा अस्वीकार नगरेको  प्रयोगकर्ता यहाँ सूचीबद्ध  हुन्छ । तपाइँले  "अन्य तोकिएका प्रयोगकर्ताहरू" फिल्डबाट प्रयोगकर्तालाई हटाउँदा उनीहरूको पहुँच पनि हटाउनुहुनेछ । त्यसैले, अनुमति  पाएका  प्रयोगकर्ताहरूले पहिले रेफरल पाएका वा केसको स्थानान्तरण बाँकी रहेको प्रयोगकर्ताहरूको केसबाट पहुँच हटाउन सक्छन्। ध्यान राख्नुहोस् कि यो अनुमतिले तब मात्र काम गर्दछ जब यदि वर्तमान प्रयोगकर्ता सँग केस सम्पादन गर्ने क्षमता छ।
-            label: तोकिएका अन्य प्रयोगकर्तालाई हटाउनुहोस् (रिफर गरिएको प्रयोगकर्ताबाट केसको पहुँचलाई फिर्ता लाने)
           reopen:
             explanation: ' प्रयोगकर्तालाई हाल बन्द भएको केस खोल्न अनुमति दिन्छ।'
             label: पुनः खोल्नुहोस् ।
@@ -2347,6 +2386,14 @@ ne:
         label: केस
       dashboard:
         actions:
+          action_needed_new_updated:
+            label: 'आवश्यक कार्य: नयाँ वा अद्यावधिक गरिएको'
+          action_needed_identified:
+            label: 'आवश्यक कार्य: पहिचान भएका केसहरू'
+          action_needed_new_referrals:
+            label: 'आवश्यक कार्य: विचाराधीन रिफरलहरु'
+          action_needed_transfer_awaiting_acceptance:
+            label: 'आवश्यक कार्य: स्वीकृतिको प्रतीक्षामा रहेका स्थानान्तरण'
           approvals_action_plan:
             explanation: 'विचाराधीन, स्वीकृत वा अस्वीकृत कार्य योजना स्वीकृति अनुरोधहरूको संख्या चालु प्रयोगकर्तालाई देखाउँछ। '
             label: केस कामदारद्वारा स्वीकृत %{approval_label}
@@ -3171,7 +3218,6 @@ ne:
       in_progress: 'विचाराधीन '
       inprogress: 'विचाराधीन '
       rejected: अस्वीकृत
-      revoked: खारेज गरिएको
     type:
       assign: तोक्नुहोस् ।
       reassign: तोक्नुहोस् ।

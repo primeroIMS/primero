@@ -337,7 +337,6 @@ es-ES:
     photos: Fotografía
     quick_view:
       tracing_message: 'Nota: Hay una concordancia en el sistema en la que un(a) Investigador(a) busca a este niño, niña, o adolescente. Contacte a la trabajadora social de este registro para acciones futuras si el niño, niña, o adolescente así lo desea.'
-    referral_done: Hacer clic en "Realizado" significa que usted ha completado el trabajo de referencia relacionado a este caso. Una vez usted hace clic en "Realizado" ya no tendrá acceso a este registro.
     referral_done_success: Referencia Realizada.
     referral_accepted_header: Aceptar Referencia
     referral_accepted: ¿Está seguro(a)? Ahora será responsable de completar el trabajo relacionado con esta Referencia.
@@ -1947,9 +1946,6 @@ es-ES:
           referral_from_service:
             explanation: Permite a el/la usuario(a) ver el botón "Referir" en el subformulario Servicios. Cuando el/la usuario(a) hace clic en este botón, la vista modal para referencias aparecerá con los campos Tipo de Servicio, Agencia, Prestadora de Servicio, y Ubicación deshabilitados pero llenados automáticamente con la información de esos campos en el subformulario Servicios en el cual el/la usuario/a hizo un clic al botón Referir.
             label: Referir un Caso desde el subformulario de Servicio
-          remove_assigned_users:
-            explanation: 'Permite a el/la usuario(a) eliminar a otro(a)s usuario(a)s del campo "Otro(a)s Usuario(a)s Asignado(a)s". Un(a) usuario(a) aparecerá aquí cuando haya recibido una referencia para el caso o cuando haya recibido una transferencia para el caso, pero aún no la ha aceptado o rechazado. Cuando usted elimina a un(a) usuario(a) del campo "Otro(a)s Usuario(a)s Asignado(a)s", está eliminado su acceso al caso. Entonces, lo(a)s usuario(a)s con este permiso pueden eliminar el acceso al caso de lo(a)s usuario(a)s que previamente hayan recibido referencias o tengan aún  transferencias pendientes para el caso. Nótese que este permiso sólo funciona si el/la usuario(a) actual está habilitado(a) para editar el caso. '
-            label: Eliminar otro(a)s usuario(a)s asignado(a)s (recuperando el acceso al caso para lo(a)s usuario(a)s a quienes se les refirió el caso)
           reopen:
             explanation: Permite a un(a) usuario(a) abrir un caso que actualmente está cerrado.
             label: Reabrir

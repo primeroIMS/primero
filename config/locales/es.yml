@@ -21,6 +21,9 @@ es:
   online: En línea
   yes_label: 'Sí'
   or_label: o
+  phone_number:
+    placeholder: Ingrese el número de teléfono
+    invalid: Número de teléfono inválido
   select_provider: Seleccionar prestadora de servicios
   select_language: Seleccionar idioma
   log_in_primero_idp: iniciar sesión con%{idp_name} nombre de usuario
@@ -33,6 +36,7 @@ es:
     error:
       create: No se creó%{record_type}. Por favor contacte a apoyo.
       update: La actualización a %{record_type}%{short_id} falló. Por favor contacte a apoyo.
+      attachment: No se pudieron cargar los archivos adjuntos para %{record_type}. Por favor, contacte a soporte.
   actions:
     approvals: Aprobaciones
     button: Acciones
@@ -50,10 +54,12 @@ es:
     reopen: Reabrir
     request_approval: Solicitar Aprobación
     revoke: Anular
+    revoke_mark_as_done: Revocar / Marcar como Completado
     save: Guardar
     services_from_case_creation_success: Registro de Prestación de Servicios creado correctamente.
     services_section_from_case: Agregar Prestación de Servicios
     mark_for_offline: Marca para fuera de línea
+    attribute: Atributo
   agencies:
     label: Agencia
     translations:
@@ -83,6 +89,14 @@ es:
     terms_of_use_help: Sólo permite archivos en PDF.
     terms_of_use_download_button: Descargar PDF
     terms_of_use_enabled: ¿Mostrar Términos de su Uso?
+    contact_name: Contacto Principal
+    contact_email: Correo electrónico del Contacto Principal
+    contact_phone: Número de Teléfono del Contacto Principal
+    notes: Notas
+    terms_of_use_warning: "Advertencia: Hasta que cargue un documento de Términos de Uso firmado, no podrá asignar Usuarios a esta Agencia, y cualquier Usuario  existente con esta Agencia no podrá iniciar sesión."
+    terms_of_use_title: Confirmación de los Términos de Uso
+    terms_of_use_view_button: Ver Términos de Uso
+    terms_of_use_acknowledgement: Al cargar el documento de Términos de Uso para esta Agencia, está reconociendo en nombre de la Agencia que la Agencia ha revisado, aceptado y respaldado los Términos de Uso, y asume la responsabilidad de gestionar el acceso de los usuarios de esta Agencia. ¿Acepta esto?
   approvals:
     no_requests: Caso
     approved_by: Aprobado Por
@@ -114,6 +128,10 @@ es:
     retry: Esta exportación es inválida. Por favor trate de volver a crear su exportación.
     started_on: Iniciado
     status: Estado
+    delete:
+      success: La exportación fue borrada exitosamente.
+      header: Borrar Exportación
+      confirmation: ¿Está seguro? Una vez que elimine esta exportación, podrá recuperarla.
   form_export:
     label: Exportar Configuración del Formulario
     include_hidden: ¿Incluye formularios y campos escondidos?
@@ -131,6 +149,7 @@ es:
     approve_case_plan: Aprobar Plan de Caso
     approve_closure: Aprobar Cierre
     approve_gbv_closure: Aprobar Cierre de Violencia Basada en Género (GBV)
+    attribute: Atributo
     back: Volver
     bundle_export: Paquete de Configuración
     bundle_import: Paquete de Configuración
@@ -140,6 +159,7 @@ es:
     clear_default: Limpiar valores por defecto
     clear_selection: Limpiar selección
     clear: Limpiar
+    clear_signature: Borrar Firma
     close: Cerrar
     continue: Continuar
     create_case: Crear Caso
@@ -172,6 +192,7 @@ es:
     link: Enlace
     mark_for_mobile: Marcar para móvil
     new: Nuevo
+    next: Siguiente
     ok: OK
     print: Imprimir
     reassign: 'Asignar '
@@ -194,16 +215,22 @@ es:
     sort_by_tr: Solicitudes de Localización
     sync: Sincronizar
     submit: Enviar
+    start_over: Volver a empezar
     transfer: 'Transferir '
     unflag_model: Desmarcar %{model}
     unflag_model_history: Marcar Historial %{model}
     unmark_for_mobile: Desmarcar para móvil
     update: Actualizar
+    update_signature: Actualizar Firma
+    add_signature: Agregar Firma
+    remove_signature: Remover Firma
     view: Ver
     view_flags_history: Ver Historial
     return_to_case: Regresar al Caso
     enable_webpush: notificaciones del dispositivo
     dialog_yes: "Si"
+    mark_accepted: Marcar como aceptado
+    mark_rejected: Marcar como rechazado
   resync_records:
     id: Documento de Identificación (ID)
     record_type: Tipo de registro
@@ -229,6 +256,7 @@ es:
     details: Detalles
     select: Seleccionar
     deselect: Deseleccionar
+    select_module: Modulo (Tipo de Caso)
     enter_id_number: Ingrese el Número de Identificación (ID) a buscar para un registro existente
     id_search_no_results: No existe concordancia en el sistema para "%{search_query}". Por favor cree un nuevo registro.
     messages:
@@ -246,14 +274,20 @@ es:
       confirm_create_case: ¿Desea crear un Caso para esta persona?
       case_referral_pending: Hay una referencia de Caso pendiente.
       case_transfer_pending: Hay una transferencia de Caso pendiente.
+      case_referral_pending_alert: Una referencia del Caso está pendiente. %{link} antes de proceder.
+      case_transfer_pending_alert: Una transferencia del Caso está pendiente. %{link}antes de proceder.
+      pending_transition_link: Acepte aquí
       case_no_approval_request: No hay solicitudes de aprobación para este Caso.
       bulk_assign_limit: No puede asignar mas de 100 Casos al mismo tiempo.
       bulk_assign_limit_try_again: No puede asignar mas de 100 Casos al mismo tiempo. Por favor, seleccione 100 Casos o menos e inténtelo nuevamente.
+      bulk_flag_limit: No puede asignarle banderas a más de 100 Casos al mismo tiempo. Por favor, seleccione 100 Casos o menos e inténtelo nuevamente.
+      pending_transition_excluded: 'Uno o más de los Casos seleccionados tiene una Referencia o Transferencia pendiente y no será incluido. Por favor acepte o rechaze esta Referencia o Transferencia para resolver el problema. '
       referral_rejected: La Referencia ha sido rechazada.
       transfer_request_made: Una solicitud de transferencia ha sido realizada para este caso.
     save: Guardar Caso
     save_text: Antes de continuar, por favor guarde los cambios hechos al Caso
     skip_and_create: Omitir y Crear Nuevo Caso
+    skip_and_create_helper_text: Por favor, primero busque un caso existente antes de crear uno nuevo.
     search_existing: Buscar casos existentes
     search_helper_text: ¿Para qué? Para evitar la creación de casos duplicados.
     consent_agreements: Selecciones todos los acuerdos de consentimiento que apliquen
@@ -302,9 +336,12 @@ es:
       date: "Fecha"
       ready_to_start_cfm: "¿Está preparado para empezar el Módulo de Funcionamiento Infantil?"
       age: "Edad"
+      vision_wear_glass: "El niño o la niña utiliza lentes"
       difficulty_seeing_with_glasses: "Dificultad para ver con lentes"
+      difficulty_seeing_without_glasses: "Dificultad para ver sin lentes"
       child_wears_hearing_aid: "El niño/niña utiliza dispositivo para la audición"
       difficulty_hearing_with_hearing_aid: "Dificultad para escuchar con dispositivo para la audición"
+      difficulty_hearing_without_hearing_aid: "Dificultad para oír sin audífono"
       child_uses_equipment_or_receive_assistance_for_walking: "El niño/niña utiliza equipo o recibe ayuda para caminar"
       difficulty_walking_without_equipment: "Dificultad para caminar sin equipo o asistencia"
       mobility_difficulty_without_equipment_100m: "Dificultad de movilidad sin equipo 100m"
@@ -312,8 +349,24 @@ es:
       difficulty_walking_with_equipment: "Dificultad para caminar con equipo o asistencia"
       mobility_difficulty_with_equipment_100m: "Dificultad de movilidad con equipo 100m"
       mobility_difficulty_with_equipment_500m: "Dificultad de movilidad con equipo 500m"
+      difficulty_comparative: "Dificultad para caminar en comparación con otros niños"
+      mobility_difficulty_comparative_100m: "Dificultad de movilidad comparativa 100m"
+      mobility_difficulty_comparative_500m: "Dificultad de movilidad comparativa 500m"
       difficulty_picking_up_small_objects_with_hand: "Dificultad para tomar objetos pequeños con la mano"
       self_care_difficulty: "Dificultad para el autocuidado"
+      child_have_difficulty_to_understand: "El niño o niña tiene dificultad para entender a los demás"
+      child_have_difficulty_to_understanding_child_household: "Dificultad para ser comprendido al hablar, dentro del hogar"
+      difficulty_to_understanding_child_others: "Dificultad para ser comprendido al hablar -- fuera del hogar"
+      difficulty_to_understand_the_child: "Otros tienen dificultad para entender al niño o la niña"
+      child_have_difficulty_for_learning: "El niño o la niña tiene dificultad para aprender"
+      child_have_difficulty_for_playing: "El niño o la niña tiene dificultad para jugar"
+      remembering_difficulty: "Dificultad para recordar"
+      concentrating_difficulty: "Dificultad para concentrarse "
+      accepting_change_difficulty: "Dificultad para aceptar cambios"
+      difficulty_for_controlling_behaviour: "Dificultad para controlar el comportamiento"
+      making_friends_difficulty: "Dificultad para hacer amistades"
+      anxiety_how_often: "Con qué frecuencia el niño o la niña se siente ansioso/a"
+      depression_how_often: "Con qué frecuencia el niño o la niña se siente deprimido/a"
       cfm_yes: "Sí"
       cfm_no: "No"
       n_a: "N/A"
@@ -332,6 +385,15 @@ es:
     enable_dialog_title: Habilitar Caso
     enable_success: Caso habilitado correctamente
     export: Exportar
+    attribute:
+      name: Nombre
+      email: Correo electrónico
+      success: Atributo actualizado con éxito
+      title: Atributo
+      text: Seleccione al usuario que identificó este caso. Si su sistema permite el auto-registro, este usuario podrá acceder al caso como "Mi Caso" cuando inicien sesión en el sistema.
+      confirm_title: Confirmación del Atributo
+      confirm_text: ¿Estás seguro de que quiere atribuir este caso al usuario con los siguientes detalles?
+      identified_by_placeholder: Por favor, ingrese al menos 2 caracteres para buscar por nombre de usuario.
     mark_for_offline:
       title: Marca para fuera de línea
       text: ¿Está seguro(a) de que quiere marcar estos Casos para usarlos cuando esté desconectado(a)?
@@ -369,6 +431,7 @@ es:
       gbv_closure: Cierre de Violencia Basada en Género (GBV)
       gender: Género
       high: Alta
+      location: Ubicación
       low: Bajo
       male: Masculino
       medium: Medio
@@ -386,6 +449,7 @@ es:
       protection_risks: Riesgos de protección
       record_state: Estado del Registro
       referred_cases: Casos referridos a mi
+      assigned_to_me: Casos asignados a mi
       registration_date: Fecha de Registro
       risk_level: Nivel de Riesgo
       sex: Sexo
@@ -398,6 +462,7 @@ es:
       user_group: Grupo de Usuario(a)s
       workflow: Casos por Flujo de Trabajo
       module_id: Módulo
+      role: Rol
       include_disabled: Incluya personas con discapacidad
       safety_plan_needed: ¿Se necesita un plan de seguridad para este caso?
       self_harm_thoughts: En el último mes, ¿ha tenido pensamientos o planes serios para acabar con su propia vida?
@@ -428,7 +493,7 @@ es:
       tracing_message: 'Nota: Hay una concordancia en el sistema en la que un(a) Investigador(a) busca a este niño, niña, o adolescente. Contacte a la trabajadora social de este registro para acciones futuras si el niño, niña, o adolescente así lo desea.'
     reassign:
       multiple_successfully: Primero está reasignando %{select_records}Caso(s). La actualización de todos los Casos puede tomar varios minutos.
-    referral_done: Hacer clic en "Realizado" significa que usted ha completado el trabajo de referencia relacionado a este caso. Una vez usted hace clic en "Realizado" ya no tendrá acceso a este registro.
+    referral_done: Una vez le de click a "Realizado" no podrá tener acceso a este registro.
     referral_create_case_header: Crear Caso
     referral_create_case: ¿Está seguro(a)? Usted será responsable de gestionar el Caso que usted cree.
     referral_done_success: Referencia Realizada.
@@ -437,6 +502,7 @@ es:
     referral_accepted_success: Referencia Aceptada
     referral_rejected: Al hacer cilc en "Rechazar" indica que en este momento usted no está preparado(a) para aceptar la responsabilidad de esta Referencia. Por favor indique la razón por la que rechaza esta Referencia; una vez haga clic en "Rechazar" ya no tendrá acceso al registro de este Caso.
     referral_rejected_success: Referencia rechazada.
+    external_referral_accepted_header: Marcar como aceptado
     register_new_case: Nuevo Caso
     registration_date: Fecha de Registro
     rejected_success_action_plan: '%{approval_label} - No Aprobado'
@@ -753,6 +819,7 @@ es:
     name: Nombre
     name_or_survivor_code: Nombre o Código de Sobreviviente
     near_deadline: Próximo a Vencer
+    identified: Identificados
     new: Nuevo y Actualizado
     new_child_assigned_to_you: Casos Nuevos Asignados a Usted
     new_incident: Incidentes Nuevos
@@ -807,14 +874,26 @@ es:
     services: Servicios
     services_implemented: Servicios Implementados
     shared_from_my_team_pending_transfers: Transferencias Pendientes
+    shared_from_my_team_pending_referrals: Referencias pendientes
+    shared_from_my_team_accepted_referrals: ' Referencias aceptadas'
+    shared_from_my_team_rejected_referrals: Referencias rechazadas
+    shared_from_my_team_done_referrals: Referencias realizadas
     shared_from_my_team_rejected_transfers: Transferencias Rechazadas
     shared_with_me_new_referrals: Nuevo
+    shared_with_me_pending_referrals: Pendiente
+    shared_with_me_accepted_referrals: Aceptado
     shared_with_me_total_referrals: Total
     shared_with_me_transfers_awaiting_acceptance: Esperando Aprobación
     shared_with_my_team_pending_transfers_overview: Esperando Aprobación
     shared_with_my_team_pending_transfers: Transferencias Pendientes
+    shared_with_my_team_pending_referrals: Referencias pendientes
+    shared_with_my_team_accepted_referrals: ' Referencias aceptadas'
     shared_with_others_pending_transfers: Pendiente
     shared_with_others_referrals: Total
+    shared_with_others_referrals_pending: Pendiente
+    shared_with_others_referrals_accepted: Aceptado
+    shared_with_others_referrals_rejected: Rechazado
+    shared_with_others_referrals_done: Realizado
     shared_with_others_rejected_transfers: Rechazado
     status_of_cases: Estado de los Casos
     system_user: Sistema
@@ -1840,6 +1919,9 @@ es:
       show: Mostrar
       show_alerts: Mostrar alertas
       transfer: 'Transferir '
+      transfer_status:
+        Accepted: Transferencia Aceptada
+        Rejected: Transferencia Rechazada
       unflag: Desmarcar
       update: Actualizar
       update_bulk: Actualización en bloque
@@ -2779,9 +2861,6 @@ es:
           referral_from_service:
             explanation: Permite a el/la usuario(a) ver el botón "Referir" en el subformulario Servicios. Cuando el/la usuario(a) hace clic en este botón, la vista modal para referencias aparecerá con los campos Tipo de Servicio, Agencia, Prestadora de Servicio, y Ubicación deshabilitados pero llenados automáticamente con la información de esos campos en el subformulario Servicios en el cual el/la usuario/a hizo un clic al botón Referir.
             label: Referir un Caso desde el subformulario de Servicio
-          remove_assigned_users:
-            explanation: 'Permite a el/la usuario(a) eliminar a otro(a)s usuario(a)s del campo "Otro(a)s Usuario(a)s Asignado(a)s". Un(a) usuario(a) aparecerá aquí cuando haya recibido una referencia para el caso o cuando haya recibido una transferencia para el caso, pero aún no la ha aceptado o rechazado. Cuando usted elimina a un(a) usuario(a) del campo "Otro(a)s Usuario(a)s Asignado(a)s", está eliminado su acceso al caso. Entonces, lo(a)s usuario(a)s con este permiso pueden eliminar el acceso al caso de lo(a)s usuario(a)s que previamente hayan recibido referencias o tengan aún  transferencias pendientes para el caso. Nótese que este permiso sólo funciona si el/la usuario(a) actual está habilitado(a) para editar el caso. '
-            label: Eliminar otro(a)s usuario(a)s asignado(a)s (recuperando el acceso al caso para lo(a)s usuario(a)s a quienes se les refirió el caso)
           reopen:
             explanation: Permite a un(a) usuario(a) abrir un caso que actualmente está cerrado.
             label: Reabrir
@@ -2867,6 +2946,10 @@ es:
           action_needed_new_updated:
             explanation: Muestra el indicador de "Nuevo y Actualizado" en el tablero de "Acción Requerida". Esto incluye Casos que han sido recientemente asignados al usuario actual, o aquellos que otro usuario ha actualizado desde la última vez que el usuario actual los haya actualizado.
             label: 'Accion Requerida: Nuevo o Actualizado'
+          action_needed_identified:
+            label: 'Acción requerida: Casos identificados'
+          action_needed_new_referrals:
+            label: 'Acción requerida: Referencias pendientes'
           action_needed_transfer_awaiting_acceptance:
             explanation: 'Muestra el indicador de "Transferencias Esperando Aceptación" en el tablero de "Acción Requerida". Esto incluye cualquier Caso con una Transferencia al usuario actual, el cual el usuario actual no ha aceptado. '
             label: 'Acción Requerida: Transferencias Esperando Aceptación'
@@ -3888,7 +3971,6 @@ es:
       in_progress: Pendiente
       inprogress: Pendiente
       rejected: Rechazado
-      revoked: Anulado
     transferred_by: Transferido por
     type:
       assign: Asignar

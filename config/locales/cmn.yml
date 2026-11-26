@@ -428,7 +428,6 @@ cmn:
       tracing_message: '注意：系统中有一位查询者正在寻找这名儿童。如果该儿童愿意，请联系此记录的社工以采取进一步行动。'
     reassign:
       multiple_successfully: Primero 正在重新分配 %{select_records} 个案。这些个案可能需要几分钟才能完成更新。
-    referral_done: 单击 "完成 "表示您已完成与此个案相关的转介工作。点击 "完成 "后，您将无法再访问此记录。
     referral_create_case_header: 新建 %{module_id} 个案
     referral_create_case: 你确定吗？你将负责管理你创建的个案。
     referral_done_success: 转介已完成。
@@ -2737,9 +2736,6 @@ cmn:
           referral_from_service:
             explanation: 允许用户在服务子表格上查看转介按钮。当用户单击此按钮时，转介模式将使用服务类型，机构，服务提供方；位置字段被禁用，但自动填充了用户单击转介按钮的服务子表格中这些字段的信息。
             label: 从服务子表格转介个案
-          remove_assigned_users:
-            explanation: 允许用户从“其他分配的用户”字段中删除其他用户。如果用户收到了个案的转介或已收到个案的移交，但尚未接受或拒绝。当您从“其他分配的用户”字段中删除用户时，您将删除对个案的访问。因此，获得此权限的用户可以从以前已收到转介或仍在迫在眉睫的移交的用户那里删除个案访问。请注意，仅当当前用户还有权编辑个案时，此权限才有效。
-            label: 删除其他分配的用户（从转介至用户中收回个案访问）
           reopen:
             explanation: 允许用户打开当前关闭的个案。
             label: 重新开案
@@ -3846,7 +3842,6 @@ cmn:
       in_progress: 待定
       inprogress: 待定
       rejected: 已拒绝
-      revoked: 已撤销
     transferred_by: 由...转介
     type:
       assign: 分配

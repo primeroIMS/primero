@@ -392,7 +392,6 @@ om:
     photos: Suuraa.
     quick_view:
       tracing_message: 'Yaadachiisa:Nama mucaa kana barbaadu wajjiin sirnicha keessatti walsiminni jira.Yoo daa''imichi fedhii kan qabu ta''e tarkaanfii dabalataatiif  hojjetaa hawaasaa galmee kanaa qunnamaa/dubbisaa.'
-    referral_done: '"Hojjetameera'''' kan jedhu tuquun hojiin dabarsuu dhimma kanaan walqabatan xumuramuu isaa  agarsiisa. Al tokko ''''Hojjetame'''' kan jedhu yoo tuqte kana booda galmee kana argachuu hin dandeessu.'
     referral_done_success: Walitti kenninsi/dabarsi raawwatameera.
     referral_accepted_header: Walitti kenna fudhadhu.
     referral_accepted: Dhuguma keessanii?Ammaa hojii walitti kennaa kanaa wajjiin walitti dhufeenya qabu xumuruuf gaafatamummaa qabdu.
@@ -543,6 +542,12 @@ om:
     all_cases: Dhimmoota hunda.
     all_services_implemented: Tajaajiloota hunda hojirra oolan.
     and: 'Fi.'
+    action_needed:
+      awaiting_acceptance: Fudhatama eeggachaa jira.
+      header: Tarkaanfii barbaachisaa
+      referrals: Rifaralaa
+      transfers: Dabarsa
+      cases: Dhimmoota
     approval_action_plan_approved: Kan mirkanaa'an.
     approval_action_plan_pending: Akka turu kan taasisaman..
     approval_action_plan_pending_group: Karoora raawwii.
@@ -643,6 +648,7 @@ om:
     name: Maqaa.
     name_or_survivor_code: Maqaa ykn koodii  warra dararama irraa hafanii.
     near_deadline: Gara guyyaa beellamaatti  dhiyaatanii kan jiran.
+    identified: Adda baafame
     new: Haaraa fi kan ammayyooman.
     new_child_assigned_to_you: Dhimmoottan haaraa isiniif ramadamaniiru.
     new_incident: Taateewwan haaraa.
@@ -697,8 +703,26 @@ om:
     services: Tajaajiloota.
     services_implemented: Tajaajiloota hojirra oolan/ raawwataman.
     shared_from_my_team_pending_transfers: Dabarsaawwan tursiisaman/murtii eeggachaa jiran.
+    shared_from_my_team_pending_referrals: Rifaralaa kan hin xumurmne
+    shared_from_my_team_accepted_referrals: Rifaralaa fudhataman
+    shared_from_my_team_rejected_referrals: Rifaralaa didaman
+    shared_from_my_team_done_referrals: Rifaralaa kan raawwate
     shared_from_my_team_rejected_transfers: Dabarsawan fudhatama dhaban.
+    shared_with_me_pending_referrals: Kan hin xumurmne
+    shared_with_me_accepted_referrals: Fudhatama argateera.
+    shared_with_me_total_referrals: Waliigala
+    shared_with_me_transfers_awaiting_acceptance: Fudhatama eeggachaa jira.
+    shared_with_my_team_pending_transfers_overview: Fudhatama eeggachaa jira.
     shared_with_my_team_pending_transfers: Dabarsaawwan tursiisaman.
+    shared_with_my_team_pending_referrals: Rifaralaa kan hin xumurmne
+    shared_with_my_team_accepted_referrals: Rifaralaa fudhataman
+    shared_with_others_pending_transfers: Kan hin xumurmne
+    shared_with_others_referrals: Waliigala
+    shared_with_others_referrals_pending: Kan hin xumurmne
+    shared_with_others_referrals_accepted: Fudhatama argateera.
+    shared_with_others_referrals_rejected: Fudhatama dhabe.
+    shared_with_others_referrals_done: Kan raawwate
+    shared_with_others_rejected_transfers: Fudhatama dhabe.
     status_of_cases: Haala sadarkaa dhimmootaa.
     system_user: Sirna.
     total: Waliigala.
@@ -1654,6 +1678,9 @@ om:
       show: Agarsiisi/mul'isi.
       show_alerts: Eeggannoowwan/dammaqiinsoota mul'isi.
       transfer: Dabarsa.
+      transfer_status:
+        Accepted: Dabarsa fudhatama qabu.
+        Rejected: Dabarsa fudhatama dhabe.
       unflag: Alaabaa irraa kaasuu.
       update: Ammayyoomsi.
       user_password_reset_request: Gaaffii jecha iggitaa fayyadamaa haaroomsuu.
@@ -2359,9 +2386,6 @@ om:
           referral_from_service:
             explanation: Fayyadamaan unka xiqqaa tajaajiloota irratti qaree " dabarsuu " akka argu hayyama. Yeroo fayyadamaan qaree kana cuqaasu, moodaalli rifaralaa Dirrewwaan/Idowwaan/ Gosa Tajaajilaa, Ejensii, Dhiyeessaa Tajaajilaa, fi bakka hanqifamee mul'ata, garuu ofumaan odeeffannoo Dirrewwaan/Idowwaan sanaa unka xiqqaa Tajaajiloota fayyadamaan qaree Wabii irratti cuqaase keessatti guutama.
             label: Dhimmicha guca xiqqaa tajaajilaa irraa ilaalaa.
-          remove_assigned_users:
-            explanation: Fayyadamaan fayyadamtoota biroo dirree/iddoo/ "Fayyadamtoota Ramadaman biroo" irraa akka haqu hayyama. Fayyadamaan tokko dhimmichaaf rifaralaa kan argate ykn dhimmichaaf jijjiirraa kan argate yoo ta’e, garuu hanga ammaatti kan hin fudhanne yoo ta’e asitti tarreeffama. Yeroo fayyadamaa dirree/iddoo/ "Fayyadamtoota Ramadaman biroo" irraa haqxu, qaqqabummaa isaanii gara dhimma ni haqta. Kanaafuu, fayyadamtoonni hayyama kana qaban fayyadamtoota kanaan dura rifaralaa ykn jijjiirraa ammallee dhimmichaaf eegamaa jiru irraa qaqqabummaa dhimmaa haquu danda’u. Hubadhu hayyamni kun kan hojjetu yoo fayyadamaan ammaa akkasumas dandeettii dhiimmaa gulaaluu qabaate qofa.
-            label: Fayyadamtoota biroo ramadaman haqaa(fayyadamtoota eeraman keessaa bira gahinsa dhimmaa fudhachuun)
           reopen:
             explanation: Fayyadamaan dhimma dhiyeenya kana keessa cufame akka banachuu danda'u hayyamaaf/taasisa.
             label: Irra deebi'anii  banuu
@@ -2441,6 +2465,14 @@ om:
         label: Dhimma.
       dashboard:
         actions:
+          action_needed_new_updated:
+            label: 'Tarkaanfii barbaachisaa: Haaraa yookaan haaromfame'
+          action_needed_identified:
+            label: 'Tarkaanfii barbaachisaa: Dhimmoota adda baafaman'
+          action_needed_new_referrals:
+            label: 'Tarkaanfii barbaachisaa: Rifaralaa kan hin xumurmne'
+          action_needed_transfer_awaiting_acceptance:
+            label: 'Tarkaanfii barbaachisaa: Dabarsa fudhatama eegaa jiran'
           approvals_action_plan:
             explanation: Kan eeggachaa jiran,gaaffiiwwan mirkanaa'an ykn akka kufan taasifaman mirkaneessa karoora raawwii keessatti baayi'ina fayyadamtoota  ammaan tana jiran mul'isa.
             label: mirkaneessa %{approval_label}hojjataa dhimmaa.
@@ -3373,7 +3405,6 @@ om:
       in_progress: Eeggachaa kan jiru/akka turu taasifame.
       inprogress: Eeggachaa jira/akka turu taasifame.
       rejected: Fudhatama hinarganne.
-      revoked: Akka hindarbine taasifameera./kufeera.
     type:
       assign: Ramaduu.
       reassign: Ramaduu.

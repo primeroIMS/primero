@@ -74,3 +74,5 @@ ar:
           protection_referral: "خدمات حماية الطفل / خدمات تعليمية"
         consent: "تم إعطاء موافقة"
         agency_code: "كود الهيئة المبلغة"
+      number_primary_perpetrators:
+        more_than_three: "اكثر من 3"

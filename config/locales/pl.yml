@@ -359,7 +359,6 @@ pl:
     photos: Zdjęcie
     quick_view:
       tracing_message: 'Notatka: W systemie znaleziono zpytanie związane z tym dzieckiem. Skontaktuj się z pracownikiem socjalnym wskazanym w tym rekordzie w celu poprowadzenie sprawy dalej, jeżeli dziecko wyrazi na to zgodę. '
-    referral_done: Po kliknięciu "Wykonaj" zakończysz pracę związaną ze skierowaniem dziecka w tej sprawie. Po kliknięciu "Wykonaj" nie będziesz miał dostępu do tego rekordu.
     referral_done_success: Skierowanie Wykonane.
     referral_accepted_header: Zatwierdź Skierowanie
     referral_accepted: 'Na pewno? Teraz weźmiesz odpowiedzialność za pracę związaną ze skierowaniem dziecka do odpowiednich ugług. '
@@ -2119,8 +2118,6 @@ pl:
           referral_from_service:
             explanation: Pozwala użytkownikowi na widok przycisku "Skieruj" w podformularzu Świadczenia. Po kliknięciu pojawi się okno skierowania z polami Rodzaj Świadczenia, Agencja, Świadczący Usługi i Lokalizacja, które będą wyłączone, lecz automatycznie wypełnione danymi z odpowiednich pól w wybranym podformularzu Świadczenia.
             label: Skieruj Sprawę z podformularza Świadczeń
-          remove_assigned_users:
-            label: Usuń innych przypisanych użytkowników (odebranie dostępu do spraw użytkownikom, do których zostały skierowane)
           reopen:
             explanation: 'Pozwala użytkownikowi na otworzenie aktualnie zamkniętej sprawy. '
             label: Otwórz ponownie
@@ -2936,7 +2933,6 @@ pl:
       in_progress: Oczekujące
       inprogress: Oczekujące
       rejected: Odrzucone
-      revoked: Wycofane
     type:
       assign: Przypisz
       reassign: Przypisz
