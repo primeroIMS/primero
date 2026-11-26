@@ -428,7 +428,6 @@ tr:
       tracing_message: 'Not: Sistemde bu çocuğu arayan bir Soruşturmacı ile bir eşleşme var. Çocuk istiyorsa, sonraki işlemler için bu kaydın sosyal hizmet uzmanıyla iletişime geçin.'
     reassign:
       multiple_successfully: Primero %{select_records} Vakasını/Vakalarını yeniden atıyor. Tüm Vakaların güncellenmesi birkaç dakika sürebilir.
-    referral_done: “Tamamlandı” tuşuna tıkladığınızda bu vaka ile ilgili sevk işini tamamlamış olursunuz. ''Tamamlandı'' düğmesine tıkladığınızda artık bu kayda erişiminiz olmayacaktır.
     referral_create_case_header: '%{module_id}Vakasını Oluştur'
     referral_create_case: Emin misiniz? Oluşturduğunuz Vakanın yönetilmesinden siz sorumlu olacaksınız.
     referral_done_success: Yönlendirme tamamlandı.
@@ -2754,9 +2753,6 @@ tr:
           referral_from_service:
             explanation: Kullanıcının Hizmetler alt formundaki “Yönlendir” tuşunu görmesini sağlar. Kullanıcı bu tuşa tıkladığında, yönlendirmeseçeneği Hizmet Türü, Kurum, Hizmet Sağlayıcı ve Konum alanları etkisizleştirilmiş olarak görünecek, ancak kullanıcının Yönlendir düğmesine tıkladığı Hizmetler alt formundaki bu alanların bilgileriyle otomatik olarak doldurulacaktır.
             label: Hizmet alt formundan Vaka Yönlendir
-          remove_assigned_users:
-            explanation: Kullanıcının diğer kullanıcıları “Diğer Atanmış Kullanıcılar” alanından kaldırmasını sağlar. Bir kullanıcı vaka için bir yönlendirme aldıysa veya vaka için bir transfer aldıysa, ancak henüz kabul etmediyse veya reddetmediyse burada listelenir. Bir kullanıcıyı “Diğer Atanan Kullanıcılar” alanından kaldırdığınızda, bu kullanıcının vakaya erişimini de kaldırmış olursunuz. Dolayısıyla, bu izne sahip kullanıcılar, vaka için daha önce yönlendirme almış veya hâlâ bekleyen transferleri olan kullanıcıların vaka erişimini kaldırabilir. Bu iznin yalnızca mevcut kullanıcının vakayı düzenleme yetkisine de sahip olması durumunda çalıştığını unutmayın.
-            label: Diğer atanmış kullanıcıları kaldırma (yönlendirilen kullanıcılardan vaka erişimini geri alma)
           reopen:
             explanation: Kullanıcının mevcut durumda kapalı olan bir vakayı açmasına izin verir.
             label: Yeniden açma
@@ -3863,7 +3859,6 @@ tr:
       in_progress: Beklemede
       inprogress: Beklemede
       rejected: Reddedildi
-      revoked: İptal Edildi
     transferred_by: Transfer eden
     type:
       assign: Atama Yap

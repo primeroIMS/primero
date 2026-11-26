@@ -18,6 +18,7 @@ es-GT:
   field_mode_on: "En"
   field_mode_off: "Apagado"
   unavailable_offline: No está disponible fuera de línea
+  already_linked: Registro ya vinculado
   online: En línea
   yes_label: 'Sí'
   or_label: o
@@ -33,6 +34,7 @@ es-GT:
     error:
       create: No se creó%{record_type}. Por favor contacte a apoyo.
       update: La actualización a %{record_type}%{short_id} falló. Por favor contacte a apoyo.
+      attachment: Error al subir adjunto(s) para %{record_type}. Por favor contacte a soporte.
   actions:
     approvals: Aprobaciones
     button: Acciones
@@ -140,9 +142,11 @@ es-GT:
     clear_default: Limpiar valores por defecto
     clear_selection: Limpiar selección
     clear: Limpiar
+    clear_signature: Limpiar campo de firma
     close: Cerrar
     continue: Continuar
     create_case: Crear Caso
+    referral_create_case: Crear Caso %{module_id}
     create_incident: Crear Incidente
     create_new_record: Crear Nuevo %{model}
     delete: Eliminar
@@ -171,6 +175,7 @@ es-GT:
     link: Enlace
     mark_for_mobile: Marcar para móvil
     new: Nuevo
+    next: Siguiente
     ok: OK
     print: Imprimir
     reassign: 'Asignar '
@@ -198,6 +203,9 @@ es-GT:
     unflag_model_history: Marcar Historial %{model}
     unmark_for_mobile: Desmarcar para móvil
     update: Actualizar
+    update_signature: Actualizar firma
+    add_signature: Agregar firma
+    remove_signature: Eliminar firma
     view: Ver
     view_flags_history: Ver Historial
     return_to_case: Regresar al Caso
@@ -228,6 +236,7 @@ es-GT:
     details: Detalles
     select: Seleccionar
     deselect: Deseleccionar
+    select_module: Módulo (Tipo de Caso)
     enter_id_number: Ingrese el Número de Identificación (ID) a buscar para un registro existente
     id_search_no_results: No existe concordancia en el sistema para "%{search_query}". Por favor cree un nuevo registro.
     messages:
@@ -299,7 +308,16 @@ es-GT:
     case_worker_code: Código de Trabajadora del Caso
     child_functioning:
       date: "Fecha"
+      ready_to_start_cfm: "¿Estás listo para comenzar el Módulo de Desarrollo Infantil?"
       age: "Edad"
+      difficulty_seeing_with_glasses: "Dificultad de visión con lentes"
+      child_wears_hearing_aid: "El niño utiliza dispositivos de ayuda auditiva"
+      difficulty_hearing_with_hearing_aid: "Dificultad para escuchar con dispositivos de ayuda auditiva"
+      child_uses_equipment_or_receive_assistance_for_walking: "El niño utiliza dispositivo de movilidad o recibe asistencia para caminar"
+      difficulty_walking_without_equipment: "Dificultades para caminar sin dispositivos de movilidad"
+      cfm_yes: "Sí"
+      cfm_no: "No"
+      n_a: "N/A"
     client_code: Código de cliente
     clear_filter: Limpiar
     close_dialog: Al hacer clic en OK el estado de este caso cambiará a Cerrado
@@ -315,6 +333,9 @@ es-GT:
     enable_dialog_title: Habilitar Caso
     enable_success: Caso habilitado correctamente
     export: Exportar
+    attribute:
+      name: Nombre
+      email: Correo electrónico
     mark_for_offline:
       title: Marca para fuera de línea
       text: ¿Está seguro(a) de que quiere marcar estos Casos para usarlos cuando esté desconectado(a)?
@@ -341,6 +362,7 @@ es-GT:
       closure: Cierre
       current_location: Ubicación Actual
       date: Fecha
+      disability_status: Condición de discapacidad
       displacement_status: Estado de Desplazamiento
       district: Distrito
       duplicate: Duplicado
@@ -381,13 +403,17 @@ es-GT:
       workflow: Casos por Flujo de Trabajo
       module_id: Módulo
       include_disabled: Incluir deshabilitados
+      safety_plan_needed: ¿Es necesario un plan de seguridad para este caso?
+      self_harm_thoughts: En el último mes, ¿ha tenido pensamientos serios o planificado acabar con su vida?
     flag_summary: Resumen de registros marcados
     full_name: Nombre Completo
     gbv_closure: Cierre de Violencia Basada en Género (GBV)
+    gender: Género
     hide_name: Ocultar Nombre
     hide_name_error: Se ha producido un error al guardar sus cambios. Por favor intente nuevamente.
     id: N° de Documento de Identificación (ID)
     label: Casos
+    location_current: Ubicación
     my_filters: Mis Filtros
     name: Nombre
     notes_dialog_title: Agregar Notas
@@ -406,7 +432,8 @@ es-GT:
       tracing_message: 'Nota: Hay una concordancia en el sistema en la que un(a) Investigador(a) busca a este niño, niña, o adolescente. Contacte a la trabajadora social de este registro para acciones futuras si el niño, niña, o adolescente así lo desea.'
     reassign:
       multiple_successfully: Primero está reevaluando %{select_records} Caso(s). La actualización de todos los Casos puede tomar varios minutos.
-    referral_done: Hacer clic en "Realizado" significa que usted ha completado el trabajo de referencia relacionado a este caso. Una vez usted hace clic en "Realizado" ya no tendrá acceso a este registro.
+    referral_create_case_header: Crear Caso %{module_id}
+    referral_create_case: ¿Está seguro? Usted será responsable de la gestión del Caso que cree.
     referral_done_success: Referencia Realizada.
     referral_accepted_header: Aceptar Referencia
     referral_accepted: ¿Está seguro(a)? Ahora será responsable de completar el trabajo relacionado con esta Referencia.
@@ -481,6 +508,11 @@ es-GT:
     transfer_rejected: Al hacer clic en "Rechazar" indica que en este momento usted no está preparado(a) para aceptar la responsabilidad de esta Referencia. Por favor indique la razón por la que rechaza este Caso; una vez haga clic en "Rechazar" ya no tendrá acceso al registro de este Caso.
     view_name: ' Ver Nombre'
     sort_by: Ordenar por
+  case_relationships:
+    search_for: Buscar %{record_type}
+    add_new:
+      label: Agregar
+      disabled: Por favor guarde su Caso. Luego podrá editarlo y vincular a otros Casos.
   change_logs:
     filters:
       form: Formulario
@@ -496,6 +528,9 @@ es-GT:
     update_subform: 'Se actualizó subformulario "%{subform_name}"'
     from: de
     to: a
+    no_more: Fin de Registro de Cambios
+  access_logs:
+    no_more: Fin de Registro de Accesos
   children:
     selectable_date_options:
       assessment_requested_on: Fecha de Evaluación
@@ -508,6 +543,7 @@ es-GT:
       date_reunification: Fecha de Reunificación
       tracing_date: Fecha de Rastreo
       service_implemented_day_time: Fecha de finalización del Servicio
+      reassigned_transferred_on: Fecha Asignada / Trasnferido En
   configurations:
     apply_label: ¿Está seguro(a)? Si usted aplica, los ajustes en esta configuración se aplicarán al sistema. Usted perderá todos sus ajustes actuales y no podrá recuperarlos a menos que ya los haya guardado en otra Configuración.
     apply_label_bold: Primero no estará disponible para sus usuario(a)s por unos minutos mientras se cargan los cambios.
@@ -534,6 +570,7 @@ es-GT:
       updated: La configuración se actualizó correctamente.
       sent: Enviando la configuración a producción. Por favor, revise el sitio de producción para ver si su configuración ya llegó.
     not_allowed: No permitido
+    unavailable_server: Servidor temporalmente no disponible. Por favor espere un momento y la página se volverá a cargar.
   contact:
     field:
       email: Correo electrónico
@@ -569,6 +606,7 @@ es-GT:
       new_this_week: Nuevo esta Semana
       referrals: Referencias
       transfers: Transferencias
+      cases: Casos
     approval_action_plan_approved: Aprobado
     approval_action_plan_pending: Pendiente
     approval_action_plan_pending_group: Plan de Acción
@@ -678,6 +716,7 @@ es-GT:
     dash_shared_from_my_team: Compartido Desde Mi Equipo
     dash_shared_with_me: Compartido Conmigo
     dash_shared_with_my_team: Compartido Con Mi Equipo
+    dash_shared_with_my_team_overview: Compartido con mi Equipo
     dash_shared_with_others: Compartido Con Otro(a)s
     dash_national_admin_summary: Resumen de Administrador(a)
     dash_violations_category_verification_status: Numero total de incidentes por estatus de verificación
@@ -733,6 +772,7 @@ es-GT:
     new_incident_assigned_to_you: Incidentes Nuevos Asignados
     new_last_week: Nuevo (útima semana)
     new_or_updated: Nuevo o Actualizado
+    recently_assigned_to_me: Asignados recientemente
     new_referred: Nuevas Referencias
     new_service_provision: Nueva Prestación de Servicios
     new_this_week: Nuevo (esta semana)
@@ -782,9 +822,14 @@ es-GT:
     services_implemented: Servicios Implementados
     shared_from_my_team_pending_transfers: Transferencias Pendientes
     shared_from_my_team_rejected_transfers: Transferencias Rechazadas
+    shared_with_me_new_referrals: Nuevo
+    shared_with_me_total_referrals: Total
     shared_with_me_transfers_awaiting_acceptance: Esperando Aprobación
     shared_with_my_team_pending_transfers_overview: Esperando Aprobación
     shared_with_my_team_pending_transfers: Transferencias Pendientes
+    shared_with_others_pending_transfers: Pendiente
+    shared_with_others_referrals: Total
+    shared_with_others_rejected_transfers: Rechazado
     status_of_cases: Estado de los Casos
     system_user: Sistema
     total: Total
@@ -808,6 +853,7 @@ es-GT:
       other: '%{case_worker} tiene %{stat} casos totales'
     workflow: Flujo de Trabajo
     workflow_team: Flujo de Trabajo - Casos de Equipos
+    workflow_team_module: Flujos de trabajo - Casos de Equipos - %{module_name}
     you_have: 'Usted tiene'
   disabled:
     status:
@@ -816,15 +862,25 @@ es-GT:
   email_notification:
     assign: '%{user} le ha asignado el siguiente %{record_type}: %{record_id}. '
     assign_subject: '%{record_type}:%{id} - Asignados a usted'
+    approval_request: '%{user} solicita a %{approval_type} aprobación de caso (%{case_id}). Por favor ingrese a su cuenta para revisar.'
     approval_request_subject: 'Caso: %{id} - Solicitud de Aprobación'
+    approval_response: '%{user} ha actualizado el estado de su %{approval_type} solicitud de Caso (%{case_id}) al siguiente: %{status}. Por favor ingrese a su cuenta para revisar.'
     approval_response_subject: 'Caso: %{id} - Respuesta de Aprobación'
     referral: '%{user} de %{agency} le ha referido el siguiente %{record_type}: %{record_id} para%{service_type}.'
     transfer: '%{user} le ha transferido el siguiente %{record_type}: %{record_id}.'
     transfer_request_subject: Solicitud de transferencia para uno de sus casos
+    transfer_subject: '%{record_type}: %{id} - Transferir'
+    referral_subject: '%{record_type}: %{id} - Solicitud de derivación'
     transfer_request: 'El/la usuario(a) de Primero %{user} de %{agency} está solicitando que le transfiera la propiedad de este %{record_type} registro %{record_id} para que pueda prestarle servicios de gestión de %{record_type}a la persona en su área. Si esta transferencia le parece aceptable, por favor haga clic en el vínculo de ID %{record_type} en este correo para abrir el %{record_type} en Primero e iniciar la transferencia.'
     approval_request_html: 'El/la usuario(a) <strong>%{user}</strong> está solicitando aprobación para <strong>%{approval_type}</strong> en el caso <strong>%{case_id}</strong>.'
+    approval_response_html: '<strong>%{user}</strong> ha actualizado el estado de su <strong>%{approval_type}</strong> solicitud de aprobación en el Caso (<strong>%{case_id}</strong>) al siguiente: <strong>%{status}</strong>. Por favor ingresar a su cuenta para revisar.'
+    referral_html: 'Ha recibido una derivación de %{record_type} (%{record_id}) para  %{service_type} de %{user} de %{agency}. Por favor %{login_url} a su cuenta para revisar.'
+    transfer_html: 'Ha recibido una transferencia para %{record_type} (%{record_id}) de %{user} de %{agency}. Por favor %{login_url} a su cuenta para revisar.'
+    assign_html: Ha sido asignado un nuevo %{record_type} (%{record_id}) de %{user}. Por favor %{login_url} a su cuenta para revisar.
+    transfer_request_html: 'Ha recibido una solicitud de transferencia para %{record_type} %{record_id} de %{user} de %{agency}. El solicitante ha incluido una nota de transferencia: %{request_transfer_notes}. Si esta transferencia es aceptable para usted, favor ingresar a Primero para iniciar la transferencia.'
     alert: '%{record_type}%{id}-%{form_name} ha sido actualizado. Por favor, ingrese a Primero para revisar los cambios.'
     alert_subject: '%{record_type}:%{id} - %{form_name} Actualizado'
+    maximum_attachments_space_subject: Alcanzó el límite de capacidad de almacenaje de adjuntos para %{system_name}
   webpush_notification:
     action_label: Ir al Caso
     approval_request:
@@ -871,6 +927,7 @@ es-GT:
       internal_server: Error de Servidor
     attachments:
       maximum: Ha llegado a la cantidad máxima de adjuntos por Registro.
+      file_upload_unsuccessful: Error al cargar el archivo. El sistema ha alcanzado el límite de almacenamiento de documentos. Póngase en contacto con el administrador del sistema.
     error_loading: Error al Descargar Registro(s)
     models:
       agency:
@@ -919,6 +976,11 @@ es-GT:
         notification_url_format: notification_url debe tener un formato de URL
         auth_present: Auth no debe estar en blanco
         p256dh_present: p256dh no debe estar en blanco
+      case_relationship:
+        relationship_type: Tipo de relación inválida.
+        not_linked_to_self: Un caso no puede ser asociado a si mismo.
+      system_setting:
+        allocated_space_integer: El campo debe ser un número entero
     not_found: No se Encon(tró)(traron) Registro(s)
     try_again: Trate de nuevo
   exports:
@@ -1002,6 +1064,7 @@ es-GT:
         subforms: 'Subformulario %{subform_name}'
         collapsed_fields: 'Campos Colapsados: %{fields}'
         country: Países
+        linkedincidents: Incidentes asociados
       summary_header:
         form_group: Formulario de Grupo de Primero
         form: Formularios de Primero
@@ -1168,6 +1231,7 @@ es-GT:
       current: ¿Es este el documento actual?
       date: Fecha del Documento
       name: Nombre del Documento
+      content_type: Tipo de Contenido de Documento
       is_current: ¿Es este el documento actual?
     document_upload_box: Carga del Documento
     edit_label: Editar Campo
@@ -1231,6 +1295,11 @@ es-GT:
     show: ¿Mostrar?
     show_on: Mostrar en
     show_on_minify_form: Formulario Corto
+    signature: Firma
+    signature_provided_on: Fecha de firma
+    signature_provided_by: Firma proporcionada por
+    signature_created_by_user: Firmado por el usuario
+    signature_save_confirmation_title: Confirma guardar la firma
     skip_logic:
       name: ¿Lógica de exclusión?
       record_section:
@@ -1292,6 +1361,8 @@ es-GT:
     resolved: Marcas Solucionadas
     resolved_date: 'Solucionada:'
     resolved_reason: 'Solucionar Razón:'
+    update_flag: Actualizar Banderas
+    flag_updated: Bandera actualizada exitósamente
     title: Marcas
   followup_reminders:
     system_generated_followup_flag: Visita de seguimiento obligatoria
@@ -1333,6 +1404,7 @@ es-GT:
       incident: Incidente
       individual_victim: Víctima Individual
       potential_match: Posible Concordancia
+      case_relationships: Casos asociados
       record_information: Información del Registro
       referrals: Referencias
       reportable_follow_up: Seguimiento
@@ -2520,9 +2592,6 @@ es-GT:
           referral_from_service:
             explanation: Permite a el/la usuario(a) ver el botón "Referir" en el subformulario Servicios. Cuando el/la usuario(a) hace clic en este botón, la vista modal para referencias aparecerá con los campos Tipo de Servicio, Agencia, Prestadora de Servicio, y Ubicación deshabilitados pero llenados automáticamente con la información de esos campos en el subformulario Servicios en el cual el/la usuario/a hizo un clic al botón Referir.
             label: Referir un Caso desde el subformulario de Servicio
-          remove_assigned_users:
-            explanation: 'Permite a el/la usuario(a) eliminar a otro(a)s usuario(a)s del campo "Otro(a)s Usuario(a)s Asignado(a)s". Un(a) usuario(a) aparecerá aquí cuando haya recibido una referencia para el caso o cuando haya recibido una transferencia para el caso, pero aún no la ha aceptado o rechazado. Cuando usted elimina a un(a) usuario(a) del campo "Otro(a)s Usuario(a)s Asignado(a)s", está eliminado su acceso al caso. Entonces, lo(a)s usuario(a)s con este permiso pueden eliminar el acceso al caso de lo(a)s usuario(a)s que previamente hayan recibido referencias o tengan aún  transferencias pendientes para el caso. Nótese que este permiso sólo funciona si el/la usuario(a) actual está habilitado(a) para editar el caso. '
-            label: Eliminar otro(a)s usuario(a)s asignado(a)s (recuperando el acceso al caso para lo(a)s usuario(a)s a quienes se les refirió el caso)
           reopen:
             explanation: Permite a un(a) usuario(a) abrir un caso que actualmente está cerrado.
             label: Reabrir
@@ -3595,7 +3664,6 @@ es-GT:
       in_progress: Pendiente
       inprogress: Pendiente
       rejected: Rechazado
-      revoked: Anulado
     transferred_by: Transferido por
     type:
       assign: Asignar

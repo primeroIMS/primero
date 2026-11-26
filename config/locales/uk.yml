@@ -50,10 +50,12 @@ uk:
     reopen: Відкрити повторно
     request_approval: Запросити ухвалення
     revoke: Відкликати
+    revoke_mark_as_done: Відкликано/Готово
     save: Зберегти
     services_from_case_creation_success: Запис про надання послуги успішно збережено.
     services_section_from_case: Додати надання послуги
     mark_for_offline: Позначити для автономного режиму
+    attribute: Атрибут
   agencies:
     label: Агенція
     translations:
@@ -130,6 +132,7 @@ uk:
     approve_case_plan: Ухвалити кейс-план
     approve_closure: Ухвалити закриття
     approve_gbv_closure: Ухвалити закриття ГЗН
+    attribute: Атрибут
     back: Назад
     bundle_export: Пакет конфігурацій
     bundle_import: Пакет конфігурацій
@@ -183,7 +186,7 @@ uk:
     reunite: Возз'єднати
     save: Зберегти
     save_and_add_service_provision: Зберегти й додати надання послуги
-    save_and_return: Зберегти і повернутись
+    save_and_return: Зберегти і повернутися
     save_continue: Зберегти і продовжити
     save_changes: Зберегти зміни
     select: Вибрати
@@ -202,6 +205,8 @@ uk:
     return_to_case: Повернутись до особової справи
     enable_webpush: Сповіщення пристрою
     dialog_yes: "Так"
+    mark_accepted: Позначити як прийняте
+    mark_rejected: Позначено як відхилине
   resync_records:
     id: Ідентифікатор
     record_type: Тип запису
@@ -244,9 +249,12 @@ uk:
       confirm_create_case: Ви хочете створити кейс для цієї особи?
       case_referral_pending: Перенаправлення кейсу на розгляді
       case_transfer_pending: Передача кейса на розгляді
+      case_referral_pending_alert: 'Для продовження роботи зі справою необхідно прийняти/відхилити перенаправлення в цьому розділі  %{link} '
+      case_transfer_pending_alert: Для продовження роботи зі справою необхідно прийняти/відхилити перенаправлення в цьому розділі %{link}
       case_no_approval_request: Немає запитів на погодження для цього кейсу
       bulk_assign_limit: Ви не можете призначити більш ніж 100 кейсів одночасно.
       bulk_assign_limit_try_again: Ви не можете призначити більш ніж 100 кейсів одночасно. Будь ласка, оберіть 100 або менше кейсів та спробуйте знову.
+      pending_transition_excluded: Одна або кілька вибраних справ мають незавершене перенаправлення або передачу. Такі справи не будуть включені до вибірки. Щоб усунути це обмеження, прийміть або відхиліть відповідне перенаправлення чи передачу справи.
       referral_rejected: Направлення було відхилено.
       transfer_request_made: Для цієї справи було створено запит на передачу справи
     save: Зберегти кейс
@@ -311,6 +319,8 @@ uk:
     enable_dialog_title: Активувати кейс
     enable_success: Успішно активований кейс
     export: Експортувати
+    attribute:
+      title: Атрибут
     mark_for_offline:
       title: Позначити для режиму поза мережею
       text: Ви впевнені, що хочете позначити ці кейси для використання в автономному режимі?
@@ -362,6 +372,7 @@ uk:
       photo_label: Має фото?
       protection_concerns: Проблеми захисту
       protection_status: Статус захисту
+      protection_risks: Ризики захисту
       record_state: Стан запису
       referred_cases: Кейси, які перенаправлені мені
       assigned_to_me: Кейси призначені мені
@@ -369,6 +380,7 @@ uk:
       risk_level: Рівень ризику
       sex: Стать
       social_worker: Cоціальний працівник
+      marginalized_community_self_identifying: Чи належить клієнт/-ка до спільноти SOGIESC?
       status: Статус
       transferred: Передані
       type_of_risk: Тип ризику
@@ -376,6 +388,8 @@ uk:
       user_group: Група користувача
       workflow: Кейси за робочим процесом
       include_disabled: Включити деактивованих
+      safety_plan_needed: Чи потрібен план безпеки для цього випадку?
+      self_harm_thoughts: Протягом останнього місяця чи виникали у Вас серйозні думки або плани щодо позбавлення себе життя?
     flag_summary: Позначити підсумок
     full_name: ПІБ
     gbv_closure: Закриття ГЗН
@@ -403,13 +417,16 @@ uk:
       tracing_message: 'Примітка: у системі є збіг із слідчим, який шукає цю дитину. Зверніться до соціального працівника цього запису для подальших дій за бажанням дитини.'
     reassign:
       multiple_successfully: Primero переназначає %{select_records} кейси(ів). Оновлення для всіх цих кейсів може зайняти кілька хвилин.
-    referral_done: Натискання кнопки «Готово» означає, що ви завершили роботу щодо направлення, пов’язану з цим кейсом. Після того, як ви натиснете «Готово», ви більше не матимете доступу до цього запису.
+    referral_done: Після натискання кнопки «Виконано» ви втратите доступ до цього запису
     referral_done_success: Направлення готово.
     referral_accepted_header: Прийняти направлення
     referral_accepted: Ви впевнені? Ви будете відповідальні за завершення роботи, пов'язаної з цим направленням.
     referral_accepted_success: Направлення прийнято.
     referral_rejected: Натискаючи кнопку «Відхилити», ви вказуєте, що наразі не готові брати на себе відповідальність за це перенаправлення. Будь ласка, введіть причину, по якій ви відхиляєте це перенаправлення; як тільки ви натиснете «Відхилити», ви більше не матимете доступу до запису цього кейсу.
     referral_rejected_success: Направлення відхилено.
+    external_referral_accepted_header: Позначити як прийняте
+    external_referral_accepted: Ви впевнені, що хочете позначити це перенаправлення як прийняте? Це означає, що отримувач бере на себе відповідальність за виконання роботи, пов’язаної з цим перенаправленням.
+    external_referral_rejected_header: Позначено як відхилене
     register_new_case: Новий кейс
     registration_date: Дата реєстрації
     rejected_success_action_plan: '%{approval_label} - Не ухвалено'
@@ -496,6 +513,8 @@ uk:
     update_subform: 'Оновлена "%{subform_name}" субформа'
     from: від
     to: до
+  access_logs:
+    no_more: Кінець журналу доступу
   children:
     selectable_date_options:
       assessment_requested_on: Дата оцінювання
@@ -606,9 +625,9 @@ uk:
     case_management_service: Послуги по кейс менеджменту
     case_overview: Мої кейси
     case_plan: Кейс-план
-    case_risk: Кейси за рівнем оцінювання
+    case_risk: Кейси за рівнем ризику
     case_stat_by_approval_type: Ухвалення
-    case_stat_by_assessment_level: Кейси за рівнем оцінювання
+    case_stat_by_assessment_level: Кейси за рівнем ризику
     case_stat_referrals: Перенаправлення
     case_stats: Кейси
     case_worker: Кейс-працівник
@@ -751,6 +770,7 @@ uk:
     new_incident_assigned_to_you: Нові призначені інциденти
     new_last_week: Нові (минулого тижня)
     new_or_updated: Нові або оновлені
+    recently_assigned_to_me: Нещодавно призначені мені
     new_referred: Нові направлення
     new_service_provision: Нове надання послуг
     new_this_week: Нові (цього тижня)
@@ -799,12 +819,27 @@ uk:
     services: Послуги
     services_implemented: Впроваджені послуги
     shared_from_my_team_pending_transfers: Очікують переведення
+    shared_from_my_team_pending_referrals: Очікують перенаправлення
+    shared_from_my_team_accepted_referrals: Прийняті перенаправлення
+    shared_from_my_team_rejected_referrals: Відхилені перенаправлення
+    shared_from_my_team_done_referrals: Готові перенаправелння
     shared_from_my_team_rejected_transfers: Відхилені переведення справ
     shared_with_me_new_referrals: Нові
+    shared_with_me_pending_referrals: Очікує
+    shared_with_me_accepted_referrals: Прийнято
+    shared_with_me_total_referrals: Загальна кількість
     shared_with_me_transfers_awaiting_acceptance: Очікує прийняття
     shared_with_my_team_pending_transfers_overview: Очікує прийняття
     shared_with_my_team_pending_transfers: Очікують переведення
+    shared_with_my_team_pending_referrals: Очікують перенаправлення
+    shared_with_my_team_accepted_referrals: Прийняті перенаправлення
     shared_with_others_pending_transfers: Очікує
+    shared_with_others_referrals: Загальна кількість
+    shared_with_others_referrals_pending: Очікує
+    shared_with_others_referrals_accepted: Прийнято
+    shared_with_others_referrals_rejected: Відхилено
+    shared_with_others_referrals_done: Готово
+    shared_with_others_rejected_transfers: Відхилено
     status_of_cases: Статус кейсів
     system_user: Система
     total: Загальна кількість
@@ -850,6 +885,7 @@ uk:
     approval_request_html: 'Користувач <strong>%{user}</strong> запитує погодження для <strong>%{approval_type}</strong> для кейсу <strong>%{case_id}</strong>.'
     approval_response_html: '<strong>%{user}</strong>оновив статус вашого<strong>%{approval_type}</strong> запит на затвердження у справі (<strong>%{case_id}</strong>) до наступного: <strong>%{status}</strong>. Будь ласка, увійдіть у свій обліковий запис, щоб переглянути.'
     transfer_html: 'Ви отримали передачу справи для %{record_type}(%{record_id}) від%{user} з %{agency}. Будь ласка, %{login_url}у Ваш акаунт для перегляду.'
+    assign_html: Вам призначено нове %{record_type}(%{record_id}) від %{user}. Будь ласка увійдіть до свого акаунта %{login_url} для перегляду
     transfer_request_html: 'Ви отримали запит на передачу справи %{record_type}%{record_id} від %{user} з %{agency}. Особа, яка подала запит, додала примітку про передачу: %{request_transfer_notes}. Якщо ця передача є для вас прийнятною, увійдіть у систему Primero, щоб розпочати передачу.'
     alert: '%{record_type}%{id}-%{form_name} оновлено. Будь ласка, увійдіть до Primero щоб переглянути зміни.'
     alert_subject: '%{record_type}: %{id} - %{form_name} Оновлено'
@@ -959,9 +995,9 @@ uk:
       one: CSV
       selected: Вибрано до CSV
     custom:
-      all: Користувацький
+      all: Налаштовуваний
     custom_exports:
-      all: Користувацький
+      all: Налаштовуваний
       choose_fields: Бажаєте вибрати окремі поля для форми?
       empty_fields_forms: Виберіть деякі форми або поля для експорту.
       empty_format: Будь ласка, виберіть формат для експорту.
@@ -972,7 +1008,7 @@ uk:
       form_label: Форма
       format_label: Вибрати формат
       forms: Виберіть Форми для експорту
-      label: Користувацький експорт
+      label: Налаштовуваний експорт
       module_placeholder: Будь ласка, виберіть модуль.
       select_module: Вибрати модуль
       submit: ОК
@@ -1245,6 +1281,7 @@ uk:
     options_or_lookup_warning: Будь ласка, додайте параметри або виберіть пошук. Не вводьте обидва.
     other_documents: Інший документ
     photo_upload_box: Завантажити фотографію
+    phone_number: Номер телефону
     predifined_lookups: Використовуйте попередньо визначений пошук
     radio_button: Радіо-кнопка
     remove: Видалити
@@ -1573,7 +1610,7 @@ uk:
     other: "Інше"
     date_format: "%b %Р"
     date_range_select:
-      custom_range: 'Користувацький'
+      custom_range: 'Налаштовуваний'
     long_date_format: "дд/мм/рррр"
     time_periods:
       all_time: 'Весь час'
@@ -1799,6 +1836,7 @@ uk:
       password_reset: Скинути пароль
       password_reset_request: Запит на скидання пароля
       refer: Направлення
+      refer_done: Позначити перенаправлення як виконане
       reopen: Відкрити повторно
       request_transfer: Відправлення запиту на передачу
       request_transfer_view: Перегляд запиту на передачу
@@ -1825,6 +1863,7 @@ uk:
       'false': Відхилення
       gbv_closure: Форма закриття ГЗН
       'true': Ухвалюється
+    action_plan_rejected: "План дій відхилено для"
     assessment_approved: "%{approval_label} ухвалено для"
     assessment_requested: "%{approval_label}запитано для"
     bulk_index: Показати всі списком
@@ -1857,6 +1896,7 @@ uk:
       'false': Зняти позначку для мобільних пристроїв
       'true': Позначити для мобільних пристроїв
     match_record: Запис, що збігається
+    password_reset: Скидання пароля
     permitted_field_list: Перелік дозволених полів
     quick_view: Перегляд Швидкий перегляд
     reassign: Призначення
@@ -1886,6 +1926,7 @@ uk:
     refer: Направити
     refer_to: Пошук по отримувачу направлення
     referral: Направлення
+    refer_done: Позначити перенаправлення як виконане
     relinquish_referral: Скасування направлення виконано
     reopen: Відкрити повторно
     reopen_case: Повторне відкриття
@@ -1926,7 +1967,7 @@ uk:
     title: Увійти в обліковий запис
     username: Ім'я користувача
     password_reset_modal: Скинути пароль
-    password_reset_modal_text: Primero надішле посилання для скидання пароля на вашу електронну адресу
+    password_reset_modal_text: Primero надішле посилання для скидання пароля на електронну адресу вказану при реєстрації
     password_reset_email: Електронна пошта
     forgot_password: Забули свій пароль?
     email:
@@ -1958,8 +1999,10 @@ uk:
       status_open: Відкрито
       status_closed: Закрито
       agency: Агенція
+      by: За
       cp_incident_violence_type: Тип насильства
       referral_transfer_status: Статус перенаправлення/передачі
+      protection_concerns: Проблеми захисту
       followup_type: Тип моніторинга
     status_options:
       open: Відкрито
@@ -2006,10 +2049,14 @@ uk:
       sub_reports:
         followups: Моніторинги
     protection_concerns:
+      name: Проблеми захисту
       description: Кейси за вибраними занепокоєннями щодо захисту, з розбивкою за віком і статтю.
     protection_concerns_report:
       reports:
+        protection_concerns: Проблеми захисту
         description: Кейси за вибраними занепокоєннями щодо захисту, з розбивкою за віком і статтю.
+      sub_reports:
+        protection_concerns: Проблеми захисту
     reporting_locations:
       description: 'Кейси з вибраним місцем, з розбивкою за віком і статтю.'
     violations:
@@ -2077,6 +2124,9 @@ uk:
       sub_reports:
         average_cases_per_case_worker: 'Середня кількість кейсів на одного соціального працівника'
       average_cases_per_case_worker: 'Середня кількість кейсів на одного соціального працівника'
+    process_quality_successful_referrals:
+      implemented: 'Успішно'
+      not_implemented: 'Неуспішно'
     case_characteristics:
       reports:
         case_protection_risk: Кейси за ризиком захисту
@@ -2091,11 +2141,14 @@ uk:
         percentage_cases_duration: '% кейсів за тривалістю'
         percentage_cases_safety_plan: '% кейсів з остаточно затвердженим планом безпеки'
   usage_report:
+    invalid_date_format: '%{field}дата має бути дійсною'
     export:
       cases_total: Всього кейсів
       cases_open: Відкриті кейси
       cases_closed: Закриті кейси
       followups_total: Загальна кількість моніторингів
+  unused_fields_report:
+    field_id: Поле ID
   messages:
     alert_items: У вас є %{items} важливі речі.
     alerts_for:
@@ -2132,11 +2185,17 @@ uk:
     reports: Звіти
     insights: Інсайти
     search: Пошук
+    search_by: Пошук за
+    search_options:
+      id_search: ID кейсу
+      phonetic: Пошук за ПІБ
+      phone_number: За телефоном
     phonetic_search:
       help_text: Пошук по ПІБ тепер доступний
     id_search:
       title: Введіть ID кейса, щоб знайти існуючий запис.
       help_text: Для полів ID доступний точний пошук
+      tooltip_label: 'Точний пошук доступний для таких полів ідентифікатора:'
     settings: Налаштування
     support: Підтримка
     support_menu:
@@ -2181,7 +2240,7 @@ uk:
       case_assignments_referrals_transfers: Призначення кейсів, перенаправлення та передачі
       case_exports: Експорти кейсів
       case_overview: Мої кейси
-      case_risk: Кейси за рівнем оцінювання
+      case_risk: Кейси за рівнем ризику
       cases_by_task_overdue_assessment: Переглянути кейси по протермінованим задачам оцінювання
       cases_by_task_overdue_case_plan: Переглянути кейси по протермінованим задачам з кейс-плану
       cases_by_task_overdue_followups: Переглянути кейси по протермінованим задачам послуг
@@ -2220,7 +2279,7 @@ uk:
       enable_disable_record: Деактивувати
       export_case_pdf: Експортувати pdf кейса
       export_csv: Експортувати csv
-      export_custom: Користувацький експорт
+      export_custom: Налаштовуваний експорт
       export_duplicate_id_csv: Експортувати дублікати
       export_json: Експорт json
       export_list_view_csv: Експортувати список у форматі csv
@@ -2435,7 +2494,7 @@ uk:
             label: Експорт CSV
           export_custom:
             explanation: Користувач може згенерувати експорт файлу XLS зі списку кейсів або сторінок показу кейсів, який містить користувацький набір форм або полів для одного, кількох або всіх випадків, до яких користувач має доступ. У цьому експорті кожна форма представлена на власній вкладці у файлі XLS. Користувач може вибрати, які форми або поля вони хочуть включити в експорт за допомогою модального вікна користувацького експорту. Зауважте, що користувачі можуть включати форми та поля в експорт, лише якщо вони вже мають можливість бачити ці форми та поля під час перегляду справи в програмі.
-            label: Користувацький експорт
+            label: Налаштовуваний експорт
           export_duplicate_id_csv:
             explanation: Створює CSV експорт кейсів, які мають однакове поле національного ідентифікатора (може мати іншу мітку, залежно від конфігурації). Виконується лише зі сторінки списку кейсів.
             label: Експортувати дублікати
@@ -2492,9 +2551,6 @@ uk:
           referral_from_service:
             explanation: Дозволяє користувачеві бачити кнопку «Направити» у підформі «Послуги». Коли користувач натисне цю кнопку, з’явиться модальна вікно для рефералу з вимкненими полями «Тип послуги», «Агентство», «Постачальник послуг» і «Місцезнаходження», але автоматично заповненою інформацією для тих полів у підформі «Послуги», на якій користувач натиснув кнопку «Направити».
             label: Направити Кейс з підформи Послуги
-          remove_assigned_users:
-            explanation: Дозволяє користувачеві видаляти інших користувачів із поля «Інші призначені користувачі». Користувача вказано тут, якщо він отримав направлення на справу або отримав передачу для справи, але ще не прийняв або не відхилив його. Коли ви видаляєте користувача з поля «Інші призначені користувачі», ви позбавляєте його доступу до справи. Таким чином, користувачі з цим дозволом можуть скасувати доступ до справи користувачам, які раніше отримали перенаправлення або все ще очікують на переведення справи. Зверніть увагу, що цей дозвіл діє лише в тому випадку, якщо поточний користувач також має можливість редагувати справу.
-            label: Вилучити інших призначених користувачів (забирає доступ до кейсів у користувачів, яким було направлено)
           reopen:
             explanation: Дозволяє користувачеві відкрити справу, яка наразі закрита.
             label: Відкрити повторно
@@ -2561,10 +2617,14 @@ uk:
           mark_for_offline:
             explanation: Дозволяє користувачеві кешувати кейси для використання без інтернету.
             label: Позначити для режиму поза мережею
+          attribute:
+            label: Атрибут
         explanation: Представляє окрему дитину, постраждалого чи іншого бенефіціара.
         label: Кейс
       dashboard:
         actions:
+          action_needed_new_referrals:
+            label: 'Потрібна дія: очікують перенаправлення'
           action_needed_transfer_awaiting_acceptance:
             explanation: Відображає індикатор «Передачі, що очікують на прийняття» на панелі інструментів «Необхідні дії». Сюди входять усі справи з передачею поточного користувача, які поточний користувач ще не прийняв.
             label: 'Необхідні дії: перекази, що очікують на прийняття'
@@ -2728,6 +2788,8 @@ uk:
           change_log:
             explanation: Користувач може побачити історію всіх змін, внесених у запис з моменту його створення. Це включає значення, записані для всіх полів.
             label: Журнал змін
+          access_log:
+            label: Журнал доступу
           create:
             explanation: Можливість створювати інцидент.
             label: Створити
@@ -2741,7 +2803,7 @@ uk:
             explanation: Користувач може створити експорт файлу CSV зі списку інцидентів або сторінок показу інцидентів, який містить усі поля, до яких має доступ поточний користувач, для одного, кількох або всіх інцидентів, до яких користувач має доступ.
             label: Експорт CSV
           export_custom:
-            label: Користувацький експорт
+            label: Налаштовуваний експорт
           export_incident_recorder_xls:
             explanation: Користувач може створити спеціалізований експорт файлу XLS, який дає змогу обмінюватися даними з інструментом для запису інцидентів ГЗН.
             label: Експорт реєстру інцидентів xls
@@ -2838,6 +2900,8 @@ uk:
           change_log:
             explanation: Користувач може побачити історію всіх змін, внесених у запис з моменту його створення. Це включає значення, записані для всіх полів.
             label: Журнал змін
+          access_log:
+            label: Журнал доступу
           create:
             explanation: Можливість створення запису реєстру.
             label: Створити
@@ -2874,6 +2938,10 @@ uk:
         actions:
           change_log:
             label: Журнал змін
+          access_log:
+            label: Журнал доступу
+          export_custom:
+            label: Налаштовуваний експорт
       report:
         actions:
           create:
@@ -2936,6 +3004,8 @@ uk:
           change_log:
             explanation: Користувач може побачити історію всіх змін, внесених у запис з моменту його створення. Це включає значення, записані для всіх полів.
             label: Журнал змін
+          access_log:
+            label: Журнал доступу
           create:
             explanation: Можливість створення запиту на відстеження
             label: Створити
@@ -2950,7 +3020,7 @@ uk:
             label: Експорт CSV
           export_custom:
             explanation: Користувач може створити експорт файлу XLS зі списку запитів на відстеження або зі сторінок відображення запитів на відстеження, які містять користувацький набір форм або полів для одного, кількох або всіх запитів відстеження, до яких користувач має доступ. У цьому експорті кожна форма представлена на власній вкладці у файлі XLS. Користувач може вибрати, які форми або поля він хоче включити в експорт за допомогою модального вікна Користувацький Експорт. Зауважте, що користувачі можуть включати форми та поля в експорт, лише якщо вони вже мають можливість бачити ці форми та поля під час перегляду запиту на відстеження в програмі.
-            label: Користувацький експорт
+            label: Налаштовуваний експорт
           export_json:
             explanation: Користувач може створити експорт файлу JSON зі списку запитів на відстеження або зі сторінок відображення запитів відстеження, який містить усі поля, до яких має доступ поточний користувач, для одного, кількох або всіх запитів відстеження, до яких має доступ користувач. Цей експорт в основному використовується для тих, хто хоче експортувати запити відстеження з поточної системи Primero, а потім імпортувати їх в іншу систему Primero або в іншу систему керування інформацією. Формат JSON є машиночитаним і не практичний для більшості користувачів.
             label: Експорт JSON
@@ -3091,6 +3161,7 @@ uk:
     record_history_separator: Історія записів
     last_updated_at: Останнє оновлення о
     last_updated_by: Останнє оновлення ким
+    identified_by: Визначено
   record_panel:
     record_information: Інформація про запис
   referral:
@@ -3102,14 +3173,20 @@ uk:
     notes_label: Нотатки
     notes_on_referral: Примітки щодо рефералу
     note_on_referral_from_provider: Примітки щодо рефералу від постачальника
+    pending_restriction: У вас є незавершене перенаправлення. Перш ніж вносити будь-які зміни, прийміть або відхиліть це перенаправлення.
     provided_consent_label: Згода не надана у формах.
     recipient_label: Отримувач
     refer_anyway_label: Направити все-одно?
+    success_status: Чи було це перенаправлення успішно завершено?
+    service_implemented: Чи було надано послугу?
     service_label: Послуга
     success: '%{record_type}%{id} успішно направлено'
     user_mandatory_label: Отримувач обов`язковий
     date: Дата
     rejected_reason: Причина відхилення
+    service_external_referral_registry: Ви здійснюєте перенаправлення до закладу, агенції або організації зі списку зовнішніх надавачів послуг?
+    services_form_message: Для керування перенаправленнями до надавачів послуг використовуйте %{link}
+    services_form_link: Форму перенаправлень
   report:
     aggregate_by: Групувати за рядком
     attribute: Атрибут
@@ -3246,6 +3323,9 @@ uk:
       case_plan: Кейс-план
       follow_up: Моніторинг - %{subtype}
       service: Послуга - %{subtype}
+  terms_of_use:
+    terms_of_use_accepted: Умови користування були ознайомлені, схвалені та підписані від імені вашої організації.
+    accepted: Ви успішно прийняли Умови використання.
   tracing_request:
     label: Запити на відстеження
     has_match: Має співпадіння
@@ -3327,6 +3407,7 @@ uk:
       success: Записи реєстру успішно позначено для використання поза мережею
   family:
     family_member:
+      update_and_return: Оновити і повернутися
       save_and_return: Додати та повернутись
   transfer:
     label: Передача справи
@@ -3372,7 +3453,7 @@ uk:
       in_progress: Очікує
       inprogress: Очікує
       rejected: Відхилено
-      revoked: Відкликано
+      revoked: Відкликано/Готово
     transferred_by: Переданий
     type:
       assign: Призначити
@@ -3422,6 +3503,9 @@ uk:
     provider_username_help: 'Приклад: my.username@%{domain}'
     role_id: Роль
     send_mail: Отримувати сповіщення електронною поштою?
+    receive_webpush:
+      label: Отримувати push-сповіщення?
+      help_text: Зверніть увагу, що вам також потрібно дозволити push-сповіщення у браузері на вашому пристрої.
     notification_preferences:
       approval_request: 'Запит на ухвалення (супервізори)'
       approval_response: 'Відповідь про ухвалення (кейс-працівники)'
@@ -3444,8 +3528,8 @@ uk:
     password_reset:
       subject: 'Інструкції зі скидання пароля'
       email_body1: "Вам надійшов запит на зміну пароля для %{system_name}. Використовуйте наступне посилання, щоб скинути пароль:%{password_reset_link}"
-      email_body2: "Цей посилання буде дійсне протягом%{hours}годин і може бути використане тільки один раз. Не повідомляйте нікому свої облікові дані або пароль."
-      email_body3: "Якщо посилання вище не працює, скористайтеся %{reset_request_href}щоб повторно надіслати запит на зміну пароля."
+      email_body2: "Це посилання буде дійсне протягом%{hours}годин і може бути використане тільки один раз. Не повідомляйте нікому свої облікові дані або пароль."
+      email_body3: "Якщо посилання вище не працює, скористайтеся %{reset_request_href} щоб повторно надіслати запит на зміну пароля."
       email_body_link: тут
       request_submitted: "Запит на скидання пароля надіслано"
       success: "Пароль успішно змінено"
@@ -3482,7 +3566,18 @@ uk:
       selected_all_records: Вибрати усі %{total_records}кейси, які відповідають цьому запиту.
       updated: '%{updated_records}локація(ї) оновлено'
   email:
-    greeting: "Шановна %{full_name},"
+    greeting: "Шановна -ний %{full_name},"
     email_welcome_greeting: Ласкаво просимо до команди Primero.
     email_closing: До ваших послуг,
     email_signature: команда Primero
+  access_log:
+    label: Журнал доступу
+    show: 'Переглянуто:'
+    update: 'Змінено:'
+    no_more: 'Кінець журналу доступів'
+    filters:
+      access_users: Журнал доступу користувачів
+      actions: Типи доступу
+      timestamp: Час доступу
+      show: Переглянуто
+      update: Змінено

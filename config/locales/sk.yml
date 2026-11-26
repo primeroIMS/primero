@@ -359,7 +359,6 @@ sk:
     photos: Fotografia
     quick_view:
       tracing_message: 'Poznámka: V systéme existuje zhoda so žiadateľom, ktorý hľadá toto dieťa. Ak si to dieťa želá, kontaktujte sociálneho pracovníka tohto záznamu pre ďalšie kroky.'
-    referral_done: Kliknutím na "Hotovo" vyjadríte ukončenie referenčnej práce spojenej s týmto prípadom. Po kliknutí na "Hotovo" nebudete mať viac prístup k tomuto záznamu.
     referral_done_success: Odporúčanie dokončené.
     referral_accepted_header: Prijať odporúčanie
     referral_accepted: Ste si istý? Odteraz budete zodpovedný za dokončenie práce súvisiacej s týmto odporúčaním.
@@ -509,6 +508,12 @@ sk:
     all_cases: Všetky prípady
     all_services_implemented: 'Všetky Implementované Služby '
     and: 'a'
+    action_needed:
+      awaiting_acceptance: Čaká na prijatie
+      header: Vyžaduje sa akcia
+      referrals: Odporúčania
+      transfers: Prevody
+      cases: Prípady
     approval_action_plan_approved: Schválené
     approval_action_plan_pending: Čaká sa na spracovanie
     approval_action_plan_pending_group: Plán činnosti
@@ -680,6 +685,7 @@ sk:
     name: Meno
     name_or_survivor_code: Meno alebo Kód Prežitia
     near_deadline: Blížiaci sa termín
+    identified: Identifikované
     new: Nové & Aktualizované
     new_child_assigned_to_you: Nové prípady pridelené vám
     new_incident: Nové incidenty
@@ -734,8 +740,26 @@ sk:
     services: Služby
     services_implemented: Implementované Služby
     shared_from_my_team_pending_transfers: Čakajúce prevody
+    shared_from_my_team_pending_referrals: Čakajúce odporúčania
+    shared_from_my_team_accepted_referrals: Prijaté odporúčania
+    shared_from_my_team_rejected_referrals: Odmietnuté odporúčania
+    shared_from_my_team_done_referrals: Hotové odporúčania
     shared_from_my_team_rejected_transfers: Odmietnuté prevody
+    shared_with_me_pending_referrals: Čakajúci
+    shared_with_me_accepted_referrals: Prijatý
+    shared_with_me_total_referrals: Celkom
+    shared_with_me_transfers_awaiting_acceptance: Čaká na prijatie
+    shared_with_my_team_pending_transfers_overview: Čaká na prijatie
     shared_with_my_team_pending_transfers: Čakajúce prevody
+    shared_with_my_team_pending_referrals: Čakajúce odporúčania
+    shared_with_my_team_accepted_referrals: Prijaté odporúčania
+    shared_with_others_pending_transfers: Čakajúci
+    shared_with_others_referrals: Celkom
+    shared_with_others_referrals_pending: Čakajúci
+    shared_with_others_referrals_accepted: Prijatý
+    shared_with_others_referrals_rejected: Odmietnuté
+    shared_with_others_referrals_done: 'Hotovo '
+    shared_with_others_rejected_transfers: Odmietnuté
     status_of_cases: Stav prípadov
     system_user: Systém
     total: Celkom
@@ -1589,6 +1613,9 @@ sk:
       show: Zobraziť
       show_alerts: Zobraziť upozornenia
       transfer: Prevod
+      transfer_status:
+        Accepted: Prijatý prevod
+        Rejected: Odmietnuté prevody
       unflag: Vymazať príznak
       update: Aktualizovať
       user_password_reset_request: Žiadosť o obnovenie hesla používateľa
@@ -1723,6 +1750,11 @@ sk:
     filter_by:
       date: Dátum
       verification_status: Stav overenia
+    referral_transfer_status_options:
+      in_progress: Čakajúci
+      accepted: Prijatý
+      rejected: Odmietnuté
+      done: 'Hotovo '
     date_range:
       month: Mesiac
       quarter: Štvrťrok
@@ -1737,6 +1769,9 @@ sk:
       custom: Vlastné
     no_data: Tento prehľad neobsahuje žiadne údaje
     no_data_table: Tento prehľad neobsahuje žiadne údaje
+    ghn_report:
+      sub_reports:
+        total: Celkom
     violations:
       name: Porušenia
       filter_options:
@@ -1768,6 +1803,14 @@ sk:
         incident_date: Dátum incidentu
       reports:
         perpetrators: Páchatelia
+        referrals: Odporúčania
+    referrals_transfers_report:
+      reports:
+        total_referrals: Odporúčania
+        total_transfers: Prevody
+      sub_reports:
+        total_transfers_by_user_groups: Prevody celkom
+        total_referrals_by_user_groups: Celkový Počet Odporúčaní
   messages:
     alert_items: Máte %{items} poznámky.
     alerts_for:
@@ -2156,9 +2199,6 @@ sk:
           referral_from_service:
             explanation: 'Umožňuje používateľovi zobraziť tlačidlo „Odporúčať/Odkázať“ v podformulári Služby. Keď používateľ klikne na toto tlačidlo, zobrazí sa odporúčací režim so zakázanými poľami: Typ služby, Agentúra, Poskytovateľ služby a Miesto, ale automaticky sa vyplní informáciami pre tie polia v podformulári Služby, na ktorom používateľ klikol na tlačidlo Odporúčať.'
             label: Odporúčaný prípad z podformulára služby
-          remove_assigned_users:
-            explanation: Umožňuje používateľovi odstrániť iných používateľov z poľa „Ostatní priradení používatelia“. Uvádzajú sa tu používatelia ak  obdržali odporúčanie pre prípad alebo prevod pre prípad, a ešte ho neprijali ani neodmietli. Po odstránení používateľov z  poľa „Ostatní priradení používatelia“, im odoberiete prístup k prípadu. Používatelia s týmto povolením teda môžu odobrať prístup k prípadu používateľom, ktorí už v minulosti dostali odporúčania alebo stále nevybavené prevody k prípadu. Poznamenajte si, že toto povolenie funguje iba vtedy, ak má aktuálny používateľ tiež možnosť upravovať prípad.
-            label: Odstrániť ostatných priradených používateľov (spätný prístup k prípadu od používateľov, na ktorých sa odkazuje)
           reopen:
             explanation: Umožňuje používateľovi otvoriť prípad, ktorý je momentálne uzavretý.
             label: Znovu otvoriť
@@ -2229,6 +2269,14 @@ sk:
         label: Prípad
       dashboard:
         actions:
+          action_needed_new_updated:
+            label: 'Vyžaduje sa akcia: Nové alebo aktualizované'
+          action_needed_identified:
+            label: 'Vyžaduje sa akcia: Identifikované prípady'
+          action_needed_new_referrals:
+            label: 'Vyžaduje sa akcia: Čakajúce odporúčania'
+          action_needed_transfer_awaiting_acceptance:
+            label: 'Vyžaduje sa akcia: Prevody čakajúce na prijatie'
           approvals_action_plan:
             explanation: Zobrazuje počet prípadov aktuálneho používateľa so žiadosťami o schválenie akčného plánu, ktoré sú čakajúce, schválené alebo zamietnuté.
             label: Schválenia prípadov pracovníka %{approval_label}
@@ -3018,7 +3066,6 @@ sk:
       in_progress: Čakajúci
       inprogress: Čakajúci
       rejected: Odmietnuté
-      revoked: Odvolaný
     type:
       assign: Prideliť
       reassign: Prideliť

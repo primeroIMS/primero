@@ -377,7 +377,6 @@ id:
     photos: Foto
     quick_view:
       tracing_message: 'Catatan: Ada kecocokan data dengan Seseorang yang sedang mencari anak ini. Jika anak menyetujui, hubungi Pekerja Sosial yang menangani kasus ini untuk menindaklanjutinya.'
-    referral_done: Menekan tombol 'Selesai' menandakan bahwa Anda telah menyelesaikan tugas rujukan yang terkait dengan kasus ini. Setelah Anda menekan tombol 'Selesai' Anda tidak lagi memiliki akses ke data ini.
     referral_done_success: Rujukan Selesai.
     referral_accepted_header: Terima Rujukan
     referral_accepted: Anda yakin? Anda akan bertanggungjawab untuk menyelesaikan tugas yang berkaitan dengan Rujukan ini.
@@ -2306,9 +2305,6 @@ id:
           referral_from_service:
             explanation: Memungkinkan pengguna untuk melihat tombol "Rujuk" pada subformulir Layanan. Ketika pengguna mengklik tombol ini, modal rujukan akan muncul dengan kolom Jenis Layanan, Lembaga, Penyedia Layanan, dan Lokasi dinonaktifkan, tetapi secara otomatis diisi dengan informasi untuk kolom tersebut di subformulir Layanan tempat pengguna mengklik tombol Rujuk.
             label: Rujuk Kasus dari Form Layanan subformulir
-          remove_assigned_users:
-            explanation: Mengizinkan pengguna menghapus pengguna lain dari bidang "Pengguna yang Ditugaskan Lainnya". Seorang pengguna terdaftar di sini jika mereka telah menerima rujukan untuk kasus tersebut atau telah menerima transfer untuk kasus tersebut, tetapi belum menerima atau menolaknya. Saat Anda menghapus pengguna dari bidang "Pengguna yang Ditugaskan Lainnya", Anda menghapus akses mereka ke kasus. Jadi, pengguna dengan izin ini dapat menghapus akses kasus dari pengguna yang sebelumnya telah menerima rujukan atau pemindahan kasus yang masih menunggu keputusan. Perhatikan bahwa izin ini hanya berfungsi jika pengguna saat ini juga memiliki kemampuan untuk mengedit kasus.
-            label: Hapus pengguna lain yang ditugaskan (mengambil kembali akses kasus dari pengguna yang dirujuk)
           reopen:
             explanation: Memungkinkan pengguna untuk membuka kasus yang saat ini ditutup.
             label: Buka kembali
@@ -3203,7 +3199,6 @@ id:
       in_progress: Tertunda
       inprogress: Tertunda
       rejected: Ditolak
-      revoked: Ditarik kembali
     type:
       assign: Menugaskan
       reassign: Menugaskan

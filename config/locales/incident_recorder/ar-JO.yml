@@ -29,8 +29,8 @@ ar-JO:
       headers:
         incident_id: "رقم الحادثة"
         survivor_code: "رمز المساء اليه"
-        case_manager_code: "رمز مدير الحالة"
-        case_worker_code: "رمز مسؤول الحالة"
+        case_manager_code: "رمز منسق الحاالة"
+        case_worker_code: "رمز منسق الحالة"
         date_of_interview: "تاريخ المقابلة"
         date_of_incident: "تاريخ الحادثة"
         date_of_birth: "تاريخ الميلاد"
@@ -74,3 +74,5 @@ ar-JO:
           protection_referral: "خدمات حماية طفل/ خدمات تعليمية"
         consent: "تم إعطاء الموافقة"
         agency_code: "رمز المؤسسة المُبلِغة"
+      number_primary_perpetrators:
+        more_than_three: "اكثر من 3"

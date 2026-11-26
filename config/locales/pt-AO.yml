@@ -435,7 +435,6 @@ pt-AO:
       tracing_message: 'Nota: Existe uma correspondência no sistema com um Inquiridor procurando por esta criança. Contate a assistente social deste registro para mais ações, se a criança desejar.'
     reassign:
       multiple_successfully: O Primero está a reatribuir %{select_records} incidente(s). A atualização de todos estes incidentes pode demorar alguns minutos. Note que os incidentes já ligados a casos não serão atribuídos.
-    referral_done: Clicar em 'Concluído' significa que você finalizou o trabalho de encaminhamento associado a este caso. Depois de clicar em 'Concluído', você não terá mais acesso a este registro.
     referral_create_case_header: Criar 1% [modulo-id] Caso
     referral_create_case: Tem certeza? Agora você será responsável por concluir o trabalho associado a este Encaminhamento.
     referral_done_success: Encaminhamento concluído
@@ -706,6 +705,7 @@ pt-AO:
     name: Nome
     name_or_survivor_code: 'Nome ou Código de Sobrevivente '
     near_deadline: 'Prazo Próximo '
+    identified: ' Identificados'
     new: Novo e Atualizado
     new_child_assigned_to_you: 'Novos Casos Atribuídos a Você '
     new_incident: Incidentes Novos
@@ -760,14 +760,26 @@ pt-AO:
     services: Serviços
     services_implemented: 'Serviços Implementados '
     shared_from_my_team_pending_transfers: Transferências Pendentes
+    shared_from_my_team_pending_referrals: Encaminhamentos pendentes
+    shared_from_my_team_accepted_referrals: Encaminhamentos aceites
+    shared_from_my_team_rejected_referrals: Encaminhamentos rejeitados
+    shared_from_my_team_done_referrals: Encaminhamentos feitos
     shared_from_my_team_rejected_transfers: Transferências Rejeitadas
     shared_with_me_new_referrals: Novo
+    shared_with_me_pending_referrals: Pendente
+    shared_with_me_accepted_referrals: Aceite
     shared_with_me_total_referrals: Total
     shared_with_me_transfers_awaiting_acceptance: Aguardando Aceitação
     shared_with_my_team_pending_transfers_overview: Aguardando Aceitação
     shared_with_my_team_pending_transfers: Transferências Pendentes
+    shared_with_my_team_pending_referrals: Encaminhamentos pendentes
+    shared_with_my_team_accepted_referrals: Encaminhamentos aceites
     shared_with_others_pending_transfers: Pendente
     shared_with_others_referrals: Total
+    shared_with_others_referrals_pending: Pendente
+    shared_with_others_referrals_accepted: Aceite
+    shared_with_others_referrals_rejected: Rejeitado
+    shared_with_others_referrals_done: Feito
     shared_with_others_rejected_transfers: Rejeitado
     status_of_cases: 'Status de Casos '
     system_user: Sistema
@@ -2866,9 +2878,6 @@ pt-AO:
           referral_from_service:
             explanation: Permite que o usuário veja o botão "Referir" no subformulário de Serviços. Quando o usuário clica neste botão, o modal de Encaminhamento aparecerá com os campos Tipo de Serviço, Agência, Prestador de Serviço e Local desabilitados, mas preenchido automaticamente com as informações para aqueles campos no subformulário de Serviços em que o usuário clicou no botão referir
             label: Referir o caso do subformulario de serviços
-          remove_assigned_users:
-            explanation: Permite que o usuário remova outros usuários do campo "Outros Usuários Atribuídos". Um usuário é listado aqui se ele recebeu um Encaminhamento ou uma Transferência de caso, mas ainda não a aceitou ou rejeitou. Ao remover um usuário do campo "Outros Usuários Atribuídos", você remove o acesso dele ao caso. Portanto, os usuários com essa permissão podem remover o acesso ao caso de usuários que receberam encaminhamentos ou transferências ainda pendentes para o caso. Observe que essa permissão só funciona se o usuário atual também puder editar o caso.
-            label: Remover Outros Usuários Atribuídos (recuperando o acesso ao caso de encaminhados a usuários)
           reopen:
             explanation: Permite que um usuário abra um caso que está atualmente encerrado.
             label: 'Reabrir '
@@ -2960,6 +2969,10 @@ pt-AO:
           action_needed_new_updated:
             explanation: Apresenta o indicador "Novo e Atualizado" no painel "Ação Necessária". Isto inclui casos que foram recentemente atribuídos ao utilizador atual ou que outro utilizador atualizou desde a última vez que o utilizador atual o atualizou.
             label: 'Ação necessária: nova ou atualizada'
+          action_needed_identified:
+            label: ' Ação necessária: Casos identificados'
+          action_needed_new_referrals:
+            label: 'Ação necessária: Encaminhamentos pendentes'
           action_needed_transfer_awaiting_acceptance:
             explanation: Apresenta o indicador "Transferências Aguardam Aceitação" no painel "Ação Necessária". Isto inclui quaisquer Casos com Transferência para o utilizador atual, que o utilizador atual não tenha aceite.
             label: 'Ação necessária: transferências a aguardar aceitação'
@@ -4007,7 +4020,6 @@ pt-AO:
       in_progress: Pendente
       inprogress: Pendente
       rejected: Indeferido
-      revoked: Revogada
     transferred_by: Transferido por
     type:
       assign: Atribuir

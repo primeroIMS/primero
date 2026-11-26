@@ -317,7 +317,6 @@ hi-IN:
       date: "तिथि"
       ready_to_start_cfm: "क्या आप चाइल्ड फंक्शनिंग मॉड्यूल शुरू करना चाहते हैं?"
       age: "उम्र"
-      vision_wear_glass: "क्या चश्मा पहनते हैं?"
       difficulty_seeing_with_glasses: "चश्मा पहनकर देखने में कठिनाई"
       child_wears_hearing_aid: "बच्चा सुनने की मशीन का उपयोग करता है"
       difficulty_hearing_with_hearing_aid: "सुनने की मशीन के साथ भी सुनने में परेशानी"
@@ -328,24 +327,10 @@ hi-IN:
       difficulty_walking_with_equipment: "उपकरण/सहायता के साथ चलने में कठिनाई"
       mobility_difficulty_with_equipment_100m: "उपकरण के साथ चलने में कठिनाई 100 मीटर"
       mobility_difficulty_with_equipment_500m: "उपकरण के साथ चलने में कठिनाई 500 मीटर"
-      difficulty_comparative: "दूसरों की तुलना में चलने में कठिनाई"
       mobility_difficulty_comparative_100m: "100 मीटर चलने में दूसरों की तुलना में कठिनाई"
       mobility_difficulty_comparative_500m: "500 मीटर चलने में दूसरों की तुलना में कठिनाई"
       difficulty_picking_up_small_objects_with_hand: "हाथ से छोटी वस्तुएँ उठाने में कठिनाई"
       self_care_difficulty: "खुद की देखभाल करने में दिक्कत"
-      child_have_difficulty_to_understand: "बच्चे को समझने में कठिनाई होती है"
-      child_have_difficulty_to_understanding_child_household: "बच्चे को घर के बारे में समझने में कठिनाई होती है"
-      difficulty_to_understanding_child_others: "बच्चे को दूसरों को समझने में कठिनाई"
-      difficulty_to_understand_the_child: "बच्चे को समझने में कठिनाई"
-      child_have_difficulty_for_learning: "बच्चे को सीखने में कठिनाई होती है"
-      child_have_difficulty_for_playing: "बच्चे को खेलने में कठिनाई हो रही है"
-      remembering_difficulty: "याद रखने में कठिनाई"
-      concentrating_difficulty: "ध्यान केंद्रित करने में कठिनाई"
-      accepting_change_difficulty: "परिवर्तन स्वीकार करने में कठिनाई"
-      difficulty_for_controlling_behaviour: "दूसरों को लात मारने, काटने या मारने जैसे व्यवहार को कंट्रोल करने में कठिनाई"
-      making_friends_difficulty: "दोस्त बनाना मुश्किल"
-      anxiety_how_often: "चिंता कितनी बार"
-      depression_how_often: "डिप्रेशन कितनी बार महसूस होता है?"
       cfm_yes: "हाँ "
       cfm_no: "नहीं "
       n_a: "लागू नहीं"
@@ -470,7 +455,6 @@ hi-IN:
       tracing_message: 'नोट: सिस्टम में एक इन्क्वायरर के साथ एक मैच है जो इस बच्चे को ढूंढ रहा है। अगर बच्चा चाहता है तो आगे की कार्रवाई के लिए इस रिकॉर्ड के सोशल वर्कर से संपर्क करें।'
     reassign:
       multiple_successfully: "%{select_records}  Primero  केसों को पुनः असाइन कर रहा है। सभी केस अपडेट होने में कुछ मिनट लग सकते हैं।"
-    referral_done: "'Done' पर क्लिक करने का मतलब है कि आपने इस केस से संबंधित रेफरल का काम पूरा कर लिया है। 'Done' पर क्लिक करने के बाद आपको इस रिकॉर्ड तक दोबारा पहुँच नहीं होगी।"
     referral_create_case_header: "%{module_id} केस बनाएँ"
     referral_create_case: "क्या आप सुनिश्चित हैं? आप जिस केस को बनाएंगे, उसकी जिम्मेदारी आपकी होगी।"
     referral_done_success: रेफरल पूरा हो गया है।
@@ -871,14 +855,12 @@ hi-IN:
     services: सेवाएँ
     services_implemented: लागू की गई सेवाएँ
     shared_from_my_team_pending_transfers: पेंडिंग ट्रांसफर
-    shared_from_my_team_referrals: रेफरल
     shared_from_my_team_rejected_transfers: रिजेक्टेड किए गए मामले
     shared_with_me_new_referrals: नया
     shared_with_me_total_referrals: कुल
     shared_with_me_transfers_awaiting_acceptance: मंजूरी का इंतज़ार
     shared_with_my_team_pending_transfers_overview: अभी स्वीकार नहीं हुआ
     shared_with_my_team_pending_transfers: पेंडिंग ट्रांसफर
-    shared_with_my_team_referrals: रेफरल्स
     shared_with_others_pending_transfers: पेंडिंग
     shared_with_others_referrals: कुल
     shared_with_others_rejected_transfers: रिजेक्टेड किया गया
@@ -970,11 +952,9 @@ hi-IN:
     error_something_went_wrong: कुछ गड़बड़ हो गई है।
   error_page:
     not_authorized:
-      code: 403
       server_error: "आपको इस पेज तक पहुँचने की अनुमति नहीं है।\n \n "
       title: अनुमति नहीं है।
     not_found:
-      code: 404
       contact_admin: "यदि आपको लगता है कि आप यहाँ गलती से आए हैं, तो कृपया अपने एडमिन से संपर्क करें।"
       something_went_wrong: "क्षमा करें, कुछ गड़बड़ हो गई है!"
   errors:
@@ -996,7 +976,6 @@ hi-IN:
         logo_format: फ़ाइल PNG होनी चाहिए
         terms_of_use_format: फ़ाइल PNG होनी चाहिए
         name_present: खाली नहीं होना चाहिए
-        must_sign_terms_of_use: एजेंसी के Terms of Use पर साइन करना जरूरी है
       child:
         age: उम्र 0 से 130 के बीच होनी चाहिए
         date_of_birth: कृपया इस केस रिकॉर्ड के लिए सही जन्म तिथि दर्ज करें
@@ -2268,7 +2247,6 @@ hi-IN:
     incomplete_data: अपूर्ण डेटा
     individual_children:
       name: "एकल बच्चे "
-      description: ''
       reports:
         individual_children: "एकल बच्चे "
       sub_reports:
@@ -2318,14 +2296,12 @@ hi-IN:
       name: रिपोर्टिंग स्थान
       reports:
         reporting_locations: रिपोर्टिंग स्थान
-        description: ''
       sub_reports:
         reporting_location_by_sex_and_age: रिपोर्टिंग स्थान
       filter_options:
         registration_date: पंजीकरण की तारीख
     ghn_report:
       name: सामान्य नोट
-      description: ''
       reports:
         ghn_report: सामान्य नोट
       sub_reports:
@@ -2362,7 +2338,6 @@ hi-IN:
         group_multiple_violations: उन पीड़ितों को समूहित करें जो कई उल्लंघनों से प्रभावित हैं
     violations:
       name: उल्लंघन
-      description: ''
       filter_options:
         incident_date: घटना की तारीख
         date_of_report: रिपोर्ट की तारीख
@@ -2417,7 +2392,6 @@ hi-IN:
         military_use_type_of_use: उपयोग के प्रकार अनुसार उल्लंघनों की संख्या
     gbv_statistics:
       name: लिंग आधारित हिंसा (GBV) आंकड़े
-      description: ''
       filter_options:
         date_of_first_report: इंटरव्यू की तारीख
         incident_date: घटना की तारीख
@@ -2514,7 +2488,6 @@ hi-IN:
         registration_date: रजिस्ट्रेशन की तारीख
     violence_type_report:
       name: हिंसा का प्रकार
-      description: ''
       reports:
         cases_violence_type: हिंसा का प्रकार - केस
         incidents_violence_type: हिंसा का प्रकार - घटनाएं
@@ -2737,7 +2710,6 @@ hi-IN:
     search: खोजें
     phonetic_search:
       title: किसी मौजूदा रिकॉर्ड को खोजने के लिए नाम दर्ज करें।
-      label: नाम फ़ील्ड का उपयोग करें
       help_text: नाम फ़ील्ड में ध्वनि-समान खोज उपलब्ध है
       tooltip_label: 'इन नाम फ़ील्ड में ध्वनि के आधार पर खोज कर सकते हैं।'
     id_search:
@@ -3123,9 +3095,6 @@ hi-IN:
           referral_from_service:
             explanation: "यह उपयोगकर्ता को सेवाएँ सबफ़ॉर्म में रेफ़र / भेजें बटन दिखने की अनुमति देता है। जब उपयोगकर्ता इस बटन पर क्लिक करता है, तो रेफ़रल मोडल खुलेगा, जिसमें सेवा का प्रकार, एजेंसी/संस्था, सेवा प्रदाता और स्थान के फील्ड्स निष्क्रिय होंगे, लेकिन अपने आप उसी सेवाएँ सबफ़ॉर्म की जानकारी से भर जाएंगे, जिस पर उपयोगकर्ता ने रेफ़र / भेजें बटन क्लिक किया था।"
             label: सेवा उपफ़ॉर्म से केस रेफ़र करें
-          remove_assigned_users:
-            explanation: "यह उपयोगकर्ता को \"अन्य असाइन किए गए उपयोगकर्ता\" फ़ील्ड से अन्य उपयोगकर्ताओं को हटाने की अनुमति देता है। कोई उपयोगकर्ता यहाँ तब सूचीबद्ध होता है जब उसने केस के लिए रेफ़रल प्राप्त किया हो या केस के लिए ट्रांसफ़र प्राप्त किया हो, लेकिन उसने इसे अभी स्वीकार या अस्वीकार नहीं किया है। जब आप \"अन्य असाइन किए गए उपयोगकर्ता\" फ़ील्ड से किसी उपयोगकर्ता को हटाते हैं, तो आप उसका केस तक पहुँच का अधिकार हटा देते हैं। इसलिए, जिन उपयोगकर्ताओं के पास यह अनुमति है, वे उन उपयोगकर्ताओं का केस एक्सेस हटा सकते हैं जिन्होंने पहले रेफ़रल प्राप्त किया हो या जिनके पास अभी पेंडिंग ट्रांसफ़र हो। ध्यान दें कि यह अनुमति केवल तभी काम करती है जब वर्तमान उपयोगकर्ता को भी केस को संपादित करने की क्षमता हो।"
-            label: अन्य असाइन किए गए उपयोगकर्ताओं को हटाएं (रेफ़र किए गए उपयोगकर्ताओं से केस एक्सेस वापस लें)
           reopen:
             explanation: यह उपयोगकर्ता को उस केस को खोलने की अनुमति देता है जो वर्तमान में बंद है।
             label: पुनः खोलें
@@ -3223,9 +3192,6 @@ hi-IN:
           action_needed_identified:
             explanation: "यह उन केसों की संख्या दिखाता है जिन्हें पहचाना गया है, लेकिन अभी तक खोला नहीं गया है और जिनका केस प्रबंधन शुरू नहीं हुआ है।"
             label: 'कार्रवाई आवश्यक: पहचाने गए केस'
-          action_needed_new_referrals:
-            explanation: "'Action Needed' डैशबोर्ड में 'नए रेफरल' संकेतक दिखाता है। इसमें ऐसे केस शामिल हैं जिनके नए रेफरल वर्तमान उपयोगकर्ता को भेजे गए हैं, और वर्तमान उपयोगकर्ता ने उस केस को आखिरी बार अपडेट नहीं किया है।"
-            label: 'कार्रवाई आवश्यक: नए रेफरल'
           action_needed_transfer_awaiting_acceptance:
             explanation: "'Action Needed' डैशबोर्ड में 'स्वीकृति की प्रतीक्षा में ट्रांसफर' संकेतक दिखाता है। इसमें वे केस शामिल हैं जिनका ट्रांसफर वर्तमान उपयोगकर्ता को किया गया है और जिसे वर्तमान उपयोगकर्ता ने अभी तक स्वीकार नहीं किया है।"
             label: 'कार्रवाई आवश्यक: स्वीकृति की प्रतीक्षा में ट्रांसफर'
@@ -3608,7 +3574,6 @@ hi-IN:
       metadata:
         actions:
           manage:
-            explanation: "फ़ॉर्म, फ़ॉर्म फ़ील्ड्स और लुकअप को बनाना, संपादित करना, अनुवाद करना और हटाने की क्षमता। ध्यान दें कि इस अनुमति वाला उपयोगकर्ता केवल उन्हीं फ़ॉर्म्स को मैनेज कर सकता है जिन तक उसकी पहुँच है। उदाहरण के लिए, यदि किसी राष्ट्रीय प्रशासक को केवल केस में \"Record Owner\" फ़ॉर्म देखने की अनुमति है, तो वह केवल उसी फ़ॉर्म की सेटिंग (कॉन्फ़िगरेशन) को अपडेट कर पाएगा।"
             label: प्रबंधित (इस संसाधन प्रकार के सभी अनुमतियाँ)
         explanation: "यह Primero के फ़ॉर्म और फ़ील्ड्स को सेट करने (कॉन्फ़िगर करने) की क्षमता को नियंत्रित करता है, साथ ही उनमें उपयोग होने वाले लुकअप विकल्पों को भी।"
         label: फॉर्म्स / जानकारी खोजें
@@ -4339,7 +4304,6 @@ hi-IN:
       in_progress: लंबित
       inprogress: लंबित
       rejected: रिजेक्टेड
-      revoked: रद्द किया गया
     transferred_by: द्वारा ट्रांसफर किया गया
     type:
       assign: असाइन करें
@@ -4465,7 +4429,6 @@ hi-IN:
     headers:
       full_name: पूरा नाम
       user_name: यूज़रनेम
-      position: पद
       agency: एजेंसी
     alerts:
       total_users_created: "आपने अपनी सिस्टम की अनुमत %{total_enabled} सक्रिय यूज़र्स में से %{maximum_users} यूज़र्स बना लिए हैं।"

@@ -539,9 +539,6 @@ am-ET:
       tracing_message: 'ማስታወሻ፤ ይህን ህጻን ከሚፈልግ ጠያቂ ጋር ተዛማጅ መረጃ አለ። በመሆኑም ለተጨማሪ ስራ የህጻኑ ፍላጎት ከሆነ ጉዳዩን የያዘው የጉዳይ አያያዝ ባለሙያውን ያግኙና ያናግሩ  
 
          '
-    referral_done: '''ተከናውኗል'' የሚለውን ከተጫኑ  ከዚህ ጉዳይ ጋር የተያያዘውን የሪፈራል ስራ እንደጨረሱ ያሳያል። አንዴ ''ተከናውኗል'' የሚለውን ከተጫኑ ይህንን መረጃ ማግኘት አይችሉም
-
-       '
     referral_done_success: 'ቅብብሎሽ ተደርጓል
 
        '
@@ -828,6 +825,12 @@ am-ET:
     and: 'እና
 
        '
+    action_needed:
+      awaiting_acceptance: ተቀባይነት ለማግኘት በመጠባበቅ ላይ
+      header: እርምጃ ያስፈልጋል
+      referrals: ቅብብሎሽ
+      transfers: አስተላልፍ
+      cases: ጉዳዮች
     approval_action_plan_approved: ጸድቋል
     approval_action_plan_pending: ያላለቀ/በመጠባበቅ ላይ
     approval_action_plan_pending_group: የድርጊት መርሀግብር
@@ -932,6 +935,7 @@ am-ET:
     name: ስም
     name_or_survivor_code: የህጻኑ ስም
     near_deadline: ማብቂያው ጊዜ የደረሰ
+    identified: ተለይተው የታወቁ
     new: አዲስና የተሻሻለ
     new_child_assigned_to_you: የተመደበልህ አዲስ ጉዳዮች
     new_incident: አዲስ ክስተት
@@ -986,8 +990,26 @@ am-ET:
     services: አገልግሎቶች
     services_implemented: የተተገበሩ አገልግሎቶች
     shared_from_my_team_pending_transfers: በእንጥልጥል ላይ ያሉ የሚተላለፉ
+    shared_from_my_team_pending_referrals: በመጠባበቅ ላይ ያሉ ሪፈራሎች
+    shared_from_my_team_accepted_referrals: ተቀባይነት ያገኙ ሪፈራሎች
+    shared_from_my_team_rejected_referrals: ውድቅ የተደረጉ ሪፈራሎች
+    shared_from_my_team_done_referrals: የተጠናቀቁ ሪፈራሎች
     shared_from_my_team_rejected_transfers: ተቀባይነት ያላገኘ ማስተላለፍ
+    shared_with_me_pending_referrals: በመጠባበቅ ላይ
+    shared_with_me_accepted_referrals: ተቀባይነት አግኝቷል
+    shared_with_me_total_referrals: አጠቃላይ
+    shared_with_me_transfers_awaiting_acceptance: ተቀባይነት ለማግኘት በመጠባበቅ ላይ
+    shared_with_my_team_pending_transfers_overview: ተቀባይነት ለማግኘት በመጠባበቅ ላይ
     shared_with_my_team_pending_transfers: በእንጥልጥል ላይ ያሉ የሚተላለፉ
+    shared_with_my_team_pending_referrals: በመጠባበቅ ላይ ያሉ ሪፈራሎች
+    shared_with_my_team_accepted_referrals: ተቀባይነት ያገኙ ሪፈራሎች
+    shared_with_others_pending_transfers: በመጠባበቅ ላይ
+    shared_with_others_referrals: አጠቃላይ
+    shared_with_others_referrals_pending: በመጠባበቅ ላይ
+    shared_with_others_referrals_accepted: ተቀባይነት አግኝቷል
+    shared_with_others_referrals_rejected: ውድቅ ተደርጓል
+    shared_with_others_referrals_done: ተደርጓል
+    shared_with_others_rejected_transfers: ውድቅ ተደርጓል
     status_of_cases: የጉዳዮች ሁኔታ
     system_user: ስርዓት
     total: አጠቃላይ
@@ -1342,6 +1364,7 @@ am-ET:
     english_text: የእንግሊዘኛ ጽሁፍ
     field_name: የቦታ ስም
     field_type: የቦታ አይነት
+    attachment_too_large: መረጃው ከ20 ሜ.ባ መብለጥ የለበትም
     file_upload_box:
       add_document_label: መረጃ አክል
       add_new_document_button_text: ሌላ መረጃ አክል
@@ -2224,6 +2247,11 @@ am-ET:
         perpetrators: ድርጊቱን/ጥቃቱን ፈጻሚዎች
         survivors: ጉዳት የደረሰበት/ባት
         referrals: ቅብብሎሽ
+    referrals_transfers_report:
+      reports:
+        total_transfers: አስተላልፍ
+      sub_reports:
+        total_referrals_by_user_groups: አጠቃላይ ቅብብሎሾች
   messages:
     alert_items: ዝርዝር ማስታወሻ አለህ/አለሽ%{items}
     alerts_for:
@@ -2612,9 +2640,6 @@ am-ET:
           referral_from_service:
             explanation: ተጠቃሚው በአገልግሎቶቹ ንዑስ ቅጽ ላይ የ"ማዘዋወርያ" ቁልፍን እንዲያይ ያስችላቸዋል። ተጠቃሚው ይህን ቁልፍ ሲነካ የሪፈራል  የአገልግሎት ዓይነት፣ ኤጀንሲ፣ አገልግሎት አቅራቢ እና የመገኛ ቦታቸው ንቁ አይሆንም ፣ ነገር ግን ተጠቃሚው የማጣቀስ ቁልፍን በተጫነበት ጊዜ  የአገልግሎቶች ንዑስ ፎርም ውስጥ ባለው መረጃ ተሞልቶ የቀርባል።
             label: የጉዳይ ከአገልግሎት ንዑስ ቅጽ ይመልከቱ
-          remove_assigned_users:
-            explanation: ተጠቃሚው ሌሎችን ተጠቃሚዎች ከተመደቡበት ማውጣት፡፡ ተጠቃሚው በዚህ ዝርዝር ስር ይገኛል ኬዞችን ካስተላለፈ፣ ከተቀበለ ፡፡ ተጠቃሚውን ከተመደበበት ካወጣህው ኬዙን እንዳያገኝ እያደረግሀው ነው፡፡ ተጠቃሚው ኬዞችን እንዳያይ ይሆናል፡፡ ይህ የሚሆነው ማስተካከል የሚችል ከሆነ ብቻ ነው፡፡
-            label: የተመደበውን ባለሙያ ያስወግዱ ( ኬዙን ከቅብብሎሽ ወደ አዲስ ደምበኛ ማስገባት)
           reopen:
             explanation: ባለሙያው የተዘጋ ኬዝ እንዲከፍት አድርግ
             label: ዳግም መክፈት
@@ -2687,6 +2712,16 @@ am-ET:
         label: ጉዳይ
       dashboard:
         actions:
+          action_needed_new_updated:
+            label: 'እርምጃ ያስፈልጋል: አዲስ ወይም የተሻሻሉ'
+          action_needed_identified:
+            label: 'እርምጃ ያስፈልጋል: ተለይተው የታወቁ ጉዳዮች'
+          action_needed_new_referrals:
+            label: ' 
+
+              እርምጃ ያስፈልጋል: በመጠባበቅ ላይ ያሉ ሪፈራሎች'
+          action_needed_transfer_awaiting_acceptance:
+            label: 'እርምጃ ያስፈልጋል: ተቀባይነትን በመጠባበቅ ላይ ያሉ ዝውውሮች'
           approvals_action_plan:
             explanation: በመጠባበቅ ላይ ያሉ፣ የጸደቁ ወይም ውድቅ የሆኑ  በድጋፍ እቅድ ማጽደቅ ጥያቄዎችን የአሁኑን ተጠቃሚ ጉዳዮች ብዛት ያሳያል።
             label: የጉዳይ%{approval_label} ባለሙያ
@@ -3551,7 +3586,6 @@ am-ET:
       in_progress: 'በሂደት ላይ '
       inprogress: 'በሂደት ላይ '
       rejected: ውድቅ የተደረገ
-      revoked: የተሰረዘ
     type:
       assign: መመደብ
       reassign: መመደብ

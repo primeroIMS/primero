@@ -4,11 +4,11 @@ tet:
       export_incident_recorder_xls: "Esporta rejistrador insidente xls"
   exports:
     incident_recorder_xls:
-      all:  Rejistrador Insidente
-      one:  Rejistrador Insidente
-      selected:  Hili ona ba Rejistrador Insidente
-      "yes": "Loos"
-      "no": "Lae"
+      all: Rejistrador Insidente
+      one: Rejistrador Insidente
+      selected: Hili ona ba Rejistrador Insidente
+      'yes': "Loos"
+      'no': "Lae"
       gender:
         male: "M"
         female: "F"

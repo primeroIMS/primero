@@ -4,21 +4,30 @@ pt-BR:
   accepted: Aceito
   cancel: Cancelar
   connection_lost: Atualmente em modo offline
+  field_mode_offline: Atualmente em modo Campo
   connected: Conectado
+  no_connection: Desconectado
   clear: Limpar
   sandbox_ui: Demo
   description: 'Descrição '
   form: Formulário
+  minimum_reportable_fields: "Campos mínimos reportáveis %{record_type}"
   name: Nome
   offline: Offline
+  field_mode: "Modo Campo: %{mode}"
+  field_mode_on: "Ligado"
+  field_mode_off: "Desligado"
   unavailable_offline: Indisponível offline
   online: Online
   yes_label: 'Sim'
+  or_label: ou,
   select_provider: Selecione o provedor
   select_language: Selecione o idioma
   log_in_primero_idp: faça login com nome de usuário %{idp_name}
   offline_submitted_changes: Você está offline no momento. Suas alterações serão enviadas quando você estiver online novamente.
   updated: Atualizado
+  go: Ir
+  select_idp_error: Por favor, selecione um provedor.
   sync:
     success: "%{records}registros sincronizados com sucesso."
     error:
@@ -44,6 +53,7 @@ pt-BR:
     save: Salvar
     services_from_case_creation_success: Registro de prestação de serviço criado com sucesso.
     services_section_from_case: 'Adicionar Prestação de Serviço '
+    mark_for_offline: Marcar para Offline
   agencies:
     label: 'Agência '
     translations:
@@ -74,6 +84,7 @@ pt-BR:
     terms_of_use_download_button: Baixar PDF
     terms_of_use_enabled: Exibir Termos de Uso?
   approvals:
+    no_requests: Não há solicitações de aprovação para esse Caso
     approved_by: Aprovado Por
     case_plan_type_label: Tipo de Plano de Caso
     manager_comments_label: Comentários do Gerente
@@ -96,6 +107,7 @@ pt-BR:
     record_owner: Proprietário do Registro
     timestamp: Tempo
     user_name: Executado Por
+    type: Tipo de Registro
   bulk_export:
     file_name: 'Arquivo '
     record_type: Tipo
@@ -131,6 +143,7 @@ pt-BR:
     close: Fechar
     continue: Prosseguir
     create_case: Criar Caso
+    referral_create_case: Criar Novo Caso %{module_id}
     create_incident: 'Criar Incidente '
     create_new_record: Criar Novo %{model}
     delete: Excluir
@@ -156,6 +169,7 @@ pt-BR:
     import: Importar
     login: Entrar
     logout: Sair
+    link: Link
     mark_for_mobile: 'Marcar para dispositivo móvel  '
     new: Novo
     ok: OK
@@ -188,9 +202,33 @@ pt-BR:
     view: Visualizar
     view_flags_history: Ver histórico
     return_to_case: Retornar ao Caso
+    enable_webpush: Notificações de dispositivo
+    dialog_yes: "Sim"
+  resync_records:
+    id: ID
+    record_type: Tipo de Registro
+    action: Ação
+    date: Data
+    last_attempt: Última tentativa
+    create: Criar
+    update: Atualizar
+    resync: Submeter
   case:
     label: Caso
     create_new_case: Criar Novo Caso
+    create_case: Criar Caso
+    create: Criar
+    add_new: Adicionar Novo
+    back_to_family_details: Voltar para Detalhes da Família
+    back_to_case: Voltar para Caso
+    back_to_results: Voltar para Resultados
+    back_to_search: Voltar para Pesquisa
+    search_by: Pesquisar Por
+    search_for: Pesquisar %{record_type}
+    results: Resultados
+    details: Detalhes
+    select: Selecionar
+    deselect: Desmarcar
     enter_id_number: Insira o código ID para buscar um registro existente
     id_search_no_results: Não há correspondência no sistema para “%{search_query}”. Por favor, crie um novo registro.
     messages:
@@ -205,6 +243,14 @@ pt-BR:
       introductory_sentence: Por favor, especifique o consentimento do indivíduo para receber serviços de gerenciamento de caso e para que seus dados sejam armazenados no Primero.
       consent_agreements_required: Por favor, selecione pelo menos uma opção dos acordos de consentimento.
       legitimate_basis_required: Por favor, selecione pelo menos uma opção das classificações de base legítimas.
+      confirm_create_case: Você quer criar um Caso para este indivíduo?
+      case_referral_pending: Um encaminhamento de Caso está pendente.
+      case_transfer_pending: Um transferência de Caso está pendente.
+      case_no_approval_request: Não há solicitações de aprovação para este Caso.
+      bulk_assign_limit: Não é possível atribuir mais de 100 casos de uma só vez.
+      bulk_assign_limit_try_again: Não é possível atribuir mais de 100 casos de uma só vez. Por favor selecione 100 ou menos Casos e tente novamente.
+      referral_rejected: A Indicação foi rejeitada.
+      transfer_request_made: Foi feito um pedido de transferência para este Caso.
     save: Salvar Caso
     save_text: Antes de continuar, por favor salve as alterações feitas no Caso.
     skip_and_create: Pular e Criar Novo Caso
@@ -212,6 +258,7 @@ pt-BR:
     search_helper_text: Por que? Para evitar a criação de casos duplicados.
     consent_agreements: Selecione todos os acordos de consentimento que se aplicam
     legitimate_basis: Selecione todas as classificações de base legítimas que se aplicam
+    family_linked_subform_delete_disabled: Esta entrada do subformulário está vinculada a um Registro Familiar. Remova este membro da família do registro familiar ou desvinculá-lo do Registro Familiar.
     workflow:
       assessment: Avaliação
       case_plan: Plano de caso
@@ -223,8 +270,15 @@ pt-BR:
       reopened: Reaberto
       service_implemented: Serviço Implementado
       services_implemented: Serviço Implementado
+  linkedincidents:
+    label: Incidentes Relacionados
+  activity_log:
+    label: Log de Atividades
+    accepted_transfer: '%{to}transferência aceita de %{record_type}%{record_id}para%{from}'
+    rejected_transfer: '%{to}transferência rejeitada de %{record_type}%{record_id}de %{from}'
   cases:
     action_plan: Plano de Ação
+    access_denied: "Você não tem acesso a esse Caso."
     age: Idade
     age_estimated: Idade Estimada?
     agency: Agência
@@ -244,11 +298,32 @@ pt-BR:
     case_opening_date: Data de Abertura do Caso
     case_plan: Plano de Caso
     case_worker_code: Código do Responsável pelo Caso
+    child_functioning:
+      date: "Data"
+      ready_to_start_cfm: "Você está pronto para iniciar o Módulo de Funcionamento Infantil?"
+      age: "Idade"
+      difficulty_seeing_with_glasses: "Dificuldade para enxergar com óculos"
+      child_wears_hearing_aid: "A criança usa aparelho auditivo"
+      difficulty_hearing_with_hearing_aid: "Dificuldade em ouvir com aparelho auditivo"
+      child_uses_equipment_or_receive_assistance_for_walking: "A criança usa equipamentos ou recebe ajuda para andar"
+      difficulty_walking_without_equipment: "Dificuldade em andar sem equipamento/assistência"
+      mobility_difficulty_without_equipment_100m: "Dificuldade de mobilidade sem equipamento 100m"
+      mobility_difficulty_without_equipment_500m: "Dificuldade de mobilidade sem equipamento 500m"
+      difficulty_walking_with_equipment: "Dificuldade em andar com equipamento/assistência"
+      mobility_difficulty_with_equipment_100m: "Dificuldade de mobilidade com equipamento 100m"
+      mobility_difficulty_with_equipment_500m: "Dificuldade de mobilidade com equipamento 500m"
+      difficulty_picking_up_small_objects_with_hand: "Dificuldade ao pegar objetos pequenos com a mão"
+      self_care_difficulty: "Dificuldade em cuidar de si mesmo"
+      cfm_yes: "Sim"
+      cfm_no: "Não"
+      n_a: "N/A"
+    client_code: Código do Cliente
     clear_filter: Limpar
     close_dialog: Clicar em OK mudará o status deste caso para Encerrado
     close_dialog_title: Encerrar Caso
     close_success: Caso encerrado com sucesso
     closure: Encerramento
+    complete: Disponível Offline
     date_of_birth: Data de Nascimento
     disable_dialog: Clicar em OK mudará o status deste caso para Desativado.
     disable_dialog_title: Desativar Caso
@@ -257,6 +332,8 @@ pt-BR:
     enable_dialog_title: Ativar Caso
     enable_success: Caso ativado com sucesso
     export: Exportar
+    mark_for_offline:
+      title: Marcar para Offline
     filter_by:
       3month_inactivity: Por mais de 3 meses
       action_plan: Plano de Ação
@@ -287,6 +364,7 @@ pt-BR:
       flag: Sinalizado
       flag_label: Sinalizado?
       gbv_closure: Encerramento VBG
+      gender: Gênero
       high: Alto
       low: Baixo
       male: Masculino
@@ -302,6 +380,7 @@ pt-BR:
       photo_label: Possui Foto?
       protection_concerns: Preocupações de Proteção
       protection_status: Status de Proteção
+      protection_risks: Riscos de Proteção
       record_state: Estado de Registro
       referred_cases: Casos encaminhados para mim
       registration_date: Data de Registro
@@ -314,13 +393,16 @@ pt-BR:
       urgent_protection_concern: Preocupação de Proteção Urgente
       user_group: Grupo de Usuários
       workflow: Casos por Fluxo de Trabalho
+      module_id: Módulo
     flag_summary: Resumo de sinalizações
     full_name: Nome Completo
     gbv_closure: Encerramento VBG
+    gender: Gênero
     hide_name: Ocultar Nome
     hide_name_error: Um erro ocorreu ao salvar suas alterações. Por favor, tente novamente.
     id: ID#
     label: Casos
+    location_current: Localização
     my_filters: Meus filtros
     name: Nome
     notes_dialog_title: Adicionar Notas
@@ -337,7 +419,7 @@ pt-BR:
     photos: Foto
     quick_view:
       tracing_message: 'Nota: Existe uma correspondência no sistema com um Inquiridor procurando por esta criança. Contate a assistente social deste registro para mais ações, se a criança desejar.'
-    referral_done: Clicar em 'Concluído' significa que você finalizou o trabalho de encaminhamento associado a este caso. Depois de clicar em 'Concluído', você não terá mais acesso a este registro.
+    referral_create_case_header: Criar %{module_id} Caso
     referral_done_success: Encaminhamento concluído
     referral_accepted_header: Aceitar Encaminhamento
     referral_accepted: Tem certeza? Agora você será responsável por concluir o trabalho associado a este Encaminhamento.
@@ -408,6 +490,7 @@ pt-BR:
     transfer_reject_reason_label: Razão de Rejeição
     transfer_rejected: Ao clicar em 'Rejeitar', você indica que não está pronto para aceitar a responsabilidade por este caso no momento. Insira um motivo pelo qual você está rejeitando este caso; depois de clicar em "Rejeitar", você não terá mais acesso ao registro deste caso.
     view_name: Visualizar Nome
+    sort_by: Ordnenar Por
   change_logs:
     filters:
       form: Formulário
@@ -421,6 +504,8 @@ pt-BR:
     change: 'de "%{from_value}" ao "%{to_value}"'
     updated_subform: 'Entrada do subformulário “%{subform_name}” atualizada #%{short_id}'
     update_subform: 'Subformulário “%{subform_name}” atualizado'
+    from: de
+    to: para
   children:
     selectable_date_options:
       assessment_requested_on: Data de Avaliação
@@ -429,6 +514,10 @@ pt-BR:
       date_case_plan_initiated: Data do Plano de Caso
       date_of_creation: Data de Criação
       registration_date: Data de Registro
+      followup_date: Data do Follow up
+      date_reunification: Data da Reunificação
+      tracing_date: Data do Rastreamento
+      service_implemented_day_time: Data do Serviço Concluído
   configurations:
     apply_label: Tem certeza? Se você aplicar as configurações, elas serão aplicadas ao sistema. Você perderá todas as suas configurações atuais e não poderá recuperá-las, a menos que já as tenha salvo em outra configuração.
     apply_label_bold: O Primero ficará indisponível para os usuários por alguns minutos enquanto as alterações são carregadas.
@@ -483,6 +572,14 @@ pt-BR:
     all_cases: 'Todos os Casos '
     all_services_implemented: 'Todos Serviços Implementados '
     and: 'e'
+    action_needed:
+      awaiting_acceptance: Aguardando Aceitação
+      header: Ação Necessária
+      new: Novo
+      new_this_week: Novo nesta semana
+      referrals: Referências
+      transfers: Transferências
+      cases: Casos
     approval_action_plan_approved: Aprovado
     approval_action_plan_pending: Pendente
     approval_action_plan_pending_group: Plano de Ação
@@ -592,6 +689,7 @@ pt-BR:
     dash_shared_from_my_team: Compartilhado Pela Minha Equipe
     dash_shared_with_me: Compartilhado Comigo
     dash_shared_with_my_team: Compartilhado Com Minha Equipe
+    dash_shared_with_my_team_overview: Compartilhado com o meu Time
     dash_shared_with_others: Compartilhado Com Outros
     dash_national_admin_summary: Resumo do Administrador
     date: Data
@@ -666,6 +764,7 @@ pt-BR:
     outstanding_transfers: Transferências Pendentes
     overdue_activities: 'Atividades Atrasadas '
     overdue_cases_to_assign: 'Casos Atrasados Para Atribuir '
+    overdue_cases_to_assign_high: Você teve esses casos por mais de 1 hora
     overview: Visão Geral
     pending: 'Pendente '
     pending_approvals: Aprovações Pendentes
@@ -691,7 +790,12 @@ pt-BR:
     services_implemented: 'Serviços Implementados '
     shared_from_my_team_pending_transfers: Transferências Pendentes
     shared_from_my_team_rejected_transfers: Transferências Rejeitadas
+    shared_with_me_new_referrals: Novo
+    shared_with_me_total_referrals: Total
     shared_with_my_team_pending_transfers: Transferências Pendentes
+    shared_with_others_pending_transfers: Pendente
+    shared_with_others_referrals: Total
+    shared_with_others_rejected_transfers: Rejeitado
     status_of_cases: 'Status de Casos '
     system_user: 'Sistema '
     total: 'Total '
@@ -730,6 +834,10 @@ pt-BR:
     transfer_request_subject: 'Solicitação de Transferência para um de seus casos '
     transfer_request: 'Usuário Primero %{user} da %{agency} está solicitando que você transfira a propriedade deste %{record_type} registro %{record_id} para que eles possam fornecer serviços de gerenciamento de %{record_type} para o indivíduo em sua área. Se esta transferência for aceitável para você, por favor clique no link da ID do %{record_type} neste email para abrir o %{record_type} no Primero e iniciar a transferência. '
     approval_request_html: 'O usuário <strong>%{user}</strong> está solicitando aprovação para <strong>%{approval_type}</strong> no caso <strong>%{case_id}</strong>.'
+  webpush_notification:
+    action_label: Ir para Caso
+    approval_request:
+      body: Um Caso no seu time tem uma aprovação pendente para %{type}.
   encrypt:
     export_type: Tipo de exportação
     file_name: Crie seu próprio nome de arquivo (Opcional)
@@ -856,6 +964,7 @@ pt-BR:
         on_short_form: No Formulário Curto
         option_ids: IDs de opção
         options: Opções
+        options_lookup: Pesquisa
         help_text: Texto de Ajuda
         guiding_questions: Questões Orientadoras
         visible: Visível
@@ -870,6 +979,7 @@ pt-BR:
         reportinglocation: Locais de Relatório
         subforms: 'Subformulário: %{subform_name}'
         collapsed_fields: 'Campos Recolhidos: %{fields}'
+        country: Países
     go_to_exports: Vá para a página de Exportações para fazer o download
     incident_recorder_xls:
       all: Registrador de Incidentes
@@ -995,6 +1105,7 @@ pt-BR:
     date_help: dd-mmm-aaaa
     date_help_with_time: dd-mmm-aaaa hh:mm
     date_not_valid: 'Esta data não é válida. '
+    time: Tempo
     date_range:
       date: Data
       date_range: Intervalo de Data
@@ -1097,6 +1208,7 @@ pt-BR:
     tick_box: 'Caixa de Seleção '
     tick_box_label: 'Rótulo de Caixa de Seleção '
     translation_text: Texto de Tradução
+    total: Total
     type: Tipo
     updated: Campo atualizado
     visibility: Visibilidade
@@ -1172,6 +1284,8 @@ pt-BR:
       tracing_request: Solicitação de Rastreamento
       transfers_assignments: Transferências / Atribuições
       violation: 'Violação '
+      family_record: Registro da Família
+      family: Registro da Família
     required_field: '%{field}é um campo obrigatório'
     select_label: Selecionar
     settings: Configurações
@@ -1191,6 +1305,16 @@ pt-BR:
     type_label: Tipo
     visibility: Visibilidade
     web_app: Aplicativo Web
+    skip_logic:
+      section:
+        buttons:
+          add: Adicionar condição
+    conditions:
+      add: Adicionar condição
+      update: Atualizar condição
+      types:
+        and:
+          name: E
   home:
     ar: العربية
     ar-JO: العربية (الأردنية)
@@ -1201,10 +1325,12 @@ pt-BR:
     dashboard: Painel de Controle
     en: Inglês
     es: Espanhol
+    es-GT: Espanhol
     fr: Francês
     id: Bahasa
     km: ភាសាខ្មែរ
     ku: کوردی
+    ne: Nepali
     label: Página Inicial
     language: Idioma
     manage_system_users: Gerenciar Usuários de Sincronização de Servidor
@@ -1228,6 +1354,7 @@ pt-BR:
       update_success_queue: 'O incidente %{record_id}foi atualizado com sucesso em segundo plano.'
     violation:
       pending: Verificação Pendente
+      title: 'Violações '
   incidents:
     disable_dialog: Clicar em OK mudará o status deste incidente para Desativado.
     disable_dialog_title: Desativar Incidente
@@ -1243,6 +1370,7 @@ pt-BR:
     filter_by:
       boys: Meninos
       by_date: Por Data
+      children: Crianças
       girls: Meninas
       incident_location: Localização do Incidente
       unaccompanied_separated_status: Status de Proteção
@@ -1351,6 +1479,12 @@ pt-BR:
       title: "8. Serviços Prestados"
       service: "Serviço"
       count: "Vezes Prestados"
+      male: "Masculino"
+      female: "Feminino"
+      0-11: "0-11"
+      12-17: "12-17"
+      '>18': ">18"
+      disability: "Incapacidade "
     average_referrals:
       title: "9. Média de Encaminhamentos"
       label: "Média de encaminhamentos por caso"
@@ -1379,6 +1513,7 @@ pt-BR:
         incidente foi relatado ao prestador de serviços.
     client_satisfaction_rate:
       label: "Satisfação do Cliente"
+      invalid: "Não podemos calcular isso no momento."
       helptext: |
         Este indicador mede a porcentagem de sobreviventes que completaram a Pesquisa de Feedback do Cliente
         que estão satisfeitos com os serviços de gerenciamento de caso fornecidos a eles. Este indicador é
@@ -1388,6 +1523,7 @@ pt-BR:
       label: "Responsável pelo Caso por Supervisor"
       helptext: "Este indicador é o número de responsáveis ​​pelo caso que um supervisor está supervisionando: o supervisor para \na proporção de responsável pelo caso. Este cálculo é baseado nas funções do sistema alocadas na plataforma.\n"
     case_load:
+      case_load: "Volume de Casos"
       percent: "Porcentagem de Responsável pelo Caso com quantidade de casos"
       10cases: "<10 Casos"
       20cases: "11 - 20 Casos"
@@ -1513,6 +1649,7 @@ pt-BR:
       user: Usuário
       agency: Agência
       user_group: Grupo de Usuário
+      child: Caso
       alert: Alerta
       form_section: Formulário
       lookup: Pesquisa
@@ -1589,6 +1726,64 @@ pt-BR:
     no_options: Esta pesquisa atualmente não tem opções.
     translation_label: Texto de Tradução
     values: 'Opções '
+  managed_reports:
+    status_options:
+      open: Aberto
+      closed: Encerrado
+    referral_transfer_status_options:
+      in_progress: Pendente
+      accepted: Aceito
+      rejected: Rejeitado
+      done: Concluído
+    date_range:
+      month: 'Mês '
+    incomplete_data: Dados Incompletos
+    services:
+      name: Serviços
+      description: Casos com os tipos de Serviço selecionados, divididos por idade e sexo.
+    services_report:
+      reports:
+        services: Serviços
+      sub_reports:
+        services: Serviços
+      filter_options:
+        service_implemented_day_time: Serviço Concluído
+    followups:
+      name: Acompanhamentos
+    followups_report:
+      filter_options:
+        followup_date: Data do Acompanhamento
+      reports:
+        followups: Acompanhamentos
+      sub_reports:
+        followups: Acompanhamentos
+    protection_concerns:
+      name: Preocupações de Proteção
+    protection_concerns_report:
+      reports:
+        protection_concerns: Preocupações de Proteção
+      sub_reports:
+        protection_concerns: Preocupações de Proteção
+      filter_options:
+        registration_date: Data do Registro
+    reporting_locations:
+      name: Local do Relato
+    reporting_locations_report:
+      reports:
+        reporting_locations: Local do Relato
+      sub_reports:
+        reporting_location_by_sex_and_age: Local do Relato
+      filter_options:
+        registration_date: Data do Registro
+    protection_outcomes:
+      reports:
+        impacted_protection_risks: '% menos impactados por riscos de proteção'
+      sub_reports:
+        less_impacted_after_support: '% menos impactados por riscos de proteção'
+    process_quality_average_cases:
+      description: Número de casos por assistente social, divididos por gênero e período de tempo.
+  usage_report:
+    invalid_date_format: '%{field} deve ser uma data válida'
   messages:
     alert_items: Você tem %{items} itens de nota.
     alerts_for:
@@ -1762,9 +1957,11 @@ pt-BR:
       view_photo: Visualizar Foto
       view_protection_concerns_filter: 'Visualizar Filtro de Preocupações de Proteção '
       view_response: 'Visualizar Respostas '
+      webhook: Webhook
       workflow: Fluxo de Trabalho - Casos individuais
       workflow_team: Fluxo de Trabalho - Casos de equipes
       write: 'Escrever '
+      create_case_from_referral: Criar um caso de um encaminhamento.
     resource:
       kpi:
         actions:
@@ -1784,6 +1981,7 @@ pt-BR:
             explanation: Habilidade de ver quantos casos foram encerrados em cada site por mês.
           kpi_case_load:
             explanation: Habilidade de ver o número médio de Casos abertos que cada Responsável pelo Caso possui.
+            label: Volume de Casos
           kpi_client_satisfaction_rate:
             explanation: Habilidade de ver, para cada caso ao qual o usuário tem acesso, qual proporção de sobreviventes que completaram a Pesquisa de Feedback foi satisfeita.
             label: Taxa de Satisfação do Cliente
@@ -1816,6 +2014,7 @@ pt-BR:
             label: Proporção de Supervisor para Responsável pelo Caso
           kpi_time_from_case_open_to_close:
             explanation: Habilidade de ver, para todos os casos aos quais o usuário tem acesso, por quanto tempo os Casos permanecem abertos.
+            label: Tempo desde a Abertura até o Encerramento do Caso
         label: KPI
       agency:
         actions:
@@ -1873,6 +2072,8 @@ pt-BR:
           assign_within_user_group:
             explanation: Permite que um usuário envie um caso do proprietário do registro original para qualquer outro usuário nos Grupos de Usuários do usuário atual. Nenhum consentimento da criança é necessário para esta ação. Ao contrário das Transferências, o destinatário não tem a chance de aceitar ou rejeitar a atribuição.
             label: Atribuir à usuário dentro do meu Grupo de Usuários
+          create_case_from_referral:
+            label: Criar um caso de um encaminhamento.
           change_log:
             explanation: O usuário pode ver um histórico de todas as alterações feitas no registro desde sua criação. Isso inclui valores registrados para todos os campos.
             label: Log de Mudanças
@@ -1917,6 +2118,7 @@ pt-BR:
             label: Exportar Mural de Fotos
           export_unhcr_csv:
             label: Exportar UNHCR CSV
+            explanation: DESCONTINUADO - Este recurso não está mais em uso.
           export_xls:
             explanation: 'O usuário pode gerar uma exportação de arquivo XLS da lista de casos ou das páginas de exibição de casos, que contém todos os campos aos quais o usuário atual tem acesso, para um, vários, ou todos os casos aos quais o usuário tem acesso. Nesta exportação, cada formulário é representado em sua própria guia no arquivo XLS. NOTA: O formato XLS processa caracteres não latinos (por exemplo, Árabe, Bangla) em um formato legível, enquanto a exportação de CSV não.'
             label: Exportação para Excel (arquivo XLS)
@@ -1944,6 +2146,8 @@ pt-BR:
           receive_referral:
             explanation: Permite que um usuário receba um encaminhamento. Os usuários com essa permissão aparecerão como destinatários potenciais de uma ação de encaminhamento, enquanto os usuários sem essa permissão não aparecerão como destinatários potenciais quando alguém estiver procurando por um destinatário no modal de encaminhamento.
             label: Receber Encaminhamento
+          receive_referral_different_module:
+            explanation: Permite que um usuário receba uma indicação de um registro criado em um módulo diferente do Primero. Usuários com essa permissão aparecerão como potenciais destinatários de uma ação de indicação para esse registro, enquanto usuários sem essa permissão não aparecerão como potenciais destinatários quando alguém estiver procurando por um destinatário no modal de indicação.
           receive_transfer:
             explanation: Permite que um usuário receba uma transferência. Os usuários com essa permissão aparecerão como destinatários potenciais de uma ação de transferência, enquanto os usuários sem essa permissão não aparecerão como destinatários potenciais quando alguém estiver procurando por um destinatário no modal de transferência.
             label: Receber Transferência
@@ -1953,9 +2157,6 @@ pt-BR:
           referral_from_service:
             explanation: Permite que o usuário veja o botão "Encaminhar" no subformulário de Serviços. Quando o usuário clica neste botão, o modal de Encaminhamento aparecerá com os campos Tipo de Serviço, Agência, Prestador de Serviço e Local desabilitados, mas preenchido automaticamente com as informações para aqueles campos no subformulário de Serviços em que o usuário clicou no botão Encaminhar.
             label: Encaminhar Caso a partir do subformulário Serviço
-          remove_assigned_users:
-            explanation: Permite que o usuário remova outros usuários do campo "Outros Usuários Atribuídos". Um usuário é listado aqui se ele recebeu um Encaminhamento ou uma Transferência de caso, mas ainda não a aceitou ou rejeitou. Ao remover um usuário do campo "Outros Usuários Atribuídos", você remove o acesso dele ao caso. Portanto, os usuários com essa permissão podem remover o acesso ao caso de usuários que receberam encaminhamentos ou transferências ainda pendentes para o caso. Observe que essa permissão só funciona se o usuário atual também puder editar o caso.
-            label: Remover Outros Usuários Atribuídos (recuperando o acesso ao caso de encaminhados a usuários)
           reopen:
             explanation: Permite que um usuário abra um caso que está atualmente encerrado.
             label: Reabrir
@@ -2004,6 +2205,8 @@ pt-BR:
           write:
             explanation: Habilidade de clicar no botão "Editar", atualizar as informações do caso e clicar em "Salvar"
             label: Editar
+          accept_or_reject_transfer:
+            label: 'Aceitar ou rejeitar a transferência para outro usuário no seu time. '
         label: Caso
       dashboard:
         actions:
@@ -2118,6 +2321,8 @@ pt-BR:
       disabled:
         explanation: Se você desabilitar esta Função, você não poderá mais atribuí-la a contas de Usuário.
         label: Desabilitado
+      referral_authorization:
+        explanation: Isso significa que a função aparecerá como uma opção no menu suspenso “Tipo de encaminhamento” quando o usuário realizar um encaminhamento interno. Se o usuário escolher essa função como o tipo de encaminhamento, o destinatário do encaminhamento só poderá acessar os formulários aos quais a função selecionada tem acesso. Assim, por exemplo, se o usuário escolher “Prestador de serviços médicos” como o Tipo de Referência e a função de prestador de serviços médicos tiver acesso apenas aos formulários de identidade básica e preocupações de proteção, o destinatário verá apenas esses formulários.
       duplicate:
         actions:
           read:
@@ -2129,10 +2334,15 @@ pt-BR:
           explanation: 'Limitar o acesso de um usuário a formulários em casos limita quais informações o usuário pode ver em um incidente. Por exemplo, se o usuário só tiver acesso ao formulário Proprietário do Registro, ele também poderá ver apenas as informações contidas nos campos desse formulário. Se o usuário atual tiver acesso limitado ao formulário e puder gerenciar a configuração do formulário, limitar o acesso ao formulário também limitará os formulários que ele pode configurar. NOTA: Se nenhum formulário for especificado, significa que a função tem acesso a todos os formulários para os casos.'
           label: Formulários - Caso
         incident:
+          explanation: 'Limitar o acesso de um usuário a formulários sobre solicitações de rastreamento limita quais informações o usuário pode ver em um incidente. Por exemplo, se o usuário só tiver acesso ao formulário Proprietário do Registro, ele também poderá ver apenas as informações contidas nos campos desse formulário. Se o usuário atual tiver acesso limitado ao formulário e puder gerenciar a configuração do formulário, limitar o acesso ao formulário também limitará os formulários que ele pode configurar. NOTA: Se nenhum formulário for especificado, significa que a função tem acesso a todos os formulários para incidentes.'
           label: Formulários - Incidente
         tracing_request:
           explanation: 'Limitar o acesso de um usuário a formulários sobre solicitações de rastreamento limita as informações que o usuário pode ver em uma solicitação de rastreamento. Por exemplo, se o usuário só tiver acesso ao formulário Proprietário do Registro, ele também poderá ver apenas as informações contidas nos campos desse formulário. Se o usuário atual tiver acesso limitado ao formulário e puder gerenciar a configuração do formulário, limitar o acesso ao formulário também limitará os formulários que ele pode configurar. NOTA: Se nenhum formulário for especificado, significa que a função tem acesso a todos os formulários para Solicitações de Rastreamento.'
           label: Formulários - Solicitação de Rastreamento
+        registry_record:
+          explanation: 'Limitar o acesso de um usuário a formulários em casos limita quais informações o usuário pode ver em um incidente. Por exemplo, se o usuário só tiver acesso ao formulário Proprietário do Registro, ele também poderá ver apenas as informações contidas nos campos desse formulário. Se o usuário atual tiver acesso limitado ao formulário e puder gerenciar a configuração do formulário, limitar o acesso ao formulário também limitará os formulários que ele pode configurar. NOTA: Se nenhum formulário for especificado, significa que a função tem acesso a todos os formulários para os casos.'
+        family:
+          explanation: 'Limitar o acesso de um usuário a formulários para Famílias limita quais informações o usuário pode ver em uma família. Por exemplo, se o usuário só tiver acesso ao formulário Proprietário do Registro, ele também poderá ver apenas as informações contidas nos campos desse formulário. Se o usuário atual tiver acesso limitado ao formulário e puder gerenciar a configuração do formulário, limitar o acesso ao formulário também limitará os formulários que ele pode configurar.'
       group:
         actions:
           admin_only:
@@ -2247,6 +2457,12 @@ pt-BR:
             explanation: Isso significa que a função aparecerá como uma opção para "Tipo de Destinatário" quando o usuário realizar um encaminhamento externo. Se o usuário escolher esta função como o tipo de encaminhamento, a exportação que o Primero gera quando o usuário envia o encaminhamento conterá apenas as informações que se encontram nos formulários aos quais esta função tem acesso. Assim, por exemplo, se o usuário escolher "Prestador de Serviços Médicos" como o tipo de destinatário, e a função Prestador de Serviços Médicos apenas tiver acesso aos formulários de Identidade Básica e Preocupações de Proteção, o arquivo de exportação que o Primero exporta para o encaminhamento externo conterá apenas os campos que estão nesses dois formulários.
             label: Esta função pode ser usada para Encaminhamentos externos?
         label: Encaminhamento
+      family:
+        actions:
+          export_list_view_csv:
+            explanation: O usuário pode gerar um arquivo CSV a partir da página Lista de familiares, que contém os mesmos campos que aparecem para esse usuário na lista de familiares. Só pode ser feito a partir da página Lista de familiares.
+          export_pdf:
+            explanation: O usuário pode gerar um arquivo PDF para exportação a partir da lista de famílias ou das páginas de exibição de famílias, contendo todos os campos aos quais o usuário atual tem acesso, para um, vários ou todos os registros aos quais o usuário tem acesso. No arquivo PDF para exportação, as informações são listadas primeiro por família e, em seguida, organizadas pelo formulário em que as informações aparecem.
       report:
         actions:
           create:
@@ -2330,6 +2546,8 @@ pt-BR:
           export_pdf:
             explanation: O usuário pode gerar uma exportação de arquivo PDF a partir da lista de Solicitações de Rastreamento ou das páginas de exibição de Solicitação de Rastreamento, que contém todos os campos aos quais o usuário atual tem acesso, para um, vários ou todos os registros aos quais o usuário tem acesso. No arquivo de exportação de PDF, as informações são listadas primeiro por caso e, em seguida, organizadas por formulário no qual as informações aparecem.
             label: Exportar PDF
+          export_xls:
+            explanation: 'O usuário pode gerar uma exportação de arquivo XLS a partir da lista de Solicitações de Rastreamento ou das páginas de exibição de Solicitações de Rastreamento, que contém todos os campos aos quais o usuário atual tem acesso, para uma, várias ou todas as Solicitações de Rastreamento às quais o usuário tem acesso. Nessa exportação, cada formulário é representado em sua própria aba dentro do arquivo XLS. OBSERVAÇÃO: O formato XLS renderiza caracteres não latinos (por exemplo, árabe, bengali) em um formato legível, enquanto a exportação CSV não.'
           flag:
             explanation: Habilidade de adicionar um sinalização a uma Solicitação de Rastreamento. Os usuários com essa permissão também podem remover as sinalizações que adicionaram a uma Solicitação de Rastreamento.
             label: Sinalizar
@@ -2391,6 +2609,20 @@ pt-BR:
             explanation: Capacidade de editar Grupos de Usuários.
             label: Editar
         label: Grupos de Usuários
+      webhook:
+        actions:
+          read:
+            label: Visualizar
+          write:
+            label: Editar
+          create:
+            label: Criar
+          delete:
+            label: Excluir
+      activity_log:
+        actions:
+          transfer:
+            label: Transferências
   potential_match:
     case_id: ID do Caso
     child_age: Idade
@@ -2447,6 +2679,7 @@ pt-BR:
     user_mandatory_label: O Destinatário é obrigatório
     date: Data
     rejected_reason: Motivo de Rejeição
+    allow_case_creation: Permitir criação de caso com esse Encaminhamento
   report:
     aggregate_by: 'Agrupar por linha '
     attribute: Atributo
@@ -2628,6 +2861,13 @@ pt-BR:
     show_tracing_request: 'ID de Solicitação de Rastreamento %{short_id}'
     tracing_requests: Solicitações de Rastreamento
     export: Exportar
+  registry_records:
+    disable_dialog: 'Clicar em OK vai mudar o status do registro para Desativado.
+
+       '
+    enable_dialog: 'Clicar em OK vai mudar o status do registro para Ativado.
+
+       '
   transfer:
     agency_label: 'Agência '
     consent_from_individual_label: Você tem consentimento do indivíduo para fazer essa Transferência?
@@ -2698,6 +2938,7 @@ pt-BR:
       passwords_do_not_match: 'Não corresponde à senha atual '
       time_zone_updated: A alteração foi atualizada com sucesso.
       updated: Usuário atualizado com sucesso.
+      created_warning: Você criou %{total_enabled} dos seus %{maximum_users} usuários ativos permitidos.
     organization: 'Organização '
     agency: Agência
     services_help_text: Se você não especificar os serviços, este Usuário receberá os mesmos serviços que sua Agência possui.
@@ -2722,6 +2963,8 @@ pt-BR:
     welcome_email:
       subject: 'Bem-vindo ao %{system}!'
       greeting: 'Bem-vindo ao %{system}!'
+      body_native: "%{greeting}Estamos criando uma %{role_name}conta para você. Você receberá em breve um e-mail separado para definir sua senha. Após fazer login, acesse seu perfil de usuário para encontrar seu nome de usuário. Você encontrará seu perfil de usuário na barra de navegação à esquerda do Primero."
+      body_native2: "Você pode assistir esse %{instructional_video} se precisar de ajuda adicional."
       sso:
         body: 'Você foi adicionado como um %{role_name}.'
       otp:
@@ -2753,6 +2996,8 @@ pt-BR:
       full_name: Nome Completo
       user_name: Nome de Usuário
       agency: Agência
+    alerts:
+      total_users_created: Você criou %{total_enabled} das suas implementações permitidas de%{maximum_users} Usuários ativos.
   devise:
     failure:
       already_authenticated: "Você já está inscrito."

@@ -397,7 +397,6 @@ ar-SD:
       tracing_message: 'ملحوظة: هناك تطابق في النظام مع شخص يبحث عن هذا الطفل. رجاء الاتصال بالأخصائي الاجتماعي المسؤول عن هذا السجل لمزيد من الاجراء، إذا رغب الطفل في ذلك'
     reassign:
       multiple_successfully: Primero  يعيد تعيين الحالات. من الممكن أن تأخذ هذه الخطوة بعض الدقائق لتحديث كل الحالات
-    referral_done: النقر على "تم الإجراء" يعني أنك أكملت عملية الإحالة المرتبطة بهذه الحالة. فور النقر على "تم الإجراء"، لن تتمكن من  الوصول إلى هذا السجل.
     referral_done_success: تمت الإحالة
     referral_accepted_header: أقبل الإحالة
     referral_accepted: هل أنت متأكد؟ ستكون بذلك مسؤولا عن إكمال العمل المرتبط بهذه الإحالة.
@@ -562,6 +561,7 @@ ar-SD:
       new_this_week: جديد لهذا الأسبوع
       referrals: إحالات
       transfers: نقل
+      cases: حالات
     approval_action_plan_approved: تمت الموافقة
     approval_action_plan_pending: قيد الإنتظار
     approval_action_plan_pending_group: خطة عمل
@@ -656,6 +656,7 @@ ar-SD:
     name: الاسم
     name_or_survivor_code: اسم أو رمز الضحية
     near_deadline: قُرب الموعد النهائي
+    identified: المحددة
     new: جديد ومُحدّث
     new_child_assigned_to_you: الحالات الجديدة المُوكلة لك
     new_incident: أحداث جديدة
@@ -710,8 +711,32 @@ ar-SD:
     services: خدمات
     services_implemented: خدمات تم تنفيذها
     shared_from_my_team_pending_transfers: تحويلات قيد الإجراء
+    shared_from_my_team_pending_referrals: ' 
+
+      الإحالات المعلّقة'
+    shared_from_my_team_accepted_referrals: الإحالات المقبولة
+    shared_from_my_team_rejected_referrals: ' 
+
+      الإحالات المرفوضة'
+    shared_from_my_team_done_referrals: الإحالات المنجزة
     shared_from_my_team_rejected_transfers: تحويلات مرفوضة
+    shared_with_me_pending_referrals: قيد الانتظار
+    shared_with_me_accepted_referrals: تم القبول
+    shared_with_me_total_referrals: جملة
+    shared_with_me_transfers_awaiting_acceptance: في إنتظار القبول
+    shared_with_my_team_pending_transfers_overview: في إنتظار القبول
     shared_with_my_team_pending_transfers: تحويلات قيد التنفيذ
+    shared_with_my_team_pending_referrals: ' 
+
+      الإحالات المعلّقة'
+    shared_with_my_team_accepted_referrals: الإحالات المقبولة
+    shared_with_others_pending_transfers: قيد الانتظار
+    shared_with_others_referrals: جملة
+    shared_with_others_referrals_pending: قيد الانتظار
+    shared_with_others_referrals_accepted: تم القبول
+    shared_with_others_referrals_rejected: تم الرفض
+    shared_with_others_referrals_done: تم اللازم
+    shared_with_others_rejected_transfers: تم الرفض
     status_of_cases: وضع الحالات
     system_user: نظام
     total: الجملة
@@ -2487,9 +2512,6 @@ ar-SD:
           referral_from_service:
             explanation: يسمح للمستخدم برؤيو زؤ "إحالة" على الاستمارة الفرعية للخدمات. وحين ينقر المستخدم على هذا الزر، سيظهر نموذج الإحالة مع نوع الخدمة، والوكالة، ومقدم الخدمات وتعطيل مجالات الموقع، ولكن يتم الإكمال آليا بالمعلومات للمجالات في استمارة الخدمة اليت نقر عليها المستخدم زر الإحالة.
             label: إحالة حالة من الاستمارة الفرعية للخدمات
-          remove_assigned_users:
-            explanation: يسمح للمستخدم بإزالة المستخدمين الآخرين في مجال  "المستخدمين الآخرين المكلفين" .  والمستخدم  تتم إضافته هنا إذا  تلقى إخالة للحالة أو تلقى تحويلا للحالة،  ولكن لم  لم يتم القبول أو الرفض لها.  وحين تزيل مستخدم من  مجال " المستخدمين الخولين الآخرين"، ستزيل  إتاحتهم من الحالة.  وعليه،  يمكن للمستخدمين الحاصلين على هذا الإذن إزالة إتاحة الحالة من المستخدمين الذين القوا سلفا إحالات أو ينتظرون تحويلا للحالة. لاحظ أن هذا افذن صالح فقط إذا كان المستخدم الحالي له القدرة أيضا تحرير الحالة.
-            label: قم بإزالة المستخدمين المكلفين الآخرين (ازالة اإتاحة الحالة من المستخدمين المحال لهم).
           reopen:
             explanation: يسمح للمستخدم  فتح حالة مغلقة حاليا.
             label: إعادة فتح
@@ -2572,6 +2594,10 @@ ar-SD:
           action_needed_new_updated:
             explanation: يعرض مؤشر ”الجديد و المحدث“ في لوحة معلومات ”الإجراء المطلوب“. يتضمن ذلك الحالات التي تم تعيينها حديثًا للمستخدم الحالي، أو التي قام مستخدم آخر بتحديثها منذ آخر مرة قام فيها المستخدم الحالي بتحديثها.
             label: 'الإجراء المطلوب اتخاذه: جديد أو محدث'
+          action_needed_identified:
+            label: 'بحاجة إلى إجراء: الحالات المحددة'
+          action_needed_new_referrals:
+            label: 'Action Needed: Pending Referrals'
           action_needed_transfer_awaiting_acceptance:
             explanation: 'يعرض مؤشر ”حالات النقل التي تنتظر القبول“ في لوحة معلومات ”الإجراء المطلوب“. يتضمن ذلك أي حالات مع تحويل إلى المستخدم الحالي، والتي لم يقبلها المستخدم الحالي. '
             label: 'الإجراء المطلوب: التحويلات التي تنتظر القبول'
@@ -3560,7 +3586,6 @@ ar-SD:
       in_progress: قيد الانتظار
       inprogress: قيد الانتظار
       rejected: مرفوض
-      revoked: إلغاء
     transferred_by: منقول بواسطة
     type:
       assign: تكليف

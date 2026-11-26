@@ -381,7 +381,6 @@ ku-IQ:
     photos: وێنە
     quick_view:
       tracing_message: 'تێبینی: وەکهەڤیەك وەکی لێپرسکەرێ ڤی زاروکی یا د سیستەمی دا هەی. پەيوەندیێ ب کارکەرێ جڤاکی یێ ڤێ تومارێ بکە بو زێدەتر کریاران ئەگەر زاروكێ رازی بيت. '
-    referral_done: کلیک کرنا ‘تەمام’ وێ چەندێ رادگەهینیت کو تە کارێ رەوانەکرنێ یێ گرێدای ڤی کەیسی یێ تمام کری. دەماکو دوکما ‘تمام’ لێدەی ئێدی نەشێی بگەهیە ڤێ تومارێ
     referral_done_success: رەوانەکرن هاتیە ئەنجامدان
     referral_accepted_header: رەوانەکرن هاتیە قه بیل کرن
     referral_accepted: ئەرێ تویێ پشت راستی؟ دێ تو نوکە بەرپرس بی ژ تمامکرنا کاری یێ گرێدای رەوانەکرنێ
@@ -532,6 +531,12 @@ ku-IQ:
     all_cases: هەمی کەیس
     all_services_implemented: هەمی خزمەتگوزاریێن هاتینە جێبەجێکرن
     and: 'و'
+    action_needed:
+      awaiting_acceptance: ل هیڤیا پەسەندکرنێ
+      header: رێکاری پێویست
+      referrals: رەوانەکرن
+      transfers: ڤەگوهاستن
+      cases: کەيس
     approval_action_plan_approved: هاتیە پەسەندکرن
     approval_action_plan_pending: هەلاویستی
     approval_action_plan_pending_group: پلانا کاری
@@ -674,6 +679,7 @@ ku-IQ:
     name: ناڤ
     name_or_survivor_code: ناڤ یان کودێ رزگاربووی
     near_deadline: نێزیکی ژڤانێ دماهیێ
+    identified: ' دیارکری'
     new: نی و نویکرن
     new_child_assigned_to_you: کەیسێن نوی هاتینە دەستنیشانکرن بو تە
     new_incident: رویدانەکا نوی
@@ -728,13 +734,31 @@ ku-IQ:
     services: خزمەتگوزاری
     services_implemented: خزمەتگوزاریێن هاتینە جێبەجێکرن
     shared_from_my_team_pending_transfers: ڤەگوهاستنێن هەلاویستی
+    shared_from_my_team_pending_referrals: رەوانەکرنێن هەلاویستی
+    shared_from_my_team_accepted_referrals: رەوانەکرنێن پەسەندکری
+    shared_from_my_team_rejected_referrals: رەوانەکرنێن رەتکری
+    shared_from_my_team_done_referrals: ' رەوانەکرنێن تەمامکری'
     shared_from_my_team_rejected_transfers: ڤەگوهاستنێن رەتکری
+    shared_with_me_pending_referrals: هەلاویستی
+    shared_with_me_accepted_referrals: هاتیە پەسەندکرن
+    shared_with_me_total_referrals: سەرجەم
+    shared_with_me_transfers_awaiting_acceptance: ل هیڤیا پەسەندکرنێ
+    shared_with_my_team_pending_transfers_overview: ل هیڤیا پەسەندکرنێ
     shared_with_my_team_pending_transfers: ڤەگوهاستنێن هەلاویستی
+    shared_with_my_team_pending_referrals: رەوانەکرنێن هەلاویستی
+    shared_with_my_team_accepted_referrals: ' رەوانەکرنێن پەسەندکری'
+    shared_with_others_pending_transfers: هەلاویستی
+    shared_with_others_referrals: سەرجەم
+    shared_with_others_referrals_pending: هەلاویستی
+    shared_with_others_referrals_accepted: هاتیە پەسەندکرن
+    shared_with_others_referrals_rejected: هاتیە رەتکرن
+    shared_with_others_referrals_done: تمامبووی
+    shared_with_others_rejected_transfers: هاتیە رەتکرن
     status_of_cases: بارودوخێ کەیسی
     system_user: سیستەم
     total: سەرجەم
     total_cases: سەرجەمێ کەیسا
-    total_referred: سەرجەمێ رەوانەکرنا
+    total_referred: کۆما رەوانەکرنان
     tr_stats: داخوازیێن ديفچوونێ
     transers_awaiting_acceptance: ڤەگوهاستنێن چاڤەرێی پەسەندکرنێ
     transfers_by_social_worker: ڤەگوهاستن لدویف کارمەندێ جڤاکی
@@ -1650,6 +1674,9 @@ ku-IQ:
       show: نیشاندان
       show_alerts: هووشداریا نیشان بدە
       transfer: ڤەگوهاستن
+      transfer_status:
+        Accepted: ' ڤەگوهاستنا پەسەندکری'
+        Rejected: ڤەگوهاستنا رەتکری
       unflag: نەهاتیە دەستنیشانکرن
       update: نویکرن
       user_password_reset_request: داخازا نیکرنا پاسووردێ بکارهێنەری
@@ -1788,6 +1815,11 @@ ku-IQ:
       date: رێکەفت
       verification_status: بارودوخێ پەسەندکرنێ
       violation_type: جورێ سەرپێچیێ
+    referral_transfer_status_options:
+      in_progress: هەلاویستی
+      accepted: هاتیە پەسەندکرن
+      rejected: هاتیە رەتکرن
+      done: تمامبووی
     date_range:
       month: هەیڤ
       quarter: چارێك
@@ -1904,6 +1936,12 @@ ku-IQ:
         referrals: رەوانەکرن
       sub_reports:
         survivors_disability_type: كێم ئەندام
+    referrals_transfers_report:
+      reports:
+        total_transfers: ڤەگوهاستن
+      sub_reports:
+        total_transfers_by_user_groups: کۆما ڤەگوهاستنان
+        total_referrals_by_user_groups: کۆما رەوانەکرنان
     success_message: فایلێ دەرخستنێ ب سەرکەفتیانە هاتە دروستکرن
   messages:
     alert_items: تە%{items} کەرستە یێن بۆ تێبینیا هەی
@@ -2298,9 +2336,6 @@ ku-IQ:
           referral_from_service:
             explanation: دەستویریێ دەتە بکارهێنەری بۆ دیتنا دوکما 'رەوانەکرن' ل سەر فورما لاوەکیا خزمەتگوزاریا. ل دەما بکارهێنەر ڤێ دوکمێ کلیک کەت، نمونا رەوانەکرنێ دێ ل سەر جورێ خزمەتگوزاریێ، ئاژانسێ، دابینکەرێ خزمەتگوزاریێ ودیاربیت و بوارێ جهی دێ ژ کار هێتە خستن، لێ بشێوەکێ ئوتوماتیک دێ پێزانین هێنە تژیکرن بۆ وان بوارا یێن د فورما لاوەکیا خزمەتگوزاریێ دا ل سەر وێ دوکما رەوانەکرنێ یا بکارهێنەری کلیک کری
             label: رەوانەکرنا کەیسی ژ فورما لاوەکیا خزمەتگوزاریا
-          remove_assigned_users:
-            explanation: رێکێ دەتە بکارهێنەرا بۆ لابردنا بکارهێەرێن دی ژ بوارێ بکارهێنەرێن کارێن دی. بکارهێەرەک لڤێرێ دهێتە لیستکرن هەکە وان رەوانەکرنەک وەرگرتبیت بۆ کەیسی یان ژی ڤەگوهاستنەک بۆ کەیسی وەرگرتبیت، لێ تا نوکە قەبوولنەکریە یان ژی رەتکریە. دەماکو بکارهێنەرەکی ژ بوارێ بکارهێنەرێن دی لادبەی، تو گەهشتنا وان بۆ ب کەیسی لادبەی. ژبەرهندێ ژی، بکارهێنەرێن بڤێ دەستویریێ دشێن گەهشتنا بکارهێنەرا ژی لابدەن ژ بکارهێنەرێن کو بەری نوکە رەوانەکرن وەرگرتی یان ژی تا نوکە ڤەگوهاستن بۆ ڤی کەیسی یا هەلاویستیە. تێبینی کو ئەڤ دەستویریە بتنێ ل وی دەمی کاردکەت دەماکو بکارهێنەرێ نوکە بشێت کەیسی راستڤەکەت
-            label: لادانا بکارهێنەرێن دی یێن دەستنیشانکری (زڤراندانا دەستویریێ ژ رەوانەکرن بۆ بکارهێنەرا)
           reopen:
             explanation: رێکێ دەتە بکارهێنەرەکی بۆ ڤەکرنا کەیسەکی کو نوکە یێ گرتیە
             label: دوبارە ڤەکرن
@@ -2371,6 +2406,14 @@ ku-IQ:
         label: کەیس
       dashboard:
         actions:
+          action_needed_new_updated:
+            label: 'کریارا پێدڤی: نوی یان نویکری'
+          action_needed_identified:
+            label: 'کریارا پێدڤی: حاڵەتێن دیارکری'
+          action_needed_new_referrals:
+            label: 'کریارا پێدڤی: رەوانەکرنێن هەلاویستی'
+          action_needed_transfer_awaiting_acceptance:
+            label: 'کریارا پێدڤی: ڤەگوهاستنێن ل هیڤیا پەسەندکرنێ'
           approvals_action_plan:
             explanation: نیشاندانا ژمارا بکارهێنەرێن نوکە یێن کەیسا دگەل داخازا پلانا کاری یا تمامکری کو یا هەلاویستیە، هاتیە پەسەندکرن یان رەتکرن
             label: کارکەرێ کەیسی %{approval_label} پەسەند
@@ -3197,7 +3240,6 @@ ku-IQ:
       in_progress: هەلاویستی
       inprogress: هەلاویستی
       rejected: هاتیە رەتکرن
-      revoked: هاتیە لادان
     type:
       assign: دەستنیشانکرن
       reassign: دەستنیشانکرن

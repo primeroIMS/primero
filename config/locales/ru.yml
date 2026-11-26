@@ -359,7 +359,6 @@ ru:
     photos: Фотография
     quick_view:
       tracing_message: 'Примечание: В системе есть совпадение со Следователем, который ищет этого ребенка. Свяжитесь с социальным работником по этой записи для дальнейших действий, если ребенок этого хочет. '
-    referral_done: 'Нажатие "Сделано" означает, что Вы завершили перенаправление, связанное с этим кейсом. Как только Вы нажмете "Сделано", Вы больше не сможете иметь доступ к этой записи. '
     referral_done_success: Перенаправление выполнено.
     referral_accepted_header: Принять перенаправление
     referral_accepted: Вы уверены? Теперь Вы будете ответственны за окончание работы по этому перенаправлению.
@@ -509,6 +508,12 @@ ru:
     all_cases: Все Кейсы
     all_services_implemented: Все услуги выполнены
     and: 'и'
+    action_needed:
+      awaiting_acceptance: Ожидание принятия
+      header: Требуется действие
+      referrals: Перенаправления
+      transfers: Передачи
+      cases: Кейсы
     approval_action_plan_approved: Одобренно
     approval_action_plan_pending: В ожидании
     approval_action_plan_pending_group: План действий
@@ -599,6 +604,7 @@ ru:
     name: Имя
     name_or_survivor_code: Имя или код выжившего
     near_deadline: Близко к сроку сдачи
+    identified: Выявленные
     new: Новый  & обновленный
     new_child_assigned_to_you: Новые кейсы назначенные Вам
     new_incident: Новые инциденты
@@ -653,8 +659,26 @@ ru:
     services: Услуги
     services_implemented: Услуги выполнены
     shared_from_my_team_pending_transfers: Трансферы в процессе
+    shared_from_my_team_pending_referrals: Перенаправления в ожидании
+    shared_from_my_team_accepted_referrals: Принятые перенаправления
+    shared_from_my_team_rejected_referrals: Отклонённые перенаправления
+    shared_from_my_team_done_referrals: Завершённые перенаправления
     shared_from_my_team_rejected_transfers: Трансферы отклонены
+    shared_with_me_pending_referrals: В ожидании
+    shared_with_me_accepted_referrals: Принято
+    shared_with_me_total_referrals: Всего
+    shared_with_me_transfers_awaiting_acceptance: Ожидание принятия
+    shared_with_my_team_pending_transfers_overview: Ожидание принятия
     shared_with_my_team_pending_transfers: Трансферы в процессе
+    shared_with_my_team_pending_referrals: Перенаправления в ожидании
+    shared_with_my_team_accepted_referrals: Принятые перенаправления
+    shared_with_others_pending_transfers: В ожидании
+    shared_with_others_referrals: Всего
+    shared_with_others_referrals_pending: В ожидании
+    shared_with_others_referrals_accepted: Принято
+    shared_with_others_referrals_rejected: Отклонено
+    shared_with_others_referrals_done: Сделано
+    shared_with_others_rejected_transfers: Отклонено
     status_of_cases: Статус кейсов
     system_user: Система
     total: Всего
@@ -1473,6 +1497,9 @@ ru:
       show: Показывать
       show_alerts: Показывать предупреждение
       transfer: Передача
+      transfer_status:
+        Accepted: Принятый тренсфер
+        Rejected: Трансфер отклонен
       unflag: Не отмечать
       update: Обновить
       user_password_reset_request: Запрос на изменение пароля пользователя
@@ -1607,6 +1634,11 @@ ru:
     filter_by:
       date: Дата
       verification_status: Статус проверки
+    referral_transfer_status_options:
+      in_progress: В ожидании
+      accepted: Принято
+      rejected: Отклонено
+      done: Сделано
     date_range:
       month: Месяц
       quarter: Квартал
@@ -1621,6 +1653,9 @@ ru:
       custom: Пользовательский
     no_data: Нет данных для этой дополнительной информации
     no_data_table: Нет данных в таблице для этой дополнительной информации
+    ghn_report:
+      sub_reports:
+        total: Всего
     violations:
       name: Нарушения
       filter_options:
@@ -1652,6 +1687,14 @@ ru:
         incident_date: Дата инцидента
       reports:
         perpetrators: Преступник
+        referrals: Перенаправления
+    referrals_transfers_report:
+      reports:
+        total_referrals: Перенаправления
+        total_transfers: Передачи
+      sub_reports:
+        total_transfers_by_user_groups: Всего передач
+        total_referrals_by_user_groups: Всего перенаправлений
   messages:
     alert_items: У Вас %{items}примечаний
     alerts_for:
@@ -2040,9 +2083,6 @@ ru:
           referral_from_service:
             explanation: 'Разрешает пользователю увидеть кнопку "Перенаправить" на подформе Услуг. Когда пользователь нажимает кнопку, модуль перенаправления появляется вместе с днективированными полями для типа услуг,  агенства, представителя услуг и местоположения, но автоматически заполненными теми полями подформы услуг, на которой пользователь нажал кнопку Перенаправить. '
             label: Перенаправить Кейс из подформы по услуге
-          remove_assigned_users:
-            explanation: 'Позволяет пользователю убирать других пользователей из поля "Другие назначенные пользователи". Пользователь находится в этом списке, если получил перенаправление кейса или трансфер, но еще не принял или не отказался от него. Когда Вы убираете пользователя из поля "Другие назначенные пользователи", Вы удаляете его доступ к кейсу. Таким образом, пользователи с этим разрешением могут удалять доступ у пользователей, которым до этого был перенаправлен кейс. Обратите внимание, что разрешение работает только если пользователь имеет возможность редактировать кейс. '
-            label: Убрать других назначенных пользователей (забрать обратно доступ к кейсу от пользователя, к которому было перенаправление)
           reopen:
             explanation: Позволяет пользователю открыть Кейс, который закрыт в настоящее время.
             label: Снова открыть
@@ -2113,6 +2153,14 @@ ru:
         label: Кейс
       dashboard:
         actions:
+          action_needed_new_updated:
+            label: 'Требуется действие: новые или обновлённые'
+          action_needed_identified:
+            label: 'Требуется действие: выявленные кейсы'
+          action_needed_new_referrals:
+            label: 'Требуется действие: перенаправления в ожидании'
+          action_needed_transfer_awaiting_acceptance:
+            label: 'Требуется действие: передачи, ожидающие принятия'
           approvals_action_plan:
             explanation: 'Показывает количество кейсов пользователя с одобренными Планами действий, которые в процессе, отклонены или одобрены. '
             label: Одобрение %{approval_label} работника по кейсу
@@ -2902,7 +2950,6 @@ ru:
       in_progress: В ожидании
       inprogress: В ожидании
       rejected: Отклонено
-      revoked: Отозванный
     type:
       assign: Назначить
       reassign: Назначить

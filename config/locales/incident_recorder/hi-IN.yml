@@ -4,11 +4,11 @@ hi-IN:
       export_incident_recorder_xls: " घटना रजिस्टर एक्सपोर्ट करें"
   exports:
     incident_recorder_xls:
-      all:  घटना रिकॉर्डर
-      one:  घटना रिकॉर्डर
-      selected:  घटना रिकॉर्डर के लिए चयनित
-      "yes": "हाँ"
-      "no": "नहीं"
+      all: घटना रिकॉर्डर
+      one: घटना रिकॉर्डर
+      selected: घटना रिकॉर्डर के लिए चयनित
+      'yes': "हाँ"
+      'no': "नहीं"
       gender:
         male: "पुरुष"
         female: "महिला"
@@ -75,4 +75,4 @@ hi-IN:
         consent: "सहमति दी गई"
         agency_code: "रिपोर्टिंग एजेंसी कोड"
       number_primary_perpetrators:
-          more_than_three: "3 से अधिक"
+        more_than_three: "3 से अधिक"

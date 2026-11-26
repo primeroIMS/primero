@@ -352,7 +352,6 @@ it:
       lookup:
         being_used: Questa ricerca è utilizzata e non può essere cancellata.
         name_present: Il nome non deve essere vuoto
-        values_ids_blank: Nessuna opzione selezionata
       primero_module:
         associated_record_types: A questo modulo deve essere associato almeno un tipo di fascicolo.
         form_section_ids: Almeno un modulo deve essere associato
@@ -654,7 +653,6 @@ it:
     search: Cerca
     phonetic_search:
       title: Inserisci un nome per cercare un fascicolo esistente
-      label: Utilizza i campi "nome"
       help_text: La ricerca fonetica è disponibile per i campi "nome"
     id_search:
       title: Inserire il numero ID per cercare un fascicolo esistente.
